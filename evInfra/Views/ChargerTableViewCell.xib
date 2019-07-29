@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ChargerTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="115" id="nI4-Gn-0Xn" customClass="ChargerTableViewCell" customModule="evInfra" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="115"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nI4-Gn-0Xn" id="mds-Dn-Jve">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="114.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전소 이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AvM-FC-nTY">
+                        <rect key="frame" x="16" y="11" width="271" height="43"/>
+                        <color key="tintColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="주소" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Vf-72-Pyv">
+                        <rect key="frame" x="16" y="62" width="343" height="17"/>
+                        <color key="tintColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="기타(상태미확인)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rrt-Xj-5NF">
+                        <rect key="frame" x="16" y="87" width="252" height="17"/>
+                        <color key="tintColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="charger type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GXQ-VM-AAN">
+                        <rect key="frame" x="276" y="87" width="83" height="17"/>
+                        <color key="tintColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.4392156862745098" green="0.4392156862745098" blue="0.4392156862745098" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="njK-jm-bdX">
+                        <rect key="frame" x="319" y="12.5" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="4Z3-DA-hbM"/>
+                            <constraint firstAttribute="width" constant="40" id="grX-CK-RLu"/>
+                        </constraints>
+                        <state key="normal" image="ic_favorite_add"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aAA-gp-sOg">
+                        <rect key="frame" x="279" y="12.5" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="F3y-hw-T1g"/>
+                            <constraint firstAttribute="height" constant="40" id="RkN-1A-7Me"/>
+                        </constraints>
+                        <state key="normal" image="ic_notifications_off"/>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="njK-jm-bdX" firstAttribute="centerY" secondItem="AvM-FC-nTY" secondAttribute="centerY" id="2BR-Sb-bew"/>
+                    <constraint firstItem="AvM-FC-nTY" firstAttribute="leading" secondItem="mds-Dn-Jve" secondAttribute="leadingMargin" id="4ro-c6-BIn"/>
+                    <constraint firstItem="GXQ-VM-AAN" firstAttribute="centerY" secondItem="Rrt-Xj-5NF" secondAttribute="centerY" id="5Ev-KN-YEa"/>
+                    <constraint firstItem="6Vf-72-Pyv" firstAttribute="leading" secondItem="mds-Dn-Jve" secondAttribute="leadingMargin" id="CYg-6B-nXr"/>
+                    <constraint firstItem="GXQ-VM-AAN" firstAttribute="top" secondItem="6Vf-72-Pyv" secondAttribute="bottom" constant="8" id="DNY-BH-q5Y"/>
+                    <constraint firstItem="njK-jm-bdX" firstAttribute="leading" secondItem="aAA-gp-sOg" secondAttribute="trailing" id="GaS-Vf-03F"/>
+                    <constraint firstItem="Rrt-Xj-5NF" firstAttribute="leading" secondItem="mds-Dn-Jve" secondAttribute="leadingMargin" id="I9d-Y2-47I"/>
+                    <constraint firstItem="6Vf-72-Pyv" firstAttribute="trailing" secondItem="mds-Dn-Jve" secondAttribute="trailingMargin" id="MIE-pP-V0U"/>
+                    <constraint firstItem="AvM-FC-nTY" firstAttribute="top" secondItem="mds-Dn-Jve" secondAttribute="topMargin" id="Udw-en-gFE"/>
+                    <constraint firstItem="njK-jm-bdX" firstAttribute="trailing" secondItem="mds-Dn-Jve" secondAttribute="trailingMargin" id="Wxh-F9-F3a"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="GXQ-VM-AAN" secondAttribute="bottom" id="aah-pF-JDF"/>
+                    <constraint firstItem="Rrt-Xj-5NF" firstAttribute="top" secondItem="6Vf-72-Pyv" secondAttribute="bottom" constant="8" id="gmR-xy-WcK"/>
+                    <constraint firstItem="njK-jm-bdX" firstAttribute="centerY" secondItem="aAA-gp-sOg" secondAttribute="centerY" id="hB5-nV-mYs"/>
+                    <constraint firstItem="AvM-FC-nTY" firstAttribute="trailing" secondItem="aAA-gp-sOg" secondAttribute="leading" constant="8" symbolic="YES" id="ja7-0X-lrx"/>
+                    <constraint firstItem="GXQ-VM-AAN" firstAttribute="leading" secondItem="Rrt-Xj-5NF" secondAttribute="trailing" constant="8" id="woe-8q-fgq"/>
+                    <constraint firstItem="GXQ-VM-AAN" firstAttribute="trailing" secondItem="mds-Dn-Jve" secondAttribute="trailingMargin" id="zMC-vt-MwS"/>
+                    <constraint firstItem="6Vf-72-Pyv" firstAttribute="top" secondItem="AvM-FC-nTY" secondAttribute="bottom" constant="8" id="zau-RO-V1t"/>
+                </constraints>
+            </tableViewCellContentView>
+            <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
+            <connections>
+                <outlet property="address" destination="6Vf-72-Pyv" id="82y-Ae-Ha0"/>
+                <outlet property="btnAlarm" destination="aAA-gp-sOg" id="PVW-ac-xbo"/>
+                <outlet property="btnFavorite" destination="njK-jm-bdX" id="Tyt-f5-Fe1"/>
+                <outlet property="chargerStatus" destination="Rrt-Xj-5NF" id="2Pd-7i-Ibj"/>
+                <outlet property="chargerType" destination="GXQ-VM-AAN" id="OZX-ob-3mQ"/>
+                <outlet property="stationName" destination="AvM-FC-nTY" id="Hcs-mI-mwd"/>
+            </connections>
+            <point key="canvasLocation" x="125.59999999999999" y="-249.62518740629687"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_favorite_add" width="24" height="24"/>
+        <image name="ic_notifications_off" width="24" height="24"/>
+    </resources>
+</document>

@@ -1,0 +1,35 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '10.0'
+
+#target 'evInfra' do
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+use_frameworks!
+target 'evInfra' do
+  # Pods for evInfra
+  pod 'Material', '~> 2.0'
+  pod 'MaterialComponents/Snackbar'
+  pod 'Alamofire', '~> 4.7'
+  pod 'SwiftyJSON'
+  pod 'Firebase/Core'                 # For firebase Core
+  pod 'Firebase/Messaging'            # For firebase Messaging
+  pod 'Fabric', '~> 1.9.0'            # For firebase Crashlytics
+  pod 'Crashlytics', '~> 3.12.0'      # For firebase Crashlytics
+  pod 'UIImageCropper'
+  pod 'SDWebImage/GIF'
+  pod 'M13Checkbox'                   # For material checkbox
+  pod 'DropDown'                      # For spinner
+  pod 'Parchment'                     # For view pager
+  pod 'Charts'                        # For charger usage graph
+  pod 'FMDB'
+  pod 'KeychainSwift', '~> 13.0'      # For keychain
+  pod 'JJFloatingActionButton'
+end
+
+post_install do |installer|
+    installer.pods_project.build_configurations.each do |config|
+        config.build_settings.delete('CODE_SIGNING_ALLOWED')
+        config.build_settings.delete('CODE_SIGNING_REQUIRED')
+    end
+end

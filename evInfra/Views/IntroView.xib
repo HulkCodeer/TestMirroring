@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view tag="6979" contentMode="scaleToFill" restorationIdentifier="IntroView" id="vpb-iy-jwb" customClass="IntroView" customModule="evInfra" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro_bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="ahO-Kw-LUM">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZ4-5z-Xh0">
+                    <rect key="frame" x="16" y="626.5" width="343" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2017 soft-berry." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RqA-E6-upt">
+                    <rect key="frame" x="16" y="598" width="343" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7wa-y6-QZG">
+                    <rect key="frame" x="16" y="521" width="343" height="42"/>
+                    <subviews>
+                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="g5Y-nW-5Zl">
+                            <rect key="frame" x="55" y="8" width="233" height="2"/>
+                            <color key="backgroundColor" red="0.89411764709999997" green="0.89019607840000003" blue="0.89019607840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="tintColor" red="0.082922942939999994" green="0.263746798" blue="0.3624860942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="2" id="D4E-gf-fAZ"/>
+                                <constraint firstAttribute="width" secondItem="g5Y-nW-5Zl" secondAttribute="height" multiplier="233:2" id="Y8i-ks-UtS"/>
+                            </constraints>
+                        </progressView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Evm-HO-VDl">
+                            <rect key="frame" x="150" y="18" width="42" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="Evm-HO-VDl" secondAttribute="height" multiplier="2:1" id="Cc1-b0-JQD"/>
+                                <constraint firstAttribute="height" constant="21" id="SYr-Ek-mex"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="g5Y-nW-5Zl" firstAttribute="centerX" secondItem="7wa-y6-QZG" secondAttribute="centerX" id="4WX-hI-sI6"/>
+                        <constraint firstAttribute="height" constant="42" id="5tu-qH-JX5"/>
+                        <constraint firstItem="Evm-HO-VDl" firstAttribute="top" secondItem="g5Y-nW-5Zl" secondAttribute="bottom" constant="8" id="Cle-A5-lm3"/>
+                        <constraint firstItem="g5Y-nW-5Zl" firstAttribute="top" secondItem="7wa-y6-QZG" secondAttribute="top" constant="8" id="PKV-t6-zEr"/>
+                        <constraint firstItem="Evm-HO-VDl" firstAttribute="centerX" secondItem="7wa-y6-QZG" secondAttribute="centerX" id="Z2U-oT-WHc"/>
+                        <constraint firstAttribute="width" secondItem="7wa-y6-QZG" secondAttribute="height" multiplier="49:6" id="dE9-43-zyN"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="ahO-Kw-LUM" firstAttribute="leading" secondItem="vpb-iy-jwb" secondAttribute="leading" id="0bS-W0-785"/>
+                <constraint firstItem="KZ4-5z-Xh0" firstAttribute="top" secondItem="RqA-E6-upt" secondAttribute="bottom" constant="8" symbolic="YES" id="2C5-KA-nCc"/>
+                <constraint firstItem="ahO-Kw-LUM" firstAttribute="top" secondItem="vpb-iy-jwb" secondAttribute="top" id="3I1-KM-vI5"/>
+                <constraint firstAttribute="trailing" secondItem="ahO-Kw-LUM" secondAttribute="trailing" id="8v1-tt-fPL"/>
+                <constraint firstItem="KZ4-5z-Xh0" firstAttribute="centerX" secondItem="ahO-Kw-LUM" secondAttribute="centerX" id="Fj9-4Z-Wbj"/>
+                <constraint firstItem="ahO-Kw-LUM" firstAttribute="top" secondItem="vpb-iy-jwb" secondAttribute="top" id="Jb1-ls-GmM"/>
+                <constraint firstItem="7wa-y6-QZG" firstAttribute="centerX" secondItem="vpb-iy-jwb" secondAttribute="centerX" id="KHi-Ub-kMl"/>
+                <constraint firstItem="KZ4-5z-Xh0" firstAttribute="trailing" secondItem="vpb-iy-jwb" secondAttribute="trailingMargin" id="M28-nP-Wxw"/>
+                <constraint firstItem="KZ4-5z-Xh0" firstAttribute="leading" secondItem="RqA-E6-upt" secondAttribute="leading" id="RvI-v1-rT9"/>
+                <constraint firstItem="KZ4-5z-Xh0" firstAttribute="trailing" secondItem="RqA-E6-upt" secondAttribute="trailing" id="aHq-g3-QuZ"/>
+                <constraint firstAttribute="bottom" secondItem="ahO-Kw-LUM" secondAttribute="bottom" id="fLR-VI-qmU"/>
+                <constraint firstItem="RqA-E6-upt" firstAttribute="top" secondItem="7wa-y6-QZG" secondAttribute="bottom" constant="35" id="he6-Hk-93f"/>
+                <constraint firstAttribute="bottom" secondItem="KZ4-5z-Xh0" secondAttribute="bottom" constant="20" id="prx-Dq-Q5R"/>
+                <constraint firstItem="KZ4-5z-Xh0" firstAttribute="leading" secondItem="vpb-iy-jwb" secondAttribute="leadingMargin" id="rK2-2M-ihz"/>
+                <constraint firstItem="KZ4-5z-Xh0" firstAttribute="top" secondItem="RqA-E6-upt" secondAttribute="bottom" constant="8" id="rNt-Vb-wjj"/>
+                <constraint firstItem="ahO-Kw-LUM" firstAttribute="leading" secondItem="vpb-iy-jwb" secondAttribute="leading" id="tFc-kh-Ptd"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="W6A-s1-ybJ"/>
+            <connections>
+                <outlet property="progressBar" destination="g5Y-nW-5Zl" id="iRf-ej-T85"/>
+                <outlet property="progressLabel" destination="Evm-HO-VDl" id="TQk-d1-1OH"/>
+                <outlet property="progressLayer" destination="7wa-y6-QZG" id="eE4-MV-y6t"/>
+            </connections>
+            <point key="canvasLocation" x="-146.5" y="-393.5"/>
+        </view>
+        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eMr-2x-IeQ">
+            <rect key="frame" x="0.0" y="0.0" width="42" height="21"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+            <nil key="textColor"/>
+            <nil key="highlightedColor"/>
+        </label>
+    </objects>
+    <resources>
+        <image name="intro_bg.jpg" width="720" height="1280"/>
+    </resources>
+</document>
