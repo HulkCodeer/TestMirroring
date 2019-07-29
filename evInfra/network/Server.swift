@@ -651,7 +651,7 @@ class Server {
             "mb_id": MemberManager.getMbId(),
             "cp_id": cpId
         ]
-        Alamofire.request(Const.EV_PAY_SERVER + "/charger/chargerInfo/info",
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/charger_info/info",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -661,7 +661,7 @@ class Server {
             "req_ver": 1,
             "mb_id": MemberManager.getMbId()
         ]
-        Alamofire.request(Const.EV_PAY_SERVER + "/charger/chargerInfo/info",
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/charger_info/info",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -723,7 +723,7 @@ class Server {
             "req_ver": 1,
             "member_id": MemberManager.getMemberId()
         ]
-        Alamofire.request(Const.EV_PAY_SERVER + "/charger/chargerInfo/payableChargerList",
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/charger_info/payableChargerList",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
