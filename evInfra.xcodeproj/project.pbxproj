@@ -11,7 +11,6 @@
 		7308559D206350890008497E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView.swift */; };
 		7312786420B7D84700861B3E /* ChargerListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786320B7D84700861B3E /* ChargerListManager.swift */; };
 		7312786820BE38C500861B3E /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786720BE38C500861B3E /* FCMManager.swift */; };
-		7316231622EAB0B200928989 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7316231522EAB0B200928989 /* Event.swift */; };
 		732121BD203AC023000E105C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732121BC203AC023000E105C /* AppDelegate.swift */; };
 		732121C5203AC023000E105C /* evInfra.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 732121C3203AC023000E105C /* evInfra.xcdatamodeld */; };
 		732121C7203AC023000E105C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 732121C6203AC023000E105C /* Assets.xcassets */; };
@@ -29,6 +28,7 @@
 		73344ABF207B3A9B00A6A9EC /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73344ABE207B3A9B00A6A9EC /* UIImage.swift */; };
 		73344AC1207B5F8B00A6A9EC /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 73344AC0207B5F8A00A6A9EC /* awsconfiguration.json */; };
 		73344AC5207F429300A6A9EC /* EditViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73344AC4207F429300A6A9EC /* EditViewDelegate.swift */; };
+		733662CC22EFECB80049AEFE /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662CB22EFECB80049AEFE /* Event.swift */; };
 		7339908022D881D100CF72A8 /* PaymentResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */; };
 		7339908122D881D100CF72A8 /* PaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7339907F22D881D000CF72A8 /* PaymentStatusViewController.swift */; };
 		73450EFA2071EB01008516E9 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73450EF92071EB01008516E9 /* EditViewController.swift */; };
@@ -238,7 +238,6 @@
 		7308559C206350890008497E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		7312786320B7D84700861B3E /* ChargerListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerListManager.swift; sourceTree = "<group>"; };
 		7312786720BE38C500861B3E /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
-		7316231522EAB0B200928989 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		732121B9203AC023000E105C /* evInfra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = evInfra.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		732121BC203AC023000E105C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		732121C4203AC023000E105C /* evInfra.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = evInfra.xcdatamodel; sourceTree = "<group>"; };
@@ -260,6 +259,7 @@
 		73344ABE207B3A9B00A6A9EC /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		73344AC0207B5F8A00A6A9EC /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		73344AC4207F429300A6A9EC /* EditViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewDelegate.swift; sourceTree = "<group>"; };
+		733662CB22EFECB80049AEFE /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentResultViewController.swift; sourceTree = "<group>"; };
 		7339907F22D881D000CF72A8 /* PaymentStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentStatusViewController.swift; sourceTree = "<group>"; };
 		73450EF92071EB01008516E9 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
@@ -709,7 +709,7 @@
 				CE93308E214F9807006B7EF6 /* ReportChargeInfoList.swift */,
 				CE9330962150FB32006B7EF6 /* ReportChargeItem.swift */,
 				CEBE0600214BA5C30047E6F2 /* ReportData.swift */,
-				7316231522EAB0B200928989 /* Event.swift */,
+				733662CB22EFECB80049AEFE /* Event.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1312,7 +1312,7 @@
 				DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */,
 				7357595720917C03008181E9 /* EVDetailViewController.swift in Sources */,
 				73AF8FC321C77E1B003CB2CF /* CodableCluster.swift in Sources */,
-				7316231622EAB0B200928989 /* Event.swift in Sources */,
+				733662CC22EFECB80049AEFE /* Event.swift in Sources */,
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
 				736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController.swift in Sources */,
