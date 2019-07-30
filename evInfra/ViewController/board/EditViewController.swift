@@ -195,7 +195,7 @@ extension EditViewController {
     
     func prepareActionBar() {
         var shareButton: IconButton!
-        shareButton = IconButton(image: Icon.upload)
+        shareButton = IconButton(image: UIImage(named: "ic_upload"))
         shareButton.tintColor = UIColor(rgb: 0x15435C)
         shareButton.addTarget(self, action: #selector(handleShareButton), for: .touchUpInside)
         

@@ -35,7 +35,7 @@ class AppToolbarController: ToolbarController {
 
 extension AppToolbarController {
     fileprivate func prepareMenuButton() {
-        menuButton = IconButton(image: Icon.ic_menu)
+        menuButton = IconButton(image: UIImage(named: "ic_menu"))
         menuButton.tintColor = UIColor(rgb: 0x15435C)
         menuButton.addTarget(self, action: #selector(handleMenuButton), for: .touchUpInside)
     }
@@ -48,7 +48,7 @@ extension AppToolbarController {
     }
     
     fileprivate func preparemapButton() {
-        mapButton = IconButton(image: Icon.normalMode)
+        mapButton = IconButton(image: UIImage(named: "ic_map_normal")?.withRenderingMode(.alwaysTemplate))
         mapButton.tintColor = UIColor(rgb: 0x15435C)
         mapButton.addTarget(self, action: #selector(handleMapButton), for: .touchUpInside)
         mapButton.tag = 2
@@ -90,10 +90,10 @@ extension AppToolbarController {
     
     func enableRouteMode(isRoute: Bool) {
         if isRoute {
-            mapButton.setImage(Icon.navigationMode, for: .normal)
+            mapButton.setImage(UIImage(named: "ic_map_navigation")?.withRenderingMode(.alwaysTemplate), for: .normal)
             isRouteMode = true
         } else {
-            mapButton.setImage(Icon.normalMode, for: .normal)//(image: Icon.normalMode, forState: .Normal)
+            mapButton.setImage(UIImage(named: "ic_map_normal")?.withRenderingMode(.alwaysTemplate), for: .normal)//(image: Icon.normalMode, forState: .Normal)
             isRouteMode = false
         }
         self.delegate?.toolBar(didClick: self.mapButton, arg: isRoute)
@@ -111,9 +111,9 @@ extension AppToolbarController {
     
     func setMenuIcon(hasBadge : Bool) {
         if(hasBadge) {
-            menuButton.image = Icon.ic_menu_badge
+            menuButton.image = UIImage(named: "ic_menu_badge")
         } else {
-            menuButton.image = Icon.ic_menu
+            menuButton.image = UIImage(named: "ic_menu")
         }
     }
 }

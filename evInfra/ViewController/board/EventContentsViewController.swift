@@ -14,6 +14,7 @@ import WebKit
 class EventContentsViewController: UIViewController, WKUIDelegate {
 
     @IBOutlet weak var webViewContainer: UIView!
+    @IBOutlet weak var btnAccept: UIButton!
     var webView: WKWebView!
     var eventId = 0
     
