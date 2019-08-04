@@ -21,7 +21,7 @@ target 'evInfra' do
   pod 'M13Checkbox'                   # For material checkbox
   pod 'DropDown'                      # For spinner
   pod 'Parchment'                     # For view pager
-  pod 'Charts'                        # For charger usage graph
+  pod 'Charts', '~> 3.2.2'            # For charger usage graph
   pod 'FMDB'
   pod 'KeychainSwift', '~> 13.0'      # For keychain
   pod 'JJFloatingActionButton'

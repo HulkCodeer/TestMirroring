@@ -796,12 +796,15 @@
 				DB3B858120A42B91005454F5 /* Localization */,
 				73EE8FB42101B7920016F505 /* BedgeButton.swift */,
 				DB3B858820A45CB8005454F5 /* Character.swift */,
+				73AFF26622D467E000287E67 /* Chronometer.swift */,
+				7379A45522CF156E00F4271C /* CircularProgressBar.swift */,
 				732B929920EDD0C60090E9FC /* CompanyInfoChecker.swift */,
 				737A012920F709B300638812 /* CompanyInfoCheckerDelegate.swift */,
 				DB4395ED22DC4C380092E0A5 /* Date.swift */,
 				73EF8B44203BD1D400D04494 /* EVIcon.swift */,
 				73A7B39E204E2A6E002E975F /* ImageMarker.swift */,
 				736813B1204503B70035FC66 /* NavCenterButton.swift */,
+				733662CD22EFF2A40049AEFE /* NavigationDrawerController.swift */,
 				736D37C320870CEC009535EE /* SBDateFormat.swift */,
 				DBE579B421A3E3CA005DD998 /* Snackbar.swift */,
 				DB18732320A8519200790B77 /* String.swift */,
@@ -815,9 +818,6 @@
 				CE24840320A59E6400611E24 /* UserDefault.swift */,
 				73EE8FC62109B0FD0016F505 /* URL.swift */,
 				739171DC22BB4520007369F9 /* UIButton.swift */,
-				7379A45522CF156E00F4271C /* CircularProgressBar.swift */,
-				73AFF26622D467E000287E67 /* Chronometer.swift */,
-				733662CD22EFF2A40049AEFE /* NavigationDrawerController.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
