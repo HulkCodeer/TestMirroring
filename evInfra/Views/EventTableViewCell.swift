@@ -11,8 +11,8 @@ import UIKit
 class EventTableViewCell: UITableViewCell {
     
     @IBOutlet weak var eventImageView: UIImageView!
-    @IBOutlet weak var eventCommentView: UILabel!
-    @IBOutlet weak var eventEndDateView: UILabel!
+    @IBOutlet weak var eventCommentLabel: UILabel!
+    @IBOutlet weak var eventEndDateLabel: UILabel!
     @IBOutlet weak var eventStatusImageView: UIImageView!
     @IBOutlet weak var eventStatusView: UIView!
     

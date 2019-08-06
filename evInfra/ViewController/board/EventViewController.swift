@@ -51,7 +51,7 @@ extension EventViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 150.0
         tableView.separatorColor = UIColor(rgb: 0xE4E4E4)
         tableView.tableFooterView = UIView()
         
@@ -119,8 +119,6 @@ extension EventViewController: UITableViewDataSource {
         let item = self.list[indexPath.row]
         let imgurl: String = "\(Const.EV_PAY_SERVER)/assets/images/event/events/adapters/\(item.imagePath)"
         if !imgurl.isEmpty {
-            cell.eventImageView.contentMode = .scaleAspectFit
-            cell.eventImageView.clipsToBounds = true
             cell.eventImageView.sd_setImage(with: URL(string: imgurl), placeholderImage: UIImage(named: "AppIcon"))
             
         } else {
@@ -128,22 +126,33 @@ extension EventViewController: UITableViewDataSource {
             cell.eventImageView.contentMode = .scaleAspectFit
         }
         
-        cell.eventCommentView.text = item.description
-        cell.eventEndDateView.text = "행사종료 : \(item.endDate)"
+        cell.eventCommentLabel.text = item.description
+        cell.eventEndDateLabel.text = "행사종료 : \(item.endDate)"
         
         if item.state > EVENT_IN_PROGRESS {
-            print("PJS HEREAHAHAHAHA 1")
-            cell.isUserInteractionEnabled = false
-            cell.eventStatusView.isHidden = false
             if item.state == EVENT_SOLD_OUT{
                 cell.eventStatusImageView.image = UIImage(named: "ic_event_soldout")
             }else{
                 cell.eventStatusImageView.image = UIImage(named: "ic_event_end")
             }
+            cell.isUserInteractionEnabled = false
+            cell.eventStatusView.isHidden = false
+            
+            
         }else{
-            print("PJS HEREAHAHAHAHA 2")
-            cell.isUserInteractionEnabled = true
-            cell.eventStatusView.isHidden = true
+            let formatter = DateFormatter()
+            let currentDate = Date()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            if let finishDate = formatter.date(from: item.endDate){
+                if finishDate > currentDate{
+                    cell.isUserInteractionEnabled = true
+                    cell.eventStatusView.isHidden = true
+                }else{
+                    cell.isUserInteractionEnabled = false
+                    cell.eventStatusView.isHidden = false
+                    cell.eventStatusImageView.image = UIImage(named: "ic_event_end")
+                }
+            }
         }
         
         return cell
@@ -166,7 +175,6 @@ extension EventViewController {
                 let json = JSON(value)
                 self.list.removeAll()
                 
-                print("PJS json value = \(json.rawString())")
                 if json["code"].intValue != 1000 {
                     self.updateTableView()
                     self.indicatorControll(isStart: false)

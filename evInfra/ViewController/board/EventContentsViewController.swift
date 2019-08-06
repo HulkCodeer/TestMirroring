@@ -11,19 +11,23 @@ import Material
 import SwiftyJSON
 import WebKit
 
-class EventContentsViewController: UIViewController, WKUIDelegate {
+class EventContentsViewController: UIViewController {
 
     @IBOutlet weak var webViewContainer: UIView!
-    @IBOutlet weak var btnAccept: UIButton!
     var webView: WKWebView!
     var eventId = 0
     
+    
     override func loadView() {
         super.loadView()
-        
+        let contentController = WKUserContentController()
+        let config = WKWebViewConfiguration()
         let frame = CGRect(x: 0, y: 0, width: webViewContainer.frame.width, height: webViewContainer.frame.height)
-        webView = WKWebView(frame: frame)
+        
+        config.userContentController = contentController
+        webView = WKWebView(frame: frame, configuration: config)
         webView.uiDelegate = self
+        webView.navigationDelegate = self
         webView.translatesAutoresizingMaskIntoConstraints = true
         webView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         webViewContainer.addSubview(webView)
@@ -34,10 +38,6 @@ class EventContentsViewController: UIViewController, WKUIDelegate {
 
         prepareActionBar()
         prepareWebView()
-        
-        btnAccept.addTarget(self, action: #selector(onClickAccept), for: .touchUpInside)
-        
-        verifyEvent()
     }
     
     func prepareActionBar() {
@@ -53,9 +53,9 @@ class EventContentsViewController: UIViewController, WKUIDelegate {
     }
     
     func prepareWebView() {
-        let eventUrl = Const.EV_SERVER_IP + "/event/contents/\(eventId)"
-        let request = URLRequest(url: URL(string: eventUrl)!)
-        webView.load(request)
+        let url = Const.EV_PAY_SERVER + "/event/event/getDetailEvent"
+        let payload = ["mb_id":"\(MemberManager.getMbId())",  "event_id":"\(eventId)"]
+        makePostRequest(url: url, payload: payload)
     }
     
     @objc
@@ -63,61 +63,97 @@ class EventContentsViewController: UIViewController, WKUIDelegate {
         self.navigationController?.pop()
     }
     
-    @objc
-    fileprivate func onClickAccept() {
-        self.acceptEvent()
-    }
-    
-    fileprivate func verifyEvent() {
-        Server.verifyEvent(eventId: eventId) { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                let result = json["result_code"].stringValue
-                
-                switch result {
-                case "1000": // 참여 가능
-                    self.btnAccept.isEnabled = true
-                case "1001": // 이미 참여함
-                    self.btnAccept.isEnabled = false
-                    Snackbar().show(message: "이미 참여한 이벤트입니다.")
-                case "1002": // 쿠폰 소진
-                    self.btnAccept.isEnabled = false
-                    Snackbar().show(message: "쿠폰이 모두 소진되었습니다.")
-                case "1003": // 기한 만료
-                    self.btnAccept.isEnabled = false
-                    Snackbar().show(message: "이벤트가 만료되었습니다.")
-                case "1004": // 이벤트 취소
-                    self.btnAccept.isEnabled = false
-                    Snackbar().show(message: "이벤트가 종료되었습니다.")
-                default: // "9000" error
-                    self.btnAccept.isEnabled = false
-                    Snackbar().show(message: "잠시 후 다시 시도해 주세요.")
-                }
-            }
+    func makePostRequest(url: String, payload: Dictionary<String, Any>) {
+        let jsonPayload: String
+        do {
+            let data = try JSONSerialization.data(
+                withJSONObject: payload,
+                options: JSONSerialization.WritingOptions(rawValue: 0))
+            jsonPayload = String(data: data, encoding: String.Encoding.utf8)!
+        } catch {
+            jsonPayload = "{}"
         }
+        
+        webView.loadHTMLString(postMakingHTML(url: url, payload: jsonPayload), baseURL: nil)
     }
     
-    fileprivate func acceptEvent() {
-        Server.acceptEvent(eventId: eventId) { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                let result = json["result_code"].stringValue
-                
-                switch result {
-                case "1000": // 쿠폰 발급 완료
-                    self.btnAccept.isEnabled = false
-                    Snackbar().show(message: "쿠폰이 발급되었습니다.")
-                case "1001": // 이미 참여함
-                    self.btnAccept.isEnabled = false
-                    Snackbar().show(message: "이미 참여한 이벤트입니다.")
-                case "1002": // 쿠폰 소진
-                    self.btnAccept.isEnabled = false
-                    Snackbar().show(message: "쿠폰이 모두 소진되었습니다.")
-                default: // "9000" error
-                    self.btnAccept.isEnabled = false
-                    Snackbar().show(message: "쿠폰 발급을 실패했습니다. 잠시 후 다시 시도해 주세요.")
-                }
-            }
+    private func postMakingHTML(url: String, payload: String) -> String {
+        return "<html><head><script>function post(path,params,method){method = method || 'post';var form=document.createElement('form');form.setAttribute('method', method);form.setAttribute('action',path);for(var key in params){if(params.hasOwnProperty(key)){var hiddenField=document.createElement('input');hiddenField.setAttribute('type', 'hidden');hiddenField.setAttribute('name', key);hiddenField.setAttribute('value', params[key]);form.appendChild(hiddenField);}}document.body.appendChild(form);form.submit();}</script></head><body></body></html><script>post('\(url)',\(payload),'post');</script>"
+    }
+
+}
+
+extension EventContentsViewController: WKUIDelegate {
+    
+    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "경고", style: .cancel) { _ in
+            completionHandler()
+            
+        }
+        alertController.addAction(cancelAction);
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion: nil)
+        }
+        
+    }
+    
+    
+    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
+        let alertController = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+            completionHandler(false)
+        }
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            completionHandler(true)
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion: nil)
         }
     }
 }
+
+extension EventContentsViewController: WKNavigationDelegate{
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if navigationAction.navigationType == .linkActivated  {
+            if let newURL = navigationAction.request.url,
+                let host = newURL.host,
+                UIApplication.shared.canOpenURL(newURL) {
+                if(host.hasPrefix("kftc-bankpay")) {
+                    UIApplication.shared.open(newURL, options: [:], completionHandler: {(isInstalled) -> Void in
+                        if !isInstalled {
+                            if let kftcMobileDownloadUrl = URL.init(string: "http://itunes.apple.com/kr/app/id369125087?mt=8") {
+                                UIApplication.shared.open(kftcMobileDownloadUrl)
+                            }
+                        }
+                    })
+                }else{
+                    if #available(iOS 10.0, *) {
+                        UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
+                    } else {
+                        UIApplication.shared.openURL(newURL)
+                    }
+                }
+                
+                decisionHandler(.allow)
+            } else {
+                decisionHandler(.allow)
+            }
+        } else {
+            decisionHandler(.allow)
+        }
+    }
+}
+
+//extension EventContentsViewController: WKScriptMessageHandler {
+//    
+//    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+//        if(message.name == "ClientControl"){
+//            
+//        }
+//    }
+//    
+//    
+//}
