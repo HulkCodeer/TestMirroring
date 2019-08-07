@@ -12,22 +12,29 @@ import SwiftyJSON
 
 class MyCouponViewController: UIViewController {
 
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var emptyLabelView: UILabel!
-    @IBOutlet weak var indicator: UIActivityIndicatorView!
+    private let STATUS_NORMAL = 0
+    private let STATUS_END_DATE = 1
+    private let STATUS_USED = 2
+    private let STATUS_EVENT_CANCEL = 3
+    private let STATUS_CANCELED = 4
     
-    var list = Array<EventCoupon>()
+    @IBOutlet weak var emptyView: UILabel!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
+    @IBOutlet weak var tableView: UITableView!
+    
+    
+    var list = Array<Coupon>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         prepareActionBar()
         
         prepareTableView()
         
-        getCouponList()
+        getEventList()
     }
 }
+
 
 extension MyCouponViewController {
     func prepareActionBar() {
@@ -39,19 +46,19 @@ extension MyCouponViewController {
         navigationItem.hidesBackButton = true
         navigationItem.leftViews = [backButton]
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
-        navigationItem.titleLabel.text = "내 쿠폰함"
+        navigationItem.titleLabel.text = "보유쿠폰"
         self.navigationController?.isNavigationBarHidden = false
     }
-
+    
     func prepareTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 150.0
         tableView.separatorColor = UIColor(rgb: 0xE4E4E4)
         tableView.tableFooterView = UIView()
         
-        emptyLabelView.isHidden = true
+        emptyView.isHidden = true
         tableView.isHidden = true
         indicator.isHidden = true
     }
@@ -70,21 +77,19 @@ extension MyCouponViewController {
     
     func updateTableView() {
         if self.list.count > 0 {
-            self.emptyLabelView.isHidden = true
+            self.emptyView.isHidden = true
             self.tableView.isHidden = false
             self.tableView.reloadData()
+            
         } else {
-            self.emptyLabelView.isHidden = false
+            self.emptyView.isHidden = false
             self.tableView.isHidden = true
         }
     }
     
-    func  goToCouponInfo(index: Int) {
-        guard let couponId = self.list[index].coponId else {
-            return
-        }
-        let infoVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCouponInfoViewController") as! MyCouponInfoViewController
-        infoVC.couponId = couponId
+    func  goToEventInfo(index: Int) {
+        let infoVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCouponContentsViewController") as! MyCouponContentsViewController
+        infoVC.couponId = list[index].couponId
         
         self.navigationController?.push(viewController:infoVC)
     }
@@ -96,9 +101,9 @@ extension MyCouponViewController {
 }
 
 extension MyCouponViewController: UITableViewDelegate {
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        goToCouponInfo(index:indexPath.row)
+        goToEventInfo(index:indexPath.row)
     }
 }
 
@@ -113,35 +118,60 @@ extension MyCouponViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyCouponTableViewCell", for: indexPath) as! MyCouponTableViewCell
         let item = self.list[indexPath.row]
-        let imgurl: String = item.getImageUrl()
+        let imgurl: String = "\(Const.EV_PAY_SERVER)/assets/images/event/coupons/adapters/\(item.imagePath)"
+        print("PJS imgeUrl : \(imgurl)")
         if !imgurl.isEmpty {
-            cell.CouponImgView.contentMode = .scaleAspectFit
-            cell.CouponImgView.clipsToBounds = true
-            cell.CouponImgView.sd_setImage(with: URL(string: imgurl), placeholderImage: UIImage(named: "AppIcon"))
+            cell.couponImageView.sd_setImage(with: URL(string: imgurl), placeholderImage: UIImage(named: "AppIcon"))
             
         } else {
-            cell.CouponImgView.image = UIImage(named: "AppIcon")
-            cell.CouponImgView.contentMode = .scaleAspectFit
+            cell.couponImageView.image = UIImage(named: "AppIcon")
+            cell.couponImageView.contentMode = .scaleAspectFit
         }
+        
+        cell.couponCommentLabel.text = item.description
+        cell.couponEndDateLabel.text = "쿠폰만료 : \(item.endDate)"
+        let formatter = DateFormatter()
+        let currentDate = Date()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        if let finishDate = formatter.date(from: item.endDate){
+            if finishDate <= currentDate{
+                item.state = STATUS_END_DATE
+            }
+        }
+        switch item.state {
+            case STATUS_NORMAL:
+                cell.isUserInteractionEnabled = true
+                cell.couponStatusView.isHidden = true
+            // 쿠폰 기간 지남
+            case STATUS_END_DATE:
+                cell.isUserInteractionEnabled = false
+                cell.couponStatusView.isHidden = false
+                cell.couponStatusImageView.image = UIImage(named: "ic_event_outdate")
 
-        cell.CouponDescriptionView.text = item.description
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        var eDate = ""
-        if let endDate = item.endDate {
-            eDate = dateFormatter.string(from: endDate)
+            // 쿠폰 사용
+            case STATUS_USED:
+                cell.isUserInteractionEnabled = false
+                cell.couponStatusView.isHidden = false
+                cell.couponStatusImageView.image = UIImage(named: "ic_event_used")
+
+            // 이벤트 취소
+            case STATUS_EVENT_CANCEL:
+                cell.isUserInteractionEnabled = false
+                cell.couponStatusView.isHidden = false
+                cell.couponStatusImageView.image = UIImage(named: "ic_event_end")
+
+            // 취소된 쿠폰
+            case STATUS_CANCELED:
+                cell.isUserInteractionEnabled = false
+                cell.couponStatusView.isHidden = false
+                cell.couponStatusImageView.image = UIImage(named: "ic_event_canceled")
+            
+            default:
+                cell.isUserInteractionEnabled = true
+                cell.couponStatusView.isHidden = true
+            
         }
-        cell.CouponUsedDateView.text = "쿠폰만료 : " + eDate
         
-        if item.checkCouponStatus(imageView: cell.CouponStatusImgView) {
-            cell.isUserInteractionEnabled = true
-            cell.CouponStatusView.isHidden = true
-        } else {
-            cell.isUserInteractionEnabled = false
-            cell.CouponStatusView.isHidden = false
-        }
         
         return cell
     }
@@ -155,40 +185,33 @@ extension MyCouponViewController: UITableViewDataSource {
 }
 
 extension MyCouponViewController {
-    func getCouponList() {
+    func getEventList() {
         indicatorControll(isStart: true)
-
+        
         Server.getCouponList { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 self.list.removeAll()
-                
-                if json["result_code"].exists() {
-                    
+                print("PJS Coupon JSON = \(json.rawString())")
+                if json["code"].intValue != 1000 {
+                    self.updateTableView()
+                    self.indicatorControll(isStart: false)
                 } else {
-                    for jsonRow in json.arrayValue {
-                        let item: EventCoupon = EventCoupon.init()
+                    print("PJS arrayValue : \(json["lists"].arrayValue.count)")
+                    for jsonRow in json["lists"].arrayValue {
+                        let item: Coupon = Coupon.init()
                         
-                        item.coponId = jsonRow["id"].intValue
-                        item.c_state = jsonRow["c_state"].intValue
-                        item.e_state = jsonRow["e_state"].intValue
-                        item.imagePath = jsonRow["img"].stringValue
-                        item.description = jsonRow["msg"].stringValue
-                        
-                        let eDate: String? = jsonRow["end_date"].stringValue
-                        
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                        dateFormatter.locale = Locale(identifier: "ko_kr")
-                        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-                        if let endDate = eDate, !endDate.isEmpty {
-                            item.endDate = dateFormatter.date(from: endDate)
-                        } else {
-                            item.endDate = Date()
-                        }
+                        item.couponId = jsonRow["id"].intValue
+                        item.state = jsonRow["type"].intValue
+                        item.endDate  = jsonRow["finish_date"].stringValue
+                        item.description = jsonRow["description"].stringValue
+                        item.imagePath = jsonRow["image"].stringValue
+                        print("PJS ITEM : \(item.couponId)")
                         self.list.append(item)
+                        
                     }
                 }
+                
                 self.updateTableView()
                 self.indicatorControll(isStart: false)
             } else {

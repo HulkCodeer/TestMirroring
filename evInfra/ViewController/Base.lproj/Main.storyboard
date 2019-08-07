@@ -3979,167 +3979,6 @@
             </objects>
             <point key="canvasLocation" x="1425" y="703"/>
         </scene>
-        <!--My Coupon View Controller-->
-        <scene sceneID="tIB-Xz-2UN">
-            <objects>
-                <viewController storyboardIdentifier="MyCouponViewController" id="gru-ir-DCq" customClass="MyCouponViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="hMi-1R-U2A">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="보유중인 쿠폰이 없습니다" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jBp-Vh-yY6">
-                                <rect key="frame" x="8" y="323.5" width="359" height="20.5"/>
-                                <accessibility key="accessibilityConfiguration" label="보유중인 쿠폰이 없습니다"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Dpg-Bi-n1K">
-                                <rect key="frame" x="167.5" y="313.5" width="40" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="Eok-CS-FJE"/>
-                                    <constraint firstAttribute="height" constant="40" id="vco-N1-UPT"/>
-                                </constraints>
-                            </activityIndicatorView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VEN-Es-LKu">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MyCouponTableViewCell" rowHeight="215" id="7wA-xy-9Hr" customClass="MyCouponTableViewCell" customModule="evInfra" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="215"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7wA-xy-9Hr" id="ZSN-cO-SF7">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="214.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gsd-zt-rWs" userLabel="CoponContainer">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="125"/>
-                                                    <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xvm-hK-f5m">
-                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="125"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" secondItem="xvm-hK-f5m" secondAttribute="height" multiplier="3:1" priority="900" id="leb-G2-DOa"/>
-                                                            </constraints>
-                                                        </imageView>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstItem="xvm-hK-f5m" firstAttribute="leading" secondItem="Gsd-zt-rWs" secondAttribute="leading" id="2Yt-rC-C76"/>
-                                                        <constraint firstAttribute="trailing" secondItem="xvm-hK-f5m" secondAttribute="trailing" id="2dI-sV-7mT"/>
-                                                        <constraint firstItem="xvm-hK-f5m" firstAttribute="top" secondItem="Gsd-zt-rWs" secondAttribute="top" id="Yws-tE-Ask"/>
-                                                        <constraint firstAttribute="bottom" secondItem="xvm-hK-f5m" secondAttribute="bottom" id="vqJ-aq-9dg"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Dn-ph-wAz" userLabel="InfoView">
-                                                    <rect key="frame" x="0.0" y="125" width="375" height="89.5"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="CouponDescription" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Aq-u3-uJX" userLabel="CouponComment">
-                                                            <rect key="frame" x="8" y="0.0" width="359" height="53"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="CouponUsedDate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="auc-MP-9AP" userLabel="CouponUsedDate">
-                                                            <rect key="frame" x="8" y="61" width="359" height="20.5"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="bottom" secondItem="auc-MP-9AP" secondAttribute="bottom" constant="8" id="B6h-iG-DWZ"/>
-                                                        <constraint firstAttribute="trailing" secondItem="5Aq-u3-uJX" secondAttribute="trailing" constant="8" id="M3F-DZ-2k1"/>
-                                                        <constraint firstItem="5Aq-u3-uJX" firstAttribute="leading" secondItem="8Dn-ph-wAz" secondAttribute="leading" constant="8" id="esz-tx-faV"/>
-                                                        <constraint firstItem="5Aq-u3-uJX" firstAttribute="top" secondItem="8Dn-ph-wAz" secondAttribute="top" id="lmG-fh-1V3"/>
-                                                        <constraint firstAttribute="trailing" secondItem="auc-MP-9AP" secondAttribute="trailing" constant="8" id="qXR-TL-3P4"/>
-                                                        <constraint firstItem="auc-MP-9AP" firstAttribute="leading" secondItem="8Dn-ph-wAz" secondAttribute="leading" constant="8" id="rRv-Sr-H2m"/>
-                                                        <constraint firstItem="auc-MP-9AP" firstAttribute="top" secondItem="5Aq-u3-uJX" secondAttribute="bottom" constant="8" id="u0V-l3-cxE"/>
-                                                    </constraints>
-                                                </view>
-                                                <view alpha="0.63" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F1L-El-JhI" userLabel="CouponStatusView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="214.5"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </view>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="453-4L-wyF">
-                                                    <rect key="frame" x="147.5" y="67.5" width="80" height="80"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="80" id="Q3L-fA-hTB"/>
-                                                        <constraint firstAttribute="width" constant="80" id="r1U-1w-k3F"/>
-                                                    </constraints>
-                                                </imageView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Gsd-zt-rWs" firstAttribute="top" secondItem="ZSN-cO-SF7" secondAttribute="top" id="AD6-9z-SEa"/>
-                                                <constraint firstItem="8Dn-ph-wAz" firstAttribute="top" secondItem="Gsd-zt-rWs" secondAttribute="bottom" id="CKf-ng-hGu"/>
-                                                <constraint firstAttribute="bottom" secondItem="F1L-El-JhI" secondAttribute="bottom" id="D2d-kl-AeH"/>
-                                                <constraint firstAttribute="trailing" secondItem="8Dn-ph-wAz" secondAttribute="trailing" id="Fjg-un-ak7"/>
-                                                <constraint firstAttribute="trailing" secondItem="F1L-El-JhI" secondAttribute="trailing" id="GVF-la-v4p"/>
-                                                <constraint firstItem="8Dn-ph-wAz" firstAttribute="leading" secondItem="ZSN-cO-SF7" secondAttribute="leading" id="Mgw-g7-wZg"/>
-                                                <constraint firstItem="453-4L-wyF" firstAttribute="centerY" secondItem="ZSN-cO-SF7" secondAttribute="centerY" id="MqO-3t-xG5"/>
-                                                <constraint firstItem="F1L-El-JhI" firstAttribute="top" secondItem="ZSN-cO-SF7" secondAttribute="top" id="PYR-H8-en6"/>
-                                                <constraint firstItem="Gsd-zt-rWs" firstAttribute="leading" secondItem="ZSN-cO-SF7" secondAttribute="leading" id="RQj-qQ-Uua"/>
-                                                <constraint firstAttribute="bottom" secondItem="8Dn-ph-wAz" secondAttribute="bottom" id="Uoq-M3-t44"/>
-                                                <constraint firstAttribute="trailing" secondItem="Gsd-zt-rWs" secondAttribute="trailing" id="VoO-kw-Meu"/>
-                                                <constraint firstItem="453-4L-wyF" firstAttribute="centerX" secondItem="ZSN-cO-SF7" secondAttribute="centerX" id="XTR-Sw-zEx"/>
-                                                <constraint firstItem="F1L-El-JhI" firstAttribute="leading" secondItem="ZSN-cO-SF7" secondAttribute="leading" id="zEb-3h-Baf"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <bool key="isElement" value="YES"/>
-                                        </accessibility>
-                                        <connections>
-                                            <outlet property="CouponDescriptionView" destination="5Aq-u3-uJX" id="ubA-aM-0dw"/>
-                                            <outlet property="CouponImgView" destination="xvm-hK-f5m" id="6kC-vO-yuo"/>
-                                            <outlet property="CouponStatusImgView" destination="453-4L-wyF" id="btt-as-Z0X"/>
-                                            <outlet property="CouponStatusView" destination="F1L-El-JhI" id="BF1-af-24F"/>
-                                            <outlet property="CouponUsedDateView" destination="auc-MP-9AP" id="aKT-NP-fcG"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="VEN-Es-LKu" firstAttribute="leading" secondItem="Zc1-6z-Ek2" secondAttribute="leading" id="6k6-z1-cml"/>
-                            <constraint firstItem="Zc1-6z-Ek2" firstAttribute="bottom" secondItem="VEN-Es-LKu" secondAttribute="bottom" id="7xi-bu-Dd1"/>
-                            <constraint firstItem="Zc1-6z-Ek2" firstAttribute="trailing" secondItem="VEN-Es-LKu" secondAttribute="trailing" id="HRy-67-vZ9"/>
-                            <constraint firstItem="VEN-Es-LKu" firstAttribute="top" secondItem="hMi-1R-U2A" secondAttribute="top" id="M3w-G6-WXP"/>
-                            <constraint firstItem="Zc1-6z-Ek2" firstAttribute="trailing" secondItem="jBp-Vh-yY6" secondAttribute="trailing" constant="8" id="PVC-Ew-KTL"/>
-                            <constraint firstItem="Dpg-Bi-n1K" firstAttribute="centerX" secondItem="Zc1-6z-Ek2" secondAttribute="centerX" id="TUn-vn-o7i"/>
-                            <constraint firstItem="jBp-Vh-yY6" firstAttribute="leading" secondItem="Zc1-6z-Ek2" secondAttribute="leading" constant="8" id="an4-Dq-ACv"/>
-                            <constraint firstItem="jBp-Vh-yY6" firstAttribute="centerY" secondItem="hMi-1R-U2A" secondAttribute="centerY" id="sdl-Nb-OgO"/>
-                            <constraint firstItem="Dpg-Bi-n1K" firstAttribute="centerY" secondItem="hMi-1R-U2A" secondAttribute="centerY" id="vVF-aQ-9cO"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="Zc1-6z-Ek2"/>
-                    </view>
-                    <connections>
-                        <outlet property="emptyLabelView" destination="jBp-Vh-yY6" id="Ua4-dt-F46"/>
-                        <outlet property="indicator" destination="Dpg-Bi-n1K" id="p4r-59-7vq"/>
-                        <outlet property="tableView" destination="VEN-Es-LKu" id="cjA-Bo-8WR"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7og-JF-5Pg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2126" y="703"/>
-        </scene>
-        <!--My Coupon Info View Controller-->
-        <scene sceneID="3IS-eQ-YIv">
-            <objects>
-                <viewController storyboardIdentifier="MyCouponInfoViewController" id="dak-Hb-x88" customClass="MyCouponInfoViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8Gi-gp-Gbi">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="tXI-KY-6l5"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lpt-5c-Lio" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2836" y="703"/>
-        </scene>
         <!--Settings View Controller-->
         <scene sceneID="hvq-lC-eZF">
             <objects>
@@ -6263,6 +6102,156 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xh3-02-sv6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="724" y="-54"/>
+        </scene>
+        <!--My Coupon View Controller-->
+        <scene sceneID="zz1-xn-6dw">
+            <objects>
+                <viewController storyboardIdentifier="MyCouponViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="khK-aI-iMh" customClass="MyCouponViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zvd-c1-BEM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="보유중인 쿠폰이 없습니다." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OJD-Dt-HX3" userLabel="emptyView">
+                                <rect key="frame" x="100" y="323.5" width="175.5" height="20.5"/>
+                                <accessibility key="accessibilityConfiguration" label="보유중인 쿠폰이 없습니다"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hoB-rB-AzL" userLabel="indicator">
+                                <rect key="frame" x="167.5" y="313.5" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="aHR-Va-Phu"/>
+                                    <constraint firstAttribute="height" constant="40" id="iBe-5W-qrg"/>
+                                </constraints>
+                            </activityIndicatorView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TvW-UO-hsP">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="MyCouponTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MyCouponTableViewCell" rowHeight="275" id="nVI-7r-E0y" customClass="MyCouponTableViewCell" customModule="evInfra" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="275"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nVI-7r-E0y" id="xUf-Pi-kES">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="274.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HVT-PI-Tlg" userLabel="EventImageView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="125"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="HVT-PI-Tlg" secondAttribute="height" multiplier="375:125" id="1Qb-xW-IHH"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" verticalCompressionResistancePriority="751" text="Coupon Comment" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIh-WF-3GJ">
+                                                    <rect key="frame" x="8" y="133" width="359" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Coupon End Date" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Rz-xS-9x0">
+                                                    <rect key="frame" x="8" y="158" width="359" height="108.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view multipleTouchEnabled="YES" alpha="0.62999999523162842" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mSk-Sb-7Gx" userLabel="DisableView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="274.5"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </view>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hI4-Pw-EUi" userLabel="EventStatusView">
+                                                    <rect key="frame" x="147.5" y="97.5" width="80" height="80"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="80" id="XxO-Tr-zA0"/>
+                                                        <constraint firstAttribute="width" constant="80" id="bdg-Vi-M4L"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="mSk-Sb-7Gx" firstAttribute="centerY" secondItem="xUf-Pi-kES" secondAttribute="centerY" id="2n3-gV-uNy"/>
+                                                <constraint firstItem="mSk-Sb-7Gx" firstAttribute="centerX" secondItem="xUf-Pi-kES" secondAttribute="centerX" id="3KD-1R-rc2"/>
+                                                <constraint firstItem="HVT-PI-Tlg" firstAttribute="width" secondItem="xUf-Pi-kES" secondAttribute="width" priority="900" id="4Am-pv-6PN"/>
+                                                <constraint firstItem="hI4-Pw-EUi" firstAttribute="centerY" secondItem="xUf-Pi-kES" secondAttribute="centerY" id="4NG-wA-nMq"/>
+                                                <constraint firstItem="3Rz-xS-9x0" firstAttribute="leading" secondItem="xUf-Pi-kES" secondAttribute="leading" constant="8" id="5Db-re-tci"/>
+                                                <constraint firstAttribute="trailing" secondItem="mSk-Sb-7Gx" secondAttribute="trailing" id="5Vq-MQ-fde"/>
+                                                <constraint firstItem="IIh-WF-3GJ" firstAttribute="leading" secondItem="xUf-Pi-kES" secondAttribute="leading" constant="8" id="AXS-vF-RZ7"/>
+                                                <constraint firstAttribute="trailing" secondItem="HVT-PI-Tlg" secondAttribute="trailing" id="Bxj-97-JWV"/>
+                                                <constraint firstItem="mSk-Sb-7Gx" firstAttribute="top" secondItem="xUf-Pi-kES" secondAttribute="top" id="FTr-9E-L9I"/>
+                                                <constraint firstItem="mSk-Sb-7Gx" firstAttribute="leading" secondItem="xUf-Pi-kES" secondAttribute="leading" id="PtN-UN-N2p"/>
+                                                <constraint firstItem="HVT-PI-Tlg" firstAttribute="top" secondItem="xUf-Pi-kES" secondAttribute="top" id="XfU-g1-ugD"/>
+                                                <constraint firstAttribute="trailing" secondItem="IIh-WF-3GJ" secondAttribute="trailing" constant="8" id="Y4c-OT-xnk"/>
+                                                <constraint firstItem="IIh-WF-3GJ" firstAttribute="top" secondItem="HVT-PI-Tlg" secondAttribute="bottom" constant="8" id="d5H-Jh-79E"/>
+                                                <constraint firstItem="3Rz-xS-9x0" firstAttribute="top" secondItem="IIh-WF-3GJ" secondAttribute="bottom" constant="4" id="eZI-kI-3hO"/>
+                                                <constraint firstAttribute="bottom" secondItem="3Rz-xS-9x0" secondAttribute="bottom" constant="8" id="fhW-kv-KkY"/>
+                                                <constraint firstAttribute="trailing" secondItem="3Rz-xS-9x0" secondAttribute="trailing" constant="8" id="g7f-5W-2hZ"/>
+                                                <constraint firstItem="HVT-PI-Tlg" firstAttribute="leading" secondItem="xUf-Pi-kES" secondAttribute="leading" id="jap-Z9-00a"/>
+                                                <constraint firstAttribute="bottom" secondItem="mSk-Sb-7Gx" secondAttribute="bottom" id="kof-Z6-G6G"/>
+                                                <constraint firstItem="hI4-Pw-EUi" firstAttribute="centerX" secondItem="xUf-Pi-kES" secondAttribute="centerX" id="rSv-dV-Fou"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="couponCommentLabel" destination="IIh-WF-3GJ" id="KX2-oc-ib9"/>
+                                            <outlet property="couponEndDateLabel" destination="3Rz-xS-9x0" id="0gQ-Bl-PpT"/>
+                                            <outlet property="couponImageView" destination="HVT-PI-Tlg" id="ddy-Bn-YYg"/>
+                                            <outlet property="couponStatusImageView" destination="hI4-Pw-EUi" id="b7x-eF-Zgk"/>
+                                            <outlet property="couponStatusView" destination="mSk-Sb-7Gx" id="ofn-B5-CcG"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="TvW-UO-hsP" firstAttribute="leading" secondItem="JKG-WC-X59" secondAttribute="leading" id="22o-6Z-Yml"/>
+                            <constraint firstItem="OJD-Dt-HX3" firstAttribute="centerX" secondItem="zvd-c1-BEM" secondAttribute="centerX" id="9sk-AG-zTJ"/>
+                            <constraint firstItem="hoB-rB-AzL" firstAttribute="centerX" secondItem="zvd-c1-BEM" secondAttribute="centerX" id="D4f-Wh-qqr"/>
+                            <constraint firstItem="TvW-UO-hsP" firstAttribute="top" secondItem="JKG-WC-X59" secondAttribute="top" id="FmC-tY-D6E"/>
+                            <constraint firstItem="OJD-Dt-HX3" firstAttribute="centerY" secondItem="zvd-c1-BEM" secondAttribute="centerY" id="S3F-Af-4uo"/>
+                            <constraint firstItem="hoB-rB-AzL" firstAttribute="centerY" secondItem="zvd-c1-BEM" secondAttribute="centerY" id="ecq-kn-XFo"/>
+                            <constraint firstItem="TvW-UO-hsP" firstAttribute="trailing" secondItem="JKG-WC-X59" secondAttribute="trailing" id="hGD-wO-S1S"/>
+                            <constraint firstItem="TvW-UO-hsP" firstAttribute="bottom" secondItem="JKG-WC-X59" secondAttribute="bottom" id="szs-oK-7aa"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="JKG-WC-X59"/>
+                    </view>
+                    <connections>
+                        <outlet property="emptyView" destination="OJD-Dt-HX3" id="meT-vr-GgE"/>
+                        <outlet property="indicator" destination="hoB-rB-AzL" id="TzE-Ya-vwe"/>
+                        <outlet property="tableView" destination="TvW-UO-hsP" id="MDf-Qp-3bb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AQ9-IT-2VB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2820" y="2074"/>
+        </scene>
+        <!--My Coupon Contents View Controller-->
+        <scene sceneID="OBd-Li-sCf">
+            <objects>
+                <viewController storyboardIdentifier="MyCouponContentsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="XXN-r0-dvU" customClass="MyCouponContentsViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="V50-ch-Akt">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rfq-Z8-fT9">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="rfq-Z8-fT9" firstAttribute="top" secondItem="fht-Gh-FAd" secondAttribute="top" id="3yA-OH-ZhJ"/>
+                            <constraint firstItem="rfq-Z8-fT9" firstAttribute="leading" secondItem="fht-Gh-FAd" secondAttribute="leading" id="IVs-4Q-GEc"/>
+                            <constraint firstItem="rfq-Z8-fT9" firstAttribute="trailing" secondItem="fht-Gh-FAd" secondAttribute="trailing" id="c49-fT-LnO"/>
+                            <constraint firstItem="fht-Gh-FAd" firstAttribute="bottom" secondItem="rfq-Z8-fT9" secondAttribute="bottom" id="cif-nT-Cqm"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="fht-Gh-FAd"/>
+                    </view>
+                    <connections>
+                        <outlet property="webViewContainer" destination="rfq-Z8-fT9" id="dmr-JR-nug"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oLD-y9-76i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3542" y="2075"/>
         </scene>
     </scenes>
     <resources>

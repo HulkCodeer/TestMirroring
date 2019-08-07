@@ -517,7 +517,7 @@ class Server {
             "mb_id": MemberManager.getMbId()
             ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/event/couponList.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/event/coupon/getCouponList",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -529,6 +529,7 @@ class Server {
             "mb_id": MemberManager.getMbId(),
             "memberId": MemberManager.getMemberId()
             ]
+        
         
         Alamofire.request(Const.EV_PAY_SERVER + "/event/Event/getEventList",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
@@ -674,7 +675,7 @@ class Server {
             "connector_id": connectorId,
             "point": point
         ]
-        NSLog("PJS openCharger")
+
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/app_charging/open",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
@@ -686,7 +687,7 @@ class Server {
             "mb_id": MemberManager.getMbId(),
             "charging_id": chargingId
         ]
-        NSLog("PJS stopCharging")
+        
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/app_charging/stop",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
@@ -694,7 +695,7 @@ class Server {
     
     // 충전 상태 요청
     static func getChargingStatus(chargingId: String, completion: @escaping (Bool, Any) -> Void) {
-        NSLog("PJS getChargingStatus")
+        
         let reqParam: Parameters = [
             "req_ver": 1,
             "mb_id": MemberManager.getMbId(),

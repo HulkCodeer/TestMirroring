@@ -1,9 +1,9 @@
 //
-//  EventContentsViewController.swift
+//  MyCouponContentsViewController.swift
 //  evInfra
 //
-//  Created by 이신광 on 06/11/2018.
-//  Copyright © 2018 soft-berry. All rights reserved.
+//  Created by bulacode on 07/08/2019.
+//  Copyright © 2019 soft-berry. All rights reserved.
 //
 
 import UIKit
@@ -11,11 +11,11 @@ import Material
 import SwiftyJSON
 import WebKit
 
-class EventContentsViewController: UIViewController {
-
+class MyCouponContentsViewController: UIViewController {
+    
     @IBOutlet weak var webViewContainer: UIView!
     var webView: WKWebView!
-    var eventId = 0
+    var couponId = 0
     
     
     override func loadView() {
@@ -35,7 +35,7 @@ class EventContentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         prepareActionBar()
         prepareWebView()
     }
@@ -53,8 +53,8 @@ class EventContentsViewController: UIViewController {
     }
     
     func prepareWebView() {
-        let url = Const.EV_PAY_SERVER + "/event/event/getDetailEvent"
-        let payload = ["mb_id":"\(MemberManager.getMbId())",  "event_id":"\(eventId)"]
+        let url = Const.EV_PAY_SERVER + "/event/coupon/detailPage"
+        let payload = ["mb_id":"\(MemberManager.getMbId())",  "coupon_id":"\(couponId)"]
         makePostRequest(url: url, payload: payload)
     }
     
@@ -80,10 +80,10 @@ class EventContentsViewController: UIViewController {
     private func postMakingHTML(url: String, payload: String) -> String {
         return "<html><head><script>function post(path,params,method){method = method || 'post';var form=document.createElement('form');form.setAttribute('method', method);form.setAttribute('action',path);for(var key in params){if(params.hasOwnProperty(key)){var hiddenField=document.createElement('input');hiddenField.setAttribute('type', 'hidden');hiddenField.setAttribute('name', key);hiddenField.setAttribute('value', params[key]);form.appendChild(hiddenField);}}document.body.appendChild(form);form.submit();}</script></head><body></body></html><script>post('\(url)',\(payload),'post');</script>"
     }
-
+    
 }
 
-extension EventContentsViewController: WKUIDelegate {
+extension MyCouponContentsViewController: WKUIDelegate {
     
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
@@ -115,14 +115,13 @@ extension EventContentsViewController: WKUIDelegate {
     }
 }
 
-extension EventContentsViewController: WKNavigationDelegate{
+extension MyCouponContentsViewController: WKNavigationDelegate{
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        decisionHandler(.allow)
-        
+            decisionHandler(.allow)
     }
 }
 
-//extension EventContentsViewController: WKScriptMessageHandler {
+//extension MyCouponContentsViewController: WKScriptMessageHandler {
 //
 //    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
 //        if(message.name == "ClientControl"){

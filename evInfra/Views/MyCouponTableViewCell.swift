@@ -10,11 +10,12 @@ import UIKit
 
 class MyCouponTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var CouponImgView: UIImageView!
-    @IBOutlet weak var CouponDescriptionView: UILabel!
-    @IBOutlet weak var CouponUsedDateView: UILabel!
-    @IBOutlet weak var CouponStatusImgView: UIImageView!
-    @IBOutlet weak var CouponStatusView: UIView!
+
+    @IBOutlet weak var couponImageView: UIImageView!
+    @IBOutlet weak var couponCommentLabel: UILabel!
+    @IBOutlet weak var couponEndDateLabel: UILabel!
+    @IBOutlet weak var couponStatusView: UIView!
+    @IBOutlet weak var couponStatusImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
