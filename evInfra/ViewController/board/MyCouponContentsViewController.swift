@@ -16,7 +16,7 @@ class MyCouponContentsViewController: UIViewController {
     @IBOutlet weak var webViewContainer: UIView!
     var webView: WKWebView!
     var couponId = 0
-    
+    var couponTitle: String = ""
     
     override func loadView() {
         super.loadView()
@@ -48,7 +48,7 @@ class MyCouponContentsViewController: UIViewController {
         navigationItem.leftViews = [backButton]
         navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
-        navigationItem.titleLabel.text = "이벤트 내용"
+        navigationItem.titleLabel.text = couponTitle
         self.navigationController?.isNavigationBarHidden = false
     }
     

@@ -1564,7 +1564,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K40-za-qy5" userLabel="BtnCharger">
-                                        <rect key="frame" x="0.0" y="18" width="184" height="24"/>
+                                        <rect key="frame" x="0.0" y="19" width="184" height="22"/>
                                         <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="충전소 검색" image="ic_radio_unchecked">
@@ -1575,7 +1575,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1A-58-YMr" userLabel="BtnAddress">
-                                        <rect key="frame" x="191" y="18" width="184" height="24"/>
+                                        <rect key="frame" x="191" y="19" width="184" height="22"/>
                                         <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="주소 검색" image="ic_radio_unchecked">
@@ -2013,10 +2013,10 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="efx-5d-6VO">
-                                                        <rect key="frame" x="48" y="56" width="319" height="24"/>
+                                                        <rect key="frame" x="48" y="58" width="319" height="22"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h24-ZF-vb6" userLabel="PayUsed">
-                                                                <rect key="frame" x="0.0" y="0.0" width="159.5" height="24"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="159.5" height="22"/>
                                                                 <inset key="titleEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                 <state key="normal" title="유료" image="ic_radio_unchecked">
                                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2026,7 +2026,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ime-Q3-BBt" userLabel="PayFree">
-                                                                <rect key="frame" x="167.5" y="0.0" width="151.5" height="24"/>
+                                                                <rect key="frame" x="167.5" y="0.0" width="151.5" height="22"/>
                                                                 <inset key="titleEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                 <state key="normal" title="무료" image="ic_radio_unchecked">
                                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -5635,9 +5635,9 @@
                                         <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
                                         <inset key="titleEdgeInsets" minX="-44" minY="32" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="menu_board_company">
+                                        <state key="normal" image="menu_event">
                                             <attributedString key="attributedTitle">
-                                                <fragment content="    사업자 게시판">
+                                                <fragment content="    이벤트">
                                                     <attributes>
                                                         <font key="NSFont" size="10" name=".AppleSDGothicNeoI-Regular"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
@@ -5646,7 +5646,7 @@
                                             </attributedString>
                                         </state>
                                         <connections>
-                                            <action selector="clickBoardCompany:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Kvm-sh-KGE"/>
+                                            <action selector="clickEvent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ISW-HY-eTC"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="enQ-s8-Z8p">
@@ -6279,7 +6279,7 @@
         <image name="info_time.png" width="99" height="99"/>
         <image name="intro_bg.jpg" width="172.80000305175781" height="307.20001220703125"/>
         <image name="menu_board" width="30" height="30"/>
-        <image name="menu_board_company" width="30" height="30"/>
+        <image name="menu_event" width="30" height="30"/>
         <image name="menu_info" width="30" height="30"/>
         <image name="menu_my_info" width="30" height="30"/>
         <image name="menu_settings" width="30" height="30"/>

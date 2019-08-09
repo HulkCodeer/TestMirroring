@@ -90,7 +90,7 @@ extension MyCouponViewController {
     func  goToEventInfo(index: Int) {
         let infoVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCouponContentsViewController") as! MyCouponContentsViewController
         infoVC.couponId = list[index].couponId
-        
+        infoVC.couponTitle = list[index].title
         self.navigationController?.push(viewController:infoVC)
     }
     
@@ -130,14 +130,7 @@ extension MyCouponViewController: UITableViewDataSource {
         
         cell.couponCommentLabel.text = item.description
         cell.couponEndDateLabel.text = "쿠폰만료 : \(item.endDate)"
-        let formatter = DateFormatter()
-        let currentDate = Date()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        if let finishDate = formatter.date(from: item.endDate){
-            if finishDate <= currentDate{
-                item.state = STATUS_END_DATE
-            }
-        }
+        
         switch item.state {
             case STATUS_NORMAL:
                 cell.isUserInteractionEnabled = true
@@ -192,7 +185,6 @@ extension MyCouponViewController {
             if isSuccess {
                 let json = JSON(value)
                 self.list.removeAll()
-                print("PJS Coupon JSON = \(json.rawString())")
                 if json["code"].intValue != 1000 {
                     self.updateTableView()
                     self.indicatorControll(isStart: false)
@@ -206,10 +198,23 @@ extension MyCouponViewController {
                         item.endDate  = jsonRow["finish_date"].stringValue
                         item.description = jsonRow["description"].stringValue
                         item.imagePath = jsonRow["image"].stringValue
+                        item.title = jsonRow["title"].stringValue
                         print("PJS ITEM : \(item.couponId)")
+                        if (item.state == 0){
+                            let formatter = DateFormatter()
+                            let currentDate = Date()
+                            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                            if let finishDate = formatter.date(from: item.endDate){
+                                if finishDate <= currentDate{
+                                    item.state = self.STATUS_END_DATE
+                                }
+                            }
+                           
+                        }
                         self.list.append(item)
                         
                     }
+                    self.list = self.list.sorted(by: {$0.state < $1.state})
                 }
                 
                 self.updateTableView()
@@ -217,7 +222,7 @@ extension MyCouponViewController {
             } else {
                 self.updateTableView()
                 self.indicatorControll(isStart: false)
-                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 제보하기 페이지 종료후 재시도 바랍니다.")
+                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 내 쿠폰함 페이지 종료후 재시도 바랍니다.")
             }
         }
     }

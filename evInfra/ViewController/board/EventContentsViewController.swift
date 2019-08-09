@@ -16,6 +16,7 @@ class EventContentsViewController: UIViewController {
     @IBOutlet weak var webViewContainer: UIView!
     var webView: WKWebView!
     var eventId = 0
+    var eventTitle: String = ""
     
     
     override func loadView() {
@@ -48,7 +49,7 @@ class EventContentsViewController: UIViewController {
         navigationItem.leftViews = [backButton]
         navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
-        navigationItem.titleLabel.text = "이벤트 내용"
+        navigationItem.titleLabel.text = eventTitle
         self.navigationController?.isNavigationBarHidden = false
     }
     

@@ -89,7 +89,7 @@ extension EventViewController {
     func  goToEventInfo(index: Int) {
         let infoVC = self.storyboard?.instantiateViewController(withIdentifier: "EventContentsViewController") as! EventContentsViewController
         infoVC.eventId = list[index].eventId
-        
+        infoVC.eventTitle = list[index].title
         self.navigationController?.push(viewController:infoVC)
     }
     
@@ -191,10 +191,21 @@ extension EventViewController {
                         item.description = jsonRow["description"].stringValue
                         item.endDate = jsonRow["finish_date"].stringValue
                         item.title = jsonRow["title"].stringValue
-                        
+                        if (item.state == 0){
+                            let formatter = DateFormatter()
+                            let currentDate = Date()
+                            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                            if let finishDate = formatter.date(from: item.endDate){
+                                if finishDate <= currentDate{
+                                    item.state = self.EVENT_END
+                                }
+                            }
+                        }
                         self.list.append(item)
                         
                     }
+                    self.list = self.list.sorted(by: {$0.state < $1.state})
+                    
                 }
                 
                 self.updateTableView()
@@ -202,7 +213,7 @@ extension EventViewController {
             } else {
                 self.updateTableView()
                 self.indicatorControll(isStart: false)
-                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 제보하기 페이지 종료후 재시도 바랍니다.")
+                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 이벤트 페이지 종료후 재시도 바랍니다.")
             }
         }
     }

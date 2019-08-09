@@ -19,4 +19,6 @@ class Coupon{
     var description : String = ""
     // 쿠폰 이미지
     var imagePath : String = ""
+    // 쿠폰 타이틀
+    var title: String = ""
 }

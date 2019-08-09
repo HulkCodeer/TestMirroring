@@ -105,7 +105,8 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableViewLoad(index: MENU_BOARD)
     }
     
-    @IBAction func clickBoardCompany(_ sender: Any) {
+
+    @IBAction func clickEvent(_ sender: UIButton) {
         tableViewLoad(index: MENU_EVENT)
     }
     
