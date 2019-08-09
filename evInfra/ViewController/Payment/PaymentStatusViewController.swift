@@ -32,10 +32,7 @@ class PaymentStatusViewController: UIViewController {
     @IBOutlet weak var mChronometer: Chronometer!
     
     @IBOutlet weak var lbChargeTimeTitle: UILabel!
-    
-    @IBOutlet weak var ivChargerId: UIImageView!
-    @IBOutlet weak var lbChargeIdtitle: UILabel!
-    @IBOutlet weak var lbChargeId: UILabel!
+
     
     @IBOutlet weak var mUserControlBtn: UIButton!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
@@ -92,11 +89,7 @@ class PaymentStatusViewController: UIViewController {
     }
     
     func prepareView(){
-        self.ivChargerId.image = UIImage(named: "ic_id")?.withRenderingMode(.alwaysTemplate)
-        self.ivChargerId.tintColor = UIColor(rgb: 0x585858)
-        self.lbChargeIdtitle.textColor = UIColor(rgb: 0x585858)
-        self.lbChargeId.textColor = UIColor(rgb: 0x15435C)
-        
+
         self.ivChargeTime.image = UIImage(named: "ic_time")?.withRenderingMode(.alwaysTemplate)
         self.ivChargeTime.tintColor = UIColor(rgb: 0x585858)
         self.lbChargeTimeTitle.textColor = UIColor(rgb: 0x585858)
@@ -334,11 +327,6 @@ extension PaymentStatusViewController {
                 lbChargePower.text = chargePower
 
             }
-            
-            if let cpid = mChargingStatus.cpId{
-                lbChargeId.text = cpid
-            }
-            
             
         }
     }
