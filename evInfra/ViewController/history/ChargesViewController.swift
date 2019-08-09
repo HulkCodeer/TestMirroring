@@ -159,9 +159,9 @@ extension ChargesViewController {
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        
-        let sDate = formatter.string(from: startDate)
-        let eDate = formatter.string(from: endDate)
+
+        let sDate = formatter.string(from: startDate) + " 00:00:00"
+        let eDate = formatter.string(from: endDate) + " 23:59:59"
         
         Server.getCharges (isAllDate: isAllDate, sDate: sDate, eDate: eDate) { (isSuccess, responseData) in
             if isSuccess {
