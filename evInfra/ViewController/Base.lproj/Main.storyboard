@@ -5733,17 +5733,8 @@
                                     <constraint firstAttribute="trailing" secondItem="3c0-jt-d4I" secondAttribute="trailing" id="y1l-n5-ID3"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xSq-oc-gfC">
-                                <rect key="frame" x="86" y="242.5" width="257" height="27"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="27" id="VvJ-7X-VA6"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.08050934225320816" green="0.26134324073791504" blue="0.36089140176773071" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pAd-B7-N1u">
-                                <rect key="frame" x="70" y="277.5" width="305" height="389.5"/>
+                                <rect key="frame" x="70" y="226.5" width="305" height="440.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="sideMenuCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="sideMenuCell" rowHeight="40" id="ry1-Fu-USa" customClass="SideMenuTableViewCell" customModule="evInfra" customModuleProvider="target">
@@ -5783,6 +5774,9 @@
                                                 <constraint firstItem="3JV-mo-acs" firstAttribute="centerY" secondItem="QOn-oJ-4pb" secondAttribute="centerY" id="w5a-1y-zjk"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" header="YES"/>
+                                        </accessibility>
                                         <connections>
                                             <outlet property="menuContent" destination="3JV-mo-acs" id="jya-or-Oqb"/>
                                             <outlet property="menuLabel" destination="QOn-oJ-4pb" id="tcP-NF-1Ks"/>
@@ -5794,19 +5788,16 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="pAd-B7-N1u" secondAttribute="bottom" id="9ax-kE-Fzl"/>
+                            <constraint firstItem="pAd-B7-N1u" firstAttribute="leading" secondItem="lfh-Bp-avO" secondAttribute="trailing" id="9g3-gO-fBf"/>
                             <constraint firstItem="9Zx-sG-8p7" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="9nV-Ds-atv"/>
-                            <constraint firstItem="pAd-B7-N1u" firstAttribute="leading" secondItem="lfh-Bp-avO" secondAttribute="trailing" id="CZl-sr-DDs"/>
-                            <constraint firstItem="xSq-oc-gfC" firstAttribute="top" secondItem="9Zx-sG-8p7" secondAttribute="bottom" constant="16" id="D3x-4E-WR3"/>
-                            <constraint firstItem="Nc7-LJ-M9R" firstAttribute="trailing" secondItem="pAd-B7-N1u" secondAttribute="trailing" id="IOD-15-zKM"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="xSq-oc-gfC" secondAttribute="trailing" constant="16" id="IoL-nu-BRa"/>
+                            <constraint firstItem="pAd-B7-N1u" firstAttribute="trailing" secondItem="Nc7-LJ-M9R" secondAttribute="trailing" id="Bxp-k5-bqq"/>
                             <constraint firstAttribute="bottom" secondItem="lfh-Bp-avO" secondAttribute="bottom" id="O0i-Ia-0iB"/>
-                            <constraint firstItem="xSq-oc-gfC" firstAttribute="leading" secondItem="lfh-Bp-avO" secondAttribute="trailing" constant="16" id="OSB-DY-1an"/>
                             <constraint firstItem="lfh-Bp-avO" firstAttribute="leading" secondItem="Nc7-LJ-M9R" secondAttribute="leading" id="XwO-pP-qRd"/>
+                            <constraint firstItem="pAd-B7-N1u" firstAttribute="top" secondItem="9Zx-sG-8p7" secondAttribute="bottom" id="e0Q-8D-hyb"/>
                             <constraint firstItem="lfh-Bp-avO" firstAttribute="top" secondItem="9Zx-sG-8p7" secondAttribute="bottom" id="eiF-zp-sCk"/>
                             <constraint firstItem="Nc7-LJ-M9R" firstAttribute="trailing" secondItem="9Zx-sG-8p7" secondAttribute="trailing" id="fR5-Ms-tD6"/>
-                            <constraint firstItem="pAd-B7-N1u" firstAttribute="top" secondItem="xSq-oc-gfC" secondAttribute="bottom" constant="8" id="ohh-nL-LaG"/>
                             <constraint firstItem="9Zx-sG-8p7" firstAttribute="leading" secondItem="Nc7-LJ-M9R" secondAttribute="leading" id="xTi-eJ-Vty"/>
+                            <constraint firstItem="pAd-B7-N1u" firstAttribute="bottom" secondItem="Nc7-LJ-M9R" secondAttribute="bottom" id="z33-rd-B2Q"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Nc7-LJ-M9R"/>
                     </view>
@@ -5819,7 +5810,6 @@
                         <outlet property="settingsBtn" destination="3c0-jt-d4I" id="vSx-ob-zwC"/>
                         <outlet property="sideMenuTab" destination="lfh-Bp-avO" id="v0o-uK-MAd"/>
                         <outlet property="sideTableView" destination="pAd-B7-N1u" id="dBk-MI-3yV"/>
-                        <outlet property="titleLabel" destination="xSq-oc-gfC" id="Wkb-Yj-F3m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

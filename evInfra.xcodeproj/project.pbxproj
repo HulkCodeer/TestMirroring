@@ -32,6 +32,8 @@
 		733662CE22EFF2A40049AEFE /* NavigationDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662CD22EFF2A40049AEFE /* NavigationDrawerController.swift */; };
 		733662D022F974820049AEFE /* Coupon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662CF22F974820049AEFE /* Coupon.swift */; };
 		733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662D122FAB6720049AEFE /* MyCouponContentsViewController.swift */; };
+		733662F822FD11740049AEFE /* LeftViewTableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662F722FD11740049AEFE /* LeftViewTableHeader.swift */; };
+		733662FA22FD11860049AEFE /* LeftViewTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 733662F922FD11860049AEFE /* LeftViewTableHeader.xib */; };
 		7339908022D881D100CF72A8 /* PaymentResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */; };
 		7339908122D881D100CF72A8 /* PaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7339907F22D881D000CF72A8 /* PaymentStatusViewController.swift */; };
 		73450EFA2071EB01008516E9 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73450EF92071EB01008516E9 /* EditViewController.swift */; };
@@ -265,6 +267,8 @@
 		733662CD22EFF2A40049AEFE /* NavigationDrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationDrawerController.swift; sourceTree = "<group>"; };
 		733662CF22F974820049AEFE /* Coupon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coupon.swift; sourceTree = "<group>"; };
 		733662D122FAB6720049AEFE /* MyCouponContentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCouponContentsViewController.swift; sourceTree = "<group>"; };
+		733662F722FD11740049AEFE /* LeftViewTableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftViewTableHeader.swift; sourceTree = "<group>"; };
+		733662F922FD11860049AEFE /* LeftViewTableHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LeftViewTableHeader.xib; sourceTree = "<group>"; };
 		7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentResultViewController.swift; sourceTree = "<group>"; };
 		7339907F22D881D000CF72A8 /* PaymentStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentStatusViewController.swift; sourceTree = "<group>"; };
 		73450EF92071EB01008516E9 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
@@ -752,6 +756,8 @@
 				CE13858E217869B200E3F869 /* ReportChargerChildCell.xib */,
 				CEC43229223A5C9A00B76795 /* SearchTableView.swift */,
 				73B7527F2048E5B30077112A /* SideMenuTableViewCell.swift */,
+				733662F722FD11740049AEFE /* LeftViewTableHeader.swift */,
+				733662F922FD11860049AEFE /* LeftViewTableHeader.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1037,6 +1043,7 @@
 				73A7B3E7204E3595002E975F /* expand_normal.png in Resources */,
 				7357595320916C11008181E9 /* InfoCollectionViewCell.xib in Resources */,
 				73A7B3F6204E3595002E975F /* delete_pressed.png in Resources */,
+				733662FA22FD11860049AEFE /* LeftViewTableHeader.xib in Resources */,
 				DB3799FA2167575A001D8F69 /* ChargerTableViewCell.xib in Resources */,
 				73A7B41A204E3595002E975F /* type_dc_combo.png in Resources */,
 				73EF8B79203C85CC00D04494 /* TrackingDotHalo.png in Resources */,
@@ -1295,6 +1302,7 @@
 				CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */,
 				DB0E4693205B6F1F002DD05D /* CidTableView.swift in Sources */,
 				DB3B858020874788005454F5 /* PoiTableView.swift in Sources */,
+				733662F822FD11740049AEFE /* LeftViewTableHeader.swift in Sources */,
 				CE5242362182FD9000FF6AB1 /* AddressToLocationController.swift in Sources */,
 				DB87607520690B370095394B /* BoardTableViewHeader.swift in Sources */,
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,

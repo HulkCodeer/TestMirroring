@@ -17,47 +17,69 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     // main menu
     let MENU_MY_PAGE       = 0
     let MENU_BOARD         = 1
-    let MENU_BOARD_COMPANY = 2
+    let MENU_EVENT = 2
     let MENU_EVINFO        = 3
     let MENU_SETTINGS      = 4
     
     // sub menu - 마이페이지
-    let SUB_MENU_MY_PAGE             = 0
-    let SUB_MENU_MY_PAYMENT_INFO     = 1
+    let SUB_MENU_CELL_MYPAGE = 0
+    let SUB_MENU_CELL_PAY = 1
+    // 마이페이지
+    let SUB_MENU_MY_PERSONAL_INFO             = 0
+    let SUB_MENU_MY_WRITING          = 1
+    let SUB_MENU_REPORT_STATION      = 2
+    // PAY
+    let SUB_MENU_MY_PAYMENT_INFO     = 0
+    let SUB_MENU_MY_EVCARD_INFO      = 1
     let SUB_MENU_MY_CHARGING_HISTORY = 2
-    let SUB_MENU_MY_WRITING          = 3
-    let SUB_MENU_MY_COUPON           = 4
-    let SUB_MENU_REPORT_STATION      = 5
+    let SUB_MENU_MY_POINT           = 3
+    
     
     // sub menu - 게시판
+    let SUB_MENU_CELL_BOARD = 0
+    let SUB_MENU_CELL_COMPANY_BOARD = 1
+    // 게시판
     public static let SUB_MENU_NOTICE        = 0 // 공지사항
     public static let SUB_MENU_FREE_BOARD    = 1 // 자유게시판
     public static let SUB_MENU_CHARGER_BOARD = 2 // 충전소게시판
-    public static let SUB_MENU_EVENT         = 3 // 이벤트
-    public static let SUB_MENU_BOARD_COUNT   = 4 // 게시판 갯수
-    
-    // sub menu - 사업자 게시판
+    public static let SUB_MENU_BOARD_COUNT   = 3 // 게시판 갯수
+    // 사업자 게시판
     let SUB_MENU_GS_CALTEX = 0 // GS 칼텍스
     let SUB_MENU_JEVS = 1 // 제주전기자동차서비스
+    
+    
+    
+    
+    // sub menu - 이벤트
+    let SUB_MENU_CELL_EVENT = 0
+    public static let SUB_MENU_EVENT         = 0 // 이벤트
+    let SUB_MENU_MY_COUPON           = 1 // 내 쿠폰함
+    // sub menu - 사업자 게시판
+    
 
     // sub menu - 전기차정보
+    let SUB_MENU_CELL_EV_INFO = 0
+    
     let SUB_MENU_EVINFO       = 0
     let SUB_MENU_CHARGER_INFO = 1
     let SUB_MENU_BOJO         = 2
     let SUB_MENU_BONUS        = 3
     
     // sub menu - 설정
+    let SUB_MENU_CELL_SETTINGS = 0
+    
     let SUB_MENU_ALL_SETTINGS  = 0
     let SUB_MENU_SERVICE_GUIDE = 1
     let SUB_MENU_HELP          = 2
     let SUB_MENU_VERSION       = 3
     
-    var sideTitleArrays = ["마이페이지", "게시판", "사업자 게시판", "전기차정보", "설정", "이용안내"]
-    var sideMenuArrays = [["개인정보관리", "결제정보관리", "충전이력조회", "내가 쓴 글 보기", "내 쿠폰함", "충전소 제보 내역"],
-                          ["공지사항", "자유 게시판", "충전소 게시판", "이벤트"],
-                          ["GS칼텍스 게시판", "제주전기자동차서비스"],
-                          ["전기차 정보", "충전기 정보", "보조금 안내", "보조금 현황"],
-                          ["전체 설정", "이용 안내", "도움말", "버전 정보"]]
+    var sideSectionArrays = [["마이페이지", "PAY"], ["게시판", "사업자 게시판"], ["이벤트/쿠폰"], ["전기차 정보"], ["설정"]]
+    var sideMenuArrays = [[["개인정보관리", "내가쓴글 보기", "충전소 제보내역"],
+                           ["결제정보관리", "회원카드 관리", "충전이력조회", "포인트 조회"]],
+                          [["EV Infra 공지", "자유 게시판", "충전소 게시판"],["GS 칼텍스", "제주전기자동차서비스"]],
+                          [["이벤트","내 쿠폰함"]],
+                          [["전기차 정보", "충전기 정보", "보조금 안내", "보조금 현황"]],
+                          [["전체 설정", "이용 안내", "도움말", "버전 정보"]]]
     
     @IBOutlet weak var btnLogin: UIButton!
     @IBOutlet weak var sideMenuTab: UIView!
@@ -66,7 +88,6 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var boardCompanyBtn: UIButton!
     @IBOutlet weak var infoBtn: UIButton!
     @IBOutlet weak var settingsBtn: UIButton!
-    @IBOutlet weak var titleLabel: UILabel!
     
     var menuIndex = 0
     var boardNew = Array<Bool>()
@@ -85,7 +106,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func clickBoardCompany(_ sender: Any) {
-        tableViewLoad(index: MENU_BOARD_COMPANY)
+        tableViewLoad(index: MENU_EVENT)
     }
     
     @IBAction func clickInfo(_ sender: Any) {
@@ -102,6 +123,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         sideTableView.delegate = self
         sideTableView.dataSource = self
+        sideTableView.autoresizingMask = UIViewAutoresizing.flexibleHeight
         sideTableView.separatorStyle = UITableViewCellSeparatorStyle.none
         
         tableViewLoad(index: menuIndex);
@@ -131,13 +153,31 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
  
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sideSectionArrays[menuIndex].count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sideMenuArrays[menuIndex].count
+        return sideMenuArrays[menuIndex][section].count
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = Bundle.main.loadNibNamed("LeftViewTableHeader", owner: self, options: nil)?.first as! LeftViewTableHeader
+        let headerValue = sideSectionArrays[menuIndex][section]
+        headerView.cellTitle.text = headerValue
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        tableView.estimatedSectionHeaderHeight = 25;
+        
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = sideTableView.dequeueReusableCell(withIdentifier: "sideMenuCell", for: indexPath) as! SideMenuTableViewCell
-        cell.menuLabel.text = sideMenuArrays[menuIndex][indexPath.row]
+        cell.menuLabel.text = sideMenuArrays[menuIndex][indexPath.section][indexPath.row]
         
         // 게시판 새글 표시
         if menuIndex == MENU_BOARD {
@@ -164,21 +204,21 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.deselectRow(at: indexPath, animated: false)
 
         if menuIndex == MENU_MY_PAGE { // 마이페이지
-            selectedMyPageMenu(index: indexPath.row)
+            selectedMyPageMenu(index: indexPath)
         } else if menuIndex == MENU_BOARD { // 게시판
-            selectedBoardMenu(index: indexPath.row)
-        } else if menuIndex == MENU_BOARD_COMPANY { // 사업자 게시판
-            selectedBoardCompanyMenu(index: indexPath.row)
+            selectedBoardMenu(index: indexPath)
+        } else if menuIndex == MENU_EVENT { // 이벤트 게시판
+            selectedEvnetCouponMenu(index: indexPath)
         } else if menuIndex == MENU_EVINFO { // 전기차 정보
-            selectedEvInfoMenu(index: indexPath.row)
+            selectedEvInfoMenu(index: indexPath)
         } else if menuIndex == MENU_SETTINGS { // 전체 설정
-            selectedSettingsMenu(index: indexPath.row)
+            selectedSettingsMenu(index: indexPath)
         }
+        
     }
     
     func tableViewLoad(index: Int) {
         menuIndex = index
-        titleLabel.text = sideTitleArrays[menuIndex]
         myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
         boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
         boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
@@ -190,7 +230,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
                 myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
             case MENU_BOARD:
                 boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-            case MENU_BOARD_COMPANY:
+            case MENU_EVENT:
                 boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
             case MENU_EVINFO:
                 infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
@@ -205,140 +245,178 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
 
 extension LeftViewController {
 
-    private func selectedMyPageMenu(index: Int) {
+    private func selectedMyPageMenu(index: IndexPath) {
         if MemberManager().isLogin() {
-            switch index {
-            case SUB_MENU_MY_PAGE: // 개인정보관리
-                let mypageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as! MyPageViewController
-                self.navigationController?.push(viewController: mypageVC)
-
-            case SUB_MENU_MY_PAYMENT_INFO:
-                let myPayInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPayinfoViewController") as! MyPayinfoViewController
-                self.navigationController?.push(viewController: myPayInfoVC)
-
-            case SUB_MENU_MY_CHARGING_HISTORY: // 충전이력조회
-                let chargesVC = self.storyboard?.instantiateViewController(withIdentifier: "ChargesViewController") as! ChargesViewController
-                self.navigationController?.push(viewController: chargesVC)
-
-            case SUB_MENU_MY_WRITING: // 내가 쓴 글 보기
-                var myWritingControllers = [MyWritingViewController]()
-                let freeMineVC = self.storyboard?.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
-                freeMineVC.boardCategory = BoardData.BOARD_CATEGORY_FREE
-                let chargerMineVC = self.storyboard?.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
-                chargerMineVC.boardCategory = BoardData.BOARD_CATEGORY_CHARGER
-                
-                myWritingControllers.append(chargerMineVC)
-                myWritingControllers.append(freeMineVC)
-                
-                let tabsController = AppTabsController(viewControllers: myWritingControllers)
-                tabsController.actionTitle = "내가 쓴 글 보기"
-                for controller in myWritingControllers {
-                    tabsController.appTabsControllerDelegates.append(controller)
-                }
-                self.navigationController?.push(viewController: tabsController)
-                
-            case SUB_MENU_MY_COUPON: // 내 쿠폰함
-                let coponVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCouponViewController") as! MyCouponViewController
-                self.navigationController?.push(viewController: coponVC)
-                
-            case SUB_MENU_REPORT_STATION: // 충전소 제보 내역
-                let reportVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportBoardViewController") as! ReportBoardViewController
-                self.navigationController?.push(viewController: reportVC)
-                
-            default:
-                print("out of index")
+            switch index.section {
+                case SUB_MENU_CELL_MYPAGE:
+                    switch index.row {
+                        case SUB_MENU_MY_PERSONAL_INFO: // 개인정보관리
+                            let mypageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as! MyPageViewController
+                            self.navigationController?.push(viewController: mypageVC)
+                        
+                        case SUB_MENU_MY_WRITING: // 내가 쓴 글 보기
+                            var myWritingControllers = [MyWritingViewController]()
+                            let freeMineVC = self.storyboard?.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
+                            freeMineVC.boardCategory = BoardData.BOARD_CATEGORY_FREE
+                            let chargerMineVC = self.storyboard?.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
+                            chargerMineVC.boardCategory = BoardData.BOARD_CATEGORY_CHARGER
+                            
+                            myWritingControllers.append(chargerMineVC)
+                            myWritingControllers.append(freeMineVC)
+                            
+                            let tabsController = AppTabsController(viewControllers: myWritingControllers)
+                            tabsController.actionTitle = "내가 쓴 글 보기"
+                            for controller in myWritingControllers {
+                                tabsController.appTabsControllerDelegates.append(controller)
+                            }
+                            self.navigationController?.push(viewController: tabsController)
+                        
+                        case SUB_MENU_REPORT_STATION: // 충전소 제보 내역
+                            let reportVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportBoardViewController") as! ReportBoardViewController
+                            self.navigationController?.push(viewController: reportVC)
+                        default:
+                            print("out of index")
+                        
+                    }
+                case SUB_MENU_CELL_PAY:
+                    switch index.row {
+                        case SUB_MENU_MY_PAYMENT_INFO:
+                            let myPayInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPayinfoViewController") as! MyPayinfoViewController
+                            self.navigationController?.push(viewController: myPayInfoVC)
+                    
+                        case SUB_MENU_MY_EVCARD_INFO: // 회원카드 관리
+                            break
+                        case SUB_MENU_MY_CHARGING_HISTORY: // 충전이력조회
+                            let chargesVC = self.storyboard?.instantiateViewController(withIdentifier: "ChargesViewController") as! ChargesViewController
+                            self.navigationController?.push(viewController: chargesVC)
+                        case SUB_MENU_MY_POINT: // 포인트 조회
+                            break
+                        default:
+                            print("out of index")
+                        
+                    }
+                default:
+                    print("out of index")
             }
         } else {
             MemberManager().showLoginAlert(vc: self)
         }
     }
     
-    private func selectedBoardMenu(index: Int) {
-        switch index {
-        case LeftViewController.SUB_MENU_NOTICE: // 공지사항
-            let noticeVC = self.storyboard?.instantiateViewController(withIdentifier: "NoticeViewController") as! NoticeViewController
-            self.navigationController?.push(viewController: noticeVC)
-            
-        case LeftViewController.SUB_MENU_FREE_BOARD: // 자유 게시판
-            let freeBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
-            freeBoardVC.category = BoardData.BOARD_CATEGORY_FREE
-            self.navigationController?.push(viewController: freeBoardVC)
-            
-        case LeftViewController.SUB_MENU_CHARGER_BOARD: // 충전소 게시판
-            let stationBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
-            stationBoardVC.category = BoardData.BOARD_CATEGORY_CHARGER
-            self.navigationController?.push(viewController: stationBoardVC)
-            
-        case LeftViewController.SUB_MENU_EVENT: // 이벤트
-            let eventBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "EventViewController") as! EventViewController
-            self.navigationController?.push(viewController: eventBoardVC)
-            
-        default:
-            print("out of index")
-        }
-    }
-    
-    private func selectedBoardCompanyMenu(index: Int) {
-        let companyBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
-        companyBoardVC.category = BoardData.BOARD_CATEGORY_COMPANY
-        
-        switch index {
-        case SUB_MENU_GS_CALTEX:
-            companyBoardVC.companyId = CompanyInfo.COMPANY_ID_GSC
-            
-        case SUB_MENU_JEVS:
-            companyBoardVC.companyId = CompanyInfo.COMPANY_ID_JEVS
-            
-        default:
+    private func selectedBoardMenu(index: IndexPath) {
+        switch index.section {
+        case SUB_MENU_CELL_BOARD:
+            switch index.row {
+                case LeftViewController.SUB_MENU_NOTICE: // 공지사항
+                    let noticeVC = self.storyboard?.instantiateViewController(withIdentifier: "NoticeViewController") as! NoticeViewController
+                    self.navigationController?.push(viewController: noticeVC)
+                
+                case LeftViewController.SUB_MENU_FREE_BOARD: // 자유 게시판
+                    let freeBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
+                    freeBoardVC.category = BoardData.BOARD_CATEGORY_FREE
+                    self.navigationController?.push(viewController: freeBoardVC)
+                
+                case LeftViewController.SUB_MENU_CHARGER_BOARD: // 충전소 게시판
+                    let stationBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
+                    stationBoardVC.category = BoardData.BOARD_CATEGORY_CHARGER
+                    self.navigationController?.push(viewController: stationBoardVC)
+                default:
+                    print("out of index")
+            }
+        case SUB_MENU_CELL_COMPANY_BOARD:
+            let companyBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
+            companyBoardVC.category = BoardData.BOARD_CATEGORY_COMPANY
+            switch index.row {
+                case SUB_MENU_GS_CALTEX:
+                    companyBoardVC.companyId = CompanyInfo.COMPANY_ID_GSC
+                    self.navigationController?.push(viewController: companyBoardVC)
+                case SUB_MENU_JEVS:
+                    companyBoardVC.companyId = CompanyInfo.COMPANY_ID_JEVS
+                    self.navigationController?.push(viewController: companyBoardVC)
+                default:
+                    print("out of index")
+            }
+            default:
             print("out of index")
         }
         
-        self.navigationController?.push(viewController: companyBoardVC)
+            
+        
     }
     
-    private func selectedEvInfoMenu(index: Int) {
-        switch index {
-        case SUB_MENU_EVINFO: // 전기차 정보
-            let evInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "EVInfoViewController") as! EVInfoViewController
-            self.navigationController?.push(viewController: evInfoVC)
-            
-        case SUB_MENU_CHARGER_INFO: // 충전기 정보
-            let chargerInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "ChargerInfoViewController") as! ChargerInfoViewController
-            // ChargerInfoViewController 자체 animation 사용
-            self.navigationController?.pushViewController(chargerInfoVC, animated: true)
-            
-        case SUB_MENU_BOJO: // 보조금 안내
-            let bojoInfoVC: TermsViewController = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-            bojoInfoVC.tabIndex = .EvBonusGuide
-            self.navigationController?.push(viewController: bojoInfoVC)
-            
-        case SUB_MENU_BONUS: // 보조금 현황
-            let bojoDashVC: TermsViewController = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-            bojoDashVC.tabIndex = .EvBonusStatus
-            self.navigationController?.push(viewController: bojoDashVC)
-            
-        default:
+    private func selectedEvnetCouponMenu(index: IndexPath) {
+        switch index.section {
+            case SUB_MENU_CELL_EVENT :
+                switch index.row{
+                    case LeftViewController.SUB_MENU_EVENT: // 이벤트
+                    let eventBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "EventViewController") as! EventViewController
+                    self.navigationController?.push(viewController: eventBoardVC)
+                    case SUB_MENU_MY_COUPON: // 내 쿠폰함
+                    let coponVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCouponViewController") as! MyCouponViewController
+                    self.navigationController?.push(viewController: coponVC)
+                    default:
+                    print("out of index")
+                }
+            default:
             print("out of index")
+        }
+        
+    }
+    
+    private func selectedEvInfoMenu(index: IndexPath) {
+        switch index.section {
+            case SUB_MENU_CELL_EV_INFO:
+                switch index.row{
+                    case SUB_MENU_EVINFO: // 전기차 정보
+                        let evInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "EVInfoViewController") as! EVInfoViewController
+                        self.navigationController?.push(viewController: evInfoVC)
+                    
+                    case SUB_MENU_CHARGER_INFO: // 충전기 정보
+                        let chargerInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "ChargerInfoViewController") as! ChargerInfoViewController
+                        // ChargerInfoViewController 자체 animation 사용
+                        self.navigationController?.pushViewController(chargerInfoVC, animated: true)
+                    
+                    case SUB_MENU_BOJO: // 보조금 안내
+                        let bojoInfoVC: TermsViewController = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                        bojoInfoVC.tabIndex = .EvBonusGuide
+                        self.navigationController?.push(viewController: bojoInfoVC)
+                    
+                    case SUB_MENU_BONUS: // 보조금 현황
+                        let bojoDashVC: TermsViewController = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                        bojoDashVC.tabIndex = .EvBonusStatus
+                        self.navigationController?.push(viewController: bojoDashVC)
+                    default:
+                        print("out of index")
+                }
+            
+            default:
+                print("out of index")
         }
     }
     
-    private func selectedSettingsMenu(index: Int) {
-        switch index {
-        case SUB_MENU_ALL_SETTINGS: // 전체 설정
-            let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
-            self.navigationController?.push(viewController: settingsVC)
+    private func selectedSettingsMenu(index: IndexPath) {
+        switch index.section {
+            case SUB_MENU_CELL_SETTINGS:
+                switch index.row{
+                    case SUB_MENU_ALL_SETTINGS: // 전체 설정
+                        let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+                        self.navigationController?.push(viewController: settingsVC)
+                    
+                    case SUB_MENU_SERVICE_GUIDE:
+                        let guideVC = self.storyboard?.instantiateViewController(withIdentifier: "ServiceGuideViewController") as! ServiceGuideViewController
+                        self.navigationController?.push(viewController: guideVC)
+                    
+                    case SUB_MENU_HELP:
+                        let termsViewControll = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                        termsViewControll.tabIndex = .Help
+                        self.navigationController?.push(viewController: termsViewControll)
+                    default:
+                        print("out of index")
+                }
+            
 
-        case SUB_MENU_SERVICE_GUIDE:
-            let guideVC = self.storyboard?.instantiateViewController(withIdentifier: "ServiceGuideViewController") as! ServiceGuideViewController
-            self.navigationController?.push(viewController: guideVC)
-
-        case SUB_MENU_HELP:
-            let termsViewControll = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-            termsViewControll.tabIndex = .Help
-            self.navigationController?.push(viewController: termsViewControll)
-
-        default:
-            print("out of index")
+            default:
+                print("out of index")
         }
     }
     
