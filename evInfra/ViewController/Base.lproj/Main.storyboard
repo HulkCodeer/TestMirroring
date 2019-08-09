@@ -4924,17 +4924,14 @@
                                     <constraint firstItem="GEe-zV-IYl" firstAttribute="width" secondItem="QNn-Vq-115" secondAttribute="width" id="sO2-sB-Idp"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQ4-sl-Vfd">
-                                <rect key="frame" x="16" y="526" width="343" height="61"/>
-                                <string key="text">충전 내역은 충전기 정보를 가져오는데 약간의 
-시간차가 있어 실제 정보와 오차가 있는것처럼 
-보일수 있습니다.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전 내역은 충전기 정보를 가져오는데 약간의 시간차가 있어 실제 정보와 오차가 있는 것처럼 보일 수 있습니다." lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQ4-sl-Vfd">
+                                <rect key="frame" x="16" y="551" width="343" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJZ-wE-oBV">
-                                <rect key="frame" x="16" y="627" width="343" height="32"/>
+                                <rect key="frame" x="16" y="619" width="343" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="3D7-7C-N0M"/>
                                 </constraints>
@@ -4957,7 +4954,7 @@
                         <constraints>
                             <constraint firstItem="2Va-no-exv" firstAttribute="trailing" secondItem="xT9-U2-GQU" secondAttribute="trailing" constant="8" id="1Q4-vB-9xX"/>
                             <constraint firstItem="2Va-no-exv" firstAttribute="trailing" secondItem="aJZ-wE-oBV" secondAttribute="trailing" constant="16" id="1ec-gO-jsY"/>
-                            <constraint firstItem="2Va-no-exv" firstAttribute="bottom" secondItem="aJZ-wE-oBV" secondAttribute="bottom" constant="8" id="5UU-cH-P7C"/>
+                            <constraint firstItem="2Va-no-exv" firstAttribute="bottom" secondItem="aJZ-wE-oBV" secondAttribute="bottom" constant="16" id="5UU-cH-P7C"/>
                             <constraint firstItem="2Va-no-exv" firstAttribute="trailing" secondItem="s4l-0W-7lg" secondAttribute="trailing" constant="16" id="6p6-pq-VFI"/>
                             <constraint firstItem="2Va-no-exv" firstAttribute="trailing" secondItem="kQ4-sl-Vfd" secondAttribute="trailing" constant="16" id="7c2-Es-fGc"/>
                             <constraint firstItem="fZH-QU-XtB" firstAttribute="centerY" secondItem="qTO-yi-6HR" secondAttribute="centerY" id="Elp-Gf-DsO"/>
@@ -4967,7 +4964,7 @@
                             <constraint firstItem="xT9-U2-GQU" firstAttribute="top" secondItem="s4l-0W-7lg" secondAttribute="bottom" constant="32" id="ef1-mS-vPc"/>
                             <constraint firstItem="kQ4-sl-Vfd" firstAttribute="leading" secondItem="2Va-no-exv" secondAttribute="leading" constant="16" id="lhX-dL-inM"/>
                             <constraint firstItem="fZH-QU-XtB" firstAttribute="centerX" secondItem="qTO-yi-6HR" secondAttribute="centerX" id="rIa-zT-1zw"/>
-                            <constraint firstItem="aJZ-wE-oBV" firstAttribute="top" secondItem="kQ4-sl-Vfd" secondAttribute="bottom" constant="40" id="sEG-JD-Q9f"/>
+                            <constraint firstItem="aJZ-wE-oBV" firstAttribute="top" secondItem="kQ4-sl-Vfd" secondAttribute="bottom" constant="32" id="sEG-JD-Q9f"/>
                             <constraint firstItem="s4l-0W-7lg" firstAttribute="top" secondItem="2Va-no-exv" secondAttribute="top" constant="32" id="ugD-Po-jw5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2Va-no-exv"/>
@@ -5004,7 +5001,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yza-c6-RaX">
-                                <rect key="frame" x="0.0" y="56.5" width="375" height="553.5"/>
+                                <rect key="frame" x="0.0" y="56.5" width="375" height="545.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="537" translatesAutoresizingMaskIntoConstraints="NO" id="6Q6-Ly-ViF">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="561.5"/>
@@ -5419,7 +5416,7 @@
                                 </constraints>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tqQ-Ge-Gch">
-                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <rect key="frame" x="16" y="618" width="343" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="확인"/>
                                 <connections>
@@ -5436,7 +5433,7 @@
                             <constraint firstItem="yza-c6-RaX" firstAttribute="trailing" secondItem="CvO-CJ-RKO" secondAttribute="trailing" id="5lF-Op-btr"/>
                             <constraint firstItem="CvO-CJ-RKO" firstAttribute="trailing" secondItem="tqQ-Ge-Gch" secondAttribute="trailing" constant="16" id="7bE-8o-Fd1"/>
                             <constraint firstItem="yza-c6-RaX" firstAttribute="top" secondItem="SB6-wP-bMb" secondAttribute="bottom" id="7z8-0S-fRg"/>
-                            <constraint firstItem="CvO-CJ-RKO" firstAttribute="bottom" secondItem="tqQ-Ge-Gch" secondAttribute="bottom" constant="8" id="JEr-0a-LN5"/>
+                            <constraint firstItem="CvO-CJ-RKO" firstAttribute="bottom" secondItem="tqQ-Ge-Gch" secondAttribute="bottom" constant="16" id="JEr-0a-LN5"/>
                             <constraint firstItem="CvO-CJ-RKO" firstAttribute="trailing" secondItem="SB6-wP-bMb" secondAttribute="trailing" constant="16" id="RRj-Id-t8k"/>
                             <constraint firstItem="8Ee-mk-PgR" firstAttribute="centerY" secondItem="ILg-gC-HmL" secondAttribute="centerY" id="SW0-Dr-pmj"/>
                             <constraint firstItem="SB6-wP-bMb" firstAttribute="leading" secondItem="CvO-CJ-RKO" secondAttribute="leading" constant="16" id="eeJ-pF-6JD"/>
