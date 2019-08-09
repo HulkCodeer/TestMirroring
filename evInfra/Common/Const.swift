@@ -26,12 +26,12 @@ public class Const {
 
     // S3 File Server
     public static let S3_EV_INFRA = "https://s3.ap-northeast-2.amazonaws.com/ev-infra"
+    public static let urlCompanyImage = S3_EV_INFRA + "/company_icon/"
     public static let urlProfileImage = S3_EV_INFRA + "/thumbnail/"
     public static let urlModelImage = S3_EV_INFRA + "/models/"
     public static let urlBoardImage = S3_EV_INFRA + "/board/"
-    public static let urlCompanyImage = S3_EV_INFRA + "/company_icon/"
-    public static let urlSatellite = S3_EV_INFRA + "/images/"
     public static let urlShareImage = S3_EV_INFRA + "/share/shareimage.jpg"
+    public static let urlSatellite = S3_EV_INFRA + "/images/"
 
     // KEY
     public static let TMAP_APP_KEY = "7fcc4bac-2c24-41ed-b479-25e6b6c04a7f"
