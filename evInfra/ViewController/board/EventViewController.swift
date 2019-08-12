@@ -213,7 +213,7 @@ extension EventViewController {
             } else {
                 self.updateTableView()
                 self.indicatorControll(isStart: false)
-                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 이벤트 페이지 종료후 재시도 바랍니다.")
+                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 이벤트 페이지 종료 후 재시도 바랍니다.")
             }
         }
     }
