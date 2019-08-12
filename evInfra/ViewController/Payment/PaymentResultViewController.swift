@@ -22,7 +22,6 @@ class PaymentResultViewController: UIViewController {
     @IBOutlet weak var ivPoint: UIImageView!
     @IBOutlet weak var ivSavePoint: UIImageView!
     
-    
     @IBOutlet weak var lbStation: UILabel!
     @IBOutlet weak var lbChargerId: UILabel!
     @IBOutlet weak var lbAmount: UILabel!
@@ -37,6 +36,7 @@ class PaymentResultViewController: UIViewController {
     @IBOutlet weak var lbPaymentResultMsg: UILabel!
     
     @IBOutlet weak var indicator: UIActivityIndicatorView!
+    
     let defaults = UserDefault()
     var chargingId = ""
     
@@ -46,23 +46,18 @@ class PaymentResultViewController: UIViewController {
         prepareView()
         showProgress()
         
-        if !chargingId.isEmpty{
-
-        } else {
+        if chargingId.isEmpty {
             chargingId = getChargingId()
         }
         Server.getChargingResult(chargingId: chargingId) { (isSuccess, value) in
             self.hideProgress()
             if isSuccess {
-                let json = JSON(value)
-                self.responseChargingStatus(response: json)
+                self.responseChargingStatus(response: JSON(value))
             } else {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 충전하기 페이지 종료후 재시도 바랍니다.")
             }
         }
-        
     }
-    
 
     /*
     // MARK: - Navigation
@@ -74,7 +69,7 @@ class PaymentResultViewController: UIViewController {
     }
     */
 
-    func prepareView(){
+    func prepareView() {
         self.ivStation.image = UIImage(named: "ic_menu_ev_station")?.withRenderingMode(.alwaysTemplate)
         self.ivStation.tintColor = UIColor(rgb: 0x585858)
         self.ivId.image = UIImage(named: "ic_id")?.withRenderingMode(.alwaysTemplate)
@@ -98,16 +93,13 @@ class PaymentResultViewController: UIViewController {
     @IBAction func onClickPaymentResultOk(_ sender: UIButton) {
         self.navigationController?.pop()
     }
-    
 }
 
-extension PaymentResultViewController{
+extension PaymentResultViewController {
+    
     func getChargingId() -> String {
         return defaults.readString(key: UserDefault.Key.CHARGING_ID)
     }
-    
-    
-    
     
     func responseChargingStatus(response: JSON) {
         if response.isEmpty {
@@ -117,14 +109,12 @@ extension PaymentResultViewController{
         let chargingStatus = getChargingStatusFromResponse(response: response)
         
         switch (chargingStatus.resultCode) {
-            case 1000:
-                updateView(chargingStatus: chargingStatus)
-            default: // error
-                Snackbar().show(message: chargingStatus.msg ?? "")
-                break
-            
+        case 1000:
+            updateView(chargingStatus: chargingStatus)
+        default: // error
+            Snackbar().show(message: chargingStatus.msg ?? "")
+            break
         }
-        
     }
     
     func getChargingStatusFromResponse(response: JSON) -> ChargingStatus {
@@ -138,10 +128,11 @@ extension PaymentResultViewController{
         chargingStatus.payAuthCode  = response["pay_code"].string ?? ""
         chargingStatus.payResultCode = response["pay_rcode"].string ?? ""
         chargingStatus.msg = response["msg"].stringValue
+        
         return chargingStatus
     }
     
-    func updateView(chargingStatus: ChargingStatus){
+    func updateView(chargingStatus: ChargingStatus) {
         self.lbStation.text = chargingStatus.stationName
         self.lbChargerId.text = chargingStatus.cpId
         self.lbAmount.text = "\(chargingStatus.payAmount?.currency() ?? "0") 원"
@@ -155,7 +146,7 @@ extension PaymentResultViewController{
             self.lbAuthMsg.text = "정상승인"
             self.lbSavePoint.text = chargingStatus.occPoint
             self.lbPoint.text = chargingStatus.totalPoint
-        }else{
+        } else {
             self.lbAuthStatus.text = "승인실패"
             self.lbPaymentResultMsg.text = "충전이 완료되었으나 결제를 실패하였습니다.\n커넥터를 분리하고 커버를 닫아주세요."
             self.lbPaymentFailMsg.visible()
@@ -166,7 +157,7 @@ extension PaymentResultViewController{
     }
 }
 
-extension PaymentResultViewController{
+extension PaymentResultViewController {
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
         backButton.tintColor = UIColor(rgb: 0x15435C)
@@ -184,8 +175,7 @@ extension PaymentResultViewController{
         self.navigationController?.pop()
     }
     
-    
-    func showProgress(){
+    func showProgress() {
         indicator.isHidden = false
         indicator.startAnimating()
     }

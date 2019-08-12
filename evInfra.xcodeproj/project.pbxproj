@@ -576,14 +576,14 @@
 		732121BB203AC023000E105C /* evInfra */ = {
 			isa = PBXGroup;
 			children = (
-				732B92C020EF45A70090E9FC /* ExLib */,
 				732B92A120EF1AB40090E9FC /* assets */,
+				732B92C020EF45A70090E9FC /* ExLib */,
+				736813A62043E98F0035FC66 /* Images */,
 				7312786220B7D81A00861B3E /* Common */,
-				73B75286204928550077112A /* Views */,
 				73B752812048EC8D0077112A /* model */,
 				DB306366221BD59500D1276E /* network */,
-				736813A62043E98F0035FC66 /* Images */,
 				73EF8B41203BC53200D04494 /* Utils */,
+				73B75286204928550077112A /* Views */,
 				73EF8B40203BC12F00D04494 /* ViewController */,
 				732121BC203AC023000E105C /* AppDelegate.swift */,
 				73EF8B7C203C880A00D04494 /* evInfra-Bridging-Header.h */,
@@ -679,9 +679,9 @@
 		739171E222C4A218007369F9 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
-				7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */,
-				7339907F22D881D000CF72A8 /* PaymentStatusViewController.swift */,
 				739171E022C4A209007369F9 /* PaymentQRScanViewController.swift */,
+				7339907F22D881D000CF72A8 /* PaymentStatusViewController.swift */,
+				7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
