@@ -765,10 +765,10 @@
 		73EF8B40203BC12F00D04494 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				739171E222C4A218007369F9 /* Payment */,
-				DB3799F621673E1E001D8F69 /* board */,
+				DB3799F621673E1E001D8F69 /* Board */,
 				DB5FA59422C20A5100F1508A /* history */,
 				DB3799F521673CEC001D8F69 /* member */,
+				739171E222C4A218007369F9 /* Payment */,
 				736813B3204513D50035FC66 /* Main.storyboard */,
 				73AD13C7203AC57A00ADD19A /* AppNavigationDrawerController.swift */,
 				73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */,
@@ -907,7 +907,7 @@
 			path = member;
 			sourceTree = "<group>";
 		};
-		DB3799F621673E1E001D8F69 /* board */ = {
+		DB3799F621673E1E001D8F69 /* Board */ = {
 			isa = PBXGroup;
 			children = (
 				73B752842049284B0077112A /* NoticeViewController.swift */,
@@ -922,7 +922,7 @@
 				CE33B4C02191BD9500B6C632 /* MyCouponViewController.swift */,
 				733662D122FAB6720049AEFE /* MyCouponContentsViewController.swift */,
 			);
-			path = board;
+			path = Board;
 			sourceTree = "<group>";
 		};
 		DB3B858120A42B91005454F5 /* Localization */ = {
