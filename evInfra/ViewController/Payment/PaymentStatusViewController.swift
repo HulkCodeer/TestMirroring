@@ -30,7 +30,8 @@ class PaymentStatusViewController: UIViewController {
     
     @IBOutlet weak var lbChargeTimeTitle: UILabel!
     
-    @IBOutlet weak var mUserControlBtn: UIButton!
+    @IBOutlet weak var btnStopCharging: UIButton!
+    
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     let appDelegate =  UIApplication.shared.delegate as! AppDelegate
@@ -125,8 +126,12 @@ class PaymentStatusViewController: UIViewController {
         self.navigationController?.pop()
     }
     
-    @IBAction func onClickUserControl(_ sender: UIButton) {
-        self.requestStopCharging()
+    @IBAction func onClickStopCharging(_ sender: Any) {
+        showProgress()
+        requestStopCharging()
+        btnStopCharging.isEnabled = false
+        btnStopCharging.setTitle("충전 중지 요청중입니다.", for: .disabled)
+        btnStopCharging.setTitleColor(UIColor(rgb: 0x15435C), for: .disabled)
     }
 }
 
@@ -293,7 +298,7 @@ extension PaymentStatusViewController {
         }
         if mChargingStatus.status == STATUS_READY {
             lbChargeComment.text = "충전 커넥터를 차량과 연결 후 \n잠시만 기다려 주세요"
-            mUserControlBtn.titleLabel?.text = "충전취소"
+            btnStopCharging.titleLabel?.text = "충전취소"
         } else {
             if chargingStartTime.isEmpty {
                 return
@@ -302,7 +307,7 @@ extension PaymentStatusViewController {
                 mChronometer.start()
                 
                 lbChargeComment.text = "충전이 진행중입니다"
-                mUserControlBtn.titleLabel?.text = "충전종료"
+                btnStopCharging.titleLabel?.text = "충전종료"
             }
             
             if let chargingRate = Double(mChargingStatus.chargingRate ?? "0") {

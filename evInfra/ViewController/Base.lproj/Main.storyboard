@@ -365,7 +365,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJq-gl-PDQ" userLabel="Renew Button">
-                                <rect key="frame" x="327" y="122" width="40" height="40"/>
+                                <rect key="frame" x="351" y="122" width="16" height="22"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="ic_renew">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4938,7 +4938,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="충전종료"/>
                                 <connections>
-                                    <action selector="onClickUserControl:" destination="V7S-tk-w3k" eventType="touchUpInside" id="ilr-Jc-bvU"/>
+                                    <action selector="onClickStopCharging:" destination="V7S-tk-w3k" eventType="touchUpInside" id="5X4-pv-Mo7"/>
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="fZH-QU-XtB">
@@ -4970,6 +4970,7 @@
                         <viewLayoutGuide key="safeArea" id="2Va-no-exv"/>
                     </view>
                     <connections>
+                        <outlet property="btnStopCharging" destination="aJZ-wE-oBV" id="292-wa-H6G"/>
                         <outlet property="indicator" destination="fZH-QU-XtB" id="Pu8-Bb-F6B"/>
                         <outlet property="ivChargePower" destination="Omx-bT-edh" id="Ml2-7N-Yve"/>
                         <outlet property="ivChargeTime" destination="jZ2-pZ-wQ8" id="oc4-rd-Ff2"/>
@@ -4979,7 +4980,6 @@
                         <outlet property="lbChargeTimeTitle" destination="JQB-62-8cb" id="ec3-8T-W0r"/>
                         <outlet property="mChronometer" destination="DfT-ax-pEZ" id="8dW-FW-neb"/>
                         <outlet property="mCircleView" destination="vsT-Iy-Y6j" id="dId-75-GK3"/>
-                        <outlet property="mUserControlBtn" destination="aJZ-wE-oBV" id="WdB-iN-gvN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hb3-vd-zqi" userLabel="First Responder" sceneMemberID="firstResponder"/>
