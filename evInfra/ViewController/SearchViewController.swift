@@ -93,10 +93,9 @@ class SearchViewController: UIViewController {
         prepareSearchBar()
         prepareTableView()
     }
-}
 
-extension SearchViewController {
     internal func prepareTableView() {
+        hideProgress()
         
         addrTableView.isHidden = true
         tableView.isHidden = false
@@ -109,7 +108,7 @@ extension SearchViewController {
         addrTableView.searchTableDelegate = self
         addrTableView.keyboardDismissMode = .onDrag
 
-        if(isPayableList){
+        if isPayableList {
             self.showProgress()
             Server.getChargerListForPayment() { (isSuccess, value) in
                 self.hideProgress()
@@ -136,16 +135,15 @@ extension SearchViewController {
                     Snackbar().show(message: "충전소 목록을 받아오지 못했습니다.\n잠시 후 다시 시도해 주세요.")
                 }
             }
-        }else{
+        } else {
             tableView.chargerList = self.chargerManager.chargerList
         }
-        
         
         onClickChargerBtn(chargerRadioBtn)
     }
     
     internal func reloadData() {
-        if(searchType != SearchViewController.TABLE_VIEW_TYPE_ADDRESS) {
+        if searchType != SearchViewController.TABLE_VIEW_TYPE_ADDRESS {
             tableView.reloadData()
             
             tableView.isHidden = false
@@ -156,6 +154,24 @@ extension SearchViewController {
             addrTableView.isHidden = false
             tableView.isHidden = true
         }
+    }
+    
+    func responseChargerListForPayment(response: JSON){
+        
+    }
+    
+    func showProgress() {
+        indicator.isHidden = false
+        indicator.startAnimating()
+    }
+    
+    func hideProgress() {
+        indicator.isHidden = true
+        indicator.stopAnimating()
+    }
+    
+    struct decodeChargerList: Codable {
+        var charger_list: [Charger]
     }
 }
 
@@ -234,25 +250,5 @@ extension SearchViewController: SearchTableViewViewDelegate {
         
         delegate?.moveToSelectLocation(lat: poi.getPOIPoint()?.getLatitude() ?? 0, lon: poi.getPOIPoint()?.getLongitude() ?? 0)
         dismiss(animated: true, completion: nil)
-    }
-}
-
-extension SearchViewController{
-    func responseChargerListForPayment(response: JSON){
-        
-    }
-    
-    func showProgress(){
-        indicator.isHidden = false
-        indicator.startAnimating()
-    }
-    
-    func hideProgress(){
-        indicator.stopAnimating()
-        indicator.isHidden = true
-    }
-    
-    struct decodeChargerList: Codable {
-        var charger_list: [Charger]
     }
 }
