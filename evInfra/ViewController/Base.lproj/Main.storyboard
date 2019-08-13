@@ -4971,6 +4971,8 @@
                     </view>
                     <connections>
                         <outlet property="btnStopCharging" destination="aJZ-wE-oBV" id="292-wa-H6G"/>
+                        <outlet property="chronometer" destination="DfT-ax-pEZ" id="Xzw-2O-TDC"/>
+                        <outlet property="circleView" destination="vsT-Iy-Y6j" id="zft-S7-Lef"/>
                         <outlet property="indicator" destination="fZH-QU-XtB" id="Pu8-Bb-F6B"/>
                         <outlet property="ivChargePower" destination="Omx-bT-edh" id="Ml2-7N-Yve"/>
                         <outlet property="ivChargeTime" destination="jZ2-pZ-wQ8" id="oc4-rd-Ff2"/>
@@ -4978,8 +4980,6 @@
                         <outlet property="lbChargePower" destination="Me8-rn-GEF" id="3ya-o3-v9w"/>
                         <outlet property="lbChargePowerTitle" destination="EB0-DH-LcU" id="HKU-Wj-DeL"/>
                         <outlet property="lbChargeTimeTitle" destination="JQB-62-8cb" id="ec3-8T-W0r"/>
-                        <outlet property="mChronometer" destination="DfT-ax-pEZ" id="8dW-FW-neb"/>
-                        <outlet property="mCircleView" destination="vsT-Iy-Y6j" id="dId-75-GK3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hb3-vd-zqi" userLabel="First Responder" sceneMemberID="firstResponder"/>
