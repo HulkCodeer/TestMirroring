@@ -17,7 +17,7 @@ class PaymentStatusViewController: UIViewController {
     let STATUS_FINISH = 2
     
     let TIMER_COUNT_NORMAL_TICK = 60 * 2
-    let TIMER_COUNT_COMPLETE_TICK = 10 // TODO test 위해 10초로 변경. 시그넷 충전기 테스트 후 시간 정할 것.
+    let TIMER_COUNT_COMPLETE_TICK = 5 // TODO test 위해 10초로 변경. 시그넷 충전기 테스트 후 시간 정할 것.
     
     @IBOutlet weak var lbChargeComment: UILabel!
     @IBOutlet weak var mCircleView: CircularProgressBar!
@@ -26,7 +26,7 @@ class PaymentStatusViewController: UIViewController {
     @IBOutlet weak var lbChargePowerTitle: UILabel!
     @IBOutlet weak var lbChargePower: UILabel!
     @IBOutlet weak var ivChargeTime: UIImageView!
-    @IBOutlet weak var mChronometer: Chronometer!
+    @IBOutlet weak var chronometer: Chronometer!
     
     @IBOutlet weak var lbChargeTimeTitle: UILabel!
     
@@ -57,7 +57,7 @@ class PaymentStatusViewController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        mChronometer.stop()
+        chronometer.stop()
         mTimer.invalidate()
         mTimer = Timer()
         removeNotificationCenter()
@@ -88,7 +88,7 @@ class PaymentStatusViewController: UIViewController {
         self.ivChargeTime.image = UIImage(named: "ic_time")?.withRenderingMode(.alwaysTemplate)
         self.ivChargeTime.tintColor = UIColor(rgb: 0x585858)
         self.lbChargeTimeTitle.textColor = UIColor(rgb: 0x585858)
-        self.mChronometer.textColor = UIColor(rgb: 0x15435C)
+        self.chronometer.textColor = UIColor(rgb: 0x15435C)
         
         self.ivChargePower.image = UIImage(named: "ic_charge_quantity")?.withRenderingMode(.alwaysTemplate)
         self.ivChargePower.tintColor = UIColor(rgb: 0x585858)
@@ -136,8 +136,8 @@ extension PaymentStatusViewController {
         let time = payload["time"] as! String
         if cmd == "charging_start" {
             self.chargingStartTime = time
-            self.mChronometer.setBase(base: self.getChargingStartTime())
-            self.mChronometer.start()
+            self.chronometer.setBase(base: self.getChargingStartTime())
+            self.chronometer.start()
         }
     }
     
@@ -253,7 +253,7 @@ extension PaymentStatusViewController {
         }
         switch (response["code"].stringValue) {
         case "1000":
-            stopCharging()
+            startTimer(tick: TIMER_COUNT_COMPLETE_TICK)
             
         case "2003": // CHARGING_CANCEL 충전 시작하기전에 취소
             Snackbar().show(message: "충전을 취소하였습니다.")
@@ -298,8 +298,8 @@ extension PaymentStatusViewController {
             if chargingStartTime.isEmpty {
                 return
             } else {
-                mChronometer.setBase(base: getChargingStartTime())
-                mChronometer.start()
+                chronometer.setBase(base: getChargingStartTime())
+                chronometer.start()
                 
                 lbChargeComment.text = "충전이 진행중입니다"
                 mUserControlBtn.titleLabel?.text = "충전종료"
@@ -320,7 +320,7 @@ extension PaymentStatusViewController {
     
     func stopCharging() {
         removeTimer()
-        mChronometer.stop()
+        chronometer.stop()
         let paymentResultVc = self.storyboard?.instantiateViewController(withIdentifier: "PaymentResultViewController") as! PaymentResultViewController
         var vcArray = self.navigationController?.viewControllers
         vcArray!.removeLast()
