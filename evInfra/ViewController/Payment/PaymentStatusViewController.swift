@@ -16,7 +16,7 @@ class PaymentStatusViewController: UIViewController {
     let STATUS_START = 1
     let STATUS_FINISH = 2
     
-    let TIMER_COUNT_NORMAL_TICK = 60 * 2
+    let TIMER_COUNT_NORMAL_TICK = 5 // 30 30초 주기로 충전 상태 가져옴. 시연을 위해 임시 5초
     let TIMER_COUNT_COMPLETE_TICK = 10 // TODO test 위해 10초로 변경. 시그넷 충전기 테스트 후 시간 정할 것.
     
     @IBOutlet weak var lbChargeComment: UILabel!
@@ -26,7 +26,7 @@ class PaymentStatusViewController: UIViewController {
     @IBOutlet weak var lbChargePowerTitle: UILabel!
     @IBOutlet weak var lbChargePower: UILabel!
     @IBOutlet weak var ivChargeTime: UIImageView!
-    @IBOutlet weak var mChronometer: Chronometer!
+    @IBOutlet weak var chronometer: Chronometer!
     
     @IBOutlet weak var lbChargeTimeTitle: UILabel!
     
@@ -34,33 +34,34 @@ class PaymentStatusViewController: UIViewController {
     
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
-    let appDelegate =  UIApplication.shared.delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var chargingStartTime = ""
-    let defaults = UserDefault()
     
     var point: Int = 0
     var cpId: String = ""
     var connectorId: String = ""
-    var mChargingStatus = ChargingStatus.init()
+    var chargingStatus = ChargingStatus.init()
     
-    var mTimer = Timer()
+    var timer = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         appDelegate.paymentStatusController = self
+        
         prepareActionBar()
         prepareView()
         prepareNotificationCenter()
+        
         requestOpenCharger()
         startTimer(tick: TIMER_COUNT_NORMAL_TICK)
 //        self.progressBar.setProgress(to: 1, withAnimation: true)
-        // Do any additional setup after loading the view.
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        mChronometer.stop()
-        mTimer.invalidate()
-        mTimer = Timer()
+        chronometer.stop()
+        timer.invalidate()
+        timer = Timer()
         removeNotificationCenter()
     }
     
@@ -89,7 +90,7 @@ class PaymentStatusViewController: UIViewController {
         self.ivChargeTime.image = UIImage(named: "ic_time")?.withRenderingMode(.alwaysTemplate)
         self.ivChargeTime.tintColor = UIColor(rgb: 0x585858)
         self.lbChargeTimeTitle.textColor = UIColor(rgb: 0x585858)
-        self.mChronometer.textColor = UIColor(rgb: 0x15435C)
+        self.chronometer.textColor = UIColor(rgb: 0x15435C)
         
         self.ivChargePower.image = UIImage(named: "ic_charge_quantity")?.withRenderingMode(.alwaysTemplate)
         self.ivChargePower.tintColor = UIColor(rgb: 0x585858)
@@ -141,24 +142,24 @@ extension PaymentStatusViewController {
         let time = payload["time"] as! String
         if cmd == "charging_start" {
             self.chargingStartTime = time
-            self.mChronometer.setBase(base: self.getChargingStartTime())
-            self.mChronometer.start()
+            self.chronometer.setBase(base: self.getChargingStartTime())
+            self.chronometer.start()
         }
     }
     
     func startTimer(tick : Int) {
         removeTimer()
         var index = 0
-        mTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(tick), repeats: true) { (timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(tick), repeats: true) { (timer) in
             self.requestChargingStatus()
             index = index + 1
         }
-        mTimer.fire()
+        timer.fire()
     }
     
     func removeTimer() {
-        mTimer.invalidate()
-        mTimer = Timer()
+        timer.invalidate()
+        timer = Timer()
     }
     
     func requestOpenCharger() {
@@ -225,31 +226,31 @@ extension PaymentStatusViewController {
             return
         }
         updateDataStructAtResponse(response: response)
-        switch (mChargingStatus.resultCode) {
+        switch (chargingStatus.resultCode) {
         case 1000:
-        if mChargingStatus.status == STATUS_FINISH {
+        if chargingStatus.status == STATUS_FINISH {
             stopCharging()
         } else {
-            if chargingStartTime.isEmpty || !chargingStartTime.elementsEqual(mChargingStatus.startDate ?? "") {
-                chargingStartTime = mChargingStatus.startDate ?? ""
+            if chargingStartTime.isEmpty || !chargingStartTime.elementsEqual(chargingStatus.startDate ?? "") {
+                chargingStartTime = chargingStatus.startDate ?? ""
             }
             self.updateChargingStatus()
         }
         
         default: // error
-            Snackbar().show(message: mChargingStatus.msg ?? "")
+            Snackbar().show(message: chargingStatus.msg ?? "")
         }
     }
     
     func updateDataStructAtResponse(response: JSON) {
-        mChargingStatus.resultCode = response["code"].int ?? 9000
-        mChargingStatus.status = Int(response["status"].string ?? "\(STATUS_READY)")
-        mChargingStatus.cpId = response["cp_id"].string ?? ""
-        mChargingStatus.startDate = response["s_date"].string ?? ""
-        mChargingStatus.chargingRate = response["rate"].string ?? "0"
-        mChargingStatus.chargingKw = response["c_kw"].string ?? "0"
-        mChargingStatus.usedPoint = response["u_point"].string ?? ""
-        mChargingStatus.stationName = response["snm"].string ?? ""
+        chargingStatus.resultCode = response["code"].int ?? 9000
+        chargingStatus.status = Int(response["status"].string ?? "\(STATUS_READY)")
+        chargingStatus.cpId = response["cp_id"].string ?? ""
+        chargingStatus.startDate = response["s_date"].string ?? ""
+        chargingStatus.chargingRate = response["rate"].string ?? "0"
+        chargingStatus.chargingKw = response["c_kw"].string ?? "0"
+        chargingStatus.usedPoint = response["u_point"].string ?? ""
+        chargingStatus.stationName = response["snm"].string ?? ""
     }
     
     func responseStop(response: JSON) {
@@ -270,11 +271,11 @@ extension PaymentStatusViewController {
     }
     
     func setChargingId(chargerId: String) {
-        defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: chargerId)
+        UserDefault().saveString(key: UserDefault.Key.CHARGING_ID, value: chargerId)
     }
     
     func getChargingId() -> String {
-        return defaults.readString(key: UserDefault.Key.CHARGING_ID)
+        return UserDefault().readString(key: UserDefault.Key.CHARGING_ID)
     }
     
     func showProgress() {
@@ -291,32 +292,32 @@ extension PaymentStatusViewController {
 //for chronometer
 extension PaymentStatusViewController {
     func updateChargingStatus() {
-        if let status = mChargingStatus.status {
+        if let status = chargingStatus.status {
             if status < STATUS_READY || status > STATUS_FINISH {
                 return
             }
         }
-        if mChargingStatus.status == STATUS_READY {
+        if chargingStatus.status == STATUS_READY {
             lbChargeComment.text = "충전 커넥터를 차량과 연결 후 \n잠시만 기다려 주세요"
             btnStopCharging.titleLabel?.text = "충전취소"
         } else {
             if chargingStartTime.isEmpty {
                 return
             } else {
-                mChronometer.setBase(base: getChargingStartTime())
-                mChronometer.start()
+                chronometer.setBase(base: getChargingStartTime())
+                chronometer.start()
                 
                 lbChargeComment.text = "충전이 진행중입니다"
                 btnStopCharging.titleLabel?.text = "충전종료"
             }
             
-            if let chargingRate = Double(mChargingStatus.chargingRate ?? "0") {
+            if let chargingRate = Double(chargingStatus.chargingRate ?? "0") {
                 if chargingRate > 0.0 {
                     mCircleView.setRateProgress(progress: Double(chargingRate))
                 }
             }
             
-            if let chargingKw = mChargingStatus.chargingKw {
+            if let chargingKw = chargingStatus.chargingKw {
                 let chargePower = "\(chargingKw) Kw"
                 lbChargePower.text = chargePower
             }
@@ -325,7 +326,7 @@ extension PaymentStatusViewController {
     
     func stopCharging() {
         removeTimer()
-        mChronometer.stop()
+        chronometer.stop()
         let paymentResultVc = self.storyboard?.instantiateViewController(withIdentifier: "PaymentResultViewController") as! PaymentResultViewController
         var vcArray = self.navigationController?.viewControllers
         vcArray!.removeLast()
