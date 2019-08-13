@@ -134,7 +134,6 @@ class PaymentStatusViewController: UIViewController {
         showProgress()
         requestStopCharging()
         btnStopCharging.isEnabled = false
-        print("PJS HERE IS CLICK")
         btnStopCharging.setTitle("충전 중지 요청중입니다.", for: .disabled)
         btnStopCharging.setTitleColor(UIColor(rgb: 0x15435C), for: .disabled)
     }
@@ -315,7 +314,6 @@ extension PaymentStatusViewController {
                 if(btnStopCharging.isEnabled){
                     btnStopCharging.titleLabel?.text = "충전종료"
                 }
-                
             }
             
             if let chargingRate = Double(chargingStatus.chargingRate ?? "0") {
