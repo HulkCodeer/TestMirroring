@@ -20,7 +20,7 @@ class PaymentStatusViewController: UIViewController {
     let TIMER_COUNT_COMPLETE_TICK = 5 // TODO test 위해 10초로 변경. 시그넷 충전기 테스트 후 시간 정할 것.
     
     @IBOutlet weak var lbChargeComment: UILabel!
-    @IBOutlet weak var mCircleView: CircularProgressBar!
+    @IBOutlet weak var circleView: CircularProgressBar!
     
     @IBOutlet weak var ivChargePower: UIImageView!
     @IBOutlet weak var lbChargePowerTitle: UILabel!
@@ -97,8 +97,8 @@ class PaymentStatusViewController: UIViewController {
         self.lbChargePowerTitle.textColor = UIColor(rgb: 0x585858)
         self.lbChargePower.textColor = UIColor(rgb: 0x15435C)
         
-        self.mCircleView.labelSize = 60
-        self.mCircleView.safePercent = 100
+        self.circleView.labelSize = 60
+        self.circleView.safePercent = 100
     }
     
     func prepareNotificationCenter() {
@@ -117,7 +117,10 @@ class PaymentStatusViewController: UIViewController {
             if cmd == "charging_end" {
                 self.stopCharging()
             } else {
-                self.requestChargingStatus()
+                let delayTime = DispatchTime.now() + .seconds(1)
+                DispatchQueue.main.asyncAfter(deadline: delayTime, execute: {
+                    self.requestChargingStatus()
+                })
             }
         }
     }
@@ -313,7 +316,7 @@ extension PaymentStatusViewController {
             
             if let chargingRate = Double(chargingStatus.chargingRate ?? "0") {
                 if chargingRate > 0.0 {
-                    mCircleView.setRateProgress(progress: Double(chargingRate))
+                    circleView.setRateProgress(progress: Double(chargingRate))
                 }
             }
             
