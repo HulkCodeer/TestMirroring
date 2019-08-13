@@ -205,7 +205,7 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // Station - 지킴이 대상 충전소 리스트
+    // 지킴이 - 대상 충전소 리스트
     static func getStationListForGuard(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
@@ -215,6 +215,12 @@ class Server {
         
         Alamofire.request(Const.EV_SERVER_IP + "/charger/stationList/guard.do",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 지킴이 - 현장점검표 링크 가져오기
+    static func getChecklistLink(completion: @escaping (Bool, Any) -> Void) {
+        Alamofire.request(Const.EV_SERVER_IP + "/guard/checklist", method: .get)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     

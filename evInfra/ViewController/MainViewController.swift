@@ -100,7 +100,7 @@ class MainViewController: UIViewController {
     private var resultTableView: PoiTableView?
     
     private var chargerList = [String: Charger]()
-    private var mSelectCharger: Charger? = nil
+    private var selectCharger: Charger? = nil
     
     private let dropDownWay = DropDown()
     private let dropDownPay = DropDown()
@@ -115,12 +115,15 @@ class MainViewController: UIViewController {
     private let regionList = Regions.init()
     
     static var currentLocation: TMapPoint? = nil
-    var sharedChargerId : String? = nil
+    var sharedChargerId: String? = nil
     
     private var loadedChargers = false
-    private var clustering : ClusterManager? = nil
+    private var clustering: ClusterManager? = nil
     private var currentClusterLv = 0
     private var isAllowedCluster = true
+    
+    // 지킴이 점겸표 url
+    private var checklistUrl: String?
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -171,9 +174,9 @@ class MainViewController: UIViewController {
         DropDown.appearance().backgroundColor = UIColor.init(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.85)
         DropDown.appearance().selectionBackgroundColor = UIColor.lightGray
         DropDown.appearance().cellHeight = 36
+        
         let chargerFilter = ChargerFilter.init()
         // drop down - 도로
-        
         dropDownWay.anchorView = self.btnWay
         dropDownWay.dataSource = chargerFilter.getWayFiltersName()
         dropDownWay.width = 100
@@ -222,6 +225,7 @@ class MainViewController: UIViewController {
         let dbManager = DBManager.sharedInstance
         companyList = dbManager.getCompanyInfoList()
         companyVisibilityList = dbManager.getCompanyVisibilityList()
+        
         dropDownCompany.anchorView = self.btnCompany
         self.btnCompany.setTitle("기관선택", for: UIControlState.normal)//(item, for: UIControlState.normal)
         dropDownCompany.dataSource = dbManager.getCompanyNameList()
@@ -396,13 +400,11 @@ class MainViewController: UIViewController {
         btn_menu_layer.layer.shadowOpacity = 0.5
         btn_menu_layer.layer.shadowOffset = CGSize(width: 0.5, height: 2)
         btn_menu_layer.layer.masksToBounds = false
-        
-
     }
     
     @IBAction func onClickFavorite(_ sender: UIButton) {
         if MemberManager().isLogin() {
-            chargerManager.setFavoriteCharger(charger: mSelectCharger!) {
+            chargerManager.setFavoriteCharger(charger: selectCharger!) {
                 self.setCallOutFavoriteIcon(charger: $0)
             }
         } else {
@@ -434,34 +436,34 @@ class MainViewController: UIViewController {
 //        UtilFont.setGlobalFont(this, snackBar.getView());
 //        snackBar.show();
 
-        if self.mSelectCharger != nil {
+        if self.selectCharger != nil {
             guard let tc = toolbarController else {
                 return
             }
             let appTc = tc as! AppToolbarController
             appTc.enableRouteMode(isRoute: true)
             
-            startField.text = mSelectCharger?.stationName
-            routeStartPoint = mSelectCharger?.getPoint()
+            startField.text = selectCharger?.stationName
+            routeStartPoint = selectCharger?.getPoint()
         }
     }
     
     @IBAction func onClickRouteEndPoint(_ sender: UIButton) {
-        if self.mSelectCharger != nil {
+        if self.selectCharger != nil {
             guard let tc = toolbarController else {
                 return
             }
             let appTc = tc as! AppToolbarController
             appTc.enableRouteMode(isRoute: true)
             
-            endField.text = mSelectCharger?.stationName
-            routeEndPoint = mSelectCharger?.getPoint()
+            endField.text = selectCharger?.stationName
+            routeEndPoint = selectCharger?.getPoint()
         }
     }
     
     @IBAction func onClickRouteAddPoint(_ sender: UIButton) {
-        if mSelectCharger != nil {
-            let passList = [TMapPoint.init(lon: (mSelectCharger?.longitude)!, lat: (mSelectCharger?.latitude)!)]
+        if selectCharger != nil {
+            let passList = [TMapPoint.init(lon: (selectCharger?.longitude)!, lat: (selectCharger?.latitude)!)]
             findPath(passList: passList as! [TMapPoint])
         }
     }
@@ -921,11 +923,11 @@ extension MainViewController: TMapViewDelegate {
         hideKeyboard()
         myLocationModeOff()
         setView(view: callOutLayer, hidden: true)
-        if mSelectCharger != nil {
-            if let markerItem = tMapView!.getMarketItem(fromID: mSelectCharger!.chargerId) {
-                markerItem.setIcon(mSelectCharger!.getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+        if selectCharger != nil {
+            if let markerItem = tMapView!.getMarketItem(fromID: selectCharger!.chargerId) {
+                markerItem.setIcon(selectCharger!.getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
             }
-            mSelectCharger = nil
+            selectCharger = nil
         }
     }
     
@@ -987,7 +989,7 @@ extension MainViewController: MainViewDelegate {
     }
     
     func redrawCalloutLayer() {
-        if let charger = mSelectCharger {
+        if let charger = selectCharger {
             showCallOut(charger: charger)
         }
     }
@@ -999,8 +1001,9 @@ extension MainViewController: MainViewDelegate {
     
     @objc func onClickCalloutLayer(_ sender:UITapGestureRecognizer) {
         let detailVC:DetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-        detailVC.charger = mSelectCharger
         detailVC.mainViewDelegate = self
+        detailVC.charger = self.selectCharger
+        detailVC.checklistUrl = self.checklistUrl
         self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
     }
     
@@ -1008,12 +1011,12 @@ extension MainViewController: MainViewDelegate {
         myLocationModeOff()
         
         // 이전에 선택된 충전소 마커를 원래 마커로 원복
-        if mSelectCharger != nil {
-            if let markerItem = tMapView!.getMarketItem(fromID: mSelectCharger!.chargerId) {
-                markerItem.setIcon(mSelectCharger!.getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+        if selectCharger != nil {
+            if let markerItem = tMapView!.getMarketItem(fromID: selectCharger!.chargerId) {
+                markerItem.setIcon(selectCharger!.getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
                 
             }
-            mSelectCharger = nil
+            selectCharger = nil
         }
         
         // 선택한 충전소 정보 표시
@@ -1025,19 +1028,19 @@ extension MainViewController: MainViewDelegate {
     }
     
     func showCallOut(charger: Charger) {
-        mSelectCharger = charger
-        setChargerTypeImage(type: (mSelectCharger?.totalChargerType)!)
-        callOutStatusBar.backgroundColor = mSelectCharger?.cidInfo.getCstColor(cst: Int((mSelectCharger?.status ?? "02")) ?? 2)
-        callOutTitle.text = mSelectCharger?.stationName
-        callOutStatus.textColor = mSelectCharger?.cidInfo.getCstColor(cst: Int((mSelectCharger?.status)!)!)
-        callOutStatus.text = mSelectCharger?.cidInfo.cstToString(cst: Int((mSelectCharger?.status)!)!)
-        setCallOutFavoriteIcon(charger: mSelectCharger!)
+        selectCharger = charger
+        setChargerTypeImage(type: (selectCharger?.totalChargerType)!)
+        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: Int((selectCharger?.status ?? "02")) ?? 2)
+        callOutTitle.text = selectCharger?.stationName
+        callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: Int((selectCharger?.status)!)!)
+        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: Int((selectCharger?.status)!)!)
+        setCallOutFavoriteIcon(charger: selectCharger!)
         
         setView(view: callOutLayer, hidden: false)
 
-        if let markerItem = self.tMapView!.getMarketItem(fromID: self.mSelectCharger!.chargerId) {
-            if (markerItem.getIcon().isEqual(other: self.mSelectCharger!.getSelectIcon())) == false {
-                markerItem.setIcon(self.mSelectCharger!.getSelectIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+        if let markerItem = self.tMapView!.getMarketItem(fromID: self.selectCharger!.chargerId) {
+            if (markerItem.getIcon().isEqual(other: self.selectCharger!.getSelectIcon())) == false {
+                markerItem.setIcon(self.selectCharger!.getSelectIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
             }
         }
     }
@@ -1135,6 +1138,12 @@ extension MainViewController {
                             charger.isGuard = true
                         }
                     }
+                }
+            }
+            Server.getChecklistLink { (isSuccess, value) in
+                if isSuccess {
+                    let json = JSON(value)
+                    self.checklistUrl = json["url"].stringValue
                 }
             }
         }
@@ -1279,8 +1288,9 @@ extension MainViewController {
     }
 }
 
-extension MainViewController{
-    func prepareMenuBtnLayer(){
+extension MainViewController {
+    
+    func prepareMenuBtnLayer() {
 //        btn_main_charge.tintColor = UIColor(rgb: 0x15435C)
 //        btn_main_charge.currentImage?.tint(with: UIColor(rgb: 0x15435C))
         btn_main_charge.alignTextUnderImage()
@@ -1298,32 +1308,26 @@ extension MainViewController{
         btn_main_report_charger.alignTextUnderImage()
         btn_main_report_charger.tintColor = UIColor(rgb: 0x15435C)
         btn_main_report_charger.setImage(UIImage(named: "ic_line_report")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        
     }
     
     @IBAction func onClickMainCharge(_ sender: UIButton) {
-        if MemberManager().isLogin(){
+        if MemberManager().isLogin() {
             Server.getChargingId { (isSuccess, responseData) in
                 if isSuccess {
                     let json = JSON(responseData)
                     self.responseGetChargingId(response: json)
-                    NSLog("PJS onCLick Main Charge HEre")
                 }
             }
-            
-        }else{
+        } else {
             MemberManager().showLoginAlert(vc: self)
         }
-        
     }
-    
     
     @IBAction func onClickMainPayableChargerList(_ sender: UIButton) {
         let searchVC:SearchViewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
         searchVC.delegate = self
         searchVC.isPayableList = true
         self.present(AppSearchBarController(rootViewController: searchVC), animated: true, completion: nil)
-        
     }
     
     @IBAction func onClickMainReportCharger(_ sender: UIButton) {
@@ -1346,27 +1350,28 @@ extension MainViewController{
             MemberManager().showLoginAlert(vc:self)
         }
     }
-    
 }
-extension MainViewController{
-    func responseGetChargingId(response: JSON){
+
+extension MainViewController {
+    func responseGetChargingId(response: JSON) {
         if response.isEmpty {
             return
         }
-         NSLog("PJS onCLick Main CODE \(response["code"].intValue)")
+        
         switch (response["code"].intValue) {
-        case 1000 :
+        case 1000:
             defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
             let paymentStatusVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
             paymentStatusVC.cpId = response["cp_id"].stringValue
             paymentStatusVC.point = Int(response["u_point"].stringValue) ?? 0
             paymentStatusVC.connectorId = response["connector_id"].stringValue
-            NSLog("PJS onCLick Main 1000")
+            
             self.navigationController?.push(viewController: paymentStatusVC)
+            
         case 2002:
             let paymentQRScanVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentQRScanViewController") as! PaymentQRScanViewController
             self.navigationController?.push(viewController:paymentQRScanVC)
-            NSLog("PJS onCLick Main 2000")
+            
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
             
         default:

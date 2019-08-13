@@ -65,7 +65,9 @@ class DetailViewController: UIViewController {
 
     @IBOutlet weak var CidTableHeightConstraint: NSLayoutConstraint!
     
-    var charger: Charger? = nil
+    var mainViewDelegate: MainViewDelegate?
+    var charger: Charger?
+    var checklistUrl: String?
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var boardList: Array<BoardData> = Array<BoardData>()
@@ -82,8 +84,6 @@ class DetailViewController: UIViewController {
     var shareUrl = ""
     let dbManager = DBManager.sharedInstance
     private let chargerManager = ChargerListManager.sharedInstance
-    
-    var mainViewDelegate : MainViewDelegate?
     
     var myGradeStarPoint: Int = 0
     
@@ -832,8 +832,11 @@ extension DetailViewController {
     
     @objc
     fileprivate func onClickGuardReport() {
-        let url = "https://docs.google.com/forms/d/1PCXQtjgB28y2VebR1jL1cKIGnJKubW-uimB3zx1Pjvo/viewform?edit_requested=true";
-        moveToUrl(strUrl: url)
+        if let url = checklistUrl {
+            moveToUrl(strUrl: url)
+        } else {
+            Snackbar().show(message: "현장점검표 주소를 받아오지 못했습니다. 앱 종료 후 다시 실행해 주세요.")
+        }
     }
     
     @objc
