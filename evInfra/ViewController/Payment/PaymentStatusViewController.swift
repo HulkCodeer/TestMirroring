@@ -259,7 +259,7 @@ extension PaymentStatusViewController {
         }
         switch (response["code"].stringValue) {
         case "1000":
-            stopCharging()
+            startTimer(tick: TIMER_COUNT_COMPLETE_TICK)
             
         case "2003": // CHARGING_CANCEL 충전 시작하기전에 취소
             Snackbar().show(message: "충전을 취소하였습니다.")
