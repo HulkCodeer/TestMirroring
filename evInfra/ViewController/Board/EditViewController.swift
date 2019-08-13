@@ -176,7 +176,6 @@ class EditViewController: UIViewController, UITextViewDelegate {
 //        self.scrollView.contentSize.height = scrollViewHeight
         scrollViewUpdate()
         self.scrollView.scrollToBottom()
-        print("PJS BkeyboardHeight :\(self.scrollView.contentSize.height)")
     }
     
     // MARK: - Capture Camera or Image Library

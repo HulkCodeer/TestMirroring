@@ -241,7 +241,6 @@ extension AppDelegate : MessagingDelegate {
     // [START refresh_token]
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         fcmManager.registerId = fcmToken
-        print("PJS appDelegate messaging 0")
         // TODO: If necessary send token to application server.
         // Note: This callback is fired at each app startup and whenever a new token is generated.
     }
@@ -250,7 +249,6 @@ extension AppDelegate : MessagingDelegate {
     // Receive data messages on iOS 10+ directly from FCM (bypassing APNs) when the app is in the foreground.
     // To enable direct data messages, you can set Messaging.messaging().shouldEstablishDirectChannel to true.
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-         print("PJS appDelegate messaging 1")
          print("ApFirebase Firebase Received data message: \(remoteMessage.appData)")
     }
     // [END ios_10_data_message]
@@ -265,7 +263,6 @@ extension AppDelegate {
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print message ID.
-        print("PJS appDelegate FCM 0")
         if let messageID = userInfo[gcmMessageIDKey] {
             print("didReceiveRemoteNotification \(messageID)")
         }
@@ -282,7 +279,6 @@ extension AppDelegate {
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print message ID.
-        print("PJS appDelegate FCM 1")
         if let messageID = userInfo[gcmMessageIDKey] {
             print("didReceiveRemoteNotification  fetchCompletionHandler \(messageID)")
         }

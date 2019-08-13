@@ -13,7 +13,8 @@ import Material
 class PaymentResultViewController: UIViewController {
 
     @IBOutlet weak var ivStation: UIImageView!
-    @IBOutlet weak var ivId: UIImageView!
+    @IBOutlet weak var ivQuantity: UIImageView!
+    
     @IBOutlet weak var ivAmount: UIImageView!
     @IBOutlet weak var ivAuthNo: UIImageView!
     @IBOutlet weak var ivAuthStatus: UIImageView!
@@ -23,7 +24,7 @@ class PaymentResultViewController: UIViewController {
     @IBOutlet weak var ivSavePoint: UIImageView!
     
     @IBOutlet weak var lbStation: UILabel!
-    @IBOutlet weak var lbChargerId: UILabel!
+    @IBOutlet weak var lbQuantity: UILabel!
     @IBOutlet weak var lbAmount: UILabel!
     @IBOutlet weak var lbAuthNo: UILabel!
     @IBOutlet weak var lbAuthStatus: UILabel!
@@ -72,8 +73,8 @@ class PaymentResultViewController: UIViewController {
     func prepareView() {
         self.ivStation.image = UIImage(named: "ic_menu_ev_station")?.withRenderingMode(.alwaysTemplate)
         self.ivStation.tintColor = UIColor(rgb: 0x585858)
-        self.ivId.image = UIImage(named: "ic_id")?.withRenderingMode(.alwaysTemplate)
-        self.ivId.tintColor = UIColor(rgb: 0x585858)
+        self.ivQuantity.image = UIImage(named: "ic_id")?.withRenderingMode(.alwaysTemplate)
+        self.ivQuantity.tintColor = UIColor(rgb: 0x585858)
         self.ivAmount.image = UIImage(named: "ic_menu_pay_amount")?.withRenderingMode(.alwaysTemplate)
         self.ivAmount.tintColor = UIColor(rgb: 0x585858)
         self.ivAuthNo.image = UIImage(named: "ic_menu_pay_auth_no")?.withRenderingMode(.alwaysTemplate)
@@ -121,7 +122,7 @@ extension PaymentResultViewController {
         let chargingStatus = ChargingStatus.init()
         chargingStatus.resultCode = response["code"].int ?? 9000
         chargingStatus.stationName = response["snm"].string ?? ""
-        chargingStatus.cpId = response["cp_id"].string ?? ""
+        chargingStatus.chargingKw = response["c_kw"].string ?? ""
         chargingStatus.startDate = response["s_date"].string ?? ""
         chargingStatus.endDate = response["e_date"].string ?? ""
         chargingStatus.payAmount = response["pay_amt"].string ?? ""
@@ -134,11 +135,16 @@ extension PaymentResultViewController {
     
     func updateView(chargingStatus: ChargingStatus) {
         self.lbStation.text = chargingStatus.stationName
-        self.lbChargerId.text = chargingStatus.cpId
         self.lbAmount.text = "\(chargingStatus.payAmount?.currency() ?? "0") 원"
         self.lbStartTime.text = chargingStatus.startDate
         self.lbFinishTime.text = chargingStatus.endDate
         self.lbAuthNo.text = chargingStatus.payAuthCode
+        if let chargingKw = chargingStatus.chargingKw {
+            let chargePower = "\(chargingKw) Kw"
+            lbQuantity.text = chargePower
+        }else{
+            self.lbQuantity.text = " - "
+        }
         if chargingStatus.payResultCode?.elementsEqual("8000") ?? false {
             self.lbAuthStatus.text =  "승인성공"
             self.lbPaymentFailMsg.gone()

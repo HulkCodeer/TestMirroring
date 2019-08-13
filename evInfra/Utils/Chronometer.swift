@@ -46,7 +46,6 @@ class Chronometer: UILabel {
         let seconds = mNow - mBase
         let time = msToTime(milliseconds: seconds)
         self.text = time
-        print("PJS SECOND \(time)")
     }
     
     func msToTime(milliseconds: Double) -> String {
