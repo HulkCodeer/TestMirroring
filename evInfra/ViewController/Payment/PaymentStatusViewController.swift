@@ -17,7 +17,7 @@ class PaymentStatusViewController: UIViewController {
     let STATUS_FINISH = 2
     
     let TIMER_COUNT_NORMAL_TICK = 5 // 30 30초 주기로 충전 상태 가져옴. 시연을 위해 임시 5초
-    let TIMER_COUNT_COMPLETE_TICK = 10 // TODO test 위해 10초로 변경. 시그넷 충전기 테스트 후 시간 정할 것.
+    let TIMER_COUNT_COMPLETE_TICK = 5 // TODO test 위해 10초로 변경. 시그넷 충전기 테스트 후 시간 정할 것.
     
     @IBOutlet weak var lbChargeComment: UILabel!
     @IBOutlet weak var mCircleView: CircularProgressBar!
