@@ -55,7 +55,7 @@ class PaymentQRScanViewController: UIViewController {
         prepareMyPoint()
         preparePaymentCardStatus()
         //테스트 하거나 UI 확인시 아래 주석을 풀어주시기 바랍니다.
-//        self.onResultScan(scanInfo: "{ \"cp_id\": \"GS00000801\", \"connector_id\": \"1\" }")
+//        self.onResultScan(scanInfo: "{ \"cp_id\": \"994\", \"connector_id\": \"1\" }")
     }
 
     /*
@@ -263,6 +263,7 @@ extension PaymentQRScanViewController {
             }
             self.verifySelectedCharger()
             self.updateChargerTypeButton(isShow: false)
+
         } else {
             self.showUnsupportedChargerDialog()
         }
@@ -313,6 +314,7 @@ extension PaymentQRScanViewController {
             self.lbQrScanChargerType.isHidden = false
             self.svQrScanChargerType.isHidden = true
             self.lbQrScanChargerType.text = "충전기에서 커넥터를 선택하였습니다."
+            enableStartButton()
         } else {
             self.lbQrScanChargerType.isHidden = true
             self.svQrScanChargerType.isHidden = false
@@ -399,13 +401,17 @@ extension PaymentQRScanViewController {
     }
 
     func getSelectedConnectorId() -> String? {
-        for btnChargerType in mButtonTypeList {
-            if (btnChargerType.isSelected) {
-            let index = Int(btnChargerType.tag)
-                return self.mConnectorList[index].mId
+        if self.connectorId == nil{
+            for btnChargerType in mButtonTypeList {
+                if (btnChargerType.isSelected) {
+                    let index = Int(btnChargerType.tag)
+                    return self.mConnectorList[index].mId
+                }
             }
+            return nil
         }
-        return nil
+        
+        return self.connectorId
     }
 
     func selectChargerTypeByMyCar() {

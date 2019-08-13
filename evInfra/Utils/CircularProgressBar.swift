@@ -13,7 +13,7 @@ class CircularProgressBar: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         setupView()
-        label.text = "0"
+        label.text = "-"
     }
     
     
@@ -42,16 +42,6 @@ class CircularProgressBar: UIView {
     
     public func setRateProgress(progress: Double) {
         foregroundLayer.strokeEnd = CGFloat(progress * 0.01)
-//        if withAnimation {
-            let animation = CABasicAnimation(keyPath: "strokeEnd")
-            animation.fromValue = 0
-            animation.toValue = progress * 0.01
-            animation.duration = 0.1
-            animation.fillMode = kCAFillModeForwards
-            animation.isRemovedOnCompletion = false
-            foregroundLayer.add(animation, forKey: "foregroundAnimation")
-//
-//        }
         self.value = Int(progress)
         self.label.text = "\(self.value)%"
         self.setForegroundLayerColorForSafePercent()
