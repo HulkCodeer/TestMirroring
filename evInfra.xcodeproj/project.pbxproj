@@ -34,8 +34,8 @@
 		733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662D122FAB6720049AEFE /* MyCouponContentsViewController.swift */; };
 		733662F822FD11740049AEFE /* LeftViewTableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662F722FD11740049AEFE /* LeftViewTableHeader.swift */; };
 		733662FA22FD11860049AEFE /* LeftViewTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 733662F922FD11860049AEFE /* LeftViewTableHeader.xib */; };
+		73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662FF230263540049AEFE /* PaymentStatusViewController.swift */; };
 		7339908022D881D100CF72A8 /* PaymentResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */; };
-		7339908122D881D100CF72A8 /* PaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7339907F22D881D000CF72A8 /* PaymentStatusViewController.swift */; };
 		73450EFA2071EB01008516E9 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73450EF92071EB01008516E9 /* EditViewController.swift */; };
 		734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734FBDEE219001EA00BEDB60 /* AppTabsController.swift */; };
 		7357594220916A37008181E9 /* ioniq.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7357593E20916A33008181E9 /* ioniq.jpg */; };
@@ -269,8 +269,8 @@
 		733662D122FAB6720049AEFE /* MyCouponContentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCouponContentsViewController.swift; sourceTree = "<group>"; };
 		733662F722FD11740049AEFE /* LeftViewTableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftViewTableHeader.swift; sourceTree = "<group>"; };
 		733662F922FD11860049AEFE /* LeftViewTableHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LeftViewTableHeader.xib; sourceTree = "<group>"; };
+		733662FF230263540049AEFE /* PaymentStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentStatusViewController.swift; sourceTree = "<group>"; };
 		7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentResultViewController.swift; sourceTree = "<group>"; };
-		7339907F22D881D000CF72A8 /* PaymentStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentStatusViewController.swift; sourceTree = "<group>"; };
 		73450EF92071EB01008516E9 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		734FBDEE219001EA00BEDB60 /* AppTabsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabsController.swift; sourceTree = "<group>"; };
 		7357593E20916A33008181E9 /* ioniq.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ioniq.jpg; sourceTree = "<group>"; };
@@ -679,8 +679,8 @@
 		739171E222C4A218007369F9 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
+				733662FF230263540049AEFE /* PaymentStatusViewController.swift */,
 				739171E022C4A209007369F9 /* PaymentQRScanViewController.swift */,
-				7339907F22D881D000CF72A8 /* PaymentStatusViewController.swift */,
 				7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */,
 			);
 			path = Payment;
@@ -1238,7 +1238,6 @@
 				733662D022F974820049AEFE /* Coupon.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
-				7339908122D881D100CF72A8 /* PaymentStatusViewController.swift in Sources */,
 				CEBE0603214BCB990047E6F2 /* ReportChargeViewDelegate.swift in Sources */,
 				73008459213687150001DBFA /* DetailViewController.swift in Sources */,
 				DB3799F821673FDD001D8F69 /* FavoriteViewController.swift in Sources */,
@@ -1334,6 +1333,7 @@
 				DBEE9AFA2117DBF000770D04 /* UIAlertController.swift in Sources */,
 				73EE8FC72109B0FD0016F505 /* URL.swift in Sources */,
 				73A7B428204E81A6002E975F /* Const.swift in Sources */,
+				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
 				CE33B4C72192D39700B6C632 /* EventCoupon.swift in Sources */,
 				736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */,
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,

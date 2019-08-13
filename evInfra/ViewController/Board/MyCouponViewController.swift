@@ -119,7 +119,6 @@ extension MyCouponViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyCouponTableViewCell", for: indexPath) as! MyCouponTableViewCell
         let item = self.list[indexPath.row]
         let imgurl: String = "\(Const.EV_PAY_SERVER)/assets/images/event/coupons/adapters/\(item.imagePath)"
-        print("PJS imgeUrl : \(imgurl)")
         if !imgurl.isEmpty {
             cell.couponImageView.sd_setImage(with: URL(string: imgurl), placeholderImage: UIImage(named: "AppIcon"))
             
@@ -189,7 +188,6 @@ extension MyCouponViewController {
                     self.updateTableView()
                     self.indicatorControll(isStart: false)
                 } else {
-                    print("PJS arrayValue : \(json["lists"].arrayValue.count)")
                     for jsonRow in json["lists"].arrayValue {
                         let item: Coupon = Coupon.init()
                         
@@ -199,7 +197,6 @@ extension MyCouponViewController {
                         item.description = jsonRow["description"].stringValue
                         item.imagePath = jsonRow["image"].stringValue
                         item.title = jsonRow["title"].stringValue
-                        print("PJS ITEM : \(item.couponId)")
                         if (item.state == 0){
                             let formatter = DateFormatter()
                             let currentDate = Date()

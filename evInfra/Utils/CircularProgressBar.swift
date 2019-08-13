@@ -126,7 +126,6 @@ class CircularProgressBar: UIView {
         
         foregroundLayer.strokeEnd = 0
         
-        print("PJS HERE \(self.value)" )
         if self.value < 25 {
             foregroundLayer.strokeColor = UIColor(rgb: 0xe57373).cgColor
         }else if self.value < 50{

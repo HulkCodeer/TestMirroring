@@ -1307,7 +1307,6 @@ extension MainViewController{
                 if isSuccess {
                     let json = JSON(responseData)
                     self.responseGetChargingId(response: json)
-                    NSLog("PJS onCLick Main Charge HEre")
                 }
             }
             
@@ -1353,7 +1352,6 @@ extension MainViewController{
         if response.isEmpty {
             return
         }
-         NSLog("PJS onCLick Main CODE \(response["code"].intValue)")
         switch (response["code"].intValue) {
         case 1000 :
             defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
@@ -1361,12 +1359,10 @@ extension MainViewController{
             paymentStatusVC.cpId = response["cp_id"].stringValue
             paymentStatusVC.point = Int(response["u_point"].stringValue) ?? 0
             paymentStatusVC.connectorId = response["connector_id"].stringValue
-            NSLog("PJS onCLick Main 1000")
             self.navigationController?.push(viewController: paymentStatusVC)
         case 2002:
             let paymentQRScanVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentQRScanViewController") as! PaymentQRScanViewController
             self.navigationController?.push(viewController:paymentQRScanVC)
-            NSLog("PJS onCLick Main 2000")
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
             
         default:
