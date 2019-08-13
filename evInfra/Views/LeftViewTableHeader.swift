@@ -9,6 +9,7 @@
 import UIKit
 
 class LeftViewTableHeader: UITableViewHeaderFooterView {
+    
 //    @IBOutlet weak var cellTitle: UILabel!
     @IBOutlet weak var cellTitle: UILabel!
     
@@ -16,5 +17,4 @@ class LeftViewTableHeader: UITableViewHeaderFooterView {
         super.awakeFromNib()
         cellTitle.text = ""
     }
-
 }

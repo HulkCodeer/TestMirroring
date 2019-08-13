@@ -16,8 +16,7 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var detailView: UIView!
     @IBOutlet weak var viewPagerContainer: UIView!
-    
-    @IBOutlet weak var titlLabel: UILabel!     // 충전소 이름
+
     @IBOutlet weak var companyView: UIView!    // 운영기관
     @IBOutlet weak var operatorLabel: UILabel! // 운영기관 이름
     @IBOutlet weak var adressLabel: UILabel!   // 주소

@@ -15,47 +15,46 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     let cellIdentifier = "sideMenuCell"
     
     // main menu
-    let MENU_MY_PAGE       = 0
-    let MENU_BOARD         = 1
-    let MENU_EVENT = 2
-    let MENU_EVINFO        = 3
-    let MENU_SETTINGS      = 4
+    let MENU_MY_PAGE    = 0
+    let MENU_BOARD      = 1
+    let MENU_EVENT      = 2
+    let MENU_EVINFO     = 3
+    let MENU_SETTINGS   = 4
     
     // sub menu - 마이페이지
     let SUB_MENU_CELL_MYPAGE = 0
-    let SUB_MENU_CELL_PAY = 1
+    let SUB_MENU_CELL_PAY    = 1
+    
     // 마이페이지
-    let SUB_MENU_MY_PERSONAL_INFO             = 0
-    let SUB_MENU_MY_WRITING          = 1
-    let SUB_MENU_REPORT_STATION      = 2
+    let SUB_MENU_MY_PERSONAL_INFO   = 0
+    let SUB_MENU_MY_WRITING         = 1
+    let SUB_MENU_REPORT_STATION     = 2
+    
     // PAY
     let SUB_MENU_MY_PAYMENT_INFO     = 0
     let SUB_MENU_MY_EVCARD_INFO      = 1
     let SUB_MENU_MY_CHARGING_HISTORY = 2
-    let SUB_MENU_MY_POINT           = 3
+    let SUB_MENU_MY_POINT            = 3
     
     
     // sub menu - 게시판
-    let SUB_MENU_CELL_BOARD = 0
+    let SUB_MENU_CELL_BOARD         = 0
     let SUB_MENU_CELL_COMPANY_BOARD = 1
+    
     // 게시판
     public static let SUB_MENU_NOTICE        = 0 // 공지사항
     public static let SUB_MENU_FREE_BOARD    = 1 // 자유게시판
     public static let SUB_MENU_CHARGER_BOARD = 2 // 충전소게시판
     public static let SUB_MENU_BOARD_COUNT   = 3 // 게시판 갯수
+    
     // 사업자 게시판
     let SUB_MENU_GS_CALTEX = 0 // GS 칼텍스
     let SUB_MENU_JEVS = 1 // 제주전기자동차서비스
     
-    
-    
-    
     // sub menu - 이벤트
     let SUB_MENU_CELL_EVENT = 0
-    public static let SUB_MENU_EVENT         = 0 // 이벤트
+    public static let SUB_MENU_EVENT = 0 // 이벤트
     let SUB_MENU_MY_COUPON           = 1 // 내 쿠폰함
-    // sub menu - 사업자 게시판
-    
 
     // sub menu - 전기차정보
     let SUB_MENU_CELL_EV_INFO = 0
@@ -104,7 +103,6 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func clickBoard(_ sender: Any) {
         tableViewLoad(index: MENU_BOARD)
     }
-    
 
     @IBAction func clickEvent(_ sender: UIButton) {
         tableViewLoad(index: MENU_EVENT)
@@ -122,10 +120,12 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         sideTableView.delegate = self
         sideTableView.dataSource = self
-        sideTableView.autoresizingMask = UIViewAutoresizing.flexibleHeight
+        
         sideTableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        sideTableView.estimatedSectionHeaderHeight = 47
         
         tableViewLoad(index: menuIndex);
     }
@@ -169,13 +169,6 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         return headerView
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-        tableView.estimatedSectionHeaderHeight = 25;
-        
-        return UITableViewAutomaticDimension
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = sideTableView.dequeueReusableCell(withIdentifier: "sideMenuCell", for: indexPath) as! SideMenuTableViewCell
         cell.menuLabel.text = sideMenuArrays[menuIndex][indexPath.section][indexPath.row]
@@ -215,7 +208,6 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else if menuIndex == MENU_SETTINGS { // 전체 설정
             selectedSettingsMenu(index: indexPath)
         }
-        
     }
     
     func tableViewLoad(index: Int) {
@@ -245,7 +237,6 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
 }
 
 extension LeftViewController {
-
     private func selectedMyPageMenu(index: IndexPath) {
         if MemberManager().isLogin() {
             switch index.section {
@@ -277,7 +268,6 @@ extension LeftViewController {
                             self.navigationController?.push(viewController: reportVC)
                         default:
                             print("out of index")
-                        
                     }
                 case SUB_MENU_CELL_PAY:
                     switch index.row {
@@ -340,14 +330,11 @@ extension LeftViewController {
             default:
             print("out of index")
         }
-        
-            
-        
     }
     
     private func selectedEvnetCouponMenu(index: IndexPath) {
         switch index.section {
-            case SUB_MENU_CELL_EVENT :
+            case SUB_MENU_CELL_EVENT:
                 switch index.row{
                     case LeftViewController.SUB_MENU_EVENT: // 이벤트
                     let eventBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "EventViewController") as! EventViewController
@@ -361,13 +348,12 @@ extension LeftViewController {
             default:
             print("out of index")
         }
-        
     }
     
     private func selectedEvInfoMenu(index: IndexPath) {
         switch index.section {
             case SUB_MENU_CELL_EV_INFO:
-                switch index.row{
+                switch index.row {
                     case SUB_MENU_EVINFO: // 전기차 정보
                         let evInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "EVInfoViewController") as! EVInfoViewController
                         self.navigationController?.push(viewController: evInfoVC)
@@ -398,7 +384,7 @@ extension LeftViewController {
     private func selectedSettingsMenu(index: IndexPath) {
         switch index.section {
             case SUB_MENU_CELL_SETTINGS:
-                switch index.row{
+                switch index.row {
                     case SUB_MENU_ALL_SETTINGS: // 전체 설정
                         let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
                         self.navigationController?.push(viewController: settingsVC)
@@ -414,7 +400,6 @@ extension LeftViewController {
                     default:
                         print("out of index")
                 }
-            
 
             default:
                 print("out of index")

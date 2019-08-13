@@ -5712,12 +5712,12 @@
                                     <constraint firstAttribute="trailing" secondItem="3c0-jt-d4I" secondAttribute="trailing" id="y1l-n5-ID3"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pAd-B7-N1u">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="47" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pAd-B7-N1u">
                                 <rect key="frame" x="70" y="226.5" width="305" height="440.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="sideMenuCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="sideMenuCell" rowHeight="40" id="ry1-Fu-USa" customClass="SideMenuTableViewCell" customModule="evInfra" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="305" height="40"/>
+                                        <rect key="frame" x="0.0" y="47" width="305" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ry1-Fu-USa" id="EPf-pj-XxI">
                                             <rect key="frame" x="0.0" y="0.0" width="305" height="39.5"/>
