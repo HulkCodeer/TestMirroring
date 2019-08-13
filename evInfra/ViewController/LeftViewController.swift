@@ -125,7 +125,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         sideTableView.dataSource = self
         
         sideTableView.separatorStyle = UITableViewCellSeparatorStyle.none
-        sideTableView.estimatedSectionHeaderHeight = 47
+//        sideTableView.estimatedSectionHeaderHeight = 47
         
         tableViewLoad(index: menuIndex);
     }
