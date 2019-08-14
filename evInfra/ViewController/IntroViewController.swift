@@ -11,42 +11,34 @@ import Material
 import SwiftyJSON
 import Motion
 
-
 class IntroViewController: UIViewController {
 
     @IBOutlet weak var progressLayer: UIView!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var progressLabel: UILabel!
     
-    var maxCount = 0
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    var isNewBoardList = Array<Bool>()
     let fcmManager = FCMManager.sharedInstance
+    
+    var isNewBoardList = Array<Bool>()
+    var maxCount = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         showProgressLayer(isShow: false)
-        prepareCompanyIcon()
+        checkCompanyInfo()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }
 
 extension IntroViewController: CompanyInfoCheckerDelegate {
-    func prepareCompanyIcon() {
+    
+    func checkCompanyInfo() {
         let icChecker = CompanyIconChecker.init(delegate: self)
         icChecker.checkCompanyInfo()
     }
@@ -65,7 +57,7 @@ extension IntroViewController: CompanyInfoCheckerDelegate {
     
     internal func setProgressMaxCount(maxCount: Int) {
         self.maxCount = maxCount
-        if(self.maxCount == 0) {
+        if self.maxCount == 0 {
             showProgressLayer(isShow: false)
         } else {
             showProgressLayer(isShow: true)
@@ -83,22 +75,7 @@ extension IntroViewController: CompanyInfoCheckerDelegate {
         self.progressBar.isHidden = !isShow
         self.progressLabel.isHidden = !isShow
     }
-}
-
-extension IntroViewController: NewArticleCheckDelegate {
     
-    internal func checkLastBoardId() {
-        let articleChecker = NewArticleChecker.sharedInstance
-        articleChecker.delegate = self
-        articleChecker.checkLastBoardId()
-    }
-    
-    func finishCheckArticleFromServer() {
-        self.finishedServerInit()
-    }
-}
-
-extension IntroViewController {
     internal func registerId() {
         let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
         let modelName = UIDevice.current.modelName
@@ -109,7 +86,7 @@ extension IntroViewController {
             uid = UIDevice.current.identifierForVendor!.uuidString
             KeyChainManager.set(value: uid!, forKey: KeyChainManager.KEY_DEVICE_UUID)
         }
-
+        
         Server.registerUser(version: version, model: modelName, uid: uid!) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
@@ -120,6 +97,18 @@ extension IntroViewController {
                 self.checkLastBoardId()
             }
         }
+    }
+}
+
+extension IntroViewController: NewArticleCheckDelegate {
+    func finishCheckArticleFromServer() {
+        self.finishedServerInit()
+    }
+    
+    internal func checkLastBoardId() {
+        let articleChecker = NewArticleChecker.sharedInstance
+        articleChecker.delegate = self
+        articleChecker.checkLastBoardId()
     }
     
     internal func finishedServerInit() {

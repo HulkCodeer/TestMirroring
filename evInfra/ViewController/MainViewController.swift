@@ -128,8 +128,8 @@ class MainViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = Color.grey.lighten5
+        
         prepareRouteField()
         preparePOIResultView()
         prepareFilterView()
@@ -140,6 +140,7 @@ class MainViewController: UIViewController {
         prepareCalloutLayer()
         prepareClustering()
         prepareMenuBtnLayer()
+        
         getChargerInfo()  // request to server
         //self.checkFCM()
     }
@@ -1124,6 +1125,10 @@ extension MainViewController {
                 self.getChargerListForGuard()
             } else {
                 self.checkFCM()
+            }
+            
+            if Const.CLOSED_BETA_TEST {
+                CBT.checkCBT(vc: self)
             }
         }
     }

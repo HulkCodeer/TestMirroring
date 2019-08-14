@@ -35,7 +35,7 @@ class CompanyIconChecker {
                 let serverCompanyList = json["cominfo"]
                 
                 for (_, item):(String, JSON) in serverCompanyList {
-                    if(item["icon_name"].stringValue.elementsEqual("")){
+                    if(item["icon_name"].stringValue.elementsEqual("")) {
                         continue
                     }
                     if let company = companyArray.filter({$0.id!.elementsEqual(item["id"].stringValue)}).first {

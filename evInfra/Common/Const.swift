@@ -9,6 +9,9 @@
 import Foundation
 
 public class Const {
+    
+    // Closed Beta Test
+    public static let CLOSED_BETA_TEST = true
 
     /*
      * product
@@ -71,9 +74,9 @@ public class Const {
     public static let CHARGER_STATE_UNKNOWN          = 9    // 기타(상태미확인)
 
     // 제보하기 호출자
-    public static let REPORT_CHARGER_FROM_MAIN = 0
+    public static let REPORT_CHARGER_FROM_MAIN   = 0
     public static let REPORT_CHARGER_FROM_DETAIL = 1
-    public static let REPORT_CHARGER_FROM_LIST = 2
+    public static let REPORT_CHARGER_FROM_LIST   = 2
     
     // 제보하기 유형
     public static let REPORT_CHARGER_TYPE_ETC = 0               // 충전소 제보 타입
@@ -90,9 +93,9 @@ public class Const {
     
     //  BUCKET KIND
     // KIND OF IMAGE
-    public static let CONTENTS_THUMBNAIL = 0;
-    public static let CONTENTS_BOARD_IMG = 1;
-    public static let CONTENTS_SATELLITE = 2;
-    public static let CONTENTS_CAR_MODEL = 3;
-    public static let CONTENTS_COMP_ICON = 4;
+    public static let CONTENTS_THUMBNAIL = 0
+    public static let CONTENTS_BOARD_IMG = 1
+    public static let CONTENTS_SATELLITE = 2
+    public static let CONTENTS_CAR_MODEL = 3
+    public static let CONTENTS_COMP_ICON = 4
 }

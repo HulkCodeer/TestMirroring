@@ -111,6 +111,10 @@ class LoginViewController: UIViewController {
         
         // get favorite
         ChargerListManager.sharedInstance.getFavoriteCharger()
+        
+        if Const.CLOSED_BETA_TEST {
+            CBT.checkCBT(vc: self)
+        }
 
         self.navigationController?.pop()
     }
