@@ -30,7 +30,8 @@
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LB5-qi-T25">
                                 <rect key="frame" x="16" y="42.5" width="382" height="1"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="bLx-a7-2bs"/>
                                 </constraints>
