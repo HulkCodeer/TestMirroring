@@ -13,13 +13,14 @@ import UserNotifications
 class FCMManager {
     
     // target id
-    static let TARGET_NONE = "00";
-    static let TARGET_CHARGING = "01";
-    static let TARGET_BOARD = "02";
-    static let TARGET_FAVORITE = "03";
-    static let TARGET_REPORT = "04";
-    static let TARGET_CHARGING_STATUS = "05";
-    static let TARGET_CHARGING_STATUS_FIX = "06";
+    static let TARGET_NONE = "00"
+    static let TARGET_CHARGING = "01"
+    static let TARGET_BOARD = "02"
+    static let TARGET_FAVORITE = "03"
+    static let TARGET_REPORT = "04"
+    static let TARGET_CHARGING_STATUS = "05"
+    static let TARGET_CHARGING_STATUS_FIX = "06"
+    static let TARGET_COUPON = "07"
     
     static let FCM_REQUEST_PAYMENT_STATUS = "fcm_request_payment_status"
     static let sharedInstance = FCMManager()
@@ -123,6 +124,8 @@ class FCMManager {
                     
                 } else if targetId == FCMManager.TARGET_CHARGING_STATUS_FIX { //????
                     
+                } else if targetId == FCMManager.TARGET_COUPON {  //쿠폰 알림
+                    getCouponIssueData(navigationController: navigationController)
                 }
             }
         }
@@ -162,6 +165,25 @@ class FCMManager {
                     maVC.category = category
                     
                     navigation.push(viewController: maVC)
+                }
+            }
+        }
+    }
+    
+    func getCouponIssueData(navigationController: AppNavigationController?) {
+        if let visableControll = navigationController?.visibleViewController {
+            if visableControll.isKind(of: ReportBoardViewController.self) {
+                visableControll.viewDidLoad()
+                return
+            } else {
+                if MemberManager().isLogin() {
+                    if let navigation = navigationController {
+                        let vc:MyCouponViewController =  UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MyCouponViewController") as! MyCouponViewController
+                        
+                        navigation.push(viewController: vc)
+                    }
+                } else {
+                    MemberManager().showLoginAlert(vc: visableControll)
                 }
             }
         }
