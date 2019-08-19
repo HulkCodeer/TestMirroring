@@ -315,11 +315,11 @@ extension MyPayinfoViewController: WKUIDelegate {
     
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "경고", style: .cancel) { _ in
+        let okAction = UIAlertAction(title: "확인", style: .cancel) { _ in
             completionHandler()
             
         }
-        alertController.addAction(cancelAction);
+        alertController.addAction(okAction);
         DispatchQueue.main.async {
             self.present(alertController, animated: true, completion: nil)
         }
