@@ -16,7 +16,7 @@ class PaymentQRScanViewController: UIViewController {
     var captureSession:AVCaptureSession!
     var videoPreviewLayer:AVCaptureVideoPreviewLayer!
     var qrCodeFrameView: UIView?
-    var qrString: String = ""
+
     var cpId: String? = ""
     var connectorId: String? = ""
     
@@ -57,6 +57,14 @@ class PaymentQRScanViewController: UIViewController {
         //테스트 하거나 UI 확인시 아래 주석을 풀어주시기 바랍니다.
 //        self.onResultScan(scanInfo: "{ \"cp_id\": \"994\", \"connector_id\": \"1\" }")
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if (captureSession?.isRunning == true) {
+            captureSession.stopRunning()
+        }
+    }
 
     /*
     // MARK: - Navigation
@@ -96,23 +104,21 @@ extension PaymentQRScanViewController: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         if metadataObjects.count == 0 {
             qrCodeFrameView?.frame = CGRect.zero
-            qrString = "No QR code is detected"
             return
         }
         
         // Get the metadata object.
         let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
-        
         if metadataObj.type == AVMetadataObject.ObjectType.qr {
             // If the found metadata is equal to the QR code metadata then update the status label's text and set the bounds
             let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
             qrCodeFrameView?.frame = barCodeObject!.bounds
             
-            if metadataObj.stringValue != nil {
-                qrString = metadataObj.stringValue ?? "nil"
+            if let qrString = metadataObj.stringValue {
+                self.onResultScan(scanInfo: qrString)
+                self.captureSession.stopRunning()
+                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             }
-            
-            self.onResultScan(scanInfo: qrString)
         }
     }
     
