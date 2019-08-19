@@ -234,10 +234,7 @@ extension PaymentStatusViewController {
         if chargingStatus.status == STATUS_FINISH {
             stopCharging()
         } else {
-            if chargingStartTime.isEmpty || !chargingStartTime.elementsEqual(chargingStatus.startDate ?? "") {
-                chargingStartTime = chargingStatus.startDate ?? ""
-            }
-            self.updateChargingStatus()
+            updateChargingStatus()
         }
         
         default: // error
@@ -302,26 +299,32 @@ extension PaymentStatusViewController {
         }
         if chargingStatus.status == STATUS_READY {
             lbChargeComment.text = "충전 커넥터를 차량과 연결 후 \n잠시만 기다려 주세요"
-            btnStopCharging.titleLabel?.text = "충전취소"
+            btnStopCharging.setTitle("충전취소", for: .normal)
         } else {
-            if chargingStartTime.isEmpty {
-                return
-            } else {
-                chronometer.setBase(base: getChargingStartTime())
-                chronometer.start()
-                
-                lbChargeComment.text = "충전이 진행중입니다"
-                if(btnStopCharging.isEnabled){
-                    btnStopCharging.titleLabel?.text = "충전종료"
-                }
+            lbChargeComment.text = "충전이 진행중입니다"
+            if (btnStopCharging.isEnabled) {
+                btnStopCharging.titleLabel?.text = "충전종료"
+                btnStopCharging.setTitle("충전종료", for: .normal)
             }
             
+            // 충전진행시간
+            if chargingStartTime.isEmpty || !chargingStartTime.elementsEqual(chargingStatus.startDate ?? "") {
+                chargingStartTime = chargingStatus.startDate ?? ""
+            }
+
+            if !chargingStartTime.isEmpty {
+                chronometer.setBase(base: getChargingStartTime())
+                chronometer.start()
+            }
+            
+            // 충전률
             if let chargingRate = Double(chargingStatus.chargingRate ?? "0") {
                 if chargingRate > 0.0 {
                     circleView.setRateProgress(progress: Double(chargingRate))
                 }
             }
             
+            // 충전량
             if let chargingKw = chargingStatus.chargingKw {
                 let chargePower = "\(chargingKw) Kw"
                 lbChargePower.text = chargePower

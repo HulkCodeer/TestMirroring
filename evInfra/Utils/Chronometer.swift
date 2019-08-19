@@ -10,40 +10,40 @@ import UIKit
 
 class Chronometer: UILabel {
 
-    private var mBase: Double = 0.0
-    private var mNow: Double = 0.0 // the currently displayed time
     private var timer = Timer()
+    
+    private var baseTime: Double = 0.0
+    private var now: Double = 0.0 // the currently displayed time
+
     private var isTimerRunnint = false
     private var repeats = false
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    public func setBase(base: Double){
-        mBase = base
-    }
-    public func getBase() -> Double{
-        return mBase
+    
+    public func setBase(base: Double) {
+        baseTime = base
     }
     
-    public func start(){
-        if(!repeats){
-            repeats = !repeats
+    public func start() {
+        if !repeats {
+            repeats = true
             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: repeats) { (timer) in
                 self.updateText()
             }
             timer.fire()
         }
-        
     }
     
-    public func stop(){
+    public func stop() {
         repeats = false
         timer.invalidate()
     }
     
-    func updateText(){
-        mNow = Date.init().timeIntervalSince1970
-        let seconds = mNow - mBase
+    func updateText() {
+        now = Date.init().timeIntervalSince1970
+        let seconds = now - baseTime
         let time = msToTime(milliseconds: seconds)
         self.text = time
     }
