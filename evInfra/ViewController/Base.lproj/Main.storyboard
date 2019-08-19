@@ -1089,7 +1089,6 @@
                                     <constraint firstAttribute="bottom" secondItem="s2N-jj-PeS" secondAttribute="bottom" constant="8" id="YZZ-9A-QxQ"/>
                                     <constraint firstItem="tD2-9H-5Rj" firstAttribute="top" secondItem="Zb7-LB-e70" secondAttribute="top" constant="8" id="hTX-r4-7es"/>
                                     <constraint firstItem="Me5-Pt-VVq" firstAttribute="top" secondItem="tD2-9H-5Rj" secondAttribute="bottom" constant="8" id="paC-Ij-s9A"/>
-                                    <constraint firstAttribute="top" secondItem="tD2-9H-5Rj" secondAttribute="bottom" constant="-90" id="qwt-Sh-2xG"/>
                                 </constraints>
                             </view>
                         </subviews>

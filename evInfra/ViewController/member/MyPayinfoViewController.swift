@@ -111,8 +111,9 @@ class MyPayinfoViewController: UIViewController{
         self.mWebView.isHidden = true
         self.mPayInfoView.isHidden = false
         let payCode = json["pay_code"].intValue
-        
+       
         switch(payCode){
+                
             case PaymentStatus.PAY_REGISTER_SUCCESS:
                 self.registerCardInfo.isHidden = false
                 self.okBtn.isHidden = false
@@ -126,9 +127,8 @@ class MyPayinfoViewController: UIViewController{
                 
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
-            
+                
             case PaymentStatus.PAY_REGISTER_FAIL, PaymentStatus.PAY_REGISTER_FAIL_PG, PaymentStatus.PAY_REGISTER_CANCEL_FROM_USER:
-                self.registerInfo.layer.height = 0
                 self.registerCardInfo.isHidden = true
                 self.okBtn.isHidden = false
                 self.registerInfoBtnLayer.isHidden = true
@@ -158,7 +158,9 @@ class MyPayinfoViewController: UIViewController{
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
                 break;
+            
         }
+        
     }
 
     func showRegisterWeb(){
@@ -262,11 +264,11 @@ class MyPayinfoViewController: UIViewController{
     @IBAction func onClickChangeBtn(_ sender: UIButton) {
         registerCardInfo.gone()
         
-//        showAlertDialog(vc: self, type: self.CHANGE_MODE, completion:  {(isOkey) -> Void in
-//            if isOkey {
-//                self.showRegisterWeb()
-//            }
-//        })
+        showAlertDialog(vc: self, type: self.CHANGE_MODE, completion:  {(isOkey) -> Void in
+            if isOkey {
+                self.showRegisterWeb()
+            }
+        })
     }
     
     @objc
@@ -380,7 +382,7 @@ extension MyPayinfoViewController: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if(message.name == "returnFromServer"){
             let data = message.body
-            let json = JSON(data)
+            let json = JSON.init(parseJSON: data as! String)
             self.showRegisteredResult(json: json)
         }
     }
