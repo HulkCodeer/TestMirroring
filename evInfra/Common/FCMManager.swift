@@ -249,21 +249,24 @@ class FCMManager {
            
             if let navigation = navigationController {
                  let center = NotificationCenter.default
-                if let viewController = navigation.visibleViewController {
-                    if !String(describing: viewController).contains("PaymentStatusViewController"){
-                        let paymentStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
-                        paymentStatusVC.cpId = cpId
-                        paymentStatusVC.connectorId = connectorId
-                        paymentStatusVC.point = point
-                        navigation.push(viewController: paymentStatusVC)
-                    }else{
-                        center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: data)
-                    }
-                }else{
-                    let paymentResultVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentResultViewController
+                if (cmd.elementsEqual("charging_end")){
+                    let paymentResultVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PaymentResultViewController") as! PaymentResultViewController
                     navigation.push(viewController: paymentResultVC)
-                    
-                    
+                }else{
+                    if let viewController = navigation.visibleViewController {
+                        if !String(describing: viewController).contains("PaymentStatusViewController"){
+                            let paymentStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
+                            paymentStatusVC.cpId = cpId
+                            paymentStatusVC.connectorId = connectorId
+                            paymentStatusVC.point = point
+                            navigation.push(viewController: paymentStatusVC)
+                        }else{
+                            center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: data)
+                        }
+                    }else{
+                        let paymentStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
+                        navigation.push(viewController: paymentStatusVC)
+                    }
                 }
                 
             }
