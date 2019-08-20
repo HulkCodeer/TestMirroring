@@ -84,7 +84,7 @@ class PaymentResultViewController: UIViewController {
     func prepareView() {
         self.ivStation.image = UIImage(named: "ic_menu_ev_station")?.withRenderingMode(.alwaysTemplate)
         self.ivStation.tintColor = UIColor(rgb: 0x585858)
-        self.ivQuantity.image = UIImage(named: "ic_id")?.withRenderingMode(.alwaysTemplate)
+        self.ivQuantity.image = UIImage(named: "ic_charge_quantity")?.withRenderingMode(.alwaysTemplate)
         self.ivQuantity.tintColor = UIColor(rgb: 0x585858)
         self.ivAmount.image = UIImage(named: "ic_menu_pay_amount")?.withRenderingMode(.alwaysTemplate)
         self.ivAmount.tintColor = UIColor(rgb: 0x585858)
