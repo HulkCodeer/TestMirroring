@@ -71,6 +71,7 @@ class PaymentResultViewController: UIViewController {
     */
 
     func prepareView() {
+        self.lbPaymentFailMsg.gone()
         self.ivStation.image = UIImage(named: "ic_menu_ev_station")?.withRenderingMode(.alwaysTemplate)
         self.ivStation.tintColor = UIColor(rgb: 0x585858)
         self.ivQuantity.image = UIImage(named: "ic_id")?.withRenderingMode(.alwaysTemplate)
@@ -147,7 +148,6 @@ extension PaymentResultViewController {
         }
         if chargingStatus.payResultCode?.elementsEqual("8000") ?? false {
             self.lbAuthStatus.text =  "승인성공"
-            self.lbPaymentFailMsg.gone()
             self.lbPaymentResultMsg.text = "충전이 완료되었습니다.\n커넥터를 분리하고 커버를 닫아주세요."
             self.lbAuthMsg.text = "정상승인"
             self.lbSavePoint.text = chargingStatus.occPoint
