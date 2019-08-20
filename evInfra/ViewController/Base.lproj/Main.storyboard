@@ -303,7 +303,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rx1-ZB-nqj">
                                                 <rect key="frame" x="0.0" y="0.0" width="79" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <state key="normal" title="내차충전" image="ic_line_payment">
+                                                <state key="normal" title="QR결제" image="ic_line_payment">
                                                     <color key="titleColor" red="0.082922942939999994" green="0.263746798" blue="0.3624860942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
@@ -313,7 +313,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xBg-t6-57T">
                                                 <rect key="frame" x="83" y="0.0" width="78.5" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <state key="normal" title="결제가능" image="ic_line_payment">
+                                                <state key="normal" title="결제충전소" image="ic_line_payment">
                                                     <color key="titleColor" red="0.082922942939999994" green="0.263746798" blue="0.3624860942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
