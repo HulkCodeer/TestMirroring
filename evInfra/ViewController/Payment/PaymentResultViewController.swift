@@ -41,6 +41,10 @@ class PaymentResultViewController: UIViewController {
     let defaults = UserDefault()
     var chargingId = ""
     
+    override func viewWillAppear(_ animated: Bool) {
+        lbPaymentFailMsg.gone()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
@@ -60,18 +64,24 @@ class PaymentResultViewController: UIViewController {
         }
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func prepareActionBar() {
+        let backButton = IconButton(image: Icon.cm.arrowBack)
+        backButton.tintColor = UIColor(rgb: 0x15435C)
+        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+        
+        navigationItem.leftViews = [backButton]
+        navigationItem.hidesBackButton = true
+        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.text = "충전하기"
+        self.navigationController?.isNavigationBarHidden = false
     }
-    */
+    
+    @objc
+    fileprivate func handleBackButton() {
+        self.navigationController?.pop()
+    }
 
     func prepareView() {
-        self.lbPaymentFailMsg.gone()
         self.ivStation.image = UIImage(named: "ic_menu_ev_station")?.withRenderingMode(.alwaysTemplate)
         self.ivStation.tintColor = UIColor(rgb: 0x585858)
         self.ivQuantity.image = UIImage(named: "ic_id")?.withRenderingMode(.alwaysTemplate)
@@ -95,9 +105,6 @@ class PaymentResultViewController: UIViewController {
     @IBAction func onClickPaymentResultOk(_ sender: UIButton) {
         self.navigationController?.pop()
     }
-}
-
-extension PaymentResultViewController {
     
     func getChargingId() -> String {
         return defaults.readString(key: UserDefault.Key.CHARGING_ID)
@@ -161,32 +168,13 @@ extension PaymentResultViewController {
             self.lbPoint.text = "  -  "
         }
     }
-}
 
-extension PaymentResultViewController {
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
-        navigationItem.titleLabel.text = "충전하기"
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
-    }
-    
     func showProgress() {
         indicator.isHidden = false
         indicator.startAnimating()
     }
     
-    func hideProgress(){
+    func hideProgress() {
         indicator.stopAnimating()
         indicator.isHidden = true
     }
