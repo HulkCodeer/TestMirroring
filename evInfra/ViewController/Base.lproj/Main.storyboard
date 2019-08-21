@@ -4935,7 +4935,7 @@
                                     <constraint firstAttribute="height" constant="32" id="3D7-7C-N0M"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="충전종료"/>
+                                <state key="normal" title="충전 종료"/>
                                 <connections>
                                     <action selector="onClickStopCharging:" destination="V7S-tk-w3k" eventType="touchUpInside" id="5X4-pv-Mo7"/>
                                 </connections>

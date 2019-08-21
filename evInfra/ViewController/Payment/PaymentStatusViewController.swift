@@ -299,12 +299,11 @@ extension PaymentStatusViewController {
         }
         if chargingStatus.status == STATUS_READY {
             lbChargeComment.text = "충전 커넥터를 차량과 연결 후 \n잠시만 기다려 주세요"
-            btnStopCharging.setTitle("충전취소", for: .normal)
+            btnStopCharging.setTitle("충전 취소", for: .normal)
         } else {
             lbChargeComment.text = "충전이 진행중입니다"
             if (btnStopCharging.isEnabled) {
-                btnStopCharging.titleLabel?.text = "충전종료"
-                btnStopCharging.setTitle("충전종료", for: .normal)
+                btnStopCharging.setTitle("충전 종료", for: .normal)
             }
             
             // 충전진행시간
