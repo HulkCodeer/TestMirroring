@@ -19,7 +19,7 @@ class DetailViewController: UIViewController {
 
     @IBOutlet weak var companyView: UIView!    // 운영기관
     @IBOutlet weak var operatorLabel: UILabel! // 운영기관 이름
-    @IBOutlet weak var adressLabel: UILabel!   // 주소
+    @IBOutlet weak var addressLabel: CopyableLabel!
     @IBOutlet weak var chargerLabel: UILabel!  // 유료/무료 충전소
     @IBOutlet weak var dstLabel: UILabel!      // 현 위치에서 거리
     @IBOutlet weak var memoLabel: UILabel!     // 메모
@@ -210,8 +210,8 @@ class DetailViewController: UIViewController {
                 }
                 
                 // 주소
-                self.adressLabel.text = (self.charger?.address)!
-                self.adressLabel.sizeToFit()
+                self.addressLabel.text = (self.charger?.address)!
+                self.addressLabel.sizeToFit()
                 
                 // 메모
                 self.memoLabel.text = json["memo"].stringValue
