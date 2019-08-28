@@ -144,6 +144,7 @@
 		73C31C0B20A2BB04005B6C53 /* charge_normal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73C31C0520A2BB03005B6C53 /* charge_normal.jpg */; };
 		73C31C0D20A4408C005B6C53 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 73C31C0C20A4408C005B6C53 /* GoogleService-Info.plist */; };
 		73CF041A20B2736500BEA9CF /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CF041920B2736500BEA9CF /* UIScrollView.swift */; };
+		73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DD778023164CB60006EFFC /* CopyableLabel.swift */; };
 		73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */; };
 		73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FB42101B7920016F505 /* BedgeButton.swift */; };
 		73EE8FBB2105B3420016F505 /* NewArticleChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FBA2105B3420016F505 /* NewArticleChecker.swift */; };
@@ -380,6 +381,7 @@
 		73C31C0520A2BB03005B6C53 /* charge_normal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = charge_normal.jpg; sourceTree = "<group>"; };
 		73C31C0C20A4408C005B6C53 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		73CF041920B2736500BEA9CF /* UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
+		73DD778023164CB60006EFFC /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
 		73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		73EE8FB42101B7920016F505 /* BedgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedgeButton.swift; sourceTree = "<group>"; };
 		73EE8FBA2105B3420016F505 /* NewArticleChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewArticleChecker.swift; sourceTree = "<group>"; };
@@ -830,6 +832,7 @@
 				73EE8FC62109B0FD0016F505 /* URL.swift */,
 				739171DC22BB4520007369F9 /* UIButton.swift */,
 				DBF3827A2304475900FAF772 /* CBT.swift */,
+				73DD778023164CB60006EFFC /* CopyableLabel.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1343,6 +1346,7 @@
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
+				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,
 				CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */,
 				DB3B858320A42C81005454F5 /* KoreanTextMatcher.swift in Sources */,
 				DB306368221BD5CD00D1276E /* Server.swift in Sources */,
