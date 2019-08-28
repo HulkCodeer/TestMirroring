@@ -9,11 +9,12 @@
 typedef enum {
     UNKNOWNTILE,
     NORMALTILE,         // 국문 일반타일 (256x256)
-    EXTENSIONTILE,      // 국문 일반타일 확대
+//    EXTENSIONTILE,      // 국문 일반타일 확대
     HDTILE,             // 국문 HD타일 (512x512 이미지)
-    ENGLISHTILE,        // 영문 타일
-    CHINATILE,          // 중문 타일
-    HIGHCONTRASTTILE    // 국문 색약자용 타일
+//    미지원
+//    ENGLISHTILE,        // 영문 타일
+//    CHINATILE,          // 중문 타일
+//    HIGHCONTRASTTILE    // 국문 색약자용 타일
 } TMapTileType;
 
 
