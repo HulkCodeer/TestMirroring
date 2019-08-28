@@ -2665,7 +2665,7 @@
                                                     <color key="textColor" red="0.29452592129999999" green="0.29477626089999998" blue="0.294564724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="-" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="maX-Us-8Bw">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="-" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="maX-Us-8Bw" customClass="CopyableLabel" customModule="evInfra" customModuleProvider="target">
                                                     <rect key="frame" x="51" y="28" width="308" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="16" id="tyN-NV-zb3"/>
@@ -3051,7 +3051,7 @@
                     </view>
                     <connections>
                         <outlet property="CidTableHeightConstraint" destination="Ynf-a0-tjo" id="VQy-qI-c69"/>
-                        <outlet property="adressLabel" destination="maX-Us-8Bw" id="ct1-Db-oyP"/>
+                        <outlet property="addressLabel" destination="maX-Us-8Bw" id="b1D-1f-Kp7"/>
                         <outlet property="boardTableView" destination="kZq-ZQ-cbE" id="hgk-pN-eo6"/>
                         <outlet property="chargerLabel" destination="g4s-Lh-qS4" id="hfW-HW-hdm"/>
                         <outlet property="cidTableView" destination="4TJ-YK-AOm" id="eKI-4F-28k"/>
