@@ -303,7 +303,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rx1-ZB-nqj">
                                                 <rect key="frame" x="0.0" y="0.0" width="79" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <state key="normal" title="QR결제" image="ic_line_payment">
+                                                <state key="normal" title="QR충전" image="ic_line_payment">
                                                     <color key="titleColor" red="0.082922942939999994" green="0.263746798" blue="0.3624860942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
@@ -4935,7 +4935,7 @@
                                     <constraint firstAttribute="height" constant="32" id="3D7-7C-N0M"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="충전종료"/>
+                                <state key="normal" title="충전 종료"/>
                                 <connections>
                                     <action selector="onClickStopCharging:" destination="V7S-tk-w3k" eventType="touchUpInside" id="5X4-pv-Mo7"/>
                                 </connections>
