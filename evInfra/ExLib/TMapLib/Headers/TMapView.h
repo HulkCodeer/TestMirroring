@@ -168,7 +168,7 @@ typedef enum {
 
 @interface TMapView : TMapBaseView
 
-@property (nonatomic, assign) id <TMapViewDelegate> delegate;
+@property (nonatomic, weak) id <TMapViewDelegate> delegate;
 @property (nonatomic, assign) id <TMapGpsManagerDelegate> gpsManagersDelegate;
 @property (nonatomic, readonly) NSString* version;
 
