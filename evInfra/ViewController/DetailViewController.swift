@@ -482,15 +482,6 @@ extension DetailViewController: BoardTableViewDelegate {
         self.navigationController?.push(viewController: editVC, subtype: kCATransitionFromTop)
     }
     
-    func makeAdReply(tag: Int) {
-        let adVC:MyArticleViewController = self.storyboard?.instantiateViewController(withIdentifier: "MyArticleViewController") as! MyArticleViewController
-        let adData = self.boardList[tag]
-        adVC.boardId = adData.adId
-        adVC.adName = adData.nick
-        adVC.category = BoardData.BOARD_CATEGORY_ADVERTISE
-        self.navigationController?.push(viewController: adVC)
-    }
-    
     func goToStation(tag: Int) {
     }
     

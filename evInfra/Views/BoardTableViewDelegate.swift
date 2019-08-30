@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 protocol BoardTableViewDelegate {
 
     func getFirstBoardData()
@@ -18,11 +17,10 @@ protocol BoardTableViewDelegate {
     func boardDelete(tag: Int)
     
     func makeReply(tag: Int)
-    func makeAdReply(tag: Int)
+
     func replyEdit(tag: Int)
     func replyDelete(tag: Int)
     
     func goToStation(tag: Int)
     func goToAdUrl(tag: Int)
 }
-

@@ -160,7 +160,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         if headerValue.content_img == nil || headerValue.content_img!.isEmpty {
             headerView.uImage.gone()//visiblity(gone: true, dimension: 0.0)
         } else {
-            if(headerValue.adId > 0) {
+            if headerValue.adId > 0 {
                 let adTab = UITapGestureRecognizer(target: self, action: #selector(onClickAdImage(sender:)))
                 headerView.uImage.tag = section
                 headerView.uImage.sd_setImage(with: URL(string: "\(Const.EV_SERVER_IP)\(headerValue.content_img!)"), placeholderImage: UIImage(named: "placeholder.png"))
@@ -184,10 +184,10 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         }
         
         headerView.userName?.text = headerValue.nick
-        if (headerValue.adId > 0) {
+        
+        if headerValue.adId > 0 {
             headerView.uDate?.text = "advertisement"
-            headerView.uReplyBtn.tag =  section
-            headerView.uReplyBtn.addTarget(self, action: #selector(self.onClickAdReply(_:)), for: .touchUpInside)
+            headerView.uReplyBtn.gone()
         } else {
             headerView.uDate?.text = self.dateFormatter.getBoardDateString(data: headerValue.date!)
             headerView.uReplyBtn.tag =  self.boardList[section].boardId!
@@ -293,11 +293,6 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     @objc func onClickReply(_ sender: UIButton) {
         print("Reply BUTTON CLICK \(sender.tag)")
         tableViewDelegate?.makeReply(tag: sender.tag)
-    }
-    
-    @objc func onClickAdReply(_ sender: UIButton) {
-        print("Reply BUTTON CLICK \(sender.tag)")
-        tableViewDelegate?.makeAdReply(tag: sender.tag)
     }
 
     @objc func onClickStation(_ sender: UIButton) {

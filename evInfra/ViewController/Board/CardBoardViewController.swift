@@ -265,15 +265,6 @@ extension CardBoardViewController: BoardTableViewDelegate {
         self.navigationController?.push(viewController: editVC)
     }
     
-    func makeAdReply(tag: Int) {
-        let adVC:MyArticleViewController = self.storyboard?.instantiateViewController(withIdentifier: "MyArticleViewController") as! MyArticleViewController
-        let adData = self.boardList[tag]
-        adVC.boardId = adData.adId
-        adVC.adName = adData.nick
-        adVC.category = BoardData.BOARD_CATEGORY_ADVERTISE
-        self.navigationController?.push(viewController: adVC)
-    }
-    
     func goToStation(tag: Int) {
         let detailVC:DetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         

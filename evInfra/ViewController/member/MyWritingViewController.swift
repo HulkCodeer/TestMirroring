@@ -108,10 +108,6 @@ extension MyWritingViewController {
 }
 
 extension MyWritingViewController: BoardTableViewDelegate {
-    func makeAdReply(tag: Int) {
-        
-    }
-    
     
     func getFirstBoardData() {
         self.currentPage = 0

@@ -20,7 +20,6 @@ class MyArticleViewController: UIViewController {
 
     var category: String? = nil
     var boardId: Int = 0
-    var adName: String? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,11 +65,7 @@ extension MyArticleViewController {
         navigationItem.hidesBackButton = true
         navigationItem.leftViews = [backButton]
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
-        if let adTitle = self.adName{
-            navigationItem.titleLabel.text = adTitle
-        }else{
-            navigationItem.titleLabel.text = "내글보기"
-        }
+        navigationItem.titleLabel.text = "내글보기"
         
         self.navigationController?.isNavigationBarHidden = false
     }
@@ -90,7 +85,6 @@ extension MyArticleViewController {
 }
 
 extension MyArticleViewController: BoardTableViewDelegate {
-
 
     func getFirstBoardData() {
         Server.getBoardContent(category: category!, boardId: boardId) { (isSuccess, value) in
@@ -185,15 +179,6 @@ extension MyArticleViewController: BoardTableViewDelegate {
         editVC.editViewDelegate = self
         self.navigationController?.push(viewController: editVC)
     }
-    
-    func makeAdReply(tag: Int) {
-        let editVC:EditViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
-        editVC.mode = EditViewController.REPLY_NEW_MODE
-        editVC.originBoardId = boardId
-        editVC.editViewDelegate = self
-        self.navigationController?.push(viewController: editVC)
-    }
-    
     
     func goToStation(tag: Int) {
         

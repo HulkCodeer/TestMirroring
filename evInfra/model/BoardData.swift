@@ -16,7 +16,6 @@ class BoardData {
     public static let BOARD_CATEGORY_FREE      = "boardFree"
     public static let BOARD_CATEGORY_NOTICE    = "boardNotice"
     public static let BOARD_CATEGORY_COMPANY   = "boardCompany"
-    public static let BOARD_CATEGORY_ADVERTISE = "boardAdvertise"
 
     var boardId: Int?
     
