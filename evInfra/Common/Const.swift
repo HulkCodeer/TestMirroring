@@ -11,7 +11,7 @@ import Foundation
 public class Const {
     
     // Closed Beta Test
-    public static let CLOSED_BETA_TEST = true
+    public static let CLOSED_BETA_TEST = false
 
     /*
      * product
