@@ -620,7 +620,7 @@ class Server {
             "member_id": MemberManager.getMemberId(),
             "mb_id": MemberManager.getMbId()
         ]
-        Alamofire.request(Const.EV_PAY_SERVER + "/pay/evPay/getRegistInfoUser",
+        Alamofire.request(Const.EV_PAY_SERVER + "/pay/evPay/registrationInfo",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
