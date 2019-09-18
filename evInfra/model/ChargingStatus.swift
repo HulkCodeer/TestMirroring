@@ -34,7 +34,7 @@ class ChargingStatus: Decodable {
     var payResultCode: String?
     var payResultMsg: String?
 
-    var occPoint: String? // 적립포인트
+    var savePoint: String? // 적립포인트
     var totalPoint: String? // 잔여포인트
 
     var cardNumber: String?
@@ -65,7 +65,7 @@ class ChargingStatus: Decodable {
         case pay_rcode = "pay_rcode"
         case pay_msg = "pay_msg"
 
-        case occ_point = "occ_point"
+        case save_point = "save_point"
         case total_point = "total_point"
 
         case card_nm = "card_nm"
@@ -103,7 +103,7 @@ class ChargingStatus: Decodable {
         payResultCode = try values.decodeIfPresent(String.self, forKey: .pay_rcode)
         payResultMsg = try values.decodeIfPresent(String.self, forKey: .pay_msg)
 
-        occPoint = try values.decodeIfPresent(String.self, forKey: .occ_point)
+        savePoint = try values.decodeIfPresent(String.self, forKey: .save_point)
         totalPoint = try values.decodeIfPresent(String.self, forKey: .total_point)
 
         cardNumber = try values.decodeIfPresent(String.self, forKey: .card_nm)

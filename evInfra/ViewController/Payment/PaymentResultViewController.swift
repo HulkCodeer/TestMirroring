@@ -157,7 +157,7 @@ class PaymentResultViewController: UIViewController {
             self.lbAuthStatus.text =  "승인성공"
             self.lbPaymentResultMsg.text = "충전이 완료되었습니다.\n커넥터를 분리하고 커버를 닫아주세요."
             self.lbAuthMsg.text = "정상승인"
-            self.lbSavePoint.text = chargingStatus.occPoint
+            self.lbSavePoint.text = chargingStatus.savePoint
             self.lbPoint.text = chargingStatus.totalPoint
         } else {
             self.lbAuthStatus.text = "승인실패"
