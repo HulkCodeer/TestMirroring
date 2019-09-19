@@ -668,7 +668,7 @@ class Server {
             "req_ver": 1,
             "mb_id": MemberManager.getMbId()
         ]
-        Alamofire.request(Const.EV_PAY_SERVER + "/charger/charger_info/info",
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member/my_point",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
