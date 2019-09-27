@@ -84,6 +84,7 @@
 
 @property (nonatomic, readonly) CLLocationCoordinate2D rightBottomCoordinate;
 
+@property (nonatomic, retain) NSMutableArray* annotations;
 
 - (void)setZoomLevel:(NSInteger)level;
 
