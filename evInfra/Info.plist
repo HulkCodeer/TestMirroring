@@ -110,5 +110,7 @@
 	</array>
 	<key>content_available</key>
 	<true/>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 </dict>
 </plist>
