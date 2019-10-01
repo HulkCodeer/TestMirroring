@@ -22,7 +22,7 @@ public class Const {
     /*
      * develop
      */
-    public static let EV_SERVER_IP = "http://211.53.109.212:2025"  // test server
+    public static let EV_SERVER_IP = "http://182.208.92.9:2025"  // test server
     public static let EV_PAY_SERVER = "http://dev.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://spark.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://smart.soft-berry.com"
