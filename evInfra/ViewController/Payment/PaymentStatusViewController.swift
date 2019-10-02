@@ -122,11 +122,33 @@ class PaymentStatusViewController: UIViewController {
     }
     
     @IBAction func onClickStopCharging(_ sender: Any) {
-        showProgress()
-        requestStopCharging()
-        btnStopCharging.isEnabled = false
-        btnStopCharging.setTitle("충전 중지 요청중입니다.", for: .disabled)
-        btnStopCharging.setTitleColor(UIColor(rgb: 0x15435C), for: .disabled)
+        showStopChargingDialog()
+    }
+    
+    func showStopChargingDialog() {
+        var title = "충전 종료"
+        var msg = "확인 버튼을 누르면 충전이 종료됩니다."
+        if chargingStatus.status == STATUS_READY {
+            title = "충전 취소";
+            msg = "확인 버튼을 누르면 충전이 취소됩니다.";
+        }
+    
+        let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
+            self.showProgress()
+            self.requestStopCharging()
+            self.btnStopCharging.isEnabled = false
+            self.btnStopCharging.setTitle("충전 중지 요청중입니다.", for: .disabled)
+            self.btnStopCharging.setTitleColor(UIColor(rgb: 0x15435C), for: .disabled)
+        })
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler:{ (ACTION) -> Void in
+            self.dismiss(animated: true, completion: nil)
+        })
+        
+        var actions = Array<UIAlertAction>()
+        actions.append(ok)
+        actions.append(cancel)
+        UIAlertController.showAlert(title: title, message: msg, actions: actions)
     }
 }
 
