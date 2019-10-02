@@ -673,13 +673,12 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    static func openCharger(cpId: String, connectorId: String, point: Int, completion: @escaping (Bool, Any) -> Void) {
+    static func openCharger(cpId: String, connectorId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
             "mb_id": MemberManager.getMbId(),
             "cp_id": cpId,
-            "connector_id": connectorId,
-            "point": point
+            "connector_id": connectorId
         ]
 
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/app_charging/open",

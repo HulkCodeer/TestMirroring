@@ -31,7 +31,6 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     var currentPage = 0
     var mode = 0
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let dateFormatter = SBDateFormat.init()
     var scrollValue:CGFloat = 0
     
     required init?(coder aDecoder: NSCoder) {
@@ -72,7 +71,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         }
         
         cell.rUserName?.text = replyValue.nick
-        cell.rDate?.text = self.dateFormatter.getBoardReplyString(data:replyValue.date!)
+        cell.rDate?.text = Date().toStringToMinute(data: replyValue.date!)
         //replyValue["rdate"].stringValue.components(separatedBy: "T")[0]
         cell.rContents?.text = replyValue.content
         
@@ -189,7 +188,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             headerView.uDate?.text = "advertisement"
             headerView.uReplyBtn.gone()
         } else {
-            headerView.uDate?.text = self.dateFormatter.getBoardDateString(data: headerValue.date!)
+            headerView.uDate?.text = Date().toStringToMinute(data: headerValue.date!)
             headerView.uReplyBtn.tag =  self.boardList[section].boardId!
             headerView.uReplyBtn.addTarget(self, action: #selector(self.onClickReply(_:)), for: .touchUpInside)
         }

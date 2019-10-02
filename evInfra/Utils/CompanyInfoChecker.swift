@@ -83,7 +83,7 @@ class CompanyIconChecker {
             }
         } else {
             self.insertCompanyIconInfo(index: 0)
-            self.saveCompanyUpdateTime()
+            defaults.saveString(key: UserDefault.Key.COMPANY_ICON_UPDATE_DATE, value: Date().toString())
         }
     }
     
@@ -111,11 +111,5 @@ class CompanyIconChecker {
             ImageMarker.loadMarkers()
             companyInfoCheckerDelegate?.finishDownloadCompanyImage()
         }
-    }
-    
-    func saveCompanyUpdateTime(){
-        let sbFormatter = SBDateFormat.init()
-        let date = Date()
-        defaults.saveString(key: UserDefault.Key.COMPANY_ICON_UPDATE_DATE, value: sbFormatter.dateFormatterGet.string(from: date))
     }
 }

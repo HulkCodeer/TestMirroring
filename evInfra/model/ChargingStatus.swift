@@ -20,6 +20,7 @@ class ChargingStatus: Decodable {
 
     var startDate: String? // 충전 시작 일시
     var endDate: String? // 충전 종료 일시
+    var updateTime: String? // 충전정보 업데이트 일시
 
     var chargingTime: String? // 충전 시간
     var chargingKw: String? // 충전량
@@ -51,6 +52,7 @@ class ChargingStatus: Decodable {
 
         case s_date = "s_date"
         case e_date = "e_date"
+        case u_date = "u_date"
 
         case c_time = "c_time"
         case c_kw = "c_kw"
@@ -89,6 +91,7 @@ class ChargingStatus: Decodable {
 
         startDate = try values.decodeIfPresent(String.self, forKey: .s_date)
         endDate = try values.decodeIfPresent(String.self, forKey: .e_date)
+        updateTime = try values.decodeIfPresent(String.self, forKey: .u_date)
 
         chargingTime = try values.decodeIfPresent(String.self, forKey: .c_time)
         chargingKw = try values.decodeIfPresent(String.self, forKey: .c_kw)

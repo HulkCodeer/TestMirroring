@@ -133,21 +133,3 @@ extension Formatter {
         return formatter
     }()
 }
-
-extension Date {
-    
-    func offsetFrom(date: Date) -> String {
-        let dayHourMinuteSecond: Set<Calendar.Component> = [.day, .hour, .minute]
-        let difference = NSCalendar.current.dateComponents(dayHourMinuteSecond, from: date, to: self);
-        
-        let minutes = "\(difference.minute ?? 0)분"
-        let hours = "\(difference.hour ?? 0)시간" + " " + minutes
-        let days = "\(difference.day ?? 0)일" + " " + hours
-        
-        if let day = difference.day, day          > 0 { return days }
-        if let hour = difference.hour, hour       > 0 { return hours }
-        if let minute = difference.minute, minute > 0 { return minutes }
-        
-        return ""
-    }
-}

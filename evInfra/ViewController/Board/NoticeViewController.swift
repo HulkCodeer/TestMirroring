@@ -13,7 +13,6 @@ import SwiftyJSON
 class NoticeViewController: UIViewController {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let dateFormatter = SBDateFormat.init()
     var boardList: JSON!
     
     @IBOutlet weak var tableView: UITableView!
@@ -99,7 +98,7 @@ extension NoticeViewController: UITableViewDataSource, UITableViewDelegate {
         
         cell.nickName?.text = noticeValue["nick_name"].stringValue
         cell.noticeTitle?.text = noticeValue["subject"].stringValue
-        cell.dateTime?.text = self.dateFormatter.getBoardReplyString(data: noticeValue["datetime"].stringValue)
+        cell.dateTime?.text = Date().toStringToMinute(data: noticeValue["datetime"].stringValue)
         return cell
     }
     

@@ -29,16 +29,6 @@ class PaymentQRScanViewController: UIViewController {
     @IBOutlet weak var lbQrScanChargerType: UILabel!
     @IBOutlet weak var svQrScanChargerType: UIStackView!
     
-    @IBOutlet weak var ivPoint: UIImageView!
-    @IBOutlet weak var lbPointTitle: UILabel!
-    @IBOutlet weak var lbMyPointTitle: UILabel!
-    @IBOutlet weak var lbMyPoint: UILabel!
-    @IBOutlet weak var lbMyPointPeriod: UILabel!
-    
-    @IBOutlet weak var lbUserPointTitle: UILabel!
-    @IBOutlet weak var tfUsePoint: UITextField!
-    @IBOutlet weak var lbUsePointPeriod: UILabel!
-    
     @IBOutlet weak var btnStartCharge: UIButton!
     
     var mConnectorList = [Connector]()
@@ -52,7 +42,6 @@ class PaymentQRScanViewController: UIViewController {
         prepareActionBar()
         prepareView()
         prepareQRScanner()
-        prepareMyPoint()
         preparePaymentCardStatus()
         //테스트 하거나 UI 확인시 아래 주석을 풀어주시기 바랍니다.
 //        self.onResultScan(scanInfo: "{ \"cp_id\": \"994\", \"connector_id\": \"1\" }")
@@ -97,6 +86,52 @@ class PaymentQRScanViewController: UIViewController {
     @IBAction func onClickStartCharging(_ sender: UIButton) {
         self.startCharging()
     }
+    
+    func prepareActionBar() {
+        let backButton = IconButton(image: Icon.cm.arrowBack)
+        backButton.tintColor = UIColor(rgb: 0x15435C)
+        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+        
+        navigationItem.leftViews = [backButton]
+        navigationItem.hidesBackButton = true
+        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.text = "충전하기"
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
+    func prepareView() {
+        self.ivType.image = UIImage(named: "ic_menu_plug_type")?.withRenderingMode(.alwaysTemplate)
+        self.ivType.tintColor = UIColor(rgb: 0x585858)
+        self.lbTypeTitle.textColor = UIColor(rgb: 0x585858)
+        self.lbTypeTitle.text = "TYPE"
+        self.lbQrScanChargerType.textColor = UIColor(rgb: 0x909090)
+        
+        self.btnStartCharge.isEnabled = false
+    }
+    
+    func preparePaymentCardStatus() {
+        Server.getPayRegisterStatus{ (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                let payCode = json["pay_code"].intValue
+                switch (payCode) {
+                case PaymentStatus.PAY_NO_USER, PaymentStatus.PAY_NO_CARD_USER:
+                    self.showRegisterCardDialog()
+                case PaymentStatus.PAY_DEBTOR_USER, PaymentStatus.PAY_NO_VERIFY_USER, PaymentStatus.PAY_DELETE_FAIL_USER:
+                    let resultMessage = json["ResultMsg"].stringValue
+                    let message = resultMessage.replacingOccurrences(of: "\\n", with: "\n")
+                    self.showAlertDialogByMessage(message: message)
+                case PaymentStatus.PAY_REGISTER_FAIL_PG:
+                    self.showAlertDialogByMessage(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
+                default:
+                    break
+                }
+                
+            } else {
+                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
+            }
+        }
+    }
 }
 
 extension PaymentQRScanViewController: AVCaptureMetadataOutputObjectsDelegate {
@@ -120,45 +155,6 @@ extension PaymentQRScanViewController: AVCaptureMetadataOutputObjectsDelegate {
                 AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             }
         }
-    }
-    
-    func prepareView() {
-        self.ivType.image = UIImage(named: "ic_menu_plug_type")?.withRenderingMode(.alwaysTemplate)
-        self.ivType.tintColor = UIColor(rgb: 0x585858)
-        self.lbTypeTitle.textColor = UIColor(rgb: 0x585858)
-        self.lbTypeTitle.text = "TYPE"
-        self.lbQrScanChargerType.textColor = UIColor(rgb: 0x909090)
-        
-        self.ivPoint.image = UIImage(named: "ic_menu_point")?.withRenderingMode(.alwaysTemplate)
-        self.ivPoint.tintColor = UIColor(rgb: 0x585858)
-        self.lbPointTitle.textColor = UIColor(rgb: 0x585858)
-        self.lbPointTitle.text = "POINT"
-        
-        self.lbMyPointTitle.textColor = UIColor(rgb: 0x909090)
-        self.lbMyPointTitle.text = "내 포인트"
-        self.lbMyPoint.textColor = UIColor(rgb: 0x909090)
-        self.lbMyPointPeriod.textColor = UIColor(rgb: 0x909090)
-        self.lbMyPointPeriod.text = "점"
-        
-        self.lbUserPointTitle.textColor = UIColor(rgb: 0x909090)
-        self.lbUserPointTitle.text = "포인트사용"
-        self.tfUsePoint.textColor = UIColor(rgb: 0x909090)
-        self.lbUsePointPeriod.textColor = UIColor(rgb: 0x909090)
-        self.lbUsePointPeriod.text = "점"
-        
-        self.btnStartCharge.isEnabled = false
-    }
-    
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
-        navigationItem.titleLabel.text = "충전하기"
-        self.navigationController?.isNavigationBarHidden = false
     }
     
     func prepareQRScanner() {
@@ -207,23 +203,13 @@ extension PaymentQRScanViewController: AVCaptureMetadataOutputObjectsDelegate {
         }
     }
     
-    func onlyDcComboCharger() -> Bool {
-        if self.mConnectorList.count == 2 {
-            return mConnectorList[0].mTypeId == "4" && mConnectorList[0].mTypeId == mConnectorList[1].mTypeId
-        }
-        return false
-    }
-}
-
-extension PaymentQRScanViewController {
-    
     func onResultScan(scanInfo: String?) {
         self.cpId = nil
         self.connectorId = nil
         
         if let resultQR = scanInfo {
             if resultQR.count > 0 {
-                var qrJson = JSON.init(parseJSON: resultQR)
+                let qrJson = JSON.init(parseJSON: resultQR)
                 self.cpId = qrJson["cp_id"].stringValue
                 if let cpid = self.cpId {
                     if cpid.count > 8 {
@@ -246,7 +232,10 @@ extension PaymentQRScanViewController {
             self.showUnsupportedChargerDialog()
         }
     }
-    
+}
+
+extension PaymentQRScanViewController {
+
     func responseGetChargerInfo(response: Any) {
         let json = JSON(response)
         if json["code"].stringValue.elementsEqual("1000") {
@@ -386,18 +375,10 @@ extension PaymentQRScanViewController {
             return
         }
         
-        var point: Int = 0
-        if let pointStr = tfUsePoint.text {
-            if !pointStr.isEmpty {
-                point = Int(pointStr) ?? 0
-            }
-        }
-        
         let paymentStatusVc = self.storyboard?.instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
         if let conId = connectorId {
             paymentStatusVc.connectorId = conId
         }
-        paymentStatusVc.point = point
         paymentStatusVc.cpId = self.cpId!
         
         var vcArray = self.navigationController?.viewControllers
@@ -433,11 +414,15 @@ extension PaymentQRScanViewController {
             }
         }
     }
-}
-
-extension PaymentQRScanViewController {
     
-    func showUnsupportedChargerDialog(){
+    func onlyDcComboCharger() -> Bool {
+        if self.mConnectorList.count == 2 {
+            return mConnectorList[0].mTypeId == "4" && mConnectorList[0].mTypeId == mConnectorList[1].mTypeId
+        }
+        return false
+    }
+    
+    func showUnsupportedChargerDialog() {
         let dialogMessage = UIAlertController(title: "미지원 충전기", message: "결제 가능 충전소가 아니거나, 등록 되지않은 QR 코드입니다.", preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
             self.navigationController?.pop()
@@ -447,7 +432,7 @@ extension PaymentQRScanViewController {
         self.present(dialogMessage, animated: true, completion: nil)
     }
     
-    func showAlertDialogByMessage(message: String){
+    func showAlertDialogByMessage(message: String) {
         let dialogMessage = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
             self.navigationController?.pop()
@@ -457,7 +442,7 @@ extension PaymentQRScanViewController {
         self.present(dialogMessage, animated: true, completion: nil)
     }
     
-    func showRegisterCardDialog(){
+    func showRegisterCardDialog() {
         let dialogMessage = UIAlertController(title: "카드 등록 필요", message: "결제카드 등록 후 사용 가능합니다. \n카드를 등록하시려면 확인 버튼을 누르세요.", preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
             let myPayInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPayinfoViewController") as! MyPayinfoViewController
@@ -475,46 +460,5 @@ extension PaymentQRScanViewController {
         dialogMessage.addAction(ok)
         dialogMessage.addAction(cancel)
         self.present(dialogMessage, animated: true, completion: nil)
-    }
-}
-
-extension PaymentQRScanViewController {
-    
-    func preparePaymentCardStatus() {
-        Server.getPayRegisterStatus{ (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                let payCode = json["pay_code"].intValue
-                switch (payCode) {
-                case PaymentStatus.PAY_NO_USER, PaymentStatus.PAY_NO_CARD_USER:
-                    self.showRegisterCardDialog()
-                case PaymentStatus.PAY_DEBTOR_USER, PaymentStatus.PAY_NO_VERIFY_USER, PaymentStatus.PAY_DELETE_FAIL_USER:
-                    let resultMessage = json["ResultMsg"].stringValue
-                    let message = resultMessage.replacingOccurrences(of: "\\n", with: "\n")
-                    self.showAlertDialogByMessage(message: message)
-                case PaymentStatus.PAY_REGISTER_FAIL_PG:
-                    self.showAlertDialogByMessage(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
-                default:
-                    break
-                }
-                
-            } else {
-                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
-            }
-        }
-    }
-    
-    func prepareMyPoint() {
-        Server.getPoint{ (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                if json["code"].stringValue == "1000"{
-                    self.mMyPoint = json["point"].intValue
-                    self.lbMyPoint.text = "\(self.mMyPoint)"
-                }
-            } else {
-                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
-            }
-        }
     }
 }

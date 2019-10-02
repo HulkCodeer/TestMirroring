@@ -22,13 +22,10 @@ class PaymentStatusViewController: UIViewController {
     @IBOutlet weak var lbChargeComment: UILabel!
     @IBOutlet weak var circleView: CircularProgressBar!
     
-    @IBOutlet weak var ivChargePower: UIImageView!
-    @IBOutlet weak var lbChargePowerTitle: UILabel!
     @IBOutlet weak var lbChargePower: UILabel!
-    @IBOutlet weak var ivChargeTime: UIImageView!
+    @IBOutlet weak var lbChargeSpeed: UILabel!
+    @IBOutlet weak var lbChargeFee: UILabel!
     @IBOutlet weak var chronometer: Chronometer!
-    
-    @IBOutlet weak var lbChargeTimeTitle: UILabel!
     
     @IBOutlet weak var btnStopCharging: UIButton!
     
@@ -41,6 +38,10 @@ class PaymentStatusViewController: UIViewController {
     var cpId: String = ""
     var connectorId: String = ""
     var chargingStatus = ChargingStatus.init()
+    
+    // 충전속도 계산
+    var preChargingKw: String = ""
+    var preUpdateTime: String = ""
     
     var timer = Timer()
     
@@ -87,16 +88,6 @@ class PaymentStatusViewController: UIViewController {
     }
     
     func prepareView() {
-        self.ivChargeTime.image = UIImage(named: "ic_time")?.withRenderingMode(.alwaysTemplate)
-        self.ivChargeTime.tintColor = UIColor(rgb: 0x585858)
-        self.lbChargeTimeTitle.textColor = UIColor(rgb: 0x585858)
-        self.chronometer.textColor = UIColor(rgb: 0x15435C)
-        
-        self.ivChargePower.image = UIImage(named: "ic_charge_quantity")?.withRenderingMode(.alwaysTemplate)
-        self.ivChargePower.tintColor = UIColor(rgb: 0x585858)
-        self.lbChargePowerTitle.textColor = UIColor(rgb: 0x585858)
-        self.lbChargePower.textColor = UIColor(rgb: 0x15435C)
-        
         self.circleView.labelSize = 60
         self.circleView.safePercent = 100
     }
@@ -169,7 +160,7 @@ extension PaymentStatusViewController {
         let chargingId = getChargingId()
         if chargingId.isEmpty {
             showProgress()
-            Server.openCharger(cpId: cpId, connectorId: connectorId, point: point) { (isSuccess, value) in
+            Server.openCharger(cpId: cpId, connectorId: connectorId) { (isSuccess, value) in
                 self.hideProgress()
                 if isSuccess {
                     let json = JSON(value)
@@ -247,6 +238,7 @@ extension PaymentStatusViewController {
         chargingStatus.status = Int(response["status"].string ?? "\(STATUS_READY)")
         chargingStatus.cpId = response["cp_id"].string ?? ""
         chargingStatus.startDate = response["s_date"].string ?? ""
+        chargingStatus.updateTime = response["u_date"].string ?? ""
         chargingStatus.chargingRate = response["rate"].string ?? "0"
         chargingStatus.chargingKw = response["c_kw"].string ?? "0"
         chargingStatus.usedPoint = response["u_point"].string ?? ""
@@ -323,10 +315,35 @@ extension PaymentStatusViewController {
                 }
             }
             
-            // 충전량
             if let chargingKw = chargingStatus.chargingKw {
+                // 충전량
                 let chargePower = "\(chargingKw) Kw"
                 lbChargePower.text = chargePower
+                
+                // 충전 요금: 충전량 x 173.8
+                let fee = round((chargingKw.parseDouble() ?? 0) * 173.8)
+                lbChargeFee.text = "\(fee)".currency() + "원"
+                
+                // 충전속도
+                if let updateTime = chargingStatus.updateTime {
+                    if (!preChargingKw.isEmpty && !preUpdateTime.isEmpty && !preUpdateTime.elementsEqual(updateTime)) {
+                        // 시간차이 계산. 충전량 계산. 속도 계산
+                        let preDate = Date().toDate(data: preUpdateTime)
+                        let updateDate = Date().toDate(data: updateTime)
+                        let sec = Double(updateDate?.timeIntervalSince(preDate!) ?? 0)
+
+                        // 충전량 계산
+                        let chargingKw = chargingKw.parseDouble()! - preChargingKw.parseDouble()!
+
+                        // 속도 계산: 충전량 / 시간 * 3600
+                        if (sec > 0 && chargingKw > 0) {
+                            let speed = chargingKw / sec * 3600
+                            lbChargeSpeed.text = "\((speed * 100).rounded() / 100) Kw"
+                        }
+                    }
+                    preChargingKw = chargingStatus.chargingKw ?? ""
+                    preUpdateTime = chargingStatus.updateTime ?? ""
+                }
             }
         }
     }

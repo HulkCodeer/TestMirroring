@@ -55,7 +55,6 @@
 		736813B5204513D50035FC66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 736813B3204513D50035FC66 /* Main.storyboard */; };
 		736BCE85205A89070052C9ED /* CidTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736BCE84205A89060052C9ED /* CidTableViewCell.swift */; };
 		736BCE87205A892E0052C9ED /* intro_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 736BCE86205A892E0052C9ED /* intro_bg.jpg */; };
-		736D37C420870CEC009535EE /* SBDateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C320870CEC009535EE /* SBDateFormat.swift */; };
 		736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C520871B15009535EE /* BoardTableViewDelegate.swift */; };
 		736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C9208993BE009535EE /* NoticeTableViewCell.swift */; };
 		736D37CC2089B7E3009535EE /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37CB2089B7E2009535EE /* NoticeDetailViewController.swift */; };
@@ -292,7 +291,6 @@
 		736813B4204513D50035FC66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		736BCE84205A89060052C9ED /* CidTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CidTableViewCell.swift; sourceTree = "<group>"; };
 		736BCE86205A892E0052C9ED /* intro_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = intro_bg.jpg; sourceTree = "<group>"; };
-		736D37C320870CEC009535EE /* SBDateFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBDateFormat.swift; sourceTree = "<group>"; };
 		736D37C520871B15009535EE /* BoardTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewDelegate.swift; sourceTree = "<group>"; };
 		736D37C9208993BE009535EE /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
 		736D37CB2089B7E2009535EE /* NoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewController.swift; sourceTree = "<group>"; };
@@ -818,7 +816,6 @@
 				73A7B39E204E2A6E002E975F /* ImageMarker.swift */,
 				736813B1204503B70035FC66 /* NavCenterButton.swift */,
 				733662CD22EFF2A40049AEFE /* NavigationDrawerController.swift */,
-				736D37C320870CEC009535EE /* SBDateFormat.swift */,
 				DBE579B421A3E3CA005DD998 /* Snackbar.swift */,
 				DB18732320A8519200790B77 /* String.swift */,
 				DBEE9AF92117DBF000770D04 /* UIAlertController.swift */,
@@ -1290,7 +1287,6 @@
 				73EE8FBD2105B5150016F505 /* NewArticleCheckDelegate.swift in Sources */,
 				735E87C822D88ED70028F7BD /* ChargingStatus.swift in Sources */,
 				73344AC5207F429300A6A9EC /* EditViewDelegate.swift in Sources */,
-				736D37C420870CEC009535EE /* SBDateFormat.swift in Sources */,
 				CEC4322A223A5C9A00B76795 /* SearchTableView.swift in Sources */,
 				CE93309121509A81006B7EF6 /* ReportBoardViewController.swift in Sources */,
 				73C31BF92099A024005B6C53 /* EVModel.swift in Sources */,
