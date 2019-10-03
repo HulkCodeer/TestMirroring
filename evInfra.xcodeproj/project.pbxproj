@@ -73,7 +73,6 @@
 		738C2CEC20A93682006E268D /* type_super_dim.png in Resources */ = {isa = PBXBuildFile; fileRef = 738C2CE820A9367F006E268D /* type_super_dim.png */; };
 		738C2CED20A93682006E268D /* type_super.png in Resources */ = {isa = PBXBuildFile; fileRef = 738C2CE920A93681006E268D /* type_super.png */; };
 		739171DD22BB4520007369F9 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739171DC22BB4520007369F9 /* UIButton.swift */; };
-		739171DF22BC9D3F007369F9 /* MyPayinfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739171DE22BC9D3F007369F9 /* MyPayinfoViewController.swift */; };
 		739171E122C4A209007369F9 /* PaymentQRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739171E022C4A209007369F9 /* PaymentQRScanViewController.swift */; };
 		73A37CA22085DB5400FD3D0A /* CardBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A37CA12085DB5400FD3D0A /* CardBoardViewController.swift */; };
 		73A7B39F204E2A6E002E975F /* ImageMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A7B39E204E2A6E002E975F /* ImageMarker.swift */; };
@@ -142,6 +141,14 @@
 		73C31C0A20A2BB04005B6C53 /* charger_chademo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73C31C0420A2BB03005B6C53 /* charger_chademo.jpg */; };
 		73C31C0B20A2BB04005B6C53 /* charge_normal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73C31C0520A2BB03005B6C53 /* charge_normal.jpg */; };
 		73C31C0D20A4408C005B6C53 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 73C31C0C20A4408C005B6C53 /* GoogleService-Info.plist */; };
+		73C6A0FD2345F1B600349A86 /* MyPayinfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A0FC2345F1B500349A86 /* MyPayinfoViewController.swift */; };
+		73C6A1042345F1E800349A86 /* MembershipInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C6A0FE2345F1E700349A86 /* MembershipInfoView.xib */; };
+		73C6A1052345F1E800349A86 /* MembershipIssuanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A0FF2345F1E700349A86 /* MembershipIssuanceView.swift */; };
+		73C6A1062345F1E800349A86 /* MembershipIssuanceViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A1002345F1E700349A86 /* MembershipIssuanceViewDelegate.swift */; };
+		73C6A1072345F1E800349A86 /* MembershipInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A1012345F1E700349A86 /* MembershipInfoView.swift */; };
+		73C6A1082345F1E800349A86 /* MembershipInfoViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A1022345F1E700349A86 /* MembershipInfoViewDelegate.swift */; };
+		73C6A1092345F1E800349A86 /* MembershipIssuanceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C6A1032345F1E800349A86 /* MembershipIssuanceView.xib */; };
+		73C6A10B2345F1F800349A86 /* MembershipCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */; };
 		73CF041A20B2736500BEA9CF /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CF041920B2736500BEA9CF /* UIScrollView.swift */; };
 		73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DD778023164CB60006EFFC /* CopyableLabel.swift */; };
 		73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */; };
@@ -309,7 +316,6 @@
 		738C2CE820A9367F006E268D /* type_super_dim.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = type_super_dim.png; sourceTree = "<group>"; };
 		738C2CE920A93681006E268D /* type_super.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = type_super.png; sourceTree = "<group>"; };
 		739171DC22BB4520007369F9 /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
-		739171DE22BC9D3F007369F9 /* MyPayinfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPayinfoViewController.swift; sourceTree = "<group>"; };
 		739171E022C4A209007369F9 /* PaymentQRScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQRScanViewController.swift; sourceTree = "<group>"; };
 		73A37CA12085DB5400FD3D0A /* CardBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBoardViewController.swift; sourceTree = "<group>"; };
 		73A7B39E204E2A6E002E975F /* ImageMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMarker.swift; sourceTree = "<group>"; };
@@ -378,6 +384,14 @@
 		73C31C0420A2BB03005B6C53 /* charger_chademo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = charger_chademo.jpg; sourceTree = "<group>"; };
 		73C31C0520A2BB03005B6C53 /* charge_normal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = charge_normal.jpg; sourceTree = "<group>"; };
 		73C31C0C20A4408C005B6C53 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		73C6A0FC2345F1B500349A86 /* MyPayinfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPayinfoViewController.swift; sourceTree = "<group>"; };
+		73C6A0FE2345F1E700349A86 /* MembershipInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MembershipInfoView.xib; sourceTree = "<group>"; };
+		73C6A0FF2345F1E700349A86 /* MembershipIssuanceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceView.swift; sourceTree = "<group>"; };
+		73C6A1002345F1E700349A86 /* MembershipIssuanceViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceViewDelegate.swift; sourceTree = "<group>"; };
+		73C6A1012345F1E700349A86 /* MembershipInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipInfoView.swift; sourceTree = "<group>"; };
+		73C6A1022345F1E700349A86 /* MembershipInfoViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipInfoViewDelegate.swift; sourceTree = "<group>"; };
+		73C6A1032345F1E800349A86 /* MembershipIssuanceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MembershipIssuanceView.xib; sourceTree = "<group>"; };
+		73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipCardViewController.swift; sourceTree = "<group>"; };
 		73CF041920B2736500BEA9CF /* UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
 		73DD778023164CB60006EFFC /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
 		73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
@@ -728,6 +742,12 @@
 		73B75286204928550077112A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				73C6A1012345F1E700349A86 /* MembershipInfoView.swift */,
+				73C6A0FE2345F1E700349A86 /* MembershipInfoView.xib */,
+				73C6A1022345F1E700349A86 /* MembershipInfoViewDelegate.swift */,
+				73C6A0FF2345F1E700349A86 /* MembershipIssuanceView.swift */,
+				73C6A1032345F1E800349A86 /* MembershipIssuanceView.xib */,
+				73C6A1002345F1E700349A86 /* MembershipIssuanceViewDelegate.swift */,
 				CE5242372183076000FF6AB1 /* AddressSearchCell.swift */,
 				73BFA04E208487050028B35D /* BoardTableView.swift */,
 				73BFA04A20847A310028B35D /* BoardTableViewCell.swift */,
@@ -767,6 +787,7 @@
 		73EF8B40203BC12F00D04494 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				73C6A0FC2345F1B500349A86 /* MyPayinfoViewController.swift */,
 				DB3799F621673E1E001D8F69 /* Board */,
 				DB5FA59422C20A5100F1508A /* history */,
 				DB3799F521673CEC001D8F69 /* member */,
@@ -900,7 +921,7 @@
 		DB3799F521673CEC001D8F69 /* member */ = {
 			isa = PBXGroup;
 			children = (
-				739171DE22BC9D3F007369F9 /* MyPayinfoViewController.swift */,
+				73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */,
 				DBEE9AF72117DB5600770D04 /* LoginViewController.swift */,
 				DBEE9AFB211842ED00770D04 /* SignUpViewController.swift */,
 				CE2483FF20A59E2500611E24 /* MyPageViewController.swift */,
@@ -1061,6 +1082,7 @@
 				73344AC1207B5F8B00A6A9EC /* awsconfiguration.json in Resources */,
 				73A7B3EB204E3595002E975F /* reply_icon.png in Resources */,
 				73EF8B74203C85CC00D04494 /* mapbg_tlogo@2x.png in Resources */,
+				73C6A1042345F1E800349A86 /* MembershipInfoView.xib in Resources */,
 				7357594820916A52008181E9 /* sm3.jpg in Resources */,
 				73C31C0A20A2BB04005B6C53 /* charger_chademo.jpg in Resources */,
 				738C2CEB20A93682006E268D /* type_destination_dim.png in Resources */,
@@ -1097,6 +1119,7 @@
 				738C2CEA20A93682006E268D /* type_destination.png in Resources */,
 				7357594220916A37008181E9 /* ioniq.jpg in Resources */,
 				73A7B3EA204E3595002E975F /* delete_normal.png in Resources */,
+				73C6A1092345F1E800349A86 /* MembershipIssuanceView.xib in Resources */,
 				73C31C0D20A4408C005B6C53 /* GoogleService-Info.plist in Resources */,
 				DB18733820AAEC8400790B77 /* navi_kakao.png in Resources */,
 				73A7B417204E3595002E975F /* navi_bg.jpg in Resources */,
@@ -1226,6 +1249,7 @@
 			files = (
 				73A7B39F204E2A6E002E975F /* ImageMarker.swift in Sources */,
 				73268D5221886C3000C00427 /* MyWritingViewController.swift in Sources */,
+				73C6A1072345F1E800349A86 /* MembershipInfoView.swift in Sources */,
 				73AF8FC121C77E1B003CB2CF /* ClusterManager.swift in Sources */,
 				73EE8FBB2105B3420016F505 /* NewArticleChecker.swift in Sources */,
 				73A37CA22085DB5400FD3D0A /* CardBoardViewController.swift in Sources */,
@@ -1241,6 +1265,7 @@
 				733662D022F974820049AEFE /* Coupon.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
+				73C6A0FD2345F1B600349A86 /* MyPayinfoViewController.swift in Sources */,
 				CEBE0603214BCB990047E6F2 /* ReportChargeViewDelegate.swift in Sources */,
 				73008459213687150001DBFA /* DetailViewController.swift in Sources */,
 				DB3799F821673FDD001D8F69 /* FavoriteViewController.swift in Sources */,
@@ -1296,6 +1321,7 @@
 				73EF8B45203BD1D400D04494 /* EVIcon.swift in Sources */,
 				736D37CC2089B7E3009535EE /* NoticeDetailViewController.swift in Sources */,
 				73AD13C6203AC34400ADD19A /* LeftViewController.swift in Sources */,
+				73C6A1082345F1E800349A86 /* MembershipInfoViewDelegate.swift in Sources */,
 				73C31BFB20A288BB005B6C53 /* ChargerInfoViewController.swift in Sources */,
 				CE93308F214F9807006B7EF6 /* ReportChargeInfoList.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton.swift in Sources */,
@@ -1307,6 +1333,8 @@
 				733662F822FD11740049AEFE /* LeftViewTableHeader.swift in Sources */,
 				CE5242362182FD9000FF6AB1 /* AddressToLocationController.swift in Sources */,
 				DB87607520690B370095394B /* BoardTableViewHeader.swift in Sources */,
+				73C6A1062345F1E800349A86 /* MembershipIssuanceViewDelegate.swift in Sources */,
+				73C6A10B2345F1F800349A86 /* MembershipCardViewController.swift in Sources */,
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,
 				73A7B42A204E8203002E975F /* Charger.swift in Sources */,
 				DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */,
@@ -1332,6 +1360,7 @@
 				733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */,
 				733662CC22EFECB80049AEFE /* Event.swift in Sources */,
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
+				73C6A1052345F1E800349A86 /* MembershipIssuanceView.swift in Sources */,
 				736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController.swift in Sources */,
 				73EE8FC72109B0FD0016F505 /* URL.swift in Sources */,
@@ -1349,7 +1378,6 @@
 				CE33B4BD2191BA1200B6C632 /* EventContentsViewController.swift in Sources */,
 				DB5FA59622C20A8400F1508A /* ChargesViewController.swift in Sources */,
 				732B92A020EDECB60090E9FC /* DBManager.swift in Sources */,
-				739171DF22BC9D3F007369F9 /* MyPayinfoViewController.swift in Sources */,
 				CE93309921511AD4006B7EF6 /* ReportBoardTableViewCell.swift in Sources */,
 				739171E122C4A209007369F9 /* PaymentQRScanViewController.swift in Sources */,
 				73B752852049284B0077112A /* NoticeViewController.swift in Sources */,
