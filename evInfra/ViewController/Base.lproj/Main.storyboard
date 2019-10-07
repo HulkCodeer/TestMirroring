@@ -361,7 +361,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJq-gl-PDQ" userLabel="Renew Button">
-                                <rect key="frame" x="287" y="122" width="80" height="80"/>
+                                <rect key="frame" x="327" y="122" width="40" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="ic_renew">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1559,7 +1559,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K40-za-qy5" userLabel="BtnCharger">
-                                        <rect key="frame" x="0.0" y="6" width="184" height="48"/>
+                                        <rect key="frame" x="0.0" y="18" width="184" height="24"/>
                                         <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="충전소 검색" image="ic_radio_unchecked">
@@ -1570,7 +1570,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1A-58-YMr" userLabel="BtnAddress">
-                                        <rect key="frame" x="191" y="6" width="184" height="48"/>
+                                        <rect key="frame" x="191" y="18" width="184" height="24"/>
                                         <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="주소 검색" image="ic_radio_unchecked">
@@ -2005,10 +2005,10 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="efx-5d-6VO">
-                                                        <rect key="frame" x="48" y="32" width="319" height="48"/>
+                                                        <rect key="frame" x="48" y="56" width="319" height="24"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h24-ZF-vb6" userLabel="PayUsed">
-                                                                <rect key="frame" x="0.0" y="0.0" width="159.5" height="48"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="159.5" height="24"/>
                                                                 <inset key="titleEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                 <state key="normal" title="유료" image="ic_radio_unchecked">
                                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2018,7 +2018,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ime-Q3-BBt" userLabel="PayFree">
-                                                                <rect key="frame" x="167.5" y="0.0" width="151.5" height="48"/>
+                                                                <rect key="frame" x="167.5" y="0.0" width="151.5" height="24"/>
                                                                 <inset key="titleEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                 <state key="normal" title="무료" image="ic_radio_unchecked">
                                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4721,7 +4721,7 @@
         <scene sceneID="b1y-b2-mUJ">
             <objects>
                 <viewController storyboardIdentifier="PaymentStatusViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="V7S-tk-w3k" customClass="PaymentStatusViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="qTO-yi-6HR">
+                    <view key="view" contentMode="scaleToFill" id="qTO-yi-6HR" userLabel="Root View">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -4888,17 +4888,30 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJZ-wE-oBV">
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="pE1-8x-Q5X" userLabel="Stack View Button">
                                 <rect key="frame" x="16" y="619" width="343" height="32"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JtC-qC-bM9">
+                                        <rect key="frame" x="0.0" y="0.0" width="170.5" height="32"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="포인트 사용"/>
+                                        <connections>
+                                            <action selector="onClickUsePoint:" destination="V7S-tk-w3k" eventType="touchUpInside" id="BYp-RW-Jgj"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJZ-wE-oBV">
+                                        <rect key="frame" x="172.5" y="0.0" width="170.5" height="32"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="충전 종료"/>
+                                        <connections>
+                                            <action selector="onClickStopCharging:" destination="V7S-tk-w3k" eventType="touchUpInside" id="5X4-pv-Mo7"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="3D7-7C-N0M"/>
+                                    <constraint firstAttribute="height" constant="32" id="F9c-yL-r3m"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="충전 종료"/>
-                                <connections>
-                                    <action selector="onClickStopCharging:" destination="V7S-tk-w3k" eventType="touchUpInside" id="5X4-pv-Mo7"/>
-                                </connections>
-                            </button>
+                            </stackView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="fZH-QU-XtB">
                                 <rect key="frame" x="169" y="315" width="37" height="37"/>
                                 <constraints>
@@ -4911,18 +4924,18 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="2Va-no-exv" firstAttribute="trailing" secondItem="xT9-U2-GQU" secondAttribute="trailing" constant="8" id="1Q4-vB-9xX"/>
-                            <constraint firstItem="2Va-no-exv" firstAttribute="trailing" secondItem="aJZ-wE-oBV" secondAttribute="trailing" constant="16" id="1ec-gO-jsY"/>
-                            <constraint firstItem="2Va-no-exv" firstAttribute="bottom" secondItem="aJZ-wE-oBV" secondAttribute="bottom" constant="16" id="5UU-cH-P7C"/>
                             <constraint firstItem="2Va-no-exv" firstAttribute="trailing" secondItem="s4l-0W-7lg" secondAttribute="trailing" constant="16" id="6p6-pq-VFI"/>
                             <constraint firstItem="2Va-no-exv" firstAttribute="trailing" secondItem="kQ4-sl-Vfd" secondAttribute="trailing" constant="16" id="7c2-Es-fGc"/>
+                            <constraint firstItem="2Va-no-exv" firstAttribute="bottom" secondItem="pE1-8x-Q5X" secondAttribute="bottom" constant="16" id="Agv-Dg-eYC"/>
                             <constraint firstItem="fZH-QU-XtB" firstAttribute="centerY" secondItem="qTO-yi-6HR" secondAttribute="centerY" id="Elp-Gf-DsO"/>
-                            <constraint firstItem="aJZ-wE-oBV" firstAttribute="leading" secondItem="2Va-no-exv" secondAttribute="leading" constant="16" id="N1J-BQ-WEK"/>
+                            <constraint firstItem="pE1-8x-Q5X" firstAttribute="leading" secondItem="qTO-yi-6HR" secondAttribute="leading" constant="16" id="NMW-7L-kxn"/>
+                            <constraint firstAttribute="trailing" secondItem="pE1-8x-Q5X" secondAttribute="trailing" constant="16" id="WP1-TE-pNE"/>
+                            <constraint firstItem="pE1-8x-Q5X" firstAttribute="top" secondItem="kQ4-sl-Vfd" secondAttribute="bottom" constant="16" id="ZxN-p5-hsA"/>
                             <constraint firstItem="xT9-U2-GQU" firstAttribute="leading" secondItem="2Va-no-exv" secondAttribute="leading" constant="8" id="b9O-3X-bZv"/>
                             <constraint firstItem="s4l-0W-7lg" firstAttribute="leading" secondItem="2Va-no-exv" secondAttribute="leading" constant="16" id="dYz-sz-knP"/>
                             <constraint firstItem="xT9-U2-GQU" firstAttribute="top" secondItem="s4l-0W-7lg" secondAttribute="bottom" constant="32" id="ef1-mS-vPc"/>
                             <constraint firstItem="kQ4-sl-Vfd" firstAttribute="leading" secondItem="2Va-no-exv" secondAttribute="leading" constant="16" id="lhX-dL-inM"/>
                             <constraint firstItem="fZH-QU-XtB" firstAttribute="centerX" secondItem="qTO-yi-6HR" secondAttribute="centerX" id="rIa-zT-1zw"/>
-                            <constraint firstItem="aJZ-wE-oBV" firstAttribute="top" secondItem="kQ4-sl-Vfd" secondAttribute="bottom" constant="16" id="sEG-JD-Q9f"/>
                             <constraint firstItem="s4l-0W-7lg" firstAttribute="top" secondItem="2Va-no-exv" secondAttribute="top" constant="32" id="ugD-Po-jw5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2Va-no-exv"/>
@@ -6177,6 +6190,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oLD-y9-76i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3542" y="2075"/>
+        </scene>
+        <!--Use Point Controller-->
+        <scene sceneID="7vW-Nl-M0x">
+            <objects>
+                <viewController storyboardIdentifier="UsePointController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zjR-uO-o2s" customClass="UsePointController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Dli-Jj-Ux3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="ejh-70-clA"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1iD-y6-Heh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="721" y="2758"/>
         </scene>
     </scenes>
     <resources>

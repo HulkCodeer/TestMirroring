@@ -26,7 +26,7 @@ class PaymentStatusViewController: UIViewController {
     @IBOutlet weak var lbChargeSpeed: UILabel!
     @IBOutlet weak var lbChargeFee: UILabel!
     @IBOutlet weak var chronometer: Chronometer!
-    
+
     @IBOutlet weak var btnStopCharging: UIButton!
     
     @IBOutlet weak var indicator: UIActivityIndicatorView!
@@ -119,6 +119,11 @@ class PaymentStatusViewController: UIViewController {
     @objc
     fileprivate func handleBackButton() {
         self.navigationController?.pop()
+    }
+    
+    @IBAction func onClickUsePoint(_ sender: Any) {
+        let usePointVC = self.storyboard?.instantiateViewController(withIdentifier: "UsePointController") as! UsePointController
+        self.present(usePointVC, animated: true, completion: nil)
     }
     
     @IBAction func onClickStopCharging(_ sender: Any) {

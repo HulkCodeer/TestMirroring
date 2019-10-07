@@ -229,6 +229,7 @@
 		DB8936542074A4EB006A10BB /* ChargerTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8936532074A4EB006A10BB /* ChargerTableView.swift */; };
 		DB9673C620843EF6008ACCAE /* ChargerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9673C520843EF6008ACCAE /* ChargerTableViewCell.swift */; };
 		DBA18B1D211D7AF400A2CB4F /* MemberManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA18B1C211D7AF400A2CB4F /* MemberManager.swift */; };
+		DBDC59A0234B6E4E00F75D64 /* UsePointController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDC599F234B6E4E00F75D64 /* UsePointController.swift */; };
 		DBE579B521A3E3CA005DD998 /* Snackbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE579B421A3E3CA005DD998 /* Snackbar.swift */; };
 		DBE591982114A93A00FE913B /* KakaoOpenSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBE591972114A93900FE913B /* KakaoOpenSDK.framework */; };
 		DBEE9AF82117DB5600770D04 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEE9AF72117DB5600770D04 /* LoginViewController.swift */; };
@@ -485,6 +486,7 @@
 		DB8936532074A4EB006A10BB /* ChargerTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerTableView.swift; sourceTree = "<group>"; };
 		DB9673C520843EF6008ACCAE /* ChargerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerTableViewCell.swift; sourceTree = "<group>"; };
 		DBA18B1C211D7AF400A2CB4F /* MemberManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberManager.swift; sourceTree = "<group>"; };
+		DBDC599F234B6E4E00F75D64 /* UsePointController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsePointController.swift; sourceTree = "<group>"; };
 		DBE579B421A3E3CA005DD998 /* Snackbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snackbar.swift; sourceTree = "<group>"; };
 		DBE591972114A93900FE913B /* KakaoOpenSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoOpenSDK.framework; path = evInfra/Lib/KakaoOpenSDK.framework; sourceTree = "<group>"; };
 		DBEE9AF72117DB5600770D04 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -796,6 +798,7 @@
 				CE5242352182FD9000FF6AB1 /* AddressToLocationController.swift */,
 				DB48E1F522E08B07003FFA08 /* ServiceGuideViewController.swift */,
 				73268D4B2188331700C00427 /* SettingsViewController.swift */,
+				DBDC599F234B6E4E00F75D64 /* UsePointController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1275,6 +1278,7 @@
 				CE9330972150FB32006B7EF6 /* ReportChargeItem.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
 				7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */,
+				DBDC59A0234B6E4E00F75D64 /* UsePointController.swift in Sources */,
 				736BCE85205A89070052C9ED /* CidTableViewCell.swift in Sources */,
 				73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */,
 				732B929A20EDD0C60090E9FC /* CompanyInfoChecker.swift in Sources */,
