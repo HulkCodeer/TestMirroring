@@ -386,10 +386,7 @@ extension PaymentStatusViewController {
     }
     
     func getChargingStartTime() -> Double {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        formatter.locale = Locale(identifier: "ko_KR")
-        let since1970 = formatter.date(from: chargingStartTime)!.timeIntervalSince1970
-        return Double(since1970)
+        let date = Date().toDate(data: chargingStartTime)
+        return Double(date!.timeIntervalSince1970)
     }
 }

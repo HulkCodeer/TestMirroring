@@ -32,6 +32,7 @@ extension Date {
     
     func toDate(data: String) -> Date? {
         let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         if let date: Date = dateFormatter.date(from: data) {
             return date
