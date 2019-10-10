@@ -361,7 +361,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJq-gl-PDQ" userLabel="Renew Button">
-                                <rect key="frame" x="327" y="122" width="40" height="40"/>
+                                <rect key="frame" x="287" y="122" width="80" height="80"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="ic_renew">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1559,7 +1559,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K40-za-qy5" userLabel="BtnCharger">
-                                        <rect key="frame" x="0.0" y="18" width="184" height="24"/>
+                                        <rect key="frame" x="0.0" y="6" width="184" height="48"/>
                                         <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="충전소 검색" image="ic_radio_unchecked">
@@ -1570,7 +1570,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1A-58-YMr" userLabel="BtnAddress">
-                                        <rect key="frame" x="191" y="18" width="184" height="24"/>
+                                        <rect key="frame" x="191" y="6" width="184" height="48"/>
                                         <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="주소 검색" image="ic_radio_unchecked">
@@ -6113,10 +6113,10 @@
             </objects>
             <point key="canvasLocation" x="3542" y="2075"/>
         </scene>
-        <!--Use Point Controller-->
+        <!--Use Point View Controller-->
         <scene sceneID="7vW-Nl-M0x">
             <objects>
-                <viewController storyboardIdentifier="UsePointController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zjR-uO-o2s" customClass="UsePointController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="UsePointController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zjR-uO-o2s" customClass="UsePointViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Dli-Jj-Ux3" userLabel="Root View">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -6216,11 +6216,6 @@
                                     <constraint firstItem="Kik-1c-iGE" firstAttribute="centerY" secondItem="AXQ-xk-0Ti" secondAttribute="centerY" id="hff-Cd-qsG"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lk3-1e-ewn">
-                                <rect key="frame" x="140" y="209" width="95" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" title="포인트 사용하기"/>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PBf-Zc-upH" userLabel="View Use All Point">
                                 <rect key="frame" x="269" y="144" width="90" height="33"/>
                                 <subviews>
@@ -6252,6 +6247,14 @@
                                     <constraint firstAttribute="trailing" secondItem="LZV-g4-578" secondAttribute="trailing" constant="8" id="shb-pk-0WZ"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lk3-1e-ewn">
+                                <rect key="frame" x="140" y="209" width="95" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="포인트 사용하기"/>
+                                <connections>
+                                    <action selector="onClickUsePoint:" destination="zjR-uO-o2s" eventType="touchUpInside" id="lnS-dK-Vhx"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>

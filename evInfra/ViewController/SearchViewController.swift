@@ -192,8 +192,7 @@ extension SearchViewController: SearchBarDelegate {
         }
         self.searchBar(searchBar: searchBar, didChange: searchBar.textField, with: searchBar.textField.text)
     }
-    
-    
+
     func searchBar(searchBar: SearchBar, didClear textField: UITextField, with text: String?) {
         reloadData()
     }

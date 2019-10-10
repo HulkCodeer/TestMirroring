@@ -9,6 +9,7 @@
 import Foundation
 
 class MembershipIssuanceView: UIView {
+    
     @IBOutlet weak var ivBasic: UIImageView!
     @IBOutlet weak var ivDetail: UIImageView!
     
@@ -26,7 +27,6 @@ class MembershipIssuanceView: UIView {
     @IBOutlet weak var tfIssuanceDetailAddress: UITextField!
     
     var membershipIssuanceDelegate: MembershipIssuanceViewDelegate?
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -46,9 +46,7 @@ class MembershipIssuanceView: UIView {
         self.ivBasic.tintColor = UIColor(rgb: 0x585858)
         self.ivDetail.image = UIImage(named: "ic_menu_check")?.withRenderingMode(.alwaysTemplate)
         self.ivDetail.tintColor = UIColor(rgb: 0x585858)
-
     }
-    
     
     @IBAction func onClickSearchZipCode(_ sender: Any) {
         membershipIssuanceDelegate?.searchZipCode()
@@ -57,7 +55,4 @@ class MembershipIssuanceView: UIView {
     @IBAction func onClickIssuanceConfrim(_ sender: Any) {
         membershipIssuanceDelegate?.applyMembershipCard()
     }
-    
-    
-  
 }

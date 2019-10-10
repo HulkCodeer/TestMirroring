@@ -30,13 +30,12 @@ class MembershipCardViewController: UIViewController {
                     let frame = CGRect(x: 0, y: 0, width: self.membershipView.frame.width, height: self.membershipView.frame.height)
                     if(json["code"].stringValue.elementsEqual("1101")){ // MBS_CARD_NOT_ISSUED 발급받은 회원카드가 없음
                         self.membershipIssuanceView = MembershipIssuanceView.init(frame: frame)
-                        if let msView = self.membershipIssuanceView{
+                        if let msView = self.membershipIssuanceView {
                             self.membershipView.addSubview(msView)
                         }
-                        
-                    }else{
+                    } else {
                         self.membershipInfoView = MembershipInfoView.init(frame: frame)
-                        if let msView = self.membershipInfoView{
+                        if let msView = self.membershipInfoView {
                             self.membershipView.addSubview(msView)
                             msView.setCardInfo(cardInfo: json)
                         }

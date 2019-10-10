@@ -11,7 +11,7 @@ import Material
 import M13Checkbox
 import SwiftyJSON
 
-class UsePointController: UIViewController {
+class UsePointViewController: UIViewController {
     
     @IBOutlet weak var labelMyPoint: UILabel!
     @IBOutlet weak var textFieldUsePoint: UITextField!
@@ -65,15 +65,46 @@ class UsePointController: UIViewController {
     func prepareView() {
         cbUseAllPoint.boxType = .square
         cbUseAllPoint.tintColor = UIColor(rgb: 0x15435C)
+        
         viewUseAllPoint.addTapGesture(target: self, action: #selector(onClickUseAllPoint(_:)))
+        
+        textFieldUsePoint.becomeFirstResponder()
     }
     
     @IBAction func onClickUseAllPoint(_ sender: UITapGestureRecognizer) {
         cbUseAllPoint.toggleCheckState(true)
+        if cbUseAllPoint.checkState == .checked {
+            textFieldUsePoint.text = String(myPoint)
+        } else {
+            textFieldUsePoint.text = "0"
+        }
+    }
+    
+    @IBAction func onClickUsePoint(_ sender: Any) {
+        if let strPoint = textFieldUsePoint.text, !strPoint.isEmpty, let point = Int(strPoint) {
+            Server.usePoint (point: point) { (isSuccess, value) in
+                if isSuccess {
+                    let json = JSON(value)
+                    if json["code"].stringValue == "1000" {
+                        let point = json["point"].stringValue
+                        Snackbar().show(message: point.currency() + " 포인트를 사용합니다.", title: "포인트 사용 완료") { () in
+                            self.dismiss(animated: true, completion: nil)
+                        }
+                    } else {
+                        Snackbar().show(message: json["msg"].stringValue)
+                    }
+                } else {
+                    Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 다시 시도해 주세요.")
+                }
+            }
+        } else {
+            Snackbar().show(message: "사용할 포인트를 입력해 주세요.")
+            textFieldUsePoint.becomeFirstResponder()
+        }
     }
 }
 
-extension UsePointController: UITextFieldDelegate {
+extension UsePointViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentString: NSString = textField.text! as NSString
         let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
@@ -88,7 +119,6 @@ extension UsePointController: UITextFieldDelegate {
                 return false // 숫자 이외의 문자 입력받지 않음
             }
         }
-        
         return newString.length <= 7 //max length is 7
     }
 }

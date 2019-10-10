@@ -122,7 +122,7 @@ class PaymentStatusViewController: UIViewController {
     }
     
     @IBAction func onClickUsePoint(_ sender: Any) {
-        let usePointVC = self.storyboard?.instantiateViewController(withIdentifier: "UsePointController") as! UsePointController
+        let usePointVC = self.storyboard?.instantiateViewController(withIdentifier: "UsePointController") as! UsePointViewController
         self.present(usePointVC, animated: true, completion: nil)
     }
     

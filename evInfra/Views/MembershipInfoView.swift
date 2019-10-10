@@ -10,6 +10,7 @@ import UIKit
 import SwiftyJSON
 
 class MembershipInfoView: UIView {
+    
     private let xibName = "MembershipInfoView"
 
     @IBOutlet weak var ivCardInfo: UIImageView!
@@ -24,7 +25,6 @@ class MembershipInfoView: UIView {
     
     var delegate: MembershipInfoViewDelegate?
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.commonInit()
@@ -35,7 +35,7 @@ class MembershipInfoView: UIView {
         self.commonInit()
     }
     
-    private func commonInit(){
+    private func commonInit() {
         let view = Bundle.main.loadNibNamed(xibName, owner: self, options: nil)?.first as! UIView
         view.frame = self.bounds
         self.addSubview(view)
@@ -45,10 +45,9 @@ class MembershipInfoView: UIView {
         self.ivPassWord.tintColor = UIColor(rgb: 0x585858)
     }
     
-    func setCardInfo(cardInfo: JSON){
+    func setCardInfo(cardInfo: JSON) {
 //        mbsCardNoLabel.text = cardInfo["card_no"].stringValue
 //        mbsCardIssueDateLabel.text = cardInfo["status"].stringValue
 //        mbsCardStatusLabel.text = cardInfo["date"].stringValue
     }
-    
 }

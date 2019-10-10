@@ -115,6 +115,17 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 회원 - 잔여 포인트 가져오기
+    static func getPoint(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.getMbId()
+        ]
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member/my_point",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
     // 즐겨찾기 - 목록 가져오기
     static func getFavoriteList(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
@@ -635,22 +646,6 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
 
-    // 충전 이력 조회
-    static func getCharges(isAllDate: Bool, sDate: String, eDate: String, completion: @escaping (Bool, Data?) -> Void) {
-        var reqParam: Parameters = [
-            "req_ver": 1,
-            "mb_id": MemberManager.getMbId(),
-        ]
-        if !isAllDate {
-            reqParam["s_date"] = sDate
-            reqParam["e_date"] = eDate
-        }
-        
-        Alamofire.request(Const.EV_PAY_SERVER + "/charger/app_charging/history",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseData(response: response, completion: completion) }
-    }
-
     // QR 충전
     static func getChargerInfo(cpId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
@@ -659,16 +654,6 @@ class Server {
             "cp_id": cpId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/charger_info/info",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    static func getPoint(completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "req_ver": 1,
-            "mb_id": MemberManager.getMbId()
-        ]
-        Alamofire.request(Const.EV_PAY_SERVER + "/member/member/my_point",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -719,6 +704,33 @@ class Server {
             "charging_id": chargingId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/app_charging/result",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 충전 이력 조회
+    static func getCharges(isAllDate: Bool, sDate: String, eDate: String, completion: @escaping (Bool, Data?) -> Void) {
+        var reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.getMbId(),
+        ]
+        if !isAllDate {
+            reqParam["s_date"] = sDate
+            reqParam["e_date"] = eDate
+        }
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/app_charging/history",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseData(response: response, completion: completion) }
+    }
+    
+    // 충전 - 포인트 사용
+    static func usePoint(point: Int, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId(),
+            "point": point
+        ]
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/app_charging/use_point",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
