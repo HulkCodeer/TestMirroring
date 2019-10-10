@@ -24,16 +24,9 @@ class PaymentQRScanViewController: UIViewController {
     @IBOutlet weak var scannerViewLayer: UIView!
     @IBOutlet weak var lbExplainScanner: UILabel!
     
-    @IBOutlet weak var ivType: UIImageView!
-    @IBOutlet weak var lbTypeTitle: UILabel!
-    @IBOutlet weak var lbQrScanChargerType: UILabel!
-    @IBOutlet weak var svQrScanChargerType: UIStackView!
-    
     @IBOutlet weak var btnStartCharge: UIButton!
     
     var mConnectorList = [Connector]()
-    var mButtonTypeList = [UIButton]()
-    var mIsPayableCharger = false
     
     var mMyPoint = 0
     
@@ -53,29 +46,6 @@ class PaymentQRScanViewController: UIViewController {
         if (captureSession?.isRunning == true) {
             captureSession.stopRunning()
         }
-    }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    @objc func onClickChargerType(_ sender:UIButton) {
-        if !availableChargerType(index: sender.tag) {
-            Snackbar().show(message: "사용할 수 없는 커넥터입니다.")
-            return
-        }
-        let isSelected = sender.isSelected
-        for button in self.mButtonTypeList {
-            button.isSelected = false
-        }
-        sender.isSelected = !isSelected
-        enableStartButton()
     }
     
     @objc
@@ -100,12 +70,6 @@ class PaymentQRScanViewController: UIViewController {
     }
     
     func prepareView() {
-        self.ivType.image = UIImage(named: "ic_menu_plug_type")?.withRenderingMode(.alwaysTemplate)
-        self.ivType.tintColor = UIColor(rgb: 0x585858)
-        self.lbTypeTitle.textColor = UIColor(rgb: 0x585858)
-        self.lbTypeTitle.text = "TYPE"
-        self.lbQrScanChargerType.textColor = UIColor(rgb: 0x909090)
-        
         self.btnStartCharge.isEnabled = false
     }
     
@@ -114,19 +78,22 @@ class PaymentQRScanViewController: UIViewController {
             if isSuccess {
                 let json = JSON(value)
                 let payCode = json["pay_code"].intValue
+                
                 switch (payCode) {
                 case PaymentStatus.PAY_NO_USER, PaymentStatus.PAY_NO_CARD_USER:
                     self.showRegisterCardDialog()
+                    
                 case PaymentStatus.PAY_DEBTOR_USER, PaymentStatus.PAY_NO_VERIFY_USER, PaymentStatus.PAY_DELETE_FAIL_USER:
                     let resultMessage = json["ResultMsg"].stringValue
                     let message = resultMessage.replacingOccurrences(of: "\\n", with: "\n")
                     self.showAlertDialogByMessage(message: message)
+                    
                 case PaymentStatus.PAY_REGISTER_FAIL_PG:
                     self.showAlertDialogByMessage(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
+                    
                 default:
                     break
                 }
-                
             } else {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
             }
@@ -220,6 +187,7 @@ extension PaymentQRScanViewController: AVCaptureMetadataOutputObjectsDelegate {
                 self.connectorId = qrJson["connector_id"].stringValue
             }
         }
+        
         if let cpid = self.cpId {
             Server.getChargerInfo(cpId: cpid, completion: {(isSuccess, value) in
                 if isSuccess {
@@ -239,8 +207,6 @@ extension PaymentQRScanViewController {
     func responseGetChargerInfo(response: Any) {
         let json = JSON(response)
         if json["code"].stringValue.elementsEqual("1000") {
-            self.lbExplainScanner.text = "결제 가능한 충전기입니다."
-            self.mIsPayableCharger = true
             self.mConnectorList.removeAll()
             let jsonArray = json["connector"].arrayValue
             for connectorJson in jsonArray {
@@ -251,14 +217,13 @@ extension PaymentQRScanViewController {
 
                 self.mConnectorList.append(Connector.init(id: connectorId, typeId: typeId, typeName: name, status: status))
             }
-            guard let conId = self.connectorId, !conId.isEmpty else {
-                self.updateChargerTypeButton(isShow: true)
-                self.selectChargerTypeByMyCar()
-                return
+            
+            if let conId = self.connectorId, !conId.isEmpty {
+                self.lbExplainScanner.text = "결제 가능한 충전기입니다."
+                self.verifySelectedCharger()
+            } else {
+                Snackbar().show(message: "현재 GS칼텍스 충전기에서만 QR결제기능이 사용가능합니다.\n타 사업자 추가 후 공지드리겠습니다.")
             }
-            self.verifySelectedCharger()
-            self.updateChargerTypeButton(isShow: false)
-
         } else {
             self.showUnsupportedChargerDialog()
         }
@@ -267,28 +232,25 @@ extension PaymentQRScanViewController {
     func verifySelectedCharger() {
         for (index, connector) in mConnectorList.enumerated() {
             if self.connectorId!.elementsEqual(connector.mId!) {
-                if !availableChargerType(index: index) {
-                    let message = "현재 충전기가 사용 가능하지 않습니다."
-                    showAlertDialogByMessage(message: message)
+                if availableChargerType(index: index) {
+                    self.btnStartCharge.isEnabled = true
+                } else {
+                    showAlertDialogByMessage(message: "현재 충전기가 사용 가능하지 않습니다.")
                 }
+                break
             }
         }
     }
     
     func availableChargerType(index: Int) -> Bool {
-        switch (mConnectorList[index].mStatus) {
-        case "0", // 알 수 없음
-             "1", // 통신 이상
-             "3", // 충전중
-             "4", // 운영중지
-             "5", // 점검중
-             "6": // 예약중
-            return false
-        case "2": // 대기중
-            return true
-        default :
-            return false
+        if let status = mConnectorList[index].mStatus {
+            if status.elementsEqual("2") { // 대기중
+                return true
+            } else {
+                return false
+            }
         }
+        return false
     }
     
     func getTypeUIImage(typeId: String) -> UIImage? {
@@ -304,122 +266,15 @@ extension PaymentQRScanViewController {
         }
     }
     
-    func updateChargerTypeButton(isShow : Bool) {
-        if !isShow {
-            self.lbQrScanChargerType.isHidden = false
-            self.svQrScanChargerType.isHidden = true
-            self.lbQrScanChargerType.text = "충전기에서 커넥터를 선택하였습니다."
-            enableStartButton()
-        } else {
-            self.lbQrScanChargerType.isHidden = true
-            self.svQrScanChargerType.isHidden = false
-            addChargerTypeButton()
-        }
-    }
-    
-    func addChargerTypeButton() {
-        if onlyDcComboCharger() {
-            let connector_1 = self.mConnectorList[0]
-            let connector_2 = self.mConnectorList[1]
-            
-            if connector_1.mId == "1" {
-                connector_1.mTypeName = "DC콤보 (좌)"
-                connector_2.mTypeName = "DC콤보 (우)"
-            } else {
-                connector_2.mTypeName = "DC콤보 (좌)"
-                connector_1.mTypeName = "DC콤보 (우)"
-            }
-        }
-        
-        self.mButtonTypeList.removeAll()
-        var btnIndex = 0
-        for connector in mConnectorList {
-            let btnChargerType = UIButton.init()
-            btnChargerType.setImage(self.getTypeUIImage(typeId: connector.mTypeId!), for: .normal)
-            btnChargerType.setTitle(connector.mTypeName, for: .normal)
-            btnChargerType.tag = btnIndex
-            btnChargerType.setBackgroundColor(UIColor.init(rgb: 0x64b5f6, alpha: 0x90), for: .normal)
-            btnChargerType.setBackgroundColor(UIColor.init(rgb: 0x64b5f6, alpha: 0x90), for: .disabled)
-            btnChargerType.setBackgroundColor(UIColor.init(rgb: 0x64b5f6), for: .selected)
-            btnChargerType.layer.shadowColor = UIColor.black.cgColor
-            btnChargerType.layer.shadowOpacity = 0.5
-            btnChargerType.layer.shadowOffset = CGSize(width: 0, height: -1)
-            btnChargerType.layer.cornerRadius = 8.0
-            btnChargerType.clipsToBounds = true
-            btnChargerType.addTarget(self, action: #selector(self.onClickChargerType(_:)), for: .touchUpInside)
-            svQrScanChargerType.addArrangedSubview(btnChargerType)
-            mButtonTypeList.append(btnChargerType)
-            btnIndex = btnIndex + 1
-        }
-        
-        self.svQrScanChargerType.distribution = .fillEqually
-        self.svQrScanChargerType.spacing = 8.0
-    }
-    
-    func enableStartButton() {
-        if self.getSelectedConnectorId() != nil {
-            if self.mIsPayableCharger {
-                self.btnStartCharge.isEnabled = true
-            } else {
-                self.btnStartCharge.isEnabled = false
-            }
-        } else {
-           self.btnStartCharge.isEnabled = false
-        }
-    }
-    
     func startCharging() {
-        let connectorId = self.getSelectedConnectorId()
-        if connectorId == nil {
-            Snackbar().show(message: "충전 타입을 선택해 주세요.")
-            return
-        }
-        
         let paymentStatusVc = self.storyboard?.instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
-        if let conId = connectorId {
-            paymentStatusVc.connectorId = conId
-        }
         paymentStatusVc.cpId = self.cpId!
+        paymentStatusVc.connectorId = self.connectorId!
         
         var vcArray = self.navigationController?.viewControllers
         vcArray!.removeLast()
         vcArray!.append(paymentStatusVc)
         self.navigationController?.setViewControllers(vcArray!, animated: true)
-    }
-
-    func getSelectedConnectorId() -> String? {
-        if self.connectorId == nil{
-            for btnChargerType in mButtonTypeList {
-                if (btnChargerType.isSelected) {
-                    let index = Int(btnChargerType.tag)
-                    return self.mConnectorList[index].mId
-                }
-            }
-            return nil
-        }
-        
-        return self.connectorId
-    }
-
-    func selectChargerTypeByMyCar() {
-        if !onlyDcComboCharger() {
-            let myCarType = String(UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE))
-            for btnChargerType in mButtonTypeList {
-                let index = btnChargerType.tag
-                if (availableChargerType(index: index)) {
-                    if myCarType == mConnectorList[index].mTypeId {
-                        btnChargerType.isSelected = true
-                    }
-                }
-            }
-        }
-    }
-    
-    func onlyDcComboCharger() -> Bool {
-        if self.mConnectorList.count == 2 {
-            return mConnectorList[0].mTypeId == "4" && mConnectorList[0].mTypeId == mConnectorList[1].mTypeId
-        }
-        return false
     }
     
     func showUnsupportedChargerDialog() {
