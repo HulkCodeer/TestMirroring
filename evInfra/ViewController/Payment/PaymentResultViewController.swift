@@ -31,8 +31,8 @@ class PaymentResultViewController: UIViewController {
     @IBOutlet weak var lbAuthMsg: UILabel!
     @IBOutlet weak var lbStartTime: UILabel!
     @IBOutlet weak var lbFinishTime: UILabel!
-    @IBOutlet weak var lbPoint: UILabel!
     @IBOutlet weak var lbSavePoint: UILabel!
+    @IBOutlet weak var lbTotalPoint: UILabel!
     @IBOutlet weak var lbPaymentFailMsg: UILabel!
     @IBOutlet weak var lbPaymentResultMsg: UILabel!
     
@@ -136,6 +136,8 @@ class PaymentResultViewController: UIViewController {
         chargingStatus.payAmount = response["pay_amt"].string ?? ""
         chargingStatus.payAuthCode  = response["pay_code"].string ?? ""
         chargingStatus.payResultCode = response["pay_rcode"].string ?? ""
+        chargingStatus.savePoint = response["save_point"].string ?? ""
+        chargingStatus.totalPoint = response["total_point"].string ?? ""
         chargingStatus.msg = response["msg"].stringValue
         
         return chargingStatus
@@ -150,22 +152,23 @@ class PaymentResultViewController: UIViewController {
         if let chargingKw = chargingStatus.chargingKw {
             let chargePower = "\(chargingKw) Kw"
             lbQuantity.text = chargePower
-        }else{
+        } else {
             self.lbQuantity.text = " - "
         }
+        
         if chargingStatus.payResultCode?.elementsEqual("8000") ?? false {
             self.lbAuthStatus.text =  "승인성공"
             self.lbPaymentResultMsg.text = "충전이 완료되었습니다.\n커넥터를 분리하고 커버를 닫아주세요."
             self.lbAuthMsg.text = "정상승인"
-            self.lbSavePoint.text = chargingStatus.savePoint
-            self.lbPoint.text = chargingStatus.totalPoint
+            self.lbSavePoint.text = (chargingStatus.savePoint?.currency() ?? "") + " 포인트"
+            self.lbTotalPoint.text = (chargingStatus.totalPoint?.currency() ?? "") + " 포인트"
         } else {
             self.lbAuthStatus.text = "승인실패"
             self.lbPaymentResultMsg.text = "충전이 완료되었으나 결제를 실패하였습니다.\n커넥터를 분리하고 커버를 닫아주세요."
             self.lbPaymentFailMsg.visible()
             self.lbAuthMsg.text = chargingStatus.payResultMsg
             self.lbSavePoint.text = "  -  "
-            self.lbPoint.text = "  -  "
+            self.lbTotalPoint.text = "  -  "
         }
     }
 

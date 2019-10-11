@@ -361,7 +361,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJq-gl-PDQ" userLabel="Renew Button">
-                                <rect key="frame" x="287" y="122" width="80" height="80"/>
+                                <rect key="frame" x="327" y="122" width="40" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="ic_renew">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1559,7 +1559,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K40-za-qy5" userLabel="BtnCharger">
-                                        <rect key="frame" x="0.0" y="6" width="184" height="48"/>
+                                        <rect key="frame" x="0.0" y="18" width="184" height="24"/>
                                         <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="충전소 검색" image="ic_radio_unchecked">
@@ -1570,7 +1570,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1A-58-YMr" userLabel="BtnAddress">
-                                        <rect key="frame" x="191" y="6" width="184" height="48"/>
+                                        <rect key="frame" x="191" y="18" width="184" height="24"/>
                                         <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="주소 검색" image="ic_radio_unchecked">
@@ -5354,11 +5354,11 @@
                         <outlet property="lbFinishTime" destination="LD2-eh-3Hc" id="dRa-h7-cZp"/>
                         <outlet property="lbPaymentFailMsg" destination="ec2-gE-mYM" id="rny-3M-vGH"/>
                         <outlet property="lbPaymentResultMsg" destination="SB6-wP-bMb" id="lxw-yR-SV9"/>
-                        <outlet property="lbPoint" destination="hDd-YY-Azj" id="IS8-l2-ayx"/>
                         <outlet property="lbQuantity" destination="7Om-WT-Mhk" id="u9G-i9-h97"/>
-                        <outlet property="lbSavePoint" destination="8Jv-J3-Asg" id="TtG-Jv-Ce0"/>
+                        <outlet property="lbSavePoint" destination="hDd-YY-Azj" id="y26-B7-oL0"/>
                         <outlet property="lbStartTime" destination="UGj-jc-Kwm" id="A0x-qh-KIr"/>
                         <outlet property="lbStation" destination="tWX-2g-csL" id="VrH-Bc-Clj"/>
+                        <outlet property="lbTotalPoint" destination="8Jv-J3-Asg" id="CKc-rn-sCk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sbK-GL-8vc" userLabel="First Responder" sceneMemberID="firstResponder"/>
