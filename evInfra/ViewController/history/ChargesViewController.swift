@@ -113,7 +113,6 @@ class ChargesViewController: UIViewController {
 
 // 조회 설정
 extension ChargesViewController {
-    
     fileprivate func prepareDatePicker() {
         let locale = Locale(identifier: "ko_KO")
         
@@ -163,7 +162,7 @@ extension ChargesViewController {
         let sDate = formatter.string(from: startDate) + " 00:00:00"
         let eDate = formatter.string(from: endDate) + " 23:59:59"
         
-        Server.getCharges (isAllDate: isAllDate, sDate: sDate, eDate: eDate) { (isSuccess, responseData) in
+        Server.getCharges(isAllDate: isAllDate, sDate: sDate, eDate: eDate) { (isSuccess, responseData) in
             if isSuccess {
                 if let data = responseData {
                     let chargeHistory = try! JSONDecoder().decode(ChargingHistoryList.self, from: data)
@@ -211,6 +210,10 @@ extension ChargesViewController: UITableViewDelegate, UITableViewDataSource, Cha
         self.chargesTableView.dataSource = self
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+           return 196
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.chargesList.count
     }
@@ -221,10 +224,6 @@ extension ChargesViewController: UITableViewDelegate, UITableViewDataSource, Cha
         cell.delegate = self
 
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 196
     }
     
     func didSelectReceipt(charge: ChargingStatus) {

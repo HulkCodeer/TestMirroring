@@ -126,6 +126,22 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 회원 - 포인트 이력 조회
+    static func getPointHistory(isAllDate: Bool, sDate: String, eDate: String, completion: @escaping (Bool, Data?) -> Void) {
+            var reqParam: Parameters = [
+                "req_ver": 1,
+                "mb_id": MemberManager.getMbId(),
+            ]
+            if !isAllDate {
+                reqParam["s_date"] = sDate
+                reqParam["e_date"] = eDate
+            }
+            
+            Alamofire.request(Const.EV_PAY_SERVER + "/member/member/point_history",
+                              method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+                .validate().responseJSON { response in responseData(response: response, completion: completion) }
+    }
+    
     // 즐겨찾기 - 목록 가져오기
     static func getFavoriteList(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [

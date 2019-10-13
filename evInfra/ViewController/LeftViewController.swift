@@ -246,14 +246,14 @@ extension LeftViewController {
             case SUB_MENU_CELL_MYPAGE:
                 switch index.row {
                 case SUB_MENU_MY_PERSONAL_INFO: // 개인정보관리
-                    let mypageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as! MyPageViewController
-                    self.navigationController?.push(viewController: mypageVC)
+                    let mypageVC = storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as! MyPageViewController
+                    navigationController?.push(viewController: mypageVC)
                 
                 case SUB_MENU_MY_WRITING: // 내가 쓴 글 보기
                     var myWritingControllers = [MyWritingViewController]()
-                    let freeMineVC = self.storyboard?.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
+                    let freeMineVC = storyboard?.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
                     freeMineVC.boardCategory = BoardData.BOARD_CATEGORY_FREE
-                    let chargerMineVC = self.storyboard?.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
+                    let chargerMineVC = storyboard?.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
                     chargerMineVC.boardCategory = BoardData.BOARD_CATEGORY_CHARGER
                     
                     myWritingControllers.append(chargerMineVC)
@@ -264,26 +264,28 @@ extension LeftViewController {
                     for controller in myWritingControllers {
                         tabsController.appTabsControllerDelegates.append(controller)
                     }
-                    self.navigationController?.push(viewController: tabsController)
+                    navigationController?.push(viewController: tabsController)
                 
                 case SUB_MENU_REPORT_STATION: // 충전소 제보 내역
-                    let reportVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportBoardViewController") as! ReportBoardViewController
-                    self.navigationController?.push(viewController: reportVC)
+                    let reportVC = storyboard?.instantiateViewController(withIdentifier: "ReportBoardViewController") as! ReportBoardViewController
+                    navigationController?.push(viewController: reportVC)
                 default:
                     print("out of index")
                 }
             case SUB_MENU_CELL_PAY:
                 switch index.row {
                 case SUB_MENU_MY_PAYMENT_INFO:
-                    let myPayInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPayinfoViewController") as! MyPayinfoViewController
-                    self.navigationController?.push(viewController: myPayInfoVC)
+                    let myPayInfoVC = storyboard?.instantiateViewController(withIdentifier: "MyPayinfoViewController") as! MyPayinfoViewController
+                    navigationController?.push(viewController: myPayInfoVC)
             
                 case SUB_MENU_MY_EVCARD_INFO: // 회원카드 관리
                     break
                 case SUB_MENU_MY_CHARGING_HISTORY: // 충전이력조회
-                    let chargesVC = self.storyboard?.instantiateViewController(withIdentifier: "ChargesViewController") as! ChargesViewController
-                    self.navigationController?.push(viewController: chargesVC)
+                    let chargesVC = storyboard?.instantiateViewController(withIdentifier: "ChargesViewController") as! ChargesViewController
+                    navigationController?.push(viewController: chargesVC)
                 case SUB_MENU_MY_POINT: // 포인트 조회
+                    let pointVC = storyboard?.instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
+                    navigationController?.push(viewController: pointVC)
                     break
                 default:
                     print("out of index")
@@ -301,37 +303,37 @@ extension LeftViewController {
         case SUB_MENU_CELL_BOARD:
         switch index.row {
             case LeftViewController.SUB_MENU_NOTICE: // 공지사항
-                let noticeVC = self.storyboard?.instantiateViewController(withIdentifier: "NoticeViewController") as! NoticeViewController
-                self.navigationController?.push(viewController: noticeVC)
+                let noticeVC = storyboard?.instantiateViewController(withIdentifier: "NoticeViewController") as! NoticeViewController
+                navigationController?.push(viewController: noticeVC)
             
             case LeftViewController.SUB_MENU_FREE_BOARD: // 자유 게시판
-                let freeBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
+                let freeBoardVC = storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
                 freeBoardVC.category = BoardData.BOARD_CATEGORY_FREE
-                self.navigationController?.push(viewController: freeBoardVC)
+                navigationController?.push(viewController: freeBoardVC)
             
             case LeftViewController.SUB_MENU_CHARGER_BOARD: // 충전소 게시판
-                let stationBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
+                let stationBoardVC = storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
                 stationBoardVC.category = BoardData.BOARD_CATEGORY_CHARGER
-                self.navigationController?.push(viewController: stationBoardVC)
+                navigationController?.push(viewController: stationBoardVC)
             default:
                 print("out of index")
             }
         case SUB_MENU_CELL_COMPANY_BOARD:
-            let companyBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
+            let companyBoardVC = storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
             companyBoardVC.category = BoardData.BOARD_CATEGORY_COMPANY
             switch index.row {
             case SUB_MENU_GS_CALTEX:
                 companyBoardVC.companyId = CompanyInfo.COMPANY_ID_GSC
-                self.navigationController?.push(viewController: companyBoardVC)
+                navigationController?.push(viewController: companyBoardVC)
             case SUB_MENU_JEVS:
                 companyBoardVC.companyId = CompanyInfo.COMPANY_ID_JEVS
-                self.navigationController?.push(viewController: companyBoardVC)
+                navigationController?.push(viewController: companyBoardVC)
             case SUB_MENU_EV_MOST:
                 companyBoardVC.companyId = CompanyInfo.COMPANY_ID_EV_MOST
-                self.navigationController?.push(viewController: companyBoardVC)
+                navigationController?.push(viewController: companyBoardVC)
             case SUB_MENU_STRAFFIC:
                 companyBoardVC.companyId = CompanyInfo.COMPANY_ID_STRAFFIC
-                self.navigationController?.push(viewController: companyBoardVC)
+                navigationController?.push(viewController: companyBoardVC)
             default:
                 print("out of index")
             }

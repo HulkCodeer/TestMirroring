@@ -225,6 +225,9 @@
 		DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB48E1F522E08B07003FFA08 /* ServiceGuideViewController.swift */; };
 		DB49A77F206CC32D002448E6 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB49A77E206CC32D002448E6 /* SearchViewController.swift */; };
 		DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB49A7802071F908002448E6 /* AppSearchBarController.swift */; };
+		DB5041AC235066CA007336BC /* PointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5041AB235066CA007336BC /* PointViewController.swift */; };
+		DB5041AE23506A14007336BC /* PointTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5041AD23506A14007336BC /* PointTableViewCell.swift */; };
+		DB5041B023506DCF007336BC /* EvPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5041AF23506DCF007336BC /* EvPoint.swift */; };
 		DB5FA59622C20A8400F1508A /* ChargesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5FA59522C20A8400F1508A /* ChargesViewController.swift */; };
 		DB6E59492063C595002E75C8 /* Regions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6E59482063C595002E75C8 /* Regions.swift */; };
 		DB6EBE31217078750000F442 /* ChargerSelectDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6EBE30217078750000F442 /* ChargerSelectDelegate.swift */; };
@@ -489,6 +492,9 @@
 		DB48E1F522E08B07003FFA08 /* ServiceGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceGuideViewController.swift; sourceTree = "<group>"; };
 		DB49A77E206CC32D002448E6 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		DB49A7802071F908002448E6 /* AppSearchBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSearchBarController.swift; sourceTree = "<group>"; };
+		DB5041AB235066CA007336BC /* PointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewController.swift; sourceTree = "<group>"; };
+		DB5041AD23506A14007336BC /* PointTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointTableViewCell.swift; sourceTree = "<group>"; };
+		DB5041AF23506DCF007336BC /* EvPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvPoint.swift; sourceTree = "<group>"; };
 		DB5FA59522C20A8400F1508A /* ChargesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargesViewController.swift; sourceTree = "<group>"; };
 		DB6E59482063C595002E75C8 /* Regions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regions.swift; sourceTree = "<group>"; };
 		DB6EBE30217078750000F442 /* ChargerSelectDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerSelectDelegate.swift; sourceTree = "<group>"; };
@@ -728,15 +734,16 @@
 				73A7B42F204F8A72002E975F /* CidInfo.swift */,
 				732B92C120EF4D5C0090E9FC /* CompanyInfo.swift */,
 				7379A44F22CB43C600F4271C /* Connector.swift */,
+				733662CF22F974820049AEFE /* Coupon.swift */,
 				73FFCDC121194E14003B129D /* DecChargerList.swift */,
+				733662CB22EFECB80049AEFE /* Event.swift */,
 				CE33B4C62192D39700B6C632 /* EventCoupon.swift */,
 				73C31BF82099A023005B6C53 /* EVModel.swift */,
+				DB5041AF23506DCF007336BC /* EvPoint.swift */,
 				DB6E59482063C595002E75C8 /* Regions.swift */,
 				CE93308E214F9807006B7EF6 /* ReportChargeInfoList.swift */,
 				CE9330962150FB32006B7EF6 /* ReportChargeItem.swift */,
 				CEBE0600214BA5C30047E6F2 /* ReportData.swift */,
-				733662CB22EFECB80049AEFE /* Event.swift */,
-				733662CF22F974820049AEFE /* Coupon.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -770,8 +777,11 @@
 				CE33B4BE2191BD0900B6C632 /* EventTableViewCell.swift */,
 				7357595020916C11008181E9 /* InfoCollectionViewCell.swift */,
 				7357595120916C11008181E9 /* InfoCollectionViewCell.xib */,
+				733662F722FD11740049AEFE /* LeftViewTableHeader.swift */,
+				733662F922FD11860049AEFE /* LeftViewTableHeader.xib */,
 				CE33B4C42191BFD100B6C632 /* MyCouponTableViewCell.swift */,
 				736D37C9208993BE009535EE /* NoticeTableViewCell.swift */,
+				DB5041AD23506A14007336BC /* PointTableViewCell.swift */,
 				DB3B857F20874788005454F5 /* PoiTableView.swift */,
 				DB4395F122DD88390092E0A5 /* ReceiptView.swift */,
 				DB4395F322DD88770092E0A5 /* ReceiptView.xib */,
@@ -780,8 +790,6 @@
 				CE13858E217869B200E3F869 /* ReportChargerChildCell.xib */,
 				CEC43229223A5C9A00B76795 /* SearchTableView.swift */,
 				73B7527F2048E5B30077112A /* SideMenuTableViewCell.swift */,
-				733662F722FD11740049AEFE /* LeftViewTableHeader.swift */,
-				733662F922FD11860049AEFE /* LeftViewTableHeader.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -974,6 +982,7 @@
 			isa = PBXGroup;
 			children = (
 				DB5FA59522C20A8400F1508A /* ChargesViewController.swift */,
+				DB5041AB235066CA007336BC /* PointViewController.swift */,
 			);
 			path = history;
 			sourceTree = "<group>";
@@ -1255,6 +1264,7 @@
 				73C6A1072345F1E800349A86 /* MembershipInfoView.swift in Sources */,
 				73AF8FC121C77E1B003CB2CF /* ClusterManager.swift in Sources */,
 				73EE8FBB2105B3420016F505 /* NewArticleChecker.swift in Sources */,
+				DB5041B023506DCF007336BC /* EvPoint.swift in Sources */,
 				73A37CA22085DB5400FD3D0A /* CardBoardViewController.swift in Sources */,
 				DB4395F222DD88390092E0A5 /* ReceiptView.swift in Sources */,
 				DB4063A521FC735000B630A8 /* DayAxisValueFormatter.swift in Sources */,
@@ -1300,6 +1310,7 @@
 				DBF3827B2304475900FAF772 /* CBT.swift in Sources */,
 				73CF041A20B2736500BEA9CF /* UIScrollView.swift in Sources */,
 				DBE579B521A3E3CA005DD998 /* Snackbar.swift in Sources */,
+				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
 				CE9330972150FB32006B7EF6 /* ReportChargeItem.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
 				7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */,
@@ -1377,6 +1388,7 @@
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,
 				CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */,
+				DB5041AE23506A14007336BC /* PointTableViewCell.swift in Sources */,
 				DB3B858320A42C81005454F5 /* KoreanTextMatcher.swift in Sources */,
 				DB306368221BD5CD00D1276E /* Server.swift in Sources */,
 				CE33B4BD2191BA1200B6C632 /* EventContentsViewController.swift in Sources */,
