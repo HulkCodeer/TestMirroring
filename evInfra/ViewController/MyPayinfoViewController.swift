@@ -49,7 +49,6 @@ class MyPayinfoViewController: UIViewController{
     let DELETE_MODE = 0
     let CHANGE_MODE = 1
     
-    var mWebView: WKWebView!
     @IBOutlet weak var mPayInfoView: UIView!
     @IBOutlet weak var registerCardInfo: UIView!
     @IBOutlet weak var registerInfo: UIView!
@@ -69,16 +68,22 @@ class MyPayinfoViewController: UIViewController{
     @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var changeBtn: UIButton!
     
+    var registData: JSON?
+    
     override func loadView() {
         super.loadView()
-        initWebView()
-        initInfoView()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
-        checkRegisterPayment()
+        initInfoView()
+        if let regData = registData{
+            showRegisteredResult(json: regData)
+        }else{
+            checkRegisterPayment()
+        }
+        
         // Do any additional setup after loading the view.
     }
     
@@ -99,7 +104,7 @@ class MyPayinfoViewController: UIViewController{
                 switch(payCode){
                     case self.PAY_NO_USER, self.PAY_NO_CARD_USER:
                         print("PJS payCOde HERE 3");
-                        self.showRegisterWeb()
+                        self.moveToMyPaytRegist()
                         
                         break;
                     case self.PAY_DEBTOR_USER, self.PAY_NO_VERIFY_USER, self.PAY_DELETE_FAIL_USER:
@@ -140,21 +145,18 @@ class MyPayinfoViewController: UIViewController{
     
     
     func showRegisteredResult(json: JSON) {
-        self.mWebView.isHidden = true
-        self.mPayInfoView.isHidden = false
-        let payCode = json["pay_code"].intValue
         print("PJS HERE showRegisteredResult json = \(json)")
-        let asdf = json["pay_code"].stringValue
+        let json1 = JSON(json)
+        let payCode = json1["pay_code"].intValue
+        let asdf = json1["ResultMsg"].stringValue
         //                    item.eventId = jsonRow["id"].intValue
         print("PJS HERE showRegisteredResult = \(payCode)  AHHH ?? \(asdf)")
         
         switch(payCode){
             case self.PAY_REGISTER_SUCCESS:
-                self.registerInfo.visible()
                 self.registerCardInfo.isHidden = false
                 self.okBtn.isHidden = false
                 self.registerInfoBtnLayer.isHidden = true
-                
                 self.franchiseeLabel.text = "(주)소프트베리"
                 self.vanLabel.text = "스마트로(주)"
                 self.cardCoLabel.text = json["card_co"].stringValue
@@ -165,22 +167,23 @@ class MyPayinfoViewController: UIViewController{
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
             
             case self.PAY_REGISTER_FAIL, self.PAY_REGISTER_FAIL_PG, self.PAY_REGISTER_CANCEL_FROM_USER:
-                self.registerInfo.gone()
                 self.registerCardInfo.isHidden = true
                 self.okBtn.isHidden = false
                 self.registerInfoBtnLayer.isHidden = true
+                
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
             case self.PAY_MEMBER_DELETE_SUCESS, self.PAY_MEMBER_DELETE_FAIL_NO_USER, self.PAY_MEMBER_DELETE_FAIL, self.PAY_MEMBER_DELETE_FAIL_DB:
-                self.registerInfo.visible()
                 self.registerCardInfo.isHidden = true
                 self.okBtn.isHidden = false
                 self.registerInfoBtnLayer.isHidden = true
+                
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
+                
+                print("", "PJS REGIST CARD INFO \(payCode)  \(json["ResultMsg"].stringValue)"  )
                 break;
             case self.PAY_FINE_USER:
-                self.registerInfo.gone()
                 self.registerCardInfo.isHidden = false
                 self.okBtn.isHidden = true
                 self.registerInfoBtnLayer.isHidden = false
@@ -189,23 +192,28 @@ class MyPayinfoViewController: UIViewController{
                 self.cardCoLabel.text = json["card_co"].stringValue
                 self.cardNoLabel.text = json["card_nm"].stringValue
                 self.regDateLabel.text = json["reg_date"].stringValue
+                
+                self.resultCodeLabel.text = "\(payCode)"
+                self.resultMsgLabel.text = json["ResultMsg"].stringValue
                 break;
             default:
-                self.registerInfo.visible()
+                
                 self.registerCardInfo.isHidden = true
                 self.okBtn.isHidden = false
                 self.registerInfoBtnLayer.isHidden = true
+                
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
                 break;
         }
     }
 
-    func showRegisterWeb(){
-        mWebView.isHidden = false
-        mPayInfoView.isHidden = true
-        makePostRequest(url: Const.EV_PAY_SERVER + "/pay/evPay/registEvPay", payload: ["mb_id":"\(MemberManager.getMbId())"])
-        
+    func moveToMyPaytRegist(){
+        let payRegistVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
+        var vcArray = self.navigationController?.viewControllers
+        vcArray!.removeLast()
+        vcArray!.append(payRegistVC)
+        self.navigationController?.setViewControllers(vcArray!, animated: true)
     }
     
     func deletePayMember(){
@@ -213,7 +221,7 @@ class MyPayinfoViewController: UIViewController{
             if isSuccess {
                 let json = JSON(value)
                 let payCode = json["pay_code"].intValue
-                self.registerInfo.visible()
+                
                 self.registerCardInfo.isHidden = true
                 self.okBtn.isHidden = false
                 self.registerInfoBtnLayer.isHidden = true
@@ -226,24 +234,6 @@ class MyPayinfoViewController: UIViewController{
     }
     
 
-    
-    func initWebView() {
-        
-        let webViewConfig = WKWebViewConfiguration()
-        let webViewContentController = WKUserContentController()
-        webViewContentController.add(self, name: "returnFromServer")
-        
-        
-        webViewConfig.userContentController = webViewContentController
-        
-        mWebView = WKWebView(frame: self.view.frame, configuration: webViewConfig)
-        mWebView.uiDelegate = self
-        mWebView.navigationDelegate = self
-        mWebView.translatesAutoresizingMaskIntoConstraints = true
-        mWebView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        self.view.addSubview(mWebView)
-        
-    }
     
     func initInfoView(){
         registerCardInfo.layer.shadowColor = UIColor.black.cgColor
@@ -267,23 +257,6 @@ class MyPayinfoViewController: UIViewController{
         self.navigationController?.isNavigationBarHidden = false
     }
     
-    func makePostRequest(url: String, payload: Dictionary<String, Any>) {
-        let jsonPayload: String
-        do {
-            let data = try JSONSerialization.data(
-                withJSONObject: payload,
-                options: JSONSerialization.WritingOptions(rawValue: 0))
-            jsonPayload = String(data: data, encoding: String.Encoding.utf8)!
-        } catch {
-            jsonPayload = "{}"
-        }
-        
-        mWebView.loadHTMLString(postMakingHTML(url: url, payload: jsonPayload), baseURL: nil)
-    }
-    
-    private func postMakingHTML(url: String, payload: String) -> String {
-        return "<html><head><script>function post(path,params,method){method = method || 'post';var form=document.createElement('form');form.setAttribute('method', method);form.setAttribute('action',path);for(var key in params){if(params.hasOwnProperty(key)){var hiddenField=document.createElement('input');hiddenField.setAttribute('type', 'hidden');hiddenField.setAttribute('name', key);hiddenField.setAttribute('value', params[key]);form.appendChild(hiddenField);}}document.body.appendChild(form);form.submit();}</script></head><body></body></html><script>post('\(url)',\(payload),'post');</script>"
-    }
     
     @IBAction func onClickOkBtn(_ sender: UIButton) {
         self.navigationController?.pop()
@@ -300,7 +273,7 @@ class MyPayinfoViewController: UIViewController{
     @IBAction func onClickChangeBtn(_ sender: UIButton) {
         showAlertDialog(vc: self, type: self.CHANGE_MODE, completion:  {(isOkey) -> Void in
             if isOkey {
-                self.showRegisterWeb()
+                self.moveToMyPaytRegist()
             }
         })
     }
@@ -347,79 +320,3 @@ class MyPayinfoViewController: UIViewController{
     }
 }
 
-extension MyPayinfoViewController: WKUIDelegate {
-    
-    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "경고", style: .cancel) { _ in
-            completionHandler()
-            
-        }
-        alertController.addAction(cancelAction);
-        DispatchQueue.main.async {
-            self.present(alertController, animated: true, completion: nil)
-        }
-        
-    }
-    
-    
-    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-        let alertController = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
-            completionHandler(false)
-        }
-        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
-            completionHandler(true)
-        }
-        alertController.addAction(cancelAction)
-        alertController.addAction(okAction)
-        DispatchQueue.main.async {
-            self.present(alertController, animated: true, completion: nil)
-        }
-    }
-}
-
-extension MyPayinfoViewController: WKNavigationDelegate{
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if let urlStr = navigationAction.request.url?.absoluteString{
-        }
-        if navigationAction.navigationType == .linkActivated  {
-            if let newURL = navigationAction.request.url,
-                let host = newURL.host,
-                UIApplication.shared.canOpenURL(newURL) {
-                if(host.hasPrefix("kftc-bankpay")) {
-                    UIApplication.shared.open(newURL, options: [:], completionHandler: {(isInstalled) -> Void in
-                        if !isInstalled {
-                            if let kftcMobileDownloadUrl = URL.init(string: "http://itunes.apple.com/kr/app/id369125087?mt=8") {
-                                UIApplication.shared.open(kftcMobileDownloadUrl)
-                            }
-                        }
-                    })
-                }else{
-                    if #available(iOS 10.0, *) {
-                        UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
-                    } else {
-                        UIApplication.shared.openURL(newURL)
-                    }
-                }
-                
-                decisionHandler(.allow)
-            } else {
-                decisionHandler(.allow)
-            }
-        } else {
-            decisionHandler(.allow)
-        }
-    }
-}
-
-extension MyPayinfoViewController: WKScriptMessageHandler {
-
-    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if(message.name == "returnFromServer"){
-            let data = message.body
-            let json = JSON(data)
-            self.showRegisteredResult(json: json)
-        }
-    }
-}
