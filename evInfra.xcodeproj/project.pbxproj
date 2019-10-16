@@ -150,6 +150,7 @@
 		73C6A1092345F1E800349A86 /* MembershipIssuanceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C6A1032345F1E800349A86 /* MembershipIssuanceView.xib */; };
 		73C6A10B2345F1F800349A86 /* MembershipCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */; };
 		73CF041A20B2736500BEA9CF /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CF041920B2736500BEA9CF /* UIScrollView.swift */; };
+		73D65D6E2356E57900F564A2 /* MyPayRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D6D2356E57900F564A2 /* MyPayRegisterViewController.swift */; };
 		73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DD778023164CB60006EFFC /* CopyableLabel.swift */; };
 		73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */; };
 		73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FB42101B7920016F505 /* BedgeButton.swift */; };
@@ -388,7 +389,7 @@
 		73C31C0420A2BB03005B6C53 /* charger_chademo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = charger_chademo.jpg; sourceTree = "<group>"; };
 		73C31C0520A2BB03005B6C53 /* charge_normal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = charge_normal.jpg; sourceTree = "<group>"; };
 		73C31C0C20A4408C005B6C53 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		73C6A0FC2345F1B500349A86 /* MyPayinfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPayinfoViewController.swift; sourceTree = "<group>"; };
+		73C6A0FC2345F1B500349A86 /* MyPayinfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyPayinfoViewController.swift; path = ../MyPayinfoViewController.swift; sourceTree = "<group>"; };
 		73C6A0FE2345F1E700349A86 /* MembershipInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MembershipInfoView.xib; sourceTree = "<group>"; };
 		73C6A0FF2345F1E700349A86 /* MembershipIssuanceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceView.swift; sourceTree = "<group>"; };
 		73C6A1002345F1E700349A86 /* MembershipIssuanceViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceViewDelegate.swift; sourceTree = "<group>"; };
@@ -397,6 +398,7 @@
 		73C6A1032345F1E800349A86 /* MembershipIssuanceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MembershipIssuanceView.xib; sourceTree = "<group>"; };
 		73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipCardViewController.swift; sourceTree = "<group>"; };
 		73CF041920B2736500BEA9CF /* UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
+		73D65D6D2356E57900F564A2 /* MyPayRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPayRegisterViewController.swift; sourceTree = "<group>"; };
 		73DD778023164CB60006EFFC /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
 		73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		73EE8FB42101B7920016F505 /* BedgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedgeButton.swift; sourceTree = "<group>"; };
@@ -797,7 +799,6 @@
 		73EF8B40203BC12F00D04494 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				73C6A0FC2345F1B500349A86 /* MyPayinfoViewController.swift */,
 				DB3799F621673E1E001D8F69 /* Board */,
 				DB5FA59422C20A5100F1508A /* history */,
 				DB3799F521673CEC001D8F69 /* member */,
@@ -932,6 +933,8 @@
 		DB3799F521673CEC001D8F69 /* member */ = {
 			isa = PBXGroup;
 			children = (
+				73C6A0FC2345F1B500349A86 /* MyPayinfoViewController.swift */,
+				73D65D6D2356E57900F564A2 /* MyPayRegisterViewController.swift */,
 				DBEE9AF72117DB5600770D04 /* LoginViewController.swift */,
 				DBEE9AFB211842ED00770D04 /* SignUpViewController.swift */,
 				73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */,
@@ -1333,6 +1336,7 @@
 				CE24840220A59E3000611E24 /* CarModels.swift in Sources */,
 				73A7B430204F8A72002E975F /* CidInfo.swift in Sources */,
 				DB6EBE31217078750000F442 /* ChargerSelectDelegate.swift in Sources */,
+				73D65D6E2356E57900F564A2 /* MyPayRegisterViewController.swift in Sources */,
 				73EF8B45203BD1D400D04494 /* EVIcon.swift in Sources */,
 				736D37CC2089B7E3009535EE /* NoticeDetailViewController.swift in Sources */,
 				73AD13C6203AC34400ADD19A /* LeftViewController.swift in Sources */,
