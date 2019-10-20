@@ -151,6 +151,10 @@
 		73C6A10B2345F1F800349A86 /* MembershipCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */; };
 		73CF041A20B2736500BEA9CF /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CF041920B2736500BEA9CF /* UIScrollView.swift */; };
 		73D65D6E2356E57900F564A2 /* MyPayRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D6D2356E57900F564A2 /* MyPayRegisterViewController.swift */; };
+		73D65D702358498C00F564A2 /* Validators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D6F2358498B00F564A2 /* Validators.swift */; };
+		73D65D7223588ACC00F564A2 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D7123588ACC00F564A2 /* UITextField.swift */; };
+		73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D77235C51FF00F564A2 /* SearchAddressViewController.swift */; };
+		73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D79235C558E00F564A2 /* SearchAddressViewDelegate.swift */; };
 		73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DD778023164CB60006EFFC /* CopyableLabel.swift */; };
 		73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */; };
 		73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FB42101B7920016F505 /* BedgeButton.swift */; };
@@ -399,6 +403,10 @@
 		73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipCardViewController.swift; sourceTree = "<group>"; };
 		73CF041920B2736500BEA9CF /* UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
 		73D65D6D2356E57900F564A2 /* MyPayRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPayRegisterViewController.swift; sourceTree = "<group>"; };
+		73D65D6F2358498B00F564A2 /* Validators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validators.swift; sourceTree = "<group>"; };
+		73D65D7123588ACC00F564A2 /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
+		73D65D77235C51FF00F564A2 /* SearchAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAddressViewController.swift; sourceTree = "<group>"; };
+		73D65D79235C558E00F564A2 /* SearchAddressViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAddressViewDelegate.swift; sourceTree = "<group>"; };
 		73DD778023164CB60006EFFC /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
 		73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		73EE8FB42101B7920016F505 /* BedgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedgeButton.swift; sourceTree = "<group>"; };
@@ -829,6 +837,8 @@
 				DB48E1F522E08B07003FFA08 /* ServiceGuideViewController.swift */,
 				73268D4B2188331700C00427 /* SettingsViewController.swift */,
 				DBDC599F234B6E4E00F75D64 /* UsePointViewController.swift */,
+				73D65D77235C51FF00F564A2 /* SearchAddressViewController.swift */,
+				73D65D79235C558E00F564A2 /* SearchAddressViewDelegate.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -863,6 +873,8 @@
 				739171DC22BB4520007369F9 /* UIButton.swift */,
 				DBF3827A2304475900FAF772 /* CBT.swift */,
 				73DD778023164CB60006EFFC /* CopyableLabel.swift */,
+				73D65D6F2358498B00F564A2 /* Validators.swift */,
+				73D65D7123588ACC00F564A2 /* UITextField.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1299,6 +1311,7 @@
 				736D37D3208DC9CE009535EE /* BoardData.swift in Sources */,
 				732ED1CA21ED8ABB0012C67B /* DropDownCheckBoxCell.swift in Sources */,
 				CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */,
+				73D65D702358498C00F564A2 /* Validators.swift in Sources */,
 				73BFA04C20847A310028B35D /* BoardTableViewCell.swift in Sources */,
 				DB876078206B40FF0095394B /* UIDevice.swift in Sources */,
 				DB4063AD22014D6800B630A8 /* ViewPagerController.swift in Sources */,
@@ -1344,6 +1357,7 @@
 				73C31BFB20A288BB005B6C53 /* ChargerInfoViewController.swift in Sources */,
 				CE93308F214F9807006B7EF6 /* ReportChargeInfoList.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton.swift in Sources */,
+				73D65D7223588ACC00F564A2 /* UITextField.swift in Sources */,
 				735759552091758C008181E9 /* EVInfoViewController.swift in Sources */,
 				73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */,
 				CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */,
@@ -1362,6 +1376,7 @@
 				7312786820BE38C500861B3E /* FCMManager.swift in Sources */,
 				73C31BFD20A288E3005B6C53 /* ChargerDetailViewController.swift in Sources */,
 				732121BD203AC023000E105C /* AppDelegate.swift in Sources */,
+				73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */,
 				7376B5C520C6473500A2B7C1 /* MyArticleViewController.swift in Sources */,
 				73268D4C2188331700C00427 /* SettingsViewController.swift in Sources */,
 				DBEE9AFC211842ED00770D04 /* SignUpViewController.swift in Sources */,
@@ -1386,6 +1401,7 @@
 				73A7B428204E81A6002E975F /* Const.swift in Sources */,
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
 				CE33B4C72192D39700B6C632 /* EventCoupon.swift in Sources */,
+				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,
 				736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */,
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,

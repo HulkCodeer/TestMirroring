@@ -53,6 +53,16 @@ class MembershipIssuanceView: UIView {
     }
     
     @IBAction func onClickIssuanceConfrim(_ sender: Any) {
-        membershipIssuanceDelegate?.applyMembershipCard()
+        var issuanceParam = [String:String]()
+        do {
+            issuanceParam["mb_name"] = try tfIssuanceName.validatedText(validationType: .membername)
+            issuanceParam["mb_pw"] = try tfIssuancePw.validatedText(validationType: .password)
+            _ = try tfIssuancePwRe.validatedText(validationType: .repassword(password: tfIssuancePw.text ?? "0000"))
+            issuanceParam["phone_no"] = try tfIssuancePhone.validatedText(validationType: .phonenumber)
+            issuanceParam["car_no"] = try tfIssuanceCarNo.validatedText(validationType: .carnumber)
+            membershipIssuanceDelegate?.applyMembershipCard(params: issuanceParam)
+        } catch (let error) {
+            membershipIssuanceDelegate?.showValidateFailMsg(msg: (error as! ValidationError).message)
+        }
     }
 }

@@ -9,5 +9,6 @@
 import Foundation
 protocol MembershipIssuanceViewDelegate {
     func searchZipCode()
-    func applyMembershipCard()
+    func applyMembershipCard(params: [String: String])
+    func showValidateFailMsg(msg: String)
 }

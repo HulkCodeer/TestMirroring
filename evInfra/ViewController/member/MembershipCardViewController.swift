@@ -10,9 +10,8 @@ import UIKit
 import Material
 import SwiftyJSON
 
-class MembershipCardViewController: UIViewController {
-    @IBOutlet weak var membershipView: UIView!
-    
+class MembershipCardViewController: UIViewController, MembershipIssuanceViewDelegate {
+
     var membershipIssuanceView : MembershipIssuanceView? = nil
     var membershipInfoView : MembershipInfoView? = nil
     
@@ -22,21 +21,27 @@ class MembershipCardViewController: UIViewController {
         getNoticeData()
         // Do any additional setup after loading the view.
     }
-    
+
     func getNoticeData() {
             Server.getInfoMembershipCard { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
-                    let frame = CGRect(x: 0, y: 0, width: self.membershipView.frame.width, height: self.membershipView.frame.height)
+                    let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
                     if(json["code"].stringValue.elementsEqual("1101")){ // MBS_CARD_NOT_ISSUED 발급받은 회원카드가 없음
                         self.membershipIssuanceView = MembershipIssuanceView.init(frame: frame)
                         if let msView = self.membershipIssuanceView {
-                            self.membershipView.addSubview(msView)
+                            msView.membershipIssuanceDelegate = self
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
+                            msView.addGestureRecognizer(tap)
+                            self.view.addSubview(msView)
+                            
                         }
                     } else {
                         self.membershipInfoView = MembershipInfoView.init(frame: frame)
                         if let msView = self.membershipInfoView {
-                            self.membershipView.addSubview(msView)
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
+                            msView.addGestureRecognizer(tap)
+                            self.view.addSubview(msView)
                             msView.setCardInfo(cardInfo: json)
                         }
                     }
@@ -53,22 +58,40 @@ class MembershipCardViewController: UIViewController {
         }
         */
     
-        func prepareActionBar() {
-            let backButton = IconButton(image: Icon.cm.arrowBack)
-            backButton.tintColor = UIColor(rgb: 0x15435C)
-            backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-    
-            navigationItem.leftViews = [backButton]
-            navigationItem.hidesBackButton = true
-            navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
-            navigationItem.titleLabel.text = "EV Infra"
-            self.navigationController?.isNavigationBarHidden = false
-        }
-    
-        @objc
-        fileprivate func handleBackButton() {
-            self.navigationController?.pop()
-        }
+    func prepareActionBar() {
+        let backButton = IconButton(image: Icon.cm.arrowBack)
+        backButton.tintColor = UIColor(rgb: 0x15435C)
+        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
 
+        navigationItem.leftViews = [backButton]
+        navigationItem.hidesBackButton = true
+        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.text = "EV Infra"
+        self.navigationController?.isNavigationBarHidden = false
+    }
 
+    @objc
+    fileprivate func handleBackButton() {
+        self.navigationController?.pop()
+    }
+
+    func searchZipCode() {
+        print("PJS HERE1")
+        let saVC = storyboard?.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
+        navigationController?.push(viewController: saVC)
+    }
+    
+
+    
+    func applyMembershipCard(params: [String : String]) {
+        print("PJS HERE!")
+    }
+    
+    func showValidateFailMsg(msg: String) {
+        print("PJS \(msg)")
+    }
+    @objc
+    fileprivate func handleTap(recognizer: UITapGestureRecognizer){
+        self.view.endEditing(true)
+    }
 }
