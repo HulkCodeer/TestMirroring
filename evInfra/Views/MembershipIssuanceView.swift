@@ -25,6 +25,9 @@ class MembershipIssuanceView: UIView {
     @IBOutlet weak var tfZipCode: UITextField!
     @IBOutlet weak var tfIssuanceAddress: UITextField!
     @IBOutlet weak var tfIssuanceDetailAddress: UITextField!
+
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var confirmBtnBottom: NSLayoutConstraint!
     
     var membershipIssuanceDelegate: MembershipIssuanceViewDelegate?
     
@@ -64,5 +67,18 @@ class MembershipIssuanceView: UIView {
         } catch (let error) {
             membershipIssuanceDelegate?.showValidateFailMsg(msg: (error as! ValidationError).message)
         }
+    }
+    
+    func showKeyBoard(keyboardHeight: CGFloat) {
+        self.confirmBtnBottom.constant = keyboardHeight
+        self.scrollView.isScrollEnabled = true
+        self.scrollView.setNeedsLayout()
+        self.scrollView.layoutIfNeeded()
+   }
+    func hideKeyBoard() {
+         self.confirmBtnBottom.constant = 16
+         self.scrollView.isScrollEnabled = true
+         self.scrollView.setNeedsLayout()
+         self.scrollView.layoutIfNeeded()
     }
 }

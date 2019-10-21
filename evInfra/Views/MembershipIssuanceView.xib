@@ -10,11 +10,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MembershipIssuanceView" customModule="evInfra" customModuleProvider="target">
             <connections>
+                <outlet property="confirmBtnBottom" destination="ohG-OO-8uM" id="hjN-aR-f9W"/>
                 <outlet property="ivBasic" destination="kKM-HI-xHf" id="k4g-0i-H9A"/>
                 <outlet property="ivDetail" destination="Qvc-sI-wRD" id="xqm-fO-Xbw"/>
                 <outlet property="lbIssuanceMbId" destination="QFc-Ve-j8L" id="EiI-3i-FMF"/>
                 <outlet property="lbIssuanceMemberType" destination="rnK-xg-hth" id="bJm-pj-CzF"/>
                 <outlet property="lbIssuanceNickName" destination="CWg-94-g7y" id="ako-eC-4d1"/>
+                <outlet property="scrollView" destination="2VO-hB-d2f" id="4kr-Xe-XPx"/>
                 <outlet property="tfIssuanceAddress" destination="MzO-6u-1I4" id="u9W-tq-9Zo"/>
                 <outlet property="tfIssuanceCarNo" destination="JTk-kC-MSp" id="kKd-mg-u9K"/>
                 <outlet property="tfIssuanceDetailAddress" destination="RVP-l2-enW" id="Tb8-1D-icE"/>

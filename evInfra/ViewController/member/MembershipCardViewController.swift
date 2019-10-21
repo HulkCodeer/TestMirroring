@@ -23,6 +23,9 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
     }
 
     func getNoticeData() {
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+            
             Server.getInfoMembershipCard { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
@@ -93,5 +96,36 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
     @objc
     fileprivate func handleTap(recognizer: UITapGestureRecognizer){
         self.view.endEditing(true)
+    }
+    
+    // MARK: - KeyBoardHeight
+    @objc func keyboardWillShow(_ notification: Notification) {
+        print("Keyboard Show View is \(String(describing: type(of: self.membershipIssuanceView)))")
+        if let msView = self.membershipIssuanceView {
+            if  String(describing: type(of: msView)).elementsEqual("MembershipIssuanceView"){
+                if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+                    let keyboardRectangle = keyboardFrame.cgRectValue
+                    let keyboardHeight = keyboardRectangle.height + CGFloat(16.0)
+                    msView.showKeyBoard(keyboardHeight: keyboardHeight)
+                }
+            }
+            
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        print("Keyboard Hide View is \(String(describing: type(of: self.membershipIssuanceView)))")
+        if let msView = self.membershipIssuanceView {
+            if  String(describing: type(of: msView)).elementsEqual("MembershipIssuanceView"){
+                if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+                    msView.hideKeyBoard()
+                }
+            }
+            
+        }
+//        self.scrollViewBottom.constant = 10
+//        //self.scrollView.contentSize.height = scrollViewHeight
+//        scrollViewUpdate()
+//        self.scrollView.scrollToBottom()
     }
 }
