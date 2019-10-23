@@ -13,7 +13,7 @@ import SwiftyJSON
 class SearchAddressViewController: UIViewController {
 
     var mWebView: WKWebView!
-        
+    var searchAddressDelegate: SearchAddressViewDelegate? = nil
         override func loadView() {
             super.loadView()
             initWebView()
@@ -22,7 +22,7 @@ class SearchAddressViewController: UIViewController {
         override func viewDidLoad() {
             super.viewDidLoad()
             prepareActionBar()
-            if let url = URL(string: Const.EV_SERVER_IP  + "/searchAddressIos"){
+            if let url = URL(string: Const.EV_SERVER_IP  + "/searchAddress"){
                 print("PJS HERE URL LOAD")
                 mWebView.load(URLRequest(url: url))
             }
@@ -34,7 +34,7 @@ class SearchAddressViewController: UIViewController {
             
             let webViewConfig = WKWebViewConfiguration()
             let webViewContentController = WKUserContentController()
-            webViewContentController.add(self, name: "returnFromServer")
+            webViewContentController.add(self, name: "processDATA")
             
             
             webViewConfig.userContentController = webViewContentController
@@ -86,7 +86,8 @@ class SearchAddressViewController: UIViewController {
     extension SearchAddressViewController: WKScriptMessageHandler {
 
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-            if(message.name == "returnFromServer"){
+            if(message.name == "processDATA"){
+                print("PJS Address processData")
                 if let jsonString = message.body as? String {
                     if let dataFromString = jsonString.data(using: .utf8, allowLossyConversion: false) {
                         if let json = try? JSON(data: dataFromString) {
@@ -105,6 +106,9 @@ class SearchAddressViewController: UIViewController {
         }
         
         func showRegisteredResult(json: JSON) {
-            
+            print("PJS Address Json1 \(json["zonecode"].stringValue)")
+            print("PJS Address Json2 \(json["fullRoadAddr"].stringValue)")
+            searchAddressDelegate?.recieveAddressInfo(zonecode: json["zonecode"].stringValue, fullRoadAddr: json["fullRoadAddr"].stringValue)
+            self.navigationController?.pop()
         }
     }

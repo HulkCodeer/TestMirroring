@@ -124,7 +124,7 @@ class CarNoValidator: ValidatorConvertible {
 
 struct ZipCodeValidator: ValidatorConvertible {
     func validated(_ value: String) throws -> String {
-        guard !value.isEmpty else {throw ValidationError("주소를 입력해 주세요.")}
+        guard !value.isEmpty else {throw ValidationError("우편번호를 검색해 주세요.")}
         return value
     }
 }

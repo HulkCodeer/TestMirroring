@@ -63,7 +63,10 @@ class MembershipIssuanceView: UIView {
             _ = try tfIssuancePwRe.validatedText(validationType: .repassword(password: tfIssuancePw.text ?? "0000"))
             issuanceParam["phone_no"] = try tfIssuancePhone.validatedText(validationType: .phonenumber)
             issuanceParam["car_no"] = try tfIssuanceCarNo.validatedText(validationType: .carnumber)
-            membershipIssuanceDelegate?.applyMembershipCard(params: issuanceParam)
+            issuanceParam["zip_code"] = try tfZipCode.validatedText(validationType: .zipcode)
+            issuanceParam["addr_detail"] = try tfIssuanceDetailAddress.validatedText(validationType: .address)
+            issuanceParam["addr"] = tfIssuanceAddress.text
+            membershipIssuanceDelegate?.verifyMemgberInfo(params: issuanceParam)
         } catch (let error) {
             membershipIssuanceDelegate?.showValidateFailMsg(msg: (error as! ValidationError).message)
         }

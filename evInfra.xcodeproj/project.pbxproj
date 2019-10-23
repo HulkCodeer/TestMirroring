@@ -155,6 +155,8 @@
 		73D65D7223588ACC00F564A2 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D7123588ACC00F564A2 /* UITextField.swift */; };
 		73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D77235C51FF00F564A2 /* SearchAddressViewController.swift */; };
 		73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D79235C558E00F564A2 /* SearchAddressViewDelegate.swift */; };
+		73D65D7C2360299700F564A2 /* PaymentCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D7B2360299700F564A2 /* PaymentCard.swift */; };
+		73D65D7E23605D1000F564A2 /* MyPayRegisterViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D7D23605D0F00F564A2 /* MyPayRegisterViewDelegate.swift */; };
 		73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DD778023164CB60006EFFC /* CopyableLabel.swift */; };
 		73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */; };
 		73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FB42101B7920016F505 /* BedgeButton.swift */; };
@@ -407,6 +409,8 @@
 		73D65D7123588ACC00F564A2 /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		73D65D77235C51FF00F564A2 /* SearchAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAddressViewController.swift; sourceTree = "<group>"; };
 		73D65D79235C558E00F564A2 /* SearchAddressViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAddressViewDelegate.swift; sourceTree = "<group>"; };
+		73D65D7B2360299700F564A2 /* PaymentCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCard.swift; sourceTree = "<group>"; };
+		73D65D7D23605D0F00F564A2 /* MyPayRegisterViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPayRegisterViewDelegate.swift; sourceTree = "<group>"; };
 		73DD778023164CB60006EFFC /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
 		73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		73EE8FB42101B7920016F505 /* BedgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedgeButton.swift; sourceTree = "<group>"; };
@@ -754,6 +758,7 @@
 				CE93308E214F9807006B7EF6 /* ReportChargeInfoList.swift */,
 				CE9330962150FB32006B7EF6 /* ReportChargeItem.swift */,
 				CEBE0600214BA5C30047E6F2 /* ReportData.swift */,
+				73D65D7B2360299700F564A2 /* PaymentCard.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -947,6 +952,7 @@
 			children = (
 				73C6A0FC2345F1B500349A86 /* MyPayinfoViewController.swift */,
 				73D65D6D2356E57900F564A2 /* MyPayRegisterViewController.swift */,
+				73D65D7D23605D0F00F564A2 /* MyPayRegisterViewDelegate.swift */,
 				DBEE9AF72117DB5600770D04 /* LoginViewController.swift */,
 				DBEE9AFB211842ED00770D04 /* SignUpViewController.swift */,
 				73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */,
@@ -1299,7 +1305,9 @@
 				DB3799F821673FDD001D8F69 /* FavoriteViewController.swift in Sources */,
 				DB49A77F206CC32D002448E6 /* SearchViewController.swift in Sources */,
 				73FFCDC221194E14003B129D /* DecChargerList.swift in Sources */,
+				73D65D7E23605D1000F564A2 /* MyPayRegisterViewDelegate.swift in Sources */,
 				DB4063AB21FED66600B630A8 /* HourAxisValueFormatter.swift in Sources */,
+				73D65D7C2360299700F564A2 /* PaymentCard.swift in Sources */,
 				732B92C220EF4D5C0090E9FC /* CompanyInfo.swift in Sources */,
 				CE5242382183076000FF6AB1 /* AddressSearchCell.swift in Sources */,
 				73EF8B43203BC71100D04494 /* UIColor.swift in Sources */,
