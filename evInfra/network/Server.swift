@@ -846,3 +846,4 @@ class Server {
                       method: .post, parameters: values, encoding: JSONEncoding.default)
         .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
+}
