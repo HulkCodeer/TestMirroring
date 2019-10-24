@@ -227,7 +227,6 @@ extension PointViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("parkshin 1")
         let cell = tableView.dequeueReusableCell(withIdentifier: "PointTableViewCell", for: indexPath) as! PointTableViewCell
         cell.reloadData(evPoint: evPointList[indexPath.row])
         

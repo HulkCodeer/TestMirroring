@@ -58,7 +58,10 @@ class UserDefault {
         static let SETTINGS_CLUSTER_ZOOMLEVEL = "user_zoom_lev"
         
         // 충전 결제
-        static let CHARGING_ID = "charging_id";
+        static let CHARGING_ID = "charging_id"
+        
+        // 광고 - 일주일동안 보지 않기 선택한 날짜
+        static let AD_KEEP_DATE_FOR_A_WEEK = "ad_keep_date_for_a_week"
     }
 
     func saveString(key:String, value: String) -> Void {

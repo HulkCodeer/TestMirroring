@@ -235,6 +235,8 @@
 		DB5041AC235066CA007336BC /* PointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5041AB235066CA007336BC /* PointViewController.swift */; };
 		DB5041AE23506A14007336BC /* PointTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5041AD23506A14007336BC /* PointTableViewCell.swift */; };
 		DB5041B023506DCF007336BC /* EvPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5041AF23506DCF007336BC /* EvPoint.swift */; };
+		DB5C4EDD23619F5F0090139E /* AdvertisingDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5C4EDC23619F5F0090139E /* AdvertisingDialog.xib */; };
+		DB5C4EDF2361A04B0090139E /* AdvertisingDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5C4EDE2361A04B0090139E /* AdvertisingDialog.swift */; };
 		DB5FA59622C20A8400F1508A /* ChargesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5FA59522C20A8400F1508A /* ChargesViewController.swift */; };
 		DB6E59492063C595002E75C8 /* Regions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6E59482063C595002E75C8 /* Regions.swift */; };
 		DB6EBE31217078750000F442 /* ChargerSelectDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6EBE30217078750000F442 /* ChargerSelectDelegate.swift */; };
@@ -509,6 +511,8 @@
 		DB5041AB235066CA007336BC /* PointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewController.swift; sourceTree = "<group>"; };
 		DB5041AD23506A14007336BC /* PointTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointTableViewCell.swift; sourceTree = "<group>"; };
 		DB5041AF23506DCF007336BC /* EvPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvPoint.swift; sourceTree = "<group>"; };
+		DB5C4EDC23619F5F0090139E /* AdvertisingDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdvertisingDialog.xib; sourceTree = "<group>"; };
+		DB5C4EDE2361A04B0090139E /* AdvertisingDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisingDialog.swift; sourceTree = "<group>"; };
 		DB5FA59522C20A8400F1508A /* ChargesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargesViewController.swift; sourceTree = "<group>"; };
 		DB6E59482063C595002E75C8 /* Regions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regions.swift; sourceTree = "<group>"; };
 		DB6EBE30217078750000F442 /* ChargerSelectDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerSelectDelegate.swift; sourceTree = "<group>"; };
@@ -766,13 +770,9 @@
 		73B75286204928550077112A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				73C6A1012345F1E700349A86 /* MembershipInfoView.swift */,
-				73C6A0FE2345F1E700349A86 /* MembershipInfoView.xib */,
-				73C6A1022345F1E700349A86 /* MembershipInfoViewDelegate.swift */,
-				73C6A0FF2345F1E700349A86 /* MembershipIssuanceView.swift */,
-				73C6A1032345F1E800349A86 /* MembershipIssuanceView.xib */,
-				73C6A1002345F1E700349A86 /* MembershipIssuanceViewDelegate.swift */,
 				CE5242372183076000FF6AB1 /* AddressSearchCell.swift */,
+				DB5C4EDE2361A04B0090139E /* AdvertisingDialog.swift */,
+				DB5C4EDC23619F5F0090139E /* AdvertisingDialog.xib */,
 				73BFA04E208487050028B35D /* BoardTableView.swift */,
 				73BFA04A20847A310028B35D /* BoardTableViewCell.swift */,
 				73BFA04B20847A310028B35D /* BoardTableViewCell.xib */,
@@ -794,6 +794,12 @@
 				7357595120916C11008181E9 /* InfoCollectionViewCell.xib */,
 				733662F722FD11740049AEFE /* LeftViewTableHeader.swift */,
 				733662F922FD11860049AEFE /* LeftViewTableHeader.xib */,
+				73C6A1012345F1E700349A86 /* MembershipInfoView.swift */,
+				73C6A0FE2345F1E700349A86 /* MembershipInfoView.xib */,
+				73C6A1022345F1E700349A86 /* MembershipInfoViewDelegate.swift */,
+				73C6A0FF2345F1E700349A86 /* MembershipIssuanceView.swift */,
+				73C6A1032345F1E800349A86 /* MembershipIssuanceView.xib */,
+				73C6A1002345F1E700349A86 /* MembershipIssuanceViewDelegate.swift */,
 				CE33B4C42191BFD100B6C632 /* MyCouponTableViewCell.swift */,
 				736D37C9208993BE009535EE /* NoticeTableViewCell.swift */,
 				DB5041AD23506A14007336BC /* PointTableViewCell.swift */,
@@ -1162,6 +1168,7 @@
 				7357594420916A37008181E9 /* kia_ray.jpg in Resources */,
 				73EF8B73203C85CC00D04494 /* mapbg_tlogo.png in Resources */,
 				73C31C0920A2BB04005B6C53 /* charger_acsingle.jpg in Resources */,
+				DB5C4EDD23619F5F0090139E /* AdvertisingDialog.xib in Resources */,
 				73A7B414204E3595002E975F /* expand_pressed.png in Resources */,
 				736BCE87205A892E0052C9ED /* intro_bg.jpg in Resources */,
 				73EF8B70203C85CC00D04494 /* HeadingAngleSmall@2x.png in Resources */,
@@ -1356,6 +1363,7 @@
 				73C31BF92099A024005B6C53 /* EVModel.swift in Sources */,
 				CE24840220A59E3000611E24 /* CarModels.swift in Sources */,
 				73A7B430204F8A72002E975F /* CidInfo.swift in Sources */,
+				DB5C4EDF2361A04B0090139E /* AdvertisingDialog.swift in Sources */,
 				DB6EBE31217078750000F442 /* ChargerSelectDelegate.swift in Sources */,
 				73D65D6E2356E57900F564A2 /* MyPayRegisterViewController.swift in Sources */,
 				73EF8B45203BD1D400D04494 /* EVIcon.swift in Sources */,

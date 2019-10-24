@@ -628,6 +628,18 @@ class Server {
         })
     }
     
+    // 광고 - large image 정보 요청
+    static func getAdLargeInfo(type: Int, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId(),
+            "mb_id": MemberManager.getMbId(),
+            "type": type
+        ]
+        Alamofire.request(Const.EV_PAY_SERVER + "/ad/ad_large/get_info",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
     // 광고 click event 전송
     static func addCountForAd(adId: Int) {
         let reqParam: Parameters = [

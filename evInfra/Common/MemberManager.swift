@@ -55,9 +55,6 @@ class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_REGION, value: data["region"].stringValue)
             userDefault.saveInt(key: UserDefault.Key.MB_CAR_ID, value: data["car_id"].intValue)
             userDefault.saveInt(key: UserDefault.Key.MB_CAR_TYPE, value: data["car_type"].intValue)
-            
-//            boolean isReceive = json.optString("receive_push").equals("Y");
-//            SharedPreferenceManager.save(this, SharedPreferenceManager.KEY_SETTINGS_ALLOW_NOTIFICATION, isReceive);
         }
     }
     

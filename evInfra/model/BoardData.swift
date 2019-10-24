@@ -119,7 +119,6 @@ class BoardData {
             }
 //            reply?.sort(by: {$0.replyId! > $1.replyId!}) // 서버에서 sorting해서 내려줌
         }
-        
     }
 }
 //

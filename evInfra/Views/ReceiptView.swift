@@ -27,40 +27,40 @@ class ReceiptView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.commonInit()
+        commonInit()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.commonInit()
+        commonInit()
     }
     
     private func commonInit() {
         let view = Bundle.main.loadNibNamed("ReceiptView", owner: self, options: nil)?.first as! UIView
-        view.frame = self.bounds
-        self.addSubview(view)
+        view.frame = bounds
+        addSubview(view)
         
-        self.receiptView.layer.cornerRadius = 8
-        self.receiptView.clipsToBounds = true
-        self.receiptView.layer.shadowRadius = 8
-        self.receiptView.layer.shadowColor = UIColor.black.cgColor
-        self.receiptView.layer.shadowOpacity = 0.5
-        self.receiptView.layer.shadowOffset = CGSize(width: 0.5, height: 2)
-        self.receiptView.layer.masksToBounds = false
+        receiptView.layer.cornerRadius = 8
+        receiptView.clipsToBounds = true
+        receiptView.layer.shadowRadius = 8
+        receiptView.layer.shadowColor = UIColor.black.cgColor
+        receiptView.layer.shadowOpacity = 0.5
+        receiptView.layer.shadowOffset = CGSize(width: 0.5, height: 2)
+        receiptView.layer.masksToBounds = false
     }
     
     public func update(status: ChargingStatus) {
-        self.labelCardNumber.text = status.cardNumber // 카드번호
-        self.labelCardCo.text = status.cardCo // 카드회사
-        self.labelPayAuthCode.text = status.payAuthCode // 승인번호
+        labelCardNumber.text = status.cardNumber // 카드번호
+        labelCardCo.text = status.cardCo // 카드회사
+        labelPayAuthCode.text = status.payAuthCode // 승인번호
         
-        self.labelStationName.text = status.stationName // 충전소명
-        self.labelStartDate.text = status.startDate // 충전시작시간
-        self.labelEndDate.text = status.endDate // 충전종료시간
-        self.labelPayDate.text = status.payAuthDate // 승인날짜
-        self.labelChargingKw.text = status.chargingKw // 충전량
-        self.labelFee.text = status.payAmount?.currency() // 결제금액
+        labelStationName.text = status.stationName // 충전소명
+        labelStartDate.text = status.startDate // 충전시작시간
+        labelEndDate.text = status.endDate // 충전종료시간
+        labelPayDate.text = status.payAuthDate // 승인날짜
+        labelChargingKw.text = status.chargingKw // 충전량
+        labelFee.text = status.payAmount?.currency() // 결제금액
         
-        self.labelTotalFee.text = status.payAmount?.currency()
+        labelTotalFee.text = status.payAmount?.currency()
     }
 }
