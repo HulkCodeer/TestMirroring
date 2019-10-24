@@ -275,14 +275,6 @@ extension CardBoardViewController: BoardTableViewDelegate {
             }
         }
     }
-    
-    func goToAdUrl(tag: Int) {
-        if let urlString = self.boardList[tag].adUrl {
-            if let url = URL(string: urlString) {
-                UIApplication.shared.open(url, options: [:])
-            }
-        }
-    }
 }
 
 extension CardBoardViewController: EditViewDelegate {

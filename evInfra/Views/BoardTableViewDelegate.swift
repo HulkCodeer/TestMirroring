@@ -22,5 +22,4 @@ protocol BoardTableViewDelegate {
     func replyDelete(tag: Int)
     
     func goToStation(tag: Int)
-    func goToAdUrl(tag: Int)
 }

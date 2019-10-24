@@ -628,6 +628,17 @@ class Server {
         })
     }
     
+    // 광고 click event 전송
+    static func addCountForAd(adId: Int) {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId(),
+            "mb_id": MemberManager.getMbId(),
+            "ad_id": adId
+        ]
+        Alamofire.request(Const.EV_PAY_SERVER + "/ad/ad_analysis/add_count",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+    }
+
     /*
      * 결제
      */

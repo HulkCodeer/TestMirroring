@@ -300,9 +300,16 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func onClickAdImage(sender: UITapGestureRecognizer) {
-        if let view = sender.view {
-            if sender.state == .ended {
-                tableViewDelegate?.goToAdUrl(tag: view.tag)
+        if sender.state == .ended {
+            if let view = sender.view {
+                if let urlString = boardList[view.tag].adUrl {
+                    if let url = URL(string: urlString) {
+                        UIApplication.shared.open(url, options: [:])
+                        
+                        // 광고 click event 전송
+                        Server.addCountForAd(adId: boardList[view.tag].adId)
+                    }
+                }
             }
         }
     }

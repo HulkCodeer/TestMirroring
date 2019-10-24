@@ -243,17 +243,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
         self.present(dialogMessage, animated: true, completion: nil)
     }
     
-    func goToStation(tag: Int) {
-        
-    }
-    
-    func goToAdUrl(tag: Int) {
-        if let urlString = self.boardList[tag].adUrl {
-            if let url = URL(string: urlString) {
-                UIApplication.shared.open(url, options: [:])
-            }
-        }
-    }
+    func goToStation(tag: Int) {}
 }
 
 extension MyWritingViewController: EditViewDelegate {
