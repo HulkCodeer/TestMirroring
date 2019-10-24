@@ -9,6 +9,6 @@
 import Foundation
 protocol MembershipIssuanceViewDelegate {
     func searchZipCode()
-    func verifyMemgberInfo(params: [String : String])
+    func verifyMemgberInfo(params: [String : Any])
     func showValidateFailMsg(msg: String)
 }

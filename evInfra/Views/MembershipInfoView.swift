@@ -13,6 +13,7 @@ class MembershipInfoView: UIView {
     
     private let xibName = "MembershipInfoView"
 
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var ivCardInfo: UIImageView!
     @IBOutlet weak var ivPassWord: UIImageView!
     @IBOutlet weak var lbCardNo: UILabel!
@@ -22,6 +23,7 @@ class MembershipInfoView: UIView {
     @IBOutlet weak var tfNewPw: UITextField!
     @IBOutlet weak var tfNewPwRe: UITextField!
     @IBOutlet weak var btnChangePw: UIButton!
+    @IBOutlet weak var stackViewBottom: NSLayoutConstraint!
     
     var delegate: MembershipInfoViewDelegate?
     
@@ -33,6 +35,9 @@ class MembershipInfoView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.commonInit()
+    }
+    @IBAction func onClickChangePw(_ sender: UIButton) {
+        self.changePassword()
     }
     
     private func commonInit() {
@@ -46,8 +51,51 @@ class MembershipInfoView: UIView {
     }
     
     func setCardInfo(cardInfo: JSON) {
-//        mbsCardNoLabel.text = cardInfo["card_no"].stringValue
-//        mbsCardIssueDateLabel.text = cardInfo["status"].stringValue
-//        mbsCardStatusLabel.text = cardInfo["date"].stringValue
+        lbCardNo.text = cardInfo["card_no"].stringValue
+        lbCardStatus.text = getCardStatusToString(status: cardInfo["status"].stringValue)
+        lbIssueDate.text = cardInfo["date"].stringValue
+    }
+    
+    func getCardStatusToString(status: String) -> String {
+        switch (status) {
+            case "0":
+                return "발급 신청";
+
+            case "1":
+                return "발급 완료";
+
+            case "2":
+                return "카드 분실";
+
+            default:
+                return "상태 오류";
+        }
+    }
+    
+    func showKeyBoard(keyboardHeight: CGFloat) {
+        print("showKeyBoard info")
+         self.stackViewBottom.constant = keyboardHeight
+         self.scrollView.isScrollEnabled = true
+         self.scrollView.setNeedsLayout()
+         self.scrollView.layoutIfNeeded()
+    }
+     func hideKeyBoard() {
+          self.stackViewBottom.constant = 0
+          self.scrollView.isScrollEnabled = true
+          self.scrollView.setNeedsLayout()
+          self.scrollView.layoutIfNeeded()
+     }
+    func changePassword(){
+        var chgPwParams = [String: Any]()
+        do {
+            chgPwParams["cur_pw"] = try tfCurPw.validatedText(validationType: .password)
+            chgPwParams["new_pw"] = try tfNewPw.validatedText(validationType: .password)
+            _ = try tfNewPwRe.validatedText(validationType: .repassword(password: tfNewPw.text ?? "0000"))
+            chgPwParams["card_no"] = lbCardNo.text
+            chgPwParams["mb_id"] = MemberManager.getMbId()
+            delegate?.changePassword(param: chgPwParams)
+        } catch (let error) {
+            delegate?.showFailedPasswordError(msg: (error as! ValidationError).message)
+        }
     }
 }

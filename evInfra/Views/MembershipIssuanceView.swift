@@ -56,7 +56,7 @@ class MembershipIssuanceView: UIView {
     }
     
     @IBAction func onClickIssuanceConfrim(_ sender: Any) {
-        var issuanceParam = [String:String]()
+        var issuanceParam = [String: Any]()
         do {
             issuanceParam["mb_name"] = try tfIssuanceName.validatedText(validationType: .membername)
             issuanceParam["mb_pw"] = try tfIssuancePw.validatedText(validationType: .password)
@@ -66,6 +66,7 @@ class MembershipIssuanceView: UIView {
             issuanceParam["zip_code"] = try tfZipCode.validatedText(validationType: .zipcode)
             issuanceParam["addr_detail"] = try tfIssuanceDetailAddress.validatedText(validationType: .address)
             issuanceParam["addr"] = tfIssuanceAddress.text
+            issuanceParam["mb_id"] = MemberManager.getMbId()
             membershipIssuanceDelegate?.verifyMemgberInfo(params: issuanceParam)
         } catch (let error) {
             membershipIssuanceDelegate?.showValidateFailMsg(msg: (error as! ValidationError).message)

@@ -840,16 +840,9 @@ class Server {
     }
 
     // 회원 - 회원카드 비밀번호 확인
-    static func changeMembershipCardPassword(cardNo: String, curPassword: String, newPassword: String, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
-            "card_no": cardNo,
-            "cur_pw": curPassword,
-            "new_pw": newPassword
-        ]
+    static func changeMembershipCardPassword(values: [String: Any], completion: @escaping (Bool, Any) -> Void) {
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/membership_card/change_password",
-                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+                      method: .post, parameters: values, encoding: JSONEncoding.default)
         .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
-}

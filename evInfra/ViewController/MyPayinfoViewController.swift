@@ -37,6 +37,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
     @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var changeBtn: UIButton!
     
+    var payRegisterResult: JSON?
     override func loadView() {
         super.loadView()
     }
@@ -45,8 +46,11 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
         super.viewDidLoad()
         prepareActionBar()
         initInfoView()
-        checkRegisterPayment()
-        
+        if let result = payRegisterResult {
+            showRegisteredResult(json: result)
+        }else{
+            checkRegisterPayment()
+        }
         // Do any additional setup after loading the view.
     }
     
@@ -283,7 +287,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
     }
     
     func finishRegisterResult(json: JSON) {
-       showRegisteredResult(json: json)
+        payRegisterResult = json
     }
 }
 

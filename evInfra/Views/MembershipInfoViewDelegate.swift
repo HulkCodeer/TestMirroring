@@ -11,5 +11,6 @@ import Foundation
 import UIKit
 
 protocol MembershipInfoViewDelegate {
-    func changePassword()
+    func changePassword(param: [String: Any])
+    func showFailedPasswordError(msg: String)
 }

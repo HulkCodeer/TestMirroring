@@ -10,15 +10,24 @@ import UIKit
 import Material
 import SwiftyJSON
 
-class MembershipCardViewController: UIViewController, MembershipIssuanceViewDelegate, SearchAddressViewDelegate, MyPayRegisterViewDelegate {
+class MembershipCardViewController: UIViewController, MembershipIssuanceViewDelegate, SearchAddressViewDelegate, MyPayRegisterViewDelegate, MembershipInfoViewDelegate {
+    
+    
     var membershipIssuanceView : MembershipIssuanceView? = nil
     var membershipInfoView : MembershipInfoView? = nil
-    var memberData: [String: String]? = nil
+    var memberData: [String: Any]? = nil
+    
+    var payRegistResult: JSON?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
-        getNoticeData()
+        if let payRegResult = payRegistResult{
+            updateAfterPayRegist(json: payRegResult)
+        }else{
+            getNoticeData()
+        }
+        
         // Do any additional setup after loading the view.
     }
 
@@ -46,6 +55,7 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
                         if let msView = self.membershipInfoView {
                             let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
                             msView.addGestureRecognizer(tap)
+                            msView.delegate = self
                             self.view.addSubview(msView)
                             msView.setCardInfo(cardInfo: json)
                         }
@@ -87,7 +97,7 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
         navigationController?.push(viewController: saVC)
     }
     
-    func verifyMemgberInfo(params: [String : String]) {
+    func verifyMemgberInfo(params: [String : Any]) {
         
         guard let name = params["mb_name"],  let address = params["addr"], let detail_address = params["addr_detail"] else{
             Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
@@ -113,6 +123,7 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
             if isSuccess {
                 let json = JSON(value)
                 let payCode = json["pay_code"].intValue
+                print("PJS payCode = \(payCode)")
                 switch(payCode){
                     case PaymentCard.PAY_NO_USER, PaymentCard.PAY_NO_CARD_USER:
                         print("PJS payCOde HERE 3");
@@ -153,16 +164,62 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
         }
     }
     
-    func applyMembershipCard(params: [String : String]) {
-        print("PJS HERE!")
+    func changePassword(param: [String : Any]) {
+        Server.changeMembershipCardPassword(values: param, completion: {(isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                
+                switch (json["code"].stringValue){
+                    case "1000":
+                        let message = "비밀번호가 변경되었습니다."
+                        let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in
+                            self.navigationController?.pop()
+                        })
+                        var actions = Array<UIAlertAction>()
+                        actions.append(ok)
+                        UIAlertController.showAlert(title: "알림", message: message, actions: actions)
+                        break
+                    case "1103":
+                        let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in
+                        })
+                        var actions = Array<UIAlertAction>()
+                        actions.append(ok)
+                        UIAlertController.showAlert(title: "알림", message: json["msg"].stringValue, actions: actions)
+                        break
+                    
+                    default:
+                        print("default")
+                }
+                
+            }else{
+                Snackbar().show(message: "서버통신 오류")
+            }
+            
+        })
+    }
+    
+    func showFailedPasswordError(msg: String) {
+        Snackbar().show(message: msg)
+    }
+    
+    func applyMembershipCard(params: [String : Any]) {
+        print("PJS HERE!\(params)")
         Server.registerMembershipCard(values: params, completion: {(isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
+                let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in
+                    self.navigationController?.pop()
+                })
+                var actions = Array<UIAlertAction>()
+                actions.append(ok)
                 switch (json["code"].stringValue){
                     case "1000":
+                        let message = "회원카드는 등기로 발송되며 즉시 충전을 원하실 경우 마이페이지 > 회원카드 관리에 있는 카드번호를 충전기에 입력하시면 됩니다. \n 감사합니다.(한전 이외의 충전사업자는 익일 반영됩니다)"
                         
+                        UIAlertController.showAlert(title: "알림", message: message, actions: actions)
                         break
                     case "1101":
+                        UIAlertController.showAlert(title: "알림", message: json["msg"].stringValue, actions: actions)
                         break
                     
                     default:
@@ -191,12 +248,24 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
     
     // MARK: - KeyBoardHeight
     @objc func keyboardWillShow(_ notification: Notification) {
-        print("Keyboard Show View is \(String(describing: type(of: self.membershipIssuanceView)))")
         if let msView = self.membershipIssuanceView {
             if  String(describing: type(of: msView)).elementsEqual("MembershipIssuanceView"){
                 if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
                     let keyboardRectangle = keyboardFrame.cgRectValue
                     let keyboardHeight = keyboardRectangle.height + CGFloat(16.0)
+                    msView.showKeyBoard(keyboardHeight: keyboardHeight)
+                }
+            }
+            
+        }
+        
+        if let msView = self.membershipInfoView {
+            print("membershipInfoView!!")
+            
+            if  String(describing: type(of: msView)).elementsEqual("MembershipInfoView"){
+                if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+                    let keyboardRectangle = keyboardFrame.cgRectValue
+                    let keyboardHeight = keyboardRectangle.height
                     msView.showKeyBoard(keyboardHeight: keyboardHeight)
                 }
             }
@@ -208,6 +277,15 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
         print("Keyboard Hide View is \(String(describing: type(of: self.membershipIssuanceView)))")
         if let msView = self.membershipIssuanceView {
             if  String(describing: type(of: msView)).elementsEqual("MembershipIssuanceView"){
+                if let _: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+                    msView.hideKeyBoard()
+                }
+            }
+            
+        }
+        
+        if let msView = self.membershipInfoView {
+            if  String(describing: type(of: msView)).elementsEqual("MembershipInfoView"){
                 if let _: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
                     msView.hideKeyBoard()
                 }
@@ -233,6 +311,10 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
     }
     
     func finishRegisterResult(json: JSON) {
+        payRegistResult = json
+    }
+    
+    func updateAfterPayRegist(json: JSON){
         if (json["code"].intValue == PaymentCard.PAY_REGISTER_SUCCESS){
             if let params = self.memberData{
                 applyMembershipCard(params: params)
@@ -247,8 +329,6 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
                 Snackbar().show(message: json["resultMsg"].stringValue)
             }
         }
-        
     }
-    
    
 }
