@@ -36,16 +36,15 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     let SUB_MENU_MY_CHARGING_HISTORY = 2
     let SUB_MENU_MY_POINT            = 3
     
-    
+
     // sub menu - 게시판
     let SUB_MENU_CELL_BOARD         = 0
     let SUB_MENU_CELL_COMPANY_BOARD = 1
     
     // 게시판
-    public static let SUB_MENU_NOTICE        = 0 // 공지사항
-    public static let SUB_MENU_FREE_BOARD    = 1 // 자유게시판
-    public static let SUB_MENU_CHARGER_BOARD = 2 // 충전소게시판
-    public static let SUB_MENU_BOARD_COUNT   = 3 // 게시판 갯수
+    let SUB_MENU_NOTICE        = 0 // 공지사항
+    let SUB_MENU_FREE_BOARD    = 1 // 자유게시판
+    let SUB_MENU_CHARGER_BOARD = 2 // 충전소게시판
     
     // 사업자 게시판
     let SUB_MENU_GS_CALTEX  = 0 // GS 칼텍스
@@ -55,8 +54,8 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // sub menu - 이벤트
     let SUB_MENU_CELL_EVENT = 0
-    public static let SUB_MENU_EVENT = 0 // 이벤트
-    let SUB_MENU_MY_COUPON           = 1 // 내 쿠폰함
+    let SUB_MENU_EVENT      = 0 // 이벤트
+    let SUB_MENU_MY_COUPON  = 1 // 내 쿠폰함
 
     // sub menu - 전기차정보
     let SUB_MENU_CELL_EV_INFO = 0
@@ -92,7 +91,6 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var settingsBtn: UIButton!
     
     var menuIndex = 0
-    var boardNew = Array<Bool>()
     
     @IBAction func clickLogin(_ sender: Any) {
         let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
@@ -135,7 +133,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidAppear(_ animated: Bool) {
         appDelegate.hideStatusBar()
-        menuBadgeAdd()
+        newBadgeInMenu()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -176,16 +174,8 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = sideTableView.dequeueReusableCell(withIdentifier: "sideMenuCell", for: indexPath) as! SideMenuTableViewCell
         cell.menuLabel.text = sideMenuArrays[menuIndex][indexPath.section][indexPath.row]
         
-        // 게시판 새글 표시
-        if menuIndex == MENU_BOARD {
-            if self.boardNew[indexPath.row] {
-                cell.newBadge.isHidden = false
-            } else {
-                cell.newBadge.isHidden = true
-            }
-        } else {
-            cell.newBadge.isHidden = true
-        }
+        // 게시판, 이벤트 등에 새글 표시
+        setNewBadge(cell: cell, index: indexPath)
         
         // 설정 - 버전정보 표시
         if menuIndex == MENU_SETTINGS && indexPath.row == SUB_MENU_VERSION {
@@ -303,17 +293,17 @@ extension LeftViewController {
     private func selectedBoardMenu(index: IndexPath) {
         switch index.section {
         case SUB_MENU_CELL_BOARD:
-        switch index.row {
-            case LeftViewController.SUB_MENU_NOTICE: // 공지사항
+            switch index.row {
+            case SUB_MENU_NOTICE: // 공지사항
                 let noticeVC = storyboard?.instantiateViewController(withIdentifier: "NoticeViewController") as! NoticeViewController
                 navigationController?.push(viewController: noticeVC)
             
-            case LeftViewController.SUB_MENU_FREE_BOARD: // 자유 게시판
+            case SUB_MENU_FREE_BOARD: // 자유 게시판
                 let freeBoardVC = storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
                 freeBoardVC.category = BoardData.BOARD_CATEGORY_FREE
                 navigationController?.push(viewController: freeBoardVC)
             
-            case LeftViewController.SUB_MENU_CHARGER_BOARD: // 충전소 게시판
+            case SUB_MENU_CHARGER_BOARD: // 충전소 게시판
                 let stationBoardVC = storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
                 stationBoardVC.category = BoardData.BOARD_CATEGORY_CHARGER
                 navigationController?.push(viewController: stationBoardVC)
@@ -339,8 +329,8 @@ extension LeftViewController {
             default:
                 print("out of index")
             }
-            default:
-                print("out of index")
+        default:
+            print("out of index")
         }
     }
     
@@ -348,7 +338,7 @@ extension LeftViewController {
         switch index.section {
         case SUB_MENU_CELL_EVENT:
             switch index.row {
-            case LeftViewController.SUB_MENU_EVENT: // 이벤트
+            case SUB_MENU_EVENT: // 이벤트
                 let eventBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "EventViewController") as! EventViewController
                 self.navigationController?.push(viewController: eventBoardVC)
             case SUB_MENU_MY_COUPON: // 내 쿠폰함
@@ -418,52 +408,70 @@ extension LeftViewController {
         }
     }
     
-    private func menuBadgeAdd() {
-        let defaults = UserDefault()
-        let notice = defaults.readInt(key: UserDefault.Key.LAST_NOTICE_ID)
-        let station = defaults.readInt(key: UserDefault.Key.LAST_STATION_ID)
-        let free = defaults.readInt(key: UserDefault.Key.LAST_FREE_ID)
-        let event = defaults.readInt(key: UserDefault.Key.LAST_EVENT_ID)
+    private func setNewBadge(cell: SideMenuTableViewCell, index: IndexPath) {
+        cell.newBadge.isHidden = true
+        let latestIds = NewArticleChecker.sharedInstance.latestBoardIds
         
-        let boardIds = NewArticleChecker.sharedInstance.latestBoardIds
-        boardNew.removeAll()
-        
-        for _ in 0 ..< LeftViewController.SUB_MENU_BOARD_COUNT {
-            boardNew.append(false)
+        switch menuIndex {
+        case MENU_BOARD:
+            if index.section == SUB_MENU_CELL_BOARD {
+                switch index.row {
+                case SUB_MENU_NOTICE:
+                    if let latestNoticeId = latestIds[NewArticleChecker.KEY_NOTICE] {
+                        let noticeId = UserDefault().readInt(key: UserDefault.Key.LAST_NOTICE_ID)
+                        if noticeId < latestNoticeId {
+                            cell.newBadge.isHidden = false
+                        }
+                    }
+                case SUB_MENU_FREE_BOARD:
+                    if let latestFreeBoardId = latestIds[NewArticleChecker.KEY_FREE_BOARD] {
+                        let freeId = UserDefault().readInt(key: UserDefault.Key.LAST_FREE_ID)
+                        if freeId < latestFreeBoardId {
+                            cell.newBadge.isHidden = false
+                        }
+                    }
+                case SUB_MENU_CHARGER_BOARD:
+                    if let latestChargerBoardId = latestIds[NewArticleChecker.KEY_CHARGER_BOARD] {
+                        let chargerId = UserDefault().readInt(key: UserDefault.Key.LAST_CHARGER_ID)
+                        if chargerId < latestChargerBoardId {
+                            cell.newBadge.isHidden = false
+                        }
+                    }
+                default:
+                    cell.newBadge.isHidden = true
+                }
+            }
+        case MENU_EVENT:
+            if index.section == SUB_MENU_CELL_EVENT {
+                switch index.row {
+                case SUB_MENU_EVENT:
+                    if let latestEventId = latestIds[NewArticleChecker.KEY_EVENT] {
+                        let eventId = UserDefault().readInt(key: UserDefault.Key.LAST_EVENT_ID)
+                        if eventId < latestEventId {
+                            cell.newBadge.isHidden = false
+                        }
+                    }
+                default:
+                    cell.newBadge.isHidden = true
+                }
+            }
+        default:
+            cell.newBadge.isHidden = true
         }
-        
-        if (notice < boardIds[LeftViewController.SUB_MENU_NOTICE]
-            || free < boardIds[LeftViewController.SUB_MENU_FREE_BOARD]
-            || station < boardIds[LeftViewController.SUB_MENU_CHARGER_BOARD]
-            || event < boardIds[LeftViewController.SUB_MENU_EVENT]) {
+    }
+    
+    private func newBadgeInMenu() {
+        if NewArticleChecker.sharedInstance.hasNewBoard() {
             if let image = UIImage(named: "menu_board_badge") {
                 boardBtn.setImage(image, for: .normal)
-            }
-            if notice < boardIds[LeftViewController.SUB_MENU_NOTICE] {
-                boardNew.insert(true, at: LeftViewController.SUB_MENU_NOTICE)
-            } else {
-                boardNew.insert(false, at: LeftViewController.SUB_MENU_NOTICE)
-            }
-            if free < boardIds[LeftViewController.SUB_MENU_FREE_BOARD] {
-                boardNew.insert(true, at: LeftViewController.SUB_MENU_FREE_BOARD)
-            } else {
-                boardNew.insert(false, at: LeftViewController.SUB_MENU_FREE_BOARD)
-            }
-            if station < boardIds[LeftViewController.SUB_MENU_CHARGER_BOARD] {
-                boardNew.insert(true, at: LeftViewController.SUB_MENU_CHARGER_BOARD)
-            } else {
-                boardNew.insert(false, at: LeftViewController.SUB_MENU_CHARGER_BOARD)
-            }
-            if event < boardIds[LeftViewController.SUB_MENU_EVENT] {
-                boardNew.insert(true, at: LeftViewController.SUB_MENU_EVENT)
-            } else {
-                boardNew.insert(false, at: LeftViewController.SUB_MENU_EVENT)
             }
         } else {
             if let image = UIImage(named: "menu_board") {
                 boardBtn.setImage(image, for: .normal)
             }
         }
+        
+        // refresh new badge in sub menu
         sideTableView.reloadData()
     }
 }

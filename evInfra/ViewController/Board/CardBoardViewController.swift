@@ -149,7 +149,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
                 if self.boardList.count > 0 {
                     if let id = self.boardList[0].boardId {
                         if self.category.elementsEqual(BoardData.BOARD_CATEGORY_CHARGER) {
-                            UserDefault().saveInt(key: UserDefault.Key.LAST_STATION_ID, value: id)
+                            UserDefault().saveInt(key: UserDefault.Key.LAST_CHARGER_ID, value: id)
                         } else if self.category.elementsEqual(BoardData.BOARD_CATEGORY_FREE) {
                             UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: id)
                         }

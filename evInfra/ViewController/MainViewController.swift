@@ -1279,17 +1279,7 @@ extension MainViewController {
     }
     
     private func menuBadgeAdd() {
-        let boardIds = NewArticleChecker.sharedInstance.latestBoardIds
-        
-        let notice = defaults.readInt(key: UserDefault.Key.LAST_NOTICE_ID)
-        let station = defaults.readInt(key: UserDefault.Key.LAST_STATION_ID)
-        let free = defaults.readInt(key: UserDefault.Key.LAST_FREE_ID)
-        let event = defaults.readInt(key: UserDefault.Key.LAST_EVENT_ID)
-        
-        if(notice < boardIds[LeftViewController.SUB_MENU_NOTICE]
-        || free < boardIds[LeftViewController.SUB_MENU_FREE_BOARD]
-        || station < boardIds[LeftViewController.SUB_MENU_CHARGER_BOARD]
-        || event < boardIds[LeftViewController.SUB_MENU_EVENT]) {
+        if NewArticleChecker.sharedInstance.hasNew() {
             appDelegate.appToolbarController.setMenuIcon(hasBadge: true)
         } else {
             appDelegate.appToolbarController.setMenuIcon(hasBadge: false)

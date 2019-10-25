@@ -45,10 +45,10 @@ class UserDefault {
         static let FILTER_WAY           = "filter_way"
         static let FILTER_PAY           = "filter_pay"
         
-        static let LAST_NOTICE_ID   = "read_notice"
-        static let LAST_STATION_ID  = "read_free"
-        static let LAST_FREE_ID     = "read_station"
-        static let LAST_EVENT_ID    = "read_event"
+        static let LAST_NOTICE_ID       = "read_notice"
+        static let LAST_FREE_ID         = "read_free"
+        static let LAST_CHARGER_ID      = "read_station"
+        static let LAST_EVENT_ID        = "read_event"
         
         static let MAP_ZOOM_LEVEL   = "map_zoom_level"
         
