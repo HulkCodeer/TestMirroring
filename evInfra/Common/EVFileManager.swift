@@ -67,11 +67,10 @@ class EVFileManager {
     
     func loadImageWithoutScale(name:String) -> UIImage? {
         guard let docmentDir = FileManager.default.urls(for:.documentDirectory, in:.userDomainMask).first else { return nil}
-        let screenScale = UIScreen.main.scale
         let imageUrl = docmentDir.appendingPathComponent(name)
         do {
             let imageData = try Data(contentsOf: imageUrl)
-            return UIImage(data: imageData, scale: screenScale)
+            return UIImage(data: imageData, scale: UIScreen.main.scale)
         } catch let err as NSError {
             print("image loading error:\(err)")
         }

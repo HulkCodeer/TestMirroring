@@ -13,6 +13,9 @@ public class ImageMarker {
     
     public static let stateNormal = "marker_state_normal"
     public static let markerHere = "marker_here"
+
+    public static let NORMAL = resizeMarker(path: stateNormal);
+    public static let SELECTED_MARKER = resizeMarker(path: markerHere);
     
     public static var markers: [String: UIImage] = [String: UIImage]()
 
@@ -36,11 +39,10 @@ public class ImageMarker {
             }
         }
     }
-    
-    /// Get the icon by the file name.
+
     public static func resizeMarker(path: String) -> UIImage? {
-        let size = CGSize(width: 34, height: 34)
         let image = UIImage(named: path)!
+        let size = CGSize(width: 34, height: 34)
         
         UIGraphicsBeginImageContext(size)
         image.draw(in: CGRect(origin: .zero, size: size))
@@ -75,8 +77,4 @@ public class ImageMarker {
         
         return marker
     }
-    
-    /// Google icons.
-    public static let NORMAL = resizeMarker(path: stateNormal);
-    public static let SELECTED_MARKER = resizeMarker(path: markerHere);
 }
