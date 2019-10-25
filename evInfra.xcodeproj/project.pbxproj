@@ -144,9 +144,7 @@
 		73C6A0FD2345F1B600349A86 /* MyPayinfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A0FC2345F1B500349A86 /* MyPayinfoViewController.swift */; };
 		73C6A1042345F1E800349A86 /* MembershipInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C6A0FE2345F1E700349A86 /* MembershipInfoView.xib */; };
 		73C6A1052345F1E800349A86 /* MembershipIssuanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A0FF2345F1E700349A86 /* MembershipIssuanceView.swift */; };
-		73C6A1062345F1E800349A86 /* MembershipIssuanceViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A1002345F1E700349A86 /* MembershipIssuanceViewDelegate.swift */; };
 		73C6A1072345F1E800349A86 /* MembershipInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A1012345F1E700349A86 /* MembershipInfoView.swift */; };
-		73C6A1082345F1E800349A86 /* MembershipInfoViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A1022345F1E700349A86 /* MembershipInfoViewDelegate.swift */; };
 		73C6A1092345F1E800349A86 /* MembershipIssuanceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C6A1032345F1E800349A86 /* MembershipIssuanceView.xib */; };
 		73C6A10B2345F1F800349A86 /* MembershipCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */; };
 		73CF041A20B2736500BEA9CF /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CF041920B2736500BEA9CF /* UIScrollView.swift */; };
@@ -157,6 +155,8 @@
 		73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D79235C558E00F564A2 /* SearchAddressViewDelegate.swift */; };
 		73D65D7C2360299700F564A2 /* PaymentCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D7B2360299700F564A2 /* PaymentCard.swift */; };
 		73D65D7E23605D1000F564A2 /* MyPayRegisterViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D7D23605D0F00F564A2 /* MyPayRegisterViewDelegate.swift */; };
+		73D65D802362D52E00F564A2 /* MembershipTermView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D7F2362D52E00F564A2 /* MembershipTermView.swift */; };
+		73D65D822362D54000F564A2 /* MembershipTermView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73D65D812362D54000F564A2 /* MembershipTermView.xib */; };
 		73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DD778023164CB60006EFFC /* CopyableLabel.swift */; };
 		73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */; };
 		73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FB42101B7920016F505 /* BedgeButton.swift */; };
@@ -400,9 +400,7 @@
 		73C6A0FC2345F1B500349A86 /* MyPayinfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyPayinfoViewController.swift; path = ../MyPayinfoViewController.swift; sourceTree = "<group>"; };
 		73C6A0FE2345F1E700349A86 /* MembershipInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MembershipInfoView.xib; sourceTree = "<group>"; };
 		73C6A0FF2345F1E700349A86 /* MembershipIssuanceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceView.swift; sourceTree = "<group>"; };
-		73C6A1002345F1E700349A86 /* MembershipIssuanceViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceViewDelegate.swift; sourceTree = "<group>"; };
 		73C6A1012345F1E700349A86 /* MembershipInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipInfoView.swift; sourceTree = "<group>"; };
-		73C6A1022345F1E700349A86 /* MembershipInfoViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipInfoViewDelegate.swift; sourceTree = "<group>"; };
 		73C6A1032345F1E800349A86 /* MembershipIssuanceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MembershipIssuanceView.xib; sourceTree = "<group>"; };
 		73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipCardViewController.swift; sourceTree = "<group>"; };
 		73CF041920B2736500BEA9CF /* UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
@@ -413,6 +411,8 @@
 		73D65D79235C558E00F564A2 /* SearchAddressViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAddressViewDelegate.swift; sourceTree = "<group>"; };
 		73D65D7B2360299700F564A2 /* PaymentCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCard.swift; sourceTree = "<group>"; };
 		73D65D7D23605D0F00F564A2 /* MyPayRegisterViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPayRegisterViewDelegate.swift; sourceTree = "<group>"; };
+		73D65D7F2362D52E00F564A2 /* MembershipTermView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipTermView.swift; sourceTree = "<group>"; };
+		73D65D812362D54000F564A2 /* MembershipTermView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MembershipTermView.xib; sourceTree = "<group>"; };
 		73DD778023164CB60006EFFC /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
 		73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		73EE8FB42101B7920016F505 /* BedgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedgeButton.swift; sourceTree = "<group>"; };
@@ -796,10 +796,10 @@
 				733662F922FD11860049AEFE /* LeftViewTableHeader.xib */,
 				73C6A1012345F1E700349A86 /* MembershipInfoView.swift */,
 				73C6A0FE2345F1E700349A86 /* MembershipInfoView.xib */,
-				73C6A1022345F1E700349A86 /* MembershipInfoViewDelegate.swift */,
 				73C6A0FF2345F1E700349A86 /* MembershipIssuanceView.swift */,
 				73C6A1032345F1E800349A86 /* MembershipIssuanceView.xib */,
-				73C6A1002345F1E700349A86 /* MembershipIssuanceViewDelegate.swift */,
+				73D65D7F2362D52E00F564A2 /* MembershipTermView.swift */,
+				73D65D812362D54000F564A2 /* MembershipTermView.xib */,
 				CE33B4C42191BFD100B6C632 /* MyCouponTableViewCell.swift */,
 				736D37C9208993BE009535EE /* NoticeTableViewCell.swift */,
 				DB5041AD23506A14007336BC /* PointTableViewCell.swift */,
@@ -1117,6 +1117,7 @@
 				73A7B424204E3595002E975F /* type_ac_slow.png in Resources */,
 				DB87607620690B370095394B /* BoardTableViewHeader.xib in Resources */,
 				73A7B418204E3595002E975F /* reply_count_bg.png in Resources */,
+				73D65D822362D54000F564A2 /* MembershipTermView.xib in Resources */,
 				73A7B413204E3595002E975F /* type_dc_demo_dim.png in Resources */,
 				73344AC1207B5F8B00A6A9EC /* awsconfiguration.json in Resources */,
 				73A7B3EB204E3595002E975F /* reply_icon.png in Resources */,
@@ -1369,7 +1370,6 @@
 				73EF8B45203BD1D400D04494 /* EVIcon.swift in Sources */,
 				736D37CC2089B7E3009535EE /* NoticeDetailViewController.swift in Sources */,
 				73AD13C6203AC34400ADD19A /* LeftViewController.swift in Sources */,
-				73C6A1082345F1E800349A86 /* MembershipInfoViewDelegate.swift in Sources */,
 				73C31BFB20A288BB005B6C53 /* ChargerInfoViewController.swift in Sources */,
 				CE93308F214F9807006B7EF6 /* ReportChargeInfoList.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton.swift in Sources */,
@@ -1382,7 +1382,6 @@
 				733662F822FD11740049AEFE /* LeftViewTableHeader.swift in Sources */,
 				CE5242362182FD9000FF6AB1 /* AddressToLocationController.swift in Sources */,
 				DB87607520690B370095394B /* BoardTableViewHeader.swift in Sources */,
-				73C6A1062345F1E800349A86 /* MembershipIssuanceViewDelegate.swift in Sources */,
 				73C6A10B2345F1F800349A86 /* MembershipCardViewController.swift in Sources */,
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,
 				73A7B42A204E8203002E975F /* Charger.swift in Sources */,
@@ -1425,6 +1424,7 @@
 				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,
 				CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */,
 				DB5041AE23506A14007336BC /* PointTableViewCell.swift in Sources */,
+				73D65D802362D52E00F564A2 /* MembershipTermView.swift in Sources */,
 				DB3B858320A42C81005454F5 /* KoreanTextMatcher.swift in Sources */,
 				DB306368221BD5CD00D1276E /* Server.swift in Sources */,
 				CE33B4BD2191BA1200B6C632 /* EventContentsViewController.swift in Sources */,

@@ -10,12 +10,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MembershipInfoView" customModule="evInfra" customModuleProvider="target">
             <connections>
+                <outlet property="bmsInfoView" destination="bxZ-GJ-ygO" id="DDX-8K-hX9"/>
                 <outlet property="btnChangePw" destination="dRY-Tt-DUk" id="tWS-I3-nk9"/>
                 <outlet property="ivCardInfo" destination="v2V-Nw-oWD" id="7Mu-fH-KDP"/>
                 <outlet property="ivPassWord" destination="De2-ck-u9r" id="pIj-FF-gRH"/>
                 <outlet property="lbCardNo" destination="Bhf-JN-mcH" id="spw-X9-sPP"/>
                 <outlet property="lbCardStatus" destination="0jc-qz-YOU" id="G1X-0S-fiy"/>
                 <outlet property="lbIssueDate" destination="5np-ql-HaM" id="peU-gl-fYL"/>
+                <outlet property="mbsPwManageView" destination="5w1-mH-4be" id="ivk-aQ-t2e"/>
                 <outlet property="scrollView" destination="OPp-aP-fup" id="uVB-Tk-hjO"/>
                 <outlet property="stackViewBottom" destination="dDG-lW-58i" id="PwR-Nx-9Pw"/>
                 <outlet property="tfCurPw" destination="KY2-hM-MxS" id="sN3-lj-bZG"/>
@@ -29,7 +31,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="679" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OPp-aP-fup">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="675"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="680"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z81-5l-Q80">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="400"/>
@@ -280,12 +282,15 @@
                     <viewLayoutGuide key="frameLayoutGuide" id="beZ-6H-j7o"/>
                 </scrollView>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ffW-oD-j4y">
-                    <rect key="frame" x="0.0" y="676" width="414" height="60"/>
+                    <rect key="frame" x="0.0" y="688" width="414" height="40"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dRY-Tt-DUk">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" title="비밀번호 변경"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="비밀번호 변경">
+                                <color key="titleColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
                             <connections>
                                 <action selector="onClickChangePw:" destination="-1" eventType="touchUpInside" id="ri5-fm-ivd"/>
                             </connections>
@@ -293,17 +298,17 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="60" id="RCu-00-I5w"/>
+                        <constraint firstAttribute="height" constant="40" id="RCu-00-I5w"/>
                     </constraints>
                 </stackView>
             </subviews>
-            <color key="backgroundColor" red="0.89365547895431519" green="0.89433497190475464" blue="0.89376074075698853" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="OPp-aP-fup" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="KZz-Ho-3FA"/>
-                <constraint firstItem="ffW-oD-j4y" firstAttribute="top" secondItem="OPp-aP-fup" secondAttribute="bottom" constant="1" id="XTc-rO-KA9"/>
+                <constraint firstItem="ffW-oD-j4y" firstAttribute="top" secondItem="OPp-aP-fup" secondAttribute="bottom" constant="8" id="XTc-rO-KA9"/>
                 <constraint firstItem="OPp-aP-fup" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="cnD-pC-K6d"/>
                 <constraint firstItem="OPp-aP-fup" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="d85-MG-FrG"/>
-                <constraint firstAttribute="bottom" secondItem="ffW-oD-j4y" secondAttribute="bottom" id="dDG-lW-58i"/>
+                <constraint firstAttribute="bottom" secondItem="ffW-oD-j4y" secondAttribute="bottom" constant="8" id="dDG-lW-58i"/>
                 <constraint firstItem="ffW-oD-j4y" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="kxG-yj-G6P"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="ffW-oD-j4y" secondAttribute="trailing" id="mMW-hL-sh1"/>
             </constraints>

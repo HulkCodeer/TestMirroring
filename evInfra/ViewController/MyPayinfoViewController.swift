@@ -46,14 +46,18 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
         super.viewDidLoad()
         prepareActionBar()
         initInfoView()
+        
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         if let result = payRegisterResult {
             showRegisteredResult(json: result)
         }else{
             checkRegisterPayment()
         }
-        // Do any additional setup after loading the view.
+        
     }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

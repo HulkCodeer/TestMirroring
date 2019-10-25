@@ -13,6 +13,9 @@ class MembershipInfoView: UIView {
     
     private let xibName = "MembershipInfoView"
 
+    @IBOutlet weak var bmsInfoView: UIView!
+    @IBOutlet weak var mbsPwManageView: UIView!
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var ivCardInfo: UIImageView!
     @IBOutlet weak var ivPassWord: UIImageView!
@@ -98,4 +101,21 @@ class MembershipInfoView: UIView {
             delegate?.showFailedPasswordError(msg: (error as! ValidationError).message)
         }
     }
+    
+    func initInfoView(){
+        bmsInfoView.layer.shadowColor = UIColor.black.cgColor
+        bmsInfoView.layer.shadowOpacity = 0.5
+        bmsInfoView.layer.shadowOffset = CGSize(width: 1, height: 1)
+        
+        mbsPwManageView.layer.shadowColor = UIColor.black.cgColor
+        mbsPwManageView.layer.shadowOpacity = 0.5
+        mbsPwManageView.layer.shadowOffset = CGSize(width: 1, height: 1)
+        
+       
+    }
+}
+
+protocol MembershipInfoViewDelegate {
+    func changePassword(param: [String: Any])
+    func showFailedPasswordError(msg: String)
 }
