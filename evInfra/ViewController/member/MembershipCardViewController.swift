@@ -20,7 +20,7 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
     var memberData: [String: Any]? = nil
     
     var payRegistResult: JSON?
-    
+    var isConfirmTerm = false
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
@@ -29,13 +29,15 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
         // Do any additional setup after loading the view.
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        if let payRegResult = payRegistResult{
-            updateAfterPayRegist(json: payRegResult)
+    override func viewWillAppear(_ animated: Bool) {
+        if let result = payRegistResult {
+            updateAfterPayRegist(json: result)
         }else{
             checkMembershipData()
         }
+        
     }
+    
 
     func checkMembershipData() {
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -45,7 +47,9 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
                 if isSuccess {
                     let json = JSON(value)
                     if(json["code"].stringValue.elementsEqual("1101")){ // MBS_CARD_NOT_ISSUED 발급받은 회원카드가 없음
-                        self.confirmIssuance()
+                        if !self.isConfirmTerm {
+                            self.confirmIssuance()
+                        }
                     } else {
                         let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
                         self.membershipInfoView = MembershipInfoView.init(frame: frame)
@@ -216,6 +220,7 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
     
     func confirmMembershipTerm() {
         if let msView = self.membershipTermView{
+            isConfirmTerm = true
             msView.removeFromSuperview()
             showMembershipIssuanceView()
         }
@@ -329,7 +334,7 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
     }
     
     func updateAfterPayRegist(json: JSON){
-        if (json["code"].intValue == PaymentCard.PAY_REGISTER_SUCCESS){
+        if (json["pay_code"].intValue == PaymentCard.PAY_REGISTER_SUCCESS){
             if let params = self.memberData{
                 applyMembershipCard(params: params)
             }else{
