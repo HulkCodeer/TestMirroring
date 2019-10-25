@@ -85,7 +85,7 @@ class MembershipInfoView: UIView {
          self.scrollView.layoutIfNeeded()
     }
      func hideKeyBoard() {
-          self.stackViewBottom.constant = 0
+          self.stackViewBottom.constant = 8
           self.scrollView.isScrollEnabled = true
           self.scrollView.setNeedsLayout()
           self.scrollView.layoutIfNeeded()
@@ -112,8 +112,6 @@ class MembershipInfoView: UIView {
         mbsPwManageView.layer.shadowColor = UIColor.black.cgColor
         mbsPwManageView.layer.shadowOpacity = 0.5
         mbsPwManageView.layer.shadowOffset = CGSize(width: 1, height: 1)
-        
-       
     }
 }
 

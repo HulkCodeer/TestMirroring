@@ -88,7 +88,7 @@ class MembershipIssuanceView: UIView {
         self.scrollView.layoutIfNeeded()
    }
     func hideKeyBoard() {
-         self.confirmBtnBottom.constant = 16
+         self.confirmBtnBottom.constant = 8
          self.scrollView.isScrollEnabled = true
          self.scrollView.setNeedsLayout()
          self.scrollView.layoutIfNeeded()
