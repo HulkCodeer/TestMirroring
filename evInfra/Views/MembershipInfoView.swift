@@ -51,6 +51,8 @@ class MembershipInfoView: UIView {
         self.ivCardInfo.tintColor = UIColor(rgb: 0x585858)
         self.ivPassWord.image = UIImage(named: "ic_menu_check")?.withRenderingMode(.alwaysTemplate)
         self.ivPassWord.tintColor = UIColor(rgb: 0x585858)
+        
+        self.initInfoView()
     }
     
     func setCardInfo(cardInfo: JSON) {

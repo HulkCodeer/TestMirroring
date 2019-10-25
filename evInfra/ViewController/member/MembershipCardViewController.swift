@@ -82,7 +82,7 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
         navigationItem.leftViews = [backButton]
         navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
-        navigationItem.titleLabel.text = "EV Infra"
+        navigationItem.titleLabel.text = "회원카드 관리"
         self.navigationController?.isNavigationBarHidden = false
     }
 
