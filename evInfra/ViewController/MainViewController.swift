@@ -1308,8 +1308,6 @@ extension MainViewController {
 extension MainViewController {
     
     func prepareMenuBtnLayer() {
-//        btn_main_charge.tintColor = UIColor(rgb: 0x15435C)
-//        btn_main_charge.currentImage?.tint(with: UIColor(rgb: 0x15435C))
         btn_main_charge.alignTextUnderImage()
         btn_main_charge.tintColor = UIColor(rgb: 0x15435C)
         btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -1354,7 +1352,6 @@ extension MainViewController {
             let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
             reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_MAIN
             self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
-//            self.navigationController?.push(viewController:reportChargeVC)
         } else {
             MemberManager().showLoginAlert(vc: self)
         }
@@ -1365,7 +1362,6 @@ extension MainViewController {
             let favoriteVC:FavoriteViewController = self.storyboard?.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
             favoriteVC.delegate = self
             self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
-//            self.navigationController?.push(viewController: favoriteVC, subtype: kCATransitionFromTop)
         } else {
             MemberManager().showLoginAlert(vc:self)
         }
