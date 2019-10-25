@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MembershipTermView" customModule="evInfra" customModuleProvider="target">
+            <connections>
+                <outlet property="termView" destination="er0-Y0-dRd" id="FZU-Gt-Jwh"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sKZ-Gf-EYD">
+                    <rect key="frame" x="8" y="619" width="359" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="pfH-Bd-04v"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="이용 약관에 동의합니다.">
+                        <color key="titleColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="onClickConfirmBtn:" destination="-1" eventType="touchUpInside" id="nC5-gH-s4K"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="er0-Y0-dRd">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="sKZ-Gf-EYD" secondAttribute="trailing" constant="8" id="VkN-zU-oyK"/>
+                <constraint firstItem="er0-Y0-dRd" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="Xqj-vw-46v"/>
+                <constraint firstItem="er0-Y0-dRd" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Z3v-b3-uVS"/>
+                <constraint firstItem="sKZ-Gf-EYD" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="kc4-fF-ECt"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="er0-Y0-dRd" secondAttribute="trailing" id="pgy-Wn-uBW"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="sKZ-Gf-EYD" secondAttribute="bottom" constant="8" id="q9Z-ba-PxD"/>
+                <constraint firstItem="sKZ-Gf-EYD" firstAttribute="top" secondItem="er0-Y0-dRd" secondAttribute="bottom" id="sie-lh-wU4"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="132" y="135"/>
+        </view>
+    </objects>
+</document>

@@ -10,11 +10,13 @@ import UIKit
 import Material
 import SwiftyJSON
 
-class MembershipCardViewController: UIViewController, MembershipIssuanceViewDelegate, SearchAddressViewDelegate, MyPayRegisterViewDelegate, MembershipInfoViewDelegate {
+class MembershipCardViewController: UIViewController, MembershipIssuanceViewDelegate, SearchAddressViewDelegate, MyPayRegisterViewDelegate, MembershipInfoViewDelegate, MembershipTermViewDelegate {
+
     
-    
+
     var membershipIssuanceView : MembershipIssuanceView? = nil
     var membershipInfoView : MembershipInfoView? = nil
+    var membershipTermView : MembershipTermView? = nil
     var memberData: [String: Any]? = nil
     
     var payRegistResult: JSON?
@@ -22,35 +24,30 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
-        if let payRegResult = payRegistResult{
-            updateAfterPayRegist(json: payRegResult)
-        }else{
-            getNoticeData()
-        }
+        
         
         // Do any additional setup after loading the view.
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if let payRegResult = payRegistResult{
+            updateAfterPayRegist(json: payRegResult)
+        }else{
+            checkMembershipData()
+        }
+    }
 
-    func getNoticeData() {
+    func checkMembershipData() {
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
             
             Server.getInfoMembershipCard { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
-                    let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
                     if(json["code"].stringValue.elementsEqual("1101")){ // MBS_CARD_NOT_ISSUED 발급받은 회원카드가 없음
-                        self.membershipIssuanceView = MembershipIssuanceView.init(frame: frame)
-                        if let msView = self.membershipIssuanceView {
-                            msView.membershipIssuanceDelegate = self
-                            msView.lbIssuanceMbId.text = String(format: "%08d", UserDefault().readInt(key: UserDefault.Key.MB_ID))
-                            msView.lbIssuanceNickName.text = UserDefault().readString(key: UserDefault.Key.MB_NICKNAME)
-                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
-                            msView.addGestureRecognizer(tap)
-                            self.view.addSubview(msView)
-                            
-                        }
+                        self.confirmIssuance()
                     } else {
+                        let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
                         self.membershipInfoView = MembershipInfoView.init(frame: frame)
                         if let msView = self.membershipInfoView {
                             let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
@@ -95,6 +92,21 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
         let saVC = storyboard?.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
         saVC.searchAddressDelegate = self
         navigationController?.push(viewController: saVC)
+    }
+    
+    func confirmIssuance(){
+        var actions = Array<UIAlertAction>()
+        let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in
+            self.showMembershiTerm()
+        })
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler:{ (ACTION) -> Void in
+            self.dismiss(animated: true, completion: nil)
+            self.navigationController?.pop()
+        })
+        actions.append(ok)
+        actions.append(cancel)
+        let msg = "보유중인 회원카드가 없습니다. \n 회원카드를 발급하시겠습니까?"
+        UIAlertController.showAlert(title: "회원카드 발급", message: msg, actions: actions)
     }
     
     func verifyMemgberInfo(params: [String : Any]) {
@@ -202,6 +214,13 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
         Snackbar().show(message: msg)
     }
     
+    func confirmMembershipTerm() {
+        if let msView = self.membershipTermView{
+            msView.removeFromSuperview()
+            showMembershipIssuanceView()
+        }
+    }
+    
     func applyMembershipCard(params: [String : Any]) {
         print("PJS HERE!\(params)")
         Server.registerMembershipCard(values: params, completion: {(isSuccess, value) in
@@ -231,6 +250,7 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
         })
     }
     
+    
     func moveToMyPaytRegist(){
         let payRegistVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
         payRegistVC.myPayRegisterViewDelegate = self
@@ -248,28 +268,22 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
     
     // MARK: - KeyBoardHeight
     @objc func keyboardWillShow(_ notification: Notification) {
+        var keyboardHeight: CGFloat = 0
+        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            keyboardHeight = keyboardRectangle.height  + CGFloat(16.0)
+        }
+
         if let msView = self.membershipIssuanceView {
             if  String(describing: type(of: msView)).elementsEqual("MembershipIssuanceView"){
-                if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
-                    let keyboardRectangle = keyboardFrame.cgRectValue
-                    let keyboardHeight = keyboardRectangle.height + CGFloat(16.0)
-                    msView.showKeyBoard(keyboardHeight: keyboardHeight)
-                }
+                msView.showKeyBoard(keyboardHeight: keyboardHeight)
             }
-            
         }
         
         if let msView = self.membershipInfoView {
-            print("membershipInfoView!!")
-            
             if  String(describing: type(of: msView)).elementsEqual("MembershipInfoView"){
-                if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
-                    let keyboardRectangle = keyboardFrame.cgRectValue
-                    let keyboardHeight = keyboardRectangle.height
-                    msView.showKeyBoard(keyboardHeight: keyboardHeight)
-                }
+                msView.showKeyBoard(keyboardHeight: keyboardHeight)
             }
-            
         }
     }
     
@@ -330,5 +344,30 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
             }
         }
     }
-   
+    
+    func showMembershiTerm(){
+        let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.membershipTermView = MembershipTermView.init(frame: frame)
+        if let msView = self.membershipTermView{
+            msView.delegate = self
+            self.view.addSubview(msView)
+            msView.loadTerm()
+        }
+        
+    }
+    
+    func showMembershipIssuanceView(){
+        let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.membershipIssuanceView = MembershipIssuanceView.init(frame: frame)
+        if let msView = self.membershipIssuanceView {
+            msView.membershipIssuanceDelegate = self
+            msView.lbIssuanceMbId.text = String(format: "%08d", UserDefault().readInt(key: UserDefault.Key.MB_ID))
+            msView.lbIssuanceNickName.text = UserDefault().readString(key: UserDefault.Key.MB_NICKNAME)
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
+            msView.addGestureRecognizer(tap)
+            self.view.addSubview(msView)
+        }
+           
+    }
+
 }
