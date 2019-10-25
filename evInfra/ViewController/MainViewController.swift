@@ -1341,18 +1341,20 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainPayableChargerList(_ sender: UIButton) {
-        let searchVC:SearchViewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
-        searchVC.delegate = self
-        searchVC.isPayableList = true
-        self.present(AppSearchBarController(rootViewController: searchVC), animated: true, completion: nil)
+        UIAlertController.showMessage("전국 한전(단,아파트제외), GS칼텍스, 에스트래픽 충전기에서 이용해 보세요.^^")
+        
+//        let searchVC:SearchViewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
+//        searchVC.delegate = self
+//        searchVC.isPayableList = true
+//        self.present(AppSearchBarController(rootViewController: searchVC), animated: true, completion: nil)
     }
     
     @IBAction func onClickMainReportCharger(_ sender: UIButton) {
         if MemberManager().isLogin() {
             let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
             reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_MAIN
-            
-            self.navigationController?.push(viewController:reportChargeVC)
+            self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
+//            self.navigationController?.push(viewController:reportChargeVC)
         } else {
             MemberManager().showLoginAlert(vc: self)
         }
@@ -1362,7 +1364,8 @@ extension MainViewController {
         if MemberManager().isLogin() {
             let favoriteVC:FavoriteViewController = self.storyboard?.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
             favoriteVC.delegate = self
-            self.navigationController?.push(viewController: favoriteVC, subtype: kCATransitionFromTop)
+            self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
+//            self.navigationController?.push(viewController: favoriteVC, subtype: kCATransitionFromTop)
         } else {
             MemberManager().showLoginAlert(vc:self)
         }
