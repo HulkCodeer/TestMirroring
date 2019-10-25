@@ -84,12 +84,14 @@ class PaymentStatusViewController: UIViewController {
         navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "충전하기"
-        self.navigationController?.isNavigationBarHidden = false
+        navigationController?.isNavigationBarHidden = false
     }
     
     func prepareView() {
-        self.circleView.labelSize = 60
-        self.circleView.safePercent = 100
+        circleView.labelSize = 60
+        circleView.safePercent = 100
+        
+        btnStopCharging.isEnabled = false
     }
     
     func prepareNotificationCenter() {
@@ -270,6 +272,7 @@ extension PaymentStatusViewController {
         chargingStatus.chargingKw = response["c_kw"].string ?? "0"
         chargingStatus.usedPoint = response["u_point"].string ?? ""
         chargingStatus.stationName = response["snm"].string ?? ""
+        chargingStatus.companyId = response["company_id"].string ?? ""
     }
     
     func responseStop(response: JSON) {
@@ -316,6 +319,16 @@ extension PaymentStatusViewController {
                 return
             }
         }
+
+        // GSC 외에는 충전 중지 할 수 없으므로 충전 중지 버튼 disable
+        if let companyId = chargingStatus.companyId {
+            if companyId.elementsEqual(CompanyInfo.COMPANY_ID_GSC) {
+                btnStopCharging.isEnabled = true
+            } else {
+                btnStopCharging.isEnabled = false
+            }
+        }
+        
         if chargingStatus.status == STATUS_READY {
             lbChargeComment.text = "충전 커넥터를 차량과 연결 후 \n잠시만 기다려 주세요"
             btnStopCharging.setTitle("충전 취소", for: .normal)

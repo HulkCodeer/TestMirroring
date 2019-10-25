@@ -15,6 +15,7 @@ class ChargingStatus: Decodable {
 
     var status: Int?
     var stationName: String?
+    var companyId: String?
     var chargingId: String?
     var cpId: String?
 
@@ -47,6 +48,7 @@ class ChargingStatus: Decodable {
 
         case status = "status"
         case snm = "snm"
+        case company_id = "company_id"
         case charging_id = "charging_id"
         case cp_id = "cp_id"
 
@@ -86,6 +88,7 @@ class ChargingStatus: Decodable {
 
         status = try values.decodeIfPresent(Int.self, forKey: .status)
         stationName = try values.decodeIfPresent(String.self, forKey: .snm)
+        companyId = try values.decodeIfPresent(String.self, forKey: .company_id)
         chargingId = try values.decodeIfPresent(String.self, forKey: .charging_id)
         cpId = try values.decodeIfPresent(String.self, forKey: .cp_id)
 

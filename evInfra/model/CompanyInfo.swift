@@ -9,6 +9,7 @@
 import Foundation
 class CompanyInfo {
     
+    public static let COMPANY_ID_KEPCO      = "1" // 한전
     public static let COMPANY_ID_JEVS       = "B" // 제주전기자동차서비스
     public static let COMPANY_ID_STRAFFIC   = "L"; // 에스트래픽
     public static let COMPANY_ID_GSC        = "41" // GS 칼텍스
