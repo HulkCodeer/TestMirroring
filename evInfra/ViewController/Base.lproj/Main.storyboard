@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I0H-Up-SNg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I0H-Up-SNg">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -1642,19 +1642,10 @@
                         <outlet property="addrTableView" destination="t4F-E0-w2Y" id="lbZ-lB-lEh"/>
                         <outlet property="chargerRadioBtn" destination="K40-za-qy5" id="yzX-8U-hg7"/>
                         <outlet property="indicator" destination="HsT-tj-RrO" id="Mcx-ct-eWH"/>
-                        <outlet property="searchDisplayController" destination="0IC-sa-woU" id="cIW-0u-RSG"/>
                         <outlet property="tableView" destination="fBs-Bz-Tdw" id="QQq-4z-lRx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uIJ-Iw-WEb" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="0IC-sa-woU">
-                    <connections>
-                        <outlet property="delegate" destination="YLH-0W-Q3R" id="KQp-sr-GYR"/>
-                        <outlet property="searchContentsController" destination="YLH-0W-Q3R" id="udR-sg-OwC"/>
-                        <outlet property="searchResultsDataSource" destination="YLH-0W-Q3R" id="CLw-ns-xme"/>
-                        <outlet property="searchResultsDelegate" destination="YLH-0W-Q3R" id="RSu-eb-Yza"/>
-                    </connections>
-                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="-682.39999999999998" y="-665.21739130434787"/>
         </scene>

@@ -18,10 +18,10 @@ class MembershipTermView: UIView, WKUIDelegate, WKNavigationDelegate {
     @IBAction func onClickConfirmBtn(_ sender: UIButton) {
         delegate?.confirmMembershipTerm()
     }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.commonInit()
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,13 +29,13 @@ class MembershipTermView: UIView, WKUIDelegate, WKNavigationDelegate {
         self.commonInit()
     }
     
-    
     override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
         if newWindow != nil {
             loadTerm()
         }
     }
+    
     private func commonInit() {
         let view = Bundle.main.loadNibNamed("MembershipTermView", owner: self, options: nil)?.first as! UIView
         view.frame = self.bounds
@@ -52,7 +52,7 @@ class MembershipTermView: UIView, WKUIDelegate, WKNavigationDelegate {
         decisionHandler(.allow)
     }
     
-    func loadTerm(){
+    func loadTerm() {
         let strUrl = "\(Const.EV_PAY_SERVER)/terms/term/membership"
         let url = NSURL(string:strUrl)
         let request = NSURLRequest(url: url! as URL)

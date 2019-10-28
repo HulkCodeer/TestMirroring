@@ -10,8 +10,6 @@ import UIKit
 import SwiftyJSON
 
 class MembershipInfoView: UIView {
-    
-    private let xibName = "MembershipInfoView"
 
     @IBOutlet weak var bmsInfoView: UIView!
     @IBOutlet weak var mbsPwManageView: UIView!
@@ -44,7 +42,7 @@ class MembershipInfoView: UIView {
     }
     
     private func commonInit() {
-        let view = Bundle.main.loadNibNamed(xibName, owner: self, options: nil)?.first as! UIView
+        let view = Bundle.main.loadNibNamed("MembershipInfoView", owner: self, options: nil)?.first as! UIView
         view.frame = self.bounds
         self.addSubview(view)
         self.ivCardInfo.image = UIImage(named: "ic_menu_check")?.withRenderingMode(.alwaysTemplate)
@@ -78,19 +76,20 @@ class MembershipInfoView: UIView {
     }
     
     func showKeyBoard(keyboardHeight: CGFloat) {
-        print("showKeyBoard info")
-         self.stackViewBottom.constant = keyboardHeight
-         self.scrollView.isScrollEnabled = true
-         self.scrollView.setNeedsLayout()
-         self.scrollView.layoutIfNeeded()
+        self.stackViewBottom.constant = keyboardHeight
+        self.scrollView.isScrollEnabled = true
+        self.scrollView.setNeedsLayout()
+        self.scrollView.layoutIfNeeded()
     }
-     func hideKeyBoard() {
-          self.stackViewBottom.constant = 8
-          self.scrollView.isScrollEnabled = true
-          self.scrollView.setNeedsLayout()
-          self.scrollView.layoutIfNeeded()
-     }
-    func changePassword(){
+    
+    func hideKeyBoard() {
+        self.stackViewBottom.constant = 8
+        self.scrollView.isScrollEnabled = true
+        self.scrollView.setNeedsLayout()
+        self.scrollView.layoutIfNeeded()
+    }
+
+    func changePassword() {
         var chgPwParams = [String: Any]()
         do {
             chgPwParams["cur_pw"] = try tfCurPw.validatedText(validationType: .password)
@@ -104,7 +103,7 @@ class MembershipInfoView: UIView {
         }
     }
     
-    func initInfoView(){
+    func initInfoView() {
         bmsInfoView.layer.shadowColor = UIColor.black.cgColor
         bmsInfoView.layer.shadowOpacity = 0.5
         bmsInfoView.layer.shadowOffset = CGSize(width: 1, height: 1)

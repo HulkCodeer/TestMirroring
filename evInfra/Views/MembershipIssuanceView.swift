@@ -37,7 +37,6 @@ class MembershipIssuanceView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.commonInit()
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -55,8 +54,6 @@ class MembershipIssuanceView: UIView {
         self.ivDetail.tintColor = UIColor(rgb: 0x585858)
         
         initInfoView()
-        
-        
     }
     
     @IBAction func onClickSearchZipCode(_ sender: Any) {
@@ -86,7 +83,8 @@ class MembershipIssuanceView: UIView {
         self.scrollView.isScrollEnabled = true
         self.scrollView.setNeedsLayout()
         self.scrollView.layoutIfNeeded()
-   }
+    }
+
     func hideKeyBoard() {
          self.confirmBtnBottom.constant = 8
          self.scrollView.isScrollEnabled = true
@@ -94,7 +92,7 @@ class MembershipIssuanceView: UIView {
          self.scrollView.layoutIfNeeded()
     }
     
-    func initInfoView(){
+    func initInfoView() {
         basicInfoView.layer.shadowColor = UIColor.black.cgColor
         basicInfoView.layer.shadowOpacity = 0.5
         basicInfoView.layer.shadowOffset = CGSize(width: 1, height: 1)
@@ -102,8 +100,6 @@ class MembershipIssuanceView: UIView {
         detailInfoView.layer.shadowColor = UIColor.black.cgColor
         detailInfoView.layer.shadowOpacity = 0.5
         detailInfoView.layer.shadowOffset = CGSize(width: 1, height: 1)
-        
-       
     }
 }
 
@@ -112,5 +108,3 @@ protocol MembershipIssuanceViewDelegate {
     func verifyMemgberInfo(params: [String : Any])
     func showValidateFailMsg(msg: String)
 }
-
-
