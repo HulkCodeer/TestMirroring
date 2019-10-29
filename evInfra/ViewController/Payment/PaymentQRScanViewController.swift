@@ -232,25 +232,18 @@ extension PaymentQRScanViewController {
     func verifySelectedCharger() {
         for (index, connector) in mConnectorList.enumerated() {
             if self.connectorId!.elementsEqual(connector.mId!) {
-                if availableChargerType(index: index) {
-                    self.btnStartCharge.isEnabled = true
-                } else {
-                    showAlertDialogByMessage(message: "현재 충전기가 사용 가능하지 않습니다.")
+                if let status = mConnectorList[index].mStatus {
+                    if status.elementsEqual("2") { // 대기중. Const.CHARGER_STATE_WAITING
+                        self.btnStartCharge.isEnabled = true
+                    } else if status.elementsEqual("7") { // 시범운영중. 무료 충전 가능. Const.CHARGER_STATE_PILOT
+                        showAlertDialogByMessage(message: "시범운영중입니다. 무료로 이용가능합니다.")
+                    } else {
+                        showAlertDialogByMessage(message: "현재 충전기가 사용 가능하지 않습니다.")
+                    }
                 }
                 break
             }
         }
-    }
-    
-    func availableChargerType(index: Int) -> Bool {
-        if let status = mConnectorList[index].mStatus {
-            if status.elementsEqual("2") { // 대기중
-                return true
-            } else {
-                return false
-            }
-        }
-        return false
     }
     
     func getTypeUIImage(typeId: String) -> UIImage? {
