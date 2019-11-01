@@ -111,6 +111,19 @@ class MembershipInfoView: UIView {
         mbsPwManageView.layer.shadowColor = UIColor.black.cgColor
         mbsPwManageView.layer.shadowOpacity = 0.5
         mbsPwManageView.layer.shadowOffset = CGSize(width: 1, height: 1)
+        
+        tfCurPw.delegate = self
+        tfNewPw.delegate = self
+        tfNewPwRe.delegate = self
+    }
+}
+
+extension MembershipInfoView: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentString: NSString = textField.text! as NSString
+        let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
+        
+        return newString.length <= 4 //max length is 4
     }
 }
 

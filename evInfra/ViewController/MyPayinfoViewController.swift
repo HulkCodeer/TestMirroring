@@ -13,8 +13,6 @@ import SwiftyJSON
 
 class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
     
-    
-    
     let DELETE_MODE = 0
     let CHANGE_MODE = 1
     
@@ -46,36 +44,28 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
         super.viewDidLoad()
         prepareActionBar()
         initInfoView()
-        
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         if let result = payRegisterResult {
             showRegisteredResult(json: result)
-        }else{
+        } else {
             checkRegisterPayment()
         }
-        
     }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    
-    
-    func checkRegisterPayment(){
+    func checkRegisterPayment() {
         Server.getPayRegisterStatus { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                print("PJS payCOde HERE 1 \(value)");
                 let payCode = json["pay_code"].intValue
-                print("PJS payCOde HERE 1 \(json)");
-                print("PJS payCOde HERE 2 \(payCode)");
                 switch(payCode){
                     case PaymentCard.PAY_NO_USER, PaymentCard.PAY_NO_CARD_USER:
-                        print("PJS payCOde HERE 3");
-                        self.moveToMyPaytRegist()
+                        self.moveToMyPayRegist()
                         
                         break;
                     case PaymentCard.PAY_DEBTOR_USER, PaymentCard.PAY_NO_VERIFY_USER, PaymentCard.PAY_DELETE_FAIL_USER:
@@ -111,19 +101,14 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
             }
         }
-        
     }
     
     
     func showRegisteredResult(json: JSON) {
-        print("PJS HERE showRegisteredResult json = \(json)")
         let json1 = JSON(json)
         let payCode = json1["pay_code"].intValue
-        let asdf = json1["ResultMsg"].stringValue
-        //                    item.eventId = jsonRow["id"].intValue
-        print("PJS HERE showRegisteredResult = \(payCode)  AHHH ?? \(asdf)")
         
-        switch(payCode){
+        switch payCode {
             case PaymentCard.PAY_REGISTER_SUCCESS:
                 self.registerCardInfo.isHidden = false
                 self.okBtn.isHidden = false
@@ -144,6 +129,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
                 
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
+            
             case PaymentCard.PAY_MEMBER_DELETE_SUCESS, PaymentCard.PAY_MEMBER_DELETE_FAIL_NO_USER, PaymentCard.PAY_MEMBER_DELETE_FAIL, PaymentCard.PAY_MEMBER_DELETE_FAIL_DB:
                 self.registerCardInfo.isHidden = true
                 self.okBtn.isHidden = false
@@ -151,9 +137,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
                 
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
-                
-                print("", "PJS REGIST CARD INFO \(payCode)  \(json["ResultMsg"].stringValue)"  )
-                break;
+            
             case PaymentCard.PAY_FINE_USER:
                 self.registerCardInfo.isHidden = false
                 self.okBtn.isHidden = true
@@ -166,26 +150,24 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
                 
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
-                break;
+            
             default:
-                
                 self.registerCardInfo.isHidden = true
                 self.okBtn.isHidden = false
                 self.registerInfoBtnLayer.isHidden = true
                 
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
-                break;
         }
     }
 
-    func moveToMyPaytRegist(){
+    func moveToMyPayRegist() {
         let payRegistVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
         payRegistVC.myPayRegisterViewDelegate = self
         navigationController?.push(viewController: payRegistVC)
     }
     
-    func deletePayMember(){
+    func deletePayMember() {
         Server.deletePayMember { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
@@ -202,9 +184,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
         }
     }
     
-
-    
-    func initInfoView(){
+    func initInfoView() {
         registerCardInfo.layer.shadowColor = UIColor.black.cgColor
         registerCardInfo.layer.shadowOpacity = 0.5
         registerCardInfo.layer.shadowOffset = CGSize(width: 1, height: 1)
@@ -212,8 +192,6 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
         registerInfo.layer.shadowColor = UIColor.black.cgColor
         registerInfo.layer.shadowOpacity = 0.5
         registerInfo.layer.shadowOffset = CGSize(width: 1, height: 1)
-        
-       
     }
     
     func prepareActionBar() {
@@ -227,8 +205,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
         navigationItem.titleLabel.text = "결제정보관리"
         self.navigationController?.isNavigationBarHidden = false
     }
-    
-    
+
     @IBAction func onClickOkBtn(_ sender: UIButton) {
         self.navigationController?.pop()
     }
@@ -244,7 +221,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
     @IBAction func onClickChangeBtn(_ sender: UIButton) {
         showAlertDialog(vc: self, type: self.CHANGE_MODE, completion:  {(isOkey) -> Void in
             if isOkey {
-                self.moveToMyPaytRegist()
+                self.moveToMyPayRegist()
             }
         })
     }

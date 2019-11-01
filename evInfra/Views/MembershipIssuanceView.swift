@@ -32,6 +32,8 @@ class MembershipIssuanceView: UIView {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var confirmBtnBottom: NSLayoutConstraint!
     
+    @IBOutlet weak var btnConfirm: UIButton!
+    
     var membershipIssuanceDelegate: MembershipIssuanceViewDelegate?
     
     override init(frame: CGRect) {
@@ -73,6 +75,8 @@ class MembershipIssuanceView: UIView {
             issuanceParam["addr"] = tfIssuanceAddress.text
             issuanceParam["mb_id"] = MemberManager.getMbId()
             membershipIssuanceDelegate?.verifyMemgberInfo(params: issuanceParam)
+            
+            self.btnConfirm.isEnabled = false
         } catch (let error) {
             membershipIssuanceDelegate?.showValidateFailMsg(msg: (error as! ValidationError).message)
         }
@@ -100,6 +104,18 @@ class MembershipIssuanceView: UIView {
         detailInfoView.layer.shadowColor = UIColor.black.cgColor
         detailInfoView.layer.shadowOpacity = 0.5
         detailInfoView.layer.shadowOffset = CGSize(width: 1, height: 1)
+
+        tfIssuancePw.delegate = self
+        tfIssuancePwRe.delegate = self
+    }
+}
+
+extension MembershipIssuanceView: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentString: NSString = textField.text! as NSString
+        let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
+        
+        return newString.length <= 4 //max length is 4
     }
 }
 

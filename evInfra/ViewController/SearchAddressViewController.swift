@@ -23,12 +23,9 @@ class SearchAddressViewController: UIViewController {
             super.viewDidLoad()
             prepareActionBar()
             if let url = URL(string: Const.EV_SERVER_IP  + "/searchAddress"){
-                print("PJS HERE URL LOAD")
                 mWebView.load(URLRequest(url: url))
             }
-            
         }
-        
 
         func initWebView() {
             
@@ -60,12 +57,10 @@ class SearchAddressViewController: UIViewController {
            self.navigationController?.isNavigationBarHidden = false
         }
         
-        
         @objc
         fileprivate func handleBackButton() {
             self.navigationController?.pop()
         }
-           
     }
 
     extension SearchAddressViewController: WKUIDelegate {
@@ -86,8 +81,7 @@ class SearchAddressViewController: UIViewController {
     extension SearchAddressViewController: WKScriptMessageHandler {
 
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-            if(message.name == "processDATA"){
-                print("PJS Address processData")
+            if message.name == "processDATA" {
                 if let jsonString = message.body as? String {
                     if let dataFromString = jsonString.data(using: .utf8, allowLossyConversion: false) {
                         if let json = try? JSON(data: dataFromString) {
@@ -106,8 +100,6 @@ class SearchAddressViewController: UIViewController {
         }
         
         func showRegisteredResult(json: JSON) {
-            print("PJS Address Json1 \(json["zonecode"].stringValue)")
-            print("PJS Address Json2 \(json["fullRoadAddr"].stringValue)")
             searchAddressDelegate?.recieveAddressInfo(zonecode: json["zonecode"].stringValue, fullRoadAddr: json["fullRoadAddr"].stringValue)
             self.navigationController?.pop()
         }
