@@ -85,7 +85,7 @@ class RePasswordValidator: ValidatorConvertible {
 
 class PhoneNoValidator: ValidatorConvertible {
     func validated(_ value: String) throws -> String {
-        let regex = "^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$"
+        let regex = "^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$"
         guard !value.isEmpty else {throw ValidationError("전화번호를 입력해주세요.")}
         do {
             if try NSRegularExpression(pattern: regex,  options: .caseInsensitive).firstMatch(in: value, options: [], range: NSRange(location: 0, length: value.count)) == nil {
