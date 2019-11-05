@@ -33,6 +33,7 @@ class PaymentStatusViewController: UIViewController {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var chargingStartTime = ""
+    var isStopCharging = false
     
     var point: Int = 0
     var cpId: String = ""
@@ -133,10 +134,13 @@ class PaymentStatusViewController: UIViewController {
     
         let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
             self.showProgress()
-            self.requestStopCharging()
+
             self.btnStopCharging.isEnabled = false
             self.btnStopCharging.setTitle("충전 중지 요청중입니다.", for: .disabled)
             self.btnStopCharging.setTitleColor(UIColor(rgb: 0x15435C), for: .disabled)
+            self.isStopCharging = true
+            
+            self.requestStopCharging()
         })
         
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler:{ (ACTION) -> Void in
@@ -315,7 +319,9 @@ extension PaymentStatusViewController {
         // GSC 외에는 충전 중지 할 수 없으므로 충전 중지 버튼 disable
         if let companyId = chargingStatus.companyId {
             if companyId.elementsEqual(CompanyInfo.COMPANY_ID_GSC) {
-                btnStopCharging.isEnabled = true
+                if isStopCharging == false {
+                    btnStopCharging.isEnabled = true
+                }
             } else {
                 btnStopCharging.isEnabled = false
             }
