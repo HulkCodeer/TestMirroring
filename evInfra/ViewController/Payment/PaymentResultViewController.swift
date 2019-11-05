@@ -26,13 +26,18 @@ class PaymentResultViewController: UIViewController {
     @IBOutlet weak var lbStation: UILabel!
     @IBOutlet weak var lbQuantity: UILabel!
     @IBOutlet weak var lbAmount: UILabel!
+    @IBOutlet weak var lbPayAmount: UILabel!
+    
     @IBOutlet weak var lbAuthNo: UILabel!
     @IBOutlet weak var lbAuthStatus: UILabel!
     @IBOutlet weak var lbAuthMsg: UILabel!
     @IBOutlet weak var lbStartTime: UILabel!
     @IBOutlet weak var lbFinishTime: UILabel!
+    
+    @IBOutlet weak var lbUsedPoint: UILabel!
     @IBOutlet weak var lbSavePoint: UILabel!
     @IBOutlet weak var lbTotalPoint: UILabel!
+    
     @IBOutlet weak var lbPaymentFailMsg: UILabel!
     @IBOutlet weak var lbPaymentResultMsg: UILabel!
     
@@ -129,46 +134,56 @@ class PaymentResultViewController: UIViewController {
     func getChargingStatusFromResponse(response: JSON) -> ChargingStatus {
         let chargingStatus = ChargingStatus.init()
         chargingStatus.resultCode = response["code"].int ?? 9000
+        chargingStatus.msg = response["msg"].stringValue
+        
         chargingStatus.stationName = response["snm"].string ?? ""
         chargingStatus.chargingKw = response["c_kw"].string ?? ""
         chargingStatus.startDate = response["s_date"].string ?? ""
         chargingStatus.endDate = response["e_date"].string ?? ""
+        chargingStatus.fee = response["fee"].string ?? ""
         chargingStatus.payAmount = response["pay_amt"].string ?? ""
         chargingStatus.payAuthCode  = response["pay_code"].string ?? ""
         chargingStatus.payResultCode = response["pay_rcode"].string ?? ""
+        chargingStatus.payResultMsg = response["pay_msg"].string ?? ""
+        
+        chargingStatus.usedPoint = response["u_point"].string ?? ""
         chargingStatus.savePoint = response["save_point"].string ?? ""
         chargingStatus.totalPoint = response["total_point"].string ?? ""
-        chargingStatus.msg = response["msg"].stringValue
         
         return chargingStatus
     }
     
     func updateView(chargingStatus: ChargingStatus) {
+        self.lbPaymentResultMsg.text = "충전이 완료되었습니다.\n커넥터를 분리하고 커버를 닫아주세요."
         self.lbStation.text = chargingStatus.stationName
-        self.lbAmount.text = "\(chargingStatus.payAmount?.currency() ?? "0") 원"
-        self.lbStartTime.text = chargingStatus.startDate
-        self.lbFinishTime.text = chargingStatus.endDate
-        self.lbAuthNo.text = chargingStatus.payAuthCode
         if let chargingKw = chargingStatus.chargingKw {
             let chargePower = "\(chargingKw) Kw"
             lbQuantity.text = chargePower
         } else {
             self.lbQuantity.text = " - "
         }
+        self.lbStartTime.text = chargingStatus.startDate
+        self.lbFinishTime.text = chargingStatus.endDate
         
-        if chargingStatus.payResultCode?.elementsEqual("8000") ?? false {
-            self.lbAuthStatus.text =  "승인성공"
-            self.lbPaymentResultMsg.text = "충전이 완료되었습니다.\n커넥터를 분리하고 커버를 닫아주세요."
-            self.lbAuthMsg.text = "정상승인"
-            self.lbSavePoint.text = (chargingStatus.savePoint?.currency() ?? "") + " 포인트"
-            self.lbTotalPoint.text = (chargingStatus.totalPoint?.currency() ?? "") + " 포인트"
-        } else {
-            self.lbAuthStatus.text = "승인실패"
-            self.lbPaymentResultMsg.text = "충전이 완료되었으나 결제를 실패하였습니다.\n커넥터를 분리하고 커버를 닫아주세요."
-            self.lbPaymentFailMsg.visible()
-            self.lbAuthMsg.text = chargingStatus.payResultMsg
-            self.lbSavePoint.text = "  -  "
-            self.lbTotalPoint.text = "  -  "
+        self.lbAmount.text = "\(chargingStatus.fee?.currency() ?? "0") 원"
+        self.lbPayAmount.text = "\(chargingStatus.payAmount?.currency() ?? "0") 원"
+        
+        self.lbUsedPoint.text = (chargingStatus.usedPoint?.currency() ?? "") + " 포인트"
+        self.lbSavePoint.text = (chargingStatus.savePoint?.currency() ?? "") + " 포인트"
+        self.lbTotalPoint.text = (chargingStatus.totalPoint?.currency() ?? "") + " 포인트"
+        
+        self.lbAuthNo.text = chargingStatus.payAuthCode
+        
+        if let resultCode = chargingStatus.payResultCode {
+            if resultCode.elementsEqual("8000") // 결재 승인 성공
+            || resultCode.elementsEqual("8001") { // 10원 미만 결제
+                self.lbAuthStatus.text = "승인성공"
+                self.lbAuthMsg.text = "정상승인"
+            } else {
+                self.lbAuthStatus.text = "승인실패"
+                self.lbPaymentFailMsg.visible()
+                self.lbAuthMsg.text = chargingStatus.payResultMsg
+            }
         }
     }
 
