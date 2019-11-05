@@ -65,16 +65,7 @@ class PaymentStatusViewController: UIViewController {
         timer = Timer()
         removeNotificationCenter()
     }
-    
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
         backButton.tintColor = UIColor(rgb: 0x15435C)
@@ -249,22 +240,23 @@ extension PaymentStatusViewController {
             return
         }
         updateDataStructAtResponse(response: response)
+        
         switch (chargingStatus.resultCode) {
         case 1000:
-        if chargingStatus.status == STATUS_FINISH {
-            stopCharging()
-        } else {
-            updateChargingStatus()
-        }
+            if chargingStatus.status == STATUS_FINISH {
+                stopCharging()
+            } else {
+                updateChargingStatus()
+            }
         
         default: // error
             Snackbar().show(message: chargingStatus.msg ?? "")
         }
     }
-    
+
     func updateDataStructAtResponse(response: JSON) {
         chargingStatus.resultCode = response["code"].int ?? 9000
-        chargingStatus.status = Int(response["status"].string ?? "\(STATUS_READY)")
+        chargingStatus.status = response["status"].int ?? STATUS_READY
         chargingStatus.cpId = response["cp_id"].string ?? ""
         chargingStatus.startDate = response["s_date"].string ?? ""
         chargingStatus.updateTime = response["u_date"].string ?? ""
@@ -311,7 +303,7 @@ extension PaymentStatusViewController {
     }
 }
 
-//for chronometer
+// chronometer
 extension PaymentStatusViewController {
     func updateChargingStatus() {
         if let status = chargingStatus.status {
@@ -330,7 +322,7 @@ extension PaymentStatusViewController {
         }
         
         if chargingStatus.status == STATUS_READY {
-            lbChargeComment.text = "충전 커넥터를 차량과 연결 후 \n잠시만 기다려 주세요"
+            lbChargeComment.text = "충전 커넥터를 차량과 연결 후 잠시만 기다려 주세요"
             btnStopCharging.setTitle("충전 취소", for: .normal)
         } else {
             lbChargeComment.text = "충전이 진행중입니다"
