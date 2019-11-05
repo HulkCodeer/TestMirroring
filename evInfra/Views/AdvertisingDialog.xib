@@ -33,7 +33,7 @@
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ag8-DN-AcT">
                                     <rect key="frame" x="0.0" y="0.0" width="156.5" height="30"/>
-                                    <state key="normal" title="일주일 안보기">
+                                    <state key="normal" title="3일 안보기">
                                         <color key="titleColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                     </state>
                                     <connections>

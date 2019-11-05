@@ -1262,7 +1262,7 @@ extension MainViewController {
             if let keepDate = Date().toDate(data: keepDateStr) {
                 let difference = NSCalendar.current.dateComponents([.day], from: keepDate, to: Date());
                 if let day = difference.day {
-                    if day > 7 {
+                    if day > 3 {
                         window.addSubview(AdvertisingDialog(frame: window.bounds))
                     }
                 }
