@@ -344,14 +344,9 @@ extension DetailViewController {
         backButton.tintColor = UIColor(rgb: 0x15435C)
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
-//        let editButton = IconButton(image: Icon.cm.edit)
-//        editButton.tintColor = UIColor(rgb: 0x15435C)
-//        editButton.addTarget(self, action: #selector(handleEditButton), for: .touchUpInside)
-        
         navigationItem.hidesBackButton = true
         navigationItem.titleLabel.text = (self.charger?.stationName)!
         navigationItem.leftViews = [backButton]
-//        navigationItem.rightViews = [editButton]
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
     }
     
@@ -359,15 +354,6 @@ extension DetailViewController {
     fileprivate func handleBackButton() {
         self.navigationController?.pop(transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
     }
-    
-//    @objc
-//    fileprivate func handleEditButton() {
-//        let editVC:EditViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
-//        editVC.mode = EditViewController.BOARD_NEW_MODE
-//        editVC.charger = self.charger
-//        editVC.editViewDelegate = self
-//        self.navigationController?.push(viewController: editVC, subtype: kCATransitionFromTop)
-//    }
 }
 
 extension DetailViewController: BoardTableViewDelegate {
