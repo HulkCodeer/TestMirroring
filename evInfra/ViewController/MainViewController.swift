@@ -958,24 +958,16 @@ extension MainViewController: TMapViewDelegate {
 extension MainViewController: ChargerSelectDelegate {
     func moveToSelectLocation(lat: Double, lon: Double) {
         if lat != 0 && lon != 0 {
-             DispatchQueue.global(qos: .background).async {
-                self.tMapView?.setZoomLevel(15)
-                self.tMapView?.setCenter(TMapPoint.init(lon: lon, lat: lat))
-            }
+            self.tMapView?.setZoomLevel(15)
+            self.tMapView?.setCenter(TMapPoint.init(lon: lon, lat: lat))
         }
     }
     
     func moveToSelected(chargerId: String) {
         if let charger = chargerManager.getChargerFromChargerId(id: chargerId) {
-            DispatchQueue.global(qos: .background).async {
-                // Background Thread
-                self.tMapView?.setZoomLevel(15)
-                self.tMapView?.setCenter(TMapPoint.init(lon: charger.longitude, lat: charger.latitude))
-                DispatchQueue.main.async {
-                    // Run UI Updates or call completion block
-                    self.selectCharger(chargerId: chargerId)
-                }
-            }
+            self.tMapView?.setZoomLevel(15)
+            self.tMapView?.setCenter(TMapPoint.init(lon: charger.longitude, lat: charger.latitude))
+            self.selectCharger(chargerId: chargerId)
         }
     }
 }
