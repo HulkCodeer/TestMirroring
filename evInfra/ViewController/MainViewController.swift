@@ -958,6 +958,7 @@ extension MainViewController: TMapViewDelegate {
 extension MainViewController: ChargerSelectDelegate {
     func moveToSelectLocation(lat: Double, lon: Double) {
         if lat != 0 && lon != 0 {
+            myLocationModeOff()
             self.tMapView?.setZoomLevel(15)
             self.tMapView?.setCenter(TMapPoint.init(lon: lon, lat: lat))
         }
