@@ -967,7 +967,13 @@ extension MainViewController: ChargerSelectDelegate {
         if let charger = chargerManager.getChargerFromChargerId(id: chargerId) {
             self.tMapView?.setZoomLevel(15)
             self.tMapView?.setCenter(TMapPoint.init(lon: charger.longitude, lat: charger.latitude))
-            self.selectCharger(chargerId: chargerId)
+            
+            DispatchQueue.global(qos: .background).async {
+                // Background Thread
+                DispatchQueue.main.async {
+                    self.selectCharger(chargerId: chargerId)
+                }
+            }
         }
     }
 }
