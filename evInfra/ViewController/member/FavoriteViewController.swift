@@ -38,7 +38,7 @@ class FavoriteViewController: UIViewController {
     
     @objc
     fileprivate func handleBackButton() {
-        self.navigationController?.pop(transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -58,6 +58,6 @@ extension FavoriteViewController: ChargerTableViewDelegate {
         }
         
         delegate?.moveToSelected(chargerId: charger.chargerId)
-        self.navigationController?.pop(transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
+        dismiss(animated: true, completion: nil)
     }
 }
