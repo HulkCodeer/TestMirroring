@@ -176,7 +176,8 @@ class PaymentResultViewController: UIViewController {
         
         if let resultCode = chargingStatus.payResultCode {
             if resultCode.elementsEqual("8000") // 결재 승인 성공
-            || resultCode.elementsEqual("8001") { // 10원 미만 결제
+            || resultCode.elementsEqual("8001") // 10원 미만 결제
+            || resultCode.elementsEqual("8010") { // 법인 후불결제
                 self.lbAuthStatus.text = "승인성공"
                 self.lbAuthMsg.text = "정상승인"
             } else {
