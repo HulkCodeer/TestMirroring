@@ -57,7 +57,6 @@
 		736BCE87205A892E0052C9ED /* intro_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 736BCE86205A892E0052C9ED /* intro_bg.jpg */; };
 		736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C520871B15009535EE /* BoardTableViewDelegate.swift */; };
 		736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C9208993BE009535EE /* NoticeTableViewCell.swift */; };
-		736D37CC2089B7E3009535EE /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37CB2089B7E2009535EE /* NoticeDetailViewController.swift */; };
 		736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37CE2089CC52009535EE /* NoticeContentViewController.swift */; };
 		736D37D1208D9BFF009535EE /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736D37D0208D9BFF009535EE /* SDWebImage.framework */; };
 		736D37D3208DC9CE009535EE /* BoardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37D2208DC9CE009535EE /* BoardData.swift */; };
@@ -313,7 +312,6 @@
 		736BCE86205A892E0052C9ED /* intro_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = intro_bg.jpg; sourceTree = "<group>"; };
 		736D37C520871B15009535EE /* BoardTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewDelegate.swift; sourceTree = "<group>"; };
 		736D37C9208993BE009535EE /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
-		736D37CB2089B7E2009535EE /* NoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewController.swift; sourceTree = "<group>"; };
 		736D37CE2089CC52009535EE /* NoticeContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeContentViewController.swift; sourceTree = "<group>"; };
 		736D37D0208D9BFF009535EE /* SDWebImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		736D37D2208DC9CE009535EE /* BoardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardData.swift; sourceTree = "<group>"; };
@@ -974,7 +972,6 @@
 			children = (
 				73B752842049284B0077112A /* NoticeViewController.swift */,
 				736D37CE2089CC52009535EE /* NoticeContentViewController.swift */,
-				736D37CB2089B7E2009535EE /* NoticeDetailViewController.swift */,
 				73A37CA12085DB5400FD3D0A /* CardBoardViewController.swift */,
 				73450EF92071EB01008516E9 /* EditViewController.swift */,
 				73344AC4207F429300A6A9EC /* EditViewDelegate.swift */,
@@ -1368,7 +1365,6 @@
 				DB6EBE31217078750000F442 /* ChargerSelectDelegate.swift in Sources */,
 				73D65D6E2356E57900F564A2 /* MyPayRegisterViewController.swift in Sources */,
 				73EF8B45203BD1D400D04494 /* EVIcon.swift in Sources */,
-				736D37CC2089B7E3009535EE /* NoticeDetailViewController.swift in Sources */,
 				73AD13C6203AC34400ADD19A /* LeftViewController.swift in Sources */,
 				73C31BFB20A288BB005B6C53 /* ChargerInfoViewController.swift in Sources */,
 				CE93308F214F9807006B7EF6 /* ReportChargeInfoList.swift in Sources */,

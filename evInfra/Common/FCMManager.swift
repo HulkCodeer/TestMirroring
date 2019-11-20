@@ -11,7 +11,7 @@ import SwiftyJSON
 import UserNotifications
 
 class FCMManager {
-    
+
     // target id
     static let TARGET_NONE = "00"
     static let TARGET_CHARGING = "01"
@@ -67,10 +67,10 @@ class FCMManager {
                     // 여기다가 뷰컨트롤러가 이거일 경우... 저거일 경우... 고고씡
                     
                     if let targetId = notification.request.content.userInfo[AnyHashable("target_id")] as! String? {
-                        if targetId == FCMManager.TARGET_CHARGING && String(describing: viewController).contains("PaymentStatusViewController"){
+                        if targetId == FCMManager.TARGET_CHARGING && String(describing: viewController).contains("PaymentStatusViewController") {
                             let center = NotificationCenter.default
                             center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: notification.request.content.userInfo)
-                        }else{
+                        } else {
                             if viewController.isKind(of: UIAlertController.self) {
                                 if let vc = viewController.presentingViewController {
                                     viewController.dismiss(animated: true, completion: nil)
@@ -80,7 +80,7 @@ class FCMManager {
                                 viewController.present(dialogMessage, animated: true, completion: nil)
                             }
                         }
-                    }else{
+                    } else {
                         if viewController.isKind(of: UIAlertController.self) {
                             if let vc = viewController.presentingViewController {
                                 viewController.dismiss(animated: true, completion: nil)
@@ -98,34 +98,42 @@ class FCMManager {
     
     func alertMessage(navigationController: AppNavigationController?, data: [AnyHashable: Any]?) {
         if let notification = data {
-            
-            
             if let targetId = notification[AnyHashable("target_id")] as! String? {
-                if targetId == FCMManager.TARGET_NONE { //없음
+                switch targetId {
+                case FCMManager.TARGET_NONE: // NONE
+                    print("alertMessage() FCMManager.TARGET_NONE")
                     
-                } else if targetId == FCMManager.TARGET_CHARGING { //충전
+                case FCMManager.TARGET_CHARGING: // 충전
                     startTagetCharging(navigationController: navigationController, data: notification)
                     
-                } else if targetId == FCMManager.TARGET_BOARD { //게시판
+                case FCMManager.TARGET_BOARD: // 게시판
                     if let category = notification[AnyHashable("category")] as! String? {
                         if let board_id = Int((notification[AnyHashable("board_id")] as! String)) {
                             if category == "boardNotice" {
-                                getNoticeData(navigationController: navigationController, notice_id: board_id)
+                                getNoticeData(navigationController: navigationController, noticeId: board_id)
                             } else {
                                 getBoardData(navigationController: navigationController, boardId: board_id, category: category)
                             }
                         }
                     }
-                } else if targetId == FCMManager.TARGET_FAVORITE { //즐겨찾기
+
+                case FCMManager.TARGET_FAVORITE: // 즐겨찾기
+                    print("alertMessage() FCMManager.TARGET_FAVORITE")
                     
-                } else if targetId == FCMManager.TARGET_REPORT { //제보하기
+                case FCMManager.TARGET_REPORT: // 제보하기
                     getBoardReportData(navigationController: navigationController)
-                } else if targetId == FCMManager.TARGET_CHARGING_STATUS { //충전상태
                     
-                } else if targetId == FCMManager.TARGET_CHARGING_STATUS_FIX { //????
+                case FCMManager.TARGET_CHARGING_STATUS: // 충전상태
+                    print("alertMessage() FCMManager.TARGET_CHARGING_STATUS")
                     
-                } else if targetId == FCMManager.TARGET_COUPON {  //쿠폰 알림
+                case FCMManager.TARGET_CHARGING_STATUS_FIX: // ????
+                    print("alertMessage() FCMManager.TARGET_CHARGING_STATUS_FIX")
+                    
+                case FCMManager.TARGET_COUPON:  // 쿠폰 알림
                     getCouponIssueData(navigationController: navigationController)
+                    
+                default:
+                    print("alertMessage() default")
                 }
             }
         }
@@ -189,29 +197,17 @@ class FCMManager {
         }
     }
     
-    func getNoticeData(navigationController: AppNavigationController?, notice_id: Int) {
-        Server.getBoard(category: BoardData.BOARD_CATEGORY_NOTICE) { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                let boardList = json["lists"]
-                let boardArray = boardList.arrayValue
-                if let index = boardArray.index(where: {$0["id"].intValue == notice_id}) {
-                    if let navigation = navigationController {
-                        if let visableControll = navigation.visibleViewController {
-                            if visableControll.isKind(of: NoticeDetailViewController.self) {
-                                let vc:NoticeDetailViewController = visableControll as! NoticeDetailViewController
-                                vc.boardList = boardList
-                                vc.noticeIndex = index
-                                vc.viewDidLoad()
-                                return
-                            } else {
-                                let ndVC:NoticeDetailViewController =  UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NoticeDetailViewController") as! NoticeDetailViewController
-                                ndVC.boardList = boardList
-                                ndVC.noticeIndex = index
-                                navigation.push(viewController: ndVC)
-                            }
-                        }
-                    }
+    func getNoticeData(navigationController: AppNavigationController?, noticeId: Int) {
+        if let navigation = navigationController {
+            if let visableControll = navigation.visibleViewController {
+                if visableControll.isKind(of: NoticeContentViewController.self) {
+                    let vc = visableControll as! NoticeContentViewController
+                    vc.boardId = noticeId
+                    vc.viewDidLoad()
+                } else {
+                    let ndVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NoticeContentViewController") as! NoticeContentViewController
+                    ndVC.boardId = noticeId
+                    navigation.push(viewController: ndVC)
                 }
             }
         }
@@ -224,13 +220,13 @@ class FCMManager {
             var cpId = ""
             var connectorId = ""
             var point: Int = 0
-            if chargingId.isEmpty{
+            if chargingId.isEmpty {
                 if let notiChargingId =  data[AnyHashable("charging_id")] as! String? {
                     chargingId = notiChargingId
                     defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: chargingId)
                 }
-                
             }
+            
             if let notiCmd =  data[AnyHashable("cmd")] as! String? {
                 cmd = notiCmd
             }
@@ -245,32 +241,29 @@ class FCMManager {
             if let notiPoint =  data[AnyHashable("point")] as! Int? {
                 point = notiPoint
             }
-        
-           
+
             if let navigation = navigationController {
                  let center = NotificationCenter.default
-                if (cmd.elementsEqual("charging_end")){
+                if cmd.elementsEqual("charging_end") {
                     let paymentResultVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PaymentResultViewController") as! PaymentResultViewController
                     navigation.push(viewController: paymentResultVC)
-                }else{
+                } else {
                     if let viewController = navigation.visibleViewController {
-                        if !String(describing: viewController).contains("PaymentStatusViewController"){
+                        if !String(describing: viewController).contains("PaymentStatusViewController") {
                             let paymentStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
                             paymentStatusVC.cpId = cpId
                             paymentStatusVC.connectorId = connectorId
                             paymentStatusVC.point = point
                             navigation.push(viewController: paymentStatusVC)
-                        }else{
+                        } else {
                             center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: data)
                         }
-                    }else{
+                    } else {
                         let paymentStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
                         navigation.push(viewController: paymentStatusVC)
                     }
                 }
-                
             }
-            
         }
     }
     

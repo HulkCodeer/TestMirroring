@@ -11,7 +11,6 @@ import UIKit
 class NoticeTableViewCell: UITableViewCell {
 
     @IBOutlet weak var noticeTitle: UILabel!
-    @IBOutlet weak var nickName: UILabel!
     @IBOutlet weak var dateTime: UILabel!
     
     override func awakeFromNib() {

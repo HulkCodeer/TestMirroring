@@ -251,6 +251,18 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 게시판 - 공지사항 리스트
+    static func getNoticeList(completion: @escaping (Bool, Any) -> Void) {
+        Alamofire.request(Const.EV_PAY_SERVER + "/board/board_notice/list")
+            .responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 게시판 - 공지사항 내용
+    static func getNoticeContent(noticeId: Int, completion: @escaping (Bool, Any) -> Void) {
+        Alamofire.request(Const.EV_PAY_SERVER + "/board/board_notice/content?id=\(noticeId)")
+            .responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
     // 게시판 - 선택한 충전소의 게시판 가져오기
     static func getChargerBoard(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
