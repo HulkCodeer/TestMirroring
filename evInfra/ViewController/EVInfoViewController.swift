@@ -91,7 +91,7 @@ extension EVInfoViewController: UICollectionViewDataSource {
     @objc
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InfoCollectionViewCellReusable", for: indexPath) as! InfoCollectionViewCell
-        cell.cellImage.sd_setImage(with: URL(string: "\(Const.urlModelImage)\(evModels[indexPath.item].image!).jpg"), placeholderImage: UIImage(named: "AppIcon"))
+        cell.cellImage.sd_setImage(with: URL(string: "\(Const.IMG_URL_EV_MODEL)\(evModels[indexPath.item].image!).jpg"), placeholderImage: UIImage(named: "AppIcon"))
         cell.cellImage.motionIdentifier = "\(evModels[indexPath.item].image!).jpg"
         cell.cellTitle.text = evModels[indexPath.item].name
         cell.transition(.fadeOut, .scale(0.75))

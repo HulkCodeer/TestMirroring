@@ -29,12 +29,22 @@ public class Const {
 
     // S3 File Server
     public static let S3_EV_INFRA = "https://s3.ap-northeast-2.amazonaws.com/ev-infra"
-    public static let urlCompanyImage = S3_EV_INFRA + "/company_icon/"
     public static let urlProfileImage = S3_EV_INFRA + "/thumbnail/"
-    public static let urlModelImage = S3_EV_INFRA + "/models/"
     public static let urlBoardImage = S3_EV_INFRA + "/board/"
     public static let urlShareImage = S3_EV_INFRA + "/share/shareimage.jpg"
-    public static let urlSatellite = S3_EV_INFRA + "/images/"
+    
+    // static image: 위성사진, 운영기관 로고, 전기차
+    public static let EV_IMG_SERVER = "https://img.soft-berry.co.kr"
+    public static let IMG_URL_COMP_MARKER = EV_IMG_SERVER + "/marker/logo/"
+    public static let IMG_URL_EV_MODEL    = EV_IMG_SERVER + "/models/"
+    public static let IMG_URL_SATELLITE   = EV_IMG_SERVER + "/satellite/"
+    
+    // BUCKET KIND OF IMAGE
+    public static let CONTENTS_THUMBNAIL = 0
+    public static let CONTENTS_BOARD_IMG = 1
+    public static let CONTENTS_SATELLITE = 2
+    public static let CONTENTS_CAR_MODEL = 3
+    public static let CONTENTS_COMP_ICON = 4
 
     // KEY
     public static let TMAP_APP_KEY = "7fcc4bac-2c24-41ed-b479-25e6b6c04a7f"
@@ -90,12 +100,4 @@ public class Const {
     public static let REPORT_CHARGER_STATUS_FINISH = 1   // 완료
     public static let REPORT_CHARGER_STATUS_CONFIRM = 2  // 확인
     public static let REPORT_CHARGER_STATUS_REJECT = 3   // 반려
-    
-    //  BUCKET KIND
-    // KIND OF IMAGE
-    public static let CONTENTS_THUMBNAIL = 0
-    public static let CONTENTS_BOARD_IMG = 1
-    public static let CONTENTS_SATELLITE = 2
-    public static let CONTENTS_CAR_MODEL = 3
-    public static let CONTENTS_COMP_ICON = 4
 }

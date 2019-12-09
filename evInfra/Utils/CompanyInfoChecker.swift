@@ -58,7 +58,7 @@ class CompanyIconChecker {
     func updateCompanyIconInfo(index: Int) {
         if (index < updateArray.count) {
             let item = updateArray[index]
-            let url = "\(Const.urlCompanyImage)\(item["icon_name"].stringValue).png"
+            let url = "\(Const.IMG_URL_COMP_MARKER)\(item["icon_name"].stringValue).png"
             
             let destination: DownloadRequest.DownloadFileDestination = { _, _ in
                 var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -90,7 +90,7 @@ class CompanyIconChecker {
     func insertCompanyIconInfo(index: Int) {
         if (index < insertArray.count) {
             let item = insertArray[index]
-            let url = "\(Const.urlCompanyImage)\(item["icon_name"].stringValue).png"
+            let url = "\(Const.IMG_URL_COMP_MARKER)\(item["icon_name"].stringValue).png"
             let destination: DownloadRequest.DownloadFileDestination = { _, _ in
                 var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
                 documentsURL.appendPathComponent("\(item["icon_name"].stringValue).png")

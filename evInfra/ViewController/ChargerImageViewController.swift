@@ -31,7 +31,7 @@ class ChargerImageViewController: UIViewController {
     
     // 인공위성 사진
     func getSatellite() {
-        let satelliteUrl = URL(string: Const.urlSatellite + (self.charger?.chargerId)! + ".jpg")
+        let satelliteUrl = URL(string: Const.IMG_URL_SATELLITE + (self.charger?.chargerId)! + ".jpg")
         Server.getData(url: satelliteUrl!) { (isSuccess, responseData) in
             if isSuccess {
                 // Show the downloaded image:

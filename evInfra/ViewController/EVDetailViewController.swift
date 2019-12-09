@@ -39,7 +39,7 @@ class EVDetailViewController: UIViewController {
         
         prepareActionBar()
         
-        carImage.sd_setImage(with: URL(string: "\(Const.urlModelImage)\(model!.image!).jpg"), placeholderImage: UIImage(named: "AppIcon"))
+        carImage.sd_setImage(with: URL(string: "\(Const.IMG_URL_EV_MODEL)\(model!.image!).jpg"), placeholderImage: UIImage(named: "AppIcon"))
         carImage.motionIdentifier = "\(model!.image!).jpg"
         
         vehicleName.text = model!.name
