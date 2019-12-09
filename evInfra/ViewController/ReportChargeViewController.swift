@@ -212,9 +212,7 @@ extension ReportChargeViewController {
         print("tel\(String(describing: info.tel))")
         print("clist\(String(describing: info.clist.count))")
     }
-}
 
-extension ReportChargeViewController {
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
         backButton.tintColor = UIColor(rgb: 0x15435C)
@@ -405,12 +403,22 @@ extension ReportChargeViewController {
     func prepareNewReportChargerView() {
         dropDownUsedTime.anchorView = self.usedTimeSpinnerBtn
         
-        dropDownUsedTime.dataSource = ["이용시간을 선택하세요", "주중/주말 24시간 이용가능", "주중 24시간 이용가능", "09:00-18:00", "09:00-22:00", "09:00-23:00", "10:00-23:00", "10:00-00:00", "직접입력"]
+        dropDownUsedTime.dataSource = [
+            "이용시간을 선택하세요",
+            "주중/주말 24시간 이용가능",
+            "주중 24시간 이용가능",
+            "09:00-18:00",
+            "09:00-22:00",
+            "09:00-23:00",
+            "10:00-23:00",
+            "10:00-00:00",
+            "직접입력"
+        ]
         dropDownUsedTime.width = usedTimeSpinnerBtn.frame.width
         dropDownUsedTime.selectionAction = { [unowned self] (index:Int, item:String) in
             self.usedTimeSpinnerBtn.setTitle(item, for: UIControlState.normal)
             let idx = self.dropDownUsedTime.dataSource.count
-            if idx == (index+1) {
+            if idx == (index + 1) {
                 self.usedTimeTextView.visible()
             } else {
                 self.usedTimeTextView.gone()
@@ -629,7 +637,7 @@ extension ReportChargeViewController {
                 requestDeleteReport(typeID:Const.REPORT_CHARGER_TYPE_USER_MOD_DELETE)
             }
         default:
-            Snackbar().show(message: "해당항목은 삭제할수 없습니다.")
+            Snackbar().show(message: "해당 항목은 삭제할 수 없습니다.")
         }
     }
     
@@ -667,7 +675,7 @@ extension ReportChargeViewController {
                 self.info.type = typeID
                 requestReportApply(typeID: typeID)
             default:
-                print("타입 설정 로직 오류 .......")
+                print("타입 설정 로직 오류")
             }
         }
     }
@@ -695,12 +703,12 @@ extension ReportChargeViewController {
         }
         
         guard let lon = info.lon, lon > 0.0 else {
-            Snackbar().show(message: "추가/수정할 위치를 선택해 주세요 !!")
+            Snackbar().show(message: "추가/수정할 위치를 선택해 주세요.")
             return false
         }
         
         guard  let adr = info.adr, !adr.isEmpty else {
-            Snackbar().show(message: "추가/수정할 위치를 선택해주세요")
+            Snackbar().show(message: "추가/수정할 위치를 선택해주세요.")
             return false
         }
     
@@ -723,7 +731,7 @@ extension ReportChargeViewController {
         }
         
         if chargerSubView.subviews.count <= 0 {
-            Snackbar().show(message: "충전기를 추가후 타입을 설정해 주세요")
+            Snackbar().show(message: "충전기를 추가 후 타입을 설정해 주세요")
             return false
         }
         info.clist.removeAll()
@@ -755,7 +763,7 @@ extension ReportChargeViewController {
                 let type_id: Int = getChargerTypeId(type: type)
                 
                 if type_id <= 0 {
-                    Snackbar().show(message: "충전기 타입설정을 잘못하셨습니다. 다시 설정후 시도바랍니다.")
+                    Snackbar().show(message: "충전기 타입을 잘못 설정하셨습니다. 재설정 후 시도바랍니다.")
                     return false
                 }
                 info.clist.append(type_id)
@@ -765,7 +773,7 @@ extension ReportChargeViewController {
         }
         
         if info.clist.count <= 0 {
-            Snackbar().show(message: "충전기 추가/타입설정이 완료되지않았습니다. 재설정 바랍니다.")
+            Snackbar().show(message: "충전기 추가/타입설정이 완료되지 않았습니다. 재설정 바랍니다.")
             return false
         }
         
@@ -829,7 +837,7 @@ extension ReportChargeViewController {
  
     @objc
     fileprivate func onClickBackBtn() {
-        self.navigationController?.pop()
+        dismiss(animated: true, completion: nil)
     }
     
     @objc
