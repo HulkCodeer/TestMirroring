@@ -178,12 +178,6 @@ extension PaymentQRScanViewController: AVCaptureMetadataOutputObjectsDelegate {
             if resultQR.count > 0 {
                 let qrJson = JSON.init(parseJSON: resultQR)
                 self.cpId = qrJson["cp_id"].stringValue
-                if let cpid = self.cpId {
-                    if cpid.count > 8 {
-                        let index = cpid.index(cpid.startIndex, offsetBy: 8)
-                        self.cpId = String(cpid[..<index])
-                    }
-                }
                 self.connectorId = qrJson["connector_id"].stringValue
             }
         }
