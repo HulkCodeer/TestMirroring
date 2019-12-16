@@ -28,6 +28,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>kakaofea9200c12fecee485bdd42185aa84ac</string>
+				<string>evInfra</string>
 			</array>
 		</dict>
 	</array>
