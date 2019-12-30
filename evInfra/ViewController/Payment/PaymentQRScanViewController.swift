@@ -34,7 +34,7 @@ class PaymentQRScanViewController: UIViewController {
         super.viewDidLoad()
         prepareActionBar()
         prepareView()
-        prepareQRScanner()
+//
         preparePaymentCardStatus()
         //테스트 하거나 UI 확인시 아래 주석을 풀어주시기 바랍니다.
 //        self.onResultScan(scanInfo: "{ \"cp_id\": \"994\", \"connector_id\": \"1\" }")
@@ -47,7 +47,11 @@ class PaymentQRScanViewController: UIViewController {
             captureSession.stopRunning()
         }
     }
+
     
+    override func viewDidLayoutSubviews() {
+        prepareQRScanner()
+    }
     @objc
     fileprivate func handleBackButton() {
         self.navigationController?.pop()
@@ -71,6 +75,7 @@ class PaymentQRScanViewController: UIViewController {
     
     func prepareView() {
         self.btnStartCharge.isEnabled = false
+        
     }
     
     func preparePaymentCardStatus() {
