@@ -34,12 +34,12 @@ class PaymentQRScanViewController: UIViewController {
         super.viewDidLoad()
         prepareActionBar()
         prepareView()
-//
+        prepareQRScanner()
         preparePaymentCardStatus()
         //테스트 하거나 UI 확인시 아래 주석을 풀어주시기 바랍니다.
 //        self.onResultScan(scanInfo: "{ \"cp_id\": \"994\", \"connector_id\": \"1\" }")
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -47,11 +47,7 @@ class PaymentQRScanViewController: UIViewController {
             captureSession.stopRunning()
         }
     }
-
     
-    override func viewDidLayoutSubviews() {
-        prepareQRScanner()
-    }
     @objc
     fileprivate func handleBackButton() {
         self.navigationController?.pop()
@@ -176,25 +172,19 @@ extension PaymentQRScanViewController: AVCaptureMetadataOutputObjectsDelegate {
     }
     
     func onResultScan(scanInfo: String?) {
-        self.cpId = nil
+        var cpId = ""
         self.connectorId = nil
         
         if let resultQR = scanInfo {
             if resultQR.count > 0 {
                 let qrJson = JSON.init(parseJSON: resultQR)
-                self.cpId = qrJson["cp_id"].stringValue
-                if let cpid = self.cpId {
-                    if cpid.count > 8 {
-                        let index = cpid.index(cpid.startIndex, offsetBy: 8)
-                        self.cpId = String(cpid[..<index])
-                    }
-                }
+                cpId = qrJson["cp_id"].stringValue
                 self.connectorId = qrJson["connector_id"].stringValue
             }
         }
         
-        if let cpid = self.cpId {
-            Server.getChargerInfo(cpId: cpid, completion: {(isSuccess, value) in
+        if !cpId.isEmpty {
+            Server.getChargerInfo(cpId: cpId, completion: {(isSuccess, value) in
                 if isSuccess {
                     self.responseGetChargerInfo(response: value)
                 } else {
@@ -221,6 +211,9 @@ extension PaymentQRScanViewController {
                 let name = connectorJson["type_name"].stringValue
 
                 self.mConnectorList.append(Connector.init(id: connectorId, typeId: typeId, typeName: name, status: status))
+                
+                // 서버에서 cp id 검사 후 사용가능한 cp id로 변환 후 내려보내줌
+                self.cpId = connectorJson["cp_id"].stringValue
             }
             
             if let conId = self.connectorId, !conId.isEmpty {
