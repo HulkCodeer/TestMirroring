@@ -70,6 +70,7 @@ class PaymentQRScanViewController: UIViewController {
     }
     
     func prepareView() {
+        self.scannerViewLayer.frame.size.width = self.view.frame.width
         self.btnStartCharge.isEnabled = false
         
     }
