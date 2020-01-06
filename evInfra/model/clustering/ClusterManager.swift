@@ -21,8 +21,8 @@ class ClusterManager {
     private static let CLUSTER_LEVEL_1 = 1    // 구 임시적으로 쓰지 않음..
     private static let CLUSTER_LEVEL_0 = 0    // 일반
     
-    private static let MARKER_THRESHOLD_SIZE = 6
-    private static let MAX_ZOOM_LEVEL = 13
+    private static let MARKER_THRESHOLD_SIZE = 2
+    private static let MAX_ZOOM_LEVEL = 10
     
     var clusters = [[CodableCluster.Cluster]?]()
     var isClustering: Bool = false
@@ -222,14 +222,12 @@ class ClusterManager {
     
     func getMarkerThreshold() -> Int {
         var markerThreshold = 1
-        if let zoomLev = self.tMapView?.getZoomLevel() {
-            if (ClusterManager.MAX_ZOOM_LEVEL - zoomLev > 0){
-                markerThreshold = (ClusterManager.MAX_ZOOM_LEVEL - zoomLev) * ClusterManager.MARKER_THRESHOLD_SIZE
+        if !isRouteMode{
+            if let zoomLev = self.tMapView?.getZoomLevel() {
+                if (ClusterManager.MAX_ZOOM_LEVEL - zoomLev > 0){
+                    markerThreshold = (ClusterManager.MAX_ZOOM_LEVEL - zoomLev) * ClusterManager.MARKER_THRESHOLD_SIZE
+                }
             }
-        }
-        
-        if isRouteMode{
-            markerThreshold = 1
         }
         return markerThreshold
     }
