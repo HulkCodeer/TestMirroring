@@ -173,7 +173,7 @@ class ClusterManager {
                     var index = 0
                     let markerThreshold = self.getMarkerThreshold(filter: filter)
                     for charger in self.chargerManager.chargerDict {
-                        if(index % markerThreshold == 0){
+                        if (index % markerThreshold == 0) {
                             if charger.value.isAroundPath && charger.value.check(filter: filter) {
                                 if self.isContainMap(point: charger.value.marker.getTMapPoint()) {
                                     if self.tMapView!.getMarketItem(fromID: charger.value.chargerId) == nil {
@@ -187,14 +187,13 @@ class ClusterManager {
                                     self.tMapView!.getMarketItem(fromID: charger.value.chargerId).setVisible(false)
                                 }
                             }
-                        }else {
+                        } else {
                             if self.tMapView!.getMarketItem(fromID: charger.value.chargerId) != nil {
                                 self.tMapView!.getMarketItem(fromID: charger.value.chargerId).setVisible(false)
                             }
                         }
                         index += 1
                     }
-                    
                 } else {
                     if let clusters = self.clusters[clusterLv] {
                         for cluster in clusters{
@@ -220,9 +219,12 @@ class ClusterManager {
         }
     }
     
+    // 지도 축소 시 마커를 모두 그리면 메모리 이슈로 앱이 종료됨
+    // 한 화면에 일정 갯수 이상의 마커가 있고 줌 레벨이 설정값 이하인 경우,
+    // 마커를 모두 그리지 않고 threshold 갯수만큼 건너띄면서 그림
     func getMarkerThreshold(filter: ChargerFilter) -> Int {
         var markerThreshold = 1
-        if !isRouteMode{
+        if !isRouteMode {
             var markerCount = 0
             for charger in self.chargerManager.chargerDict {
                 if charger.value.check(filter: filter) {
@@ -231,14 +233,13 @@ class ClusterManager {
                     }
                 }
             }
-            if (markerCount > 6000){
+            if (markerCount > 6000) {
                 if let zoomLev = self.tMapView?.getZoomLevel() {
-                    if (ClusterManager.MAX_ZOOM_LEVEL - zoomLev > 0){
+                    if (ClusterManager.MAX_ZOOM_LEVEL - zoomLev > 0) {
                         markerThreshold = (ClusterManager.MAX_ZOOM_LEVEL - zoomLev) * ClusterManager.MARKER_THRESHOLD_SIZE
                     }
                 }
             }
-            
         }
         return markerThreshold
     }
