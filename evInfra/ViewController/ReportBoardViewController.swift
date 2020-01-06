@@ -114,7 +114,7 @@ extension ReportBoardViewController : ReportChargeViewDelegate {
             }
         }
         
-        self.navigationController?.push(viewController:reportChargeVC)
+        self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
     }
     
     func getReportInfo() {
