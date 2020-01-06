@@ -21,7 +21,7 @@ class ClusterManager {
     private static let CLUSTER_LEVEL_1 = 1    // 구 임시적으로 쓰지 않음..
     private static let CLUSTER_LEVEL_0 = 0    // 일반
     
-    private static let MARKER_JUMP_SIZE = 6
+    private static let MARKER_THRESHOLD_SIZE = 6
     private static let MAX_ZOOM_LEVEL = 13
     
     var clusters = [[CodableCluster.Cluster]?]()
@@ -171,10 +171,9 @@ class ClusterManager {
                 // 클러스터 변경시 선택된 마커로 그려주는 루틴: 충전소 수가 0으로 변화할 경우 마커를 지우기 위해 필요
                 if clusterLv == ClusterManager.CLUSTER_LEVEL_0 {
                     var index = 0
-                    let markerJumpCount = self.getMarkerJumpCount()
-                    print("PJS markerJumpCount - \(markerJumpCount)")
+                    let markerThreshold = self.getMarkerThreshold()
                     for charger in self.chargerManager.chargerDict {
-                        if(index % markerJumpCount == 0){
+                        if(index % markerThreshold == 0){
                             if charger.value.isAroundPath && charger.value.check(filter: filter) {
                                 if self.isContainMap(point: charger.value.marker.getTMapPoint()) {
                                     if self.tMapView!.getMarketItem(fromID: charger.value.chargerId) == nil {
@@ -221,19 +220,18 @@ class ClusterManager {
         }
     }
     
-    func getMarkerJumpCount() -> Int {
-        var markerJumpCount = 1
+    func getMarkerThreshold() -> Int {
+        var markerThreshold = 1
         if let zoomLev = self.tMapView?.getZoomLevel() {
-            print("PJS zoomLev = \(zoomLev)")
             if (ClusterManager.MAX_ZOOM_LEVEL - zoomLev > 0){
-                markerJumpCount = (ClusterManager.MAX_ZOOM_LEVEL - zoomLev) * ClusterManager.MARKER_JUMP_SIZE
+                markerThreshold = (ClusterManager.MAX_ZOOM_LEVEL - zoomLev) * ClusterManager.MARKER_THRESHOLD_SIZE
             }
         }
         
         if isRouteMode{
-            markerJumpCount = 1
+            markerThreshold = 1
         }
-        return markerJumpCount
+        return markerThreshold
     }
     
     func isContainMap(point: TMapPoint) -> Bool {
