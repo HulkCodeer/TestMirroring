@@ -22,7 +22,7 @@ class ClusterManager {
     private static let CLUSTER_LEVEL_0 = 0    // 일반
     
     private static let MARKER_THRESHOLD_SIZE = 2
-    private static let MAX_ZOOM_LEVEL = 10
+    private static let MAX_ZOOM_LEVEL = 9
     
     var clusters = [[CodableCluster.Cluster]?]()
     var isClustering: Bool = false
@@ -171,7 +171,7 @@ class ClusterManager {
                 // 클러스터 변경시 선택된 마커로 그려주는 루틴: 충전소 수가 0으로 변화할 경우 마커를 지우기 위해 필요
                 if clusterLv == ClusterManager.CLUSTER_LEVEL_0 {
                     var index = 0
-                    let markerThreshold = self.getMarkerThreshold()
+                    let markerThreshold = self.getMarkerThreshold(filter: filter)
                     for charger in self.chargerManager.chargerDict {
                         if(index % markerThreshold == 0){
                             if charger.value.isAroundPath && charger.value.check(filter: filter) {
@@ -220,14 +220,25 @@ class ClusterManager {
         }
     }
     
-    func getMarkerThreshold() -> Int {
+    func getMarkerThreshold(filter: ChargerFilter) -> Int {
         var markerThreshold = 1
         if !isRouteMode{
-            if let zoomLev = self.tMapView?.getZoomLevel() {
-                if (ClusterManager.MAX_ZOOM_LEVEL - zoomLev > 0){
-                    markerThreshold = (ClusterManager.MAX_ZOOM_LEVEL - zoomLev) * ClusterManager.MARKER_THRESHOLD_SIZE
+            var markerCount = 0
+            for charger in self.chargerManager.chargerDict {
+                if charger.value.check(filter: filter) {
+                    if self.isContainMap(point: charger.value.marker.getTMapPoint()) {
+                        markerCount += 1
+                    }
                 }
             }
+            if (markerCount > 6000){
+                if let zoomLev = self.tMapView?.getZoomLevel() {
+                    if (ClusterManager.MAX_ZOOM_LEVEL - zoomLev > 0){
+                        markerThreshold = (ClusterManager.MAX_ZOOM_LEVEL - zoomLev) * ClusterManager.MARKER_THRESHOLD_SIZE
+                    }
+                }
+            }
+            
         }
         return markerThreshold
     }
