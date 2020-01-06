@@ -565,7 +565,6 @@ extension DetailViewController {
         }
     
         actionButton.display(inViewController: self)
-        
     }
 
     fileprivate func prepareCallItem() -> Bool {
@@ -630,7 +629,7 @@ extension DetailViewController {
             reportChargeVC.info.chargerID = self.charger?.chargerId
             reportChargeVC.info.snm = self.charger?.stationName
             
-            self.navigationController?.push(viewController:reportChargeVC)
+            self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
         } else {
             MemberManager().showLoginAlert(vc:self)
         }
