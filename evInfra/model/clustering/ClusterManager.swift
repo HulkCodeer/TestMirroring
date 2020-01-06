@@ -21,6 +21,9 @@ class ClusterManager {
     private static let CLUSTER_LEVEL_1 = 1    // 구 임시적으로 쓰지 않음..
     private static let CLUSTER_LEVEL_0 = 0    // 일반
     
+    private static let MARKER_JUMP_SIZE = 6
+    private static let MAX_ZOOM_LEVEL = 13
+    
     var clusters = [[CodableCluster.Cluster]?]()
     var isClustering: Bool = false
     var isNeedChangeText: Bool = false
@@ -28,6 +31,7 @@ class ClusterManager {
     var chargerManager = ChargerListManager.sharedInstance
     var currentClusterLv = -1
     var tMapView: TMapView?
+    var isRouteMode: Bool = false
     
     var clusterGenerator = ClusterGenerator.init()
     
@@ -166,21 +170,32 @@ class ClusterManager {
                 
                 // 클러스터 변경시 선택된 마커로 그려주는 루틴: 충전소 수가 0으로 변화할 경우 마커를 지우기 위해 필요
                 if clusterLv == ClusterManager.CLUSTER_LEVEL_0 {
+                    var index = 0
+                    let markerJumpCount = self.getMarkerJumpCount()
+                    print("PJS markerJumpCount - \(markerJumpCount)")
                     for charger in self.chargerManager.chargerDict {
-                        if charger.value.isAroundPath && charger.value.check(filter: filter) {
-                            if self.isContainMap(point: charger.value.marker.getTMapPoint()) {
-                                if self.tMapView!.getMarketItem(fromID: charger.value.chargerId) == nil {
-                                    self.tMapView!.addTMapMarkerItemID(charger.value.chargerId, marker: charger.value.marker, animated: true)
-                                } else {
-                                    self.tMapView!.getMarketItem(fromID: charger.value.chargerId).setVisible(true)
+                        if(index % markerJumpCount == 0){
+                            if charger.value.isAroundPath && charger.value.check(filter: filter) {
+                                if self.isContainMap(point: charger.value.marker.getTMapPoint()) {
+                                    if self.tMapView!.getMarketItem(fromID: charger.value.chargerId) == nil {
+                                        self.tMapView!.addTMapMarkerItemID(charger.value.chargerId, marker: charger.value.marker, animated: true)
+                                    } else {
+                                        self.tMapView!.getMarketItem(fromID: charger.value.chargerId).setVisible(true)
+                                    }
+                                }
+                            } else {
+                                if self.tMapView!.getMarketItem(fromID: charger.value.chargerId) != nil {
+                                    self.tMapView!.getMarketItem(fromID: charger.value.chargerId).setVisible(false)
                                 }
                             }
-                        } else {
+                        }else {
                             if self.tMapView!.getMarketItem(fromID: charger.value.chargerId) != nil {
                                 self.tMapView!.getMarketItem(fromID: charger.value.chargerId).setVisible(false)
                             }
                         }
+                        index += 1
                     }
+                    
                 } else {
                     if let clusters = self.clusters[clusterLv] {
                         for cluster in clusters{
@@ -204,6 +219,21 @@ class ClusterManager {
                 self.currentClusterLv = clusterLv
             }
         }
+    }
+    
+    func getMarkerJumpCount() -> Int {
+        var markerJumpCount = 1
+        if let zoomLev = self.tMapView?.getZoomLevel() {
+            print("PJS zoomLev = \(zoomLev)")
+            if (ClusterManager.MAX_ZOOM_LEVEL - zoomLev > 0){
+                markerJumpCount = (ClusterManager.MAX_ZOOM_LEVEL - zoomLev) * ClusterManager.MARKER_JUMP_SIZE
+            }
+        }
+        
+        if isRouteMode{
+            markerJumpCount = 1
+        }
+        return markerJumpCount
     }
     
     func isContainMap(point: TMapPoint) -> Bool {

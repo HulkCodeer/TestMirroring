@@ -730,6 +730,7 @@ extension MainViewController: TextFieldDelegate {
         for charger in self.chargerManager.chargerDict {
             charger.value.isAroundPath = true;
         }
+        self.clustering?.isRouteMode = false;
         drawTMapMarker()
     }
     
@@ -798,6 +799,7 @@ extension MainViewController: TextFieldDelegate {
         
         // 경로 주변 충전소만 표시
         findChargerAroundRoute(polyLine: polyLine);
+        self.clustering?.isRouteMode = true
         drawTMapMarker()
         
         // 두 지점간 거리 표시
