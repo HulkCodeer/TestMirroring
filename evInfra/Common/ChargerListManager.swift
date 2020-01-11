@@ -31,11 +31,13 @@ class ChargerListManager {
             Server.getFavoriteList { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
-                    for (_, item):(String, JSON) in json {
-                        let id = item["id"].stringValue
-                        if let charger = self.chargerDict[id] {
-                            charger.favorite = true
-                            charger.favoriteAlarm = item["noti"].boolValue
+                    if json["code"].intValue == 1000 {
+                        for (_, item):(String, JSON) in json["list"] {
+                            let id = item["id"].stringValue
+                            if let charger = self.chargerDict[id] {
+                                charger.favorite = true
+                                charger.favoriteAlarm = item["noti"].boolValue
+                            }
                         }
                     }
                 }
@@ -48,9 +50,7 @@ class ChargerListManager {
             Server.setFavorite(chargerId: charger.chargerId, mode: !charger.favorite) { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
-                    
-                    let result = json["result"].stringValue
-                    if result.elementsEqual("1000") {
+                    if json["code"].intValue == 1000 {
                         charger.favorite = json["mode"].boolValue
                         charger.favoriteAlarm = true
                         

@@ -66,8 +66,7 @@ class ChargerTableViewCell: UITableViewCell {
         Server.setFavorite(chargerId: charger.chargerId, mode: !charger.favorite) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                let result = json["result"].stringValue
-                if result.elementsEqual("1000") {
+                if json["code"].intValue == 1000 {
                     self.charger.favorite = json["mode"].boolValue
                     self.charger.favoriteAlarm = true
                     self.updateFavoriteImage()
@@ -88,12 +87,11 @@ class ChargerTableViewCell: UITableViewCell {
         Server.setFavoriteAlarm(chargerId: charger.chargerId, state: !charger.favoriteAlarm) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                let result = json["result"].stringValue
-                if result.elementsEqual("1000") {
+                if json["code"].intValue == 1000 {
                     self.charger.favoriteAlarm = json["noti"].boolValue
                     self.updateFavoriteImage()
                 } else {
-//                    showSnackbar(view, "즐겨찾기 업데이트를 실패했습니다.\n다시 시도해 주세요.");
+//                    showSnackbar(view, "즐겨찾기 알림 업데이트를 실패했습니다.\n다시 시도해 주세요.");
                 }
             }
         }

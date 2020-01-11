@@ -96,7 +96,7 @@ class LoginViewController: UIViewController {
         Server.login { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                if json["result_code"].stringValue.elementsEqual("1000") {
+                if json["code"].intValue == 1000 {
                     self.successLogin(json: json)
                 } else {
                     self.showSignUp(me: me)

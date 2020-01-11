@@ -255,8 +255,7 @@ extension MyPageViewController {
     }
     
     func responseUpdateMemberInfo(json: JSON) {
-        let result = json["result_code"].stringValue
-        switch Int(result) {
+        switch json["code"].intValue {
         case 1000:
             Snackbar().show(message: "업데이트가 완료되었습니다.")
             
@@ -276,15 +275,7 @@ extension MyPageViewController {
             NotificationCenter.default.post(name: Notification.Name("updateMemberInfo"), object: nil)
             break
             
-        case 1001: // nick name 중복
-            Snackbar().show(message: "입력하신 별명이 사용중입니다.")
-            break
-            
-        case 1002: // commit error
-            Snackbar().show(message: "업데이트를 실패했습니다.\n잠시 후 다시 시도해 주세요.")
-            break
-            
-        default: // COMMON ERROR "9000"
+        default: // COMMON ERROR 9000
             Snackbar().show(message: "업데이트를 실패했습니다.\n잠시 후 다시 시도해 주세요.")
             break
         }

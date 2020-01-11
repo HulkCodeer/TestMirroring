@@ -103,7 +103,7 @@ class MemberManager {
                         Server.login { (isSuccess, value) in
                             if isSuccess {
                                 let json = JSON(value)
-                                if json["result_code"].stringValue.elementsEqual("1000") {
+                                if json["code"].intValue == 1000 {
                                     MemberManager().setData(data: json)
                                 } else {
                                     MemberManager().clearData()

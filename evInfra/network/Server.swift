@@ -82,20 +82,19 @@ class Server {
             "email_cert": emailVerify
         ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/member/member/signUp.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member/sign_up",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
     // 회원 - 로그인
-    // public static let urlMemberLogin =
     static func login(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "member_id": MemberManager.getMemberId(),
             "user_id": MemberManager.getUserId()
-            ]
+        ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/member/member/login.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member/login",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -108,9 +107,9 @@ class Server {
             "region": region,
             "car_id": carId,
             "profile": profile
-            ]
+        ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/member/member/updateInfo.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member/update_info",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -149,7 +148,7 @@ class Server {
             "mb_id": MemberManager.getMbId()
         ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/member/favorite/list.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/favorite/list",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -157,13 +156,12 @@ class Server {
     // 즐겨찾기 - 충전소 즐겨찾기 등록, 해제
     static func setFavorite(chargerId: String, mode: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "req_ver": 1,
             "mb_id": MemberManager.getMbId(),
             "charger_id": chargerId,
             "mode": mode
-            ]
+        ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/member/favorite/updateFavorite.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/favorite/update",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -171,13 +169,12 @@ class Server {
     // 즐겨찾기 - 즐겨찾기 등록한 충전소 상태변화 알림 on/off
     static func setFavoriteAlarm(chargerId: String, state: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "req_ver": 1,
             "mb_id": MemberManager.getMbId(),
             "charger_id": chargerId,
             "noti": state
-            ]
+        ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/member/favorite/setNotification.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/favorite/noti",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
