@@ -129,7 +129,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
                 self.boardList.removeAll()
                 
                 let json = JSON(value)
-                let boardJson = json["lists"]
+                let boardJson = json["list"]
                 for json in boardJson.arrayValue {
                     let boardData = BoardData(bJson: json)
                     self.boardList.append(boardData)
@@ -165,7 +165,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
             Server.getBoard(category: self.category, companyId: self.companyId, page: currentPage, count: BoardTableView.PAGE_DATA_COUNT) { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
-                    let updateList = json["lists"]
+                    let updateList = json["list"]
                     if updateList.count == 0 {
                         self.lastPage = true
                         return

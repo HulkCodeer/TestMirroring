@@ -382,7 +382,7 @@ extension DetailViewController: BoardTableViewDelegate {
             if isSuccess {
                 self.boardList.removeAll()
                 let json = JSON(value)
-                let boardJson = json["lists"]
+                let boardJson = json["list"]
                 for json in boardJson.arrayValue {
                     let boardData = BoardData(bJson: json)
                     self.boardList.append(boardData)

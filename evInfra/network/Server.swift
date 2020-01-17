@@ -263,34 +263,37 @@ class Server {
     // 게시판 - 선택한 충전소의 게시판 가져오기
     static func getChargerBoard(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "req_ver": 1,
             "mb_id": MemberManager.getMbId(),
-            "member_id": MemberManager.getMemberId(),
             "brd_category": BoardData.BOARD_CATEGORY_CHARGER,
             "charger_id": chargerId,
-            "ad" : true
-            ]
+            "page": -1,
+            "page_count": -1,
+            "ad":true
+        ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/board/get.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/board/board/contents",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
     // 게시판 - 카테고리별 게시판 가져오기
     static func getBoard(category: String, companyId: String = "", page: Int = -1, count: Int = -1, mine: Bool = false, ad: Bool = true, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "req_ver": 1,
+        var reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
-            "member_id": MemberManager.getMemberId(),
             "brd_category": category,
-            "company_id": companyId,
             "page": page,
             "page_count": count,
-            "mine": mine,
-            "ad" : true
-            ]
+            "mine": mine
+        ]
+        
+        if category.elementsEqual(BoardData.BOARD_CATEGORY_COMPANY) {
+            reqParam.updateValue(companyId, forKey: "company_id")
+            reqParam.updateValue(false, forKey: "ad") // 사업자 게시판 광고 포함하지 않음
+        } else {
+            reqParam.updateValue(true, forKey: "ad") // true: 게시글에 광고 포함. false: 광고 불포함
+        }
 
-        Alamofire.request(Const.EV_SERVER_IP + "/board/get.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/board/board/contents",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -572,36 +575,9 @@ class Server {
             "memberId": MemberManager.getMemberId()
             ]
         
-        
         Alamofire.request(Const.EV_PAY_SERVER + "/event/Event/getEventList",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // 이벤트 - 응모
-    static func acceptEvent(eventId: Int, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "req_ver": 1,
-            "mb_id": MemberManager.getMbId(),
-            "event_id": eventId
-            ]
-        
-        Alamofire.request(Const.EV_SERVER_IP + "/event/accept.do",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // 이벤트 - 참여 가능한 이벤트인지 검증
-    static func verifyEvent(eventId: Int, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "req_ver": 1,
-            "mb_id": MemberManager.getMbId(),
-            "event_id": eventId
-            ]
-        
-        Alamofire.request(Const.EV_SERVER_IP + "/event/verify.do",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
     // download url file
