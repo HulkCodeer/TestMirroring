@@ -260,22 +260,6 @@ class Server {
             .responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // 게시판 - 선택한 충전소의 게시판 가져오기
-    static func getChargerBoard(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
-            "brd_category": BoardData.BOARD_CATEGORY_CHARGER,
-            "charger_id": chargerId,
-            "page": -1,
-            "page_count": -1,
-            "ad":true
-        ]
-        
-        Alamofire.request(Const.EV_PAY_SERVER + "/board/board/contents",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
     // 게시판 - 카테고리별 게시판 가져오기
     static func getBoard(category: String, companyId: String = "", page: Int = -1, count: Int = -1, mine: Bool = false, ad: Bool = true, completion: @escaping (Bool, Any) -> Void) {
         var reqParam: Parameters = [
@@ -298,17 +282,34 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 게시판 - 선택한 충전소의 게시판 가져오기
+    static func getChargerBoard(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId(),
+            "brd_category": BoardData.BOARD_CATEGORY_CHARGER,
+            "charger_id": chargerId,
+            "page": -1,
+            "page_count": -1,
+            "ad":true
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/board/board/contents",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
     // 게시판 - board id 에 해당하는 본문, 댓글 가져오기
     static func getBoardContent(category: String, boardId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "req_ver": 1,
             "mb_id": MemberManager.getMbId(),
-            "member_id": MemberManager.getMemberId(),
             "brd_category": category,
-            "brd_id": boardId
-            ]
+            "brd_id": boardId,
+            "page": -1,
+            "page_count": -1,
+            "ad":false
+        ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/board/get.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/board/board/contents",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
