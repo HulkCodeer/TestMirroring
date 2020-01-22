@@ -499,21 +499,20 @@ extension DetailViewController: EditViewDelegate {
         }
     }
     
-    func editBoardData(content: String, hasImage: Int, boardId: Int, editImage: Int, picture: Data?) {
-        Server.editBoard(category: BoardData.BOARD_CATEGORY_CHARGER, boardId: boardId, content: content, hasImage: hasImage, editImage: editImage) { (isSuccess, value) in
+    func editBoardData(content: String, boardId: Int, editImage: Int, picture: Data?) {
+        Server.editBoard(category: BoardData.BOARD_CATEGORY_CHARGER, boardId: boardId, content: content, editImage: editImage) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                if hasImage == 1 {
+                if editImage == 1 {
                     let filename =  json["file_name"].stringValue
-                    if let data = picture{
+                    if let data = picture {
                         Server.uploadImage(data: data, filename: "\(filename).jpg", kind: Const.CONTENTS_BOARD_IMG, completion: { (isSuccess, value) in
                             let json = JSON(value)
-                            if(isSuccess){
+                            if isSuccess {
                                 self.getFirstBoardData()
-                            }else{
+                            } else {
                                 print("upload image Error : \(json)")
                             }
-                            
                         })
                     }
                 } else {

@@ -227,7 +227,7 @@ extension EditViewController {
             if hasImage == 1 {
                 data = UIImageJPEGRepresentation(self.editImageView.image!.resize(withWidth: 600)!, 0.8)!
             }
-            self.editViewDelegate?.editBoardData(content: content, hasImage: self.hasImage, boardId: originBoardData.boardId!, editImage: self.editImage, picture: data)
+            self.editViewDelegate?.editBoardData(content: content, boardId: originBoardData.boardId!, editImage: self.editImage, picture: data)
         } else if self.mode == EditViewController.REPLY_NEW_MODE {
             self.editViewDelegate?.postReplyData(content: content, boardId: originBoardId!)
         } else {

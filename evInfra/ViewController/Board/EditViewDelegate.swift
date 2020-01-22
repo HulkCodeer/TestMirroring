@@ -10,7 +10,7 @@ import UIKit
 
 protocol EditViewDelegate {
     func postBoardData(content: String, hasImage: Int, picture: Data?)
-    func editBoardData(content: String, hasImage: Int, boardId: Int, editImage: Int, picture: Data?)
+    func editBoardData(content: String, boardId: Int, editImage: Int, picture: Data?)
     func postReplyData(content: String, boardId: Int)
     func editReplyData(content: String, replyId: Int)
 }

@@ -264,7 +264,7 @@ class Server {
     static func getBoard(category: String, companyId: String = "", page: Int = -1, count: Int = -1, mine: Bool = false, ad: Bool = true, completion: @escaping (Bool, Any) -> Void) {
         var reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
-            "brd_category": category,
+            "category": category,
             "page": page,
             "page_count": count,
             "mine": mine
@@ -286,7 +286,7 @@ class Server {
     static func getChargerBoard(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
-            "brd_category": BoardData.BOARD_CATEGORY_CHARGER,
+            "category": BoardData.BOARD_CATEGORY_CHARGER,
             "charger_id": chargerId,
             "page": -1,
             "page_count": -1,
@@ -302,7 +302,7 @@ class Server {
     static func getBoardContent(category: String, boardId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
-            "brd_category": category,
+            "category": category,
             "brd_id": boardId,
             "page": -1,
             "page_count": -1,
@@ -318,7 +318,7 @@ class Server {
     static func postBoard(category: String, companyId: String = "", chargerId: String = "", content: String, hasImage: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
-            "brd_category": category,
+            "category": category,
             "company_id": companyId,
             "charger_id": chargerId,
             "content": content,
@@ -331,20 +331,16 @@ class Server {
     }
     
     // 게시판 - 본문 수정
-    static func editBoard(category: String, boardId: Int, content: String, hasImage: Int, editImage: Int, completion: @escaping (Bool, Any) -> Void) {
+    static func editBoard(category: String, boardId: Int, content: String, editImage: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "req_ver": 1,
             "mb_id": MemberManager.getMbId(),
-            "member_id": MemberManager.getMemberId(),
-            "brd_category": category,
-            "board_id": boardId,
+            "category": category,
+            "brd_id": boardId,
             "content": content,
-            "filename": "",
-            "has_image": hasImage,
             "edit_image": editImage
-            ]
+        ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/board/edit.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/board/board/edit",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -352,14 +348,12 @@ class Server {
     // 게시판 - 본문 삭제
     static func deleteBoard(category: String, boardId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "req_ver": 1,
             "mb_id": MemberManager.getMbId(),
-            "member_id": MemberManager.getMemberId(),
-            "brd_category": category,
-            "board_id": boardId
-            ]
+            "category": category,
+            "brd_id": boardId
+        ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/board/delete.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/board/board/delete",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
