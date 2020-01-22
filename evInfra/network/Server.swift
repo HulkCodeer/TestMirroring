@@ -317,17 +317,15 @@ class Server {
     // 게시판 - 카테고리별 게시판 본문 작성
     static func postBoard(category: String, companyId: String = "", chargerId: String = "", content: String, hasImage: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "req_ver": 1,
             "mb_id": MemberManager.getMbId(),
-            "member_id": MemberManager.getMemberId(),
             "brd_category": category,
             "company_id": companyId,
             "charger_id": chargerId,
             "content": content,
             "has_image": hasImage
-            ]
+        ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/board/post.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/board/board/create",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .responseJSON { response in responseJson(response: response, completion: completion) }
     }
