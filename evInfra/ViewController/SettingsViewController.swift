@@ -65,8 +65,8 @@ class SettingsViewController: UIViewController {
         Server.updateNotificationState(state: state) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                let isCommit = json["code"].stringValue
-                if isCommit.elementsEqual("1000") {
+                let code = json["code"].stringValue
+                if code.elementsEqual("1000") {
                     let isReceivePush = json["receive"].boolValue
                     self.defaults.saveBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION, value: isReceivePush)
                     self.changeAllNotifications(isRecieve: isReceivePush)

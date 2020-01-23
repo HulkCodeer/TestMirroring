@@ -361,15 +361,13 @@ class Server {
     // 게시판 - 댓글 등록
     static func postReply(category: String, boardId: Int, content: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "req_ver": 1,
             "mb_id": MemberManager.getMbId(),
-            "member_id": MemberManager.getMemberId(),
-            "brd_category": category,
-            "board_id": boardId,
+            "category": category,
+            "brd_id": boardId,
             "content": content
-            ]
-        
-        Alamofire.request(Const.EV_SERVER_IP + "/board/setReply.do",
+        ]
+
+        Alamofire.request(Const.EV_PAY_SERVER + "/board/reply/create",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -377,15 +375,13 @@ class Server {
     // 게시판 - 댓글 수정
     static func editReply(category: String, replyId: Int, content: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "req_ver": 1,
             "mb_id": MemberManager.getMbId(),
-            "member_id": MemberManager.getMemberId(),
-            "brd_category": category,
+            "category": category,
             "reply_id": replyId,
             "content": content
-            ]
+        ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/board/editReply.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/board/reply/edit",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -393,14 +389,12 @@ class Server {
     // 게시판 - 댓글 삭제
     static func deleteReply(category: String, boardId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "req_ver": 1,
             "mb_id": MemberManager.getMbId(),
-            "member_id": MemberManager.getMemberId(),
-            "brd_category": category,
-            "board_id": boardId
-            ]
+            "category": category,
+            "reply_id": boardId
+        ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/board/delReply.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/board/reply/delete",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
