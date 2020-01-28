@@ -25,18 +25,19 @@ class NewArticleChecker {
     }
     
     func checkLastBoardId() {
-        Server.getLastBoardId { (isSuccess, value) in
+        Server.getBoardData { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                
-                self.latestBoardIds.removeAll()
-                self.latestBoardIds[NewArticleChecker.KEY_NOTICE] = json["notice"].intValue
-                self.latestBoardIds[NewArticleChecker.KEY_FREE_BOARD] = json["free"].intValue
-                self.latestBoardIds[NewArticleChecker.KEY_CHARGER_BOARD] = json["station"].intValue
-                self.latestBoardIds[NewArticleChecker.KEY_EVENT] = json["event"].intValue
-                
-                self.delegate?.finishCheckArticleFromServer()
+                if json["code"].intValue == 1000 {
+                    let latestId = JSON(json["latest_id"])
+                    self.latestBoardIds.removeAll()
+                    self.latestBoardIds[NewArticleChecker.KEY_NOTICE] = latestId["notice"].intValue
+                    self.latestBoardIds[NewArticleChecker.KEY_FREE_BOARD] = latestId["free"].intValue
+                    self.latestBoardIds[NewArticleChecker.KEY_CHARGER_BOARD] = latestId["charger"].intValue
+                    self.latestBoardIds[NewArticleChecker.KEY_EVENT] = latestId["event"].intValue
+                }
             }
+            self.delegate?.finishCheckArticleFromServer()
         }
     }
     

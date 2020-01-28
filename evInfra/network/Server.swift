@@ -400,8 +400,8 @@ class Server {
     }
     
     // 게시판 - 각 게시판 마지막 글 id 가져오기
-    static func getLastBoardId(completion: @escaping (Bool, Any) -> Void) {
-        Alamofire.request(Const.EV_SERVER_IP + "/board/boardData/getLastBoardId.do")
+    static func getBoardData(completion: @escaping (Bool, Any) -> Void) {
+        Alamofire.request(Const.EV_PAY_SERVER + "/board/board_data/info")
             .responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
