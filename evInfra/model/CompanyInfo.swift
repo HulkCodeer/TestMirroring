@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 class CompanyInfo {
     
     public static let COMPANY_ID_KEPCO      = "1" // 한전
@@ -21,17 +22,17 @@ class CompanyInfo {
     var homepage: String? = nil
     var appstore: String? = nil
     var isVisible: Bool = true
+    
+    init() {
+        
+    }
 
-    init(id: String?, cname: String?, icon: String?, page: String?, store: String?, isVisible: Int32){
+    init(id: String?, cname: String?, icon: String?, page: String?, store: String?, isVisible: Int32) {
         self.id = id
         self.name = cname
         self.iconName = icon
         self.homepage = page
         self.appstore = store
-        if(isVisible == 1){
-            self.isVisible = true
-        }else{
-            self.isVisible = false
-        }
+        self.isVisible = (isVisible == 1)
     }
 }

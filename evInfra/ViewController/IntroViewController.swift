@@ -39,11 +39,12 @@ class IntroViewController: UIViewController {
 extension IntroViewController: CompanyInfoCheckerDelegate {
     
     func checkCompanyInfo() {
-        let icChecker = CompanyIconChecker.init(delegate: self)
+        let icChecker = CompanyInfoChecker.init(delegate: self)
         icChecker.checkCompanyInfo()
     }
     
     func finishDownloadCompanyImage() {
+        ImageMarker.loadMarkers()
         registerId()
     }
     

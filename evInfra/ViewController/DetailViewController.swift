@@ -250,7 +250,7 @@ class DetailViewController: UIViewController {
         // 운영기관 홈페이지 및 App Store 주소
         if let chr = charger  {
             dbManager.openDB()
-            if let company = dbManager.getCompanyInfo(companyId: chr.companyId){
+            if let company = dbManager.getCompanyInfo(companyId: chr.companyId) {
                 self.homePage = company.homepage
                 self.appStore = company.appstore
             }

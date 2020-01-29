@@ -182,11 +182,10 @@ class Server {
     // Station - 운영기관 정보
     static func getCompanyInfo(updateDate: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "req_ver": "1",
             "update_date": updateDate
         ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/company/info.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/company/company/info",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
