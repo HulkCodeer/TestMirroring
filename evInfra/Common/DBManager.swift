@@ -55,7 +55,8 @@ class DBManager {
                         do {
                             FMDatabase(path: dbPath).close()
                             
-                            // update date를 초기화시켜 서버에서 새로 db내용 받아오게 함
+                            // update date를 초기화시켜 서버에서 새로 db 내용 받아오게 함.
+                            // TODO company_info_meta 생성해서 관리
                             UserDefault().saveString(key: UserDefault.Key.COMPANY_ICON_UPDATE_DATE, value: "")
                             try FileManager.default.removeItem(atPath: self.dbPath)
                             copyDB()
@@ -72,7 +73,7 @@ class DBManager {
     func insertOrReplace(json: JSON) {
         var query  = " INSERT OR REPLACE INTO company_info ("
             query += "    company_id, name, tel, icon_name, icon_date,"
-            query += "    homepage, ios_appstore, is_visible, sort, del"
+            query += "    homepage, ios_appstore, sort, del"
             query += " ) VALUES ("
             query += "    '\(json["id"].stringValue)',"
             query += "    '\(json["name"].stringValue)',"
@@ -81,9 +82,8 @@ class DBManager {
             query += "    '\(json["ic_date"].stringValue)',"
             query += "    '\(json["hp"].stringValue)',"
             query += "    '\(json["as"].stringValue)',"
-            query += "    1,"
-            query += "    '\(json["sort"].stringValue)',"
-            query += "    '\(json["del"].intValue)'"
+            query += "    \(json["sort"].intValue),"
+            query += "    \(json["del"].intValue)"
             query += " );"
         
         self.executeUpdate(query: query)

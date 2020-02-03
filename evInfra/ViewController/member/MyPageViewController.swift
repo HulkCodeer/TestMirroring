@@ -215,7 +215,7 @@ extension MyPageViewController {
                 carList.insert("선택", at: 0)
                 self.dropDwonCarKind.dataSource = carList
                 
-                // 차량 선택
+                // 회원이 저장해 놓은 차량이 있을 경우 해당 차량으로 선택
                 let model = UserDefault().readInt(key: UserDefault.Key.MB_CAR_ID)
                 var car_row = 0
                 if let carRow = carList.firstIndex(of: (self.carModelList.getCarList().first(where: {$0.id == model})?.name ?? "선택")) {

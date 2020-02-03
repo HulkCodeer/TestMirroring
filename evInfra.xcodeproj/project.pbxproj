@@ -48,8 +48,8 @@
 		7357594D20916A68008181E9 /* bolt.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7357594C20916A67008181E9 /* bolt.jpg */; };
 		7357595220916C11008181E9 /* InfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7357595020916C11008181E9 /* InfoCollectionViewCell.swift */; };
 		7357595320916C11008181E9 /* InfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7357595120916C11008181E9 /* InfoCollectionViewCell.xib */; };
-		735759552091758C008181E9 /* EVInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735759542091758C008181E9 /* EVInfoViewController.swift */; };
-		7357595720917C03008181E9 /* EVDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7357595620917C03008181E9 /* EVDetailViewController.swift */; };
+		735759552091758C008181E9 /* EvInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735759542091758C008181E9 /* EvInfoViewController.swift */; };
+		7357595720917C03008181E9 /* EvDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7357595620917C03008181E9 /* EvDetailViewController.swift */; };
 		735E87C822D88ED70028F7BD /* ChargingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735E87C722D88ED70028F7BD /* ChargingStatus.swift */; };
 		736813B2204503B70035FC66 /* NavCenterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736813B1204503B70035FC66 /* NavCenterButton.swift */; };
 		736813B5204513D50035FC66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 736813B3204513D50035FC66 /* Main.storyboard */; };
@@ -303,8 +303,8 @@
 		7357594C20916A67008181E9 /* bolt.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bolt.jpg; sourceTree = "<group>"; };
 		7357595020916C11008181E9 /* InfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		7357595120916C11008181E9 /* InfoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoCollectionViewCell.xib; sourceTree = "<group>"; };
-		735759542091758C008181E9 /* EVInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVInfoViewController.swift; sourceTree = "<group>"; };
-		7357595620917C03008181E9 /* EVDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVDetailViewController.swift; sourceTree = "<group>"; };
+		735759542091758C008181E9 /* EvInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvInfoViewController.swift; sourceTree = "<group>"; };
+		7357595620917C03008181E9 /* EvDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvDetailViewController.swift; sourceTree = "<group>"; };
 		735E87C722D88ED70028F7BD /* ChargingStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargingStatus.swift; sourceTree = "<group>"; };
 		736813B1204503B70035FC66 /* NavCenterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavCenterButton.swift; sourceTree = "<group>"; };
 		736813B4204513D50035FC66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -833,8 +833,8 @@
 				DB40639E21FAF5F100B630A8 /* ChargerImageViewController.swift */,
 				DB49A77E206CC32D002448E6 /* SearchViewController.swift */,
 				73AD13C5203AC34400ADD19A /* LeftViewController.swift */,
-				735759542091758C008181E9 /* EVInfoViewController.swift */,
-				7357595620917C03008181E9 /* EVDetailViewController.swift */,
+				735759542091758C008181E9 /* EvInfoViewController.swift */,
+				7357595620917C03008181E9 /* EvDetailViewController.swift */,
 				CECA90892084A9F50083518B /* TermsViewController.swift */,
 				73C31BFA20A288BB005B6C53 /* ChargerInfoViewController.swift */,
 				73C31BFC20A288E3005B6C53 /* ChargerDetailViewController.swift */,
@@ -1370,7 +1370,7 @@
 				CE93308F214F9807006B7EF6 /* ReportChargeInfoList.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton.swift in Sources */,
 				73D65D7223588ACC00F564A2 /* UITextField.swift in Sources */,
-				735759552091758C008181E9 /* EVInfoViewController.swift in Sources */,
+				735759552091758C008181E9 /* EvInfoViewController.swift in Sources */,
 				73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */,
 				CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */,
 				DB0E4693205B6F1F002DD05D /* CidTableView.swift in Sources */,
@@ -1400,7 +1400,7 @@
 				7379A45022CB43C600F4271C /* Connector.swift in Sources */,
 				CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */,
 				DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */,
-				7357595720917C03008181E9 /* EVDetailViewController.swift in Sources */,
+				7357595720917C03008181E9 /* EvDetailViewController.swift in Sources */,
 				73AF8FC321C77E1B003CB2CF /* CodableCluster.swift in Sources */,
 				733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */,
 				733662CC22EFECB80049AEFE /* Event.swift in Sources */,

@@ -10,7 +10,7 @@ import UIKit
 import Material
 import SwiftyJSON
 
-class EVInfoViewController: UIViewController {
+class EvInfoViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     var evModels = [EVModel]()
@@ -20,11 +20,6 @@ class EVInfoViewController: UIViewController {
         
         self.prepareActionBar()
         self.getEvModels()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     func prepareActionBar() {
@@ -66,7 +61,7 @@ class EVInfoViewController: UIViewController {
             if isSuccess {
                 self.evModels.removeAll()
                 let json = JSON(value)
-                let evJson = json["lists"]
+                let evJson = json["list"]
                 for json in evJson.arrayValue {
                     let evModel = EVModel(json: json)
                     self.evModels.append(evModel)
@@ -77,7 +72,7 @@ class EVInfoViewController: UIViewController {
     }
 }
 
-extension EVInfoViewController: UICollectionViewDataSource {
+extension EvInfoViewController: UICollectionViewDataSource {
     @objc
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -100,10 +95,10 @@ extension EVInfoViewController: UICollectionViewDataSource {
     }
 }
 
-extension EVInfoViewController: UICollectionViewDelegate {
+extension EvInfoViewController: UICollectionViewDelegate {
     @objc
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let detailView:EVDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "EVDetailViewController") as! EVDetailViewController
+        let detailView:EvDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "EvDetailViewController") as! EvDetailViewController
         detailView.index = indexPath.item
         detailView.model = evModels[indexPath.item]
         self.navigationController?.pushViewController(detailView, animated: true)

@@ -531,13 +531,23 @@ class Server {
     
     // 전기차 정보 - 전기차 리스트 가져오기
     static func getEvList(completion: @escaping (Bool, Any) -> Void) {
-        Alamofire.request(Const.EV_SERVER_IP + "/evModel/getEvList.do")
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId()
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/ev/ev_models/list",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
     // 전기차 정보 - 전기차 모델 및 차량 정보 가져오기
     static func getEvModelList(completion: @escaping (Bool, Any) -> Void) {
-        Alamofire.request(Const.EV_SERVER_IP + "/evModel/getEvModels.do")
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId()
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/ev/ev_models/info",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .responseJSON { response in responseJson(response: response, completion: completion) }
     }
     

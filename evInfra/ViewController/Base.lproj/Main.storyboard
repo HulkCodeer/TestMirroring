@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I0H-Up-SNg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I0H-Up-SNg">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -3335,10 +3335,10 @@
             </objects>
             <point key="canvasLocation" x="2126" y="27"/>
         </scene>
-        <!--Detail View Controller-->
+        <!--Ev Detail View Controller-->
         <scene sceneID="vqq-FN-71n">
             <objects>
-                <viewController storyboardIdentifier="EVDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4Jl-tb-Uac" customClass="EVDetailViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EvDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4Jl-tb-Uac" customClass="EvDetailViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EQg-KL-pfh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3347,7 +3347,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dSC-Hy-F4d" userLabel="Content View">
-                                        <rect key="frame" x="2" y="2" width="371" height="584"/>
+                                        <rect key="frame" x="2" y="2" width="371" height="559"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tl2-ji-95I">
                                                 <rect key="frame" x="0.0" y="0.0" width="371" height="371"/>
@@ -3356,7 +3356,7 @@
                                                 </constraints>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ncf-4b-d3J">
-                                                <rect key="frame" x="2" y="376" width="367" height="200"/>
+                                                <rect key="frame" x="2" y="376" width="367" height="175"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="차      종" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rik-PC-E6G">
                                                         <rect key="frame" x="8" y="7" width="305.5" height="21"/>
@@ -3467,21 +3467,6 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="지원금액" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cxC-HU-h3B">
-                                                        <rect key="frame" x="8" y="175" width="305.5" height="21"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="bt9-ta-1pY"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <color key="textColor" red="0.090196078430000007" green="0.29411764709999999" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Wu-F1-RoP">
-                                                        <rect key="frame" x="321.5" y="175" width="37.5" height="18"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
@@ -3494,22 +3479,18 @@
                                                     <constraint firstItem="i6G-sJ-739" firstAttribute="leading" secondItem="ncf-4b-d3J" secondAttribute="leading" constant="8" id="7OQ-9j-rz6"/>
                                                     <constraint firstAttribute="trailing" secondItem="xkf-sd-6W6" secondAttribute="trailing" constant="8" id="A06-Mo-gNO"/>
                                                     <constraint firstItem="xkf-sd-6W6" firstAttribute="leading" secondItem="i6G-sJ-739" secondAttribute="trailing" constant="8" id="AvK-NX-ETe"/>
-                                                    <constraint firstAttribute="trailing" secondItem="3Wu-F1-RoP" secondAttribute="trailing" constant="8" id="B3e-vj-sxZ"/>
+                                                    <constraint firstAttribute="bottom" secondItem="4bf-TP-jTv" secondAttribute="bottom" constant="7" id="F7j-K4-j6J"/>
                                                     <constraint firstAttribute="trailing" secondItem="iPQ-3d-lDb" secondAttribute="trailing" constant="8" id="GTQ-9G-L8p"/>
-                                                    <constraint firstItem="cxC-HU-h3B" firstAttribute="top" secondItem="4bf-TP-jTv" secondAttribute="bottom" constant="7" id="HfW-HO-tKo"/>
                                                     <constraint firstAttribute="trailing" secondItem="R9f-1g-Ut7" secondAttribute="trailing" constant="8" id="HhS-hd-1bS"/>
                                                     <constraint firstItem="xWk-Zx-QoW" firstAttribute="top" secondItem="rik-PC-E6G" secondAttribute="bottom" constant="7" id="ICI-sz-N5K"/>
                                                     <constraint firstItem="Vmn-C3-QSb" firstAttribute="leading" secondItem="dXd-h1-7G8" secondAttribute="trailing" constant="8" id="IDK-pF-bDw"/>
                                                     <constraint firstItem="n6p-2Q-gfx" firstAttribute="top" secondItem="dXd-h1-7G8" secondAttribute="bottom" constant="7" id="J7K-Sr-aNk"/>
                                                     <constraint firstItem="dXd-h1-7G8" firstAttribute="top" secondItem="i6G-sJ-739" secondAttribute="bottom" constant="7" id="Mq7-M1-Eep"/>
-                                                    <constraint firstAttribute="bottom" secondItem="3Wu-F1-RoP" secondAttribute="bottom" constant="7" id="OH7-aU-eGw"/>
                                                     <constraint firstItem="rik-PC-E6G" firstAttribute="leading" secondItem="ncf-4b-d3J" secondAttribute="leading" constant="8" id="Om9-JX-rds"/>
                                                     <constraint firstItem="4bf-TP-jTv" firstAttribute="top" secondItem="n6p-2Q-gfx" secondAttribute="bottom" constant="7" id="RnW-54-7ar"/>
-                                                    <constraint firstItem="3Wu-F1-RoP" firstAttribute="leading" secondItem="cxC-HU-h3B" secondAttribute="trailing" constant="8" id="TQ8-1i-yBJ"/>
                                                     <constraint firstItem="iPQ-3d-lDb" firstAttribute="top" secondItem="Vmn-C3-QSb" secondAttribute="bottom" constant="7" id="UIF-do-Csc"/>
                                                     <constraint firstAttribute="trailing" secondItem="fvs-hT-ZJK" secondAttribute="trailing" constant="8" id="Wwc-0L-Iqf"/>
                                                     <constraint firstItem="iPQ-3d-lDb" firstAttribute="leading" secondItem="n6p-2Q-gfx" secondAttribute="trailing" constant="8" id="Y2W-ex-zD4"/>
-                                                    <constraint firstItem="3Wu-F1-RoP" firstAttribute="top" secondItem="fvs-hT-ZJK" secondAttribute="bottom" constant="7" id="a1G-1C-2K8"/>
                                                     <constraint firstItem="fvs-hT-ZJK" firstAttribute="top" secondItem="iPQ-3d-lDb" secondAttribute="bottom" constant="7" id="afi-E4-7CB"/>
                                                     <constraint firstAttribute="trailing" secondItem="Vmn-C3-QSb" secondAttribute="trailing" constant="8" id="cKf-iQ-fk4"/>
                                                     <constraint firstItem="rik-PC-E6G" firstAttribute="top" secondItem="ncf-4b-d3J" secondAttribute="top" constant="7" id="cRG-bB-sOM"/>
@@ -3520,7 +3501,6 @@
                                                     <constraint firstItem="xkf-sd-6W6" firstAttribute="top" secondItem="xnw-ph-bUn" secondAttribute="bottom" constant="7" id="nY3-Iq-did"/>
                                                     <constraint firstItem="R9f-1g-Ut7" firstAttribute="top" secondItem="ncf-4b-d3J" secondAttribute="top" constant="7" id="oji-u4-9Wm"/>
                                                     <constraint firstItem="xWk-Zx-QoW" firstAttribute="leading" secondItem="ncf-4b-d3J" secondAttribute="leading" constant="8" id="r0E-Nb-QZn"/>
-                                                    <constraint firstItem="cxC-HU-h3B" firstAttribute="leading" secondItem="ncf-4b-d3J" secondAttribute="leading" constant="8" id="rcJ-en-9IL"/>
                                                     <constraint firstItem="4bf-TP-jTv" firstAttribute="leading" secondItem="ncf-4b-d3J" secondAttribute="leading" constant="8" id="vAh-dA-Lz1"/>
                                                 </constraints>
                                             </view>
@@ -3562,7 +3542,6 @@
                         <outlet property="carImage" destination="tl2-ji-95I" id="zWr-2C-aEo"/>
                         <outlet property="company" destination="xnw-ph-bUn" id="w7E-mC-Iq2"/>
                         <outlet property="distance" destination="iPQ-3d-lDb" id="fzP-w0-yYB"/>
-                        <outlet property="jiwon" destination="3Wu-F1-RoP" id="G34-XK-O5t"/>
                         <outlet property="maxSpeed" destination="Vmn-C3-QSb" id="ZND-IS-vKd"/>
                         <outlet property="vehicleName" destination="R9f-1g-Ut7" id="huo-cm-Ot8"/>
                     </connections>
@@ -3571,10 +3550,10 @@
             </objects>
             <point key="canvasLocation" x="-682" y="1390"/>
         </scene>
-        <!--Info View Controller-->
+        <!--Ev Info View Controller-->
         <scene sceneID="HPI-YM-W8f">
             <objects>
-                <viewController storyboardIdentifier="EVInfoViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="A5e-hv-FAb" customClass="EVInfoViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EVInfoViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="A5e-hv-FAb" customClass="EvInfoViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lgW-JR-nt0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -5566,7 +5545,7 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="    게시판">
                                                     <attributes>
-                                                        <font key="NSFont" metaFont="system" size="10"/>
+                                                        <font key="NSFont" metaFont="menu" size="10"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
@@ -5589,7 +5568,7 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="    이벤트">
                                                     <attributes>
-                                                        <font key="NSFont" metaFont="system" size="10"/>
+                                                        <font key="NSFont" metaFont="menu" size="10"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
@@ -5612,7 +5591,7 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="전기차정보">
                                                     <attributes>
-                                                        <font key="NSFont" metaFont="system" size="10"/>
+                                                        <font key="NSFont" metaFont="menu" size="10"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
@@ -5635,7 +5614,7 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="설정">
                                                     <attributes>
-                                                        <font key="NSFont" metaFont="system" size="10"/>
+                                                        <font key="NSFont" metaFont="menu" size="10"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>

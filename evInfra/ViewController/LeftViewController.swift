@@ -357,7 +357,7 @@ extension LeftViewController {
         case SUB_MENU_CELL_EV_INFO:
             switch index.row {
             case SUB_MENU_EVINFO: // 전기차 정보
-                let evInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "EVInfoViewController") as! EVInfoViewController
+                let evInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "EVInfoViewController") as! EvInfoViewController
                 self.navigationController?.push(viewController: evInfoVC)
             
             case SUB_MENU_CHARGER_INFO: // 충전기 정보
