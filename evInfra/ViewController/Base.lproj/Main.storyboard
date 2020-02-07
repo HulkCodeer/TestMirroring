@@ -361,7 +361,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJq-gl-PDQ" userLabel="Renew Button">
-                                <rect key="frame" x="327" y="122" width="40" height="40"/>
+                                <rect key="frame" x="287" y="122" width="80" height="80"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="ic_renew">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1575,7 +1575,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K40-za-qy5" userLabel="BtnCharger">
-                                        <rect key="frame" x="0.0" y="18" width="184" height="24"/>
+                                        <rect key="frame" x="0.0" y="6" width="184" height="48"/>
                                         <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="충전소 검색" image="ic_radio_unchecked">
@@ -1586,7 +1586,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1A-58-YMr" userLabel="BtnAddress">
-                                        <rect key="frame" x="191" y="18" width="184" height="24"/>
+                                        <rect key="frame" x="191" y="6" width="184" height="48"/>
                                         <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="주소 검색" image="ic_radio_unchecked">
@@ -2012,10 +2012,10 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="efx-5d-6VO">
-                                                        <rect key="frame" x="48" y="56" width="319" height="24"/>
+                                                        <rect key="frame" x="48" y="32" width="319" height="48"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h24-ZF-vb6" userLabel="PayUsed">
-                                                                <rect key="frame" x="0.0" y="0.0" width="159.5" height="24"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="159.5" height="48"/>
                                                                 <inset key="titleEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                 <state key="normal" title="유료" image="ic_radio_unchecked">
                                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2025,7 +2025,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ime-Q3-BBt" userLabel="PayFree">
-                                                                <rect key="frame" x="167.5" y="0.0" width="151.5" height="24"/>
+                                                                <rect key="frame" x="167.5" y="0.0" width="151.5" height="48"/>
                                                                 <inset key="titleEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                 <state key="normal" title="무료" image="ic_radio_unchecked">
                                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -5545,7 +5545,7 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="    게시판">
                                                     <attributes>
-                                                        <font key="NSFont" metaFont="menu" size="10"/>
+                                                        <font key="NSFont" metaFont="system" size="10"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
@@ -5568,7 +5568,7 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="    이벤트">
                                                     <attributes>
-                                                        <font key="NSFont" metaFont="menu" size="10"/>
+                                                        <font key="NSFont" metaFont="system" size="10"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
@@ -5591,7 +5591,7 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="전기차정보">
                                                     <attributes>
-                                                        <font key="NSFont" metaFont="menu" size="10"/>
+                                                        <font key="NSFont" metaFont="system" size="10"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
@@ -5614,7 +5614,7 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="설정">
                                                     <attributes>
-                                                        <font key="NSFont" metaFont="menu" size="10"/>
+                                                        <font key="NSFont" metaFont="system" size="10"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>

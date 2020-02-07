@@ -191,59 +191,15 @@ class DetailViewController: UIViewController {
     // MARK: - Server Communications
     
     func getStationDetailInfo() {
-        Server.getStationInfo(chargerId: (charger?.chargerId)!) { (isSuccess, value) in
+        Server.getStationDetail(chargerId: (charger?.chargerId)!) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
+                let list = json["list"]
                 
-                // 운영기관
-                self.operatorLabel.text = json["op"].stringValue
-                
-                // 이용시간
-                if json["utime"].stringValue.elementsEqual("") {
-                    self.timeImage.gone(spaces:[.top, .bottom])
-                    self.timeFixLabel.gone(spaces:[.top, .bottom])
-                    self.timeLabel.gone(spaces:[.top, .bottom])
-                    self.timeView.gone(spaces:[.top, .bottom])
-                    self.detailViewResize(view: self.timeView)
-                } else {
-                    self.timeLabel.text = json["utime"].stringValue
+                for (_, item):(String, JSON) in list {
+                    self.setStationInfo(charger: item)
+                    break
                 }
-                
-                // 주소
-                self.addressLabel.text = (self.charger?.address)!
-                self.addressLabel.sizeToFit()
-                
-                // 메모
-                self.memoLabel.text = json["memo"].stringValue
-                
-                // 센터 전화번호
-                self.phoneNumber = json["tel"].stringValue
-                
-                // 충전기 정보
-                let clist = json["clist"]
-                var cidList = [CidInfo]()
-                for (_, item):(String, JSON) in clist {
-                    let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdate"].stringValue, power: item["power"].intValue)
-                    cidList.append(cidInfo)
-                }
-                var stationSt = cidList[0].status!
-                for cid in cidList{
-                    if (stationSt != cid.status) {
-                        if(cid.status == Const.CHARGER_STATE_WAITING) {
-                            stationSt = cid.status!
-                            break
-                        }
-                    }
-                }
-                self.chargerManager.chargerDict[self.charger!.chargerId]?.changeStatus(st: "\(stationSt)")
-                self.mainViewDelegate?.redrawCalloutLayer()
-                self.cidTableView.setCidList(chargerList: cidList)
-                self.cidTableView.reloadData()
-                self.adjustHeightOfTableview()
-                
-                self.showMenuBtn()
-                self.showMoveHomePageBtn()
-                self.showMoveAppStoreBtn()
             }
         }
         
@@ -271,6 +227,58 @@ class DetailViewController: UIViewController {
         } else {
             self.chargerLabel.text = "무료 충전소"
         }
+    }
+    
+    func setStationInfo(charger: JSON) {
+        // 운영기관
+        self.operatorLabel.text = charger["op"].stringValue
+        
+        // 이용시간
+        if charger["ut"].stringValue.elementsEqual("") {
+            self.timeImage.gone(spaces:[.top, .bottom])
+            self.timeFixLabel.gone(spaces:[.top, .bottom])
+            self.timeLabel.gone(spaces:[.top, .bottom])
+            self.timeView.gone(spaces:[.top, .bottom])
+            self.detailViewResize(view: self.timeView)
+        } else {
+            self.timeLabel.text = charger["ut"].stringValue
+        }
+        
+        // 주소
+        self.addressLabel.text = (self.charger?.address)!
+        self.addressLabel.sizeToFit()
+        
+        // 메모
+        self.memoLabel.text = charger["mm"].stringValue
+        
+        // 센터 전화번호
+        self.phoneNumber = charger["tel"].stringValue
+        
+        // 충전기 정보
+        let clist = charger["cl"]
+        var cidList = [CidInfo]()
+        for (_, item):(String, JSON) in clist {
+            let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue)
+            cidList.append(cidInfo)
+        }
+        var stationSt = cidList[0].status!
+        for cid in cidList {
+            if (stationSt != cid.status) {
+                if(cid.status == Const.CHARGER_STATE_WAITING) {
+                    stationSt = cid.status!
+                    break
+                }
+            }
+        }
+        self.chargerManager.chargerDict[self.charger!.chargerId]?.changeStatus(st: "\(stationSt)")
+        self.mainViewDelegate?.redrawCalloutLayer()
+        self.cidTableView.setCidList(chargerList: cidList)
+        self.cidTableView.reloadData()
+        self.adjustHeightOfTableview()
+        
+        self.showMenuBtn()
+        self.showMoveHomePageBtn()
+        self.showMoveAppStoreBtn()
     }
     
     func getDistance(curPos: TMapPoint, desPos: TMapPoint) {

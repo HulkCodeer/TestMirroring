@@ -13,34 +13,30 @@ class Charger: Codable {
     var longitude: Double = 0
     var latitude: Double = 0
     
-    var lng: String = ""
-    var lat: String = ""
-    
     var chargerId: String = ""
     var companyId: String = "A"
     
     var stationName: String = ""
     var address: String = ""
+    var addressDetail: String = ""
     
     var status: String = ""
+    var statusName: String = ""
     
-    var totalChargerType: Int = Const.CTYPE_SLOW
     var skind: String = "02"
     var holiday: String = "N"
     var pay: String = "N"
-    var isPilot : Bool = false
+    var isPilot: Bool = false
+    
+    var totalChargerType: Int = Const.CTYPE_SLOW
     var power: Int = 0
     var area: Int = 0
-    var grade: String?
-    var pcnt: String?
-    var direction: Int = 0 // 0: none 1: 고속도로 상행 2: 고속도로 하행
+    var direction: String = "0" // 0: none 1: 고속도로 상행 2: 고속도로 하행
 
     var usage: Array<Int> = Array() // 충전소 시간별 이용횟수
 
     var marker : TMapMarkerItem!
     var cidInfo: CidInfo!
-    
-    var statusName = ""
     
     var favorite = false
     var favoriteAlarm = false // 즐겨찾기 알람 on/off
@@ -53,77 +49,93 @@ class Charger: Codable {
     
     enum CodingKeys: String, CodingKey {
         case chargerId = "id"
-        case companyId = "co_id"
+        case companyId = "op_id"
         case stationName = "snm"
         case address = "adr"
+        case addressDetail = "dtl"
+        
+        case latitude = "x"
+        case longitude = "y"
+        
+        case skind = "sk"
+        case holiday = "hol"
+        
+        case pay = "pay"
+        case isPilot = "plt"
+        
+        case area = "ar"
+        case direction = "drt"
+        
         case totalChargerType = "tp"
         case status = "st"
-        case skind = "skind"
-        case holiday = "hol"
-        case isPilot = "pilot"
-        case lat = "x"
-        case lng = "y"
-        case pay = "pay"
-        case power = "power"
-        case area = "area"
-        case grade = "grade"
-        case pcnt = "pcnt"
-        case direction = "drt"
+        case power = "p"
     }
     
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        lat = try values.decodeIfPresent(String.self, forKey: .lat) ?? ""
-        lng = try values.decodeIfPresent(String.self, forKey: .lng) ?? ""
+        
         chargerId = try values.decodeIfPresent(String.self, forKey: .chargerId) ?? ""
         companyId = try values.decodeIfPresent(String.self, forKey: .companyId) ?? "A"
         stationName = try values.decodeIfPresent(String.self, forKey: .stationName) ?? ""
-        address = try values.decodeIfPresent(String.self, forKey: .address) ?? ""
-        status = try values.decodeIfPresent(String.self, forKey: .status) ?? ""
-        totalChargerType = try values.decodeIfPresent(Int.self, forKey: .totalChargerType) ?? Const.CTYPE_SLOW
+
         skind = try values.decodeIfPresent(String.self, forKey: .skind) ?? "02"
+        direction = try values.decodeIfPresent(String.self, forKey: .direction) ?? ""
         holiday = try values.decodeIfPresent(String.self, forKey: .holiday) ?? "N"
+        
         pay = try values.decodeIfPresent(String.self, forKey: .pay) ?? "N"
         isPilot = try values.decodeIfPresent(Bool.self, forKey: .isPilot) ?? false
+        
+        status = try values.decodeIfPresent(String.self, forKey: .status) ?? ""
+        totalChargerType = try values.decodeIfPresent(Int.self, forKey: .totalChargerType) ?? Const.CTYPE_SLOW
         power = try values.decodeIfPresent(Int.self, forKey: .power) ?? 0
-        area = try values.decodeIfPresent(Int.self, forKey: .area) ?? 0
-        grade = try values.decodeIfPresent(String.self, forKey: .grade)
-        pcnt = try values.decodeIfPresent(String.self, forKey: .pcnt)
-        area = try values.decodeIfPresent(Int.self, forKey: .area) ?? 0
-        direction = try values.decodeIfPresent(Int.self, forKey: .direction) ?? 0
         
+        // 경도
+        let lat = try values.decodeIfPresent(String.self, forKey: .latitude) ?? ""
         if let doubleLat = lat.parseDouble() {
-            self.latitude = doubleLat
+            latitude = doubleLat
         }
         
+        // 위도
+        let lng = try values.decodeIfPresent(String.self, forKey: .longitude) ?? ""
         if let doubleLng = lng.parseDouble() {
-            self.longitude = doubleLng
+            longitude = doubleLng
         }
         
-        self.cidInfo = CidInfo.init()
-        self.statusName = self.cidInfo.cstToString(cst: Int(self.status)!)
+        // 주소 = 주소 + 상세
+        address = try values.decodeIfPresent(String.self, forKey: .address) ?? ""
+        addressDetail = try values.decodeIfPresent(String.self, forKey: .addressDetail) ?? ""
+        if !addressDetail.isEmpty {
+            address = address + "\n" + addressDetail
+        }
+        
+        // 군집화 지역 코드
+        let areaCode = try values.decodeIfPresent(String.self, forKey: .area) ?? "0"
+        area = Int(areaCode) ?? 0
+        
+        cidInfo = CidInfo.init()
+        statusName = cidInfo.cstToString(cst: Int(self.status)!)
         
         if isPilot {
-            self.pay = "N"
+            pay = "N"
         }
         
-        if let gradePointAvg = self.grade, gradePointAvg.count > 0 {
-            self.gpa = Double(gradePointAvg)!
-        }
+//        if let gradePointAvg = self.grade, gradePointAvg.count > 0 {
+//            self.gpa = Double(gradePointAvg)!
+//        }
+//
+//        if let gradePersonCnt = self.pcnt, !gradePersonCnt.isEmpty {
+//            self.gpaPersonCnt = Int(gradePersonCnt)!
+//        }
         
-        if let gradePersonCnt = self.pcnt, !gradePersonCnt.isEmpty {
-            self.gpaPersonCnt = Int(gradePersonCnt)!
-        }
-        
-        self.marker = TMapMarkerItem.init()
-        self.marker.setTMapPoint(TMapPoint(lon: self.longitude, lat: self.latitude))
-        self.marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+        marker = TMapMarkerItem.init()
+        marker.setTMapPoint(TMapPoint(lon: self.longitude, lat: self.latitude))
+        marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
     }
     
     func changeStatus(st: String!) {
-        self.status = st
-        self.statusName = self.cidInfo.cstToString(cst: Int(self.status)!)
-        self.marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+        status = st
+        statusName = self.cidInfo.cstToString(cst: Int(self.status)!)
+        marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
     }
     
     func getPoint() -> TMapPoint {
@@ -142,11 +154,11 @@ class Charger: Codable {
             return false
         }
         
-        if filter.wayId == ChargerFilter.WAY_HIGH_UP && direction != 1 {
+        if filter.wayId == ChargerFilter.WAY_HIGH_UP && direction != "1" {
             return false
         }
         
-        if filter.wayId == ChargerFilter.WAY_HIGH_DOWN && direction != 2  {
+        if filter.wayId == ChargerFilter.WAY_HIGH_DOWN && direction != "2"  {
             return false
         }
         
@@ -166,18 +178,19 @@ class Charger: Codable {
         }
         
         // 운영 기관
-        guard let company = filter.companies[self.companyId] else {
+        if let company = filter.companies[self.companyId] {
+            if !company {
+                return false
+            }
+        } else {
             return false
         }
-        if !company {
-            return false
-        } else {
-            // TODO 임시로 company id hard coding. 딱히 쓸만한게 없네~
-            // 운영기관 필터에서 수소충전소를 선택했을 때만 수소충전소 노출
-            // 그 외에는 보여주지 않음
-            if self.companyId.elementsEqual("J") {
-                return true;
-            }
+        
+        // TODO 임시로 company id hard coding. 딱히 쓸만한게 없네~
+        // 운영기관 필터에서 수소충전소를 선택했을 때만 수소충전소 노출
+        // 그 외에는 보여주지 않음
+        if self.companyId.elementsEqual("J") {
+            return true;
         }
         
         // chargerType = 01:DC차데모 02:DC콤보 03:DC차데모+AC상 04:AC상 05:DC차데모 + DC콤보 06:DC차데모+AC상+DC콤보 10:완속
