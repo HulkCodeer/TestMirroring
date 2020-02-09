@@ -93,7 +93,7 @@ class DetailViewController: UIViewController {
         prepareActionBar()
         prepareBoardTableView()
         preparePagingView()
-        prepareGPAView()
+
         prepareGuard()
         prepareGradeStar()
          
@@ -197,7 +197,7 @@ class DetailViewController: UIViewController {
                 let list = json["list"]
                 
                 for (_, item):(String, JSON) in list {
-                    self.setStationInfo(charger: item)
+                    self.setStationInfo(json: item)
                     break
                 }
             }
@@ -229,19 +229,19 @@ class DetailViewController: UIViewController {
         }
     }
     
-    func setStationInfo(charger: JSON) {
+    func setStationInfo(json: JSON) {
         // 운영기관
-        self.operatorLabel.text = charger["op"].stringValue
+        self.operatorLabel.text = json["op"].stringValue
         
         // 이용시간
-        if charger["ut"].stringValue.elementsEqual("") {
+        if json["ut"].stringValue.elementsEqual("") {
             self.timeImage.gone(spaces:[.top, .bottom])
             self.timeFixLabel.gone(spaces:[.top, .bottom])
             self.timeLabel.gone(spaces:[.top, .bottom])
             self.timeView.gone(spaces:[.top, .bottom])
             self.detailViewResize(view: self.timeView)
         } else {
-            self.timeLabel.text = charger["ut"].stringValue
+            self.timeLabel.text = json["ut"].stringValue
         }
         
         // 주소
@@ -249,13 +249,18 @@ class DetailViewController: UIViewController {
         self.addressLabel.sizeToFit()
         
         // 메모
-        self.memoLabel.text = charger["mm"].stringValue
+        self.memoLabel.text = json["mm"].stringValue
         
         // 센터 전화번호
-        self.phoneNumber = charger["tel"].stringValue
+        self.phoneNumber = json["tel"].stringValue
+        
+        // 평점
+        self.charger?.gpa = Double(json["gpa"].stringValue)!
+        self.charger?.gpaPersonCnt = Int(json["cnt"].stringValue)!
+        self.setChargeGPA()
         
         // 충전기 정보
-        let clist = charger["cl"]
+        let clist = json["cl"]
         var cidList = [CidInfo]()
         for (_, item):(String, JSON) in clist {
             let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue)
@@ -1010,11 +1015,9 @@ extension DetailViewController {
             }
         }
     }
-}
 
-// 충전소 평점 표시
-extension DetailViewController {
-    func prepareGPAView() {
+    // 충전소 평점 표시
+    func setChargeGPA() {
         if let gradePointAvg = charger?.gpa, gradePointAvg > 0 {
             gpaLabelView.text = String(format:"%.1f", gradePointAvg)
             personCntLabelView.text = String(format:"%d 명", (charger?.gpaPersonCnt)!)

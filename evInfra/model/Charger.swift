@@ -119,14 +119,6 @@ class Charger: Codable {
             pay = "N"
         }
         
-//        if let gradePointAvg = self.grade, gradePointAvg.count > 0 {
-//            self.gpa = Double(gradePointAvg)!
-//        }
-//
-//        if let gradePersonCnt = self.pcnt, !gradePersonCnt.isEmpty {
-//            self.gpaPersonCnt = Int(gradePersonCnt)!
-//        }
-        
         marker = TMapMarkerItem.init()
         marker.setTMapPoint(TMapPoint(lon: self.longitude, lat: self.latitude))
         marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
