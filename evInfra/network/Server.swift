@@ -427,7 +427,7 @@ class Server {
             "charger_id": chargerId
         ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/charger/stationUsage.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/station/usage",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
