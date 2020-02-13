@@ -1139,9 +1139,10 @@ extension MainViewController {
         if MemberManager().isGuard() {
             Server.getStationListForGuard { (isSuccess, value) in
                 if isSuccess {
-                    for (_, item):(String, JSON) in JSON(value) {
-                        let id = item["charger_id"].stringValue
-                        if let charger = self.chargerManager.chargerDict[id] {
+                    let json = JSON(value)
+                    let list = json["list"]
+                    for (_, id):(String, JSON) in list {
+                        if let charger = self.chargerManager.chargerDict[id.stringValue] {
                             charger.isGuard = true
                         }
                     }

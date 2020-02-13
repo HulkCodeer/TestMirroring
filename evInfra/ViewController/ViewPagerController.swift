@@ -52,7 +52,7 @@ class ViewPagerController: UIViewController {
                     for countJson in json["data"].arrayValue {
                         self.charger?.usage.append(countJson.intValue)
                     }
-                    
+                
                 default: // 9000 error
                     print("server response error")
                 }
