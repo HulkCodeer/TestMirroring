@@ -513,7 +513,7 @@ class Server {
             .responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // 제보하기 - 제보 등록
+    // 제보하기 - 기존 충전소 정보에 없는 충전소 추가 요청
     static func addReport(info: ReportData.ReportChargeInfo, typeId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
@@ -535,7 +535,7 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // 제보하기 - 제보내역 수정
+    // 제보하기 - 기존에 있는 충전소의 위치정보 수정 요청
     static func modifyReport(info: ReportData.ReportChargeInfo, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
@@ -601,18 +601,6 @@ class Server {
             .validate().responseJSON { response in responseData(response: response, completion: completion) }
     }
     
-    // 쿠폰 - 리스트 가져오기
-    static func getCouponList(completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "req_ver": 1,
-            "mb_id": MemberManager.getMbId()
-            ]
-        
-        Alamofire.request(Const.EV_PAY_SERVER + "/event/coupon/getCouponList",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
     // 이벤트 - 리스트 가져오기
     static func getEventList(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
@@ -626,37 +614,16 @@ class Server {
             .responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // download url file
-    static func getData(url: URL, completion: @escaping (Bool, Data?) -> Void) {
-        Alamofire.request(url).responseData { (response) in
-            if response.error == nil {
-                completion(true, response.data)
-            }
-        }
-    }
-    
-    // image upload To Server
-    static func uploadImage(data: Data, filename: String, kind: Int, completion: @escaping (Bool, Any) -> Void){
-        let uploadFileName = filename.data(using: .utf8)!
-        let contentsKind = ("\(kind)").data(using: .utf8)!
-        Alamofire.upload(multipartFormData: { (multipartFormData) in
-            multipartFormData.append(contentsKind, withName: "kind" , mimeType: "text/plain; charset=UTF-8")
-            multipartFormData.append(uploadFileName, withName: "filename" , mimeType: "text/plain; charset=UTF-8")
-            multipartFormData.append(data ,  withName:"file" ,  fileName : "upload.jpg" ,  mimeType :  "image/jpeg" )
-        }, to: Const.EV_SERVER_IP + "/imageUploader/imageUpload", encodingCompletion: { encodingResult in
-            switch encodingResult {
-            case .success(let upload, _, _):
-                upload.responseJSON {response in  // ← JSON 형식으로받을
-                    if !response.result.isSuccess  {
-                        completion(false, response)
-                    } else  {
-                        completion(true, response)
-                    }
-                }
-            case .failure(let encodingError):
-                completion(false, encodingError)
-            }
-        })
+    // 쿠폰 - 리스트 가져오기
+    static func getCouponList(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.getMbId()
+            ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/event/coupon/getCouponList",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
     // 광고 - large image 정보 요청
@@ -728,6 +695,7 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 충전 시작 요청
     static func openCharger(cpId: String, connectorId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
@@ -741,6 +709,7 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 충전 종료 요청
     static func stopCharging(chargingId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
@@ -825,5 +794,38 @@ class Server {
         Alamofire.request(Const.EV_PAY_SERVER + "/event/cbt/info",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // download url file
+    static func getData(url: URL, completion: @escaping (Bool, Data?) -> Void) {
+        Alamofire.request(url).responseData { (response) in
+            if response.error == nil {
+                completion(true, response.data)
+            }
+        }
+    }
+    
+    // image upload To Server
+    static func uploadImage(data: Data, filename: String, kind: Int, completion: @escaping (Bool, Any) -> Void){
+        let uploadFileName = filename.data(using: .utf8)!
+        let contentsKind = ("\(kind)").data(using: .utf8)!
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            multipartFormData.append(contentsKind, withName: "kind" , mimeType: "text/plain; charset=UTF-8")
+            multipartFormData.append(uploadFileName, withName: "filename" , mimeType: "text/plain; charset=UTF-8")
+            multipartFormData.append(data ,  withName:"file" ,  fileName : "upload.jpg" ,  mimeType :  "image/jpeg" )
+        }, to: Const.EV_SERVER_IP + "/imageUploader/imageUpload", encodingCompletion: { encodingResult in
+            switch encodingResult {
+            case .success(let upload, _, _):
+                upload.responseJSON {response in  // ← JSON 형식으로받을
+                    if !response.result.isSuccess  {
+                        completion(false, response)
+                    } else  {
+                        completion(true, response)
+                    }
+                }
+            case .failure(let encodingError):
+                completion(false, encodingError)
+            }
+        })
     }
 }
