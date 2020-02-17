@@ -63,7 +63,7 @@ class Server {
     static func updateNotificationState(state: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "member_id": MemberManager.getMemberId(),
-            "receive_push": Int(truncating: NSNumber(value: state))
+            "receive_push": state
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/user/setNotification",
