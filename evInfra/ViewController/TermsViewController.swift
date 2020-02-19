@@ -13,11 +13,11 @@ import WebKit
 class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
     
     enum Request {
+        case Contact           // 제휴문의
         case UsingTerms        // 서비스 이용약관
         case PersonalInfoTerms // 개인정보처리방침
         case LocationTerms     // 위치기반서비스 이용약관
         case Licence           // 라이센스
-        case Contact           // 제휴문의
         case EvBonusGuide      // 보조금 안내
         case EvBonusStatus     // 보조금 현황
         case Help              // 도움말
@@ -99,34 +99,34 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
     }
     
     func loadFromUrl() {
-        var strUrl = "\(Const.EV_PAY_SERVER)/terms/term/service_use"
+        var strUrl = Const.EV_PAY_SERVER + "/terms/term/service_use"
         switch tabIndex {
-        case .UsingTerms:
-            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/service_use"
-            
-        case .PersonalInfoTerms:
-            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/privacy_policy"
-            
-        case .LocationTerms:
-            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/service_location"
-            
-        case .Licence:
-            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/license"
-            
         case .Contact:
             strUrl = "http://www.soft-berry.com/contact/"
             
+        case .UsingTerms:
+            strUrl = Const.EV_PAY_SERVER + "/terms/term/service_use"
+        
+        case .PersonalInfoTerms:
+            strUrl = Const.EV_PAY_SERVER + "/terms/term/privacy_policy"
+        
+        case .LocationTerms:
+            strUrl = Const.EV_PAY_SERVER + "/terms/term/service_location"
+        
+        case .Licence:
+            strUrl = Const.EV_PAY_SERVER + "/terms/term/license"
+        
         case .EvBonusGuide:
-            strUrl = Const.EV_SERVER_IP + "/docs/evBonus"
-            
+            strUrl = Const.EV_PAY_SERVER + "/docs/info/subsidy_guide"
+        
         case .EvBonusStatus:
-            strUrl = Const.EV_SERVER_IP + "/docs/bonusDashboard"
-            
+            strUrl = Const.EV_PAY_SERVER + "/docs/info/subsidy_status"
+        
         case .Help:
-            strUrl = Const.EV_SERVER_IP + "/docs/evInfraHelp"
+            strUrl = Const.EV_PAY_SERVER + "/docs/info/ev_infra_help"
         
         case .BusinessInfo:
-            strUrl = Const.EV_SERVER_IP + "/docs/businessInfo"
+            strUrl = Const.EV_PAY_SERVER + "/docs/info/business_info"
         }
 
         let url = NSURL(string:strUrl)
