@@ -99,19 +99,19 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
     }
     
     func loadFromUrl() {
-        var strUrl = "\(Const.EV_SERVER_IP)/terms/termsOfUse"
+        var strUrl = "\(Const.EV_PAY_SERVER)/terms/term/service_use"
         switch tabIndex {
         case .UsingTerms:
-            strUrl = "\(Const.EV_SERVER_IP)/terms/termsOfUse"
+            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/service_use"
             
         case .PersonalInfoTerms:
-            strUrl = "\(Const.EV_SERVER_IP)/terms/termsOfPersonal"
+            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/privacy_policy"
             
         case .LocationTerms:
-            strUrl = "\(Const.EV_SERVER_IP)/terms/termsOfLocation"
+            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/service_location"
             
         case .Licence:
-            strUrl = "\(Const.EV_SERVER_IP)/terms/termsOfLicense"
+            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/license"
             
         case .Contact:
             strUrl = "http://www.soft-berry.com/contact/"
