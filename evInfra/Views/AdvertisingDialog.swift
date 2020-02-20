@@ -40,6 +40,14 @@ class AdvertisingDialog: UIView {
                         self.advertiseId = json["ad_id"].intValue
                         self.advertiseUrl = json["ad_url"].stringValue
                         self.imageUrl = json["ad_img"].stringValue
+                        
+                        // node.js 서버 이미지 위치: /images/ad/
+                        // moana 서버 이미지 위치: /ad/
+                        if let imgUrl = self.imageUrl {
+                            if imgUrl.hasPrefix(Const.IMG_PREFIX) {
+                                self.imageUrl = imgUrl.substring(from: Const.IMG_PREFIX.count)
+                            }
+                        }
 
                         self.commonInit()
                         break;
@@ -62,7 +70,7 @@ class AdvertisingDialog: UIView {
         view.frame = bounds
         addSubview(view)
         
-        imageAd.sd_setImage(with: URL(string: "\(Const.EV_SERVER_IP)\(imgUrl)"), placeholderImage: UIImage(named: "placeholder.png"))
+        imageAd.sd_setImage(with: URL(string: "\(Const.EV_IMG_SERVER)\(imgUrl)"), placeholderImage: UIImage(named: "placeholder.png"))
         imageAd.isUserInteractionEnabled = true
         imageAd.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onClickAdImage(sender:))))
     }

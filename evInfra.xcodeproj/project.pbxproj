@@ -193,7 +193,6 @@
 		CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE33B4BE2191BD0900B6C632 /* EventTableViewCell.swift */; };
 		CE33B4C12191BD9500B6C632 /* MyCouponViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE33B4C02191BD9500B6C632 /* MyCouponViewController.swift */; };
 		CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE33B4C42191BFD100B6C632 /* MyCouponTableViewCell.swift */; };
-		CE33B4C72192D39700B6C632 /* EventCoupon.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE33B4C62192D39700B6C632 /* EventCoupon.swift */; };
 		CE5242362182FD9000FF6AB1 /* AddressToLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5242352182FD9000FF6AB1 /* AddressToLocationController.swift */; };
 		CE5242382183076000FF6AB1 /* AddressSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5242372183076000FF6AB1 /* AddressSearchCell.swift */; };
 		CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE72D73B219BDA32003979D2 /* KeyChainManager.swift */; };
@@ -468,7 +467,6 @@
 		CE33B4BE2191BD0900B6C632 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
 		CE33B4C02191BD9500B6C632 /* MyCouponViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCouponViewController.swift; sourceTree = "<group>"; };
 		CE33B4C42191BFD100B6C632 /* MyCouponTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCouponTableViewCell.swift; sourceTree = "<group>"; };
-		CE33B4C62192D39700B6C632 /* EventCoupon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCoupon.swift; sourceTree = "<group>"; };
 		CE5242352182FD9000FF6AB1 /* AddressToLocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressToLocationController.swift; sourceTree = "<group>"; };
 		CE5242372183076000FF6AB1 /* AddressSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressSearchCell.swift; sourceTree = "<group>"; };
 		CE72D73B219BDA32003979D2 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
@@ -753,7 +751,6 @@
 				733662CF22F974820049AEFE /* Coupon.swift */,
 				73FFCDC121194E14003B129D /* DecChargerList.swift */,
 				733662CB22EFECB80049AEFE /* Event.swift */,
-				CE33B4C62192D39700B6C632 /* EventCoupon.swift */,
 				73C31BF82099A023005B6C53 /* EVModel.swift */,
 				DB5041AF23506DCF007336BC /* EvPoint.swift */,
 				DB6E59482063C595002E75C8 /* Regions.swift */,
@@ -1411,7 +1408,6 @@
 				73EE8FC72109B0FD0016F505 /* URL.swift in Sources */,
 				73A7B428204E81A6002E975F /* Const.swift in Sources */,
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
-				CE33B4C72192D39700B6C632 /* EventCoupon.swift in Sources */,
 				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,
 				736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */,
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,

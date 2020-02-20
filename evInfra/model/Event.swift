@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class Event {
     
     // 이벤트 primary key

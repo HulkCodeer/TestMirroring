@@ -160,9 +160,15 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             headerView.uImage.gone()//visiblity(gone: true, dimension: 0.0)
         } else {
             if headerValue.adId > 0 {
+                if let imgUrl = headerValue.content_img {
+                    if imgUrl.hasPrefix(Const.IMG_PREFIX) {
+                        headerValue.content_img = imgUrl.substring(from: Const.IMG_PREFIX.count)
+                    }
+                }
                 let adTab = UITapGestureRecognizer(target: self, action: #selector(onClickAdImage(sender:)))
+                
                 headerView.uImage.tag = section
-                headerView.uImage.sd_setImage(with: URL(string: "\(Const.EV_SERVER_IP)\(headerValue.content_img!)"), placeholderImage: UIImage(named: "placeholder.png"))
+                headerView.uImage.sd_setImage(with: URL(string: "\(Const.EV_IMG_SERVER)\(headerValue.content_img!)"), placeholderImage: UIImage(named: "placeholder.png"))
                 headerView.uImage.isUserInteractionEnabled = true
                 headerView.uImage.addGestureRecognizer(adTab)
             } else {
@@ -201,7 +207,12 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         
         if headerValue.profile_img != nil {
             if (headerValue.adId > 0) {
-                headerView.userImageView.sd_setImage(with: URL(string: "\(Const.EV_SERVER_IP)\(headerValue.profile_img!)"), placeholderImage: UIImage(named: "ic_person_base48"))
+                if let imgUrl = headerValue.profile_img {
+                    if imgUrl.hasPrefix(Const.IMG_PREFIX) {
+                        headerValue.profile_img = imgUrl.substring(from: Const.IMG_PREFIX.count)
+                    }
+                }
+                headerView.userImageView.sd_setImage(with: URL(string: "\(Const.EV_IMG_SERVER)\(headerValue.profile_img!)"), placeholderImage: UIImage(named: "ic_person_base48"))
             } else {
                 headerView.userImageView.sd_setImage(with: URL(string: "\(Const.urlProfileImage)\(headerValue.profile_img!)"), placeholderImage: UIImage(named: "ic_person_base48"))
             }

@@ -137,7 +137,7 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if navigationAction.navigationType == .linkActivated  {
             if let newURL = navigationAction.request.url,
-                let host = newURL.host , !host.hasPrefix(Const.EV_SERVER_IP + "/docs/evInfraHelp") &&
+                let host = newURL.host , !host.hasPrefix(Const.EV_PAY_SERVER + "/docs/info/ev_infra_help") &&
                 UIApplication.shared.canOpenURL(newURL) {
                 if #available(iOS 10.0, *) {
                     UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
