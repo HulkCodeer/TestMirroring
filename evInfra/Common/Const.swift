@@ -18,7 +18,7 @@ public class Const {
      */
 //    public static let EV_SERVER_IP = "https://app.soft-berry.co.kr" // company server
 //    public static let EV_PAY_SERVER = "https://api.soft-berry.co.kr"
-    
+
     /*
      * develop
      */
@@ -33,8 +33,11 @@ public class Const {
     public static let urlBoardImage = S3_EV_INFRA + "/board/"
     public static let urlShareImage = S3_EV_INFRA + "/share/shareimage.jpg"
     
-    // static image: 위성사진, 운영기관 로고, 전기차
+    // image 서버
     public static let EV_IMG_SERVER = "https://img.soft-berry.co.kr"
+    public static let IMG_PREFIX = "/images"
+
+    // static image: 위성사진, 운영기관 로고, 전기차
     public static let IMG_URL_COMP_MARKER = EV_IMG_SERVER + "/marker/logo/"
     public static let IMG_URL_EV_MODEL    = EV_IMG_SERVER + "/models/"
     public static let IMG_URL_SATELLITE   = EV_IMG_SERVER + "/satellite/"
