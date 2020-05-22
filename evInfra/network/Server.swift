@@ -15,7 +15,7 @@ class Server {
         switch response.result {
         case .success( _):
             completion(true, response.data)
-            
+             
         case .failure(let error):
             print(error)
             completion(false, response.data)
@@ -100,18 +100,33 @@ class Server {
     }
     
     // 회원 - 정보 업데이트
-    static func updateMemberInfo(nickName: String, region: String, profile: String, carId: Int, completion: @escaping (Bool, Any) -> Void) {
+    static func updateMemberInfo(nickName: String, region: String, profile: String, carId: Int, zipCode: String, address: String, addressDetail:String, carNo:String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
             "nickname": nickName,
             "region": region,
             "car_id": carId,
-            "profile": profile
+            "profile": profile,
+            "zip_code": zipCode,
+            "addr": address,
+            "addr_datail": addressDetail,
+            "car_no":carNo
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/update_info",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 회원 - 정보 가져오기
+    static func getMemberinfo(completion: @escaping (Bool, Any) -> Void){
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId()
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member/member_info",
+                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
     // 회원 - 회원카드 정보 가져오기

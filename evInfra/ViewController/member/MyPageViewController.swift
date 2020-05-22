@@ -21,6 +21,11 @@ class MyPageViewController: UIViewController {
     @IBOutlet weak var profileImgBtn: UIButton!
     @IBOutlet weak var profileImgView: UIImageView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
+    @IBOutlet weak var carNoField: UITextField!
+    @IBOutlet weak var zipCodeField: UITextField!
+    @IBOutlet weak var addrInfoField: UITextField!
+    @IBOutlet weak var addrInfoDetailField: UITextField!
+    @IBOutlet weak var searchZipCodeBtn: UIButton!
     
     private let dropDwonLocation = DropDown()
     private let dropDwonCarKind = DropDown()
@@ -29,6 +34,15 @@ class MyPageViewController: UIViewController {
     
     private var profileName = ""
     private var oldProfileName = ""
+    
+    private var zipcodeData = ""
+    private var addressData = ""
+    private var addressDetailData = ""
+    private var carNoData = ""
+    private var nickNameData = ""
+    
+    var myPageControllerDelegate: MyPageViewControllerDelegate?
+    
     
     let picker = UIImagePickerController()
     let cropper = UIImageCropper(cropRatio: 1/1)
@@ -48,7 +62,13 @@ class MyPageViewController: UIViewController {
     @IBAction func onClickRegBtn(_ sender: Any) {
         self.updateMemberInfo()
     }
-
+    
+    @IBAction func onClickSearchZipCode(_ sender: Any) {
+        myPageControllerDelegate?.searchZipCode()
+        print("asdf")
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,6 +78,7 @@ class MyPageViewController: UIViewController {
         
         getMemberInfo()
     }
+
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -187,10 +208,7 @@ extension MyPageViewController : UIImageCropperProtocol {
  * Server Access
  */
 extension MyPageViewController {
-    
     internal func getMemberInfo() {
-        // nick name
-        self.nickNameField.text = UserDefault().readString(key: UserDefault.Key.MB_NICKNAME)
         
         // 지역
         let mbRegion = UserDefault().readString(key: UserDefault.Key.MB_REGION)
@@ -202,6 +220,15 @@ extension MyPageViewController {
         oldProfileName = profileName
         if profileName.count > 14 {
             loadingProfileImage(fileName:profileName)
+        }
+        
+        Server.getMemberinfo{ (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                self.responseGetMemberinfo(json: json)
+                
+            }
+            self.indicator.stopAnimating()
         }
         
         // 차량
@@ -230,12 +257,17 @@ extension MyPageViewController {
     }
     
     internal func updateMemberInfo() {
+        let zipCode = zipCodeField.text ?? ""
+        let address = addrInfoField.text ?? ""
+        let addressDetail = addrInfoDetailField.text ?? ""
+        let carNo = carNoField.text ?? ""
+            
         if let nickName = nickNameField.text {
             if nickName.count == 0 {
                 Snackbar().show(message: "별명을 작성해 주세요.")
             } else if nickName.count >= 12 {
                 Snackbar().show(message: "별명은 최대 12자까지 입력가능합니다")
-            } else {
+            } else{
                 updateProfileImage() // update user profile image
                 
                 var car_id = 0
@@ -245,7 +277,7 @@ extension MyPageViewController {
                 
                 let region = dropDwonLocation.selectedItem!
 
-                Server.updateMemberInfo(nickName: nickName, region: region, profile: profileName, carId: car_id) { (isSuccess, value) in
+                Server.updateMemberInfo(nickName: nickName, region: region, profile: profileName, carId: car_id, zipCode: zipCode, address: address, addressDetail: addressDetail, carNo: carNo) { (isSuccess, value) in
                     if isSuccess {
                         self.responseUpdateMemberInfo(json: JSON(value))
                     }
@@ -254,13 +286,33 @@ extension MyPageViewController {
         }
     }
     
+//    func checkCarNoValidator() -> Bool {
+//        var issuanceParam = [String: Any]()
+//        do {
+//            issuanceParam["car_no"] = try carNoField.validatedText(validationType: .carnumber)
+//            issuanceParam["zip_code"] = try zipCodeField.validatedText(validationType: .zipcode)
+//            issuanceParam["addr_detail"] = try addrInfoDetailField.validatedText(validationType: .address)
+//            issuanceParam["addr"] = addrInfoField.text
+//            print(carNoField, zipCodeField, addrInfoField)
+//            return true;
+//        } catch (let error) {
+//            myPageControllerDelegate?.showValidateFailMsg(msg: (error as! ValidationError).message)
+//            return false;
+//        }
+//    }
+    
     func responseUpdateMemberInfo(json: JSON) {
         switch json["code"].intValue {
         case 1000:
             Snackbar().show(message: "업데이트가 완료되었습니다.")
             
+            zipcodeData = json["mb_zip_code"].stringValue
+            addressData = json["mb_addr"].stringValue
+            addressDetailData = json["mb_addr_detail"].stringValue
+            carNoData = json["mb_car_no"].stringValue
+            nickNameData = json["mb_nickname"].stringValue
+            
             let defaults = UserDefault()
-            defaults.saveString(key: UserDefault.Key.MB_NICKNAME, value: nickNameField.text!)
             defaults.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: profileName)
             if let carIndex = dropDwonCarKind.indexForSelectedRow {
                 if carIndex > 0 {
@@ -280,6 +332,37 @@ extension MyPageViewController {
             break
         }
     }
+    func responseGetMemberinfo(json: JSON) {
+        switch json["code"].intValue {
+        case 1000:
+            zipcodeData = json["mb_zip_code"].stringValue
+            if !zipcodeData.isEmpty && !zipcodeData.elementsEqual(""){
+                self.zipCodeField.text = zipcodeData
+            }
+            addressData = json["mb_addr"].stringValue
+            if  !addressData.isEmpty && !addressData.elementsEqual(""){
+                self.addrInfoField.text = addressData
+            }
+            addressDetailData = json["mb_addr_detail"].stringValue
+            if !addressDetailData.isEmpty && !addressDetailData.elementsEqual(""){
+                self.addrInfoDetailField.text = addressDetailData
+            }
+            carNoData = json["mb_car_no"].stringValue
+            if !carNoData.isEmpty && !carNoData.elementsEqual(""){
+                self.carNoField.text = carNoData
+            }
+            nickNameData = json["mb_nickname"].stringValue
+            if !nickNameData.isEmpty && !nickNameData.elementsEqual(""){
+                self.nickNameField.text = nickNameData
+            }
+            
+        default:
+            Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
+            break
+        }
+        print("getMemberInfo" + zipcodeData + addressData + addressDetailData + carNoData + nickNameData)
+    }
+    
     
     func getRegionIndex(region: String) -> Int {
         var index = 0
@@ -326,3 +409,8 @@ extension MyPageViewController: UITextFieldDelegate {
         return true
     }
 }
+
+protocol MyPageViewControllerDelegate {
+    func searchZipCode()
+}
+

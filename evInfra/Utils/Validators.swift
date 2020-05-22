@@ -117,7 +117,6 @@ class CarNoValidator: ValidatorConvertible {
         } catch {
             throw ValidationError("차량번호 형식이 잘못되었습니다.")
         }
-        
         return value
     }
 }

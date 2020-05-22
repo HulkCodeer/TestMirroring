@@ -10,9 +10,13 @@ import UIKit
 import Material
 import SwiftyJSON
 
-class MembershipCardViewController: UIViewController, MembershipIssuanceViewDelegate, SearchAddressViewDelegate, MyPayRegisterViewDelegate, MembershipInfoViewDelegate, MembershipTermViewDelegate {
+class MembershipCardViewController: UIViewController,
+    MembershipIssuanceViewDelegate, MyPageViewControllerDelegate,
+    SearchAddressViewDelegate, MyPayRegisterViewDelegate,
+    MembershipInfoViewDelegate, MembershipTermViewDelegate {
 
     var membershipIssuanceView : MembershipIssuanceView? = nil
+    var mypageView: MyPageViewController? = nil
     var membershipInfoView : MembershipInfoView? = nil
     var membershipTermView : MembershipTermView? = nil
     var memberData: [String: Any]? = nil
@@ -296,6 +300,11 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
             if  String(describing: type(of: msView)).elementsEqual("MembershipIssuanceView") {
                 msView.tfZipCode.text = zonecode
                 msView.tfIssuanceAddress.text = fullRoadAddr
+            }
+        }else if let mpView = self.mypageView {
+            if  String(describing: type(of: mpView)).elementsEqual("MyPageViewController") {
+                mpView.zipCodeField.text = zonecode
+                mpView.addrInfoField.text = fullRoadAddr
             }
         }
     }
