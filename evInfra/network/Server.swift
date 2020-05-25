@@ -15,7 +15,7 @@ class Server {
         switch response.result {
         case .success( _):
             completion(true, response.data)
-             
+
         case .failure(let error):
             print(error)
             completion(false, response.data)
@@ -117,11 +117,10 @@ class Server {
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/update_info",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-        print("updateMemberInfo", reqParam)
     }
     
     // 회원 - 정보 가져오기
-    static func getMemberinfo(completion: @escaping (Bool, Any) -> Void){
+    static func getMemberinfo(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId()
         ]
