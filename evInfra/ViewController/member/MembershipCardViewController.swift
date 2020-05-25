@@ -11,7 +11,7 @@ import Material
 import SwiftyJSON
 
 class MembershipCardViewController: UIViewController,
-    MembershipIssuanceViewDelegate, MyPageViewControllerDelegate,
+    MembershipIssuanceViewDelegate,
     SearchAddressViewDelegate, MyPayRegisterViewDelegate,
     MembershipInfoViewDelegate, MembershipTermViewDelegate {
 
@@ -27,6 +27,7 @@ class MembershipCardViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,6 +84,7 @@ class MembershipCardViewController: UIViewController,
     func searchZipCode() {
         let saVC = storyboard?.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
         saVC.searchAddressDelegate = self
+        
         navigationController?.push(viewController: saVC)
     }
     
@@ -300,11 +302,6 @@ class MembershipCardViewController: UIViewController,
             if  String(describing: type(of: msView)).elementsEqual("MembershipIssuanceView") {
                 msView.tfZipCode.text = zonecode
                 msView.tfIssuanceAddress.text = fullRoadAddr
-            }
-        }else if let mpView = self.mypageView {
-            if  String(describing: type(of: mpView)).elementsEqual("MyPageViewController") {
-                mpView.zipCodeField.text = zonecode
-                mpView.addrInfoField.text = fullRoadAddr
             }
         }
     }

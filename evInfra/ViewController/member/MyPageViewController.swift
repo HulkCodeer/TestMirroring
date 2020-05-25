@@ -13,7 +13,7 @@ import MaterialComponents.MaterialSnackbar
 import SwiftyJSON
 import UIImageCropper
 
-class MyPageViewController: UIViewController {
+class MyPageViewController: UIViewController, SearchAddressViewDelegate {
 
     @IBOutlet weak var nickNameField: TextField!
     @IBOutlet weak var locationSpinnerBtn: UIButton!
@@ -41,11 +41,14 @@ class MyPageViewController: UIViewController {
     private var carNoData = ""
     private var nickNameData = ""
     
-    var myPageControllerDelegate: MyPageViewControllerDelegate?
-    
+    private var zipCode = ""
+    private var address = ""
+    private var addressDetail = ""
     
     let picker = UIImagePickerController()
     let cropper = UIImageCropper(cropRatio: 1/1)
+    
+//    var mpViewController: MyPageViewController? = nil
     
     @IBAction func onClickLocation(_ sender: Any) {
         self.dropDwonLocation.show()
@@ -64,10 +67,16 @@ class MyPageViewController: UIViewController {
     }
     
     @IBAction func onClickSearchZipCode(_ sender: Any) {
-        myPageControllerDelegate?.searchZipCode()
-        print("asdf")
+        searchZipCode()
+        print("onclickZipCode")
     }
     
+    
+    func searchZipCode() {
+        let saVC = storyboard?.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
+        saVC.searchAddressDelegate = self
+        navigationController?.push(viewController: saVC)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,10 +106,15 @@ class MyPageViewController: UIViewController {
         profileImgView.layer.borderWidth = 1
         profileImgView.layer.masksToBounds = false
         profileImgView.layer.borderColor = UIColor.white.cgColor
-        profileImgView.layer.cornerRadius = profileImgView.frame.height/2
+//        profileImgView.layer.cornerRadius = profileImgView.frame.height/2
+        profileImgView.layer.cornerRadius = profileImgView.frame.height/2.5
         profileImgView.clipsToBounds = true
         
         nickNameField.delegate = self as UITextFieldDelegate
+        
+        if zipCodeField.text != nil && addrInfoField.text != nil{
+            self.addrInfoDetailField.isUserInteractionEnabled = true
+        }
     }
     
     func prepareSpinnerView() {
@@ -257,17 +271,19 @@ extension MyPageViewController {
     }
     
     internal func updateMemberInfo() {
-        let zipCode = zipCodeField.text ?? ""
-        let address = addrInfoField.text ?? ""
-        let addressDetail = addrInfoDetailField.text ?? ""
+        addressDetail = addrInfoDetailField.text ?? ""
         let carNo = carNoField.text ?? ""
+        zipCode = zipCodeField.text ?? ""
+        address = addrInfoField.text ?? ""
+        
+        
             
         if let nickName = nickNameField.text {
             if nickName.count == 0 {
                 Snackbar().show(message: "별명을 작성해 주세요.")
             } else if nickName.count >= 12 {
                 Snackbar().show(message: "별명은 최대 12자까지 입력가능합니다")
-            } else{
+            } else if checkData(addressDetail: addressDetail){
                 updateProfileImage() // update user profile image
                 
                 var car_id = 0
@@ -276,41 +292,49 @@ extension MyPageViewController {
                 }
                 
                 let region = dropDwonLocation.selectedItem!
-
-                Server.updateMemberInfo(nickName: nickName, region: region, profile: profileName, carId: car_id, zipCode: zipCode, address: address, addressDetail: addressDetail, carNo: carNo) { (isSuccess, value) in
+        
+                Server.updateMemberInfo(nickName: nickName, region: region, profile: profileName, carId: car_id, zipCode: self.zipCode, address: self.address, addressDetail: addressDetail, carNo: carNo) { (isSuccess, value) in
                     if isSuccess {
                         self.responseUpdateMemberInfo(json: JSON(value))
+                        print("updateMemberInfo Success", nickName, self.address, self.zipCode)
                     }
                 }
             }
         }
     }
     
-//    func checkCarNoValidator() -> Bool {
-//        var issuanceParam = [String: Any]()
-//        do {
-//            issuanceParam["car_no"] = try carNoField.validatedText(validationType: .carnumber)
-//            issuanceParam["zip_code"] = try zipCodeField.validatedText(validationType: .zipcode)
-//            issuanceParam["addr_detail"] = try addrInfoDetailField.validatedText(validationType: .address)
-//            issuanceParam["addr"] = addrInfoField.text
-//            print(carNoField, zipCodeField, addrInfoField)
-//            return true;
-//        } catch (let error) {
-//            myPageControllerDelegate?.showValidateFailMsg(msg: (error as! ValidationError).message)
-//            return false;
-//        }
-//    }
+    func checkData(addressDetail:String) -> Bool {
+        do {
+            print("checkdata_do")
+            let carNoValue = try carNoField.validatedText(validationType: .carnumber)
+            print("checkData", carNoValue)
+        }catch(let error){
+            print("checkData_catch", error)
+            Snackbar().show(message: "차량번호 형식이 잘못되었습니다.")
+            return false
+        }
+        if(addressDetail.isEmpty){
+            print("checkData_catch")
+            Snackbar().show(message: "상세주소를 입력해 주세요.")
+            return false
+        }
+        return true
+    }
+    
     
     func responseUpdateMemberInfo(json: JSON) {
         switch json["code"].intValue {
         case 1000:
             Snackbar().show(message: "업데이트가 완료되었습니다.")
             
-            zipcodeData = json["mb_zip_code"].stringValue
-            addressData = json["mb_addr"].stringValue
-            addressDetailData = json["mb_addr_detail"].stringValue
-            carNoData = json["mb_car_no"].stringValue
-            nickNameData = json["mb_nickname"].stringValue
+//            zipcodeData = json["mb_zip_code"].stringValue
+//            addressData = json["mb_addr"].stringValue
+//            addressDetailData = json["mb_addr_detail"].stringValue
+//            carNoData = json["mb_car_no"].stringValue
+//            nickNameData = json["mb_nickname"].stringValue
+            
+//            print("responseUpdateMemberInfo()", zipcodeData, addressData, addressDetailData)
+//            print("response", zipCode)
             
             let defaults = UserDefault()
             defaults.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: profileName)
@@ -396,7 +420,26 @@ extension MyPageViewController {
             }
         }
     }
+    
+    func recieveAddressInfo(zonecode: String, fullRoadAddr: String){
+        if  String(describing: type(of: self)).elementsEqual("MyPageViewController") {
+            zipCode = zonecode
+            address = fullRoadAddr
+            self.zipCodeField.text = zipCode
+            self.addrInfoField.text = address
+            checkAddrData(zipCode:zipCode, address:address)
+        }
+    }
+    
+    func checkAddrData(zipCode:String, address:String) {
+        if zipCode.isEmpty && address.isEmpty {
+            self.addrInfoDetailField.isUserInteractionEnabled = false
+        }else{
+            self.addrInfoDetailField.isUserInteractionEnabled = true
+        }
+    }
 }
+
 
 extension MyPageViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -409,8 +452,14 @@ extension MyPageViewController: UITextFieldDelegate {
         return true
     }
 }
-
-protocol MyPageViewControllerDelegate {
-    func searchZipCode()
-}
-
+//
+//extension MyPayinfoViewController: SearchAddressViewDelegate{
+//    func recieveAddressInfo(zonecode: String, fullRoadAddr: String){
+////        if let mpView = self.mpViewController {
+//            if  String(describing: type(of: mpView)).elementsEqual("MyPageViewController") {
+//                mpview.zipCodeField.text = zonecode
+//                mpView.addrInfoField.text = fullRoadAddr
+//            }
+////        }
+//    }
+//}

@@ -98,7 +98,11 @@ extension SearchAddressViewController: WKScriptMessageHandler {
     }
     
     func showRegisteredResult(json: JSON) {
-        searchAddressDelegate?.recieveAddressInfo(zonecode: json["zonecode"].stringValue, fullRoadAddr: json["fullRoadAddr"].stringValue)
+        if let delegate = searchAddressDelegate{
+            delegate.recieveAddressInfo(zonecode: json["zonecode"].stringValue, fullRoadAddr: json["fullRoadAddr"].stringValue)
+        }else{
+            Snackbar().show(message: "주소를 받아오지 못했습니다. 다시 시도해 주세요.")
+        }
         self.navigationController?.pop()
     }
 }

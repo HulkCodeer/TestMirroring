@@ -101,6 +101,7 @@ class Server {
     
     // 회원 - 정보 업데이트
     static func updateMemberInfo(nickName: String, region: String, profile: String, carId: Int, zipCode: String, address: String, addressDetail:String, carNo:String, completion: @escaping (Bool, Any) -> Void) {
+        
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
             "nickname": nickName,
@@ -109,13 +110,14 @@ class Server {
             "profile": profile,
             "zip_code": zipCode,
             "addr": address,
-            "addr_datail": addressDetail,
+            "addr_detail": addressDetail,
             "car_no":carNo
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/update_info",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+        print("updateMemberInfo", reqParam)
     }
     
     // 회원 - 정보 가져오기
