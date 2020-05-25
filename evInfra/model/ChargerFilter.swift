@@ -70,12 +70,12 @@ extension ChargerFilter{
     public static let PAY_ALL = 0
     public static let PAY_YOU = 1
     public static let PAY_MOO = 2
-    public static let PAY_100KW = 3
+    public static let PAY_FAST = 3
     
     //필터 추가시 여기 딕셔너리에다가 숫자랑 스트링 저장하세요.
     public static let WAY_FILTER_DIC:[Int: String] = [ChargerFilter.WAY_ALL: "전체도로", ChargerFilter.WAY_HIGH: "고속도로", ChargerFilter.WAY_NORMAL: "일반도로", ChargerFilter.WAY_HIGH_UP: "고속도로(상)", ChargerFilter.WAY_HIGH_DOWN: "고속도로(하)"]
     
-    public static let PAY_FILTER_DIC:[Int: String] = [ChargerFilter.PAY_ALL: "모든 충전소", ChargerFilter.PAY_YOU: "유료 충전소", ChargerFilter.PAY_MOO: "무료 충전소", ChargerFilter.PAY_100KW: "100kW"]
+    public static let PAY_FILTER_DIC:[Int: String] = [ChargerFilter.PAY_ALL: "모든 충전소", ChargerFilter.PAY_YOU: "유료 충전소", ChargerFilter.PAY_MOO: "무료 충전소", ChargerFilter.PAY_FAST: "초급속 충전소"]
     
     public func getWayFiltersName() -> Array<String>{
         var wayFilterNames = Array<String>();
@@ -110,7 +110,7 @@ extension ChargerFilter{
         payFilterIds.append(ChargerFilter.PAY_ALL)
         payFilterIds.append(ChargerFilter.PAY_YOU)
         payFilterIds.append(ChargerFilter.PAY_MOO)
-        payFilterIds.append(ChargerFilter.PAY_100KW)
+        payFilterIds.append(ChargerFilter.PAY_FAST)
         return payFilterIds
     }
 }
