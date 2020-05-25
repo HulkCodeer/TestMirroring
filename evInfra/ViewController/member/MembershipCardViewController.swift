@@ -16,7 +16,6 @@ class MembershipCardViewController: UIViewController,
     MembershipInfoViewDelegate, MembershipTermViewDelegate {
 
     var membershipIssuanceView : MembershipIssuanceView? = nil
-    var mypageView: MyPageViewController? = nil
     var membershipInfoView : MembershipInfoView? = nil
     var membershipTermView : MembershipTermView? = nil
     var memberData: [String: Any]? = nil
@@ -27,7 +26,6 @@ class MembershipCardViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
