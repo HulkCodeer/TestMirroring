@@ -30,6 +30,7 @@ class MyPageViewController: UIViewController {
     @IBOutlet weak var addrInfoField: UITextField!
     @IBOutlet weak var addrInfoDetailField: UITextField!
     @IBOutlet weak var searchZipCodeBtn: UIButton!
+    @IBOutlet weak var updateBtn: UIButton!
     
     private let dropDwonLocation = DropDown()
     private let dropDwonCarKind = DropDown()
@@ -41,6 +42,7 @@ class MyPageViewController: UIViewController {
     
     let picker = UIImagePickerController()
     let cropper = UIImageCropper(cropRatio: 1/1)
+    var activeTf: UITextField? = nil
     
     @IBAction func onClickLocation(_ sender: Any) {
         self.dropDwonLocation.show()
@@ -76,6 +78,10 @@ class MyPageViewController: UIViewController {
         prepareView()
         
         getMemberInfo()
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -95,14 +101,16 @@ class MyPageViewController: UIViewController {
         profileImgView.layer.borderWidth = 1
         profileImgView.layer.masksToBounds = false
         profileImgView.layer.borderColor = UIColor.white.cgColor
-//        profileImgView.layer.cornerRadius = profileImgView.frame.height/2
-        profileImgView.layer.cornerRadius = profileImgView.frame.height/2.5
+        profileImgView.layer.cornerRadius = profileImgView.frame.height/2
+//        profileImgView.layer.cornerRadius = profileImgView.frame.height/2.5
         profileImgView.clipsToBounds = true
         
         nickNameField.delegate = self as UITextFieldDelegate
         
-        if zipCodeField.text != nil && addrInfoField.text != nil{
+        if zipCodeField.text != "" && addrInfoField.text != ""{
             self.addrInfoDetailField.isUserInteractionEnabled = true
+        }else {
+            self.addrInfoDetailField.isUserInteractionEnabled = false
         }
     }
     
@@ -399,6 +407,20 @@ extension MyPageViewController {
                 })
 //                S3Util().removeProfileImage(name: self.oldProfileName) // exception 발생
             }
+        }
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            self.updateBtn.frame.origin.y -= keyboardHeight
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
         }
     }
 }
