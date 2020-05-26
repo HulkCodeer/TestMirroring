@@ -25,12 +25,16 @@ class MyPageViewController: UIViewController {
     // 차량번호
     @IBOutlet weak var carNoField: UITextField!
     
+    @IBOutlet weak var scrollViewBottom: NSLayoutConstraint!
+    
     // 주소
     @IBOutlet weak var zipCodeField: UITextField!
     @IBOutlet weak var addrInfoField: UITextField!
     @IBOutlet weak var addrInfoDetailField: UITextField!
     @IBOutlet weak var searchZipCodeBtn: UIButton!
     @IBOutlet weak var updateBtn: UIButton!
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     
     private let dropDwonLocation = DropDown()
     private let dropDwonCarKind = DropDown()
@@ -42,7 +46,12 @@ class MyPageViewController: UIViewController {
     
     let picker = UIImagePickerController()
     let cropper = UIImageCropper(cropRatio: 1/1)
-    var activeTf: UITextField? = nil
+    
+    //현재 TextField
+    var activeTextField : UITextField? = nil
+    
+    //오브젝트 기본위치
+    var originY:CGFloat?
     
     @IBAction func onClickLocation(_ sender: Any) {
         self.dropDwonLocation.show()
@@ -73,15 +82,43 @@ class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // 키보드 관리 (show/hide)
+        nickNameField.delegate = self
+        carNoField.delegate = self
+        addrInfoDetailField.delegate = self
+        
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEditing)))
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        
         prepareActionBar()
         prepareSpinnerView()
         prepareView()
         
         getMemberInfo()
-        
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    @objc func endEditing(){
+        nickNameField.resignFirstResponder()
+        carNoField.resignFirstResponder()
+        addrInfoDetailField.resignFirstResponder()
+    }
+    
+    @objc func keyboardWillShow(_ notification: NSNotification){
+
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.view.frame.origin.y = -keyboardSize.height * 1/3
+            return
+        }
+    }
+
+    @objc func keyboardWillHide(_ notification: NSNotification){
+
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            self.view.frame.origin.y = keyboardSize.height * 1/4
+            return
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -102,12 +139,12 @@ class MyPageViewController: UIViewController {
         profileImgView.layer.masksToBounds = false
         profileImgView.layer.borderColor = UIColor.white.cgColor
         profileImgView.layer.cornerRadius = profileImgView.frame.height/2
-//        profileImgView.layer.cornerRadius = profileImgView.frame.height/2.5
         profileImgView.clipsToBounds = true
         
         nickNameField.delegate = self as UITextFieldDelegate
         
-        if zipCodeField.text != "" && addrInfoField.text != ""{
+        if zipCodeField.text != "" && addrInfoField.text != "" ||
+            !zipCodeField.isEqual(nil) && !addrInfoField.isEqual(nil){
             self.addrInfoDetailField.isUserInteractionEnabled = true
         }else {
             self.addrInfoDetailField.isUserInteractionEnabled = false
@@ -410,30 +447,27 @@ extension MyPageViewController {
         }
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            self.updateBtn.frame.origin.y -= keyboardHeight
-        }
-    }
-
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
-        }
-    }
 }
 
 extension MyPageViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let _ = textField.text else { return true }
-        if let count = textField.text?.count, count >= 12 {
-            Snackbar().show(message: "별명은 최대 12자까지 입력가능합니다")
-            textField.deleteBackward()
+        let count:Int = textField.text?.count ?? 0
+        // 닉네임 텍스트빌드만 해당
+        if String(describing: type(of: self)).elementsEqual("MyPageViewController"){
+            if textField == self.nickNameField && count >= 12 {
+                Snackbar().show(message: "별명은 최대 12자까지 입력가능합니다")
+                textField.deleteBackward()
+            }
         }
-    
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.activeTextField = textField
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.activeTextField = nil
     }
 }
 
