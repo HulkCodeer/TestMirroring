@@ -182,6 +182,8 @@
 		73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F6B53920F873110030D0B3 /* IntroViewController.swift */; };
 		73FFCDC221194E14003B129D /* DecChargerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FFCDC121194E14003B129D /* DecChargerList.swift */; };
 		8ABD2A1E6BAAA48912760042 /* Pods_evInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73FD6F0BC57C39B41EE0B7 /* Pods_evInfra.framework */; };
+		9064133423E2A470008B2BB1 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9064133323E2A470008B2BB1 /* AdSupport.framework */; };
+		9064133723E2A603008B2BB1 /* OfferwallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9064133623E2A603008B2BB1 /* OfferwallViewController.swift */; };
 		CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE00E811214A330B00020D6E /* ReportChargeViewController.swift */; };
 		CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE13858C2178698300E3F869 /* ReportChargerChildCell.swift */; };
 		CE13858F217869B200E3F869 /* ReportChargerChildCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE13858E217869B200E3F869 /* ReportChargerChildCell.xib */; };
@@ -456,6 +458,8 @@
 		73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterGenerator.swift; sourceTree = "<group>"; };
 		73F6B53920F873110030D0B3 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		73FFCDC121194E14003B129D /* DecChargerList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecChargerList.swift; sourceTree = "<group>"; };
+		9064133323E2A470008B2BB1 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		9064133623E2A603008B2BB1 /* OfferwallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallViewController.swift; sourceTree = "<group>"; };
 		9B45BB8F11249F72B3D2E7EF /* Pods-evInfra.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra/Pods-evInfra.debug.xcconfig"; sourceTree = "<group>"; };
 		CE00E811214A330B00020D6E /* ReportChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChargeViewController.swift; sourceTree = "<group>"; };
 		CE13858C2178698300E3F869 /* ReportChargerChildCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChargerChildCell.swift; sourceTree = "<group>"; };
@@ -548,6 +552,7 @@
 				73B787B2210B172400C12801 /* KakaoNavi.framework in Frameworks */,
 				73AD13C1203AC28800ADD19A /* Material.framework in Frameworks */,
 				73AD13C2203AC28800ADD19A /* Motion.framework in Frameworks */,
+				9064133423E2A470008B2BB1 /* AdSupport.framework in Frameworks */,
 				73EF8B7B203C85CC00D04494 /* TopLib_Op.a in Frameworks */,
 				73B787B1210B172400C12801 /* KakaoLink.framework in Frameworks */,
 				8ABD2A1E6BAAA48912760042 /* Pods_evInfra.framework in Frameworks */,
@@ -560,6 +565,7 @@
 		5659BC9F308878047DB36D3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9064133323E2A470008B2BB1 /* AdSupport.framework */,
 				73B787AD210B172400C12801 /* KakaoCommon.framework */,
 				73B787AE210B172400C12801 /* KakaoLink.framework */,
 				73B787AF210B172400C12801 /* KakaoNavi.framework */,
@@ -816,6 +822,7 @@
 		73EF8B40203BC12F00D04494 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				9064133523E2A5E1008B2BB1 /* RewardAds */,
 				DB3799F621673E1E001D8F69 /* Board */,
 				DB5FA59422C20A5100F1508A /* history */,
 				DB3799F521673CEC001D8F69 /* member */,
@@ -943,6 +950,14 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		9064133523E2A5E1008B2BB1 /* RewardAds */ = {
+			isa = PBXGroup;
+			children = (
+				9064133623E2A603008B2BB1 /* OfferwallViewController.swift */,
+			);
+			path = RewardAds;
+			sourceTree = "<group>";
+		};
 		DB306366221BD59500D1276E /* network */ = {
 			isa = PBXGroup;
 			children = (
@@ -1033,6 +1048,7 @@
 				732121B7203AC023000E105C /* Resources */,
 				2D2CA8AB0C473AF5F3E3093F /* [CP] Embed Pods Frameworks */,
 				DB43761E21DDD433004A4C4B /* ShellScript */,
+				0863B743CF7B787683698EC5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1186,6 +1202,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0863B743CF7B787683698EC5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh",
+				"${PODS_ROOT}/AdPopcornOfferwall/AdPopcornOfferwall.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AdPopcornOfferwall.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		2D2CA8AB0C473AF5F3E3093F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1208,7 +1242,8 @@
 				"${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework",
 				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
 				"${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/UIImageCropper/UIImageCropper.framework",
@@ -1231,7 +1266,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MaterialComponents.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parchment.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImageCropper.framework",
@@ -1374,6 +1410,7 @@
 				73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */,
 				CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */,
 				DB0E4693205B6F1F002DD05D /* CidTableView.swift in Sources */,
+				9064133723E2A603008B2BB1 /* OfferwallViewController.swift in Sources */,
 				DB3B858020874788005454F5 /* PoiTableView.swift in Sources */,
 				733662F822FD11740049AEFE /* LeftViewTableHeader.swift in Sources */,
 				CE5242362182FD9000FF6AB1 /* AddressToLocationController.swift in Sources */,

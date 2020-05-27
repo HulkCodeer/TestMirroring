@@ -25,6 +25,8 @@ target 'evInfra' do
   pod 'FMDB'
   pod 'KeychainSwift', '~> 13.0'      # For keychain
   pod 'JJFloatingActionButton'
+  pod 'IgaworksCore'                  # For offerwall
+  pod 'AdPopcornOfferwall'            # For offerwall
 end
 
 post_install do |installer|

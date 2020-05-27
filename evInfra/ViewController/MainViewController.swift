@@ -1340,7 +1340,12 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainPayableChargerList(_ sender: UIButton) {
-        UIAlertController.showMessage("전국 한전(단,아파트제외), GS칼텍스, 에스트래픽 충전기에서 이용해 보세요.^^")
+        //UIAlertController.showMessage("전국 한전(단,아파트제외), GS칼텍스, 에스트래픽 충전기에서 이용해 보세요.^^")
+
+                
+        let offerwallVC:OfferwallViewController = self.storyboard?.instantiateViewController(withIdentifier: "OfferwallViewController") as! OfferwallViewController
+        self.navigationController?.push(viewController:offerwallVC)
+        
         
 //        let searchVC:SearchViewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
 //        searchVC.delegate = self
