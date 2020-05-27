@@ -22,6 +22,7 @@ class ReceiptView: UIView {
     @IBOutlet weak var labelPayDate: UILabel!
     @IBOutlet weak var labelChargingKw: UILabel!
     @IBOutlet weak var labelFee: UILabel!
+    @IBOutlet weak var labelUsedPoint: UILabel!
     
     @IBOutlet weak var labelTotalFee: UILabel!
     
@@ -59,8 +60,9 @@ class ReceiptView: UIView {
         labelEndDate.text = status.endDate // 충전종료시간
         labelPayDate.text = status.payAuthDate // 승인날짜
         labelChargingKw.text = status.chargingKw // 충전량
-        labelFee.text = status.payAmount?.currency() // 결제금액
+        labelFee.text = status.fee?.currency() // 충전금액
+        labelUsedPoint.text = status.usedPoint // 사용포인트
         
-        labelTotalFee.text = status.payAmount?.currency()
+        labelTotalFee.text = status.payAmount?.currency() // 승인금액
     }
 }

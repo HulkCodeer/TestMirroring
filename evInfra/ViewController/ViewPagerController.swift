@@ -46,14 +46,14 @@ class ViewPagerController: UIViewController {
         Server.getStationUsage(chargerId: (charger?.chargerId)!) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                let result = json["result_code"].stringValue
+                let result = json["code"].intValue
                 switch result {
-                case "1000":
-                    for countJson in json["count"].arrayValue {
+                case 1000:
+                    for countJson in json["data"].arrayValue {
                         self.charger?.usage.append(countJson.intValue)
                     }
-                    
-                default: // "9000" error
+                
+                default: // 9000 error
                     print("server response error")
                 }
             }

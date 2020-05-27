@@ -10,6 +10,7 @@ import Foundation
 import SwiftyJSON
 
 class CarModels {
+    
     struct CarModel {
         var id = 0
         var name = ""
@@ -24,7 +25,7 @@ class CarModels {
     
     func setData(json:JSON) {
         arrayCarList.removeAll()
-        for (_, item):(String, JSON) in json["carList"] {
+        for (_, item):(String, JSON) in json["list"] {
             let carModel = CarModel(id: item["id"].intValue, name: item["model"].stringValue, type: 8)
             self.arrayCarList.append(carModel)
         }

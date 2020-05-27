@@ -9,5 +9,5 @@
 import Foundation
 
 struct DecChargerList: Codable {
-    var lists: [Charger]
+    var list: [Charger]
 }

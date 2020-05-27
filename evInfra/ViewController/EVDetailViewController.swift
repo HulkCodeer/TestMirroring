@@ -10,7 +10,7 @@ import UIKit
 import Motion
 import Material
 
-class EVDetailViewController: UIViewController {
+class EvDetailViewController: UIViewController {
     
     @IBOutlet weak var carImage: UIImageView!
     @IBOutlet weak var vehicleName: UILabel!
@@ -19,7 +19,6 @@ class EVDetailViewController: UIViewController {
     @IBOutlet weak var maxSpeed: UILabel!
     @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var battery: UILabel!
-    @IBOutlet weak var jiwon: UILabel!
     
     var index: Int
     var model: EVModel?
@@ -48,7 +47,6 @@ class EVDetailViewController: UIViewController {
         maxSpeed.text = model!.speed
         distance.text = model!.distance
         battery.text = model!.batt
-        jiwon.text = model!.jiwon
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,7 +55,7 @@ class EVDetailViewController: UIViewController {
     }
 }
 
-extension EVDetailViewController {
+extension EvDetailViewController {
     func prepareActionBar() {
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "전기차 정보"

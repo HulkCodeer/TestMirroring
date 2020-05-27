@@ -1103,7 +1103,7 @@ extension MainViewController {
             if isSuccess {
                 if let data = responseData {
                     let chargerData = try! JSONDecoder().decode(DecChargerList.self, from: data)
-                    for item in chargerData.lists {
+                    for item in chargerData.list {
                         if ((self.chargerManager.chargerDict[item.chargerId]) == nil) {
                             self.chargerManager.chargerDict[item.chargerId] = item
                         }
@@ -1139,9 +1139,10 @@ extension MainViewController {
         if MemberManager().isGuard() {
             Server.getStationListForGuard { (isSuccess, value) in
                 if isSuccess {
-                    for (_, item):(String, JSON) in JSON(value) {
-                        let id = item["charger_id"].stringValue
-                        if let charger = self.chargerManager.chargerDict[id] {
+                    let json = JSON(value)
+                    let list = json["list"]
+                    for (_, id):(String, JSON) in list {
+                        if let charger = self.chargerManager.chargerDict[id.stringValue] {
                             charger.isGuard = true
                         }
                     }
@@ -1162,14 +1163,12 @@ extension MainViewController {
         Server.getStationStatus { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                let list = json["lists"]
+                let list = json["list"]
                 
                 for (_, item):(String, JSON) in list {
                     let id = item["id"].stringValue
                     if let charger = self.chargerManager.chargerDict[id] {
-                        charger.status = item["st"].stringValue
-                        charger.statusName = charger.cidInfo.cstToString(cst: Int(charger.status)!)
-                        charger.marker.setIcon(charger.getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+                        charger.changeStatus(st: item["st"].stringValue)
                         
                         if (self.tMapView!.getMarketItem(fromID: charger.chargerId) != nil) {
                             if self.tMapView!.getMarketItem(fromID: id).getIcon() != charger.marker.getIcon() {
@@ -1340,17 +1339,7 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainPayableChargerList(_ sender: UIButton) {
-        //UIAlertController.showMessage("전국 한전(단,아파트제외), GS칼텍스, 에스트래픽 충전기에서 이용해 보세요.^^")
-
-                
-        let offerwallVC:OfferwallViewController = self.storyboard?.instantiateViewController(withIdentifier: "OfferwallViewController") as! OfferwallViewController
-        self.navigationController?.push(viewController:offerwallVC)
-        
-        
-//        let searchVC:SearchViewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
-//        searchVC.delegate = self
-//        searchVC.isPayableList = true
-//        self.present(AppSearchBarController(rootViewController: searchVC), animated: true, completion: nil)
+        UIAlertController.showMessage("전국 한전(단,아파트제외), GS칼텍스, 에스트래픽 충전기에서 이용해 보세요.^^")
     }
     
     @IBAction func onClickMainReportCharger(_ sender: UIButton) {

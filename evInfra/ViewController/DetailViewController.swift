@@ -93,13 +93,13 @@ class DetailViewController: UIViewController {
         prepareActionBar()
         prepareBoardTableView()
         preparePagingView()
-        prepareGPAView()
+
         prepareGuard()
         prepareGradeStar()
          
         getChargerInfo()
         getReportInfo()
-        getMyChargeGradeInfo()
+        getMyGrade()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -191,59 +191,15 @@ class DetailViewController: UIViewController {
     // MARK: - Server Communications
     
     func getStationDetailInfo() {
-        Server.getStationInfo(chargerId: (charger?.chargerId)!) { (isSuccess, value) in
+        Server.getStationDetail(chargerId: (charger?.chargerId)!) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
+                let list = json["list"]
                 
-                // 운영기관
-                self.operatorLabel.text = json["op"].stringValue
-                
-                // 이용시간
-                if json["utime"].stringValue.elementsEqual("") {
-                    self.timeImage.gone(spaces:[.top, .bottom])
-                    self.timeFixLabel.gone(spaces:[.top, .bottom])
-                    self.timeLabel.gone(spaces:[.top, .bottom])
-                    self.timeView.gone(spaces:[.top, .bottom])
-                    self.detailViewResize(view: self.timeView)
-                } else {
-                    self.timeLabel.text = json["utime"].stringValue
+                for (_, item):(String, JSON) in list {
+                    self.setStationInfo(json: item)
+                    break
                 }
-                
-                // 주소
-                self.addressLabel.text = (self.charger?.address)!
-                self.addressLabel.sizeToFit()
-                
-                // 메모
-                self.memoLabel.text = json["memo"].stringValue
-                
-                // 센터 전화번호
-                self.phoneNumber = json["tel"].stringValue
-                
-                // 충전기 정보
-                let clist = json["clist"]
-                var cidList = [CidInfo]()
-                for (_, item):(String, JSON) in clist {
-                    let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdate"].stringValue, power: item["power"].intValue)
-                    cidList.append(cidInfo)
-                }
-                var stationSt = cidList[0].status!
-                for cid in cidList{
-                    if (stationSt != cid.status) {
-                        if(cid.status == Const.CHARGER_STATE_WAITING) {
-                            stationSt = cid.status!
-                            break
-                        }
-                    }
-                }
-                self.chargerManager.chargerDict[self.charger!.chargerId]?.changeStatus(st: "\(stationSt)")
-                self.mainViewDelegate?.redrawCalloutLayer()
-                self.cidTableView.setCidList(chargerList: cidList)
-                self.cidTableView.reloadData()
-                self.adjustHeightOfTableview()
-                
-                self.showMenuBtn()
-                self.showMoveHomePageBtn()
-                self.showMoveAppStoreBtn()
             }
         }
         
@@ -271,6 +227,63 @@ class DetailViewController: UIViewController {
         } else {
             self.chargerLabel.text = "무료 충전소"
         }
+    }
+    
+    func setStationInfo(json: JSON) {
+        // 운영기관
+        self.operatorLabel.text = json["op"].stringValue
+        
+        // 이용시간
+        if json["ut"].stringValue.elementsEqual("") {
+            self.timeImage.gone(spaces:[.top, .bottom])
+            self.timeFixLabel.gone(spaces:[.top, .bottom])
+            self.timeLabel.gone(spaces:[.top, .bottom])
+            self.timeView.gone(spaces:[.top, .bottom])
+            self.detailViewResize(view: self.timeView)
+        } else {
+            self.timeLabel.text = json["ut"].stringValue
+        }
+        
+        // 주소
+        self.addressLabel.text = (self.charger?.address)!
+        self.addressLabel.sizeToFit()
+        
+        // 메모
+        self.memoLabel.text = json["mm"].stringValue
+        
+        // 센터 전화번호
+        self.phoneNumber = json["tel"].stringValue
+        
+        // 평점
+        self.charger?.gpa = Double(json["gpa"].stringValue)!
+        self.charger?.gpaPersonCnt = Int(json["cnt"].stringValue)!
+        self.setChargeGPA()
+        
+        // 충전기 정보
+        let clist = json["cl"]
+        var cidList = [CidInfo]()
+        for (_, item):(String, JSON) in clist {
+            let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue)
+            cidList.append(cidInfo)
+        }
+        var stationSt = cidList[0].status!
+        for cid in cidList {
+            if (stationSt != cid.status) {
+                if(cid.status == Const.CHARGER_STATE_WAITING) {
+                    stationSt = cid.status!
+                    break
+                }
+            }
+        }
+        self.chargerManager.chargerDict[self.charger!.chargerId]?.changeStatus(st: "\(stationSt)")
+        self.mainViewDelegate?.redrawCalloutLayer()
+        self.cidTableView.setCidList(chargerList: cidList)
+        self.cidTableView.reloadData()
+        self.adjustHeightOfTableview()
+        
+        self.showMenuBtn()
+        self.showMoveHomePageBtn()
+        self.showMoveAppStoreBtn()
     }
     
     func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
@@ -878,11 +891,11 @@ extension DetailViewController {
     func setGrade(point: Int) {
         gradeRegBtn.isEnabled = true
         myGradeStarPoint = point
-        drawGrade(point: myGradeStarPoint)
+        drawMyGrade(point: myGradeStarPoint)
     }
     
-    func drawGrade(point:Int) {
-        clearAllStar()
+    func drawMyGrade(point:Int) {
+        clearMyGrade()
         
         switch point {
         case 1:
@@ -906,8 +919,16 @@ extension DetailViewController {
             setStarBg(view: gradeStarImage4)
             setStarBg(view: gradeStarImage5)
         default:
-            clearAllStar()
+            print("drawGrade() point is 0")
         }
+    }
+    
+    func clearMyGrade() {
+        clearStarBg(view: gradeStarImage1)
+        clearStarBg(view: gradeStarImage2)
+        clearStarBg(view: gradeStarImage3)
+        clearStarBg(view: gradeStarImage4)
+        clearStarBg(view: gradeStarImage5)
     }
     
     func clearStarBg(view:UIImageView) {
@@ -918,37 +939,27 @@ extension DetailViewController {
         view.backgroundColor = UIColor(rgb: 0xA0A0A0)
     }
     
-    func clearAllStar() {
-        clearStarBg(view: gradeStarImage1)
-        clearStarBg(view: gradeStarImage2)
-        clearStarBg(view: gradeStarImage3)
-        clearStarBg(view: gradeStarImage4)
-        clearStarBg(view: gradeStarImage5)
-    }
-    
-    func getMyChargeGradeInfo() {
+    func getMyGrade() {
         if !MemberManager().isLogin() {
             return
         }
         
+        self.clearMyGrade()
+        self.myGradeStarPoint = 0
         Server.getGrade(chargerId: (self.charger?.chargerId)!) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                if json["result_code"].exists() {
-                    if json["result_code"].stringValue.elementsEqual("9000") {
-                        Snackbar().show(message: "평점 정보를 가져오는데 오류가 발생하였습니다.")
-                        return
-                    } else if json["result_code"].stringValue.elementsEqual("9001") {
-                        self.myGradeStarPoint = 0
+                if json["code"].exists() {
+                    if json["code"].intValue == 1000 {
+                        self.myGradeStarPoint = json["sp"].intValue
+                        if self.myGradeStarPoint > 0 {
+                            self.setGradeButtonModifyMode()
+                        } else {
+                            self.setGradeButtonRegMode()
+                        }
+                        self.drawMyGrade(point: self.myGradeStarPoint)
                     }
                 }
-                self.myGradeStarPoint = json["sp"].intValue
-                if self.myGradeStarPoint > 0 {
-                    self.setGradeButtonModifyMode()
-                } else {
-                    self.setGradeButtonRegMode()
-                }
-                self.drawGrade(point: self.myGradeStarPoint)
             }
         }
     }
@@ -967,13 +978,15 @@ extension DetailViewController {
         Server.addGrade(chargerId: (self.charger?.chargerId)!, point: self.myGradeStarPoint) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                if json["result_code"].exists() {
-                    if json["result_code"].stringValue.elementsEqual("9000") {
-                        Snackbar().show(message: "평점 등록을 실패하였습니다. 다시 시도해 주세요.")
-                        return
-                    } else if json["result_code"].stringValue.elementsEqual("1000") {
+                if json["code"].exists() {
+                    if json["code"].intValue == 1000 {
                         Snackbar().show(message: "평점을 등록하였습니다.")
                         self.setGradeButtonModifyMode()
+                        
+                        // 평균 평점 수정
+                        self.charger?.gpa = Double(json["gpa"].stringValue)!
+                        self.charger?.gpaPersonCnt = Int(json["cnt"].stringValue)!
+                        self.setChargeGPA()
                     }
                 }
             }
@@ -989,46 +1002,42 @@ extension DetailViewController {
         Server.deleteGrade(chargerId: (self.charger?.chargerId)!) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                if json["result_code"].exists() {
-                    if json["result_code"].stringValue.elementsEqual("9000") {
-                        Snackbar().show(message: "평점 정보를 가져오는데 오류가 발생하였습니다.")
-                        return;
-                    } else if json["result_code"].stringValue.elementsEqual("1000") {
+                if json["code"].exists() {
+                    if json["code"].intValue == 1000 {
+                        Snackbar().show(message: "평점을 삭제하였습니다.")
                         self.myGradeStarPoint = 0
                         self.setGradeButtonRegMode()
-                        self.drawGrade(point: self.myGradeStarPoint)
+                        self.drawMyGrade(point: self.myGradeStarPoint)
+
+                        // 평균 평점 수정
+                        self.charger?.gpa = Double(json["gpa"].stringValue)!
+                        self.charger?.gpaPersonCnt = Int(json["cnt"].stringValue)!
+                        self.setChargeGPA()
                     }
                 }
             }
         }
     }
-}
 
-// 충전소 평점 표시
-extension DetailViewController {
-    func prepareGPAView() {
+    // 충전소 평점 표시
+    func setChargeGPA() {
         if let gradePointAvg = charger?.gpa, gradePointAvg > 0 {
             gpaLabelView.text = String(format:"%.1f", gradePointAvg)
             personCntLabelView.text = String(format:"%d 명", (charger?.gpaPersonCnt)!)
-            drawGpaStarBackground(point: gradePointAvg)
-            //self.detailView.frame.size = CGSize(width: self.detailView.frame.size.width, height: self.detailView.frame.size.height+8)
+            drawGpaStar(point: gradePointAvg)
         } else {
-            gpaInfoImage.gone(spaces: [.top, .bottom])
-            gpaTitleLabel.gone(spaces: [.top, .bottom])
-            gpaLabelView.gone(spaces: [.top, .bottom])
-            personCntLabelView.gone(spaces: [.top, .bottom])
-            gpaStarImage1.gone(spaces: [.top, .bottom])
-            gpaStarImage2.gone(spaces: [.top, .bottom])
-            gpaStarImage3.gone(spaces: [.top, .bottom])
-            gpaStarImage4.gone(spaces: [.top, .bottom])
-            gpaStarImage5.gone(spaces: [.top, .bottom])
-            gpaView.gone(spaces: [.top, .bottom])
-            detailViewResize(view: gpaView)
+            gpaLabelView.text = String(format:"%.1f", 0.0)
+            personCntLabelView.text = String(format:"%d 명", 0)
+            drawGpaStar(point: 0)
         }
     }
     
-    func drawGpaStarBackground(point:Double) {
-        clearAllStar()
+    func drawGpaStar(point:Double) {
+        clearStarBg(view: gpaStarImage1)
+        clearStarBg(view: gpaStarImage2)
+        clearStarBg(view: gpaStarImage3)
+        clearStarBg(view: gpaStarImage4)
+        clearStarBg(view: gpaStarImage5)
         
         let gpaIntPart = Int(floor(point))
         var gpaFloatPart = Int(floor(point * 10.0))
@@ -1060,7 +1069,7 @@ extension DetailViewController {
             setStarBg(view: gpaStarImage4)
             setStarBg(view: gpaStarImage5)
         default:
-            clearAllStar()
+            print("drawGpaStarBackground() gpaIntPart is 0")
         }
     }
     

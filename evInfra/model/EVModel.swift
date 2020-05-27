@@ -11,6 +11,7 @@ import UIKit
 import SwiftyJSON
 
 class EVModel {
+    
     var id: Int?
     var name: String?
     var company: String?
@@ -19,18 +20,16 @@ class EVModel {
     var speed: String?
     var distance: String?
     var batt: String?
-    var jiwon: String?
     var uiImage: UIImage?
     
     init(json: JSON){
         self.id = json["id"].intValue
-        self.name = json["name"].stringValue
+        self.name = json["model"].stringValue
         self.company = json["company"].stringValue
         self.image = json["image"].stringValue
         self.apes = json["apes"].stringValue
         self.speed = json["speed"].stringValue
         self.distance = json["distance"].stringValue
         self.batt = json["batt"].stringValue
-        self.jiwon = json["jiwon"].stringValue
     }
 }

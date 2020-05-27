@@ -33,7 +33,7 @@ class Server {
         }
     }
     
-    // User - 정보 등록
+    // 사용자 - 디바이스 정보 등록
     static func registerUser(version: String, model: String, uid: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "os": "IOS",
@@ -47,7 +47,7 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // User - FCM 등록
+    // 사용자 - FCM token 등록
     static func registerFCM(fcmId: String, uid: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "fcm_id": fcmId,
@@ -59,11 +59,11 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // User - push message 알림 설정
+    // 사용자 - push message 알림 설정
     static func updateNotificationState(state: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "member_id": MemberManager.getMemberId(),
-            "receive_push": Int(truncating: NSNumber(value: state))
+            "receive_push": state
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/user/setNotification",
@@ -114,6 +114,45 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 회원 - 회원카드 정보 가져오기
+    static func getInfoMembershipCard(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId()
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/membership_card/info",
+                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+        
+    // 회원 - 회원카드 발급 신청
+    static func registerMembershipCard(values: [String: Any], completion: @escaping (Bool, Any) -> Void) {
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/membership_card/register",
+                      method: .post, parameters: values, encoding: JSONEncoding.default)
+        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+
+    // 회원 - 회원카드 해지 신청. 서버 구현 해야 함
+    static func unregisterMembershipCard(cardNo: String, password: String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId(),
+            "mb_pw": password,
+            "card_no": cardNo
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/membership_card/unregister",
+                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+
+    // 회원 - 회원카드 비밀번호 확인
+    static func changeMembershipCardPassword(values: [String: Any], completion: @escaping (Bool, Any) -> Void) {
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/membership_card/change_password",
+                      method: .post, parameters: values, encoding: JSONEncoding.default)
+        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
     // 회원 - 잔여 포인트 가져오기
     static func getPoint(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
@@ -141,7 +180,7 @@ class Server {
                 .validate().responseJSON { response in responseData(response: response, completion: completion) }
     }
     
-    // 즐겨찾기 - 목록 가져오기
+    // 회원 - 즐겨찾기 목록
     static func getFavoriteList(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
@@ -153,7 +192,7 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // 즐겨찾기 - 충전소 즐겨찾기 등록, 해제
+    // 회원 - 충전소 즐겨찾기 등록, 해제
     static func setFavorite(chargerId: String, mode: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
@@ -166,7 +205,7 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // 즐겨찾기 - 즐겨찾기 등록한 충전소 상태변화 알림 on/off
+    // 회원 - 즐겨찾기 등록한 충전소 상태변화 알림 on/off
     static func setFavoriteAlarm(chargerId: String, state: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
@@ -176,74 +215,6 @@ class Server {
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/favorite/noti",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // Station - 운영기관 정보
-    static func getCompanyInfo(updateDate: String, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "update_date": updateDate
-        ]
-        
-        Alamofire.request(Const.EV_PAY_SERVER + "/company/company/info",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // Station - 충전소 리스트
-    static func getStationList(completion: @escaping (Bool, Data?) -> Void) {
-        Alamofire.request(Const.EV_SERVER_IP + "/charger/stationList.do",
-                          method: .post, parameters: ["req_ver":1], encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseData(response: response, completion: completion) }
-    }
-    
-    // Station - 충전소 상태 정보
-    static func getStationStatus(completion: @escaping (Bool, Any) -> Void) {
-        Alamofire.request(Const.EV_SERVER_IP + "/charger/stationStatus.do",
-                          method: .post, parameters: ["req_ver":1], encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // Station - 충전소 상세 정보
-    static func getStationInfo(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
-            "charger_id": chargerId
-        ]
-        
-        Alamofire.request(Const.EV_SERVER_IP + "/charger/chargerInfo.do",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // Station - 충전소 이용률 데이터
-    static func getStationUsage(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
-            "charger_id": chargerId
-        ]
-        
-        Alamofire.request(Const.EV_SERVER_IP + "/charger/stationUsage.do",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // 지킴이 - 대상 충전소 리스트
-    static func getStationListForGuard(completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "req_ver": 1,
-            "mb_id": MemberManager.getMbId(),
-            "member_id": MemberManager.getMemberId()
-            ]
-        
-        Alamofire.request(Const.EV_SERVER_IP + "/charger/stationList/guard.do",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // 지킴이 - 현장점검표 링크 가져오기
-    static func getChecklistLink(completion: @escaping (Bool, Any) -> Void) {
-        Alamofire.request(Const.EV_SERVER_IP + "/guard/checklist", method: .get)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
@@ -281,7 +252,7 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // 게시판 - 선택한 충전소의 게시판 가져오기
+    // 게시판 - 선택한 충전소 게시판 가져오기
     static func getChargerBoard(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
@@ -404,7 +375,145 @@ class Server {
             .responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // 제보하기 - 제보 등록
+    // Station - 운영기관 정보
+    static func getCompanyInfo(updateDate: String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "update_date": updateDate
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/company/company/info",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // Station - 충전소 리스트
+    static func getStationList(completion: @escaping (Bool, Data?) -> Void) {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId()
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/station/list",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseData(response: response, completion: completion) }
+    }
+    
+    // Station - 충전소 상태 정보
+    static func getStationStatus(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId()
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/station/status",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // Station - 충전소 상세 정보
+    static func getStationDetail(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId(),
+            "charger_id": chargerId
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/station/detail",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // Station - 충전소 이용률 데이터
+    static func getStationUsage(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId(),
+            "charger_id": chargerId
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/station/usage",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // Station - 본인이 등록한 평점 가져오기
+    static func getGrade(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId(),
+            "charger_id": chargerId
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/grade/member",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // Station - 평점 등록하기
+    static func addGrade(chargerId: String, point: Int, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId(),
+            "charger_id": chargerId,
+            "sp": point
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/grade/register",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // Station - 평점 삭제하기
+    static func deleteGrade(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId(),
+            "charger_id": chargerId
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/grade/unregister",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 지킴이 - 대상 충전소 리스트
+    static func getStationListForGuard(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId()
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/guard/list",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 지킴이 - 현장점검표 링크 가져오기
+    static func getChecklistLink(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId()
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/guard/checklist",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 전기차 정보 - 전기차 리스트 가져오기
+    static func getEvList(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId()
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/ev/ev_models/list",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 전기차 정보 - 전기차 모델 및 차량 정보 가져오기
+    static func getEvModelList(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId()
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/ev/ev_models/info",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 제보하기 - 기존 충전소 정보에 없는 충전소 추가 요청
     static func addReport(info: ReportData.ReportChargeInfo, typeId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
@@ -426,7 +535,7 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // 제보하기 - 제보내역 수정
+    // 제보하기 - 기존에 있는 충전소의 위치정보 수정 요청
     static func modifyReport(info: ReportData.ReportChargeInfo, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
@@ -492,67 +601,6 @@ class Server {
             .validate().responseJSON { response in responseData(response: response, completion: completion) }
     }
     
-    // 평점 - 점수 가져오기
-    static func getGrade(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
-            "charger_id": chargerId
-            ]
-        
-        Alamofire.request(Const.EV_SERVER_IP + "/grade/chargeGradeGet.do",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // 평점 - 점수 등록하기
-    static func addGrade(chargerId: String, point: Int, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
-            "charger_id": chargerId,
-            "sp": point
-            ]
-        
-        Alamofire.request(Const.EV_SERVER_IP + "/grade/chargeGradeAdded.do",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // 평점 - 점수 삭제하기
-    static func deleteGrade(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
-            "charger_id": chargerId
-            ]
-        
-        Alamofire.request(Const.EV_SERVER_IP + "/grade/chargeGradeDelete.do",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // 전기차 정보 - 전기차 리스트 가져오기
-    static func getEvList(completion: @escaping (Bool, Any) -> Void) {
-        Alamofire.request(Const.EV_SERVER_IP + "/evModel/getEvList.do")
-            .responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // 전기차 정보 - 전기차 모델 및 차량 정보 가져오기
-    static func getEvModelList(completion: @escaping (Bool, Any) -> Void) {
-        Alamofire.request(Const.EV_SERVER_IP + "/evModel/getEvModels.do")
-            .responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // 쿠폰 - 리스트 가져오기
-    static func getCouponList(completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "req_ver": 1,
-            "mb_id": MemberManager.getMbId()
-            ]
-        
-        Alamofire.request(Const.EV_PAY_SERVER + "/event/coupon/getCouponList",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
     // 이벤트 - 리스트 가져오기
     static func getEventList(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
@@ -566,37 +614,16 @@ class Server {
             .responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // download url file
-    static func getData(url: URL, completion: @escaping (Bool, Data?) -> Void) {
-        Alamofire.request(url).responseData { (response) in
-            if response.error == nil {
-                completion(true, response.data)
-            }
-        }
-    }
-    
-    // image upload To Server
-    static func uploadImage(data: Data, filename: String, kind: Int, completion: @escaping (Bool, Any) -> Void){
-        let uploadFileName = filename.data(using: .utf8)!
-        let contentsKind = ("\(kind)").data(using: .utf8)!
-        Alamofire.upload(multipartFormData: { (multipartFormData) in
-            multipartFormData.append(contentsKind, withName: "kind" , mimeType: "text/plain; charset=UTF-8")
-            multipartFormData.append(uploadFileName, withName: "filename" , mimeType: "text/plain; charset=UTF-8")
-            multipartFormData.append(data ,  withName:"file" ,  fileName : "upload.jpg" ,  mimeType :  "image/jpeg" )
-        }, to: Const.EV_SERVER_IP + "/imageUploader/imageUpload", encodingCompletion: { encodingResult in
-            switch encodingResult {
-            case .success(let upload, _, _):
-                upload.responseJSON {response in  // ← JSON 형식으로받을
-                    if !response.result.isSuccess  {
-                        completion(false, response)
-                    } else  {
-                        completion(true, response)
-                    }
-                }
-            case .failure(let encodingError):
-                completion(false, encodingError)
-            }
-        })
+    // 쿠폰 - 리스트 가져오기
+    static func getCouponList(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.getMbId()
+            ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/event/coupon/getCouponList",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
     // 광고 - large image 정보 요청
@@ -668,6 +695,7 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 충전 시작 요청
     static func openCharger(cpId: String, connectorId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
@@ -681,6 +709,7 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 충전 종료 요청
     static func stopCharging(chargingId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
@@ -745,17 +774,6 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // 충전가능 충전소
-    static func getChargerListForPayment(completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "req_ver": 1,
-            "member_id": MemberManager.getMemberId()
-        ]
-        Alamofire.request(Const.EV_PAY_SERVER + "/charger/charger_info/payableChargerList",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
     // charging id 요청
     static func getChargingId(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
@@ -778,43 +796,36 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // 회원 - 회원카드 정보 가져오기
-    static func getInfoMembershipCard(completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId()
-        ]
-        
-        Alamofire.request(Const.EV_PAY_SERVER + "/member/membership_card/info",
-                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    // download url file
+    static func getData(url: URL, completion: @escaping (Bool, Data?) -> Void) {
+        Alamofire.request(url).responseData { (response) in
+            if response.error == nil {
+                completion(true, response.data)
+            }
+        }
     }
-        
-    // 회원 - 회원카드 발급 신청
-    static func registerMembershipCard(values: [String: Any], completion: @escaping (Bool, Any) -> Void) {
-        
-        Alamofire.request(Const.EV_PAY_SERVER + "/member/membership_card/register",
-                      method: .post, parameters: values, encoding: JSONEncoding.default)
-        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-
-    // 회원 - 회원카드 해지 신청. 서버 구현 해야 함
-    static func unregisterMembershipCard(cardNo: String, password: String, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
-            "mb_pw": password,
-            "card_no": cardNo
-        ]
-        
-        Alamofire.request(Const.EV_PAY_SERVER + "/member/membership_card/unregister",
-                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-
-    // 회원 - 회원카드 비밀번호 확인
-    static func changeMembershipCardPassword(values: [String: Any], completion: @escaping (Bool, Any) -> Void) {
-        
-        Alamofire.request(Const.EV_PAY_SERVER + "/member/membership_card/change_password",
-                      method: .post, parameters: values, encoding: JSONEncoding.default)
-        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    
+    // image upload To Server
+    static func uploadImage(data: Data, filename: String, kind: Int, completion: @escaping (Bool, Any) -> Void){
+        let uploadFileName = filename.data(using: .utf8)!
+        let contentsKind = ("\(kind)").data(using: .utf8)!
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            multipartFormData.append(contentsKind, withName: "kind" , mimeType: "text/plain; charset=UTF-8")
+            multipartFormData.append(uploadFileName, withName: "filename" , mimeType: "text/plain; charset=UTF-8")
+            multipartFormData.append(data ,  withName:"file" ,  fileName : "upload.jpg" ,  mimeType :  "image/jpeg" )
+        }, to: Const.EV_SERVER_IP + "/imageUploader/imageUpload", encodingCompletion: { encodingResult in
+            switch encodingResult {
+            case .success(let upload, _, _):
+                upload.responseJSON {response in  // ← JSON 형식으로받을
+                    if !response.result.isSuccess  {
+                        completion(false, response)
+                    } else  {
+                        completion(true, response)
+                    }
+                }
+            case .failure(let encodingError):
+                completion(false, encodingError)
+            }
+        })
     }
 }

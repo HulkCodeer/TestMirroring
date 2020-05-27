@@ -33,7 +33,7 @@ class CidInfo {
                 chargerState = "통신미연결";
                 break;
             
-        case Const.CHARGER_STATE_WAITING:
+            case Const.CHARGER_STATE_WAITING:
                 chargerState = "대기중";
                 break;
             
@@ -92,15 +92,15 @@ class CidInfo {
             cstColor = UIColor(rgb: 0xDE1A1A)
             break;
         }
-        
         return cstColor;
     }
 
     public func getRecentDateSimple() -> String {
         var recentDateString = ""
         if let dateString = self.recentDate {
-            if let date = Formatter.iso8601.date(from: dateString) {
-                let dateFormatter = DateFormatter()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            if let date = dateFormatter.date(from: dateString) {
                 dateFormatter.dateFormat = "yy.MM.dd \r\nHH:mm"
                 recentDateString = dateFormatter.string(from: date)
             }
@@ -111,25 +111,16 @@ class CidInfo {
     public func getChargingDuration() -> String {
         var durationString = ""
         if let dateString = self.recentDate {
-            if let date = Formatter.iso8601.date(from: dateString) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            if let date = dateFormatter.date(from: dateString) {
                 durationString = Date().offsetFrom(date: date)
             }
         }
         
-        if durationString.elementsEqual(""){
+        if durationString.elementsEqual("") {
             durationString = "1분"
         }
         return durationString
     }
-}
-
-extension Formatter {
-    static let iso8601: ISO8601DateFormatter = {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withFullDate,
-                                   .withTime,
-                                   .withDashSeparatorInDate,
-                                   .withColonSeparatorInTime]
-        return formatter
-    }()
 }

@@ -38,7 +38,6 @@ class SearchViewController: UIViewController {
     public static let TABLE_VIEW_TYPE_ADDRESS = 2
     
     var searchType:Int?
-    var isPayableList: Bool = false
     var delegate:ChargerSelectDelegate?
     
     let chargerManager = ChargerListManager.sharedInstance
@@ -108,36 +107,7 @@ class SearchViewController: UIViewController {
         addrTableView.searchTableDelegate = self
         addrTableView.keyboardDismissMode = .onDrag
 
-        if isPayableList {
-            self.showProgress()
-            Server.getChargerListForPayment() { (isSuccess, value) in
-                self.hideProgress()
-                if isSuccess {
-                    let json = JSON(value)
-                    let chargerList = json["charger_list"].arrayValue
-                    var payableIds:[String] = [String]()
-                    var payableList: [Charger] = [Charger]()
-                    for item in chargerList{
-                        if let id = item.rawString(){
-                                payableIds.append(id)
-                        }
-                    }
-                    payableIds = Array(Set(payableIds))
-                    for id in payableIds {
-                        if let charger = self.chargerManager.getChargerFromChargerId(id: id){
-                            payableList.append(charger)
-                        }
-                    }
-                    self.tableView.chargerList = payableList
-                    self.tableView.reloadData()
-
-                } else {
-                    Snackbar().show(message: "충전소 목록을 받아오지 못했습니다.\n잠시 후 다시 시도해 주세요.")
-                }
-            }
-        } else {
-            tableView.chargerList = self.chargerManager.chargerList
-        }
+        tableView.chargerList = self.chargerManager.chargerList
         
         onClickChargerBtn(chargerRadioBtn)
     }
