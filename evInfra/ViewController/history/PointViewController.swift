@@ -126,15 +126,15 @@ class PointViewController: UIViewController {
         if isAllDuration == true {
             getPointHistory(isAllDate: isAllDuration, startDate: startDate, endDate: endDate)
         }
-        if isSavePoint == true && isUsePoint == false {
+        if (isSavePoint == true && isUsePoint == false) || (isAllDuration == true && isSavePoint == true){
             selectiedFilter = FILTER_POINT_SAVE
             updatePointList()
         }
-        if isUsePoint == true && isSavePoint == false {
+        if (isUsePoint == true && isSavePoint == false) || (isAllDuration == true && isUsePoint == true){
             selectiedFilter = FILTER_POINT_USED
             updatePointList()
         }
-        if isSavePoint == true && isUsePoint == true {
+        if (isSavePoint == true && isUsePoint == true) || (isAllDuration == true && isUsePoint == true && isSavePoint == true){
             selectiedFilter = FILTER_POINT_ALL
             updatePointList()
         }
@@ -238,14 +238,16 @@ extension PointViewController {
                     
                     // 나의 잔여 포인트
                     self.labelTotalPoint.text = "\(pointHistory.total_point)".currency()
-                    self.updatePointList(pointHistory: pointHistory);
+                    
+                    self.updatePointList(pointHistory: pointHistory)
                     print("getPointHistory_server")
                 }
             }
         }
         updatePointList()
     }
-//
+    
+    //사용베리
     func getUsedPointList() -> PointHistory{
         evFilteredList.removeAll()
         var pointHistory = PointHistory()
@@ -258,7 +260,7 @@ extension PointViewController {
         print("getUsedPointList")
         return pointHistory
     }
-//
+    //적립베리
     func getSavePointList() -> PointHistory{
         evFilteredList.removeAll()
          var pointHistory = PointHistory()
@@ -271,8 +273,10 @@ extension PointViewController {
         print("getSavePointList")
         return pointHistory
     }
-//
+
     fileprivate func updatePointList(){
+        var pointHistory = PointHistory()
+        pointHistory.list = evPointList
         
         switch selectiedFilter {
         case FILTER_POINT_USED:
@@ -285,7 +289,7 @@ extension PointViewController {
             break
         case FILTER_POINT_ALL:
             print("updatePointList -> FILTER_POINT_ALL")
-            updatePointList(pointHistory: PointHistory())
+            updatePointList(pointHistory: pointHistory)
             break
             
         default:
