@@ -126,11 +126,11 @@ class PointViewController: UIViewController {
         if isAllDuration == true {
             getPointHistory(isAllDate: isAllDuration, startDate: startDate, endDate: endDate)
         }
-        if isSavePoint == true && isUsePoint == false{
+        if isSavePoint == true && isUsePoint == false {
             selectiedFilter = FILTER_POINT_SAVE
             updatePointList()
         }
-        if isUsePoint == true && isSavePoint == false{
+        if isUsePoint == true && isSavePoint == false {
             selectiedFilter = FILTER_POINT_USED
             updatePointList()
         }
@@ -217,7 +217,7 @@ extension PointViewController {
     }
     
     fileprivate func getPointHistory(isAllDate: Bool, startDate: Date, endDate: Date) {
-//        evPointList.removeAll()
+        evPointList.removeAll()
         self.textFieldStartDate.text = self.dateFormatter.string(from: startDate)
         self.textFieldEndDate.text =  self.dateFormatter.string(from: endDate)
         
@@ -247,20 +247,20 @@ extension PointViewController {
     }
 //
     func getUsedPointList() -> PointHistory{
-//        if let list = evFilteredList.list{
+        evFilteredList.removeAll()
         var pointHistory = PointHistory()
         for i in self.evPointList {
             if i.action == "used"{
                 evFilteredList.append(i)
                 }
             }
-//        }
-       pointHistory.list = evFilteredList
+        pointHistory.list = evFilteredList
         print("getUsedPointList")
         return pointHistory
     }
 //
     func getSavePointList() -> PointHistory{
+        evFilteredList.removeAll()
          var pointHistory = PointHistory()
             for i in self.evPointList {
                 if i.action == "save"{
