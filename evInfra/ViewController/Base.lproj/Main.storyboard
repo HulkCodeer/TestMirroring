@@ -4273,13 +4273,13 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="1yY-nQ-FUu">
-                                                        <rect key="frame" x="0.0" y="216" width="335" height="110"/>
+                                                        <rect key="frame" x="0.0" y="216" width="335" height="142"/>
                                                         <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OlF-xk-5Ip">
-                                                                <rect key="frame" x="0.0" y="0.0" width="335" height="110"/>
+                                                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OlF-xk-5Ip">
+                                                                <rect key="frame" x="0.0" y="0.0" width="392" height="110"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ugf-gP-vkF">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="77.5" height="110"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="90.5" height="110"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" text="주소" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lk5-8d-6dR">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="29.5" height="20.5"/>
@@ -4295,13 +4295,13 @@
                                                                         </constraints>
                                                                     </view>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="Dib-Tg-yej">
-                                                                        <rect key="frame" x="77.5" y="0.0" width="257.5" height="110"/>
+                                                                        <rect key="frame" x="90.5" y="0.0" width="301.5" height="110"/>
                                                                         <subviews>
                                                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OEh-3v-hJA">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="257.5" height="34"/>
+                                                                                <rect key="frame" x="0.0" y="0.0" width="301.5" height="34"/>
                                                                                 <subviews>
                                                                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="우편번호" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5uF-cf-Tew">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="65" height="34"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="76.5" height="34"/>
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="height" constant="34" id="kvL-Sc-2Zu"/>
                                                                                         </constraints>
@@ -4309,10 +4309,10 @@
                                                                                         <textInputTraits key="textInputTraits"/>
                                                                                     </textField>
                                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S9A-Qb-tOi">
-                                                                                        <rect key="frame" x="65" y="0.0" width="192.5" height="34"/>
+                                                                                        <rect key="frame" x="76.5" y="0.0" width="225" height="34"/>
                                                                                         <subviews>
                                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fkJ-nI-8FV">
-                                                                                                <rect key="frame" x="110.5" y="2" width="82" height="30"/>
+                                                                                                <rect key="frame" x="143" y="2" width="82" height="30"/>
                                                                                                 <state key="normal" title="우편번호 검색"/>
                                                                                                 <connections>
                                                                                                     <action selector="onClickSearchZipCode:" destination="26Z-fH-GsU" eventType="touchUpInside" id="tkQ-XT-MOh"/>
@@ -4331,15 +4331,15 @@
                                                                                 </constraints>
                                                                             </stackView>
                                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="eaD-cq-q0p">
-                                                                                <rect key="frame" x="0.0" y="38" width="257.5" height="72"/>
+                                                                                <rect key="frame" x="0.0" y="38" width="301.5" height="72"/>
                                                                                 <subviews>
                                                                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JHT-Xf-lrk">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="257.5" height="34"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="301.5" height="34"/>
                                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                         <textInputTraits key="textInputTraits"/>
                                                                                     </textField>
                                                                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="우편번호 검색 후 입력해 주세요." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dd0-2x-K1o">
-                                                                                        <rect key="frame" x="0.0" y="38" width="257.5" height="34"/>
+                                                                                        <rect key="frame" x="0.0" y="38" width="301.5" height="34"/>
                                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                         <textInputTraits key="textInputTraits"/>
                                                                                     </textField>
@@ -4361,14 +4361,14 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="b4G-U7-TS5">
-                                                        <rect key="frame" x="0.0" y="342" width="335" height="112"/>
+                                                        <rect key="frame" x="0.0" y="374" width="335" height="80"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Owi-Oj-dEY">
                                                                 <rect key="frame" x="0.0" y="0.0" width="335" height="50"/>
                                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                             </view>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CIg-iF-s4B">
-                                                                <rect key="frame" x="0.0" y="50" width="335" height="62"/>
+                                                                <rect key="frame" x="0.0" y="50" width="335" height="30"/>
                                                                 <state key="normal" title="업데이트"/>
                                                                 <connections>
                                                                     <action selector="onClickRegBtn:" destination="26Z-fH-GsU" eventType="touchUpInside" id="iX8-KX-2rS"/>
@@ -6604,10 +6604,10 @@
                                     <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3L9-fi-KlL">
                                         <rect key="frame" x="0.0" y="0.0" width="111.5" height="32"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="전체">
+                                        <state key="normal" title="사용+적립">
                                             <color key="titleColor" red="0.76078431369999999" green="0.76078431369999999" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
-                                        <state key="selected" title="전체">
+                                        <state key="selected" title="사용+적립">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -6636,20 +6636,7 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="3L9-fi-KlL" firstAttribute="leading" secondItem="5Ej-9y-YnE" secondAttribute="leading" id="MpI-X4-LR0"/>
-                                    <constraint firstAttribute="trailing" secondItem="mJr-0O-l0g" secondAttribute="trailing" id="PvN-ua-8Z1"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="TJ8-03-8Jn"/>
-                                    <constraint firstItem="1D4-sr-UBo" firstAttribute="top" secondItem="5Ej-9y-YnE" secondAttribute="top" id="UVq-hN-eIb"/>
-                                    <constraint firstItem="mJr-0O-l0g" firstAttribute="top" secondItem="5Ej-9y-YnE" secondAttribute="top" id="X9D-BI-zo5"/>
-                                    <constraint firstItem="3L9-fi-KlL" firstAttribute="top" secondItem="5Ej-9y-YnE" secondAttribute="top" id="XzL-qt-ejm"/>
-                                    <constraint firstAttribute="bottom" secondItem="1D4-sr-UBo" secondAttribute="bottom" id="eny-GB-8Bg"/>
-                                    <constraint firstItem="3L9-fi-KlL" firstAttribute="width" secondItem="mJr-0O-l0g" secondAttribute="width" id="iYL-7Y-NHU"/>
-                                    <constraint firstItem="mJr-0O-l0g" firstAttribute="leading" secondItem="1D4-sr-UBo" secondAttribute="trailing" id="r9m-qX-UvK"/>
-                                    <constraint firstAttribute="bottom" secondItem="mJr-0O-l0g" secondAttribute="bottom" id="rEL-23-Swf"/>
-                                    <constraint firstAttribute="bottom" secondItem="3L9-fi-KlL" secondAttribute="bottom" id="ryn-Cl-boJ"/>
-                                    <constraint firstItem="3L9-fi-KlL" firstAttribute="width" secondItem="1D4-sr-UBo" secondAttribute="width" multiplier="1:1" id="uhW-yW-37A"/>
-                                    <constraint firstItem="1D4-sr-UBo" firstAttribute="leading" secondItem="3L9-fi-KlL" secondAttribute="trailing" id="umb-6b-P1R"/>
-                                    <constraint firstAttribute="width" secondItem="3L9-fi-KlL" secondAttribute="width" multiplier="3:1" id="y1Z-Lj-lk0"/>
                                 </constraints>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZIL-9Q-Rvc">

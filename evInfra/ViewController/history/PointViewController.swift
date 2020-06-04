@@ -62,22 +62,23 @@ class PointViewController: UIViewController {
         let currentDate = Date()
         getPointHistory(isAllDate: false, startDate: currentDate, endDate: currentDate)
         
-        // btn border, change color
-        btnState()
-        
         // change btn selected default
         btnAllBerry.isSelected = true
         btnUseBerry.isSelected = false
     }
+    
+    override func viewDidLayoutSubviews() {
+        btnState()
+    }
+    
     func btnState() {
         // border
         btnAllBerry.roundCorners([.topLeft, .bottomLeft], radius: 8, borderColor: hexStringToUIColor(hex: "#CECECE"), borderWidth:2)
-        btnAllBerry.clipsToBounds = true
-        btnUseBerry.roundCorners(.allCorners, radius: 0, borderColor: hexStringToUIColor(hex: "#CECECE"), borderWidth:2)
-        btnUseBerry.clipsToBounds = true
-        btnSaveBerry.roundCorners([.topRight, .bottomRight], radius: 8, borderColor: hexStringToUIColor(hex: "#CECECE"), borderWidth:2)
-        btnSaveBerry.clipsToBounds = true
         
+        btnUseBerry.roundCorners(.allCorners, radius: 0, borderColor: hexStringToUIColor(hex: "#CECECE"), borderWidth:2)
+
+        btnSaveBerry.roundCorners([.topRight, .bottomRight], radius: 8, borderColor: hexStringToUIColor(hex: "#CECECE"), borderWidth:2)
+
         // Bg color change
         btnAllBerry.setBackgroundColor(hexStringToUIColor(hex: "#CECECE"), for: .selected)
         btnSaveBerry.setBackgroundColor(hexStringToUIColor(hex: "#CECECE"), for: .selected)
@@ -202,7 +203,7 @@ extension PointViewController {
         updatePointList()
     }
     
-    // 모든베리(사용,적립)
+    // save + used 
     func getAllPointList() -> PointHistory {
         var pointHistory = PointHistory()
         pointHistory.list = nil
@@ -211,7 +212,7 @@ extension PointViewController {
         return pointHistory
     }
     
-    // 사용베리
+    // used
     func getUsedPointList() -> PointHistory{
         var evFilteredList:[EvPoint] = []
         var pointHistory = PointHistory()
@@ -225,7 +226,7 @@ extension PointViewController {
         return pointHistory
     }
     
-    // 적립베리
+    // save
     func getSavePointList() -> PointHistory{
         var evFilteredList:[EvPoint] = []
         var pointHistory = PointHistory()
@@ -322,33 +323,8 @@ extension PointViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-// set btn border, color
-extension UIView {
-    func roundCorners(_ corners: UIRectCorner, radius: CGFloat, borderColor: UIColor?, borderWidth: CGFloat?) {
-        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        let mask = CAShapeLayer()
-        mask.frame = self.bounds
-        mask.path = path.cgPath
-        self.layer.mask = mask
-
-        if borderWidth != nil {
-            addBorder(mask, borderWidth: borderWidth!, borderColor:borderColor!)
-        }
-    }
-
-    private func addBorder(_ mask: CAShapeLayer, borderWidth: CGFloat, borderColor: UIColor) {
-        let borderLayer = CAShapeLayer()
-        borderLayer.path = mask.path
-        borderLayer.fillColor = UIColor.clear.cgColor
-        borderLayer.strokeColor = borderColor.cgColor
-        borderLayer.lineWidth = borderWidth
-        borderLayer.frame = bounds
-        layer.addSublayer(borderLayer)
-    }
-}
-
-// change button color according to state
 extension UIButton {
+    // change button color according to state
     func setBgColor(_ color: UIColor, for state: UIControl.State) {
         UIGraphicsBeginImageContext(CGSize(width: 1.0, height: 1.0))
         guard let context = UIGraphicsGetCurrentContext() else { return }
@@ -359,6 +335,35 @@ extension UIButton {
         UIGraphicsEndImageContext()
          
         self.setBackgroundImage(backgroundImage, for: state)
+    }
+    
+    // custom button (border, radius)
+    func roundCorners(_ corners: UIRectCorner, radius: CGFloat, borderColor: UIColor, borderWidth: CGFloat) {
+        self.clipsToBounds = true
+        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.frame = self.bounds
+        mask.path = path.cgPath
+        self.layer.mask = mask
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = mask.path
+        borderLayer.fillColor = UIColor.clear.cgColor
+        borderLayer.strokeColor = borderColor.cgColor
+        borderLayer.lineWidth = borderWidth
+        borderLayer.frame = mask.frame
+        borderLayer.name = "borderLayer"
+        
+        // remove unused layer
+        if let layers = layer.sublayers {
+            for layer in layers{
+                if let name = layer.name{
+                if name.elementsEqual("borderLayer"){
+                    layer.removeFromSuperlayer()
+                }
+            }
+        }
+        layer.addSublayer(borderLayer)
+        }
     }
 }
 
