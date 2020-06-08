@@ -1253,11 +1253,8 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bUO-7h-a9I">
-                                <rect key="frame" x="279" y="74" width="80" height="30"/>
+                                <rect key="frame" x="278.5" y="74" width="80.5" height="30"/>
                                 <color key="backgroundColor" red="0.1333333333" green="0.52549019610000003" blue="0.76470588240000004" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="Cxp-Nf-Bor"/>
-                                </constraints>
                                 <state key="normal" title="조회">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -1566,6 +1563,7 @@
                             <constraint firstItem="vey-8j-wbT" firstAttribute="trailing" secondItem="pHs-oR-Eq4" secondAttribute="trailing" constant="16" id="kiM-Lg-Pcs"/>
                             <constraint firstItem="cDq-Dv-kpn" firstAttribute="top" secondItem="bUO-7h-a9I" secondAttribute="bottom" constant="8" id="oIx-AC-fgJ"/>
                             <constraint firstItem="w16-3c-QiR" firstAttribute="top" secondItem="dfM-VD-NWi" secondAttribute="bottom" constant="16" id="qT3-U3-bKj"/>
+                            <constraint firstItem="bUO-7h-a9I" firstAttribute="width" secondItem="GIx-RD-YqR" secondAttribute="width" multiplier="1.00629" id="rJq-gq-6bE"/>
                             <constraint firstItem="cDq-Dv-kpn" firstAttribute="leading" secondItem="vey-8j-wbT" secondAttribute="leading" constant="16" id="uyI-IZ-cgA"/>
                             <constraint firstItem="CQQ-8b-nc1" firstAttribute="centerX" secondItem="vey-8j-wbT" secondAttribute="centerX" id="vyr-Zt-jIb"/>
                             <constraint firstItem="CQQ-8b-nc1" firstAttribute="centerY" secondItem="YYM-B2-ubl" secondAttribute="centerY" id="wU1-8g-o5s"/>
@@ -4453,6 +4451,7 @@
                     <connections>
                         <outlet property="addrInfoDetailField" destination="dd0-2x-K1o" id="S1F-23-jvA"/>
                         <outlet property="addrInfoField" destination="JHT-Xf-lrk" id="HFI-7t-O9C"/>
+                        <outlet property="addrView" destination="OlF-xk-5Ip" id="gQU-fu-cSK"/>
                         <outlet property="carKindSpinnerBtn" destination="UWP-x7-doF" id="XcT-JW-uvA"/>
                         <outlet property="carNoField" destination="nOh-ow-YfI" id="Eeb-Ib-FyV"/>
                         <outlet property="indicator" destination="5Sz-Zf-g5I" id="F1X-17-SoE"/>

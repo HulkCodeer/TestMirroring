@@ -21,6 +21,8 @@ class MyPageViewController: UIViewController {
     @IBOutlet weak var profileImgBtn: UIButton!
     @IBOutlet weak var profileImgView: UIImageView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
+    @IBOutlet weak var addrView: UIStackView!
+    
     
     // 차량번호
     @IBOutlet weak var carNoField: UITextField!
@@ -82,16 +84,13 @@ class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 키보드 관리 (show/hide)
+        //delegate for check Name,carNo, addrInfo
         nickNameField.delegate = self
         carNoField.delegate = self
         addrInfoDetailField.delegate = self
-        
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEditing)))
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
-        
+        keyboardViewMove()
         prepareActionBar()
         prepareSpinnerView()
         prepareView()
@@ -105,8 +104,15 @@ class MyPageViewController: UIViewController {
         addrInfoDetailField.resignFirstResponder()
     }
     
+    func keyboardViewMove() {
+        // 키보드 관리 (show/hide)
+        if !addrView.isHidden {
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        }
+    }
+    
     @objc func keyboardWillShow(_ notification: NSNotification){
-
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             self.view.frame.origin.y = -keyboardSize.height * 3/7
             return
@@ -114,7 +120,6 @@ class MyPageViewController: UIViewController {
     }
 
     @objc func keyboardWillHide(_ notification: NSNotification){
-
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             self.view.frame.origin.y = keyboardSize.height * 1/4
             return
@@ -319,7 +324,6 @@ extension MyPageViewController {
             }
             
             let region = dropDwonLocation.selectedItem!
-    
             Server.updateMemberInfo(nickName: nickName, region: region, profile: profileName, carId: carId, zipCode: zipCode, address: address, addressDetail: addressDetail, carNo: carNo) { (isSuccess, value) in
                 if isSuccess {
                     self.responseUpdateMemberInfo(json: JSON(value))
