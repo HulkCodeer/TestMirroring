@@ -54,6 +54,7 @@ class UsePointViewController: UIViewController {
                 let json = JSON(value)
                 if json["code"].stringValue == "1000" {
                     self.myPoint = json["point"].intValue
+                    
                     self.labelMyPoint.text = "\(self.myPoint)".currency()
                 }
             } else {
@@ -74,7 +75,7 @@ class UsePointViewController: UIViewController {
     @IBAction func onClickUseAllPoint(_ sender: UITapGestureRecognizer) {
         cbUseAllPoint.toggleCheckState(true)
         if cbUseAllPoint.checkState == .checked {
-            textFieldUsePoint.text = String(myPoint)
+            textFieldUsePoint.text = String(self.myPoint)
         } else {
             textFieldUsePoint.text = "0"
         }
