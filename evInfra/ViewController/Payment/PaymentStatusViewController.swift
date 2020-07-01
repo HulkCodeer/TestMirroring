@@ -41,7 +41,6 @@ class PaymentStatusViewController: UIViewController{
     var chargingStartTime = ""
     var isStopCharging = false
     
-    var totalFee: Int = 0
     var point:Int = 0
     var cpId: String = ""
     var connectorId: String = ""
@@ -67,19 +66,7 @@ class PaymentStatusViewController: UIViewController{
     }
     
     func dataReceived(berry: String) {
-        let allFee = lbChargeAllFee.text ?? "0"
-        let calculAllFee = Int(allFee) ?? 0
-        if var calculBerry = Int(berry){
-            if calculAllFee >= calculBerry {
-                totalFee = calculAllFee - calculBerry
-                lbChargeBerry.text = "- "+berry+"B"
-                lbChargeAllFee.text = String(totalFee) + "원"
-            }else if calculAllFee < calculBerry{
-                calculBerry = calculAllFee
-                lbChargeBerry.text = "- "+String(calculBerry)+"B"
-                lbChargeAllFee.text = "0원"
-            }
-        }
+        lbChargeBerry.text = "- "+berry+"B"
     }
     
     override func viewDidDisappear(_ animated: Bool) {
