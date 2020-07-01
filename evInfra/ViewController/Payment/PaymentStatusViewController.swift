@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 import Material
 
-class PaymentStatusViewController: UIViewController {
+class PaymentStatusViewController: UIViewController{
 
     let STATUS_READY = 0
     let STATUS_START = 1
@@ -25,17 +25,24 @@ class PaymentStatusViewController: UIViewController {
     @IBOutlet weak var lbChargePower: UILabel!
     @IBOutlet weak var lbChargeSpeed: UILabel!
     @IBOutlet weak var lbChargeFee: UILabel!
+    @IBOutlet weak var lbChargeBerry: UILabel!
+    @IBOutlet weak var lbChargeAllFee: UILabel!
+    
+    
     @IBOutlet weak var chronometer: Chronometer!
 
     @IBOutlet weak var btnStopCharging: UIButton!
+    @IBOutlet weak var btnUseBerry: UIButton!
     
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     var chargingStartTime = ""
     var isStopCharging = false
     
-    var point: Int = 0
+    var totalFee: Int = 0
+    var point:Int = 0
     var cpId: String = ""
     var connectorId: String = ""
     var chargingStatus = ChargingStatus.init()
@@ -57,7 +64,22 @@ class PaymentStatusViewController: UIViewController {
         
         requestOpenCharger()
         startTimer(tick: TIMER_COUNT_NORMAL_TICK)
-//        self.progressBar.setProgress(to: 1, withAnimation: true)
+    }
+    
+    func dataReceived(berry: String) {
+        let allFee = lbChargeAllFee.text ?? "0"
+        let calculAllFee = Int(allFee) ?? 0
+        if var calculBerry = Int(berry){
+            if calculAllFee >= calculBerry {
+                totalFee = calculAllFee - calculBerry
+                lbChargeBerry.text = "- "+berry+"B"
+                lbChargeAllFee.text = String(totalFee) + "원"
+            }else if calculAllFee < calculBerry{
+                calculBerry = calculAllFee
+                lbChargeBerry.text = "- "+String(calculBerry)+"B"
+                lbChargeAllFee.text = "0원"
+            }
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -84,6 +106,55 @@ class PaymentStatusViewController: UIViewController {
         circleView.safePercent = 100
         
         btnStopCharging.isEnabled = false
+        
+        //btn border
+        btnSetBorder()
+    }
+    
+    func btnSetBorder() {
+        let borderColor = hexStringToUIColor(hex: "#22C1BB")
+        
+        let startColor = hexStringToUIColor(hex: "#902CE0BB")
+        let endColor = hexStringToUIColor(hex: "#9033A2DA")
+//        let startBGColor = hexStringToUIColor(hex: "#2CE0BB")
+//        let endBGColor = hexStringToUIColor(hex: "#33A2DA")
+        
+        
+        let gradient = CAGradientLayer()
+        gradient.frame = view.bounds
+        gradient.colors = [startColor.cgColor, endColor.cgColor]
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.1)
+        gradient.endPoint = CGPoint(x: 0.1, y:0.1)
+        
+        btnUseBerry.layer.borderWidth = 2.0
+        btnUseBerry.layer.borderColor = borderColor.cgColor
+        btnUseBerry.backgroundColor = UIColor.clear
+        btnUseBerry.layer.cornerRadius = 12
+        
+        btnStopCharging.layer.cornerRadius = 12
+//        btnStopCharging.layer.insertSublayer(gradient, at: 0)
+//        btnStopCharging.setBackgroundColor(gradient, for: .normal)
+    }
+    
+    func hexStringToUIColor(hex:String) -> UIColor {
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        if (cString.hasPrefix("#")) {
+           cString.remove(at: cString.startIndex)
+        }
+
+        if ((cString.count) != 6) {
+           return UIColor.gray
+        }
+
+        var rgbValue:UInt64 = 0
+        Scanner(string: cString).scanHexInt64(&rgbValue)
+
+        return UIColor(
+           red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+           green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+           blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+           alpha: CGFloat(1.0)
+        )
     }
     
     func prepareNotificationCenter() {
@@ -279,7 +350,7 @@ extension PaymentStatusViewController {
         case "1000":
             startTimer(tick: TIMER_COUNT_COMPLETE_TICK)
             
-        case "2003": // CHARGING_CANCEL 충전 시작하기전에 취소
+        case "2003": // CHARGING_CANCEL 충전 하기전에 취소
             Snackbar().show(message: "충전을 취소하였습니다.")
             self.navigationController?.pop()
 
@@ -360,7 +431,9 @@ extension PaymentStatusViewController {
                 
                 // 충전 요금: 충전량 x 173.8
                 let fee = round((chargingKw.parseDouble() ?? 0) * 173.8)
-                lbChargeFee.text = "\(fee)".currency() + "원"
+                lbChargeFee.text = "- "+"\(fee)".currency() + "원"
+                
+                // 총 결제 금액
                 
                 // 충전속도
                 if let updateTime = chargingStatus.updateTime {
