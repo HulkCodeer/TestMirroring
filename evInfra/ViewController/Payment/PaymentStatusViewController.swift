@@ -32,6 +32,8 @@ class PaymentStatusViewController: UIViewController{
     @IBOutlet weak var chronometer: Chronometer!
 
     @IBOutlet weak var btnStopCharging: UIButton!
+    @IBOutlet weak var btnStopChargingView: UIView!
+    
     @IBOutlet weak var btnUseBerry: UIButton!
     
     @IBOutlet weak var indicator: UIActivityIndicatorView!
@@ -93,34 +95,21 @@ class PaymentStatusViewController: UIViewController{
         circleView.safePercent = 100
         
         btnStopCharging.isEnabled = false
-        
-        //btn border
+    }
+    
+    override func viewDidLayoutSubviews() {
+        //btn border, gradient
         btnSetBorder()
     }
     
     func btnSetBorder() {
         let borderColor = hexStringToUIColor(hex: "#22C1BB")
+        let startColor = hexStringToUIColor(hex: "#2CE0BB").cgColor
+        let endColor = hexStringToUIColor(hex: "#33A2DA").cgColor
         
-        let startColor = hexStringToUIColor(hex: "#902CE0BB")
-        let endColor = hexStringToUIColor(hex: "#9033A2DA")
-//        let startBGColor = hexStringToUIColor(hex: "#2CE0BB")
-//        let endBGColor = hexStringToUIColor(hex: "#33A2DA")
+        btnUseBerry.roundCorners(.allCorners, radius: 20, borderColor: borderColor, borderWidth: 4)
         
-        
-        let gradient = CAGradientLayer()
-        gradient.frame = view.bounds
-        gradient.colors = [startColor.cgColor, endColor.cgColor]
-        gradient.startPoint = CGPoint(x: 0.0, y: 0.1)
-        gradient.endPoint = CGPoint(x: 0.1, y:0.1)
-        
-        btnUseBerry.layer.borderWidth = 2.0
-        btnUseBerry.layer.borderColor = borderColor.cgColor
-        btnUseBerry.backgroundColor = UIColor.clear
-        btnUseBerry.layer.cornerRadius = 12
-        
-        btnStopCharging.layer.cornerRadius = 12
-//        btnStopCharging.layer.insertSublayer(gradient, at: 0)
-//        btnStopCharging.setBackgroundColor(gradient, for: .normal)
+        btnStopCharging.setRoundGradient(startColor: startColor, endColor: endColor)
     }
     
     func hexStringToUIColor(hex:String) -> UIColor {
@@ -431,13 +420,15 @@ extension PaymentStatusViewController {
                         let sec = Double(updateDate?.timeIntervalSince(preDate!) ?? 0)
 
                         // 충전량 계산
-                        let chargingKw = chargingKw.parseDouble()! - preChargingKw.parseDouble()!
+                        let chargingKw = chargingKw.parseDouble()! - self.preChargingKw.parseDouble()!
 
                         // 속도 계산: 충전량 / 시간 * 3600
                         if (sec > 0 && chargingKw > 0) {
                             let speed = chargingKw / sec * 3600
-                            lbChargeSpeed.text = "\((speed * 100).rounded() / 100) Kw"
+                            self.lbChargeSpeed.text = "\((speed * 100).rounded() / 100) Kw"
                         }
+                    }else{
+                        self.lbChargeSpeed.text = "0 Kw"
                     }
                     preChargingKw = chargingStatus.chargingKw ?? ""
                     preUpdateTime = chargingStatus.updateTime ?? ""

@@ -65,7 +65,11 @@ class PointViewController: UIViewController {
         // change btn selected default
         btnAllBerry.isSelected = true
         btnUseBerry.isSelected = false
+        
     }
+    
+    
+   
     
     override func viewDidLayoutSubviews() {
         btnState()
@@ -364,6 +368,17 @@ extension UIButton {
         }
         layer.addSublayer(borderLayer)
         }
+    }
+    
+    func setRoundGradient(startColor: CGColor, endColor:CGColor) {
+        let gradient = CAGradientLayer()
+        gradient.frame = self.bounds
+        gradient.colors = [startColor, endColor]
+        gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
+        gradient.endPoint = CGPoint(x: 1.0, y:1.0)
+        gradient.locations = [0.0, 1.0]
+        gradient.cornerRadius = 20
+        self.layer.insertSublayer(gradient, at: 0)
     }
 }
 

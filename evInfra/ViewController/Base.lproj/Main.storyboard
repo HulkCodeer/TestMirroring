@@ -5010,8 +5010,11 @@
                                                 </subviews>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vsT-Iy-Y6j" customClass="CircularProgressBar" customModule="evInfra" customModuleProvider="target">
-                                                <rect key="frame" x="171.5" y="29.5" width="171.5" height="136"/>
+                                                <rect key="frame" x="171.5" y="12" width="171.5" height="171.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="vsT-Iy-Y6j" secondAttribute="height" id="bKm-Ro-wt4"/>
+                                                </constraints>
                                             </view>
                                         </subviews>
                                     </stackView>
@@ -5114,7 +5117,9 @@
                                             <constraint firstAttribute="height" constant="40" id="Led-8h-fyL"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <state key="normal" title="충전 종료 및 결제 하기"/>
+                                        <state key="normal" title="충전 종료 및 결제 하기">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <connections>
                                             <action selector="onClickStopCharging:" destination="V7S-tk-w3k" eventType="touchUpInside" id="5X4-pv-Mo7"/>
                                         </connections>
@@ -5149,6 +5154,7 @@
                     </view>
                     <connections>
                         <outlet property="btnStopCharging" destination="aJZ-wE-oBV" id="292-wa-H6G"/>
+                        <outlet property="btnStopChargingView" destination="aJZ-wE-oBV" id="6Ex-EW-XCx"/>
                         <outlet property="btnUseBerry" destination="JtC-qC-bM9" id="6Yl-7r-EDQ"/>
                         <outlet property="chronometer" destination="DfT-ax-pEZ" id="Xzw-2O-TDC"/>
                         <outlet property="circleView" destination="vsT-Iy-Y6j" id="zft-S7-Lef"/>
@@ -5829,7 +5835,7 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="    게시판">
                                                     <attributes>
-                                                        <font key="NSFont" metaFont="menu" size="10"/>
+                                                        <font key="NSFont" metaFont="system" size="10"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
@@ -5852,7 +5858,7 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="    이벤트">
                                                     <attributes>
-                                                        <font key="NSFont" metaFont="menu" size="10"/>
+                                                        <font key="NSFont" metaFont="system" size="10"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
@@ -5875,7 +5881,7 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="전기차정보">
                                                     <attributes>
-                                                        <font key="NSFont" metaFont="menu" size="10"/>
+                                                        <font key="NSFont" metaFont="system" size="10"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
@@ -5898,7 +5904,7 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="설정">
                                                     <attributes>
-                                                        <font key="NSFont" metaFont="menu" size="10"/>
+                                                        <font key="NSFont" metaFont="system" size="10"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
