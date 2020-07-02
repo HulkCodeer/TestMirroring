@@ -327,60 +327,6 @@ extension PointViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension UIButton {
-    // change button color according to state
-    func setBgColor(_ color: UIColor, for state: UIControl.State) {
-        UIGraphicsBeginImageContext(CGSize(width: 1.0, height: 1.0))
-        guard let context = UIGraphicsGetCurrentContext() else { return }
-        context.setFillColor(color.cgColor)
-        context.fill(CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0))
-        
-        let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-         
-        self.setBackgroundImage(backgroundImage, for: state)
-    }
-    
-    // custom button (border, radius)
-    func roundCorners(_ corners: UIRectCorner, radius: CGFloat, borderColor: UIColor, borderWidth: CGFloat) {
-        self.clipsToBounds = true
-        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        let mask = CAShapeLayer()
-        mask.frame = self.bounds
-        mask.path = path.cgPath
-        self.layer.mask = mask
-        let borderLayer = CAShapeLayer()
-        borderLayer.path = mask.path
-        borderLayer.fillColor = UIColor.clear.cgColor
-        borderLayer.strokeColor = borderColor.cgColor
-        borderLayer.lineWidth = borderWidth
-        borderLayer.frame = mask.frame
-        borderLayer.name = "borderLayer"
-        
-        // remove unused layer
-        if let layers = layer.sublayers {
-            for layer in layers{
-                if let name = layer.name{
-                if name.elementsEqual("borderLayer"){
-                    layer.removeFromSuperlayer()
-                }
-            }
-        }
-        layer.addSublayer(borderLayer)
-        }
-    }
-    
-    func setRoundGradient(startColor: CGColor, endColor:CGColor) {
-        let gradient = CAGradientLayer()
-        gradient.frame = self.bounds
-        gradient.colors = [startColor, endColor]
-        gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
-        gradient.endPoint = CGPoint(x: 1.0, y:1.0)
-        gradient.locations = [0.0, 1.0]
-        gradient.cornerRadius = 20
-        self.layer.insertSublayer(gradient, at: 0)
-    }
-}
 
 //=============ChckBox=======================================================================================
 
