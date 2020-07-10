@@ -32,6 +32,7 @@ class MainViewController: UIViewController {
     
     @IBOutlet weak var myLocationButton: UIButton!
     @IBOutlet weak var reNewButton: UIButton!
+    @IBOutlet weak var btnChargePrice: UIButton!
     
     // Indicator View
     @IBOutlet weak var markerIndicator: UIActivityIndicatorView!
@@ -143,6 +144,7 @@ class MainViewController: UIViewController {
         
         getChargerInfo()  // request to server
         //self.checkFCM()
+        prepareChargePrice()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -401,6 +403,10 @@ class MainViewController: UIViewController {
         btn_menu_layer.layer.shadowOpacity = 0.5
         btn_menu_layer.layer.shadowOffset = CGSize(width: 0.5, height: 2)
         btn_menu_layer.layer.masksToBounds = false
+    }
+    
+    func prepareChargePrice() {
+        btnChargePrice.roundCorners(.allCorners, radius: 8)
     }
     
     @IBAction func onClickFavorite(_ sender: UIButton) {
@@ -1361,6 +1367,7 @@ extension MainViewController {
             MemberManager().showLoginAlert(vc:self)
         }
     }
+    
 }
 
 extension MainViewController {

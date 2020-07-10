@@ -101,7 +101,6 @@ class Server {
     
     // 회원 - 정보 업데이트
     static func updateMemberInfo(nickName: String, region: String, profile: String, carId: Int, zipCode: String, address: String, addressDetail:String, carNo:String, completion: @escaping (Bool, Any) -> Void) {
-        
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
             "nickname": nickName,

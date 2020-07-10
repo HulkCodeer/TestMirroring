@@ -68,7 +68,7 @@ class CardBoardViewController: UIViewController {
 }
 
 extension CardBoardViewController {
-    
+     
     func prepareActionBar() {
         self.navigationController?.isNavigationBarHidden = false
         
