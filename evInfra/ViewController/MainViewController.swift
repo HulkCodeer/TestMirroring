@@ -407,6 +407,13 @@ class MainViewController: UIViewController {
     
     func prepareChargePrice() {
         btnChargePrice.roundCorners(.allCorners, radius: 8)
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(self.chargePriceClick))
+        self.btnChargePrice.addGestureRecognizer(gesture)
+    }
+    
+    @objc func chargePriceClick(sender: UITapGestureRecognizer){
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
+        self.navigationController?.push(viewController:vc)
     }
     
     @IBAction func onClickFavorite(_ sender: UIButton) {
@@ -527,6 +534,7 @@ class MainViewController: UIViewController {
         self.saveFilterState()
         self.drawTMapMarker()
     }
+    
 }
 
 extension MainViewController {
