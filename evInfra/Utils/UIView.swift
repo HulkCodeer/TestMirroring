@@ -295,6 +295,35 @@ extension NSLayoutConstraint {
         self.layer.mask = mask
     }
     
+    // custom UIView (border, radius)
+    func setBorderRadius(_ corners: UIRectCorner, radius: CGFloat, borderColor: UIColor, borderWidth: CGFloat) {
+        self.clipsToBounds = true
+        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.frame = self.bounds
+        mask.path = path.cgPath
+        self.layer.mask = mask
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = mask.path
+        borderLayer.fillColor = UIColor.clear.cgColor
+        borderLayer.strokeColor = borderColor.cgColor
+        borderLayer.lineWidth = borderWidth
+        borderLayer.frame = mask.frame
+        borderLayer.name = "borderLayer"
+        
+        // remove unused layer
+        if let layers = layer.sublayers {
+            for layer in layers{
+                if let name = layer.name{
+                if name.elementsEqual("borderLayer"){
+                    layer.removeFromSuperlayer()
+                }
+            }
+        }
+        layer.addSublayer(borderLayer)
+        }
+    }
+    
     func addTapGesture(target: Any, action: Selector) {
         let tapGesture = UITapGestureRecognizer(target: target, action: action)
         tapGesture.numberOfTapsRequired = 1

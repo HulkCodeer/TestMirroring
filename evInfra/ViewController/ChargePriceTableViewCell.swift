@@ -13,6 +13,7 @@ class ChargePriceTableViewCell: UITableViewCell {
     @IBOutlet weak var lbChargePrice: UILabel!
     
     
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
