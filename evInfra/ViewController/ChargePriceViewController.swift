@@ -124,7 +124,6 @@ extension ChargePriceViewController: UITableViewDataSource{
         
         return cell
     }
-    
 }
 
 extension ChargePriceViewController: UITableViewDelegate{
