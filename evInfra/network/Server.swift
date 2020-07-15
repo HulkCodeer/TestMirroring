@@ -778,6 +778,22 @@ class Server {
             .validate().responseJSON { response in responseData(response: response, completion: completion) }
     }
     
+    // EV member 충전 가격 조회
+    static func getChargePriceForEvInfra(completion: @escaping (Bool, Any) -> Void){
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/charge_price/ev_infra")
+        .responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // Each Membership 충전 가격 조회
+    static func getMembershipCahrgePrice(completion: @escaping (Bool, Any) -> Void){
+        let reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId()
+        ]
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/charge_price/each_company",
+                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        .validate().responseJSON { response in responseData(response: response, completion: completion) }
+    }
+    
     // 충전 - 포인트 사용
     static func usePoint(point: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [

@@ -312,16 +312,20 @@ extension NSLayoutConstraint {
         borderLayer.name = "borderLayer"
         
         // remove unused layer
-        if let layers = layer.sublayers {
+        if let layers = self.layer.sublayers {
+            print("csj_layer", layers)
             for layer in layers{
+                print("csj_remove", layer)
                 if let name = layer.name{
+                    print("csj_remove", name)
                 if name.elementsEqual("borderLayer"){
+                    print("csj_remove")
                     layer.removeFromSuperlayer()
                 }
             }
         }
-        layer.addSublayer(borderLayer)
         }
+        layer.addSublayer(borderLayer)
     }
     
     func addTapGesture(target: Any, action: Selector) {
