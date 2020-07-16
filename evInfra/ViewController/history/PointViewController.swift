@@ -68,9 +68,6 @@ class PointViewController: UIViewController {
         
     }
     
-    
-   
-    
     override func viewDidLayoutSubviews() {
         btnState()
     }

@@ -11,7 +11,6 @@ import UIKit
 class ChargePriceTableViewCell: UITableViewCell {
     @IBOutlet weak var lbChargeCompany: UILabel!
     @IBOutlet weak var lbChargePrice: UILabel!
-    @IBOutlet weak var vChargePrice: UIView!
     
     
     override func awakeFromNib() {
