@@ -84,44 +84,22 @@ class ChargePriceViewController: UIViewController {
     
     func setEVRowBorder() {
         // EV member charge price table BG color, round board
-        lbEVRowKor.setBorderRadius(.topLeft, radius: 4, borderColor:  hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
-        lbEVRowGS.setBorderRadius(.allCorners, radius: 0, borderColor:  hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
-        lbEVRowSt.setBorderRadius(.topRight, radius: 4, borderColor:  hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
+        lbEVRowKor.setBorderRadius(.topLeft, radius: 4, borderColor:  UIColor(hex: "#DCDCDC"), borderWidth: 2)
+        lbEVRowGS.setBorderRadius(.allCorners, radius: 0, borderColor:  UIColor(hex: "#DCDCDC"), borderWidth: 2)
+        lbEVRowSt.setBorderRadius(.topRight, radius: 4, borderColor:  UIColor(hex: "#DCDCDC"), borderWidth: 2)
 
-        lbEVKorPrice.setBorderRadius(.bottomLeft, radius: 4, borderColor:  hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
-        lbEVRowGSPrice.setBorderRadius(.allCorners, radius: 0, borderColor:  hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
-        lbEVRowStPrice.setBorderRadius(.bottomRight, radius: 4, borderColor:  hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
+        lbEVKorPrice.setBorderRadius(.bottomLeft, radius: 4, borderColor:  UIColor(hex: "#DCDCDC"), borderWidth: 2)
+        lbEVRowGSPrice.setBorderRadius(.allCorners, radius: 0, borderColor:  UIColor(hex: "#DCDCDC"), borderWidth: 2)
+        lbEVRowStPrice.setBorderRadius(.bottomRight, radius: 4, borderColor:  UIColor(hex: "#DCDCDC"), borderWidth: 2)
         
-        lbEVRowKor.backgroundColor = hexStringToUIColor(hex: "#F5F5F5")
-        lbEVRowGS.backgroundColor = hexStringToUIColor(hex: "#F5F5F5")
-        lbEVRowSt.backgroundColor = hexStringToUIColor(hex: "#F5F5F5")
+        lbEVRowKor.backgroundColor = UIColor(hex: "#F5F5F5")
+        lbEVRowGS.backgroundColor = UIColor(hex: "#F5F5F5")
+        lbEVRowSt.backgroundColor = UIColor(hex: "#F5F5F5")
     }
     
     @objc
     fileprivate func handleBackButton() {
         self.navigationController?.pop()
-    }
-    
-    // Colot hexCode change to UIColor
-    func hexStringToUIColor(hex:String) -> UIColor {
-        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        if (cString.hasPrefix("#")) {
-           cString.remove(at: cString.startIndex)
-        }
-
-        if ((cString.count) != 6) {
-           return UIColor.gray
-        }
-
-        var rgbValue:UInt64 = 0
-        Scanner(string: cString).scanHexInt64(&rgbValue)
-
-        return UIColor(
-           red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-           green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-           blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-           alpha: CGFloat(1.0)
-        )
     }
 }
 
@@ -212,20 +190,20 @@ extension ChargePriceViewController: UITableViewDataSource{
         cell.lbChargeCompany.text = dbManager.getCompanyName(companyId: chargePrice["company_id"].stringValue)
         cell.lbChargePrice.text = chargePrice["price"].stringValue
         
-        cell.lbChargeCompany.backgroundColor = hexStringToUIColor(hex: "#F2F2F2")
+        cell.lbChargeCompany.backgroundColor = UIColor(hex: "#F2F2F2")
         if indexPath.row == 0 {
             // First row
-            cell.lbChargeCompany.setBorderRadius(.topLeft, radius: 6, borderColor: hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
-            cell.lbChargePrice.setBorderRadius(.topRight, radius: 6, borderColor: hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
+            cell.lbChargeCompany.setBorderRadius(.topLeft, radius: 6, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
+            cell.lbChargePrice.setBorderRadius(.topRight, radius: 6, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
         } else if indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1 {
             // Last row
-            cell.lbChargeCompany.setBorderRadius(.bottomLeft, radius: 6, borderColor: hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
-            cell.lbChargePrice.setBorderRadius(.bottomRight, radius: 6, borderColor: hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
+            cell.lbChargeCompany.setBorderRadius(.bottomLeft, radius: 6, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
+            cell.lbChargePrice.setBorderRadius(.bottomRight, radius: 6, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
             
         } else {
             // Center
-            cell.lbChargeCompany.setBorderRadius(.allCorners , radius: 0, borderColor: hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
-            cell.lbChargePrice.setBorderRadius(.allCorners, radius: 0, borderColor: hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
+            cell.lbChargeCompany.setBorderRadius(.allCorners , radius: 0, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
+            cell.lbChargePrice.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
         }
         
         return cell

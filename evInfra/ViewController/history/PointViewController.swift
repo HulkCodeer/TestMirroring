@@ -74,16 +74,16 @@ class PointViewController: UIViewController {
     
     func btnState() {
         // border
-        btnAllBerry.roundCorners([.topLeft, .bottomLeft], radius: 8, borderColor: hexStringToUIColor(hex: "#CECECE"), borderWidth:2)
+        btnAllBerry.roundCorners([.topLeft, .bottomLeft], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
         
-        btnUseBerry.roundCorners(.allCorners, radius: 0, borderColor: hexStringToUIColor(hex: "#CECECE"), borderWidth:2)
+        btnUseBerry.roundCorners(.allCorners, radius: 0, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
 
-        btnSaveBerry.roundCorners([.topRight, .bottomRight], radius: 8, borderColor: hexStringToUIColor(hex: "#CECECE"), borderWidth:2)
+        btnSaveBerry.roundCorners([.topRight, .bottomRight], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
 
         // Bg color change
-        btnAllBerry.setBackgroundColor(hexStringToUIColor(hex: "#CECECE"), for: .selected)
-        btnSaveBerry.setBackgroundColor(hexStringToUIColor(hex: "#CECECE"), for: .selected)
-        btnUseBerry.setBackgroundColor(hexStringToUIColor(hex: "#CECECE"), for: .selected)
+        btnAllBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
+        btnSaveBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
+        btnUseBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
     }
     
     func prepareActionBar() {
@@ -277,28 +277,6 @@ extension PointViewController {
             pointTableView.isHidden = true
         }
         pointTableView.reloadData()
-    }
-    
-    // Colot hexCode change to UIColor
-    func hexStringToUIColor(hex:String) -> UIColor {
-        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        if (cString.hasPrefix("#")) {
-           cString.remove(at: cString.startIndex)
-        }
-
-        if ((cString.count) != 6) {
-           return UIColor.gray
-        }
-
-        var rgbValue:UInt64 = 0
-        Scanner(string: cString).scanHexInt64(&rgbValue)
-
-        return UIColor(
-           red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-           green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-           blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-           alpha: CGFloat(1.0)
-        )
     }
 }
 

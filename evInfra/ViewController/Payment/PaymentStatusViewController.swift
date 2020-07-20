@@ -103,34 +103,13 @@ class PaymentStatusViewController: UIViewController{
     }
     
     func btnSetBorder() {
-        let borderColor = hexStringToUIColor(hex: "#22C1BB")
-        let startColor = hexStringToUIColor(hex: "#2CE0BB").cgColor
-        let endColor = hexStringToUIColor(hex: "#33A2DA").cgColor
+        let borderColor = UIColor(hex: "#22C1BB")
+        let startColor = UIColor(hex: "#2CE0BB").cgColor
+        let endColor = UIColor(hex: "#33A2DA").cgColor
         
         btnUseBerry.roundCorners(.allCorners, radius: 20, borderColor: borderColor, borderWidth: 4)
         
         btnStopCharging.setRoundGradient(startColor: startColor, endColor: endColor)
-    }
-    
-    func hexStringToUIColor(hex:String) -> UIColor {
-        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        if (cString.hasPrefix("#")) {
-           cString.remove(at: cString.startIndex)
-        }
-
-        if ((cString.count) != 6) {
-           return UIColor.gray
-        }
-
-        var rgbValue:UInt64 = 0
-        Scanner(string: cString).scanHexInt64(&rgbValue)
-
-        return UIColor(
-           red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-           green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-           blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-           alpha: CGFloat(1.0)
-        )
     }
     
     func prepareNotificationCenter() {
