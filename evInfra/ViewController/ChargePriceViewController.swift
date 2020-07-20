@@ -31,11 +31,15 @@ class ChargePriceViewController: UIViewController {
     @IBOutlet weak var scrollViewContent: UIView!
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var scrollViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var lbStackHeight: NSLayoutConstraint!
     
     let dbManager = DBManager.sharedInstance
        
     var chargePriceData: JSON!
     
+    struct Constants {
+        static let cellHeight: CGFloat = 40
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +48,7 @@ class ChargePriceViewController: UIViewController {
         
         self.getEvChargePrice()
         self.getMbChargePrice()
-        
+       
         initView()
     }
 
@@ -162,7 +166,19 @@ extension ChargePriceViewController{
                     }
                 }
                 self.tvChargePriceMb.reloadData()
+                self.setScrollViewHeight()
             }
+           
+        }
+        
+    }
+    
+    func setScrollViewHeight() {
+        if self.scrollView.contentSize.height > 0.0 && self.tvChargePriceMb.contentSize.height > 0.0{
+            //Set scrollView height
+            self.scrollViewHeight.constant = self.scrollView.contentSize.height-self.lbStackHeight.constant
+            //Set mb price table view height
+            self.tableViewHeight.constant = self.tvChargePriceMb.contentSize.height
         }
     }
 }
@@ -184,12 +200,11 @@ extension ChargePriceViewController: UITableViewDataSource{
             return 0
         }
         
-        return self.chargePriceData.arrayValue.count-1
+        return self.chargePriceData.arrayValue.count
     }
     
 //    Row data setting
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChargePriceTableViewCell") as! ChargePriceTableViewCell
         
         let chargePrice = self.chargePriceData.arrayValue[indexPath.row]
@@ -215,21 +230,12 @@ extension ChargePriceViewController: UITableViewDataSource{
             cell.lbChargePrice.setBorderRadius(.allCorners, radius: 0, borderColor: hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
         }
         
-        let scrollHeight = self.scrollViewContent.layer.height
-        DispatchQueue.main.async {
-            self.scrollViewHeight.constant = scrollHeight
-        }
         return cell
     }
     
     // Set tableView height, scrollView heigth
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        DispatchQueue.main.async {
-            self.tableViewHeight.constant = self.tvChargePriceMb.contentSize.height
-        }
-        
-        return UITableViewAutomaticDimension
+        return Constants.cellHeight
     }
 }
 

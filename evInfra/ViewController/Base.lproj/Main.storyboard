@@ -1636,10 +1636,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ksp-cc-83j">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="880"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="779.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전요금인상 안내" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xlz-bm-rbU">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전요금인상 안내" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="157" translatesAutoresizingMaskIntoConstraints="NO" id="xlz-bm-rbU">
                                                 <rect key="frame" x="16" y="24" width="157" height="26.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="26.5" id="4Wx-Gn-aN2"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                                 <color key="textColor" red="0.18823529411764706" green="0.18823529411764706" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -1648,7 +1651,7 @@
                                                 <rect key="frame" x="107.5" y="130.5" width="160" height="24"/>
                                                 <color key="backgroundColor" red="0.92156862745098034" green="0.98039215686274506" blue="0.99607843137254903" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="160" id="acn-oi-H27"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="M9X-S7-KCL"/>
                                                     <constraint firstAttribute="height" constant="24" id="xCo-lT-DPA"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
@@ -1708,23 +1711,26 @@
                                                         </subviews>
                                                     </stackView>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="56" id="FPG-hI-yu1"/>
+                                                </constraints>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="사업자별 금액" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Nh-bX-wVK">
                                                 <rect key="frame" x="137.5" y="306.5" width="100" height="24"/>
                                                 <color key="backgroundColor" red="0.92156862750000001" green="0.98039215690000003" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="Wlt-bM-JaJ"/>
                                                     <constraint firstAttribute="height" constant="24" id="lQc-cZ-bwL"/>
-                                                    <constraint firstAttribute="width" constant="100" id="pYF-Oc-ZOP"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                 <color key="textColor" red="0.2274509804" green="0.69803921570000005" blue="0.82745098039999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MjS-ac-zMS">
-                                                <rect key="frame" x="16" y="346.5" width="343" height="388.5"/>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="200" horizontalCompressionResistancePriority="700" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MjS-ac-zMS">
+                                                <rect key="frame" x="16" y="346.5" width="343" height="300"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="388.5" id="U63-0T-oQt"/>
+                                                    <constraint firstAttribute="height" constant="300" id="6gw-Ti-Wsy"/>
                                                 </constraints>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChargePriceTableViewCell" id="kPk-Fd-Iyx" customClass="ChargePriceTableViewCell" customModule="evInfra" customModuleProvider="target">
@@ -1746,17 +1752,10 @@
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a23-yr-4vB">
                                                                             <rect key="frame" x="171.5" y="0.0" width="171.5" height="40"/>
                                                                             <attributedString key="attributedText">
-                                                                                <fragment content="0.0">
+                                                                                <fragment content="0.0원">
                                                                                     <attributes>
                                                                                         <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                                         <font key="NSFont" metaFont="system" size="15"/>
-                                                                                        <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="rightToLeft" firstLineHeadIndent="18" tighteningFactorForTruncation="0.0"/>
-                                                                                    </attributes>
-                                                                                </fragment>
-                                                                                <fragment content="원">
-                                                                                    <attributes>
-                                                                                        <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                        <font key="NSFont" size="15" name=".AppleSDGothicNeoI-Regular"/>
                                                                                         <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="rightToLeft" firstLineHeadIndent="18" tighteningFactorForTruncation="0.0"/>
                                                                                     </attributes>
                                                                                 </fragment>
@@ -1785,40 +1784,58 @@
                                             </tableView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ev Infra 회원 1kWh당 충전가격 (7월 내 변경금액 별도공지 예정)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7wZ-nK-PU9">
                                                 <rect key="frame" x="16" y="242.5" width="343" height="36"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <color key="textColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="각 사업자별 자사회원 급속 1kWh당 충전가격 기준 (변경시 별도공지 예정)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uTN-TK-15b">
-                                                <rect key="frame" x="16" y="759" width="343" height="36"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <color key="textColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="누락되거나 잘못된 정보가 있으면 company@soft-berry.com 으로 알려주세요" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2Mq-ZD-9V1">
-                                                <rect key="frame" x="16" y="811" width="343" height="45"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="45" id="MCZ-67-2cO"/>
+                                                    <constraint firstAttribute="height" constant="36" id="IpS-1d-orp"/>
                                                 </constraints>
-                                                <color key="textColor" red="0.14901960780000001" green="0.14901960780000001" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES" shipmentTrackingNumber="YES" flightNumber="YES" lookupSuggestion="YES"/>
-                                            </textView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7월 전기차 충전요금이 인상됨에  따라 요금을 확정 공지한 충전사업자부터 알려드립니다." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j9Q-mr-CIF">
+                                                <color key="textColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="7월 전기차 충전요금이 인상됨에  따라 요금을 확정 공지한 충전사업자부터 알려드립니다." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j9Q-mr-CIF">
                                                 <rect key="frame" x="16" y="66.5" width="323" height="36"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="36" id="nPm-IX-Zih"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" red="0.14901960780000001" green="0.14901960780000001" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="Ryk-4d-JVo">
+                                                <rect key="frame" x="16" y="670.5" width="343" height="95"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="각 사업자별 자사회원 급속 1kWh당 충전가격 기준 (변경시 별도공지 예정)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uTN-TK-15b">
+                                                        <rect key="frame" x="0.0" y="0.0" width="343" height="36"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="36" id="bKK-tK-Ckh"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="누락되거나 잘못된 정보가 있으면 company@soft-berry.com 으로 알려주세요" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2Mq-ZD-9V1">
+                                                        <rect key="frame" x="0.0" y="50" width="343" height="45"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="45" id="MCZ-67-2cO"/>
+                                                        </constraints>
+                                                        <color key="textColor" red="0.14901960780000001" green="0.14901960780000001" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                        <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES" shipmentTrackingNumber="YES" flightNumber="YES" lookupSuggestion="YES"/>
+                                                    </textView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="95" id="SW0-Jd-Ars"/>
+                                                </constraints>
+                                            </stackView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="j9Q-mr-CIF" secondAttribute="trailing" constant="36" id="0Dy-az-cmK"/>
-                                            <constraint firstAttribute="trailing" secondItem="xlz-bm-rbU" secondAttribute="trailing" constant="202" id="4O7-8y-iLu"/>
-                                            <constraint firstAttribute="trailing" secondItem="uTN-TK-15b" secondAttribute="trailing" constant="16" id="Akj-1p-l1Q"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="j9Q-mr-CIF" secondAttribute="trailing" constant="20" symbolic="YES" id="0Dy-az-cmK"/>
+                                            <constraint firstAttribute="bottom" secondItem="Ryk-4d-JVo" secondAttribute="bottom" constant="14" id="2KR-N1-Z0b"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xlz-bm-rbU" secondAttribute="trailing" constant="20" symbolic="YES" id="4O7-8y-iLu"/>
                                             <constraint firstAttribute="trailing" secondItem="tG1-Mf-gsU" secondAttribute="trailing" constant="16" id="B0G-YT-t34"/>
+                                            <constraint firstItem="Ryk-4d-JVo" firstAttribute="top" secondItem="MjS-ac-zMS" secondAttribute="bottom" constant="24" id="Cfp-zR-T8S"/>
                                             <constraint firstItem="j9Q-mr-CIF" firstAttribute="leading" secondItem="Ksp-cc-83j" secondAttribute="leading" constant="16" id="IUy-iu-bVq"/>
                                             <constraint firstAttribute="trailing" secondItem="MjS-ac-zMS" secondAttribute="trailing" constant="16" id="Knb-JD-jYF"/>
                                             <constraint firstItem="7wZ-nK-PU9" firstAttribute="leading" secondItem="Ksp-cc-83j" secondAttribute="leading" constant="16" id="OVC-HT-MC1"/>
@@ -1826,16 +1843,11 @@
                                             <constraint firstItem="MjS-ac-zMS" firstAttribute="top" secondItem="6Nh-bX-wVK" secondAttribute="bottom" constant="16" id="SjS-ny-ipw"/>
                                             <constraint firstItem="6Nh-bX-wVK" firstAttribute="top" secondItem="7wZ-nK-PU9" secondAttribute="bottom" constant="28" id="Xv8-qd-pPH"/>
                                             <constraint firstItem="wo2-lt-38T" firstAttribute="top" secondItem="j9Q-mr-CIF" secondAttribute="bottom" constant="28" id="bZd-RA-9lM"/>
+                                            <constraint firstItem="Ryk-4d-JVo" firstAttribute="leading" secondItem="Ksp-cc-83j" secondAttribute="leading" constant="16" id="cFX-I2-f5O"/>
                                             <constraint firstItem="xlz-bm-rbU" firstAttribute="top" secondItem="Ksp-cc-83j" secondAttribute="top" constant="24" id="cav-Ea-Egt"/>
-                                            <constraint firstAttribute="trailing" secondItem="2Mq-ZD-9V1" secondAttribute="trailing" constant="16" id="dOH-Hv-oRF"/>
-                                            <constraint firstAttribute="bottom" secondItem="2Mq-ZD-9V1" secondAttribute="bottom" constant="24" id="fib-zT-d1V"/>
-                                            <constraint firstItem="2Mq-ZD-9V1" firstAttribute="top" secondItem="uTN-TK-15b" secondAttribute="bottom" constant="16" id="gHh-jP-Vtb"/>
-                                            <constraint firstItem="uTN-TK-15b" firstAttribute="leading" secondItem="Ksp-cc-83j" secondAttribute="leading" constant="16" id="hyY-Vg-cUc"/>
                                             <constraint firstItem="tG1-Mf-gsU" firstAttribute="leading" secondItem="Ksp-cc-83j" secondAttribute="leading" constant="16" id="lIL-dw-fdK"/>
-                                            <constraint firstAttribute="height" constant="880" id="lVJ-cU-gN9"/>
                                             <constraint firstAttribute="trailing" secondItem="7wZ-nK-PU9" secondAttribute="trailing" constant="16" id="nZK-zF-YyE"/>
-                                            <constraint firstItem="uTN-TK-15b" firstAttribute="top" secondItem="MjS-ac-zMS" secondAttribute="bottom" constant="24" id="qIj-dh-bLq"/>
-                                            <constraint firstItem="2Mq-ZD-9V1" firstAttribute="leading" secondItem="Ksp-cc-83j" secondAttribute="leading" constant="16" id="qdY-bA-Qdv"/>
+                                            <constraint firstAttribute="trailing" secondItem="Ryk-4d-JVo" secondAttribute="trailing" constant="16" id="r6V-aX-Iz5"/>
                                             <constraint firstItem="MjS-ac-zMS" firstAttribute="leading" secondItem="Ksp-cc-83j" secondAttribute="leading" constant="16" id="r6m-wA-VAL"/>
                                             <constraint firstItem="7wZ-nK-PU9" firstAttribute="top" secondItem="tG1-Mf-gsU" secondAttribute="bottom" constant="16" id="tFh-sL-Rxb"/>
                                             <constraint firstItem="tG1-Mf-gsU" firstAttribute="top" secondItem="wo2-lt-38T" secondAttribute="bottom" constant="16" id="y6X-9M-hYn"/>
@@ -1849,6 +1861,7 @@
                                     <constraint firstItem="6Nh-bX-wVK" firstAttribute="centerX" secondItem="sJd-Dl-CFt" secondAttribute="centerX" id="MBP-sF-vcL"/>
                                     <constraint firstItem="Ksp-cc-83j" firstAttribute="leading" secondItem="sJd-Dl-CFt" secondAttribute="leading" id="Xes-qC-Mkr"/>
                                     <constraint firstItem="Ksp-cc-83j" firstAttribute="top" secondItem="sJd-Dl-CFt" secondAttribute="top" id="boS-jT-Qoj"/>
+                                    <constraint firstItem="Ksp-cc-83j" firstAttribute="height" secondItem="sJd-Dl-CFt" secondAttribute="height" multiplier="1.16867" id="goO-0r-Qdg"/>
                                     <constraint firstItem="Ksp-cc-83j" firstAttribute="bottom" secondItem="sJd-Dl-CFt" secondAttribute="bottom" id="ixh-Ot-ffe"/>
                                     <constraint firstItem="Ksp-cc-83j" firstAttribute="trailing" secondItem="sJd-Dl-CFt" secondAttribute="trailing" id="vlH-Rq-HWi"/>
                                 </constraints>
@@ -1872,10 +1885,11 @@
                         <outlet property="lbEVRowStPrice" destination="WOH-jQ-82a" id="WK5-Zh-Plg"/>
                         <outlet property="lbEVTableTitle" destination="wo2-lt-38T" id="tKW-02-aAK"/>
                         <outlet property="lbMBTableTitle" destination="6Nh-bX-wVK" id="Dxm-4D-sMc"/>
+                        <outlet property="lbStackHeight" destination="SW0-Jd-Ars" id="B7q-4x-V0E"/>
                         <outlet property="scrollView" destination="sJd-Dl-CFt" id="6u4-dn-SIi"/>
                         <outlet property="scrollViewContent" destination="Ksp-cc-83j" id="PlH-Fz-omc"/>
-                        <outlet property="scrollViewHeight" destination="lVJ-cU-gN9" id="IOp-Y0-1eJ"/>
-                        <outlet property="tableViewHeight" destination="U63-0T-oQt" id="Prz-19-yeD"/>
+                        <outlet property="scrollViewHeight" destination="goO-0r-Qdg" id="ysZ-2e-F1u"/>
+                        <outlet property="tableViewHeight" destination="6gw-Ti-Wsy" id="HHe-FR-uZk"/>
                         <outlet property="tvChargePriceMb" destination="MjS-ac-zMS" id="Xbc-bS-HeP"/>
                         <outlet property="tvEVRowCompany" destination="wHX-hr-lYV" id="yKp-HO-AtG"/>
                         <outlet property="tvEvRowPrice" destination="JYI-a0-t9U" id="6TF-Fx-NDF"/>
