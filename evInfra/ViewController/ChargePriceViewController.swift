@@ -11,9 +11,9 @@ import Material
 import SwiftyJSON
 
 class ChargePriceViewController: UIViewController {
+    
     @IBOutlet weak var tvChargePriceMb: UITableView!
     @IBOutlet weak var tvInquiryLink: UITextView!
-    @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var tvEVRowCompany: UIStackView!
     @IBOutlet weak var tvEvRowPrice: UIStackView!
@@ -28,9 +28,10 @@ class ChargePriceViewController: UIViewController {
     @IBOutlet weak var lbEVTableTitle: UILabel!
     @IBOutlet weak var lbMBTableTitle: UILabel!
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollViewContent: UIView!
+    
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var scrollViewHeight: NSLayoutConstraint!
     @IBOutlet weak var lbStackHeight: NSLayoutConstraint!
     
     let dbManager = DBManager.sharedInstance
@@ -122,7 +123,6 @@ class ChargePriceViewController: UIViewController {
            alpha: CGFloat(1.0)
         )
     }
-    
 }
 
 extension ChargePriceViewController{
@@ -166,19 +166,17 @@ extension ChargePriceViewController{
                     }
                 }
                 self.tvChargePriceMb.reloadData()
-                self.setScrollViewHeight()
+                self.adjustTableview()
             }
            
         }
         
     }
     
-    func setScrollViewHeight() {
-        if self.scrollView.contentSize.height > 0.0 && self.tvChargePriceMb.contentSize.height > 0.0{
-            //Set scrollView height
-            self.scrollViewHeight.constant = self.scrollView.contentSize.height-self.lbStackHeight.constant
-            //Set mb price table view height
+    func adjustTableview() {
+        if self.tvChargePriceMb.contentSize.height > 0.0 {
             self.tableViewHeight.constant = self.tvChargePriceMb.contentSize.height
+            tvChargePriceMb.layoutIfNeeded()
         }
     }
 }
@@ -187,9 +185,11 @@ extension ChargePriceViewController: UITableViewDataSource{
     func prepareTableView() {
         tvChargePriceMb.delegate = self
         tvChargePriceMb.dataSource = self
+        
+        tvChargePriceMb.autoresizingMask = UIViewAutoresizing.flexibleHeight
     }
     
-//    Table row
+    // Table row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if self.chargePriceData == nil {
@@ -203,28 +203,26 @@ extension ChargePriceViewController: UITableViewDataSource{
         return self.chargePriceData.arrayValue.count
     }
     
-//    Row data setting
+    // Row data setting
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChargePriceTableViewCell") as! ChargePriceTableViewCell
         
         let chargePrice = self.chargePriceData.arrayValue[indexPath.row]
-        cell.lbChargeCompany.text = dbManager.getCompanyName(companyId: chargePrice["company_id"].stringValue)
         
-        let price = chargePrice["price"].stringValue
-        cell.lbChargePrice.text = price
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChargePriceTableViewCell") as! ChargePriceTableViewCell
+        cell.lbChargeCompany.text = dbManager.getCompanyName(companyId: chargePrice["company_id"].stringValue)
+        cell.lbChargePrice.text = chargePrice["price"].stringValue
         
         cell.lbChargeCompany.backgroundColor = hexStringToUIColor(hex: "#F2F2F2")
-        if indexPath.row == 0{
+        if indexPath.row == 0 {
             // First row
             cell.lbChargeCompany.setBorderRadius(.topLeft, radius: 6, borderColor: hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
             cell.lbChargePrice.setBorderRadius(.topRight, radius: 6, borderColor: hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
-            
-        }else if indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1 {
+        } else if indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1 {
             // Last row
             cell.lbChargeCompany.setBorderRadius(.bottomLeft, radius: 6, borderColor: hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
             cell.lbChargePrice.setBorderRadius(.bottomRight, radius: 6, borderColor: hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
             
-        }else{
+        } else {
             // Center
             cell.lbChargeCompany.setBorderRadius(.allCorners , radius: 0, borderColor: hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
             cell.lbChargePrice.setBorderRadius(.allCorners, radius: 0, borderColor: hexStringToUIColor(hex: "#DCDCDC"), borderWidth: 2)
@@ -234,8 +232,12 @@ extension ChargePriceViewController: UITableViewDataSource{
     }
     
     // Set tableView height, scrollView heigth
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.cellHeight
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
 }
 

@@ -1856,12 +1856,10 @@
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="Ksp-cc-83j" firstAttribute="width" secondItem="sJd-Dl-CFt" secondAttribute="width" id="8d4-7l-B0q"/>
                                     <constraint firstItem="wo2-lt-38T" firstAttribute="centerX" secondItem="sJd-Dl-CFt" secondAttribute="centerX" id="KfP-UG-aSb"/>
                                     <constraint firstItem="6Nh-bX-wVK" firstAttribute="centerX" secondItem="sJd-Dl-CFt" secondAttribute="centerX" id="MBP-sF-vcL"/>
                                     <constraint firstItem="Ksp-cc-83j" firstAttribute="leading" secondItem="sJd-Dl-CFt" secondAttribute="leading" id="Xes-qC-Mkr"/>
                                     <constraint firstItem="Ksp-cc-83j" firstAttribute="top" secondItem="sJd-Dl-CFt" secondAttribute="top" id="boS-jT-Qoj"/>
-                                    <constraint firstItem="Ksp-cc-83j" firstAttribute="height" secondItem="sJd-Dl-CFt" secondAttribute="height" multiplier="1.16867" id="goO-0r-Qdg"/>
                                     <constraint firstItem="Ksp-cc-83j" firstAttribute="bottom" secondItem="sJd-Dl-CFt" secondAttribute="bottom" id="ixh-Ot-ffe"/>
                                     <constraint firstItem="Ksp-cc-83j" firstAttribute="trailing" secondItem="sJd-Dl-CFt" secondAttribute="trailing" id="vlH-Rq-HWi"/>
                                 </constraints>
@@ -1888,7 +1886,6 @@
                         <outlet property="lbStackHeight" destination="SW0-Jd-Ars" id="B7q-4x-V0E"/>
                         <outlet property="scrollView" destination="sJd-Dl-CFt" id="6u4-dn-SIi"/>
                         <outlet property="scrollViewContent" destination="Ksp-cc-83j" id="PlH-Fz-omc"/>
-                        <outlet property="scrollViewHeight" destination="goO-0r-Qdg" id="ysZ-2e-F1u"/>
                         <outlet property="tableViewHeight" destination="6gw-Ti-Wsy" id="HHe-FR-uZk"/>
                         <outlet property="tvChargePriceMb" destination="MjS-ac-zMS" id="Xbc-bS-HeP"/>
                         <outlet property="tvEVRowCompany" destination="wHX-hr-lYV" id="yKp-HO-AtG"/>

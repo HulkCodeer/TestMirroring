@@ -9,18 +9,15 @@
 import UIKit
 
 class ChargePriceTableViewCell: UITableViewCell {
+    
     @IBOutlet weak var lbChargeCompany: UILabel!
     @IBOutlet weak var lbChargePrice: UILabel!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
     }
-
 }
