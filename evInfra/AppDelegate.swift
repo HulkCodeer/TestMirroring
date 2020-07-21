@@ -33,18 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 카카오 - 클라이언트 시크릿 설정
         KOSession.shared().clientSecret = Const.KAKAO_CLIENT_SECRET;
         
-        // igaw offerwall appkey
-        let adid = ASIdentifierManager.shared().advertisingIdentifier.uuidString;
-        let isTrackingEnabled = ASIdentifierManager.shared().isAdvertisingTrackingEnabled
-        //print("idfa : " + adid);
-        IgaworksCore.setAppleAdvertisingIdentifier(adid, isAppleAdvertisingTrackingEnabled: isTrackingEnabled);
-        IgaworksCore.igaworksCore(withAppKey: "754560333", andHashKey: "510b51ba0bdf4484");
-        IgaworksCore.setLogLevel(IgaworksCoreLogTrace);
-
-        AdPopcornOfferwall.setAppKey("754560333", andHashKey: "510b51ba0bdf4484");
-        AdPopcornOfferwall.setLogLevel(AdPopcornOfferwallLogTrace);
-        AdPopcornOfferwall.shared().useIgaworksRewardServer = false;
-        
         return true
     }
     
@@ -71,9 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
                 completionHandler: {_, _ in })
-            if let notification = launchOptions?[.remoteNotification] as? [AnyHashable: Any]{
+            if let notification = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
                 fcmManager.fcmNotification = notification
-                
             }
         } else {
             let settings: UIUserNotificationSettings =

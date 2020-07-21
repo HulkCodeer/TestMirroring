@@ -1054,7 +1054,6 @@
 				732121B7203AC023000E105C /* Resources */,
 				2D2CA8AB0C473AF5F3E3093F /* [CP] Embed Pods Frameworks */,
 				DB43761E21DDD433004A4C4B /* ShellScript */,
-				0863B743CF7B787683698EC5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1208,24 +1207,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0863B743CF7B787683698EC5 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh",
-				"${PODS_ROOT}/AdPopcornOfferwall/AdPopcornOfferwall.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AdPopcornOfferwall.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2D2CA8AB0C473AF5F3E3093F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
