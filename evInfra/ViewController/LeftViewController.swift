@@ -35,7 +35,6 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     let SUB_MENU_MY_EVCARD_INFO      = 1
     let SUB_MENU_MY_CHARGING_HISTORY = 2
     let SUB_MENU_MY_POINT            = 3
-    
 
     // sub menu - 게시판
     let SUB_MENU_CELL_BOARD         = 0
@@ -49,8 +48,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     // 사업자 게시판
     let SUB_MENU_GS_CALTEX  = 0 // GS 칼텍스
     let SUB_MENU_JEVS       = 1 // 제주전기자동차서비스
-    let SUB_MENU_EV_MOST    = 2 // ev Most (SK네트웍스)
-    let SUB_MENU_STRAFFIC   = 3 // 에스트래픽
+    let SUB_MENU_STRAFFIC   = 2 // 에스트래픽
     
     // sub menu - 이벤트
     let SUB_MENU_CELL_EVENT = 0
@@ -73,12 +71,12 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     let SUB_MENU_HELP          = 2
     let SUB_MENU_VERSION       = 3
     
-    var sideSectionArrays = [["마이페이지", "PAY"], ["게시판", "사업자 게시판"], ["이벤트/쿠폰"], ["전기차 정보"], ["설정"]]
+    var sideSectionArrays = [["마이페이지", "PAY"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["설정"]]
     var sideMenuArrays = [[["개인정보 관리", "내가쓴글 보기", "충전소 제보내역"],
                            ["결제카드 관리", "회원카드 관리", "충전이력 조회", "포인트 조회"]],
                           [["EV Infra 공지", "자유 게시판", "충전소 게시판"],
-                           ["GS 칼텍스", "제주전기자동차서비스", "ev Most (SK네트웍스)", "에스트래픽"]],
-                          [["이벤트","내 쿠폰함"]],
+                           ["GS 칼텍스", "제주전기자동차서비스", "에스트래픽"]],
+                          [["이벤트", "내 쿠폰함"]],
                           [["전기차 정보", "충전기 정보", "보조금 안내", "보조금 현황"]],
                           [["전체 설정", "이용 안내", "도움말", "버전 정보"]]]
     
@@ -319,9 +317,6 @@ extension LeftViewController {
                 navigationController?.push(viewController: companyBoardVC)
             case SUB_MENU_JEVS:
                 companyBoardVC.companyId = CompanyInfo.COMPANY_ID_JEVS
-                navigationController?.push(viewController: companyBoardVC)
-            case SUB_MENU_EV_MOST:
-                companyBoardVC.companyId = CompanyInfo.COMPANY_ID_EV_MOST
                 navigationController?.push(viewController: companyBoardVC)
             case SUB_MENU_STRAFFIC:
                 companyBoardVC.companyId = CompanyInfo.COMPANY_ID_STRAFFIC

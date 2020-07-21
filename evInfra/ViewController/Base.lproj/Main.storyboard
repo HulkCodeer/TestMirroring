@@ -3692,7 +3692,7 @@
             </objects>
             <point key="canvasLocation" x="2850.4000000000001" y="20.239880059970016"/>
         </scene>
-        <!--Detail View Controller-->
+        <!--Ev Detail View Controller-->
         <scene sceneID="vqq-FN-71n">
             <objects>
                 <viewController storyboardIdentifier="EvDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4Jl-tb-Uac" customClass="EvDetailViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
@@ -6167,9 +6167,15 @@
                                         <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" image="menu_board">
                                             <attributedString key="attributedTitle">
-                                                <fragment content="    게시판">
+                                                <fragment content="   ">
                                                     <attributes>
                                                         <font key="NSFont" metaFont="system" size="10"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                                <fragment content="커뮤니티">
+                                                    <attributes>
+                                                        <font key="NSFont" size="10" name=".AppleSDGothicNeoI-Regular"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
