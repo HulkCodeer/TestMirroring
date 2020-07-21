@@ -406,12 +406,18 @@ class MainViewController: UIViewController {
     }
     
     func prepareChargePrice() {
-        btnChargePrice.roundCorners(.allCorners, radius: 8)
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(self.chargePriceClick))
-        self.btnChargePrice.addGestureRecognizer(gesture)
+        btnChargePrice.layer.cornerRadius = 16
+        btnChargePrice.layer.shadowRadius = 5
+        btnChargePrice.layer.shadowColor = UIColor.black.cgColor
+        btnChargePrice.layer.shadowOpacity = 0.5
+        btnChargePrice.layer.shadowOffset = CGSize(width: 0.5, height: 2)
+        btnChargePrice.layer.masksToBounds = false
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(self.onClickChargePrice))
+        btnChargePrice.addGestureRecognizer(gesture)
     }
     
-    @objc func chargePriceClick(sender: UITapGestureRecognizer){
+    @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
         self.navigationController?.push(viewController:vc)
     }
