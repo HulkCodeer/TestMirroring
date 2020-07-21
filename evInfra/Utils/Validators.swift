@@ -44,7 +44,6 @@ enum VaildatorFactory {
     }
 }
 
-
 class MemberNameValidator: ValidatorConvertible {
     func validated(_ value: String) throws -> String {
         guard value.count > 0 else {throw ValidationError("본인 이름을 입력해 주세요.")}
@@ -117,7 +116,6 @@ class CarNoValidator: ValidatorConvertible {
         } catch {
             throw ValidationError("차량번호 형식이 잘못되었습니다.")
         }
-        
         return value
     }
 }

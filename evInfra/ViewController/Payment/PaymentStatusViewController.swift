@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 import Material
 
-class PaymentStatusViewController: UIViewController {
+class PaymentStatusViewController: UIViewController{
 
     let STATUS_READY = 0
     let STATUS_START = 1
@@ -25,17 +25,25 @@ class PaymentStatusViewController: UIViewController {
     @IBOutlet weak var lbChargePower: UILabel!
     @IBOutlet weak var lbChargeSpeed: UILabel!
     @IBOutlet weak var lbChargeFee: UILabel!
+    @IBOutlet weak var lbChargeBerry: UILabel!
+    @IBOutlet weak var lbChargeAllFee: UILabel!
+    
+    
     @IBOutlet weak var chronometer: Chronometer!
 
     @IBOutlet weak var btnStopCharging: UIButton!
+    @IBOutlet weak var btnStopChargingView: UIView!
+    
+    @IBOutlet weak var btnUseBerry: UIButton!
     
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     var chargingStartTime = ""
     var isStopCharging = false
     
-    var point: Int = 0
+    var point:Int = 0
     var cpId: String = ""
     var connectorId: String = ""
     var chargingStatus = ChargingStatus.init()
@@ -57,7 +65,10 @@ class PaymentStatusViewController: UIViewController {
         
         requestOpenCharger()
         startTimer(tick: TIMER_COUNT_NORMAL_TICK)
-//        self.progressBar.setProgress(to: 1, withAnimation: true)
+    }
+    
+    func dataReceived(berry: String) {
+        lbChargeBerry.text = "- "+berry+"B"
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -84,6 +95,21 @@ class PaymentStatusViewController: UIViewController {
         circleView.safePercent = 100
         
         btnStopCharging.isEnabled = false
+    }
+    
+    override func viewDidLayoutSubviews() {
+        //btn border, gradient
+        btnSetBorder()
+    }
+    
+    func btnSetBorder() {
+        let borderColor = UIColor(hex: "#22C1BB")
+        let startColor = UIColor(hex: "#2CE0BB").cgColor
+        let endColor = UIColor(hex: "#33A2DA").cgColor
+        
+        btnUseBerry.roundCorners(.allCorners, radius: 20, borderColor: borderColor, borderWidth: 4)
+        
+        btnStopCharging.setRoundGradient(startColor: startColor, endColor: endColor)
     }
     
     func prepareNotificationCenter() {
@@ -279,7 +305,7 @@ extension PaymentStatusViewController {
         case "1000":
             startTimer(tick: TIMER_COUNT_COMPLETE_TICK)
             
-        case "2003": // CHARGING_CANCEL 충전 시작하기전에 취소
+        case "2003": // CHARGING_CANCEL 충전 하기전에 취소
             Snackbar().show(message: "충전을 취소하였습니다.")
             self.navigationController?.pop()
 
@@ -360,7 +386,9 @@ extension PaymentStatusViewController {
                 
                 // 충전 요금: 충전량 x 173.8
                 let fee = round((chargingKw.parseDouble() ?? 0) * 173.8)
-                lbChargeFee.text = "\(fee)".currency() + "원"
+                lbChargeFee.text = "- "+"\(fee)".currency() + "원"
+                
+                // 총 결제 금액
                 
                 // 충전속도
                 if let updateTime = chargingStatus.updateTime {
@@ -371,13 +399,15 @@ extension PaymentStatusViewController {
                         let sec = Double(updateDate?.timeIntervalSince(preDate!) ?? 0)
 
                         // 충전량 계산
-                        let chargingKw = chargingKw.parseDouble()! - preChargingKw.parseDouble()!
+                        let chargingKw = chargingKw.parseDouble()! - self.preChargingKw.parseDouble()!
 
                         // 속도 계산: 충전량 / 시간 * 3600
                         if (sec > 0 && chargingKw > 0) {
                             let speed = chargingKw / sec * 3600
-                            lbChargeSpeed.text = "\((speed * 100).rounded() / 100) Kw"
+                            self.lbChargeSpeed.text = "\((speed * 100).rounded() / 100) Kw"
                         }
+                    }else{
+                        self.lbChargeSpeed.text = "0 Kw"
                     }
                     preChargingKw = chargingStatus.chargingKw ?? ""
                     preUpdateTime = chargingStatus.updateTime ?? ""

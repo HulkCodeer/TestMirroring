@@ -164,7 +164,7 @@ class Charger: Codable {
             return false
         }
         
-        // 100kW filter
+        // 초급속 filter
         if filter.payId == 3 && power < 100 {
             return false
         }

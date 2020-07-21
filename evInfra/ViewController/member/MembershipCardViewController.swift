@@ -10,7 +10,10 @@ import UIKit
 import Material
 import SwiftyJSON
 
-class MembershipCardViewController: UIViewController, MembershipIssuanceViewDelegate, SearchAddressViewDelegate, MyPayRegisterViewDelegate, MembershipInfoViewDelegate, MembershipTermViewDelegate {
+class MembershipCardViewController: UIViewController,
+    MembershipIssuanceViewDelegate,
+    SearchAddressViewDelegate, MyPayRegisterViewDelegate,
+    MembershipInfoViewDelegate, MembershipTermViewDelegate {
 
     var membershipIssuanceView : MembershipIssuanceView? = nil
     var membershipInfoView : MembershipInfoView? = nil
@@ -79,6 +82,7 @@ class MembershipCardViewController: UIViewController, MembershipIssuanceViewDele
     func searchZipCode() {
         let saVC = storyboard?.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
         saVC.searchAddressDelegate = self
+        
         navigationController?.push(viewController: saVC)
     }
     

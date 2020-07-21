@@ -20,12 +20,14 @@ class UsePointViewController: UIViewController {
     @IBOutlet weak var cbUseAllPoint: M13Checkbox!
     
     var myPoint = 0
+    var delegate: SendPointDelegate?
+    var data = ""
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        textFieldUsePoint.delegate = self
-        
+                
         prepareActionBar()
         prepareMyPoint()
         prepareView()
@@ -74,7 +76,7 @@ class UsePointViewController: UIViewController {
     @IBAction func onClickUseAllPoint(_ sender: UITapGestureRecognizer) {
         cbUseAllPoint.toggleCheckState(true)
         if cbUseAllPoint.checkState == .checked {
-            textFieldUsePoint.text = String(myPoint)
+            textFieldUsePoint.text = String(self.myPoint)
         } else {
             textFieldUsePoint.text = "0"
         }
@@ -88,6 +90,7 @@ class UsePointViewController: UIViewController {
                     if json["code"].stringValue == "1000" {
                         let point = json["point"].stringValue
                         Snackbar().show(message: point.currency() + " 포인트를 사용합니다.", title: "포인트 사용 완료") { () in
+                            self.appDelegate.paymentStatusController?.dataReceived(berry: self.textFieldUsePoint.text ?? "0")
                             self.dismiss(animated: true, completion: nil)
                         }
                     } else {
@@ -121,4 +124,8 @@ extension UsePointViewController: UITextFieldDelegate {
         }
         return newString.length <= 7 //max length is 7
     }
+}
+
+protocol SendPointDelegate {
+    func dataReceived(berry: String)
 }

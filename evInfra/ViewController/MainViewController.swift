@@ -32,6 +32,7 @@ class MainViewController: UIViewController {
     
     @IBOutlet weak var myLocationButton: UIButton!
     @IBOutlet weak var reNewButton: UIButton!
+    @IBOutlet weak var btnChargePrice: UIButton!
     
     // Indicator View
     @IBOutlet weak var markerIndicator: UIActivityIndicatorView!
@@ -143,6 +144,7 @@ class MainViewController: UIViewController {
         
         getChargerInfo()  // request to server
         //self.checkFCM()
+        prepareChargePrice()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -403,6 +405,17 @@ class MainViewController: UIViewController {
         btn_menu_layer.layer.masksToBounds = false
     }
     
+    func prepareChargePrice() {
+        btnChargePrice.roundCorners(.allCorners, radius: 8)
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(self.chargePriceClick))
+        self.btnChargePrice.addGestureRecognizer(gesture)
+    }
+    
+    @objc func chargePriceClick(sender: UITapGestureRecognizer){
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
+        self.navigationController?.push(viewController:vc)
+    }
+    
     @IBAction func onClickFavorite(_ sender: UIButton) {
         if MemberManager().isLogin() {
             chargerManager.setFavoriteCharger(charger: selectCharger!) {
@@ -521,6 +534,7 @@ class MainViewController: UIViewController {
         self.saveFilterState()
         self.drawTMapMarker()
     }
+    
 }
 
 extension MainViewController {
@@ -1361,6 +1375,7 @@ extension MainViewController {
             MemberManager().showLoginAlert(vc:self)
         }
     }
+    
 }
 
 extension MainViewController {
