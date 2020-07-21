@@ -146,9 +146,7 @@ extension ChargePriceViewController{
                 self.tvChargePriceMb.reloadData()
                 self.adjustTableview()
             }
-           
         }
-        
     }
     
     func adjustTableview() {

@@ -22,8 +22,7 @@ class MyPageViewController: UIViewController {
     @IBOutlet weak var profileImgView: UIImageView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var addrView: UIStackView!
-    
-    
+
     // 차량번호
     @IBOutlet weak var carNoField: UITextField!
     
@@ -98,7 +97,7 @@ class MyPageViewController: UIViewController {
         getMemberInfo()
     }
     
-    @objc func endEditing(){
+    @objc func endEditing() {
         nickNameField.resignFirstResponder()
         carNoField.resignFirstResponder()
         addrInfoDetailField.resignFirstResponder()
@@ -149,9 +148,9 @@ class MyPageViewController: UIViewController {
         nickNameField.delegate = self as UITextFieldDelegate
         
         if zipCodeField.text != "" && addrInfoField.text != "" ||
-            !zipCodeField.isEqual(nil) && !addrInfoField.isEqual(nil){
+            !zipCodeField.isEqual(nil) && !addrInfoField.isEqual(nil) {
             self.addrInfoDetailField.isUserInteractionEnabled = true
-        }else {
+        } else {
             self.addrInfoDetailField.isUserInteractionEnabled = false
         }
     }
@@ -276,9 +275,7 @@ extension MyPageViewController {
         
         Server.getMemberinfo{ (isSuccess, value) in
             if isSuccess {
-                let json = JSON(value)
-                self.responseGetMemberinfo(json: json)
-                
+                self.responseGetMemberInfo(json: JSON(value))
             }
             self.indicator.stopAnimating()
         }
@@ -388,7 +385,7 @@ extension MyPageViewController {
         }
     }
     
-    func responseGetMemberinfo(json: JSON) {
+    func responseGetMemberInfo(json: JSON) {
         switch json["code"].intValue {
         case 1000:
             let zipcodeData = json["mb_zip_code"].stringValue
@@ -441,10 +438,9 @@ extension MyPageViewController {
                 let data: Data = UIImageJPEGRepresentation(self.profileImgView.image!, 1.0)!
                 Server.uploadImage(data: data, filename: self.profileName, kind: Const.CONTENTS_THUMBNAIL, completion: { (isSuccess, value) in
                     let json = JSON(value)
-                    if(!isSuccess){
+                    if(!isSuccess) {
                         print("upload image Error : \(json)")
                     }
-                    
                 })
 //                S3Util().removeProfileImage(name: self.oldProfileName) // exception 발생
             }
