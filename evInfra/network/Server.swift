@@ -106,11 +106,11 @@ class Server {
             "nickname": nickName,
             "region": region,
             "car_id": carId,
-            "profile": profile,
-            "zip_code": zipCode,
-            "addr": address,
-            "addr_detail": addressDetail,
-            "car_no":carNo
+            "profile": profile
+//            "zip_code": zipCode,
+//            "addr": address,
+//            "addr_detail": addressDetail,
+//            "car_no":carNo
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/update_info",

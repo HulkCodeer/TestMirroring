@@ -313,17 +313,13 @@ extension NSLayoutConstraint {
         
         // remove unused layer
         if let layers = self.layer.sublayers {
-            print("csj_layer", layers)
-            for layer in layers{
-                print("csj_remove", layer)
-                if let name = layer.name{
-                    print("csj_remove", name)
-                if name.elementsEqual("borderLayer"){
-                    print("csj_remove")
-                    layer.removeFromSuperlayer()
+            for layer in layers {
+                if let name = layer.name {
+                    if name.elementsEqual("borderLayer") {
+                        layer.removeFromSuperlayer()
+                    }
                 }
             }
-        }
         }
         layer.addSublayer(borderLayer)
     }
