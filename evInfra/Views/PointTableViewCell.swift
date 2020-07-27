@@ -39,9 +39,11 @@ class PointTableViewCell: UITableViewCell {
         if evPoint.action?.elementsEqual("save") ?? false {
             self.labelAction.text = "적립"
             self.labelAmount.text = "+" + (evPoint.point?.currency() ?? "") + " B"
+            self.labelAmount.textColor = UIColor.init(hex: "#22C1BB")
         } else if evPoint.action?.elementsEqual("used") ?? false {
             self.labelAction.text = "사용"
             self.labelAmount.text = "-" + (evPoint.point?.currency() ?? "") + " B"
+            self.labelAmount.textColor = UIColor.init(hex: "#FF0000")
         } else {
             self.labelAction.text = "베리"
         }

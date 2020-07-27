@@ -58,14 +58,11 @@ class PointViewController: UIViewController {
         prepareDatePicker()
         prepareTableView()
         
+       
         // 오늘 포인트 이력 가져오기
+        btnAllBerry.isSelected = true
         let currentDate = Date()
         getPointHistory(isAllDate: false, startDate: currentDate, endDate: currentDate)
-        
-        // change btn selected default
-        btnAllBerry.isSelected = true
-        btnUseBerry.isSelected = false
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -73,7 +70,7 @@ class PointViewController: UIViewController {
     }
     
     func btnState() {
-        // border
+        // radius border
         btnAllBerry.roundCorners([.topLeft, .bottomLeft], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
         
         btnUseBerry.roundCorners(.allCorners, radius: 0, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
@@ -102,19 +99,22 @@ class PointViewController: UIViewController {
         self.navigationController?.pop()
     }
     
+    // Get all berry
     @IBAction func onClickAllBerry(_ sender: Any) {
         selectiedFilter = FILTER_POINT_ALL
-        updatePointList()
+        updateFilteredPointList()
     }
     
+    // Get use berry
     @IBAction func onClickUseBerry(_ sender: Any) {
         selectiedFilter = FILTER_POINT_USED
-        updatePointList()
+        updateFilteredPointList()
     }
     
+    // Get save berry
     @IBAction func onClickSaveBerry(_ sender: Any) {
         selectiedFilter = FILTER_POINT_SAVE
-        updatePointList()
+        updateFilteredPointList()
     }
     
 }
@@ -157,8 +157,6 @@ extension PointViewController {
     func pickedData() {
         let startDate = dateFormatter.date(from: textFieldStartDate.text!)!
         let endDate = dateFormatter.date(from: textFieldEndDate.text!)!
-        var pointHistory = PointHistory()
-        pointHistory.list = nil
         getPointHistory(isAllDate: false, startDate: startDate, endDate: endDate)
     }
     
@@ -166,9 +164,7 @@ extension PointViewController {
         self.textFieldDate.text = self.dateFormatter.string(from: self.datePicker.date)
         self.view.endEditing(true)
         pickedData()
-        // change btn selected default
-        btnAllBerry.isSelected = true
-        btnUseBerry.isSelected = false
+        
     }
     
     fileprivate func getPointHistory(isAllDate: Bool, startDate: Date, endDate: Date) {
@@ -197,11 +193,10 @@ extension PointViewController {
                     }
                     // 나의 잔여 포인트
                     self.labelTotalPoint.text = "\(pointHistory.total_point)".currency()
-                    self.updatePointList(pointHistory: pointHistory)
+                    self.updateFilteredPointList()
                 }
             }
         }
-        updatePointList()
     }
     
     // save + used 
@@ -209,7 +204,6 @@ extension PointViewController {
         var pointHistory = PointHistory()
         pointHistory.list = nil
         pointHistory.list = pointData
-        
         return pointHistory
     }
     
@@ -235,32 +229,33 @@ extension PointViewController {
             for i in self.pointData {
                 if i.action == "save"{
                     evFilteredList.append(i)
+                    
                 }
             }
         pointHistory.list = evFilteredList
         return pointHistory
     }
 
-    fileprivate func updatePointList(){
+    fileprivate func updateFilteredPointList(){
         btnAllBerry.isSelected = false
         btnUseBerry.isSelected = false
         btnSaveBerry.isSelected = false
-        
-        switch selectiedFilter {
-        case FILTER_POINT_ALL:
-            btnAllBerry.isSelected = true
-            updatePointList(pointHistory: getAllPointList())
-            break
-        case FILTER_POINT_USED:
-            btnUseBerry.isSelected = true
-            updatePointList(pointHistory: getUsedPointList())
-            break
-        case FILTER_POINT_SAVE:
-            btnSaveBerry.isSelected = true
-            updatePointList(pointHistory: getSavePointList())
-            break
-        default:
-            break
+
+            switch selectiedFilter {
+            case FILTER_POINT_ALL:
+                btnAllBerry.isSelected = true
+                updatePointList(pointHistory: getAllPointList())
+                break
+            case FILTER_POINT_USED:
+                btnUseBerry.isSelected = true
+                updatePointList(pointHistory: getUsedPointList())
+                break
+            case FILTER_POINT_SAVE:
+                btnSaveBerry.isSelected = true
+                updatePointList(pointHistory: getSavePointList())
+                break
+            default:
+                break
         }
     }
     
@@ -287,7 +282,7 @@ extension PointViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-           return 72
+        return 72
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -297,7 +292,6 @@ extension PointViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PointTableViewCell", for: indexPath) as! PointTableViewCell
         cell.reloadData(evPoint: evPointList[indexPath.row])
-        
         return cell
     }
 }
