@@ -7050,7 +7050,7 @@
                                         <state key="normal" title="전체">
                                             <color key="titleColor" red="0.76078431369999999" green="0.76078431369999999" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
-                                        <state key="selected" title="사용+적립">
+                                        <state key="selected" title="전체">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
