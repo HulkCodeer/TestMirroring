@@ -399,7 +399,7 @@ class MainViewController: UIViewController {
         btn_menu_layer.layer.cornerRadius = 5
         btn_menu_layer.clipsToBounds = true
         btn_menu_layer.layer.shadowRadius = 5
-        btn_menu_layer.layer.shadowColor = UIColor.black.cgColor
+        btn_menu_layer.layer.shadowColor = UIColor.gray.cgColor
         btn_menu_layer.layer.shadowOpacity = 0.5
         btn_menu_layer.layer.shadowOffset = CGSize(width: 0.5, height: 2)
         btn_menu_layer.layer.masksToBounds = false
@@ -408,7 +408,7 @@ class MainViewController: UIViewController {
     func prepareChargePrice() {
         btnChargePrice.layer.cornerRadius = 16
         btnChargePrice.layer.shadowRadius = 5
-        btnChargePrice.layer.shadowColor = UIColor.black.cgColor
+        btnChargePrice.layer.shadowColor = UIColor.gray.cgColor
         btnChargePrice.layer.shadowOpacity = 0.5
         btnChargePrice.layer.shadowOffset = CGSize(width: 0.5, height: 2)
         btnChargePrice.layer.masksToBounds = false
