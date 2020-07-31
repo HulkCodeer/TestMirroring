@@ -39,10 +39,11 @@ class PointViewController: UIViewController {
     let FILTER_POINT_SAVE = 1
     let FILTER_POINT_USED = 2
     
-    var selectiedFilter:Int = 0
+    var selectiedFilter: Int = 0
     
     var evPointList: Array<EvPoint> = Array<EvPoint>()
-    var pointData: [EvPoint] = []
+    
+    var pointHistory = PointHistory()
     
     struct PointHistory: Decodable {
         var code: Int?
@@ -57,8 +58,7 @@ class PointViewController: UIViewController {
         prepareActionBar()
         prepareDatePicker()
         prepareTableView()
-        
-       
+
         // 오늘 포인트 이력 가져오기
         btnAllBerry.isSelected = true
         let currentDate = Date()
@@ -116,7 +116,6 @@ class PointViewController: UIViewController {
         selectiedFilter = FILTER_POINT_SAVE
         updateFilteredPointList()
     }
-    
 }
 
 extension PointViewController {
@@ -182,95 +181,89 @@ extension PointViewController {
         Server.getPointHistory(isAllDate: isAllDate, sDate: sDate, eDate: eDate) { (isSuccess, responseData) in
             if isSuccess {
                 if let data = responseData {
-                    let pointHistory = try! JSONDecoder().decode(PointHistory.self, from: data)
-                    if pointHistory.code != 1000 {
+                    self.pointHistory = try! JSONDecoder().decode(PointHistory.self, from: data)
+                    if self.pointHistory.code != 1000 {
                         self.labelResultMsg.visible()
-                        self.labelResultMsg.text = pointHistory.msg
+                        self.labelResultMsg.text = self.pointHistory.msg
                     }
-                    if let point = pointHistory.list{
-                        self.pointData.removeAll()
-                        self.pointData.append(contentsOf: point)
-                    }
+                    
                     // 나의 잔여 포인트
-                    self.labelTotalPoint.text = "\(pointHistory.total_point)".currency()
+                    self.labelTotalPoint.text = "\(self.pointHistory.total_point)".currency()
                     self.updateFilteredPointList()
                 }
             }
         }
     }
     
-    // save + used 
-    func getAllPointList() -> PointHistory {
-        var pointHistory = PointHistory()
-        pointHistory.list = nil
-        pointHistory.list = pointData
-        return pointHistory
+    // save + used
+    func getAllPointList() -> [EvPoint] {
+        var pointList: [EvPoint] = []
+        if let list = self.pointHistory.list {
+            pointList = list
+        }
+        return pointList
     }
     
     // used
-    func getUsedPointList() -> PointHistory{
+    func getUsedPointList() -> [EvPoint] {
         var evFilteredList:[EvPoint] = []
-        var pointHistory = PointHistory()
-        pointHistory.list = nil
-            for i in self.pointData {
-                if i.action == "used"{
-                    evFilteredList.append(i)
+
+        if let list = self.pointHistory.list {
+            for item in list {
+                if item.action == "used" {
+                    evFilteredList.append(item)
                 }
             }
-        pointHistory.list = evFilteredList
-        return pointHistory
+        }
+        return evFilteredList
     }
     
     // save
-    func getSavePointList() -> PointHistory{
+    func getSavePointList() -> [EvPoint] {
         var evFilteredList:[EvPoint] = []
-        var pointHistory = PointHistory()
-        pointHistory.list = nil
-            for i in self.pointData {
-                if i.action == "save"{
-                    evFilteredList.append(i)
-                    
+        if let list = self.pointHistory.list {
+            for item in list {
+                if item.action == "save" {
+                    evFilteredList.append(item)
                 }
             }
-        pointHistory.list = evFilteredList
-        return pointHistory
+        }
+        return evFilteredList
     }
 
-    fileprivate func updateFilteredPointList(){
+    fileprivate func updateFilteredPointList() {
         btnAllBerry.isSelected = false
         btnUseBerry.isSelected = false
         btnSaveBerry.isSelected = false
 
-            switch selectiedFilter {
-            case FILTER_POINT_ALL:
-                btnAllBerry.isSelected = true
-                updatePointList(pointHistory: getAllPointList())
-                break
-            case FILTER_POINT_USED:
-                btnUseBerry.isSelected = true
-                updatePointList(pointHistory: getUsedPointList())
-                break
-            case FILTER_POINT_SAVE:
-                btnSaveBerry.isSelected = true
-                updatePointList(pointHistory: getSavePointList())
-                break
-            default:
-                break
+        switch selectiedFilter {
+        case FILTER_POINT_ALL:
+            btnAllBerry.isSelected = true
+            updatePointList(pointList: getAllPointList())
+            break
+        case FILTER_POINT_USED:
+            btnUseBerry.isSelected = true
+            updatePointList(pointList: getUsedPointList())
+            break
+        case FILTER_POINT_SAVE:
+            btnSaveBerry.isSelected = true
+            updatePointList(pointList: getSavePointList())
+            break
+        default:
+            break
         }
     }
     
-    fileprivate func updatePointList(pointHistory: PointHistory) {
+    fileprivate func updatePointList(pointList: [EvPoint]) {
         evPointList.removeAll()
-        if let list = pointHistory.list {
-            if list.isEmpty {
-                pointTableView.isHidden = true
-            } else {
-                evPointList = list
-                pointTableView.isHidden = false
-            }
-        } else {
+        
+        if pointList.isEmpty {
             pointTableView.isHidden = true
+        } else {
+            evPointList = pointList
+            pointTableView.isHidden = false
         }
+
         pointTableView.reloadData()
     }
 }
@@ -279,6 +272,8 @@ extension PointViewController: UITableViewDelegate, UITableViewDataSource {
     func prepareTableView() {
         pointTableView.delegate = self
         pointTableView.dataSource = self
+        
+        pointTableView.separatorStyle = .none
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -291,7 +286,7 @@ extension PointViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PointTableViewCell", for: indexPath) as! PointTableViewCell
-        cell.reloadData(evPoint: evPointList[indexPath.row])
+        cell.reloadData(pointList: evPointList, position: indexPath.row)
         return cell
     }
 }

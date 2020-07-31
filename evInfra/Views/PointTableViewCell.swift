@@ -22,12 +22,26 @@ class PointTableViewCell: UITableViewCell {
     let POINT_TYPE_EVENT:Int = 2; // event
     let POINT_TYPE_REWARD:Int = 3; // 보상형 광고 적립
     
-    func reloadData(evPoint: EvPoint) {
+    func reloadData(pointList: Array<EvPoint>, position: Int) {
         
+        let evPoint = pointList[position]
+
         let dateArr = evPoint.date?.components(separatedBy: " ")
-        
         var date = dateArr?[0]
         let time = dateArr?[1]
+        
+        // 이 전 항목의 날짜와 동일하다면 날짜, divider 숨김
+        if position > 0 {
+            let preDateArr = pointList[position - 1].date?.components(separatedBy: " ")
+            let preDate = preDateArr?[0]
+            if preDate!.elementsEqual(date!) {
+                self.labelDate.isHidden = true
+            } else {
+                self.labelDate.isHidden = false
+            }
+        } else {
+            self.labelDate.isHidden = false
+        }
         
         //remove year
         date = String(date?.dropFirst(5) ?? "")
@@ -43,20 +57,24 @@ class PointTableViewCell: UITableViewCell {
         } else if evPoint.action?.elementsEqual("used") ?? false {
             self.labelAction.text = "사용"
             self.labelAmount.text = "-" + (evPoint.point?.currency() ?? "") + " B"
-            self.labelAmount.textColor = UIColor.init(hex: "#FF0000")
+            self.labelAmount.textColor = UIColor.init(hex: "#333333")
         } else {
-            self.labelAction.text = "베리"
+            self.labelAction.text = "기타"
         }
         
         switch evPoint.type {
         case self.POINT_TYPE_CHARGING:
             self.labelCategory.text = "충전"
+            
         case self.POINT_TYPE_EVENT:
             self.labelCategory.text = "이벤트"
+            
         case self.POINT_TYPE_REWARD:
             self.labelCategory.text = "광고참여"
+            
         case self.POINT_TYPE_NONE:
             break
+            
         default:
             break
         }

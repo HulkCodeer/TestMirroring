@@ -111,19 +111,19 @@ extension ChargePriceViewController{
                 let json = JSON(value)
                 if let code = json["code"].int {
                     if code == 1000 {
-                        if let kor = json["0"].string{
-                            if !kor.isEmpty {
-                                self.lbEVKorPrice.text = kor+" 원"
+                        if let env = json["0"].string{
+                            if !env.isEmpty {
+                                self.lbEVKorPrice.text = env + " 원"
                             }
                         }
-                        if let gs = json["41"].string {
-                            if !gs.isEmpty {
-                                self.lbEVRowGSPrice.text = gs+" 원"
+                        if let gsc = json["41"].string {
+                            if !gsc.isEmpty {
+                                self.lbEVRowGSPrice.text = gsc + " 원"
                             }
                         }
-                        if let st = json["L"].string {
-                            if !st.isEmpty {
-                                self.lbEVRowStPrice.text = st+" 원"
+                        if let straffic = json["L"].string {
+                            if !straffic.isEmpty {
+                                self.lbEVRowStPrice.text = straffic + " 원"
                             }
                         }
                     }
@@ -157,7 +157,7 @@ extension ChargePriceViewController{
     }
 }
 
-extension ChargePriceViewController: UITableViewDataSource{
+extension ChargePriceViewController: UITableViewDataSource, UITableViewDelegate {
     func prepareTableView() {
         tvChargePriceMb.delegate = self
         tvChargePriceMb.dataSource = self
@@ -197,7 +197,6 @@ extension ChargePriceViewController: UITableViewDataSource{
             // Last row
             cell.lbChargeCompany.setBorderRadius(.bottomLeft, radius: 6, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
             cell.lbChargePrice.setBorderRadius(.bottomRight, radius: 6, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
-            
         } else {
             // Center
             cell.lbChargeCompany.setBorderRadius(.allCorners , radius: 0, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
@@ -216,8 +215,3 @@ extension ChargePriceViewController: UITableViewDataSource{
         return UITableViewAutomaticDimension
     }
 }
-
-extension ChargePriceViewController: UITableViewDelegate{
-    
-}
-

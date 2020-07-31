@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 카카오 - 클라이언트 시크릿 설정
         KOSession.shared().clientSecret = Const.KAKAO_CLIENT_SECRET;
+        
         return true
     }
     
@@ -58,9 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
                 completionHandler: {_, _ in })
-            if let notification = launchOptions?[.remoteNotification] as? [AnyHashable: Any]{
+            if let notification = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
                 fcmManager.fcmNotification = notification
-                
             }
         } else {
             let settings: UIUserNotificationSettings =

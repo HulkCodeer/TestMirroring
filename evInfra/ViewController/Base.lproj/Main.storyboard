@@ -1665,7 +1665,7 @@
                                                                 <color key="textColor" red="0.37647058823529411" green="0.37647058823529411" blue="0.37647058823529411" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GS 충전소" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTf-zv-3Il">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GS칼텍스" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTf-zv-3Il">
                                                                 <rect key="frame" x="114.5" y="0.0" width="114" height="28"/>
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                                 <color key="textColor" red="0.37647058823529411" green="0.37647058823529411" blue="0.37647058823529411" alpha="1" colorSpace="calibratedRGB"/>
@@ -3666,6 +3666,31 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vI0-AQ-qqc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2126" y="27"/>
+        </scene>
+        <!--Offerwall View Controller-->
+        <scene sceneID="ktx-eu-jOO">
+            <objects>
+                <viewController restorationIdentifier="OfferwallViewController" storyboardIdentifier="OfferwallViewController" id="6vJ-QX-a3K" customClass="OfferwallViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="37T-eB-DWK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vuO-fS-34D">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="uU8-uc-nzD"/>
+                    </view>
+                    <connections>
+                        <outlet property="offerwallContainer" destination="vuO-fS-34D" id="SAP-V2-dDO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D8p-oQ-8lO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2850.4000000000001" y="20.239880059970016"/>
         </scene>
         <!--Ev Detail View Controller-->
         <scene sceneID="vqq-FN-71n">
@@ -6142,7 +6167,7 @@
                                         <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" image="menu_board">
                                             <attributedString key="attributedTitle">
-                                                <fragment content="    게시판">
+                                                <fragment content="   커뮤니티">
                                                     <attributes>
                                                         <font key="NSFont" metaFont="system" size="10"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
@@ -7022,10 +7047,10 @@
                                     <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3L9-fi-KlL">
                                         <rect key="frame" x="0.0" y="0.0" width="111.5" height="32"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="사용+적립">
+                                        <state key="normal" title="전체">
                                             <color key="titleColor" red="0.76078431369999999" green="0.76078431369999999" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
-                                        <state key="selected" title="사용+적립">
+                                        <state key="selected" title="전체">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -7176,6 +7201,20 @@
                         <outlet property="textFieldStartDate" destination="b7q-IG-bHw" id="a2d-px-CIS"/>
                     </connections>
                 </viewController>
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bTL-Yc-ugX">
+                    <rect key="frame" x="0.0" y="0.0" width="111.5" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" title="전체">
+                        <color key="titleColor" red="0.76078431369999999" green="0.76078431369999999" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="selected" title="사용+적립">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="onClickAllBerry:" destination="uaM-G9-pfJ" eventType="touchUpInside" id="vhj-P9-NEb"/>
+                    </connections>
+                </button>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z9k-RE-aha" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4232.8000000000002" y="702.09895052473769"/>
