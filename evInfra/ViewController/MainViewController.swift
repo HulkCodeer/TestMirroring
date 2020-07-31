@@ -405,6 +405,7 @@ class MainViewController: UIViewController {
         btn_menu_layer.layer.masksToBounds = false
     }
     
+    // btnChargePrice radius, color, shadow
     func prepareChargePrice() {
         btnChargePrice.layer.cornerRadius = 16
         btnChargePrice.layer.shadowRadius = 5
