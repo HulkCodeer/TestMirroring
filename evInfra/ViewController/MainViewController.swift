@@ -395,7 +395,7 @@ class MainViewController: UIViewController {
         reNewButton.layer.shadowOpacity = 0.5
         reNewButton.layer.shadowOffset = CGSize(width: 0.5, height: 2)
         reNewButton.layer.masksToBounds = false
-        
+
         btn_menu_layer.layer.cornerRadius = 5
         btn_menu_layer.clipsToBounds = true
         btn_menu_layer.layer.shadowRadius = 5
