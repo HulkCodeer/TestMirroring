@@ -27,36 +27,22 @@ class UsePointViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        prepareActionBar()
-        prepareMyPoint()
+
         prepareView()
-    }
-    
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
-        navigationItem.titleLabel.text = "포인트 사용"
-        navigationController?.isNavigationBarHidden = false
+        getMyPoint()
     }
     
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
-    }
-    
-    func prepareMyPoint() {
+    func getMyPoint() {
         Server.getPoint{ (isSuccess, value) in
+
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].stringValue == "1000" {
                     self.myPoint = json["point"].intValue
-                    self.labelMyPoint.text = "\(self.myPoint)".currency()
+                    if self.myPoint > -1 {
+                        self.labelMyPoint.text = "\(self.myPoint)".currency()
+                    }
                 }
             } else {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료 후 재시도 바랍니다.")
@@ -90,7 +76,6 @@ class UsePointViewController: UIViewController {
                     if json["code"].stringValue == "1000" {
                         let point = json["point"].stringValue
                         Snackbar().show(message: point.currency() + " 포인트를 사용합니다.", title: "포인트 사용 완료") { () in
-                            self.appDelegate.paymentStatusController?.dataReceived(berry: self.textFieldUsePoint.text ?? "0")
                             self.dismiss(animated: true, completion: nil)
                         }
                     } else {
