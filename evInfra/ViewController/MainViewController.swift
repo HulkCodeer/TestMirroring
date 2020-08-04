@@ -409,8 +409,8 @@ class MainViewController: UIViewController {
     func prepareChargePrice() {
         btnChargePrice.layer.cornerRadius = 16
         btnChargePrice.layer.shadowRadius = 5
-        btnChargePrice.layer.shadowColor = UIColor.gray.cgColor
-        btnChargePrice.layer.shadowOpacity = 0.5
+        btnChargePrice.layer.shadowColor = UIColor.black.cgColor
+        btnChargePrice.layer.shadowOpacity = 0.3
         btnChargePrice.layer.shadowOffset = CGSize(width: 0.5, height: 2)
         btnChargePrice.layer.masksToBounds = false
         
@@ -1396,7 +1396,6 @@ extension MainViewController {
             defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
             let paymentStatusVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
             paymentStatusVC.cpId = response["cp_id"].stringValue
-            paymentStatusVC.point = Int(response["u_point"].stringValue) ?? 0
             paymentStatusVC.connectorId = response["connector_id"].stringValue
             
             self.navigationController?.push(viewController: paymentStatusVC)
