@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 import Material
 
-class PaymentStatusViewController: UIViewController{
+class PaymentStatusViewController: UIViewController {
 
     let STATUS_READY = 0
     let STATUS_START = 1
@@ -26,8 +26,7 @@ class PaymentStatusViewController: UIViewController{
     @IBOutlet weak var lbChargeSpeed: UILabel!
     @IBOutlet weak var lbChargeFee: UILabel!
     @IBOutlet weak var lbChargeBerry: UILabel!
-    @IBOutlet weak var lbChargeAllFee: UILabel!
-    
+    @IBOutlet weak var lbChargeTotalFee: UILabel!
     
     @IBOutlet weak var chronometer: Chronometer!
 
@@ -38,12 +37,9 @@ class PaymentStatusViewController: UIViewController{
     
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
     var chargingStartTime = ""
     var isStopCharging = false
-    
-    var point:Int = 0
+
     var cpId: String = ""
     var connectorId: String = ""
     var chargingStatus = ChargingStatus.init()
@@ -57,24 +53,25 @@ class PaymentStatusViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        appDelegate.paymentStatusController = self
-        
         prepareActionBar()
         prepareView()
         prepareNotificationCenter()
         
         requestOpenCharger()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        btnSetBorder()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         startTimer(tick: TIMER_COUNT_NORMAL_TICK)
     }
     
-    func dataReceived(berry: String) {
-        lbChargeBerry.text = "- "+berry+"B"
-    }
-    
     override func viewDidDisappear(_ animated: Bool) {
+        removeTimer()
         chronometer.stop()
-        timer.invalidate()
-        timer = Timer()
+
         removeNotificationCenter()
     }
 
@@ -97,9 +94,14 @@ class PaymentStatusViewController: UIViewController{
         btnStopCharging.isEnabled = false
     }
     
-    override func viewDidLayoutSubviews() {
-        //btn border, gradient
-        btnSetBorder()
+    func prepareNotificationCenter() {
+        let center = NotificationCenter.default
+        center.addObserver(self, selector: #selector(requestStatusFromFCM), name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: nil)
+    }
+   
+    func removeNotificationCenter() {
+        let center = NotificationCenter.default
+        center.removeObserver(self, name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: nil)
     }
     
     func btnSetBorder() {
@@ -110,16 +112,6 @@ class PaymentStatusViewController: UIViewController{
         btnUseBerry.roundCorners(.allCorners, radius: 20, borderColor: borderColor, borderWidth: 4)
         
         btnStopCharging.setRoundGradient(startColor: startColor, endColor: endColor)
-    }
-    
-    func prepareNotificationCenter() {
-        let center = NotificationCenter.default
-        center.addObserver(self, selector: #selector(requestStatusFromFCM), name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: nil)
-    }
-   
-    func removeNotificationCenter() {
-        let center = NotificationCenter.default
-        center.removeObserver(self, name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: nil)
     }
     
     @objc func requestStatusFromFCM(notification: Notification) {
@@ -206,6 +198,8 @@ extension PaymentStatusViewController {
         timer = Timer()
     }
     
+    // charging id가 있을 경우 충전중인 상태이므로
+    // charging id가 없을 경우에만 충전기에 충전 시작을 요청함
     func requestOpenCharger() {
         let chargingId = getChargingId()
         if chargingId.isEmpty {
@@ -353,6 +347,26 @@ extension PaymentStatusViewController {
             }
         }
         
+        // 포인트
+        var point = 0.0;
+        if let pointStr = chargingStatus.usedPoint, !pointStr.isEmpty {
+            lbChargeBerry.text = pointStr.currency() + " B"
+            point = Double(pointStr) ?? 0.0
+            if point > 0 {
+//                mBtnRemovePoint.setVisibility(View.VISIBLE);
+//                mBtnUsePoint.setBackground(getResources().getDrawable(R.drawable.btn_selector_gray));
+//                mBtnUsePoint.setTextColor(getResources().getColor(R.color.normal_btn_bg_gray));
+
+                btnUseBerry.setTitle("베리 수정하기", for: .normal)
+            } else {
+//                mBtnRemovePoint.setVisibility(View.GONE);
+//                mBtnUsePoint.setBackground(getResources().getDrawable(R.drawable.btn_selector_green));
+//                mBtnUsePoint.setTextColor(getResources().getColor(R.color.normal_btn_bg_green));
+
+                btnUseBerry.setTitle("베리 사용하기", for: .normal)
+            }
+        }
+        
         if chargingStatus.status == STATUS_READY {
             lbChargeComment.text = "충전 커넥터를 차량과 연결 후 잠시만 기다려 주세요"
             btnStopCharging.setTitle("충전 취소", for: .normal)
@@ -386,9 +400,11 @@ extension PaymentStatusViewController {
                 
                 // 충전 요금: 충전량 x 173.8
                 let fee = round((chargingKw.parseDouble() ?? 0) * 173.8)
-                lbChargeFee.text = "- "+"\(fee)".currency() + "원"
+                lbChargeFee.text = "\(fee)".currency() + " 원"
                 
                 // 총 결제 금액
+                let totalFee = (fee > point) ? fee - point : 0
+                lbChargeTotalFee.text = String(totalFee).currency()
                 
                 // 충전속도
                 if let updateTime = chargingStatus.updateTime {
@@ -406,7 +422,7 @@ extension PaymentStatusViewController {
                             let speed = chargingKw / sec * 3600
                             self.lbChargeSpeed.text = "\((speed * 100).rounded() / 100) Kw"
                         }
-                    }else{
+                    } else {
                         self.lbChargeSpeed.text = "0 Kw"
                     }
                     preChargingKw = chargingStatus.chargingKw ?? ""
