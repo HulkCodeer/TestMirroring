@@ -29,9 +29,12 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     var isRefresh:Bool = false
     
     var currentPage = 0
+    
     var mode = 0
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var scrollValue:CGFloat = 0
+    
+    var cellHeightsDictionary: NSMutableDictionary = [:]
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -57,7 +60,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "BoardTableViewCell", for: indexPath) as! BoardTableViewCell
+
         let cell = Bundle.main.loadNibNamed("BoardTableViewCell", owner: self, options: nil)?.first as! BoardTableViewCell
         let replyValue = self.boardList[indexPath.section].reply![indexPath.row]
         
@@ -81,7 +84,6 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         } else {
             cell.rChargerType.gone()
         }
-        
         if (MemberManager.getMbId() > 0) && (MemberManager.getMbId() == replyValue.mbId)  {
             cell.rEditBtn.visible()
             cell.rDeleteBtn.visible()
@@ -101,11 +103,18 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             cell.rUserImage.contentMode = .scaleAspectFit
         }
         
+        cell.layoutIfNeeded()
         return cell
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        //save Height
+        cellHeightsDictionary.setObject(cell.frame.size.height, forKey: indexPath as NSCopying)
+    }
+    
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 0
+        
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -120,8 +129,6 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-//        tableView.estimatedSectionHeaderHeight = 484;
 
         return UITableViewAutomaticDimension
     }
@@ -253,10 +260,16 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         
         if scrollView.contentOffset.y <= scrollHeaderHeight {
             if scrollView.contentOffset.y >= 0 {
-                scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0)
+                
+                scrollView.contentInset = UIEdgeInsetsMake(-scrollView.bounds.origin.y, 0, 0, 0)
+                
             }
         } else if scrollView.contentOffset.y >= scrollHeaderHeight {
+            
             scrollView.contentInset = UIEdgeInsetsMake(-scrollHeaderHeight, 0, 0, 0)
+            
+        }else if scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.frame.size.height{
+            scrollView.contentInset = UIEdgeInsetsMake(-scrollView.bounds.origin.y, 0, 0, 0)
         }
     }
     
@@ -265,7 +278,6 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         let currentOffset = scrollView.contentOffset.y
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
         scrollValue = currentOffset
-        // Change 100.0 to adjust the distance from bottom
         if maximumOffset - currentOffset <= -20.0 {
             self.tableViewDelegate?.getNextBoardData()
         }

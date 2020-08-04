@@ -30,9 +30,13 @@ class CardBoardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         prepareActionBar()
         
         self.getFirstBoardData()
+                
+        self.boardTableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        self.boardTableView.estimatedSectionHeaderHeight = 170
         
         self.boardTableView.tableViewDelegate = self
         self.boardTableView.category = self.category
@@ -43,8 +47,6 @@ class CardBoardViewController: UIViewController {
         self.boardTableView.separatorStyle = .none
         self.boardTableView.allowsSelection = false
 
-        self.boardTableView.sectionHeaderHeight = UITableViewAutomaticDimension;
-        self.boardTableView.estimatedSectionHeaderHeight = 25;
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,7 +56,6 @@ class CardBoardViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         // Recalculates height
         self.boardTableView.beginUpdates()
         self.boardTableView.endUpdates()
@@ -177,6 +178,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
                     }
                     self.boardTableView.boardList = self.boardList
                     self.boardTableView.reloadData()
+                    self.boardTableView.layoutIfNeeded()
                 }
             }
         }
@@ -362,3 +364,13 @@ extension CardBoardViewController: EditViewDelegate {
         }
     }
 }
+
+//extension UITableView{
+//    func reloadWithoutAnimation() {
+//      let lastContentOffset = contentOffset
+//      beginUpdates()
+//      endUpdates()
+//      layer.removeAllAnimations()
+//      setContentOffset(lastContentOffset, animated: false)
+//    }
+//}
