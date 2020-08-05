@@ -34,19 +34,17 @@ class CardBoardViewController: UIViewController {
         prepareActionBar()
         
         self.getFirstBoardData()
-                
-        self.boardTableView.sectionHeaderHeight = UITableViewAutomaticDimension
-        self.boardTableView.estimatedSectionHeaderHeight = 170
         
         self.boardTableView.tableViewDelegate = self
         self.boardTableView.category = self.category
-        self.boardTableView.rowHeight = UITableViewAutomaticDimension
-        self.boardTableView.estimatedRowHeight = UITableViewAutomaticDimension
+
         self.boardTableView.separatorColor = UIColor(rgb: 0xE4E4E4)
         self.boardTableView.separatorInset = .zero
         self.boardTableView.separatorStyle = .none
         self.boardTableView.allowsSelection = false
-
+        
+//        boardTableView.register(UINib.init(nibName: "BoardTableViewCell", bundle: nil), forCellReuseIdentifier: "BoardTableViewCell")
+//        boardTableView.register(UINib.init(nibName: "BoardTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "BoardTableViewHeader")
     }
 
     override func didReceiveMemoryWarning() {
@@ -56,6 +54,7 @@ class CardBoardViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         // Recalculates height
         self.boardTableView.beginUpdates()
         self.boardTableView.endUpdates()
@@ -63,13 +62,14 @@ class CardBoardViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         self.boardTableView.setNeedsDisplay()
         self.boardTableView.reloadData()
     }
 }
 
 extension CardBoardViewController {
-     
+    
     func prepareActionBar() {
         self.navigationController?.isNavigationBarHidden = false
         
@@ -176,9 +176,9 @@ extension CardBoardViewController: BoardTableViewDelegate {
                         let boardData = BoardData(bJson: json)
                         self.boardList.append(boardData)
                     }
+                    
                     self.boardTableView.boardList = self.boardList
                     self.boardTableView.reloadData()
-                    self.boardTableView.layoutIfNeeded()
                 }
             }
         }
@@ -364,13 +364,3 @@ extension CardBoardViewController: EditViewDelegate {
         }
     }
 }
-
-//extension UITableView{
-//    func reloadWithoutAnimation() {
-//      let lastContentOffset = contentOffset
-//      beginUpdates()
-//      endUpdates()
-//      layer.removeAllAnimations()
-//      setContentOffset(lastContentOffset, animated: false)
-//    }
-//}

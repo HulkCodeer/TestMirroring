@@ -333,10 +333,10 @@ extension MyWritingViewController: EditViewDelegate {
     }
 }
 
-extension MyWritingViewController: AppTabsControllerDelegate{
+extension MyWritingViewController: AppTabsControllerDelegate {
     func changeTab() {
-        if self.boardTableView.scrollValue > 0 {
+//        if self.boardTableView.scrollValue > 0 {
 //            self.boardTableView.setContentOffset(CGPoint(x: 0, y: self.boardTableView.scrollValue), animated: false)
-        }
+//        }
     }
 }
