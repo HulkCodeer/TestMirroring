@@ -303,6 +303,7 @@ extension NSLayoutConstraint {
         mask.frame = self.bounds
         mask.path = path.cgPath
         self.layer.mask = mask
+        
         let borderLayer = CAShapeLayer()
         borderLayer.path = mask.path
         borderLayer.fillColor = UIColor.clear.cgColor
