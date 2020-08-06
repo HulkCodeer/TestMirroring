@@ -46,6 +46,7 @@ class ChargePriceViewController: UIViewController {
         super.viewDidLoad()
         
         prepareActionBar()
+        prepareTableView()
         
         self.getEvChargePrice()
         self.getMbChargePrice()
@@ -56,7 +57,6 @@ class ChargePriceViewController: UIViewController {
     // TableView Border, BGcolor, Management cell, Resize Height
     override func viewDidLayoutSubviews() {
         setEVRowBorder()
-        prepareTableView()
     }
     
     func prepareActionBar() {
@@ -189,21 +189,27 @@ extension ChargePriceViewController: UITableViewDataSource, UITableViewDelegate 
         cell.lbChargePrice.text = chargePrice["price"].stringValue
         
         cell.lbChargeCompany.backgroundColor = UIColor(hex: "#F2F2F2")
-        if indexPath.row == 0 {
-            // First row
-            cell.lbChargeCompany.setBorderRadius(.topLeft, radius: 6, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
-            cell.lbChargePrice.setBorderRadius(.topRight, radius: 6, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
-        } else if indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1 {
-            // Last row
-            cell.lbChargeCompany.setBorderRadius(.bottomLeft, radius: 6, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
-            cell.lbChargePrice.setBorderRadius(.bottomRight, radius: 6, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
-        } else {
-            // Center
-            cell.lbChargeCompany.setBorderRadius(.allCorners , radius: 0, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
-            cell.lbChargePrice.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
-        }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let priceCell = cell as! ChargePriceTableViewCell
+        priceCell.layoutIfNeeded()
+
+        if indexPath.row == 0 {
+            // First row
+            priceCell.lbChargeCompany.setBorderRadius(.topLeft, radius: 6, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
+            priceCell.lbChargePrice.setBorderRadius(.topRight, radius: 6, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
+        } else if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            // Last row
+            priceCell.lbChargeCompany.setBorderRadius(.bottomLeft, radius: 6, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
+            priceCell.lbChargePrice.setBorderRadius(.bottomRight, radius: 6, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
+        } else {
+            // Center
+            priceCell.lbChargeCompany.setBorderRadius(.allCorners , radius: 0, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
+            priceCell.lbChargePrice.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#DCDCDC"), borderWidth: 2)
+        }
     }
     
     // Set tableView height, scrollView heigth
