@@ -729,9 +729,9 @@
 		739171E222C4A218007369F9 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
-				733662FF230263540049AEFE /* PaymentStatusViewController.swift */,
 				739171E022C4A209007369F9 /* PaymentQRScanViewController.swift */,
 				7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */,
+				733662FF230263540049AEFE /* PaymentStatusViewController.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -1594,7 +1594,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 73;
+				CURRENT_PROJECT_VERSION = 75;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1631,7 +1631,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 73;
+				CURRENT_PROJECT_VERSION = 75;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (

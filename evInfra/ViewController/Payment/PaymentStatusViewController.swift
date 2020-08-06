@@ -398,10 +398,9 @@ extension PaymentStatusViewController {
                 // 충전량
                 let chargePower = "\(chargingKw) Kw"
                 lbChargePower.text = chargePower
-                
-                // 충전 요금: 충전량 x 173.8
-//                let fee = round((chargingKw.parseDouble() ?? 0) * 173.8)
+
                 if let feeStr = chargingStatus.fee {
+                    // 충전 요금
                     lbChargeFee.text = feeStr.currency() + " 원"
                     
                     // 총 결제 금액
