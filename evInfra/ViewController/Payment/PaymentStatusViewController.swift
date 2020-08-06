@@ -287,6 +287,7 @@ extension PaymentStatusViewController {
         chargingStatus.chargingRate = response["rate"].string ?? "0"
         chargingStatus.chargingKw = response["c_kw"].string ?? "0"
         chargingStatus.usedPoint = response["u_point"].string ?? ""
+        chargingStatus.fee = response["fee"].string ?? ""
         chargingStatus.stationName = response["snm"].string ?? ""
         chargingStatus.companyId = response["company_id"].string ?? ""
     }
@@ -399,12 +400,15 @@ extension PaymentStatusViewController {
                 lbChargePower.text = chargePower
                 
                 // 충전 요금: 충전량 x 173.8
-                let fee = round((chargingKw.parseDouble() ?? 0) * 173.8)
-                lbChargeFee.text = "\(fee)".currency() + " 원"
-                
-                // 총 결제 금액
-                let totalFee = (fee > point) ? fee - point : 0
-                lbChargeTotalFee.text = String(totalFee).currency()
+//                let fee = round((chargingKw.parseDouble() ?? 0) * 173.8)
+                if let feeStr = chargingStatus.fee {
+                    lbChargeFee.text = feeStr.currency() + " 원"
+                    
+                    // 총 결제 금액
+                    let fee = feeStr.parseDouble() ?? 0.0
+                    let totalFee = (fee > point) ? fee - point : 0
+                    lbChargeTotalFee.text = String(totalFee).currency() + " 원"
+                }
                 
                 // 충전속도
                 if let updateTime = chargingStatus.updateTime {
