@@ -17,6 +17,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WLf-3L-WEo" userLabel="Map Container View">
+                                <rect key="frame" x="0.0" y="66" width="375" height="601"/>
+                            </view>
                             <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MjX-0u-Kq9" userLabel="Filter View">
                                 <rect key="frame" x="0.0" y="-68" width="375" height="134"/>
                                 <subviews>
@@ -286,9 +289,6 @@
                                     <constraint firstAttribute="bottom" secondItem="apE-SS-s5h" secondAttribute="bottom" id="jkS-7u-sK7"/>
                                     <constraint firstItem="apE-SS-s5h" firstAttribute="leading" secondItem="3RR-82-jR6" secondAttribute="leading" constant="4" id="ucQ-c8-pLE"/>
                                 </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WLf-3L-WEo" userLabel="Map Container View">
-                                <rect key="frame" x="0.0" y="66" width="375" height="601"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hUZ-Py-Zxk">
                                 <rect key="frame" x="16" y="595" width="343" height="64"/>

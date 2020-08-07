@@ -260,6 +260,7 @@ extension MyPageViewController : UIImageCropperProtocol {
  * Server Access
  */
 extension MyPageViewController {
+    
     internal func getMemberInfo() {
         // 지역
         let mbRegion = UserDefault().readString(key: UserDefault.Key.MB_REGION)
