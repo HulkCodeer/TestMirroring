@@ -145,6 +145,8 @@ class MyPageViewController: UIViewController {
         profileImgView.layer.cornerRadius = profileImgView.frame.height/2
         profileImgView.clipsToBounds = true
         
+        updateBtn.setDefaultBackground(cornerRadius: 4)
+        
         nickNameField.delegate = self as UITextFieldDelegate
         
         if zipCodeField.text != "" && addrInfoField.text != "" ||
