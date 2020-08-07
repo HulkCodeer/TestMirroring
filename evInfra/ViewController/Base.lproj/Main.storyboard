@@ -4573,7 +4573,9 @@
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UWP-x7-doF">
                                                                         <rect key="frame" x="0.0" y="0.0" width="257.5" height="30"/>
-                                                                        <state key="normal" title="선택"/>
+                                                                        <state key="normal" title="선택">
+                                                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </state>
                                                                         <connections>
                                                                             <action selector="onClickCarKind:" destination="26Z-fH-GsU" eventType="touchUpInside" id="JZj-cO-IyU"/>
                                                                         </connections>
@@ -4636,7 +4638,9 @@
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZf-Ve-5lE">
                                                                         <rect key="frame" x="0.0" y="0.0" width="257.5" height="30"/>
-                                                                        <state key="normal" title="선택"/>
+                                                                        <state key="normal" title="선택">
+                                                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </state>
                                                                         <connections>
                                                                             <action selector="onClickLocation:" destination="26Z-fH-GsU" eventType="touchUpInside" id="4MU-lW-kRb"/>
                                                                         </connections>
