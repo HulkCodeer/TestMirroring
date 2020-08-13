@@ -29,6 +29,8 @@ class PointViewController: UIViewController {
     
     @IBOutlet weak var pointTableView: UITableView!
     
+    // add..
+    
     var textFieldDate: UITextField!
     
     let datePicker = UIDatePicker()
