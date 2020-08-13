@@ -106,12 +106,10 @@ class PaymentStatusViewController: UIViewController {
     
     func btnSetBorder() {
         let borderColor = UIColor(hex: "#22C1BB")
-        let startColor = UIColor(hex: "#2CE0BB").cgColor
-        let endColor = UIColor(hex: "#33A2DA").cgColor
         
         btnUseBerry.roundCorners(.allCorners, radius: 20, borderColor: borderColor, borderWidth: 4)
         
-        btnStopCharging.setRoundGradient(startColor: startColor, endColor: endColor)
+        btnStopCharging.setDefaultBackground(cornerRadius: 20)
     }
     
     @objc func requestStatusFromFCM(notification: Notification) {
