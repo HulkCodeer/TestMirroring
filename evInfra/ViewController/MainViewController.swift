@@ -126,6 +126,9 @@ class MainViewController: UIViewController {
     // 지킴이 점겸표 url
     private var checklistUrl: String?
     
+	//geo
+	private var locationManager:CLLocationManager = CLLocationManager.init()
+
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -153,6 +156,7 @@ class MainViewController: UIViewController {
         if self.sharedChargerId != nil {
             self.selectChargerFromShared()
         }
+		initGeo()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1411,3 +1415,75 @@ extension MainViewController {
         }
     }
 }
+
+extension MainViewController : CLLocationManagerDelegate {
+
+     func initGeo() {
+        self.locationManager.requestAlwaysAuthorization()
+		print("LEJ set RegionCenter")
+		self.showAlert(controller: self, message: "LEJ set RegionCenter", seconds: 5.0)
+
+		//geo location manager
+	    locationManager.delegate = self                         // 델리게이트 넣어줌.
+	    locationManager.requestAlwaysAuthorization()            // 위치 권한 받아옴.
+
+	    locationManager.startUpdatingLocation()                 // 위치 업데이트 시작
+	    locationManager.allowsBackgroundLocationUpdates = true  // 백그라운드에서도 위치를 체크할 것인지에 대한 여부. 필요없으면 false로 처리하자.
+	    locationManager.pausesLocationUpdatesAutomatically = false  // 이걸 써줘야 백그라운드에서 멈추지 않고 돈다
+
+		// Your coordinates go here (lat, lon)
+		let geofenceRegionCenter = CLLocationCoordinate2D(
+			latitude: 37.490709,
+			longitude: 127.030566
+		)
+
+		/* Create a region centered on desired location,
+		 choose a radius for the region (in meters)
+		 choose a unique identifier for that region */
+		let geofenceRegion = CLCircularRegion(
+			center: geofenceRegionCenter,
+			radius: 100,
+			identifier: "UniqueIdentifier"
+		)
+
+
+		geofenceRegion.notifyOnEntry = true
+		geofenceRegion.notifyOnExit = true
+		
+		//지정된 지역 모니터링 시작
+        self.locationManager.startMonitoring(for: geofenceRegion)
+    }
+	
+	//	func locationManager(_ manager: CLLocationManager,
+	func monitoringDidFailFor(region: CLRegion?,
+	withError error: Error){
+		print("LEJ locationManager error")
+		print("LEJ " + error.localizedDescription)
+		self.showAlert(controller: self, message: "geo 위치 에러", seconds: 5.0)
+	}
+
+	// called when user Exits a monitored region
+	func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+		 print("LEJ locationManager exit")
+		self.showAlert(controller: self, message: "locationManager exit", seconds: 5.0)
+        if region is CLCircularRegion {
+        }
+    }
+
+    // called when user Enters a monitored region
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+		print("LEJ locationManager enter")
+		self.showAlert(controller: self, message: "locationManager enter", seconds: 5.0)
+        if region is CLCircularRegion {
+        }
+	}
+	
+	func showAlert(controller: UIViewController, message : String, seconds: Double) {
+		let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
+		let success = UIAlertAction(title: "확인", style: .default){(action) in print("확인")}
+		alert.addAction(success)
+		self.present(alert, animated: false, completion: nil)
+	}
+}
+
+

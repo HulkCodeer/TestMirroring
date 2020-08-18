@@ -23,6 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let gcmMessageIDKey = "gcm.message_id"
     let fcmManager = FCMManager.sharedInstance
     var chargingStatusPayload: [AnyHashable: Any]? = nil
+	
+	var notificationCenter: UNUserNotificationCenter?
+	
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         setupEntryController()
@@ -52,6 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }
 //        }
         
+
         return true
     }
     

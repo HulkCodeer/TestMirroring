@@ -9,18 +9,18 @@ use_frameworks!
 target 'evInfra' do
   # Pods for evInfra
   pod 'Material', '~> 2.0'
-  pod 'MaterialComponents/Snackbar'
+  pod 'MaterialComponents/Snackbar', '~> 105.0.0'
   pod 'Alamofire', '~> 4.7'
   pod 'SwiftyJSON'
-  pod 'Firebase/Core'                 # For firebase Core
-  pod 'Firebase/Messaging'            # For firebase Messaging
+  pod 'Firebase/Core', '~>6.24.0'                # For firebase Core
+  pod 'Firebase/Messaging', '6.24.0'            # For firebase Messaging
   pod 'Fabric', '~> 1.9.0'            # For firebase Crashlytics
   pod 'Crashlytics', '~> 3.12.0'      # For firebase Crashlytics
   pod 'UIImageCropper'
   pod 'SDWebImage/GIF'
   pod 'M13Checkbox'                   # For material checkbox
   pod 'DropDown'                      # For spinner
-  pod 'Parchment'                     # For view pager
+  pod 'Parchment', '~> 1.6.0'                     # For view pager
   pod 'Charts', '~> 3.2.2'            # For charger usage graph
   pod 'FMDB'
   pod 'KeychainSwift', '~> 13.0'      # For keychain
