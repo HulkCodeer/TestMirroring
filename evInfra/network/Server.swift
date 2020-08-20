@@ -840,6 +840,9 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
 	
+	static func getGeoRegion(){
+		
+	}
     // download url file
     static func getData(url: URL, completion: @escaping (Bool, Data?) -> Void) {
         Alamofire.request(url).responseData { (response) in

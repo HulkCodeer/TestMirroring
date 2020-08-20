@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		print("LEJ 시작 프로세스가 거의 완료되었으며 앱을 실행할 준비가 거의 완료되었음을 대리인에게 알립니다.")
-			
+		self.locationManager.delegate = self
         setupEntryController()
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -65,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }
 //        }
         
-		initGeo()
+		//initGeo()
 		
         return true
     }
@@ -356,41 +356,6 @@ extension AppDelegate {
 }
 
 extension AppDelegate : CLLocationManagerDelegate {
-	 func initGeo() {
-		self.locationManager.requestAlwaysAuthorization()
-		print("LEJ set RegionCenter")
-
-		//geo location manager
-		locationManager.delegate = self                         // 델리게이트 넣어줌.
-		locationManager.requestAlwaysAuthorization()            // 위치 권한 받아옴.
-
-		locationManager.startUpdatingLocation()                 // 위치 업데이트 시작
-		locationManager.allowsBackgroundLocationUpdates = true  // 백그라운드에서도 위치를 체크할 것인지에 대한 여부. 필요없으면 false로 처리하자.
-		locationManager.pausesLocationUpdatesAutomatically = false  // 이걸 써줘야 백그라운드에서 멈추지 않고 돈다
-
-		// Your coordinates go here (lat, lon)
-		let geofenceRegionCenter = CLLocationCoordinate2D(
-			latitude: 37.490709,
-			longitude: 127.030566
-		)
-
-		/* Create a region centered on desired location,
-		 choose a radius for the region (in meters)
-		 choose a unique identifier for that region */
-		let geofenceRegion = CLCircularRegion(
-			center: geofenceRegionCenter,
-			radius: 100,
-			identifier: "UniqueIdentifier"
-		)
-
-		geofenceRegion.notifyOnEntry = true
-		geofenceRegion.notifyOnExit = true
-		
-		//지정된 지역 모니터링 시작
-		self.locationManager.startMonitoring(for: geofenceRegion)
-		//self.locationManager.startMonitoringSignificantLocationChanges()
-	}
-	
 	func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
 		 print("LEJ locationManager exit")
         if region is CLCircularRegion {

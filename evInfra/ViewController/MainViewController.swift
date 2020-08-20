@@ -126,6 +126,8 @@ class MainViewController: UIViewController {
     // 지킴이 점겸표 url
     private var checklistUrl: String?
 	
+	private var locationManager:CLLocationManager = CLLocationManager.init()
+	
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -1410,6 +1412,45 @@ extension MainViewController {
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
         }
     }
+}
+
+extension MainViewController{
+	func getGeoRegion(){
+		
+	}
+	
+	func initGeo() {
+		   self.locationManager.requestAlwaysAuthorization()
+		   print("LEJ set RegionCenter")
+
+		   locationManager.requestAlwaysAuthorization()            // 위치 권한 받아옴.
+
+		   locationManager.startUpdatingLocation()                 // 위치 업데이트 시작
+		   locationManager.allowsBackgroundLocationUpdates = true  // 백그라운드에서도 위치를 체크할 것인지에 대한 여부. 필요없으면 false로 처리하자.
+		   locationManager.pausesLocationUpdatesAutomatically = false  // 이걸 써줘야 백그라운드에서 멈추지 않고 돈다
+
+		   // Your coordinates go here (lat, lon)
+		   let geofenceRegionCenter = CLLocationCoordinate2D(
+			   latitude: 37.490709,
+			   longitude: 127.030566
+		   )
+
+		   /* Create a region centered on desired location,
+			choose a radius for the region (in meters)
+			choose a unique identifier for that region */
+		   let geofenceRegion = CLCircularRegion(
+			   center: geofenceRegionCenter,
+			   radius: 100,
+			   identifier: "UniqueIdentifier"
+		   )
+
+		   geofenceRegion.notifyOnEntry = true
+		   geofenceRegion.notifyOnExit = true
+		   
+		   //지정된 지역 모니터링 시작
+		   self.locationManager.startMonitoring(for: geofenceRegion)
+		   //self.locationManager.startMonitoringSignificantLocationChanges()
+	   }
 }
 
 
