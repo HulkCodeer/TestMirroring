@@ -12,4 +12,6 @@ class EvPoint: Decodable {
     var point: String?
     var action: String?
     var date: String?
+    var desc: String?
+    var type: Int?
 }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */; };
+		4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
+		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView.swift */; };
 		7312786820BE38C500861B3E /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786720BE38C500861B3E /* FCMManager.swift */; };
@@ -276,6 +279,9 @@
 
 /* Begin PBXFileReference section */
 		0BE09DF43E8F5A12E923D6B5 /* Pods-evInfra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra/Pods-evInfra.release.xcconfig"; sourceTree = "<group>"; };
+		4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceViewController.swift; sourceTree = "<group>"; };
+		4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceTableViewCell.swift; sourceTree = "<group>"; };
+		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		7312786720BE38C500861B3E /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
@@ -662,6 +668,7 @@
 				9058A3BF248639A700091823 /* charger */,
 				732B92A120EF1AB40090E9FC /* assets */,
 				732B92C020EF45A70090E9FC /* ExLib */,
+				732B92A120EF1AB40090E9FC /* assets */,
 				736813A62043E98F0035FC66 /* Images */,
 				7312786220B7D81A00861B3E /* Common */,
 				73B752812048EC8D0077112A /* model */,
@@ -764,9 +771,9 @@
 		739171E222C4A218007369F9 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
-				733662FF230263540049AEFE /* PaymentStatusViewController.swift */,
 				739171E022C4A209007369F9 /* PaymentQRScanViewController.swift */,
 				7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */,
+				733662FF230263540049AEFE /* PaymentStatusViewController.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -803,6 +810,7 @@
 				CE9330962150FB32006B7EF6 /* ReportChargeItem.swift */,
 				CEBE0600214BA5C30047E6F2 /* ReportData.swift */,
 				73D65D7B2360299700F564A2 /* PaymentCard.swift */,
+				4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -891,6 +899,8 @@
 				DBDC599F234B6E4E00F75D64 /* UsePointViewController.swift */,
 				73D65D77235C51FF00F564A2 /* SearchAddressViewController.swift */,
 				73D65D79235C558E00F564A2 /* SearchAddressViewDelegate.swift */,
+				4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */,
+				4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1151,7 +1161,6 @@
 				732121B7203AC023000E105C /* Resources */,
 				2D2CA8AB0C473AF5F3E3093F /* [CP] Embed Pods Frameworks */,
 				DB43761E21DDD433004A4C4B /* ShellScript */,
-				0863B743CF7B787683698EC5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1449,6 +1458,7 @@
 				DB9673C620843EF6008ACCAE /* ChargerTableViewCell.swift in Sources */,
 				CE24840420A59E6400611E24 /* UserDefault.swift in Sources */,
 				902A11D3248F52B80049EF8E /* InfoLastUpdateDto.swift in Sources */,
+				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
 				CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */,
 				733662D022F974820049AEFE /* Coupon.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
@@ -1504,6 +1514,7 @@
 				732B929A20EDD0C60090E9FC /* CompanyInfoChecker.swift in Sources */,
 				902A11D1248F4DAC0049EF8E /* CompanyInfoDto.swift in Sources */,
 				73EF8B3F203ACB8500D04494 /* AppToolbarController.swift in Sources */,
+				4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */,
 				DB3B858920A45CB8005454F5 /* Character.swift in Sources */,
 				DB3B858720A445B6005454F5 /* KoreanChar.swift in Sources */,
 				732ED1FA21EEFA960012C67B /* MainViewController.swift in Sources */,
@@ -1592,6 +1603,7 @@
 				739171E122C4A209007369F9 /* PaymentQRScanViewController.swift in Sources */,
 				73B752852049284B0077112A /* NoticeViewController.swift in Sources */,
 				732121C5203AC023000E105C /* evInfra.xcdatamodeld in Sources */,
+				4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */,
 				73450EFA2071EB01008516E9 /* EditViewController.swift in Sources */,
 				73C31BFF20A2B246005B6C53 /* ChargerModel.swift in Sources */,
 			);
@@ -1732,7 +1744,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 72;
+				CURRENT_PROJECT_VERSION = 77;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1744,7 +1756,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1769,7 +1781,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 72;
+				CURRENT_PROJECT_VERSION = 77;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1781,7 +1793,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",

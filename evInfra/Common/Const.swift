@@ -30,6 +30,8 @@ public class Const {
 //    public static let EV_PAY_SERVER = "http://spark.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://jspark.soft-berry.co.kr"
     public static let EV_PAY_SERVER = "http://michael.soft-berry.co.kr"
+//    public static let EV_PAY_SERVER = "http://sjdev.soft-berry.co.kr"
+
 
     // S3 File Server
     public static let S3_EV_INFRA = "https://s3.ap-northeast-2.amazonaws.com/ev-infra"

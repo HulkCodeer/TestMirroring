@@ -20,41 +20,29 @@ class UsePointViewController: UIViewController {
     @IBOutlet weak var cbUseAllPoint: M13Checkbox!
     
     var myPoint = 0
+    var delegate: SendPointDelegate?
+    var data = ""
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        textFieldUsePoint.delegate = self
-        
-        prepareActionBar()
-        prepareMyPoint()
+
         prepareView()
-    }
-    
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
-        navigationItem.titleLabel.text = "포인트 사용"
-        navigationController?.isNavigationBarHidden = false
+        getMyPoint()
     }
     
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
-    }
-    
-    func prepareMyPoint() {
+    func getMyPoint() {
         Server.getPoint{ (isSuccess, value) in
+
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].stringValue == "1000" {
                     self.myPoint = json["point"].intValue
-                    self.labelMyPoint.text = "\(self.myPoint)".currency()
+                    if self.myPoint > -1 {
+                        self.labelMyPoint.text = "\(self.myPoint)".currency()
+                    }
                 }
             } else {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료 후 재시도 바랍니다.")
@@ -74,7 +62,7 @@ class UsePointViewController: UIViewController {
     @IBAction func onClickUseAllPoint(_ sender: UITapGestureRecognizer) {
         cbUseAllPoint.toggleCheckState(true)
         if cbUseAllPoint.checkState == .checked {
-            textFieldUsePoint.text = String(myPoint)
+            textFieldUsePoint.text = String(self.myPoint)
         } else {
             textFieldUsePoint.text = "0"
         }
@@ -121,4 +109,8 @@ extension UsePointViewController: UITextFieldDelegate {
         }
         return newString.length <= 7 //max length is 7
     }
+}
+
+protocol SendPointDelegate {
+    func dataReceived(berry: String)
 }

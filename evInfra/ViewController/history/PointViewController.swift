@@ -18,8 +18,11 @@ class PointViewController: UIViewController {
     @IBOutlet weak var textFieldStartDate: UITextField!
     @IBOutlet weak var textFieldEndDate: UITextField!
     
-    @IBOutlet weak var cbAllDuration: M13Checkbox!
-    @IBOutlet weak var viewAllDuration: UIView!
+    @IBOutlet weak var btnAllBerry: UIButton!
+    
+    @IBOutlet weak var btnSaveBerry: UIButton!
+    
+    @IBOutlet weak var btnUseBerry: UIButton!
     
     @IBOutlet weak var labelTotalPoint: UILabel!
     @IBOutlet weak var labelResultMsg: UILabel!
@@ -31,7 +34,16 @@ class PointViewController: UIViewController {
     let datePicker = UIDatePicker()
     let dateFormatter = DateFormatter()
     
+    // btn click state
+    let FILTER_POINT_ALL = 0
+    let FILTER_POINT_SAVE = 1
+    let FILTER_POINT_USED = 2
+    
+    var selectiedFilter: Int = 0
+    
     var evPointList: Array<EvPoint> = Array<EvPoint>()
+    
+    var pointHistory = PointHistory()
     
     struct PointHistory: Decodable {
         var code: Int?
@@ -45,12 +57,30 @@ class PointViewController: UIViewController {
         
         prepareActionBar()
         prepareDatePicker()
-        prepareCheckBox()
         prepareTableView()
-        
+
         // 오늘 포인트 이력 가져오기
+        btnAllBerry.isSelected = true
         let currentDate = Date()
         getPointHistory(isAllDate: false, startDate: currentDate, endDate: currentDate)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        btnState()
+    }
+    
+    func btnState() {
+        // radius border
+        btnAllBerry.roundCorners([.topLeft, .bottomLeft], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
+        
+        btnUseBerry.roundCorners(.allCorners, radius: 0, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
+
+        btnSaveBerry.roundCorners([.topRight, .bottomRight], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
+
+        // Bg color change
+        btnAllBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
+        btnSaveBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
+        btnUseBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
     }
     
     func prepareActionBar() {
@@ -61,7 +91,7 @@ class PointViewController: UIViewController {
         navigationItem.leftViews = [backButton]
         navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
-        navigationItem.titleLabel.text = "포인트 조회"
+        navigationItem.titleLabel.text = "MY 베리 내역"
         navigationController?.isNavigationBarHidden = false
     }
     
@@ -69,60 +99,22 @@ class PointViewController: UIViewController {
         self.navigationController?.pop()
     }
     
-    fileprivate func prepareCheckBox() {
-        cbAllDuration.boxType = .square
-        cbAllDuration.checkState = .unchecked
-        cbAllDuration.tintColor = UIColor(rgb: 0x15435C)
-        
-        viewAllDuration.addTapGesture(target: self, action: #selector(onClickCbAllDuration(_:)))
+    // Get all berry
+    @IBAction func onClickAllBerry(_ sender: Any) {
+        selectiedFilter = FILTER_POINT_ALL
+        updateFilteredPointList()
     }
     
-    @objc fileprivate func onClickCbAllDuration(_ sender: UITapGestureRecognizer) {
-        cbAllDuration.toggleCheckState(true)
+    // Get use berry
+    @IBAction func onClickUseBerry(_ sender: Any) {
+        selectiedFilter = FILTER_POINT_USED
+        updateFilteredPointList()
     }
     
-    // 조회
-    @IBAction func onClickQuery(_ sender: Any) {
-        let startDate = dateFormatter.date(from: textFieldStartDate.text!)!
-        let endDate = dateFormatter.date(from: textFieldEndDate.text!)!
-        
-        let isAllDuration = cbAllDuration.checkState == .checked ? true : false
-        getPointHistory(isAllDate: isAllDuration, startDate: startDate, endDate: endDate)
-    }
-    
-    // 당일
-    @IBAction func onClickToday(_ sender: Any) {
-        cbAllDuration.checkState = .unchecked
-        
-        let currentDate = Date()
-        getPointHistory(isAllDate: false, startDate: currentDate, endDate: currentDate)
-    }
-
-    // 당월
-    @IBAction func onClickCurMonth(_ sender: Any) {
-        cbAllDuration.checkState = .unchecked
-        
-        let startDate = Date().getThisMonthStart()!
-        let endDate = Date()
-        getPointHistory(isAllDate: false, startDate: startDate, endDate: endDate)
-    }
-    
-    // 전월
-    @IBAction func onClickLastMonth(_ sender: Any) {
-        cbAllDuration.checkState = .unchecked
-        
-        let startDate = Date().getLastMonthStart()!
-        let endDate = Date().getLastMonthEnd()!
-        getPointHistory(isAllDate: false, startDate: startDate, endDate: endDate)
-    }
-
-    // 당해년도
-    @IBAction func onClickThisYear(_ sender: Any) {
-        cbAllDuration.checkState = .unchecked
-        
-        let startDate = Date().getThisYearStart()!
-        let endDate = Date()
-        getPointHistory(isAllDate: false, startDate: startDate, endDate: endDate)
+    // Get save berry
+    @IBAction func onClickSaveBerry(_ sender: Any) {
+        selectiedFilter = FILTER_POINT_SAVE
+        updateFilteredPointList()
     }
 }
 
@@ -161,12 +153,22 @@ extension PointViewController {
         self.textFieldDate.inputView = self.datePicker
     }
     
+    func pickedData() {
+        let startDate = dateFormatter.date(from: textFieldStartDate.text!)!
+        let endDate = dateFormatter.date(from: textFieldEndDate.text!)!
+        getPointHistory(isAllDate: false, startDate: startDate, endDate: endDate)
+    }
+    
     @objc func donePressed(_ sender: Any) {
         self.textFieldDate.text = self.dateFormatter.string(from: self.datePicker.date)
         self.view.endEditing(true)
+        pickedData()
+        
     }
     
     fileprivate func getPointHistory(isAllDate: Bool, startDate: Date, endDate: Date) {
+        evPointList.removeAll()
+        
         self.textFieldStartDate.text = self.dateFormatter.string(from: startDate)
         self.textFieldEndDate.text =  self.dateFormatter.string(from: endDate)
         
@@ -179,35 +181,89 @@ extension PointViewController {
         Server.getPointHistory(isAllDate: isAllDate, sDate: sDate, eDate: eDate) { (isSuccess, responseData) in
             if isSuccess {
                 if let data = responseData {
-                    let pointHistory = try! JSONDecoder().decode(PointHistory.self, from: data)
-                    if pointHistory.code != 1000 {
+                    self.pointHistory = try! JSONDecoder().decode(PointHistory.self, from: data)
+                    if self.pointHistory.code != 1000 {
                         self.labelResultMsg.visible()
-                        self.labelResultMsg.text = pointHistory.msg
+                        self.labelResultMsg.text = self.pointHistory.msg
                     }
                     
                     // 나의 잔여 포인트
-                    self.labelTotalPoint.text = "\(pointHistory.total_point)".currency()
-
-                    // 포인트 이력
-                    self.udpatePointList(pointHistory: pointHistory);
+                    self.labelTotalPoint.text = "\(self.pointHistory.total_point)".currency()
+                    self.updateFilteredPointList()
                 }
             }
         }
     }
     
-    fileprivate func udpatePointList(pointHistory: PointHistory) {
+    // save + used
+    func getAllPointList() -> [EvPoint] {
+        var pointList: [EvPoint] = []
+        if let list = self.pointHistory.list {
+            pointList = list
+        }
+        return pointList
+    }
+    
+    // used
+    func getUsedPointList() -> [EvPoint] {
+        var evFilteredList:[EvPoint] = []
+
+        if let list = self.pointHistory.list {
+            for item in list {
+                if item.action == "used" {
+                    evFilteredList.append(item)
+                }
+            }
+        }
+        return evFilteredList
+    }
+    
+    // save
+    func getSavePointList() -> [EvPoint] {
+        var evFilteredList:[EvPoint] = []
+        if let list = self.pointHistory.list {
+            for item in list {
+                if item.action == "save" {
+                    evFilteredList.append(item)
+                }
+            }
+        }
+        return evFilteredList
+    }
+
+    fileprivate func updateFilteredPointList() {
+        btnAllBerry.isSelected = false
+        btnUseBerry.isSelected = false
+        btnSaveBerry.isSelected = false
+
+        switch selectiedFilter {
+        case FILTER_POINT_ALL:
+            btnAllBerry.isSelected = true
+            updatePointList(pointList: getAllPointList())
+            break
+        case FILTER_POINT_USED:
+            btnUseBerry.isSelected = true
+            updatePointList(pointList: getUsedPointList())
+            break
+        case FILTER_POINT_SAVE:
+            btnSaveBerry.isSelected = true
+            updatePointList(pointList: getSavePointList())
+            break
+        default:
+            break
+        }
+    }
+    
+    fileprivate func updatePointList(pointList: [EvPoint]) {
         evPointList.removeAll()
         
-        if let list = pointHistory.list {
-            if list.isEmpty {
-                pointTableView.isHidden = true
-            } else {
-                evPointList = list
-                pointTableView.isHidden = false
-            }
-        } else {
+        if pointList.isEmpty {
             pointTableView.isHidden = true
+        } else {
+            evPointList = pointList
+            pointTableView.isHidden = false
         }
+
         pointTableView.reloadData()
     }
 }
@@ -216,10 +272,12 @@ extension PointViewController: UITableViewDelegate, UITableViewDataSource {
     func prepareTableView() {
         pointTableView.delegate = self
         pointTableView.dataSource = self
+        
+        pointTableView.separatorStyle = .none
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-           return 72
+        return 72
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -228,8 +286,90 @@ extension PointViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PointTableViewCell", for: indexPath) as! PointTableViewCell
-        cell.reloadData(evPoint: evPointList[indexPath.row])
-        
+        cell.reloadData(pointList: evPointList, position: indexPath.row)
         return cell
     }
 }
+
+
+//=============ChckBox=======================================================================================
+
+//    fileprivate func prepareCheckBox() {
+//        cbAllDuration.boxType = .square
+//        cbAllDuration.checkState = .unchecked
+//        cbAllDuration.tintColor = UIColor(rgb: 0x15435C)
+//
+//        cbSaveDuration.boxType = .square
+//        cbSaveDuration.checkState = .unchecked
+//        cbSaveDuration.tintColor = UIColor(rgb: 0x15435C)
+//
+//        cbUseDuration.boxType = .square
+//        cbUseDuration.checkState = .unchecked
+//        cbUseDuration.tintColor = UIColor(rgb: 0x15435C)
+//
+//        viewAllDuration.addTapGesture(target: self, action: #selector(onClickCbAllDuration(_:)))
+//        viewSaveDuration.addTapGesture(target: self, action: #selector(onClickCbSaveDuration(_:)))
+//        viewUseDuration.addTapGesture(target: self, action: #selector(onClickCbUseDuration(_:)))
+//
+//    }
+    
+//    @objc fileprivate func onClickCbAllDuration(_ sender: UITapGestureRecognizer) {
+//            cbAllDuration.toggleCheckState(true)
+//    }
+//
+//    @objc fileprivate func onClickCbSaveDuration(_ sender: UITapGestureRecognizer) {
+//            cbSaveDuration.toggleCheckState(true)
+//    }
+//
+//    @objc fileprivate func onClickCbUseDuration(_ sender: UITapGestureRecognizer) {
+//            cbUseDuration.toggleCheckState(true)
+//    }
+    
+    // 조회
+//    @IBAction func onClickQuery(_ sender: Any) {
+//        let startDate = dateFormatter.date(from: textFieldStartDate.text!)!
+//        let endDate = dateFormatter.date(from: textFieldEndDate.text!)!
+//    getPointHistory(isAllDate: isAllDuration, startDate: startDate, endDate: endDate)
+////        let isAllDuration = cbAllDuration.checkState == .checked ? true : false
+////        let isSavePoint = cbSaveDuration.checkState == .checked ? true : false
+////        let isUsePoint = cbUseDuration.checkState == .checked ? true : false
+//
+//        if isAllDuration == true {
+//            getPointHistory(isAllDate: isAllDuration, startDate: startDate, endDate: endDate)
+//        }
+//    }
+    
+    // 당일
+//    @IBAction func onClickToday(_ sender: Any) {
+//        cbAllDuration.checkState = .unchecked
+//
+//        let currentDate = Date()
+//        getPointHistory(isAllDate: false, startDate: currentDate, endDate: currentDate)
+//    }
+
+    // 당월
+//    @IBAction func onClickCurMonth(_ sender: Any) {
+//        cbAllDuration.checkState = .unchecked
+//
+//        let startDate = Date().getThisMonthStart()!
+//        let endDate = Date()
+//        getPointHistory(isAllDate: false, startDate: startDate, endDate: endDate)
+//    }
+    
+    // 전월
+//    @IBAction func onClickLastMonth(_ sender: Any) {
+//        cbAllDuration.checkState = .unchecked
+//
+//        let startDate = Date().getLastMonthStart()!
+//        let endDate = Date().getLastMonthEnd()!
+//        getPointHistory(isAllDate: false, startDate: startDate, endDate: endDate)
+//    }
+
+    // 당해년도
+//    @IBAction func onClickThisYear(_ sender: Any) {
+//        cbAllDuration.checkState = .unchecked
+//
+//        let startDate = Date().getThisYearStart()!
+//        let endDate = Date()
+//        getPointHistory(isAllDate: false, startDate: startDate, endDate: endDate)
+//    }

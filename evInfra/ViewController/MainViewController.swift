@@ -32,6 +32,7 @@ class MainViewController: UIViewController {
     
     @IBOutlet weak var myLocationButton: UIButton!
     @IBOutlet weak var reNewButton: UIButton!
+    @IBOutlet weak var btnChargePrice: UIButton!
     
     // Indicator View
     @IBOutlet weak var markerIndicator: UIActivityIndicatorView!
@@ -140,6 +141,7 @@ class MainViewController: UIViewController {
         
         //getChargerInfo()  // request to server
         //self.checkFCM()
+        prepareChargePrice()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -388,14 +390,32 @@ class MainViewController: UIViewController {
         reNewButton.layer.shadowOpacity = 0.5
         reNewButton.layer.shadowOffset = CGSize(width: 0.5, height: 2)
         reNewButton.layer.masksToBounds = false
-        
+
         btn_menu_layer.layer.cornerRadius = 5
         btn_menu_layer.clipsToBounds = true
         btn_menu_layer.layer.shadowRadius = 5
-        btn_menu_layer.layer.shadowColor = UIColor.black.cgColor
+        btn_menu_layer.layer.shadowColor = UIColor.gray.cgColor
         btn_menu_layer.layer.shadowOpacity = 0.5
         btn_menu_layer.layer.shadowOffset = CGSize(width: 0.5, height: 2)
         btn_menu_layer.layer.masksToBounds = false
+    }
+    
+    // btnChargePrice radius, color, shadow
+    func prepareChargePrice() {
+        btnChargePrice.layer.cornerRadius = 16
+        btnChargePrice.layer.shadowRadius = 5
+        btnChargePrice.layer.shadowColor = UIColor.black.cgColor
+        btnChargePrice.layer.shadowOpacity = 0.3
+        btnChargePrice.layer.shadowOffset = CGSize(width: 0.5, height: 2)
+        btnChargePrice.layer.masksToBounds = false
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(self.onClickChargePrice))
+        btnChargePrice.addGestureRecognizer(gesture)
+    }
+    
+    @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
+        self.navigationController?.push(viewController:vc)
     }
     
     @IBAction func onClickFavorite(_ sender: UIButton) {
@@ -516,6 +536,7 @@ class MainViewController: UIViewController {
         self.saveFilterState()
         self.drawTMapMarker()
     }
+    
 }
 
 extension MainViewController {
@@ -1409,6 +1430,7 @@ extension MainViewController {
             MemberManager().showLoginAlert(vc:self)
         }
     }
+    
 }
 
 extension MainViewController {
@@ -1422,7 +1444,6 @@ extension MainViewController {
             defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
             let paymentStatusVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
             paymentStatusVC.cpId = response["cp_id"].stringValue
-            paymentStatusVC.point = Int(response["u_point"].stringValue) ?? 0
             paymentStatusVC.connectorId = response["connector_id"].stringValue
             
             self.navigationController?.push(viewController: paymentStatusVC)

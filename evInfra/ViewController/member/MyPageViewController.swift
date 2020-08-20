@@ -21,6 +21,21 @@ class MyPageViewController: UIViewController {
     @IBOutlet weak var profileImgBtn: UIButton!
     @IBOutlet weak var profileImgView: UIImageView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
+    @IBOutlet weak var addrView: UIStackView!
+
+    // 차량번호
+    @IBOutlet weak var carNoField: UITextField!
+    
+    @IBOutlet weak var scrollViewBottom: NSLayoutConstraint!
+    
+    // 주소
+    @IBOutlet weak var zipCodeField: UITextField!
+    @IBOutlet weak var addrInfoField: UITextField!
+    @IBOutlet weak var addrInfoDetailField: UITextField!
+    @IBOutlet weak var searchZipCodeBtn: UIButton!
+    @IBOutlet weak var updateBtn: UIButton!
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     
     private let dropDwonLocation = DropDown()
     private let dropDwonCarKind = DropDown()
@@ -32,6 +47,12 @@ class MyPageViewController: UIViewController {
     
     let picker = UIImagePickerController()
     let cropper = UIImageCropper(cropRatio: 1/1)
+    
+    //현재 TextField
+    var activeTextField : UITextField? = nil
+    
+    //오브젝트 기본위치
+    var originY:CGFloat?
     
     @IBAction func onClickLocation(_ sender: Any) {
         self.dropDwonLocation.show()
@@ -48,15 +69,60 @@ class MyPageViewController: UIViewController {
     @IBAction func onClickRegBtn(_ sender: Any) {
         self.updateMemberInfo()
     }
-
+    
+    @IBAction func onClickSearchZipCode(_ sender: Any) {
+        self.searchZipCode()
+    }
+    
+    func searchZipCode() {
+        let saVC = storyboard?.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
+        saVC.searchAddressDelegate = self
+        navigationController?.push(viewController: saVC)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //delegate for check Name,carNo, addrInfo
+        nickNameField.delegate = self
+        carNoField.delegate = self
+        addrInfoDetailField.delegate = self
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEditing)))
+        
+        keyboardViewMove()
         prepareActionBar()
         prepareSpinnerView()
         prepareView()
         
         getMemberInfo()
+    }
+    
+    @objc func endEditing() {
+        nickNameField.resignFirstResponder()
+        carNoField.resignFirstResponder()
+        addrInfoDetailField.resignFirstResponder()
+    }
+    
+    func keyboardViewMove() {
+        // 키보드 관리 (show/hide)
+        if !addrView.isHidden {
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        }
+    }
+    
+    @objc func keyboardWillShow(_ notification: NSNotification){
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.view.frame.origin.y = -keyboardSize.height * 3/7
+            return
+        }
+    }
+
+    @objc func keyboardWillHide(_ notification: NSNotification){
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            self.view.frame.origin.y = keyboardSize.height * 1/4
+            return
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -80,6 +146,13 @@ class MyPageViewController: UIViewController {
         profileImgView.clipsToBounds = true
         
         nickNameField.delegate = self as UITextFieldDelegate
+        
+        if zipCodeField.text != "" && addrInfoField.text != "" ||
+            !zipCodeField.isEqual(nil) && !addrInfoField.isEqual(nil) {
+            self.addrInfoDetailField.isUserInteractionEnabled = true
+        } else {
+            self.addrInfoDetailField.isUserInteractionEnabled = false
+        }
     }
     
     func prepareSpinnerView() {
@@ -189,9 +262,6 @@ extension MyPageViewController : UIImageCropperProtocol {
 extension MyPageViewController {
     
     internal func getMemberInfo() {
-        // nick name
-        self.nickNameField.text = UserDefault().readString(key: UserDefault.Key.MB_NICKNAME)
-        
         // 지역
         let mbRegion = UserDefault().readString(key: UserDefault.Key.MB_REGION)
         self.dropDwonLocation.selectRow(self.getRegionIndex(region: mbRegion))
@@ -202,6 +272,13 @@ extension MyPageViewController {
         oldProfileName = profileName
         if profileName.count > 14 {
             loadingProfileImage(fileName:profileName)
+        }
+        
+        Server.getMemberinfo{ (isSuccess, value) in
+            if isSuccess {
+                self.responseGetMemberInfo(json: JSON(value))
+            }
+            self.indicator.stopAnimating()
         }
         
         // 차량
@@ -230,28 +307,57 @@ extension MyPageViewController {
     }
     
     internal func updateMemberInfo() {
-        if let nickName = nickNameField.text {
-            if nickName.count == 0 {
-                Snackbar().show(message: "별명을 작성해 주세요.")
-            } else if nickName.count >= 12 {
-                Snackbar().show(message: "별명은 최대 12자까지 입력가능합니다")
-            } else {
-                updateProfileImage() // update user profile image
-                
-                var car_id = 0
-                if let carId = self.carModelList.getCarList().first(where: {$0.name.isEqual(dropDwonCarKind.selectedItem!)})?.id {
-                    car_id = carId
-                }
-                
-                let region = dropDwonLocation.selectedItem!
-
-                Server.updateMemberInfo(nickName: nickName, region: region, profile: profileName, carId: car_id) { (isSuccess, value) in
-                    if isSuccess {
-                        self.responseUpdateMemberInfo(json: JSON(value))
-                    }
+        if checkData() {
+            updateProfileImage() // update user profile image
+            
+            let addressDetail = addrInfoDetailField.text ?? ""
+            let carNo = carNoField.text ?? ""
+            let zipCode = zipCodeField.text ?? ""
+            let address = addrInfoField.text ?? ""
+            let nickName = nickNameField.text ?? ""
+            
+            var carId = 0
+            if let _carId = self.carModelList.getCarList().first(where: {$0.name.isEqual(dropDwonCarKind.selectedItem!)})?.id {
+                carId = _carId
+            }
+            
+            let region = dropDwonLocation.selectedItem!
+            Server.updateMemberInfo(nickName: nickName, region: region, profile: profileName, carId: carId, zipCode: zipCode, address: address, addressDetail: addressDetail, carNo: carNo) { (isSuccess, value) in
+                if isSuccess {
+                    self.responseUpdateMemberInfo(json: JSON(value))
                 }
             }
         }
+    }
+    
+    func checkData() -> Bool {
+        // nickname 검사
+        if let nickName = nickNameField.text {
+            if nickName.count == 0 {
+                Snackbar().show(message: "별명을 작성해 주세요.")
+                return false
+            } else if nickName.count >= 12 {
+                Snackbar().show(message: "별명은 최대 12자까지 입력가능합니다")
+                return false
+            }
+        }
+        
+        // 차량번호 유효성 검사
+        do {
+            carNoField.text = try carNoField.validatedText(validationType: .carnumber)
+        } catch (let error) {
+            Snackbar().show(message: (error as! ValidationError).message)
+            return false
+        }
+        
+        // 주소가 있는데 상세 주소가 없는 경우
+        if let addressDetail = addrInfoDetailField.text {
+            if (addressDetail.isEmpty) {
+                Snackbar().show(message: "상세주소를 입력해 주세요.")
+                return false
+            }
+        }
+        return true
     }
     
     func responseUpdateMemberInfo(json: JSON) {
@@ -260,7 +366,6 @@ extension MyPageViewController {
             Snackbar().show(message: "업데이트가 완료되었습니다.")
             
             let defaults = UserDefault()
-            defaults.saveString(key: UserDefault.Key.MB_NICKNAME, value: nickNameField.text!)
             defaults.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: profileName)
             if let carIndex = dropDwonCarKind.indexForSelectedRow {
                 if carIndex > 0 {
@@ -277,6 +382,36 @@ extension MyPageViewController {
             
         default: // COMMON ERROR 9000
             Snackbar().show(message: "업데이트를 실패했습니다.\n잠시 후 다시 시도해 주세요.")
+            break
+        }
+    }
+    
+    func responseGetMemberInfo(json: JSON) {
+        switch json["code"].intValue {
+        case 1000:
+            let zipcodeData = json["mb_zip_code"].stringValue
+            if !zipcodeData.isEmpty && !zipcodeData.elementsEqual("") {
+                self.zipCodeField.text = zipcodeData
+            }
+            let addressData = json["mb_addr"].stringValue
+            if  !addressData.isEmpty && !addressData.elementsEqual("") {
+                self.addrInfoField.text = addressData
+            }
+            let addressDetailData = json["mb_addr_detail"].stringValue
+            if !addressDetailData.isEmpty && !addressDetailData.elementsEqual("") {
+                self.addrInfoDetailField.text = addressDetailData
+            }
+            let carNoData = json["mb_car_no"].stringValue
+            if !carNoData.isEmpty && !carNoData.elementsEqual("") {
+                self.carNoField.text = carNoData
+            }
+            let nickNameData = json["mb_nickname"].stringValue
+            if !nickNameData.isEmpty && !nickNameData.elementsEqual("") {
+                self.nickNameField.text = nickNameData
+            }
+            
+        default:
+            Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
             break
         }
     }
@@ -304,25 +439,56 @@ extension MyPageViewController {
                 let data: Data = UIImageJPEGRepresentation(self.profileImgView.image!, 1.0)!
                 Server.uploadImage(data: data, filename: self.profileName, kind: Const.CONTENTS_THUMBNAIL, completion: { (isSuccess, value) in
                     let json = JSON(value)
-                    if(!isSuccess){
+                    if(!isSuccess) {
                         print("upload image Error : \(json)")
                     }
-                    
                 })
 //                S3Util().removeProfileImage(name: self.oldProfileName) // exception 발생
             }
         }
     }
+    
 }
 
 extension MyPageViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let _ = textField.text else { return true }
-        if let count = textField.text?.count, count >= 12 {
-            Snackbar().show(message: "별명은 최대 12자까지 입력가능합니다")
-            textField.deleteBackward()
+        let count:Int = textField.text?.count ?? 0
+        // 닉네임 텍스트빌드만 해당
+        if String(describing: type(of: self)).elementsEqual("MyPageViewController"){
+            if textField == self.nickNameField && count >= 12 {
+                Snackbar().show(message: "별명은 최대 12자까지 입력가능합니다")
+                textField.deleteBackward()
+            }
         }
-    
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.activeTextField = textField
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.activeTextField = nil
+    }
+}
+
+extension MyPageViewController: SearchAddressViewDelegate {
+    func recieveAddressInfo(zonecode: String, fullRoadAddr: String) {
+        if String(describing: type(of: self)).elementsEqual("MyPageViewController") {
+            self.zipCodeField.text = zonecode
+            self.addrInfoField.text = fullRoadAddr
+            
+            self.checkAddrData()
+        }
+    }
+    
+    func checkAddrData() {
+        let zipCode = zipCodeField.text ?? ""
+        let address = addrInfoField.text ?? ""
+        if zipCode.isEmpty && address.isEmpty {
+            self.addrInfoDetailField.isUserInteractionEnabled = false
+        } else {
+            self.addrInfoDetailField.isUserInteractionEnabled = true
+        }
     }
 }

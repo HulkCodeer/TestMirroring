@@ -11,6 +11,7 @@ import CoreData
 import Material
 import Firebase
 import UserNotifications
+import AuthenticationServices
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var appToolbarController: AppToolbarController!
     var navigationController: AppNavigationController?
-    var paymentStatusController: PaymentStatusViewController?
+
     let gcmMessageIDKey = "gcm.message_id"
     let fcmManager = FCMManager.sharedInstance
     var chargingStatusPayload: [AnyHashable: Any]? = nil
@@ -32,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 카카오 - 클라이언트 시크릿 설정
         KOSession.shared().clientSecret = Const.KAKAO_CLIENT_SECRET;
-        
+    
         // igaw offerwall appkey
 //        AdPopcornOfferwall.setAppKey("366726109", andHashKey: "42ef0076ffd24ec2");
 //        AdPopcornOfferwall.setLogLevel(AdPopcornOfferwallLogTrace);
@@ -40,6 +41,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         // Initialize the Google Mobile Ads SDK.
         GADMobileAds.sharedInstance().start(completionHandler: nil)
+
+        // Apple 로그인 상태 확인
+//        if #available(iOS 13.0, *) {
+//            let appleIDProvider = ASAuthorizationAppleIDProvider()
+//            appleIDProvider.getCredentialState(forUserID: KeychainItem.currentUserIdentifier) { (credentialState, error) in
+//                switch credentialState {
+//                case .authorized:
+//                    break // The Apple ID credential is valid.
+//
+//                case .revoked, .notFound:
+//                    // The Apple ID credential is either revoked or was not found, so show the sign-in UI.
+//                    break
+//
+//                default:
+//                    break
+//                }
+//            }
+//        }
         
         return true
     }
@@ -67,9 +86,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
                 completionHandler: {_, _ in })
-            if let notification = launchOptions?[.remoteNotification] as? [AnyHashable: Any]{
+            if let notification = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
                 fcmManager.fcmNotification = notification
-                
             }
         } else {
             let settings: UIUserNotificationSettings =
@@ -94,8 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         if let shareChargerId = url.valueOf("charger_id") {
-            print("shareChargerId: \(shareChargerId)")
-            NotificationCenter.default.post(name: Notification.Name("kakaoScheme"), object: nil, userInfo: ["sharedid": shareChargerId])//(name: Notification.Name("kakaoScheme"), object: shareChargerId)
+            NotificationCenter.default.post(name: Notification.Name("kakaoScheme"), object: nil, userInfo: ["sharedid": shareChargerId])
         }
 
         if KOSession.handleOpen(url) {

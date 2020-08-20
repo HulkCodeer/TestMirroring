@@ -30,8 +30,10 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     var currentPage = 0
     var mode = 0
+    
+    var sectionHeightsDictionary: [Int: CGFloat] = [:]
+    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    var scrollValue:CGFloat = 0
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -40,8 +42,6 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         self.delegate = self
         self.autoresizingMask = UIViewAutoresizing.flexibleHeight
         self.separatorStyle = .none
-        
-        reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -57,8 +57,9 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "BoardTableViewCell", for: indexPath) as! BoardTableViewCell
         let cell = Bundle.main.loadNibNamed("BoardTableViewCell", owner: self, options: nil)?.first as! BoardTableViewCell
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "BoardTableViewCell", for: indexPath) as! BoardTableViewCell
+
         let replyValue = self.boardList[indexPath.section].reply![indexPath.row]
         
         // 지킴이 표시
@@ -81,7 +82,6 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         } else {
             cell.rChargerType.gone()
         }
-        
         if (MemberManager.getMbId() > 0) && (MemberManager.getMbId() == replyValue.mbId)  {
             cell.rEditBtn.visible()
             cell.rDeleteBtn.visible()
@@ -100,12 +100,12 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             cell.rUserImage.image = UIImage(named: "ic_person_base36")
             cell.rUserImage.contentMode = .scaleAspectFit
         }
-        
+
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 0
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -118,20 +118,40 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         }
         return self.boardList!.count
     }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        if let height =  sectionHeightsDictionary[section] {
+            return height
+        }
+
+        let headerValue = self.boardList[section]
+        if headerValue.content_img == nil || headerValue.content_img!.isEmpty {
+            return 134
+        } else {
+            return 370
+        }
+    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-//        tableView.estimatedSectionHeaderHeight = 484;
-
         return UITableViewAutomaticDimension
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
         return 16
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        sectionHeightsDictionary[section] = view.frame.size.height
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = Bundle.main.loadNibNamed("BoardTableViewHeader", owner: self, options: nil)?.first as! BoardTableViewHeader
+//        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "BoardTableViewHeader") as! BoardTableViewHeader
+        
         let headerValue = self.boardList[section]
         
         // 충전소 게시판의 경우 충전소 바로가기 버튼
@@ -157,8 +177,9 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         }
         
         if headerValue.content_img == nil || headerValue.content_img!.isEmpty {
-            headerView.uImage.gone()//visiblity(gone: true, dimension: 0.0)
+            headerView.uImage.gone()
         } else {
+            headerView.uImage.visible()
             if headerValue.adId > 0 {
                 if let imgUrl = headerValue.content_img {
                     if imgUrl.hasPrefix(Const.IMG_PREFIX) {
@@ -235,7 +256,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         } else {
             headerView.uChargerType.gone()
         }
-        
+
         return headerView
     }
     
@@ -247,25 +268,12 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         
         return footerView
     }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let scrollHeaderHeight = self.rowHeight
-        
-        if scrollView.contentOffset.y <= scrollHeaderHeight {
-            if scrollView.contentOffset.y >= 0 {
-                scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0)
-            }
-        } else if scrollView.contentOffset.y >= scrollHeaderHeight {
-            scrollView.contentInset = UIEdgeInsetsMake(-scrollHeaderHeight, 0, 0, 0)
-        }
-    }
-    
+
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         // UITableView only moves in one direction, y axis
         let currentOffset = scrollView.contentOffset.y
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        scrollValue = currentOffset
-        // Change 100.0 to adjust the distance from bottom
+
         if maximumOffset - currentOffset <= -20.0 {
             self.tableViewDelegate?.getNextBoardData()
         }

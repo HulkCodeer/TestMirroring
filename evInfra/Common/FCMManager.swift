@@ -219,7 +219,7 @@ class FCMManager {
             var cmd = ""
             var cpId = ""
             var connectorId = ""
-            var point: Int = 0
+
             if chargingId.isEmpty {
                 if let notiChargingId =  data[AnyHashable("charging_id")] as! String? {
                     chargingId = notiChargingId
@@ -237,10 +237,6 @@ class FCMManager {
             if let notiConId = data[AnyHashable("connector_id")] as! String? {
                 connectorId = notiConId
             }
-            
-            if let notiPoint =  data[AnyHashable("point")] as! Int? {
-                point = notiPoint
-            }
 
             if let navigation = navigationController {
                  let center = NotificationCenter.default
@@ -253,7 +249,7 @@ class FCMManager {
                             let paymentStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
                             paymentStatusVC.cpId = cpId
                             paymentStatusVC.connectorId = connectorId
-                            paymentStatusVC.point = point
+                            
                             navigation.push(viewController: paymentStatusVC)
                         } else {
                             center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: data)
