@@ -15,8 +15,6 @@ class FavoriteViewController: UIViewController {
     
     var delegate:ChargerSelectDelegate?
     
-    let chargerManager = ChargerListManager.sharedInstance
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,8 +44,8 @@ extension FavoriteViewController: ChargerTableViewDelegate {
     
     func prepareTableView() {
         tableView.chargerTableDelegate = self
-        tableView.chargerList = chargerManager.chargerList?.filter({(charger: Charger) -> Bool in
-            return charger.favorite
+        tableView.chargerList = ChargerManager.sharedInstance.getChargerStationInfoList().filter({(charger: ChargerStationInfo) -> Bool in
+            return charger.mFavorite
         })
         tableView.reloadData()
     }
@@ -57,7 +55,7 @@ extension FavoriteViewController: ChargerTableViewDelegate {
             return
         }
         
-        delegate?.moveToSelected(chargerId: charger.chargerId)
+        delegate?.moveToSelected(chargerId: charger.mChargerId!)
         dismiss(animated: true, completion: nil)
     }
 }

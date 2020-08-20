@@ -16,7 +16,7 @@ class SearchTableView: UITableView {
     
     var searchTableDelegate:SearchTableViewViewDelegate?
     
-    var poiList: [TMapPOIItem]? = nil
+    var poiList: [EIPOIItem]? = nil
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -51,7 +51,7 @@ extension SearchTableView: UITableViewDataSource {
             return cell
         }
         
-        cell.setAddrMode(name: poi.name, addr: poi.address)
+        cell.setAddrMode(item: poi)
         
         return cell
     }

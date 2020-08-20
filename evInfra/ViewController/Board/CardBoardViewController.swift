@@ -93,7 +93,7 @@ extension CardBoardViewController {
         if self.category.elementsEqual(BoardData.BOARD_CATEGORY_CHARGER) {
             self.navigationItem.titleLabel.text = "충전소 게시판"
         } else if self.category.elementsEqual(BoardData.BOARD_CATEGORY_COMPANY) {
-            if let companyName = DBManager.sharedInstance.getCompanyName(companyId: self.companyId) {
+            if let companyName = ChargerManager.sharedInstance.getCompanyName(companyID: self.companyId) {
                 self.navigationItem.titleLabel.text = companyName + " 게시판"
             } else {
                 self.navigationItem.titleLabel.text = "사업자 게시판"
@@ -269,7 +269,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
         let detailVC:DetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         
         if let chargerId = self.boardList[tag].chargerId {
-            if let charger = ChargerListManager.sharedInstance.getChargerFromChargerId(id: chargerId) {
+            if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
                 detailVC.charger = charger
                 self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
             }

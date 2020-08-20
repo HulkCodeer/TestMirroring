@@ -12,13 +12,13 @@ import SwiftyJSON
 
 class ViewPagerController: UIViewController {
     
-    var charger: Charger? = nil
+    var charger: ChargerStationInfo? = nil
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    init(charger: Charger) {
+    init(charger: ChargerStationInfo) {
         super.init(nibName: nil, bundle: nil)
 
         self.charger = charger
@@ -32,7 +32,7 @@ class ViewPagerController: UIViewController {
     }
     
     func preparePagingView() {
-        let pagingViewController = PagingViewController<PagingIndexItem>()
+        let pagingViewController = PagingViewController()
         pagingViewController.dataSource = self
         pagingViewController.delegate = self
         
@@ -43,7 +43,7 @@ class ViewPagerController: UIViewController {
     }
     
     func getUsage() {
-        Server.getStationUsage(chargerId: (charger?.chargerId)!) { (isSuccess, value) in
+        Server.getStationUsage(chargerId: (charger?.mChargerId)!) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 let result = json["code"].intValue
@@ -63,20 +63,19 @@ class ViewPagerController: UIViewController {
 }
 
 extension ViewPagerController: PagingViewControllerDataSource {
-    
-    func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, pagingItemForIndex index: Int) -> T {
+    func pagingViewController(_ pagingViewController: PagingViewController, viewControllerAt index: Int) -> UIViewController {
+        return ChargerImageViewController(charger: charger!, index: index)
+    }
+
+    func pagingViewController(_: PagingViewController, pagingItemAt index: Int) -> PagingItem {
         var title = "인공위성 사진"
         if index == 1 && !(self.charger?.usage.isEmpty)! {
             title = "시간대별 이용현황"
         }
-        return PagingIndexItem(index: index, title: title) as! T
+        return PagingIndexItem(index: index, title: title)
     }
     
-    func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, viewControllerForIndex index: Int) -> UIViewController {
-        return ChargerImageViewController(charger: charger!, index: index)//CityViewController(title: cities[index])
-    }
-    
-    func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {
+    func numberOfViewControllers(in pagingViewController: PagingViewController) -> Int {
         if (self.charger?.usage.isEmpty)! {
             return 1
         } else {

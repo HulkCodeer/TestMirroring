@@ -16,7 +16,7 @@ class ChargerTableView: UITableView {
     
     var chargerTableDelegate: ChargerTableViewDelegate?
     
-    var chargerList: [Charger]? = nil
+    var chargerList: [ChargerStationInfo]? = nil
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

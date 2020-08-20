@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I0H-Up-SNg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I0H-Up-SNg">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -361,7 +361,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJq-gl-PDQ" userLabel="Renew Button">
-                                <rect key="frame" x="287" y="122" width="80" height="80"/>
+                                <rect key="frame" x="327" y="122" width="40" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="ic_renew">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1575,7 +1575,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K40-za-qy5" userLabel="BtnCharger">
-                                        <rect key="frame" x="0.0" y="6" width="184" height="48"/>
+                                        <rect key="frame" x="0.0" y="18" width="184" height="24"/>
                                         <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="충전소 검색" image="ic_radio_unchecked">
@@ -1586,7 +1586,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1A-58-YMr" userLabel="BtnAddress">
-                                        <rect key="frame" x="191" y="6" width="184" height="48"/>
+                                        <rect key="frame" x="191" y="18" width="184" height="24"/>
                                         <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="주소 검색" image="ic_radio_unchecked">
@@ -2012,10 +2012,10 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="efx-5d-6VO">
-                                                        <rect key="frame" x="48" y="32" width="319" height="48"/>
+                                                        <rect key="frame" x="48" y="56" width="319" height="24"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h24-ZF-vb6" userLabel="PayUsed">
-                                                                <rect key="frame" x="0.0" y="0.0" width="159.5" height="48"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="159.5" height="24"/>
                                                                 <inset key="titleEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                 <state key="normal" title="유료" image="ic_radio_unchecked">
                                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2025,7 +2025,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ime-Q3-BBt" userLabel="PayFree">
-                                                                <rect key="frame" x="167.5" y="0.0" width="151.5" height="48"/>
+                                                                <rect key="frame" x="167.5" y="0.0" width="151.5" height="24"/>
                                                                 <inset key="titleEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                 <state key="normal" title="무료" image="ic_radio_unchecked">
                                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3343,8 +3343,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WzX-K1-Tk0">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="애드몹 리워드 비디오"/>
+                                <connections>
+                                    <action selector="onClickAdmobAd:" destination="6vJ-QX-a3K" eventType="touchUpInside" id="M0o-SA-tUs"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vuO-fS-34D">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="60" width="375" height="607"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
@@ -3353,6 +3361,7 @@
                         <viewLayoutGuide key="safeArea" id="uU8-uc-nzD"/>
                     </view>
                     <connections>
+                        <outlet property="mBtnRewardAdmob" destination="WzX-K1-Tk0" id="XHm-mk-Gzm"/>
                         <outlet property="offerwallContainer" destination="vuO-fS-34D" id="SAP-V2-dDO"/>
                     </connections>
                 </viewController>
@@ -3360,7 +3369,7 @@
             </objects>
             <point key="canvasLocation" x="2850.4000000000001" y="20.239880059970016"/>
         </scene>
-        <!--Detail View Controller-->
+        <!--Ev Detail View Controller-->
         <scene sceneID="vqq-FN-71n">
             <objects>
                 <viewController storyboardIdentifier="EvDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4Jl-tb-Uac" customClass="EvDetailViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
@@ -6582,6 +6591,7 @@
             <point key="canvasLocation" x="4237.6000000000004" y="702.99850074962524"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
     <resources>
         <image name="btn_camera.png" width="75.599998474121094" height="75.599998474121094"/>
         <image name="grade_star" width="33" height="33"/>
@@ -6642,5 +6652,4 @@
         <image name="menu_settings" width="30" height="30"/>
         <image name="menu_top_bg.jpg" width="230.39999389648438" height="139.19999694824219"/>
     </resources>
-    <color key="tintColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
 </document>

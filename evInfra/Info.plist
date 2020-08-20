@@ -113,5 +113,7 @@
 	<string>Light</string>
 	<key>content_available</key>
 	<true/>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-4857867142176465~5053865371</string>
 </dict>
 </plist>

@@ -45,7 +45,7 @@ class EditViewController: UIViewController, UITextViewDelegate {
     
     var hasImage = 0
     var editImage = 0
-    var charger: Charger? = nil
+    var charger: ChargerStationInfo? = nil
 
     var originBoardData: BoardData!
     var originReplyData: BoardData.ReplyData!

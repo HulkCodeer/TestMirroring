@@ -16,10 +16,12 @@ class ChargerTableViewCell: UITableViewCell {
     @IBOutlet weak var chargerStatus: UILabel!
     @IBOutlet weak var chargerType: UILabel!
     
+    @IBOutlet weak var chargerDistance: UILabel!
+    
     @IBOutlet weak var btnFavorite: UIButton!
     @IBOutlet weak var btnAlarm: UIButton!
     
-    private var charger: Charger!
+    private var charger: ChargerStationInfo!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,23 +30,35 @@ class ChargerTableViewCell: UITableViewCell {
         btnAlarm.addTarget(self, action: #selector(onClickAlarm(_:)), for: .touchUpInside)
     }
     
-    func setCharger(item: Charger) {
+    func setCharger(item: ChargerStationInfo) {
         charger = item
         
-        stationName.text = charger.stationName
-        address.text = charger.address
-        chargerStatus.text = charger.statusName
-        chargerStatus.textColor = charger.cidInfo.getCstColor(cst: Int(charger.status)!)
+        stationName.text = charger.mStationInfoDto?.mSnm
+        address.text = charger.mStationInfoDto?.mAddress
+        chargerStatus.text = charger.mTotalStatusName
+        
+        var status = Const.CHARGER_STATE_UNKNOWN
+        if (charger.mTotalStatus != nil){
+            status = (charger.mTotalStatus)!
+        }
+        chargerStatus.textColor = charger.cidInfo.getCstColor(cst: status)
         chargerType.text = charger.getTotalChargerType()
+        
+        if let currentPosition = MainViewController.currentLocation{
+            chargerDistance.text = StringUtils.convertDistanceString(distance: currentPosition.getDistanceWith(item.getTMapPoint()))
+        }
         
         updateFavoriteImage()
         setAddrModeUI(isAddrMode: false)
     }
     
-    func setAddrMode(name:String, addr:String) {
+    func setAddrMode(item: EIPOIItem) {
         
-        stationName.text = name
-        address.text = addr
+        stationName.text = item.getPOIName()
+        address.text = item.getPOIAddress()
+        if let currentPosition = MainViewController.currentLocation{
+            chargerDistance.text = StringUtils.convertDistanceString(distance: currentPosition.getDistanceWith(item.getPOIPoint()))
+        }
         setAddrModeUI(isAddrMode: true)
     }
     
@@ -63,12 +77,12 @@ class ChargerTableViewCell: UITableViewCell {
     }
     
     @objc func onClickFavorite(_ sender: UIButton) {
-        Server.setFavorite(chargerId: charger.chargerId, mode: !charger.favorite) { (isSuccess, value) in
+        Server.setFavorite(chargerId: charger.mChargerId!, mode: !charger.mFavorite) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].intValue == 1000 {
-                    self.charger.favorite = json["mode"].boolValue
-                    self.charger.favoriteAlarm = true
+                    self.charger.mFavorite = json["mode"].boolValue
+                    self.charger.mFavoriteNoti = true
                     self.updateFavoriteImage()
 //                    if (charger.mFavorite) {
 //                        showSnackbar(view, "즐겨찾기에 추가하였습니다.");
@@ -84,11 +98,11 @@ class ChargerTableViewCell: UITableViewCell {
     }
     
     @objc func onClickAlarm(_ sender: UIButton) {
-        Server.setFavoriteAlarm(chargerId: charger.chargerId, state: !charger.favoriteAlarm) { (isSuccess, value) in
+        Server.setFavoriteAlarm(chargerId: charger.mChargerId!, state: !charger.mFavoriteNoti) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].intValue == 1000 {
-                    self.charger.favoriteAlarm = json["noti"].boolValue
+                    self.charger.mFavoriteNoti = json["noti"].boolValue
                     self.updateFavoriteImage()
                 } else {
 //                    showSnackbar(view, "즐겨찾기 알림 업데이트를 실패했습니다.\n다시 시도해 주세요.");
@@ -98,10 +112,10 @@ class ChargerTableViewCell: UITableViewCell {
     }
     
     func updateFavoriteImage() {
-        if charger.favorite {
+        if charger.mFavorite {
             btnFavorite.setImage(UIImage(named: "ic_favorite"), for: .normal)
             btnAlarm.isHidden = false
-            if charger.favoriteAlarm {
+            if charger.mFavoriteNoti {
                 btnAlarm.setImage(UIImage(named: "ic_notifications_active"), for: .normal)
             } else {
                 btnAlarm.setImage(UIImage(named: "ic_notifications_off"), for: .normal)

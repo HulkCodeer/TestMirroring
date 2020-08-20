@@ -1,0 +1,211 @@
+//
+//  DataBaseHelper.swift
+//  evInfra
+//
+//  Created by Michael Lee on 2020/06/04.
+//  Copyright © 2020 soft-berry. All rights reserved.
+//
+
+import Foundation
+import GRDB
+
+class DataBaseHelper {
+    static let sharedInstance = DataBaseHelper()
+    static let TAG = "DataBaseHelper"
+    public static let DEV_DATABASE_NAME = "eidev"
+    public static let REL_DATABASE_NAME = "eirel"
+    public static var DATABASE_NAME = REL_DATABASE_NAME
+    private static let DATABASE_VERSION = 4
+    
+    private var mDbQueue : DatabaseQueue?
+    
+    public init(){
+    // Do any additional setup after loading the view, typically from a nib.
+        do{
+            if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                let dbPath = documentsURL.appendingPathComponent(DataBaseHelper.DATABASE_NAME).path
+                var configuration = Configuration()
+                configuration.readonly = false
+                configuration.trace = nil //{ Log.d(tag: DataBaseHelper.TAG, msg: $0) }
+                mDbQueue = try DatabaseQueue(path: dbPath, configuration: configuration)
+            }
+        }catch{
+            Log.e(tag: DataBaseHelper.TAG, msg: "Error info: \(error.localizedDescription)")
+        }
+    }
+    
+    func getDbQue() -> DatabaseQueue? {
+        return mDbQueue
+    }
+    
+    static func importDatabase() -> Bool {
+        
+        var isUpdate = false
+        
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        let updateDate = UserDefault().readString(key: UserDefault.Key.KEY_APP_VERSION)
+        if let version = version{
+            print("version: \(version)")
+            if (version != updateDate){
+                isUpdate = true
+            }
+        }
+    
+        if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let dbPath = documentsURL.appendingPathComponent(DATABASE_NAME).path
+            if (!FileManager.default.fileExists(atPath: dbPath) || isUpdate) {
+                do {
+                    if let assetDbPath = Bundle.main.path(forResource: DataBaseHelper.DATABASE_NAME, ofType: "") {
+                        
+                        // for replace
+                        if (FileManager.default.fileExists(atPath: dbPath)){
+                            try FileManager.default.removeItem(atPath: dbPath)
+                        }
+                        
+                        try FileManager.default.copyItem(atPath: assetDbPath, toPath: dbPath)
+                        UserDefault().saveString(key: UserDefault.Key.KEY_APP_VERSION, value: version!)
+                        return true
+                    } else {
+                        print("Unable no")
+                        return false
+                    }
+                } catch {
+                    print("Unable ex: \(error)")
+                    return false
+                }
+
+            }else{
+                return true
+            }
+        }
+        return false
+    }
+    
+    static func exportDatabase() -> Bool {
+        return false
+    }
+
+    // charger company
+    func getCompanyInfoList() throws -> [CompanyInfoDto]? {
+        let companyinfoDtoList = try mDbQueue!.inDatabase { db in
+            try CompanyInfoDto.order(Column("sort").asc).fetchAll(db)
+        }
+        return companyinfoDtoList
+    }
+    
+    func getCompanyInfo(company_id : String) throws -> CompanyInfoDto? {
+        let companyInfoDto = try mDbQueue!.inDatabase { db in
+            try CompanyInfoDto.filter(Column("company_id").like(company_id)).fetchOne(db)
+        }
+        return companyInfoDto
+    }
+    
+    func getCompanyInfo(company_name : String) throws -> CompanyInfoDto? {
+        let companyInfoDto = try mDbQueue!.inDatabase { db in
+            try CompanyInfoDto.filter(Column("name").like(company_name)).fetchOne(db)
+        }
+        return companyInfoDto
+    }
+
+    func insertOrUpdateCompanyInfo(companyInfo : CompanyInfoDto) throws{
+        try mDbQueue!.write { db in
+            try companyInfo.save(db)
+        }
+    }
+
+    func insertOrUpdateCompanyInfoList(list : [CompanyInfoDto]) throws{
+        try mDbQueue!.write  { db in
+            for companyInfoDto in list{
+                let companyID = companyInfoDto.company_id
+                let prevDto = try CompanyInfoDto.filter(Column("company_id").like(companyID!)).fetchOne(db)
+                if ((prevDto) != nil){
+                    companyInfoDto.is_visible = prevDto!.is_visible
+                }
+                try companyInfoDto.save(db)
+            }
+        }
+    }
+
+    func updateCompanyInfo(companyInfo : CompanyInfoDto) throws{
+        try mDbQueue!.write { db in
+            try companyInfo.update(db)
+        }
+    }
+
+    // last station info update date
+    func insertOrUpdateInfoLastUpdate(info_type : String,  lastUpdate : String) throws{
+        if (StringUtils.isNullOrEmpty(lastUpdate)) {
+            return
+        }
+
+        let dto = InfoLastUpdateDto()
+        dto.mInfoLastUpdateDate = lastUpdate
+        dto.mInfoType = info_type
+
+        try mDbQueue!.write { db in
+            try dto.save(db)
+        }
+    }
+
+    func getCompanyInfoLastUpdate() throws ->InfoLastUpdateDto?{
+        let lastUpdate = try mDbQueue!.inDatabase { db in
+            try InfoLastUpdateDto.filter(Column("mInfoType").like(ChargerConst.INFO_TYPE_COMPANY)).order(Column("mId").desc).fetchOne(db)
+        }
+        return lastUpdate
+    }
+
+    func getStationInfoLastUpdate() throws -> InfoLastUpdateDto? {
+        let lastUpdate = try mDbQueue!.inDatabase { db in
+            try InfoLastUpdateDto.filter(Column("mInfoType").like(ChargerConst.INFO_TYPE_STATION)).order(Column("mId").desc).fetchOne(db)
+        }
+        return lastUpdate
+    }
+
+    // station info
+
+    func insertOrUpdateStationInfo(stationInfo : StationInfoDto) throws{
+        try mDbQueue!.write { db in
+            try stationInfo.save(db)
+        }
+    }
+
+    func insertOrUpdateStationInfoList(list : [StationInfoDto]) throws{
+        try mDbQueue!.write  { db in
+            for stationInfoDto in list{
+                if (!StringUtils.isNullOrEmpty(stationInfoDto.mSnm)) {
+                    let snm = stationInfoDto.mSnm?.replaceAll(of: "\\s+", with: "").lowercased()
+                    stationInfoDto.mSnmSearchWord = HangulUtils.getChosung(snm!)
+                }
+                if (!StringUtils.isNullOrEmpty(stationInfoDto.mAddress)) {
+                    let address = stationInfoDto.mAddress?.replaceAll(of: "\\s+", with: "").lowercased()
+                    stationInfoDto.mAddressSearchWord = HangulUtils.getChosung(address!)
+                }
+                if (!StringUtils.isNullOrEmpty(stationInfoDto.mAddressDetail)) {
+                    let addressDetail = stationInfoDto.mAddressDetail?.replaceAll(of: "\\s+", with: "").lowercased()
+                    stationInfoDto.mAddressDetailSearchWord = HangulUtils.getChosung(addressDetail!)
+                }
+                try stationInfoDto.save(db)
+            }
+        }
+    }
+
+    func updateStationInfo(stationInfo : StationInfoDto) throws{
+        try mDbQueue!.write { db in
+            try stationInfo.update(db)
+        }
+    }
+
+    func getStationInfoList() throws -> [StationInfoDto]?{
+        let stationinfoDtoList = try mDbQueue!.inDatabase { db in
+            try StationInfoDto.fetchAll(db)
+        }
+        return stationinfoDtoList
+    }
+
+    func getStationInfoById(id : String) throws -> StationInfoDto?{
+        let stationInfoDto = try mDbQueue!.inDatabase { db in
+            try StationInfoDto.filter(Column("mChargerId").like(id)).fetchOne(db)
+        }
+        return stationInfoDto
+    }
+}

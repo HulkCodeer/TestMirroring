@@ -23,11 +23,11 @@ public class ImageMarker {
         let stateIcons = ["marker_state_normal", "marker_state_charging", "marker_state_no_op", "marker_state_no_connect"]
         
         let evFileManager = EVFileManager.sharedInstance
-        let companyArray = DBManager.sharedInstance.getCompanyInfoList()
+        let companyArray = ChargerManager.sharedInstance.getCompanyInfoListAll()!
         
         for company in companyArray {
             for icon in stateIcons {
-                if let companyId = company.id {
+                if let companyId = company.company_id {
                     if companyId.elementsEqual("A") { // A(기타)인 경우 마커 없음
                         continue
                     }

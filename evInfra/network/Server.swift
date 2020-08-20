@@ -381,18 +381,19 @@ class Server {
             "update_date": updateDate
         ]
         
-        Alamofire.request(Const.EV_PAY_SERVER + "/company/company/info",
+        Alamofire.request(Const.EV_PAY_SERVER + "/company/v1/company/info",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
     // Station - 충전소 리스트
-    static func getStationList(completion: @escaping (Bool, Data?) -> Void) {
+    static func getStationInfo(updateDate: String, completion: @escaping (Bool, Data?) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId()
+            "member_id": MemberManager.getMemberId(),
+            "last_update" : updateDate
         ]
         
-        Alamofire.request(Const.EV_PAY_SERVER + "/charger/station/list",
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/v1/station/station",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseData(response: response, completion: completion) }
     }
@@ -403,7 +404,42 @@ class Server {
             "member_id": MemberManager.getMemberId()
         ]
         
-        Alamofire.request(Const.EV_PAY_SERVER + "/charger/station/status",
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/v1/station/station_status",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // Station - 충전소 리스트 charger info
+    static func getChargerInfo(chargerId : String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId(),
+            "charger_id": chargerId
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/v1/station/charger",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+   // Station - 충전소 상태 정보
+    static func getChargerStatus(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId()
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/v1/station/status",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // Station - 충전소 상태 정보
+    static func getChargerDetail(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId(),
+            "charger_id": chargerId
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/v1/station/detail",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -419,6 +455,7 @@ class Server {
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
+    
     
     // Station - 충전소 이용률 데이터
     static func getStationUsage(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
@@ -827,5 +864,53 @@ class Server {
                 completion(false, encodingError)
             }
         })
+    }
+    
+    // admob reward
+    static func postRewardVideo( type : String,  amount : Int, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.getMbId(),
+            "type" :type,
+            "amount" : amount
+        ]
+        Alamofire.request(Const.EV_PAY_SERVER + "/ad/ad_reward/reward_video",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+
+    // get reward point
+    static func getRewardPoint(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.getMbId()
+        ]
+        Alamofire.request(Const.EV_PAY_SERVER + "/ad/ad_reward/reward_point/mb_id/\(MemberManager.getMbId())" ,
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    
+    }
+
+    // find poi from sk open api
+    static func getPoiItemList(count : Int, radius : Int, centerLat : Double, centerLon : Double, keyword : String, completion: @escaping (Bool, Any) -> Void) {
+        
+        var url = "https://apis.openapi.sk.com/tmap/pois";
+        url += "?version=1";
+        url += "&page=1";
+        url += "&count=\(count)";
+        url += "&searchKeyword=" + keyword.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!;
+        url += "&resCoordType=WGS84GEO";
+        url += "&searchType=all";
+        url += "&searchtypCd=A"; //url += "&searchtypCd=R";
+        url += "&radius=\(radius)";
+        url += "&reqCoordType=WGS84GEO";
+        url += "&centerLon=\(centerLon)";
+        url += "&centerLat=\(centerLat)";
+        url += "&multiPoint=N";
+        url += "&appKey=b574a171-8ba8-47e8-855d-69b4b7ee5c80";
+        
+        Alamofire.request(url,
+                      method: .get, parameters: nil, encoding: JSONEncoding.default)
+        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
 }

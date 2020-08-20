@@ -17,6 +17,9 @@ class UserDefault {
 //        public static final String KEY_SETTINGS_ENABLE_CLUSTERING = "enable_clustering";
 //        public static final String KEY_SETTINGS_CLUSTERING_ZOOM = "clustering_zoom";
 
+        // 앱 버젼
+        static let KEY_APP_VERSION  = "appVersion"
+        
         // 사용자 정보
         static let MEMBER_ID        = "member_id"
         

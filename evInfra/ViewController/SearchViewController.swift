@@ -31,6 +31,7 @@
 import UIKit
 import Material
 import SwiftyJSON
+import GRDB
 
 class SearchViewController: UIViewController {
     
@@ -40,11 +41,13 @@ class SearchViewController: UIViewController {
     var searchType:Int?
     var delegate:ChargerSelectDelegate?
     
-    let chargerManager = ChargerListManager.sharedInstance
-    
     let koreanTextMatcher = KoreanTextMatcher.init()
     
     private var tMapPathData: TMapPathData = TMapPathData.init()
+    
+    var mQueryValue : String?
+    
+    let INIT_KEYWORD = "EV충전소"
     
     // View.
     @IBOutlet weak var tableView: ChargerTableView!
@@ -107,7 +110,7 @@ class SearchViewController: UIViewController {
         addrTableView.searchTableDelegate = self
         addrTableView.keyboardDismissMode = .onDrag
 
-        tableView.chargerList = self.chargerManager.chargerList
+        tableView.chargerList = [ChargerStationInfo]()
         
         onClickChargerBtn(chargerRadioBtn)
     }
@@ -139,10 +142,7 @@ class SearchViewController: UIViewController {
         indicator.isHidden = true
         indicator.stopAnimating()
     }
-    
-    struct decodeChargerList: Codable {
-        var charger_list: [Charger]
-    }
+
 }
 
 extension SearchViewController: SearchBarDelegate {
@@ -167,36 +167,100 @@ extension SearchViewController: SearchBarDelegate {
         reloadData()
     }
     
+    func refreshCursorAdapter() {
+        let dbQueue = DataBaseHelper.sharedInstance.getDbQue()
+        DispatchQueue.global().async {
+            dbQueue?.inDatabase { db in
+                // Perform database work
+                do {
+                    var request: QueryInterfaceRequest = StationInfoDto.select(Column("mChargerId"),Column("mLatitude"),Column("mLongitude"))
+                    if StringUtils.isNullOrEmpty(self.mQueryValue) == false {
+                        request = request.filter(Column("mSnm").like("%" + self.mQueryValue! + "%") ||
+                            Column("mAddress").like("%" + self.mQueryValue! + "%") ||
+                            Column("mAddressDetail").like("%" + self.mQueryValue! + "%") ||
+                            Column("mSnmSearchWord").like("%" + self.mQueryValue! + "%") ||
+                            Column("mAddressSearchWord").like("%" + self.mQueryValue! + "%") ||
+                            Column("mAddressDetailSearchWord").like("%" + self.mQueryValue! + "%")
+                        )
+                    }
+                    
+                    // 거리
+                    if let currentPosition = MainViewController.currentLocation {
+                        let sql = "ABS(\(currentPosition.getLatitude()) - mLatitude) + ABS(\(currentPosition.getLongitude()) - mLongitude) ASC"
+                        request = request.order(sql: sql)
+                    }
+                    
+                    self.tableView.chargerList?.removeAll()
+                    let stationList = try request.fetchAll(db)
+                    for station in stationList{
+                        let chargerStationInfo = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: station.mChargerId!)
+                        if (chargerStationInfo != nil){
+                            self.tableView.chargerList?.append(chargerStationInfo!)
+                        }
+                    }
+                }catch{
+                    Log.e(tag: "db", msg: "refreshCursorAdapter Error : \(error.localizedDescription)")
+                }
+            }
+            DispatchQueue.main.async {
+                // update your user interface
+                self.reloadData()
+            }
+        }
+    }
+
+    
     func searchBar(searchBar: SearchBar, didChange textField: UITextField, with text: String?) {
+        /*
         guard let pattern = text?.trimmed, 0 < pattern.utf16.count else {
             reloadData()
             return
         }
-        
-        DispatchQueue.global(qos: .background).async {
+        */
             // Background Thread
             if self.searchType != SearchViewController.TABLE_VIEW_TYPE_ADDRESS {
                 // space 제거, 소문자로 변경 후 비교
-                let trimmedPattern = pattern.replacingOccurrences(of: " ", with: "").lowercased()
-                self.tableView.chargerList = self.chargerManager.chargerList?.filter({(charger: Charger) -> Bool in
-                    let trimmedStationName = charger.stationName.replacingOccurrences(of: " ", with: "").lowercased()
-                    return self.koreanTextMatcher.isMatch(text: trimmedStationName, pattern: trimmedPattern)
-                })
-                DispatchQueue.main.async {
-                    // Run UI Updates or call completion block
-                    self.reloadData()
-                }
+                self.mQueryValue = text
+                refreshCursorAdapter()
+                
             } else {
-                if let poiList = self.tMapPathData.requestFindAllPOI(text) {
-                    if poiList.count > 0 {
-                        self.addrTableView.poiList = poiList as? [TMapPOIItem]
-                        DispatchQueue.main.async {
-                            self.reloadData()
+                DispatchQueue.global(qos: .background).async {
+                    
+                    var searchWord = self.INIT_KEYWORD
+                    if (StringUtils.isNullOrEmpty(text) == false){
+                        searchWord = text!
+                    }
+                        
+                    ChargerManager.sharedInstance.findAllPOI(keyword: searchWord, callback: {
+                    class callback : FindAllPOIListenerCallback {
+                        func onFindAllPOI(poiList : [EIPOIItem]?){
+                            controller?.addrTableView.poiList = poiList
+                            DispatchQueue.main.async {
+                                self.controller?.reloadData()
+                            }
+                        }
+
+                        var controller: SearchViewController?
+                        required init(_ controller : SearchViewController) {
+                            self.controller = controller
                         }
                     }
+                    return callback(self)
+                    }())
+                    
+                    /*
+                    if let poiList = self.tMapPathData.requestFindAllPOI(text) {
+                        if poiList.count > 0 {
+                            self.addrTableView.poiList = poiList as? [TMapPOIItem]
+                            DispatchQueue.main.async {
+                                self.reloadData()
+                            }
+                        }
+                    }
+                    */
                 }
             }
-        }
+       
     }
 }
 
@@ -206,7 +270,7 @@ extension SearchViewController: ChargerTableViewDelegate {
             return
         }
 
-        delegate?.moveToSelected(chargerId: charger.chargerId)
+        delegate?.moveToSelected(chargerId: charger.mChargerId!)
         dismiss(animated: true, completion: nil)
     }
 }
@@ -217,7 +281,7 @@ extension SearchViewController: SearchTableViewViewDelegate {
             return
         }
         
-        delegate?.moveToSelectLocation(lat: poi.getPOIPoint()?.getLatitude() ?? 0, lon: poi.getPOIPoint()?.getLongitude() ?? 0)
+        delegate?.moveToSelectLocation(lat: poi.getPOIPoint().getLatitude() , lon: poi.getPOIPoint().getLongitude() )
         dismiss(animated: true, completion: nil)
     }
 }

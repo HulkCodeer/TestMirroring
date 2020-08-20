@@ -110,7 +110,7 @@ class LoginViewController: UIViewController {
         MemberManager().setData(data: json)
         
         // get favorite
-        ChargerListManager.sharedInstance.getFavoriteCharger()
+        ChargerManager.sharedInstance.getFavoriteCharger()
         
         if Const.CLOSED_BETA_TEST {
             CBT.checkCBT(vc: self)

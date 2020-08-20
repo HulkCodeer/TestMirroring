@@ -91,16 +91,13 @@ class MainViewController: UIViewController {
     
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    private let chargerManager = ChargerListManager.sharedInstance
-    
     private var tMapView: TMapView? = nil
     private var tMapPathData: TMapPathData = TMapPathData.init()
     private var routeStartPoint: TMapPoint? = nil
     private var routeEndPoint: TMapPoint? = nil
     private var resultTableView: PoiTableView?
     
-    private var chargerList = [String: Charger]()
-    private var selectCharger: Charger? = nil
+    private var selectCharger: ChargerStationInfo? = nil
     
     private let dropDownWay = DropDown()
     private let dropDownPay = DropDown()
@@ -110,8 +107,6 @@ class MainViewController: UIViewController {
     private var filterWayIdArray = Array<Int>()
     private var filterPayIdArray = Array<Int>()
 
-    private var companyList = Array<CompanyInfo>()
-    private var companyVisibilityList = Array<Bool>()
     private let regionList = Regions.init()
     
     static var currentLocation: TMapPoint? = nil
@@ -141,7 +136,9 @@ class MainViewController: UIViewController {
         prepareClustering()
         prepareMenuBtnLayer()
         
-        getChargerInfo()  // request to server
+        requestStationInfo();
+        
+        //getChargerInfo()  // request to server
         //self.checkFCM()
     }
     
@@ -223,13 +220,12 @@ class MainViewController: UIViewController {
         }
         
         // drop down - 기관
-        let dbManager = DBManager.sharedInstance
-        companyList = dbManager.getCompanyInfoList()
-        companyVisibilityList = dbManager.getCompanyVisibilityList()
+        let companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
+        var companyVisibilityList = ChargerManager.sharedInstance.getCompanyVisibilityList()
         
         dropDownCompany.anchorView = self.btnCompany
         self.btnCompany.setTitle("기관선택", for: UIControlState.normal)//(item, for: UIControlState.normal)
-        dropDownCompany.dataSource = dbManager.getCompanyNameList()
+        dropDownCompany.dataSource = ChargerManager.sharedInstance.getCompanyNameList()
         dropDownCompany.width = 200
         dropDownCompany.direction = .bottom
         dropDownCompany.bottomOffset = CGPoint(x: 0, y: (dropDownCompany.anchorView?.plainView.bounds.height)!)
@@ -241,60 +237,59 @@ class MainViewController: UIViewController {
             guard let cell = cell as? DropDownCheckBoxCell else { return }
             cell.tag = index
 //            cell.setChecked(isChecked: cell.isSelected)
-            cell.setChecked(isChecked: self.companyVisibilityList[index])
+            cell.setChecked(isChecked: companyVisibilityList[index])
         }
         
         dropDownCompany.multiSelectionAction = { [unowned self] (indexes, item) in
-            let isAllSelected = self.companyVisibilityList[0]
+            let isAllSelected = companyVisibilityList[0]
             self.dropDownCompany.clearSelection()
-            for (idx, _) in self.companyVisibilityList.enumerated() {
+            for (idx, _) in companyVisibilityList.enumerated() {
 //                self.dropDownCompany.deselectRow(idx)
-                self.companyVisibilityList[idx] = false
+                companyVisibilityList[idx] = false
             }
             if (!isAllSelected && indexes.contains(0)) {
-                for (idx, _) in self.companyVisibilityList.enumerated() {
+                for (idx, _) in companyVisibilityList.enumerated() {
                     self.dropDownCompany.selectRow(idx)
-                    self.companyVisibilityList[idx] = true
+                    companyVisibilityList[idx] = true
                 }
             } else if !(isAllSelected && !indexes.contains(0)) {
                 for idx in indexes {
                     if idx > 0 {
                         self.dropDownCompany.selectRow(idx)
-                        self.companyVisibilityList[idx] = true
+                        companyVisibilityList[idx] = true
                     }
                 }
                 if (isAllSelected && indexes.contains(0)) { // 전체선택이 되어있는 상태에서 일반 아이템이 빠지는 경우
-                    self.companyVisibilityList[0] = false
+                    companyVisibilityList[0] = false
                 } else if (!isAllSelected && !indexes.contains(0)) {  // 전체선택이 안눌리고 그냥 일반 아이템만 에드할 경우
-                    if (indexes.count == self.companyList.count) {
+                    if (indexes.count == companyList.count) {
                         self.dropDownCompany.selectRow(0)
-                        self.companyVisibilityList[0] = true
+                        companyVisibilityList[0] = true
                     }
                 }
             }
-            for company in self.companyList {
+            for company in companyList {
                 for (index, companyName) in self.dropDownCompany.dataSource.enumerated() {
                     if companyName == company.name {
-                        if let companyId = company.id {
-                            dbManager.updateCompanyVisibility(companyId: companyId, isVisible: self.companyVisibilityList[index])
+                        if let companyId = company.company_id {
+                            ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: companyVisibilityList[index], companyID: companyId)
                             continue
                         }
                     }
                 }
             }
-            self.companyList = dbManager.getCompanyInfoList()
             self.drawTMapMarker()
             self.dropDownCompany.reloadAllComponents()
         }
         
         dropDownCompany.willShowAction = { [unowned self] in
-            for (index, comVisible) in  self.companyVisibilityList.enumerated(){
+            for (index, comVisible) in companyVisibilityList.enumerated(){
                 if comVisible {
                     self.dropDownCompany.selectRow(index)
                 } else {
                     self.dropDownCompany.deselectRow(index)
-                    if self.companyVisibilityList[0] {
-                        self.companyVisibilityList[0] = false
+                    if companyVisibilityList[0] {
+                        companyVisibilityList[0] = false
                         self.dropDownCompany.deselectRow(0)
                     }
                 }
@@ -405,8 +400,8 @@ class MainViewController: UIViewController {
     
     @IBAction func onClickFavorite(_ sender: UIButton) {
         if MemberManager().isLogin() {
-            chargerManager.setFavoriteCharger(charger: selectCharger!) {
-                self.setCallOutFavoriteIcon(charger: $0)
+            ChargerManager.sharedInstance.setFavoriteCharger(charger: selectCharger!) { (charger) in
+                 self.setCallOutFavoriteIcon(charger: charger)
             }
         } else {
             MemberManager().showLoginAlert(vc: self)
@@ -444,8 +439,8 @@ class MainViewController: UIViewController {
             let appTc = tc as! AppToolbarController
             appTc.enableRouteMode(isRoute: true)
             
-            startField.text = selectCharger?.stationName
-            routeStartPoint = selectCharger?.getPoint()
+            startField.text = selectCharger?.mStationInfoDto?.mSnm
+            routeStartPoint = selectCharger?.getTMapPoint()
         }
     }
     
@@ -457,14 +452,14 @@ class MainViewController: UIViewController {
             let appTc = tc as! AppToolbarController
             appTc.enableRouteMode(isRoute: true)
             
-            endField.text = selectCharger?.stationName
-            routeEndPoint = selectCharger?.getPoint()
+            endField.text = selectCharger?.mStationInfoDto?.mSnm
+            routeStartPoint = selectCharger?.getTMapPoint()
         }
     }
     
     @IBAction func onClickRouteAddPoint(_ sender: UIButton) {
         if selectCharger != nil {
-            let passList = [TMapPoint.init(lon: (selectCharger?.longitude)!, lat: (selectCharger?.latitude)!)]
+            let passList = [selectCharger?.getTMapPoint()]
             findPath(passList: passList as! [TMapPoint])
         }
     }
@@ -610,9 +605,10 @@ extension MainViewController {
         }
         
 //        let companyName = dropDownCompany.selectedItem
-        for company in self.companyList {
-            if let companyId = company.id {
-                filter.companies.updateValue(company.isVisible, forKey: companyId)
+        let companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
+        for company in companyList {
+            if let companyId = company.company_id {
+                filter.companies.updateValue(company.is_visible, forKey: companyId)
             }
         }
         return filter
@@ -727,9 +723,10 @@ extension MainViewController: TextFieldDelegate {
         tMapView?.removeCustomObject("end")
         
         // 경로 주변 충전소 초기화
-        for charger in self.chargerManager.chargerDict {
-            charger.value.isAroundPath = true;
+        for charger in ChargerManager.sharedInstance.getChargerStationInfoList(){
+            charger.isAroundPath = true
         }
+        
         self.clustering?.isRouteMode = false;
         drawTMapMarker()
     }
@@ -816,17 +813,16 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func findChargerAroundRoute(polyLine: TMapPolyLine) {
-        for charger in self.chargerManager.chargerDict {
-            charger.value.isAroundPath = false;
+        for charger in ChargerManager.sharedInstance.getChargerStationInfoList(){
+            charger.isAroundPath = false
         }
         
         if let tMapPointArray = polyLine.getPoint() {
             for i in stride(from: 0, to: tMapPointArray.count, by: 100) {
                 let tMapPoint = tMapPointArray[i] as! TMapPoint;
-                for item in self.chargerManager.chargerDict {
-                    let charger = item.value
+                for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
                     if (!charger.isAroundPath) {
-                        let chargerPoint = charger.getPoint()
+                        let chargerPoint = charger.getTMapPoint()
                         let distance = tMapPoint.getDistanceWith(chargerPoint)
                         if (distance < 5000.0) {  // 5km 이내 충전소
                             charger.isAroundPath = true;
@@ -927,7 +923,7 @@ extension MainViewController: TMapViewDelegate {
         myLocationModeOff()
         setView(view: callOutLayer, hidden: true)
         if selectCharger != nil {
-            if let markerItem = tMapView!.getMarketItem(fromID: selectCharger!.chargerId) {
+            if let markerItem = tMapView!.getMarketItem(fromID: selectCharger!.mChargerId) {
                 markerItem.setIcon(selectCharger!.getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
             }
             selectCharger = nil
@@ -967,9 +963,9 @@ extension MainViewController: ChargerSelectDelegate {
     }
     
     func moveToSelected(chargerId: String) {
-        if let charger = chargerManager.getChargerFromChargerId(id: chargerId) {
+        if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId){
             self.tMapView?.setZoomLevel(15)
-            self.tMapView?.setCenter(TMapPoint.init(lon: charger.longitude, lat: charger.latitude))
+            self.tMapView?.setCenter(charger.getTMapPoint())
             
             DispatchQueue.global(qos: .background).async {
                 // Background Thread
@@ -1012,7 +1008,7 @@ extension MainViewController: MainViewDelegate {
         
         // 이전에 선택된 충전소 마커를 원래 마커로 원복
         if selectCharger != nil {
-            if let markerItem = tMapView!.getMarketItem(fromID: selectCharger!.chargerId) {
+            if let markerItem = tMapView!.getMarketItem(fromID: selectCharger!.mChargerId) {
                 markerItem.setIcon(selectCharger!.getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
                 
             }
@@ -1020,33 +1016,33 @@ extension MainViewController: MainViewDelegate {
         }
         
         // 선택한 충전소 정보 표시
-        if let selectCharger = self.chargerManager.chargerDict[chargerId] {
+        if let selectCharger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId){
             showCallOut(charger: selectCharger)
         } else {
-            print("Not Found Charger \(self.chargerManager.chargerDict.count)")
+            print("Not Found Charger \(ChargerManager.sharedInstance.getChargerStationInfoList().count)")
         }
     }
     
-    func showCallOut(charger: Charger) {
+    func showCallOut(charger: ChargerStationInfo) {
         selectCharger = charger
-        setChargerTypeImage(type: (selectCharger?.totalChargerType)!)
-        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: Int((selectCharger?.status ?? "02")) ?? 2)
-        callOutTitle.text = selectCharger?.stationName
-        callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: Int((selectCharger?.status)!)!)
-        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: Int((selectCharger?.status)!)!)
+        setChargerTypeImage(type: (selectCharger?.mTotalType)!)
+        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
+        callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
+        callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: (selectCharger?.mTotalType)!)
+        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: (selectCharger?.mTotalStatus)!)
         setCallOutFavoriteIcon(charger: selectCharger!)
         
         setView(view: callOutLayer, hidden: false)
 
-        if let markerItem = self.tMapView!.getMarketItem(fromID: self.selectCharger!.chargerId) {
+        if let markerItem = self.tMapView!.getMarketItem(fromID: self.selectCharger!.mChargerId) {
             if (markerItem.getIcon().isEqual(other: self.selectCharger!.getSelectIcon())) == false {
                 markerItem.setIcon(self.selectCharger!.getSelectIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
             }
         }
     }
     
-    func setCallOutFavoriteIcon(charger: Charger) {
-        if charger.favorite {
+    func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
+        if charger.mFavorite {
             callOutFavorite.setImage(UIImage(named: "ic_favorite"), for: .normal)
         } else {
             callOutFavorite.setImage(UIImage(named: "ic_favorite_add"), for: .normal)
@@ -1098,6 +1094,7 @@ extension MainViewController: MainViewDelegate {
 
 // MARK: - Request To Server
 extension MainViewController {
+    /*
     internal func getChargerInfo() {
         Server.getStationList { (isSuccess, responseData) in
             if isSuccess {
@@ -1134,6 +1131,48 @@ extension MainViewController {
             }
         }
     }
+    */
+    func requestStationInfo(){
+        ChargerManager.sharedInstance.getStationInfoFromServer(listener: {
+            class chargerManagerListener: ChargerManagerListener {
+                func onComplete() {
+                    controller?.markerIndicator.startAnimating()
+                    controller?.drawTMapMarker()
+                    controller?.markerIndicator.stopAnimating()
+                    
+                    // app 실행 시 전면 광고 dialog
+                    controller?.showStartAd()
+                    
+                    controller?.checkFCM()
+                    
+                    // 즐겨찾기 목록 가져오기
+                    ChargerManager.sharedInstance.getFavoriteCharger()
+                    
+                    // 지킴이 충전소 목록 요청
+                    controller?.getChargerListForGuard()
+                    
+                    if Const.CLOSED_BETA_TEST {
+                        CBT.checkCBT(vc: controller!)
+                    }
+                }
+                
+                func onError(errorMsg: String) {
+                    controller?.checkFCM()
+                    
+                    if Const.CLOSED_BETA_TEST {
+                        CBT.checkCBT(vc: controller!)
+                    }
+                }
+                
+                var controller: MainViewController?
+                required init(_ controller : MainViewController) {
+                    self.controller = controller
+                }
+            }
+            return chargerManagerListener(self)
+            }()
+            )
+    }
     
     internal func getChargerListForGuard() {
         if MemberManager().isGuard() {
@@ -1142,8 +1181,8 @@ extension MainViewController {
                     let json = JSON(value)
                     let list = json["list"]
                     for (_, id):(String, JSON) in list {
-                        if let charger = self.chargerManager.chargerDict[id.stringValue] {
-                            charger.isGuard = true
+                        if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: id.stringValue){
+                            charger.mGuard = true
                         }
                     }
                 }
@@ -1167,10 +1206,10 @@ extension MainViewController {
                 
                 for (_, item):(String, JSON) in list {
                     let id = item["id"].stringValue
-                    if let charger = self.chargerManager.chargerDict[id] {
-                        charger.changeStatus(st: item["st"].stringValue)
+                    if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: id){
+                        charger.changeStatus(status: item["st"].intValue)
                         
-                        if (self.tMapView!.getMarketItem(fromID: charger.chargerId) != nil) {
+                        if (self.tMapView!.getMarketItem(fromID: charger.mChargerId) != nil) {
                             if self.tMapView!.getMarketItem(fromID: id).getIcon() != charger.marker.getIcon() {
                                 self.tMapView!.getMarketItem(fromID: id).setIcon(charger.marker.getIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
                             }
@@ -1218,8 +1257,8 @@ extension MainViewController {
         if let id = self.sharedChargerId {
             self.selectCharger(chargerId: id)
             self.sharedChargerId = nil
-            if let sharedCharger = self.chargerManager.chargerDict[id] {
-                self.tMapView?.setCenter(TMapPoint.init(lon: sharedCharger.longitude, lat: sharedCharger.latitude))
+            if let sharedCharger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: id) {
+                self.tMapView?.setCenter(sharedCharger.getTMapPoint())
             }
         }
     }
@@ -1339,7 +1378,16 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainPayableChargerList(_ sender: UIButton) {
-        UIAlertController.showMessage("전국 한전(단,아파트제외), GS칼텍스, 에스트래픽 충전기에서 이용해 보세요.^^")
+        //UIAlertController.showMessage("전국 한전(단,아파트제외), GS칼텍스, 에스트래픽 충전기에서 이용해 보세요.^^")
+        if MemberManager().isLogin() {
+            let offerwallVC = self.storyboard?.instantiateViewController(withIdentifier: "OfferwallViewController") as! OfferwallViewController
+            
+            let next = AppSearchBarController(rootViewController: offerwallVC)
+            next.modalPresentationStyle = .fullScreen
+            self.present(next, animated: true, completion: nil)
+        } else {
+            MemberManager().showLoginAlert(vc: self)
+        }
     }
     
     @IBAction func onClickMainReportCharger(_ sender: UIButton) {
