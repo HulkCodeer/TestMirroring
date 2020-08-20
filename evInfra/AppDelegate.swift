@@ -359,7 +359,10 @@ extension AppDelegate : CLLocationManagerDelegate {
 	func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
 		 print("LEJ locationManager exit")
         if region is CLCircularRegion {
-			updateGeo(status:false)
+			let charger_id = Int(region.identifier)
+			if let charger_id = charger_id{
+				updateGeo(charger_id:charger_id, status:false)
+			}
         }
     }
 
@@ -367,7 +370,10 @@ extension AppDelegate : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
 		print("LEJ locationManager enter")
         if region is CLCircularRegion {
-			updateGeo(status:true)
+			let charger_id = Int(region.identifier)
+			if let charger_id = charger_id{
+				updateGeo(charger_id:charger_id, status:true)
+			}
         }
 	}
 	
@@ -380,8 +386,8 @@ extension AppDelegate : CLLocationManagerDelegate {
 	   // Notify the user of any errors.
 	}
 	
-	func updateGeo(status:Bool){
-		Server.updateGeofence(status:status){ (isSuccess, value) in
+	func updateGeo(charger_id:Int, status:Bool){
+		Server.updateGeofence(charger_id:charger_id, status:status){ (isSuccess, value) in
 		  if isSuccess {
 			let json = JSON(value)
 			if json["code"] == 1000 {

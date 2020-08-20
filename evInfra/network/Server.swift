@@ -828,11 +828,10 @@ class Server {
     }
     
     // geo
-	static func updateGeofence(status:Bool, completion: @escaping (Bool, Any) -> Void) {
-		print("LEJ member_id = \(MemberManager.getMbId()) charger_id = \(526) is_entered = \(status)")
+	static func updateGeofence(charger_id:Int, status:Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "member_id": String(MemberManager.getMbId()),
-			"charger_id": 526,
+			"charger_id": charger_id,
 			"is_entered": status
         ]
         Alamofire.request("http://fcev.soft-berry.co.kr/api/v1/geofence/updateGeofence",
@@ -840,9 +839,12 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
 	
-	static func getGeoRegion(){
-		
+	static func getGeoRegion(completion: @escaping (Bool, Any) -> Void){
+        Alamofire.request("http://fcev.soft-berry.co.kr/api/v1/geofence/getGeofenceList",
+                          method: .get, parameters: nil, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
 	}
+	
     // download url file
     static func getData(url: URL, completion: @escaping (Bool, Data?) -> Void) {
         Alamofire.request(url).responseData { (response) in

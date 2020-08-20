@@ -147,6 +147,7 @@ class MainViewController: UIViewController {
         getChargerInfo()  // request to server
         //self.checkFCM()
         prepareChargePrice()
+		getGeoRegion()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -1416,41 +1417,48 @@ extension MainViewController {
 
 extension MainViewController{
 	func getGeoRegion(){
-		
+		var regionList = [GeoRegion]()
+		Server.getGeoRegion(){(isSuccess, value) in
+			var json = JSON(value)
+			if(isSuccess){
+			  if json["code"] == 1000 {
+				let regions = json["data"]
+                for json in regions.arrayValue {
+                    let regionData = GeoRegion(bJson: json)
+                    regionList.append(regionData)
+					print("LEJ get \(regionData.charger_id)")
+				}
+				self.initGeo(regions:regionList)
+			  }
+			}else{
+			  print("LEJ GEO UPDATE isSuccess FAILED..")
+			}
+		}
 	}
 	
-	func initGeo() {
-		   self.locationManager.requestAlwaysAuthorization()
-		   print("LEJ set RegionCenter")
+	func initGeo(regions:Array<GeoRegion>) {
+	   self.locationManager.requestAlwaysAuthorization()
+	   locationManager.requestAlwaysAuthorization()            // 위치 권한 받아옴.
+	   locationManager.startUpdatingLocation()                 // 위치 업데이트 시작
+	   locationManager.allowsBackgroundLocationUpdates = true  // 백그라운드에서도 위치를 체크할 것인지에 대한 여부. 필요없으면 false로 처리하자.
+	   locationManager.pausesLocationUpdatesAutomatically = false  // 이걸 써줘야 백그라운드에서 멈추지 않고 돈다
 
-		   locationManager.requestAlwaysAuthorization()            // 위치 권한 받아옴.
-
-		   locationManager.startUpdatingLocation()                 // 위치 업데이트 시작
-		   locationManager.allowsBackgroundLocationUpdates = true  // 백그라운드에서도 위치를 체크할 것인지에 대한 여부. 필요없으면 false로 처리하자.
-		   locationManager.pausesLocationUpdatesAutomatically = false  // 이걸 써줘야 백그라운드에서 멈추지 않고 돈다
-
-		   // Your coordinates go here (lat, lon)
-		   let geofenceRegionCenter = CLLocationCoordinate2D(
-			   latitude: 37.490709,
-			   longitude: 127.030566
-		   )
-
-		   /* Create a region centered on desired location,
-			choose a radius for the region (in meters)
-			choose a unique identifier for that region */
-		   let geofenceRegion = CLCircularRegion(
-			   center: geofenceRegionCenter,
-			   radius: 100,
-			   identifier: "UniqueIdentifier"
-		   )
-
-		   geofenceRegion.notifyOnEntry = true
-		   geofenceRegion.notifyOnExit = true
-		   
-		   //지정된 지역 모니터링 시작
-		   self.locationManager.startMonitoring(for: geofenceRegion)
-		   //self.locationManager.startMonitoringSignificantLocationChanges()
-	   }
+		for region in regions{
+			let geofenceRegionCenter = CLLocationCoordinate2D(
+				latitude: Double(region.latitude) ?? 0.0,
+				longitude: Double(region.longitude) ?? 0.0
+			)
+			let geofenceRegion = CLCircularRegion(
+				center: geofenceRegionCenter,
+				radius: 100,
+				identifier: region.charger_id
+			)
+			geofenceRegion.notifyOnEntry = true
+			geofenceRegion.notifyOnExit = true
+			//지정된 지역 모니터링 시작
+			self.locationManager.startMonitoring(for: geofenceRegion)
+		}
+	}
 }
 
 

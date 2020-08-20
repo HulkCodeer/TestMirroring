@@ -10,6 +10,8 @@
 		4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */; };
 		4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
+		4E5EBF1724EE5EB4006DF807 /* GeoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5EBF1624EE5EB4006DF807 /* GeoManager.swift */; };
+		4E5EBF1A24EE5ED6006DF807 /* GeoRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5EBF1924EE5ED6006DF807 /* GeoRegion.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView.swift */; };
 		7312786420B7D84700861B3E /* ChargerListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786320B7D84700861B3E /* ChargerListManager.swift */; };
@@ -265,6 +267,8 @@
 		4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceViewController.swift; sourceTree = "<group>"; };
 		4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceTableViewCell.swift; sourceTree = "<group>"; };
 		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
+		4E5EBF1624EE5EB4006DF807 /* GeoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoManager.swift; sourceTree = "<group>"; };
+		4E5EBF1924EE5ED6006DF807 /* GeoRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoRegion.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		7312786320B7D84700861B3E /* ChargerListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerListManager.swift; sourceTree = "<group>"; };
@@ -566,6 +570,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E5EBF1824EE5EC2006DF807 /* geofence */ = {
+			isa = PBXGroup;
+			children = (
+				4E5EBF1624EE5EB4006DF807 /* GeoManager.swift */,
+				4E5EBF1924EE5ED6006DF807 /* GeoRegion.swift */,
+			);
+			path = geofence;
+			sourceTree = "<group>";
+		};
 		5659BC9F308878047DB36D3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -626,6 +639,7 @@
 		732121BB203AC023000E105C /* evInfra */ = {
 			isa = PBXGroup;
 			children = (
+				4E5EBF1824EE5EC2006DF807 /* geofence */,
 				732B92C020EF45A70090E9FC /* ExLib */,
 				732B92A120EF1AB40090E9FC /* assets */,
 				736813A62043E98F0035FC66 /* Images */,
@@ -1325,6 +1339,7 @@
 				CE24840420A59E6400611E24 /* UserDefault.swift in Sources */,
 				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
 				CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */,
+				4E5EBF1A24EE5ED6006DF807 /* GeoRegion.swift in Sources */,
 				733662D022F974820049AEFE /* Coupon.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
@@ -1336,6 +1351,7 @@
 				73FFCDC221194E14003B129D /* DecChargerList.swift in Sources */,
 				73D65D7E23605D1000F564A2 /* MyPayRegisterViewDelegate.swift in Sources */,
 				DB4063AB21FED66600B630A8 /* HourAxisValueFormatter.swift in Sources */,
+				4E5EBF1724EE5EB4006DF807 /* GeoManager.swift in Sources */,
 				73D65D7C2360299700F564A2 /* PaymentCard.swift in Sources */,
 				732B92C220EF4D5C0090E9FC /* CompanyInfo.swift in Sources */,
 				CE5242382183076000FF6AB1 /* AddressSearchCell.swift in Sources */,
