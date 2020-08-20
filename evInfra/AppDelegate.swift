@@ -362,6 +362,7 @@ extension AppDelegate : CLLocationManagerDelegate {
 			let charger_id = Int(region.identifier)
 			if let charger_id = charger_id{
 				updateGeo(charger_id:charger_id, status:false)
+				self.showDialog(msg:"geo exit")
 			}
         }
     }
@@ -373,6 +374,7 @@ extension AppDelegate : CLLocationManagerDelegate {
 			let charger_id = Int(region.identifier)
 			if let charger_id = charger_id{
 				updateGeo(charger_id:charger_id, status:true)
+				self.showDialog(msg:"geo enter")
 			}
         }
 	}
@@ -392,6 +394,7 @@ extension AppDelegate : CLLocationManagerDelegate {
 			let json = JSON(value)
 			if json["code"] == 1000 {
 				print("LEJ GEO UPDATE SUCCESS")
+				self.showDialog(msg:"update success")
 			}else{
 				print("LEJ GEO UPDATE code FAILED..")
 			}
@@ -399,5 +402,20 @@ extension AppDelegate : CLLocationManagerDelegate {
 			print("LEJ GEO UPDATE isSuccess FAILED..")
 		  }
 		}
+	}
+	
+	func showDialog(msg:String){
+		let alertController = UIAlertController(title: "Title", message: msg, preferredStyle: .actionSheet)
+		let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+				UIAlertAction in
+				NSLog("OK Pressed")
+			}
+		let cancelAction = UIAlertAction(title: "CANCEL", style: UIAlertActionStyle.cancel) {
+				UIAlertAction in
+				NSLog("Cancel Pressed")
+			}
+		alertController.addAction(okAction)
+		alertController.addAction(cancelAction)
+		self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
 	}
 }
