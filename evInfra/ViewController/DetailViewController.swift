@@ -278,8 +278,8 @@ class DetailViewController: UIViewController {
         self.adjustHeightOfTableview()
         
         self.showMenuBtn()
-        self.showMoveHomePageBtn()
-        self.showMoveAppStoreBtn()
+//        self.showMoveHomePageBtn()
+//        self.showMoveAppStoreBtn()
     }
     
     func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
@@ -666,34 +666,34 @@ extension DetailViewController: ReportChargeViewDelegate {
 }
 
 extension DetailViewController {
-    fileprivate func showMoveHomePageBtn() {
-        if let strUrl = self.homePage {
-            if isCanOpenUrl(strUrl: strUrl) {
-                let img:UIImage? = UIImage(named:"ic_web_browser")
-                moveHomePageBtn = FABButton(image: img)
-                moveHomePageBtn.setImage(img, for: .normal)
-                moveHomePageBtn.addTarget(self, action: #selector(self.onClickMoveCompanyHomePage(_sender:)), for: .touchUpInside)
-                companyView.layout(moveHomePageBtn).width(32).height(32).right(10).centerVertically()
-            }
-        }
-    }
-    
-    fileprivate func showMoveAppStoreBtn() {
-        var rMagin = 10
-        if let _ = self.moveHomePageBtn {
-            rMagin = Int(10 + self.moveHomePageBtn.frame.width + 5)
-        }
-        
-        if let strUrl = self.appStore {
-            if isCanOpenUrl(strUrl: strUrl) {
-                let img:UIImage? = UIImage(named:"ic_app_store")
-                moveAppStoreBtn = FABButton(image: img)
-                moveAppStoreBtn.setImage(img, for: .normal)
-                moveAppStoreBtn.addTarget(self, action: #selector(self.onClickMoveAppStore(_sender:)), for: .touchUpInside)
-                companyView.layout(moveAppStoreBtn).width(32).height(32).right(CGFloat(rMagin)).centerVertically()
-            }
-        }
-    }
+//    fileprivate func showMoveHomePageBtn() {
+//        if let strUrl = self.homePage {
+//            if isCanOpenUrl(strUrl: strUrl) {
+//                let img:UIImage? = UIImage(named:"ic_web_browser")
+//                moveHomePageBtn = FABButton(image: img)
+//                moveHomePageBtn.setImage(img, for: .normal)
+//                moveHomePageBtn.addTarget(self, action: #selector(self.onClickMoveCompanyHomePage(_sender:)), for: .touchUpInside)
+//                companyView.layout(moveHomePageBtn).width(32).height(32).right(10).centerVertically()
+//            }
+//        }
+//    }
+//
+//    fileprivate func showMoveAppStoreBtn() {
+//        var rMagin = 10
+//        if let _ = self.moveHomePageBtn {
+//            rMagin = Int(10 + self.moveHomePageBtn.frame.width + 5)
+//        }
+//
+//        if let strUrl = self.appStore {
+//            if isCanOpenUrl(strUrl: strUrl) {
+//                let img:UIImage? = UIImage(named:"ic_app_store")
+//                moveAppStoreBtn = FABButton(image: img)
+//                moveAppStoreBtn.setImage(img, for: .normal)
+//                moveAppStoreBtn.addTarget(self, action: #selector(self.onClickMoveAppStore(_sender:)), for: .touchUpInside)
+//                companyView.layout(moveAppStoreBtn).width(32).height(32).right(CGFloat(rMagin)).centerVertically()
+//            }
+//        }
+//    }
     
     @objc
     func onClickMoveCompanyHomePage(_sender:UIButton) {
