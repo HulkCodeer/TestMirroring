@@ -65,7 +65,7 @@ class ChargerManager {
     public func getCompanyMarketUrl(companyID : String) -> String?{
         let companyInfo = try! mDb!.getCompanyInfo(company_id: companyID)
         if (companyInfo != nil){
-            return companyInfo!.appstore
+            return companyInfo!.market
         }
         return nil
     }

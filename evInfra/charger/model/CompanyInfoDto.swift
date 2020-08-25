@@ -18,7 +18,7 @@ class CompanyInfoDto : Record{
         icon_date = row["icon_date"]
         homepage = row["homepage"]
         market = row["market"]
-        appstore = row["appstore"]
+        //appstore = row["appstore"]
         is_visible = row["is_visible"]
         sort = row["sort"]
         del = row["del"]
@@ -42,7 +42,7 @@ class CompanyInfoDto : Record{
         container["icon_date"] = icon_date
         container["homepage"] = homepage
         container["market"] = market
-        container["appstore"] = appstore
+        //container["appstore"] = appstore
         container["is_visible"] = is_visible
         container["sort"] = sort
         container["del"] = del
@@ -62,7 +62,7 @@ class CompanyInfoDto : Record{
 
     public var market : String?
     
-    public var appstore : String?
+    //public var appstore : String?
 
     public var is_visible : Bool = true
 
@@ -83,7 +83,7 @@ class CompanyInfoDto : Record{
         let icon_date = json["ic_date"]
         let homepage = json["hp"]
         let market = json["mk"]
-        let appstore = json["as"]
+        //let appstore = json["as"]
         //let is_visible = json["is_visible"]
         let sort = json["sort"]
         let del = json["del"]
@@ -95,7 +95,7 @@ class CompanyInfoDto : Record{
         self.icon_date = icon_date.stringValue
         self.homepage = homepage.stringValue
         self.market = market.stringValue
-        self.appstore = appstore.stringValue
+        //self.appstore = appstore.stringValue
         //self.is_visible = is_visible.boolValue
         self.sort = sort.intValue
         self.del = del.boolValue
