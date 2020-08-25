@@ -170,13 +170,10 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate{
     */
     func checkAndInitializeSdk(mopub: MoPub = .sharedInstance()) {
         // Production should only use the default ad unit ID.
-        DispatchQueue.main.async {
-            if (mopub.isSdkInitialized){
-                self.loadRewardedVideo()
-            }else{
-                self.initializeMoPubSdk(adUnitIdForConsent: self.kAdUnitId)
-            }
-            
+        if (mopub.isSdkInitialized){
+            self.loadRewardedVideo()
+        }else{
+            self.initializeMoPubSdk(adUnitIdForConsent: self.kAdUnitId)
         }
     }
 
@@ -201,7 +198,9 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate{
     
     
     func loadRewardedVideo(){
-        MPRewardedVideo.loadAd(withAdUnitID: self.kAdUnitId, withMediationSettings: nil)
+        DispatchQueue.main.async {
+            MPRewardedVideo.loadAd(withAdUnitID: self.kAdUnitId, withMediationSettings: nil)
+        }
     }
     
     // mopub delegate
