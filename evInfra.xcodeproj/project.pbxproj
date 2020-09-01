@@ -665,12 +665,11 @@
 		732121BB203AC023000E105C /* evInfra */ = {
 			isa = PBXGroup;
 			children = (
-				9058A3BF248639A700091823 /* charger */,
-				732B92A120EF1AB40090E9FC /* assets */,
 				732B92C020EF45A70090E9FC /* ExLib */,
 				732B92A120EF1AB40090E9FC /* assets */,
 				736813A62043E98F0035FC66 /* Images */,
 				7312786220B7D81A00861B3E /* Common */,
+				9058A3BF248639A700091823 /* charger */,
 				73B752812048EC8D0077112A /* model */,
 				DB306366221BD59500D1276E /* network */,
 				73EF8B41203BC53200D04494 /* Utils */,
@@ -1002,12 +1001,12 @@
 		902A11CF248F4D9D0049EF8E /* model */ = {
 			isa = PBXGroup;
 			children = (
+				902A11E1248F7A3A0049EF8E /* ChargerStationInfo.swift */,
 				902A11D0248F4DAC0049EF8E /* CompanyInfoDto.swift */,
+				9014C12624E55C4800CB6549 /* EIPOIItem.swift */,
 				902A11D2248F52B80049EF8E /* InfoLastUpdateDto.swift */,
 				902A11D4248F53D80049EF8E /* StationInfoDto.swift */,
 				902A11D6248F56610049EF8E /* StationStatusDto.swift */,
-				902A11E1248F7A3A0049EF8E /* ChargerStationInfo.swift */,
-				9014C12624E55C4800CB6549 /* EIPOIItem.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1015,8 +1014,8 @@
 		9058A3BF248639A700091823 /* charger */ = {
 			isa = PBXGroup;
 			children = (
-				902A11DB248F5F550049EF8E /* ChargerConst.swift */,
 				902A11CF248F4D9D0049EF8E /* model */,
+				902A11DB248F5F550049EF8E /* ChargerConst.swift */,
 				9058A3C0248639D000091823 /* ChargerManager.swift */,
 				90CA0DE32488B82900904015 /* DataBaseHelper.swift */,
 				90E8B54E24C6E82F00D03162 /* ChargerManagerListener.swift */,
@@ -1161,6 +1160,7 @@
 				732121B7203AC023000E105C /* Resources */,
 				2D2CA8AB0C473AF5F3E3093F /* [CP] Embed Pods Frameworks */,
 				DB43761E21DDD433004A4C4B /* ShellScript */,
+				C804CAE6215FA262E0E13BC6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1315,25 +1315,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0863B743CF7B787683698EC5 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh",
-				"${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_v12.6.1/Libraries/Tapjoy.embeddedframework/Resources/TapjoyResources.bundle",
-				"${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_v12.6.1/Libraries/Tapjoy.embeddedframework/Tapjoy.framework/Versions/A/Resources/TapjoyResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TapjoyResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2D2CA8AB0C473AF5F3E3093F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1412,6 +1393,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C804CAE6215FA262E0E13BC6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh",
+				"${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_v12.6.1/Libraries/Tapjoy.embeddedframework/Resources/TapjoyResources.bundle",
+				"${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_v12.6.1/Libraries/Tapjoy.embeddedframework/Tapjoy.framework/Versions/A/Resources/TapjoyResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TapjoyResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DB43761E21DDD433004A4C4B /* ShellScript */ = {

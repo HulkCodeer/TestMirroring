@@ -4004,10 +4004,10 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="HHS-Ck-Qp9" userLabel="Login Button Stack View">
-                                <rect key="frame" x="16" y="549" width="343" height="86"/>
+                                <rect key="frame" x="16" y="592" width="343" height="43"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Jw-xQ-dKP" userLabel="Kakao Button" customClass="KOLoginButton">
-                                        <rect key="frame" x="0.0" y="43" width="343" height="43"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="43"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="43" id="KQ7-Hb-dbX"/>
                                         </constraints>
@@ -4017,9 +4017,6 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
-                                        <connections>
-                                            <action selector="kakaoLogin:" destination="xS1-lo-Ups" eventType="touchUpInside" id="f6j-mv-5Rh"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -4039,6 +4036,7 @@
                         <viewLayoutGuide key="safeArea" id="bpP-tT-fK7"/>
                     </view>
                     <connections>
+                        <outlet property="btnKakaoLogin" destination="4Jw-xQ-dKP" id="y6x-lv-S9m"/>
                         <outlet property="loginButtonStackView" destination="HHS-Ck-Qp9" id="xk8-sm-yHN"/>
                     </connections>
                 </viewController>
