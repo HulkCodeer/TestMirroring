@@ -23,17 +23,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let gcmMessageIDKey = "gcm.message_id"
     let fcmManager = FCMManager.sharedInstance
     var chargingStatusPayload: [AnyHashable: Any]? = nil
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         setupEntryController()
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
         
-        // 카카오 - 로그인,로그아웃 상태 변경 받기
-        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.kakaoSessionDidChangeWithNotification), name: NSNotification.Name.KOSessionDidChange, object: nil)
-        
-        // 카카오 - 클라이언트 시크릿 설정
-        KOSession.shared().clientSecret = Const.KAKAO_CLIENT_SECRET;
-    
+        // 광고
         // igaw offerwall appkey
 //        AdPopcornOfferwall.setAppKey("366726109", andHashKey: "42ef0076ffd24ec2");
 //        AdPopcornOfferwall.setLogLevel(AdPopcornOfferwallLogTrace);
@@ -41,24 +37,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         // Initialize the Google Mobile Ads SDK.
         GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
+        // SNS 로그인
+        // 카카오 - 로그인,로그아웃 상태 변경 받기
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.kakaoSessionDidChangeWithNotification), name: NSNotification.Name.KOSessionDidChange, object: nil)
+        
+        // 카카오 - 클라이언트 시크릿 설정
+        KOSession.shared().clientSecret = Const.KAKAO_CLIENT_SECRET;
 
         // Apple 로그인 상태 확인
-//        if #available(iOS 13.0, *) {
-//            let appleIDProvider = ASAuthorizationAppleIDProvider()
+        if #available(iOS 13.0, *) {
+            let userIdentifier = UserDefault().readString(key: UserDefault.Key.MB_USER_ID)
+            print("parkshin \(userIdentifier)")
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            appleIDProvider.getCredentialState(forUserID: userIdentifier) { (credentialState, error) in
 //            appleIDProvider.getCredentialState(forUserID: KeychainItem.currentUserIdentifier) { (credentialState, error) in
-//                switch credentialState {
-//                case .authorized:
-//                    break // The Apple ID credential is valid.
-//
-//                case .revoked, .notFound:
-//                    // The Apple ID credential is either revoked or was not found, so show the sign-in UI.
-//                    break
-//
-//                default:
-//                    break
-//                }
-//            }
-//        }
+                switch credentialState {
+                case .authorized:
+                    print("parkshin authorized")
+                    break // The Apple ID credential is valid.
+                case .revoked:
+                    print("parkshin revoked")
+                    break
+                case .notFound:
+                    print("parkshin notFound")
+                    // The Apple ID credential is either revoked or was not found, so show the sign-in UI.
+                    break
+                case .transferred:
+                    print("parkshin transferred")
+                    break
+                default:
+                    break
+                }
+            }
+        }
         
         return true
     }
@@ -96,27 +108,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         application.registerForRemoteNotifications()
-        
     }
     
     @objc func kakaoSessionDidChangeWithNotification() {
+        print("parkshin kakaoSessionDidChangeWithNotification()")
         MemberManager().login()
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        if KOSession.handleOpen(url) {
-            return true
+        guard url.scheme != nil else { return true }
+        
+        if KOSession.isKakaoAccountLoginCallback(url.absoluteURL) {
+            return KOSession.handleOpen(url)
         }
         return false
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        guard url.scheme != nil else { return true }
+        
         if let shareChargerId = url.valueOf("charger_id") {
             NotificationCenter.default.post(name: Notification.Name("kakaoScheme"), object: nil, userInfo: ["sharedid": shareChargerId])
         }
 
-        if KOSession.handleOpen(url) {
-            return true
+        if KOSession.isKakaoAccountLoginCallback(url.absoluteURL) {
+            return KOSession.handleOpen(url)
         }
         return true
     }

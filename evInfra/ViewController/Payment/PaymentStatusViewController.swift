@@ -31,8 +31,6 @@ class PaymentStatusViewController: UIViewController {
     @IBOutlet weak var chronometer: Chronometer!
 
     @IBOutlet weak var btnStopCharging: UIButton!
-    @IBOutlet weak var btnStopChargingView: UIView!
-    
     @IBOutlet weak var btnUseBerry: UIButton!
     
     @IBOutlet weak var indicator: UIActivityIndicatorView!

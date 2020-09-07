@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-class PaymentCard{
+class PaymentCard {
     static let PAY_PAYMENT_SUCCESS = 8000 //결제성공
     static let PAY_PAYMENT_FAIL = 8004    //VAN 실패 응답
     static let PAY_PAYMENT_FAIL_LESS_AMOUNT = 8043 // 1000원 미만결제
