@@ -305,7 +305,7 @@ class MainViewController: UIViewController {
                 if source.elementsEqual(ftString) {
                     dropDown.selectRow(index)
                     button.setTitle(source, for: UIControlState.normal)
-                    drawTMapMarker()
+                    self.drawTMapMarker()
                     break
                 }
             }
@@ -541,6 +541,8 @@ class MainViewController: UIViewController {
 
 extension MainViewController {
     internal func drawTMapMarker() {
+        if !ChargerManager.sharedInstance.isReady() { return }
+
         self.clustering?.clustering(filter: self.getCurrentFilter(), loadedCharger: self.loadedChargers)
         
         if !self.loadedChargers {
@@ -749,6 +751,7 @@ extension MainViewController: TextFieldDelegate {
         }
         
         self.clustering?.isRouteMode = false;
+
         drawTMapMarker()
     }
     
@@ -818,6 +821,7 @@ extension MainViewController: TextFieldDelegate {
         // 경로 주변 충전소만 표시
         findChargerAroundRoute(polyLine: polyLine);
         self.clustering?.isRouteMode = true
+
         drawTMapMarker()
         
         // 두 지점간 거리 표시
@@ -1153,8 +1157,9 @@ extension MainViewController {
         }
     }
     */
-    func requestStationInfo(){
+    func requestStationInfo() {
         ChargerManager.sharedInstance.getStationInfoFromServer(listener: {
+
             class chargerManagerListener: ChargerManagerListener {
                 func onComplete() {
                     controller?.markerIndicator.startAnimating()
@@ -1360,6 +1365,7 @@ extension MainViewController {
             } else {
                 clustering?.removeClusterFromSettings()
             }
+
             drawTMapMarker()
         }
     }
@@ -1430,7 +1436,6 @@ extension MainViewController {
             MemberManager().showLoginAlert(vc:self)
         }
     }
-    
 }
 
 extension MainViewController {
