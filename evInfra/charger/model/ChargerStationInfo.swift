@@ -8,23 +8,23 @@
 
 import Foundation
 
-class ChargerStationInfo{
+class ChargerStationInfo {
     
-    var mChargerId : String?
+    var mChargerId: String?
     
-    var mStationInfoDto : StationInfoDto?
+    var mStationInfoDto: StationInfoDto?
 
-    var mTotalStatus : Int?
+    var mTotalStatus: Int?
     
-    var mTotalStatusName : String?
+    var mTotalStatusName: String?
 
-    var mTotalType : Int?
+    var mTotalType: Int?
 
-    var mPower : Int?
+    var mPower: Int?
 
     var usage: Array<Int> = Array() // 충전소 시간별 이용횟수
 
-    var marker : TMapMarkerItem!
+    var marker: TMapMarkerItem!
     var cidInfo: CidInfo!
     
     var mFavorite = false
@@ -33,10 +33,10 @@ class ChargerStationInfo{
     var isAroundPath = true // 이동경로 주변
     var mGuard = false  // 지킴이 관리대상 충전소
     
-    var mGpa : Float = 0.0
-    var mGpaCnt : Int = 0
+    var mGpa: Float = 0.0
+    var mGpaCnt: Int = 0
     
-    var mDistance : Double = 0
+    var mDistance: Double = 0
     
     init(_ charger_id : String) {
         self.mChargerId = charger_id
@@ -44,20 +44,20 @@ class ChargerStationInfo{
     }
     
     init(_ stationInfo : StationInfoDto) {
-        self.mStationInfoDto = stationInfo;
-        self.mChargerId = stationInfo.mChargerId;
+        self.mStationInfoDto = stationInfo
+        self.mChargerId = stationInfo.mChargerId
         initChargerStationInfo()
     }
     
-    func initChargerStationInfo(){
+    func initChargerStationInfo() {
         cidInfo = CidInfo.init()
         //mTotalStatusName = cidInfo.cstToString(cst: self.mTotalStatus!)
     }
     
-    func createMarker(){
-        if (self.mTotalStatus == nil){
+    func createMarker() {
+        if self.mTotalStatus == nil {
             mTotalStatusName = cidInfo.cstToString(cst: Const.CHARGER_STATE_UNCONNECTED)
-        }else{
+        } else {
             mTotalStatusName = cidInfo.cstToString(cst: self.mTotalStatus!)
         }
         marker = TMapMarkerItem.init()
@@ -67,9 +67,8 @@ class ChargerStationInfo{
     
     func changeStatus(status: Int) {
         self.mTotalStatus = status
-        mTotalStatusName = self.cidInfo.cstToString(cst: self.mTotalStatus!)
-        marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
         mTotalStatusName = cidInfo.cstToString(cst: self.mTotalStatus!)
+        marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
     }
     
     func getTMapPoint() -> TMapPoint {
@@ -128,13 +127,13 @@ class ChargerStationInfo{
         // 운영기관 필터에서 수소충전소를 선택했을 때만 수소충전소 노출
         // 그 외에는 보여주지 않음
         if (mStationInfoDto?.mCompanyId!.elementsEqual("J"))! {
-            return true;
+            return true
         }
         
         // chargerType = 01:DC차데모 02:DC콤보 03:DC차데모+AC상 04:AC상 05:DC차데모 + DC콤보 06:DC차데모+AC상+DC콤보 10:완속
         
-        if (self.mTotalType == nil){
-            //Log.d(tag: Const.TAG, msg: "mTotalType = nil : id = " + self.mChargerId!);
+        if self.mTotalType == nil {
+            //Log.d(tag: Const.TAG, msg: "mTotalType = nil : id = " + self.mChargerId!)
             return false
         }
         
@@ -210,10 +209,10 @@ class ChargerStationInfo{
             if let iconName = company.icon_name {
                 markerIcon = ImageMarker.marker(state: ImageMarker.markerHere, company: iconName, isCharging: isCharging, isPay: isPay)
             } else {
-                markerIcon = ImageMarker.resizeMarker(path: ImageMarker.markerHere);
+                markerIcon = ImageMarker.resizeMarker(path: ImageMarker.markerHere)
             }
         } else {
-            markerIcon = ImageMarker.resizeMarker(path: ImageMarker.markerHere);
+            markerIcon = ImageMarker.resizeMarker(path: ImageMarker.markerHere)
         }
         
         return markerIcon
@@ -221,7 +220,7 @@ class ChargerStationInfo{
     
     func getMarkerIcon() -> UIImage {
         if (StringUtils.isNullOrEmpty(mStationInfoDto?.mCompanyId)) {
-            return ImageMarker.NORMAL!;
+            return ImageMarker.NORMAL!
         }
         
         var markerIcon: UIImage!
@@ -236,9 +235,9 @@ class ChargerStationInfo{
         }
         
         if markerIcon == nil {
-            markerIcon = ImageMarker.NORMAL!;
+            markerIcon = ImageMarker.NORMAL!
         }
         
-        return markerIcon;
+        return markerIcon
     }
 }

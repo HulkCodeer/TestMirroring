@@ -72,10 +72,11 @@ class Server {
     }
     
     // 회원 - 회원 가입
-    static func signUp(email: String, emailVerify: Bool, completion: @escaping (Bool, Any) -> Void) {
+    static func signUp(type: Login.LoginType, email: String, emailVerify: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "member_id": MemberManager.getMemberId(),
             "user_id": MemberManager.getUserId(),
+            "login_type": type.rawValue,
             "nickname": UserDefault().readString(key: UserDefault.Key.MB_NICKNAME),
             "profile": UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME),
             "email": email,
@@ -100,7 +101,7 @@ class Server {
     }
     
     // 회원 - 정보 업데이트
-    static func updateMemberInfo(nickName: String, region: String, profile: String, carId: Int, zipCode: String, address: String, addressDetail:String, carNo:String, completion: @escaping (Bool, Any) -> Void) {
+    static func updateMemberInfo(nickName: String, region: String, profile: String, carId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
             "nickname": nickName,

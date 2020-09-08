@@ -235,6 +235,8 @@
 		DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB198F44212FCE9200708ECD /* UINavigationController.swift */; };
 		DB1ECB9922CDD8DB00E3A65E /* ChargingHistoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1ECB9822CDD8DB00E3A65E /* ChargingHistoryList.swift */; };
 		DB306368221BD5CD00D1276E /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB306367221BD5CD00D1276E /* Server.swift */; };
+		DB367BF124FE429D00898BED /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB367BF024FE429D00898BED /* Login.swift */; };
+		DB367BF324FE673E00898BED /* LoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB367BF224FE673E00898BED /* LoginHelper.swift */; };
 		DB3799F821673FDD001D8F69 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3799F721673FDD001D8F69 /* FavoriteViewController.swift */; };
 		DB3799FA2167575A001D8F69 /* ChargerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB3799F92167575A001D8F69 /* ChargerTableViewCell.xib */; };
 		DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB39688C22D5B93E00170F2E /* ChargesTableViewCell.swift */; };
@@ -539,6 +541,8 @@
 		DB198F44212FCE9200708ECD /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
 		DB1ECB9822CDD8DB00E3A65E /* ChargingHistoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargingHistoryList.swift; sourceTree = "<group>"; };
 		DB306367221BD5CD00D1276E /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
+		DB367BF024FE429D00898BED /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		DB367BF224FE673E00898BED /* LoginHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHelper.swift; sourceTree = "<group>"; };
 		DB3799F721673FDD001D8F69 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		DB3799F92167575A001D8F69 /* ChargerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChargerTableViewCell.xib; sourceTree = "<group>"; };
 		DB39688C22D5B93E00170F2E /* ChargesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargesTableViewCell.swift; sourceTree = "<group>"; };
@@ -665,12 +669,11 @@
 		732121BB203AC023000E105C /* evInfra */ = {
 			isa = PBXGroup;
 			children = (
-				9058A3BF248639A700091823 /* charger */,
 				732B92A120EF1AB40090E9FC /* assets */,
 				732B92C020EF45A70090E9FC /* ExLib */,
-				732B92A120EF1AB40090E9FC /* assets */,
 				736813A62043E98F0035FC66 /* Images */,
 				7312786220B7D81A00861B3E /* Common */,
+				9058A3BF248639A700091823 /* charger */,
 				73B752812048EC8D0077112A /* model */,
 				DB306366221BD59500D1276E /* network */,
 				73EF8B41203BC53200D04494 /* Utils */,
@@ -794,6 +797,7 @@
 				73AF8FB121C77D9B003CB2CF /* clustering */,
 				736D37D2208DC9CE009535EE /* BoardData.swift */,
 				CE24840120A59E3000611E24 /* CarModels.swift */,
+				4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */,
 				DB0E4694205FC4D8002DD05D /* ChargerFilter.swift */,
 				73C31BFE20A2B246005B6C53 /* ChargerModel.swift */,
 				DB1ECB9822CDD8DB00E3A65E /* ChargingHistoryList.swift */,
@@ -805,12 +809,13 @@
 				733662CB22EFECB80049AEFE /* Event.swift */,
 				73C31BF82099A023005B6C53 /* EVModel.swift */,
 				DB5041AF23506DCF007336BC /* EvPoint.swift */,
+				DB367BF024FE429D00898BED /* Login.swift */,
+				DB367BF224FE673E00898BED /* LoginHelper.swift */,
+				73D65D7B2360299700F564A2 /* PaymentCard.swift */,
 				DB6E59482063C595002E75C8 /* Regions.swift */,
 				CE93308E214F9807006B7EF6 /* ReportChargeInfoList.swift */,
 				CE9330962150FB32006B7EF6 /* ReportChargeItem.swift */,
 				CEBE0600214BA5C30047E6F2 /* ReportData.swift */,
-				73D65D7B2360299700F564A2 /* PaymentCard.swift */,
-				4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1002,12 +1007,12 @@
 		902A11CF248F4D9D0049EF8E /* model */ = {
 			isa = PBXGroup;
 			children = (
+				902A11E1248F7A3A0049EF8E /* ChargerStationInfo.swift */,
 				902A11D0248F4DAC0049EF8E /* CompanyInfoDto.swift */,
+				9014C12624E55C4800CB6549 /* EIPOIItem.swift */,
 				902A11D2248F52B80049EF8E /* InfoLastUpdateDto.swift */,
 				902A11D4248F53D80049EF8E /* StationInfoDto.swift */,
 				902A11D6248F56610049EF8E /* StationStatusDto.swift */,
-				902A11E1248F7A3A0049EF8E /* ChargerStationInfo.swift */,
-				9014C12624E55C4800CB6549 /* EIPOIItem.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1015,8 +1020,8 @@
 		9058A3BF248639A700091823 /* charger */ = {
 			isa = PBXGroup;
 			children = (
-				902A11DB248F5F550049EF8E /* ChargerConst.swift */,
 				902A11CF248F4D9D0049EF8E /* model */,
+				902A11DB248F5F550049EF8E /* ChargerConst.swift */,
 				9058A3C0248639D000091823 /* ChargerManager.swift */,
 				90CA0DE32488B82900904015 /* DataBaseHelper.swift */,
 				90E8B54E24C6E82F00D03162 /* ChargerManagerListener.swift */,
@@ -1161,6 +1166,7 @@
 				732121B7203AC023000E105C /* Resources */,
 				2D2CA8AB0C473AF5F3E3093F /* [CP] Embed Pods Frameworks */,
 				DB43761E21DDD433004A4C4B /* ShellScript */,
+				C804CAE6215FA262E0E13BC6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1315,25 +1321,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0863B743CF7B787683698EC5 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh",
-				"${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_v12.6.1/Libraries/Tapjoy.embeddedframework/Resources/TapjoyResources.bundle",
-				"${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_v12.6.1/Libraries/Tapjoy.embeddedframework/Tapjoy.framework/Versions/A/Resources/TapjoyResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TapjoyResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2D2CA8AB0C473AF5F3E3093F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1414,6 +1401,25 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		C804CAE6215FA262E0E13BC6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh",
+				"${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_v12.6.1/Libraries/Tapjoy.embeddedframework/Resources/TapjoyResources.bundle",
+				"${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_v12.6.1/Libraries/Tapjoy.embeddedframework/Tapjoy.framework/Versions/A/Resources/TapjoyResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TapjoyResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		DB43761E21DDD433004A4C4B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1478,6 +1484,7 @@
 				DB4395EE22DC4C380092E0A5 /* Date.swift in Sources */,
 				CE33B4BB2191B8B000B6C632 /* EventViewController.swift in Sources */,
 				733662CE22EFF2A40049AEFE /* NavigationDrawerController.swift in Sources */,
+				DB367BF324FE673E00898BED /* LoginHelper.swift in Sources */,
 				73BFA04F208487050028B35D /* BoardTableView.swift in Sources */,
 				736D37D3208DC9CE009535EE /* BoardData.swift in Sources */,
 				732ED1CA21ED8ABB0012C67B /* DropDownCheckBoxCell.swift in Sources */,
@@ -1502,6 +1509,7 @@
 				73CF041A20B2736500BEA9CF /* UIScrollView.swift in Sources */,
 				DBE579B521A3E3CA005DD998 /* Snackbar.swift in Sources */,
 				902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */,
+				DB367BF124FE429D00898BED /* Login.swift in Sources */,
 				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
 				CE9330972150FB32006B7EF6 /* ReportChargeItem.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
