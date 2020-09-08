@@ -27,7 +27,7 @@ class LoginViewController: UIViewController {
         super.viewWillAppear(animated)
         
         LoginHelper.shared.delegate = self
-        LoginHelper.shared.loginCheck()
+        LoginHelper.shared.checkLogin()
     }
     
     func prepareActionBar() {
@@ -76,9 +76,8 @@ extension LoginViewController: LoginHelperDelegate {
         return self
     }
     
-    func successLogin(json: JSON) {
+    func successLogin() {
         Snackbar().show(message: "로그인 성공")
-        MemberManager().setData(data: json)
         
         // get favorite
         ChargerManager.sharedInstance.getFavoriteCharger()

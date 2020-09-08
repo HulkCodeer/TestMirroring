@@ -95,34 +95,4 @@ class MemberManager {
         actions.append(cancel)
         UIAlertController.showAlert(title: "로그인 필요", message: "로그인 후 사용가능합니다.\n로그인 하시려면 확인버튼을 누르세요.", actions: actions)
     }
-    
-    func login() {
-        print("parkshin MemberManager login()")
-        if KOSession.shared().isOpen() {
-            // 사용자 정보 요청
-            KOSessionTask.userMeTask { (error, me) in
-                if (error as NSError?) != nil {
-                    self.clearData() // 비회원
-                } else if let me = me as KOUserMe? {
-                    if me.hasSignedUp == .true {
-                        print("parkshin MemberManager login() user id: \(me.id!)")
-                        UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: me.id!)
-                        
-                        Server.login { (isSuccess, value) in
-                            if isSuccess {
-                                let json = JSON(value)
-                                if json["code"].intValue == 1000 {
-                                    MemberManager().setData(data: json)
-                                } else {
-                                    MemberManager().clearData()
-                                }
-                            } else {
-                                MemberManager().clearData()
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
