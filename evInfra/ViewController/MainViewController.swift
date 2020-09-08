@@ -1046,11 +1046,16 @@ extension MainViewController: MainViewDelegate {
     
     func showCallOut(charger: ChargerStationInfo) {
         selectCharger = charger
-        setChargerTypeImage(type: (selectCharger?.mTotalType)!)
+        if (selectCharger?.mTotalType != nil){
+            setChargerTypeImage(type: (selectCharger?.mTotalType)!)
+        }
         callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
         callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
-        callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: (selectCharger?.mTotalType)!)
-        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: (selectCharger?.mTotalStatus)!)
+        if (selectCharger?.mTotalType != nil){
+            callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: (selectCharger?.mTotalType)!)
+            callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: (selectCharger?.mTotalStatus)!)
+        }
+        
         setCallOutFavoriteIcon(charger: selectCharger!)
         
         setView(view: callOutLayer, hidden: false)

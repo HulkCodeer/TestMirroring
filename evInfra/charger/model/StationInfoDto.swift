@@ -33,6 +33,8 @@ class StationInfoDto : Record{
         mSnmSearchWord = row["mSnmSearchWord"]
         mAddressSearchWord = row["mAddressSearchWord"]
         mAddressDetailSearchWord = row["mAddressDetailSearchWord"]
+        mRoof = row["mRoof"]
+        mDel = row["mDel"]
         super.init(row: row)
     }
     
@@ -67,6 +69,9 @@ class StationInfoDto : Record{
         container["mSnmSearchWord"] = mSnmSearchWord
         container["mAddressSearchWord"] = mAddressSearchWord
         container["mAddressDetailSearchWord"] = mAddressDetailSearchWord
+        
+        container["mRoof"] = mRoof
+        container["mDel"] = mDel
     }
     
     // 1. 위도
@@ -150,6 +155,12 @@ class StationInfoDto : Record{
     // 21. 충전소 상세 주소 초성
     public var mAddressDetailSearchWord : String?
     
+    // 22. 실내/외
+    public var mRoof : String?
+    
+    // 23. 삭제 여부
+    public var mDel : Bool?
+    
     public func setStationInfo(json : JSON){
         let latitude = json["x"]
         let longitude = json["y"]
@@ -171,6 +182,9 @@ class StationInfoDto : Record{
         let utime = json["ut"]
         let memo = json["mm"]
         
+        let roof = json["r"]
+        let del = json["d"]
+        
         self.mLatitude = latitude.doubleValue
         self.mLongitude = longitude.doubleValue
         self.mChargerId = chargerId.stringValue
@@ -190,5 +204,8 @@ class StationInfoDto : Record{
         self.mTel = tel.stringValue
         self.mUtime = utime.stringValue
         self.mMemo = memo.stringValue
+        
+        self.mRoof = roof.stringValue
+        self.mDel = del.boolValue
     }
 }

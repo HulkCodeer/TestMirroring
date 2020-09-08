@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 class Server {
-    
+    static let VERSION = 1
     static func responseData(response: DataResponse<Any>, completion: @escaping (Bool, Data?) -> Void) {
         switch response.result {
         case .success( _):
@@ -405,7 +405,8 @@ class Server {
     static func getStationInfo(updateDate: String, completion: @escaping (Bool, Data?) -> Void) {
         let reqParam: Parameters = [
             "member_id": MemberManager.getMemberId(),
-            "last_update" : updateDate
+            "last_update" : updateDate,
+            "version" : Server.VERSION
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/v1/station/station",

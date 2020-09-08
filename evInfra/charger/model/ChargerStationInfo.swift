@@ -170,6 +170,12 @@ class ChargerStationInfo{
     }
     
     func getTotalChargerType() -> String {
+        
+        if (self.mTotalType == nil){
+            //Log.d(tag: Const.TAG, msg: "mTotalType = nil : id = " + self.mChargerId!);
+            return "기타 "
+        }
+        
         var typeName = ""
         if (self.mTotalType! & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
             typeName = "DC차데모 "

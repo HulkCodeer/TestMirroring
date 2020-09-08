@@ -174,6 +174,7 @@ extension SearchViewController: SearchBarDelegate {
                 // Perform database work
                 do {
                     var request: QueryInterfaceRequest = StationInfoDto.select(Column("mChargerId"),Column("mLatitude"),Column("mLongitude"))
+                    request = request.filter( Column("mDel") == 0)
                     if StringUtils.isNullOrEmpty(self.mQueryValue) == false {
                         request = request.filter(Column("mSnm").like("%" + self.mQueryValue! + "%") ||
                             Column("mAddress").like("%" + self.mQueryValue! + "%") ||

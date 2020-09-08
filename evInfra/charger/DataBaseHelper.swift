@@ -43,14 +43,20 @@ class DataBaseHelper {
         var isUpdate = false
         
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-        let updateDate = UserDefault().readString(key: UserDefault.Key.KEY_APP_VERSION)
-        if let version = version{
-            print("version: \(version)")
-            if (version != updateDate){
-                isUpdate = true
+        // dev server
+        if (DATABASE_NAME.equalsIgnoreCase(compare: DEV_DATABASE_NAME)){
+            isUpdate = true
+        }else{
+            // rel server
+            let updateDate = UserDefault().readString(key: UserDefault.Key.KEY_APP_VERSION)
+            if let version = version{
+                print("version: \(version)")
+                if (version != updateDate){
+                    isUpdate = true
+                }
             }
         }
-    
+
         if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             let dbPath = documentsURL.appendingPathComponent(DATABASE_NAME).path
             if (!FileManager.default.fileExists(atPath: dbPath) || isUpdate) {
@@ -197,14 +203,14 @@ class DataBaseHelper {
 
     func getStationInfoList() throws -> [StationInfoDto]?{
         let stationinfoDtoList = try mDbQueue!.inDatabase { db in
-            try StationInfoDto.fetchAll(db)
+            try StationInfoDto.filter(Column("mDel") == 0).fetchAll(db)
         }
         return stationinfoDtoList
     }
 
     func getStationInfoById(id : String) throws -> StationInfoDto?{
         let stationInfoDto = try mDbQueue!.inDatabase { db in
-            try StationInfoDto.filter(Column("mChargerId").like(id)).fetchOne(db)
+            try StationInfoDto.filter(Column("mDel") == 0 && Column("mChargerId").like(id)).fetchOne(db)
         }
         return stationInfoDto
     }
