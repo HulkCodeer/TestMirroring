@@ -221,14 +221,17 @@ extension MyPageViewController {
     
     @objc
     fileprivate func handlelogoutButton() {
-        indicator.startAnimating()
-        KOSession.shared().logoutAndClose { [weak self] (success, error) -> Void in
-            MemberManager().clearData()
-            self?.indicator.stopAnimating()
-            
-            Snackbar().show(message: "로그아웃 되었습니다.")
-            self?.navigationController?.pop()
-        }
+        self.indicator.startAnimating()
+        
+        LoginHelper.shared.logout(completion: { success in
+            self.indicator.stopAnimating()
+            if success {
+                Snackbar().show(message: "로그아웃 되었습니다.")
+                self.navigationController?.pop()
+            } else {
+                Snackbar().show(message: "다시 시도해 주세요.")
+            }
+        })
     }
 }
 

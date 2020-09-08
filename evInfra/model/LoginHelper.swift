@@ -51,6 +51,25 @@ class LoginHelper: NSObject {
             }
         }
     }
+    
+    // 로그아웃
+    func logout(completion: @escaping (Bool)->()) {
+        switch MemberManager.getLoginType() {
+        case .apple:
+            MemberManager().clearData()
+            completion(true)
+            
+        case .kakao:
+            KOSession.shared().logoutAndClose { (success, error) -> Void in
+                if success {
+                    MemberManager().clearData()
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+            }
+        }
+    }
 
     // MARK: - Kakao
     func kakaoLogin() {
