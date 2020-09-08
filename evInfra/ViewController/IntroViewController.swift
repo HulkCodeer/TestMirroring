@@ -28,8 +28,12 @@ class IntroViewController: UIViewController {
         
         showProgressLayer(isShow: false)
         
-        ChargerManager.sharedInstance.getChargerCompanyInfo(listener:{
+        ChargerManager.sharedInstance.getChargerCompanyInfo(listener: {
+            
             class chargerManagerListener: ChargerManagerListener {
+
+                var controller: IntroViewController?
+                
                 func onComplete() {
                     controller?.checkCompanyInfo()
                 }
@@ -37,14 +41,13 @@ class IntroViewController: UIViewController {
                 func onError(errorMsg: String) {
                 }
                 
-                var controller: IntroViewController?
                 required init(_ controller : IntroViewController) {
                     self.controller = controller
                 }
             }
+            
             return chargerManagerListener(self)
-            }()
-        )
+        } ())
     }
 
     override func didReceiveMemoryWarning() {

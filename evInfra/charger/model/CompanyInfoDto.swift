@@ -70,9 +70,9 @@ class CompanyInfoDto : Record{
 
     public var del : Bool?
 
-    public func isChangeIcon() -> Bool{
+    public func isChangeIcon() -> Bool {
         let updateDate = UserDefault().readString(key: UserDefault.Key.COMPANY_ICON_UPDATE_DATE)
-        return StringUtils.isNullOrEmpty(updateDate) || (updateDate.compare(self.icon_date!).rawValue > 0)
+        return StringUtils.isNullOrEmpty(updateDate) || (updateDate.compare(self.icon_date!).rawValue < 1)
     }
     
     public func setCompanyInfo(json : JSON){
