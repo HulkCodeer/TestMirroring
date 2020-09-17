@@ -203,7 +203,7 @@ extension LoginHelper: ASAuthorizationControllerDelegate {
             self.requestLoginToEvInfra(user: Login.apple(appleIDCredential))
             
         default:
-            Snackbar().show(message: "요류가 발생했습니다. 다시 시도해 주세요.")
+            Snackbar().show(message: "오류가 발생했습니다. 다시 시도해 주세요.")
             break
         }
     }

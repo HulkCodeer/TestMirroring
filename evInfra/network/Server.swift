@@ -923,6 +923,18 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     
     }
+    
+    //
+    static func postCheckRewardVideoAvailable(completion: @escaping (Bool, Any) -> Void){
+        let reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.getMbId()
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/ad/ad_reward/reward_video_available" ,
+                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
 
     // find poi from sk open api
     static func getPoiItemList(count : Int, radius : Int, centerLat : Double, centerLon : Double, keyword : String, completion: @escaping (Bool, Any) -> Void) {

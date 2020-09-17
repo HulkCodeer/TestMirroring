@@ -118,15 +118,32 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate{
 //    }
     
     @IBAction func onClickAdmobAd(_ sender: Any) {
-        if (MPRewardedVideo.hasAdAvailable(forAdUnitID: self.kAdUnitId)){
-            guard let reward: MPRewardedVideoReward = MPRewardedVideo.selectedReward(forAdUnitID: self.kAdUnitId) else {
-                selectedReward = nil
-                return
-            }
+        
+        Server.postCheckRewardVideoAvailable { (isSuccess, value) in
             
-            selectedReward = reward
-            MPRewardedVideo.presentAd(forAdUnitID: self.kAdUnitId, from: self, with: self.selectedReward, customData: String(MemberManager.getMbId()))
-        }
+            if isSuccess {
+                let json = JSON(value)
+                if json["code"].intValue == 1000 {
+                    if (MPRewardedVideo.hasAdAvailable(forAdUnitID: self.kAdUnitId)){
+                        guard let reward: MPRewardedVideoReward = MPRewardedVideo.selectedReward(forAdUnitID: self.kAdUnitId) else {
+                            self.selectedReward = nil
+                            return
+                        }
+                        
+                        self.selectedReward = reward
+                        MPRewardedVideo.presentAd(forAdUnitID: self.kAdUnitId, from: self, with: self.selectedReward, customData: String(MemberManager.getMbId()))
+                    }else{
+                        Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
+                    }
+                }else{
+                    Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
+                }
+            }else{
+                Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
+            }
+        };
+        
+        
     }
     
     /// Tells the delegate that the user earned a reward.
