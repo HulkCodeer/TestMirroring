@@ -15,19 +15,19 @@ import JJFloatingActionButton
 class DetailViewController: UIViewController {
     
     @IBOutlet weak var detailView: UIView!
-    @IBOutlet weak var viewPagerContainer: UIView!
+//    @IBOutlet weak var viewPagerContainer: UIView!
 
     @IBOutlet weak var companyView: UIView!    // 운영기관
     @IBOutlet weak var operatorLabel: UILabel! // 운영기관 이름
     @IBOutlet weak var addressLabel: CopyableLabel!
-    @IBOutlet weak var chargerLabel: UILabel!  // 유료/무료 충전소
+//    @IBOutlet weak var chargerLabel: UILabel!  // 유료/무료 충전소
     @IBOutlet weak var dstLabel: UILabel!      // 현 위치에서 거리
     @IBOutlet weak var memoLabel: UILabel!     // 메모
     
     // 이용시간: visible, gone 처리를 위해 subview 모두 연결함
-    @IBOutlet weak var timeImage: UIImageView!
-    @IBOutlet weak var timeFixLabel: UILabel!
-    @IBOutlet weak var timeView: UIView!
+//    @IBOutlet weak var timeImage: UIImageView!
+//    @IBOutlet weak var timeFixLabel: UILabel!
+//    @IBOutlet weak var timeView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
     
     // 지킴이
@@ -39,26 +39,26 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var guardKepcoBtn: UIButton!
     
     // 별점주기
-    @IBOutlet weak var gradeStarImage1: UIImageView!
-    @IBOutlet weak var gradeStarImage2: UIImageView!
-    @IBOutlet weak var gradeStarImage3: UIImageView!
-    @IBOutlet weak var gradeStarImage4: UIImageView!
-    @IBOutlet weak var gradeStarImage5: UIImageView!
-    @IBOutlet weak var gradeRegBtn: UIButton!
-    @IBOutlet weak var gradeModBtn: UIButton!
-    @IBOutlet weak var gradeDelBtn: UIButton!
+//    @IBOutlet weak var gradeStarImage1: UIImageView!
+//    @IBOutlet weak var gradeStarImage2: UIImageView!
+//    @IBOutlet weak var gradeStarImage3: UIImageView!
+//    @IBOutlet weak var gradeStarImage4: UIImageView!
+//    @IBOutlet weak var gradeStarImage5: UIImageView!
+//    @IBOutlet weak var gradeRegBtn: UIButton!
+//    @IBOutlet weak var gradeModBtn: UIButton!
+//    @IBOutlet weak var gradeDelBtn: UIButton!
     
     // 평점
-    @IBOutlet weak var gpaView: UIView!
-    @IBOutlet weak var gpaLabelView: UILabel!
-    @IBOutlet weak var personCntLabelView: UILabel!
-    @IBOutlet weak var gpaStarImage1: UIImageView!
-    @IBOutlet weak var gpaStarImage2: UIImageView!
-    @IBOutlet weak var gpaStarImage3: UIImageView!
-    @IBOutlet weak var gpaStarImage4: UIImageView!
-    @IBOutlet weak var gpaStarImage5: UIImageView!
-    @IBOutlet weak var gpaInfoImage: UIImageView!
-    @IBOutlet weak var gpaTitleLabel: UILabel!
+//    @IBOutlet weak var gpaView: UIView!
+//    @IBOutlet weak var gpaLabelView: UILabel!
+//    @IBOutlet weak var personCntLabelView: UILabel!
+//    @IBOutlet weak var gpaStarImage1: UIImageView!
+//    @IBOutlet weak var gpaStarImage2: UIImageView!
+//    @IBOutlet weak var gpaStarImage3: UIImageView!
+//    @IBOutlet weak var gpaStarImage4: UIImageView!
+//    @IBOutlet weak var gpaStarImage5: UIImageView!
+//    @IBOutlet weak var gpaInfoImage: UIImageView!
+//    @IBOutlet weak var gpaTitleLabel: UILabel!
     
     @IBOutlet weak var boardTableView: BoardTableView!
     @IBOutlet weak var cidTableView: CidTableView!
@@ -184,8 +184,8 @@ class DetailViewController: UIViewController {
     func preparePagingView() {
         let viewPagerController = ViewPagerController(charger: self.charger!)
         addChildViewController(viewPagerController)
-        viewPagerContainer.addSubview(viewPagerController.view)
-        viewPagerContainer.constrainToEdges(viewPagerController.view)
+//        viewPagerContainer.addSubview(viewPagerController.view)
+//        viewPagerContainer.constrainToEdges(viewPagerController.view)
     }
     
     // MARK: - Server Communications
@@ -221,11 +221,11 @@ class DetailViewController: UIViewController {
         
         // 과금
         if (self.charger?.isPilot)! {
-            self.chargerLabel.text = "시범운영 충전소"
+//            self.chargerLabel.text = "시범운영 충전소"
         } else if self.charger?.pay == "Y" {
-            self.chargerLabel.text = "유료 충전소"
+//            self.chargerLabel.text = "유료 충전소"
         } else {
-            self.chargerLabel.text = "무료 충전소"
+//            self.chargerLabel.text = "무료 충전소"
         }
     }
     
@@ -235,11 +235,11 @@ class DetailViewController: UIViewController {
         
         // 이용시간
         if json["ut"].stringValue.elementsEqual("") {
-            self.timeImage.gone(spaces:[.top, .bottom])
-            self.timeFixLabel.gone(spaces:[.top, .bottom])
-            self.timeLabel.gone(spaces:[.top, .bottom])
-            self.timeView.gone(spaces:[.top, .bottom])
-            self.detailViewResize(view: self.timeView)
+//            self.timeImage.gone(spaces:[.top, .bottom])
+//            self.timeFixLabel.gone(spaces:[.top, .bottom])
+//            self.timeLabel.gone(spaces:[.top, .bottom])
+//            self.timeView.gone(spaces:[.top, .bottom])
+//            self.detailViewResize(view: self.timeView)
         } else {
             self.timeLabel.text = json["ut"].stringValue
         }
@@ -835,24 +835,24 @@ extension DetailViewController {
         myGradeStarPoint = 0
         setGradeButtonRegMode()
         let gradeImgStar1 = UITapGestureRecognizer(target: self, action: #selector(self.onClickGradeStart1Btn))
-        gradeStarImage1.isUserInteractionEnabled = true
-        gradeStarImage1.addGestureRecognizer(gradeImgStar1)
+//        gradeStarImage1.isUserInteractionEnabled = true
+//        gradeStarImage1.addGestureRecognizer(gradeImgStar1)
 
         let gradeImgStar2 = UITapGestureRecognizer(target: self, action: #selector(self.onClickGradeStart2Btn))
-        gradeStarImage2.isUserInteractionEnabled = true
-        gradeStarImage2.addGestureRecognizer(gradeImgStar2)
+//        gradeStarImage2.isUserInteractionEnabled = true
+//        gradeStarImage2.addGestureRecognizer(gradeImgStar2)
 
         let gradeImgStar3 = UITapGestureRecognizer(target: self, action: #selector(self.onClickGradeStart3Btn))
-        gradeStarImage3.isUserInteractionEnabled = true
-        gradeStarImage3.addGestureRecognizer(gradeImgStar3)
+//        gradeStarImage3.isUserInteractionEnabled = true
+//        gradeStarImage3.addGestureRecognizer(gradeImgStar3)
 
         let gradeImgStar4 = UITapGestureRecognizer(target: self, action: #selector(self.onClickGradeStart4Btn))
-        gradeStarImage4.isUserInteractionEnabled = true
-        gradeStarImage4.addGestureRecognizer(gradeImgStar4)
+//        gradeStarImage4.isUserInteractionEnabled = true
+//        gradeStarImage4.addGestureRecognizer(gradeImgStar4)
 
         let gradeImgStar5 = UITapGestureRecognizer(target: self, action: #selector(self.onClickGradeStart5Btn))
-        gradeStarImage5.isUserInteractionEnabled = true
-        gradeStarImage5.addGestureRecognizer(gradeImgStar5)
+//        gradeStarImage5.isUserInteractionEnabled = true
+//        gradeStarImage5.addGestureRecognizer(gradeImgStar5)
     }
     
     @objc func onClickGradeStart1Btn(sender: UITapGestureRecognizer) {
@@ -876,20 +876,20 @@ extension DetailViewController {
     }
     
     func setGradeButtonRegMode() {
-        gradeRegBtn.isEnabled = false
-        gradeRegBtn.isHidden = false
-        gradeDelBtn.isHidden = true
-        gradeModBtn.isHidden = true
+//        gradeRegBtn.isEnabled = false
+//        gradeRegBtn.isHidden = false
+//        gradeDelBtn.isHidden = true
+//        gradeModBtn.isHidden = true
     }
     
     func setGradeButtonModifyMode() {
-        gradeRegBtn.isHidden = true
-        gradeDelBtn.isHidden = false
-        gradeModBtn.isHidden = false
+//        gradeRegBtn.isHidden = true
+//        gradeDelBtn.isHidden = false
+//        gradeModBtn.isHidden = false
     }
     
     func setGrade(point: Int) {
-        gradeRegBtn.isEnabled = true
+//        gradeRegBtn.isEnabled = true
         myGradeStarPoint = point
         drawMyGrade(point: myGradeStarPoint)
     }
@@ -898,37 +898,37 @@ extension DetailViewController {
         clearMyGrade()
         
         switch point {
-        case 1:
-            setStarBg(view: gradeStarImage1)
-        case 2:
-            setStarBg(view: gradeStarImage1)
-            setStarBg(view: gradeStarImage2)
-        case 3:
-            setStarBg(view: gradeStarImage1)
-            setStarBg(view: gradeStarImage2)
-            setStarBg(view: gradeStarImage3)
-        case 4:
-            setStarBg(view: gradeStarImage1)
-            setStarBg(view: gradeStarImage2)
-            setStarBg(view: gradeStarImage3)
-            setStarBg(view: gradeStarImage4)
-        case 5:
-            setStarBg(view: gradeStarImage1)
-            setStarBg(view: gradeStarImage2)
-            setStarBg(view: gradeStarImage3)
-            setStarBg(view: gradeStarImage4)
-            setStarBg(view: gradeStarImage5)
+//        case 1:
+//            setStarBg(view: gradeStarImage1)
+//        case 2:
+//            setStarBg(view: gradeStarImage1)
+//            setStarBg(view: gradeStarImage2)
+//        case 3:
+//            setStarBg(view: gradeStarImage1)
+//            setStarBg(view: gradeStarImage2)
+//            setStarBg(view: gradeStarImage3)
+//        case 4:
+//            setStarBg(view: gradeStarImage1)
+//            setStarBg(view: gradeStarImage2)
+//            setStarBg(view: gradeStarImage3)
+//            setStarBg(view: gradeStarImage4)
+//        case 5:
+//            setStarBg(view: gradeStarImage1)
+//            setStarBg(view: gradeStarImage2)
+//            setStarBg(view: gradeStarImage3)
+//            setStarBg(view: gradeStarImage4)
+//            setStarBg(view: gradeStarImage5)
         default:
             print("drawGrade() point is 0")
         }
     }
     
     func clearMyGrade() {
-        clearStarBg(view: gradeStarImage1)
-        clearStarBg(view: gradeStarImage2)
-        clearStarBg(view: gradeStarImage3)
-        clearStarBg(view: gradeStarImage4)
-        clearStarBg(view: gradeStarImage5)
+//        clearStarBg(view: gradeStarImage1)
+//        clearStarBg(view: gradeStarImage2)
+//        clearStarBg(view: gradeStarImage3)
+//        clearStarBg(view: gradeStarImage4)
+//        clearStarBg(view: gradeStarImage5)
     }
     
     func clearStarBg(view:UIImageView) {
@@ -1022,52 +1022,52 @@ extension DetailViewController {
     // 충전소 평점 표시
     func setChargeGPA() {
         if let gradePointAvg = charger?.gpa, gradePointAvg > 0 {
-            gpaLabelView.text = String(format:"%.1f", gradePointAvg)
-            personCntLabelView.text = String(format:"%d 명", (charger?.gpaPersonCnt)!)
-            drawGpaStar(point: gradePointAvg)
+//            gpaLabelView.text = String(format:"%.1f", gradePointAvg)
+//            personCntLabelView.text = String(format:"%d 명", (charger?.gpaPersonCnt)!)
+//            drawGpaStar(point: gradePointAvg)
         } else {
-            gpaLabelView.text = String(format:"%.1f", 0.0)
-            personCntLabelView.text = String(format:"%d 명", 0)
+//            gpaLabelView.text = String(format:"%.1f", 0.0)
+//            personCntLabelView.text = String(format:"%d 명", 0)
             drawGpaStar(point: 0)
         }
     }
     
     func drawGpaStar(point:Double) {
-        clearStarBg(view: gpaStarImage1)
-        clearStarBg(view: gpaStarImage2)
-        clearStarBg(view: gpaStarImage3)
-        clearStarBg(view: gpaStarImage4)
-        clearStarBg(view: gpaStarImage5)
+//        clearStarBg(view: gpaStarImage1)
+//        clearStarBg(view: gpaStarImage2)
+//        clearStarBg(view: gpaStarImage3)
+//        clearStarBg(view: gpaStarImage4)
+//        clearStarBg(view: gpaStarImage5)
         
         let gpaIntPart = Int(floor(point))
         var gpaFloatPart = Int(floor(point * 10.0))
         gpaFloatPart = gpaFloatPart % 10
        
         switch gpaIntPart {
-        case 1:
-            setStarBg(view: gpaStarImage1)
-            drawGpaStarFloatAreaBackground(point: gpaFloatPart, view: gpaStarImage2)
-        case 2:
-            setStarBg(view: gpaStarImage1)
-            setStarBg(view: gpaStarImage2)
-            drawGpaStarFloatAreaBackground(point: gpaFloatPart, view: gpaStarImage3)
-        case 3:
-            setStarBg(view: gpaStarImage1)
-            setStarBg(view: gpaStarImage2)
-            setStarBg(view: gpaStarImage3)
-            drawGpaStarFloatAreaBackground(point: gpaFloatPart, view: gpaStarImage4)
-        case 4:
-            setStarBg(view: gpaStarImage1)
-            setStarBg(view: gpaStarImage2)
-            setStarBg(view: gpaStarImage3)
-            setStarBg(view: gpaStarImage4)
-            drawGpaStarFloatAreaBackground(point: gpaFloatPart, view: gpaStarImage5)
-        case 5:
-            setStarBg(view: gpaStarImage1)
-            setStarBg(view: gpaStarImage2)
-            setStarBg(view: gpaStarImage3)
-            setStarBg(view: gpaStarImage4)
-            setStarBg(view: gpaStarImage5)
+//        case 1:
+//            setStarBg(view: gpaStarImage1)
+//            drawGpaStarFloatAreaBackground(point: gpaFloatPart, view: gpaStarImage2)
+//        case 2:
+//            setStarBg(view: gpaStarImage1)
+//            setStarBg(view: gpaStarImage2)
+//            drawGpaStarFloatAreaBackground(point: gpaFloatPart, view: gpaStarImage3)
+//        case 3:
+//            setStarBg(view: gpaStarImage1)
+//            setStarBg(view: gpaStarImage2)
+//            setStarBg(view: gpaStarImage3)
+//            drawGpaStarFloatAreaBackground(point: gpaFloatPart, view: gpaStarImage4)
+//        case 4:
+//            setStarBg(view: gpaStarImage1)
+//            setStarBg(view: gpaStarImage2)
+//            setStarBg(view: gpaStarImage3)
+//            setStarBg(view: gpaStarImage4)
+//            drawGpaStarFloatAreaBackground(point: gpaFloatPart, view: gpaStarImage5)
+//        case 5:
+//            setStarBg(view: gpaStarImage1)
+//            setStarBg(view: gpaStarImage2)
+//            setStarBg(view: gpaStarImage3)
+//            setStarBg(view: gpaStarImage4)
+//            setStarBg(view: gpaStarImage5)
         default:
             print("drawGpaStarBackground() gpaIntPart is 0")
         }

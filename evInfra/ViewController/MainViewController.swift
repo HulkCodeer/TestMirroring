@@ -46,7 +46,7 @@ class MainViewController: UIViewController {
     
     @IBOutlet weak var btnRouteCancel: UIButton!
     @IBOutlet weak var btnRoute: UIButton!
-    @IBOutlet weak var btnRouteAdd: UIButton!
+//    @IBOutlet weak var btnRouteAdd: UIButton!
     
     @IBOutlet weak var btnWay: UIButton!
     @IBOutlet weak var btnPay: UIButton!
@@ -70,14 +70,14 @@ class MainViewController: UIViewController {
     
     // Callout View
     @IBOutlet weak var callOutLayer: UIView!
-    @IBOutlet weak var callOutStatusBar: UIView!
+//    @IBOutlet weak var callOutStatusBar: UIView!
     @IBOutlet weak var callOutStatus: UILabel!
     @IBOutlet weak var callOutTitle: UILabel!
-    @IBOutlet weak var callOutFavorite: UIButton!
-    @IBOutlet weak var callOutDCCombo: UIImageView!
-    @IBOutlet weak var callOutDCDemo: UIImageView!
-    @IBOutlet weak var callOutAC: UIImageView!
-    @IBOutlet weak var callOutSlow: UIImageView!
+//    @IBOutlet weak var callOutFavorite: UIButton!
+//    @IBOutlet weak var callOutDCCombo: UIImageView!
+//    @IBOutlet weak var callOutDCDemo: UIImageView!
+//    @IBOutlet weak var callOutAC: UIImageView!
+//    @IBOutlet weak var callOutSlow: UIImageView!
     
     // Menu Button Layer
     @IBOutlet weak var btn_menu_layer: UIView!
@@ -697,7 +697,7 @@ extension MainViewController: TextFieldDelegate {
         btnRouteCancel.addTarget(self, action: #selector(onClickRouteCancel(_:)), for: .touchUpInside)
         btnRoute.addTarget(self, action: #selector(onClickRoute(_:)), for: .touchUpInside)
         
-        btnRouteAdd.isEnabled = false
+//        btnRouteAdd.isEnabled = false
         routeDistanceView.isHidden = true
     }
     
@@ -740,7 +740,7 @@ extension MainViewController: TextFieldDelegate {
         routeStartPoint = nil
         routeEndPoint = nil
         
-        btnRouteAdd.isEnabled = false
+//        btnRouteAdd.isEnabled = false
         btnRouteCancel.setTitle("지우기", for: .normal)
         
         tMapView?.removeTMapPath()
@@ -788,7 +788,7 @@ extension MainViewController: TextFieldDelegate {
             self.tMapView?.setCenter(TMapPoint.init(lon: centerLon, lat: centerLat))
             
             // 경유지 추가 버튼 활성화
-            btnRouteAdd.isEnabled = true
+//            btnRouteAdd.isEnabled = true
             btnRouteCancel.setTitle("경로취소", for: .normal)
             
             // 경로 요청
@@ -1051,7 +1051,7 @@ extension MainViewController: MainViewDelegate {
     func showCallOut(charger: Charger) {
         selectCharger = charger
         setChargerTypeImage(type: (selectCharger?.totalChargerType)!)
-        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: Int((selectCharger?.status ?? "02")) ?? 2)
+//        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: Int((selectCharger?.status ?? "02")) ?? 2)
         callOutTitle.text = selectCharger?.stationName
         callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: Int((selectCharger?.status)!)!)
         callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: Int((selectCharger?.status)!)!)
@@ -1068,9 +1068,9 @@ extension MainViewController: MainViewDelegate {
     
     func setCallOutFavoriteIcon(charger: Charger) {
         if charger.favorite {
-            callOutFavorite.setImage(UIImage(named: "ic_favorite"), for: .normal)
+//            callOutFavorite.setImage(UIImage(named: "ic_favorite"), for: .normal)
         } else {
-            callOutFavorite.setImage(UIImage(named: "ic_favorite_add"), for: .normal)
+//            callOutFavorite.setImage(UIImage(named: "ic_favorite_add"), for: .normal)
         }
     }
     
@@ -1081,37 +1081,37 @@ extension MainViewController: MainViewDelegate {
     }
     
     func setChargerTypeImage(type:Int) {
-        callOutDCCombo.image = UIImage(named: "type_dc_combo_dim")
-        callOutDCDemo.image = UIImage(named: "type_dc_demo_dim")
-        callOutAC.image = UIImage(named: "type_ac_three_dim")
-        callOutSlow.image = UIImage(named: "type_ac_slow_dim")
+//        callOutDCCombo.image = UIImage(named: "type_dc_combo_dim")
+//        callOutDCDemo.image = UIImage(named: "type_dc_demo_dim")
+//        callOutAC.image = UIImage(named: "type_ac_three_dim")
+//        callOutSlow.image = UIImage(named: "type_ac_slow_dim")
         
         if (type & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
-            callOutDCDemo.image = UIImage(named: "type_dc_demo")
+//            callOutDCDemo.image = UIImage(named: "type_dc_demo")
         }
         if (type & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
-            callOutDCCombo.image = UIImage(named: "type_dc_combo")
+//            callOutDCCombo.image = UIImage(named: "type_dc_combo")
         }
         if (type & Const.CTYPE_AC) == Const.CTYPE_AC {
-            callOutAC.image = UIImage(named: "type_ac_three")
+//            callOutAC.image = UIImage(named: "type_ac_three")
         }
         if (type & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
-            callOutSlow.image = UIImage(named: "type_ac_slow")
+//            callOutSlow.image = UIImage(named: "type_ac_slow")
         }
         
         if ((type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER)
             || ((type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION) {
-            callOutDCCombo.image = nil
-            callOutSlow.image = nil
-            callOutDCDemo.image = UIImage(named: "type_super_dim")
-            callOutAC.image =  UIImage(named: "type_destination_dim")
+//            callOutDCCombo.image = nil
+//            callOutSlow.image = nil
+//            callOutDCDemo.image = UIImage(named: "type_super_dim")
+//            callOutAC.image =  UIImage(named: "type_destination_dim")
             
             if (type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
-                callOutDCDemo.image = UIImage(named: "type_super")
+//                callOutDCDemo.image = UIImage(named: "type_super")
             }
             
             if (type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
-                callOutAC.image = UIImage(named: "type_destination")
+//                callOutAC.image = UIImage(named: "type_destination")
             }
         }
     }
