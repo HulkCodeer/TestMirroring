@@ -223,7 +223,7 @@ class MembershipCardViewController: UIViewController,
                 actions.append(ok)
                 switch json["code"].stringValue {
                     case "1000":
-                        let message = "회원카드는 등기로 발송되며 즉시 충전을 원하실 경우 마이페이지 > 회원카드 관리에 있는 카드번호를 충전기에 입력하시면 됩니다.\n감사합니다.(한전 이외의 충전사업자는 익일 반영됩니다)"
+                        let message = "회원카드는 일반우편으로 발송되며 즉시 충전을 원하실 경우 마이페이지 > 회원카드 관리에 있는 카드번호를 충전기에 입력하시면 됩니다.\n감사합니다.(한전 이외의 충전사업자는 익일 반영됩니다)"
                         UIAlertController.showAlert(title: "알림", message: message, actions: actions)
 
                     case "1101":
