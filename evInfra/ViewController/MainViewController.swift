@@ -1055,10 +1055,9 @@ extension MainViewController: MainViewDelegate {
         }
         callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
         callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
-        if (selectCharger?.mTotalType != nil){
-            callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: (selectCharger?.mTotalType)!)
-            callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: (selectCharger?.mTotalStatus)!)
-        }
+        
+        callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
+        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
         
         setCallOutFavoriteIcon(charger: selectCharger!)
         
