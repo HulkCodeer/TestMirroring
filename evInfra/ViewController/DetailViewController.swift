@@ -12,10 +12,10 @@ import Motion
 import SwiftyJSON
 import JJFloatingActionButton
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, MTMapViewDelegate {
     
     @IBOutlet weak var detailView: UIView!
-//    @IBOutlet weak var viewPagerContainer: UIView!
+//    @IBOutlet weak var vieagerContainer: UIView!
 
     @IBOutlet weak var companyView: UIView!    // 운영기관
     @IBOutlet weak var operatorLabel: UILabel! // 운영기관 이름
@@ -29,6 +29,10 @@ class DetailViewController: UIViewController {
 //    @IBOutlet weak var timeFixLabel: UILabel!
 //    @IBOutlet weak var timeView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var stationNameLb: UILabel!
+    
+    @IBOutlet var kakaoMapView: UIView!
+    
     
     // 지킴이
     @IBOutlet weak var guardView: UIView!
@@ -64,6 +68,8 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var cidTableView: CidTableView!
 
     @IBOutlet weak var CidTableHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var callLb: UILabel!
+    
     
     var mainViewDelegate: MainViewDelegate?
     var charger: Charger?
@@ -86,6 +92,8 @@ class DetailViewController: UIViewController {
     private let chargerManager = ChargerListManager.sharedInstance
     
     var myGradeStarPoint: Int = 0
+    
+    var mapView:MTMapView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,6 +118,18 @@ class DetailViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        self.mapView = MTMapView(frame: self.kakaoMapView.frame)
+        
+        
+        if let mapView = mapView{
+            mapView.delegate = self
+            mapView.baseMapType = .hybrid
+            self.view.addSubview(self.mapView!)
+        }
     }
     
     // MARK: - Action for button
@@ -162,6 +182,10 @@ class DetailViewController: UIViewController {
         self.shareForKakao()
     }
     
+    @IBAction func onClickReportBtn(_ sender: Any) {
+        self.onClickReportChargeBtn()
+    }
+    
     func handleError(error: Error?) -> Void {
         if let error = error as NSError? {
             print(error)
@@ -184,6 +208,14 @@ class DetailViewController: UIViewController {
     func preparePagingView() {
         let viewPagerController = ViewPagerController(charger: self.charger!)
         addChildViewController(viewPagerController)
+        
+            
+        self.stationNameLb.text = (self.charger?.stationName)!
+        
+//        self.kakaoMapView =
+        
+//        self.cardPriceView.removeFromSuperview();
+//        self.cardPriceViewTitle.removeFromSuperview();
 //        viewPagerContainer.addSubview(viewPagerController.view)
 //        viewPagerContainer.constrainToEdges(viewPagerController.view)
     }
@@ -205,7 +237,7 @@ class DetailViewController: UIViewController {
         
         // 운영기관 홈페이지 및 App Store 주소
         if let chr = charger  {
-            dbManager.openDB()
+            dbManager.openDB()  
             if let company = dbManager.getCompanyInfo(companyId: chr.companyId) {
                 self.homePage = company.homepage
                 self.appStore = company.appstore
@@ -253,6 +285,11 @@ class DetailViewController: UIViewController {
         
         // 센터 전화번호
         self.phoneNumber = json["tel"].stringValue
+        self.callLb.text = self.phoneNumber
+//        self.callLb.onClickCallBtn()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.tapFunction))
+        self.callLb.isUserInteractionEnabled = true
+        self.callLb.addGestureRecognizer(tap)
         
         // 평점
         self.charger?.gpa = Double(json["gpa"].stringValue)!
@@ -290,7 +327,7 @@ class DetailViewController: UIViewController {
         if desPos.getLatitude() == 0 || desPos.getLongitude() == 0 {
             self.dstLabel.text = "현재 위치를 받아오지 못했습니다."
         } else {
-            self.dstLabel.text = "거리를 계산중입니다. 잠시만 기다려 주세요."
+            self.dstLabel.text = "계산중"
             
             DispatchQueue.global(qos: .background).async {
                 let tMapPathData = TMapPathData.init()
@@ -298,7 +335,7 @@ class DetailViewController: UIViewController {
                     let distance = Double(path.getDistance() / 1000).rounded()
 
                     DispatchQueue.main.async {
-                        self.dstLabel.text = "현 위치로부터 \(distance) Km 떨어져 있습니다."
+                        self.dstLabel.text = "| \(distance) Km"
                     }
                 } else {
                     DispatchQueue.main.async {
@@ -348,6 +385,11 @@ class DetailViewController: UIViewController {
     
     @IBAction func onClickChargeGradeDel(_ sender: Any) { // 별점 삭제
         delChargeGrade()
+    }
+    
+    @objc
+    func tapFunction(sender:UITapGestureRecognizer) {
+        self.onClickCallBtn();
     }
 }
 

@@ -73,11 +73,16 @@ class MainViewController: UIViewController {
 //    @IBOutlet weak var callOutStatusBar: UIView!
     @IBOutlet weak var callOutStatus: UILabel!
     @IBOutlet weak var callOutTitle: UILabel!
-//    @IBOutlet weak var callOutFavorite: UIButton!
+    @IBOutlet weak var callOutFavorite: UIButton!
 //    @IBOutlet weak var callOutDCCombo: UIImageView!
 //    @IBOutlet weak var callOutDCDemo: UIImageView!
 //    @IBOutlet weak var callOutAC: UIImageView!
 //    @IBOutlet weak var callOutSlow: UIImageView!
+    
+    @IBOutlet weak var startPointBtn: UIButton!
+    @IBOutlet weak var endPointBtn: UIButton!
+    @IBOutlet weak var addPointBtn: UIButton!
+    
     
     // Menu Button Layer
     @IBOutlet weak var btn_menu_layer: UIView!
