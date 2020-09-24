@@ -30,40 +30,40 @@ class CidInfo {
         var chargerState: String!
         switch (cst) {
             case Const.CHARGER_STATE_UNCONNECTED:
-                chargerState = "통신미연결";
-                break;
+                chargerState = "통신미연결"
+                break
             
             case Const.CHARGER_STATE_WAITING:
-                chargerState = "대기중";
-                break;
+                chargerState = "대기중"
+                break
             
             case Const.CHARGER_STATE_CHARGING:
-                chargerState = "충전중";
-                break;
+                chargerState = "충전중"
+                break
             
             case Const.CHARGER_STATE_INACTIVE:
-                chargerState = "운영중지";
-                break;
+                chargerState = "운영중지"
+                break
             
             case Const.CHARGER_STATE_CHECKING:
-                chargerState = "점검중";
-                break;
+                chargerState = "점검중"
+                break
             
             case Const.CHARGER_STATE_BOOKING:
-                chargerState = "예약중";
-                break;
+                chargerState = "예약중"
+                break
             
             case Const.CHARGER_STATE_PILOT:
-                chargerState = "시범운영중";
-                break;
+                chargerState = "시범운영중"
+                break
             
             case Const.CHARGER_STATE_UNKNOWN:
-                chargerState = "기타(상태미확인)";
-                break;
+                chargerState = "기타(상태미확인)"
+                break
             
             default:
-                chargerState = "통신미연결";
-                break;
+                chargerState = "통신미연결"
+                break
         }
         return chargerState
     }
@@ -73,26 +73,26 @@ class CidInfo {
         switch (cst) {
             case Const.CHARGER_STATE_WAITING:
             cstColor = UIColor(rgb: 0x77BCE2)
-            break;
+            break
             
             case Const.CHARGER_STATE_CHARGING:
             cstColor = UIColor(rgb: 0x1BBA3C)
-            break;
+            break
             
             case Const.CHARGER_STATE_PILOT:
             cstColor = UIColor(rgb: 0xC9AFE3)
-            break;
+            break
             
             case Const.CHARGER_STATE_UNCONNECTED,
                  Const.CHARGER_STATE_UNKNOWN:
             cstColor = UIColor(rgb: 0xEDC44A)
-            break;
+            break
             
             default: // no operation, unknown
             cstColor = UIColor(rgb: 0xDE1A1A)
-            break;
+            break
         }
-        return cstColor;
+        return cstColor
     }
 
     public func getRecentDateSimple() -> String {

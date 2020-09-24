@@ -33,8 +33,6 @@ class ChargePriceViewController: UIViewController {
     
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var lbStackHeight: NSLayoutConstraint!
-    
-    let dbManager = DBManager.sharedInstance
        
     var chargePriceData: JSON!
     
@@ -185,7 +183,8 @@ extension ChargePriceViewController: UITableViewDataSource, UITableViewDelegate 
         let chargePrice = self.chargePriceData.arrayValue[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChargePriceTableViewCell") as! ChargePriceTableViewCell
-        cell.lbChargeCompany.text = dbManager.getCompanyName(companyId: chargePrice["company_id"].stringValue)
+        let cName = ChargerManager.sharedInstance.getCompanyName(companyID: chargePrice["company_id"].stringValue)
+        cell.lbChargeCompany.text = cName
         cell.lbChargePrice.text = chargePrice["price"].stringValue
         
         cell.lbChargeCompany.backgroundColor = UIColor(hex: "#F2F2F2")

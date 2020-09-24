@@ -11,6 +11,10 @@ import Material
 import M13Checkbox
 import SwiftyJSON
 
+protocol SignUpViewControllerDelegate {
+    func cancelSignUp()
+}
+
 class SignUpViewController: UIViewController {
 
     @IBOutlet weak var ivProfile: UIImageView!
@@ -22,7 +26,9 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var cbLocation: M13Checkbox!
     @IBOutlet weak var cbAcceptAll: M13Checkbox!
 
-    var me:KOUserMe? = nil
+    var delegate: SignUpViewControllerDelegate?
+
+    var user: Login?
     
     private var profileImgName = ""
     
@@ -33,12 +39,12 @@ class SignUpViewController: UIViewController {
         prepareCheckbox()
         enableSignUpButton()
         
-        if let me = me as KOUserMe? {
+        if let user = self.user {
             prepareProfileImg()
             
             let mbNickname = UserDefault().readString(key: UserDefault.Key.MB_NICKNAME)
             if mbNickname.isEmpty || mbNickname.contains("GUEST") {
-                tfNickname.text = me.nickname
+                tfNickname.text = user.name
             } else {
                 tfNickname.text = mbNickname
             }
@@ -54,16 +60,21 @@ class SignUpViewController: UIViewController {
         let backButton = IconButton(image: Icon.cm.arrowBack)
         backButton.tintColor = UIColor(rgb: 0x15435C)
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+
         navigationItem.leftViews = [backButton]
         navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "회원 가입"
+
         self.navigationController?.isNavigationBarHidden = false
     }
     
     @objc
     fileprivate func handleBackButton() {
         self.navigationController?.pop()
+        if let delegate = self.delegate {
+            delegate.cancelSignUp()
+        }
     }
     
     func prepareCheckbox() {
@@ -133,39 +144,38 @@ class SignUpViewController: UIViewController {
     }
     
     @IBAction func onClickSignUp(_ sender: Any) {
-        if let me = me as KOUserMe? {
+        if let user = self.user {
             if tfNickname.text?.isEmpty ?? true {
                 Snackbar().show(message: "닉네임을 입력해주세요.")
                 return
             }
-//            showProgress(true);
+//            showProgress(true)
             
             let userDefault = UserDefault()
             if !profileImgName.isEmpty && ivProfile.image != nil {
                 let data: Data = UIImageJPEGRepresentation(self.ivProfile.image!, 1.0)!
                 Server.uploadImage(data: data, filename: profileImgName, kind: Const.CONTENTS_THUMBNAIL, completion: { (isSuccess, value) in
                     let json = JSON(value)
-                    if(!isSuccess){
+                    if !isSuccess {
                         print("upload image Error : \(json)")
                     }
-                    
                 })
                 userDefault.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: profileImgName)
             }
             
             userDefault.saveString(key: UserDefault.Key.MB_NICKNAME, value: tfNickname.text!)
-            userDefault.saveString(key: UserDefault.Key.MB_USER_ID, value: me.id!)
-            let email = me.account?.email ?? ""
-            let emailVerify = (me.account?.isEmailVerified == KOOptionalBoolean.true)
+            userDefault.saveString(key: UserDefault.Key.MB_USER_ID, value: user.userId!)
             
-            Server.signUp(email: email, emailVerify: emailVerify) { (isSuccess, value) in
+            let email = user.email ?? ""
+            let emailVerify = user.emailVerified
+            
+            Server.signUp(type: user.type, email: email, emailVerify: emailVerify) { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
                     if json["mb_id"].stringValue.isEmpty {
                         Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
                     } else {
                         MemberManager().setData(data: json)
-                        // TODO get favorite
                         self.navigationController?.pop()
                     }
                 }
@@ -201,7 +211,7 @@ extension SignUpViewController {
             ivProfile.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(profileImgName)"), placeholderImage: UIImage(named: "ic_launcher"))
         } else {
             // 프로파일 이미지가 없는 경우 카카오 프로파일 이미지 사용. "" / "null" / "undefined"
-            if let profileUrl = me?.profileImageURL {
+            if let profileUrl = self.user?.profileURL {
                 createProfileImage(profileImageURL: (profileUrl))
             }
         }

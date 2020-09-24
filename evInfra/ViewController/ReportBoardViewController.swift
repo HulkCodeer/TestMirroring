@@ -109,8 +109,8 @@ extension ReportBoardViewController : ReportChargeViewDelegate {
         reportChargeVC.info.chargerID = self.rList[index].charger_id
         
         if let chargerId = self.rList[index].charger_id {
-            if let charger = ChargerListManager.sharedInstance.getChargerFromChargerId(id: chargerId) {
-                reportChargeVC.info.companyID = charger.companyId
+            if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId){
+                reportChargeVC.info.companyID = charger.mStationInfoDto?.mCompanyId
             }
         }
         

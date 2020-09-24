@@ -17,8 +17,6 @@ class ReportChargeViewController: UIViewController {
     private let dropDownUsedTime = DropDown()
     private let dropDownOperation = DropDown()
     
-    private let dbManager = DBManager.sharedInstance
-    
     var detailGetInfoDelegate:ReportChargeViewDelegate?
     var reportCListGetInfoDelegate:ReportChargeViewDelegate?
     var info = ReportData.ReportChargeInfo()
@@ -258,7 +256,7 @@ extension ReportChargeViewController {
         prpareDropDownInit()
         
         dropDownOperation.anchorView = self.operationBtn
-        var list:Array<String> = dbManager.getCompanyNameList()
+        var list:Array<String> = ChargerManager.sharedInstance.getCompanyNameList()
         list.remove(at: 0)
         dropDownOperation.dataSource = list
         dropDownOperation.width = operationBtn.frame.width
@@ -334,7 +332,7 @@ extension ReportChargeViewController {
 //        operationBtn.gone()
         operationBtn.isEnabled = false
         if let cmId = info.companyID {
-            let companyName = dbManager.getCompanyName(companyId: cmId)
+            let companyName = ChargerManager.sharedInstance.getCompanyName(companyID: cmId)
             var cnt = 0
             var index = -1
             for name in dropDownOperation.dataSource {
@@ -453,7 +451,7 @@ extension ReportChargeViewController {
         operationTextView.text = info.snm
         
         if let cmId = info.companyID {
-            let companyName = dbManager.getCompanyName(companyId: cmId)
+            let companyName = ChargerManager.sharedInstance.getCompanyName(companyID: cmId)
             var cnt = 0
             var index = -1
             for name in dropDownOperation.dataSource {
@@ -720,7 +718,7 @@ extension ReportChargeViewController {
             return false
         }
         
-        guard let companyId = dbManager.getCompanyId(name: companyName), !companyId.isEmpty else {
+        guard let companyId = ChargerManager.sharedInstance.getCompanyId(companyName: companyName), !companyId.isEmpty else {
             Snackbar().show(message: "운영기관 선택이 잘못되었습니다. 재설정 바랍니다")
             return false
         }

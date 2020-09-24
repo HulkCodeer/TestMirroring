@@ -22,6 +22,11 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var addressLabel: CopyableLabel!
 //    @IBOutlet weak var chargerLabel: UILabel!  // 유료/무료 충전소
     @IBOutlet weak var dstLabel: UILabel!      // 현 위치에서 거리
+    
+    @IBOutlet var startPointBtn: UIButton!
+    @IBOutlet var endPointBtn: UIButton!
+    @IBOutlet var naviBtn: UIButton!
+    
     @IBOutlet weak var memoLabel: UILabel!     // 메모
     
     // 이용시간: visible, gone 처리를 위해 subview 모두 연결함
@@ -29,10 +34,12 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 //    @IBOutlet weak var timeFixLabel: UILabel!
 //    @IBOutlet weak var timeView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
+
     @IBOutlet weak var stationNameLb: UILabel!
     
     @IBOutlet var kakaoMapView: UIView!
     
+    @IBOutlet var memoView: UIStackView!
     
     // 지킴이
     @IBOutlet weak var guardView: UIView!
@@ -72,7 +79,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     
     var mainViewDelegate: MainViewDelegate?
-    var charger: Charger?
+    var charger: ChargerStationInfo?
     var checklistUrl: String?
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -88,8 +95,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     private var rcInfo = ReportData.ReportChargeInfo()
     
     var shareUrl = ""
-    let dbManager = DBManager.sharedInstance
-    private let chargerManager = ChargerListManager.sharedInstance
+    let dbManager = DataBaseHelper.sharedInstance
     
     var myGradeStarPoint: Int = 0
     
@@ -101,7 +107,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         prepareActionBar()
         prepareBoardTableView()
         preparePagingView()
-
+    
         prepareGuard()
         prepareGradeStar()
          
@@ -122,22 +128,26 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     override func viewWillLayoutSubviews() {
-        self.mapView = MTMapView(frame: self.kakaoMapView.frame)
         
-        
+        self.mapView = MTMapView(frame: self.kakaoMapView.bounds)
+    
         if let mapView = mapView{
             mapView.delegate = self
             mapView.baseMapType = .hybrid
-            self.view.addSubview(self.mapView!)
+            self.kakaoMapView.addSubview(self.mapView!)
         }
+        
+        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
     }
     
     // MARK: - Action for button
 
     @IBAction func onClickTMapButton(_ sender: Any) {
         if(TMapTapi.isTmapApplicationInstalled()) {
-            let coordinate = CLLocationCoordinate2D(latitude: charger!.latitude, longitude: charger!.longitude)
-            TMapTapi.invokeRoute(charger!.stationName, coordinate: coordinate)
+            let coordinate = CLLocationCoordinate2D(latitude: (charger!.mStationInfoDto?.mLatitude)!, longitude: (charger!.mStationInfoDto?.mLongitude)!)
+            TMapTapi.invokeRoute(charger!.mStationInfoDto?.mSnm, coordinate: coordinate)
             print("Launchin Tmap was successful")
         } else {
             let tmapURL = TMapTapi.getTMapDownUrl()
@@ -152,7 +162,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
 
     @IBAction func onClickKakaoBtn(_ sender: UIButton) {
-        let destination = KNVLocation(name: charger!.stationName, x: charger!.longitude as NSNumber, y: charger!.latitude as NSNumber)
+        let destination = KNVLocation(name: (charger!.mStationInfoDto?.mSnm)!, x: (charger!.mStationInfoDto?.mLongitude)! as NSNumber, y: (charger!.mStationInfoDto?.mLatitude)! as NSNumber)
         let options = KNVOptions()
         options.coordType = KNVCoordType.WGS84
         let params = KNVParams(destination: destination, options: options)
@@ -162,7 +172,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     @IBAction func onClickOneNavi(_ sender: UIButton) {
-        let oneNaviCallUrl = "ollehnavi://ollehnavi.kt.com/navigation.req?method=routeguide&end=(" + String(charger!.longitude) + "," + String(charger!.latitude) + ")"
+        let oneNaviCallUrl = "ollehnavi://ollehnavi.kt.com/navigation.req?method=routeguide&end=(" + String((charger!.mStationInfoDto?.mLongitude)!) + "," + String((charger!.mStationInfoDto?.mLatitude)!) + ")"
         let oneNaviAppStoreUrl = "https://itunes.apple.com/kr/app/원내비-for-everyone/id390369834"
         let oneNaviAppLauncherUrl = "ollehnavi://"
         if isCanOpenUrl(strUrl: oneNaviAppLauncherUrl) {
@@ -208,6 +218,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func preparePagingView() {
         let viewPagerController = ViewPagerController(charger: self.charger!)
         addChildViewController(viewPagerController)
+        viewPagerContainer.addSubview(viewPagerController.view)
+        viewPagerContainer.constrainToEdges(viewPagerController.view)
         
             
         self.stationNameLb.text = (self.charger?.stationName)!
@@ -223,7 +235,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     // MARK: - Server Communications
     
     func getStationDetailInfo() {
-        Server.getStationDetail(chargerId: (charger?.chargerId)!) { (isSuccess, value) in
+        Server.getStationDetail(chargerId: (charger?.mChargerId)!) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 let list = json["list"]
@@ -237,11 +249,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         
         // 운영기관 홈페이지 및 App Store 주소
         if let chr = charger  {
-            dbManager.openDB()  
-            if let company = dbManager.getCompanyInfo(companyId: chr.companyId) {
-                self.homePage = company.homepage
-                self.appStore = company.appstore
-            }
+            self.homePage = ChargerManager.sharedInstance.getCompanyHomePageUrl(companyID: (chr.mStationInfoDto?.mCompanyId)!)
+            self.appStore = ChargerManager.sharedInstance.getCompanyMarketUrl(companyID: (chr.mStationInfoDto?.mCompanyId)!)
         }
         
         // 거리
@@ -252,12 +261,12 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
         
         // 과금
-        if (self.charger?.isPilot)! {
-//            self.chargerLabel.text = "시범운영 충전소"
+        if ((self.charger?.isPilot) == true) {
+            self.chargerLabel.text = "시범운영"
         } else if self.charger?.pay == "Y" {
-//            self.chargerLabel.text = "유료 충전소"
+            self.chargerLabel.text = "유료"
         } else {
-//            self.chargerLabel.text = "무료 충전소"
+            self.chargerLabel.text = "무료"
         }
     }
     
@@ -277,11 +286,18 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
         
         // 주소
-        self.addressLabel.text = (self.charger?.address)!
+        self.addressLabel.text = (self.charger?.mStationInfoDto?.mAddress)!
         self.addressLabel.sizeToFit()
         
         // 메모
-        self.memoLabel.text = json["mm"].stringValue
+//        self.memoLabel.text = json["mm"].stringValue
+        let memo = String(json["mm"].stringValue)
+        if !memo.isEmpty || !memo.elementsEqual("null") || !memo.elementsEqual(""){
+            self.memoLabel.text = memo
+        }else{
+//            self.memoView.gone(spaces: [.top, .bottom])
+            detailViewResize(view: memoView)
+        }
         
         // 센터 전화번호
         self.phoneNumber = json["tel"].stringValue
@@ -292,8 +308,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.callLb.addGestureRecognizer(tap)
         
         // 평점
-        self.charger?.gpa = Double(json["gpa"].stringValue)!
-        self.charger?.gpaPersonCnt = Int(json["cnt"].stringValue)!
+        self.charger?.mGpa = Float(json["gpa"].stringValue)!
+        self.charger?.mGpaCnt = Int(json["cnt"].stringValue)!
         self.setChargeGPA()
         
         // 충전기 정보
@@ -312,7 +328,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
                 }
             }
         }
-        self.chargerManager.chargerDict[self.charger!.chargerId]?.changeStatus(st: "\(stationSt)")
+        ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: self.charger!.mChargerId!)?.changeStatus(status: stationSt)
         self.mainViewDelegate?.redrawCalloutLayer()
         self.cidTableView.setCidList(chargerList: cidList)
         self.cidTableView.reloadData()
@@ -400,7 +416,7 @@ extension DetailViewController {
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
         navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.text = (self.charger?.stationName)!
+        navigationItem.titleLabel.text = (self.charger?.mStationInfoDto?.mSnm)!
         navigationItem.leftViews = [backButton]
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
     }
@@ -433,7 +449,7 @@ extension DetailViewController: BoardTableViewDelegate {
     }
     
     func getFirstBoardData() {
-        Server.getChargerBoard(chargerId: (charger?.chargerId)!) { (isSuccess, value) in
+        Server.getChargerBoard(chargerId: (charger?.mChargerId)!) { (isSuccess, value) in
             if isSuccess {
                 self.boardList.removeAll()
                 let json = JSON(value)
@@ -529,7 +545,7 @@ extension DetailViewController: BoardTableViewDelegate {
 extension DetailViewController: EditViewDelegate {
     
     func postBoardData(content: String, hasImage: Int, picture: Data?) {
-        Server.postBoard(category: BoardData.BOARD_CATEGORY_CHARGER, chargerId: (self.charger?.chargerId)!, content: content, hasImage: hasImage) { (isSuccess, value) in
+        Server.postBoard(category: BoardData.BOARD_CATEGORY_CHARGER, chargerId: (self.charger?.mChargerId)!, content: content, hasImage: hasImage) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if hasImage == 1 {
@@ -667,11 +683,11 @@ extension DetailViewController {
             reportChargeVC.info.pkey = self.rcInfo.pkey
             if reportChargeVC.info.pkey! <= 0 {
                 reportChargeVC.info.type = Const.REPORT_CHARGER_TYPE_USER_MOD
-                reportChargeVC.info.lat = self.charger?.latitude
-                reportChargeVC.info.lon = self.charger?.longitude
+                reportChargeVC.info.lat = self.charger?.mStationInfoDto?.mLatitude
+                reportChargeVC.info.lon = self.charger?.mStationInfoDto?.mLongitude
                 reportChargeVC.info.status_id = Const.REPORT_CHARGER_STATUS_FINISH
-                reportChargeVC.info.adr = self.charger?.address
-                reportChargeVC.info.companyID = self.charger?.companyId
+                reportChargeVC.info.adr = self.charger?.mStationInfoDto?.mAddress
+                reportChargeVC.info.companyID = self.charger?.mStationInfoDto?.mCompanyId
             } else {
                 reportChargeVC.info.type = self.rcInfo.type
                 reportChargeVC.info.lat = self.rcInfo.lat
@@ -680,8 +696,8 @@ extension DetailViewController {
                 reportChargeVC.info.adr = self.rcInfo.adr
                 reportChargeVC.info.companyID = self.rcInfo.companyID
             }
-            reportChargeVC.info.chargerID = self.charger?.chargerId
-            reportChargeVC.info.snm = self.charger?.stationName
+            reportChargeVC.info.chargerID = self.charger?.mChargerId
+            reportChargeVC.info.snm = self.charger?.mStationInfoDto?.mSnm
             
             self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
         } else {
@@ -692,7 +708,7 @@ extension DetailViewController {
 
 extension DetailViewController: ReportChargeViewDelegate {
     func getReportInfo() {
-        Server.getReportInfo(chargerId: (self.charger?.chargerId)!) { (isSuccess, value) in
+        Server.getReportInfo(chargerId: (self.charger?.mChargerId)!) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if json["result_code"].exists() {
@@ -785,12 +801,12 @@ extension DetailViewController {
         shareList["height"] = "290"
         shareList["imageUrl"] = shareUrl
         shareList["title"] = "충전소 상세 정보";
-        if let stationName = charger?.stationName {
+        if let stationName = charger?.mStationInfoDto?.mSnm {
             shareList["stationName"] = stationName;
         } else {
             shareList["stationName"] = "";
         }
-        if let stationId = charger?.chargerId {
+        if let stationId = charger?.mChargerId {
             shareList["scheme"] = "charger_id=\(stationId)"
             shareList["ischeme"] = "charger_id=\(stationId)"
         }
@@ -833,7 +849,7 @@ extension DetailViewController {
 // MARK: - 지킴이
 extension DetailViewController {
     fileprivate func prepareGuard() {
-        if let chargerForGuard = self.charger?.isGuard {
+        if let chargerForGuard = self.charger?.mGuard {
             if chargerForGuard && MemberManager().isGuard() {
                 guardReportBtn.addTarget(self, action: #selector(self.onClickGuardReport), for: .touchUpInside)
                 guardEnvBtn.addTarget(self, action: #selector(self.onClickEnv), for: .touchUpInside)
@@ -988,7 +1004,7 @@ extension DetailViewController {
         
         self.clearMyGrade()
         self.myGradeStarPoint = 0
-        Server.getGrade(chargerId: (self.charger?.chargerId)!) { (isSuccess, value) in
+        Server.getGrade(chargerId: (self.charger?.mChargerId)!) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].exists() {
@@ -1017,7 +1033,7 @@ extension DetailViewController {
             return
         }
         
-        Server.addGrade(chargerId: (self.charger?.chargerId)!, point: self.myGradeStarPoint) { (isSuccess, value) in
+        Server.addGrade(chargerId: (self.charger?.mChargerId)!, point: self.myGradeStarPoint) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].exists() {
@@ -1026,8 +1042,8 @@ extension DetailViewController {
                         self.setGradeButtonModifyMode()
                         
                         // 평균 평점 수정
-                        self.charger?.gpa = Double(json["gpa"].stringValue)!
-                        self.charger?.gpaPersonCnt = Int(json["cnt"].stringValue)!
+                        self.charger?.mGpa = Float(json["gpa"].stringValue)!
+                        self.charger?.mGpaCnt = Int(json["cnt"].stringValue)!
                         self.setChargeGPA()
                     }
                 }
@@ -1041,7 +1057,7 @@ extension DetailViewController {
             return
         }
         
-        Server.deleteGrade(chargerId: (self.charger?.chargerId)!) { (isSuccess, value) in
+        Server.deleteGrade(chargerId: (self.charger?.mChargerId)!) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].exists() {
@@ -1052,8 +1068,8 @@ extension DetailViewController {
                         self.drawMyGrade(point: self.myGradeStarPoint)
 
                         // 평균 평점 수정
-                        self.charger?.gpa = Double(json["gpa"].stringValue)!
-                        self.charger?.gpaPersonCnt = Int(json["cnt"].stringValue)!
+                        self.charger?.mGpa = Float(json["gpa"].stringValue)!
+                        self.charger?.mGpaCnt = Int(json["cnt"].stringValue)!
                         self.setChargeGPA()
                     }
                 }

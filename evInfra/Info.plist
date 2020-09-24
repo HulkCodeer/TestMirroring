@@ -34,6 +34,10 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>INIntentsSupported</key>
+	<array>
+		<string>Intent</string>
+	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>KAKAO_APP_KEY</key>
@@ -113,5 +117,7 @@
 	<string>Light</string>
 	<key>content_available</key>
 	<true/>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-4857867142176465~5053865371</string>
 </dict>
 </plist>

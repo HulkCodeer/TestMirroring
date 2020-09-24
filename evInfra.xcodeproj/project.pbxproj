@@ -18,7 +18,6 @@
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView.swift */; };
-		7312786420B7D84700861B3E /* ChargerListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786320B7D84700861B3E /* ChargerListManager.swift */; };
 		7312786820BE38C500861B3E /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786720BE38C500861B3E /* FCMManager.swift */; };
 		732121BD203AC023000E105C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732121BC203AC023000E105C /* AppDelegate.swift */; };
 		732121C5203AC023000E105C /* evInfra.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 732121C3203AC023000E105C /* evInfra.xcdatamodeld */; };
@@ -26,8 +25,6 @@
 		73268D4C2188331700C00427 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73268D4B2188331700C00427 /* SettingsViewController.swift */; };
 		73268D5221886C3000C00427 /* MyWritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73268D5121886C3000C00427 /* MyWritingViewController.swift */; };
 		732B929A20EDD0C60090E9FC /* CompanyInfoChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732B929920EDD0C60090E9FC /* CompanyInfoChecker.swift */; };
-		732B92A020EDECB60090E9FC /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732B929F20EDECB60090E9FC /* DBManager.swift */; };
-		732B92A320EF1B280090E9FC /* ev_infra.db in Resources */ = {isa = PBXBuildFile; fileRef = 732B92A220EF1B280090E9FC /* ev_infra.db */; };
 		732B92C220EF4D5C0090E9FC /* CompanyInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732B92C120EF4D5C0090E9FC /* CompanyInfo.swift */; };
 		732B92C420EF53C00090E9FC /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B92C320EF53C00090E9FC /* libsqlite3.0.tbd */; };
 		732ED1CA21ED8ABB0012C67B /* DropDownCheckBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732ED1C821ED8ABB0012C67B /* DropDownCheckBoxCell.swift */; };
@@ -73,7 +70,6 @@
 		7379A45022CB43C600F4271C /* Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7379A44F22CB43C600F4271C /* Connector.swift */; };
 		7379A45422CDEB0200F4271C /* PaymentStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7379A45322CDEB0200F4271C /* PaymentStatus.swift */; };
 		7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7379A45522CF156E00F4271C /* CircularProgressBar.swift */; };
-		737A012020F2FB9B00638812 /* FMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 737A011F20F2FB9B00638812 /* FMDB.framework */; };
 		737A012220F3225800638812 /* EVFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A012120F3225800638812 /* EVFileManager.swift */; };
 		737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A012920F709B300638812 /* CompanyInfoCheckerDelegate.swift */; };
 		738C2CEA20A93682006E268D /* type_destination.png in Resources */ = {isa = PBXBuildFile; fileRef = 738C2CE620A9367D006E268D /* type_destination.png */; };
@@ -119,7 +115,6 @@
 		73A7B423204E3595002E975F /* edit_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3E0204E3594002E975F /* edit_normal.png */; };
 		73A7B424204E3595002E975F /* type_ac_slow.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3E1204E3594002E975F /* type_ac_slow.png */; };
 		73A7B428204E81A6002E975F /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A7B427204E81A6002E975F /* Const.swift */; };
-		73A7B42A204E8203002E975F /* Charger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A7B429204E8203002E975F /* Charger.swift */; };
 		73A7B42B204F79DA002E975F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A7B42C204F79DA002E975F /* Alamofire.framework */; };
 		73A7B42D204F79DD002E975F /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A7B42E204F79DD002E975F /* SwiftyJSON.framework */; };
 		73A7B430204F8A72002E975F /* CidInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A7B42F204F8A72002E975F /* CidInfo.swift */; };
@@ -189,10 +184,32 @@
 		73EF8B7B203C85CC00D04494 /* TopLib_Op.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73EF8B6E203C85CC00D04494 /* TopLib_Op.a */; };
 		73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */; };
 		73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F6B53920F873110030D0B3 /* IntroViewController.swift */; };
-		73FFCDC221194E14003B129D /* DecChargerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FFCDC121194E14003B129D /* DecChargerList.swift */; };
 		8ABD2A1E6BAAA48912760042 /* Pods_evInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73FD6F0BC57C39B41EE0B7 /* Pods_evInfra.framework */; };
+		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
+		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
+		9028E07824A1B8280062A029 /* eirel in Resources */ = {isa = PBXBuildFile; fileRef = 9028E07724A1B8270062A029 /* eirel */; };
+		902A11D1248F4DAC0049EF8E /* CompanyInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D0248F4DAC0049EF8E /* CompanyInfoDto.swift */; };
+		902A11D3248F52B80049EF8E /* InfoLastUpdateDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D2248F52B80049EF8E /* InfoLastUpdateDto.swift */; };
+		902A11D5248F53D80049EF8E /* StationInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D4248F53D80049EF8E /* StationInfoDto.swift */; };
+		902A11D7248F56610049EF8E /* StationStatusDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D6248F56610049EF8E /* StationStatusDto.swift */; };
+		902A11DA248F5E440049EF8E /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D9248F5E440049EF8E /* StringUtils.swift */; };
+		902A11DC248F5F550049EF8E /* ChargerConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11DB248F5F550049EF8E /* ChargerConst.swift */; };
+		902A11DE248F68450049EF8E /* HangulUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11DD248F68450049EF8E /* HangulUtils.swift */; };
+		902A11E0248F756C0049EF8E /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11DF248F756C0049EF8E /* Log.swift */; };
+		902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11E1248F7A3A0049EF8E /* ChargerStationInfo.swift */; };
+		9058A3C1248639D000091823 /* ChargerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058A3C0248639D000091823 /* ChargerManager.swift */; };
 		9064133423E2A470008B2BB1 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9064133323E2A470008B2BB1 /* AdSupport.framework */; };
 		9064133723E2A603008B2BB1 /* OfferwallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9064133623E2A603008B2BB1 /* OfferwallViewController.swift */; };
+		9098782E24EE477B00AB3DC8 /* eidev in Resources */ = {isa = PBXBuildFile; fileRef = 9098782D24EE477B00AB3DC8 /* eidev */; };
+		9098783224EE537E00AB3DC8 /* GoogleAdMobAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 9098783124EE537E00AB3DC8 /* GoogleAdMobAdapterConfiguration.m */; };
+		9098783624EE53D200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 9098783524EE53D200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.m */; };
+		9098783824EE567000AB3DC8 /* MPGoogleGlobalMediationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9098783724EE567000AB3DC8 /* MPGoogleGlobalMediationSettings.m */; };
+		9098783C24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9098783B24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m */; };
+		90CA0DE42488B82900904015 /* DataBaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CA0DE32488B82900904015 /* DataBaseHelper.swift */; };
+		90DD2A6124EBCF7B003318CC /* TapjoyAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 90DD2A6024EBCF7B003318CC /* TapjoyAdapterConfiguration.m */; };
+		90DD2A6424EBCFC4003318CC /* TapjoyGlobalMediationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 90DD2A6324EBCFC4003318CC /* TapjoyGlobalMediationSettings.m */; };
+		90DD2A6724EBCFF5003318CC /* TapjoyRewardedVideoCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 90DD2A6624EBCFF5003318CC /* TapjoyRewardedVideoCustomEvent.m */; };
+		90E8B54F24C6E82F00D03162 /* ChargerManagerListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E8B54E24C6E82F00D03162 /* ChargerManagerListener.swift */; };
 		CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE00E811214A330B00020D6E /* ReportChargeViewController.swift */; };
 		CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE13858C2178698300E3F869 /* ReportChargerChildCell.swift */; };
 		CE13858F217869B200E3F869 /* ReportChargerChildCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE13858E217869B200E3F869 /* ReportChargerChildCell.xib */; };
@@ -224,6 +241,8 @@
 		DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB198F44212FCE9200708ECD /* UINavigationController.swift */; };
 		DB1ECB9922CDD8DB00E3A65E /* ChargingHistoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1ECB9822CDD8DB00E3A65E /* ChargingHistoryList.swift */; };
 		DB306368221BD5CD00D1276E /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB306367221BD5CD00D1276E /* Server.swift */; };
+		DB367BF124FE429D00898BED /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB367BF024FE429D00898BED /* Login.swift */; };
+		DB367BF324FE673E00898BED /* LoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB367BF224FE673E00898BED /* LoginHelper.swift */; };
 		DB3799F821673FDD001D8F69 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3799F721673FDD001D8F69 /* FavoriteViewController.swift */; };
 		DB3799FA2167575A001D8F69 /* ChargerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB3799F92167575A001D8F69 /* ChargerTableViewCell.xib */; };
 		DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB39688C22D5B93E00170F2E /* ChargesTableViewCell.swift */; };
@@ -280,7 +299,6 @@
 		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
-		7312786320B7D84700861B3E /* ChargerListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerListManager.swift; sourceTree = "<group>"; };
 		7312786720BE38C500861B3E /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
 		732121B9203AC023000E105C /* evInfra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = evInfra.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		732121BC203AC023000E105C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -292,8 +310,6 @@
 		73268D5121886C3000C00427 /* MyWritingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWritingViewController.swift; sourceTree = "<group>"; };
 		732B929920EDD0C60090E9FC /* CompanyInfoChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyInfoChecker.swift; sourceTree = "<group>"; };
 		732B929D20EDE9DE0090E9FC /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		732B929F20EDECB60090E9FC /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
-		732B92A220EF1B280090E9FC /* ev_infra.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = ev_infra.db; sourceTree = "<group>"; };
 		732B92C120EF4D5C0090E9FC /* CompanyInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyInfo.swift; sourceTree = "<group>"; };
 		732B92C320EF53C00090E9FC /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		732ED1C821ED8ABB0012C67B /* DropDownCheckBoxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownCheckBoxCell.swift; sourceTree = "<group>"; };
@@ -385,7 +401,6 @@
 		73A7B3E0204E3594002E975F /* edit_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_normal.png; sourceTree = "<group>"; };
 		73A7B3E1204E3594002E975F /* type_ac_slow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = type_ac_slow.png; sourceTree = "<group>"; };
 		73A7B427204E81A6002E975F /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
-		73A7B429204E8203002E975F /* Charger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Charger.swift; sourceTree = "<group>"; };
 		73A7B42C204F79DA002E975F /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73A7B42E204F79DD002E975F /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73A7B42F204F8A72002E975F /* CidInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CidInfo.swift; sourceTree = "<group>"; };
@@ -475,9 +490,38 @@
 		73EF8B7C203C880A00D04494 /* evInfra-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "evInfra-Bridging-Header.h"; sourceTree = "<group>"; };
 		73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterGenerator.swift; sourceTree = "<group>"; };
 		73F6B53920F873110030D0B3 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
-		73FFCDC121194E14003B129D /* DecChargerList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecChargerList.swift; sourceTree = "<group>"; };
+		9014C12624E55C4800CB6549 /* EIPOIItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIPOIItem.swift; sourceTree = "<group>"; };
+		9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAllPOIListenerCallback.swift; sourceTree = "<group>"; };
+		9028E07724A1B8270062A029 /* eirel */ = {isa = PBXFileReference; lastKnownFileType = file; path = eirel; sourceTree = "<group>"; };
+		902A11D0248F4DAC0049EF8E /* CompanyInfoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyInfoDto.swift; sourceTree = "<group>"; };
+		902A11D2248F52B80049EF8E /* InfoLastUpdateDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoLastUpdateDto.swift; sourceTree = "<group>"; };
+		902A11D4248F53D80049EF8E /* StationInfoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoDto.swift; sourceTree = "<group>"; };
+		902A11D6248F56610049EF8E /* StationStatusDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationStatusDto.swift; sourceTree = "<group>"; };
+		902A11D9248F5E440049EF8E /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
+		902A11DB248F5F550049EF8E /* ChargerConst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerConst.swift; sourceTree = "<group>"; };
+		902A11DD248F68450049EF8E /* HangulUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangulUtils.swift; sourceTree = "<group>"; };
+		902A11DF248F756C0049EF8E /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		902A11E1248F7A3A0049EF8E /* ChargerStationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerStationInfo.swift; sourceTree = "<group>"; };
+		9058A3C0248639D000091823 /* ChargerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerManager.swift; sourceTree = "<group>"; };
 		9064133323E2A470008B2BB1 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		9064133623E2A603008B2BB1 /* OfferwallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallViewController.swift; sourceTree = "<group>"; };
+		9098782D24EE477B00AB3DC8 /* eidev */ = {isa = PBXFileReference; lastKnownFileType = file; path = eidev; sourceTree = "<group>"; };
+		9098783024EE532E00AB3DC8 /* GoogleAdMobAdapterConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleAdMobAdapterConfiguration.h; sourceTree = "<group>"; };
+		9098783124EE537E00AB3DC8 /* GoogleAdMobAdapterConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleAdMobAdapterConfiguration.m; sourceTree = "<group>"; };
+		9098783424EE53B200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPGoogleAdMobRewardedVideoCustomEvent.h; sourceTree = "<group>"; };
+		9098783524EE53D200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPGoogleAdMobRewardedVideoCustomEvent.m; sourceTree = "<group>"; };
+		9098783724EE567000AB3DC8 /* MPGoogleGlobalMediationSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPGoogleGlobalMediationSettings.m; sourceTree = "<group>"; };
+		9098783924EE56BA00AB3DC8 /* MPGoogleGlobalMediationSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPGoogleGlobalMediationSettings.h; sourceTree = "<group>"; };
+		9098783B24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPGoogleAdMobAdditions.m"; sourceTree = "<group>"; };
+		9098783D24EE68CB00AB3DC8 /* UIView+MPGoogleAdMobAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+MPGoogleAdMobAdditions.h"; sourceTree = "<group>"; };
+		90CA0DE32488B82900904015 /* DataBaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseHelper.swift; sourceTree = "<group>"; };
+		90DD2A5F24EBCF48003318CC /* TapjoyAdapterConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TapjoyAdapterConfiguration.h; sourceTree = "<group>"; };
+		90DD2A6024EBCF7B003318CC /* TapjoyAdapterConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TapjoyAdapterConfiguration.m; sourceTree = "<group>"; };
+		90DD2A6224EBCFA6003318CC /* TapjoyGlobalMediationSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TapjoyGlobalMediationSettings.h; sourceTree = "<group>"; };
+		90DD2A6324EBCFC4003318CC /* TapjoyGlobalMediationSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TapjoyGlobalMediationSettings.m; sourceTree = "<group>"; };
+		90DD2A6524EBCFDE003318CC /* TapjoyRewardedVideoCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TapjoyRewardedVideoCustomEvent.h; sourceTree = "<group>"; };
+		90DD2A6624EBCFF5003318CC /* TapjoyRewardedVideoCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TapjoyRewardedVideoCustomEvent.m; sourceTree = "<group>"; };
+		90E8B54E24C6E82F00D03162 /* ChargerManagerListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerManagerListener.swift; sourceTree = "<group>"; };
 		9B45BB8F11249F72B3D2E7EF /* Pods-evInfra.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra/Pods-evInfra.debug.xcconfig"; sourceTree = "<group>"; };
 		CE00E811214A330B00020D6E /* ReportChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChargeViewController.swift; sourceTree = "<group>"; };
 		CE13858C2178698300E3F869 /* ReportChargerChildCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChargerChildCell.swift; sourceTree = "<group>"; };
@@ -510,6 +554,8 @@
 		DB198F44212FCE9200708ECD /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
 		DB1ECB9822CDD8DB00E3A65E /* ChargingHistoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargingHistoryList.swift; sourceTree = "<group>"; };
 		DB306367221BD5CD00D1276E /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
+		DB367BF024FE429D00898BED /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		DB367BF224FE673E00898BED /* LoginHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHelper.swift; sourceTree = "<group>"; };
 		DB3799F721673FDD001D8F69 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		DB3799F92167575A001D8F69 /* ChargerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChargerTableViewCell.xib; sourceTree = "<group>"; };
 		DB39688C22D5B93E00170F2E /* ChargesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargesTableViewCell.swift; sourceTree = "<group>"; };
@@ -618,8 +664,6 @@
 			isa = PBXGroup;
 			children = (
 				73A7B427204E81A6002E975F /* Const.swift */,
-				7312786320B7D84700861B3E /* ChargerListManager.swift */,
-				732B929F20EDECB60090E9FC /* DBManager.swift */,
 				737A012120F3225800638812 /* EVFileManager.swift */,
 				7312786720BE38C500861B3E /* FCMManager.swift */,
 				DBA18B1C211D7AF400A2CB4F /* MemberManager.swift */,
@@ -652,10 +696,11 @@
 		732121BB203AC023000E105C /* evInfra */ = {
 			isa = PBXGroup;
 			children = (
-				732B92C020EF45A70090E9FC /* ExLib */,
 				732B92A120EF1AB40090E9FC /* assets */,
+				732B92C020EF45A70090E9FC /* ExLib */,
 				736813A62043E98F0035FC66 /* Images */,
 				7312786220B7D81A00861B3E /* Common */,
+				9058A3BF248639A700091823 /* charger */,
 				73B752812048EC8D0077112A /* model */,
 				DB306366221BD59500D1276E /* network */,
 				73EF8B41203BC53200D04494 /* Utils */,
@@ -676,7 +721,8 @@
 		732B92A120EF1AB40090E9FC /* assets */ = {
 			isa = PBXGroup;
 			children = (
-				732B92A220EF1B280090E9FC /* ev_infra.db */,
+				9098782D24EE477B00AB3DC8 /* eidev */,
+				9028E07724A1B8270062A029 /* eirel */,
 			);
 			path = assets;
 			sourceTree = "<group>";
@@ -778,7 +824,7 @@
 				73AF8FB121C77D9B003CB2CF /* clustering */,
 				736D37D2208DC9CE009535EE /* BoardData.swift */,
 				CE24840120A59E3000611E24 /* CarModels.swift */,
-				73A7B429204E8203002E975F /* Charger.swift */,
+				4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */,
 				DB0E4694205FC4D8002DD05D /* ChargerFilter.swift */,
 				73C31BFE20A2B246005B6C53 /* ChargerModel.swift */,
 				DB1ECB9822CDD8DB00E3A65E /* ChargingHistoryList.swift */,
@@ -787,16 +833,16 @@
 				732B92C120EF4D5C0090E9FC /* CompanyInfo.swift */,
 				7379A44F22CB43C600F4271C /* Connector.swift */,
 				733662CF22F974820049AEFE /* Coupon.swift */,
-				73FFCDC121194E14003B129D /* DecChargerList.swift */,
 				733662CB22EFECB80049AEFE /* Event.swift */,
 				73C31BF82099A023005B6C53 /* EVModel.swift */,
 				DB5041AF23506DCF007336BC /* EvPoint.swift */,
+				DB367BF024FE429D00898BED /* Login.swift */,
+				DB367BF224FE673E00898BED /* LoginHelper.swift */,
+				73D65D7B2360299700F564A2 /* PaymentCard.swift */,
 				DB6E59482063C595002E75C8 /* Regions.swift */,
 				CE93308E214F9807006B7EF6 /* ReportChargeInfoList.swift */,
 				CE9330962150FB32006B7EF6 /* ReportChargeItem.swift */,
 				CEBE0600214BA5C30047E6F2 /* ReportData.swift */,
-				73D65D7B2360299700F564A2 /* PaymentCard.swift */,
-				4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -872,12 +918,12 @@
 				73AD13C5203AC34400ADD19A /* LeftViewController.swift */,
 				735759542091758C008181E9 /* EvInfoViewController.swift */,
 				7357595620917C03008181E9 /* EvDetailViewController.swift */,
+				CE93309021509A81006B7EF6 /* ReportBoardViewController.swift */,
 				CECA90892084A9F50083518B /* TermsViewController.swift */,
 				73C31BFA20A288BB005B6C53 /* ChargerInfoViewController.swift */,
 				73C31BFC20A288E3005B6C53 /* ChargerDetailViewController.swift */,
 				CE00E811214A330B00020D6E /* ReportChargeViewController.swift */,
 				CEBE0602214BCB990047E6F2 /* ReportChargeViewDelegate.swift */,
-				CE93309021509A81006B7EF6 /* ReportBoardViewController.swift */,
 				DB6EBE30217078750000F442 /* ChargerSelectDelegate.swift */,
 				CE5242352182FD9000FF6AB1 /* AddressToLocationController.swift */,
 				DB48E1F522E08B07003FFA08 /* ServiceGuideViewController.swift */,
@@ -923,6 +969,9 @@
 				73DD778023164CB60006EFFC /* CopyableLabel.swift */,
 				73D65D6F2358498B00F564A2 /* Validators.swift */,
 				73D65D7123588ACC00F564A2 /* UITextField.swift */,
+				902A11D9248F5E440049EF8E /* StringUtils.swift */,
+				902A11DD248F68450049EF8E /* HangulUtils.swift */,
+				902A11DF248F756C0049EF8E /* Log.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -982,12 +1031,76 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		902A11CF248F4D9D0049EF8E /* model */ = {
+			isa = PBXGroup;
+			children = (
+				902A11E1248F7A3A0049EF8E /* ChargerStationInfo.swift */,
+				902A11D0248F4DAC0049EF8E /* CompanyInfoDto.swift */,
+				9014C12624E55C4800CB6549 /* EIPOIItem.swift */,
+				902A11D2248F52B80049EF8E /* InfoLastUpdateDto.swift */,
+				902A11D4248F53D80049EF8E /* StationInfoDto.swift */,
+				902A11D6248F56610049EF8E /* StationStatusDto.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		9058A3BF248639A700091823 /* charger */ = {
+			isa = PBXGroup;
+			children = (
+				902A11CF248F4D9D0049EF8E /* model */,
+				902A11DB248F5F550049EF8E /* ChargerConst.swift */,
+				9058A3C0248639D000091823 /* ChargerManager.swift */,
+				90CA0DE32488B82900904015 /* DataBaseHelper.swift */,
+				90E8B54E24C6E82F00D03162 /* ChargerManagerListener.swift */,
+				9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */,
+			);
+			path = charger;
+			sourceTree = "<group>";
+		};
 		9064133523E2A5E1008B2BB1 /* RewardAds */ = {
 			isa = PBXGroup;
 			children = (
+				90DD2A5D24EBCF01003318CC /* adapters */,
 				9064133623E2A603008B2BB1 /* OfferwallViewController.swift */,
 			);
 			path = RewardAds;
+			sourceTree = "<group>";
+		};
+		9098782F24EE530300AB3DC8 /* Admob */ = {
+			isa = PBXGroup;
+			children = (
+				9098783024EE532E00AB3DC8 /* GoogleAdMobAdapterConfiguration.h */,
+				9098783124EE537E00AB3DC8 /* GoogleAdMobAdapterConfiguration.m */,
+				9098783424EE53B200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.h */,
+				9098783524EE53D200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.m */,
+				9098783924EE56BA00AB3DC8 /* MPGoogleGlobalMediationSettings.h */,
+				9098783724EE567000AB3DC8 /* MPGoogleGlobalMediationSettings.m */,
+				9098783D24EE68CB00AB3DC8 /* UIView+MPGoogleAdMobAdditions.h */,
+				9098783B24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m */,
+			);
+			path = Admob;
+			sourceTree = "<group>";
+		};
+		90DD2A5D24EBCF01003318CC /* adapters */ = {
+			isa = PBXGroup;
+			children = (
+				9098782F24EE530300AB3DC8 /* Admob */,
+				90DD2A5E24EBCF2D003318CC /* Tapjoy */,
+			);
+			path = adapters;
+			sourceTree = "<group>";
+		};
+		90DD2A5E24EBCF2D003318CC /* Tapjoy */ = {
+			isa = PBXGroup;
+			children = (
+				90DD2A5F24EBCF48003318CC /* TapjoyAdapterConfiguration.h */,
+				90DD2A6024EBCF7B003318CC /* TapjoyAdapterConfiguration.m */,
+				90DD2A6224EBCFA6003318CC /* TapjoyGlobalMediationSettings.h */,
+				90DD2A6324EBCFC4003318CC /* TapjoyGlobalMediationSettings.m */,
+				90DD2A6524EBCFDE003318CC /* TapjoyRewardedVideoCustomEvent.h */,
+				90DD2A6624EBCFF5003318CC /* TapjoyRewardedVideoCustomEvent.m */,
+			);
+			path = Tapjoy;
 			sourceTree = "<group>";
 		};
 		DB306366221BD59500D1276E /* network */ = {
@@ -1080,6 +1193,7 @@
 				732121B7203AC023000E105C /* Resources */,
 				2D2CA8AB0C473AF5F3E3093F /* [CP] Embed Pods Frameworks */,
 				DB43761E21DDD433004A4C4B /* ShellScript */,
+				C804CAE6215FA262E0E13BC6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1159,6 +1273,7 @@
 				73A7B416204E3595002E975F /* navi_free_board.png in Resources */,
 				7357594520916A37008181E9 /* kia_soul.jpg in Resources */,
 				73A7B424204E3595002E975F /* type_ac_slow.png in Resources */,
+				9098782E24EE477B00AB3DC8 /* eidev in Resources */,
 				DB87607620690B370095394B /* BoardTableViewHeader.xib in Resources */,
 				73A7B418204E3595002E975F /* reply_count_bg.png in Resources */,
 				73D65D822362D54000F564A2 /* MembershipTermView.xib in Resources */,
@@ -1174,11 +1289,11 @@
 				73A7B3FF204E3595002E975F /* type_ac_three_dim.png in Resources */,
 				73EF8B71203C85CC00D04494 /* icon_clustering.png in Resources */,
 				73A7B3FE204E3595002E975F /* ready_image.png in Resources */,
+				9028E07824A1B8280062A029 /* eirel in Resources */,
 				CE13858F217869B200E3F869 /* ReportChargerChildCell.xib in Resources */,
 				DB18733220A9983400790B77 /* btn_camera.png in Resources */,
 				73A7B423204E3595002E975F /* edit_normal.png in Resources */,
 				73A7B419204E3595002E975F /* edit_pressed.png in Resources */,
-				732B92A320EF1B280090E9FC /* ev_infra.db in Resources */,
 				7357594B20916A61008181E9 /* i3.jpg in Resources */,
 				73EF8B78203C85CC00D04494 /* TrackingDot@2x.png in Resources */,
 				73EF8B6F203C85CC00D04494 /* HeadingAngleSmall.png in Resources */,
@@ -1244,8 +1359,9 @@
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
-				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
+				"${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/JJFloatingActionButton/JJFloatingActionButton.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/M13Checkbox/M13Checkbox.framework",
@@ -1255,10 +1371,12 @@
 				"${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework",
 				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
 				"${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/UIImageCropper/UIImageCropper.framework",
+				"${BUILT_PRODUCTS_DIR}/mopub-ios-sdk/MoPub.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1267,8 +1385,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HandyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JJFloatingActionButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/M13Checkbox.framework",
@@ -1278,10 +1397,12 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MaterialComponents.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parchment.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImageCropper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MoPub.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1305,6 +1426,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C804CAE6215FA262E0E13BC6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh",
+				"${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_v12.6.1/Libraries/Tapjoy.embeddedframework/Resources/TapjoyResources.bundle",
+				"${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_v12.6.1/Libraries/Tapjoy.embeddedframework/Tapjoy.framework/Versions/A/Resources/TapjoyResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TapjoyResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DB43761E21DDD433004A4C4B /* ShellScript */ = {
@@ -1334,10 +1474,13 @@
 			files = (
 				73A7B39F204E2A6E002E975F /* ImageMarker.swift in Sources */,
 				73268D5221886C3000C00427 /* MyWritingViewController.swift in Sources */,
+				902A11E0248F756C0049EF8E /* Log.swift in Sources */,
 				73C6A1072345F1E800349A86 /* MembershipInfoView.swift in Sources */,
+				9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */,
 				73AF8FC121C77E1B003CB2CF /* ClusterManager.swift in Sources */,
 				73EE8FBB2105B3420016F505 /* NewArticleChecker.swift in Sources */,
 				DB5041B023506DCF007336BC /* EvPoint.swift in Sources */,
+				90DD2A6724EBCFF5003318CC /* TapjoyRewardedVideoCustomEvent.m in Sources */,
 				73A37CA22085DB5400FD3D0A /* CardBoardViewController.swift in Sources */,
 				DB4395F222DD88390092E0A5 /* ReceiptView.swift in Sources */,
 				DB4063A521FC735000B630A8 /* DayAxisValueFormatter.swift in Sources */,
@@ -1347,6 +1490,7 @@
 				DB8936542074A4EB006A10BB /* ChargerTableView.swift in Sources */,
 				DB9673C620843EF6008ACCAE /* ChargerTableViewCell.swift in Sources */,
 				CE24840420A59E6400611E24 /* UserDefault.swift in Sources */,
+				902A11D3248F52B80049EF8E /* InfoLastUpdateDto.swift in Sources */,
 				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
 				CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */,
 				733662D022F974820049AEFE /* Coupon.swift in Sources */,
@@ -1357,7 +1501,6 @@
 				73008459213687150001DBFA /* DetailViewController.swift in Sources */,
 				DB3799F821673FDD001D8F69 /* FavoriteViewController.swift in Sources */,
 				DB49A77F206CC32D002448E6 /* SearchViewController.swift in Sources */,
-				73FFCDC221194E14003B129D /* DecChargerList.swift in Sources */,
 				73D65D7E23605D1000F564A2 /* MyPayRegisterViewDelegate.swift in Sources */,
 				DB4063AB21FED66600B630A8 /* HourAxisValueFormatter.swift in Sources */,
 				73D65D7C2360299700F564A2 /* PaymentCard.swift in Sources */,
@@ -1368,38 +1511,47 @@
 				DB4395EE22DC4C380092E0A5 /* Date.swift in Sources */,
 				CE33B4BB2191B8B000B6C632 /* EventViewController.swift in Sources */,
 				733662CE22EFF2A40049AEFE /* NavigationDrawerController.swift in Sources */,
+				DB367BF324FE673E00898BED /* LoginHelper.swift in Sources */,
 				73BFA04F208487050028B35D /* BoardTableView.swift in Sources */,
 				736D37D3208DC9CE009535EE /* BoardData.swift in Sources */,
 				732ED1CA21ED8ABB0012C67B /* DropDownCheckBoxCell.swift in Sources */,
 				CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */,
 				73D65D702358498C00F564A2 /* Validators.swift in Sources */,
+				902A11D7248F56610049EF8E /* StationStatusDto.swift in Sources */,
 				73BFA04C20847A310028B35D /* BoardTableViewCell.swift in Sources */,
 				DB876078206B40FF0095394B /* UIDevice.swift in Sources */,
 				DB4063AD22014D6800B630A8 /* ViewPagerController.swift in Sources */,
 				CECA908A2084A9F50083518B /* TermsViewController.swift in Sources */,
+				90CA0DE42488B82900904015 /* DataBaseHelper.swift in Sources */,
 				DBEE9AF82117DB5600770D04 /* LoginViewController.swift in Sources */,
 				7357595220916C11008181E9 /* InfoCollectionViewCell.swift in Sources */,
 				73344ABF207B3A9B00A6A9EC /* UIImage.swift in Sources */,
 				73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */,
 				DBA18B1D211D7AF400A2CB4F /* MemberManager.swift in Sources */,
+				9098783224EE537E00AB3DC8 /* GoogleAdMobAdapterConfiguration.m in Sources */,
 				CEBE0601214BA5C30047E6F2 /* ReportData.swift in Sources */,
 				CE33B4C12191BD9500B6C632 /* MyCouponViewController.swift in Sources */,
 				DBF3827B2304475900FAF772 /* CBT.swift in Sources */,
+				9098783C24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m in Sources */,
 				73CF041A20B2736500BEA9CF /* UIScrollView.swift in Sources */,
 				DBE579B521A3E3CA005DD998 /* Snackbar.swift in Sources */,
+				902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */,
+				DB367BF124FE429D00898BED /* Login.swift in Sources */,
 				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
 				CE9330972150FB32006B7EF6 /* ReportChargeItem.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
+				9098783824EE567000AB3DC8 /* MPGoogleGlobalMediationSettings.m in Sources */,
 				7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */,
 				DBDC59A0234B6E4E00F75D64 /* UsePointViewController.swift in Sources */,
+				9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */,
 				736BCE85205A89070052C9ED /* CidTableViewCell.swift in Sources */,
 				73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */,
 				732B929A20EDD0C60090E9FC /* CompanyInfoChecker.swift in Sources */,
+				902A11D1248F4DAC0049EF8E /* CompanyInfoDto.swift in Sources */,
 				73EF8B3F203ACB8500D04494 /* AppToolbarController.swift in Sources */,
 				4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */,
 				DB3B858920A45CB8005454F5 /* Character.swift in Sources */,
 				DB3B858720A445B6005454F5 /* KoreanChar.swift in Sources */,
-				7312786420B7D84700861B3E /* ChargerListManager.swift in Sources */,
 				732ED1FA21EEFA960012C67B /* MainViewController.swift in Sources */,
 				DB1ECB9922CDD8DB00E3A65E /* ChargingHistoryList.swift in Sources */,
 				73EE8FBD2105B5150016F505 /* NewArticleCheckDelegate.swift in Sources */,
@@ -1418,8 +1570,10 @@
 				73C31BFB20A288BB005B6C53 /* ChargerInfoViewController.swift in Sources */,
 				CE93308F214F9807006B7EF6 /* ReportChargeInfoList.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton.swift in Sources */,
+				902A11DC248F5F550049EF8E /* ChargerConst.swift in Sources */,
 				73D65D7223588ACC00F564A2 /* UITextField.swift in Sources */,
 				735759552091758C008181E9 /* EvInfoViewController.swift in Sources */,
+				90DD2A6424EBCFC4003318CC /* TapjoyGlobalMediationSettings.m in Sources */,
 				73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */,
 				CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */,
 				DB0E4693205B6F1F002DD05D /* CidTableView.swift in Sources */,
@@ -1428,14 +1582,15 @@
 				733662F822FD11740049AEFE /* LeftViewTableHeader.swift in Sources */,
 				CE5242362182FD9000FF6AB1 /* AddressToLocationController.swift in Sources */,
 				DB87607520690B370095394B /* BoardTableViewHeader.swift in Sources */,
+				9058A3C1248639D000091823 /* ChargerManager.swift in Sources */,
 				73C6A10B2345F1F800349A86 /* MembershipCardViewController.swift in Sources */,
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,
-				73A7B42A204E8203002E975F /* Charger.swift in Sources */,
 				DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */,
 				73AD13C8203AC57A00ADD19A /* AppNavigationDrawerController.swift in Sources */,
 				7308559D206350890008497E /* UIView.swift in Sources */,
 				7312786820BE38C500861B3E /* FCMManager.swift in Sources */,
 				73C31BFD20A288E3005B6C53 /* ChargerDetailViewController.swift in Sources */,
+				90DD2A6124EBCF7B003318CC /* TapjoyAdapterConfiguration.m in Sources */,
 				732121BD203AC023000E105C /* AppDelegate.swift in Sources */,
 				73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */,
 				7376B5C520C6473500A2B7C1 /* MyArticleViewController.swift in Sources */,
@@ -1444,9 +1599,12 @@
 				736813B2204503B70035FC66 /* NavCenterButton.swift in Sources */,
 				7339908022D881D100CF72A8 /* PaymentResultViewController.swift in Sources */,
 				DB40639F21FAF5F100B630A8 /* ChargerImageViewController.swift in Sources */,
+				90E8B54F24C6E82F00D03162 /* ChargerManagerListener.swift in Sources */,
+				902A11DE248F68450049EF8E /* HangulUtils.swift in Sources */,
 				7379A45422CDEB0200F4271C /* PaymentStatus.swift in Sources */,
 				73B752802048E5B30077112A /* SideMenuTableViewCell.swift in Sources */,
 				736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */,
+				902A11DA248F5E440049EF8E /* StringUtils.swift in Sources */,
 				7379A45022CB43C600F4271C /* Connector.swift in Sources */,
 				CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */,
 				DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */,
@@ -1462,8 +1620,10 @@
 				73A7B428204E81A6002E975F /* Const.swift in Sources */,
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
 				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,
+				902A11D5248F53D80049EF8E /* StationInfoDto.swift in Sources */,
 				736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */,
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,
+				9098783624EE53D200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.m in Sources */,
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,
@@ -1474,7 +1634,6 @@
 				DB306368221BD5CD00D1276E /* Server.swift in Sources */,
 				CE33B4BD2191BA1200B6C632 /* EventContentsViewController.swift in Sources */,
 				DB5FA59622C20A8400F1508A /* ChargesViewController.swift in Sources */,
-				732B92A020EDECB60090E9FC /* DBManager.swift in Sources */,
 				CE93309921511AD4006B7EF6 /* ReportBoardTableViewCell.swift in Sources */,
 				739171E122C4A209007369F9 /* PaymentQRScanViewController.swift in Sources */,
 				73B752852049284B0077112A /* NoticeViewController.swift in Sources */,

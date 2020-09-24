@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "StationInfoDto.setStationInfo(json:):StationInfoDto.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "del.stringValue">
+            </PersistentString>
+            <PersistentString
+               value = "del.boolValue">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchTableView.tableView(_:cellForRowAt:):SearchTableView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in DataBaseHelper.insertOrUpdateCompanyInfoList(list:):DataBaseHelper.swift">
+      </ContextState>
+      <ContextState
+         contextName = "DataBaseHelper.getCompanyInfo(company_id:):DataBaseHelper.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "CompanyInfoDto.filter(Column(&quot;company_id&quot;).like(company_id)).fetchOne(db)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "OfferwallViewController.onClickAdmobAd(_:):OfferwallViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "MemberManager.getMbId()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ChargerManager.getStationInfoFromServer(listener:):ChargerManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ChargerManager.getStationInfoFromServer(listener:):ChargerManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "JSON(value!)">
+            </PersistentString>
+            <PersistentString
+               value = "ChargerManager.sharedInstance.get">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in SearchViewController.searchBar(searchBar:didChange:with:):SearchViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "charger.mStationInfoDto">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MainViewController.getCurrentFilter():MainViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ChargerStationInfo.check(filter:):ChargerStationInfo.swift">
+      </ContextState>
+      <ContextState
+         contextName = "DetailViewController.getStationDetailInfo():DetailViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ChargerManager.getStationStatus(listener:):ChargerManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.getChargerStationInfoById(charger_id: &quot;5&quot;)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Server.getStationInfo(updateDate:completion:):Server.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ChargerStationInfo.getTotalChargerType():ChargerStationInfo.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CompanyInfoDto.setCompanyInfo(json:):CompanyInfoDto.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CompanyInfoChecker.checkCompanyInfo():CompanyInfoChecker.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "company.isChangeIcon()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ChargerManager.findAllPOI(centerLat:centerLon:keyword:callback:):ChargerManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ChargerManager.getCompanyMarketUrl(companyID:):ChargerManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ChargerManager.getChargerCompanyInfo(listener:):ChargerManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "mDb?.getCompanyInfoLastUpdate()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Server.getCompanyInfo(updateDate:completion:):Server.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

@@ -28,7 +28,6 @@ class ClusterManager {
     var isClustering: Bool = false
     var isNeedChangeText: Bool = false
     var clusterFilter: ChargerFilter? = nil
-    var chargerManager = ChargerListManager.sharedInstance
     var currentClusterLv = -1
     var tMapView: TMapView?
     var isRouteMode: Bool = false
@@ -85,16 +84,16 @@ class ClusterManager {
             self.clusters[ClusterManager.CLUSTER_LEVEL_4]?[1].initSum()
         }
         
-        for charger in self.chargerManager.chargerDict {
-            if charger.value.isAroundPath && charger.value.check(filter: filter) {
-                if charger.value.area > 0 {
-                    if let cluster = self.clusters[ClusterManager.CLUSTER_LEVEL_1]?[charger.value.area - 1] {
-                        self.clusters[ClusterManager.CLUSTER_LEVEL_1]?[charger.value.area - 1].addVal()
+        for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
+            if charger.isAroundPath && charger.check(filter: filter) {
+                if (charger.mStationInfoDto?.mArea)! > 0 {
+                    if let cluster = self.clusters[ClusterManager.CLUSTER_LEVEL_1]?[(charger.mStationInfoDto?.mArea)! - 1] {
+                        self.clusters[ClusterManager.CLUSTER_LEVEL_1]?[(charger.mStationInfoDto?.mArea)! - 1].addVal()
                         self.clusters[ClusterManager.CLUSTER_LEVEL_2]?[cluster.cl2_id! - 1].addVal()
                         self.clusters[ClusterManager.CLUSTER_LEVEL_3]?[cluster.cl1_id! - 1].addVal()
                         
                         // 248:제주시 249:서귀포시
-                        if (charger.value.area == 248 || charger.value.area == 249) {
+                        if ((charger.mStationInfoDto?.mArea)! == 248 || (charger.mStationInfoDto?.mArea)! == 249) {
                             self.clusters[ClusterManager.CLUSTER_LEVEL_4]?[1].addVal()
                         } else {
                             self.clusters[ClusterManager.CLUSTER_LEVEL_4]?[0].addVal()
@@ -120,8 +119,11 @@ class ClusterManager {
     func clustering(filter: ChargerFilter, loadedCharger: Bool) {
 
         DispatchQueue.global(qos: .background).async {
+            
+            let stationList = ChargerManager.sharedInstance.getChargerStationInfoList()
+            
             if !filter.isSame(filter: self.clusterFilter) {
-                if(self.chargerManager.chargerDict.count < 1) {
+                if(stationList.count < 1) {
                     return
                 }
                 self.calClustering(filter: filter)
@@ -160,9 +162,9 @@ class ClusterManager {
                             }
                         }
                     } else if self.currentClusterLv == ClusterManager.CLUSTER_LEVEL_0 {
-                        for charger in self.chargerManager.chargerDict {
-                            if self.tMapView!.getMarketItem(fromID: charger.value.chargerId) != nil {
-                                self.tMapView!.getMarketItem(fromID: charger.value.chargerId).setVisible(false)
+                        for charger in stationList {
+                            if self.tMapView!.getMarketItem(fromID: charger.mChargerId) != nil {
+                                self.tMapView!.getMarketItem(fromID: charger.mChargerId).setVisible(false)
                             }
                         }
                     }
@@ -172,24 +174,24 @@ class ClusterManager {
                 if clusterLv == ClusterManager.CLUSTER_LEVEL_0 {
                     var index = 0
                     let markerThreshold = self.getMarkerThreshold(filter: filter)
-                    for charger in self.chargerManager.chargerDict {
+                    for charger in stationList {
                         if (index % markerThreshold == 0) {
-                            if charger.value.isAroundPath && charger.value.check(filter: filter) {
-                                if self.isContainMap(point: charger.value.marker.getTMapPoint()) {
-                                    if self.tMapView!.getMarketItem(fromID: charger.value.chargerId) == nil {
-                                        self.tMapView!.addTMapMarkerItemID(charger.value.chargerId, marker: charger.value.marker, animated: true)
+                            if charger.isAroundPath && charger.check(filter: filter) {
+                                if self.isContainMap(point: charger.marker.getTMapPoint()) {
+                                    if self.tMapView!.getMarketItem(fromID: charger.mChargerId) == nil {
+                                        self.tMapView!.addTMapMarkerItemID(charger.mChargerId, marker: charger.marker, animated: true)
                                     } else {
-                                        self.tMapView!.getMarketItem(fromID: charger.value.chargerId).setVisible(true)
+                                        self.tMapView!.getMarketItem(fromID: charger.mChargerId).setVisible(true)
                                     }
                                 }
                             } else {
-                                if self.tMapView!.getMarketItem(fromID: charger.value.chargerId) != nil {
-                                    self.tMapView!.getMarketItem(fromID: charger.value.chargerId).setVisible(false)
+                                if self.tMapView!.getMarketItem(fromID: charger.mChargerId) != nil {
+                                    self.tMapView!.getMarketItem(fromID: charger.mChargerId).setVisible(false)
                                 }
                             }
                         } else {
-                            if self.tMapView!.getMarketItem(fromID: charger.value.chargerId) != nil {
-                                self.tMapView!.getMarketItem(fromID: charger.value.chargerId).setVisible(false)
+                            if self.tMapView!.getMarketItem(fromID: charger.mChargerId) != nil {
+                                self.tMapView!.getMarketItem(fromID: charger.mChargerId).setVisible(false)
                             }
                         }
                         index += 1
@@ -226,9 +228,9 @@ class ClusterManager {
         var markerThreshold = 1
         if !isRouteMode {
             var markerCount = 0
-            for charger in self.chargerManager.chargerDict {
-                if charger.value.check(filter: filter) {
-                    if self.isContainMap(point: charger.value.marker.getTMapPoint()) {
+            for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
+                if charger.check(filter: filter) {
+                    if self.isContainMap(point: charger.marker.getTMapPoint()) {
                         markerCount += 1
                     }
                 }
@@ -257,9 +259,9 @@ class ClusterManager {
     
     func removeChargerForClustering(zoomLevel: Int) {
         if zoomLevel < 13 {
-            for charger in self.chargerManager.chargerDict {
-                if self.tMapView!.getMarketItem(fromID: charger.value.chargerId) != nil {
-                    self.tMapView!.getMarketItem(fromID: charger.value.chargerId).setVisible(false)
+            for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
+                if self.tMapView!.getMarketItem(fromID: charger.mChargerId) != nil {
+                    self.tMapView!.getMarketItem(fromID: charger.mChargerId).setVisible(false)
                 }
             }
         }

@@ -17,6 +17,9 @@ class UserDefault {
 //        public static final String KEY_SETTINGS_ENABLE_CLUSTERING = "enable_clustering";
 //        public static final String KEY_SETTINGS_CLUSTERING_ZOOM = "clustering_zoom";
 
+        // 앱 버젼
+        static let KEY_APP_VERSION  = "appVersion"
+        
         // 사용자 정보
         static let MEMBER_ID        = "member_id"
         
@@ -25,7 +28,8 @@ class UserDefault {
         // 회원 정보
         static let MB_ID            = "mb_id"       // 회원 id
         static let MB_LEVEL         = "mb_level"
-        static let MB_USER_ID       = "mb_user_id"  // 카카오 user id
+        static let MB_USER_ID       = "mb_user_id"  // user id
+        static let MB_LOGIN_TYPE    = "mb_login_type" // kakao, apple
         static let MB_NICKNAME      = "mb_nickname"
         static let MB_REGION        = "mb_region"
         static let MB_PROFILE_NAME  = "mb_profile_image"

@@ -11,6 +11,7 @@ import CoreData
 import Material
 import Firebase
 import UserNotifications
+import AuthenticationServices
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,16 +23,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let gcmMessageIDKey = "gcm.message_id"
     let fcmManager = FCMManager.sharedInstance
     var chargingStatusPayload: [AnyHashable: Any]? = nil
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         setupEntryController()
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
         
-        // 카카오 - 로그인,로그아웃 상태 변경 받기
-        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.kakaoSessionDidChangeWithNotification), name: NSNotification.Name.KOSessionDidChange, object: nil)
+        // Initialize the Google Mobile Ads SDK.
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
-        // 카카오 - 클라이언트 시크릿 설정
-        KOSession.shared().clientSecret = Const.KAKAO_CLIENT_SECRET;
+        // SNS 로그인
+        LoginHelper.shared.prepareLogin()
         
         return true
     }
@@ -69,28 +71,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         application.registerForRemoteNotifications()
-        
-    }
-    
-    @objc func kakaoSessionDidChangeWithNotification() {
-        MemberManager().login()
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        if KOSession.handleOpen(url) {
-            return true
+        guard url.scheme != nil else { return true }
+        
+        if KOSession.isKakaoAccountLoginCallback(url.absoluteURL) {
+            return KOSession.handleOpen(url)
         }
         return false
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        guard url.scheme != nil else { return true }
+        
         if let shareChargerId = url.valueOf("charger_id") {
-            print("shareChargerId: \(shareChargerId)")
-            NotificationCenter.default.post(name: Notification.Name("kakaoScheme"), object: nil, userInfo: ["sharedid": shareChargerId])//(name: Notification.Name("kakaoScheme"), object: shareChargerId)
+            NotificationCenter.default.post(name: Notification.Name("kakaoScheme"), object: nil, userInfo: ["sharedid": shareChargerId])
         }
 
-        if KOSession.handleOpen(url) {
-            return true
+        if KOSession.isKakaoAccountLoginCallback(url.absoluteURL) {
+            return KOSession.handleOpen(url)
         }
         return true
     }

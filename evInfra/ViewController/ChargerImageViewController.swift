@@ -11,13 +11,13 @@ import Charts
 
 class ChargerImageViewController: UIViewController {
     
-    var charger: Charger? = nil
+    var charger: ChargerStationInfo? = nil
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    init(charger: Charger, index: Int) {
+    init(charger: ChargerStationInfo, index: Int) {
         super.init(nibName: nil, bundle: nil)
         
         self.charger = charger
@@ -31,7 +31,7 @@ class ChargerImageViewController: UIViewController {
     
     // 인공위성 사진
     func getSatellite() {
-        let satelliteUrl = URL(string: Const.IMG_URL_SATELLITE + (self.charger?.chargerId)! + ".jpg")
+        let satelliteUrl = URL(string: Const.IMG_URL_SATELLITE + (self.charger?.mChargerId)! + ".jpg")
         Server.getData(url: satelliteUrl!) { (isSuccess, responseData) in
             if isSuccess {
                 // Show the downloaded image:

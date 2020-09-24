@@ -27,6 +27,10 @@ class MemberManager {
         return UserDefault().readString(key: UserDefault.Key.MB_USER_ID)
     }
     
+    static func getLoginType() -> Login.LoginType {
+        return Login.LoginType(rawValue: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)) ?? .kakao
+    }
+    
     // 로그인 상태 체크
     func isLogin() -> Bool {
         if UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0 {
@@ -50,6 +54,7 @@ class MemberManager {
             let userDefault = UserDefault()
             userDefault.saveInt(key: UserDefault.Key.MB_ID, value: data["mb_id"].intValue)
             userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: data["mb_level"].intValue)
+            userDefault.saveString(key: UserDefault.Key.MB_LOGIN_TYPE, value: data["login_type"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_NICKNAME, value: data["mb_nm"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: data["profile"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_REGION, value: data["region"].stringValue)
@@ -62,6 +67,7 @@ class MemberManager {
         let userDefault = UserDefault()
         userDefault.saveInt(key: UserDefault.Key.MB_ID, value: 0)
         userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: MemberManager.MB_LEVEL_NORMAL)
+        userDefault.saveString(key: UserDefault.Key.MB_LOGIN_TYPE, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_REGION, value: "")
         userDefault.saveInt(key: UserDefault.Key.MB_CAR_ID, value: 0)
@@ -88,33 +94,5 @@ class MemberManager {
         actions.append(ok)
         actions.append(cancel)
         UIAlertController.showAlert(title: "로그인 필요", message: "로그인 후 사용가능합니다.\n로그인 하시려면 확인버튼을 누르세요.", actions: actions)
-    }
-    
-    func login() {
-        if KOSession.shared().isOpen() {
-            // 사용자 정보 요청
-            KOSessionTask.userMeTask { (error, me) in
-                if (error as NSError?) != nil {
-                    self.clearData() // 비회원
-                } else if let me = me as KOUserMe? {
-                    if me.hasSignedUp == .true {
-                        UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: me.id!)
-                        
-                        Server.login { (isSuccess, value) in
-                            if isSuccess {
-                                let json = JSON(value)
-                                if json["code"].intValue == 1000 {
-                                    MemberManager().setData(data: json)
-                                } else {
-                                    MemberManager().clearData()
-                                }
-                            } else {
-                                MemberManager().clearData()
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }

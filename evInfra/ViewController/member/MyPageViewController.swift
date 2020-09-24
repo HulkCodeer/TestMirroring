@@ -36,7 +36,6 @@ class MyPageViewController: UIViewController {
     @IBOutlet weak var updateBtn: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     
-    
     private let dropDwonLocation = DropDown()
     private let dropDwonCarKind = DropDown()
     private let dropDwonProfileImg = DropDown()
@@ -47,12 +46,6 @@ class MyPageViewController: UIViewController {
     
     let picker = UIImagePickerController()
     let cropper = UIImageCropper(cropRatio: 1/1)
-    
-    //현재 TextField
-    var activeTextField : UITextField? = nil
-    
-    //오브젝트 기본위치
-    var originY:CGFloat?
     
     @IBAction func onClickLocation(_ sender: Any) {
         self.dropDwonLocation.show()
@@ -71,10 +64,6 @@ class MyPageViewController: UIViewController {
     }
     
     @IBAction func onClickSearchZipCode(_ sender: Any) {
-        self.searchZipCode()
-    }
-    
-    func searchZipCode() {
         let saVC = storyboard?.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
         saVC.searchAddressDelegate = self
         navigationController?.push(viewController: saVC)
@@ -82,8 +71,7 @@ class MyPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //delegate for check Name,carNo, addrInfo
+
         nickNameField.delegate = self
         carNoField.delegate = self
         addrInfoDetailField.delegate = self
@@ -111,14 +99,14 @@ class MyPageViewController: UIViewController {
         }
     }
     
-    @objc func keyboardWillShow(_ notification: NSNotification){
+    @objc func keyboardWillShow(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             self.view.frame.origin.y = -keyboardSize.height * 3/7
             return
         }
     }
 
-    @objc func keyboardWillHide(_ notification: NSNotification){
+    @objc func keyboardWillHide(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             self.view.frame.origin.y = keyboardSize.height * 1/4
             return
@@ -233,14 +221,17 @@ extension MyPageViewController {
     
     @objc
     fileprivate func handlelogoutButton() {
-        indicator.startAnimating()
-        KOSession.shared().logoutAndClose { [weak self] (success, error) -> Void in
-            MemberManager().clearData()
-            self?.indicator.stopAnimating()
-            
-            Snackbar().show(message: "로그아웃 되었습니다.")
-            self?.navigationController?.pop()
-        }
+        self.indicator.startAnimating()
+        
+        LoginHelper.shared.logout(completion: { success in
+            self.indicator.stopAnimating()
+            if success {
+                Snackbar().show(message: "로그아웃 되었습니다.")
+                self.navigationController?.pop()
+            } else {
+                Snackbar().show(message: "다시 시도해 주세요.")
+            }
+        })
     }
 }
 
@@ -312,10 +303,10 @@ extension MyPageViewController {
         if checkData() {
             updateProfileImage() // update user profile image
             
-            let addressDetail = addrInfoDetailField.text ?? ""
-            let carNo = carNoField.text ?? ""
-            let zipCode = zipCodeField.text ?? ""
-            let address = addrInfoField.text ?? ""
+//            let addressDetail = addrInfoDetailField.text ?? ""
+//            let carNo = carNoField.text ?? ""
+//            let zipCode = zipCodeField.text ?? ""
+//            let address = addrInfoField.text ?? ""
             let nickName = nickNameField.text ?? ""
             
             var carId = 0
@@ -324,7 +315,7 @@ extension MyPageViewController {
             }
             
             let region = dropDwonLocation.selectedItem!
-            Server.updateMemberInfo(nickName: nickName, region: region, profile: profileName, carId: carId, zipCode: zipCode, address: address, addressDetail: addressDetail, carNo: carNo) { (isSuccess, value) in
+            Server.updateMemberInfo(nickName: nickName, region: region, profile: profileName, carId: carId) { (isSuccess, value) in
                 if isSuccess {
                     self.responseUpdateMemberInfo(json: JSON(value))
                 }
@@ -345,20 +336,20 @@ extension MyPageViewController {
         }
         
         // 차량번호 유효성 검사
-        do {
-            carNoField.text = try carNoField.validatedText(validationType: .carnumber)
-        } catch (let error) {
-            Snackbar().show(message: (error as! ValidationError).message)
-            return false
-        }
+//        do {
+//            carNoField.text = try carNoField.validatedText(validationType: .carnumber)
+//        } catch (let error) {
+//            Snackbar().show(message: (error as! ValidationError).message)
+//            return false
+//        }
         
         // 주소가 있는데 상세 주소가 없는 경우
-        if let addressDetail = addrInfoDetailField.text {
-            if (addressDetail.isEmpty) {
-                Snackbar().show(message: "상세주소를 입력해 주세요.")
-                return false
-            }
-        }
+//        if let addressDetail = addrInfoDetailField.text {
+//            if (addressDetail.isEmpty) {
+//                Snackbar().show(message: "상세주소를 입력해 주세요.")
+//                return false
+//            }
+//        }
         return true
     }
     
@@ -454,23 +445,12 @@ extension MyPageViewController {
 
 extension MyPageViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let _ = textField.text else { return true }
-        let count:Int = textField.text?.count ?? 0
-        // 닉네임 텍스트빌드만 해당
-        if String(describing: type(of: self)).elementsEqual("MyPageViewController"){
-            if textField == self.nickNameField && count >= 12 {
-                Snackbar().show(message: "별명은 최대 12자까지 입력가능합니다")
-                textField.deleteBackward()
-            }
+        let count = textField.text?.count ?? 0
+        if textField == self.nickNameField && count >= 12 {
+            Snackbar().show(message: "별명은 최대 12자까지 입력가능합니다")
+            textField.deleteBackward()
         }
         return true
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.activeTextField = textField
-    }
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        self.activeTextField = nil
     }
 }
 

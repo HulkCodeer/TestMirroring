@@ -9,44 +9,25 @@
 import UIKit
 import Material
 import SwiftyJSON
+import AuthenticationServices // apple login
 
 class LoginViewController: UIViewController {
-
-    @IBAction func login(_ sender: Any) {
-        let session: KOSession = KOSession.shared();
-        
-        if session.isOpen() {
-            session.close()
-        }
-        
-        session.open(completionHandler: { (error) -> Void in
-            
-            if !session.isOpen() {
-                if let error = error as NSError? {
-                    switch error.code {
-                    case Int(KOErrorCancelled.rawValue):
-                        break
-                    default:
-                        UIAlertController.showMessage(error.description)
-                    }
-                }
-            } else {
-                self.requestMe()
-            }
-        })
-    }
+    
+    @IBOutlet weak var loginButtonStackView: UIStackView!
+    @IBOutlet weak var btnKakaoLogin: KOLoginButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.prepareActionBar()
+        
+        prepareActionBar()
+        prepareLoginButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if KOSession.shared().isOpen() {
-            requestMe()
-        }
+        LoginHelper.shared.delegate = self
+        LoginHelper.shared.checkLogin()
     }
     
     func prepareActionBar() {
@@ -61,56 +42,45 @@ class LoginViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
     }
     
+    func prepareLoginButton() {
+        // 카카오 로그인 버튼
+        btnKakaoLogin.addTarget(self, action: #selector(handleKakaoButtonPress), for: .touchUpInside)
+        
+        // Apple ID 로그인 버튼
+        if #available(iOS 13.0, *) {
+            let btnAppleLogin = ASAuthorizationAppleIDButton()
+            btnAppleLogin.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
+            self.loginButtonStackView.addArrangedSubview(btnAppleLogin)
+        }
+    }
+    
     @objc
     fileprivate func handleBackButton() {
         self.navigationController?.pop()
     }
     
-    fileprivate func requestMe() {
-        // 사용자 정보 요청
-        KOSessionTask.userMeTask { [weak self] (error, me) in
-            if let error = error as NSError? {
-                UIAlertController.showMessage(error.description)
-            } else if let me = me as KOUserMe? {
-                UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: me.id!)
-                if me.hasSignedUp == .false {
-                    self?.requestSignUpToKakao()
-                } else {
-                    self?.requestLoginToEvInfra(me: me)
-                }
-            }
-        }
+    @objc
+    fileprivate func handleKakaoButtonPress() {
+        LoginHelper.shared.kakaoLogin()
     }
     
-    fileprivate func requestSignUpToKakao() {
-        KOSessionTask.signupTask(withProperties: nil, completionHandler: { [weak self] (success, error) -> Void in
-            if let error = error as NSError? {
-                UIAlertController.showMessage(error.description)
-            } else {
-                self?.requestMe()
-            }
-        })
+    @available(iOS 13.0, *)
+    @objc
+    fileprivate func handleAuthorizationAppleIDButtonPress() {
+        LoginHelper.shared.appleLogin()
+    }
+}
+
+extension LoginViewController: LoginHelperDelegate {
+    var loginViewController: UIViewController {
+        return self
     }
     
-    fileprivate func requestLoginToEvInfra(me: KOUserMe) {
-        Server.login { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                if json["code"].intValue == 1000 {
-                    self.successLogin(json: json)
-                } else {
-                    self.showSignUp(me: me)
-                }
-            }
-        }
-    }
-    
-    fileprivate func successLogin(json: JSON) {
+    func successLogin() {
         Snackbar().show(message: "로그인 성공")
-        MemberManager().setData(data: json)
         
         // get favorite
-        ChargerListManager.sharedInstance.getFavoriteCharger()
+        ChargerManager.sharedInstance.getFavoriteCharger()
         
         if Const.CLOSED_BETA_TEST {
             CBT.checkCBT(vc: self)
@@ -119,14 +89,16 @@ class LoginViewController: UIViewController {
         self.navigationController?.pop()
     }
     
-    fileprivate func showSignUp(me: KOUserMe) {
-        if let me = me as KOUserMe? {
-            let signUpVc = self.storyboard?.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
-            signUpVc.me = me
-            self.navigationController?.push(viewController: signUpVc)
-        } else {
-            Snackbar().show(message: "요류가 발생했습니다. 다시 시도해 주세요.")
-            self.navigationController?.pop()
-        }
+    func needSignUp(user: Login) {
+        let signUpVc = self.storyboard?.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
+        signUpVc.delegate = self
+        signUpVc.user = user
+        self.navigationController?.push(viewController: signUpVc)
+    }
+}
+
+extension LoginViewController: SignUpViewControllerDelegate {
+    func cancelSignUp() {
+        self.navigationController?.pop()
     }
 }

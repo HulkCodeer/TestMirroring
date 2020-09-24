@@ -76,14 +76,14 @@ public extension UIButton {
         }
     }
     
-    func setRoundGradient(startColor: CGColor, endColor:CGColor, cornerRadius: CGFloat) {
+    func setRoundGradient(startColor: CGColor, endColor:CGColor) {
         let gradient = CAGradientLayer()
         gradient.frame = self.bounds
         gradient.colors = [startColor, endColor]
         gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
         gradient.endPoint = CGPoint(x: 1.0, y:1.0)
         gradient.locations = [0.0, 1.0]
-        gradient.cornerRadius = cornerRadius
+        gradient.cornerRadius = 20
         self.layer.insertSublayer(gradient, at: 0)
     }
     
@@ -99,5 +99,4 @@ public extension UIButton {
         gradient.cornerRadius = cornerRadius
         self.layer.insertSublayer(gradient, at: 0)
     }
-    
 }
