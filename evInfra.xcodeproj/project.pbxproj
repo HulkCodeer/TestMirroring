@@ -605,7 +605,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				425EE66D2519EE3C0089E87D /* DaumMap.framework in Frameworks */,
-				737A012020F2FB9B00638812 /* FMDB.framework in Frameworks */,
 				732B92C420EF53C00090E9FC /* libsqlite3.0.tbd in Frameworks */,
 				736D37D1208D9BFF009535EE /* SDWebImage.framework in Frameworks */,
 				7330B53F2060B0F40004AB28 /* DropDown.framework in Frameworks */,
@@ -1435,8 +1434,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh",
-				"${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_v12.6.1/Libraries/Tapjoy.embeddedframework/Resources/TapjoyResources.bundle",
-				"${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_v12.6.1/Libraries/Tapjoy.embeddedframework/Tapjoy.framework/Versions/A/Resources/TapjoyResources.bundle",
+				"${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_v12.7.0/Libraries/Tapjoy.embeddedframework/Tapjoy.framework/Versions/A/Resources/TapjoyResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -1715,6 +1713,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1767,6 +1766,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

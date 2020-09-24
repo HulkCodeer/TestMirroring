@@ -8,7 +8,7 @@
 
 import UIKit
 import DropDown
-import Materialgit
+import Material
 import M13Checkbox
 import SwiftyJSON
 
@@ -1070,15 +1070,16 @@ extension MainViewController: MainViewDelegate {
     }
     
     func showCallOut(charger: ChargerStationInfo) {
-        //TODO: 함수호출 위치 변경
-        setDistance()
-        setChargerTypeImage(type: (selectCharger?.totalChargerType)!)
-        setChargerPower(type: (selectCharger?.totalChargerType)!)
-        setChargePrice()
-//        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: Int((selectCharger?.status ?? "02")) ?? 2)
-        callOutTitle.text = selectCharger?.stationName
-        callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: Int((selectCharger?.status)!)!)
-        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: Int((selectCharger?.status)!)!)
+        selectCharger = charger
+        if (selectCharger?.mTotalType != nil){
+            setChargerTypeImage(type: (selectCharger?.mTotalType)!)
+        }
+//        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
+        callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
+        
+        callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
+        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
+        
         setCallOutFavoriteIcon(charger: selectCharger!)
         
         setView(view: callOutLayer, hidden: false)
@@ -1090,11 +1091,11 @@ extension MainViewController: MainViewDelegate {
         }
     }
     
-    func setCallOutFavoriteIcon(charger: Charger) {
-        if charger.favorite {
-//            callOutFavorite.setImage(UIImage(named: "ic_favorite"), for: .normal)
+    func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
+        if charger.mFavorite {
+            callOutFavorite.setImage(UIImage(named: "ic_favorite"), for: .normal)
         } else {
-//            callOutFavorite.setImage(UIImage(named: "ic_favorite_add"), for: .normal)
+            callOutFavorite.setImage(UIImage(named: "ic_favorite_add"), for: .normal)
         }
     }
     
@@ -1137,9 +1138,9 @@ extension MainViewController: MainViewDelegate {
     }
     
     func setChargerTypeImage(type:Int) {
-        self.typeLb1.text = ""
-        self.typeLb2.text = ""
-        self.typeLb3.text = ""
+//        self.typeLb1.text = ""
+//        self.typeLb2.text = ""
+//        self.typeLb3.text = ""
         
         if (type & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
             let type = "CD차데모"
@@ -1151,12 +1152,6 @@ extension MainViewController: MainViewDelegate {
         }
         if (type & Const.CTYPE_AC) == Const.CTYPE_AC {
             let type = "AC3상"
-            setTextType(type:type)
-        }
-        
-        if (type & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
-            callOutSlow.image = UIImage(named: "type_ac_slow")
-            let type = "완속"
             setTextType(type:type)
         }
         
@@ -1202,39 +1197,40 @@ extension MainViewController: MainViewDelegate {
     
     func setChargerPower(type:Int) {
 //        self.chargerManager
-        var strPower = ""
-        var power = selectCharger?.power
-        if power == 0{
-            if ((type & Const.CTYPE_DCDEMO) > 0 ||
-                                (type & Const.CTYPE_DCCOMBO) > 0 ||
-                                (type & Const.CTYPE_AC) > 0) {
-                                strPower = "50kWh"
-            } else if ((type & Const.CTYPE_SLOW) > 0 ||
-                    (type & Const.CTYPE_DESTINATION) > 0) {
-                strPower = "완속"
-            } else if ((type & Const.CTYPE_HYDROGEN) > 0) {
-                strPower = "수소"
-            } else if ((type & Const.CTYPE_SUPER_CHARGER) > 0) {
-                strPower = "110kWh 이상"
-            } else {
-                strPower = "-"
-            }
-        }else{
-            strPower = "\(power)kWh"
-        }
-        self.chargePowerLb.text = strPower
+//        var strPower = ""
+//        var power = selectCharger?.power
+//        if power == 0{
+//            if ((type & Const.CTYPE_DCDEMO) > 0 ||
+//                                (type & Const.CTYPE_DCCOMBO) > 0 ||
+//                                (type & Const.CTYPE_AC) > 0) {
+//                                strPower = "50kWh"
+//            } else if ((type & Const.CTYPE_SLOW) > 0 ||
+//                    (type & Const.CTYPE_DESTINATION) > 0) {
+//                strPower = "완속"
+//            } else if ((type & Const.CTYPE_HYDROGEN) > 0) {
+//                strPower = "수소"
+//            } else if ((type & Const.CTYPE_SUPER_CHARGER) > 0) {
+//                strPower = "110kWh 이상"
+//            } else {
+//                strPower = "-"
+//            }
+//        }else{
+//            strPower = "\(power)kWh"
+//        }
+//        self.chargePowerLb.text = strPower
     }
     
-    func setChargePrice() {
-        // 과금
-        if ((self.selectCharger?.isPilot) == true) {
-            self.chargePriceLb.text = "시범운영"
-        } else if self.selectCharger?.pay == "Y" {
-            self.chargePriceLb.text = "유료"
-        } else {
-            self.chargePriceLb.text = "무료"
-        }
-    }
+//    func setChargePrice(charger: ChargerStationInfo) {
+//        selectCharger = charger
+//        // 과금
+//        if ((self.selectCharger?.isPilot) == true) {
+//            self.chargePriceLb.text = "시범운영"
+//        } else if self.selectCharger?.pay == "Y" {
+//            self.chargePriceLb.text = "유료"
+//        } else {
+//            self.chargePriceLb.text = "무료"
+//        }
+//    }
 }
 
 // MARK: - Request To Server

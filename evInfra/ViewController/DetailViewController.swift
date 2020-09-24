@@ -130,10 +130,21 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     override func viewWillLayoutSubviews() {
         
         self.mapView = MTMapView(frame: self.kakaoMapView.bounds)
-    
+        var testPoint:MTMapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude:  37.4911458, longitude: 127.030325))
+//        37.491145, 127.030325
+        
         if let mapView = mapView{
+            
             mapView.delegate = self
             mapView.baseMapType = .hybrid
+            mapView.setMapCenter(MTMapPoint(geoCoord:.init(latitude: 37.491145,longitude: 127.030325)), zoomLevel: 2, animated: true)
+            
+            var poiItem:MTMapPOIItem = MTMapPOIItem()
+            poiItem.markerType = MTMapPOIItemMarkerType.yellowPin
+            poiItem.mapPoint = testPoint
+            poiItem.itemName = "test"
+            mapView.add(poiItem)
+            
             self.kakaoMapView.addSubview(self.mapView!)
         }
         
@@ -218,11 +229,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func preparePagingView() {
         let viewPagerController = ViewPagerController(charger: self.charger!)
         addChildViewController(viewPagerController)
-        viewPagerContainer.addSubview(viewPagerController.view)
-        viewPagerContainer.constrainToEdges(viewPagerController.view)
-        
-            
-        self.stationNameLb.text = (self.charger?.stationName)!
+//        viewPagerContainer.addSubview(viewPagerController.view)
+//        viewPagerContainer.constrainToEdges(viewPagerController.view)
         
 //        self.kakaoMapView =
         
@@ -261,13 +269,13 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
         
         // 과금
-        if ((self.charger?.isPilot) == true) {
-            self.chargerLabel.text = "시범운영"
-        } else if self.charger?.pay == "Y" {
-            self.chargerLabel.text = "유료"
-        } else {
-            self.chargerLabel.text = "무료"
-        }
+//        if ((self.charger?.isPilot) == true) {
+//            self.chargerLabel.text = "시범운영"
+//        } else if self.charger?.pay == "Y" {
+//            self.chargerLabel.text = "유료"
+//        } else {
+//            self.chargerLabel.text = "무료"
+//        }
     }
     
     func setStationInfo(json: JSON) {
@@ -1079,15 +1087,15 @@ extension DetailViewController {
 
     // 충전소 평점 표시
     func setChargeGPA() {
-        if let gradePointAvg = charger?.gpa, gradePointAvg > 0 {
+//        if let gradePointAvg = charger?.gpa, gradePointAvg > 0 {
 //            gpaLabelView.text = String(format:"%.1f", gradePointAvg)
 //            personCntLabelView.text = String(format:"%d 명", (charger?.gpaPersonCnt)!)
 //            drawGpaStar(point: gradePointAvg)
-        } else {
+//        } else {
 //            gpaLabelView.text = String(format:"%.1f", 0.0)
 //            personCntLabelView.text = String(format:"%d 명", 0)
-            drawGpaStar(point: 0)
-        }
+//            drawGpaStar(point: 0)
+//        }
     }
     
     func drawGpaStar(point:Double) {
