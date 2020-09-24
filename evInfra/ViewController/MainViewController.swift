@@ -74,15 +74,6 @@ class MainViewController: UIViewController {
     @IBOutlet weak var callOutStatus: UILabel!
     @IBOutlet weak var callOutTitle: UILabel!
     @IBOutlet weak var callOutFavorite: UIButton!
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    @IBOutlet weak var callOutDCCombo: UIImageView!
-    @IBOutlet weak var callOutDCDemo: UIImageView!
-    @IBOutlet weak var callOutAC: UIImageView!
-    @IBOutlet weak var callOutSlow: UIImageView!
-=======
-=======
->>>>>>> Stashed changes
     
     @IBOutlet var chargePriceLb: UILabel!
     @IBOutlet var chargePowerLb: UILabel!
@@ -102,8 +93,6 @@ class MainViewController: UIViewController {
     @IBOutlet weak var startPointBtn: UIButton!
     @IBOutlet weak var endPointBtn: UIButton!
     @IBOutlet weak var naviBtn: UIButton!
-    
->>>>>>> Stashed changes
     
     // Menu Button Layer
     @IBOutlet weak var btn_menu_layer: UIView!
@@ -1081,21 +1070,6 @@ extension MainViewController: MainViewDelegate {
     }
     
     func showCallOut(charger: ChargerStationInfo) {
-        selectCharger = charger
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        if (selectCharger?.mTotalType != nil){
-            setChargerTypeImage(type: (selectCharger?.mTotalType)!)
-        }
-        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
-        callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
-        
-        callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
-        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
-        
-=======
-=======
->>>>>>> Stashed changes
         //TODO: 함수호출 위치 변경
         setDistance()
         setChargerTypeImage(type: (selectCharger?.totalChargerType)!)
@@ -1105,7 +1079,6 @@ extension MainViewController: MainViewDelegate {
         callOutTitle.text = selectCharger?.stationName
         callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: Int((selectCharger?.status)!)!)
         callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: Int((selectCharger?.status)!)!)
->>>>>>> Stashed changes
         setCallOutFavoriteIcon(charger: selectCharger!)
         
         setView(view: callOutLayer, hidden: false)
@@ -1164,24 +1137,6 @@ extension MainViewController: MainViewDelegate {
     }
     
     func setChargerTypeImage(type:Int) {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        callOutDCCombo.image = UIImage(named: "type_dc_combo_dim")
-        callOutDCDemo.image = UIImage(named: "type_dc_demo_dim")
-        callOutAC.image = UIImage(named: "type_ac_three_dim")
-        callOutSlow.image = UIImage(named: "type_ac_slow_dim")
-        
-        if (type & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
-            callOutDCDemo.image = UIImage(named: "type_dc_demo")
-        }
-        if (type & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
-            callOutDCCombo.image = UIImage(named: "type_dc_combo")
-        }
-        if (type & Const.CTYPE_AC) == Const.CTYPE_AC {
-            callOutAC.image = UIImage(named: "type_ac_three")
-=======
-=======
->>>>>>> Stashed changes
         self.typeLb1.text = ""
         self.typeLb2.text = ""
         self.typeLb3.text = ""
@@ -1197,44 +1152,21 @@ extension MainViewController: MainViewDelegate {
         if (type & Const.CTYPE_AC) == Const.CTYPE_AC {
             let type = "AC3상"
             setTextType(type:type)
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
         }
         
         if (type & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
-<<<<<<< Updated upstream
             callOutSlow.image = UIImage(named: "type_ac_slow")
-=======
             let type = "완속"
             setTextType(type:type)
->>>>>>> Stashed changes
-=======
         }
         
         if (type & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
             let type = "완속"
             setTextType(type:type)
->>>>>>> Stashed changes
         }
         
         if ((type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER)
             || ((type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION) {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            callOutDCCombo.image = nil
-            callOutSlow.image = nil
-            callOutDCDemo.image = UIImage(named: "type_super_dim")
-            callOutAC.image =  UIImage(named: "type_destination_dim")
-            
-            if (type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
-                callOutDCDemo.image = UIImage(named: "type_super")
-            }
-            
-            if (type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
-                callOutAC.image = UIImage(named: "type_destination")
-=======
-=======
->>>>>>> Stashed changes
             
             if (type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
                 let type = "슈퍼차저"
@@ -1244,10 +1176,6 @@ extension MainViewController: MainViewDelegate {
             if (type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
                 let type = "데스티네이션"
                 setTextType(type:type)
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
             }
         }
     }

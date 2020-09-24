@@ -34,18 +34,12 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var timeFixLabel: UILabel!
     @IBOutlet weak var timeView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
-<<<<<<< Updated upstream
-=======
+
     @IBOutlet weak var stationNameLb: UILabel!
     
     @IBOutlet var kakaoMapView: UIView!
     
     @IBOutlet var memoView: UIStackView!
-    
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     
     // 지킴이
     @IBOutlet weak var guardView: UIView!
@@ -126,8 +120,6 @@ class DetailViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-<<<<<<< Updated upstream
-=======
         
     }
     
@@ -144,10 +136,6 @@ class DetailViewController: UIViewController {
         self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     }
     
     // MARK: - Action for button
@@ -222,17 +210,11 @@ class DetailViewController: UIViewController {
     func preparePagingView() {
         let viewPagerController = ViewPagerController(charger: self.charger!)
         addChildViewController(viewPagerController)
-<<<<<<< Updated upstream
         viewPagerContainer.addSubview(viewPagerController.view)
         viewPagerContainer.constrainToEdges(viewPagerController.view)
-=======
         
             
         self.stationNameLb.text = (self.charger?.stationName)!
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     }
     
     // MARK: - Server Communications
@@ -264,27 +246,12 @@ class DetailViewController: UIViewController {
         }
         
         // 과금
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        if (self.charger?.mStationInfoDto?.mIsPilot)! {
-            self.chargerLabel.text = "시범운영 충전소"
-        } else if (self.charger?.mStationInfoDto?.mPay)! == "Y" {
-            self.chargerLabel.text = "유료 충전소"
-        } else {
-            self.chargerLabel.text = "무료 충전소"
-=======
-=======
->>>>>>> Stashed changes
         if ((self.charger?.isPilot) == true) {
             self.chargerLabel.text = "시범운영"
         } else if self.charger?.pay == "Y" {
             self.chargerLabel.text = "유료"
         } else {
             self.chargerLabel.text = "무료"
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         }
     }
     
