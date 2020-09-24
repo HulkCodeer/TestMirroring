@@ -42,6 +42,9 @@ class DetailViewController: UIViewController {
     
     @IBOutlet var memoView: UIStackView!
     
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     
     // 지킴이
@@ -141,6 +144,9 @@ class DetailViewController: UIViewController {
         self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
     
@@ -223,6 +229,9 @@ class DetailViewController: UIViewController {
         
             
         self.stationNameLb.text = (self.charger?.stationName)!
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
     
@@ -256,6 +265,7 @@ class DetailViewController: UIViewController {
         
         // 과금
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         if (self.charger?.mStationInfoDto?.mIsPilot)! {
             self.chargerLabel.text = "시범운영 충전소"
         } else if (self.charger?.mStationInfoDto?.mPay)! == "Y" {
@@ -263,12 +273,17 @@ class DetailViewController: UIViewController {
         } else {
             self.chargerLabel.text = "무료 충전소"
 =======
+=======
+>>>>>>> Stashed changes
         if ((self.charger?.isPilot) == true) {
             self.chargerLabel.text = "시범운영"
         } else if self.charger?.pay == "Y" {
             self.chargerLabel.text = "유료"
         } else {
             self.chargerLabel.text = "무료"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         }
     }

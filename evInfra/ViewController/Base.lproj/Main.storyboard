@@ -3667,7 +3667,11 @@
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LDT-4x-FeV" userLabel="guardView">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                                             <rect key="frame" x="0.0" y="966" width="375" height="31"/>
+=======
+                                            <rect key="frame" x="0.0" y="913" width="375" height="71"/>
+>>>>>>> Stashed changes
 =======
                                             <rect key="frame" x="0.0" y="913" width="375" height="71"/>
 >>>>>>> Stashed changes
@@ -3714,6 +3718,9 @@
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KcL-SL-QMW">
                                                     <rect key="frame" x="231" y="31" width="30" height="33"/>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <state key="normal" title="한전"/>
@@ -4259,6 +4266,9 @@
 =======
                         <outlet property="callLb" destination="3z4-BN-P3P" id="0EP-AV-iDn"/>
                         <outlet property="chargerLabel" destination="e6c-Om-xdl" id="alF-01-ND5"/>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                         <outlet property="cidTableView" destination="4TJ-YK-AOm" id="eKI-4F-28k"/>
                         <outlet property="companyView" destination="YNb-pz-FeI" id="7Dq-Eh-te5"/>
@@ -4285,6 +4295,9 @@
 =======
                         <outlet property="dstLabel" destination="Vr3-n3-VQB" id="Rvh-UD-cMf"/>
                         <outlet property="endPointBtn" destination="Pgi-jo-AzR" id="Nuu-wc-68E"/>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                         <outlet property="guardEnvBtn" destination="woI-Qz-UwH" id="H8A-xc-NC3"/>
                         <outlet property="guardFixLabel" destination="qm9-oc-5Bo" id="185-gd-PXt"/>
