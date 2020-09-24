@@ -74,10 +74,33 @@ class MainViewController: UIViewController {
     @IBOutlet weak var callOutStatus: UILabel!
     @IBOutlet weak var callOutTitle: UILabel!
     @IBOutlet weak var callOutFavorite: UIButton!
+<<<<<<< Updated upstream
     @IBOutlet weak var callOutDCCombo: UIImageView!
     @IBOutlet weak var callOutDCDemo: UIImageView!
     @IBOutlet weak var callOutAC: UIImageView!
     @IBOutlet weak var callOutSlow: UIImageView!
+=======
+    
+    @IBOutlet var chargePriceLb: UILabel!
+    @IBOutlet var chargePowerLb: UILabel!
+    
+    @IBOutlet var distanceLb: UILabel!
+    
+    @IBOutlet var typeLb1: UILabel!
+    @IBOutlet var typeLb2: UILabel!
+    @IBOutlet var typeLb3: UILabel!
+    
+    
+//    @IBOutlet weak var callOutDCCombo: UIImageView!
+//    @IBOutlet weak var callOutDCDemo: UIImageView!
+//    @IBOutlet weak var callOutAC: UIImageView!
+//    @IBOutlet weak var callOutSlow: UIImageView!
+    
+    @IBOutlet weak var startPointBtn: UIButton!
+    @IBOutlet weak var endPointBtn: UIButton!
+    @IBOutlet weak var naviBtn: UIButton!
+    
+>>>>>>> Stashed changes
     
     // Menu Button Layer
     @IBOutlet weak var btn_menu_layer: UIView!
@@ -142,6 +165,12 @@ class MainViewController: UIViewController {
         //getChargerInfo()  // request to server
         //self.checkFCM()
         prepareChargePrice()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -1050,6 +1079,7 @@ extension MainViewController: MainViewDelegate {
     
     func showCallOut(charger: ChargerStationInfo) {
         selectCharger = charger
+<<<<<<< Updated upstream
         if (selectCharger?.mTotalType != nil){
             setChargerTypeImage(type: (selectCharger?.mTotalType)!)
         }
@@ -1059,6 +1089,17 @@ extension MainViewController: MainViewDelegate {
         callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
         callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
         
+=======
+        //TODO: 함수호출 위치 변경
+        setDistance()
+        setChargerTypeImage(type: (selectCharger?.totalChargerType)!)
+        setChargerPower(type: (selectCharger?.totalChargerType)!)
+        setChargePrice()
+//        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: Int((selectCharger?.status ?? "02")) ?? 2)
+        callOutTitle.text = selectCharger?.stationName
+        callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: Int((selectCharger?.status)!)!)
+        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: Int((selectCharger?.status)!)!)
+>>>>>>> Stashed changes
         setCallOutFavoriteIcon(charger: selectCharger!)
         
         setView(view: callOutLayer, hidden: false)
@@ -1084,7 +1125,40 @@ extension MainViewController: MainViewDelegate {
         })
     }
     
+    //TODO: detailViewController 코드 겹침
+    func setDistance() {
+        if let currentLocatin = MainViewController.currentLocation {
+            getDistance(curPos: currentLocatin, desPos: self.selectCharger!.marker.getTMapPoint())
+        } else {
+            self.distanceLb.text = "현재 위치를 받아오지 못했습니다."
+        }
+    }
+    
+    func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
+        if desPos.getLatitude() == 0 || desPos.getLongitude() == 0 {
+            self.distanceLb.text = "현재 위치를 받아오지 못했습니다."
+        } else {
+            self.distanceLb.text = "계산중"
+            
+            DispatchQueue.global(qos: .background).async {
+                let tMapPathData = TMapPathData.init()
+                if let path = tMapPathData.find(from: curPos, to: desPos) {
+                    let distance = Double(path.getDistance() / 1000).rounded()
+
+                    DispatchQueue.main.async {
+                        self.distanceLb.text = "| \(distance) Km"
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.distanceLb.text = "거리를 계산할 수 없습니다."
+                    }
+                }
+            }
+        }
+    }
+    
     func setChargerTypeImage(type:Int) {
+<<<<<<< Updated upstream
         callOutDCCombo.image = UIImage(named: "type_dc_combo_dim")
         callOutDCDemo.image = UIImage(named: "type_dc_demo_dim")
         callOutAC.image = UIImage(named: "type_ac_three_dim")
@@ -1098,13 +1172,37 @@ extension MainViewController: MainViewDelegate {
         }
         if (type & Const.CTYPE_AC) == Const.CTYPE_AC {
             callOutAC.image = UIImage(named: "type_ac_three")
+=======
+        self.typeLb1.text = ""
+        self.typeLb2.text = ""
+        self.typeLb3.text = ""
+        
+        if (type & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
+            let type = "CD차데모"
+            setTextType(type:type)
         }
+        if (type & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
+            let type = "CD콤보"
+            setTextType(type:type)
+        }
+        if (type & Const.CTYPE_AC) == Const.CTYPE_AC {
+            let type = "AC3상"
+            setTextType(type:type)
+>>>>>>> Stashed changes
+        }
+        
         if (type & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
+<<<<<<< Updated upstream
             callOutSlow.image = UIImage(named: "type_ac_slow")
+=======
+            let type = "완속"
+            setTextType(type:type)
+>>>>>>> Stashed changes
         }
         
         if ((type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER)
             || ((type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION) {
+<<<<<<< Updated upstream
             callOutDCCombo.image = nil
             callOutSlow.image = nil
             callOutDCDemo.image = UIImage(named: "type_super_dim")
@@ -1116,7 +1214,70 @@ extension MainViewController: MainViewDelegate {
             
             if (type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
                 callOutAC.image = UIImage(named: "type_destination")
+=======
+            
+            if (type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
+                let type = "슈퍼차저"
+                setTextType(type:type)
             }
+            
+            if (type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
+                let type = "데스티네이션"
+                setTextType(type:type)
+>>>>>>> Stashed changes
+            }
+        }
+    }
+
+    
+    func setTextType(type:String) {
+        
+        if self.typeLb1.text == ""{
+            self.typeLb1.text = type
+            print("csj_lb1", type)
+        }else if self.typeLb2.text == ""{
+            self.typeLb2.text = type
+            print("csj_lb2", type)
+        }else {
+            self.typeLb3.text = type
+            print("csj_lb3", type)
+        }
+
+    }
+    
+    func setChargerPower(type:Int) {
+//        self.chargerManager
+        var strPower = ""
+        var power = selectCharger?.power
+        if power == 0{
+            if ((type & Const.CTYPE_DCDEMO) > 0 ||
+                                (type & Const.CTYPE_DCCOMBO) > 0 ||
+                                (type & Const.CTYPE_AC) > 0) {
+                                strPower = "50kWh"
+            } else if ((type & Const.CTYPE_SLOW) > 0 ||
+                    (type & Const.CTYPE_DESTINATION) > 0) {
+                strPower = "완속"
+            } else if ((type & Const.CTYPE_HYDROGEN) > 0) {
+                strPower = "수소"
+            } else if ((type & Const.CTYPE_SUPER_CHARGER) > 0) {
+                strPower = "110kWh 이상"
+            } else {
+                strPower = "-"
+            }
+        }else{
+            strPower = "\(power)kWh"
+        }
+        self.chargePowerLb.text = strPower
+    }
+    
+    func setChargePrice() {
+        // 과금
+        if ((self.selectCharger?.isPilot) == true) {
+            self.chargePriceLb.text = "시범운영"
+        } else if self.selectCharger?.pay == "Y" {
+            self.chargePriceLb.text = "유료"
+        } else {
+            self.chargePriceLb.text = "무료"
         }
     }
 }

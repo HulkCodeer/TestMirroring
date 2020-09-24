@@ -22,6 +22,11 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var addressLabel: CopyableLabel!
     @IBOutlet weak var chargerLabel: UILabel!  // 유료/무료 충전소
     @IBOutlet weak var dstLabel: UILabel!      // 현 위치에서 거리
+    
+    @IBOutlet var startPointBtn: UIButton!
+    @IBOutlet var endPointBtn: UIButton!
+    @IBOutlet var naviBtn: UIButton!
+    
     @IBOutlet weak var memoLabel: UILabel!     // 메모
     
     // 이용시간: visible, gone 처리를 위해 subview 모두 연결함
@@ -29,6 +34,15 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var timeFixLabel: UILabel!
     @IBOutlet weak var timeView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
+<<<<<<< Updated upstream
+=======
+    @IBOutlet weak var stationNameLb: UILabel!
+    
+    @IBOutlet var kakaoMapView: UIView!
+    
+    @IBOutlet var memoView: UIStackView!
+    
+>>>>>>> Stashed changes
     
     // 지킴이
     @IBOutlet weak var guardView: UIView!
@@ -92,7 +106,7 @@ class DetailViewController: UIViewController {
         prepareActionBar()
         prepareBoardTableView()
         preparePagingView()
-
+    
         prepareGuard()
         prepareGradeStar()
          
@@ -109,6 +123,25 @@ class DetailViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+<<<<<<< Updated upstream
+=======
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        
+        self.mapView = MTMapView(frame: self.kakaoMapView.bounds)
+    
+        if let mapView = mapView{
+            mapView.delegate = self
+            mapView.baseMapType = .hybrid
+            self.kakaoMapView.addSubview(self.mapView!)
+        }
+        
+        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+>>>>>>> Stashed changes
     }
     
     // MARK: - Action for button
@@ -183,8 +216,14 @@ class DetailViewController: UIViewController {
     func preparePagingView() {
         let viewPagerController = ViewPagerController(charger: self.charger!)
         addChildViewController(viewPagerController)
+<<<<<<< Updated upstream
         viewPagerContainer.addSubview(viewPagerController.view)
         viewPagerContainer.constrainToEdges(viewPagerController.view)
+=======
+        
+            
+        self.stationNameLb.text = (self.charger?.stationName)!
+>>>>>>> Stashed changes
     }
     
     // MARK: - Server Communications
@@ -216,12 +255,21 @@ class DetailViewController: UIViewController {
         }
         
         // 과금
+<<<<<<< Updated upstream
         if (self.charger?.mStationInfoDto?.mIsPilot)! {
             self.chargerLabel.text = "시범운영 충전소"
         } else if (self.charger?.mStationInfoDto?.mPay)! == "Y" {
             self.chargerLabel.text = "유료 충전소"
         } else {
             self.chargerLabel.text = "무료 충전소"
+=======
+        if ((self.charger?.isPilot) == true) {
+            self.chargerLabel.text = "시범운영"
+        } else if self.charger?.pay == "Y" {
+            self.chargerLabel.text = "유료"
+        } else {
+            self.chargerLabel.text = "무료"
+>>>>>>> Stashed changes
         }
     }
     
@@ -245,7 +293,14 @@ class DetailViewController: UIViewController {
         self.addressLabel.sizeToFit()
         
         // 메모
-        self.memoLabel.text = json["mm"].stringValue
+//        self.memoLabel.text = json["mm"].stringValue
+        let memo = String(json["mm"].stringValue)
+        if !memo.isEmpty || !memo.elementsEqual("null") || !memo.elementsEqual(""){
+            self.memoLabel.text = memo
+        }else{
+//            self.memoView.gone(spaces: [.top, .bottom])
+            detailViewResize(view: memoView)
+        }
         
         // 센터 전화번호
         self.phoneNumber = json["tel"].stringValue
