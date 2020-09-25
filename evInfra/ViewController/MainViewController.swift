@@ -84,6 +84,7 @@ class MainViewController: UIViewController {
     @IBOutlet var typeLb2: UILabel!
     @IBOutlet var typeLb3: UILabel!
     
+    @IBOutlet var markerImg: UIImageView!
     
 //    @IBOutlet weak var callOutDCCombo: UIImageView!
 //    @IBOutlet weak var callOutDCDemo: UIImageView!
@@ -1073,12 +1074,20 @@ extension MainViewController: MainViewDelegate {
         selectCharger = charger
         if (selectCharger?.mTotalType != nil){
             setChargerTypeImage(type: (selectCharger?.mTotalType)!)
+            setChargerPower(power: (selectCharger?.mPower)!, type: (selectCharger?.mTotalType)!)
+            setChargePrice(pay: (selectCharger?.mStationInfoDto?.mPay)!)
         }
+        setDistance()
+       
 //        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
         callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
         
         callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
         callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
+        
+        //TODO: 수정예정
+        let chargeState = callOutStatus.text
+        setChargeStateImg(type: chargeState!)
         
         setCallOutFavoriteIcon(charger: selectCharger!)
         
@@ -1138,9 +1147,9 @@ extension MainViewController: MainViewDelegate {
     }
     
     func setChargerTypeImage(type:Int) {
-//        self.typeLb1.text = ""
-//        self.typeLb2.text = ""
-//        self.typeLb3.text = ""
+        self.typeLb1.text = ""
+        self.typeLb2.text = ""
+        self.typeLb3.text = ""
         
         if (type & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
             let type = "CD차데모"
@@ -1195,42 +1204,57 @@ extension MainViewController: MainViewDelegate {
 
     }
     
-    func setChargerPower(type:Int) {
-//        self.chargerManager
-//        var strPower = ""
-//        var power = selectCharger?.power
-//        if power == 0{
-//            if ((type & Const.CTYPE_DCDEMO) > 0 ||
-//                                (type & Const.CTYPE_DCCOMBO) > 0 ||
-//                                (type & Const.CTYPE_AC) > 0) {
-//                                strPower = "50kWh"
-//            } else if ((type & Const.CTYPE_SLOW) > 0 ||
-//                    (type & Const.CTYPE_DESTINATION) > 0) {
-//                strPower = "완속"
-//            } else if ((type & Const.CTYPE_HYDROGEN) > 0) {
-//                strPower = "수소"
-//            } else if ((type & Const.CTYPE_SUPER_CHARGER) > 0) {
-//                strPower = "110kWh 이상"
-//            } else {
-//                strPower = "-"
-//            }
-//        }else{
-//            strPower = "\(power)kWh"
-//        }
-//        self.chargePowerLb.text = strPower
+    func setChargerPower(power:Int, type:Int) {
+        var strPower = ""
+        if power == 0{
+            if ((type & Const.CTYPE_DCDEMO) > 0 ||
+                                (type & Const.CTYPE_DCCOMBO) > 0 ||
+                                (type & Const.CTYPE_AC) > 0) {
+                                strPower = "50kWh"
+            } else if ((type & Const.CTYPE_SLOW) > 0 ||
+                    (type & Const.CTYPE_DESTINATION) > 0) {
+                strPower = "완속"
+            } else if ((type & Const.CTYPE_HYDROGEN) > 0) {
+                strPower = "수소"
+            } else if ((type & Const.CTYPE_SUPER_CHARGER) > 0) {
+                strPower = "110kWh 이상"
+            } else {
+                strPower = "-"
+            }
+        }else{
+            strPower = "\(power)kWh"
+        }
+        self.chargePowerLb.text = strPower
     }
     
-//    func setChargePrice(charger: ChargerStationInfo) {
-//        selectCharger = charger
-//        // 과금
-//        if ((self.selectCharger?.isPilot) == true) {
-//            self.chargePriceLb.text = "시범운영"
-//        } else if self.selectCharger?.pay == "Y" {
-//            self.chargePriceLb.text = "유료"
-//        } else {
-//            self.chargePriceLb.text = "무료"
-//        }
-//    }
+    func setChargeStateImg(type:String) {
+        switch type {
+        case "충전중":
+            self.markerImg.backgroundColor = UIColor(patternImage: UIImage(named: "marker_state_charging.png")!)
+            break
+        case "대기중":
+            self.markerImg.backgroundColor = UIColor(patternImage: UIImage(named: "marker_state_normal.png")!)
+            break
+        case "운영중지":
+            self.markerImg.backgroundColor = UIColor(patternImage: UIImage(named: "marker_state_no_op.png")!)
+            break
+        default:
+            self.markerImg.backgroundColor = UIColor(patternImage: UIImage(named: "marker_state_no_connect.png")!)
+            break
+        }
+    }
+    
+    func setChargePrice(pay: String) {
+        // 과금
+        switch pay {
+        case "Y":
+            self.chargePriceLb.text = "무료"
+        case "N":
+            self.chargePriceLb.text = "유료"
+        default:
+            self.chargePriceLb.text = "시범운영"
+        }
+    }
 }
 
 // MARK: - Request To Server

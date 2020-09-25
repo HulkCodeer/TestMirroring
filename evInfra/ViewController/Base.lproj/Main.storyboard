@@ -539,7 +539,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Wlj-Tr-AeM">
                                                 <rect key="frame" x="0.0" y="41" width="343" height="45"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="marker_state_charging" translatesAutoresizingMaskIntoConstraints="NO" id="6hi-DA-YIn">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6hi-DA-YIn">
                                                         <rect key="frame" x="0.0" y="0.0" width="30" height="45"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="45" id="SGa-4P-sce"/>
@@ -794,6 +794,7 @@
                         <outlet property="endPointBtn" destination="kmz-wM-5Uy" id="x5P-Zt-EIa"/>
                         <outlet property="filterView" destination="MjX-0u-Kq9" id="X9m-BT-AXY"/>
                         <outlet property="mapContainerView" destination="WLf-3L-WEo" id="Ysn-CV-X68"/>
+                        <outlet property="markerImg" destination="6hi-DA-YIn" id="spj-uU-Zir"/>
                         <outlet property="markerIndicator" destination="Ueo-lF-S8F" id="Lei-Aj-f8J"/>
                         <outlet property="myLocationButton" destination="0Z5-Ng-0pM" id="XEy-OS-WK7"/>
                         <outlet property="naviBtn" destination="auD-08-WWX" id="Ndi-BL-Mtl"/>

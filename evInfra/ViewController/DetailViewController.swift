@@ -130,19 +130,24 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     override func viewWillLayoutSubviews() {
         
         self.mapView = MTMapView(frame: self.kakaoMapView.bounds)
-        var testPoint:MTMapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude:  37.4911458, longitude: 127.030325))
+        let testPoint:MTMapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude:  37.4911458, longitude: 127.030325))
 //        37.491145, 127.030325
         
         if let mapView = mapView{
             
             mapView.delegate = self
-            mapView.baseMapType = .hybrid
+//            mapView.baseMapType = .hybrid
+            mapView.baseMapType = .standard
             mapView.setMapCenter(MTMapPoint(geoCoord:.init(latitude: 37.491145,longitude: 127.030325)), zoomLevel: 2, animated: true)
             
-            var poiItem:MTMapPOIItem = MTMapPOIItem()
-            poiItem.markerType = MTMapPOIItemMarkerType.yellowPin
-            poiItem.mapPoint = testPoint
+            let poiItem:MTMapPOIItem = MTMapPOIItem()
             poiItem.itemName = "test"
+            poiItem.markerType = MTMapPOIItemMarkerType.bluePin
+            poiItem.tag = 1
+            poiItem.showAnimationType = .dropFromHeaven
+            poiItem.mapPoint = testPoint
+//            poiItem.customImage =
+            print("csj", poiItem.itemName)
             mapView.add(poiItem)
             
             self.kakaoMapView.addSubview(self.mapView!)
