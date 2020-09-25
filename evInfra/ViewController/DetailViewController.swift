@@ -60,7 +60,10 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var gpaInfoImage: UIImageView!
     @IBOutlet weak var gpaTitleLabel: UILabel!
     
-    @IBOutlet weak var boardTableView: BoardTableView!
+	//geo
+	@IBOutlet var geoLabel: UILabel!
+	
+	@IBOutlet weak var boardTableView: BoardTableView!
     @IBOutlet weak var cidTableView: CidTableView!
 
     @IBOutlet weak var CidTableHeightConstraint: NSLayoutConstraint!
@@ -86,7 +89,9 @@ class DetailViewController: UIViewController {
     private let chargerManager = ChargerListManager.sharedInstance
     
     var myGradeStarPoint: Int = 0
-    
+	var mUserCount:Int = -1
+	var mWaitTime:Array<WaitTimeStatus> = Array<WaitTimeStatus>()
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -100,6 +105,7 @@ class DetailViewController: UIViewController {
         getChargerInfo()
         getReportInfo()
         getMyGrade()
+		getWaitTime()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -277,7 +283,7 @@ class DetailViewController: UIViewController {
         }
         self.chargerManager.chargerDict[self.charger!.chargerId]?.changeStatus(st: "\(stationSt)")
         self.mainViewDelegate?.redrawCalloutLayer()
-        self.cidTableView.setCidList(chargerList: cidList)
+		self.cidTableView.setCidList(chargerList: cidList, waitTimeStatus: mWaitTime)
         self.cidTableView.reloadData()
         self.adjustHeightOfTableview()
         
@@ -1098,4 +1104,33 @@ extension DetailViewController {
         UIGraphicsEndImageContext()
         view.backgroundColor = UIColor(patternImage: image)
     }
+}
+
+//geo
+extension DetailViewController {
+	func getWaitTime(){
+		print("ejlim getWaitTime")
+		//Server.getGeoAndWaittime(chargerId:(self.charger?.chargerId)!, completion: <#T##(Bool, Any) -> Void#>) { (isSuccess, value) in
+		let chargerid = Int(self.charger?.chargerId ?? "1")
+		print("ejlim chargerId \(chargerid)")
+		Server.getGeoAndWaittime(chargerId:Int(self.charger?.chargerId ?? "1")!) { (isSuccess, value) in
+			if isSuccess {
+				if let result = value {
+				  let waitTime = try! JSONDecoder().decode(WaitTimeModel.self, from: result)
+				  if waitTime.code == 1000 {
+					if let data = waitTime.data{
+						print("ejlim isSuccess")
+						print("ejlim user_count \(data.user_count ?? -1)")
+						self.mUserCount = Int(data.user_count ?? -1)
+						self.mWaitTime.removeAll()
+						self.mWaitTime.append(contentsOf: data.status)
+						self.geoLabel.text = "근처에 \(self.mUserCount)명이 있음"
+					}
+				  }
+				}else{
+					
+				}
+			}
+		}
+	}
 }

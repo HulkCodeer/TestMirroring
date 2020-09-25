@@ -10,6 +10,7 @@
 		4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */; };
 		4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
+		4E05096A2519E280000CFF55 /* WaitTimeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0509692519E280000CFF55 /* WaitTimeModel.swift */; };
 		4E5EBF1724EE5EB4006DF807 /* GeoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5EBF1624EE5EB4006DF807 /* GeoManager.swift */; };
 		4E5EBF1A24EE5ED6006DF807 /* GeoRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5EBF1924EE5ED6006DF807 /* GeoRegion.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
@@ -267,6 +268,7 @@
 		4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceViewController.swift; sourceTree = "<group>"; };
 		4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceTableViewCell.swift; sourceTree = "<group>"; };
 		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
+		4E0509692519E280000CFF55 /* WaitTimeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitTimeModel.swift; sourceTree = "<group>"; };
 		4E5EBF1624EE5EB4006DF807 /* GeoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoManager.swift; sourceTree = "<group>"; };
 		4E5EBF1924EE5ED6006DF807 /* GeoRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoRegion.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -785,6 +787,7 @@
 				CEBE0600214BA5C30047E6F2 /* ReportData.swift */,
 				73D65D7B2360299700F564A2 /* PaymentCard.swift */,
 				4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */,
+				4E0509692519E280000CFF55 /* WaitTimeModel.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1432,6 +1435,7 @@
 				73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */,
 				7376B5C520C6473500A2B7C1 /* MyArticleViewController.swift in Sources */,
 				73268D4C2188331700C00427 /* SettingsViewController.swift in Sources */,
+				4E05096A2519E280000CFF55 /* WaitTimeModel.swift in Sources */,
 				DBEE9AFC211842ED00770D04 /* SignUpViewController.swift in Sources */,
 				736813B2204503B70035FC66 /* NavCenterButton.swift in Sources */,
 				7339908022D881D100CF72A8 /* PaymentResultViewController.swift in Sources */,

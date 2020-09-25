@@ -845,6 +845,15 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
 	}
 	
+	static func getGeoAndWaittime(chargerId:Int, completion: @escaping (Bool, Data?) -> Void) {
+		let reqParam: Parameters = [
+				   "charger_id": chargerId
+			   ]
+	   Alamofire.request("http://fcev.soft-berry.co.kr/api/v1/Charger/getWaitTIme",
+					  method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+			.validate().responseJSON { response in responseData(response: response, completion: completion) }
+	}
+	
     // download url file
     static func getData(url: URL, completion: @escaping (Bool, Data?) -> Void) {
         Alamofire.request(url).responseData { (response) in
