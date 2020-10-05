@@ -300,7 +300,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rx1-ZB-nqj">
                                                 <rect key="frame" x="0.0" y="0.0" width="79" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <state key="normal" title="QR충전" image="ic_line_payment">
+                                                <state key="normal" title="간편충전" image="ic_line_payment">
                                                     <color key="titleColor" red="0.082922942939999994" green="0.263746798" blue="0.3624860942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
@@ -310,27 +310,28 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xBg-t6-57T">
                                                 <rect key="frame" x="83" y="0.0" width="78.5" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <state key="normal" title="결제충전소" image="ic_line_payment">
+                                                <state key="normal" title="무료베리충전" image="ic_line_offerwall">
                                                     <color key="titleColor" red="0.082922942939999994" green="0.263746798" blue="0.3624860942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="onClickMainPayableChargerList:" destination="Dkt-CM-WPs" eventType="touchUpInside" id="hcN-Mi-3Vx"/>
+                                                    <action selector="onClickMainOfferwall:" destination="Dkt-CM-WPs" eventType="touchUpInside" id="Pwf-zb-px5"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z2-jd-MHp">
                                                 <rect key="frame" x="165.5" y="0.0" width="79" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <state key="normal" title="신규제보" image="ic_line_payment">
+                                                <state key="normal" title="도움말" image="ic_line_help">
                                                     <color key="titleColor" red="0.082922942939999994" green="0.263746798" blue="0.3624860942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="onClickMainReportCharger:" destination="Dkt-CM-WPs" eventType="touchUpInside" id="mNp-X3-twA"/>
+                                                    <action selector="onClickMainHelp:" destination="Dkt-CM-WPs" eventType="touchUpInside" id="BtA-kK-eI1"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9yb-v3-RaX">
                                                 <rect key="frame" x="248.5" y="0.0" width="78.5" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <state key="normal" title="즐겨찾기" image="ic_line_payment">
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="-10" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="즐겨찾기" image="ic_line_favorite">
                                                     <color key="titleColor" red="0.082922942939999994" green="0.263746798" blue="0.3624860942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
@@ -769,8 +770,8 @@
                         <outlet property="btnWay" destination="Wm2-kW-rab" id="rpR-Vy-W5X"/>
                         <outlet property="btn_main_charge" destination="rx1-ZB-nqj" id="Sah-ce-kgd"/>
                         <outlet property="btn_main_favorite" destination="9yb-v3-RaX" id="vTk-DY-RUP"/>
-                        <outlet property="btn_main_payable_charger_list" destination="xBg-t6-57T" id="EUx-qz-ZpE"/>
-                        <outlet property="btn_main_report_charger" destination="0Z2-jd-MHp" id="M5v-dA-QLu"/>
+                        <outlet property="btn_main_help" destination="0Z2-jd-MHp" id="xlV-wl-3LX"/>
+                        <outlet property="btn_main_offerwall" destination="xBg-t6-57T" id="ejz-Dq-HvT"/>
                         <outlet property="btn_menu_layer" destination="hUZ-Py-Zxk" id="nnN-qe-zVg"/>
                         <outlet property="callOutFavorite" destination="MaQ-cv-qR2" id="XK1-aN-VaV"/>
                         <outlet property="callOutLayer" destination="ajZ-jT-ZKd" id="l5X-Za-xVI"/>
@@ -4063,10 +4064,10 @@
                                     <constraint firstAttribute="bottom" secondItem="87E-1i-JCi" secondAttribute="bottom" constant="40" id="mHl-Mb-X9D"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="51W-Rk-1Cs">
-                                <rect key="frame" x="16" y="608" width="343" height="43"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="HHS-Ck-Qp9" userLabel="Login Button Stack View">
+                                <rect key="frame" x="16" y="592" width="343" height="43"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Jw-xQ-dKP" customClass="KOLoginButton">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Jw-xQ-dKP" userLabel="Kakao Button" customClass="KOLoginButton">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="43"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="43" id="KQ7-Hb-dbX"/>
@@ -4077,26 +4078,27 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
-                                        <connections>
-                                            <action selector="login:" destination="xS1-lo-Ups" eventType="touchUpInside" id="YSK-ir-qOf"/>
-                                        </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="4Jw-xQ-dKP" secondAttribute="trailing" id="kfm-aV-1VQ"/>
+                                    <constraint firstItem="4Jw-xQ-dKP" firstAttribute="leading" secondItem="HHS-Ck-Qp9" secondAttribute="leading" id="vEh-em-4qP"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="bpP-tT-fK7"/>
                         <color key="backgroundColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.23137254900000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="bpP-tT-fK7" firstAttribute="bottom" secondItem="51W-Rk-1Cs" secondAttribute="bottom" constant="16" id="4Je-R4-sYy"/>
-                            <constraint firstItem="bpP-tT-fK7" firstAttribute="trailing" secondItem="51W-Rk-1Cs" secondAttribute="trailing" constant="16" id="7uV-Gq-KfM"/>
+                            <constraint firstItem="HHS-Ck-Qp9" firstAttribute="leading" secondItem="bpP-tT-fK7" secondAttribute="leading" constant="16" id="3pj-n2-nVK"/>
                             <constraint firstItem="pkx-4A-eVe" firstAttribute="centerY" secondItem="bFG-ez-xJz" secondAttribute="centerY" id="D6V-55-h1M"/>
-                            <constraint firstItem="51W-Rk-1Cs" firstAttribute="leading" secondItem="bpP-tT-fK7" secondAttribute="leading" constant="16" id="LQU-uC-JgK"/>
+                            <constraint firstItem="bpP-tT-fK7" firstAttribute="trailing" secondItem="HHS-Ck-Qp9" secondAttribute="trailing" constant="16" id="DYs-Wx-gQw"/>
                             <constraint firstItem="pkx-4A-eVe" firstAttribute="centerX" secondItem="bpP-tT-fK7" secondAttribute="centerX" id="ga2-Gv-aym"/>
+                            <constraint firstItem="bpP-tT-fK7" firstAttribute="bottom" secondItem="HHS-Ck-Qp9" secondAttribute="bottom" constant="32" id="wbT-cb-ebn"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="btnKakaoLogin" destination="4Jw-xQ-dKP" id="hmJ-Dw-5V1"/>
-                        <outlet property="loginButtonStackView" destination="51W-Rk-1Cs" id="npB-gi-ayn"/>
+                        <outlet property="btnKakaoLogin" destination="4Jw-xQ-dKP" id="y6x-lv-S9m"/>
+                        <outlet property="loginButtonStackView" destination="HHS-Ck-Qp9" id="xk8-sm-yHN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uXj-mN-cIi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -7357,7 +7359,10 @@
         <image name="ic_favorite_add" width="24" height="24"/>
         <image name="ic_image_lib" width="24" height="24"/>
         <image name="ic_launcher" width="150" height="150"/>
-        <image name="ic_line_payment" width="44" height="44"/>
+        <image name="ic_line_favorite" width="32" height="24"/>
+        <image name="ic_line_help" width="32" height="24"/>
+        <image name="ic_line_offerwall" width="32" height="24"/>
+        <image name="ic_line_payment" width="32" height="24"/>
         <image name="ic_location" width="24" height="24"/>
         <image name="ic_login" width="90" height="90"/>
         <image name="ic_menu_check" width="30" height="30"/>
@@ -7394,12 +7399,6 @@
         <image name="menu_top_bg.jpg" width="230.39999389648438" height="139.19999694824219"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
