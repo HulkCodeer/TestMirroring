@@ -1530,10 +1530,7 @@ extension MainViewController {
     @IBAction func onClickMainOfferwall(_ sender: UIButton) {
         if MemberManager().isLogin() {
             let offerwallVC = self.storyboard?.instantiateViewController(withIdentifier: "OfferwallViewController") as! OfferwallViewController
-            
-            let next = AppSearchBarController(rootViewController: offerwallVC)
-            next.modalPresentationStyle = .fullScreen
-            self.present(next, animated: true, completion: nil)
+            self.navigationController?.push(viewController: offerwallVC)
         } else {
             MemberManager().showLoginAlert(vc: self)
         }

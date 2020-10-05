@@ -21,17 +21,16 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate{
     private let kAdUnitId = "657d0a18465e49868563a4cd2ed266bf"
     
     /**
-     Currently selected reward by the user.
+    Currently selected reward by the user.
      */
     private var selectedReward: MPRewardedVideoReward? = nil
 
-    
     @IBOutlet weak var offerwallContainer: UIView!
     //var mRewardedAd: GADRewardedAd?
     
-    @IBOutlet weak var mBtnRewardAdmob: UIButton!
-    override func viewDidLoad() {
+    @IBOutlet weak var mBtnVideo: UIButton!
     
+    override func viewDidLoad() {
         prepareActionBar();
         prepareView();
     }
@@ -52,70 +51,14 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate{
         navigationItem.leftViews = [backButton]
         navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
-        navigationItem.titleLabel.text = "베리 충전"
+        navigationItem.titleLabel.text = "베리충전소"
         self.navigationController?.isNavigationBarHidden = false
     }
     
     func prepareView() {
-        mBtnRewardAdmob.isHidden = true
         MPRewardedVideo.setDelegate(self, forAdUnitId: self.kAdUnitId)
         checkAndInitializeSdk()
-        
-        //mRewardedAd = createAndLoadRewardedAd();
-        //initOfferwall();
     }
-    
-    func initOfferwall(){
-//
-//        // 오퍼월 테마 색상 변경
-//        AdPopcornStyle.sharedInstance().adPopcornCustomThemeColor = UIColor(hexString:"#472a2bff");
-//
-//        // 오퍼월 로고 변경
-//        AdPopcornStyle.sharedInstance().adPopcornCustomOfferwallTitleLogoPath = nil
-//
-//        // 오퍼월 타이틀 변경
-//        AdPopcornStyle.sharedInstance().adPopcornCustomOfferwallTitle = "베리 충전소";
-//
-//        // 오퍼월 타이틀 색상 변경
-//        AdPopcornStyle.sharedInstance().adPopcornCustomOfferwallTitleColor = UIColor.red;
-//
-//        // 오퍼월 Top/bottom bar 색상 변경
-//        //AdPopcornStyle.sharedInstance().adPopcornCustomOfferwallTitleBackgroundColor = UIColor.white;
-//
-//        let adPopcornVC:AdPopcornAdListViewController = AdPopcornAdListViewController();
-//        adPopcornVC.setViewModeWidthSize(self.offerwallContainer.bounds.width);
-//        adPopcornVC.setViewModeHeightSize(self.offerwallContainer.bounds.height);
-//
-//        let navigationController = UINavigationController()
-//        navigationController.addChildViewController(adPopcornVC)
-//
-//        self.addChildViewController(navigationController);
-//        self.offerwallContainer.addSubview(navigationController.view);
-//
-//        //adPopcornVC.didMove(toParentViewController: self)
-//
-//        adPopcornVC.setViewModeImpression();
-//        AdPopcornOfferwall.shared()?.delegate = self
-    }
-    
-     // load admob
-//    func createAndLoadRewardedAd() -> GADRewardedAd{
-//        let rewardedAd = GADRewardedAd(adUnitID: testID)
-//
-//        mBtnRewardAdmob.isHidden = true
-//
-//        rewardedAd.load(GADRequest()) { error in
-//            if let error = error {
-//                print("Loading failed: \(error)")
-//            } else {
-//                print("Loading Succeeded")
-//                if self.mRewardedAd?.isReady == true {
-//                    self.mBtnRewardAdmob.isHidden = false
-//                }
-//            }
-//        }
-//        return rewardedAd
-//    }
     
     @IBAction func onClickAdmobAd(_ sender: Any) {
         
@@ -124,7 +67,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate{
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].intValue == 1000 {
-                    if (MPRewardedVideo.hasAdAvailable(forAdUnitID: self.kAdUnitId)){
+                    if MPRewardedVideo.hasAdAvailable(forAdUnitID: self.kAdUnitId) {
                         guard let reward: MPRewardedVideoReward = MPRewardedVideo.selectedReward(forAdUnitID: self.kAdUnitId) else {
                             self.selectedReward = nil
                             return
@@ -132,18 +75,16 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate{
                         
                         self.selectedReward = reward
                         MPRewardedVideo.presentAd(forAdUnitID: self.kAdUnitId, from: self, with: self.selectedReward, customData: String(MemberManager.getMbId()))
-                    }else{
+                    } else {
                         Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
                     }
-                }else{
+                } else {
                     Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
                 }
-            }else{
+            } else {
                 Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
             }
-        };
-        
-        
+        }
     }
     
     /// Tells the delegate that the user earned a reward.
@@ -152,33 +93,12 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate{
         let amount = reward.amount
         let type = reward.type
  
-            print("Reward received with currency: \(reward.type), amount \(reward.amount).")
+        print("Reward received with currency: \(reward.type), amount \(reward.amount).")
         
         Server.postRewardVideo(type: type, amount: Int(truncating: amount)){ (isSuccess, value) in
             //sendNotification(amount)
         }
     }
-    
-    
-    // admob delegate
-    /// Tells the delegate that the rewarded ad was presented.
-//    func rewardedAdDidPresent(_ rewardedAd: GADRewardedAd) {
-//      print("Rewarded ad presented.")
-//    }
-//    /// Tells the delegate that the rewarded ad was dismissed.
-//    func rewardedAdDidDismiss(_ rewardedAd: GADRewardedAd) {
-//        mRewardedAd = createAndLoadRewardedAd();
-//      print("Rewarded ad dismissed.")
-//    }
-//    /// Tells the delegate that the rewarded ad failed to present.
-//    func rewardedAd(_ rewardedAd: GADRewardedAd, didFailToPresentWithError error: Error) {
-//      print("Rewarded ad failed to present.")
-//    }
-    
-//    // adpopcorn delegate
-//    func offerwallTotalRewardInfo(_ queryResult: Bool, totalCount count: Int, totalReward reward: String!) {
-//        print("Offerwall : " + reward + " : \(count) : \(queryResult)")
-//    }
     
     /**
     Check if the Canary app has a cached ad unit ID for consent. If not, the app will present an alert dialog allowing custom ad unit ID entry.
@@ -213,8 +133,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate{
         }
     }
     
-    
-    func loadRewardedVideo(){
+    func loadRewardedVideo() {
         DispatchQueue.main.async {
             MPRewardedVideo.loadAd(withAdUnitID: self.kAdUnitId, withMediationSettings: nil)
         }
@@ -223,7 +142,6 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate{
     // mopub delegate
     func rewardedVideoAdDidLoad(forAdUnitID adUnitID: String!) {
         print("Loading Succeeded")
-        self.mBtnRewardAdmob.isHidden = false
     }
     
     func rewardedVideoAdDidAppear(forAdUnitID adUnitID: String!) {
@@ -240,7 +158,6 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate{
     
     func rewardedVideoAdDidDisappear(forAdUnitID adUnitID: String!) {
         print("rewardedVideoAdDidDisappear")
-        self.mBtnRewardAdmob.isHidden = true
         loadRewardedVideo()
     }
     
