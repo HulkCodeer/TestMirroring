@@ -4158,32 +4158,42 @@
                                     <constraint firstAttribute="bottom" secondItem="87E-1i-JCi" secondAttribute="bottom" constant="40" id="mHl-Mb-X9D"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Jw-xQ-dKP" customClass="KOLoginButton">
-                                <rect key="frame" x="32" y="594" width="311" height="43"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="HHS-Ck-Qp9" userLabel="Login Button Stack View">
+                                <rect key="frame" x="16" y="592" width="343" height="43"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Jw-xQ-dKP" userLabel="Kakao Button" customClass="KOLoginButton">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="43"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="43" id="KQ7-Hb-dbX"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="tintColor" red="0.2196078431372549" green="0.12156862745098039" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="43" id="KQ7-Hb-dbX"/>
+                                    <constraint firstAttribute="trailing" secondItem="4Jw-xQ-dKP" secondAttribute="trailing" id="kfm-aV-1VQ"/>
+                                    <constraint firstItem="4Jw-xQ-dKP" firstAttribute="leading" secondItem="HHS-Ck-Qp9" secondAttribute="leading" id="vEh-em-4qP"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="tintColor" red="0.2196078431372549" green="0.12156862745098039" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="login:" destination="xS1-lo-Ups" eventType="touchUpInside" id="YSK-ir-qOf"/>
-                                </connections>
-                            </button>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="bpP-tT-fK7"/>
                         <color key="backgroundColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.23137254900000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="HHS-Ck-Qp9" firstAttribute="leading" secondItem="bpP-tT-fK7" secondAttribute="leading" constant="16" id="3pj-n2-nVK"/>
                             <constraint firstItem="pkx-4A-eVe" firstAttribute="centerY" secondItem="bFG-ez-xJz" secondAttribute="centerY" id="D6V-55-h1M"/>
+                            <constraint firstItem="bpP-tT-fK7" firstAttribute="trailing" secondItem="HHS-Ck-Qp9" secondAttribute="trailing" constant="16" id="DYs-Wx-gQw"/>
                             <constraint firstItem="pkx-4A-eVe" firstAttribute="centerX" secondItem="bpP-tT-fK7" secondAttribute="centerX" id="ga2-Gv-aym"/>
-                            <constraint firstItem="4Jw-xQ-dKP" firstAttribute="leading" secondItem="bFG-ez-xJz" secondAttribute="leadingMargin" constant="16" id="lip-kc-q2t"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="4Jw-xQ-dKP" secondAttribute="trailing" constant="16" id="mIN-zj-J0s"/>
-                            <constraint firstItem="bpP-tT-fK7" firstAttribute="bottom" secondItem="4Jw-xQ-dKP" secondAttribute="bottom" constant="30" id="xWd-It-ZXA"/>
+                            <constraint firstItem="bpP-tT-fK7" firstAttribute="bottom" secondItem="HHS-Ck-Qp9" secondAttribute="bottom" constant="32" id="wbT-cb-ebn"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="btnKakaoLogin" destination="4Jw-xQ-dKP" id="y6x-lv-S9m"/>
+                        <outlet property="loginButtonStackView" destination="HHS-Ck-Qp9" id="xk8-sm-yHN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uXj-mN-cIi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
