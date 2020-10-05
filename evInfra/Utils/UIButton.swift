@@ -10,15 +10,16 @@ import UIKit
 
 public extension UIButton {
 
-    func alignTextUnderImage(spacing: CGFloat = 6.0)
-    {
-        if let image = self.imageView?.image
-        {
+    func alignTextUnderImage(spacing: CGFloat = 6.0) {
+        if let image = self.imageView?.image {
             let imageSize: CGSize = image.size
-            self.titleEdgeInsets = UIEdgeInsets(top: spacing, left: -imageSize.width, bottom: -(imageSize.height) + 20, right: 0.0)
+            self.titleEdgeInsets = UIEdgeInsets(top: spacing, left: -imageSize.width, bottom: -(imageSize.height) + spacing, right: 0.0)
+            
             let labelString = NSString(string: self.titleLabel!.text!)
             let titleSize = labelString.size(withAttributes: [NSAttributedString.Key.font: self.titleLabel!.font])
             self.imageEdgeInsets = UIEdgeInsets(top: -(titleSize.height + spacing), left: 0.0, bottom: 0.0, right: -titleSize.width)
+            
+            self.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: -spacing, right: 0.0)
         }
     }
 
