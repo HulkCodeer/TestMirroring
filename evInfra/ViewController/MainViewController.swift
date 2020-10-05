@@ -14,6 +14,8 @@ import SwiftyJSON
 
 protocol MainViewDelegate {
     func redrawCalloutLayer()
+    func setDistance()
+    func setCallOutLb()
 }
 
 class MainViewController: UIViewController {
@@ -86,11 +88,6 @@ class MainViewController: UIViewController {
     
     @IBOutlet var markerImg: UIImageView!
     
-//    @IBOutlet weak var callOutDCCombo: UIImageView!
-//    @IBOutlet weak var callOutDCDemo: UIImageView!
-//    @IBOutlet weak var callOutAC: UIImageView!
-//    @IBOutlet weak var callOutSlow: UIImageView!
-    
     @IBOutlet weak var startPointBtn: UIButton!
     @IBOutlet weak var endPointBtn: UIButton!
     @IBOutlet weak var naviBtn: UIButton!
@@ -115,6 +112,7 @@ class MainViewController: UIViewController {
     private var resultTableView: PoiTableView?
     
     private var selectCharger: ChargerStationInfo? = nil
+    private var stationInfoArr = [String:String]()
     
     private let dropDownWay = DropDown()
     private let dropDownPay = DropDown()
@@ -153,7 +151,7 @@ class MainViewController: UIViewController {
         prepareClustering()
         prepareMenuBtnLayer()
         
-        requestStationInfo();
+        requestStationInfo()
         
         //getChargerInfo()  // request to server
         //self.checkFCM()
@@ -164,6 +162,10 @@ class MainViewController: UIViewController {
         self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        
+        if let currentPoint = MainViewController.currentLocation {
+            startField.placeholder = tMapPathData.convertGpsToAddress(at: currentPoint)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -435,6 +437,67 @@ class MainViewController: UIViewController {
         btnChargePrice.addGestureRecognizer(gesture)
     }
     
+    func kakaoNavigation(){
+        let destination = KNVLocation(name: (selectCharger?.mStationInfoDto?.mSnm)!, x: (selectCharger?.mStationInfoDto?.mLongitude)! as NSNumber, y: (selectCharger?.mStationInfoDto?.mLatitude)! as NSNumber)
+        let options = KNVOptions()
+        options.coordType = KNVCoordType.WGS84
+        let params = KNVParams(destination: destination, options: options)
+        KNVNaviLauncher.shared().navigate(with: params) { (error) in
+            self.handleError(error: error)
+        }
+    }
+    
+    func tmapNavigation(){
+        if(TMapTapi.isTmapApplicationInstalled()) {
+            let coordinate = CLLocationCoordinate2D(latitude: (selectCharger?.mStationInfoDto?.mLatitude)!, longitude: (selectCharger?.mStationInfoDto?.mLongitude)!)
+            TMapTapi.invokeRoute(selectCharger?.mStationInfoDto?.mSnm, coordinate: coordinate)
+            print("Launchin Tmap was successful")
+        } else {
+            let tmapURL = TMapTapi.getTMapDownUrl()
+            if let url = URL(string: tmapURL!), UIApplication.shared.canOpenURL(url){
+                UIApplication.shared.open(url, options: [:], completionHandler: {(success: Bool) in
+                    if success {
+                        print("Launching \(url) was successful")
+                    }
+                })
+            }
+        }
+    }
+    
+    func handleError(error: Error?) -> Void {
+        if let error = error as NSError? {
+            print(error)
+            let alert = UIAlertController(title: self.title!, message: error.localizedFailureReason, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func showNavigation() {
+        //action sheet title 지정
+        let optionMenu = UIAlertController(title: nil, message: "네비게이션", preferredStyle: .alert)
+           
+        //옵션 초기화
+        let kakaoMap = UIAlertAction(title: "카카오맵(KAKAO MAP)", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.kakaoNavigation()
+        })
+        let tMap = UIAlertAction(title: "티맵(T MAP)", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.tmapNavigation()
+        })
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+       
+        //action sheet에 옵션 추가.
+        optionMenu.addAction(kakaoMap)
+        optionMenu.addAction(tMap)
+        optionMenu.addAction(cancelAction)
+           
+        //show
+        self.present(optionMenu, animated: true, completion: nil)
+    }
+    
+    
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
         self.navigationController?.push(viewController:vc)
@@ -495,9 +558,14 @@ class MainViewController: UIViewController {
             appTc.enableRouteMode(isRoute: true)
             
             endField.text = selectCharger?.mStationInfoDto?.mSnm
-            routeStartPoint = selectCharger?.getTMapPoint()
+            routeEndPoint = selectCharger?.getTMapPoint()
         }
     }
+    
+    @IBAction func onClickShowNavi(_ sender: Any) {
+        self.showNavigation()
+    }
+    
     
     @IBAction func onClickRouteAddPoint(_ sender: UIButton) {
         if selectCharger != nil {
@@ -701,7 +769,11 @@ extension MainViewController: TextFieldDelegate {
     func prepareRouteField() {
         startField.tag = ROUTE_START
         startField.delegate = self
-        startField.placeholder = "출발지를 입력하세요"
+        
+        if startField.placeholder == nil {
+            startField.placeholder = "출발지를 입력하세요"
+        }
+        
         startField.placeholderAnimation = .hidden
         startField.isClearIconButtonEnabled = true
 //        startField.dividerActiveColor = Color.blue.darken1
@@ -778,7 +850,7 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func findPath(passList: [TMapPoint]) {
-        if routeStartPoint == nil {
+        if routeStartPoint == nil{
             if let currentPoint = MainViewController.currentLocation {
                 startField.text = tMapPathData.convertGpsToAddress(at: currentPoint)
                 routeStartPoint = currentPoint
@@ -1046,6 +1118,7 @@ extension MainViewController: MainViewDelegate {
         let detailVC:DetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         detailVC.mainViewDelegate = self
         detailVC.charger = self.selectCharger
+        detailVC.stationInfoArr = self.stationInfoArr
         detailVC.checklistUrl = self.checklistUrl
         self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
     }
@@ -1080,13 +1153,11 @@ extension MainViewController: MainViewDelegate {
         setDistance()
        
 //        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
-        callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
         
-        callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
-        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
+        setCallOutLb()
         
-        //TODO: 수정예정
         let chargeState = callOutStatus.text
+        stationInfoArr[chargeState ?? ""] = "chargeState"
         setChargeStateImg(type: chargeState!)
         
         setCallOutFavoriteIcon(charger: selectCharger!)
@@ -1098,6 +1169,12 @@ extension MainViewController: MainViewDelegate {
                 markerItem.setIcon(self.selectCharger!.getSelectIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
             }
         }
+    }
+    
+    func setCallOutLb() {
+        callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
+        
+        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
     }
     
     func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
@@ -1114,7 +1191,6 @@ extension MainViewController: MainViewDelegate {
         })
     }
     
-    //TODO: detailViewController 코드 겹침
     func setDistance() {
         if let currentLocatin = MainViewController.currentLocation {
             getDistance(curPos: currentLocatin, desPos: self.selectCharger!.marker.getTMapPoint())
@@ -1139,7 +1215,7 @@ extension MainViewController: MainViewDelegate {
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.distanceLb.text = "거리를 계산할 수 없습니다."
+                        self.distanceLb.text = "계산오류."
                     }
                 }
             }
@@ -1171,10 +1247,6 @@ extension MainViewController: MainViewDelegate {
         
         if ((type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER)
             || ((type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION) {
-//            callOutDCCombo.image = nil
-//            callOutSlow.image = nil
-//            callOutDCDemo.image = UIImage(named: "type_super_dim")
-//            callOutAC.image =  UIImage(named: "type_destination_dim")
             
             if (type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
                 let type = "슈퍼차저"
@@ -1187,19 +1259,15 @@ extension MainViewController: MainViewDelegate {
             }
         }
     }
-
     
     func setTextType(type:String) {
         
         if self.typeLb1.text == ""{
             self.typeLb1.text = type
-            print("csj_lb1", type)
         }else if self.typeLb2.text == ""{
             self.typeLb2.text = type
-            print("csj_lb2", type)
         }else {
             self.typeLb3.text = type
-            print("csj_lb3", type)
         }
 
     }
@@ -1225,23 +1293,26 @@ extension MainViewController: MainViewDelegate {
             strPower = "\(power)kWh"
         }
         self.chargePowerLb.text = strPower
+        stationInfoArr[strPower] = "power"
     }
     
     func setChargeStateImg(type:String) {
+        
         switch type {
         case "충전중":
-            self.markerImg.backgroundColor = UIColor(patternImage: UIImage(named: "marker_state_charging.png")!)
+            self.markerImg.image = UIImage(named: "marker_state_charging.png")
             break
         case "대기중":
-            self.markerImg.backgroundColor = UIColor(patternImage: UIImage(named: "marker_state_normal.png")!)
+            self.markerImg.image = UIImage(named: "marker_state_normal.png")
             break
         case "운영중지":
-            self.markerImg.backgroundColor = UIColor(patternImage: UIImage(named: "marker_state_no_op.png")!)
+            self.markerImg.image = UIImage(named: "marker_state_no_op.png")
             break
         default:
-            self.markerImg.backgroundColor = UIColor(patternImage: UIImage(named: "marker_state_no_connect.png")!)
+            self.markerImg.image = UIImage(named: "marker_state_no_connect.png")
             break
         }
+        self.markerImg.clipsToBounds = true
     }
     
     func setChargePrice(pay: String) {
@@ -1249,10 +1320,13 @@ extension MainViewController: MainViewDelegate {
         switch pay {
         case "Y":
             self.chargePriceLb.text = "무료"
+            stationInfoArr["무료"] = "pay"
         case "N":
             self.chargePriceLb.text = "유료"
+            stationInfoArr["유료"] = "pay"
         default:
             self.chargePriceLb.text = "시범운영"
+            stationInfoArr["시범운영"] = "pay"
         }
     }
 }
@@ -1509,6 +1583,8 @@ extension MainViewController {
             drawTMapMarker()
         }
     }
+    
+    
 }
 
 extension MainViewController {
