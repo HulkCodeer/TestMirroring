@@ -68,8 +68,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let SUB_MENU_ALL_SETTINGS  = 0
     let SUB_MENU_SERVICE_GUIDE = 1
-    let SUB_MENU_HELP          = 2
-    let SUB_MENU_VERSION       = 3
+    let SUB_MENU_VERSION       = 2
     
     var sideSectionArrays = [["마이페이지", "PAY"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["설정"]]
     var sideMenuArrays = [[["개인정보 관리", "내가쓴글 보기", "충전소 제보내역"],
@@ -78,7 +77,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
                            ["GS 칼텍스", "제주전기자동차서비스", "에스트래픽"]],
                           [["이벤트", "내 쿠폰함"]],
                           [["전기차 정보", "충전기 정보", "보조금 안내", "보조금 현황"]],
-                          [["전체 설정", "이용 안내", "도움말", "버전 정보"]]]
+                          [["전체 설정", "이용 안내", "버전 정보"]]]
     
     @IBOutlet weak var btnLogin: UIButton!
     @IBOutlet weak var sideMenuTab: UIView!
@@ -257,6 +256,7 @@ extension LeftViewController {
                 case SUB_MENU_REPORT_STATION: // 충전소 제보 내역
                     let reportVC = storyboard?.instantiateViewController(withIdentifier: "ReportBoardViewController") as! ReportBoardViewController
                     navigationController?.push(viewController: reportVC)
+
                 default:
                     print("out of index")
                 }
@@ -270,13 +270,16 @@ extension LeftViewController {
                     let mbscdVC = storyboard?.instantiateViewController(withIdentifier: "MembershipCardViewController") as! MembershipCardViewController
                     navigationController?.push(viewController: mbscdVC)
                     break
+
                 case SUB_MENU_MY_CHARGING_HISTORY: // 충전이력조회
                     let chargesVC = storyboard?.instantiateViewController(withIdentifier: "ChargesViewController") as! ChargesViewController
                     navigationController?.push(viewController: chargesVC)
+
                 case SUB_MENU_MY_POINT: // 포인트 조회
                     let pointVC = storyboard?.instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
                     navigationController?.push(viewController: pointVC)
                     break
+
                 default:
                     print("out of index")
                 }
@@ -315,12 +318,15 @@ extension LeftViewController {
             case SUB_MENU_GS_CALTEX:
                 companyBoardVC.companyId = CompanyInfo.COMPANY_ID_GSC
                 navigationController?.push(viewController: companyBoardVC)
+
             case SUB_MENU_JEVS:
                 companyBoardVC.companyId = CompanyInfo.COMPANY_ID_JEVS
                 navigationController?.push(viewController: companyBoardVC)
+
             case SUB_MENU_STRAFFIC:
                 companyBoardVC.companyId = CompanyInfo.COMPANY_ID_STRAFFIC
                 navigationController?.push(viewController: companyBoardVC)
+
             default:
                 print("out of index")
             }
@@ -336,9 +342,11 @@ extension LeftViewController {
             case SUB_MENU_EVENT: // 이벤트
                 let eventBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "EventViewController") as! EventViewController
                 self.navigationController?.push(viewController: eventBoardVC)
+
             case SUB_MENU_MY_COUPON: // 내 쿠폰함
                 let coponVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCouponViewController") as! MyCouponViewController
                 self.navigationController?.push(viewController: coponVC)
+
             default:
                 print("out of index")
             }
@@ -389,11 +397,7 @@ extension LeftViewController {
             case SUB_MENU_SERVICE_GUIDE:
                 let guideVC = self.storyboard?.instantiateViewController(withIdentifier: "ServiceGuideViewController") as! ServiceGuideViewController
                 self.navigationController?.push(viewController: guideVC)
-            
-            case SUB_MENU_HELP:
-                let termsViewControll = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-                termsViewControll.tabIndex = .Help
-                self.navigationController?.push(viewController: termsViewControll)
+
             default:
                 print("out of index")
             }

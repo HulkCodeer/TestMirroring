@@ -62,7 +62,7 @@ class ChargerStationInfo {
         }
         marker = TMapMarkerItem.init()
         marker.setTMapPoint(self.getTMapPoint())
-               marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+        marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
     }
     
     func changeStatus(status: Int) {
