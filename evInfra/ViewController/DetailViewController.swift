@@ -57,28 +57,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var guardEnvBtn: UIButton!
     @IBOutlet weak var guardKepcoBtn: UIButton!
     
-    // 별점주기
-//    @IBOutlet weak var gradeStarImage1: UIImageView!
-//    @IBOutlet weak var gradeStarImage2: UIImageView!
-//    @IBOutlet weak var gradeStarImage3: UIImageView!
-//    @IBOutlet weak var gradeStarImage4: UIImageView!
-//    @IBOutlet weak var gradeStarImage5: UIImageView!
-//    @IBOutlet weak var gradeRegBtn: UIButton!
-//    @IBOutlet weak var gradeModBtn: UIButton!
-//    @IBOutlet weak var gradeDelBtn: UIButton!
-    
-    // 평점
-//    @IBOutlet weak var gpaView: UIView!
-//    @IBOutlet weak var gpaLabelView: UILabel!
-//    @IBOutlet weak var personCntLabelView: UILabel!
-//    @IBOutlet weak var gpaStarImage1: UIImageView!
-//    @IBOutlet weak var gpaStarImage2: UIImageView!
-//    @IBOutlet weak var gpaStarImage3: UIImageView!
-//    @IBOutlet weak var gpaStarImage4: UIImageView!
-//    @IBOutlet weak var gpaStarImage5: UIImageView!
-//    @IBOutlet weak var gpaInfoImage: UIImageView!
-//    @IBOutlet weak var gpaTitleLabel: UILabel!
-    
     @IBOutlet weak var boardTableView: BoardTableView!
     @IBOutlet weak var cidTableView: CidTableView!
 
@@ -254,7 +232,11 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.operatorLabel.text = json["op"].stringValue
         
         // 이용시간
-        self.timeLabel.text = json["ut"].stringValue
+        if json["ut"].stringValue.isEmpty{
+            self.timeLabel.text = "-"
+        }else{
+            self.timeLabel.text = json["ut"].stringValue
+        }
         
         // 메모
         let memo = json["mm"].stringValue
@@ -385,7 +367,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             
         }else if (roof.equals("N")){
             //Checking
-            print("csj_stationArea_check")
         }
     }
     
@@ -646,10 +627,13 @@ extension DetailViewController: EditViewDelegate {
 extension DetailViewController {
     fileprivate func showMenuBtn() {
         let actionButton = JJFloatingActionButton()
-        //TODO: gradient
-        actionButton.buttonColor = #colorLiteral(red: 0.1725490196, green: 0.8784313725, blue: 0.7333333333, alpha: 1)
-//        actionButton.buttonColor = UIColor.init(hexString: "#2CE0BB")!
-//        actionButton.borderColor = UIColor.init(hexString: "#2CE0BB")
+        actionButton.buttonColor = UIColor.clear
+        actionButton.buttonImage = UIImage(named: "detail_plus")
+//        actionButton.buttonImageSize = actionButton.buttonImage?.size ?? CGSize.init(width:  74.55, height:  74.55)
+        if let image = actionButton.buttonImage {
+            actionButton.buttonImageSize = image.size
+        }
+//        actionButton.buttonImageSize = CGSize.init(width: 56, height: 136)
         
         let ret = prepareCallItem()
         if ret {
@@ -1193,6 +1177,4 @@ extension DetailViewController {
         UIGraphicsEndImageContext()
         view.backgroundColor = UIColor(patternImage: image)
     }
-    
-
 }
