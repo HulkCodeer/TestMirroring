@@ -3,12 +3,18 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "DetailViewController.gestureRecognizerShouldBegin(_:):DetailViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "MainViewController.showCallOut(charger:):MainViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "callOutTitle.textColor">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetailViewController.contentViewTap(gesture:):DetailViewController.swift">
       </ContextState>
       <ContextState
          contextName = "StationInfoDto.setStationInfo(json:):StationInfoDto.swift">
@@ -54,6 +60,14 @@
             </PersistentString>
             <PersistentString
                value = "ChargerManager.sharedInstance.get">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetailViewController.gestureRecognizer(_:shouldReceive:):DetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "gestureRecognizer.state">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

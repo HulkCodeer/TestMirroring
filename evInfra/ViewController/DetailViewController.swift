@@ -84,7 +84,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     private var rcInfo = ReportData.ReportChargeInfo()
     
     var shareUrl = ""
-    let dbManager = DataBaseHelper.sharedInstance
     
     var myGradeStarPoint: Int = 0
     
@@ -105,6 +104,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         getMyGrade()
         
         setDetailLb()
+        
+        initKakaoMap()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -119,34 +120,41 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     override func viewWillLayoutSubviews() {
-        
+        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+    }
+    
+    func initKakaoMap(){
         self.mapView = MTMapView(frame: self.kakaoMapView.bounds)
-        let testPoint:MTMapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude:  37.4911458, longitude: 127.030325))
+        let mapPoint:MTMapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude:  (charger?.mStationInfoDto?.mLatitude)!, longitude: (charger?.mStationInfoDto?.mLongitude)!))
 //        37.491145, 127.030325
         
         if let mapView = mapView{
             
             mapView.delegate = self
-//            mapView.baseMapType = .hybrid
-            mapView.baseMapType = .standard
-            mapView.setMapCenter(MTMapPoint(geoCoord:.init(latitude: 37.491145,longitude: 127.030325)), zoomLevel: 2, animated: true)
+            mapView.baseMapType = .hybrid
+            mapView.setMapCenter(mapPoint, zoomLevel: 2, animated: true)
             
+
             let poiItem = MTMapPOIItem()
             poiItem.itemName = "test"
-            poiItem.markerType = MTMapPOIItemMarkerType.bluePin
+            poiItem.markerType = MTMapPOIItemMarkerType.customImage
             poiItem.tag = 1
             poiItem.showAnimationType = .dropFromHeaven
-            poiItem.mapPoint = testPoint
-//            poiItem.customImage =
+            poiItem.mapPoint = mapPoint
+            poiItem.customImage = UIImage(named: "skyview_point")
             mapView.add(poiItem)
-//            mapView.add(<#T##poiItem: MTMapPOIItem!##MTMapPOIItem!#>)
             
             self.kakaoMapView.addSubview(self.mapView!)
+            let gesture: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(mapViewTap(gesture:)))
+            self.kakaoMapView.addGestureRecognizer(gesture)
+            
         }
-        
-        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+    }
+    
+    @objc func mapViewTap(gesture : UIPanGestureRecognizer!) {
+        gesture.cancelsTouchesInView = false
     }
     
     // MARK: - Action for button
