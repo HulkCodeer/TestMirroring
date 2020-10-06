@@ -51,12 +51,16 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         
         // 최근 충전일
         if cInfo.recentDate != nil && ((cInfo.recentDate?.count)! > 0) {
+            cell.dateKind.roundCorners(.allCorners, radius: 5)
+            
             if cInfo.status == Const.CHARGER_STATE_CHARGING {
                 cell.dateKind.text = "경과시간"
                 cell.lastDate.text = cInfo.getChargingDuration()
+                cell.dateKind.backgroundColor = UIColor(hex: "#DFECF3")
             } else {
-                cell.dateKind.text = "충전완료"
+                cell.dateKind.text = "마지막 사용"
                 cell.lastDate.text = cInfo.getRecentDateSimple()
+                cell.dateKind.backgroundColor = UIColor(hex: "#E2E2E2")
             }
         } else {
             cell.dateKind.text = ""
