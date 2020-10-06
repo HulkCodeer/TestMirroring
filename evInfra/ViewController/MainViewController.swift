@@ -16,6 +16,11 @@ protocol MainViewDelegate {
     func redrawCalloutLayer()
     func setDistance()
     func setCallOutLb()
+    func setStartPath()         // 경로찾기(시작)
+    func setStartPoint()        // 경로찾기(출발)
+    func setEndPoint()          // 경로찾기(도착)
+    func showNavigation()       // 경로찾기(길안내)
+//    func bookmark()             // 즐겨찾기
 }
 
 class MainViewController: UIViewController {
@@ -158,7 +163,7 @@ class MainViewController: UIViewController {
         self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        
+
         if let currentPoint = MainViewController.currentLocation {
             startField.placeholder = tMapPathData.convertGpsToAddress(at: currentPoint)
         }
@@ -494,13 +499,45 @@ class MainViewController: UIViewController {
         self.present(optionMenu, animated: true, completion: nil)
     }
     
-    
-    @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
-        self.navigationController?.push(viewController:vc)
+    func setStartPoint() {
+//        String snackText = mSelectedCharger.mSnm + "(이)가 출발지로 설정되었습니다.";
+       //        Snackbar snackBar = Snackbar.make(v, snackText, Snackbar.LENGTH_SHORT).setAction("Action", null);
+       //        UtilFont.setGlobalFont(this, snackBar.getView());
+       //        snackBar.show();
+
+       if self.selectCharger != nil {
+           guard let tc = toolbarController else {
+               return
+           }
+           let appTc = tc as! AppToolbarController
+           appTc.enableRouteMode(isRoute: true)
+           
+           startField.text = selectCharger?.mStationInfoDto?.mSnm
+           routeStartPoint = selectCharger?.getTMapPoint()
+       }
     }
     
-    @IBAction func onClickFavorite(_ sender: UIButton) {
+    func setEndPoint() {
+        if self.selectCharger != nil {
+            guard let tc = toolbarController else {
+                return
+            }
+            let appTc = tc as! AppToolbarController
+            appTc.enableRouteMode(isRoute: true)
+            
+            endField.text = selectCharger?.mStationInfoDto?.mSnm
+            routeEndPoint = selectCharger?.getTMapPoint()
+        }
+    }
+    
+    func setStartPath() {
+        if selectCharger != nil {
+            let passList = [selectCharger?.getTMapPoint()]
+            findPath(passList: passList as! [TMapPoint])
+        }
+    }
+    
+    func bookmark() {
         if MemberManager().isLogin() {
             ChargerManager.sharedInstance.setFavoriteCharger(charger: selectCharger!) { (charger) in
                  self.setCallOutFavoriteIcon(charger: charger)
@@ -508,6 +545,16 @@ class MainViewController: UIViewController {
         } else {
             MemberManager().showLoginAlert(vc: self)
         }
+    }
+    
+    
+    @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
+        self.navigationController?.push(viewController:vc)
+    }
+    
+    @IBAction func onClickFavorite(_ sender: UIButton) {
+        bookmark()
     }
     
     // MARK: - Action for button
@@ -529,34 +576,11 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func onClickRouteStartPoint(_ sender: UIButton) {
-//        String snackText = mSelectedCharger.mSnm + "(이)가 출발지로 설정되었습니다.";
-//        Snackbar snackBar = Snackbar.make(v, snackText, Snackbar.LENGTH_SHORT).setAction("Action", null);
-//        UtilFont.setGlobalFont(this, snackBar.getView());
-//        snackBar.show();
-
-        if self.selectCharger != nil {
-            guard let tc = toolbarController else {
-                return
-            }
-            let appTc = tc as! AppToolbarController
-            appTc.enableRouteMode(isRoute: true)
-            
-            startField.text = selectCharger?.mStationInfoDto?.mSnm
-            routeStartPoint = selectCharger?.getTMapPoint()
-        }
+        self.setStartPoint()
     }
     
     @IBAction func onClickRouteEndPoint(_ sender: UIButton) {
-        if self.selectCharger != nil {
-            guard let tc = toolbarController else {
-                return
-            }
-            let appTc = tc as! AppToolbarController
-            appTc.enableRouteMode(isRoute: true)
-            
-            endField.text = selectCharger?.mStationInfoDto?.mSnm
-            routeEndPoint = selectCharger?.getTMapPoint()
-        }
+        self.setEndPoint()
     }
     
     @IBAction func onClickShowNavi(_ sender: Any) {
@@ -1140,7 +1164,9 @@ extension MainViewController: MainViewDelegate {
         selectCharger = charger
         if (selectCharger?.mTotalType != nil){
             setChargerTypeImage(type: (selectCharger?.mTotalType)!)
-            setChargerPower(power: (selectCharger?.mPower)!, type: (selectCharger?.mTotalType)!)
+
+            setChargerPower()
+            
             setChargePrice(pay: (selectCharger?.mStationInfoDto?.mPay)!)
         }
         setDistance()
@@ -1151,7 +1177,8 @@ extension MainViewController: MainViewDelegate {
         
         let chargeState = callOutStatus.text
         stationInfoArr[chargeState ?? ""] = "chargeState"
-        setChargeStateImg(type: chargeState!)
+        
+        self.markerImg.image = selectCharger?.getChargeStateImg(type: chargeState!)
         
         setCallOutFavoriteIcon(charger: selectCharger!)
         
@@ -1172,9 +1199,9 @@ extension MainViewController: MainViewDelegate {
     
     func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
         if charger.mFavorite {
-            callOutFavorite.setImage(UIImage(named: "ic_favorite"), for: .normal)
+            callOutFavorite.setImage(UIImage(named: "bookmark_on"), for: .normal)
         } else {
-            callOutFavorite.setImage(UIImage(named: "ic_favorite_add"), for: .normal)
+            callOutFavorite.setImage(UIImage(named: "bookmark"), for: .normal)
         }
     }
     
@@ -1263,48 +1290,19 @@ extension MainViewController: MainViewDelegate {
         }
     }
     
-    func setChargerPower(power:Int, type:Int) {
-        var strPower = ""
-        if power == 0 {
-            if ((type & Const.CTYPE_DCDEMO) > 0 ||
-                (type & Const.CTYPE_DCCOMBO) > 0 ||
-                (type & Const.CTYPE_AC) > 0) {
-                strPower = "50kWh"
-            } else if ((type & Const.CTYPE_SLOW) > 0 ||
-                (type & Const.CTYPE_DESTINATION) > 0) {
-                strPower = "완속"
-            } else if ((type & Const.CTYPE_HYDROGEN) > 0) {
-                strPower = "수소"
-            } else if ((type & Const.CTYPE_SUPER_CHARGER) > 0) {
-                strPower = "110kWh 이상"
-            } else {
-                strPower = "-"
-            }
-        } else {
-            strPower = "\(power)kWh"
-        }
-        self.chargePowerLb.text = strPower
-        stationInfoArr[strPower] = "power"
+    func setChargerPower() {
+        let power = selectCharger?.getChargerPower(power: (selectCharger?.mPower)!, type: (selectCharger?.mTotalType)!)
+        self.chargePowerLb.text = power
+        stationInfoArr[power ?? ""] = "power"
     }
     
-    func setChargeStateImg(type:String) {
-        
-        switch type {
-        case "충전중":
-            self.markerImg.image = UIImage(named: "marker_state_charging.png")
-            break
-        case "대기중":
-            self.markerImg.image = UIImage(named: "marker_state_normal.png")
-            break
-        case "운영중지":
-            self.markerImg.image = UIImage(named: "marker_state_no_op.png")
-            break
-        default:
-            self.markerImg.image = UIImage(named: "marker_state_no_connect.png")
-            break
-        }
-        self.markerImg.clipsToBounds = true
-    }
+    // -> chargerStationInfo class로
+//    chargerStationInfo -> getChargerPower
+//    self.chargePowerLb.text = strPower
+//    stationInfoArr[strPower] = "power"
+    
+//    chargerStationInfo -> getChargeStateImg
+//    self.markerImg.clipsToBounds = true
     
     func setChargePrice(pay: String) {
         // 과금

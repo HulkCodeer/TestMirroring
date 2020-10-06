@@ -17,14 +17,19 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var detailView: UIView!
 //    @IBOutlet weak var vieagerContainer: UIView!
 
-    @IBOutlet weak var companyView: UIView!    // 운영기관
-    @IBOutlet weak var operatorLabel: UILabel! // 운영기관 이름
-    @IBOutlet weak var addressLabel: CopyableLabel!
-    @IBOutlet weak var dstLabel: UILabel!      // 현 위치에서 거리
-    @IBOutlet var indoorView: UIView!           // 설치형태(실내)
-    @IBOutlet var outdoorView: UIView!          // 설치형태(실외)
-    @IBOutlet var canopyView: UIView!           // 설치형태(캐노피)
-    @IBOutlet var checkingView: UIView!         // 설치형태(확인중)
+    @IBOutlet weak var companyView: UIView!             // 운영기관
+    @IBOutlet weak var operatorLabel: UILabel!          // 운영기관 이름
+    @IBOutlet weak var addressLabel: CopyableLabel!    // 충전소 주소
+    @IBOutlet weak var dstLabel: UILabel!               // 현 위치에서 거리
+    @IBOutlet var indoorView: UIView!                   // 설치형태(실내)
+    @IBOutlet var outdoorView: UIView!                  // 설치형태(실외)
+    @IBOutlet var canopyView: UIView!                   // 설치형태(캐노피)
+    @IBOutlet var checkingView: UIView!                 // 설치형태(확인중)
+    @IBOutlet var callOutFavorite: UIButton!            // 즐겨찾기
+    @IBOutlet var chargerPowerLb: UILabel!              // 충전속도
+    @IBOutlet var chargerStatusImg: UIImageView!        // 충전상태(마커이미지)
+    
+    
     
     @IBOutlet var startPointBtn: UIButton!
     @IBOutlet var endPointBtn: UIButton!
@@ -120,6 +125,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         getChargerInfo()
         getReportInfo()
         getMyGrade()
+        
+        setDetailLb()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -162,58 +169,27 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        
-        self.mainViewDelegate?.setDistance()
-        self.mainViewDelegate?.setCallOutLb()
     }
-    
-    func tmapNavigation(){
-        if(TMapTapi.isTmapApplicationInstalled()) {
-            let coordinate = CLLocationCoordinate2D(latitude: (charger!.mStationInfoDto?.mLatitude)!, longitude: (charger!.mStationInfoDto?.mLongitude)!)
-            TMapTapi.invokeRoute(charger!.mStationInfoDto?.mSnm, coordinate: coordinate)
-            print("Launchin Tmap was successful")
-        } else {
-            let tmapURL = TMapTapi.getTMapDownUrl()
-            if let url = URL(string: tmapURL!), UIApplication.shared.canOpenURL(url){
-                UIApplication.shared.open(url, options: [:], completionHandler: {(success: Bool) in
-                    if success {
-                        print("Launching \(url) was successful")
-                    }
-                })
-            }
-        }
-    }
-    
-    //TODO: 코드합치기(Main)
-    func kakaoNavigation(){
-        let destination = KNVLocation(name: (charger!.mStationInfoDto?.mSnm)!, x: (charger!.mStationInfoDto?.mLongitude)! as NSNumber, y: (charger!.mStationInfoDto?.mLatitude)! as NSNumber)
-        let options = KNVOptions()
-        options.coordType = KNVCoordType.WGS84
-        let params = KNVParams(destination: destination, options: options)
-        KNVNaviLauncher.shared().navigate(with: params) { (error) in
-            self.handleError(error: error)
-        }
-    }
-    
     
     // MARK: - Action for button
+    @IBAction func onClickBookmark(_ sender: Any) {
+        self.bookmark()
+    }
+
+    @IBAction func onClickStartPoint(_ sender: Any) {
+        self.mainViewDelegate?.setStartPoint()
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
     
-    @IBAction func onClickOneNavi(_ sender: UIButton) {
-//        let oneNaviCallUrl = "ollehnavi://ollehnavi.kt.com/navigation.req?method=routeguide&end=(" + String((charger!.mStationInfoDto?.mLongitude)!) + "," + String((charger!.mStationInfoDto?.mLatitude)!) + ")"
-//        let oneNaviAppStoreUrl = "https://itunes.apple.com/kr/app/원내비-for-everyone/id390369834"
-//        let oneNaviAppLauncherUrl = "ollehnavi://"
-//        if isCanOpenUrl(strUrl: oneNaviAppLauncherUrl) {
-//            if let url = URL(string: oneNaviCallUrl) {
-//                UIApplication.shared.open(url, options: [:], completionHandler: {(success: Bool) in
-//                    if success {
-//                        print("Launching \(url) was successful")
-//                    }
-//                })
-//            }
-//        } else {
-//            moveToUrl(strUrl: oneNaviAppStoreUrl)
-//        }
-        self.showNavigation()
+    @IBAction func onClickEndPoint(_ sender: Any) {
+        self.mainViewDelegate?.setEndPoint()
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func onClickNavi(_ sender: UIButton) {
+        self.mainViewDelegate?.showNavigation()
     }
     
     @IBAction func onClickKakaoShareBtn(_ sender: UIButton) {
@@ -246,12 +222,10 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func preparePagingView() {
         let viewPagerController = ViewPagerController(charger: self.charger!)
         addChildViewController(viewPagerController)
-        
+        self.setCallOutFavoriteIcon(charger: self.charger!)
 //        self.callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
 //        viewPagerContainer.addSubview(viewPagerController.view)
 //        viewPagerContainer.constrainToEdges(viewPagerController.view)
-        
-//        self.kakaoMapView =
         
 //        self.cardPriceView.removeFromSuperview();
 //        self.cardPriceViewTitle.removeFromSuperview();
@@ -273,20 +247,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
                 }
             }
         }
-        
-        // 운영기관 홈페이지 및 App Store 주소
-//        if let chr = charger  {
-//            self.homePage = ChargerManager.sharedInstance.getCompanyHomePageUrl(companyID: (chr.mStationInfoDto?.mCompanyId)!)
-//            self.appStore = ChargerManager.sharedInstance.getCompanyMarketUrl(companyID: (chr.mStationInfoDto?.mCompanyId)!)
-//        }
-        
-        // 거리
-//        if let currentLocatin = MainViewController.currentLocation {
-//            getDistance(curPos: currentLocatin, desPos: self.charger!.marker.getTMapPoint())
-//        } else {
-//            self.dstLabel.text = "현재 위치를 받아오지 못했습니다."
-//        }
-        
     }
     
     func setStationInfo(json: JSON) {
@@ -294,26 +254,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.operatorLabel.text = json["op"].stringValue
         
         // 이용시간
-        if json["ut"].stringValue.elementsEqual("") {
-//            self.timeImage.gone(spaces:[.top, .bottom])
-//            self.timeFixLabel.gone(spaces:[.top, .bottom])
-//            self.timeLabel.gone(spaces:[.top, .bottom])
-//            self.timeView.gone(spaces:[.top, .bottom])
-//            self.detailViewResize(view: self.timeView)
-        } else {
-            self.timeLabel.text = json["ut"].stringValue
-        }
-        
-        // 충전소 이름
-        self.callOutTitle.text = self.charger?.mStationInfoDto?.mSnm
-        
-        // 충전기 상태
-        self.callOutStatus.text = self.charger?.cidInfo.cstToString(cst: self.charger?.mTotalStatus ?? 2)
-        
-        // 주소
-        self.addressLabel.text = (self.charger?.mStationInfoDto?.mAddress)!
-        self.addressLabel.sizeToFit()
-        
+        self.timeLabel.text = json["ut"].stringValue
         
         // 메모
         let memo = json["mm"].stringValue
@@ -322,18 +263,19 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             if memo.equals("") {
                 detailViewResize(view: memoView)
                 self.memoView.isHidden = true
+                self.memoView.gone()
             }else{
                 self.memoLabel.text = memo
             }
         }else{
             self.memoView.isHidden = true
-            detailViewResize(view: memoView)
+            self.memoView.gone()
+//            detailViewResize(view: memoView)
         }
         
         // 센터 전화번호
         self.phoneNumber = json["tel"].stringValue
         self.callLb.text = self.phoneNumber
-//        self.callLb.onClickCallBtn()
         let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.tapFunction))
         self.callLb.isUserInteractionEnabled = true
         self.callLb.addGestureRecognizer(tap)
@@ -342,9 +284,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.charger?.mGpa = Float(json["gpa"].stringValue)!
         self.charger?.mGpaCnt = Int(json["cnt"].stringValue)!
         self.setChargeGPA()
-        
-        // 설치 형태
-        self.stationArea()
         
         // 충전기 정보
         let clist = json["cl"]
@@ -362,8 +301,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
                 }
             }
         }
-        
-//        self.mainViewDelegate?.
         ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: self.charger!.mChargerId!)?.changeStatus(status: stationSt)
         self.mainViewDelegate?.redrawCalloutLayer()
         self.cidTableView.setCidList(chargerList: cidList)
@@ -371,8 +308,37 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.adjustHeightOfTableview()
         
         self.showMenuBtn()
-//        self.showMoveHomePageBtn()
-//        self.showMoveAppStoreBtn()
+    }
+    
+    func setDetailLb() {
+        // 충전 속도
+        self.chargerPowerLb.text = self.charger?.getChargerPower(power: (charger?.mPower)!, type: (charger?.mTotalType)!)
+        
+        // 충전기 상태별 마커 이미지
+        let chargeState = callOutStatus.text
+        stationInfoArr[chargeState ?? ""] = "chargeState"
+        
+        self.chargerStatusImg.image = self.charger?.getChargeStateImg(type: chargeState!)
+        
+        // 충전소 이름
+        self.callOutTitle.text = self.charger?.mStationInfoDto?.mSnm
+        
+        // 충전기 상태
+        self.callOutStatus.text = self.charger?.cidInfo.cstToString(cst: self.charger?.mTotalStatus ?? 2)
+        
+        // 주소
+        self.addressLabel.text = (self.charger?.mStationInfoDto?.mAddress)!
+        self.addressLabel.sizeToFit()
+        
+        // 설치 형태
+        self.stationArea()
+        
+        // 충전소 거리
+        if let currentLocatin = MainViewController.currentLocation {
+            getDistance(curPos: currentLocatin, desPos: self.charger!.marker.getTMapPoint())
+        } else {
+            self.dstLabel.text = "현재 위치를 받아오지 못했습니다."
+        }
     }
     
     func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
@@ -423,6 +389,25 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
     }
     
+    // TODO: bookmark
+    func bookmark() {
+        if MemberManager().isLogin() {
+            ChargerManager.sharedInstance.setFavoriteCharger(charger: self.charger!) { (charger) in
+                 self.setCallOutFavoriteIcon(charger: charger)
+            }
+        } else {
+            MemberManager().showLoginAlert(vc: self)
+        }
+    }
+    
+    func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
+        if charger.mFavorite {
+            self.callOutFavorite.setImage(UIImage(named: "bookmark_on"), for: .normal)
+        } else {
+            self.callOutFavorite.setImage(UIImage(named: "bookmark"), for: .normal)
+        }
+    }
+    
     // MARK: - TableView Height
     
     func adjustHeightOfTableview() {
@@ -451,22 +436,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     */
     // MARK: - Finish Edit Board
     
-    // 충전소 별점 주기, 수정, 삭제
-    @IBAction func onClickChargeGrade(_ sender: Any) { // 별점 주기
-        addChargeGrade()
-    }
-    
-    @IBAction func onClickChargeGradeMod(_ sender: Any) { // 별점 수정
-        addChargeGrade()
-    }
-    
-    @IBAction func onClickChargeGradeDel(_ sender: Any) { // 별점 삭제
-        delChargeGrade()
-    }
-    
     @objc
     func tapFunction(sender:UITapGestureRecognizer) {
-        self.onClickCallBtn();
+        self.onClickCallBtn()
     }
 }
 
@@ -674,25 +646,29 @@ extension DetailViewController: EditViewDelegate {
 extension DetailViewController {
     fileprivate func showMenuBtn() {
         let actionButton = JJFloatingActionButton()
-        actionButton.buttonColor = Color.blue.base
+        //TODO: gradient
+        actionButton.buttonColor = #colorLiteral(red: 0.1725490196, green: 0.8784313725, blue: 0.7333333333, alpha: 1)
+//        actionButton.buttonColor = UIColor.init(hexString: "#2CE0BB")!
+//        actionButton.borderColor = UIColor.init(hexString: "#2CE0BB")
         
         let ret = prepareCallItem()
         if ret {
-            actionButton.addItem(title: "전화하기", image: Icon.phone) { item in
+            actionButton.addItem(title: "전화하기", image: #imageLiteral(resourceName: "detail_quick_icon")) { item in
                 self.onClickCallBtn()
             }
         }
-        actionButton.addItem(title: "제보하기", image: UIImage(named:"cm_edit_location")) { item in
+        actionButton.addItem(title: "제보하기", image: #imageLiteral(resourceName: "detail_quick_icon_report")) { item in
             self.onClickReportChargeBtn()
         }
         
-        actionButton.addItem(title: "글쓰기", image: Icon.cm.pen) { item in
+        actionButton.addItem(title: "글쓰기", image: #imageLiteral(resourceName: "detail_quick_icon_pen")) { item in
             self.onClickEditBtn()
         }
 
         for item in actionButton.items {
-            item.buttonColor = Color.blue.base
-            item.buttonImageColor = Color.white
+            item.buttonColor = Color.white
+            
+//            item.buttonImageColor = Color.white
         }
     
         actionButton.display(inViewController: self)
@@ -1218,28 +1194,5 @@ extension DetailViewController {
         view.backgroundColor = UIColor(patternImage: image)
     }
     
-    func showNavigation() {
-        //action sheet title 지정
-        let optionMenu = UIAlertController(title: nil, message: "네비게이션", preferredStyle: .alert)
-           
-        //옵션 초기화
-        let kakaoMap = UIAlertAction(title: "카카오맵(KAKAO MAP)", style: .default, handler: {
-            (alert: UIAlertAction!) -> Void in
-            self.kakaoNavigation()
-        })
-        let tMap = UIAlertAction(title: "티맵(T MAP)", style: .default, handler: {
-            (alert: UIAlertAction!) -> Void in
-            self.tmapNavigation()
-        })
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-       
-        //action sheet에 옵션 추가.
-        optionMenu.addAction(kakaoMap)
-        optionMenu.addAction(tMap)
-        optionMenu.addAction(cancelAction)
-           
-        //show
-        self.present(optionMenu, animated: true, completion: nil)
-    }
 
 }
