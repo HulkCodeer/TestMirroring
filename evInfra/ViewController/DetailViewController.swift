@@ -314,17 +314,17 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         // 충전 속도
         self.chargerPowerLb.text = self.charger?.getChargerPower(power: (charger?.mPower)!, type: (charger?.mTotalType)!)
         
-        // 충전기 상태별 마커 이미지
-        let chargeState = callOutStatus.text
-        stationInfoArr[chargeState ?? ""] = "chargeState"
-        
-        self.chargerStatusImg.image = self.charger?.getChargeStateImg(type: chargeState!)
-        
         // 충전소 이름
         self.callOutTitle.text = self.charger?.mStationInfoDto?.mSnm
         
         // 충전기 상태
         self.callOutStatus.text = self.charger?.cidInfo.cstToString(cst: self.charger?.mTotalStatus ?? 2)
+        
+        // 충전기 상태별 마커 이미지
+        let chargeState = self.callOutStatus.text
+        stationInfoArr[chargeState ?? ""] = "chargeState"
+        
+        self.chargerStatusImg.image = self.charger?.getChargeStateImg(type: chargeState!)
         
         // 주소
         self.addressLabel.text = (self.charger?.mStationInfoDto?.mAddress)!
