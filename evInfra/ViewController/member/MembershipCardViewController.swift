@@ -15,6 +15,7 @@ class MembershipCardViewController: UIViewController,
     SearchAddressViewDelegate, MyPayRegisterViewDelegate,
     MembershipInfoViewDelegate, MembershipTermViewDelegate {
 
+    var partnershipJoinView : PartnershipJoinView? = nil
     var membershipIssuanceView : MembershipIssuanceView? = nil
     var membershipInfoView : MembershipInfoView? = nil
     var membershipTermView : MembershipTermView? = nil
@@ -49,14 +50,20 @@ class MembershipCardViewController: UIViewController,
                     }
                 } else {
                     let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-                    self.membershipInfoView = MembershipInfoView.init(frame: frame)
-                    if let msView = self.membershipInfoView {
+                    self.partnershipJoinView = PartnershipJoinView.init(frame: frame)
+                    if let pjView = self.partnershipJoinView {
                         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
-                        msView.addGestureRecognizer(tap)
-                        msView.delegate = self
-                        msView.setCardInfo(cardInfo: json)
-                        self.view.addSubview(msView)
+                        pjView.addGestureRecognizer(tap)
+                        self.view.addSubview(pjView)
                     }
+//                    self.membershipInfoView = MembershipInfoView.init(frame: frame)
+//                    if let msView = self.membershipInfoView {
+//                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
+//                        msView.addGestureRecognizer(tap)
+//                        msView.delegate = self
+//                        msView.setCardInfo(cardInfo: json)
+//                        self.view.addSubview(msView)
+//                    }
                 }
             }
         }
@@ -80,7 +87,8 @@ class MembershipCardViewController: UIViewController,
     }
 
     func searchZipCode() {
-        let saVC = storyboard?.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
+        let mainStoryboard = UIStoryboard(name : "Main", bundle: nil)
+        let saVC = mainStoryboard.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
         saVC.searchAddressDelegate = self
         
         navigationController?.push(viewController: saVC)
@@ -237,7 +245,8 @@ class MembershipCardViewController: UIViewController,
     }
 
     func moveToMyPayRegist() {
-        let payRegistVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
+        let mainStoryboard = UIStoryboard(name : "Main", bundle: nil)
+        let payRegistVC = mainStoryboard.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
         payRegistVC.myPayRegisterViewDelegate = self
         navigationController?.push(viewController: payRegistVC)
     }

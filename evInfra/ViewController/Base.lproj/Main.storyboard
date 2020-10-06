@@ -4502,21 +4502,6 @@
             </objects>
             <point key="canvasLocation" x="-2762" y="3437"/>
         </scene>
-        <!--Membership Card View Controller-->
-        <scene sceneID="Pvn-tz-SQx">
-            <objects>
-                <viewController storyboardIdentifier="MembershipCardViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="AfT-aK-9I3" customClass="MembershipCardViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="e70-Lr-EdT">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="7n6-yO-H8v"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Kpz-6h-Mwb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2076" y="3439"/>
-        </scene>
         <!--Settings View Controller-->
         <scene sceneID="hvq-lC-eZF">
             <objects>
