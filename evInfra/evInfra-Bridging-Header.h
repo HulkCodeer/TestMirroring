@@ -12,4 +12,5 @@
 #import <KakaoOpenSDK/KakaoOpenSDK.h>
 #import <KakaoMessageTemplate/KakaoMessageTemplate.h>
 #import <AdSupport/AdSupport.h>
+#import <DaumMap/MTMapView.h>
 #endif /* evInfra_Bridging_Header_h */

@@ -46,7 +46,6 @@ class MainViewController: UIViewController {
     
     @IBOutlet weak var btnRouteCancel: UIButton!
     @IBOutlet weak var btnRoute: UIButton!
-    @IBOutlet weak var btnRouteAdd: UIButton!
     
     @IBOutlet weak var btnWay: UIButton!
     @IBOutlet weak var btnPay: UIButton!
@@ -70,21 +69,31 @@ class MainViewController: UIViewController {
     
     // Callout View
     @IBOutlet weak var callOutLayer: UIView!
-    @IBOutlet weak var callOutStatusBar: UIView!
     @IBOutlet weak var callOutStatus: UILabel!
     @IBOutlet weak var callOutTitle: UILabel!
     @IBOutlet weak var callOutFavorite: UIButton!
-    @IBOutlet weak var callOutDCCombo: UIImageView!
-    @IBOutlet weak var callOutDCDemo: UIImageView!
-    @IBOutlet weak var callOutAC: UIImageView!
-    @IBOutlet weak var callOutSlow: UIImageView!
+    
+    @IBOutlet var chargePriceLb: UILabel!
+    @IBOutlet var chargePowerLb: UILabel!
+    
+    @IBOutlet var distanceLb: UILabel!
+    
+    @IBOutlet var typeLb1: UILabel!
+    @IBOutlet var typeLb2: UILabel!
+    @IBOutlet var typeLb3: UILabel!
+    
+    @IBOutlet var markerImg: UIImageView!
+    
+    @IBOutlet weak var startPointBtn: UIButton!
+    @IBOutlet weak var endPointBtn: UIButton!
+    @IBOutlet weak var naviBtn: UIButton!
     
     // Menu Button Layer
-    @IBOutlet weak var btn_menu_layer: UIView!
-    @IBOutlet weak var btn_main_charge: UIButton!
-    @IBOutlet weak var btn_main_payable_charger_list: UIButton!
-    @IBOutlet weak var btn_main_report_charger: UIButton!
-    @IBOutlet weak var btn_main_favorite: UIButton!
+    @IBOutlet var btn_menu_layer: UIView!
+    @IBOutlet var btn_main_charge: UIButton!
+    @IBOutlet var btn_main_offerwall: UIButton!
+    @IBOutlet var btn_main_help: UIButton!
+    @IBOutlet var btn_main_favorite: UIButton!
     
     //경로찾기시 거리표시 뷰 (call out)
     @IBOutlet weak var routeDistanceView: UIView!
@@ -136,12 +145,15 @@ class MainViewController: UIViewController {
         prepareCalloutLayer()
         prepareClustering()
         prepareMenuBtnLayer()
-        
-        requestStationInfo();
-        
-        //getChargerInfo()  // request to server
-        //self.checkFCM()
         prepareChargePrice()
+        
+        requestStationInfo()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -238,17 +250,17 @@ class MainViewController: UIViewController {
         dropDownCompany.customCellConfiguration = { (index: Int, item: String, cell: DropDownCell) -> Void in
             guard let cell = cell as? DropDownCheckBoxCell else { return }
             cell.tag = index
-//            cell.setChecked(isChecked: cell.isSelected)
             cell.setChecked(isChecked: companyVisibilityList[index])
         }
         
         dropDownCompany.multiSelectionAction = { [unowned self] (indexes, item) in
-            let isAllSelected = companyVisibilityList[0]
             self.dropDownCompany.clearSelection()
+            
+            let isAllSelected = companyVisibilityList[0]
             for (idx, _) in companyVisibilityList.enumerated() {
-//                self.dropDownCompany.deselectRow(idx)
                 companyVisibilityList[idx] = false
             }
+            
             if (!isAllSelected && indexes.contains(0)) {
                 for (idx, _) in companyVisibilityList.enumerated() {
                     self.dropDownCompany.selectRow(idx)
@@ -270,6 +282,7 @@ class MainViewController: UIViewController {
                     }
                 }
             }
+            
             for company in companyList {
                 for (index, companyName) in self.dropDownCompany.dataSource.enumerated() {
                     if companyName == company.name {
@@ -350,7 +363,7 @@ class MainViewController: UIViewController {
     func prepareMapView() {
         tMapView = TMapView.init(frame: mapContainerView.frame.bounds)
         guard let mapView = tMapView else {
-            print("[Main] TMap을 생성하는 데 실패했습니다")
+            print("[Main] TMap 생성을 실패했습니다")
             return
         }
         
@@ -536,7 +549,6 @@ class MainViewController: UIViewController {
         self.saveFilterState()
         self.drawTMapMarker()
     }
-    
 }
 
 extension MainViewController {
@@ -694,8 +706,7 @@ extension MainViewController: TextFieldDelegate {
         
         btnRouteCancel.addTarget(self, action: #selector(onClickRouteCancel(_:)), for: .touchUpInside)
         btnRoute.addTarget(self, action: #selector(onClickRoute(_:)), for: .touchUpInside)
-        
-        btnRouteAdd.isEnabled = false
+
         routeDistanceView.isHidden = true
     }
     
@@ -737,8 +748,7 @@ extension MainViewController: TextFieldDelegate {
         
         routeStartPoint = nil
         routeEndPoint = nil
-        
-        btnRouteAdd.isEnabled = false
+
         btnRouteCancel.setTitle("지우기", for: .normal)
         
         tMapView?.removeTMapPath()
@@ -788,7 +798,6 @@ extension MainViewController: TextFieldDelegate {
             self.tMapView?.setCenter(TMapPoint.init(lon: centerLon, lat: centerLat))
             
             // 경유지 추가 버튼 활성화
-            btnRouteAdd.isEnabled = true
             btnRouteCancel.setTitle("경로취소", for: .normal)
             
             // 경로 요청
@@ -1052,12 +1061,20 @@ extension MainViewController: MainViewDelegate {
         selectCharger = charger
         if (selectCharger?.mTotalType != nil){
             setChargerTypeImage(type: (selectCharger?.mTotalType)!)
+            setChargerPower(power: (selectCharger?.mPower)!, type: (selectCharger?.mTotalType)!)
+            setChargePrice(pay: (selectCharger?.mStationInfoDto?.mPay)!)
         }
-        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
+        setDistance()
+       
+//        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
         callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
         
         callOutStatus.textColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
         callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
+        
+        //TODO: 수정예정
+        let chargeState = callOutStatus.text
+        setChargeStateImg(type: chargeState!)
         
         setCallOutFavoriteIcon(charger: selectCharger!)
         
@@ -1084,39 +1101,142 @@ extension MainViewController: MainViewDelegate {
         })
     }
     
+    //TODO: detailViewController 코드 겹침
+    func setDistance() {
+        if let currentLocatin = MainViewController.currentLocation {
+            getDistance(curPos: currentLocatin, desPos: self.selectCharger!.marker.getTMapPoint())
+        } else {
+            self.distanceLb.text = "현재 위치를 받아오지 못했습니다."
+        }
+    }
+    
+    func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
+        if desPos.getLatitude() == 0 || desPos.getLongitude() == 0 {
+            self.distanceLb.text = "현재 위치를 받아오지 못했습니다."
+        } else {
+            self.distanceLb.text = "계산중"
+            
+            DispatchQueue.global(qos: .background).async {
+                let tMapPathData = TMapPathData.init()
+                if let path = tMapPathData.find(from: curPos, to: desPos) {
+                    let distance = Double(path.getDistance() / 1000).rounded()
+
+                    DispatchQueue.main.async {
+                        self.distanceLb.text = "| \(distance) Km"
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.distanceLb.text = "거리를 계산할 수 없습니다."
+                    }
+                }
+            }
+        }
+    }
+    
     func setChargerTypeImage(type:Int) {
-        callOutDCCombo.image = UIImage(named: "type_dc_combo_dim")
-        callOutDCDemo.image = UIImage(named: "type_dc_demo_dim")
-        callOutAC.image = UIImage(named: "type_ac_three_dim")
-        callOutSlow.image = UIImage(named: "type_ac_slow_dim")
+        self.typeLb1.text = ""
+        self.typeLb2.text = ""
+        self.typeLb3.text = ""
         
         if (type & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
-            callOutDCDemo.image = UIImage(named: "type_dc_demo")
+            let type = "CD차데모"
+            setTextType(type:type)
         }
         if (type & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
-            callOutDCCombo.image = UIImage(named: "type_dc_combo")
+            let type = "CD콤보"
+            setTextType(type:type)
         }
         if (type & Const.CTYPE_AC) == Const.CTYPE_AC {
-            callOutAC.image = UIImage(named: "type_ac_three")
+            let type = "AC3상"
+            setTextType(type:type)
         }
+        
         if (type & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
-            callOutSlow.image = UIImage(named: "type_ac_slow")
+            let type = "완속"
+            setTextType(type:type)
         }
         
         if ((type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER)
             || ((type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION) {
-            callOutDCCombo.image = nil
-            callOutSlow.image = nil
-            callOutDCDemo.image = UIImage(named: "type_super_dim")
-            callOutAC.image =  UIImage(named: "type_destination_dim")
+//            callOutDCCombo.image = nil
+//            callOutSlow.image = nil
+//            callOutDCDemo.image = UIImage(named: "type_super_dim")
+//            callOutAC.image =  UIImage(named: "type_destination_dim")
             
             if (type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
-                callOutDCDemo.image = UIImage(named: "type_super")
+                let type = "슈퍼차저"
+                setTextType(type:type)
             }
             
             if (type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
-                callOutAC.image = UIImage(named: "type_destination")
+                let type = "데스티네이션"
+                setTextType(type:type)
             }
+        }
+    }
+    
+    func setTextType(type:String) {
+        if self.typeLb1.text == "" {
+            self.typeLb1.text = type
+            print("csj_lb1", type)
+        } else if self.typeLb2.text == "" {
+            self.typeLb2.text = type
+            print("csj_lb2", type)
+        } else {
+            self.typeLb3.text = type
+            print("csj_lb3", type)
+        }
+    }
+    
+    func setChargerPower(power:Int, type:Int) {
+        var strPower = ""
+        if power == 0 {
+            if ((type & Const.CTYPE_DCDEMO) > 0 ||
+                (type & Const.CTYPE_DCCOMBO) > 0 ||
+                (type & Const.CTYPE_AC) > 0) {
+                strPower = "50kWh"
+            } else if ((type & Const.CTYPE_SLOW) > 0 ||
+                (type & Const.CTYPE_DESTINATION) > 0) {
+                strPower = "완속"
+            } else if ((type & Const.CTYPE_HYDROGEN) > 0) {
+                strPower = "수소"
+            } else if ((type & Const.CTYPE_SUPER_CHARGER) > 0) {
+                strPower = "110kWh 이상"
+            } else {
+                strPower = "-"
+            }
+        } else {
+            strPower = "\(power)kWh"
+        }
+        self.chargePowerLb.text = strPower
+    }
+    
+    func setChargeStateImg(type:String) {
+        switch type {
+        case "충전중":
+            self.markerImg.backgroundColor = UIColor(patternImage: UIImage(named: "marker_state_charging.png")!)
+            break
+        case "대기중":
+            self.markerImg.backgroundColor = UIColor(patternImage: UIImage(named: "marker_state_normal.png")!)
+            break
+        case "운영중지":
+            self.markerImg.backgroundColor = UIColor(patternImage: UIImage(named: "marker_state_no_op.png")!)
+            break
+        default:
+            self.markerImg.backgroundColor = UIColor(patternImage: UIImage(named: "marker_state_no_connect.png")!)
+            break
+        }
+    }
+    
+    func setChargePrice(pay: String) {
+        // 과금
+        switch pay {
+        case "Y":
+            self.chargePriceLb.text = "무료"
+        case "N":
+            self.chargePriceLb.text = "유료"
+        default:
+            self.chargePriceLb.text = "시범운영"
         }
     }
 }
@@ -1200,8 +1320,7 @@ extension MainViewController {
                 }
             }
             return chargerManagerListener(self)
-            }()
-            )
+        }())
     }
     
     internal func getChargerListForGuard() {
@@ -1381,18 +1500,18 @@ extension MainViewController {
         btn_main_charge.alignTextUnderImage()
         btn_main_charge.tintColor = UIColor(rgb: 0x15435C)
         btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
+
+        btn_main_offerwall.alignTextUnderImage()
+        btn_main_offerwall.tintColor = UIColor(rgb: 0x15435C)
+        btn_main_offerwall.setImage(UIImage(named: "ic_line_offerwall")?.withRenderingMode(.alwaysTemplate), for: .normal)
         
-        btn_main_payable_charger_list.alignTextUnderImage()
-        btn_main_payable_charger_list.tintColor = UIColor(rgb: 0x15435C)
-        btn_main_payable_charger_list.setImage(UIImage(named: "ic_line_can_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        
+        btn_main_help.alignTextUnderImage()
+        btn_main_help.tintColor = UIColor(rgb: 0x15435C)
+        btn_main_help.setImage(UIImage(named: "ic_line_help")?.withRenderingMode(.alwaysTemplate), for: .normal)
+
         btn_main_favorite.alignTextUnderImage()
         btn_main_favorite.tintColor = UIColor(rgb: 0x15435C)
-        btn_main_favorite.setImage(UIImage(named: "ic_line_favorite_folder")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        
-        btn_main_report_charger.alignTextUnderImage()
-        btn_main_report_charger.tintColor = UIColor(rgb: 0x15435C)
-        btn_main_report_charger.setImage(UIImage(named: "ic_line_report")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        btn_main_favorite.setImage(UIImage(named: "ic_line_favorite")?.withRenderingMode(.alwaysTemplate), for: .normal)
     }
     
     @IBAction func onClickMainCharge(_ sender: UIButton) {
@@ -1408,8 +1527,7 @@ extension MainViewController {
         }
     }
     
-    @IBAction func onClickMainPayableChargerList(_ sender: UIButton) {
-        //UIAlertController.showMessage("전국 한전(단,아파트제외), GS칼텍스, 에스트래픽 충전기에서 이용해 보세요.^^")
+    @IBAction func onClickMainOfferwall(_ sender: UIButton) {
         if MemberManager().isLogin() {
             let offerwallVC = self.storyboard?.instantiateViewController(withIdentifier: "OfferwallViewController") as! OfferwallViewController
             
@@ -1421,14 +1539,17 @@ extension MainViewController {
         }
     }
     
-    @IBAction func onClickMainReportCharger(_ sender: UIButton) {
-        if MemberManager().isLogin() {
-            let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
-            reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_MAIN
-            self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
-        } else {
-            MemberManager().showLoginAlert(vc: self)
-        }
+    @IBAction func onClickMainHelp(_ sender: UIButton) {
+        let termsViewControll = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        termsViewControll.tabIndex = .Help
+        self.navigationController?.push(viewController: termsViewControll)
+//        if MemberManager().isLogin() {
+//            let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
+//            reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_MAIN
+//            self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
+//        } else {
+//            MemberManager().showLoginAlert(vc: self)
+//        }
     }
     
     @IBAction func onClickMainFavorite(_ sender: UIButton) {

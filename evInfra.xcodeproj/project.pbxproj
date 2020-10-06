@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5AD2519DA0B0089E87D /* OpenGLES.framework */; };
+		425EE5B02519DA410089E87D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5AF2519DA410089E87D /* CoreLocation.framework */; };
+		425EE5B22519DA520089E87D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5B12519DA520089E87D /* QuartzCore.framework */; };
+		425EE5B52519DA780089E87D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B929D20EDE9DE0090E9FC /* libsqlite3.tbd */; };
+		425EE5D82519DF160089E87D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5D72519DF160089E87D /* SystemConfiguration.framework */; };
+		425EE66D2519EE3C0089E87D /* DaumMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE66C2519EE3C0089E87D /* DaumMap.framework */; };
 		4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */; };
 		4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
@@ -281,6 +287,13 @@
 
 /* Begin PBXFileReference section */
 		0BE09DF43E8F5A12E923D6B5 /* Pods-evInfra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra/Pods-evInfra.release.xcconfig"; sourceTree = "<group>"; };
+		425EE5AD2519DA0B0089E87D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		425EE5AF2519DA410089E87D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		425EE5B12519DA520089E87D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		425EE5B32519DA620089E87D /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		425EE5B42519DA6B0089E87D /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		425EE5D72519DF160089E87D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		425EE66C2519EE3C0089E87D /* DaumMap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DaumMap.framework; path = DaumMap.embeddedframework/DaumMap.framework; sourceTree = "<group>"; };
 		4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceViewController.swift; sourceTree = "<group>"; };
 		4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceTableViewCell.swift; sourceTree = "<group>"; };
 		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
@@ -591,19 +604,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				425EE66D2519EE3C0089E87D /* DaumMap.framework in Frameworks */,
 				732B92C420EF53C00090E9FC /* libsqlite3.0.tbd in Frameworks */,
 				736D37D1208D9BFF009535EE /* SDWebImage.framework in Frameworks */,
 				7330B53F2060B0F40004AB28 /* DropDown.framework in Frameworks */,
 				73A7B42D204F79DD002E975F /* SwiftyJSON.framework in Frameworks */,
 				73B787B0210B172400C12801 /* KakaoCommon.framework in Frameworks */,
+				425EE5D82519DF160089E87D /* SystemConfiguration.framework in Frameworks */,
 				73A7B42B204F79DA002E975F /* Alamofire.framework in Frameworks */,
 				DBE591982114A93A00FE913B /* KakaoOpenSDK.framework in Frameworks */,
 				73B787B2210B172400C12801 /* KakaoNavi.framework in Frameworks */,
+				425EE5B52519DA780089E87D /* libsqlite3.tbd in Frameworks */,
 				73AD13C1203AC28800ADD19A /* Material.framework in Frameworks */,
 				73AD13C2203AC28800ADD19A /* Motion.framework in Frameworks */,
+				425EE5B02519DA410089E87D /* CoreLocation.framework in Frameworks */,
 				9064133423E2A470008B2BB1 /* AdSupport.framework in Frameworks */,
 				73EF8B7B203C85CC00D04494 /* TopLib_Op.a in Frameworks */,
+				425EE5B22519DA520089E87D /* QuartzCore.framework in Frameworks */,
 				73B787B1210B172400C12801 /* KakaoLink.framework in Frameworks */,
+				425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */,
 				8ABD2A1E6BAAA48912760042 /* Pods_evInfra.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -614,6 +633,13 @@
 		5659BC9F308878047DB36D3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				425EE66C2519EE3C0089E87D /* DaumMap.framework */,
+				425EE5D72519DF160089E87D /* SystemConfiguration.framework */,
+				425EE5B42519DA6B0089E87D /* libxml2.tbd */,
+				425EE5B32519DA620089E87D /* libc++.tbd */,
+				425EE5B12519DA520089E87D /* QuartzCore.framework */,
+				425EE5AF2519DA410089E87D /* CoreLocation.framework */,
+				425EE5AD2519DA0B0089E87D /* OpenGLES.framework */,
 				9064133323E2A470008B2BB1 /* AdSupport.framework */,
 				73B787AD210B172400C12801 /* KakaoCommon.framework */,
 				73B787AE210B172400C12801 /* KakaoLink.framework */,
@@ -1687,6 +1713,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1739,6 +1766,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1749,6 +1777,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 77;
@@ -1758,9 +1787,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/evInfra/Lib",
+					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.1.1;
@@ -1786,6 +1816,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 77;
@@ -1795,9 +1826,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/evInfra/Lib",
+					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.1.1;

@@ -101,12 +101,16 @@ class CarNoValidator: ValidatorConvertible {
     func validated(_ value: String) throws -> String {
         let region = "[서울|부산|대구|인천|대전|광주|울산|제주|경기|강원|충남|전남|전북|경남|경북|세종]";
         let symbol = "[가|나|다|라|마|거|너|더|러|머|버|서|어|저|고|노|도|로|모|보|소|오|조|구|누|두|루|무|부|수|우|주|바|사|아|자|허|배|호|하|임\\x20]";
+        
+        // 12가 1234
         var regex = "^\\d{2}" + symbol + "[\\s]?\\d{4}/*$"
         guard !value.isEmpty else {throw ValidationError("차량번호를 입력해주세요.")}
         do {
             if try NSRegularExpression(pattern: regex,  options: .caseInsensitive).firstMatch(in: value, options: [], range: NSRange(location: 0, length: value.count)) == nil {
+                // 123가 1234
                 regex = "^\\d{3}" + symbol + "[\\s]?\\d{4}/*$";
                 if try NSRegularExpression(pattern: regex,  options: .caseInsensitive).firstMatch(in: value, options: [], range: NSRange(location: 0, length: value.count)) == nil {
+                    // 서울12 가 1234
                     regex = "^" + region + "{2}[\\s]?\\d{2}[\\s]?" + symbol + "[\\s]?\\d{4}$";
                     if try NSRegularExpression(pattern: regex,  options: .caseInsensitive).firstMatch(in: value, options: [], range: NSRange(location: 0, length: value.count)) == nil {
                         throw ValidationError("차량번호 형식이 잘못되었습니다.")
