@@ -42,6 +42,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         self.delegate = self
         self.autoresizingMask = UIViewAutoresizing.flexibleHeight
         self.separatorStyle = .none
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
