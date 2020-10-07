@@ -128,7 +128,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func initKakaoMap(){
         self.mapView = MTMapView(frame: self.kakaoMapView.bounds)
         let mapPoint:MTMapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude:  (charger?.mStationInfoDto?.mLatitude)!, longitude: (charger?.mStationInfoDto?.mLongitude)!))
-//        37.491145, 127.030325
         
         if let mapView = mapView{
             
@@ -138,7 +137,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             
 
             let poiItem = MTMapPOIItem()
-            poiItem.itemName = "test"
             poiItem.markerType = MTMapPOIItemMarkerType.customImage
             poiItem.tag = 1
             poiItem.showAnimationType = .dropFromHeaven

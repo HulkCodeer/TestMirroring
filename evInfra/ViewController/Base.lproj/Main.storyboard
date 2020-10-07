@@ -7367,7 +7367,7 @@
     </designables>
     <color key="tintColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
     <resources>
-        <image name="bookmark" width="30" height="30"/>
+        <image name="bookmark" width="20" height="20"/>
         <image name="btn_camera.png" width="75.599998474121094" height="75.599998474121094"/>
         <image name="electric_icon" width="18" height="26"/>
         <image name="ic_add_circle_green" width="24" height="24"/>
@@ -7406,8 +7406,8 @@
         <image name="info_price.png" width="99" height="99"/>
         <image name="info_share" width="33" height="33"/>
         <image name="info_time.png" width="99" height="99"/>
-        <image name="install_type_in" width="18" height="18"/>
-        <image name="install_type_out" width="18" height="18"/>
+        <image name="install_type_in" width="12" height="12"/>
+        <image name="install_type_out" width="12" height="12"/>
         <image name="intro_bg.jpg" width="172.80000305175781" height="307.20001220703125"/>
         <image name="marker_state_charging" width="34" height="34"/>
         <image name="menu_board" width="30" height="30"/>
