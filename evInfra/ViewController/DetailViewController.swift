@@ -38,6 +38,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var addressLabel: CopyableLabel!    // 충전소 주소
     @IBOutlet weak var memoLabel: UILabel!              // 메모
     @IBOutlet var memoView: UIStackView!                // 메모(view)
+    @IBOutlet var shareBtn: UIView!                     // 공유하기
+    @IBOutlet var reportBtn: UIView!                    // 제보하기
     // 경로찾기 버튼
     @IBOutlet var startPointBtn: UIButton!              // 경로찾기(출발)
     @IBOutlet var endPointBtn: UIButton!                // 경로찾기(도착)
@@ -96,7 +98,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         getMyGrade()
         
         setDetailLb()
-        
         initKakaoMap()
     }
     
@@ -126,6 +127,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             self.addPointBtn.isHidden = true
             self.naviBtn.isHidden = false
         }
+        // share/report btn border
+        self.shareBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#33A2DA"), borderWidth: 1)
+        self.reportBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#33A2DA"), borderWidth: 1)
         // install round
         self.indoorView.roundCorners(.allCorners, radius: 3)
         self.outdoorView.roundCorners(.allCorners, radius: 3)
@@ -189,14 +193,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.mainViewDelegate?.showNavigation()
     }
     
-    @IBAction func onClickKakaoShareBtn(_ sender: UIButton) {
-        self.shareForKakao()
-    }
-    
-    @IBAction func onClickReportBtn(_ sender: Any) {
-        self.onClickReportChargeBtn()
-    }
-    
     func handleError(error: Error?) -> Void {
         if let error = error as NSError? {
             print(error)
@@ -220,14 +216,12 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         let viewPagerController = ViewPagerController(charger: self.charger!)
         addChildViewController(viewPagerController)
         self.setCallOutFavoriteIcon(charger: self.charger!)
-//        self.callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
-//        viewPagerContainer.addSubview(viewPagerController.view)
-//        viewPagerContainer.constrainToEdges(viewPagerController.view)
         
-//        self.cardPriceView.removeFromSuperview();
-//        self.cardPriceViewTitle.removeFromSuperview();
-//        viewPagerContainer.addSubview(viewPagerController.view)
-//        viewPagerContainer.constrainToEdges(viewPagerController.view)
+        let share = UITapGestureRecognizer(target: self, action: #selector(self.shareForKakao))
+        self.shareBtn.addGestureRecognizer(share)
+        
+        let report = UITapGestureRecognizer(target: self, action: #selector(self.onClickReportChargeBtn))
+        self.reportBtn.addGestureRecognizer(report)
     }
     
     // MARK: - Server Communications
@@ -262,16 +256,19 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         
         if !memo.isEmpty{
             if memo.equals("") {
-                detailViewResize(view: memoView)
                 self.memoView.isHidden = true
-                self.memoView.gone()
+//                self.memoView.gone()
             }else{
                 self.memoLabel.text = memo
             }
         }else{
             self.memoView.isHidden = true
-            self.memoView.gone()
+//            self.memoView.gone()
 //            detailViewResize(view: memoView)
+        }
+        
+        if memoView.isHidden == true {
+            print("csj_memo_hidden")
         }
         
         // 센터 전화번호
@@ -864,7 +861,7 @@ extension DetailViewController {
         }
     }
     
-    func shareForKakao() {
+    @objc func shareForKakao(sender: UITapGestureRecognizer) {
         let shareImage: UIImage!
         let size = CGSize(width: 480.0, height: 290.0)
         let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
