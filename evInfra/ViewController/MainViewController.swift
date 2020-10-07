@@ -14,8 +14,6 @@ import SwiftyJSON
 
 protocol MainViewDelegate {
     func redrawCalloutLayer()
-    func setDistance()
-    func setCallOutLb()
     func setStartPath()         // 경로찾기(시작)
     func setStartPoint()        // 경로찾기(출발)
     func setEndPoint()          // 경로찾기(도착)
@@ -93,6 +91,7 @@ class MainViewController: UIViewController {
     
     @IBOutlet weak var startPointBtn: UIButton!
     @IBOutlet weak var endPointBtn: UIButton!
+    @IBOutlet var addPointBtn: UIButton!
     @IBOutlet weak var naviBtn: UIButton!
     
     // Menu Button Layer
@@ -134,6 +133,8 @@ class MainViewController: UIViewController {
     private var clustering: ClusterManager? = nil
     private var currentClusterLv = 0
     private var isAllowedCluster = true
+    private var isExistAddBtn = false
+//    private var detailview = nil
     
     // 지킴이 점겸표 url
     private var checklistUrl: String?
@@ -163,7 +164,7 @@ class MainViewController: UIViewController {
         self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-
+        self.addPointBtn.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         if let currentPoint = MainViewController.currentLocation {
             startField.placeholder = tMapPathData.convertGpsToAddress(at: currentPoint)
         }
@@ -841,6 +842,12 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func clearSearchResult() {
+        if self.isExistAddBtn {   // 경유지버튼 있을경우
+            self.addPointBtn.isHidden = true    // 경유지버튼 숨김
+            self.naviBtn.isHidden = false   // 길안내버튼 추가
+        }
+        self.isExistAddBtn = false
+        
         hideKeyboard()
         hideResultView()
         setView(view: routeDistanceView, hidden: true)
@@ -868,6 +875,7 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func findPath(passList: [TMapPoint]) {
+        
         if routeStartPoint == nil{
             if let currentPoint = MainViewController.currentLocation {
                 startField.text = tMapPathData.convertGpsToAddress(at: currentPoint)
@@ -901,6 +909,11 @@ extension MainViewController: TextFieldDelegate {
             
             // 경유지 추가 버튼 활성화
             btnRouteCancel.setTitle("경로취소", for: .normal)
+            if !self.isExistAddBtn { // 경유지버튼 없을경우
+                self.naviBtn.isHidden = true    // 길안내버튼 숨김
+                self.addPointBtn.isHidden = false   // 경유지버튼 추가
+            }
+            self.isExistAddBtn = true
             
             // 경로 요청
             DispatchQueue.global(qos: .background).async {
@@ -1137,6 +1150,7 @@ extension MainViewController: MainViewDelegate {
         detailVC.charger = self.selectCharger
         detailVC.stationInfoArr = self.stationInfoArr
         detailVC.checklistUrl = self.checklistUrl
+        detailVC.isExistAddBtn = self.isExistAddBtn
         self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
     }
     

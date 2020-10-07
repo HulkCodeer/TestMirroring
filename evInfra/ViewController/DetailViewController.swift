@@ -17,38 +17,32 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var detailView: UIView!
 //    @IBOutlet weak var vieagerContainer: UIView!
 
-    @IBOutlet weak var companyView: UIView!             // 운영기관
-    @IBOutlet weak var operatorLabel: UILabel!          // 운영기관 이름
-    @IBOutlet weak var addressLabel: CopyableLabel!    // 충전소 주소
+    // summary
+    @IBOutlet weak var companyView: UIView!             // 운영기관(이미지)
+    @IBOutlet weak var callOutTitle: UILabel!           // 충전소 이름
+    @IBOutlet var callOutFavorite: UIButton!            // 즐겨찾기
+    @IBOutlet var chargerStatusImg: UIImageView!        // 충전기 상태(이미지)
+    @IBOutlet var callOutStatus: UILabel!               // 충전기 상태
     @IBOutlet weak var dstLabel: UILabel!               // 현 위치에서 거리
+    // 충전소 정보
+    @IBOutlet var powerLb: UILabel!                     // 충전속도
+    @IBOutlet var powerView: UILabel!                   // 충전속도(view)
+    @IBOutlet weak var operatorLabel: UILabel!          // 운영기관(이름)
+    @IBOutlet weak var timeLabel: UILabel!              // 운영시간
+    @IBOutlet weak var callLb: UILabel!                 // 전화번호
     @IBOutlet var indoorView: UIView!                   // 설치형태(실내)
     @IBOutlet var outdoorView: UIView!                  // 설치형태(실외)
     @IBOutlet var canopyView: UIView!                   // 설치형태(캐노피)
     @IBOutlet var checkingView: UIView!                 // 설치형태(확인중)
-    @IBOutlet var callOutFavorite: UIButton!            // 즐겨찾기
-    @IBOutlet var chargerPowerLb: UILabel!              // 충전속도
-    @IBOutlet var chargerStatusImg: UIImageView!        // 충전상태(마커이미지)
-    
-    
-    
-    @IBOutlet var startPointBtn: UIButton!
-    @IBOutlet var endPointBtn: UIButton!
-    @IBOutlet var naviBtn: UIButton!
-    
-    @IBOutlet weak var memoLabel: UILabel!     // 메모
-    @IBOutlet var memoView: UIStackView!
-    
-    // 이용시간: visible, gone 처리를 위해 subview 모두 연결함
-//    @IBOutlet weak var timeImage: UIImageView!
-//    @IBOutlet weak var timeFixLabel: UILabel!
-//    @IBOutlet weak var timeView: UIView!
-    @IBOutlet weak var timeLabel: UILabel!
-
-    @IBOutlet weak var callOutTitle: UILabel!
-    @IBOutlet var callOutStatus: UILabel!
-    
-    @IBOutlet var kakaoMapView: UIView!
-    
+    @IBOutlet var kakaoMapView: UIView!                 // 스카이뷰(카카오맵)
+    @IBOutlet weak var addressLabel: CopyableLabel!    // 충전소 주소
+    @IBOutlet weak var memoLabel: UILabel!              // 메모
+    @IBOutlet var memoView: UIStackView!                // 메모(view)
+    // 경로찾기 버튼
+    @IBOutlet var startPointBtn: UIButton!              // 경로찾기(출발)
+    @IBOutlet var endPointBtn: UIButton!                // 경로찾기(도착)
+    @IBOutlet var addPointBtn: UIButton!
+    @IBOutlet var naviBtn: UIButton!                    // 경로찾기(길안내)
     // 지킴이
     @IBOutlet weak var guardView: UIView!
     @IBOutlet weak var guardImage: UIImageView!
@@ -56,17 +50,15 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var guardReportBtn: UIButton!
     @IBOutlet weak var guardEnvBtn: UIButton!
     @IBOutlet weak var guardKepcoBtn: UIButton!
-    
+    // 충전기 정보(list)
     @IBOutlet weak var boardTableView: BoardTableView!
     @IBOutlet weak var cidTableView: CidTableView!
-
     @IBOutlet weak var CidTableHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var callLb: UILabel!
-    
-    
+ 
     var mainViewDelegate: MainViewDelegate?
     var charger: ChargerStationInfo?
     var checklistUrl: String?
+    var isExistAddBtn = false
     
     // Charge station info(summary)
     var stationInfoArr = [String:String]()
@@ -120,9 +112,24 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     override func viewWillLayoutSubviews() {
+        // btn border
         self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        self.addPointBtn.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        // charger power round
+        self.powerView.roundCorners(.allCorners, radius: 3)
+        if isExistAddBtn {
+            self.addPointBtn.isHidden = false
+            self.naviBtn.isHidden = true
+        }else if !isExistAddBtn{
+            self.addPointBtn.isHidden = true
+            self.naviBtn.isHidden = false
+        }
+        // install round
+        self.indoorView.roundCorners(.allCorners, radius: 3)
+        self.outdoorView.roundCorners(.allCorners, radius: 3)
+        self.canopyView.roundCorners(.allCorners, radius: 3)
     }
     
     func initKakaoMap(){
@@ -168,6 +175,12 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     @IBAction func onClickEndPoint(_ sender: Any) {
         self.mainViewDelegate?.setEndPoint()
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func onClickAddPoint(_ sender: Any) {
+        self.mainViewDelegate?.setStartPath()
         navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
@@ -300,7 +313,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     func setDetailLb() {
         // 충전 속도
-        self.chargerPowerLb.text = self.charger?.getChargerPower(power: (charger?.mPower)!, type: (charger?.mTotalType)!)
+        self.powerLb.text = self.charger?.getChargerPower(power: (charger?.mPower)!, type: (charger?.mTotalType)!)
         
         // 충전소 이름
         self.callOutTitle.text = self.charger?.mStationInfoDto?.mSnm
