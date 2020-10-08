@@ -26,7 +26,7 @@ class DataBaseHelper {
                 let dbPath = documentsURL.appendingPathComponent(DataBaseHelper.DATABASE_NAME).path
                 var configuration = Configuration()
                 configuration.readonly = false
-//                configuration.trace = nil //{ Log.d(tag: DataBaseHelper.TAG, msg: $0) }
+                //configuration.trace = nil //{ Log.d(tag: DataBaseHelper.TAG, msg: $0) }
                 mDbQueue = try DatabaseQueue(path: dbPath, configuration: configuration)
             }
         }catch{
