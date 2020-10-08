@@ -11,6 +11,7 @@
 		4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
 		4E05096A2519E280000CFF55 /* WaitTimeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0509692519E280000CFF55 /* WaitTimeModel.swift */; };
+		4E05096C252DB11E000CFF55 /* TableDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E05096B252DB11E000CFF55 /* TableDelegate.swift */; };
 		4E5EBF1724EE5EB4006DF807 /* GeoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5EBF1624EE5EB4006DF807 /* GeoManager.swift */; };
 		4E5EBF1A24EE5ED6006DF807 /* GeoRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5EBF1924EE5ED6006DF807 /* GeoRegion.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
@@ -269,6 +270,7 @@
 		4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceTableViewCell.swift; sourceTree = "<group>"; };
 		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
 		4E0509692519E280000CFF55 /* WaitTimeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitTimeModel.swift; sourceTree = "<group>"; };
+		4E05096B252DB11E000CFF55 /* TableDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableDelegate.swift; sourceTree = "<group>"; };
 		4E5EBF1624EE5EB4006DF807 /* GeoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoManager.swift; sourceTree = "<group>"; };
 		4E5EBF1924EE5ED6006DF807 /* GeoRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoRegion.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -914,6 +916,7 @@
 				73DD778023164CB60006EFFC /* CopyableLabel.swift */,
 				73D65D6F2358498B00F564A2 /* Validators.swift */,
 				73D65D7123588ACC00F564A2 /* UITextField.swift */,
+				4E05096B252DB11E000CFF55 /* TableDelegate.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1388,6 +1391,7 @@
 				7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */,
 				DBDC59A0234B6E4E00F75D64 /* UsePointViewController.swift in Sources */,
 				736BCE85205A89070052C9ED /* CidTableViewCell.swift in Sources */,
+				4E05096C252DB11E000CFF55 /* TableDelegate.swift in Sources */,
 				73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */,
 				732B929A20EDD0C60090E9FC /* CompanyInfoChecker.swift in Sources */,
 				73EF8B3F203ACB8500D04494 /* AppToolbarController.swift in Sources */,

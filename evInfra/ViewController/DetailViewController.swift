@@ -12,7 +12,7 @@ import Motion
 import SwiftyJSON
 import JJFloatingActionButton
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, TableDelegate {
     
     @IBOutlet weak var detailView: UIView!
     @IBOutlet weak var viewPagerContainer: UIView!
@@ -106,6 +106,7 @@ class DetailViewController: UIViewController {
         getReportInfo()
         getMyGrade()
 		getWaitTime()
+		self.cidTableView.setDelegate(delegate: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -285,7 +286,7 @@ class DetailViewController: UIViewController {
         self.mainViewDelegate?.redrawCalloutLayer()
 		self.cidTableView.setCidList(chargerList: cidList, waitTimeStatus: mWaitTime)
         self.cidTableView.reloadData()
-        self.adjustHeightOfTableview()
+        self.adjustHeightOfTableview(allNum: 0, clickedNum:0)
         
         self.showMenuBtn()
         self.showMoveHomePageBtn()
@@ -317,16 +318,28 @@ class DetailViewController: UIViewController {
     
     // MARK: - TableView Height
     
-    func adjustHeightOfTableview() {
-        let contentHeight = self.cidTableView.contentSize.height
+	func adjustHeightOfTableview(allNum:Int, clickedNum:Int) {
+		var contentHeight:CGFloat = 0.0
+		//contentSize: 스크롤뷰에 표시될 내용의 사이즈, 숨겨지거나 보여지는 모든 내용의 사이즈
+		if(allNum == 0){
+			contentHeight = self.cidTableView.contentSize.height
+		}else{
+			var unclickedCellHeight = CGFloat(allNum - clickedNum) * CidTableView.Constants.cellHeight
+			var clickedCellHeight = CGFloat(clickedNum * 100)
+			contentHeight = CGFloat( unclickedCellHeight + clickedCellHeight)
+		}
+		
+		//frame: 스크롤뷰의 사이즈
         let expectedFrame = CGRect(x: 0, y: 0, width: self.detailView.frame.width, height: self.detailView.frame.height - CidTableView.Constants.cellHeight + contentHeight)
         if !self.detailView.frame.equalTo(expectedFrame) {
+			//테이블이 확장된 상태를 고려하여 detailview 높이를 정함
             self.detailView.frame = expectedFrame
         }
         
         // set the height constraint accordingly
         UIView.animate(withDuration: 0.25, animations: {
             self.CidTableHeightConstraint.constant = contentHeight;
+			//제약조건 갱신
             self.view.needsUpdateConstraints()
             self.boardTableView.reloadData()
         }, completion: nil)
@@ -381,6 +394,7 @@ extension DetailViewController: BoardTableViewDelegate {
         // UITableView cell 높이를 자동으로 설정
         self.boardTableView.tableViewDelegate = self
         self.cidTableView.rowHeight = UITableViewAutomaticDimension
+		//예상되는 행의 높이, 추정치를 제공하면 성능향상됨
         self.cidTableView.estimatedRowHeight = CidTableView.Constants.cellHeight
         self.cidTableView.separatorStyle = .none
         
@@ -388,6 +402,7 @@ extension DetailViewController: BoardTableViewDelegate {
         self.boardTableView.estimatedRowHeight = UITableViewAutomaticDimension
         self.boardTableView.separatorStyle = .none
         
+		//사용자가 행을 선택할 수 있는지 결정함
         self.boardTableView.allowsSelection = false
         
         // Table header 추가
@@ -1132,5 +1147,9 @@ extension DetailViewController {
 				}
 			}
 		}
+	}
+	
+	func updateHeight(allNum:Int, clickedNum:Int) {
+		self.adjustHeightOfTableview(allNum:allNum, clickedNum: clickedNum)
 	}
 }

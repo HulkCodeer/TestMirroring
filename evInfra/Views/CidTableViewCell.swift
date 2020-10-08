@@ -18,9 +18,14 @@ class CidTableViewCell: UITableViewCell {
     @IBOutlet weak var slow: UIImageView!
     
     @IBOutlet weak var dateKind: UILabel!
-    @IBOutlet weak var lastDate: UILabel!
-    
-    let imgDcCombo = "type_dc_combo"
+	@IBOutlet var waitTimeView: UIView!
+	
+
+	@IBOutlet var lastDate: UIButton!
+	@IBOutlet var mainView: UIView!
+	
+	
+	let imgDcCombo = "type_dc_combo"
     let imgDcDemo = "type_dc_demo"
     let imgAcThree = "type_ac_three"
     let imgAcSlow = "type_ac_slow"
@@ -33,8 +38,8 @@ class CidTableViewCell: UITableViewCell {
     let imgAcSlowDim = "type_ac_slow_dim"
     let imgSuperDim = "type_super_dim"
     let imgDestinationDim = "type_destination_dim"
-    
-    public func setChargerTypeImage(type:Int) {
+	
+	public func setChargerTypeImage(type:Int) {
         switch (type) {
         case Const.CHARGER_TYPE_DCDEMO:
             self.dcCombo.image = UIImage(named: imgDcComboDim)
@@ -106,4 +111,5 @@ class CidTableViewCell: UITableViewCell {
             break;
         }
     }
+	
 }
