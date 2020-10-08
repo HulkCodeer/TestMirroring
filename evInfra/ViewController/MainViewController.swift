@@ -104,6 +104,7 @@ class MainViewController: UIViewController {
     //경로찾기시 거리표시 뷰 (call out)
     @IBOutlet weak var routeDistanceView: UIView!
     @IBOutlet weak var routeDistanceLabel: UILabel!
+    @IBOutlet var routeDistanceBtn: UIView!
     
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -151,16 +152,17 @@ class MainViewController: UIViewController {
         prepareMapView()
         
         prepareNotificationCenter()
+        prepareRouteView()
         prepareCalloutLayer()
         prepareClustering()
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-        
         requestStationInfo()
     }
     
     override func viewWillLayoutSubviews() {
+        // btn border
         self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
@@ -168,7 +170,12 @@ class MainViewController: UIViewController {
         if let currentPoint = MainViewController.currentLocation {
             startField.placeholder = tMapPathData.convertGpsToAddress(at: currentPoint)
         }
+        // routeDistancBtn radius, gradient
+        self.routeDistanceBtn.roundCorners(.allCorners, radius: 10)
+        self.routeDistanceBtn.setGradientColor(startColor: UIColor(hex: "#2CE0BB"), endColor: UIColor(hex: "#33A2DA"), startPoint: CGPoint(x: 0.0, y: 1.0), endPoint: CGPoint(x: 1.0, y:1.0))
+        self.routeDistanceView.roundCorners(.allCorners, radius: 5)
     }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         menuBadgeAdd()
@@ -337,6 +344,12 @@ class MainViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func prepareRouteView() {
+        let findPath = UITapGestureRecognizer(target: self, action:  #selector (self.onClickShowNavi(_:)))
+        self.routeDistanceBtn.addGestureRecognizer(findPath)
+                
     }
     
     // checkbox - charger type
@@ -851,6 +864,7 @@ extension MainViewController: TextFieldDelegate {
         hideKeyboard()
         hideResultView()
         setView(view: routeDistanceView, hidden: true)
+        self.btnChargePrice.isHidden = false
         
         startField.text = ""
         endField.text = ""
@@ -894,6 +908,8 @@ extension MainViewController: TextFieldDelegate {
             
             // 하단 충전소 정보 숨기기
             setView(view: callOutLayer, hidden: true)
+            
+            self.btnChargePrice.isHidden = true
             
             // 출발, 도착이 모두 나오도록 zoom level 변경
             var latSpan = startPoint.getLatitude() - endPoint.getLatitude()
@@ -952,9 +968,9 @@ extension MainViewController: TextFieldDelegate {
         let distance = round(polyLine.getDistance())
         var strDistance:NSString
         if distance > 1000 {
-            strDistance = NSString(format: "목적지까지의 거리는 %dKm 입니다", Int(distance/1000))
+            strDistance = NSString(format: "%dKm", Int(distance/1000))
         } else {
-            strDistance = NSString(format: "목적지까지의 거리는 %dm 입니다", Int(distance))
+            strDistance = NSString(format: "%dm", Int(distance))
         }
         routeDistanceLabel.text = strDistance as String
         

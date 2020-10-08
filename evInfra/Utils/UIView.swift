@@ -334,6 +334,16 @@ extension NSLayoutConstraint {
         isUserInteractionEnabled = true
     }
     
+    func setGradientColor(startColor: UIColor, endColor: UIColor, startPoint: CGPoint, endPoint: CGPoint) {
+        let gradient = CAGradientLayer()
+        gradient.frame = self.bounds
+        gradient.colors = [startColor.cgColor, endColor.cgColor]
+        gradient.startPoint = startPoint
+        gradient.endPoint = endPoint
+        gradient.locations = [0.0, 1.0]
+        self.layer.insertSublayer(gradient, at: 0)
+    }
+    
     /* The color of the shadow. Defaults to opaque black. Colors created
      * from patterns are currently NOT supported. Animatable. */
     @IBInspectable var shadowColor: UIColor? {

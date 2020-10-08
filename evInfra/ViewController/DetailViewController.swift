@@ -257,18 +257,11 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         if !memo.isEmpty{
             if memo.equals("") {
                 self.memoView.isHidden = true
-//                self.memoView.gone()
             }else{
                 self.memoLabel.text = memo
             }
         }else{
             self.memoView.isHidden = true
-//            self.memoView.gone()
-//            detailViewResize(view: memoView)
-        }
-        
-        if memoView.isHidden == true {
-            print("csj_memo_hidden")
         }
         
         // 센터 전화번호
