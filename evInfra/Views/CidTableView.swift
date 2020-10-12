@@ -43,22 +43,41 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate{
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let cell:CidTableViewCell = tableView.cellForRow(at: indexPath) as! CidTableViewCell
-		
-		DispatchQueue.main.async {
-			if(self.clickedIndex.contains(indexPath.row)){
-				self.clickedIndex = self.clickedIndex.filter(){
-					$0 as Int != indexPath.row}
-				cell.waitTimeView.isHidden = true
-				cell.waitTimeView.frame = CGRect(x:0, y: 0, width: cell.waitTimeView.frame.width, height: 0)
-			}else{
-				self.clickedIndex.append(indexPath.row)
-				cell.waitTimeView.isHidden = false
-				cell.waitTimeView.frame = CGRect(x:0, y: 0, width: cell.waitTimeView.frame.width, height: 40)
+		let cInfo = cidList[indexPath.row]
+		var statusInfo:WaitTimeStatus? = nil
+		for item in waitTimeStatus{
+			if(cInfo.cid == item.cid){
+				statusInfo = item
+				break
 			}
-			tableView.beginUpdates()
-			tableView.endUpdates()
-			cell.waitTimeView.setNeedsDisplay()
-			self.tableDelegate?.updateHeight(allNum: self.cidList.count, clickedNum: self.clickedIndex.count)
+		}
+		cell.statusLabel.highlightedTextColor = cInfo.getCstColor(cst: cInfo.status)
+		
+		if cInfo.status == Const.CHARGER_STATE_CHARGING {
+			let waitTime = Int(statusInfo?.remain_time ?? -1)
+			cell.lastDate.contentEdgeInsets = UIEdgeInsets(
+				top : 0,
+				left : 10,
+				bottom : 0, right :10
+			)
+			if(waitTime <= 0 && waitTime != -1){
+				DispatchQueue.main.async {
+					if(self.clickedIndex.contains(indexPath.row)){
+						self.clickedIndex = self.clickedIndex.filter(){
+							$0 as Int != indexPath.row}
+						cell.waitTimeView.isHidden = true
+						cell.waitTimeView.frame = CGRect(x:0, y: 0, width: cell.waitTimeView.frame.width, height: 0)
+					}else{
+						self.clickedIndex.append(indexPath.row)
+						cell.waitTimeView.isHidden = false
+						cell.waitTimeView.frame = CGRect(x:0, y: 0, width: cell.waitTimeView.frame.width, height: 40)
+					}
+					tableView.beginUpdates()
+					tableView.endUpdates()
+					cell.waitTimeView.setNeedsDisplay()
+					self.tableDelegate?.updateHeight(allNum: self.cidList.count, clickedNum: self.clickedIndex.count)
+				}
+			}
 		}
 	}
 	
@@ -118,6 +137,8 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate{
 				}else{
 					waitText = "충전중"
 					cell.dateKind.text = "80% 이상"
+					cell.lastDate.semanticContentAttribute = UIApplication.shared
+					.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
 					cell.lastDate.setImage(UIImage(named: "help_text_btn"), for:.normal)
 					//cell.above80Image.isHidden = false
 				}

@@ -2831,11 +2831,11 @@
                                                                         <rect key="frame" x="16" y="22" width="50" height="31.5"/>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="width" constant="50" id="bOh-Fu-tHG"/>
+                                                                            <constraint firstAttribute="width" constant="90" id="bOh-Fu-tHG"/>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                                        <color key="textColor" red="0.17089101670000001" green="0.76316946740000002" blue="0.97284036870000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                        <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <color key="textColor" red="0.17254901959999999" green="0.76470588240000004" blue="0.97254901959999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="highlightedColor" red="0.17254901960784313" green="0.76470588235294112" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     </label>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Q7-gE-sr7">
                                                                         <rect key="frame" x="86" y="16" width="25" height="35"/>
@@ -2874,7 +2874,7 @@
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IJc-OS-3CJ">
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="IJc-OS-3CJ">
                                                                         <rect key="frame" x="321" y="28" width="54" height="34"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                                         <state key="normal" title="Button">
@@ -2887,25 +2887,21 @@
                                                                     <constraint firstAttribute="trailing" secondItem="OIc-s4-ERj" secondAttribute="trailingMargin" constant="8" id="1RG-Ri-4Fw"/>
                                                                     <constraint firstItem="Ma7-br-5La" firstAttribute="leading" secondItem="JMM-8e-cst" secondAttribute="trailing" constant="10" id="6D2-rG-CL4"/>
                                                                     <constraint firstItem="fd3-gz-3f1" firstAttribute="leading" secondItem="Ma7-br-5La" secondAttribute="trailing" constant="10" id="6Wd-pp-dmx"/>
-                                                                    <constraint firstItem="CS2-IQ-Z25" firstAttribute="top" secondItem="cBI-bY-CZY" secondAttribute="top" constant="22" id="82G-Lg-49R"/>
+                                                                    <constraint firstItem="CS2-IQ-Z25" firstAttribute="top" secondItem="cBI-bY-CZY" secondAttribute="top" constant="27" id="82G-Lg-49R"/>
                                                                     <constraint firstAttribute="height" constant="60" id="8Vz-Ec-Rjt"/>
-                                                                    <constraint firstItem="1Q7-gE-sr7" firstAttribute="leading" secondItem="CS2-IQ-Z25" secondAttribute="trailing" constant="20" id="CNf-st-pg1" userLabel="Dc Combo.leading = Status Label.trailing + 25"/>
-                                                                    <constraint firstItem="IJc-OS-3CJ" firstAttribute="leading" secondItem="fd3-gz-3f1" secondAttribute="trailing" id="CVZ-1N-fFr"/>
+                                                                    <constraint firstItem="1Q7-gE-sr7" firstAttribute="leading" secondItem="CS2-IQ-Z25" secondAttribute="trailing" id="CNf-st-pg1" userLabel="Dc Combo.leading = Status Label.trailing + 25"/>
+                                                                    <constraint firstItem="IJc-OS-3CJ" firstAttribute="leading" secondItem="fd3-gz-3f1" secondAttribute="trailing" constant="16" id="CVZ-1N-fFr"/>
                                                                     <constraint firstItem="OIc-s4-ERj" firstAttribute="leading" secondItem="fd3-gz-3f1" secondAttribute="trailing" constant="16" id="Dns-9F-Bzq"/>
                                                                     <constraint firstItem="IJc-OS-3CJ" firstAttribute="trailing" secondItem="cBI-bY-CZY" secondAttribute="trailing" id="Eg4-6e-E16"/>
                                                                     <constraint firstItem="fd3-gz-3f1" firstAttribute="top" secondItem="cBI-bY-CZY" secondAttribute="top" constant="16" id="HFF-LT-cpY"/>
                                                                     <constraint firstItem="JMM-8e-cst" firstAttribute="leading" secondItem="1Q7-gE-sr7" secondAttribute="trailing" constant="10" id="I9q-WV-f4Q"/>
-                                                                    <constraint firstItem="JMM-8e-cst" firstAttribute="centerY" secondItem="Ma7-br-5La" secondAttribute="centerY" id="IsT-V8-qRM"/>
                                                                     <constraint firstItem="1Q7-gE-sr7" firstAttribute="top" secondItem="cBI-bY-CZY" secondAttribute="top" constant="16" id="Jor-al-hTm"/>
-                                                                    <constraint firstItem="Ma7-br-5La" firstAttribute="centerY" secondItem="fd3-gz-3f1" secondAttribute="centerY" id="K13-zH-hPC"/>
                                                                     <constraint firstItem="JMM-8e-cst" firstAttribute="top" secondItem="cBI-bY-CZY" secondAttribute="top" constant="16" id="LWl-nv-qvD"/>
-                                                                    <constraint firstItem="CS2-IQ-Z25" firstAttribute="leading" secondItem="cBI-bY-CZY" secondAttribute="leadingMargin" constant="8" id="NAK-LQ-QZ9" userLabel="Status Label.leading = leading + 25"/>
-                                                                    <constraint firstItem="1Q7-gE-sr7" firstAttribute="centerY" secondItem="JMM-8e-cst" secondAttribute="centerY" id="OOL-cT-Vt2"/>
-                                                                    <constraint firstItem="OIc-s4-ERj" firstAttribute="top" secondItem="cBI-bY-CZY" secondAttribute="top" constant="16" id="RDa-z2-Lkg"/>
-                                                                    <constraint firstItem="Z5u-aR-n1I" firstAttribute="top" secondItem="cBI-bY-CZY" secondAttribute="topMargin" constant="10" id="aGC-oQ-eLt"/>
-                                                                    <constraint firstItem="JMM-8e-cst" firstAttribute="centerY" secondItem="cBI-bY-CZY" secondAttribute="centerY" id="edi-QE-meY"/>
+                                                                    <constraint firstItem="CS2-IQ-Z25" firstAttribute="leading" secondItem="cBI-bY-CZY" secondAttribute="leadingMargin" id="NAK-LQ-QZ9" userLabel="Status Label.leading = leading + 25"/>
+                                                                    <constraint firstItem="OIc-s4-ERj" firstAttribute="top" secondItem="cBI-bY-CZY" secondAttribute="top" constant="18" id="RDa-z2-Lkg"/>
+                                                                    <constraint firstItem="Z5u-aR-n1I" firstAttribute="top" secondItem="cBI-bY-CZY" secondAttribute="topMargin" constant="5" id="aGC-oQ-eLt"/>
                                                                     <constraint firstItem="Ma7-br-5La" firstAttribute="top" secondItem="cBI-bY-CZY" secondAttribute="top" constant="16" id="hla-5n-FHP"/>
-                                                                    <constraint firstItem="Z5u-aR-n1I" firstAttribute="leading" secondItem="cBI-bY-CZY" secondAttribute="leadingMargin" constant="10" id="iwe-SR-OV6"/>
+                                                                    <constraint firstItem="Z5u-aR-n1I" firstAttribute="leading" secondItem="cBI-bY-CZY" secondAttribute="leadingMargin" constant="5" id="iwe-SR-OV6"/>
                                                                     <constraint firstItem="IJc-OS-3CJ" firstAttribute="top" secondItem="OIc-s4-ERj" secondAttribute="bottom" id="mNX-CG-W5H"/>
                                                                 </constraints>
                                                             </view>
@@ -2914,7 +2910,7 @@
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전량 80% 이상인 경우 사용자의 충전 예상시간을 확인하기 어렵습니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rAY-pz-ETp">
                                                                         <rect key="frame" x="8" y="8" width="367" height="0.0"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                         <color key="textColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
