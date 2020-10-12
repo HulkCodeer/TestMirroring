@@ -1141,7 +1141,7 @@ extension DetailViewController {
 						self.mWaitTime.append(contentsOf: data.status)
 						var geoText = "근처에 \(self.mUserCount)명이 있음"
 						let attributedStr = NSMutableAttributedString(string: geoText)
-						if(self.mUserCount > 2){
+						if(self.mUserCount > 0){
 							attributedStr.addAttribute(.foregroundColor, value: UIColor(rgb: 0x32ebacf), range: (geoText as NSString).range(of:"\(self.mUserCount)명")
 							)
 						}
