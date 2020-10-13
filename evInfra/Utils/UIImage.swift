@@ -81,5 +81,19 @@ extension UIImage {
         return nil
     }
     
+    // crop Image
+    func cropImage(image: UIImage, posX: CGFloat, posY: CGFloat, width: Double, height: Double) -> UIImage {
+        let cgimage = image.cgImage!
+        
+        let cgwidth: CGFloat = CGFloat(width)
+        let cgheight: CGFloat = CGFloat(height)
 
+        let rect: CGRect = CGRect(x: posX, y: posY, width: cgwidth, height: cgheight)
+
+        let imageRef: CGImage = cgimage.cropping(to: rect)!
+
+        let resultImage: UIImage = UIImage(cgImage: imageRef, scale: image.scale, orientation: image.imageOrientation)
+
+        return resultImage
+    }
 }

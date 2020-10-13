@@ -18,7 +18,6 @@ protocol MainViewDelegate {
     func setStartPoint()        // 경로찾기(출발)
     func setEndPoint()          // 경로찾기(도착)
     func showNavigation()       // 경로찾기(길안내)
-//    func bookmark()             // 즐겨찾기
 }
 
 class MainViewController: UIViewController {
@@ -74,25 +73,26 @@ class MainViewController: UIViewController {
     
     // Callout View
     @IBOutlet weak var callOutLayer: UIView!
-    @IBOutlet weak var callOutStatus: UILabel!
-    @IBOutlet weak var callOutTitle: UILabel!
-    @IBOutlet weak var callOutFavorite: UIButton!
+    @IBOutlet var operatorImg: UIImageView!         // 운영기관(이미지)
+    @IBOutlet weak var callOutTitle: UILabel!       // 충전소이름
+    @IBOutlet var distanceLb: UILabel!              // 거리
+    @IBOutlet weak var callOutFavorite: UIButton!   // 북마크
     
-    @IBOutlet var chargePriceLb: UILabel!
-    @IBOutlet var chargePowerLb: UILabel!
+    @IBOutlet var markerImg: UIImageView!           // 마커이미지
+    @IBOutlet weak var callOutStatus: UILabel!      // 충전상태
+    @IBOutlet var typeLb1: UILabel!                 // 타입(view)
+    @IBOutlet var typeLb2: UILabel!                 // 타입(view)
+    @IBOutlet var typeLb3: UILabel!                 // 타입(view)
     
-    @IBOutlet var distanceLb: UILabel!
+    @IBOutlet var powerView: UILabel!               // 충전속도(view)
+    @IBOutlet var chargePowerLb: UILabel!           // 충전속도
+    @IBOutlet var priceView: UILabel!               // 충전금액(view)
+    @IBOutlet var chargePriceLb: UILabel!           // 충전금액
     
-    @IBOutlet var typeLb1: UILabel!
-    @IBOutlet var typeLb2: UILabel!
-    @IBOutlet var typeLb3: UILabel!
-    
-    @IBOutlet var markerImg: UIImageView!
-    
-    @IBOutlet weak var startPointBtn: UIButton!
-    @IBOutlet weak var endPointBtn: UIButton!
-    @IBOutlet var addPointBtn: UIButton!
-    @IBOutlet weak var naviBtn: UIButton!
+    @IBOutlet weak var startPointBtn: UIButton!     // 출발
+    @IBOutlet weak var endPointBtn: UIButton!       // 도착
+    @IBOutlet var addPointBtn: UIButton!            // 경유지 추가
+    @IBOutlet weak var naviBtn: UIButton!           // 길안내
     
     // Menu Button Layer
     @IBOutlet var btn_menu_layer: UIView!
@@ -135,7 +135,6 @@ class MainViewController: UIViewController {
     private var currentClusterLv = 0
     private var isAllowedCluster = true
     private var isExistAddBtn = false
-//    private var detailview = nil
     
     // 지킴이 점겸표 url
     private var checklistUrl: String?
@@ -150,10 +149,9 @@ class MainViewController: UIViewController {
         prepareFilterView()
         prepareCheckBox()
         prepareMapView()
-        
+        prepareCalloutLayer()
         prepareNotificationCenter()
         prepareRouteView()
-        prepareCalloutLayer()
         prepareClustering()
         prepareMenuBtnLayer()
         
@@ -163,9 +161,9 @@ class MainViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         // btn border
-        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+        self.naviBtn.setBorderRadius(.allCorners, radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.addPointBtn.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         if let currentPoint = MainViewController.currentLocation {
             startField.placeholder = tMapPathData.convertGpsToAddress(at: currentPoint)
@@ -174,6 +172,13 @@ class MainViewController: UIViewController {
         self.routeDistanceBtn.roundCorners(.allCorners, radius: 10)
         self.routeDistanceBtn.setGradientColor(startColor: UIColor(hex: "#2CE0BB"), endColor: UIColor(hex: "#33A2DA"), startPoint: CGPoint(x: 0.0, y: 1.0), endPoint: CGPoint(x: 1.0, y:1.0))
         self.routeDistanceView.roundCorners(.allCorners, radius: 5)
+        self.routeDistanceView.backgroundColor = UIColor.init(hex: "#F5ffffff")
+        
+        self.powerView.roundCorners(.allCorners, radius: 3)
+        self.priceView.roundCorners(.allCorners, radius: 3)
+        self.typeLb1.roundCorners(.allCorners, radius: 3)
+        self.typeLb2.roundCorners(.allCorners, radius: 3)
+        self.typeLb3.roundCorners(.allCorners, radius: 3)
     }
     
     
@@ -349,7 +354,6 @@ class MainViewController: UIViewController {
     func prepareRouteView() {
         let findPath = UITapGestureRecognizer(target: self, action:  #selector (self.onClickShowNavi(_:)))
         self.routeDistanceBtn.addGestureRecognizer(findPath)
-                
     }
     
     // checkbox - charger type
@@ -863,8 +867,10 @@ extension MainViewController: TextFieldDelegate {
         
         hideKeyboard()
         hideResultView()
+        
         setView(view: routeDistanceView, hidden: true)
         self.btnChargePrice.isHidden = false
+        self.btn_menu_layer.isHidden = false
         
         startField.text = ""
         endField.text = ""
@@ -910,6 +916,7 @@ extension MainViewController: TextFieldDelegate {
             setView(view: callOutLayer, hidden: true)
             
             self.btnChargePrice.isHidden = true
+            self.btn_menu_layer.isHidden = true
             
             // 출발, 도착이 모두 나오도록 zoom level 변경
             var latSpan = startPoint.getLatitude() - endPoint.getLatitude()
@@ -1201,7 +1208,7 @@ extension MainViewController: MainViewDelegate {
         }
         setDistance()
        
-//        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cst: selectCharger?.mTotalStatus ?? 2)
+//        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cs
         
         setCallOutLb()
         
@@ -1225,6 +1232,8 @@ extension MainViewController: MainViewDelegate {
         callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
         
         callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
+        
+        self.operatorImg.image = selectCharger?.getCompanyIcon()
     }
     
     func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
@@ -1278,11 +1287,11 @@ extension MainViewController: MainViewDelegate {
         self.typeLb3.text = ""
         
         if (type & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
-            let type = "CD차데모"
+            let type = "DC차데모"
             setTextType(type:type)
         }
         if (type & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
-            let type = "CD콤보"
+            let type = "DC콤보"
             setTextType(type:type)
         }
         if (type & Const.CTYPE_AC) == Const.CTYPE_AC {

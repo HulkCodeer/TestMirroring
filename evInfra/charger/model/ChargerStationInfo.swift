@@ -222,6 +222,21 @@ class ChargerStationInfo {
         return markerIcon
     }
     
+    func getCompanyIcon() -> UIImage {
+        var icon: UIImage!
+        let companyArray = ChargerManager.sharedInstance.getCompanyInfoListAll()
+        if let company = companyArray?.filter({$0.company_id!.elementsEqual((mStationInfoDto?.mCompanyId)!)}).first {
+            if let iconName = company.icon_name {
+                icon = ImageMarker.companyImg(company: iconName)
+                let width = icon.width - 20
+                let height = icon.height/2
+                let companyIcon = icon.cropImage(image: icon, posX: 10, posY: 10, width: Double(width), height: Double(height))
+                icon = companyIcon
+            }
+        }
+        return icon
+    }
+    
     func getMarkerIcon() -> UIImage {
         if (StringUtils.isNullOrEmpty(mStationInfoDto?.mCompanyId)) {
             return ImageMarker.NORMAL!
@@ -271,6 +286,7 @@ class ChargerStationInfo {
     
     func getChargeStateImg(type:String) -> UIImage{
         var stateImg:UIImage!
+        
         switch type {
         case "충전중":
             stateImg = UIImage(named: "detail_mark_charging.png")
