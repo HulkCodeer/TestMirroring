@@ -3,6 +3,14 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "MainViewController.showCallOut(charger:):MainViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "callOutTitle.textColor">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "StationInfoDto.setStationInfo(json:):StationInfoDto.swift">
          <PersistentStrings>
             <PersistentString
