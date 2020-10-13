@@ -852,6 +852,7 @@
                         <outlet property="cbSuper" destination="yJu-FL-iou" id="STo-AE-Yg4"/>
                         <outlet property="chargePowerLb" destination="2VS-Ag-aWp" id="5XB-My-0sw"/>
                         <outlet property="chargePriceLb" destination="yjg-Uu-Asm" id="PBm-fj-SwG"/>
+                        <outlet property="companyImg" destination="2nU-Dm-KhU" id="FYN-pl-XGe"/>
                         <outlet property="distanceLb" destination="zBt-6j-U2a" id="DrR-s8-edc"/>
                         <outlet property="endField" destination="V0k-eg-psY" id="yii-3c-jxj"/>
                         <outlet property="endPointBtn" destination="kmz-wM-5Uy" id="x5P-Zt-EIa"/>
@@ -861,7 +862,6 @@
                         <outlet property="markerIndicator" destination="Ueo-lF-S8F" id="Lei-Aj-f8J"/>
                         <outlet property="myLocationButton" destination="0Z5-Ng-0pM" id="XEy-OS-WK7"/>
                         <outlet property="naviBtn" destination="auD-08-WWX" id="Ndi-BL-Mtl"/>
-                        <outlet property="operatorImg" destination="2nU-Dm-KhU" id="Bfz-M5-zUF"/>
                         <outlet property="powerView" destination="L5J-XN-Kpm" id="eeQ-fI-ejZ"/>
                         <outlet property="priceView" destination="Xvs-El-x2o" id="eRW-7L-z7I"/>
                         <outlet property="reNewButton" destination="SJq-gl-PDQ" id="gHA-ki-9fC"/>
@@ -2704,19 +2704,13 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="odH-OK-hAe">
                                                             <rect key="frame" x="0.0" y="0.0" width="343" height="25"/>
                                                             <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_launcher" translatesAutoresizingMaskIntoConstraints="NO" id="Qh9-bp-f8s">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_launcher" translatesAutoresizingMaskIntoConstraints="NO" id="AhH-XR-0kQ">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="40" height="25"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="25" id="6Ii-7U-8ED"/>
-                                                                        <constraint firstAttribute="height" constant="25" id="dgY-Lb-yJZ"/>
+                                                                        <constraint firstAttribute="height" constant="25" id="PRb-eg-lwS"/>
+                                                                        <constraint firstAttribute="width" constant="40" id="tra-oU-GrY"/>
                                                                     </constraints>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전소이름" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tl5-vu-a3C">
-                                                                    <rect key="frame" x="33" y="0.0" width="69.5" height="25"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yNC-LC-8CH">
                                                                     <rect key="frame" x="318" y="0.0" width="25" height="25"/>
                                                                     <constraints>
@@ -2728,17 +2722,23 @@
                                                                         <action selector="onClickBookmark:" destination="Got-AQ-74F" eventType="touchUpInside" id="YDs-HS-ic2"/>
                                                                     </connections>
                                                                 </button>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전소이름" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tl5-vu-a3C">
+                                                                    <rect key="frame" x="40" y="0.0" width="69.5" height="25"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
                                                             </subviews>
                                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                             <constraints>
-                                                                <constraint firstItem="Qh9-bp-f8s" firstAttribute="leading" secondItem="odH-OK-hAe" secondAttribute="leading" id="93i-S1-G9i"/>
-                                                                <constraint firstItem="Tl5-vu-a3C" firstAttribute="leading" secondItem="Qh9-bp-f8s" secondAttribute="trailing" constant="8" id="DCZ-Uy-oTc"/>
-                                                                <constraint firstItem="Qh9-bp-f8s" firstAttribute="top" secondItem="odH-OK-hAe" secondAttribute="top" id="Fh3-zW-HOh"/>
-                                                                <constraint firstItem="Tl5-vu-a3C" firstAttribute="centerY" secondItem="Qh9-bp-f8s" secondAttribute="centerY" id="GPO-ca-htL"/>
+                                                                <constraint firstItem="AhH-XR-0kQ" firstAttribute="leading" secondItem="odH-OK-hAe" secondAttribute="leading" id="9DG-wu-c2f"/>
                                                                 <constraint firstItem="yNC-LC-8CH" firstAttribute="top" secondItem="odH-OK-hAe" secondAttribute="top" id="Mo3-V1-gtG"/>
-                                                                <constraint firstAttribute="bottom" secondItem="Qh9-bp-f8s" secondAttribute="bottom" id="QOO-Pw-jsI"/>
+                                                                <constraint firstAttribute="bottom" secondItem="AhH-XR-0kQ" secondAttribute="bottom" id="NvP-96-j90"/>
                                                                 <constraint firstItem="Tl5-vu-a3C" firstAttribute="top" secondItem="odH-OK-hAe" secondAttribute="top" id="add-8B-OZH"/>
+                                                                <constraint firstItem="Tl5-vu-a3C" firstAttribute="leading" secondItem="AhH-XR-0kQ" secondAttribute="trailing" id="rFB-Ot-4Vy"/>
                                                                 <constraint firstAttribute="trailing" secondItem="yNC-LC-8CH" secondAttribute="trailing" id="swH-cu-hYd"/>
+                                                                <constraint firstItem="AhH-XR-0kQ" firstAttribute="top" secondItem="odH-OK-hAe" secondAttribute="top" id="xgp-W3-eQj"/>
+                                                                <constraint firstAttribute="bottom" secondItem="Tl5-vu-a3C" secondAttribute="bottom" id="yyA-rn-QvX"/>
                                                                 <constraint firstAttribute="bottom" secondItem="yNC-LC-8CH" secondAttribute="bottom" id="z8Z-gB-Duy"/>
                                                             </constraints>
                                                         </view>
@@ -3640,7 +3640,7 @@
                         <outlet property="chargerStatusImg" destination="iJH-HY-Q2F" id="CBe-Gc-Tak"/>
                         <outlet property="checkingView" destination="F7b-ap-KMS" id="eX2-CF-bSZ"/>
                         <outlet property="cidTableView" destination="4TJ-YK-AOm" id="eKI-4F-28k"/>
-                        <outlet property="companyView" destination="Qh9-bp-f8s" id="khG-ZO-rld"/>
+                        <outlet property="companyImg" destination="AhH-XR-0kQ" id="6rK-BQ-wOl"/>
                         <outlet property="detailView" destination="c1g-Ay-AaR" id="lxT-PC-0eB"/>
                         <outlet property="dstLabel" destination="Vr3-n3-VQB" id="Rvh-UD-cMf"/>
                         <outlet property="endPointBtn" destination="i1N-TH-S91" id="rxz-IN-C4X"/>
@@ -7503,21 +7503,6 @@
     <designables>
         <designable name="4Jw-xQ-dKP">
             <size key="intrinsicContentSize" width="30" height="34"/>
-        </designable>
-        <designable name="91l-xB-VIV">
-            <size key="intrinsicContentSize" width="173" height="34"/>
-        </designable>
-        <designable name="DfT-ax-pEZ">
-            <size key="intrinsicContentSize" width="9" height="24"/>
-        </designable>
-        <designable name="V0k-eg-psY">
-            <size key="intrinsicContentSize" width="32" height="34"/>
-        </designable>
-        <designable name="Vjd-ZG-9S9">
-            <size key="intrinsicContentSize" width="32" height="34"/>
-        </designable>
-        <designable name="gra-wN-A7u">
-            <size key="intrinsicContentSize" width="334.5" height="19.5"/>
         </designable>
     </designables>
     <color key="tintColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>

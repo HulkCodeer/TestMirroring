@@ -73,7 +73,7 @@ class MainViewController: UIViewController {
     
     // Callout View
     @IBOutlet weak var callOutLayer: UIView!
-    @IBOutlet var operatorImg: UIImageView!         // 운영기관(이미지)
+    @IBOutlet var companyImg: UIImageView!         // 운영기관(이미지)
     @IBOutlet weak var callOutTitle: UILabel!       // 충전소이름
     @IBOutlet var distanceLb: UILabel!              // 거리
     @IBOutlet weak var callOutFavorite: UIButton!   // 북마크
@@ -1233,7 +1233,7 @@ extension MainViewController: MainViewDelegate {
         
         callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
         
-        self.operatorImg.image = selectCharger?.getCompanyIcon()
+        self.companyImg.image = selectCharger?.getCompanyIcon()
     }
     
     func setCallOutFavoriteIcon(charger: ChargerStationInfo) {

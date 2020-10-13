@@ -18,7 +18,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 //    @IBOutlet weak var vieagerContainer: UIView!
 
     // summary
-    @IBOutlet weak var companyView: UIView!             // 운영기관(이미지)
+    @IBOutlet weak var companyImg: UIImageView!             // 운영기관(이미지)
     @IBOutlet weak var callOutTitle: UILabel!           // 충전소 이름
     @IBOutlet var callOutFavorite: UIButton!            // 즐겨찾기
     @IBOutlet var chargerStatusImg: UIImageView!        // 충전기 상태(이미지)
@@ -302,6 +302,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     func setDetailLb() {
+        // 운영기관 이미지
+        self.companyImg.image = self.charger?.getCompanyIcon()
         // 충전 속도
         self.powerLb.text = self.charger?.getChargerPower(power: (charger?.mPower)!, type: (charger?.mTotalType)!)
         
