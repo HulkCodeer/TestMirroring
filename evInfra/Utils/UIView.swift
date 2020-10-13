@@ -429,7 +429,6 @@ extension UIView {
             verticalContraint,
             heightContraint,
             widthContraint])
-        
     }
     
     func constrainToEdges(_ subview: UIView) {

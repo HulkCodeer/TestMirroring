@@ -80,6 +80,4 @@ extension UIImage {
         }
         return nil
     }
-    
-
 }

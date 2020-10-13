@@ -12,27 +12,26 @@ import GoogleMobileAds
 import SwiftyJSON
 import MoPub
 
-class OfferwallViewController: UIViewController, MPRewardedVideoDelegate{
+class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     
-    let appID = "ca-app-pub-4857867142176465~5053865371";   // admob app id
-    let placeID = "ca-app-pub-4857867142176465/5258173998"; // admob reward id
-    let testID = "ca-app-pub-3940256099942544/1712485313";  // admob test id
+    @IBOutlet var lbMyBerryTitle: UILabel!
+    @IBOutlet var guideTableView: UITableView!
+    
+    private let appID = "ca-app-pub-4857867142176465~5053865371";   // admob app id
+    private let placeID = "ca-app-pub-4857867142176465/5258173998"; // admob reward id
+    private let testID = "ca-app-pub-3940256099942544/1712485313";  // admob test id
     
     private let kAdUnitId = "657d0a18465e49868563a4cd2ed266bf"
     
     /**
-    Currently selected reward by the user.
+     * Currently selected reward by the user.
      */
     private var selectedReward: MPRewardedVideoReward? = nil
-
-    @IBOutlet weak var offerwallContainer: UIView!
-    //var mRewardedAd: GADRewardedAd?
-    
-    @IBOutlet weak var mBtnVideo: UIButton!
     
     override func viewDidLoad() {
-        prepareActionBar();
-        prepareView();
+        prepareActionBar()
+        prepareView()
+//        prepareTableView()
     }
     
     deinit {
@@ -58,6 +57,8 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate{
     func prepareView() {
         MPRewardedVideo.setDelegate(self, forAdUnitId: self.kAdUnitId)
         checkAndInitializeSdk()
+
+        lbMyBerryTitle.roundCorners(.allCorners, radius: 9)
     }
     
     @IBAction func onClickAdmobAd(_ sender: Any) {
@@ -185,3 +186,46 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate{
         print("rewardedVideoAdShouldReward")
     }
 }
+
+//extension OfferwallViewController: UITableViewDataSource, UITableViewDelegate {
+//    
+//    func prepareTableView() {
+//        guideTableView.delegate = self
+//        guideTableView.dataSource = self
+//        
+//        guideTableView.autoresizingMask = UIViewAutoresizing.flexibleHeight
+//    }
+//    
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        print("parkshin numberOfSections")
+//        return 3
+//    }
+//    
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return "Section \(section)"
+//    }
+//    
+//    // Set tableView height, scrollView heigth
+//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//        print("parkshin estimatedHeightForRowAt")
+//        return 60
+//    }
+//    
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        print("parkshin heightForRowAt")
+//        return UITableViewAutomaticDimension
+//    }
+//    
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        print("parkshin numberOfRowsInSection")
+//        return 11
+//    }
+//    
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        print("parkshin cellForRowAt")
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "OfferwallTableViewCell")!
+////        let cell = tableView.dequeueReusableCell(withIdentifier: "OfferwallTableViewCell") as! OfferwallTableViewCell
+//        
+//        return cell
+//    }
+//}

@@ -276,6 +276,7 @@
 		DB8936542074A4EB006A10BB /* ChargerTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8936532074A4EB006A10BB /* ChargerTableView.swift */; };
 		DB9673C620843EF6008ACCAE /* ChargerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9673C520843EF6008ACCAE /* ChargerTableViewCell.swift */; };
 		DBA18B1D211D7AF400A2CB4F /* MemberManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA18B1C211D7AF400A2CB4F /* MemberManager.swift */; };
+		DBA3BE93252C709500E2D94A /* ad_illust.png in Resources */ = {isa = PBXBuildFile; fileRef = DBA3BE92252C709400E2D94A /* ad_illust.png */; };
 		DBDC59A0234B6E4E00F75D64 /* UsePointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDC599F234B6E4E00F75D64 /* UsePointViewController.swift */; };
 		DBE579B521A3E3CA005DD998 /* Snackbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE579B421A3E3CA005DD998 /* Snackbar.swift */; };
 		DBE591982114A93A00FE913B /* KakaoOpenSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBE591972114A93900FE913B /* KakaoOpenSDK.framework */; };
@@ -589,6 +590,7 @@
 		DB8936532074A4EB006A10BB /* ChargerTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerTableView.swift; sourceTree = "<group>"; };
 		DB9673C520843EF6008ACCAE /* ChargerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerTableViewCell.swift; sourceTree = "<group>"; };
 		DBA18B1C211D7AF400A2CB4F /* MemberManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberManager.swift; sourceTree = "<group>"; };
+		DBA3BE92252C709400E2D94A /* ad_illust.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ad_illust.png; sourceTree = "<group>"; };
 		DBDC599F234B6E4E00F75D64 /* UsePointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsePointViewController.swift; sourceTree = "<group>"; };
 		DBE579B421A3E3CA005DD998 /* Snackbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snackbar.swift; sourceTree = "<group>"; };
 		DBE591972114A93900FE913B /* KakaoOpenSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoOpenSDK.framework; path = evInfra/Lib/KakaoOpenSDK.framework; sourceTree = "<group>"; };
@@ -737,6 +739,7 @@
 		736813A62043E98F0035FC66 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				DBA3BE92252C709400E2D94A /* ad_illust.png */,
 				DB18733120A9983200790B77 /* btn_camera.png */,
 				738C2CE720A9367E006E268D /* type_destination_dim.png */,
 				738C2CE620A9367D006E268D /* type_destination.png */,
@@ -1287,6 +1290,7 @@
 				738C2CED20A93682006E268D /* type_super.png in Resources */,
 				73A7B3FF204E3595002E975F /* type_ac_three_dim.png in Resources */,
 				73EF8B71203C85CC00D04494 /* icon_clustering.png in Resources */,
+				DBA3BE93252C709500E2D94A /* ad_illust.png in Resources */,
 				73A7B3FE204E3595002E975F /* ready_image.png in Resources */,
 				9028E07824A1B8280062A029 /* eirel in Resources */,
 				CE13858F217869B200E3F869 /* ReportChargerChildCell.xib in Resources */,
