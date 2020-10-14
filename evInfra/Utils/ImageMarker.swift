@@ -77,4 +77,11 @@ public class ImageMarker {
         
         return marker
     }
+    
+    public static func companyImg(company: String) -> UIImage? {
+        let eFM = EVFileManager.sharedInstance
+        let companyImage = eFM.getSavedImage(named: "\(company).png")
+        
+        return companyImage
+    }
 }
