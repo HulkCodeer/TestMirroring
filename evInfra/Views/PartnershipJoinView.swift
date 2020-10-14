@@ -7,11 +7,16 @@
 //
 
 import UIKit
-
+import SwiftyJSON
 class PartnershipJoinView : UIView{
-    @IBOutlet weak var view_evinfra_join: UIStackView!
-    @IBOutlet weak var view_skrent_join: UIStackView!
-    @IBOutlet weak var view_lotte_join: UIStackView!
+    @IBOutlet var lbEvTitle: UILabel!
+    @IBOutlet var lbPartnerShipTitle: UILabel!
+    @IBOutlet weak var viewEvinfraJoin: UIStackView!
+    @IBOutlet weak var viewSkrentJoin: UIStackView!
+    @IBOutlet weak var viewLotteJoin: UIStackView!
+    
+    var delegate: PartnershipJoinViewDelegate?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -31,20 +36,56 @@ class PartnershipJoinView : UIView{
     
     private func initView(){
         let ev_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickEvInfra))
-        pinBackground(getBackgroundView(), to: view_evinfra_join)
-        view_evinfra_join.addGestureRecognizer(ev_touch)
+        pinBackground(getBackgroundView(), to: viewEvinfraJoin)
+        viewEvinfraJoin.addGestureRecognizer(ev_touch)
 
-        let skr_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickEvInfra))
-        pinBackground(getBackgroundView(), to: view_skrent_join)
-        view_skrent_join.addGestureRecognizer(skr_touch)
+        let skr_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickSKRent))
+        pinBackground(getBackgroundView(), to: viewSkrentJoin)
+        viewSkrentJoin.addGestureRecognizer(skr_touch)
         
-        let lotte_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickEvInfra))
-        pinBackground(getBackgroundView(), to: view_lotte_join)
-        view_lotte_join.addGestureRecognizer(lotte_touch)
+        let lotte_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickLotteRent))
+        pinBackground(getBackgroundView(), to: viewLotteJoin)
+        viewLotteJoin.addGestureRecognizer(lotte_touch)
+    }
+    
+    func showInfoView(infoList : [MemberPartnershipInfo]){
+        var partnershipCnt = 2
+        for item in infoList {
+            switch item.clientId {
+            case 1 : // evinfra
+                lbEvTitle.isHidden = true
+                viewEvinfraJoin.isHidden = true
+                break
+            case 23 : //sk rent
+                viewSkrentJoin.isHidden = true
+                partnershipCnt -= 1
+                break
+            case 24 : //lotte rent
+                viewLotteJoin.isHidden = true
+                partnershipCnt -= 1
+                break
+            default :
+                print("out of index")
+            }
+        }
+        if(partnershipCnt <= 0){
+            lbPartnerShipTitle.isHidden = true
+        }
     }
     
     @objc func onClickEvInfra(sender: UITapGestureRecognizer){
         print("evinfra btn pressed")
+        self.delegate?.showMembershipIssuanceView()
+    }
+    
+    @objc func onClickSKRent(sender: UITapGestureRecognizer){
+        print("skr btn pressed")
+        self.delegate?.showSKMemberQRView()
+    }
+    
+    @objc func onClickLotteRent(sender: UITapGestureRecognizer){
+        print("lotte btn pressed")
+        self.delegate?.showLotteRentCertificateView()
     }
     
     private func pinBackground(_ view: UIView, to stackView: UIStackView) {
@@ -59,8 +100,6 @@ class PartnershipJoinView : UIView{
         view.layer.cornerRadius = 10.0
         return view
     }
-    
-    
 }
 
 public extension UIView {
@@ -75,6 +114,7 @@ public extension UIView {
 }
 
 protocol PartnershipJoinViewDelegate {
-    func addNewPartnership()
-    func showEvinfraMembershipInfo()
+    func showMembershipIssuanceView()
+    func showSKMemberQRView()
+    func showLotteRentCertificateView()
 }

@@ -140,7 +140,42 @@ class Server {
                       method: .post, parameters: reqParam, encoding: JSONEncoding.default)
         .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
+    
+    // 회원 - 회원 제휴 정보 가져오기
+    static func getMemberPartnershipInfo(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId()
+        ]
         
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member_partnership/get_member_info",
+                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 회원 - 롯데렌터카 회원인증
+    static func certificateLotteRentaCar(carNo : String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId(),
+            "car_no": carNo
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member_partnership/certify_lotte",
+                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+        
+    // 회원 - 롯데렌터카 회원인증
+    static func activateLotteRentaCar(carNo : String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId(),
+            "car_no": carNo
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member_partnership/activate_lotte_member",
+                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
     // 회원 - 회원카드 발급 신청
     static func registerMembershipCard(values: [String: Any], completion: @escaping (Bool, Any) -> Void) {
         Alamofire.request(Const.EV_PAY_SERVER + "/member/membership_card/register",

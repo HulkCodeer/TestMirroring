@@ -7,15 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0055D472252AA88B001133DB /* Membership.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0055D471252AA88B001133DB /* Membership.storyboard */; };
+		005643E0252DA18E007BF78D /* MembershipInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */; };
+		0056440D252DB2AB007BF78D /* MembershipQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0056440C252DB2AB007BF78D /* MembershipQRViewController.swift */; };
+		0067D593252C491B00D97146 /* PartnershipListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0067D592252C491B00D97146 /* PartnershipListView.xib */; };
+		0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067D595252C492A00D97146 /* PartnershipListView.swift */; };
+		0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */; };
+		00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */; };
+		00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */; };
+		00C75C46252ED4A000387559 /* LotteRentCertificateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C45252ED4A000387559 /* LotteRentCertificateViewController.swift */; };
+		00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */; };
+		00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C55252EF40100387559 /* HSUnderLineTextField.swift */; };
+		00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */; };
 		425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5AD2519DA0B0089E87D /* OpenGLES.framework */; };
 		425EE5B02519DA410089E87D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5AF2519DA410089E87D /* CoreLocation.framework */; };
 		425EE5B22519DA520089E87D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5B12519DA520089E87D /* QuartzCore.framework */; };
 		425EE5B52519DA780089E87D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B929D20EDE9DE0090E9FC /* libsqlite3.tbd */; };
 		425EE5D82519DF160089E87D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5D72519DF160089E87D /* SystemConfiguration.framework */; };
 		425EE66D2519EE3C0089E87D /* DaumMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE66C2519EE3C0089E87D /* DaumMap.framework */; };
-		0055D472252AA88B001133DB /* Membership.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0055D471252AA88B001133DB /* Membership.storyboard */; };
-		00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */; };
-		00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */; };
 		4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */; };
 		4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
@@ -290,8 +299,17 @@
 
 /* Begin PBXFileReference section */
 		0055D471252AA88B001133DB /* Membership.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Membership.storyboard; sourceTree = "<group>"; };
+		005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipInfoViewController.swift; sourceTree = "<group>"; };
+		0056440C252DB2AB007BF78D /* MembershipQRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipQRViewController.swift; sourceTree = "<group>"; };
+		0067D592252C491B00D97146 /* PartnershipListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartnershipListView.xib; sourceTree = "<group>"; };
+		0067D595252C492A00D97146 /* PartnershipListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnershipListView.swift; sourceTree = "<group>"; };
+		0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceViewController.swift; sourceTree = "<group>"; };
 		00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnershipJoinView.swift; sourceTree = "<group>"; };
 		00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartnershipJoinView.xib; sourceTree = "<group>"; };
+		00C75C45252ED4A000387559 /* LotteRentCertificateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotteRentCertificateViewController.swift; sourceTree = "<group>"; };
+		00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResultViewController.swift; sourceTree = "<group>"; };
+		00C75C55252EF40100387559 /* HSUnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSUnderLineTextField.swift; sourceTree = "<group>"; };
+		00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberPartnershipInfo.swift; sourceTree = "<group>"; };
 		0BE09DF43E8F5A12E923D6B5 /* Pods-evInfra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra/Pods-evInfra.release.xcconfig"; sourceTree = "<group>"; };
 		425EE5AD2519DA0B0089E87D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		425EE5AF2519DA410089E87D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -848,6 +866,7 @@
 				CE93308E214F9807006B7EF6 /* ReportChargeInfoList.swift */,
 				CE9330962150FB32006B7EF6 /* ReportChargeItem.swift */,
 				CEBE0600214BA5C30047E6F2 /* ReportData.swift */,
+				00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -898,6 +917,8 @@
 				73B7527F2048E5B30077112A /* SideMenuTableViewCell.swift */,
 				00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */,
 				00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */,
+				0067D592252C491B00D97146 /* PartnershipListView.xib */,
+				0067D595252C492A00D97146 /* PartnershipListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -980,6 +1001,7 @@
 				902A11D9248F5E440049EF8E /* StringUtils.swift */,
 				902A11DD248F68450049EF8E /* HangulUtils.swift */,
 				902A11DF248F756C0049EF8E /* Log.swift */,
+				00C75C55252EF40100387559 /* HSUnderLineTextField.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1131,6 +1153,11 @@
 				CE2483FF20A59E2500611E24 /* MyPageViewController.swift */,
 				73268D5121886C3000C00427 /* MyWritingViewController.swift */,
 				DB3799F721673FDD001D8F69 /* FavoriteViewController.swift */,
+				0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */,
+				005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */,
+				0056440C252DB2AB007BF78D /* MembershipQRViewController.swift */,
+				00C75C45252ED4A000387559 /* LotteRentCertificateViewController.swift */,
+				00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */,
 			);
 			path = member;
 			sourceTree = "<group>";
@@ -1318,6 +1345,7 @@
 				73A7B41D204E3595002E975F /* type_dc_demo.png in Resources */,
 				73A7B3E4204E3595002E975F /* navi_notice_board.png in Resources */,
 				73A7B3FD204E3595002E975F /* reply_btn_normal.png in Resources */,
+				0067D593252C491B00D97146 /* PartnershipListView.xib in Resources */,
 				736813B5204513D50035FC66 /* Main.storyboard in Resources */,
 				73A7B3FC204E3595002E975F /* reply_normal.png in Resources */,
 				7357594920916A52008181E9 /* spark.jpg in Resources */,
@@ -1504,6 +1532,7 @@
 				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
 				CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */,
 				733662D022F974820049AEFE /* Coupon.swift in Sources */,
+				0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
 				73C6A0FD2345F1B600349A86 /* MyPayinfoViewController.swift in Sources */,
@@ -1536,6 +1565,7 @@
 				DBEE9AF82117DB5600770D04 /* LoginViewController.swift in Sources */,
 				7357595220916C11008181E9 /* InfoCollectionViewCell.swift in Sources */,
 				73344ABF207B3A9B00A6A9EC /* UIImage.swift in Sources */,
+				00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */,
 				73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */,
 				DBA18B1D211D7AF400A2CB4F /* MemberManager.swift in Sources */,
 				9098783224EE537E00AB3DC8 /* GoogleAdMobAdapterConfiguration.m in Sources */,
@@ -1544,6 +1574,7 @@
 				DBF3827B2304475900FAF772 /* CBT.swift in Sources */,
 				9098783C24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m in Sources */,
 				73CF041A20B2736500BEA9CF /* UIScrollView.swift in Sources */,
+				00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */,
 				DBE579B521A3E3CA005DD998 /* Snackbar.swift in Sources */,
 				902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */,
 				DB367BF124FE429D00898BED /* Login.swift in Sources */,
@@ -1559,6 +1590,7 @@
 				732B929A20EDD0C60090E9FC /* CompanyInfoChecker.swift in Sources */,
 				902A11D1248F4DAC0049EF8E /* CompanyInfoDto.swift in Sources */,
 				73EF8B3F203ACB8500D04494 /* AppToolbarController.swift in Sources */,
+				005643E0252DA18E007BF78D /* MembershipInfoViewController.swift in Sources */,
 				4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */,
 				DB3B858920A45CB8005454F5 /* Character.swift in Sources */,
 				DB3B858720A445B6005454F5 /* KoreanChar.swift in Sources */,
@@ -1599,11 +1631,13 @@
 				73AD13C8203AC57A00ADD19A /* AppNavigationDrawerController.swift in Sources */,
 				7308559D206350890008497E /* UIView.swift in Sources */,
 				7312786820BE38C500861B3E /* FCMManager.swift in Sources */,
+				0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */,
 				73C31BFD20A288E3005B6C53 /* ChargerDetailViewController.swift in Sources */,
 				90DD2A6124EBCF7B003318CC /* TapjoyAdapterConfiguration.m in Sources */,
 				732121BD203AC023000E105C /* AppDelegate.swift in Sources */,
 				73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */,
 				7376B5C520C6473500A2B7C1 /* MyArticleViewController.swift in Sources */,
+				00C75C46252ED4A000387559 /* LotteRentCertificateViewController.swift in Sources */,
 				73268D4C2188331700C00427 /* SettingsViewController.swift in Sources */,
 				DBEE9AFC211842ED00770D04 /* SignUpViewController.swift in Sources */,
 				736813B2204503B70035FC66 /* NavCenterButton.swift in Sources */,
@@ -1627,7 +1661,9 @@
 				736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController.swift in Sources */,
 				73EE8FC72109B0FD0016F505 /* URL.swift in Sources */,
+				00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */,
 				73A7B428204E81A6002E975F /* Const.swift in Sources */,
+				0056440D252DB2AB007BF78D /* MembershipQRViewController.swift in Sources */,
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
 				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,
 				902A11D5248F53D80049EF8E /* StationInfoDto.swift in Sources */,
