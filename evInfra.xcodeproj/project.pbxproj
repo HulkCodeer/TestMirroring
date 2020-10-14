@@ -355,7 +355,6 @@
 		7379A44F22CB43C600F4271C /* Connector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connector.swift; sourceTree = "<group>"; };
 		7379A45322CDEB0200F4271C /* PaymentStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatus.swift; sourceTree = "<group>"; };
 		7379A45522CF156E00F4271C /* CircularProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressBar.swift; sourceTree = "<group>"; };
-		737A011F20F2FB9B00638812 /* FMDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FMDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		737A012120F3225800638812 /* EVFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVFileManager.swift; sourceTree = "<group>"; };
 		737A012920F709B300638812 /* CompanyInfoCheckerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyInfoCheckerDelegate.swift; sourceTree = "<group>"; };
 		738C2CE620A9367D006E268D /* type_destination.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = type_destination.png; sourceTree = "<group>"; };
@@ -645,7 +644,6 @@
 				73B787AE210B172400C12801 /* KakaoLink.framework */,
 				73B787AF210B172400C12801 /* KakaoNavi.framework */,
 				DBE591972114A93900FE913B /* KakaoOpenSDK.framework */,
-				737A011F20F2FB9B00638812 /* FMDB.framework */,
 				732B92C320EF53C00090E9FC /* libsqlite3.0.tbd */,
 				732B929D20EDE9DE0090E9FC /* libsqlite3.tbd */,
 				DF73FD6F0BC57C39B41EE0B7 /* Pods_evInfra.framework */,
@@ -708,9 +706,9 @@
 				732121BC203AC023000E105C /* AppDelegate.swift */,
 				73EF8B7C203C880A00D04494 /* evInfra-Bridging-Header.h */,
 				732121C6203AC023000E105C /* Assets.xcassets */,
-				73344AC0207B5F8A00A6A9EC /* awsconfiguration.json */,
 				732121CB203AC023000E105C /* Info.plist */,
 				73C31C0C20A4408C005B6C53 /* GoogleService-Info.plist */,
+				73344AC0207B5F8A00A6A9EC /* awsconfiguration.json */,
 				73238C3A20A44B3E00C06A89 /* evInfra.entitlements */,
 				732121C3203AC023000E105C /* evInfra.xcdatamodeld */,
 			);
@@ -1461,7 +1459,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/run\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
