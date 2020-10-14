@@ -173,14 +173,17 @@ class MainViewController: UIViewController {
         self.routeDistanceBtn.setGradientColor(startColor: UIColor(hex: "#2CE0BB"), endColor: UIColor(hex: "#33A2DA"), startPoint: CGPoint(x: 0.0, y: 1.0), endPoint: CGPoint(x: 1.0, y:1.0))
         self.routeDistanceView.roundCorners(.allCorners, radius: 5)
         self.routeDistanceView.backgroundColor = UIColor.init(hex: "#F5ffffff")
-        
+        // type/LB round corner
         self.powerView.roundCorners(.allCorners, radius: 3)
         self.priceView.roundCorners(.allCorners, radius: 3)
         self.typeLb1.roundCorners(.allCorners, radius: 3)
         self.typeLb2.roundCorners(.allCorners, radius: 3)
         self.typeLb3.roundCorners(.allCorners, radius: 3)
+        // bookmark
+        if selectCharger != nil {
+            setCallOutFavoriteIcon(charger: self.selectCharger!)
+        }
     }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         menuBadgeAdd()
@@ -1206,6 +1209,8 @@ extension MainViewController: MainViewDelegate {
             
             setChargePrice(pay: (selectCharger?.mStationInfoDto?.mPay)!)
         }
+        setCallOutFavoriteIcon(charger: selectCharger!)
+        
         setDistance()
        
 //        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cs
@@ -1216,8 +1221,6 @@ extension MainViewController: MainViewDelegate {
         stationInfoArr[chargeState ?? ""] = "chargeState"
         
         self.markerImg.image = selectCharger?.getChargeStateImg(type: chargeState!)
-        
-        setCallOutFavoriteIcon(charger: selectCharger!)
         
         setView(view: callOutLayer, hidden: false)
 
