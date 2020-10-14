@@ -3202,8 +3202,8 @@
                                                         <view contentMode="scaleToFill" horizontalHuggingPriority="1" horizontalCompressionResistancePriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="F7b-ap-KMS">
                                                             <rect key="frame" x="92" y="0.0" width="251" height="16"/>
                                                             <subviews>
-                                                                <stackView opaque="NO" contentMode="center" horizontalHuggingPriority="1" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1" verticalCompressionResistancePriority="999" distribution="fillEqually" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="T8B-cN-qbo">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="146" height="16"/>
+                                                                <stackView opaque="NO" contentMode="center" horizontalHuggingPriority="1" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1" verticalCompressionResistancePriority="999" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="T8B-cN-qbo">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="208" height="16"/>
                                                                     <subviews>
                                                                         <view contentMode="left" translatesAutoresizingMaskIntoConstraints="NO" id="dJz-fX-qxP">
                                                                             <rect key="frame" x="0.0" y="0.0" width="46" height="16"/>
@@ -3234,7 +3234,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MJN-91-uyW">
-                                                                            <rect key="frame" x="50" y="0.0" width="46" height="16"/>
+                                                                            <rect key="frame" x="54" y="0.0" width="46" height="16"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="야외" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jwm-Yn-adv">
                                                                                     <rect key="frame" x="16" y="2" width="28" height="12"/>
@@ -3262,7 +3262,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="31W-jH-ix0">
-                                                                            <rect key="frame" x="100" y="0.0" width="46" height="16"/>
+                                                                            <rect key="frame" x="108" y="0.0" width="46" height="16"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" verticalCompressionResistancePriority="999" text="천장" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uOJ-kv-ehA">
                                                                                     <rect key="frame" x="16" y="2" width="28" height="12"/>
@@ -3289,6 +3289,12 @@
                                                                                 <constraint firstItem="uOJ-kv-ehA" firstAttribute="top" secondItem="31W-jH-ix0" secondAttribute="top" constant="2" id="hsZ-ZG-OYD"/>
                                                                             </constraints>
                                                                         </view>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="확인중" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bgk-H7-pQM">
+                                                                            <rect key="frame" x="162" y="0.0" width="46" height="16"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
                                                                     </subviews>
                                                                 </stackView>
                                                             </subviews>
@@ -3638,7 +3644,7 @@
                         <outlet property="callOutTitle" destination="Tl5-vu-a3C" id="UA9-te-3FE"/>
                         <outlet property="canopyView" destination="31W-jH-ix0" id="0x3-XM-Ker"/>
                         <outlet property="chargerStatusImg" destination="iJH-HY-Q2F" id="CBe-Gc-Tak"/>
-                        <outlet property="checkingView" destination="F7b-ap-KMS" id="eX2-CF-bSZ"/>
+                        <outlet property="checkingView" destination="Bgk-H7-pQM" id="Tal-jj-b3I"/>
                         <outlet property="cidTableView" destination="4TJ-YK-AOm" id="eKI-4F-28k"/>
                         <outlet property="companyImg" destination="AhH-XR-0kQ" id="6rK-BQ-wOl"/>
                         <outlet property="detailView" destination="c1g-Ay-AaR" id="lxT-PC-0eB"/>
@@ -7503,6 +7509,21 @@
     <designables>
         <designable name="4Jw-xQ-dKP">
             <size key="intrinsicContentSize" width="30" height="34"/>
+        </designable>
+        <designable name="91l-xB-VIV">
+            <size key="intrinsicContentSize" width="173" height="34"/>
+        </designable>
+        <designable name="DfT-ax-pEZ">
+            <size key="intrinsicContentSize" width="9" height="24"/>
+        </designable>
+        <designable name="V0k-eg-psY">
+            <size key="intrinsicContentSize" width="32" height="34"/>
+        </designable>
+        <designable name="Vjd-ZG-9S9">
+            <size key="intrinsicContentSize" width="32" height="34"/>
+        </designable>
+        <designable name="gra-wN-A7u">
+            <size key="intrinsicContentSize" width="334.5" height="19.5"/>
         </designable>
     </designables>
     <color key="tintColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>

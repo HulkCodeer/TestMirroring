@@ -363,6 +363,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.indoorView.isHidden = true
         self.outdoorView.isHidden = true
         self.canopyView.isHidden = true
+        self.checkingView.isHidden = true
+        
         
         if (roof.equals("0")){
             //indoor
@@ -378,6 +380,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             
         }else if (roof.equals("N")){
             //Checking
+            self.checkingView.isHidden = false
         }
     }
     
