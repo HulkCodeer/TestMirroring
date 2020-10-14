@@ -222,19 +222,20 @@ class ChargerStationInfo {
         return markerIcon
     }
     
-    func getCompanyIcon() -> UIImage {
-        var icon: UIImage!
+    func getCompanyIcon() -> UIImage? {
         let companyArray = ChargerManager.sharedInstance.getCompanyInfoListAll()
+        var resultIcon:UIImage? = nil
         if let company = companyArray?.filter({$0.company_id!.elementsEqual((mStationInfoDto?.mCompanyId)!)}).first {
             if let iconName = company.icon_name {
-                icon = ImageMarker.companyImg(company: iconName)
-                let width = icon.width - 20
-                let height = icon.height/2
-                let companyIcon = icon.cropImage(image: icon, posX: 10, posY: 10, width: Double(width), height: Double(height))
-                icon = companyIcon
+                if let icon = ImageMarker.companyImg(company: iconName){
+                    let width = icon.width - 20
+                    let height = icon.height/2
+                    let companyIcon = icon.cropImage(image: icon, posX: 10, posY: 10, width: Double(width), height: Double(height))
+                    resultIcon = companyIcon
+                }
             }
         }
-        return icon
+        return resultIcon ?? nil
     }
     
     func getMarkerIcon() -> UIImage {

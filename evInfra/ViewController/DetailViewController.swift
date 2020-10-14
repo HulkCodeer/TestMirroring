@@ -27,7 +27,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     // 충전소 정보
     @IBOutlet var powerLb: UILabel!                     // 충전속도
     @IBOutlet var powerView: UILabel!                   // 충전속도(view)
-    @IBOutlet weak var operatorLabel: UILabel!          // 운영기관(이름)
+    @IBOutlet weak var companyLabel: UILabel!          // 운영기관(이름)
+    @IBOutlet var companyView: UIStackView!             // 운영기관(view)
     @IBOutlet weak var timeLabel: UILabel!              // 운영시간
     @IBOutlet weak var callLb: UILabel!                 // 전화번호
     @IBOutlet var indoorView: UIView!                   // 설치형태(실내)
@@ -242,7 +243,11 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     func setStationInfo(json: JSON) {
         // 운영기관
-        self.operatorLabel.text = json["op"].stringValue
+        if !json["op"].stringValue.isEmpty{
+            self.companyLabel.text = json["op"].stringValue
+        }else{
+            self.companyView.isHidden = true
+        }
         
         // 이용시간
         if json["ut"].stringValue.isEmpty{
@@ -265,11 +270,16 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
         
         // 센터 전화번호
-        self.phoneNumber = json["tel"].stringValue
-        self.callLb.text = self.phoneNumber
-        let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.tapFunction))
-        self.callLb.isUserInteractionEnabled = true
-        self.callLb.addGestureRecognizer(tap)
+        if !json["tel"].stringValue.isEmpty {
+            self.phoneNumber = json["tel"].stringValue
+            self.callLb.text = self.phoneNumber
+            let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.tapFunction))
+            self.callLb.isUserInteractionEnabled = true
+            self.callLb.addGestureRecognizer(tap)
+        }else{
+            self.callLb.text = "등록된 전화번호가 없습니다."
+        }
+        
         
         // 평점
         self.charger?.mGpa = Float(json["gpa"].stringValue)!
@@ -303,7 +313,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     func setDetailLb() {
         // 운영기관 이미지
-        self.companyImg.image = self.charger?.getCompanyIcon()
+        if charger?.getCompanyIcon() != nil{
+            self.companyImg.image = charger?.getCompanyIcon()
+        }
         // 충전 속도
         self.powerLb.text = self.charger?.getChargerPower(power: (charger?.mPower)!, type: (charger?.mTotalType)!)
         

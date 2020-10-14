@@ -1236,7 +1236,9 @@ extension MainViewController: MainViewDelegate {
         
         callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
         
-        self.companyImg.image = selectCharger?.getCompanyIcon()
+        if selectCharger?.getCompanyIcon() != nil{
+            self.companyImg.image = selectCharger?.getCompanyIcon()
+        }
     }
     
     func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
