@@ -69,8 +69,10 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 cell.dateKind.backgroundColor = UIColor(hex: "#E2E2E2")
             }
         } else {
+            cell.dateKind.roundCorners(.allCorners, radius: 5)
             cell.dateKind.text = "마지막 사용"
             cell.lastDate.text = "알 수 없음"
+            cell.dateKind.backgroundColor = UIColor(hex: "#E2E2E2")
         }
         
         if let pw = cInfo.power, pw > 0 {
