@@ -3033,57 +3033,6 @@
                                                 </tableViewCell>
                                             </prototypes>
                                         </tableView>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LDT-4x-FeV" userLabel="guardView">
-                                            <rect key="frame" x="0.0" y="864.5" width="375" height="79.5"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="info_share" translatesAutoresizingMaskIntoConstraints="NO" id="gJP-HV-nHO">
-                                                    <rect key="frame" x="8" y="8" width="33" height="33"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="33" id="Ukg-zT-aCC"/>
-                                                        <constraint firstAttribute="width" constant="33" id="qUE-57-VKG"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="지킴이" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qm9-oc-5Bo">
-                                                    <rect key="frame" x="49" y="8" width="318" height="16"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="16" id="MbL-Hb-8SB"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                                    <color key="textColor" red="0.36078431372549019" green="0.36078431372549019" blue="0.36078431372549019" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AAq-0p-6oI">
-                                                    <rect key="frame" x="49" y="24" width="59" height="33"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <state key="normal" title="제보하기"/>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="woI-Qz-UwH">
-                                                    <rect key="frame" x="140" y="24" width="59" height="33"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <state key="normal" title="환경공단"/>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KcL-SL-QMW">
-                                                    <rect key="frame" x="231" y="24" width="30" height="33"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <state key="normal" title="한전"/>
-                                                </button>
-                                            </subviews>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstItem="gJP-HV-nHO" firstAttribute="leading" secondItem="LDT-4x-FeV" secondAttribute="leading" constant="8" id="GPi-cI-L2v"/>
-                                                <constraint firstItem="KcL-SL-QMW" firstAttribute="centerY" secondItem="AAq-0p-6oI" secondAttribute="centerY" id="N2j-5N-Sqn"/>
-                                                <constraint firstItem="qm9-oc-5Bo" firstAttribute="top" secondItem="gJP-HV-nHO" secondAttribute="top" id="VJd-w9-KWD"/>
-                                                <constraint firstItem="qm9-oc-5Bo" firstAttribute="leading" secondItem="gJP-HV-nHO" secondAttribute="trailing" constant="8" id="Wkx-e0-27H"/>
-                                                <constraint firstItem="gJP-HV-nHO" firstAttribute="top" secondItem="LDT-4x-FeV" secondAttribute="topMargin" id="X5d-jO-x6z"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="KcL-SL-QMW" secondAttribute="trailing" constant="8" id="Z2t-iS-ueE"/>
-                                                <constraint firstItem="woI-Qz-UwH" firstAttribute="centerY" secondItem="AAq-0p-6oI" secondAttribute="centerY" id="bh2-TS-0Bv"/>
-                                                <constraint firstItem="qm9-oc-5Bo" firstAttribute="leading" secondItem="AAq-0p-6oI" secondAttribute="leading" id="cOK-Dt-s4S"/>
-                                                <constraint firstAttribute="trailing" secondItem="qm9-oc-5Bo" secondAttribute="trailing" constant="8" id="eJJ-aN-7q7"/>
-                                                <constraint firstItem="woI-Qz-UwH" firstAttribute="leading" secondItem="AAq-0p-6oI" secondAttribute="trailing" constant="32" id="lGn-p6-Fif"/>
-                                                <constraint firstItem="KcL-SL-QMW" firstAttribute="leading" secondItem="woI-Qz-UwH" secondAttribute="trailing" constant="32" id="st2-d1-U2T"/>
-                                                <constraint firstItem="AAq-0p-6oI" firstAttribute="top" secondItem="qm9-oc-5Bo" secondAttribute="bottom" id="z73-mr-bRv"/>
-                                            </constraints>
-                                        </view>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="77N-Fw-qH6">
                                             <rect key="frame" x="16" y="293.5" width="343" height="555"/>
                                             <subviews>
@@ -3613,10 +3562,58 @@
                                                     </constraints>
                                                 </stackView>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="QEo-K6-vcD" firstAttribute="width" secondItem="Ijd-CC-HpP" secondAttribute="width" multiplier="1:1" id="rxc-wh-R9t"/>
-                                            </constraints>
                                         </stackView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LDT-4x-FeV" userLabel="guardView">
+                                            <rect key="frame" x="0.0" y="864.5" width="375" height="79.5"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="info_share" translatesAutoresizingMaskIntoConstraints="NO" id="gJP-HV-nHO">
+                                                    <rect key="frame" x="8" y="8" width="33" height="33"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="33" id="Ukg-zT-aCC"/>
+                                                        <constraint firstAttribute="width" constant="33" id="qUE-57-VKG"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="지킴이" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qm9-oc-5Bo">
+                                                    <rect key="frame" x="49" y="8" width="318" height="16"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="16" id="MbL-Hb-8SB"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                                    <color key="textColor" red="0.36078431372549019" green="0.36078431372549019" blue="0.36078431372549019" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AAq-0p-6oI">
+                                                    <rect key="frame" x="49" y="24" width="59" height="33"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <state key="normal" title="제보하기"/>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="woI-Qz-UwH">
+                                                    <rect key="frame" x="140" y="24" width="59" height="33"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <state key="normal" title="환경공단"/>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KcL-SL-QMW">
+                                                    <rect key="frame" x="231" y="24" width="30" height="33"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <state key="normal" title="한전"/>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="gJP-HV-nHO" firstAttribute="leading" secondItem="LDT-4x-FeV" secondAttribute="leading" constant="8" id="GPi-cI-L2v"/>
+                                                <constraint firstItem="KcL-SL-QMW" firstAttribute="centerY" secondItem="AAq-0p-6oI" secondAttribute="centerY" id="N2j-5N-Sqn"/>
+                                                <constraint firstItem="qm9-oc-5Bo" firstAttribute="top" secondItem="gJP-HV-nHO" secondAttribute="top" id="VJd-w9-KWD"/>
+                                                <constraint firstItem="qm9-oc-5Bo" firstAttribute="leading" secondItem="gJP-HV-nHO" secondAttribute="trailing" constant="8" id="Wkx-e0-27H"/>
+                                                <constraint firstItem="gJP-HV-nHO" firstAttribute="top" secondItem="LDT-4x-FeV" secondAttribute="topMargin" id="X5d-jO-x6z"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="KcL-SL-QMW" secondAttribute="trailing" constant="8" id="Z2t-iS-ueE"/>
+                                                <constraint firstItem="woI-Qz-UwH" firstAttribute="centerY" secondItem="AAq-0p-6oI" secondAttribute="centerY" id="bh2-TS-0Bv"/>
+                                                <constraint firstItem="qm9-oc-5Bo" firstAttribute="leading" secondItem="AAq-0p-6oI" secondAttribute="leading" id="cOK-Dt-s4S"/>
+                                                <constraint firstAttribute="trailing" secondItem="qm9-oc-5Bo" secondAttribute="trailing" constant="8" id="eJJ-aN-7q7"/>
+                                                <constraint firstItem="woI-Qz-UwH" firstAttribute="leading" secondItem="AAq-0p-6oI" secondAttribute="trailing" constant="32" id="lGn-p6-Fif"/>
+                                                <constraint firstItem="KcL-SL-QMW" firstAttribute="leading" secondItem="woI-Qz-UwH" secondAttribute="trailing" constant="32" id="st2-d1-U2T"/>
+                                                <constraint firstItem="AAq-0p-6oI" firstAttribute="top" secondItem="qm9-oc-5Bo" secondAttribute="bottom" id="z73-mr-bRv"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>

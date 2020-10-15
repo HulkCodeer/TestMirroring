@@ -53,6 +53,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var guardReportBtn: UIButton!
     @IBOutlet weak var guardEnvBtn: UIButton!
     @IBOutlet weak var guardKepcoBtn: UIButton!
+    
     // 충전기 정보(list)
     @IBOutlet weak var boardTableView: BoardTableView!
     @IBOutlet weak var cidTableView: CidTableView!
@@ -262,11 +263,14 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         if !memo.isEmpty{
             if memo.equals("") {
                 self.memoView.isHidden = true
+                detailViewResize(view: self.memoView)
             }else{
                 self.memoLabel.text = memo
+                self.memoView.visible()
             }
         }else{
             self.memoView.isHidden = true
+            detailViewResize(view: self.memoView)
         }
         
         // 센터 전화번호
@@ -907,11 +911,12 @@ extension DetailViewController {
                 guardReportBtn.gone(spaces: [.top, .bottom])
                 guardFixLabel.gone(spaces: [.top, .bottom])
                 guardImage.gone(spaces: [.top, .bottom])
-                guardView.gone(spaces: [.top, .bottom])
-               
+                //guardView.gone(spaces: [.top, .bottom])
+                guardView.isHidden = true
                 detailViewResize(view: guardView)
             }
         }
+ 
     }
     
     @objc
