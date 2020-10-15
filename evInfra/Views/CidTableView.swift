@@ -64,7 +64,10 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 cell.dateKind.text = "경과시간"
                 cell.dateKind.backgroundColor = UIColor(hex: "#DFECF3")
             } else {
-                cell.lastDate.text = cInfo.getRecentDateSimple()
+                //cell.lastDate.text = cInfo.getRecentDateSimple()
+                if let dateString = cInfo.recentDate {
+                    cell.lastDate.text = DateUtils.getDateStringForDetail(date: dateString)
+                }
                 cell.dateKind.text = "마지막 사용"
                 cell.dateKind.backgroundColor = UIColor(hex: "#E2E2E2")
             }
