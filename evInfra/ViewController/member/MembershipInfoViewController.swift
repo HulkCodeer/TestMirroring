@@ -14,6 +14,7 @@ class MembershipInfoViewController: UIViewController{
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var btnModify: UIButton!
     
+    @IBOutlet var tfCurPwIn: HSUnderLineTextField!
     @IBOutlet var tfPwIn: HSUnderLineTextField!
     @IBOutlet var tfPwReIn: HSUnderLineTextField!
     @IBOutlet var lbCardStatus: UILabel!
@@ -47,15 +48,10 @@ class MembershipInfoViewController: UIViewController{
         lbCardStatus.text = getCardStatusToString(status: memberInfo!.status!)
         let tap_touch = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         view.addGestureRecognizer(tap_touch)
+        
     }
     
     func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "등록된 카드 정보"
         self.navigationController?.isNavigationBarHidden = false
@@ -126,8 +122,8 @@ class MembershipInfoViewController: UIViewController{
     func changePassword() {
         var chgPwParams = [String: Any]()
         do {
-            chgPwParams["cur_pw"] = try tfPwIn.validatedText(validationType: .password)
-            chgPwParams["new_pw"] = try tfPwReIn.validatedText(validationType: .password)
+            chgPwParams["cur_pw"] = try tfCurPwIn.validatedText(validationType: .password)
+            chgPwParams["new_pw"] = try tfPwIn.validatedText(validationType: .password)
             _ = try tfPwReIn.validatedText(validationType: .repassword(password: tfPwIn.text ?? "0000"))
             chgPwParams["card_no"] = lbCardNo.text
             chgPwParams["mb_id"] = MemberManager.getMbId()

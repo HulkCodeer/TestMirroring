@@ -18,8 +18,8 @@ class RegisterResultViewController : UIViewController {
     @IBOutlet var btnGoMain: UIButton!
     
     @IBAction func onClickCompleteBtn(_ sender: Any) {
-        self.delegate?.onConfirmBtnPressed(code: self.requestCode)
         self.navigationController?.pop()
+        self.delegate?.onConfirmBtnPressed(code: self.requestCode)
     }
     
     @IBAction func onClickRetryBtn(_ sender: Any) {
@@ -39,6 +39,7 @@ class RegisterResultViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        prepareActionBar()
         initView()
     }
     
@@ -76,12 +77,6 @@ class RegisterResultViewController : UIViewController {
     }
     
     func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "조회 결과"
         self.navigationController?.isNavigationBarHidden = false

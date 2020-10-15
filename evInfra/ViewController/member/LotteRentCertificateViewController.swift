@@ -66,7 +66,6 @@ class LotteRentCertificateViewController : UIViewController,
             } else {
                 Snackbar().show(message: json["resultMsg"].stringValue)
             }
-            tfCarNo.text = ""
         }
     }
     
@@ -82,12 +81,6 @@ class LotteRentCertificateViewController : UIViewController,
     }
     
     func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "롯데회원 등록"
         self.navigationController?.isNavigationBarHidden = false
@@ -154,7 +147,6 @@ class LotteRentCertificateViewController : UIViewController,
     }
     
     private func activateMember(){
-        print("activate!")
         Server.activateLotteRentaCar(carNo: self.carNo, completion: { [self](isSuccess, value) in
             if isSuccess {
                 if self.payCode == PaymentCard.PAY_FINE_USER {
@@ -176,7 +168,6 @@ class LotteRentCertificateViewController : UIViewController,
         payRegistVC.myPayRegisterViewDelegate = self
         navigationController?.push(viewController: payRegistVC)
     }
-    
     
     func finishRegisterResult(json: JSON){
         payRegistResult = json

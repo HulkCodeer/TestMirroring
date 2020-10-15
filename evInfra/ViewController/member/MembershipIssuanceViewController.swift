@@ -264,12 +264,6 @@ class MembershipIssuanceViewController: UIViewController,
     }
     
     func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "EV Infra 멤버쉽 카드 신청"
         self.navigationController?.isNavigationBarHidden = false

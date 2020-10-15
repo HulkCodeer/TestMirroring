@@ -164,7 +164,7 @@ class Server {
         .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
         
-    // 회원 - 롯데렌터카 회원인증
+    // 회원 - 롯데렌터카 회원인증 완료
     static func activateLotteRentaCar(carNo : String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
@@ -172,6 +172,19 @@ class Server {
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member_partnership/activate_lotte_member",
+                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 회원 - SK렌터카 회원등록
+    static func registerSKMembershipCard(carNo : String, cardNo : String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId(),
+            "car_no": carNo,
+            "card_no": cardNo
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member_partnership/register_skr",
                       method: .post, parameters: reqParam, encoding: JSONEncoding.default)
         .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }

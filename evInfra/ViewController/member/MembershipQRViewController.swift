@@ -11,7 +11,8 @@ import AVFoundation
 import SwiftyJSON
 import Material
 
-class MembershipQRViewController: UIViewController {
+class MembershipQRViewController: UIViewController,
+        RegisterResultDelegate {
     var captureSession:AVCaptureSession!
     var videoPreviewLayer:AVCaptureVideoPreviewLayer!
     var qrCodeFrameView: UIView?
@@ -24,8 +25,6 @@ class MembershipQRViewController: UIViewController {
         prepareActionBar()
         prepareView()
         prepareQRScanner()
-        //테스트 하거나 UI 확인시 아래 주석을 풀어주시기 바랍니다.
-        self.onResultScan(scanInfo: "{ \"cp_id\": \"994\", \"connector_id\": \"1\" }")
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -36,20 +35,20 @@ class MembershipQRViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if (captureSession?.isRunning == false) {
+            captureSession.startRunning()
+        }
+    }
+    
     @objc
     fileprivate func handleBackButton() {
         self.navigationController?.pop()
     }
     
     func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
-        navigationItem.titleLabel.text = "충전하기"
+        navigationItem.titleLabel.text = "SK Rent Car 카드 연동"
         self.navigationController?.isNavigationBarHidden = false
     }
     
@@ -57,7 +56,6 @@ class MembershipQRViewController: UIViewController {
         self.scannerViewLayer.frame.size.width = self.view.frame.width
         
     }
-    
     
     func showInvalidQrResultDialog() {
         let dialogMessage = UIAlertController(title: "잘못된 QR입니다", message: "다시 시도하십시오", preferredStyle: .alert)
@@ -68,7 +66,25 @@ class MembershipQRViewController: UIViewController {
         dialogMessage.addAction(ok)
         self.present(dialogMessage, animated: true, completion: nil)
     }
+    
+    private func showResultView(code : Int, imgType : String, retry : Bool, callBtn : Bool, msg : String){
+        let resultVC = storyboard?.instantiateViewController(withIdentifier: "RegisterResultViewController") as! RegisterResultViewController
+        resultVC.requestCode = code
+        resultVC.imgType = imgType
+        resultVC.showRetry = retry
+        resultVC.showCallBtn = callBtn
+        resultVC.message = msg
+        resultVC.delegate = self
+        self.navigationController?.push(viewController: resultVC)
+    }
+    
+    func onConfirmBtnPressed(code : Int){
+        print("okbtn")
+        self.navigationController?.pop()
+    }
+    
 }
+
 extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
@@ -125,7 +141,6 @@ extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
         videoPreviewLayer.frame = scannerViewLayer.layer.bounds
         scannerViewLayer.layer.addSublayer(videoPreviewLayer!)
         scannerViewLayer.bringSubview(toFront: lbExplainScanner)
-        
         // Start video capture.
         captureSession.startRunning()
         qrCodeFrameView = UIView()
@@ -142,15 +157,42 @@ extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
         var carNo = ""
         var cardNo = ""
         if let resultQR = scanInfo {
+            print("result : " + resultQR)
             if resultQR.count > 0 {
                 let qrJson = JSON.init(parseJSON: resultQR)
                 carNo = qrJson["qrCarNo"].stringValue
                 cardNo = qrJson["qrCardNo"].stringValue
             }
         }
-        
         if !carNo.isEmpty && !cardNo.isEmpty {
-
+            let validator = VaildatorFactory.validatorFor(type: ValidatorType.carnumber)
+            do {
+                let carValidNum = try validator.validated(carNo)
+                Server.registerSKMembershipCard(carNo : carValidNum, cardNo : cardNo, completion: { (isSuccess, value) in
+                    if isSuccess {
+                        let json = JSON(value)
+                        print(json)
+                        switch json["code"].intValue {
+                        case 1000:
+                            self.showResultView(code : 0, imgType : "SUCCESS", retry : false, callBtn : false, msg : "정보가 확인되었습니다.")
+                            break
+                        case 1104 :
+                            self.showResultView(code : 0, imgType : "QUESTION", retry : true, callBtn : true, msg : "기존에 등록된 회원 정보입니다.\nsk renter 멤버쉽 카드는\n기기당 한 계정만 등록 가능합니다.\n분실 및 재발급에 대한 문의는\n아래로 전화 주시기 바랍니다.")
+                            break
+                        case 1105 :
+                            self.showResultView(code : 0, imgType : "ERROR", retry : true, callBtn : true, msg : "일치하는 정보가 없습니다.\n재스캔 이후에도 조회되지 않는 경우,\n아래 번호롤 전화주시기 바랍니다.")
+                            break
+                        default :
+                            break
+                        }
+                    } else {
+                        
+                    }
+                })
+            } catch {
+                print("validation error")
+                self.showInvalidQrResultDialog()
+            }
         } else {
             self.showInvalidQrResultDialog()
         }
