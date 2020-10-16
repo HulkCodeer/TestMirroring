@@ -85,6 +85,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         guard url.scheme != nil else { return true }
         
+        if let partnershipUrl = url.valueOf("partnership"){
+            if partnershipUrl == "true" {
+                NotificationCenter.default.post(name: Notification.Name("partnershipScheme"), object: nil)
+            }
+        }
+        
         if let shareChargerId = url.valueOf("charger_id") {
             NotificationCenter.default.post(name: Notification.Name("kakaoScheme"), object: nil, userInfo: ["sharedid": shareChargerId])
         }
