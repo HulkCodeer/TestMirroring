@@ -15,7 +15,7 @@ class WaitTimeModel: Codable {
 }
 
 class WaitTimeData: Codable{
-	var status:[WaitTimeStatus] = []
+	var lists:[WaitTimeStatus] = []
 	var user_count:Double?
 }
 

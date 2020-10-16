@@ -1138,7 +1138,7 @@ extension DetailViewController {
 						print("ejlim user_count \(data.user_count ?? -1)")
 						self.mUserCount = Int(data.user_count ?? -1)
 						self.mWaitTime.removeAll()
-						self.mWaitTime.append(contentsOf: data.status)
+						self.mWaitTime.append(contentsOf: data.lists)
 						var geoText = "근처에 \(self.mUserCount)명이 있음"
 						let attributedStr = NSMutableAttributedString(string: geoText)
 						if(self.mUserCount > 0){
