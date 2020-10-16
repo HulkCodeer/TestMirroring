@@ -39,7 +39,7 @@ class PartnershipListView : UIView{
     }
     
     func showInfoView(infoList : [MemberPartnershipInfo]){
-        var cardCnt = 3;
+        var cardCnt = 2;
         for item in infoList {
             switch item.clientId {
             case 1 : // evinfra
@@ -54,8 +54,8 @@ class PartnershipListView : UIView{
                 break
 
             case 23 : //sk rent
-                viewSkrList.isHidden = false
-                cardCnt -= 1
+//                viewSkrList.isHidden = false
+//                cardCnt -= 1
                 break;
 
             case 24 : //lotte rent

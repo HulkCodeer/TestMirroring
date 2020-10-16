@@ -11,9 +11,9 @@ import SwiftyJSON
 class PartnershipJoinView : UIView{
     @IBOutlet var lbEvTitle: UILabel!
     @IBOutlet var lbPartnerShipTitle: UILabel!
-    @IBOutlet weak var viewEvinfraJoin: UIStackView!
-    @IBOutlet weak var viewSkrentJoin: UIStackView!
-    @IBOutlet weak var viewLotteJoin: UIStackView!
+    @IBOutlet weak var viewEvinfraJoin: UIView!
+    @IBOutlet weak var viewSkrentJoin: UIView!
+    @IBOutlet weak var viewLotteJoin: UIView!
     
     var delegate: PartnershipJoinViewDelegate?
     
@@ -36,20 +36,20 @@ class PartnershipJoinView : UIView{
     
     private func initView(){
         let ev_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickEvInfra))
-        pinBackground(getBackgroundView(), to: viewEvinfraJoin)
         viewEvinfraJoin.addGestureRecognizer(ev_touch)
+        viewEvinfraJoin.layer.cornerRadius = 10
 
         let skr_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickSKRent))
-        pinBackground(getBackgroundView(), to: viewSkrentJoin)
         viewSkrentJoin.addGestureRecognizer(skr_touch)
+        viewSkrentJoin.layer.cornerRadius = 10
         
         let lotte_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickLotteRent))
-        pinBackground(getBackgroundView(), to: viewLotteJoin)
         viewLotteJoin.addGestureRecognizer(lotte_touch)
+        viewLotteJoin.layer.cornerRadius = 10
     }
     
     func showInfoView(infoList : [MemberPartnershipInfo]){
-        var partnershipCnt = 2
+        var partnershipCnt = 1
         for item in infoList {
             switch item.clientId {
             case 1 : // evinfra
@@ -57,8 +57,8 @@ class PartnershipJoinView : UIView{
                 viewEvinfraJoin.isHidden = true
                 break
             case 23 : //sk rent
-                viewSkrentJoin.isHidden = true
-                partnershipCnt -= 1
+//                viewSkrentJoin.isHidden = true
+//                partnershipCnt -= 1
                 break
             case 24 : //lotte rent
                 viewLotteJoin.isHidden = true
@@ -87,30 +87,6 @@ class PartnershipJoinView : UIView{
         print("lotte btn pressed")
         self.delegate?.showLotteRentCertificateView()
     }
-    
-    private func pinBackground(_ view: UIView, to stackView: UIStackView) {
-        view.translatesAutoresizingMaskIntoConstraints = false
-        stackView.insertSubview(view, at: 0)
-        view.pin(to: stackView)
-    }
-    
-    private func getBackgroundView() -> UIView {
-        let view = UIView()
-        view.backgroundColor = #colorLiteral(red: 0.8548362255, green: 0.8549391627, blue: 0.8548011184, alpha: 1)
-        view.layer.cornerRadius = 10.0
-        return view
-    }
-}
-
-public extension UIView {
-  public func pin(to view: UIView) {
-    NSLayoutConstraint.activate([
-      leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      topAnchor.constraint(equalTo: view.topAnchor),
-      bottomAnchor.constraint(equalTo: view.bottomAnchor)
-      ])
-  }
 }
 
 protocol PartnershipJoinViewDelegate {
