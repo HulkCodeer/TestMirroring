@@ -14,6 +14,7 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate{
     struct Constants {
        // static let cellHeight: CGFloat = 60
      static let cellHeight: CGFloat = 60
+	 static let	expandedcellHeight:CGFloat = 100
 	}
     
     var cidList = [CidInfo]()
@@ -88,7 +89,7 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		if(clickedIndex.contains(indexPath.row)){
-			return 80
+			return Constants.expandedcellHeight
 		}else {
 			return Constants.cellHeight
 		}
@@ -114,15 +115,8 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate{
         // 충전기 타입
         cell.setChargerTypeImage(type: cInfo.chargerType)
         
-        // 최근 충전일
-	
-//            if cInfo.status == Const.CHARGER_STATE_CHARGING {
-//                cell.dateKind.text = "경과시간"
-//                cell.lastDate.text = cInfo.getChargingDuration()
-//            } else {
-//                cell.dateKind.text = "충전완료"
-//                cell.lastDate.text = cInfo.getRecentDateSimple()
-//            }
+		cell.lastDate.isUserInteractionEnabled = false;
+		
 		cell.waitTimeView.bringSubview(toFront: cell.mainView)
 		if cInfo.status == Const.CHARGER_STATE_CHARGING {
 			let waitTime = Int(statusInfo?.remain_time ?? -1)

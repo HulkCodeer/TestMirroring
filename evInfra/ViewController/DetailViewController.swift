@@ -325,7 +325,7 @@ class DetailViewController: UIViewController, TableDelegate {
 			contentHeight = self.cidTableView.contentSize.height
 		}else{
 			var unclickedCellHeight = CGFloat(allNum - clickedNum) * CidTableView.Constants.cellHeight
-			var clickedCellHeight = CGFloat(clickedNum * 100)
+			var clickedCellHeight = CGFloat(clickedNum) * CidTableView.Constants.expandedcellHeight
 			contentHeight = CGFloat( unclickedCellHeight + clickedCellHeight)
 		}
 		
