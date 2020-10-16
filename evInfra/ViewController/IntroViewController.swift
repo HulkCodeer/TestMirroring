@@ -17,6 +17,7 @@ class IntroViewController: UIViewController {
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var progressLabel: UILabel!
     
+    @IBOutlet var imgIntroBackground: UIImageView!
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let fcmManager = FCMManager.sharedInstance
     
@@ -48,6 +49,10 @@ class IntroViewController: UIViewController {
             
             return chargerManagerListener(self)
         } ())
+        
+        if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR){
+            imgIntroBackground.image = UIImage(named: "intro_skr_bg.jpg")
+        }
     }
 
     override func didReceiveMemoryWarning() {

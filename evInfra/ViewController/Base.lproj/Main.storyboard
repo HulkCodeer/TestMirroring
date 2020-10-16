@@ -957,6 +957,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="imgIntroBackground" destination="fh4-ME-QqC" id="4Ox-um-IiD"/>
                         <outlet property="progressBar" destination="wRh-8t-qpM" id="pmT-vl-CDw"/>
                         <outlet property="progressLabel" destination="4yf-DX-6rL" id="LZY-Xk-cPC"/>
                         <outlet property="progressLayer" destination="rbK-ux-PNU" id="mGg-rL-9Rr"/>
