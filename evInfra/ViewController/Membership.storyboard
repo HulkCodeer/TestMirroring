@@ -623,7 +623,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="그룹 176" translatesAutoresizingMaskIntoConstraints="NO" id="3IV-Di-PH2">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="qr_box" translatesAutoresizingMaskIntoConstraints="NO" id="3IV-Di-PH2">
                                 <rect key="frame" x="79.5" y="98.5" width="216" height="216"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="216" id="XSe-fh-bpK"/>
@@ -931,9 +931,9 @@
         <image name="call_btn" width="202.5" height="48"/>
         <image name="card_bg" width="445" height="264"/>
         <image name="evinfra_logo" width="105" height="26.5"/>
+        <image name="qr_box" width="285" height="284"/>
         <image name="qr_loacation_img" width="181" height="128"/>
         <image name="result_check_img" width="149" height="138.5"/>
-        <image name="그룹 176" width="285" height="284"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
