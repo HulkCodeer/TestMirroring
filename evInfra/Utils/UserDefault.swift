@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import SwiftyJSON
 class UserDefault {
     struct Key {
         // 안드로이드에 있으나 iOS에 없는 key
@@ -35,6 +35,7 @@ class UserDefault {
         static let MB_PROFILE_NAME  = "mb_profile_image"
         static let MB_CAR_ID        = "mb_car_id"
         static let MB_CAR_TYPE      = "mb_car_type"
+        static let MB_PARTNERSHIP_CLIENT   = "mb_partnership_client"
         
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"
@@ -55,6 +56,8 @@ class UserDefault {
         static let LAST_EVENT_ID        = "read_event"
         
         static let MAP_ZOOM_LEVEL   = "map_zoom_level"
+        
+        static let INTRO_SKR    = "intro_skr"
         
         // 전체설정
         static let SETTINGS_ALLOW_NOTIFICATION = "allow_notification"
@@ -100,6 +103,28 @@ class UserDefault {
     
     func readBool(key: String) -> Bool {
         return UserDefaults.standard.bool(forKey: key)
+    }
+    
+    func saveIntArray(key: String, value: [JSON]) -> Void {
+        let defaults = UserDefaults.standard
+        var clientList : [Int] = []
+        for client in value {
+            clientList.append(client.intValue)
+        }
+        defaults.set(clientList, forKey: key)
+        defaults.synchronize()
+    }
+    
+    func addItemToIntArray(key: String, value : Int) -> Void {
+        let defaults = UserDefaults.standard
+        var clientList : [Int] = self.readIntArray(key: key)
+        clientList.append(value)
+        defaults.set(clientList, forKey: key)
+        defaults.synchronize()
+    }
+    
+    func readIntArray(key: String) -> [Int] {
+        return UserDefaults.standard.array(forKey: key) as? [Int] ?? [Int]()
     }
     
     func registerBool(key: String, val: Bool) -> Void {

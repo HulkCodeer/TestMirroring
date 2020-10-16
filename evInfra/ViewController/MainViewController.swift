@@ -1500,6 +1500,7 @@ extension MainViewController {
         center.addObserver(self, selector: #selector(saveLastZoomLevel), name: .UIApplicationDidEnterBackground, object: nil)
         center.addObserver(self, selector: #selector(updateMemberInfo), name: Notification.Name("updateMemberInfo"), object: nil)
         center.addObserver(self, selector: #selector(getSharedChargerId(_:)), name: Notification.Name("kakaoScheme"), object: nil)
+        center.addObserver(self, selector: #selector(openPartnership(_:)), name: Notification.Name("partnershipScheme"), object: nil)
     }
     
     func removeObserver() {
@@ -1522,6 +1523,16 @@ extension MainViewController {
         self.sharedChargerId = sharedid
         if self.loadedChargers {
             selectChargerFromShared()
+        }
+    }
+    
+    @objc func openPartnership(_ notification: NSNotification) {
+        if MemberManager().isLogin(){
+            let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
+            let mbscdVC = mbsStoryboard.instantiateViewController(withIdentifier: "MembershipCardViewController") as! MembershipCardViewController
+            navigationController?.push(viewController: mbscdVC)
+        } else {
+            MemberManager().showLoginAlert(vc: self)
         }
     }
     
