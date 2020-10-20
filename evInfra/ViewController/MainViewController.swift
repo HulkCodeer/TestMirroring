@@ -1204,11 +1204,13 @@ extension MainViewController: MainViewDelegate {
         selectCharger = charger
         if (selectCharger?.mTotalType != nil){
             setChargerTypeImage(type: (selectCharger?.mTotalType)!)
-
             setChargerPower()
-            
+        }
+        
+        if (selectCharger?.mStationInfoDto?.mPay != nil){
             setChargePrice(pay: (selectCharger?.mStationInfoDto?.mPay)!)
         }
+        
         setCallOutFavoriteIcon(charger: selectCharger!)
         
         setDistance()
@@ -1352,11 +1354,11 @@ extension MainViewController: MainViewDelegate {
         // 과금
         switch pay {
         case "Y":
-            self.chargePriceLb.text = "무료"
-            stationInfoArr["무료"] = "pay"
-        case "N":
             self.chargePriceLb.text = "유료"
             stationInfoArr["유료"] = "pay"
+        case "N":
+            self.chargePriceLb.text = "무료"
+            stationInfoArr["무료"] = "pay"
         default:
             self.chargePriceLb.text = "시범운영"
             stationInfoArr["시범운영"] = "pay"
