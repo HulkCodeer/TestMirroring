@@ -1240,6 +1240,8 @@ extension MainViewController: MainViewDelegate {
         
         if selectCharger?.getCompanyIcon() != nil{
             self.companyImg.image = selectCharger?.getCompanyIcon()
+        }else{
+            self.companyImg.image = .none
         }
     }
     

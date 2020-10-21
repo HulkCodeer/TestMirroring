@@ -16,6 +16,16 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     
     @IBOutlet var lbMyBerryTitle: UILabel!
     @IBOutlet var guideTableView: UITableView!
+    //  expandable
+    @IBOutlet var expandInfoBtn: UIView!                    // 베리란?(btn)
+    @IBOutlet var expandInfoView: UIView!                   // 베리설명(view)
+    @IBOutlet var expandInfoHeight: NSLayoutConstraint!     // 베리설명(height)
+    @IBOutlet var expandHowToBtn: UIView!                   // 베리사용방법(btn)
+    @IBOutlet var expandHowToView: UIView!                  // 베리사용설명(view)
+    @IBOutlet var expandHowToHeight: NSLayoutConstraint!    // 베리사용설명(height)
+    @IBOutlet var expandNoticeBtn: UIView!                  // 유의사항(btn)
+    @IBOutlet var expandNoticeView: UIView!                 // 유의사항(view)
+    @IBOutlet var expandNoticeHeight: NSLayoutConstraint!   // 유의사항(height)
     
     private let appID = "ca-app-pub-4857867142176465~5053865371";   // admob app id
     private let placeID = "ca-app-pub-4857867142176465/5258173998"; // admob reward id
@@ -27,6 +37,9 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
      * Currently selected reward by the user.
      */
     private var selectedReward: MPRewardedVideoReward? = nil
+    
+    //  expandable
+    private var shouldCollapse = false
     
     override func viewDidLoad() {
         prepareActionBar()
@@ -61,6 +74,8 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         lbMyBerryTitle.roundCorners(.allCorners, radius: 9)
     }
     
+    
+    
     @IBAction func onClickAdmobAd(_ sender: Any) {
         
         Server.postCheckRewardVideoAvailable { (isSuccess, value) in
@@ -86,6 +101,12 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
                 Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
             }
         }
+    }
+    
+    func animateHeight(isCollapse: Bool, heightConstraint:Double, constant:CGFloat) {
+        var height = constant
+        shouldCollapse = isCollapse
+        height = CGFloat(heightConstraint)
     }
     
     /// Tells the delegate that the user earned a reward.

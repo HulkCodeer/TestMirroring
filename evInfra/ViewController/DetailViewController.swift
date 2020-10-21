@@ -18,7 +18,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 //    @IBOutlet weak var vieagerContainer: UIView!
 
     // summary
-    @IBOutlet weak var companyImg: UIImageView!             // 운영기관(이미지)
+    @IBOutlet weak var companyImg: UIImageView!         // 운영기관(이미지)
     @IBOutlet weak var callOutTitle: UILabel!           // 충전소 이름
     @IBOutlet var callOutFavorite: UIButton!            // 즐겨찾기
     @IBOutlet var chargerStatusImg: UIImageView!        // 충전기 상태(이미지)
@@ -27,7 +27,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     // 충전소 정보
     @IBOutlet var powerLb: UILabel!                     // 충전속도
     @IBOutlet var powerView: UILabel!                   // 충전속도(view)
-    @IBOutlet weak var companyLabel: UILabel!          // 운영기관(이름)
+    @IBOutlet weak var companyLabel: UILabel!           // 운영기관(이름)
     @IBOutlet var companyView: UIStackView!             // 운영기관(view)
     @IBOutlet weak var timeLabel: UILabel!              // 운영시간
     @IBOutlet weak var callLb: UILabel!                 // 전화번호
