@@ -17,10 +17,14 @@ class ChargerStationInfo {
     var mTotalStatus: Int?
     
     var mTotalStatusName: String?
+    
+    var mTotalStatusImg: UIImage!
 
     var mTotalType: Int?
 
     var mPower: Int?
+    
+    var mPowerSt: String?
 
     var usage: Array<Int> = Array() // 충전소 시간별 이용횟수
 
@@ -218,6 +222,22 @@ class ChargerStationInfo {
         return markerIcon
     }
     
+    func getCompanyIcon() -> UIImage? {
+        let companyArray = ChargerManager.sharedInstance.getCompanyInfoListAll()
+        var resultIcon:UIImage? = nil
+        if let company = companyArray?.filter({$0.company_id!.elementsEqual((mStationInfoDto?.mCompanyId)!)}).first {
+            if let iconName = company.icon_name {
+                if let icon = ImageMarker.companyImg(company: iconName){
+                    let width = icon.width - 20
+                    let height = icon.height/2
+                    let companyIcon = icon.cropImage(image: icon, posX: 10, posY: 10, width: Double(width), height: Double(height))
+                    resultIcon = companyIcon
+                }
+            }
+        }
+        return resultIcon ?? nil
+    }
+    
     func getMarkerIcon() -> UIImage {
         if (StringUtils.isNullOrEmpty(mStationInfoDto?.mCompanyId)) {
             return ImageMarker.NORMAL!
@@ -239,5 +259,49 @@ class ChargerStationInfo {
         }
         
         return markerIcon
+    }
+    
+    func getChargerPower(power:Int, type:Int) -> String{
+        var strPower = ""
+        if power == 0 {
+            if ((type & Const.CTYPE_DCDEMO) > 0 ||
+                (type & Const.CTYPE_DCCOMBO) > 0 ||
+                (type & Const.CTYPE_AC) > 0) {
+                strPower = "50kWh"
+            } else if ((type & Const.CTYPE_SLOW) > 0 ||
+                (type & Const.CTYPE_DESTINATION) > 0) {
+                strPower = "완속"
+
+            } else if ((type & Const.CTYPE_HYDROGEN) > 0) {
+                strPower = "수소"
+            } else if ((type & Const.CTYPE_SUPER_CHARGER) > 0) {
+                strPower = "110kWh 이상"
+            } else {
+                strPower = "-"
+            }
+        } else {
+            strPower = "\(power)kWh"
+        }
+        return strPower
+    }
+    
+    func getChargeStateImg(type:String) -> UIImage{
+        var stateImg:UIImage!
+        
+        switch type {
+        case "충전중":
+            stateImg = UIImage(named: "detail_mark_charging.png")
+            break
+        case "대기중":
+            stateImg = UIImage(named: "detail_mark_wait.png")
+            break
+        case "운영중지":
+            stateImg = UIImage(named: "detail_mark_stop.png")
+            break
+        default:
+            stateImg = UIImage(named: "detail_mark_unconnect.png")
+            break
+        }
+        return stateImg
     }
 }

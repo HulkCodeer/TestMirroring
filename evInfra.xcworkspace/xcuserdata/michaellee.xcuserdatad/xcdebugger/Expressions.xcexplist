@@ -3,12 +3,18 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "DetailViewController.gestureRecognizerShouldBegin(_:):DetailViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "MainViewController.showCallOut(charger:):MainViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "callOutTitle.textColor">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetailViewController.contentViewTap(gesture:):DetailViewController.swift">
       </ContextState>
       <ContextState
          contextName = "StationInfoDto.setStationInfo(json:):StationInfoDto.swift">
@@ -36,6 +42,20 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "DetailViewController.detailViewResize(view:):DetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "view.frame.size.height">
+            </PersistentString>
+            <PersistentString
+               value = "self.detailView.frame.size">
+            </PersistentString>
+            <PersistentString
+               value = "self.detailView.frame.size.height">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "OfferwallViewController.onClickAdmobAd(_:):OfferwallViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -54,6 +74,14 @@
             </PersistentString>
             <PersistentString
                value = "ChargerManager.sharedInstance.get">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetailViewController.gestureRecognizer(_:shouldReceive:):DetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "gestureRecognizer.state">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -104,6 +132,14 @@
       </ContextState>
       <ContextState
          contextName = "ChargerManager.getCompanyMarketUrl(companyID:):ChargerManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "DetailViewController.adjustHeightOfTableview():DetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.detailView.frame">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "ChargerManager.getChargerCompanyInfo(listener:):ChargerManager.swift">

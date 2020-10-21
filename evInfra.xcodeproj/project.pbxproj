@@ -197,6 +197,7 @@
 		902A11DE248F68450049EF8E /* HangulUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11DD248F68450049EF8E /* HangulUtils.swift */; };
 		902A11E0248F756C0049EF8E /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11DF248F756C0049EF8E /* Log.swift */; };
 		902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11E1248F7A3A0049EF8E /* ChargerStationInfo.swift */; };
+		90517A0C253857FD00FCB1A7 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90517A0B253857FD00FCB1A7 /* DateUtils.swift */; };
 		9058A3C1248639D000091823 /* ChargerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058A3C0248639D000091823 /* ChargerManager.swift */; };
 		9064133423E2A470008B2BB1 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9064133323E2A470008B2BB1 /* AdSupport.framework */; };
 		9064133723E2A603008B2BB1 /* OfferwallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9064133623E2A603008B2BB1 /* OfferwallViewController.swift */; };
@@ -356,7 +357,6 @@
 		7379A44F22CB43C600F4271C /* Connector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connector.swift; sourceTree = "<group>"; };
 		7379A45322CDEB0200F4271C /* PaymentStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatus.swift; sourceTree = "<group>"; };
 		7379A45522CF156E00F4271C /* CircularProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressBar.swift; sourceTree = "<group>"; };
-		737A011F20F2FB9B00638812 /* FMDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FMDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		737A012120F3225800638812 /* EVFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVFileManager.swift; sourceTree = "<group>"; };
 		737A012920F709B300638812 /* CompanyInfoCheckerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyInfoCheckerDelegate.swift; sourceTree = "<group>"; };
 		738C2CE620A9367D006E268D /* type_destination.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = type_destination.png; sourceTree = "<group>"; };
@@ -503,6 +503,7 @@
 		902A11DD248F68450049EF8E /* HangulUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangulUtils.swift; sourceTree = "<group>"; };
 		902A11DF248F756C0049EF8E /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		902A11E1248F7A3A0049EF8E /* ChargerStationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerStationInfo.swift; sourceTree = "<group>"; };
+		90517A0B253857FD00FCB1A7 /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
 		9058A3C0248639D000091823 /* ChargerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerManager.swift; sourceTree = "<group>"; };
 		9064133323E2A470008B2BB1 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		9064133623E2A603008B2BB1 /* OfferwallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallViewController.swift; sourceTree = "<group>"; };
@@ -647,7 +648,6 @@
 				73B787AE210B172400C12801 /* KakaoLink.framework */,
 				73B787AF210B172400C12801 /* KakaoNavi.framework */,
 				DBE591972114A93900FE913B /* KakaoOpenSDK.framework */,
-				737A011F20F2FB9B00638812 /* FMDB.framework */,
 				732B92C320EF53C00090E9FC /* libsqlite3.0.tbd */,
 				732B929D20EDE9DE0090E9FC /* libsqlite3.tbd */,
 				DF73FD6F0BC57C39B41EE0B7 /* Pods_evInfra.framework */,
@@ -710,9 +710,9 @@
 				732121BC203AC023000E105C /* AppDelegate.swift */,
 				73EF8B7C203C880A00D04494 /* evInfra-Bridging-Header.h */,
 				732121C6203AC023000E105C /* Assets.xcassets */,
-				73344AC0207B5F8A00A6A9EC /* awsconfiguration.json */,
 				732121CB203AC023000E105C /* Info.plist */,
 				73C31C0C20A4408C005B6C53 /* GoogleService-Info.plist */,
+				73344AC0207B5F8A00A6A9EC /* awsconfiguration.json */,
 				73238C3A20A44B3E00C06A89 /* evInfra.entitlements */,
 				732121C3203AC023000E105C /* evInfra.xcdatamodeld */,
 			);
@@ -974,6 +974,7 @@
 				902A11D9248F5E440049EF8E /* StringUtils.swift */,
 				902A11DD248F68450049EF8E /* HangulUtils.swift */,
 				902A11DF248F756C0049EF8E /* Log.swift */,
+				90517A0B253857FD00FCB1A7 /* DateUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1465,7 +1466,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/run\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1521,6 +1522,7 @@
 				73D65D702358498C00F564A2 /* Validators.swift in Sources */,
 				902A11D7248F56610049EF8E /* StationStatusDto.swift in Sources */,
 				73BFA04C20847A310028B35D /* BoardTableViewCell.swift in Sources */,
+				90517A0C253857FD00FCB1A7 /* DateUtils.swift in Sources */,
 				DB876078206B40FF0095394B /* UIDevice.swift in Sources */,
 				DB4063AD22014D6800B630A8 /* ViewPagerController.swift in Sources */,
 				CECA908A2084A9F50083518B /* TermsViewController.swift in Sources */,
