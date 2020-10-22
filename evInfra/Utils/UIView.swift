@@ -325,6 +325,22 @@ extension NSLayoutConstraint {
         layer.addSublayer(borderLayer)
     }
     
+    // expandable view
+    func expandableView(view: UIView, btnHeight:CGFloat, viewHeight:CGFloat, imgView: UIImageView) -> CGFloat{
+        var height = btnHeight
+        if view.isHidden == true {
+            height = height + viewHeight
+            view.isHidden = false
+            imgView.image = UIImage(named: "list_close_btn")
+        }else{
+            height = height - viewHeight
+            view.isHidden = true
+            imgView.image =  UIImage(named: "list_open_btn")
+        }
+        UIView.animate(withDuration: 1, animations: view.layoutIfNeeded)
+        return height
+    }
+    
     func addTapGesture(target: Any, action: Selector) {
         let tapGesture = UITapGestureRecognizer(target: target, action: action)
         tapGesture.numberOfTapsRequired = 1

@@ -27,6 +27,16 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     @IBOutlet var expandNoticeView: UIView!                 // 유의사항(view)
     @IBOutlet var expandNoticeHeight: NSLayoutConstraint!   // 유의사항(height)
     
+    @IBOutlet var infoBtnImg: UIImageView!
+    @IBOutlet var howToBtnImg: UIImageView!
+    @IBOutlet var noticBtnImg: UIImageView!
+    
+    @IBOutlet var infoViewHeight: NSLayoutConstraint!
+    @IBOutlet var howToHeight: NSLayoutConstraint!
+    @IBOutlet var noticeHeight: NSLayoutConstraint!
+    
+    @IBOutlet var scrollView: UIScrollView!
+    
     private let appID = "ca-app-pub-4857867142176465~5053865371";   // admob app id
     private let placeID = "ca-app-pub-4857867142176465/5258173998"; // admob reward id
     private let testID = "ca-app-pub-3940256099942544/1712485313";  // admob test id
@@ -72,9 +82,37 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         checkAndInitializeSdk()
 
         lbMyBerryTitle.roundCorners(.allCorners, radius: 9)
+        
+        let infoGesture = UITapGestureRecognizer(target: self, action: #selector(onClickInfoExpand(sender:)))
+        let howToGesture = UITapGestureRecognizer(target: self, action: #selector(onClickHowToExpand(sender:)))
+        let noticeGesture = UITapGestureRecognizer(target: self, action: #selector(onClickNoticeExpand(sender:)))
+        self.expandInfoBtn.addGestureRecognizer(infoGesture)
+        self.expandHowToBtn.addGestureRecognizer(howToGesture)
+        self.expandNoticeBtn.addGestureRecognizer(noticeGesture)
+        
+        self.expandInfoHeight.constant = scrollView.expandableView(view: self.expandInfoView, btnHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
+        
+        self.expandHowToHeight.constant = scrollView.expandableView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+        
+        self.expandNoticeHeight.constant = scrollView.expandableView(view: self.expandNoticeView, btnHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
     }
     
+    @objc func onClickInfoExpand(sender: UITapGestureRecognizer) {
+        self.expandInfoHeight.constant = scrollView.expandableView(view: self.expandInfoView, btnHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
+        scrollView.setContentOffset(CGPoint(x: 0, y: self.infoViewHeight.constant), animated: true)
+    }
     
+    @objc func onClickHowToExpand(sender: UITapGestureRecognizer){
+        self.expandHowToHeight.constant = scrollView.expandableView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+        
+        scrollView.setContentOffset(CGPoint(x: 0, y: self.howToHeight.constant), animated: true)
+    }
+    
+    @objc func onClickNoticeExpand(sender: UITapGestureRecognizer){
+        self.expandNoticeHeight.constant = scrollView.expandableView(view: self.expandNoticeView, btnHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
+
+        scrollView.setContentOffset(CGPoint(x: 0, y: self.noticeHeight.constant + self.noticeHeight.constant), animated: true)
+    }
     
     @IBAction func onClickAdmobAd(_ sender: Any) {
         
@@ -101,12 +139,6 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
                 Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
             }
         }
-    }
-    
-    func animateHeight(isCollapse: Bool, heightConstraint:Double, constant:CGFloat) {
-        var height = constant
-        shouldCollapse = isCollapse
-        height = CGFloat(heightConstraint)
     }
     
     /// Tells the delegate that the user earned a reward.
