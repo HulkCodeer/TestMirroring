@@ -48,13 +48,15 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
      */
     private var selectedReward: MPRewardedVideoReward? = nil
     
-    //  expandable
-    private var shouldCollapse = false
+    //
+    var sumHeight:CGFloat = 0
+    var willHide: Bool = false
+    var viewName:String = ""
     
     override func viewDidLoad() {
         prepareActionBar()
         prepareView()
-//        prepareTableView()
+        self.scrollView.delegate = self
     }
     
     deinit {
@@ -78,6 +80,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     }
     
     func prepareView() {
+        
         MPRewardedVideo.setDelegate(self, forAdUnitId: self.kAdUnitId)
         checkAndInitializeSdk()
 
@@ -98,20 +101,81 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     }
     
     @objc func onClickInfoExpand(sender: UITapGestureRecognizer) {
-        self.expandInfoHeight.constant = scrollView.expandableView(view: self.expandInfoView, btnHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
-        scrollView.setContentOffset(CGPoint(x: 0, y: self.infoViewHeight.constant), animated: true)
+        if !self.expandInfoView.isHidden{
+            // close
+            self.willHide = true
+            self.viewName = "info"
+            sumHeight -= self.expandInfoHeight.constant
+            let bottomOffset = CGPoint(x: 0, y: sumHeight)
+            if self.expandNoticeView.isHidden == true && self.expandHowToView.isHidden == true && self.expandInfoView.isHidden == true {
+                sumHeight = 0
+                scrollView.setContentOffset(bottomOffset, animated: true)
+            }else{
+                scrollView.setContentOffset(bottomOffset, animated: true)
+            }
+        }else{
+            self.willHide = false
+            self.expandInfoHeight.constant = scrollView.expandableView(view: self.expandInfoView, btnHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
+            
+            // open
+            sumHeight += self.expandInfoHeight.constant
+            let bottomOffset = CGPoint(x: 0, y: sumHeight)
+            if bottomOffset.y > 0 {
+                scrollView.setContentOffset(bottomOffset, animated: true)
+            }
+        }
     }
     
     @objc func onClickHowToExpand(sender: UITapGestureRecognizer){
-        self.expandHowToHeight.constant = scrollView.expandableView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
-        
-        scrollView.setContentOffset(CGPoint(x: 0, y: self.howToHeight.constant), animated: true)
+        if !self.expandHowToView.isHidden{
+            self.willHide = true
+            self.viewName = "howTo"
+            // close
+            sumHeight -= self.expandHowToHeight.constant
+            let bottomOffset = CGPoint(x: 0, y: sumHeight)
+            if self.expandNoticeView.isHidden == true && self.expandHowToView.isHidden == true && self.expandInfoView.isHidden == true {
+                sumHeight = 0
+                scrollView.setContentOffset(bottomOffset, animated: true)
+            }else{
+                scrollView.setContentOffset(bottomOffset, animated: true)
+            }
+        }else{
+            self.willHide = false
+            self.expandHowToHeight.constant = scrollView.expandableView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+            
+            // open
+            sumHeight += self.expandHowToHeight.constant
+            let bottomOffset = CGPoint(x: 0, y: sumHeight)
+            if bottomOffset.y > 0 {
+                scrollView.setContentOffset(bottomOffset, animated: true)
+            }
+        }
     }
     
     @objc func onClickNoticeExpand(sender: UITapGestureRecognizer){
-        self.expandNoticeHeight.constant = scrollView.expandableView(view: self.expandNoticeView, btnHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
-
-        scrollView.setContentOffset(CGPoint(x: 0, y: self.noticeHeight.constant + self.noticeHeight.constant), animated: true)
+        if !self.expandNoticeView.isHidden{
+            self.willHide = true
+            self.viewName = "notice"
+            // close
+            sumHeight -= self.expandNoticeHeight.constant*2
+            let bottomOffset = CGPoint(x: 0, y: sumHeight)
+            if self.expandNoticeView.isHidden == true && self.expandHowToView.isHidden == true && self.expandInfoView.isHidden == true {
+                sumHeight = 0
+                scrollView.setContentOffset(bottomOffset, animated: true)
+            }else{
+                scrollView.setContentOffset(bottomOffset, animated: true)
+            }
+        }else{
+            self.willHide = false
+            self.expandNoticeHeight.constant = scrollView.expandableView(view: self.expandNoticeView, btnHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
+            
+            // open
+            sumHeight += self.expandNoticeHeight.constant*2
+            let bottomOffset = CGPoint(x: 0, y: sumHeight)
+            if bottomOffset.y > 0 {
+                scrollView.setContentOffset(bottomOffset, animated: true)
+            }
+        }
     }
     
     @IBAction func onClickAdmobAd(_ sender: Any) {
@@ -237,6 +301,27 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     
     func rewardedVideoAdShouldReward(forAdUnitID adUnitID: String!, reward: MPRewardedVideoReward!) {
         print("rewardedVideoAdShouldReward")
+    }
+}
+
+extension OfferwallViewController: UIScrollViewDelegate{
+    // called when setContentOffset/scrollRectVisible:animated: finishes. not called if not animating
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        if self.willHide {
+            switch self.viewName {
+            case "info":
+                self.expandInfoHeight.constant = scrollView.expandableView(view: self.expandInfoView, btnHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
+                break
+            case "howTo":
+                self.expandHowToHeight.constant = scrollView.expandableView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+                break
+            case "notice":
+                self.expandNoticeHeight.constant = scrollView.expandableView(view: self.expandNoticeView, btnHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
+                break
+            default:
+                break
+            }
+        }
     }
 }
 
