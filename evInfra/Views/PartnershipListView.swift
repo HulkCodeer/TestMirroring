@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PartnershipListView : UIView{
+class PartnershipListView : UIView {
     @IBOutlet var viewEvinfraList: UIView!
     @IBOutlet var viewSkrList: UIView!
     @IBOutlet var viewLotteList: UIView!
@@ -38,8 +38,8 @@ class PartnershipListView : UIView{
         initView()
     }
     
-    func showInfoView(infoList : [MemberPartnershipInfo]){
-        var cardCnt = 2;
+    func showInfoView(infoList : [MemberPartnershipInfo]) {
+        var cardCnt = 3;
         for item in infoList {
             switch item.clientId {
             case 1 : // evinfra
@@ -54,8 +54,8 @@ class PartnershipListView : UIView{
                 break
 
             case 23 : //sk rent
-//                viewSkrList.isHidden = false
-//                cardCnt -= 1
+                viewSkrList.isHidden = false
+                cardCnt -= 1
                 break;
 
             case 24 : //lotte rent
@@ -68,29 +68,25 @@ class PartnershipListView : UIView{
                 print("out of index")
             }
         }
-        if(cardCnt <= 0) {
+        if cardCnt <= 0 {
             viewAddBtn.isHidden = true
         }
     }
     
     func getCardStatusToString(status: String) -> String {
         switch (status) {
-            case "0":
-                return "발급 신청";
-
-            case "1":
-                return "발급 완료";
-
-            case "2":
-                return "카드 분실";
-
-            default:
-                return "상태 오류";
+        case "0":
+            return "발급 신청";
+        case "1":
+            return "발급 완료";
+        case "2":
+            return "카드 분실";
+        default:
+            return "상태 오류";
         }
     }
     
-    
-    private func initView(){
+    private func initView() {
         let ev_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickEvInfra))
         viewEvinfraList.addGestureRecognizer(ev_touch)
         
@@ -98,12 +94,12 @@ class PartnershipListView : UIView{
         btnAddCard.addGestureRecognizer(add_touch)
     }
     
-    @objc func onClickEvInfra(sender: UITapGestureRecognizer){
+    @objc func onClickEvInfra(sender: UITapGestureRecognizer) {
         print("evinfra card pressed")
         delegate?.showEvinfraMembershipInfo(info : evInfraInfo!)
     }
     
-    @objc func onClickAddBtn(sender: UITapGestureRecognizer){
+    @objc func onClickAddBtn(sender: UITapGestureRecognizer) {
         print("add btn pressed")
         delegate?.addNewPartnership()
     }

@@ -24,7 +24,7 @@ class LotteRentCertificateViewController : UIViewController,
     let RESULT_DONE = 4
     
     @IBAction func onClickRegistBtn(_ sender: Any) {
-        do{
+        do {
             let carNo = try tfCarNo.validatedText(validationType: .carnumber)
             var actions = Array<UIAlertAction>()
             let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in
@@ -69,7 +69,7 @@ class LotteRentCertificateViewController : UIViewController,
         }
     }
     
-    func initView(){
+    func initView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
         self.view.addGestureRecognizer(tap)
         btnRegister.setDefaultBackground(cornerRadius: 20)
@@ -86,11 +86,10 @@ class LotteRentCertificateViewController : UIViewController,
         self.navigationController?.isNavigationBarHidden = false
     }
     
-    private func certificateMember(carNo : String){
+    private func certificateMember(carNo : String) {
         Server.certificateLotteRentaCar(carNo: carNo, completion: { [self](isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                print(json)
                 switch json["code"].intValue {
                 case 1000 , 1203:
                     self.showResultView(code : RESULT_CONFIRM, imgType : "SUCCESS", retry : false, callBtn : false, msg : "정보가 확인되었습니다.")
@@ -116,7 +115,7 @@ class LotteRentCertificateViewController : UIViewController,
         self.navigationController?.pop()
     }
     
-    private func showResultView(code : Int, imgType : String, retry : Bool, callBtn : Bool, msg : String){
+    private func showResultView(code: Int, imgType: String, retry: Bool, callBtn: Bool, msg: String) {
         let resultVC = storyboard?.instantiateViewController(withIdentifier: "RegisterResultViewController") as! RegisterResultViewController
         resultVC.requestCode = code
         resultVC.imgType = imgType
@@ -127,18 +126,18 @@ class LotteRentCertificateViewController : UIViewController,
         self.navigationController?.push(viewController: resultVC)
     }
     
-    func onConfirmBtnPressed(code : Int){
-        print("okbtn")
+    func onConfirmBtnPressed(code: Int) {
         switch (code) {
-        case RESULT_CONFIRM : //
+        case RESULT_CONFIRM : // check Payment
             checkPaymentCardStatus();
             break
         case RESILT_NOT_CERTIFIED :
+            // do nothing
             break
-        case RESULT_PAY_ERROR:
+        case RESULT_PAY_ERROR : // Go Main
             self.navigationController?.popToRootViewController(animated: true)
             break
-        case RESULT_DONE :
+        case RESULT_DONE : // Go Back
             self.navigationController?.pop()
             break
         default :
@@ -146,7 +145,7 @@ class LotteRentCertificateViewController : UIViewController,
         }
     }
     
-    private func activateMember(){
+    private func activateMember() {
         Server.activateLotteRentaCar(carNo: self.carNo, completion: { [self](isSuccess, value) in
             if isSuccess {
                 if self.payCode == PaymentCard.PAY_FINE_USER {
@@ -163,18 +162,17 @@ class LotteRentCertificateViewController : UIViewController,
     }
     
     func moveToMyPayRegist() {
-        let mainStoryboard = UIStoryboard(name : "Main", bundle: nil)
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let payRegistVC = mainStoryboard.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
         payRegistVC.myPayRegisterViewDelegate = self
         navigationController?.push(viewController: payRegistVC)
     }
     
-    func finishRegisterResult(json: JSON){
+    func finishRegisterResult(json: JSON) {
         payRegistResult = json
     }
     
     private func checkPaymentCardStatus() {
-        print("checkPaymentCardStatus")
         Server.getPayRegisterStatus { [self] (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)

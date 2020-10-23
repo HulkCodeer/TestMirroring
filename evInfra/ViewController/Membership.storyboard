@@ -668,6 +668,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Jue-fb-aM8">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <color key="color" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="agM-yy-3Wj">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
@@ -868,14 +872,17 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="agM-yy-3Wj" firstAttribute="leading" secondItem="Wfu-xY-ARH" secondAttribute="leading" id="9T0-C2-P3S"/>
+                            <constraint firstItem="Jue-fb-aM8" firstAttribute="centerY" secondItem="Wfu-xY-ARH" secondAttribute="centerY" id="Fzc-nf-x6u"/>
                             <constraint firstItem="agM-yy-3Wj" firstAttribute="top" secondItem="Wfu-xY-ARH" secondAttribute="top" id="RXn-rR-r80"/>
                             <constraint firstItem="Wfu-xY-ARH" firstAttribute="bottom" secondItem="agM-yy-3Wj" secondAttribute="bottom" id="YZG-CK-v10"/>
                             <constraint firstItem="Wfu-xY-ARH" firstAttribute="trailing" secondItem="agM-yy-3Wj" secondAttribute="trailing" id="dZL-CB-ecX"/>
+                            <constraint firstItem="Jue-fb-aM8" firstAttribute="centerX" secondItem="Wfu-xY-ARH" secondAttribute="centerX" id="hTb-xJ-nUs"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="bottomOfScrollView" destination="m4H-qf-Smx" id="4Wj-mo-bOU"/>
                         <outlet property="btnModify" destination="KiH-TM-X9U" id="Ajr-UX-DFc"/>
+                        <outlet property="indicator" destination="Jue-fb-aM8" id="5Bp-8X-Pqz"/>
                         <outlet property="lbCardNo" destination="W6S-gQ-ZLE" id="51v-63-lZD"/>
                         <outlet property="lbCardStatus" destination="Spr-Ig-m9f" id="VNI-tW-614"/>
                         <outlet property="scrollView" destination="agM-yy-3Wj" id="gcH-7P-sEk"/>

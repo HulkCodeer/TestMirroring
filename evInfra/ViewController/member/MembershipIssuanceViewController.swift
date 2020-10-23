@@ -14,7 +14,7 @@ import M13Checkbox
 
 class MembershipIssuanceViewController: UIViewController,
     MembershipTermViewDelegate,
-    SearchAddressViewDelegate, MyPayRegisterViewDelegate   {
+    SearchAddressViewDelegate, MyPayRegisterViewDelegate {
     
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var viewSeperator: UIView!
@@ -84,8 +84,12 @@ class MembershipIssuanceViewController: UIViewController,
         }
     }
     
-    func initView(){
-        viewSeperator.backgroundColor = #colorLiteral(red: 0.8548289537, green: 0.8549727798, blue: 0.8548099399, alpha: 1)
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func initView() {
+        viewSeperator.backgroundColor = UIColor(hex: "#B2B2B2")
         
         let checkboxColor = UIColor(rgb: 0x15435C)
         checkAgree.boxType = .square

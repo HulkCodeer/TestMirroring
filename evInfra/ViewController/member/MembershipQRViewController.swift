@@ -54,7 +54,6 @@ class MembershipQRViewController: UIViewController,
     
     func prepareView() {
         self.scannerViewLayer.frame.size.width = self.view.frame.width
-        
     }
     
     func showInvalidQrResultDialog() {
@@ -79,14 +78,11 @@ class MembershipQRViewController: UIViewController,
     }
     
     func onConfirmBtnPressed(code : Int){
-        print("okbtn")
         self.navigationController?.pop()
     }
-    
 }
 
 extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
-    
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         if metadataObjects.count == 0 {
             qrCodeFrameView?.frame = CGRect.zero
@@ -154,47 +150,85 @@ extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
     }
     
     func onResultScan(scanInfo: String?) {
-        var carNo = ""
-        var cardNo = ""
         if let resultQR = scanInfo {
-            print("result : " + resultQR)
             if resultQR.count > 0 {
-                let qrJson = JSON.init(parseJSON: resultQR)
-                carNo = qrJson["qrCarNo"].stringValue
-                cardNo = qrJson["qrCardNo"].stringValue
+                var carNo : String = ""
+                var cardNo : String = ""
+                let resultArr = resultQR.components(separatedBy: ",")
+                if resultArr.count == 2 {
+                    carNo = getCarNo(data: resultArr[0])
+                    cardNo = getCardNo(data: resultArr[1])
+                }
+                if !carNo.isEmpty && !cardNo.isEmpty {
+                    let validator = VaildatorFactory.validatorFor(type: ValidatorType.carnumber)
+                    do {
+                        let carValidNum = try validator.validated(carNo)
+                        Server.registerSKMembershipCard(carNo : carValidNum, cardNo : cardNo, completion: { (isSuccess, value) in
+                            if isSuccess {
+                                let json = JSON(value)
+                                switch json["code"].intValue {
+                                case 1000:
+                                    self.showResultView(code : 0, imgType : "SUCCESS", retry : false, callBtn : false, msg : "정보가 확인되었습니다.")
+                                    break
+                                case 1104 :
+                                    self.showResultView(code : 0, imgType : "QUESTION", retry : true, callBtn : true, msg : "기존에 등록된 회원 정보입니다.\nsk renter 멤버쉽 카드는\n기기당 한 계정만 등록 가능합니다.\n분실 및 재발급에 대한 문의는\n아래로 전화 주시기 바랍니다.")
+                                    break
+                                case 1105 :
+                                    self.showResultView(code : 0, imgType : "ERROR", retry : true, callBtn : true, msg : "일치하는 정보가 없습니다.\n재스캔 이후에도 조회되지 않는 경우,\n아래 번호롤 전화주시기 바랍니다.")
+                                    break
+                                default :
+                                    break
+                                }
+                            } else {
+                                
+                            }
+                        })
+                    } catch {
+                        print("validation error")
+                        self.showInvalidQrResultDialog()
+                    }
+                } else {
+                    self.showInvalidQrResultDialog()
+                }
             }
         }
-        if !carNo.isEmpty && !cardNo.isEmpty {
+    }
+
+    func getCarNo(data: String) -> String {
+        var carNo = ""
+        if !data.isEmpty {
+            let carNumber = data.components(separatedBy: "-")
+            var useSymbol = carNumber[1]
+            switch (useSymbol) {
+                case "01":
+                    useSymbol = "하"
+                break
+                case "02":
+                    useSymbol = "허"
+                break
+                case "03":
+                    useSymbol = "호"
+                break
+                default :
+                    break
+            }
+
+            let tempCarNo = carNumber[0] + useSymbol + carNumber[2]
             let validator = VaildatorFactory.validatorFor(type: ValidatorType.carnumber)
             do {
-                let carValidNum = try validator.validated(carNo)
-                Server.registerSKMembershipCard(carNo : carValidNum, cardNo : cardNo, completion: { (isSuccess, value) in
-                    if isSuccess {
-                        let json = JSON(value)
-                        print(json)
-                        switch json["code"].intValue {
-                        case 1000:
-                            self.showResultView(code : 0, imgType : "SUCCESS", retry : false, callBtn : false, msg : "정보가 확인되었습니다.")
-                            break
-                        case 1104 :
-                            self.showResultView(code : 0, imgType : "QUESTION", retry : true, callBtn : true, msg : "기존에 등록된 회원 정보입니다.\nsk renter 멤버쉽 카드는\n기기당 한 계정만 등록 가능합니다.\n분실 및 재발급에 대한 문의는\n아래로 전화 주시기 바랍니다.")
-                            break
-                        case 1105 :
-                            self.showResultView(code : 0, imgType : "ERROR", retry : true, callBtn : true, msg : "일치하는 정보가 없습니다.\n재스캔 이후에도 조회되지 않는 경우,\n아래 번호롤 전화주시기 바랍니다.")
-                            break
-                        default :
-                            break
-                        }
-                    } else {
-                        
-                    }
-                })
+                carNo = try validator.validated(tempCarNo)
             } catch {
                 print("validation error")
                 self.showInvalidQrResultDialog()
             }
-        } else {
-            self.showInvalidQrResultDialog()
         }
+        return carNo;
+    }
+    
+    func getCardNo(data: String) -> String {
+        if !data.isEmpty, data.count == 8, StringUtils.isNumber(data) {
+            return data
+        }
+        return ""
     }
 }

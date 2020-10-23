@@ -83,24 +83,20 @@ class MembershipCardViewController: UIViewController,
     }
     
     func showMembershipIssuanceView() {
-        print("show evinfra card issuance")
         let mbsIssueVC = storyboard?.instantiateViewController(withIdentifier: "MembershipIssuanceViewController") as! MembershipIssuanceViewController
         navigationController?.push(viewController: mbsIssueVC)
     }
     func showSKMemberQRView() {
-        print("show skrent card issuance")
         let mbsQRVC = storyboard?.instantiateViewController(withIdentifier: "MembershipQRViewController") as! MembershipQRViewController
         navigationController?.push(viewController: mbsQRVC)
     }
     
     func showLotteRentCertificateView() {
-        print("show lotte card issuance")
         let lotteVC = storyboard?.instantiateViewController(withIdentifier: "LotteRentCertificateViewController") as! LotteRentCertificateViewController
         navigationController?.push(viewController: lotteVC)
     }
     
     func addNewPartnership() {
-        print("show new card issuance")
         let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         self.partnershipJoinView = PartnershipJoinView.init(frame: frame)
         if let pjView = self.partnershipJoinView {
@@ -112,7 +108,6 @@ class MembershipCardViewController: UIViewController,
     }
     
     func showEvinfraMembershipInfo(info : MemberPartnershipInfo) {
-        print("show evinfra card info " + info.cardNo!)
         let mbsInfoVC = storyboard?.instantiateViewController(withIdentifier: "MembershipInfoViewController") as! MembershipInfoViewController
         mbsInfoVC.setCardInfo(info : info)
         navigationController?.push(viewController: mbsInfoVC)

@@ -8,7 +8,7 @@
 
 import UIKit
 import SwiftyJSON
-class PartnershipJoinView : UIView{
+class PartnershipJoinView : UIView {
     @IBOutlet var lbEvTitle: UILabel!
     @IBOutlet var lbPartnerShipTitle: UILabel!
     @IBOutlet weak var viewEvinfraJoin: UIView!
@@ -34,7 +34,7 @@ class PartnershipJoinView : UIView{
         initView()
     }
     
-    private func initView(){
+    private func initView() {
         let ev_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickEvInfra))
         viewEvinfraJoin.addGestureRecognizer(ev_touch)
         viewEvinfraJoin.layer.cornerRadius = 10
@@ -48,8 +48,8 @@ class PartnershipJoinView : UIView{
         viewLotteJoin.layer.cornerRadius = 10
     }
     
-    func showInfoView(infoList : [MemberPartnershipInfo]){
-        var partnershipCnt = 1
+    func showInfoView(infoList : [MemberPartnershipInfo]) {
+        var partnershipCnt = infoList.count - 1
         for item in infoList {
             switch item.clientId {
             case 1 : // evinfra
@@ -57,8 +57,8 @@ class PartnershipJoinView : UIView{
                 viewEvinfraJoin.isHidden = true
                 break
             case 23 : //sk rent
-//                viewSkrentJoin.isHidden = true
-//                partnershipCnt -= 1
+                viewSkrentJoin.isHidden = true
+                partnershipCnt -= 1
                 break
             case 24 : //lotte rent
                 viewLotteJoin.isHidden = true
@@ -68,22 +68,22 @@ class PartnershipJoinView : UIView{
                 print("out of index")
             }
         }
-        if(partnershipCnt <= 0){
+        if partnershipCnt <= 0 {
             lbPartnerShipTitle.isHidden = true
         }
     }
     
-    @objc func onClickEvInfra(sender: UITapGestureRecognizer){
+    @objc func onClickEvInfra(sender: UITapGestureRecognizer) {
         print("evinfra btn pressed")
         self.delegate?.showMembershipIssuanceView()
     }
     
-    @objc func onClickSKRent(sender: UITapGestureRecognizer){
+    @objc func onClickSKRent(sender: UITapGestureRecognizer) {
         print("skr btn pressed")
         self.delegate?.showSKMemberQRView()
     }
     
-    @objc func onClickLotteRent(sender: UITapGestureRecognizer){
+    @objc func onClickLotteRent(sender: UITapGestureRecognizer) {
         print("lotte btn pressed")
         self.delegate?.showLotteRentCertificateView()
     }

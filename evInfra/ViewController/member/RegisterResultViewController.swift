@@ -87,7 +87,7 @@ class RegisterResultViewController : UIViewController {
         self.navigationController?.pop()
     }
     
-    func initView(){
+    func initView() {
         btnComplete.setDefaultBackground(cornerRadius: 20)
         btnRetry.layer.cornerRadius = 10
         btnGoMain.setDefaultBackground(cornerRadius: 20)
@@ -97,8 +97,7 @@ class RegisterResultViewController : UIViewController {
         imgCallCenter.addGestureRecognizer(callBtnTouch)
     }
     
-    @objc func onClickCallBtn(sender: UITapGestureRecognizer){
-        print("call button clicked")
+    @objc func onClickCallBtn(sender: UITapGestureRecognizer) {
         guard let number = URL(string : "tel://" + "070-8633-9009") else {
             return
         }

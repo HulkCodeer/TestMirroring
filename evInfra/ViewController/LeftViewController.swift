@@ -72,7 +72,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var sideSectionArrays = [["마이페이지", "PAY"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["설정"]]
     var sideMenuArrays = [[["개인정보 관리", "내가쓴글 보기", "충전소 제보내역"],
-                           ["결제카드 관리", "회원・제휴 관리", "충전이력 조회", "포인트 조회"]],
+                           ["결제카드 관리", "회원카드 관리", "충전이력 조회", "포인트 조회"]],
                           [["EV Infra 공지", "자유 게시판", "충전소 게시판"],
                            ["GS 칼텍스", "제주전기자동차서비스", "에스트래픽"]],
                           [["이벤트", "내 쿠폰함"]],
