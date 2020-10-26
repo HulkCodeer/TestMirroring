@@ -13,13 +13,13 @@
 		0067D593252C491B00D97146 /* PartnershipListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0067D592252C491B00D97146 /* PartnershipListView.xib */; };
 		0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067D595252C492A00D97146 /* PartnershipListView.swift */; };
 		0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */; };
-		00898A6825396ACB00E6FBA8 /* intro_skr_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 00898A6725396ACB00E6FBA8 /* intro_skr_bg.jpg */; };
 		00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */; };
 		00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */; };
 		00C75C46252ED4A000387559 /* LotteRentCertificateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C45252ED4A000387559 /* LotteRentCertificateViewController.swift */; };
 		00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */; };
 		00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C55252EF40100387559 /* HSUnderLineTextField.swift */; };
 		00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */; };
+		00D03A042546878000DA9F2F /* intro_skr_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 00D03A032546878000DA9F2F /* intro_skr_bg.jpg */; };
 		425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5AD2519DA0B0089E87D /* OpenGLES.framework */; };
 		425EE5B02519DA410089E87D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5AF2519DA410089E87D /* CoreLocation.framework */; };
 		425EE5B22519DA520089E87D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5B12519DA520089E87D /* QuartzCore.framework */; };
@@ -301,13 +301,13 @@
 		0067D592252C491B00D97146 /* PartnershipListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartnershipListView.xib; sourceTree = "<group>"; };
 		0067D595252C492A00D97146 /* PartnershipListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnershipListView.swift; sourceTree = "<group>"; };
 		0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceViewController.swift; sourceTree = "<group>"; };
-		00898A6725396ACB00E6FBA8 /* intro_skr_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = intro_skr_bg.jpg; path = ../../../Documents/resources/intro_skr_bg.jpg; sourceTree = "<group>"; };
 		00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnershipJoinView.swift; sourceTree = "<group>"; };
 		00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartnershipJoinView.xib; sourceTree = "<group>"; };
 		00C75C45252ED4A000387559 /* LotteRentCertificateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotteRentCertificateViewController.swift; sourceTree = "<group>"; };
 		00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResultViewController.swift; sourceTree = "<group>"; };
 		00C75C55252EF40100387559 /* HSUnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSUnderLineTextField.swift; sourceTree = "<group>"; };
 		00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberPartnershipInfo.swift; sourceTree = "<group>"; };
+		00D03A032546878000DA9F2F /* intro_skr_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = intro_skr_bg.jpg; path = "../../../evinfra_android/app/src/main/res/drawable-xhdpi/intro_skr_bg.jpg"; sourceTree = "<group>"; };
 		0BE09DF43E8F5A12E923D6B5 /* Pods-evInfra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra/Pods-evInfra.release.xcconfig"; sourceTree = "<group>"; };
 		425EE5AD2519DA0B0089E87D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		425EE5AF2519DA410089E87D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -775,7 +775,7 @@
 				7357594120916A36008181E9 /* kia_soul.jpg */,
 				7357593F20916A34008181E9 /* leaf.jpg */,
 				736BCE86205A892E0052C9ED /* intro_bg.jpg */,
-				00898A6725396ACB00E6FBA8 /* intro_skr_bg.jpg */,
+				00D03A032546878000DA9F2F /* intro_skr_bg.jpg */,
 				73A7B3B1204E3590002E975F /* bubble_go.png */,
 				73A7B3B4204E3590002E975F /* bubble_info.png */,
 				73A7B3A7204E3590002E975F /* delete_normal.png */,
@@ -1356,7 +1356,7 @@
 				73EF8B73203C85CC00D04494 /* mapbg_tlogo.png in Resources */,
 				73C31C0920A2BB04005B6C53 /* charger_acsingle.jpg in Resources */,
 				DB5C4EDD23619F5F0090139E /* AdvertisingDialog.xib in Resources */,
-				00898A6825396ACB00E6FBA8 /* intro_skr_bg.jpg in Resources */,
+				00D03A042546878000DA9F2F /* intro_skr_bg.jpg in Resources */,
 				73A7B414204E3595002E975F /* expand_pressed.png in Resources */,
 				736BCE87205A892E0052C9ED /* intro_bg.jpg in Resources */,
 				73EF8B70203C85CC00D04494 /* HeadingAngleSmall@2x.png in Resources */,
