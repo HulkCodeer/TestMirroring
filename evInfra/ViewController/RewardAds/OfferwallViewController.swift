@@ -32,15 +32,15 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     @IBOutlet var noticBtnImg: UIImageView!
     
     @IBOutlet var expandInfoLb: UILabel!
-    @IBOutlet var expandHowToLb: UILabel!
+//    @IBOutlet var expandHowToLb: UILabel!
     @IBOutlet var expandNoticeLb: UILabel!
-    
     
     @IBOutlet var infoViewHeight: NSLayoutConstraint!
     @IBOutlet var howToHeight: NSLayoutConstraint!
     @IBOutlet var noticeHeight: NSLayoutConstraint!
     
     @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var howToStackView: UIStackView!
     
     private let appID = "ca-app-pub-4857867142176465~5053865371";   // admob app id
     private let placeID = "ca-app-pub-4857867142176465/5258173998"; // admob reward id
@@ -93,6 +93,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         
         setExpandViewConstant()
         prepareExpandView()
+        prepareStackView()
     }
     
     func setExpandViewConstant() {
@@ -115,13 +116,68 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         // view setText
         let info =
             "Ev Infra의 운영사인 (주)소프트베리에서 따온 이름으로, \n사용자 여러분께 충전의 즐거움을 만족시켜 드릴 수 있도록 \n사용되는 포인트 단위를 말합니다. \n앱 내 동영상 광고, 또는 충전 시 \n적립(한전운영 충전기에 한함)가능하며 \n사용도 바로 하실 수 있습니다."
-        let howTo =
-            "1) 충전 진행화면 하단의 '베리 사용하기' 버튼을 클릭"
         let notice =
             "1) 이용 가능한 충전소 - 한전, GS칼텍스 \n위의 운영기관에서 운영중인 충전소에서만 \n베리 사용이 가능합니다.\n2) 베리는 충전 하는 중에 사용해야 합니다. (충전 이전 이나 충전 후 사용 불가)\n3) 사용하신 베리의 환불은 불가합니다. \n4) 충전중 베리사용시 최종 충전금액에서 사용하신 베리만큼 차감 후 결제됩니다. \n5) 기타 문의사항은 Ev Infra 고객센터 070-8633-9009로 문의주시기 바랍니다."
         self.expandInfoLb.text = info
-        self.expandHowToLb.text = howTo
         self.expandNoticeLb.text = notice
+    }
+    
+    func prepareStackView() {
+        // prepare expandView(howTo_stackView "베리 사용방법")
+        // Lb)
+        let howToLb = UILabel()
+        howToLb.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
+        howToLb.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        howToLb.text = "1) 충전 진행화면 하단의 '베리 사용하기' 버튼을 클릭"
+        
+        // Image) 340 * 472
+        let howToImgView1 = UIImageView()
+        howToImgView1.heightAnchor.constraint(equalToConstant: 340).isActive = true
+        howToImgView1.widthAnchor.constraint(equalToConstant: 472).isActive = true
+        howToImgView1.image = UIImage(named: "howtouse_point")
+        
+        // Lb)
+        let howToLb1 = UILabel()
+        howToLb1.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
+        howToLb1.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        howToLb1.text = "2) 사용하실 베리를 작성"
+        
+        // Image) 340 * 472
+        let howToImgView2 = UIImageView()
+        howToImgView2.heightAnchor.constraint(equalToConstant: 340).isActive = true
+        howToImgView2.widthAnchor.constraint(equalToConstant: 472).isActive = true
+        howToImgView2.image = UIImage(named: "howtouse_point_1")
+        
+        // Lb)
+        let howToLb2 = UILabel()
+        howToLb2.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
+        howToLb2.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        howToLb2.text = "3) 팝업창의 베리사용하기 버튼을 누르면 사용 완료!"
+        
+        // Image) 340 * 472
+        let howToImgView3 = UIImageView()
+        howToImgView3.heightAnchor.constraint(equalToConstant: 340).isActive = true
+        howToImgView3.widthAnchor.constraint(equalToConstant: 472).isActive = true
+        howToImgView3.image = UIImage(named: "howtouse_point_2")
+        
+        // Lb)
+        let howToLb3 = UILabel()
+        howToLb3.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
+        howToLb3.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        howToLb3.text = "4) 이후 베리와 관련된 내역은 메인메뉴 > 마이페이지 \n> PAY > 베리 조회에서 확인하실 수 있습니다. "
+        howToLb3.numberOfLines = 0
+        
+        // for constant test
+        self.howToHeight.constant = 1516
+        
+        howToStackView.addArrangedSubview(howToLb)
+        howToStackView.addArrangedSubview(howToImgView1)
+        howToStackView.addArrangedSubview(howToLb1)
+        howToStackView.addArrangedSubview(howToImgView2)
+        howToStackView.addArrangedSubview(howToLb2)
+        howToStackView.addArrangedSubview(howToImgView3)
+        howToStackView.addArrangedSubview(howToLb3)
+        howToStackView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     @objc func onClickInfoExpand(sender: UITapGestureRecognizer) {
