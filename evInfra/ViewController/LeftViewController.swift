@@ -267,7 +267,8 @@ extension LeftViewController {
                     navigationController?.push(viewController: myPayInfoVC)
             
                 case SUB_MENU_MY_EVCARD_INFO: // 회원카드 관리
-                    let mbscdVC = storyboard?.instantiateViewController(withIdentifier: "MembershipCardViewController") as! MembershipCardViewController
+                    let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
+                    let mbscdVC = mbsStoryboard.instantiateViewController(withIdentifier: "MembershipCardViewController") as! MembershipCardViewController
                     navigationController?.push(viewController: mbscdVC)
                     break
 

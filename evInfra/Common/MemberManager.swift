@@ -15,6 +15,9 @@ class MemberManager {
     public static let MB_LEVEL_GUARD = 2;
     public static let MB_LEVEL_NORMAL = 3;
     
+    public static let RENT_CLIENT_SKR = 23;
+    public static let RENT_CLIENT_LOTTE = 24;
+    
     static func getMbId() -> Int {
         return UserDefault().readInt(key: UserDefault.Key.MB_ID)
     }
@@ -29,6 +32,23 @@ class MemberManager {
     
     static func getLoginType() -> Login.LoginType {
         return Login.LoginType(rawValue: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)) ?? .kakao
+    }
+    
+    static func isPartnershipClient(clientId : Int) -> Bool{
+        let list = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
+        return list.contains(clientId)
+    }
+    
+    static func setSKRentConfig(){
+        UserDefault().addItemToIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT, value: RENT_CLIENT_SKR)
+        UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: true)
+    }
+    
+    func savePartnershipClientId(data :[JSON]){
+        UserDefault().saveIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT, value: data)
+        if data.contains(JSON(MemberManager.RENT_CLIENT_SKR)){
+            UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: true)
+        }
     }
     
     // 로그인 상태 체크
@@ -60,6 +80,7 @@ class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_REGION, value: data["region"].stringValue)
             userDefault.saveInt(key: UserDefault.Key.MB_CAR_ID, value: data["car_id"].intValue)
             userDefault.saveInt(key: UserDefault.Key.MB_CAR_TYPE, value: data["car_type"].intValue)
+            savePartnershipClientId(data : data["rent_client"].arrayValue)
         }
     }
     
@@ -72,6 +93,8 @@ class MemberManager {
         userDefault.saveString(key: UserDefault.Key.MB_REGION, value: "")
         userDefault.saveInt(key: UserDefault.Key.MB_CAR_ID, value: 0)
         userDefault.saveInt(key: UserDefault.Key.MB_CAR_TYPE, value: Const.CHARGER_TYPE_ETC)
+        userDefault.saveIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT, value: [JSON]())
+        UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: false)
     }
     
     func showLoginAlert(vc: UIViewController, completion: ((Bool) -> ())? = nil) {
