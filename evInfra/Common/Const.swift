@@ -20,14 +20,14 @@ public class Const {
      * product
      */
 //    public static let EV_SERVER_IP = "https://app.soft-berry.co.kr" // company server
-    public static let EV_PAY_SERVER = "https://api.soft-berry.co.kr"
+//    public static let EV_PAY_SERVER = "https://api.soft-berry.co.kr"
 
     /*
      * develop
      */
     public static let EV_SERVER_IP = "http://13.124.50.142:2025"  // homepage server
 //    public static let EV_PAY_SERVER = "http://dev.soft-berry.co.kr"
-//    public static let EV_PAY_SERVER = "http://spark.soft-berry.co.kr"
+    public static let EV_PAY_SERVER = "http://spark.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://jspark.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://michael.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://sjdev.soft-berry.co.kr"
@@ -93,15 +93,14 @@ public class Const {
     public static let CHARGER_STATE_UNKNOWN          = 9    // 기타(상태미확인)
 
     // 제보하기 호출자
-    public static let REPORT_CHARGER_FROM_MAIN   = 0
     public static let REPORT_CHARGER_FROM_DETAIL = 1
     public static let REPORT_CHARGER_FROM_LIST   = 2
     
     // 제보하기 유형
-    public static let REPORT_CHARGER_TYPE_ETC = 0               // 충전소 제보 타입
-    public static let REPORT_CHARGER_TYPE_USER_ADD = 1          // 누락 충전소 제보
-    public static let REPORT_CHARGER_TYPE_USER_ADD_MOD = 2      // 제보한 충전소 정보 수정
-    public static let REPORT_CHARGER_TYPE_USER_ADD_DELETE = 3   // 제보한 충전소 삭제
+//    public static let REPORT_CHARGER_TYPE_ETC = 0               // 충전소 제보 타입
+//    public static let REPORT_CHARGER_TYPE_USER_ADD = 1          // 누락 충전소 제보
+//    public static let REPORT_CHARGER_TYPE_USER_ADD_MOD = 2      // 제보한 충전소 정보 수정
+//    public static let REPORT_CHARGER_TYPE_USER_ADD_DELETE = 3   // 제보한 충전소 삭제
     public static let REPORT_CHARGER_TYPE_USER_MOD = 4          // 기존 충전소 정보 수정
     public static let REPORT_CHARGER_TYPE_USER_MOD_DELETE = 5   // 기존 충전소 정보 수정 요청 취소
     

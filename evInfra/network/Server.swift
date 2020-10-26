@@ -615,28 +615,6 @@ class Server {
             .responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // 제보하기 - 기존 충전소 정보에 없는 충전소 추가 요청
-    static func addReport(info: ReportData.ReportChargeInfo, typeId: Int, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
-            "pkey": info.pkey!,
-            "type_id": typeId,
-            "lat": info.lat!,
-            "lon": info.lon!,
-            "snm": info.snm!,
-            "adr": info.adr!,
-            "utime": info.utime!,
-            "tel": info.tel!,
-            "pay": info.pay!,
-            "company_id": info.companyID!,
-            "clist": info.clist
-            ]
-        
-        Alamofire.request(Const.EV_SERVER_IP + "/report/addReportCharger.do",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
     // 제보하기 - 기존에 있는 충전소의 위치정보 수정 요청
     static func modifyReport(info: ReportData.ReportChargeInfo, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
