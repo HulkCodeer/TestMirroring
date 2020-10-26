@@ -31,6 +31,11 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     @IBOutlet var howToBtnImg: UIImageView!
     @IBOutlet var noticBtnImg: UIImageView!
     
+    @IBOutlet var expandInfoLb: UILabel!
+    @IBOutlet var expandHowToLb: UILabel!
+    @IBOutlet var expandNoticeLb: UILabel!
+    
+    
     @IBOutlet var infoViewHeight: NSLayoutConstraint!
     @IBOutlet var howToHeight: NSLayoutConstraint!
     @IBOutlet var noticeHeight: NSLayoutConstraint!
@@ -86,6 +91,20 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
 
         lbMyBerryTitle.roundCorners(.allCorners, radius: 9)
         
+        setExpandViewConstant()
+        prepareExpandView()
+    }
+    
+    func setExpandViewConstant() {
+        self.expandInfoHeight.constant = scrollView.expandableView(view: self.expandInfoView, btnHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
+        
+        self.expandHowToHeight.constant = scrollView.expandableView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+        
+        self.expandNoticeHeight.constant = scrollView.expandableView(view: self.expandNoticeView, btnHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
+    }
+    
+    func prepareExpandView() {
+        // view clickEvent
         let infoGesture = UITapGestureRecognizer(target: self, action: #selector(onClickInfoExpand(sender:)))
         let howToGesture = UITapGestureRecognizer(target: self, action: #selector(onClickHowToExpand(sender:)))
         let noticeGesture = UITapGestureRecognizer(target: self, action: #selector(onClickNoticeExpand(sender:)))
@@ -93,11 +112,16 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         self.expandHowToBtn.addGestureRecognizer(howToGesture)
         self.expandNoticeBtn.addGestureRecognizer(noticeGesture)
         
-        self.expandInfoHeight.constant = scrollView.expandableView(view: self.expandInfoView, btnHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
-        
-        self.expandHowToHeight.constant = scrollView.expandableView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
-        
-        self.expandNoticeHeight.constant = scrollView.expandableView(view: self.expandNoticeView, btnHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
+        // view setText
+        let info =
+            "Ev Infra의 운영사인 (주)소프트베리에서 따온 이름으로, \n사용자 여러분께 충전의 즐거움을 만족시켜 드릴 수 있도록 \n사용되는 포인트 단위를 말합니다. \n앱 내 동영상 광고, 또는 충전 시 \n적립(한전운영 충전기에 한함)가능하며 \n사용도 바로 하실 수 있습니다."
+        let howTo =
+            "1) 충전 진행화면 하단의 '베리 사용하기' 버튼을 클릭"
+        let notice =
+            "1) 이용 가능한 충전소 - 한전, GS칼텍스 \n위의 운영기관에서 운영중인 충전소에서만 \n베리 사용이 가능합니다.\n2) 베리는 충전 하는 중에 사용해야 합니다. (충전 이전 이나 충전 후 사용 불가)\n3) 사용하신 베리의 환불은 불가합니다. \n4) 충전중 베리사용시 최종 충전금액에서 사용하신 베리만큼 차감 후 결제됩니다. \n5) 기타 문의사항은 Ev Infra 고객센터 070-8633-9009로 문의주시기 바랍니다."
+        self.expandInfoLb.text = info
+        self.expandHowToLb.text = howTo
+        self.expandNoticeLb.text = notice
     }
     
     @objc func onClickInfoExpand(sender: UITapGestureRecognizer) {
@@ -106,6 +130,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
             self.willHide = true
             self.viewName = "info"
             sumHeight -= self.expandInfoHeight.constant
+            
             let bottomOffset = CGPoint(x: 0, y: sumHeight)
             if self.expandNoticeView.isHidden == true && self.expandHowToView.isHidden == true && self.expandInfoView.isHidden == true {
                 sumHeight = 0
@@ -116,7 +141,6 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         }else{
             self.willHide = false
             self.expandInfoHeight.constant = scrollView.expandableView(view: self.expandInfoView, btnHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
-            
             // open
             sumHeight += self.expandInfoHeight.constant
             let bottomOffset = CGPoint(x: 0, y: sumHeight)
@@ -132,6 +156,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
             self.viewName = "howTo"
             // close
             sumHeight -= self.expandHowToHeight.constant
+            
             let bottomOffset = CGPoint(x: 0, y: sumHeight)
             if self.expandNoticeView.isHidden == true && self.expandHowToView.isHidden == true && self.expandInfoView.isHidden == true {
                 sumHeight = 0
@@ -142,7 +167,6 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         }else{
             self.willHide = false
             self.expandHowToHeight.constant = scrollView.expandableView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
-            
             // open
             sumHeight += self.expandHowToHeight.constant
             let bottomOffset = CGPoint(x: 0, y: sumHeight)
@@ -153,11 +177,12 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     }
     
     @objc func onClickNoticeExpand(sender: UITapGestureRecognizer){
+        var noticeSumHeight:CGFloat = 0
         if !self.expandNoticeView.isHidden{
             self.willHide = true
             self.viewName = "notice"
             // close
-            sumHeight -= self.expandNoticeHeight.constant*2
+            sumHeight -= self.expandNoticeHeight.constant
             let bottomOffset = CGPoint(x: 0, y: sumHeight)
             if self.expandNoticeView.isHidden == true && self.expandHowToView.isHidden == true && self.expandInfoView.isHidden == true {
                 sumHeight = 0
@@ -165,12 +190,18 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
             }else{
                 scrollView.setContentOffset(bottomOffset, animated: true)
             }
+            sumHeight -= noticeSumHeight
         }else{
             self.willHide = false
             self.expandNoticeHeight.constant = scrollView.expandableView(view: self.expandNoticeView, btnHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
             
             // open
-            sumHeight += self.expandNoticeHeight.constant*2
+            if sumHeight <= 0 {
+                noticeSumHeight += self.expandNoticeBtn.layer.height+16
+            }
+            noticeSumHeight += self.expandNoticeHeight.constant
+            sumHeight += noticeSumHeight
+            
             let bottomOffset = CGPoint(x: 0, y: sumHeight)
             if bottomOffset.y > 0 {
                 scrollView.setContentOffset(bottomOffset, animated: true)
@@ -311,9 +342,11 @@ extension OfferwallViewController: UIScrollViewDelegate{
             switch self.viewName {
             case "info":
                 self.expandInfoHeight.constant = scrollView.expandableView(view: self.expandInfoView, btnHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
+//                self.infoViewHeight.constant = scrollView.expandableView(view: self.expandInfoView, btnHeight: self.infoViewHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
                 break
             case "howTo":
                 self.expandHowToHeight.constant = scrollView.expandableView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+//                self.infoViewHeight.constant = scrollView.expandableView(view: self.expandInfoView, btnHeight: self.howToHeight.constant, viewHeight: self.howToHeight.constant, imgView: infoBtnImg)
                 break
             case "notice":
                 self.expandNoticeHeight.constant = scrollView.expandableView(view: self.expandNoticeView, btnHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
