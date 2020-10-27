@@ -325,8 +325,8 @@ extension NSLayoutConstraint {
         layer.addSublayer(borderLayer)
     }
     
-    // expandable view
-    func expandableView(view: UIView, btnHeight:CGFloat, viewHeight:CGFloat, imgView: UIImageView) -> CGFloat{
+    // Show/Hide view
+    func showOrHideView(view: UIView, btnHeight:CGFloat, viewHeight:CGFloat, imgView: UIImageView) -> CGFloat{
         var height = btnHeight
         if view.isHidden == true {
             height += viewHeight
