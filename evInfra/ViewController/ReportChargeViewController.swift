@@ -14,13 +14,13 @@ import DropDown
 
 class ReportChargeViewController: UIViewController {
     
-    var detailGetInfoDelegate:ReportChargeViewDelegate?
-    var reportCListGetInfoDelegate:ReportChargeViewDelegate?
-    var info = ReportData.ReportChargeInfo()
+    var delegate:ReportChargeViewDelegate? = nil
 
-    private var tMapView: TMapView? = nil
-    
+    var tMapView: TMapView? = nil
     var activeTextView: Any? = nil
+    
+    var charger: ChargerStationInfo? = nil
+    var info = ReportData.ReportChargeInfo()
     
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -61,8 +61,8 @@ class ReportChargeViewController: UIViewController {
         
         prepareActionBar()
         prepareCommonView()
-        
-        setVisableView(view: serverComIndicator, hidden: true)
+
+        requestReportData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -75,8 +75,10 @@ class ReportChargeViewController: UIViewController {
         super.viewDidDisappear(animated)
         
         removeObserver()
-        detailGetInfoDelegate?.getReportInfo()
-        reportCListGetInfoDelegate?.getReportInfo()
+        
+        if let delegate = self.delegate {
+            delegate.getReportInfo()
+        }
     }
 
     func prepareActionBar() {
@@ -95,7 +97,7 @@ class ReportChargeViewController: UIViewController {
         prepareMapView()
         prepareChargerView()
 
-        if info.type == Const.REPORT_CHARGER_TYPE_USER_MOD_DELETE {
+        if info.type_id == Const.REPORT_CHARGER_TYPE_USER_MOD_DELETE {
             deleteBtn.isEnabled = false
         }
         
@@ -141,14 +143,18 @@ class ReportChargeViewController: UIViewController {
         addressTextView.text = info.adr
         operationTextView.text = info.snm
         
-        if let cmId = info.companyID {
-            let companyName = ChargerManager.sharedInstance.getCompanyName(companyID: cmId)
-            operationBtn.setTitle(companyName, for: UIControlState.normal)
+        if let charger = self.charger {
+            operationBtn.setTitle(charger.mStationInfoDto?.mOperator, for: UIControlState.normal)
         }
     }
     
     @objc
     fileprivate func onClickBackBtn() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func cancelReport() {
+        Snackbar().show(message: "서버요청 중 오류가 발생하였습니다. 재시도 바랍니다.")
         dismiss(animated: true, completion: nil)
     }
     
@@ -184,7 +190,7 @@ class ReportChargeViewController: UIViewController {
     }
     
     func sendDeleteToServer() {
-        switch info.type {
+        switch info.type_id {
         case Const.REPORT_CHARGER_TYPE_USER_MOD:
             if info.status_id == Const.REPORT_CHARGER_STATUS_CONFIRM {
                 requestDeleteReport(typeID:Const.REPORT_CHARGER_TYPE_USER_MOD_DELETE)
@@ -238,46 +244,57 @@ class ReportChargeViewController: UIViewController {
             UIApplication.shared.endIgnoringInteractionEvents()
         }
     }
+    
+    func requestReportData() {
+        if let chargerId = self.info.charger_id {
+            if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
+                self.charger = charger
+                
+                indicatorControll(isStart: true)
+                Server.getReportInfo(chargerId: chargerId) { (isSuccess, value) in
 
-    func getCurrentReportInfo() {
-        indicatorControll(isStart: true)
-        
-        Server.getReportCurInfo(key: info.pkey!) { (isSuccess, value) in
-            self.indicatorControll(isStart: false)
-            if isSuccess {
-                let json = JSON(value)
-                if json["result_code"].exists() {
-                    self.info.pkey = 0
-                    print("GetReportInfo-result_code:" + json["result_code"].stringValue)
-                } else {
-                    self.info.pkey = json["pkey"].intValue
-                    self.info.lat = json["lat"].doubleValue
-                    self.info.lon = json["lon"].doubleValue
-                    self.info.type = json["type_id"].intValue
-                    self.info.status_id = json["status_id"].intValue
-                    self.info.adr = json["adr"].stringValue
-                    self.info.snm = json["snm"].stringValue
-                    self.info.chargerID = json["charger_id"].stringValue
-                    self.info.companyID = json["company_id"].stringValue
-                    self.info.utime = json["utime"].stringValue
-                    self.info.tel = json["tel"].stringValue
-                    self.info.pay = json["pay"].stringValue
-                    
-                    if let childList = json["clist"].arrayObject as? [Int] {
-                        self.info.clist = childList
+                    self.indicatorControll(isStart: false)
+                    if isSuccess {
+                        print(value)
+                        let json = JSON(value)
+                        if json["code"].intValue == 1000 { // 기존에 제보한 내역이 있음
+                            let report = json["report"]
+
+                            self.info.report_id = report["report_id"].intValue
+                            self.info.type_id = report["type_id"].intValue
+                            self.info.status_id = report["status_id"].intValue
+                            self.info.charger_id = report["charger_id"].stringValue
+                            self.info.snm = report["snm"].stringValue
+                            self.info.lat = report["lat"].doubleValue
+                            self.info.lon = report["lon"].doubleValue
+                            self.info.adr = report["adr"].stringValue
+                            self.info.adr_dtl = report["adr_dtl"].stringValue
+                        } else { // 처음 제보하는 충전소
+                            self.info.report_id = 0
+                            self.info.type_id = Const.REPORT_CHARGER_TYPE_USER_MOD
+                            self.info.status_id = Const.REPORT_CHARGER_STATUS_FINISH
+
+                            self.info.lat = charger.mStationInfoDto?.mLatitude
+                            self.info.lon = charger.mStationInfoDto?.mLongitude
+                            self.info.adr = charger.mStationInfoDto?.mAddress
+                            self.info.adr_dtl = charger.mStationInfoDto?.mAddressDetail
+                        }
+                        self.moveToLocation(lat: self.info.lat!, lon: self.info.lon!)
+                        self.prepareChargerView()
                     }
-                    self.prepareChargerView()
                 }
             } else {
-                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 제보하기 페이지 종료후 재시도 바랍니다.")
+                cancelReport()
             }
+        } else {
+            cancelReport()
         }
     }
     
     func requestDeleteReport(typeID: Int) {
         self.indicatorControll(isStart: true)
         
-        Server.deleteReport(key: info.pkey!, typeId: typeID) { (isSuccess, value) in
+        Server.deleteReport(key: info.report_id!, typeId: typeID) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if json["result_code"].exists() {
@@ -321,15 +338,15 @@ class ReportChargeViewController: UIViewController {
     }
     
     func printInfo() {
-        print("pkey: \(String(describing: info.pkey))")
+        print("pkey: \(String(describing: info.report_id))")
         print("from: \(String(describing: info.from))")
         print("adr: \(String(describing: info.adr))")
         print("lat: \(String(describing: info.lat))")
         print("lon: \(String(describing: info.lon))")
         print("snm: \(String(describing: info.snm))")
-        print("company id: \(String(describing: info.companyID))")
+        print("company id: \(String(describing: info.company_id))")
         print("std: \(String(describing: info.status_id))")
-        print("type: \(String(describing: info.type))")
+        print("type: \(String(describing: info.type_id))")
         print("utime: \(String(describing: info.utime))")
         print("pay: \(String(describing: info.pay))")
         print("tel: \(String(describing: info.tel))")

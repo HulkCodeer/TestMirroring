@@ -619,8 +619,8 @@ class Server {
     static func modifyReport(info: ReportData.ReportChargeInfo, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
-            "type_id": info.type!,
-            "charger_id": info.chargerID!,
+            "type_id": info.type_id!,
+            "charger_id": info.charger_id!,
             "lat": info.lat!,
             "lon": info.lon!,
             "snm": info.snm!,
@@ -652,21 +652,9 @@ class Server {
             "charger_id": chargerId
             ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/report/getReportInfo.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/report/info",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // 제보하기 - 상세 내역 가져오기
-    static func getReportCurInfo(key: Int, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
-            "pkey": key
-            ]
-        
-        Alamofire.request(Const.EV_SERVER_IP + "/report/getReportCurInfo.do",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
     // 제보하기 - 나의 제보 내역 리스트 가져오기

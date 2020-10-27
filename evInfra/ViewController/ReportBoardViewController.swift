@@ -97,20 +97,20 @@ class ReportBoardViewController: UIViewController {
 extension ReportBoardViewController : ReportChargeViewDelegate {
     func goToReportChargerPage(index:Int) {
         let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
-        reportChargeVC.reportCListGetInfoDelegate = self
+        reportChargeVC.delegate = self
         reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_LIST
-        reportChargeVC.info.pkey = self.rList[index].pkey
-        reportChargeVC.info.type = self.rList[index].type_id
+        reportChargeVC.info.report_id = self.rList[index].pkey
+        reportChargeVC.info.type_id = self.rList[index].type_id
         reportChargeVC.info.lat = self.rList[index].latitude
         reportChargeVC.info.lon = self.rList[index].longitude
         reportChargeVC.info.status_id = self.rList[index].status_id
         reportChargeVC.info.adr = self.rList[index].address
         reportChargeVC.info.snm = self.rList[index].station_name
-        reportChargeVC.info.chargerID = self.rList[index].charger_id
+        reportChargeVC.info.charger_id = self.rList[index].charger_id
         
         if let chargerId = self.rList[index].charger_id {
             if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId){
-                reportChargeVC.info.companyID = charger.mStationInfoDto?.mCompanyId
+                reportChargeVC.info.company_id = charger.mStationInfoDto?.mCompanyId
             }
         }
         

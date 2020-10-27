@@ -9,20 +9,22 @@
 import Foundation
 
 class ReportData {
+    
     struct ReportChargeInfo {
         var from: Int?
-        var pkey: Int? = 0
-        var type: Int?
+        var report_id: Int? = 0
+        var type_id: Int?
         var status_id: Int?
         var lat: Double?
         var lon: Double?
         var adr: String?
+        var adr_dtl: String?
         var snm: String?
         var utime: String?
         var tel: String?
         var pay: String?
-        var companyID: String?
-        var chargerID: String?
+        var company_id: String?
+        var charger_id: String?
         
         var clist = Array<Int>()
     }

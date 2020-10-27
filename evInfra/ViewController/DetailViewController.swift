@@ -77,8 +77,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     private var homePage:String? = nil
     private var appStore:String? = nil
     
-    private var rcInfo = ReportData.ReportChargeInfo()
-    
     var shareUrl = ""
     
     var myGradeStarPoint: Int = 0
@@ -96,7 +94,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         prepareGradeStar()
          
         getChargerInfo()
-        getReportInfo()
         getMyGrade()
         
         setDetailLb()
@@ -142,12 +139,10 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.mapView = MTMapView(frame: self.kakaoMapView.bounds)
         let mapPoint:MTMapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude:  (charger?.mStationInfoDto?.mLatitude)!, longitude: (charger?.mStationInfoDto?.mLongitude)!))
         
-        if let mapView = mapView{
-            
+        if let mapView = mapView {
             mapView.delegate = self
             mapView.baseMapType = .hybrid
             mapView.setMapCenter(mapPoint, zoomLevel: 2, animated: true)
-            
 
             let poiItem = MTMapPOIItem()
             poiItem.markerType = MTMapPOIItemMarkerType.customImage
@@ -160,7 +155,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             self.kakaoMapView.addSubview(self.mapView!)
             let gesture: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(mapViewTap(gesture:)))
             self.kakaoMapView.addGestureRecognizer(gesture)
-            
         }
     }
     
@@ -244,31 +238,30 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     func setStationInfo(json: JSON) {
         // 운영기관
-        if !json["op"].stringValue.isEmpty{
+        if !json["op"].stringValue.isEmpty {
             self.companyLabel.text = json["op"].stringValue
-        }else{
+        } else {
             self.companyView.isHidden = true
         }
         
         // 이용시간
-        if json["ut"].stringValue.isEmpty{
+        if json["ut"].stringValue.isEmpty {
             self.timeLabel.text = "-"
-        }else{
+        } else {
             self.timeLabel.text = json["ut"].stringValue
         }
         
         // 메모
         let memo = json["mm"].stringValue
-        
-        if !memo.isEmpty{
+        if !memo.isEmpty {
             if memo.equals("") {
                 self.memoView.isHidden = true
                 detailViewResize(view: self.memoView)
-            }else{
+            } else {
                 self.memoLabel.text = memo
                 self.memoView.visible()
             }
-        }else{
+        } else {
             self.memoView.isHidden = true
             detailViewResize(view: self.memoView)
         }
@@ -280,10 +273,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.tapFunction))
             self.callLb.isUserInteractionEnabled = true
             self.callLb.addGestureRecognizer(tap)
-        }else{
+        } else {
             self.callLb.text = "등록된 전화번호가 없습니다."
         }
-        
         
         // 평점
         self.charger?.mGpa = Float(json["gpa"].stringValue)!
@@ -380,21 +372,17 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.outdoorView.isHidden = true
         self.canopyView.isHidden = true
         self.checkingView.isHidden = true
-        
-        
-        if (roof.equals("0")){
+
+        if (roof.equals("0")) {
             //indoor
             self.indoorView.isHidden = false
-            
-        }else if (roof.equals("1")){
+        } else if (roof.equals("1")) {
             //outdoor
             self.outdoorView.isHidden = false
-            
-        }else if (roof.equals("2")){
+        } else if (roof.equals("2")) {
             //canopy
             self.canopyView.isHidden = false
-            
-        }else if (roof.equals("N")){
+        } else if (roof.equals("N")) {
             //Checking
             self.checkingView.isHidden = false
         }
@@ -727,53 +715,15 @@ extension DetailViewController {
     @objc
     fileprivate func onClickReportChargeBtn() {
         if MemberManager().isLogin() {
-            let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
-            
-            reportChargeVC.detailGetInfoDelegate = self
-            reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_DETAIL
-            reportChargeVC.info.pkey = self.rcInfo.pkey
-            if reportChargeVC.info.pkey! <= 0 {
-                reportChargeVC.info.type = Const.REPORT_CHARGER_TYPE_USER_MOD
-                reportChargeVC.info.lat = self.charger?.mStationInfoDto?.mLatitude
-                reportChargeVC.info.lon = self.charger?.mStationInfoDto?.mLongitude
-                reportChargeVC.info.status_id = Const.REPORT_CHARGER_STATUS_FINISH
-                reportChargeVC.info.adr = self.charger?.mStationInfoDto?.mAddress
-                reportChargeVC.info.companyID = self.charger?.mStationInfoDto?.mCompanyId
-            } else {
-                reportChargeVC.info.type = self.rcInfo.type
-                reportChargeVC.info.lat = self.rcInfo.lat
-                reportChargeVC.info.lon = self.rcInfo.lon
-                reportChargeVC.info.status_id = self.rcInfo.status_id
-                reportChargeVC.info.adr = self.rcInfo.adr
-                reportChargeVC.info.companyID = self.rcInfo.companyID
+            if let chargerInfo = self.charger {
+                let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
+                reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_DETAIL
+                reportChargeVC.info.charger_id = chargerInfo.mChargerId
+                
+                self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
             }
-            reportChargeVC.info.chargerID = self.charger?.mChargerId
-            reportChargeVC.info.snm = self.charger?.mStationInfoDto?.mSnm
-            
-            self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
         } else {
             MemberManager().showLoginAlert(vc:self)
-        }
-    }
-}
-
-extension DetailViewController: ReportChargeViewDelegate {
-    func getReportInfo() {
-        Server.getReportInfo(chargerId: (self.charger?.mChargerId)!) { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                if json["result_code"].exists() {
-                    self.rcInfo.pkey = 0
-                    print("GetReportInfo-result_code:" + json["result_code"].stringValue)
-                    return;
-                }
-                self.rcInfo.pkey = json["pkey"].intValue
-                self.rcInfo.lat = json["lat"].doubleValue
-                self.rcInfo.lon = json["lon"].doubleValue
-                self.rcInfo.type = json["type_id"].intValue
-                self.rcInfo.status_id = json["status_id"].intValue
-                self.rcInfo.adr = json["adr"].stringValue
-            }
         }
     }
 }
