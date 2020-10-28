@@ -59,6 +59,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     var scrollYPosition:CGFloat = 0
     var isOpen: Bool = false
     var viewName:String = ""
+    let screenHeight:CGFloat = UIScreen.main.bounds.size.height
     
     override func viewDidLoad() {
         prepareActionBar()
@@ -137,8 +138,9 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         
         // Image) 340 * 472
         let howToImgView1 = UIImageView()
-        howToImgView1.heightAnchor.constraint(equalToConstant: 472).isActive = true
-        howToImgView1.widthAnchor.constraint(equalToConstant: 340).isActive = true
+        
+        howToImgView1.heightAnchor.constraint(equalToConstant: UIImage(named: "howtouse_point")?.size.height ?? 472).isActive = true
+        howToImgView1.widthAnchor.constraint(equalToConstant: UIImage(named: "howtouse_point")?.size.width ?? 340).isActive = true
         howToImgView1.image = UIImage(named: "howtouse_point")
         
         // Lb)
@@ -152,8 +154,8 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         
         // Image) 340 * 472
         let howToImgView2 = UIImageView()
-        howToImgView2.heightAnchor.constraint(equalToConstant: 472).isActive = true
-        howToImgView2.widthAnchor.constraint(equalToConstant: 340).isActive = true
+        howToImgView2.heightAnchor.constraint(equalToConstant: UIImage(named: "howtouse_point_1")?.size.height ?? 472).isActive = true
+        howToImgView2.widthAnchor.constraint(equalToConstant: UIImage(named: "howtouse_point_1")?.size.width ?? 340).isActive = true
         howToImgView2.image = UIImage(named: "howtouse_point_1")
         
         // Lb)
@@ -166,8 +168,8 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         
         // Image) 340 * 472
         let howToImgView3 = UIImageView()
-        howToImgView3.heightAnchor.constraint(equalToConstant: 472).isActive = true
-        howToImgView3.widthAnchor.constraint(equalToConstant: 340).isActive = true
+        howToImgView3.heightAnchor.constraint(equalToConstant:  UIImage(named: "howtouse_point_2")?.size.height ?? 504).isActive = true
+        howToImgView3.widthAnchor.constraint(equalToConstant: UIImage(named: "howtouse_point_2")?.size.width ?? 340).isActive = true
         howToImgView3.image = UIImage(named: "howtouse_point_2")
         
         // Lb)
@@ -178,9 +180,6 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         howToLb3.numberOfLines = 0
         howToLb3.fontSize = 16
         howToLb3.textColor = UIColor(hex: "#333333")
-        
-        // For constant test
-        self.howToHeight.constant = 1800
         
         // AddView to stackview
         howToView1.addArrangedSubview(howToLb)
@@ -194,6 +193,14 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         howToView1.translatesAutoresizingMaskIntoConstraints = false
         howToView2.translatesAutoresizingMaskIntoConstraints = false
         howToView3.translatesAutoresizingMaskIntoConstraints = false
+    
+        var height = UIImage(named: "howtouse_point")?.size.height ?? 0
+        height += UIImage(named: "howtouse_point_1")?.size.height ?? 0
+        height += UIImage(named: "howtouse_point_2")?.size.height ?? 0
+        height += 110 //lb
+        // For constant test_1900
+        self.howToHeight.constant = expandHowToView.bounds.height*3+300
+        
     }
     
     @objc func onClickInfoExpand(sender: UITapGestureRecognizer) {
@@ -203,10 +210,12 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
             self.viewName = "info"
             if self.expandNoticeView.isHidden == true && self.expandHowToView.isHidden == true || self.scrollYPosition == 0{
                 if scrollYPosition == 0 {
+                    scrollYPosition = self.expandNoticeBtn.layer.height+16
                     self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, btnHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
                 }else{
                     // Scroll to top
-                    scrollYPosition = 0
+                    scrollYPosition = self.expandNoticeBtn.layer.height+16
+                    
                 }
             }else{
                 // Gone howToView
@@ -234,10 +243,12 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
             self.viewName = "howTo"
             if self.expandNoticeView.isHidden == true && self.expandInfoView.isHidden == true || self.scrollYPosition == 0{
                 if scrollYPosition == 0 {
+                    scrollYPosition = self.expandNoticeBtn.layer.height+16
                     self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
                 }else{
                     // Scroll to top
-                    scrollYPosition = 0
+//                    scrollYPosition = 0
+                    scrollYPosition = self.expandNoticeBtn.layer.height+16
                 }
             }else{
                 // Gone howToView
@@ -250,8 +261,12 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
             self.isOpen = false
             // View show
             self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+            
             // Scroll to bottom
-            scrollYPosition += self.expandHowToHeight.constant
+            var c = self.expandNoticeBtn.layer.height - self.expandInfoBtn.layer.height - self.expandHowToBtn.layer.height
+            
+            scrollYPosition += 650
+//            scrollYPosition += self.expandHowToHeight.constant
             let bottomOffset = CGPoint(x: 0, y: scrollYPosition)
             if bottomOffset.y > 0 {
                 scrollView.setContentOffset(bottomOffset, animated: true)
@@ -267,10 +282,12 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
             self.viewName = "notice"
             if self.expandHowToView.isHidden == true && self.expandInfoView.isHidden == true || self.scrollYPosition == 0{
                 if scrollYPosition == 0 {
+                    scrollYPosition = self.expandNoticeBtn.layer.height+16
                     self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, btnHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
                 }else{
                     // Scroll to top
-                    scrollYPosition = 0
+//                    scrollYPosition = 0
+                    scrollYPosition = self.expandNoticeBtn.layer.height+16
                 }
             }else{
                 // Gone howToView

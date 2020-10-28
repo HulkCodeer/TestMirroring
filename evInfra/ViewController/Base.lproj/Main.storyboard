@@ -4108,19 +4108,23 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O7V-dB-Lhe" userLabel="how">
                                                         <rect key="frame" x="16" y="204.5" width="343" height="507.5"/>
                                                         <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="KMy-lX-CfS">
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="KMy-lX-CfS">
                                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="507.5"/>
                                                                 <subviews>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fyd-no-VQ6">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="343" height="158.5"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="343" height="149.5"/>
                                                                     </stackView>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="HyD-WU-SGT">
-                                                                        <rect key="frame" x="0.0" y="174.5" width="343" height="158.5"/>
+                                                                        <rect key="frame" x="0.0" y="165.5" width="343" height="149.5"/>
                                                                     </stackView>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="HDB-CZ-RbF">
-                                                                        <rect key="frame" x="0.0" y="349" width="343" height="158.5"/>
+                                                                        <rect key="frame" x="0.0" y="331" width="343" height="176.5"/>
                                                                     </stackView>
                                                                 </subviews>
+                                                                <constraints>
+                                                                    <constraint firstItem="HDB-CZ-RbF" firstAttribute="height" secondItem="HyD-WU-SGT" secondAttribute="height" multiplier="1.18" id="BHg-27-lZA"/>
+                                                                    <constraint firstItem="fyd-no-VQ6" firstAttribute="height" secondItem="HyD-WU-SGT" secondAttribute="height" id="oZJ-nX-Kc1"/>
+                                                                </constraints>
                                                             </stackView>
                                                         </subviews>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -7877,11 +7881,17 @@
         <designable name="91l-xB-VIV">
             <size key="intrinsicContentSize" width="173" height="34"/>
         </designable>
+        <designable name="DfT-ax-pEZ">
+            <size key="intrinsicContentSize" width="9" height="24"/>
+        </designable>
         <designable name="V0k-eg-psY">
             <size key="intrinsicContentSize" width="32" height="34"/>
         </designable>
         <designable name="Vjd-ZG-9S9">
             <size key="intrinsicContentSize" width="32" height="34"/>
+        </designable>
+        <designable name="gra-wN-A7u">
+            <size key="intrinsicContentSize" width="334.5" height="19.5"/>
         </designable>
     </designables>
     <color key="tintColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
