@@ -15,7 +15,10 @@ extension UIScrollView {
             // Get the Y position of your child view
             let childStartPoint = origin.convert(view.frame.origin, to: self)
             
-            let bottomOffset = scrollBottomOffset()
+            var bottomOffset = scrollBottomOffset()
+            if bottomOffset.y < 0 {
+                bottomOffset.y = 0.0
+            }
             if (childStartPoint.y > bottomOffset.y) {
                 setContentOffset(bottomOffset, animated: true)
             } else {
