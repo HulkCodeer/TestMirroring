@@ -14,6 +14,7 @@ extension UIScrollView {
         if let origin = view.superview {
             // Get the Y position of your child view
             let childStartPoint = origin.convert(view.frame.origin, to: self)
+            
             let bottomOffset = scrollBottomOffset()
             if (childStartPoint.y > bottomOffset.y) {
                 setContentOffset(bottomOffset, animated: true)
@@ -21,6 +22,13 @@ extension UIScrollView {
                 setContentOffset(CGPoint(x: 0, y: childStartPoint.y), animated: true)
             }
         }
+        
+//        if let origin = view.superview {
+//            let childStartPoint = origin.convert(view.frame.origin, to: self.scrollView)
+//
+//            self.scrollView.scrollRectToVisible(CGRect(x:0, y:childStartPoint.y, width: 1,height: self.scrollView.frame.height), animated: false)
+//            self.scrollView.setContentOffset(CGPoint(x:0, y:childStartPoint.y), animated: true)
+//        }
     }
     
     // Scroll to top

@@ -45,6 +45,8 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     @IBOutlet var howToBtnImg: UIImageView!
     @IBOutlet var noticBtnImg: UIImageView!
     
+    @IBOutlet var useTitleLb: UILabel!
+    
     private let appID = "ca-app-pub-4857867142176465~5053865371";   // admob app id
     private let placeID = "ca-app-pub-4857867142176465/5258173998"; // admob reward id
     private let testID = "ca-app-pub-3940256099942544/1712485313";  // admob test id
@@ -57,14 +59,19 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     private var selectedReward: MPRewardedVideoReward? = nil
     
     var scrollYPosition:CGFloat = 0
+    var scrollIsTop:Bool = false
     var isOpen: Bool = false
     var viewName:String = ""
     let screenHeight:CGFloat = UIScreen.main.bounds.size.height
+    let screenWidth:CGFloat = UIScreen.main.bounds.size.width
     
     override func viewDidLoad() {
         prepareActionBar()
         prepareView()
         self.scrollView.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
     }
     
     deinit {
@@ -100,11 +107,11 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     }
     
     func setExpandViewConstant() {
-        self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, btnHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
+        self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
         
-        self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+        self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
         
-        self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, btnHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
+        self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, expandHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
     }
     
     func prepareExpandView() {
@@ -199,8 +206,9 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         height += UIImage(named: "howtouse_point_2")?.size.height ?? 0
         height += 110 //lb
         // For constant test_1900
-        self.howToHeight.constant = expandHowToView.bounds.height*3+300
-        
+//        self.howToHeight.constant = expandHowToView.bounds.height*3+300
+//        self.expandHowToHeight.constant = 1900
+        self.howToHeight.constant = 1900
     }
     
     @objc func onClickInfoExpand(sender: UITapGestureRecognizer) {
@@ -211,11 +219,10 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
             if self.expandNoticeView.isHidden == true && self.expandHowToView.isHidden == true || self.scrollYPosition == 0{
                 if scrollYPosition == 0 {
                     scrollYPosition = self.expandNoticeBtn.layer.height+16
-                    self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, btnHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
+                    self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
                 }else{
                     // Scroll to top
                     scrollYPosition = self.expandNoticeBtn.layer.height+16
-                    
                 }
             }else{
                 // Gone howToView
@@ -226,7 +233,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         }else{
             // Open
             self.isOpen = false
-            self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, btnHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
+            self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
             // Scroll to bottom
             scrollYPosition += self.expandInfoHeight.constant
             let bottomOffset = CGPoint(x: 0, y: scrollYPosition)
@@ -242,35 +249,38 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
             self.isOpen = true
             self.viewName = "howTo"
             if self.expandNoticeView.isHidden == true && self.expandInfoView.isHidden == true || self.scrollYPosition == 0{
-                if scrollYPosition == 0 {
-                    scrollYPosition = self.expandNoticeBtn.layer.height+16
-                    self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+                if scrollIsTop {
+                    self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
                 }else{
                     // Scroll to top
 //                    scrollYPosition = 0
-                    scrollYPosition = self.expandNoticeBtn.layer.height+16
+//                    scrollYPosition = self.expandNoticeBtn.layer.height+16
+
+//                    self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+                    
+                    self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+                    
+                    self.scrollView.contentSize = CGSize(width: 200.0, height: self.useTitleLb.frame.origin.y)
+                    
+                    // Scroll to bottom
+                    scrollView.scrollToView(view: self.useTitleLb)
+                    
                 }
             }else{
                 // Gone howToView
-                scrollYPosition -= self.expandHowToHeight.constant
+//                scrollYPosition -= self.expandHowToHeight.constant
             }
-            let bottomOffset = CGPoint(x: 0, y: scrollYPosition)
-            scrollView.setContentOffset(bottomOffset, animated: true)
+
         }else{
             // Open
             self.isOpen = false
             // View show
-            self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+            self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+            
+            self.scrollView.contentSize = CGSize(width: 200.0, height: self.expandHowToView.frame.origin.y + self.expandHowToHeight.constant)
             
             // Scroll to bottom
-            var c = self.expandNoticeBtn.layer.height - self.expandInfoBtn.layer.height - self.expandHowToBtn.layer.height
-            
-            scrollYPosition += 650
-//            scrollYPosition += self.expandHowToHeight.constant
-            let bottomOffset = CGPoint(x: 0, y: scrollYPosition)
-            if bottomOffset.y > 0 {
-                scrollView.setContentOffset(bottomOffset, animated: true)
-            }
+            scrollView.scrollToView(view: self.useTitleLb)
         }
     }
     
@@ -283,7 +293,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
             if self.expandHowToView.isHidden == true && self.expandInfoView.isHidden == true || self.scrollYPosition == 0{
                 if scrollYPosition == 0 {
                     scrollYPosition = self.expandNoticeBtn.layer.height+16
-                    self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, btnHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
+                    self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, expandHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
                 }else{
                     // Scroll to top
 //                    scrollYPosition = 0
@@ -298,7 +308,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         }else{
             // Open
             self.isOpen = false
-            self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, btnHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
+            self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, expandHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
             // Scroll to bottom
             if scrollYPosition <= 0 {
                 noticeSumHeight += self.expandNoticeBtn.layer.height+16
@@ -446,15 +456,23 @@ extension OfferwallViewController: UIScrollViewDelegate{
             // Close
             switch self.viewName {
             case "info":
-                self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, btnHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
+                self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
 
                 break
             case "howTo":
-                self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, btnHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+                
+//                self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+                
+//                scrollView.scrollToView(view: self.useTitleLb)
+//
+//                self.scrollView.contentSize = CGSize(width: 200.0, height: -self.expandHowToHeight.constant)
+//
+//                // Scroll to bottom
+//                scrollView.scrollToView(view: self.useTitleLb)
 
                 break
             case "notice":
-                self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, btnHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
+                self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, expandHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
                 break
             default:
                 break
@@ -465,6 +483,7 @@ extension OfferwallViewController: UIScrollViewDelegate{
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y <= 0.0 {
             self.scrollYPosition = 0
+            self.scrollIsTop = true
         }
     }
 }

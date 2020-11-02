@@ -326,8 +326,8 @@ extension NSLayoutConstraint {
     }
     
     // Show/Hide view
-    func showOrHideView(view: UIView, btnHeight:CGFloat, viewHeight:CGFloat, imgView: UIImageView) -> CGFloat{
-        var height = btnHeight
+    func showOrHideView(view: UIView, expandHeight:CGFloat, viewHeight:CGFloat, imgView: UIImageView) -> CGFloat{
+        var height = expandHeight
         if view.isHidden == true {
             height += viewHeight
             view.isHidden = false

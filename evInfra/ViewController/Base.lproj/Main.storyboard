@@ -4302,6 +4302,7 @@
                         <outlet property="noticBtnImg" destination="5Z1-cq-Mt0" id="wnn-AV-JaS"/>
                         <outlet property="noticeHeight" destination="r4b-8X-Sn7" id="9TV-NF-yAD"/>
                         <outlet property="scrollView" destination="b6k-bq-7MP" id="Ytx-xs-vBO"/>
+                        <outlet property="useTitleLb" destination="njE-gT-AeL" id="aRV-8o-w7D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D8p-oQ-8lO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
