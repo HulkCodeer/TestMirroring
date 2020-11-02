@@ -15,7 +15,6 @@ import MoPub
 class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     
     @IBOutlet var lbMyBerryTitle: UILabel!
-    @IBOutlet var guideTableView: UITableView!
     
     @IBOutlet var scrollView: UIScrollView!
     
@@ -27,11 +26,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     @IBOutlet var infoViewHeight: NSLayoutConstraint!       // 베리설명(inner view 높이)
     
     @IBOutlet var expandHowToBtn: UIView!                   // 베리사용방법(btn)
-    @IBOutlet var expandHowToView: UIView!                  // 베리사용설명(view)
     @IBOutlet var howToStackView: UIStackView!              // 베리사용설명(inner view)
-    @IBOutlet var howToView1: UIStackView!                  // 베리사용설명(1)
-    @IBOutlet var howToView2: UIStackView!                  // 베리사용설명(2)
-    @IBOutlet var howToView3: UIStackView!                  // 베리사용설명(3)
     @IBOutlet var expandHowToHeight: NSLayoutConstraint!    // 베리사용설명(view 전체 높이)
     @IBOutlet var howToHeight: NSLayoutConstraint!          // 베리사용설명(inner view 높이)
     
@@ -71,13 +66,6 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         self.scrollView.delegate = self
     }
     
-    override func viewWillLayoutSubviews() {
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
-    }
-    
     deinit {
         MPRewardedVideo.removeDelegate(forAdUnitId: self.kAdUnitId)
     }
@@ -99,7 +87,6 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     }
     
     func prepareView() {
-        
         MPRewardedVideo.setDelegate(self, forAdUnitId: self.kAdUnitId)
         checkAndInitializeSdk()
 
@@ -113,7 +100,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     func setExpandViewConstant() {
         self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
         
-        self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+        self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.howToStackView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
         
         self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, expandHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
     }
@@ -136,8 +123,8 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         self.expandNoticeLb.text = notice
     }
     
+    // prepare expandView(howTo_stackView "베리 사용방법")
     func prepareStackView() {
-        // prepare expandView(howTo_stackView "베리 사용방법")
         // Lb)
         let howToLb = UILabel()
         howToLb.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
@@ -145,12 +132,14 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         howToLb.text = "1) 충전 진행화면 하단의 '베리 사용하기' 버튼을 클릭"
         howToLb.fontSize = 16
         howToLb.textColor = UIColor(hex: "#333333")
+        howToLb.sizeToFit()
         
         // Image) 340 * 472
         let howToImgView1 = UIImageView()
         howToImgView1.image = UIImage(named: "howtouse_point")
         howToImgView1.heightAnchor.constraint(equalToConstant: howToImgView1.image?.size.height ?? 472).isActive = true
         howToImgView1.widthAnchor.constraint(equalToConstant: howToImgView1.image?.size.width ?? 340).isActive = true
+        howToImgView1.sizeToFit()
         
         // Lb)
         let howToLb1 = UILabel()
@@ -159,13 +148,14 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         howToLb1.text = "2) 사용하실 베리를 작성"
         howToLb1.fontSize = 16
         howToLb1.textColor = UIColor(hex: "#333333")
-    
+        howToLb1.sizeToFit()
         
         // Image) 340 * 472
         let howToImgView2 = UIImageView()
         howToImgView2.image = UIImage(named: "howtouse_point_1")
         howToImgView2.heightAnchor.constraint(equalToConstant: howToImgView2.image?.size.height ?? 472).isActive = true
         howToImgView2.widthAnchor.constraint(equalToConstant: howToImgView2.image?.size.width ?? 340).isActive = true
+        howToImgView2.sizeToFit()
         
         // Lb)
         let howToLb2 = UILabel()
@@ -174,12 +164,14 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         howToLb2.text = "3) 팝업창의 베리사용하기 버튼을 누르면 사용 완료!"
         howToLb2.fontSize = 16
         howToLb2.textColor = UIColor(hex: "#333333")
+        howToLb2.sizeToFit()
         
         // Image) 340 * 472
         let howToImgView3 = UIImageView()
         howToImgView3.image = UIImage(named: "howtouse_point_2")
         howToImgView3.heightAnchor.constraint(equalToConstant:  howToImgView3.image?.size.height ?? 504).isActive = true
         howToImgView3.widthAnchor.constraint(equalToConstant: howToImgView3.image?.size.width ?? 340).isActive = true
+        howToImgView3.sizeToFit()
         
         // Lb)
         let howToLb3 = UILabel()
@@ -189,39 +181,24 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         howToLb3.numberOfLines = 0
         howToLb3.fontSize = 16
         howToLb3.textColor = UIColor(hex: "#333333")
+        howToLb3.sizeToFit()
         
         // AddView to stackview
-        howToView1.addArrangedSubview(howToLb)
-        howToView1.addArrangedSubview(howToImgView1)
-        howToView2.addArrangedSubview(howToLb1)
-        howToView2.addArrangedSubview(howToImgView2)
-        howToView3.addArrangedSubview(howToLb2)
-        howToView3.addArrangedSubview(howToImgView3)
-        howToView3.addArrangedSubview(howToLb3)
+        howToStackView.addArrangedSubview(howToLb)
+        howToStackView.addArrangedSubview(howToImgView1)
+        howToStackView.addArrangedSubview(howToLb1)
+        howToStackView.addArrangedSubview(howToImgView2)
+        howToStackView.addArrangedSubview(howToLb2)
+        howToStackView.addArrangedSubview(howToImgView3)
+        howToStackView.addArrangedSubview(howToLb3)
         
-        howToView1.translatesAutoresizingMaskIntoConstraints = false
-        howToView2.translatesAutoresizingMaskIntoConstraints = false
-        howToView3.translatesAutoresizingMaskIntoConstraints = false
-    
-        let viewHeight = howToView1.layer.height + howToView2.layer.height + howToView3.layer.height
-        var height = howToImgView1.image?.size.height ?? 0
-        height += howToImgView2.image?.size.height ?? 0
-        height += howToImgView3.image?.size.height ?? 0
-        height += howToLb.layer.height + howToLb1.layer.height + howToLb2.layer.height + howToLb3.layer.height //lb
-        let margin = howToImgView1.layoutMargins.top + howToImgView1.layoutMargins.bottom +
-            howToImgView2.layoutMargins.top + howToImgView2.layoutMargins.bottom +
-            howToImgView3.layoutMargins.top + howToImgView3.layoutMargins.bottom +
-            howToLb.layoutMargins.top + howToLb.layoutMargins.bottom +
-            howToLb1.layoutMargins.top + howToLb1.layoutMargins.bottom +
-            howToLb2.layoutMargins.top + howToLb2.layoutMargins.bottom +
-            howToLb2.layoutMargins.top + howToLb2.layoutMargins.bottom
+        howToStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        // For constant test_1900
-//        self.howToHeight.constant = expandHowToView.bounds.height*3+300
-//        self.expandHowToHeight.constant = 1900
-//        self.howToHeight.constant = 1900 // 340
-//        self.howToHeight.constant = height + viewHeight
-        self.howToHeight.constant = height + viewHeight
+        let viewHeight = howToLb.frame.height + howToImgView1.frame.height + howToLb1.frame.height + howToImgView2.frame.height + howToLb2.frame.height + howToImgView3.frame.height + howToLb3.frame.height
+        
+        self.howToHeight.constant = viewHeight + (howToStackView.spacing * 8)
+        
+        print("parkshin height: ", self.howToHeight.constant)
     }
     
     @objc func onClickInfoExpand(sender: UITapGestureRecognizer) {
@@ -229,23 +206,23 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
             // Close
             self.isOpen = true
             self.viewName = "info"
-            if self.expandNoticeView.isHidden == true && self.expandHowToView.isHidden == true || isScrollTop{
+            if self.expandNoticeView.isHidden == true && self.howToStackView.isHidden == true || isScrollTop {
                 if isScrollTop {
 //                    scrollYPosition = self.expandNoticeBtn.layer.height+16
                     self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
                     isScrollTop = false
-                }else{
+                } else {
                     // Scroll to top
                     scrollYPosition = self.expandNoticeBtn.layer.height+16
                 }
-            }else{
+            } else {
                 // Gone howToView
 //                scrollYPosition -= self.expandInfoHeight.constant
                 self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
             }
             let bottomOffset = CGPoint(x: 0, y: scrollYPosition)
             scrollView.setContentOffset(bottomOffset, animated: true)
-        }else{
+        } else {
             // Open
             self.isOpen = false
             self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
@@ -258,62 +235,62 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         }
     }
     
-    @objc func onClickHowToExpand(sender: UITapGestureRecognizer){
-        if !self.expandHowToView.isHidden{
+    @objc func onClickHowToExpand(sender: UITapGestureRecognizer) {
+        if !self.howToStackView.isHidden {
             // Close
             self.isOpen = true
             self.viewName = "howTo"
             if self.expandNoticeView.isHidden == true && self.expandInfoView.isHidden == true || isScrollTop{
                 if isScrollTop {
 //                    scrollYPosition = self.expandNoticeBtn.layer.height+16
-                    self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+                    self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.howToStackView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
                     isScrollTop = false
-                }else{
+                } else {
                     // Scroll to top
                     scrollYPosition = self.expandHowToBtn.layer.height+16
                 }
-            }else{
+            } else {
                 // Gone howToView
 //                scrollYPosition -= self.expandHowToHeight.constant
-                self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+                self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.howToStackView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
             }
             let bottomOffset = CGPoint(x: 0, y: scrollYPosition)
             scrollView.setContentOffset(bottomOffset, animated: true)
-        }else{
+        } else {
             // Open
             self.isOpen = false
             // View show
-            self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+            self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.howToStackView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
             
-            self.scrollView.contentSize = CGSize(width: 200.0, height: self.expandHowToView.frame.origin.y + self.expandHowToHeight.constant)
+            self.scrollView.contentSize = CGSize(width: 200.0, height: self.howToStackView.frame.origin.y + self.expandHowToHeight.constant)
             
             // Scroll to bottom
             scrollView.scrollToView(view: self.useTitleLb)
         }
     }
     
-    @objc func onClickNoticeExpand(sender: UITapGestureRecognizer){
+    @objc func onClickNoticeExpand(sender: UITapGestureRecognizer) {
         var noticeSumHeight:CGFloat = 0
-        if !self.expandNoticeView.isHidden{
+        if !self.expandNoticeView.isHidden {
             // Close
             self.isOpen = true
             self.viewName = "notice"
-            if self.expandHowToView.isHidden == true && self.expandInfoView.isHidden == true || isScrollTop{
+            if self.howToStackView.isHidden == true && self.expandInfoView.isHidden == true || isScrollTop {
                 if isScrollTop {
 //                    scrollYPosition = self.expandNoticeBtn.layer.height+16
                     self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, expandHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
                     isScrollTop = false
-                }else{
+                } else {
                     // Scroll to top
                     scrollYPosition = self.expandNoticeBtn.layer.height+16
                 }
-            }else{
+            } else {
                 // Gone howToView
                 scrollYPosition -= self.expandNoticeHeight.constant
             }
             let bottomOffset = CGPoint(x: 0, y: scrollYPosition)
             scrollView.setContentOffset(bottomOffset, animated: true)
-        }else{
+        } else {
             // Open
             self.isOpen = false
             self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, expandHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
@@ -378,9 +355,9 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     */
     func checkAndInitializeSdk(mopub: MoPub = .sharedInstance()) {
         // Production should only use the default ad unit ID.
-        if (mopub.isSdkInitialized){
+        if (mopub.isSdkInitialized) {
             self.loadRewardedVideo()
-        }else{
+        } else {
             self.initializeMoPubSdk(adUnitIdForConsent: self.kAdUnitId)
         }
     }
@@ -468,7 +445,7 @@ extension OfferwallViewController: UIScrollViewDelegate{
 
                 break
             case "howTo":
-                self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.expandHowToView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
+                self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.howToStackView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
                 
 //                scrollView.scrollToView(view: self.useTitleLb)
 //
@@ -494,46 +471,3 @@ extension OfferwallViewController: UIScrollViewDelegate{
         }
     }
 }
-
-//extension OfferwallViewController: UITableViewDataSource, UITableViewDelegate {
-//    
-//    func prepareTableView() {
-//        guideTableView.delegate = self
-//        guideTableView.dataSource = self
-//        
-//        guideTableView.autoresizingMask = UIViewAutoresizing.flexibleHeight
-//    }
-//    
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        print("parkshin numberOfSections")
-//        return 3
-//    }
-//    
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return "Section \(section)"
-//    }
-//    
-//    // Set tableView height, scrollView heigth
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        print("parkshin estimatedHeightForRowAt")
-//        return 60
-//    }
-//    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        print("parkshin heightForRowAt")
-//        return UITableViewAutomaticDimension
-//    }
-//    
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        print("parkshin numberOfRowsInSection")
-//        return 11
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        print("parkshin cellForRowAt")
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "OfferwallTableViewCell")!
-////        let cell = tableView.dequeueReusableCell(withIdentifier: "OfferwallTableViewCell") as! OfferwallTableViewCell
-//        
-//        return cell
-//    }
-//}
