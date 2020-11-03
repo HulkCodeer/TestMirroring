@@ -11,6 +11,7 @@ import Material
 import GoogleMobileAds
 import SwiftyJSON
 import MoPub
+import ExpyTableView
 
 class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     
@@ -18,29 +19,12 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     
     @IBOutlet var scrollView: UIScrollView!
     
-    //  expandable
-    @IBOutlet var expandInfoBtn: UIView!                    // 베리란?(btn)
-    @IBOutlet var expandInfoView: UIView!                   // 베리설명(view)
-    @IBOutlet var expandInfoLb: UILabel!                    // 베리설명(lb)
-    @IBOutlet var expandInfoHeight: NSLayoutConstraint!     // 베리설명(view 전체 높이)
-    @IBOutlet var infoViewHeight: NSLayoutConstraint!       // 베리설명(inner view 높이)
-    
-    @IBOutlet var expandHowToBtn: UIView!                   // 베리사용방법(btn)
-    @IBOutlet var howToStackView: UIStackView!              // 베리사용설명(inner view)
-    @IBOutlet var expandHowToHeight: NSLayoutConstraint!    // 베리사용설명(view 전체 높이)
-    @IBOutlet var howToHeight: NSLayoutConstraint!          // 베리사용설명(inner view 높이)
-    
-    @IBOutlet var expandNoticeBtn: UIView!                  // 유의사항(btn)
-    @IBOutlet var expandNoticeView: UIView!                 // 유의사항(view)
-    @IBOutlet var expandNoticeLb: UILabel!                  // 유의사항(lb)
-    @IBOutlet var expandNoticeHeight: NSLayoutConstraint!   // 유의사항(view 전체 높이)
-    @IBOutlet var noticeHeight: NSLayoutConstraint!         // 유의사항(inner view 높이)
-    
-    @IBOutlet var infoBtnImg: UIImageView!
-    @IBOutlet var howToBtnImg: UIImageView!
-    @IBOutlet var noticBtnImg: UIImageView!
-    
     @IBOutlet var useTitleLb: UILabel!
+    
+    // change stackView into TableView
+    @IBOutlet var expyTableView: ExpyTableView!
+    
+    @IBOutlet var tableViewHeight: NSLayoutConstraint!
     
     private let appID = "ca-app-pub-4857867142176465~5053865371";   // admob app id
     private let placeID = "ca-app-pub-4857867142176465/5258173998"; // admob reward id
@@ -60,11 +44,43 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     let screenHeight:CGFloat = UIScreen.main.bounds.size.height
     let screenWidth:CGFloat = UIScreen.main.bounds.size.width
     
+    
+    // 초기화부분 이동예정
+    let infoStrArr:Array<String> = ["베리란?",
+                             "Ev Infra의 운영사인 (주)소프트베리에서 따온 이름으로, 사용자 여러분께 충전의 즐거움을 만족시켜 드릴 수 있도록 사용되는 포인트 단위를 말합니다. \n앱 내 동영상 광고, 또는 충전 시 적립(한전운영 충전기에 한함)가능하며 바로 사용하실 수 있습니다."]
+    // [string: AnyObject]
+    let howToDict = [
+        ["text":"베리 사용방법"],
+        ["text":"1) 충전 진행화면 하단의 '베리 사용하기' 버튼을 클릭"],
+        ["image":UIImage(named: "howtouse_point")!],
+        ["text":"2) 사용하실 베리를 작성"],
+        ["image":UIImage(named: "howtouse_point")!],
+        ["text":"3) 팝업창의 베리사용하기 버튼을 누르면 사용 완료!"],
+        ["image":UIImage(named: "howtouse_point_1")!],
+        ["text":"4) 이후 베리와 관련된 내역은 메인메뉴 > 마이페이지 > PAY > 베리 조회에서 확인하실 수 있습니다."]
+    ]
+    
+    let noticeStrArr:Array<String> = ["베리 사용 유의사항", "1) 이용 가능한 충전소 - 한전, GS칼텍스 위의 운영기관에서 운영중인 충전소에서만 베리 사용이 가능합니다 \n2) 베리는 충전 하는 중에 사용해야 합니다. (충전 이전 이나 충전 후 사용 불가) \n3) 사용하신 베리의 환불은 불가합니다. \n4) 충전중 베리사용시 최종 충전금액에서 사용하신 베리만큼 차감 후 결제됩니다. \n5) 기타 문의사항은 Ev Infra 고객센터 070-8633-9009로 문의주시기 바랍니다."]
+
+    
     override func viewDidLoad() {
         prepareActionBar()
         prepareView()
-        self.scrollView.delegate = self
+        scrollView.delegate = self
+        expyTableView.delegate = self
+        expyTableView.dataSource = self
+        // row의 높이가 바뀔수 있음
+        expyTableView.rowHeight = UITableViewAutomaticDimension
+        expyTableView.estimatedRowHeight = UITableViewAutomaticDimension
+        
+//        self.tableViewHeight.
+//        self.expyTableView.rowHeight = UITableViewAutomaticDimension
     }
+    
+//    override func viewWillLayoutSubviews() {
+//        super.updateViewConstraints()
+//        self.tableViewHeight.constant = self.expyTableView.contentSize.height
+//    }
     
     deinit {
         MPRewardedVideo.removeDelegate(forAdUnitId: self.kAdUnitId)
@@ -91,222 +107,8 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         checkAndInitializeSdk()
 
         lbMyBerryTitle.roundCorners(.allCorners, radius: 9)
-        
-        setExpandViewConstant()
-        prepareExpandView()
-        prepareStackView()
     }
     
-    func setExpandViewConstant() {
-        self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
-        
-        self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.howToStackView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
-        
-        self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, expandHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
-    }
-    
-    func prepareExpandView() {
-        // ClickEvent
-        let infoGesture = UITapGestureRecognizer(target: self, action: #selector(onClickInfoExpand(sender:)))
-        let howToGesture = UITapGestureRecognizer(target: self, action: #selector(onClickHowToExpand(sender:)))
-        let noticeGesture = UITapGestureRecognizer(target: self, action: #selector(onClickNoticeExpand(sender:)))
-        self.expandInfoBtn.addGestureRecognizer(infoGesture)
-        self.expandHowToBtn.addGestureRecognizer(howToGesture)
-        self.expandNoticeBtn.addGestureRecognizer(noticeGesture)
-        
-        // SetText
-        let info =
-            "Ev Infra의 운영사인 (주)소프트베리에서 따온 이름으로, \n사용자 여러분께 충전의 즐거움을 만족시켜 드릴 수 있도록 \n사용되는 포인트 단위를 말합니다. \n앱 내 동영상 광고, 또는 충전 시 \n적립(한전운영 충전기에 한함)가능하며 \n사용도 바로 하실 수 있습니다."
-        let notice =
-            "1) 이용 가능한 충전소 - 한전, GS칼텍스 \n위의 운영기관에서 운영중인 충전소에서만 \n베리 사용이 가능합니다.\n2) 베리는 충전 하는 중에 사용해야 합니다. (충전 이전 이나 충전 후 사용 불가)\n3) 사용하신 베리의 환불은 불가합니다. \n4) 충전중 베리사용시 최종 충전금액에서 사용하신 베리만큼 차감 후 결제됩니다. \n5) 기타 문의사항은 Ev Infra 고객센터 070-8633-9009로 문의주시기 바랍니다."
-        self.expandInfoLb.text = info
-        self.expandNoticeLb.text = notice
-    }
-    
-    // prepare expandView(howTo_stackView "베리 사용방법")
-    func prepareStackView() {
-        // Lb)
-        let howToLb = UILabel()
-        howToLb.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
-        howToLb.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        howToLb.text = "1) 충전 진행화면 하단의 '베리 사용하기' 버튼을 클릭"
-        howToLb.fontSize = 16
-        howToLb.textColor = UIColor(hex: "#333333")
-        howToLb.sizeToFit()
-        
-        // Image) 340 * 472
-        let howToImgView1 = UIImageView()
-        howToImgView1.image = UIImage(named: "howtouse_point")
-        howToImgView1.heightAnchor.constraint(equalToConstant: howToImgView1.image?.size.height ?? 472).isActive = true
-        howToImgView1.widthAnchor.constraint(equalToConstant: howToImgView1.image?.size.width ?? 340).isActive = true
-        howToImgView1.sizeToFit()
-        
-        // Lb)
-        let howToLb1 = UILabel()
-        howToLb1.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
-        howToLb1.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        howToLb1.text = "2) 사용하실 베리를 작성"
-        howToLb1.fontSize = 16
-        howToLb1.textColor = UIColor(hex: "#333333")
-        howToLb1.sizeToFit()
-        
-        // Image) 340 * 472
-        let howToImgView2 = UIImageView()
-        howToImgView2.image = UIImage(named: "howtouse_point_1")
-        howToImgView2.heightAnchor.constraint(equalToConstant: howToImgView2.image?.size.height ?? 472).isActive = true
-        howToImgView2.widthAnchor.constraint(equalToConstant: howToImgView2.image?.size.width ?? 340).isActive = true
-        howToImgView2.sizeToFit()
-        
-        // Lb)
-        let howToLb2 = UILabel()
-        howToLb2.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
-        howToLb2.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        howToLb2.text = "3) 팝업창의 베리사용하기 버튼을 누르면 사용 완료!"
-        howToLb2.fontSize = 16
-        howToLb2.textColor = UIColor(hex: "#333333")
-        howToLb2.sizeToFit()
-        
-        // Image) 340 * 472
-        let howToImgView3 = UIImageView()
-        howToImgView3.image = UIImage(named: "howtouse_point_2")
-        howToImgView3.heightAnchor.constraint(equalToConstant:  howToImgView3.image?.size.height ?? 504).isActive = true
-        howToImgView3.widthAnchor.constraint(equalToConstant: howToImgView3.image?.size.width ?? 340).isActive = true
-        howToImgView3.sizeToFit()
-        
-        // Lb)
-        let howToLb3 = UILabel()
-        howToLb3.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
-        howToLb3.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        howToLb3.text = "4) 이후 베리와 관련된 내역은 메인메뉴 > 마이페이지 \n> PAY > 베리 조회에서 확인하실 수 있습니다. "
-        howToLb3.numberOfLines = 0
-        howToLb3.fontSize = 16
-        howToLb3.textColor = UIColor(hex: "#333333")
-        howToLb3.sizeToFit()
-        
-        // AddView to stackview
-        howToStackView.addArrangedSubview(howToLb)
-        howToStackView.addArrangedSubview(howToImgView1)
-        howToStackView.addArrangedSubview(howToLb1)
-        howToStackView.addArrangedSubview(howToImgView2)
-        howToStackView.addArrangedSubview(howToLb2)
-        howToStackView.addArrangedSubview(howToImgView3)
-        howToStackView.addArrangedSubview(howToLb3)
-        
-        howToStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let viewHeight = howToLb.frame.height + howToImgView1.frame.height + howToLb1.frame.height + howToImgView2.frame.height + howToLb2.frame.height + howToImgView3.frame.height + howToLb3.frame.height
-        
-        self.howToHeight.constant = viewHeight + (howToStackView.spacing * 8)
-        
-        print("parkshin height: ", self.howToHeight.constant)
-    }
-    
-    @objc func onClickInfoExpand(sender: UITapGestureRecognizer) {
-        if !self.expandInfoView.isHidden{
-            // Close
-            self.isOpen = true
-            self.viewName = "info"
-            if self.expandNoticeView.isHidden == true && self.howToStackView.isHidden == true || isScrollTop {
-                if isScrollTop {
-//                    scrollYPosition = self.expandNoticeBtn.layer.height+16
-                    self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
-                    isScrollTop = false
-                } else {
-                    // Scroll to top
-                    scrollYPosition = self.expandNoticeBtn.layer.height+16
-                }
-            } else {
-                // Gone howToView
-//                scrollYPosition -= self.expandInfoHeight.constant
-                self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
-            }
-            let bottomOffset = CGPoint(x: 0, y: scrollYPosition)
-            scrollView.setContentOffset(bottomOffset, animated: true)
-        } else {
-            // Open
-            self.isOpen = false
-            self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
-            // Scroll to bottom
-            scrollYPosition += self.expandInfoHeight.constant
-            let bottomOffset = CGPoint(x: 0, y: scrollYPosition)
-            if bottomOffset.y > 0 {
-                scrollView.setContentOffset(bottomOffset, animated: true)
-            }
-        }
-    }
-    
-    @objc func onClickHowToExpand(sender: UITapGestureRecognizer) {
-        if !self.howToStackView.isHidden {
-            // Close
-            self.isOpen = true
-            self.viewName = "howTo"
-            if self.expandNoticeView.isHidden == true && self.expandInfoView.isHidden == true || isScrollTop{
-                if isScrollTop {
-//                    scrollYPosition = self.expandNoticeBtn.layer.height+16
-                    self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.howToStackView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
-                    isScrollTop = false
-                } else {
-                    // Scroll to top
-                    scrollYPosition = self.expandHowToBtn.layer.height+16
-                }
-            } else {
-                // Gone howToView
-//                scrollYPosition -= self.expandHowToHeight.constant
-                self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.howToStackView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
-            }
-            let bottomOffset = CGPoint(x: 0, y: scrollYPosition)
-            scrollView.setContentOffset(bottomOffset, animated: true)
-        } else {
-            // Open
-            self.isOpen = false
-            // View show
-            self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.howToStackView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
-            
-            self.scrollView.contentSize = CGSize(width: 200.0, height: self.howToStackView.frame.origin.y + self.expandHowToHeight.constant)
-            
-            // Scroll to bottom
-            scrollView.scrollToView(view: self.useTitleLb)
-        }
-    }
-    
-    @objc func onClickNoticeExpand(sender: UITapGestureRecognizer) {
-        var noticeSumHeight:CGFloat = 0
-        if !self.expandNoticeView.isHidden {
-            // Close
-            self.isOpen = true
-            self.viewName = "notice"
-            if self.howToStackView.isHidden == true && self.expandInfoView.isHidden == true || isScrollTop {
-                if isScrollTop {
-//                    scrollYPosition = self.expandNoticeBtn.layer.height+16
-                    self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, expandHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
-                    isScrollTop = false
-                } else {
-                    // Scroll to top
-                    scrollYPosition = self.expandNoticeBtn.layer.height+16
-                }
-            } else {
-                // Gone howToView
-                scrollYPosition -= self.expandNoticeHeight.constant
-            }
-            let bottomOffset = CGPoint(x: 0, y: scrollYPosition)
-            scrollView.setContentOffset(bottomOffset, animated: true)
-        } else {
-            // Open
-            self.isOpen = false
-            self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, expandHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
-            // Scroll to bottom
-            if scrollYPosition <= 0 {
-                noticeSumHeight += self.expandNoticeBtn.layer.height+16
-            }
-            noticeSumHeight += self.expandNoticeHeight.constant
-            scrollYPosition += noticeSumHeight
-            
-            let bottomOffset = CGPoint(x: 0, y: scrollYPosition)
-            if bottomOffset.y > 0 {
-                scrollView.setContentOffset(bottomOffset, animated: true)
-            }
-        }
-    }
     
     @IBAction func onClickAdmobAd(_ sender: Any) {
         
@@ -434,40 +236,147 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     }
 }
 
-extension OfferwallViewController: UIScrollViewDelegate{
+//extension OfferwallViewController: UIScrollViewDelegate{
     // called when setContentOffset/scrollRectVisible:animated: finishes. not called if not animating
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        if self.isOpen {
-            // Close
-            switch self.viewName {
-            case "info":
-                self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
-
-                break
-            case "howTo":
-                self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.howToStackView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
-                
-//                scrollView.scrollToView(view: self.useTitleLb)
+//    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+//        if self.isOpen {
+//            // Close
+//            switch self.viewName {
+//            case "info":
+//                self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
 //
-//                self.scrollView.contentSize = CGSize(width: 200.0, height: -self.expandHowToHeight.constant)
+//                break
+//            case "howTo":
+//                self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.howToStackView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
 //
-//                // Scroll to bottom
-//                scrollView.scrollToView(view: self.useTitleLb)
+////                scrollView.scrollToView(view: self.useTitleLb)
+////
+////                self.scrollView.contentSize = CGSize(width: 200.0, height: -self.expandHowToHeight.constant)
+////
+////                // Scroll to bottom
+////                scrollView.scrollToView(view: self.useTitleLb)
+//
+//                break
+//            case "notice":
+//                self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, expandHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
+//                break
+//            default:
+//                break
+//            }
+//        }
+//    }
+//
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        if scrollView.contentOffset.y <= 0.0 {
+////            self.scrollYPosition = 0
+//            self.isScrollTop = true
+//        }
+//    }
+//}
 
-                break
-            case "notice":
-                self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, expandHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
-                break
-            default:
-                break
-            }
+
+extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource{
+
+    
+    // cell이 열리고 닫힐때 확인
+    func tableView(_ tableView: ExpyTableView, expyState state: ExpyState, changeForSection section: Int) {
+        print("\(section): 섹션")
+        switch state {
+        case .willExpand:
+            print("willExpand")
+        case .willCollapse:
+            print("willCollapse")
+        case .didExpand:
+            print("didExpand")
+        case .didCollapse:
+            print("didCollapse")
         }
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y <= 0.0 {
-//            self.scrollYPosition = 0
-            self.isScrollTop = true
+    // canExpanSection = 확장가능 활성화 여부 (true = 가능)
+    func tableView(_ tableView: ExpyTableView, canExpandSection section: Int) -> Bool {
+        return true
+    }
+    
+    // 섹션 내용
+    func tableView(_ tableView: ExpyTableView, expandableCellForSection section: Int) -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.selectionStyle = .none // 선택시 색 변경 제거
+        
+        if section == 0 {
+            cell.textLabel?.text = self.infoStrArr[0]
+        }else if section == 1{
+            cell.textLabel?.text = "베리 사용방법"
+        }else{
+            cell.textLabel?.text = self.noticeStrArr[0]
+        }
+        return cell
+    }
+    
+    // numberOfRowsInSection = row 갯수 return
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if section == 0 {
+            return self.infoStrArr.count
+        }else if section == 1{
+            return self.howToDict.count
+        }else{
+            return self.noticeStrArr.count
         }
     }
+    
+    // row 내용
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = UITableViewCell()
+        let dictionary = self.howToDict[(indexPath as NSIndexPath).row]
+        
+        if indexPath.section == 0 {
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.fontSize = 16
+            cell.textLabel?.textColor = UIColor(hex: "#333333")
+            cell.textLabel?.text = infoStrArr[indexPath.row]
+        }else if indexPath.section == 1{
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.fontSize = 16
+            cell.textLabel?.textColor = UIColor(hex: "#333333")
+            cell.textLabel?.text = dictionary["text"] as? String
+            cell.imageView?.image = dictionary["image"] as? UIImage
+        }else{
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.fontSize = 16
+            cell.textLabel?.textColor = UIColor(hex: "#333333")
+            cell.textLabel?.text = noticeStrArr[indexPath.row]
+        }
+        return cell
+    }
+    
+    // 섹션 갯수
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
+    // 선택
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("\(indexPath.section) : section \(indexPath.row) : row")
+    }
+    
+    // cellForRowAt = cell 높이
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        return UITableViewAutomaticDimension
+    }
+    
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        self.viewWillLayoutSubviews()
+//    }
+    
+//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 100
+//    }
+    
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        print("csj_heightForHeaderInsection : \(CGFloat(section))")
+//        return 0.0
+//    }
 }
