@@ -37,16 +37,14 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
      */
     private var selectedReward: MPRewardedVideoReward? = nil
     
-    var scrollYPosition:CGFloat = 0
-    var isScrollTop:Bool = false
-    var isOpen: Bool = false
-    var viewName:String = ""
+    typealias contentArr = Array<String>
+    
     let screenHeight:CGFloat = UIScreen.main.bounds.size.height
     let screenWidth:CGFloat = UIScreen.main.bounds.size.width
     
     
     // 초기화부분 이동예정
-    let infoStrArr:Array<String> = ["베리란?",
+    let infoStrArr:contentArr = ["베리란?",
                              "Ev Infra의 운영사인 (주)소프트베리에서 따온 이름으로, 사용자 여러분께 충전의 즐거움을 만족시켜 드릴 수 있도록 사용되는 포인트 단위를 말합니다. \n앱 내 동영상 광고, 또는 충전 시 적립(한전운영 충전기에 한함)가능하며 바로 사용하실 수 있습니다."]
     // [string: AnyObject]
     let howToDict = [
@@ -60,7 +58,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         ["text":"4) 이후 베리와 관련된 내역은 메인메뉴 > 마이페이지 > PAY > 베리 조회에서 확인하실 수 있습니다."]
     ]
     
-    let noticeStrArr:Array<String> = ["베리 사용 유의사항", "1) 이용 가능한 충전소 - 한전, GS칼텍스 위의 운영기관에서 운영중인 충전소에서만 베리 사용이 가능합니다 \n2) 베리는 충전 하는 중에 사용해야 합니다. (충전 이전 이나 충전 후 사용 불가) \n3) 사용하신 베리의 환불은 불가합니다. \n4) 충전중 베리사용시 최종 충전금액에서 사용하신 베리만큼 차감 후 결제됩니다. \n5) 기타 문의사항은 Ev Infra 고객센터 070-8633-9009로 문의주시기 바랍니다."]
+    let noticeStrArr:contentArr = ["베리 사용 유의사항", "1) 이용 가능한 충전소 - 한전, GS칼텍스 위의 운영기관에서 운영중인 충전소에서만 베리 사용이 가능합니다 \n2) 베리는 충전 하는 중에 사용해야 합니다. (충전 이전 이나 충전 후 사용 불가) \n3) 사용하신 베리의 환불은 불가합니다. \n4) 충전중 베리사용시 최종 충전금액에서 사용하신 베리만큼 차감 후 결제됩니다. \n5) 기타 문의사항은 Ev Infra 고객센터 070-8633-9009로 문의주시기 바랍니다."]
 
     
     override func viewDidLoad() {
@@ -72,15 +70,15 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         // row의 높이가 바뀔수 있음
         expyTableView.rowHeight = UITableViewAutomaticDimension
         expyTableView.estimatedRowHeight = UITableViewAutomaticDimension
-        
-//        self.tableViewHeight.
-//        self.expyTableView.rowHeight = UITableViewAutomaticDimension
+        expyTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+//        expyTableView.separatorColor = UIColor.init(hex: "#C8C8C8")
     }
     
-//    override func viewWillLayoutSubviews() {
-//        super.updateViewConstraints()
+    override func viewWillLayoutSubviews() {
+        super.updateViewConstraints()
 //        self.tableViewHeight.constant = self.expyTableView.contentSize.height
-//    }
+        adjustTableview()
+    }
     
     deinit {
         MPRewardedVideo.removeDelegate(forAdUnitId: self.kAdUnitId)
@@ -107,6 +105,15 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         checkAndInitializeSdk()
 
         lbMyBerryTitle.roundCorners(.allCorners, radius: 9)
+    }
+    
+    func adjustTableview() {
+        if self.expyTableView.contentSize.height > 0.0{
+            self.tableViewHeight.constant = self.expyTableView.contentSize.height
+            self.expyTableView.setNeedsLayout()
+            expyTableView.layoutIfNeeded()
+        }
+        
     }
     
     
@@ -283,13 +290,15 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
         print("\(section): 섹션")
         switch state {
         case .willExpand:
-            print("willExpand")
+            break
         case .willCollapse:
-            print("willCollapse")
+            break
         case .didExpand:
-            print("didExpand")
+            adjustTableview()
+            break
         case .didCollapse:
-            print("didCollapse")
+            adjustTableview()
+            break
         }
     }
     
@@ -302,9 +311,13 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
     func tableView(_ tableView: ExpyTableView, expandableCellForSection section: Int) -> UITableViewCell {
         let cell = UITableViewCell()
         cell.selectionStyle = .none // 선택시 색 변경 제거
+        cell.backgroundColor = .none
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
+        cell.separatorInset = .zero
         
         if section == 0 {
             cell.textLabel?.text = self.infoStrArr[0]
+
         }else if section == 1{
             cell.textLabel?.text = "베리 사용방법"
         }else{
@@ -347,6 +360,7 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
             cell.textLabel?.fontSize = 16
             cell.textLabel?.textColor = UIColor(hex: "#333333")
             cell.textLabel?.text = noticeStrArr[indexPath.row]
+            cell.textLabel?.sizeToFit()
         }
         return cell
     }
@@ -367,9 +381,9 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
         return UITableViewAutomaticDimension
     }
     
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        self.viewWillLayoutSubviews()
-//    }
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        self.viewWillLayoutSubviews()
+    }
     
 //    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
 //        return 100
