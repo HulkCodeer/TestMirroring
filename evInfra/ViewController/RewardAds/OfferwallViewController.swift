@@ -70,14 +70,6 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         // row의 높이가 바뀔수 있음
         expyTableView.rowHeight = UITableViewAutomaticDimension
         expyTableView.estimatedRowHeight = UITableViewAutomaticDimension
-        expyTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-//        expyTableView.separatorColor = UIColor.init(hex: "#C8C8C8")
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.updateViewConstraints()
-//        self.tableViewHeight.constant = self.expyTableView.contentSize.height
-        adjustTableview()
     }
     
     deinit {
@@ -113,7 +105,6 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
             self.expyTableView.setNeedsLayout()
             expyTableView.layoutIfNeeded()
         }
-        
     }
     
     
@@ -243,47 +234,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     }
 }
 
-//extension OfferwallViewController: UIScrollViewDelegate{
-    // called when setContentOffset/scrollRectVisible:animated: finishes. not called if not animating
-//    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-//        if self.isOpen {
-//            // Close
-//            switch self.viewName {
-//            case "info":
-//                self.expandInfoHeight.constant = scrollView.showOrHideView(view: self.expandInfoView, expandHeight: self.expandInfoHeight.constant, viewHeight: self.infoViewHeight.constant, imgView: infoBtnImg)
-//
-//                break
-//            case "howTo":
-//                self.expandHowToHeight.constant = scrollView.showOrHideView(view: self.howToStackView, expandHeight: self.expandHowToHeight.constant, viewHeight: self.howToHeight.constant, imgView: howToBtnImg)
-//
-////                scrollView.scrollToView(view: self.useTitleLb)
-////
-////                self.scrollView.contentSize = CGSize(width: 200.0, height: -self.expandHowToHeight.constant)
-////
-////                // Scroll to bottom
-////                scrollView.scrollToView(view: self.useTitleLb)
-//
-//                break
-//            case "notice":
-//                self.expandNoticeHeight.constant = scrollView.showOrHideView(view: self.expandNoticeView, expandHeight: self.expandNoticeHeight.constant, viewHeight: self.noticeHeight.constant, imgView: noticBtnImg)
-//                break
-//            default:
-//                break
-//            }
-//        }
-//    }
-//
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        if scrollView.contentOffset.y <= 0.0 {
-////            self.scrollYPosition = 0
-//            self.isScrollTop = true
-//        }
-//    }
-//}
-
-
 extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource{
-
     
     // cell이 열리고 닫힐때 확인
     func tableView(_ tableView: ExpyTableView, expyState state: ExpyState, changeForSection section: Int) {
@@ -312,23 +263,26 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
         let cell = UITableViewCell()
         cell.selectionStyle = .none // 선택시 색 변경 제거
         cell.backgroundColor = .none
-        cell.selectionStyle = UITableViewCellSelectionStyle.none
-        cell.separatorInset = .zero
         
         if section == 0 {
+//            cell.backgroundColor = UIColor(hex: "#C8C8C8")
+            self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
             cell.textLabel?.text = self.infoStrArr[0]
-
         }else if section == 1{
+//            cell.backgroundColor = UIColor(hex: "#C8C8C8")
+            self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
             cell.textLabel?.text = "베리 사용방법"
         }else{
+//            cell.backgroundColor = UIColor(hex: "#C8C8C8")
+            self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
             cell.textLabel?.text = self.noticeStrArr[0]
         }
+        
         return cell
     }
     
     // numberOfRowsInSection = row 갯수 return
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if section == 0 {
             return self.infoStrArr.count
         }else if section == 1{
@@ -340,28 +294,27 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
     
     // row 내용
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = UITableViewCell()
         let dictionary = self.howToDict[(indexPath as NSIndexPath).row]
-        
-        if indexPath.section == 0 {
-            cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.fontSize = 16
-            cell.textLabel?.textColor = UIColor(hex: "#333333")
+    
+        switch indexPath.section {
+        case 0:
             cell.textLabel?.text = infoStrArr[indexPath.row]
-        }else if indexPath.section == 1{
-            cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.fontSize = 16
-            cell.textLabel?.textColor = UIColor(hex: "#333333")
+        case 1:
             cell.textLabel?.text = dictionary["text"] as? String
             cell.imageView?.image = dictionary["image"] as? UIImage
-        }else{
-            cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.fontSize = 16
-            cell.textLabel?.textColor = UIColor(hex: "#333333")
+            cell.imageView?.sizeToFit()
+        case 2:
             cell.textLabel?.text = noticeStrArr[indexPath.row]
-            cell.textLabel?.sizeToFit()
+        default:
+            break
         }
+    
+        self.expyTableView.contentMode = .center
+        cell.textLabel?.numberOfLines = 0
+        cell.textLabel?.textColor = UIColor(hex: "#333333")
+        cell.textLabel?.fontSize = 16
+        
         return cell
     }
     
@@ -370,27 +323,12 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
         return 3
     }
     
-    // 선택
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("\(indexPath.section) : section \(indexPath.row) : row")
-    }
-    
     // cellForRowAt = cell 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        self.viewWillLayoutSubviews()
+        adjustTableview()
     }
-    
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 100
-//    }
-    
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        print("csj_heightForHeaderInsection : \(CGFloat(section))")
-//        return 0.0
-//    }
 }
