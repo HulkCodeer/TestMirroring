@@ -36,6 +36,7 @@ class UserDefault {
         static let MB_CAR_ID        = "mb_car_id"
         static let MB_CAR_TYPE      = "mb_car_type"
         static let MB_PARTNERSHIP_CLIENT   = "mb_partnership_client"
+        static let MB_PAYMENT       = "mb_payment"
         
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"

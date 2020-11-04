@@ -34,7 +34,7 @@ class MemberManager {
         return Login.LoginType(rawValue: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)) ?? .kakao
     }
     
-    static func isPartnershipClient(clientId : Int) -> Bool{
+    static func isPartnershipClient(clientId : Int) -> Bool {
         let list = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
         return list.contains(clientId)
     }
@@ -49,6 +49,15 @@ class MemberManager {
         if data.contains(JSON(MemberManager.RENT_CLIENT_SKR)){
             UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: true)
         }
+    }
+    
+    static func hasMembership() -> Bool {
+        let list = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
+        return !list.isEmpty
+    }
+    
+    static func hasPayment() -> Bool {
+        return UserDefault().readBool(key: UserDefault.Key.MB_PAYMENT)
     }
     
     // 로그인 상태 체크
@@ -81,6 +90,7 @@ class MemberManager {
             userDefault.saveInt(key: UserDefault.Key.MB_CAR_ID, value: data["car_id"].intValue)
             userDefault.saveInt(key: UserDefault.Key.MB_CAR_TYPE, value: data["car_type"].intValue)
             savePartnershipClientId(data : data["rent_client"].arrayValue)
+            userDefault.saveBool(key: UserDefault.Key.MB_PAYMENT, value: data["payment"].boolValue)
         }
     }
     
@@ -94,7 +104,8 @@ class MemberManager {
         userDefault.saveInt(key: UserDefault.Key.MB_CAR_ID, value: 0)
         userDefault.saveInt(key: UserDefault.Key.MB_CAR_TYPE, value: Const.CHARGER_TYPE_ETC)
         userDefault.saveIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT, value: [JSON]())
-        UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: false)
+        userDefault.saveBool(key: UserDefault.Key.INTRO_SKR, value: false)
+        userDefault.saveBool(key: UserDefault.Key.MB_PAYMENT, value: false)
     }
     
     func showLoginAlert(vc: UIViewController, completion: ((Bool) -> ())? = nil) {

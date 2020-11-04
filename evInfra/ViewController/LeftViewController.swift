@@ -72,7 +72,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var sideSectionArrays = [["마이페이지", "PAY"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["설정"]]
     var sideMenuArrays = [[["개인정보 관리", "내가쓴글 보기", "충전소 제보내역"],
-                           ["결제카드 관리", "회원카드 관리", "충전이력 조회", "포인트 조회"]],
+                           ["결제 정보 등록", "충전카드 신청", "충전이력 조회", "포인트 조회"]],
                           [["EV Infra 공지", "자유 게시판", "충전소 게시판"],
                            ["GS 칼텍스", "제주전기자동차서비스", "에스트래픽"]],
                           [["이벤트", "내 쿠폰함"]],
@@ -173,6 +173,10 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // 게시판, 이벤트 등에 새글 표시
         setNewBadge(cell: cell, index: indexPath)
+        
+        if menuIndex == MENU_MY_PAGE && indexPath.section == SUB_MENU_CELL_PAY {
+            updateMyPageTitle(cell: cell, index: indexPath)
+        }
         
         // 설정 - 버전정보 표시
         if menuIndex == MENU_SETTINGS && indexPath.row == SUB_MENU_VERSION {
@@ -405,6 +409,22 @@ extension LeftViewController {
 
         default:
             print("out of index")
+        }
+    }
+    
+    private func updateMyPageTitle(cell: SideMenuTableViewCell, index: IndexPath) {
+        if index.row == SUB_MENU_MY_PAYMENT_INFO {
+            if MemberManager.hasPayment() {
+                cell.menuLabel.text = "결제 정보 관리"
+            } else {
+                cell.menuLabel.text = "결제 정보 등록"
+            }
+        } else if index.row == SUB_MENU_MY_EVCARD_INFO {
+            if MemberManager.hasMembership() {
+                cell.menuLabel.text = "충전카드 관리"
+            } else {
+                cell.menuLabel.text = "충전카드 신청"
+            }
         }
     }
     
