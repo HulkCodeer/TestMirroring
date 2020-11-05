@@ -3941,7 +3941,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TeS-o3-iHR">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="2051.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="767.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="무료로 베리를 얻고 충전할 때 베리를 사용해보세요!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wcL-nV-vKl" userLabel="Label Title">
                                                 <rect key="frame" x="8" y="32" width="359" height="53"/>
@@ -3990,17 +3990,17 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BDt-3V-EpB" customClass="ExpyTableView" customModule="ExpyTableView">
-                                                <rect key="frame" x="0.0" y="651.5" width="375" height="1400"/>
+                                                <rect key="frame" x="0.0" y="651.5" width="375" height="100"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="1400" id="1zk-lG-JT9"/>
+                                                    <constraint firstAttribute="height" constant="100" id="FP8-gq-PTl"/>
                                                 </constraints>
                                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <prototypes>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="236" id="Wv9-SY-Nc8">
-                                                        <rect key="frame" x="0.0" y="28" width="375" height="236"/>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" rowHeight="35" id="Wv9-SY-Nc8">
+                                                        <rect key="frame" x="0.0" y="28" width="375" height="35"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Wv9-SY-Nc8" id="gtY-Lc-ua7">
-                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="236"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="35"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="color" keyPath="dividerColor">
@@ -4029,6 +4029,7 @@
                                             <constraint firstItem="KvX-ue-LNV" firstAttribute="top" secondItem="IAf-ec-ySC" secondAttribute="bottom" constant="16" id="2TO-nD-Q2b"/>
                                             <constraint firstItem="KvX-ue-LNV" firstAttribute="centerX" secondItem="TeS-o3-iHR" secondAttribute="centerX" id="499-N3-kB9"/>
                                             <constraint firstItem="xn0-HJ-IjW" firstAttribute="top" secondItem="KvX-ue-LNV" secondAttribute="bottom" constant="40" id="7B2-Rh-L71"/>
+                                            <constraint firstAttribute="bottom" secondItem="BDt-3V-EpB" secondAttribute="bottom" constant="16" id="ASS-BF-1cB"/>
                                             <constraint firstItem="njE-gT-AeL" firstAttribute="centerX" secondItem="TeS-o3-iHR" secondAttribute="centerX" id="Dwo-wK-9ib"/>
                                             <constraint firstItem="wcL-nV-vKl" firstAttribute="leading" secondItem="TeS-o3-iHR" secondAttribute="leading" constant="8" id="FUn-hp-Acx"/>
                                             <constraint firstItem="BDt-3V-EpB" firstAttribute="top" secondItem="njE-gT-AeL" secondAttribute="bottom" constant="16" id="IR7-bz-Q8G"/>
@@ -4043,7 +4044,6 @@
                                             <constraint firstItem="48Z-HZ-Xdy" firstAttribute="leading" secondItem="TeS-o3-iHR" secondAttribute="leading" constant="8" id="jDV-mS-EDd"/>
                                             <constraint firstItem="IAf-ec-ySC" firstAttribute="centerX" secondItem="TeS-o3-iHR" secondAttribute="centerX" id="kuR-bO-7kc"/>
                                             <constraint firstItem="BDt-3V-EpB" firstAttribute="leading" secondItem="TeS-o3-iHR" secondAttribute="leading" id="lEr-oG-keJ"/>
-                                            <constraint firstAttribute="bottom" secondItem="BDt-3V-EpB" secondAttribute="bottom" id="ofq-sk-VaZ"/>
                                             <constraint firstAttribute="trailing" secondItem="BDt-3V-EpB" secondAttribute="trailing" id="tyW-t2-agN"/>
                                             <constraint firstAttribute="trailing" secondItem="wcL-nV-vKl" secondAttribute="trailing" constant="8" id="wh6-9C-90j"/>
                                         </constraints>
@@ -4073,7 +4073,7 @@
                         <outlet property="expyTableView" destination="BDt-3V-EpB" id="rKR-We-u1R"/>
                         <outlet property="lbMyBerryTitle" destination="IAf-ec-ySC" id="lWA-DP-mLB"/>
                         <outlet property="scrollView" destination="b6k-bq-7MP" id="Ytx-xs-vBO"/>
-                        <outlet property="tableViewHeight" destination="1zk-lG-JT9" id="mmH-G4-ctU"/>
+                        <outlet property="tableViewHeight" destination="FP8-gq-PTl" id="d2q-cx-mYi"/>
                         <outlet property="useTitleLb" destination="njE-gT-AeL" id="aRV-8o-w7D"/>
                     </connections>
                 </viewController>

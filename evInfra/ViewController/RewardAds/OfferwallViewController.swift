@@ -58,7 +58,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         ["text":"4) 이후 베리와 관련된 내역은 메인메뉴 > 마이페이지 > PAY > 베리 조회에서 확인하실 수 있습니다."]
     ]
     
-    let noticeStrArr:contentArr = ["베리 사용 유의사항", "1) 이용 가능한 충전소 - 한전, GS칼텍스 위의 운영기관에서 운영중인 충전소에서만 베리 사용이 가능합니다 \n2) 베리는 충전 하는 중에 사용해야 합니다. (충전 이전 이나 충전 후 사용 불가) \n3) 사용하신 베리의 환불은 불가합니다. \n4) 충전중 베리사용시 최종 충전금액에서 사용하신 베리만큼 차감 후 결제됩니다. \n5) 기타 문의사항은 Ev Infra 고객센터 070-8633-9009로 문의주시기 바랍니다."]
+    let noticeStrArr:contentArr = ["베리 사용 유의사항", "1) 이용 가능한 충전소 - 한전, GS칼텍스 위의 운영기관에서 운영중인 충전소에서만 베리 사용이 가능합니다","2) 베리는 충전 하는 중에 사용해야 합니다. (충전 이전 이나 충전 후 사용 불가)","3) 사용하신 베리의 환불은 불가합니다. ","4) 충전중 베리사용시 최종 충전금액에서 사용하신 베리만큼 차감 후 결제됩니다.","5) 기타 문의사항은 Ev Infra 고객센터 070-8633-9009로 문의주시기 바랍니다."]
 
     
     override func viewDidLoad() {
@@ -70,6 +70,8 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         // row의 높이가 바뀔수 있음
         expyTableView.rowHeight = UITableViewAutomaticDimension
         expyTableView.estimatedRowHeight = UITableViewAutomaticDimension
+        expyTableView.separatorStyle = .none
+        expyTableView.separatorInset = .zero
     }
     
     deinit {
@@ -108,32 +110,32 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     }
     
     
-    @IBAction func onClickAdmobAd(_ sender: Any) {
-        
-        Server.postCheckRewardVideoAvailable { (isSuccess, value) in
-            
-            if isSuccess {
-                let json = JSON(value)
-                if json["code"].intValue == 1000 {
-                    if MPRewardedVideo.hasAdAvailable(forAdUnitID: self.kAdUnitId) {
-                        guard let reward: MPRewardedVideoReward = MPRewardedVideo.selectedReward(forAdUnitID: self.kAdUnitId) else {
-                            self.selectedReward = nil
-                            return
-                        }
-                        
-                        self.selectedReward = reward
-                        MPRewardedVideo.presentAd(forAdUnitID: self.kAdUnitId, from: self, with: self.selectedReward, customData: String(MemberManager.getMbId()))
-                    } else {
-                        Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
-                    }
-                } else {
-                    Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
-                }
-            } else {
-                Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
-            }
-        }
-    }
+//    @IBAction func onClickAdmobAd(_ sender: Any) {
+//
+//        Server.postCheckRewardVideoAvailable { (isSuccess, value) in
+//
+//            if isSuccess {
+//                let json = JSON(value)
+//                if json["code"].intValue == 1000 {
+//                    if MPRewardedVideo.hasAdAvailable(forAdUnitID: self.kAdUnitId) {
+//                        guard let reward: MPRewardedVideoReward = MPRewardedVideo.selectedReward(forAdUnitID: self.kAdUnitId) else {
+//                            self.selectedReward = nil
+//                            return
+//                        }
+//
+//                        self.selectedReward = reward
+//                        MPRewardedVideo.presentAd(forAdUnitID: self.kAdUnitId, from: self, with: self.selectedReward, customData: String(MemberManager.getMbId()))
+//                    } else {
+//                        Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
+//                    }
+//                } else {
+//                    Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
+//                }
+//            } else {
+//                Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
+//            }
+//        }
+//    }
     
     /// Tells the delegate that the user earned a reward.
     func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
@@ -238,7 +240,6 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
     
     // cell이 열리고 닫힐때 확인
     func tableView(_ tableView: ExpyTableView, expyState state: ExpyState, changeForSection section: Int) {
-        print("\(section): 섹션")
         switch state {
         case .willExpand:
             break
@@ -261,23 +262,24 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
     // 섹션 내용
     func tableView(_ tableView: ExpyTableView, expandableCellForSection section: Int) -> UITableViewCell {
         let cell = UITableViewCell()
+        
         cell.selectionStyle = .none // 선택시 색 변경 제거
         cell.backgroundColor = .none
         
         if section == 0 {
-//            cell.backgroundColor = UIColor(hex: "#C8C8C8")
             self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
             cell.textLabel?.text = self.infoStrArr[0]
         }else if section == 1{
-//            cell.backgroundColor = UIColor(hex: "#C8C8C8")
             self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
             cell.textLabel?.text = "베리 사용방법"
-        }else{
-//            cell.backgroundColor = UIColor(hex: "#C8C8C8")
+            
+        }else if section == 2{
             self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
-            cell.textLabel?.text = self.noticeStrArr[0]
+            cell.textLabel?.text = "베리 사용 유의사항"
+            cell.textLabel?.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+            cell.textLabel?.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
+            
         }
-        
         return cell
     }
     
@@ -287,7 +289,7 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
             return self.infoStrArr.count
         }else if section == 1{
             return self.howToDict.count
-        }else{
+        }else {
             return self.noticeStrArr.count
         }
     }
@@ -295,29 +297,34 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
     // row 내용
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        let dictionary = self.howToDict[(indexPath as NSIndexPath).row]
-    
+
         switch indexPath.section {
         case 0:
             cell.textLabel?.text = infoStrArr[indexPath.row]
         case 1:
+            let dictionary = self.howToDict[(indexPath as NSIndexPath).row]
+            
             cell.textLabel?.text = dictionary["text"] as? String
             cell.imageView?.image = dictionary["image"] as? UIImage
-            cell.imageView?.sizeToFit()
+            
+            cell.imageView?.translatesAutoresizingMaskIntoConstraints = false
+            cell.imageView?.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor).isActive = true
+            cell.imageView?.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor).isActive = true
+            cell.imageView?.widthAnchor.constraint(equalToConstant: screenWidth).isActive = true
+            cell.imageView?.contentMode = .scaleAspectFit
+
         case 2:
             cell.textLabel?.text = noticeStrArr[indexPath.row]
         default:
             break
         }
     
-        self.expyTableView.contentMode = .center
         cell.textLabel?.numberOfLines = 0
         cell.textLabel?.textColor = UIColor(hex: "#333333")
         cell.textLabel?.fontSize = 16
-        
         return cell
     }
-    
+
     // 섹션 갯수
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
