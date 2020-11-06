@@ -71,6 +71,18 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 사용자 - push message 알림 설정
+    static func updateJejuNotificationState(state: Bool, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId(),
+            "receive_push": state
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/user/setJejuNotification",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
     // 회원 - 회원 가입
     static func signUp(type: Login.LoginType, email: String, emailVerify: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [

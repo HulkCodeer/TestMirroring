@@ -135,6 +135,7 @@ class MainViewController: UIViewController {
     private var currentClusterLv = 0
     private var isAllowedCluster = true
     private var isExistAddBtn = false
+    var canIgnoreJejuPush = false
     
     // 지킴이 점겸표 url
     private var checklistUrl: String?
@@ -191,6 +192,7 @@ class MainViewController: UIViewController {
         if self.sharedChargerId != nil {
             self.selectChargerFromShared()
         }
+        canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1427,6 +1429,10 @@ extension MainViewController {
                     if Const.CLOSED_BETA_TEST {
                         CBT.checkCBT(vc: controller!)
                     }
+                    
+                    if !(controller?.canIgnoreJejuPush ?? true) {
+                        controller?.checkJeJuBoundary()
+                    }
                 }
                 
                 func onError(errorMsg: String) {
@@ -1490,6 +1496,16 @@ extension MainViewController {
                 }
             }
             self.markerIndicator.stopAnimating()
+        }
+    }
+    
+    private func checkJeJuBoundary(){
+        let point = MainViewController.currentLocation
+        if 37.42 <= point!.getLatitude() , point!.getLatitude() <= 37.57
+            && 126.9 <= point!.getLongitude() , point!.getLongitude() <= 127.13 {
+            print("in jeju boundary")
+            let window = UIApplication.shared.keyWindow!
+            window.addSubview(PopUpDialog(frame: window.bounds))
         }
     }
 }

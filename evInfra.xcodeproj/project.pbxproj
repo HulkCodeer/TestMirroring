@@ -13,8 +13,10 @@
 		0067D593252C491B00D97146 /* PartnershipListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0067D592252C491B00D97146 /* PartnershipListView.xib */; };
 		0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067D595252C492A00D97146 /* PartnershipListView.swift */; };
 		0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */; };
+		006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006C90982554EFD100F7C6D7 /* PopUpDialog.swift */; };
 		00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */; };
 		00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */; };
+		00A84A9625514876008D987D /* PopUpDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A84A9525514876008D987D /* PopUpDialog.xib */; };
 		00C75C46252ED4A000387559 /* LotteRentCertificateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C45252ED4A000387559 /* LotteRentCertificateViewController.swift */; };
 		00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */; };
 		00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C55252EF40100387559 /* HSUnderLineTextField.swift */; };
@@ -301,8 +303,10 @@
 		0067D592252C491B00D97146 /* PartnershipListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartnershipListView.xib; sourceTree = "<group>"; };
 		0067D595252C492A00D97146 /* PartnershipListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnershipListView.swift; sourceTree = "<group>"; };
 		0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceViewController.swift; sourceTree = "<group>"; };
+		006C90982554EFD100F7C6D7 /* PopUpDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpDialog.swift; sourceTree = "<group>"; };
 		00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnershipJoinView.swift; sourceTree = "<group>"; };
 		00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartnershipJoinView.xib; sourceTree = "<group>"; };
+		00A84A9525514876008D987D /* PopUpDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PopUpDialog.xib; sourceTree = "<group>"; };
 		00C75C45252ED4A000387559 /* LotteRentCertificateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotteRentCertificateViewController.swift; sourceTree = "<group>"; };
 		00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResultViewController.swift; sourceTree = "<group>"; };
 		00C75C55252EF40100387559 /* HSUnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSUnderLineTextField.swift; sourceTree = "<group>"; };
@@ -910,6 +914,8 @@
 				00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */,
 				0067D592252C491B00D97146 /* PartnershipListView.xib */,
 				0067D595252C492A00D97146 /* PartnershipListView.swift */,
+				00A84A9525514876008D987D /* PopUpDialog.xib */,
+				006C90982554EFD100F7C6D7 /* PopUpDialog.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1361,6 +1367,7 @@
 				736BCE87205A892E0052C9ED /* intro_bg.jpg in Resources */,
 				73EF8B70203C85CC00D04494 /* HeadingAngleSmall@2x.png in Resources */,
 				73A7B3F4204E3595002E975F /* bubble_go.png in Resources */,
+				00A84A9625514876008D987D /* PopUpDialog.xib in Resources */,
 				73EF8B76203C85CC00D04494 /* poweredby@2x.png in Resources */,
 				73A7B410204E3595002E975F /* type_ac_slow_dim.png in Resources */,
 				DB0D96D72052548B00BA018B /* menu_top_bg.jpg in Resources */,
@@ -1618,6 +1625,7 @@
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,
 				DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */,
 				73AD13C8203AC57A00ADD19A /* AppNavigationDrawerController.swift in Sources */,
+				006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */,
 				7308559D206350890008497E /* UIView.swift in Sources */,
 				7312786820BE38C500861B3E /* FCMManager.swift in Sources */,
 				0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */,
