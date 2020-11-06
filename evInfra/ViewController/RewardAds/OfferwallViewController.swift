@@ -41,6 +41,12 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     
     let screenHeight:CGFloat = UIScreen.main.bounds.size.height
     let screenWidth:CGFloat = UIScreen.main.bounds.size.width
+    var isInfoOpen:Bool = false
+    var isHowToOpen:Bool = false
+    var isNoticeOpen:Bool = false
+    
+    let closeImg:UIImage = UIImage.init(named: "list_close_btn")!
+    let openImg:UIImage = UIImage.init(named: "list_open_btn")!
     
     
     // 초기화부분 이동예정
@@ -59,7 +65,6 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     ]
     
     let noticeStrArr:contentArr = ["베리 사용 유의사항", "1) 이용 가능한 충전소 - 한전, GS칼텍스 위의 운영기관에서 운영중인 충전소에서만 베리 사용이 가능합니다","2) 베리는 충전 하는 중에 사용해야 합니다. (충전 이전 이나 충전 후 사용 불가)","3) 사용하신 베리의 환불은 불가합니다. ","4) 충전중 베리사용시 최종 충전금액에서 사용하신 베리만큼 차감 후 결제됩니다.","5) 기타 문의사항은 Ev Infra 고객센터 070-8633-9009로 문의주시기 바랍니다."]
-
     
     override func viewDidLoad() {
         prepareActionBar()
@@ -67,13 +72,13 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         scrollView.delegate = self
         expyTableView.delegate = self
         expyTableView.dataSource = self
+
         // row의 높이가 바뀔수 있음
         expyTableView.rowHeight = UITableViewAutomaticDimension
         expyTableView.estimatedRowHeight = UITableViewAutomaticDimension
         expyTableView.separatorStyle = .none
         expyTableView.separatorInset = .zero
     }
-    
     deinit {
         MPRewardedVideo.removeDelegate(forAdUnitId: self.kAdUnitId)
     }
@@ -104,11 +109,38 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     func adjustTableview() {
         if self.expyTableView.contentSize.height > 0.0{
             self.tableViewHeight.constant = self.expyTableView.contentSize.height
-            self.expyTableView.setNeedsLayout()
+//            scrollView.contentSize.height = self.tableViewHeight.constant
+            //TEST CODE
             expyTableView.layoutIfNeeded()
+            expyTableView.setNeedsLayout()
+            
+
+//            scrollView.scrollToBottom()
+            //                let endIndex = IndexPath(row: 3, section: 2)
+            //                self.expyTableView.scrollToRow(at: endIndex, at: .bottom, animated: true)
         }
     }
     
+//    func changeImg() -> UIImage{
+//        var image = UIImage.init(named: "list_close_btn")
+//        if self.isOpen{
+//            image = UIImage.init(named: "list_open_btn")
+//        }else{
+//            image = UIImage.init(named: "list_close_btn")
+//        }
+//        return image!
+//    }
+    // info view open / hide
+    // howto view open/ hide
+    
+//    func isOpen() -> String {
+//        if isInfoOpen {
+//            <#code#>
+//        }else{
+//
+//        }
+//    }
+//
     
 //    @IBAction func onClickAdmobAd(_ sender: Any) {
 //
@@ -236,19 +268,69 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     }
 }
 
-extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource{
+extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource, ExpyTableViewHeaderCell{
     
-    // cell이 열리고 닫힐때 확인
-    func tableView(_ tableView: ExpyTableView, expyState state: ExpyState, changeForSection section: Int) {
+    func changeState(_ state: ExpyState, cellReuseStatus cellReuse: Bool) {
         switch state {
         case .willExpand:
             break
         case .willCollapse:
             break
         case .didExpand:
+            break
+        case .didCollapse:
+            break
+        }
+    }
+    
+    
+    // cell이 열리고 닫힐때 확인
+    func tableView(_ tableView: ExpyTableView, expyState state: ExpyState, changeForSection section: Int) {
+        switch state {
+        case .willExpand:
+//            self.isOpen = true
+            // TEST CODE
+            if section == 0 {
+                self.isInfoOpen = true
+            }else if section == 1{
+                self.isHowToOpen = true
+            }else{
+                self.isNoticeOpen = true
+            }
+            break
+        case .willCollapse:
+//            self.isOpen = false
+            // TEST CODE
+            if section == 0 {
+                self.isInfoOpen = false
+            }else if section == 1{
+                self.isHowToOpen = false
+            }else{
+                self.isNoticeOpen = false
+            }
+            break
+        case .didExpand:
+//            self.isOpen = true
+            // TEST CODE
+            if section == 0 {
+                self.isInfoOpen = true
+            }else if section == 1{
+                self.isHowToOpen = true
+            }else{
+                self.isNoticeOpen = true
+            }
             adjustTableview()
             break
         case .didCollapse:
+//            self.isOpen = false
+            // TEST CODE
+            if section == 0 {
+                self.isInfoOpen = false
+            }else if section == 1{
+                self.isHowToOpen = false
+            }else{
+                self.isNoticeOpen = false
+            }
             adjustTableview()
             break
         }
@@ -269,19 +351,29 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
         if section == 0 {
             self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
             cell.textLabel?.text = self.infoStrArr[0]
+            cell.imageView?.image = openImg
         }else if section == 1{
             self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
             cell.textLabel?.text = "베리 사용방법"
-            
+            cell.imageView?.image = openImg
         }else if section == 2{
             self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
-            cell.textLabel?.text = "베리 사용 유의사항"
-            cell.textLabel?.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
-            cell.textLabel?.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
-            
+            cell.textLabel?.text = self.noticeStrArr[0]
+            cell.imageView?.image = openImg
         }
+        
+//        cell.imageView?.translatesAutoresizingMaskIntoConstraints = false
+//        cell.imageView?.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor).isActive = true
+//        cell.imageView?.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor).isActive = true
+//        cell.imageView?.widthAnchor.constraint(equalToConstant: screenWidth).isActive = true
+//        cell.imageView?.contentMode = .scaleAspectFit
+//        cell.imageView?.layoutEdgeInsets = UIEdgeInsets.init(top: 0, left: 0, bottom: 100, right: 50)
+//        cell.imageView?.leadingAnchor.constraint(equalTo: cell.contentView.centerXAnchor)
+//        cell.imageView?.trailingAnchor
         return cell
     }
+    
+    
     
     // numberOfRowsInSection = row 갯수 return
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -294,10 +386,55 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let currImg = tableView.cellForRow(at: indexPath)?.imageView?.image
+//        print("section : \(expyTableView.headerView(forSection: 0))")
+//        tableView.cellForRow(at: indexPath)?.imageView?.image = self.changeImg()
+        if indexPath.row == 0 {
+            switch indexPath.section {
+            case 0:
+                // "베리란 ?"
+                // isInfoOpen
+                // TEST CODE
+                if currImg!.isEqual(other: openImg){
+                    tableView.cellForRow(at: indexPath)?.imageView?.image = self.closeImg
+                }else{
+                    tableView.cellForRow(at: indexPath)?.imageView?.image = self.openImg
+                }
+    //            tableView.cellForRow(at: indexPath)?.imageView?.image = self.changeImg()
+                break
+            case 1:
+                // "베리 사용방법"
+                // isHowToOpen
+                // TEST CODE
+                if currImg!.isEqual(other: openImg){
+                    tableView.cellForRow(at: indexPath)?.imageView?.image = self.closeImg
+                }else{
+                    tableView.cellForRow(at: indexPath)?.imageView?.image = self.openImg
+                }
+    //            tableView.cellForRow(at: indexPath)?.imageView?.image = self.changeImg()
+                break
+            case 2:
+                // "베리 사용 유의사항"
+                // isNoticeOpen
+                // TEST CODE
+                if currImg!.isEqual(other: openImg){
+                    tableView.cellForRow(at: indexPath)?.imageView?.image = self.closeImg
+                }else{
+                    tableView.cellForRow(at: indexPath)?.imageView?.image = self.openImg
+                }
+                break
+            default:
+                break
+            }
+        }
+    }
+    
     // row 내용
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-
+        
         switch indexPath.section {
         case 0:
             cell.textLabel?.text = infoStrArr[indexPath.row]
@@ -339,3 +476,5 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
         adjustTableview()
     }
 }
+
+
