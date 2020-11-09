@@ -109,38 +109,11 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     func adjustTableview() {
         if self.expyTableView.contentSize.height > 0.0{
             self.tableViewHeight.constant = self.expyTableView.contentSize.height
-//            scrollView.contentSize.height = self.tableViewHeight.constant
             //TEST CODE
             expyTableView.layoutIfNeeded()
             expyTableView.setNeedsLayout()
-            
-
-//            scrollView.scrollToBottom()
-            //                let endIndex = IndexPath(row: 3, section: 2)
-            //                self.expyTableView.scrollToRow(at: endIndex, at: .bottom, animated: true)
         }
     }
-    
-//    func changeImg() -> UIImage{
-//        var image = UIImage.init(named: "list_close_btn")
-//        if self.isOpen{
-//            image = UIImage.init(named: "list_open_btn")
-//        }else{
-//            image = UIImage.init(named: "list_close_btn")
-//        }
-//        return image!
-//    }
-    // info view open / hide
-    // howto view open/ hide
-    
-//    func isOpen() -> String {
-//        if isInfoOpen {
-//            <#code#>
-//        }else{
-//
-//        }
-//    }
-//
     
 //    @IBAction func onClickAdmobAd(_ sender: Any) {
 //
@@ -288,49 +261,13 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
     func tableView(_ tableView: ExpyTableView, expyState state: ExpyState, changeForSection section: Int) {
         switch state {
         case .willExpand:
-//            self.isOpen = true
-            // TEST CODE
-            if section == 0 {
-                self.isInfoOpen = true
-            }else if section == 1{
-                self.isHowToOpen = true
-            }else{
-                self.isNoticeOpen = true
-            }
             break
         case .willCollapse:
-//            self.isOpen = false
-            // TEST CODE
-            if section == 0 {
-                self.isInfoOpen = false
-            }else if section == 1{
-                self.isHowToOpen = false
-            }else{
-                self.isNoticeOpen = false
-            }
             break
         case .didExpand:
-//            self.isOpen = true
-            // TEST CODE
-            if section == 0 {
-                self.isInfoOpen = true
-            }else if section == 1{
-                self.isHowToOpen = true
-            }else{
-                self.isNoticeOpen = true
-            }
             adjustTableview()
             break
         case .didCollapse:
-//            self.isOpen = false
-            // TEST CODE
-            if section == 0 {
-                self.isInfoOpen = false
-            }else if section == 1{
-                self.isHowToOpen = false
-            }else{
-                self.isNoticeOpen = false
-            }
             adjustTableview()
             break
         }
@@ -343,33 +280,28 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
     
     // 섹션 내용
     func tableView(_ tableView: ExpyTableView, expandableCellForSection section: Int) -> UITableViewCell {
-        let cell = UITableViewCell()
-        
+        let cell = Bundle.main.loadNibNamed("OfferwallTableViewCell", owner: self, options: nil)?.first as! OfferwallTableViewCell
+
         cell.selectionStyle = .none // 선택시 색 변경 제거
         cell.backgroundColor = .none
+        cell.contentTitle.isHidden = false
+        cell.contentStateImg.isHidden = false
+        cell.content.isHidden = true
+        cell.contentImg.isHidden = true
         
         if section == 0 {
             self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
-            cell.textLabel?.text = self.infoStrArr[0]
-            cell.imageView?.image = openImg
+            cell.contentTitle.text = self.infoStrArr[0]
+            cell.contentStateImg.image = openImg
         }else if section == 1{
             self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
-            cell.textLabel?.text = "베리 사용방법"
-            cell.imageView?.image = openImg
+            cell.contentTitle.text = "베리 사용방법"
+            cell.contentStateImg.image = openImg
         }else if section == 2{
             self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
-            cell.textLabel?.text = self.noticeStrArr[0]
-            cell.imageView?.image = openImg
+            cell.contentTitle.text = self.noticeStrArr[0]
+            cell.contentStateImg.image = openImg
         }
-        
-//        cell.imageView?.translatesAutoresizingMaskIntoConstraints = false
-//        cell.imageView?.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor).isActive = true
-//        cell.imageView?.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor).isActive = true
-//        cell.imageView?.widthAnchor.constraint(equalToConstant: screenWidth).isActive = true
-//        cell.imageView?.contentMode = .scaleAspectFit
-//        cell.imageView?.layoutEdgeInsets = UIEdgeInsets.init(top: 0, left: 0, bottom: 100, right: 50)
-//        cell.imageView?.leadingAnchor.constraint(equalTo: cell.contentView.centerXAnchor)
-//        cell.imageView?.trailingAnchor
         return cell
     }
     
@@ -386,79 +318,31 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let currImg = tableView.cellForRow(at: indexPath)?.imageView?.image
-//        print("section : \(expyTableView.headerView(forSection: 0))")
-//        tableView.cellForRow(at: indexPath)?.imageView?.image = self.changeImg()
-        if indexPath.row == 0 {
-            switch indexPath.section {
-            case 0:
-                // "베리란 ?"
-                // isInfoOpen
-                // TEST CODE
-                if currImg!.isEqual(other: openImg){
-                    tableView.cellForRow(at: indexPath)?.imageView?.image = self.closeImg
-                }else{
-                    tableView.cellForRow(at: indexPath)?.imageView?.image = self.openImg
-                }
-    //            tableView.cellForRow(at: indexPath)?.imageView?.image = self.changeImg()
-                break
-            case 1:
-                // "베리 사용방법"
-                // isHowToOpen
-                // TEST CODE
-                if currImg!.isEqual(other: openImg){
-                    tableView.cellForRow(at: indexPath)?.imageView?.image = self.closeImg
-                }else{
-                    tableView.cellForRow(at: indexPath)?.imageView?.image = self.openImg
-                }
-    //            tableView.cellForRow(at: indexPath)?.imageView?.image = self.changeImg()
-                break
-            case 2:
-                // "베리 사용 유의사항"
-                // isNoticeOpen
-                // TEST CODE
-                if currImg!.isEqual(other: openImg){
-                    tableView.cellForRow(at: indexPath)?.imageView?.image = self.closeImg
-                }else{
-                    tableView.cellForRow(at: indexPath)?.imageView?.image = self.openImg
-                }
-                break
-            default:
-                break
-            }
-        }
-    }
-    
     // row 내용
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let cell = Bundle.main.loadNibNamed("OfferwallTableViewCell", owner: self, options: nil)?.first as! OfferwallTableViewCell
+        cell.contentStateImg.isHidden = true
+        cell.contentTitle.isHidden = true
+        cell.content.isHidden = false
         
         switch indexPath.section {
         case 0:
-            cell.textLabel?.text = infoStrArr[indexPath.row]
+            cell.content.text = self.infoStrArr[indexPath.row]
         case 1:
             let dictionary = self.howToDict[(indexPath as NSIndexPath).row]
+            cell.contentImg.isHidden = false
             
-            cell.textLabel?.text = dictionary["text"] as? String
-            cell.imageView?.image = dictionary["image"] as? UIImage
-            
-            cell.imageView?.translatesAutoresizingMaskIntoConstraints = false
-            cell.imageView?.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor).isActive = true
-            cell.imageView?.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor).isActive = true
-            cell.imageView?.widthAnchor.constraint(equalToConstant: screenWidth).isActive = true
-            cell.imageView?.contentMode = .scaleAspectFit
-
+            cell.content.text = dictionary["text"] as? String
+            cell.contentImg.image = dictionary["image"] as? UIImage
         case 2:
-            cell.textLabel?.text = noticeStrArr[indexPath.row]
+            cell.content.text = self.noticeStrArr[indexPath.row]
         default:
             break
         }
     
-        cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.textColor = UIColor(hex: "#333333")
-        cell.textLabel?.fontSize = 16
+        cell.content.numberOfLines = 0
+        cell.content.textColor = UIColor(hex: "#333333")
+        cell.content.fontSize = 16
         return cell
     }
 
