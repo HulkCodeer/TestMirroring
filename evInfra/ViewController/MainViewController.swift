@@ -1726,7 +1726,11 @@ extension MainViewController {
                 }
             }
         } else {
-            MemberManager().showLoginAlert(vc: self)
+            // 진행중인 충전이 없음
+            self.btn_main_charge.alignTextUnderImage()
+            self.btn_main_charge.tintColor = UIColor(rgb: 0x15435C)
+            self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            self.btn_main_charge.setTitle("간편 충전", for: .normal)
         }
     }
     
