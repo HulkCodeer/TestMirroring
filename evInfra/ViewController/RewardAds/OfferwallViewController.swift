@@ -48,37 +48,24 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     let closeImg:UIImage = UIImage.init(named: "list_close_btn")!
     let openImg:UIImage = UIImage.init(named: "list_open_btn")!
     
-    
-    // 초기화부분 이동예정
-    let infoStrArr:contentArr = ["베리란?",
-                             "Ev Infra의 운영사인 (주)소프트베리에서 따온 이름으로, 사용자 여러분께 충전의 즐거움을 만족시켜 드릴 수 있도록 사용되는 포인트 단위를 말합니다. \n앱 내 동영상 광고, 또는 충전 시 적립(한전운영 충전기에 한함)가능하며 바로 사용하실 수 있습니다."]
+    var infoStrArr:contentArr = []
     // [string: AnyObject]
-    let howToDict = [
-        ["text":"베리 사용방법"],
-        ["text":"1) 충전 진행화면 하단의 '베리 사용하기' 버튼을 클릭"],
-        ["image":UIImage(named: "howtouse_point")!],
-        ["text":"2) 사용하실 베리를 작성"],
-        ["image":UIImage(named: "howtouse_point")!],
-        ["text":"3) 팝업창의 베리사용하기 버튼을 누르면 사용 완료!"],
-        ["image":UIImage(named: "howtouse_point_1")!],
-        ["text":"4) 이후 베리와 관련된 내역은 메인메뉴 > 마이페이지 > PAY > 베리 조회에서 확인하실 수 있습니다."]
-    ]
+    // AnyObject = String, UIImage
+    var howToDict:[[String:Any]] = [[:]]
     
-    let noticeStrArr:contentArr = ["베리 사용 유의사항", "1) 이용 가능한 충전소 - 한전, GS칼텍스 위의 운영기관에서 운영중인 충전소에서만 베리 사용이 가능합니다","2) 베리는 충전 하는 중에 사용해야 합니다. (충전 이전 이나 충전 후 사용 불가)","3) 사용하신 베리의 환불은 불가합니다. ","4) 충전중 베리사용시 최종 충전금액에서 사용하신 베리만큼 차감 후 결제됩니다.","5) 기타 문의사항은 Ev Infra 고객센터 070-8633-9009로 문의주시기 바랍니다."]
+    var noticeStrArr:contentArr = []
     
     override func viewDidLoad() {
-        prepareActionBar()
-        prepareView()
         scrollView.delegate = self
         expyTableView.delegate = self
         expyTableView.dataSource = self
-
-        // row의 높이가 바뀔수 있음
-        expyTableView.rowHeight = UITableViewAutomaticDimension
-        expyTableView.estimatedRowHeight = UITableViewAutomaticDimension
-        expyTableView.separatorStyle = .none
-        expyTableView.separatorInset = .zero
+        
+        prepareActionBar()
+        prepareView()
+        prepareTableView()
+        initializeArr()
     }
+    
     deinit {
         MPRewardedVideo.removeDelegate(forAdUnitId: self.kAdUnitId)
     }
@@ -104,6 +91,32 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         checkAndInitializeSdk()
 
         lbMyBerryTitle.roundCorners(.allCorners, radius: 9)
+    }
+    
+    func prepareTableView() {
+        // row의 높이가 바뀔수 있음
+        expyTableView.rowHeight = UITableViewAutomaticDimension
+        expyTableView.estimatedRowHeight = UITableViewAutomaticDimension
+        expyTableView.separatorStyle = .none
+        expyTableView.separatorInset = .zero
+    }
+    
+    func initializeArr() {
+        self.infoStrArr = ["베리란?",
+                                 "Ev Infra의 운영사인 (주)소프트베리에서 따온 이름으로, 사용자 여러분께 충전의 즐거움을 만족시켜 드릴 수 있도록 사용되는 포인트 단위를 말합니다. \n앱 내 동영상 광고, 또는 충전 시 적립(한전운영 충전기에 한함)가능하며 바로 사용하실 수 있습니다."]
+        // [string: AnyObject]
+        self.howToDict = [
+            ["text":"베리 사용방법"],
+            ["text":"1) 충전 진행화면 하단의 '베리 사용하기' 버튼을 클릭"],
+            ["image":UIImage(named: "howtouse_point")!],
+            ["text":"2) 사용하실 베리를 작성"],
+            ["image":UIImage(named: "howtouse_point_1")!],
+            ["text":"3) 팝업창의 베리사용하기 버튼을 누르면 사용 완료!"],
+            ["image":UIImage(named: "howtouse_point_2")!],
+            ["text":"4) 이후 베리와 관련된 내역은 메인메뉴 > 마이페이지 > PAY > 베리 조회에서 확인하실 수 있습니다."]
+        ]
+        
+        self.noticeStrArr = ["베리 사용 유의사항", "1) 이용 가능한 충전소 - 한전, GS칼텍스 위의 운영기관에서 운영중인 충전소에서만 베리 사용이 가능합니다","2) 베리는 충전 하는 중에 사용해야 합니다. (충전 이전 이나 충전 후 사용 불가)","3) 사용하신 베리의 환불은 불가합니다. ","4) 충전중 베리사용시 최종 충전금액에서 사용하신 베리만큼 차감 후 결제됩니다.","5) 기타 문의사항은 Ev Infra 고객센터 070-8633-9009로 문의주시기 바랍니다."]
     }
     
     func adjustTableview() {
