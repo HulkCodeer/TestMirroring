@@ -30,6 +30,7 @@ target 'evInfra' do
   pod 'JJFloatingActionButton'
   pod 'mopub-ios-sdk'                 # for rewarded video mopub mediation
   pod 'TapjoySDK'                     # for rewarded video tapjoy
+  pod 'ExpyTableView', '~> 1.2.1'
 end
 
 post_install do |installer|
