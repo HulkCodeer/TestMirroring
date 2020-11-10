@@ -41,35 +41,29 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     
     let screenHeight:CGFloat = UIScreen.main.bounds.size.height
     let screenWidth:CGFloat = UIScreen.main.bounds.size.width
+    var isInfoOpen:Bool = false
+    var isHowToOpen:Bool = false
+    var isNoticeOpen:Bool = false
     
+    let closeImg:UIImage = UIImage.init(named: "list_close_btn")!
+    let openImg:UIImage = UIImage.init(named: "list_open_btn")!
     
-    // 초기화부분 이동예정
-    let infoStrArr:contentArr = ["베리란?",
-                             "Ev Infra의 운영사인 (주)소프트베리에서 따온 이름으로, 사용자 여러분께 충전의 즐거움을 만족시켜 드릴 수 있도록 사용되는 포인트 단위를 말합니다. \n앱 내 동영상 광고, 또는 충전 시 적립(한전운영 충전기에 한함)가능하며 바로 사용하실 수 있습니다."]
+    var infoStrArr:contentArr = []
     // [string: AnyObject]
-    let howToDict = [
-        ["text":"베리 사용방법"],
-        ["text":"1) 충전 진행화면 하단의 '베리 사용하기' 버튼을 클릭"],
-        ["image":UIImage(named: "howtouse_point")!],
-        ["text":"2) 사용하실 베리를 작성"],
-        ["image":UIImage(named: "howtouse_point")!],
-        ["text":"3) 팝업창의 베리사용하기 버튼을 누르면 사용 완료!"],
-        ["image":UIImage(named: "howtouse_point_1")!],
-        ["text":"4) 이후 베리와 관련된 내역은 메인메뉴 > 마이페이지 > PAY > 베리 조회에서 확인하실 수 있습니다."]
-    ]
+    // AnyObject = String, UIImage
+    var howToDict:[[String:Any]] = [[:]]
     
-    let noticeStrArr:contentArr = ["베리 사용 유의사항", "1) 이용 가능한 충전소 - 한전, GS칼텍스 위의 운영기관에서 운영중인 충전소에서만 베리 사용이 가능합니다 \n2) 베리는 충전 하는 중에 사용해야 합니다. (충전 이전 이나 충전 후 사용 불가) \n3) 사용하신 베리의 환불은 불가합니다. \n4) 충전중 베리사용시 최종 충전금액에서 사용하신 베리만큼 차감 후 결제됩니다. \n5) 기타 문의사항은 Ev Infra 고객센터 070-8633-9009로 문의주시기 바랍니다."]
-
+    var noticeStrArr:contentArr = []
     
     override func viewDidLoad() {
-        prepareActionBar()
-        prepareView()
         scrollView.delegate = self
         expyTableView.delegate = self
         expyTableView.dataSource = self
-        // row의 높이가 바뀔수 있음
-        expyTableView.rowHeight = UITableViewAutomaticDimension
-        expyTableView.estimatedRowHeight = UITableViewAutomaticDimension
+        
+        prepareActionBar()
+        prepareView()
+        prepareTableView()
+        initializeArr()
     }
     
     deinit {
@@ -99,41 +93,67 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         lbMyBerryTitle.roundCorners(.allCorners, radius: 9)
     }
     
+    func prepareTableView() {
+        // row의 높이가 바뀔수 있음
+        expyTableView.rowHeight = UITableViewAutomaticDimension
+        expyTableView.estimatedRowHeight = UITableViewAutomaticDimension
+        expyTableView.separatorStyle = .none
+        expyTableView.separatorInset = .zero
+    }
+    
+    func initializeArr() {
+        self.infoStrArr = ["베리란?",
+                                 "Ev Infra의 운영사인 (주)소프트베리에서 따온 이름으로, 사용자 여러분께 충전의 즐거움을 만족시켜 드릴 수 있도록 사용되는 포인트 단위를 말합니다. \n앱 내 동영상 광고, 또는 충전 시 적립(한전운영 충전기에 한함)가능하며 바로 사용하실 수 있습니다."]
+        // [string: AnyObject]
+        self.howToDict = [
+            ["text":"베리 사용방법"],
+            ["text":"1) 충전 진행화면 하단의 '베리 사용하기' 버튼을 클릭"],
+            ["image":UIImage(named: "howtouse_point")!],
+            ["text":"2) 사용하실 베리를 작성"],
+            ["image":UIImage(named: "howtouse_point_1")!],
+            ["text":"3) 팝업창의 베리사용하기 버튼을 누르면 사용 완료!"],
+            ["image":UIImage(named: "howtouse_point_2")!],
+            ["text":"4) 이후 베리와 관련된 내역은 메인메뉴 > 마이페이지 > PAY > 베리 조회에서 확인하실 수 있습니다."]
+        ]
+        
+        self.noticeStrArr = ["베리 사용 유의사항", "1) 이용 가능한 충전소 - 한전, GS칼텍스 위의 운영기관에서 운영중인 충전소에서만 베리 사용이 가능합니다","2) 베리는 충전 하는 중에 사용해야 합니다. (충전 이전 이나 충전 후 사용 불가)","3) 사용하신 베리의 환불은 불가합니다. ","4) 충전중 베리사용시 최종 충전금액에서 사용하신 베리만큼 차감 후 결제됩니다.","5) 기타 문의사항은 Ev Infra 고객센터 070-8633-9009로 문의주시기 바랍니다."]
+    }
+    
     func adjustTableview() {
         if self.expyTableView.contentSize.height > 0.0{
             self.tableViewHeight.constant = self.expyTableView.contentSize.height
-            self.expyTableView.setNeedsLayout()
+            //TEST CODE
             expyTableView.layoutIfNeeded()
+            expyTableView.setNeedsLayout()
         }
     }
     
-    
-    @IBAction func onClickAdmobAd(_ sender: Any) {
-        
-        Server.postCheckRewardVideoAvailable { (isSuccess, value) in
-            
-            if isSuccess {
-                let json = JSON(value)
-                if json["code"].intValue == 1000 {
-                    if MPRewardedVideo.hasAdAvailable(forAdUnitID: self.kAdUnitId) {
-                        guard let reward: MPRewardedVideoReward = MPRewardedVideo.selectedReward(forAdUnitID: self.kAdUnitId) else {
-                            self.selectedReward = nil
-                            return
-                        }
-                        
-                        self.selectedReward = reward
-                        MPRewardedVideo.presentAd(forAdUnitID: self.kAdUnitId, from: self, with: self.selectedReward, customData: String(MemberManager.getMbId()))
-                    } else {
-                        Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
-                    }
-                } else {
-                    Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
-                }
-            } else {
-                Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
-            }
-        }
-    }
+//    @IBAction func onClickAdmobAd(_ sender: Any) {
+//
+//        Server.postCheckRewardVideoAvailable { (isSuccess, value) in
+//
+//            if isSuccess {
+//                let json = JSON(value)
+//                if json["code"].intValue == 1000 {
+//                    if MPRewardedVideo.hasAdAvailable(forAdUnitID: self.kAdUnitId) {
+//                        guard let reward: MPRewardedVideoReward = MPRewardedVideo.selectedReward(forAdUnitID: self.kAdUnitId) else {
+//                            self.selectedReward = nil
+//                            return
+//                        }
+//
+//                        self.selectedReward = reward
+//                        MPRewardedVideo.presentAd(forAdUnitID: self.kAdUnitId, from: self, with: self.selectedReward, customData: String(MemberManager.getMbId()))
+//                    } else {
+//                        Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
+//                    }
+//                } else {
+//                    Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
+//                }
+//            } else {
+//                Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
+//            }
+//        }
+//    }
     
     /// Tells the delegate that the user earned a reward.
     func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
@@ -234,11 +254,24 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     }
 }
 
-extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource{
+extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource, ExpyTableViewHeaderCell{
+    
+    func changeState(_ state: ExpyState, cellReuseStatus cellReuse: Bool) {
+        switch state {
+        case .willExpand:
+            break
+        case .willCollapse:
+            break
+        case .didExpand:
+            break
+        case .didCollapse:
+            break
+        }
+    }
+    
     
     // cell이 열리고 닫힐때 확인
     func tableView(_ tableView: ExpyTableView, expyState state: ExpyState, changeForSection section: Int) {
-        print("\(section): 섹션")
         switch state {
         case .willExpand:
             break
@@ -260,26 +293,32 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
     
     // 섹션 내용
     func tableView(_ tableView: ExpyTableView, expandableCellForSection section: Int) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let cell = Bundle.main.loadNibNamed("OfferwallTableViewCell", owner: self, options: nil)?.first as! OfferwallTableViewCell
+
         cell.selectionStyle = .none // 선택시 색 변경 제거
         cell.backgroundColor = .none
+        cell.contentTitle.isHidden = false
+        cell.contentStateImg.isHidden = false
+        cell.content.isHidden = true
+        cell.contentImg.isHidden = true
         
         if section == 0 {
-//            cell.backgroundColor = UIColor(hex: "#C8C8C8")
             self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
-            cell.textLabel?.text = self.infoStrArr[0]
+            cell.contentTitle.text = self.infoStrArr[0]
+            cell.contentStateImg.image = openImg
         }else if section == 1{
-//            cell.backgroundColor = UIColor(hex: "#C8C8C8")
             self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
-            cell.textLabel?.text = "베리 사용방법"
-        }else{
-//            cell.backgroundColor = UIColor(hex: "#C8C8C8")
+            cell.contentTitle.text = "베리 사용방법"
+            cell.contentStateImg.image = openImg
+        }else if section == 2{
             self.expyTableView.separatorColor = UIColor(hex: "#C8C8C8")
-            cell.textLabel?.text = self.noticeStrArr[0]
+            cell.contentTitle.text = self.noticeStrArr[0]
+            cell.contentStateImg.image = openImg
         }
-        
         return cell
     }
+    
+    
     
     // numberOfRowsInSection = row 갯수 return
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -287,37 +326,39 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
             return self.infoStrArr.count
         }else if section == 1{
             return self.howToDict.count
-        }else{
+        }else {
             return self.noticeStrArr.count
         }
     }
     
     // row 내용
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        let dictionary = self.howToDict[(indexPath as NSIndexPath).row]
-    
+        let cell = Bundle.main.loadNibNamed("OfferwallTableViewCell", owner: self, options: nil)?.first as! OfferwallTableViewCell
+        cell.contentStateImg.isHidden = true
+        cell.contentTitle.isHidden = true
+        cell.content.isHidden = false
+        
         switch indexPath.section {
         case 0:
-            cell.textLabel?.text = infoStrArr[indexPath.row]
+            cell.content.text = self.infoStrArr[indexPath.row]
         case 1:
-            cell.textLabel?.text = dictionary["text"] as? String
-            cell.imageView?.image = dictionary["image"] as? UIImage
-            cell.imageView?.sizeToFit()
+            let dictionary = self.howToDict[(indexPath as NSIndexPath).row]
+            cell.contentImg.isHidden = false
+            
+            cell.content.text = dictionary["text"] as? String
+            cell.contentImg.image = dictionary["image"] as? UIImage
         case 2:
-            cell.textLabel?.text = noticeStrArr[indexPath.row]
+            cell.content.text = self.noticeStrArr[indexPath.row]
         default:
             break
         }
     
-        self.expyTableView.contentMode = .center
-        cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.textColor = UIColor(hex: "#333333")
-        cell.textLabel?.fontSize = 16
-        
+        cell.content.numberOfLines = 0
+        cell.content.textColor = UIColor(hex: "#333333")
+        cell.content.fontSize = 16
         return cell
     }
-    
+
     // 섹션 갯수
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
@@ -332,3 +373,5 @@ extension OfferwallViewController:ExpyTableViewDelegate, ExpyTableViewDataSource
         adjustTableview()
     }
 }
+
+

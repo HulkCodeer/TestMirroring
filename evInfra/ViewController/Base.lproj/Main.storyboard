@@ -549,6 +549,7 @@
                                                 <constraints>
                                                     <constraint firstItem="2nU-Dm-KhU" firstAttribute="top" secondItem="yLb-qN-Gcz" secondAttribute="top" id="766-zX-Dhx"/>
                                                     <constraint firstAttribute="bottom" secondItem="MaQ-cv-qR2" secondAttribute="bottom" id="Ki0-lM-fGw"/>
+                                                    <constraint firstItem="MaQ-cv-qR2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zBt-6j-U2a" secondAttribute="trailing" constant="16" id="OpW-gy-O2Y"/>
                                                     <constraint firstItem="zBt-6j-U2a" firstAttribute="centerY" secondItem="4EA-Rs-uMH" secondAttribute="centerY" id="QH0-8H-l18"/>
                                                     <constraint firstItem="4EA-Rs-uMH" firstAttribute="leading" secondItem="2nU-Dm-KhU" secondAttribute="trailing" id="QSG-gT-YPj"/>
                                                     <constraint firstItem="zBt-6j-U2a" firstAttribute="leading" secondItem="4EA-Rs-uMH" secondAttribute="trailing" constant="8" id="SZV-VQ-e1a"/>
@@ -3941,7 +3942,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TeS-o3-iHR">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="2051.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="767.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="무료로 베리를 얻고 충전할 때 베리를 사용해보세요!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wcL-nV-vKl" userLabel="Label Title">
                                                 <rect key="frame" x="8" y="32" width="359" height="53"/>
@@ -3990,17 +3991,17 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BDt-3V-EpB" customClass="ExpyTableView" customModule="ExpyTableView">
-                                                <rect key="frame" x="0.0" y="651.5" width="375" height="1400"/>
+                                                <rect key="frame" x="0.0" y="651.5" width="375" height="100"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="1400" id="1zk-lG-JT9"/>
+                                                    <constraint firstAttribute="height" constant="100" id="FP8-gq-PTl"/>
                                                 </constraints>
                                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <prototypes>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="236" id="Wv9-SY-Nc8">
-                                                        <rect key="frame" x="0.0" y="28" width="375" height="236"/>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="OfferwallTableViewCell" rowHeight="35" id="Wv9-SY-Nc8" customClass="OfferwallTableViewCell" customModule="evInfra" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="28" width="375" height="35"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Wv9-SY-Nc8" id="gtY-Lc-ua7">
-                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="236"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="35"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="color" keyPath="dividerColor">
@@ -4009,6 +4010,7 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </tableViewCellContentView>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <accessibility key="accessibilityConfiguration" identifier="ChargePriceTableViewCell"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="dividerColor">
                                                                 <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4029,6 +4031,7 @@
                                             <constraint firstItem="KvX-ue-LNV" firstAttribute="top" secondItem="IAf-ec-ySC" secondAttribute="bottom" constant="16" id="2TO-nD-Q2b"/>
                                             <constraint firstItem="KvX-ue-LNV" firstAttribute="centerX" secondItem="TeS-o3-iHR" secondAttribute="centerX" id="499-N3-kB9"/>
                                             <constraint firstItem="xn0-HJ-IjW" firstAttribute="top" secondItem="KvX-ue-LNV" secondAttribute="bottom" constant="40" id="7B2-Rh-L71"/>
+                                            <constraint firstAttribute="bottom" secondItem="BDt-3V-EpB" secondAttribute="bottom" constant="16" id="ASS-BF-1cB"/>
                                             <constraint firstItem="njE-gT-AeL" firstAttribute="centerX" secondItem="TeS-o3-iHR" secondAttribute="centerX" id="Dwo-wK-9ib"/>
                                             <constraint firstItem="wcL-nV-vKl" firstAttribute="leading" secondItem="TeS-o3-iHR" secondAttribute="leading" constant="8" id="FUn-hp-Acx"/>
                                             <constraint firstItem="BDt-3V-EpB" firstAttribute="top" secondItem="njE-gT-AeL" secondAttribute="bottom" constant="16" id="IR7-bz-Q8G"/>
@@ -4043,7 +4046,6 @@
                                             <constraint firstItem="48Z-HZ-Xdy" firstAttribute="leading" secondItem="TeS-o3-iHR" secondAttribute="leading" constant="8" id="jDV-mS-EDd"/>
                                             <constraint firstItem="IAf-ec-ySC" firstAttribute="centerX" secondItem="TeS-o3-iHR" secondAttribute="centerX" id="kuR-bO-7kc"/>
                                             <constraint firstItem="BDt-3V-EpB" firstAttribute="leading" secondItem="TeS-o3-iHR" secondAttribute="leading" id="lEr-oG-keJ"/>
-                                            <constraint firstAttribute="bottom" secondItem="BDt-3V-EpB" secondAttribute="bottom" id="ofq-sk-VaZ"/>
                                             <constraint firstAttribute="trailing" secondItem="BDt-3V-EpB" secondAttribute="trailing" id="tyW-t2-agN"/>
                                             <constraint firstAttribute="trailing" secondItem="wcL-nV-vKl" secondAttribute="trailing" constant="8" id="wh6-9C-90j"/>
                                         </constraints>
@@ -4073,7 +4075,7 @@
                         <outlet property="expyTableView" destination="BDt-3V-EpB" id="rKR-We-u1R"/>
                         <outlet property="lbMyBerryTitle" destination="IAf-ec-ySC" id="lWA-DP-mLB"/>
                         <outlet property="scrollView" destination="b6k-bq-7MP" id="Ytx-xs-vBO"/>
-                        <outlet property="tableViewHeight" destination="1zk-lG-JT9" id="mmH-G4-ctU"/>
+                        <outlet property="tableViewHeight" destination="FP8-gq-PTl" id="d2q-cx-mYi"/>
                         <outlet property="useTitleLb" destination="njE-gT-AeL" id="aRV-8o-w7D"/>
                     </connections>
                 </viewController>
@@ -6563,116 +6565,106 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lfh-Bp-avO">
                                 <rect key="frame" x="0.0" y="226.5" width="70" height="440.5"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7kU-vs-cgu">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kU-vs-cgu">
                                         <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="eQa-bG-TFd"/>
                                             <constraint firstAttribute="height" constant="70" id="tsP-ga-PrU"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="10"/>
                                         <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
                                         <inset key="titleEdgeInsets" minX="-32" minY="32" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="menu_my_info">
-                                            <attributedString key="attributedTitle">
-                                                <fragment content="마이페이지">
-                                                    <attributes>
-                                                        <font key="NSFont" size="10" name="AppleSDGothicNeo-Regular"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
+                                        <state key="normal" title="마이페이지" image="menu_my_info"/>
+                                        <state key="selected" image="menu_my_info">
+                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="clickMyPage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u33-da-tXn"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hrw-SH-9sV">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hrw-SH-9sV">
                                         <rect key="frame" x="0.0" y="70" width="70" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="5Yg-YR-Us0"/>
                                             <constraint firstAttribute="width" constant="70" id="Wts-Yc-Yke"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="10"/>
                                         <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
                                         <inset key="titleEdgeInsets" minX="-44" minY="32" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="menu_board">
-                                            <attributedString key="attributedTitle">
-                                                <fragment content="   커뮤니티">
-                                                    <attributes>
-                                                        <font key="NSFont" metaFont="system" size="10"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
+                                        <state key="normal" title="   커뮤니티" image="menu_board"/>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="clickBoard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="men-RG-p7R"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yLE-sk-Lp8">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yLE-sk-Lp8">
                                         <rect key="frame" x="0.0" y="140" width="70" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="BPa-xC-xdD"/>
                                             <constraint firstAttribute="width" constant="70" id="uU0-jf-kVq"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="10"/>
                                         <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
                                         <inset key="titleEdgeInsets" minX="-44" minY="32" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="menu_event">
-                                            <attributedString key="attributedTitle">
-                                                <fragment content="    이벤트">
-                                                    <attributes>
-                                                        <font key="NSFont" metaFont="system" size="10"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
+                                        <state key="normal" title="    이벤트" image="menu_event"/>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="clickEvent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ISW-HY-eTC"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="enQ-s8-Z8p">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="enQ-s8-Z8p">
                                         <rect key="frame" x="0.0" y="210" width="70" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="d2D-Ek-a18"/>
                                             <constraint firstAttribute="height" constant="70" id="dbc-Sf-nx1"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="10"/>
                                         <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
                                         <inset key="titleEdgeInsets" minX="-32" minY="32" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="menu_info">
-                                            <attributedString key="attributedTitle">
-                                                <fragment content="전기차정보">
-                                                    <attributes>
-                                                        <font key="NSFont" metaFont="system" size="10"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
+                                        <state key="normal" title="전기차정보" image="menu_info"/>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="clickInfo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ANv-tp-sxu"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-jt-d4I" userLabel="Settings Btn">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-jt-d4I" userLabel="Settings Btn">
                                         <rect key="frame" x="0.0" y="280" width="70" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="1IY-fJ-IPh"/>
                                             <constraint firstAttribute="width" constant="70" id="EvP-07-Zbt"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="10"/>
                                         <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
                                         <inset key="titleEdgeInsets" minX="-34" minY="32" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="menu_settings">
-                                            <attributedString key="attributedTitle">
-                                                <fragment content="설정">
-                                                    <attributes>
-                                                        <font key="NSFont" metaFont="system" size="10"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
+                                        <state key="normal" title="설정" image="menu_settings"/>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="clickSettings:" destination="BYZ-38-t0r" eventType="touchUpInside" id="68g-T0-E57"/>
