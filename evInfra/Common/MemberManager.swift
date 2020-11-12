@@ -40,7 +40,10 @@ class MemberManager {
     }
     
     static func setSKRentConfig(){
-        UserDefault().addItemToIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT, value: RENT_CLIENT_SKR)
+        var arr = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
+        if !arr.contains(MemberManager.RENT_CLIENT_SKR){
+            UserDefault().addItemToIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT, value: RENT_CLIENT_SKR)
+        }
         UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: true)
     }
     
@@ -48,6 +51,8 @@ class MemberManager {
         UserDefault().saveIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT, value: data)
         if data.contains(JSON(MemberManager.RENT_CLIENT_SKR)){
             UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: true)
+        } else {
+            UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: false)
         }
     }
     
