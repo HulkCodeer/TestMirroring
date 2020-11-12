@@ -16,10 +16,13 @@ import ExpyTableView
 class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     
     @IBOutlet var lbMyBerryTitle: UILabel!
+    @IBOutlet var lbMyBerryPoint: UILabel!
     
     @IBOutlet var scrollView: UIScrollView!
     
     @IBOutlet var useTitleLb: UILabel!
+    
+    @IBOutlet var btnVideoAds: UIControl!
     
     // change stackView into TableView
     @IBOutlet var expyTableView: ExpyTableView!
@@ -64,6 +67,8 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         prepareView()
         prepareTableView()
         initializeArr()
+        
+        updateMyPoint()
     }
     
     deinit {
@@ -88,6 +93,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     
     func prepareView() {
         MPRewardedVideo.setDelegate(self, forAdUnitId: self.kAdUnitId)
+        btnVideoAds.isEnabled = false
         checkAndInitializeSdk()
 
         lbMyBerryTitle.roundCorners(.allCorners, radius: 9)
@@ -155,6 +161,53 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
 //        }
 //    }
     
+    func updateMyPoint() {
+        
+        Server.getPoint { [self] (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                if json["code"].intValue == 1000 {
+                    let berryPoint = json["point"].intValue
+                    if (berryPoint > -1) {
+                        self.lbMyBerryPoint.text = String(berryPoint).currency()
+                    }
+                    
+                } else {
+                   
+                }
+            } else {
+                
+            }
+        }
+    }
+    
+    
+    @IBAction func onClickBtnVideoAds(_ sender: Any) {
+        
+        Server.postCheckRewardVideoAvailable { (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                if json["code"].intValue == 1000 {
+                    if MPRewardedVideo.hasAdAvailable(forAdUnitID: self.kAdUnitId) {
+                        guard let reward: MPRewardedVideoReward = MPRewardedVideo.selectedReward(forAdUnitID: self.kAdUnitId) else {
+                            self.selectedReward = nil
+                            return
+                        }
+
+                        self.selectedReward = reward
+                        MPRewardedVideo.presentAd(forAdUnitID: self.kAdUnitId, from: self, with: self.selectedReward, customData: String(MemberManager.getMbId()))
+                    } else {
+                        Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
+                    }
+                } else {
+                    Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
+                }
+            } else {
+                Snackbar().show(message: "현재 시청 가능한 광고가 없습니다. 잠시 후 다시 시도해 주세요.")
+            }
+        }
+    }
+    
     /// Tells the delegate that the user earned a reward.
     func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
         
@@ -210,6 +263,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     // mopub delegate
     func rewardedVideoAdDidLoad(forAdUnitID adUnitID: String!) {
         print("Loading Succeeded")
+        btnVideoAds.isEnabled = true
     }
     
     func rewardedVideoAdDidAppear(forAdUnitID adUnitID: String!) {
@@ -226,6 +280,7 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     
     func rewardedVideoAdDidDisappear(forAdUnitID adUnitID: String!) {
         print("rewardedVideoAdDidDisappear")
+        updateMyPoint()
         loadRewardedVideo()
     }
     
