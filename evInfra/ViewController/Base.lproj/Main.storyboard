@@ -4073,11 +4073,20 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="8Za-V0-Jpd"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="3ek-7p-Mcc"/>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FFr-b2-MXq">
+                                <rect key="frame" x="115.5" y="621" width="144" height="42"/>
+                                <state key="normal" image="myberry_button"/>
+                                <connections>
+                                    <action selector="onClickMyberryBtn:" destination="6vJ-QX-a3K" eventType="touchUpInside" id="HEy-bj-xEv"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="TuG-Zd-AF0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="TuG-Zd-AF0" firstAttribute="bottom" secondItem="FFr-b2-MXq" secondAttribute="bottom" constant="4" id="CbM-WD-pJ8"/>
                             <constraint firstItem="b6k-bq-7MP" firstAttribute="top" secondItem="TuG-Zd-AF0" secondAttribute="top" id="HXF-Ve-2e2"/>
+                            <constraint firstItem="FFr-b2-MXq" firstAttribute="centerX" secondItem="TuG-Zd-AF0" secondAttribute="centerX" id="cVV-Dt-qzh"/>
                             <constraint firstItem="b6k-bq-7MP" firstAttribute="bottom" secondItem="TuG-Zd-AF0" secondAttribute="bottom" id="gSU-Qg-MmW"/>
                             <constraint firstItem="b6k-bq-7MP" firstAttribute="leading" secondItem="TuG-Zd-AF0" secondAttribute="leading" id="r2b-yD-y6z"/>
                             <constraint firstItem="b6k-bq-7MP" firstAttribute="trailing" secondItem="TuG-Zd-AF0" secondAttribute="trailing" id="urU-Fj-fGa"/>
@@ -7728,6 +7737,7 @@
         <image name="menu_my_info" width="30" height="30"/>
         <image name="menu_settings" width="30" height="30"/>
         <image name="menu_top_bg.jpg" width="230.39999389648438" height="139.19999694824219"/>
+        <image name="myberry_button" width="144" height="42"/>
         <image name="station_icon_address" width="16" height="16"/>
         <image name="station_icon_call" width="16" height="16"/>
         <image name="station_icon_company" width="16" height="16"/>

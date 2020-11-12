@@ -208,6 +208,12 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
         }
     }
     
+    @IBAction func onClickMyberryBtn(_ sender: Any) {
+        let pointVC = self.storyboard?.instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
+        self.navigationController?.push(viewController: pointVC)
+    }
+    
+    
     /// Tells the delegate that the user earned a reward.
     func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
         
