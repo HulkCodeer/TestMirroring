@@ -1626,9 +1626,6 @@ extension MainViewController {
 extension MainViewController {
     
     func prepareMenuBtnLayer() {
-//        btn_main_offerwall.alignTextUnderImage()
-//        btn_main_offerwall.tintColor = UIColor(rgb: 0x15435C)
-//        btn_main_offerwall.setImage(UIImage(named: "ic_line_offerwall")?.withRenderingMode(.alwaysTemplate), for: .normal)
         
         chargingStatus()
         
@@ -1739,7 +1736,8 @@ extension MainViewController {
         case 1000:
             // 충전중
             self.btn_main_charge.alignTextUnderImage()
-            self.btn_main_charge.setImage(UIImage(named: "ic_line_charging"), for: .normal)
+            self.btn_main_charge.setImage(UIImage(named: "ic_line_charging")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            self.btn_main_charge.tintColor = UIColor(rgb: 0x15435C)
             self.btn_main_charge.setTitle("충전중", for: .normal)
             break
             
