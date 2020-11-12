@@ -3972,18 +3972,32 @@
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ad_illust.png" translatesAutoresizingMaskIntoConstraints="NO" id="xn0-HJ-IjW" userLabel="Btn Ad">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KX3-yl-aYr" customClass="UIControl">
                                                 <rect key="frame" x="8" y="260" width="359" height="314"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ad_illust.png" translatesAutoresizingMaskIntoConstraints="NO" id="xn0-HJ-IjW" userLabel="Btn Ad">
+                                                        <rect key="frame" x="0.0" y="0.0" width="359" height="314"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="동영상 광고 보고 무료로 베리 받기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qn5-kc-6PT" userLabel="Lb Ad Button Title">
+                                                        <rect key="frame" x="72" y="263" width="215" height="19"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <accessibility key="accessibilityConfiguration">
+                                                    <accessibilityTraits key="traits" button="YES"/>
+                                                </accessibility>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" secondItem="xn0-HJ-IjW" secondAttribute="height" multiplier="8:7" id="UGF-E6-YdS"/>
+                                                    <constraint firstAttribute="width" secondItem="KX3-yl-aYr" secondAttribute="height" multiplier="8:7" id="TcT-wD-Ojy"/>
                                                 </constraints>
-                                            </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="동영상 광고 보고 무료로 베리 받기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qn5-kc-6PT" userLabel="Lb Ad Button Title">
-                                                <rect key="frame" x="80" y="522.5" width="215" height="19.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
+                                                <connections>
+                                                    <action selector="onClickBtnVideoAds:" destination="6vJ-QX-a3K" eventType="touchUpInside" id="8yf-Zg-VIo"/>
+                                                </connections>
+                                            </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="사용 안내" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="njE-gT-AeL">
                                                 <rect key="frame" x="154" y="614" width="67" height="21.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -4027,22 +4041,20 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstItem="njE-gT-AeL" firstAttribute="top" secondItem="xn0-HJ-IjW" secondAttribute="bottom" constant="40" id="06U-Cv-cLI"/>
                                             <constraint firstItem="KvX-ue-LNV" firstAttribute="top" secondItem="IAf-ec-ySC" secondAttribute="bottom" constant="16" id="2TO-nD-Q2b"/>
                                             <constraint firstItem="KvX-ue-LNV" firstAttribute="centerX" secondItem="TeS-o3-iHR" secondAttribute="centerX" id="499-N3-kB9"/>
-                                            <constraint firstItem="xn0-HJ-IjW" firstAttribute="top" secondItem="KvX-ue-LNV" secondAttribute="bottom" constant="40" id="7B2-Rh-L71"/>
                                             <constraint firstAttribute="bottom" secondItem="BDt-3V-EpB" secondAttribute="bottom" constant="16" id="ASS-BF-1cB"/>
                                             <constraint firstItem="njE-gT-AeL" firstAttribute="centerX" secondItem="TeS-o3-iHR" secondAttribute="centerX" id="Dwo-wK-9ib"/>
                                             <constraint firstItem="wcL-nV-vKl" firstAttribute="leading" secondItem="TeS-o3-iHR" secondAttribute="leading" constant="8" id="FUn-hp-Acx"/>
                                             <constraint firstItem="BDt-3V-EpB" firstAttribute="top" secondItem="njE-gT-AeL" secondAttribute="bottom" constant="16" id="IR7-bz-Q8G"/>
                                             <constraint firstItem="48Z-HZ-Xdy" firstAttribute="top" secondItem="wcL-nV-vKl" secondAttribute="bottom" constant="8" id="IWI-Sm-J41"/>
-                                            <constraint firstItem="xn0-HJ-IjW" firstAttribute="bottom" secondItem="qn5-kc-6PT" secondAttribute="bottom" constant="32" id="Nd1-k7-dgK"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="48Z-HZ-Xdy" secondAttribute="trailing" constant="20" symbolic="YES" id="OF8-uM-9us"/>
-                                            <constraint firstItem="xn0-HJ-IjW" firstAttribute="leading" secondItem="TeS-o3-iHR" secondAttribute="leading" constant="8" id="TRf-YG-1Ve"/>
+                                            <constraint firstItem="KX3-yl-aYr" firstAttribute="leading" secondItem="TeS-o3-iHR" secondAttribute="leading" constant="8" id="OSM-2q-u1d"/>
+                                            <constraint firstAttribute="trailing" secondItem="KX3-yl-aYr" secondAttribute="trailing" constant="8" id="Rxl-gA-i0Z"/>
                                             <constraint firstItem="IAf-ec-ySC" firstAttribute="top" secondItem="48Z-HZ-Xdy" secondAttribute="bottom" constant="40" id="Uwa-M9-Kuy"/>
-                                            <constraint firstItem="qn5-kc-6PT" firstAttribute="centerX" secondItem="TeS-o3-iHR" secondAttribute="centerX" id="aIi-or-aAZ"/>
+                                            <constraint firstItem="KX3-yl-aYr" firstAttribute="top" secondItem="KvX-ue-LNV" secondAttribute="bottom" constant="40" id="cx0-F3-9ye"/>
+                                            <constraint firstItem="njE-gT-AeL" firstAttribute="top" secondItem="KX3-yl-aYr" secondAttribute="bottom" constant="40" id="eBj-iy-P9q"/>
                                             <constraint firstItem="wcL-nV-vKl" firstAttribute="top" secondItem="TeS-o3-iHR" secondAttribute="top" constant="32" id="euW-pH-1SB"/>
-                                            <constraint firstAttribute="trailing" secondItem="xn0-HJ-IjW" secondAttribute="trailing" constant="8" id="f0A-uf-aoA"/>
                                             <constraint firstItem="48Z-HZ-Xdy" firstAttribute="leading" secondItem="TeS-o3-iHR" secondAttribute="leading" constant="8" id="jDV-mS-EDd"/>
                                             <constraint firstItem="IAf-ec-ySC" firstAttribute="centerX" secondItem="TeS-o3-iHR" secondAttribute="centerX" id="kuR-bO-7kc"/>
                                             <constraint firstItem="BDt-3V-EpB" firstAttribute="leading" secondItem="TeS-o3-iHR" secondAttribute="leading" id="lEr-oG-keJ"/>
@@ -4072,7 +4084,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnVideoAds" destination="KX3-yl-aYr" id="Shs-13-kBq"/>
                         <outlet property="expyTableView" destination="BDt-3V-EpB" id="rKR-We-u1R"/>
+                        <outlet property="lbMyBerryPoint" destination="KvX-ue-LNV" id="24X-GW-vqd"/>
                         <outlet property="lbMyBerryTitle" destination="IAf-ec-ySC" id="lWA-DP-mLB"/>
                         <outlet property="scrollView" destination="b6k-bq-7MP" id="Ytx-xs-vBO"/>
                         <outlet property="tableViewHeight" destination="FP8-gq-PTl" id="d2q-cx-mYi"/>
