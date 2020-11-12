@@ -21,6 +21,7 @@ class FCMManager {
     static let TARGET_CHARGING_STATUS = "05"
     static let TARGET_CHARGING_STATUS_FIX = "06"
     static let TARGET_COUPON = "07"
+    static let TARGET_POINT  = "08";
     
     static let FCM_REQUEST_PAYMENT_STATUS = "fcm_request_payment_status"
     static let sharedInstance = FCMManager()
@@ -132,6 +133,8 @@ class FCMManager {
                 case FCMManager.TARGET_COUPON:  // 쿠폰 알림
                     getCouponIssueData(navigationController: navigationController)
                     
+                case FCMManager.TARGET_POINT:  // 포인트 적립
+                    getPointData(navigationController: navigationController)
                 default:
                     print("alertMessage() default")
                 }
@@ -208,6 +211,24 @@ class FCMManager {
                     let ndVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NoticeContentViewController") as! NoticeContentViewController
                     ndVC.boardId = noticeId
                     navigation.push(viewController: ndVC)
+                }
+            }
+        }
+    }
+    
+    func getPointData(navigationController: AppNavigationController?) {
+        if let visableControll = navigationController?.visibleViewController {
+            if visableControll.isKind(of: ReportBoardViewController.self) {
+                visableControll.viewDidLoad()
+                return
+            } else {
+                if MemberManager().isLogin() {
+                    if let navigation = navigationController {
+                        let pointVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
+                        navigation.push(viewController: pointVC)
+                    }
+                } else {
+                    MemberManager().showLoginAlert(vc: visableControll)
                 }
             }
         }
