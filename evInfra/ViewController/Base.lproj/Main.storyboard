@@ -5943,7 +5943,6 @@
                     </view>
                     <connections>
                         <outlet property="btnStopCharging" destination="aJZ-wE-oBV" id="292-wa-H6G"/>
-                        <outlet property="btnStopChargingView" destination="aJZ-wE-oBV" id="6Ex-EW-XCx"/>
                         <outlet property="btnUseBerry" destination="JtC-qC-bM9" id="6Yl-7r-EDQ"/>
                         <outlet property="chronometer" destination="DfT-ax-pEZ" id="Xzw-2O-TDC"/>
                         <outlet property="circleView" destination="vsT-Iy-Y6j" id="zft-S7-Lef"/>
