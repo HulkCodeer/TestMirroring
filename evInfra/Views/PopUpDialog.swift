@@ -52,7 +52,7 @@ class PopUpDialog: UIView {
                 let code = json["code"].stringValue
                 if code.elementsEqual("1000") {
                     let isReceivePush = json["receive"].boolValue
-                    self.defaults.saveBool(key: UserDefault.Key.JEJU_PUSH, value: false)
+                    self.defaults.saveBool(key: UserDefault.Key.JEJU_PUSH, value: true)
                     self.defaults.saveBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION, value: isReceivePush)
                     self.removeFromSuperview()
                 }

@@ -13,7 +13,9 @@ import SwiftyJSON
 class SettingsViewController: UIViewController {
     
     @IBOutlet weak var alarmAllImg: UIImageView!
+    @IBOutlet var alarmLocalImg: UIImageView!
     @IBOutlet weak var alarmSwitch: UISwitch!
+    @IBOutlet var alarmLocalSwitch: UISwitch!
     @IBOutlet weak var clusteringSwitch: UISwitch!
     
     let defaults = UserDefault()
@@ -45,12 +47,18 @@ class SettingsViewController: UIViewController {
     
     func prepareSwitchs() {
         alarmSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
+        alarmLocalSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
         clusteringSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
         changeAllNotifications(isRecieve: defaults.readBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION))
+        changeLocalNotifications(isRecieve: defaults.readBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION))
     }
     
     @IBAction func onChangeAlarmSwitch(_ sender: Any) {
         alarmSwitchChanged(state: alarmSwitch.isOn)
+    }
+    
+    @IBAction func onChangeAlarmLocalSwitch(_ sender: Any) {
+        alarmLocalSwitchChanged(state: alarmLocalSwitch.isOn)
     }
     
     @IBAction func onChangeClusteringSwitch(_ sender: UISwitch) {
@@ -74,14 +82,38 @@ class SettingsViewController: UIViewController {
             }
         }
     }
+    func alarmLocalSwitchChanged(state: Bool) {
+        Server.updateJejuNotificationState(state: state) { (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                let code = json["code"].stringValue
+                if code.elementsEqual("1000") {
+                    let isReceivePush = json["receive"].boolValue
+                    self.defaults.saveBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION, value: isReceivePush)
+                    self.changeLocalNotifications(isRecieve: isReceivePush)
+                }
+            }
+        }
+    }
     
     func changeAllNotifications(isRecieve: Bool) {
         if isRecieve {
             alarmSwitch.setOn(true, animated: false)
-            alarmAllImg.image = UIImage(named: "ic_notifications_active")
+            alarmAllImg.image = UIImage(named: "icon_alert_global")
+
         } else {
             alarmSwitch.setOn(false, animated: false)
-            alarmAllImg.image = UIImage(named: "ic_notifications_off")
+            alarmAllImg.image = UIImage(named: "icon_alert_global_off")
+        }
+    }
+    
+    func changeLocalNotifications(isRecieve: Bool) {
+        if isRecieve {
+            alarmLocalSwitch.setOn(true, animated: false)
+            alarmLocalImg.image = UIImage(named: "icon_alert_area_on")
+        } else {
+            alarmLocalSwitch.setOn(false, animated: false)
+            alarmLocalImg.image = UIImage(named: "icon_alert_area_off")
         }
     }
 }
