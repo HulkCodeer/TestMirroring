@@ -168,6 +168,7 @@ extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
                                 let json = JSON(value)
                                 switch json["code"].intValue {
                                 case 1000:
+                                    MemberManager.setSKRentConfig()
                                     self.showResultView(code : 0, imgType : "SUCCESS", retry : false, callBtn : false, msg : "정보가 확인되었습니다.")
                                     break
                                 case 1104 :

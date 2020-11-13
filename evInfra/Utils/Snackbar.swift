@@ -17,7 +17,7 @@ class Snackbar {
     public func show(message: String) {
         snackbarMessage.duration = 2.0
         snackbarMessage.text = message
-        MDCSnackbarManager.show(snackbarMessage)
+        MDCSnackbarManager.default.show(snackbarMessage)
     }
     
     public func show(message: String, title: String, actionHandler: @escaping () -> Void) {
@@ -25,6 +25,6 @@ class Snackbar {
         action.title = title
         snackbarMessage.action = action
         snackbarMessage.text = message
-        MDCSnackbarManager.show(snackbarMessage)
+        MDCSnackbarManager.default.show(snackbarMessage)
     }
 }
