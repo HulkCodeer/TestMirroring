@@ -18,7 +18,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 //    @IBOutlet weak var vieagerContainer: UIView!
 
     // summary
-    @IBOutlet weak var companyImg: UIImageView!             // 운영기관(이미지)
+    @IBOutlet weak var companyImg: UIImageView!         // 운영기관(이미지)
     @IBOutlet weak var callOutTitle: UILabel!           // 충전소 이름
     @IBOutlet var callOutFavorite: UIButton!            // 즐겨찾기
     @IBOutlet var chargerStatusImg: UIImageView!        // 충전기 상태(이미지)
@@ -27,7 +27,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     // 충전소 정보
     @IBOutlet var powerLb: UILabel!                     // 충전속도
     @IBOutlet var powerView: UILabel!                   // 충전속도(view)
-    @IBOutlet weak var companyLabel: UILabel!          // 운영기관(이름)
+    @IBOutlet weak var companyLabel: UILabel!           // 운영기관(이름)
     @IBOutlet var companyView: UIStackView!             // 운영기관(view)
     @IBOutlet weak var timeLabel: UILabel!              // 운영시간
     @IBOutlet weak var callLb: UILabel!                 // 전화번호
@@ -53,6 +53,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var guardReportBtn: UIButton!
     @IBOutlet weak var guardEnvBtn: UIButton!
     @IBOutlet weak var guardKepcoBtn: UIButton!
+    
     // 충전기 정보(list)
     @IBOutlet weak var boardTableView: BoardTableView!
     @IBOutlet weak var cidTableView: CidTableView!
@@ -262,11 +263,14 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         if !memo.isEmpty{
             if memo.equals("") {
                 self.memoView.isHidden = true
+                detailViewResize(view: self.memoView)
             }else{
                 self.memoLabel.text = memo
+                self.memoView.visible()
             }
         }else{
             self.memoView.isHidden = true
+            detailViewResize(view: self.memoView)
         }
         
         // 센터 전화번호
@@ -907,11 +911,12 @@ extension DetailViewController {
                 guardReportBtn.gone(spaces: [.top, .bottom])
                 guardFixLabel.gone(spaces: [.top, .bottom])
                 guardImage.gone(spaces: [.top, .bottom])
-                guardView.gone(spaces: [.top, .bottom])
-               
+                //guardView.gone(spaces: [.top, .bottom])
+                guardView.isHidden = true
                 detailViewResize(view: guardView)
             }
         }
+ 
     }
     
     @objc

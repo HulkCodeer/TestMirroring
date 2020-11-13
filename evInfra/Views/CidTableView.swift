@@ -64,13 +64,18 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 cell.dateKind.text = "경과시간"
                 cell.dateKind.backgroundColor = UIColor(hex: "#DFECF3")
             } else {
-                cell.lastDate.text = cInfo.getRecentDateSimple()
+                //cell.lastDate.text = cInfo.getRecentDateSimple()
+                if let dateString = cInfo.recentDate {
+                    cell.lastDate.text = DateUtils.getDateStringForDetail(date: dateString)
+                }
                 cell.dateKind.text = "마지막 사용"
                 cell.dateKind.backgroundColor = UIColor(hex: "#E2E2E2")
             }
         } else {
+            cell.dateKind.roundCorners(.allCorners, radius: 5)
             cell.dateKind.text = "마지막 사용"
             cell.lastDate.text = "알 수 없음"
+            cell.dateKind.backgroundColor = UIColor(hex: "#E2E2E2")
         }
         
         if let pw = cInfo.power, pw > 0 {

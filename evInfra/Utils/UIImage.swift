@@ -80,7 +80,7 @@ extension UIImage {
         }
         return nil
     }
-    
+
     // crop Image
     func cropImage(image: UIImage, posX: CGFloat, posY: CGFloat, width: Double, height: Double) -> UIImage {
         let cgimage = image.cgImage!

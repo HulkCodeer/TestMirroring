@@ -70,7 +70,7 @@ class ChargePriceViewController: UIViewController {
        navigationItem.leftViews = [backButton]
        navigationItem.hidesBackButton = true
        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
-       navigationItem.titleLabel.text = nameOfMonth+"월 충전요금 안내"
+       navigationItem.titleLabel.text = nameOfMonth + "월 충전요금 안내"
        self.navigationController?.isNavigationBarHidden = false
    }
     
@@ -101,7 +101,7 @@ class ChargePriceViewController: UIViewController {
     }
 }
 
-extension ChargePriceViewController{
+extension ChargePriceViewController {
     // Get charge price data for EV member
     internal func getEvChargePrice() {
         Server.getChargePriceForEvInfra() { (isSuccess, value) in

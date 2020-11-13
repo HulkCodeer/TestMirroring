@@ -15,8 +15,9 @@ target 'evInfra' do
   pod 'HandyJSON'
   pod 'Firebase/Core'                 # For firebase Core
   pod 'Firebase/Messaging'            # For firebase Messaging
-  pod 'Fabric', '~> 1.9.0'            # For firebase Crashlytics
-  pod 'Crashlytics', '~> 3.12.0'      # For firebase Crashlytics
+  #pod 'Fabric', '~> 1.9.0'            # For firebase Crashlytics
+  #pod 'Crashlytics', '~> 3.12.0'      # For firebase Crashlytics
+  pod 'FirebaseCrashlytics'           # For firebase Crashlytics
   pod 'Google-Mobile-Ads-SDK'
   pod 'UIImageCropper'
   pod 'SDWebImage/GIF'
@@ -29,6 +30,7 @@ target 'evInfra' do
   pod 'JJFloatingActionButton'
   pod 'mopub-ios-sdk'                 # for rewarded video mopub mediation
   pod 'TapjoySDK'                     # for rewarded video tapjoy
+  pod 'ExpyTableView', '~> 1.2.1'
 end
 
 post_install do |installer|

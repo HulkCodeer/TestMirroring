@@ -43,10 +43,11 @@ class MyPageViewController: UIViewController {
     
     private var profileName = ""
     private var oldProfileName = ""
+    private var viewHeight:CGFloat = 0
     
     let picker = UIImagePickerController()
     let cropper = UIImageCropper(cropRatio: 1/1)
-    
+
     @IBAction func onClickLocation(_ sender: Any) {
         self.dropDwonLocation.show()
     }
@@ -93,23 +94,17 @@ class MyPageViewController: UIViewController {
     
     func keyboardViewMove() {
         // 키보드 관리 (show/hide)
-        if !addrView.isHidden {
-            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
     }
     
     @objc func keyboardWillShow(_ notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.view.frame.origin.y = -keyboardSize.height * 3/7
-            return
-        }
+        self.view.frame.origin.y = -self.viewHeight
     }
 
     @objc func keyboardWillHide(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             self.view.frame.origin.y = keyboardSize.height * 1/4
-            return
         }
     }
     
@@ -451,6 +446,15 @@ extension MyPageViewController: UITextFieldDelegate {
             textField.deleteBackward()
         }
         return true
+    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField.tag {
+        case 0: // "별명"
+            self.viewHeight =
+                profileImgView.frame.origin.y
+        default:
+            self.viewHeight = locationSpinnerBtn.frame.origin.y
+        }
     }
 }
 

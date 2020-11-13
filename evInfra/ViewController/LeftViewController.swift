@@ -212,6 +212,12 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
         settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
         
+        myPageBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        boardBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        boardCompanyBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        infoBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        settingsBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        
         switch index {
         case MENU_MY_PAGE:
             myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
