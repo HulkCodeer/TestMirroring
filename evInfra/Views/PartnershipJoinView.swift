@@ -74,17 +74,14 @@ class PartnershipJoinView : UIView {
     }
     
     @objc func onClickEvInfra(sender: UITapGestureRecognizer) {
-        print("evinfra btn pressed")
         self.delegate?.showMembershipIssuanceView()
     }
     
     @objc func onClickSKRent(sender: UITapGestureRecognizer) {
-        print("skr btn pressed")
         self.delegate?.showSKMemberQRView()
     }
     
     @objc func onClickLotteRent(sender: UITapGestureRecognizer) {
-        print("lotte btn pressed")
         self.delegate?.showLotteRentCertificateView()
     }
 }

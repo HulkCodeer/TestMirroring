@@ -1240,6 +1240,8 @@ extension MainViewController: MainViewDelegate {
         
         if selectCharger?.getCompanyIcon() != nil{
             self.companyImg.image = selectCharger?.getCompanyIcon()
+        }else{
+            self.companyImg.image = .none
         }
     }
     
@@ -1635,10 +1637,9 @@ extension MainViewController {
 extension MainViewController {
     
     func prepareMenuBtnLayer() {
-        btn_main_charge.alignTextUnderImage()
-        btn_main_charge.tintColor = UIColor(rgb: 0x15435C)
-        btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
-
+        
+        chargingStatus()
+        
         btn_main_offerwall.alignTextUnderImage()
         btn_main_offerwall.tintColor = UIColor(rgb: 0x15435C)
         btn_main_offerwall.setImage(UIImage(named: "ic_line_offerwall")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -1668,10 +1669,7 @@ extension MainViewController {
     @IBAction func onClickMainOfferwall(_ sender: UIButton) {
         if MemberManager().isLogin() {
             let offerwallVC = self.storyboard?.instantiateViewController(withIdentifier: "OfferwallViewController") as! OfferwallViewController
-            
-            let next = AppSearchBarController(rootViewController: offerwallVC)
-            next.modalPresentationStyle = .fullScreen
-            self.present(next, animated: true, completion: nil)
+            self.navigationController?.push(viewController: offerwallVC)
         } else {
             MemberManager().showLoginAlert(vc: self)
         }
@@ -1724,6 +1722,47 @@ extension MainViewController {
             
         default:
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
+        }
+    }
+    
+    func chargingStatus() {
+        if MemberManager().isLogin() {
+            Server.getChargingId { (isSuccess, responseData) in
+                if isSuccess {
+                    let json = JSON(responseData)
+                    self.getChargingStatus(response: json)
+                }
+            }
+        } else {
+            // 진행중인 충전이 없음
+            self.btn_main_charge.alignTextUnderImage()
+            self.btn_main_charge.tintColor = UIColor(rgb: 0x15435C)
+            self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            self.btn_main_charge.setTitle("간편 충전", for: .normal)
+        }
+    }
+    
+    func getChargingStatus(response: JSON) {
+        switch (response["code"].intValue) {
+        case 1000:
+            // 충전중
+            self.btn_main_charge.alignTextUnderImage()
+            self.btn_main_charge.setImage(UIImage(named: "ic_line_charging")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            self.btn_main_charge.tintColor = UIColor(rgb: 0x15435C)
+            self.btn_main_charge.setTitle("충전중", for: .normal)
+            break
+            
+            
+        case 2002:
+            // 진행중인 충전이 없음
+            self.btn_main_charge.alignTextUnderImage()
+            self.btn_main_charge.tintColor = UIColor(rgb: 0x15435C)
+            self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            self.btn_main_charge.setTitle("간편 충전", for: .normal)
+            break
+            
+        default:
+            break
         }
     }
 }
