@@ -1504,12 +1504,13 @@ extension MainViewController {
     }
     
     private func checkJeJuBoundary(){
-        let point = MainViewController.currentLocation
-        if 37.42 <= point!.getLatitude() , point!.getLatitude() <= 37.57
-            && 126.9 <= point!.getLongitude() , point!.getLongitude() <= 127.13 {
-            print("in jeju boundary")
-            let window = UIApplication.shared.keyWindow!
-            window.addSubview(PopUpDialog(frame: window.bounds))
+        if let point = MainViewController.currentLocation {
+            if 33.11 <= point.getLatitude() && point.getLatitude() <= 33.969
+                && 126.13 <= point.getLongitude() && point.getLongitude() <= 126.99 {
+                print("in jeju boundary")
+                let window = UIApplication.shared.keyWindow!
+                window.addSubview(PopUpDialog(frame: window.bounds))
+            }
         }
     }
 }

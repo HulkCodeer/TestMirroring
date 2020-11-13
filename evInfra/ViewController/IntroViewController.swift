@@ -118,7 +118,7 @@ extension IntroViewController: CompanyInfoCheckerDelegate {
                 let json = JSON(value)
                 UserDefault().saveString(key: UserDefault.Key.MEMBER_ID, value: json["member_id"].stringValue)
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION, value: json["receive_push"].boolValue)
-                
+                UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION, value: json["receive_jeju_push"].boolValue)
                 self.fcmManager.updateFCMInfo()
                 self.checkLastBoardId()
             }
