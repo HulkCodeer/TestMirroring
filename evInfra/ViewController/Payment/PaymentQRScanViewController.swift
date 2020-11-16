@@ -71,6 +71,7 @@ class PaymentQRScanViewController: UIViewController {
     
     func prepareView() {
         self.scannerViewLayer.frame.size.width = self.view.frame.width
+        self.btnStartCharge.setDefaultBackground(cornerRadius: 10)
         self.btnStartCharge.isEnabled = false
         
     }
