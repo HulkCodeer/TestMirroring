@@ -97,14 +97,6 @@ class ReportChargeViewController: UIViewController {
         prepareMapView()
         prepareChargerView()
 
-        if info.type_id == Const.REPORT_CHARGER_TYPE_USER_MOD_DELETE {
-            deleteBtn.isEnabled = false
-        }
-        
-        if info.status_id != Const.REPORT_CHARGER_STATUS_CONFIRM {
-            deleteBtn.isEnabled = false
-        }
-
         addressTextView.layer.borderWidth = 0.5
         addressTextView.layer.borderColor = UIColor.white.cgColor
         addressTextView.layer.cornerRadius = 5
@@ -139,12 +131,19 @@ class ReportChargeViewController: UIViewController {
     }
     
     func prepareChargerView() {
-        printInfo()
         addressTextView.text = info.adr
         operationTextView.text = info.snm
         
         if let charger = self.charger {
             operationBtn.setTitle(charger.mStationInfoDto?.mOperator, for: UIControlState.normal)
+        }
+        
+        // 제보 취소 버튼
+        if (info.type_id == ReportData.REPORT_CHARGER_TYPE_USER_MOD
+         && info.status_id != ReportData.REPORT_CHARGER_STATUS_FINISH) {
+            deleteBtn.isEnabled = true
+        } else {
+            deleteBtn.isEnabled = false
         }
     }
     
@@ -191,9 +190,9 @@ class ReportChargeViewController: UIViewController {
     
     func sendDeleteToServer() {
         switch info.type_id {
-        case Const.REPORT_CHARGER_TYPE_USER_MOD:
-            if info.status_id == Const.REPORT_CHARGER_STATUS_CONFIRM {
-                requestDeleteReport(typeID:Const.REPORT_CHARGER_TYPE_USER_MOD_DELETE)
+        case ReportData.REPORT_CHARGER_TYPE_USER_MOD:
+            if info.status_id == ReportData.REPORT_CHARGER_STATUS_CONFIRM {
+                requestDeleteReport()
             }
         default:
             Snackbar().show(message: "해당 항목은 삭제할 수 없습니다.")
@@ -206,9 +205,8 @@ class ReportChargeViewController: UIViewController {
         }
     }
 
-    // gps 좌표
     func checkDataField() -> Bool {
-        //printInfo()
+        // gps 좌표
         guard let lat = info.lat, lat > 0.0 else {
             Snackbar().show(message: "추가/수정할 위치를 선택해 주세요.")
             return false
@@ -219,8 +217,9 @@ class ReportChargeViewController: UIViewController {
             return false
         }
         
+        // 주소
         guard  let adr = info.adr, !adr.isEmpty else {
-            Snackbar().show(message: "추가/수정할 위치를 선택해주세요.")
+            Snackbar().show(message: "추가/수정할 곳의 위치를 선택 후 주소를 확인해주세요.")
             return false
         }
         
@@ -255,7 +254,6 @@ class ReportChargeViewController: UIViewController {
 
                     self.indicatorControll(isStart: false)
                     if isSuccess {
-                        print(value)
                         let json = JSON(value)
                         if json["code"].intValue == 1000 { // 기존에 제보한 내역이 있음
                             let report = json["report"]
@@ -271,9 +269,10 @@ class ReportChargeViewController: UIViewController {
                             self.info.adr_dtl = report["adr_dtl"].stringValue
                         } else { // 처음 제보하는 충전소
                             self.info.report_id = 0
-                            self.info.type_id = Const.REPORT_CHARGER_TYPE_USER_MOD
-                            self.info.status_id = Const.REPORT_CHARGER_STATUS_FINISH
+                            self.info.type_id = ReportData.REPORT_CHARGER_TYPE_USER_MOD
+                            self.info.status_id = ReportData.REPORT_CHARGER_STATUS_FINISH
 
+                            self.info.snm = charger.mStationInfoDto?.mSnm
                             self.info.lat = charger.mStationInfoDto?.mLatitude
                             self.info.lon = charger.mStationInfoDto?.mLongitude
                             self.info.adr = charger.mStationInfoDto?.mAddress
@@ -291,52 +290,51 @@ class ReportChargeViewController: UIViewController {
         }
     }
     
-    func requestDeleteReport(typeID: Int) {
+    func requestReportApply() {
         self.indicatorControll(isStart: true)
-        
-        Server.deleteReport(key: info.report_id!, typeId: typeID) { (isSuccess, value) in
+        self.info.type_id = ReportData.REPORT_CHARGER_TYPE_USER_MOD
+
+        Server.modifyReport(info: self.info) { (isSuccess, value) in
+            
+            self.indicatorControll(isStart: false)
             if isSuccess {
                 let json = JSON(value)
-                if json["result_code"].exists() {
-                    let resultCode = json["result_code"].stringValue
-                    if resultCode == "2000" {
-                        self.onClickBackBtn()
-                    } else {
-                        Snackbar().show(message: "서버요청 중 오류가 발생하였습니다. 재시도 바랍니다.")
-                    }
-                    print("requestDeleteReport-result_code:" + json["result_code"].stringValue)
+                if json["code"].exists() && json["code"].intValue == 1000 {
+                    Snackbar().show(message: "수정 요청이 등록되었습니다. 제보해 주셔서 감사드립니다.")
+
+                    // 제보 정보 다시 받아오기
+                    self.requestReportData()
+                } else {
+                    Snackbar().show(message: "수정 요청이 실패하였습니다. 다시 시도해 주세요.")
                 }
-                self.indicatorControll(isStart: false)
             } else {
-                self.indicatorControll(isStart: false)
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 제보하기 종료 후 재시도 바랍니다.")
             }
         }
     }
-    
-    func requestReportApply() {
+
+    func requestDeleteReport() {
         self.indicatorControll(isStart: true)
-        
-        Server.modifyReport(info: self.info) { (isSuccess, value) in
+
+        Server.deleteReport(reportId: info.report_id, typeId: ReportData.REPORT_CHARGER_TYPE_USER_MOD_DELETE) { (isSuccess, value) in
+
+            self.indicatorControll(isStart: false)
             if isSuccess {
                 let json = JSON(value)
-                if json["result_code"].exists() {
-                    let resultCode = json["result_code"].stringValue
-                    if resultCode == "2000" {
-                        self.onClickBackBtn()
-                    } else {
-                        Snackbar().show(message: "서버요청중 오류가 발생하였습니다. 재시도 바랍니다.")
-                    }
-                    print("GetReportInfo-result_code:" + json["result_code"].stringValue)
+                if json["code"].exists() && json["code"].intValue == 1000 {
+                    Snackbar().show(message: "제보해 주신 정보를 취소 처리하였습니다. 도움에 감사드립니다.")
+                    
+                    // 제보 정보 다시 받아오기
+                    self.requestReportData()
+                } else {
+                    Snackbar().show(message: "제보 취소 요청이 실패하였습니다. 다시 시도해 주세요.")
                 }
-                self.indicatorControll(isStart: false)
             } else {
-                self.indicatorControll(isStart: false)
-                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 제보하기 페이지 종료후 재시도 바랍니다.")
+                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 제보하기 종료 후 재시도 바랍니다.")
             }
         }
     }
-    
+
     func printInfo() {
         print("pkey: \(String(describing: info.report_id))")
         print("from: \(String(describing: info.from))")
@@ -345,8 +343,9 @@ class ReportChargeViewController: UIViewController {
         print("lon: \(String(describing: info.lon))")
         print("snm: \(String(describing: info.snm))")
         print("company id: \(String(describing: info.company_id))")
-        print("std: \(String(describing: info.status_id))")
-        print("type: \(String(describing: info.type_id))")
+        print("status id: \(String(describing: info.status_id))")
+        print("type id: \(String(describing: info.type_id))")
+        print("charger id: \(String(describing: info.charger_id))")
         print("utime: \(String(describing: info.utime))")
         print("pay: \(String(describing: info.pay))")
         print("tel: \(String(describing: info.tel))")

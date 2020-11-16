@@ -98,8 +98,8 @@ extension ReportBoardViewController : ReportChargeViewDelegate {
     func goToReportChargerPage(index:Int) {
         let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
         reportChargeVC.delegate = self
-        reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_LIST
-        reportChargeVC.info.report_id = self.rList[index].pkey
+        reportChargeVC.info.from = ReportData.REPORT_CHARGER_FROM_LIST
+        reportChargeVC.info.report_id = self.rList[index].pkey ?? 0
         reportChargeVC.info.type_id = self.rList[index].type_id
         reportChargeVC.info.lat = self.rList[index].latitude
         reportChargeVC.info.lon = self.rList[index].longitude
@@ -146,7 +146,7 @@ extension ReportBoardViewController: UITableViewDataSource {
         cell.rDate.text = item.reg_date
         cell.adminCommnet.text = ""
 
-        if(item.status_id == Const.REPORT_CHARGER_STATUS_REJECT) {
+        if(item.status_id == ReportData.REPORT_CHARGER_STATUS_REJECT) {
             if let msg = item.adminComment, !msg.isEmpty {
                 cell.adminCommnet.text = msg
             }

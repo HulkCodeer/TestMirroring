@@ -717,7 +717,7 @@ extension DetailViewController {
         if MemberManager().isLogin() {
             if let chargerInfo = self.charger {
                 let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
-                reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_DETAIL
+                reportChargeVC.info.from = ReportData.REPORT_CHARGER_FROM_DETAIL
                 reportChargeVC.info.charger_id = chargerInfo.mChargerId
                 
                 self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)

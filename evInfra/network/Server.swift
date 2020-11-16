@@ -619,28 +619,30 @@ class Server {
     static func modifyReport(info: ReportData.ReportChargeInfo, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
+            "report_id": info.report_id,
             "type_id": info.type_id!,
             "charger_id": info.charger_id!,
             "lat": info.lat!,
             "lon": info.lon!,
             "snm": info.snm!,
-            "adr": info.adr!
+            "adr": info.adr!,
+            "adr_dtl": info.adr_dtl!
             ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/report/replaceReportModfiy.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/report/modify",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
     // 제보하기 - 제보내역 삭제
-    static func deleteReport(key: Int, typeId: Int, completion: @escaping (Bool, Any) -> Void) {
+    static func deleteReport(reportId: Int, typeId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
-            "pkey": key,
-            "type": typeId
+            "report_id": reportId,
+            "type_id": typeId
             ]
         
-        Alamofire.request(Const.EV_SERVER_IP + "/report/reportDelete.do",
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/report/delete",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
