@@ -616,7 +616,7 @@ class Server {
     }
     
     // 제보하기 - 기존에 있는 충전소의 위치정보 수정 요청
-    static func modifyReport(info: ReportData.ReportChargeInfo, completion: @escaping (Bool, Any) -> Void) {
+    static func modifyReport(info: ReportCharger, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
             "report_id": info.report_id,
@@ -660,13 +660,13 @@ class Server {
     }
     
     // 제보하기 - 나의 제보 내역 리스트 가져오기
-    static func getReportList(key: Int, completion: @escaping (Bool, Data?) -> Void) {
+    static func getReportList(reportId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
-            "pkey": key
+            "report_id": reportId
             ]
-        
-        Alamofire.request(Const.EV_SERVER_IP + "/report/getReportBoardList.do",
+
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/report/my_report",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseData(response: response, completion: completion) }
     }

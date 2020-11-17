@@ -236,11 +236,10 @@
 		CE5242362182FD9000FF6AB1 /* AddressToLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5242352182FD9000FF6AB1 /* AddressToLocationController.swift */; };
 		CE5242382183076000FF6AB1 /* AddressSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5242372183076000FF6AB1 /* AddressSearchCell.swift */; };
 		CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE72D73B219BDA32003979D2 /* KeyChainManager.swift */; };
-		CE93308F214F9807006B7EF6 /* ReportChargeInfoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93308E214F9807006B7EF6 /* ReportChargeInfoList.swift */; };
+		CE93308F214F9807006B7EF6 /* ReportChargerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93308E214F9807006B7EF6 /* ReportChargerList.swift */; };
 		CE93309121509A81006B7EF6 /* ReportBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93309021509A81006B7EF6 /* ReportBoardViewController.swift */; };
-		CE9330972150FB32006B7EF6 /* ReportChargeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9330962150FB32006B7EF6 /* ReportChargeItem.swift */; };
 		CE93309921511AD4006B7EF6 /* ReportBoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93309821511AD4006B7EF6 /* ReportBoardTableViewCell.swift */; };
-		CEBE0601214BA5C30047E6F2 /* ReportData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE0600214BA5C30047E6F2 /* ReportData.swift */; };
+		CEBE0601214BA5C30047E6F2 /* ReportCharger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE0600214BA5C30047E6F2 /* ReportCharger.swift */; };
 		CEBE0603214BCB990047E6F2 /* ReportChargeViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE0602214BCB990047E6F2 /* ReportChargeViewDelegate.swift */; };
 		CEC4322A223A5C9A00B76795 /* SearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC43229223A5C9A00B76795 /* SearchTableView.swift */; };
 		CECA908A2084A9F50083518B /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECA90892084A9F50083518B /* TermsViewController.swift */; };
@@ -561,11 +560,10 @@
 		CE5242352182FD9000FF6AB1 /* AddressToLocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressToLocationController.swift; sourceTree = "<group>"; };
 		CE5242372183076000FF6AB1 /* AddressSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressSearchCell.swift; sourceTree = "<group>"; };
 		CE72D73B219BDA32003979D2 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
-		CE93308E214F9807006B7EF6 /* ReportChargeInfoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChargeInfoList.swift; sourceTree = "<group>"; };
+		CE93308E214F9807006B7EF6 /* ReportChargerList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChargerList.swift; sourceTree = "<group>"; };
 		CE93309021509A81006B7EF6 /* ReportBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBoardViewController.swift; sourceTree = "<group>"; };
-		CE9330962150FB32006B7EF6 /* ReportChargeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChargeItem.swift; sourceTree = "<group>"; };
 		CE93309821511AD4006B7EF6 /* ReportBoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBoardTableViewCell.swift; sourceTree = "<group>"; };
-		CEBE0600214BA5C30047E6F2 /* ReportData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportData.swift; sourceTree = "<group>"; };
+		CEBE0600214BA5C30047E6F2 /* ReportCharger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCharger.swift; sourceTree = "<group>"; };
 		CEBE0602214BCB990047E6F2 /* ReportChargeViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChargeViewDelegate.swift; sourceTree = "<group>"; };
 		CEC43229223A5C9A00B76795 /* SearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableView.swift; sourceTree = "<group>"; };
 		CECA90892084A9F50083518B /* TermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
@@ -865,9 +863,8 @@
 				DB367BF224FE673E00898BED /* LoginHelper.swift */,
 				73D65D7B2360299700F564A2 /* PaymentCard.swift */,
 				DB6E59482063C595002E75C8 /* Regions.swift */,
-				CE93308E214F9807006B7EF6 /* ReportChargeInfoList.swift */,
-				CE9330962150FB32006B7EF6 /* ReportChargeItem.swift */,
-				CEBE0600214BA5C30047E6F2 /* ReportData.swift */,
+				CE93308E214F9807006B7EF6 /* ReportChargerList.swift */,
+				CEBE0600214BA5C30047E6F2 /* ReportCharger.swift */,
 				00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */,
 			);
 			path = model;
@@ -1607,7 +1604,7 @@
 				73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */,
 				DBA18B1D211D7AF400A2CB4F /* MemberManager.swift in Sources */,
 				9098783224EE537E00AB3DC8 /* GoogleAdMobAdapterConfiguration.m in Sources */,
-				CEBE0601214BA5C30047E6F2 /* ReportData.swift in Sources */,
+				CEBE0601214BA5C30047E6F2 /* ReportCharger.swift in Sources */,
 				CE33B4C12191BD9500B6C632 /* MyCouponViewController.swift in Sources */,
 				DBF3827B2304475900FAF772 /* CBT.swift in Sources */,
 				9098783C24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m in Sources */,
@@ -1617,7 +1614,6 @@
 				902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */,
 				DB367BF124FE429D00898BED /* Login.swift in Sources */,
 				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
-				CE9330972150FB32006B7EF6 /* ReportChargeItem.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
 				9098783824EE567000AB3DC8 /* MPGoogleGlobalMediationSettings.m in Sources */,
 				7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */,
@@ -1648,7 +1644,7 @@
 				73EF8B45203BD1D400D04494 /* EVIcon.swift in Sources */,
 				73AD13C6203AC34400ADD19A /* LeftViewController.swift in Sources */,
 				73C31BFB20A288BB005B6C53 /* ChargerInfoViewController.swift in Sources */,
-				CE93308F214F9807006B7EF6 /* ReportChargeInfoList.swift in Sources */,
+				CE93308F214F9807006B7EF6 /* ReportChargerList.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton.swift in Sources */,
 				902A11DC248F5F550049EF8E /* ChargerConst.swift in Sources */,
 				73D65D7223588ACC00F564A2 /* UITextField.swift in Sources */,

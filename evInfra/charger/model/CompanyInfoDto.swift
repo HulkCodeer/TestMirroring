@@ -9,7 +9,9 @@
 import Foundation
 import GRDB
 import SwiftyJSON
-class CompanyInfoDto : Record{
+
+class CompanyInfoDto : Record {
+    
     required init(row: Row) {
         company_id = row["company_id"]
         name = row["name"]
@@ -75,30 +77,17 @@ class CompanyInfoDto : Record{
         return StringUtils.isNullOrEmpty(updateDate) || (updateDate.compare(self.icon_date!).rawValue < 1)
     }
     
-    public func setCompanyInfo(json : JSON){
-        let company_id = json["id"]
-        let name = json["name"]
-        let tel = json["tel"]
-        let icon_name = json["ic_name"]
-        let icon_date = json["ic_date"]
-        let homepage = json["hp"]
-        let market = json["mk"]
-        //let appstore = json["as"]
-        //let is_visible = json["is_visible"]
-        let sort = json["sort"]
-        let del = json["del"]
-        
-        self.company_id = company_id.stringValue
-        self.name = name.stringValue
-        self.tel = tel.stringValue
-        self.icon_name = icon_name.stringValue
-        self.icon_date = icon_date.stringValue
-        self.homepage = homepage.stringValue
-        self.market = market.stringValue
+    public func setCompanyInfo(json : JSON) {
+        self.company_id = json["id"].stringValue
+        self.name = json["name"].stringValue
+        self.tel = json["tel"].stringValue
+        self.icon_name = json["ic_name"].stringValue
+        self.icon_date = json["ic_date"].stringValue
+        self.homepage = json["hp"].stringValue
+        self.market = json["mk"].stringValue
         //self.appstore = appstore.stringValue
         //self.is_visible = is_visible.boolValue
-        self.sort = sort.intValue
-        self.del = del.boolValue
+        self.sort = json["sort"].intValue
+        self.del = json["del"].boolValue
     }
-
 }

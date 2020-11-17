@@ -7,12 +7,9 @@
 //
 
 import Foundation
+import SwiftyJSON
 
-class ReportData {
-    
-    // 제보하기 호출자
-    public static let REPORT_CHARGER_FROM_DETAIL = 1
-    public static let REPORT_CHARGER_FROM_LIST   = 2
+class ReportCharger {
     
     // 제보하기 유형
 //    public static let REPORT_CHARGER_TYPE_ETC = 0               // 충전소 제보 타입
@@ -27,22 +24,31 @@ class ReportData {
     public static let REPORT_CHARGER_STATUS_CONFIRM = 2  // 확인
     public static let REPORT_CHARGER_STATUS_REJECT = 3   // 반려
     
-    struct ReportChargeInfo {
-        var from: Int?
-        var report_id = 0
-        var type_id: Int?
-        var status_id: Int?
-        var lat: Double?
-        var lon: Double?
-        var adr: String?
-        var adr_dtl: String?
-        var snm: String?
-        var utime: String?
-        var tel: String?
-        var pay: String?
-        var company_id: String?
-        var charger_id: String?
-        
-        var clist = Array<Int>()
+    var report_id = 0
+    var type_id: Int?
+    var status_id: Int?
+    var type: String?
+    var status: String?
+    var charger_id: String?
+    var snm: String?
+    var lat: Double?
+    var lon: Double?
+    var adr: String?
+    var adr_dtl: String?
+    var reg_date: String?
+    var admin_cmt: String?
+    
+    init() {
+    }
+    
+    init(json: JSON) {
+        report_id = json["report_id"].intValue
+        status_id = json["status_id"].intValue
+        charger_id = json["charger_id"].stringValue
+        snm = json["snm"].stringValue
+        status = json["status"].stringValue
+        type = json["type"].stringValue
+        reg_date = json["reg_date"].stringValue
+        admin_cmt = json["admin_cmt"].stringValue
     }
 }

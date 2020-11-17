@@ -12,13 +12,11 @@ import Motion
 import SwiftyJSON
 
 class ReportBoardViewController: UIViewController {
-   
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyLabel: UILabel!
     
-    var rList = Array<ReportChargeItem>()
+    var reportList = Array<ReportCharger>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,12 +24,7 @@ class ReportBoardViewController: UIViewController {
         prepareActionBar()
         prepareInitView()
         
-        getReporInfoList(key:0)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        getReportList(reportId:0)
     }
 
     func prepareActionBar() {
@@ -62,63 +55,48 @@ class ReportBoardViewController: UIViewController {
         self.navigationController?.pop()
     }
 
-    func getReporInfoList(key: Int) {
-        if key == 0 {
-            self.rList.removeAll()
+    func getReportList(reportId: Int) {
+        if reportId <= 0 {
+            self.reportList.removeAll()
         }
         
-        Server.getReportList(key: key) { (isSuccess, responseData) in
+        Server.getReportList(reportId: reportId) { (isSuccess, value) in
+
             if isSuccess {
-                if let data = responseData {
-                    let info = try! JSONDecoder().decode(ReportChargeInfoList.self, from: data)
-                    if let _ = info.lists {
-                        for item in info.lists! {
-                            let row = ReportChargeItem.init(item: item)
-                            self.rList.append(row)
+                let json = JSON(value)
+                if json["code"].intValue == 1000 {
+                    let list = json["list"]
+                    if list.count > 0 {
+                        for item in list.arrayValue {
+                            self.reportList.append(ReportCharger(json: item))
                         }
-                        if (info.lists?.count)! > 0 {
-                            self.tableView.reloadData()
-                        }
+                        self.tableView.reloadData()
                     }
-                    
-                    if self.rList.count <= 0 {
-                        self.emptyLabel.isHidden = false
-                        self.tableView.isHidden = true
-                    } else {
-                        self.emptyLabel.isHidden = true
-                        self.tableView.isHidden = false
-                    }
+                }
+
+                if self.reportList.count <= 0 {
+                    self.emptyLabel.isHidden = false
+                    self.tableView.isHidden = true
+                } else {
+                    self.emptyLabel.isHidden = true
+                    self.tableView.isHidden = false
                 }
             }
         }
     }
 }
 
-extension ReportBoardViewController : ReportChargeViewDelegate {
+extension ReportBoardViewController: ReportChargeViewDelegate {
     func goToReportChargerPage(index:Int) {
         let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
         reportChargeVC.delegate = self
-        reportChargeVC.info.from = ReportData.REPORT_CHARGER_FROM_LIST
-        reportChargeVC.info.report_id = self.rList[index].pkey ?? 0
-        reportChargeVC.info.type_id = self.rList[index].type_id
-        reportChargeVC.info.lat = self.rList[index].latitude
-        reportChargeVC.info.lon = self.rList[index].longitude
-        reportChargeVC.info.status_id = self.rList[index].status_id
-        reportChargeVC.info.adr = self.rList[index].address
-        reportChargeVC.info.snm = self.rList[index].station_name
-        reportChargeVC.info.charger_id = self.rList[index].charger_id
-        
-        if let chargerId = self.rList[index].charger_id {
-            if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId){
-                reportChargeVC.info.company_id = charger.mStationInfoDto?.mCompanyId
-            }
-        }
+        reportChargeVC.info.charger_id = self.reportList[index].charger_id
         
         self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
     }
     
     func getReportInfo() {
-        self.getReporInfoList(key: 0)
+        getReportList(reportId: 0)
     }
 }
 
@@ -130,24 +108,20 @@ extension ReportBoardViewController: UITableViewDelegate {
 
 extension ReportBoardViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.rList.count <= 0 {
-            return 0
-        }
-        return self.rList.count
+        return reportList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reportCell", for: indexPath) as! ReportBoardTableViewCell
-        let item = self.rList[indexPath.row]
+        let item = reportList[indexPath.row]
         
-        cell.stationName.text = item.station_name
-        cell.rType.text = item.type
-        cell.status.text = item.status
+        cell.stationName.text = item.snm
+        cell.rType.text = String(item.type!)
+        cell.status.text = String(item.status!)
         cell.rDate.text = item.reg_date
         cell.adminCommnet.text = ""
-
-        if(item.status_id == ReportData.REPORT_CHARGER_STATUS_REJECT) {
-            if let msg = item.adminComment, !msg.isEmpty {
+        if item.status_id == ReportCharger.REPORT_CHARGER_STATUS_REJECT {
+            if let msg = item.admin_cmt, !msg.isEmpty {
                 cell.adminCommnet.text = msg
             }
         }
@@ -166,14 +140,11 @@ extension ReportBoardViewController: UITableViewDataSource {
         let currentOffset = scrollView.contentOffset.y
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
         if maximumOffset - currentOffset <= scrollView.frame.size.height {
-            if self.rList.count > 0 {
-                if let pkey = self.rList[self.rList.count-1].pkey {
-                    getReporInfoList(key: pkey)
-                } else {
-                    getReporInfoList(key: 0)
-                }
+            if reportList.count > 0 {
+                let lastId = self.reportList[self.reportList.count - 1].report_id
+                getReportList(reportId: lastId)
             } else {
-                getReporInfoList(key: 0)
+                getReportList(reportId: 0)
             }
         }
     }

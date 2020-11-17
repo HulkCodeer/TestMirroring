@@ -20,7 +20,7 @@ class ReportChargeViewController: UIViewController {
     var activeTextView: Any? = nil
     
     var charger: ChargerStationInfo? = nil
-    var info = ReportData.ReportChargeInfo()
+    var info = ReportCharger()
     
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -139,8 +139,8 @@ class ReportChargeViewController: UIViewController {
         }
         
         // 제보 취소 버튼
-        if (info.type_id == ReportData.REPORT_CHARGER_TYPE_USER_MOD
-         && info.status_id != ReportData.REPORT_CHARGER_STATUS_FINISH) {
+        if (info.type_id == ReportCharger.REPORT_CHARGER_TYPE_USER_MOD
+         && info.status_id != ReportCharger.REPORT_CHARGER_STATUS_FINISH) {
             deleteBtn.isEnabled = true
         } else {
             deleteBtn.isEnabled = false
@@ -190,8 +190,8 @@ class ReportChargeViewController: UIViewController {
     
     func sendDeleteToServer() {
         switch info.type_id {
-        case ReportData.REPORT_CHARGER_TYPE_USER_MOD:
-            if info.status_id == ReportData.REPORT_CHARGER_STATUS_CONFIRM {
+        case ReportCharger.REPORT_CHARGER_TYPE_USER_MOD:
+            if info.status_id == ReportCharger.REPORT_CHARGER_STATUS_CONFIRM {
                 requestDeleteReport()
             }
         default:
@@ -269,8 +269,8 @@ class ReportChargeViewController: UIViewController {
                             self.info.adr_dtl = report["adr_dtl"].stringValue
                         } else { // 처음 제보하는 충전소
                             self.info.report_id = 0
-                            self.info.type_id = ReportData.REPORT_CHARGER_TYPE_USER_MOD
-                            self.info.status_id = ReportData.REPORT_CHARGER_STATUS_FINISH
+                            self.info.type_id = ReportCharger.REPORT_CHARGER_TYPE_USER_MOD
+                            self.info.status_id = ReportCharger.REPORT_CHARGER_STATUS_FINISH
 
                             self.info.snm = charger.mStationInfoDto?.mSnm
                             self.info.lat = charger.mStationInfoDto?.mLatitude
@@ -283,7 +283,7 @@ class ReportChargeViewController: UIViewController {
                     }
                 }
             } else {
-                cancelReport()
+                Snackbar().show(message: "충전소가 존재하지 않습니다.")
             }
         } else {
             cancelReport()
@@ -292,7 +292,7 @@ class ReportChargeViewController: UIViewController {
     
     func requestReportApply() {
         self.indicatorControll(isStart: true)
-        self.info.type_id = ReportData.REPORT_CHARGER_TYPE_USER_MOD
+        self.info.type_id = ReportCharger.REPORT_CHARGER_TYPE_USER_MOD
 
         Server.modifyReport(info: self.info) { (isSuccess, value) in
             
@@ -316,7 +316,7 @@ class ReportChargeViewController: UIViewController {
     func requestDeleteReport() {
         self.indicatorControll(isStart: true)
 
-        Server.deleteReport(reportId: info.report_id, typeId: ReportData.REPORT_CHARGER_TYPE_USER_MOD_DELETE) { (isSuccess, value) in
+        Server.deleteReport(reportId: info.report_id, typeId: ReportCharger.REPORT_CHARGER_TYPE_USER_MOD_DELETE) { (isSuccess, value) in
 
             self.indicatorControll(isStart: false)
             if isSuccess {
@@ -337,19 +337,13 @@ class ReportChargeViewController: UIViewController {
 
     func printInfo() {
         print("pkey: \(String(describing: info.report_id))")
-        print("from: \(String(describing: info.from))")
         print("adr: \(String(describing: info.adr))")
         print("lat: \(String(describing: info.lat))")
         print("lon: \(String(describing: info.lon))")
         print("snm: \(String(describing: info.snm))")
-        print("company id: \(String(describing: info.company_id))")
         print("status id: \(String(describing: info.status_id))")
         print("type id: \(String(describing: info.type_id))")
         print("charger id: \(String(describing: info.charger_id))")
-        print("utime: \(String(describing: info.utime))")
-        print("pay: \(String(describing: info.pay))")
-        print("tel: \(String(describing: info.tel))")
-        print("clist: \(String(describing: info.clist.count))")
     }
 }
 

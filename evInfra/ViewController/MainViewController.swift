@@ -561,7 +561,12 @@ class MainViewController: UIViewController {
     func bookmark() {
         if MemberManager().isLogin() {
             ChargerManager.sharedInstance.setFavoriteCharger(charger: selectCharger!) { (charger) in
-                 self.setCallOutFavoriteIcon(charger: charger)
+                self.setCallOutFavoriteIcon(charger: charger)
+                if charger.mFavorite {
+                    Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
+                } else {
+                    Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
+                }
             }
         } else {
             MemberManager().showLoginAlert(vc: self)

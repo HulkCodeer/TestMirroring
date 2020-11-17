@@ -392,7 +392,12 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func bookmark() {
         if MemberManager().isLogin() {
             ChargerManager.sharedInstance.setFavoriteCharger(charger: self.charger!) { (charger) in
-                 self.setCallOutFavoriteIcon(charger: charger)
+                self.setCallOutFavoriteIcon(charger: charger)
+                if charger.mFavorite {
+                    Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
+                } else {
+                    Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
+                }
             }
         } else {
             MemberManager().showLoginAlert(vc: self)
@@ -717,7 +722,6 @@ extension DetailViewController {
         if MemberManager().isLogin() {
             if let chargerInfo = self.charger {
                 let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
-                reportChargeVC.info.from = ReportData.REPORT_CHARGER_FROM_DETAIL
                 reportChargeVC.info.charger_id = chargerInfo.mChargerId
                 
                 self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
