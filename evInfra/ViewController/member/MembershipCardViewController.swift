@@ -36,6 +36,7 @@ class MembershipCardViewController: UIViewController,
                 
                 let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
                 if json["code"].stringValue.elementsEqual("1101") { // MBS_CARD_NOT_ISSUED 발급받은 회원카드가 없음
+                    UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: false)
                     self.partnershipJoinView = PartnershipJoinView.init(frame: frame)
                     if let pjView = self.partnershipJoinView {
                         pjView.delegate = self
@@ -61,6 +62,12 @@ class MembershipCardViewController: UIViewController,
     }
     
     func prepareActionBar() {
+        let backButton = IconButton(image: Icon.cm.arrowBack)
+        backButton.tintColor = UIColor(rgb: 0x15435C)
+        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+        
+        navigationItem.leftViews = [backButton]
+        navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "회원・제휴 관리"
         self.navigationController?.isNavigationBarHidden = false

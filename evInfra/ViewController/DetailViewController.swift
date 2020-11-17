@@ -354,7 +354,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
                     let distance = Double(path.getDistance() / 1000).rounded()
 
                     DispatchQueue.main.async {
-                        self.dstLabel.text = "| \(distance) Km"
+                        self.dstLabel.text = "여기서 \(distance) Km"
                     }
                 } else {
                     DispatchQueue.main.async {
@@ -374,11 +374,11 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.checkingView.isHidden = true
 
         if (roof.equals("0")) {
-            //indoor
-            self.indoorView.isHidden = false
-        } else if (roof.equals("1")) {
             //outdoor
             self.outdoorView.isHidden = false
+        } else if (roof.equals("1")) {
+            //indoor
+            self.indoorView.isHidden = false
         } else if (roof.equals("2")) {
             //canopy
             self.canopyView.isHidden = false

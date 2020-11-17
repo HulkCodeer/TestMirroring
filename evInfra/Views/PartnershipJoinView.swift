@@ -49,7 +49,7 @@ class PartnershipJoinView : UIView {
     }
     
     func showInfoView(infoList : [MemberPartnershipInfo]) {
-        var partnershipCnt = infoList.count - 1
+        var partnershipCnt = 2
         for item in infoList {
             switch item.clientId {
             case 1 : // evinfra
