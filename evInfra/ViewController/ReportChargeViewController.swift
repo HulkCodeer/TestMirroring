@@ -12,6 +12,10 @@ import Motion
 import SwiftyJSON
 import DropDown
 
+protocol ReportChargeViewDelegate {
+    func getReportInfo()
+}
+
 class ReportChargeViewController: UIViewController {
     
     var delegate:ReportChargeViewDelegate? = nil
@@ -347,7 +351,7 @@ class ReportChargeViewController: UIViewController {
     }
 }
 
-extension ReportChargeViewController:  ReportChargerAddrSearchDelegate {
+extension ReportChargeViewController: AddressToLocationDelegate {
     func moveToLocation(lat:Double, lon:Double) {
         guard let mapView = tMapView else {
             print("ReportCharger Map init fail")

@@ -9,12 +9,16 @@
 import UIKit
 import Material
 
+protocol AddressToLocationDelegate {
+    func moveToLocation(lat:Double, lon:Double)
+}
+
 class AddressToLocationController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     private var tMapPathData: TMapPathData = TMapPathData.init()
     
-    var delegate: ReportChargerAddrSearchDelegate?
+    var delegate: AddressToLocationDelegate?
     
     var poiList: [TMapPOIItem]? = nil
     
@@ -25,7 +29,6 @@ class AddressToLocationController: UIViewController {
         prepareTableView()
     }
 }
-
 
 extension AddressToLocationController {
     internal func prepareTableView() {
@@ -93,7 +96,9 @@ extension AddressToLocationController: UITableViewDelegate {
             return
         }
         
-        delegate?.moveToLocation(lat: latitude, lon: longitude)
+        if let delegate = self.delegate {
+            delegate.moveToLocation(lat: latitude, lon: longitude)
+        }
         
         dismiss(animated: true, completion: nil)
     }

@@ -240,7 +240,6 @@
 		CE93309121509A81006B7EF6 /* ReportBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93309021509A81006B7EF6 /* ReportBoardViewController.swift */; };
 		CE93309921511AD4006B7EF6 /* ReportBoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93309821511AD4006B7EF6 /* ReportBoardTableViewCell.swift */; };
 		CEBE0601214BA5C30047E6F2 /* ReportCharger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE0600214BA5C30047E6F2 /* ReportCharger.swift */; };
-		CEBE0603214BCB990047E6F2 /* ReportChargeViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE0602214BCB990047E6F2 /* ReportChargeViewDelegate.swift */; };
 		CEC4322A223A5C9A00B76795 /* SearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC43229223A5C9A00B76795 /* SearchTableView.swift */; };
 		CECA908A2084A9F50083518B /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECA90892084A9F50083518B /* TermsViewController.swift */; };
 		DB0D96D72052548B00BA018B /* menu_top_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB0D96D62052548A00BA018B /* menu_top_bg.jpg */; };
@@ -564,7 +563,6 @@
 		CE93309021509A81006B7EF6 /* ReportBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBoardViewController.swift; sourceTree = "<group>"; };
 		CE93309821511AD4006B7EF6 /* ReportBoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBoardTableViewCell.swift; sourceTree = "<group>"; };
 		CEBE0600214BA5C30047E6F2 /* ReportCharger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCharger.swift; sourceTree = "<group>"; };
-		CEBE0602214BCB990047E6F2 /* ReportChargeViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChargeViewDelegate.swift; sourceTree = "<group>"; };
 		CEC43229223A5C9A00B76795 /* SearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableView.swift; sourceTree = "<group>"; };
 		CECA90892084A9F50083518B /* TermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
 		DB0D96D62052548A00BA018B /* menu_top_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = menu_top_bg.jpg; sourceTree = "<group>"; };
@@ -948,7 +946,6 @@
 				73C31BFA20A288BB005B6C53 /* ChargerInfoViewController.swift */,
 				73C31BFC20A288E3005B6C53 /* ChargerDetailViewController.swift */,
 				CE00E811214A330B00020D6E /* ReportChargeViewController.swift */,
-				CEBE0602214BCB990047E6F2 /* ReportChargeViewDelegate.swift */,
 				DB6EBE30217078750000F442 /* ChargerSelectDelegate.swift */,
 				CE5242352182FD9000FF6AB1 /* AddressToLocationController.swift */,
 				DB48E1F522E08B07003FFA08 /* ServiceGuideViewController.swift */,
@@ -1570,7 +1567,6 @@
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
 				73C6A0FD2345F1B600349A86 /* MyPayinfoViewController.swift in Sources */,
-				CEBE0603214BCB990047E6F2 /* ReportChargeViewDelegate.swift in Sources */,
 				73008459213687150001DBFA /* DetailViewController.swift in Sources */,
 				DB3799F821673FDD001D8F69 /* FavoriteViewController.swift in Sources */,
 				DB49A77F206CC32D002448E6 /* SearchViewController.swift in Sources */,
