@@ -2532,7 +2532,7 @@
                                                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="bottom" secondItem="Vr3-n3-VQB" secondAttribute="bottom" id="2SZ-V2-K59"/>
-                                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Vr3-n3-VQB" secondAttribute="trailing" constant="60" id="3un-kD-958"/>
+                                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Vr3-n3-VQB" secondAttribute="trailing" id="3un-kD-958"/>
                                                                                 <constraint firstItem="LZ1-Wy-jRd" firstAttribute="leading" secondItem="nbO-8N-bgM" secondAttribute="leading" id="5wN-n4-HcG"/>
                                                                                 <constraint firstItem="Vr3-n3-VQB" firstAttribute="top" secondItem="nbO-8N-bgM" secondAttribute="top" id="ImN-Ny-hcQ"/>
                                                                                 <constraint firstAttribute="bottom" secondItem="LZ1-Wy-jRd" secondAttribute="bottom" id="PEq-5o-1QJ"/>
