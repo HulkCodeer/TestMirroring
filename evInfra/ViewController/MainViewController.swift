@@ -135,7 +135,7 @@ class MainViewController: UIViewController {
     private var currentClusterLv = 0
     private var isAllowedCluster = true
     private var isExistAddBtn = false
-    var canIgnoreJejuPush = false
+    var canIgnoreJejuPush = true
     
     // 지킴이 점겸표 url
     private var checklistUrl: String?
@@ -192,7 +192,7 @@ class MainViewController: UIViewController {
         if self.sharedChargerId != nil {
             self.selectChargerFromShared()
         }
-        canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)
+        canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1087,6 +1087,9 @@ extension MainViewController: PoiTableViewDelegate {
 extension MainViewController: TMapGpsManagerDelegate {
     func locationChanged(_ newTmp: TMapPoint!) {
         MainViewController.currentLocation = newTmp
+        if !(canIgnoreJejuPush) {
+            checkJeJuBoundary()
+        }
     }
     
     func headingChanged(_ heading: Double) {
@@ -1433,10 +1436,6 @@ extension MainViewController {
                     if Const.CLOSED_BETA_TEST {
                         CBT.checkCBT(vc: controller!)
                     }
-                    
-                    if !(controller?.canIgnoreJejuPush ?? true) {
-                        controller?.checkJeJuBoundary()
-                    }
                 }
                 
                 func onError(errorMsg: String) {
@@ -1508,6 +1507,7 @@ extension MainViewController {
             if 33.11 <= point.getLatitude() && point.getLatitude() <= 33.969
                 && 126.13 <= point.getLongitude() && point.getLongitude() <= 126.99 {
                 print("in jeju boundary")
+                canIgnoreJejuPush = true
                 let window = UIApplication.shared.keyWindow!
                 window.addSubview(PopUpDialog(frame: window.bounds))
             }
