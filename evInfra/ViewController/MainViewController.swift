@@ -327,14 +327,29 @@ class MainViewController: UIViewController {
         }
         
         dropDownCompany.willShowAction = { [unowned self] in
-            for (index, comVisible) in companyVisibilityList.enumerated(){
-                if comVisible {
-                    self.dropDownCompany.selectRow(index)
-                } else {
-                    self.dropDownCompany.deselectRow(index)
-                    if companyVisibilityList[0] {
-                        companyVisibilityList[0] = false
-                        self.dropDownCompany.deselectRow(0)
+            let isSKR = MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR);
+            if isSKR {
+                companyVisibilityList[0] = false
+                self.dropDownCompany.deselectRow(0)
+                for (index, _) in companyVisibilityList.enumerated(){
+                    if index == 1 || index == 2 {
+                        self.dropDownCompany.selectRow(index)
+                        companyVisibilityList[index] = true
+                    } else {
+                        self.dropDownCompany.deselectRow(index)
+                        companyVisibilityList[index] = false
+                    }
+                }
+            } else {
+                for (index, comVisible) in companyVisibilityList.enumerated(){
+                    if comVisible {
+                        self.dropDownCompany.selectRow(index)
+                    } else {
+                        self.dropDownCompany.deselectRow(index)
+                        if companyVisibilityList[0] {
+                            companyVisibilityList[0] = false
+                            self.dropDownCompany.deselectRow(0)
+                        }
                     }
                 }
             }
