@@ -135,6 +135,7 @@ class MainViewController: UIViewController {
     private var currentClusterLv = 0
     private var isAllowedCluster = true
     private var isExistAddBtn = false
+    var canIgnoreJejuPush = true
     
     // 지킴이 점겸표 url
     private var checklistUrl: String?
@@ -191,6 +192,7 @@ class MainViewController: UIViewController {
         if self.sharedChargerId != nil {
             self.selectChargerFromShared()
         }
+        canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -327,14 +329,29 @@ class MainViewController: UIViewController {
         }
         
         dropDownCompany.willShowAction = { [unowned self] in
-            for (index, comVisible) in companyVisibilityList.enumerated(){
-                if comVisible {
-                    self.dropDownCompany.selectRow(index)
-                } else {
-                    self.dropDownCompany.deselectRow(index)
-                    if companyVisibilityList[0] {
-                        companyVisibilityList[0] = false
-                        self.dropDownCompany.deselectRow(0)
+            let isSKR = MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR);
+            if isSKR {
+                companyVisibilityList[0] = false
+                self.dropDownCompany.deselectRow(0)
+                for (index, _) in companyVisibilityList.enumerated(){
+                    if index == 1 || index == 2 {
+                        self.dropDownCompany.selectRow(index)
+                        companyVisibilityList[index] = true
+                    } else {
+                        self.dropDownCompany.deselectRow(index)
+                        companyVisibilityList[index] = false
+                    }
+                }
+            } else {
+                for (index, comVisible) in companyVisibilityList.enumerated(){
+                    if comVisible {
+                        self.dropDownCompany.selectRow(index)
+                    } else {
+                        self.dropDownCompany.deselectRow(index)
+                        if companyVisibilityList[0] {
+                            companyVisibilityList[0] = false
+                            self.dropDownCompany.deselectRow(0)
+                        }
                     }
                 }
             }
@@ -1090,6 +1107,9 @@ extension MainViewController: PoiTableViewDelegate {
 extension MainViewController: TMapGpsManagerDelegate {
     func locationChanged(_ newTmp: TMapPoint!) {
         MainViewController.currentLocation = newTmp
+        if !(canIgnoreJejuPush) {
+            checkJeJuBoundary()
+        }
     }
     
     func headingChanged(_ heading: Double) {
@@ -1499,6 +1519,18 @@ extension MainViewController {
                 }
             }
             self.markerIndicator.stopAnimating()
+        }
+    }
+    
+    private func checkJeJuBoundary(){
+        if let point = MainViewController.currentLocation {
+            if 33.11 <= point.getLatitude() && point.getLatitude() <= 33.969
+                && 126.13 <= point.getLongitude() && point.getLongitude() <= 126.99 {
+                print("in jeju boundary")
+                canIgnoreJejuPush = true
+                let window = UIApplication.shared.keyWindow!
+                window.addSubview(PopUpDialog(frame: window.bounds))
+            }
         }
     }
 }

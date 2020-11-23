@@ -59,9 +59,11 @@ class UserDefault {
         static let MAP_ZOOM_LEVEL   = "map_zoom_level"
         
         static let INTRO_SKR    = "intro_skr"
+        static let JEJU_PUSH    = "jeju_push"
         
         // 전체설정
         static let SETTINGS_ALLOW_NOTIFICATION = "allow_notification"
+        static let SETTINGS_ALLOW_JEJU_NOTIFICATION = "allow_jeju_notification"
         static let SETTINGS_CLUSTER = "allow_cluster"
         static let SETTINGS_CLUSTER_ZOOMLEVEL = "user_zoom_lev"
         
