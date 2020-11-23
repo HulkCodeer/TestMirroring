@@ -57,6 +57,10 @@ class LotteRentCertificateViewController : UIViewController,
         }
     }
     
+    override func viewWillLayoutSubviews() {
+        btnRegister.setDefaultBackground(cornerRadius: 20)
+    }
+    
     func updateAfterPayRegist(json: JSON) {
         if (json["pay_code"].intValue == PaymentCard.PAY_REGISTER_SUCCESS) {
             self.activateMember()
@@ -72,7 +76,6 @@ class LotteRentCertificateViewController : UIViewController,
     func initView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
         self.view.addGestureRecognizer(tap)
-        btnRegister.setDefaultBackground(cornerRadius: 20)
     }
     
     @objc

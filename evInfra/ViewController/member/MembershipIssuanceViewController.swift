@@ -84,6 +84,11 @@ class MembershipIssuanceViewController: UIViewController,
         }
     }
     
+    override func viewWillLayoutSubviews() {
+        btnNext.setDefaultBackground(cornerRadius: 10)
+        btnNext.isEnabled = false
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
     }
@@ -108,9 +113,7 @@ class MembershipIssuanceViewController: UIViewController,
         btnZipSearch.layer.borderColor = UIColor(hex: "#B2B2B2").cgColor
         btnZipSearch.layer.borderWidth = 2
         btnZipSearch.layer.cornerRadius = 4
-        
-        btnNext.setDefaultBackground(cornerRadius: 10)
-        btnNext.isEnabled = false
+    
     }
     
     func updateAfterPayRegist(json: JSON) {

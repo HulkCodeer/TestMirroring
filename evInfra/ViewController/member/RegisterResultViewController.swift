@@ -87,11 +87,13 @@ class RegisterResultViewController : UIViewController {
         self.navigationController?.pop()
     }
     
-    func initView() {
+    override func viewWillLayoutSubviews() {
         btnComplete.setDefaultBackground(cornerRadius: 20)
         btnRetry.layer.cornerRadius = 10
         btnGoMain.setDefaultBackground(cornerRadius: 20)
-        
+    }
+    
+    func initView() {
         tvResult.isScrollEnabled = false
         let callBtnTouch = UITapGestureRecognizer(target: self, action: #selector(self.onClickCallBtn))
         imgCallCenter.addGestureRecognizer(callBtnTouch)
