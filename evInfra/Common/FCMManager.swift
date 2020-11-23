@@ -51,6 +51,9 @@ class FCMManager {
     
     func alertFCMMessage(navigationController: AppNavigationController?) {
         if let notification = getFCMMessageData() {
+            
+            let targetId = notification.request.content.userInfo[AnyHashable("target_id")] as! String?
+            
             let dialogMessage = UIAlertController(title: notification.request.content.title, message: notification.request.content.body, preferredStyle: .alert)
             let ok = UIAlertAction(title: "OK", style: .default, handler: {(ACTION) -> Void in
                 self.alertMessage(navigationController: navigationController, data: notification.request.content.userInfo)//notification.request.content.userInfo
@@ -61,13 +64,16 @@ class FCMManager {
             })
             
             dialogMessage.addAction(ok)
-            dialogMessage.addAction(cancel)
+            
+            if (targetId == nil || targetId != FCMManager.TARGET_POINT){
+                dialogMessage.addAction(cancel)
+            }
             
             if let navigation = navigationController {
                 if let viewController = navigation.visibleViewController {
                     // 여기다가 뷰컨트롤러가 이거일 경우... 저거일 경우... 고고씡
                     
-                    if let targetId = notification.request.content.userInfo[AnyHashable("target_id")] as! String? {
+                    if  (targetId != nil) {
                         if targetId == FCMManager.TARGET_CHARGING && String(describing: viewController).contains("PaymentStatusViewController") {
                             let center = NotificationCenter.default
                             center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: notification.request.content.userInfo)
