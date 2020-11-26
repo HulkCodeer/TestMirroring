@@ -328,30 +328,40 @@ class MainViewController: UIViewController {
             self.dropDownCompany.reloadAllComponents()
         }
         
-        dropDownCompany.willShowAction = { [unowned self] in
-            let isSKR = MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR);
-            if isSKR {
-                companyVisibilityList[0] = false
-                self.dropDownCompany.deselectRow(0)
-                for (index, _) in companyVisibilityList.enumerated(){
-                    if index == 1 || index == 2 {
-                        self.dropDownCompany.selectRow(index)
-                        companyVisibilityList[index] = true
-                    } else {
-                        self.dropDownCompany.deselectRow(index)
-                        companyVisibilityList[index] = false
+        let isSKR = MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR);
+        if isSKR {
+            companyVisibilityList[0] = false
+            dropDownCompany.deselectRow(0)
+            for (index, _) in companyVisibilityList.enumerated(){
+                if index == 1 || index == 2 {
+                    dropDownCompany.selectRow(index)
+                    companyVisibilityList[index] = true
+                } else {
+                    dropDownCompany.deselectRow(index)
+                    companyVisibilityList[index] = false
+                }
+            }
+            for company in companyList {
+                for (index, companyName) in dropDownCompany.dataSource.enumerated() {
+                    if companyName == company.name {
+                        if let companyId = company.company_id {
+                            ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: companyVisibilityList[index], companyID: companyId)
+                            continue
+                        }
                     }
                 }
-            } else {
-                for (index, comVisible) in companyVisibilityList.enumerated(){
-                    if comVisible {
-                        self.dropDownCompany.selectRow(index)
-                    } else {
-                        self.dropDownCompany.deselectRow(index)
-                        if companyVisibilityList[0] {
-                            companyVisibilityList[0] = false
-                            self.dropDownCompany.deselectRow(0)
-                        }
+            }
+            drawTMapMarker()
+            dropDownCompany.reloadAllComponents()
+        } else {
+            for (index, comVisible) in companyVisibilityList.enumerated(){
+                if comVisible {
+                    dropDownCompany.selectRow(index)
+                } else {
+                    dropDownCompany.deselectRow(index)
+                    if companyVisibilityList[0] {
+                        companyVisibilityList[0] = false
+                        dropDownCompany.deselectRow(0)
                     }
                 }
             }
