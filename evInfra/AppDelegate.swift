@@ -233,7 +233,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             print("Message ID: \(messageID)")
         }
         // 노티바에서는 여기로 메세지가 들어옴
-        // Print full message.
         fcmManager.nfcNoti = response.notification
         fcmManager.fcmNotification = response.notification.request.content.userInfo
 //        fcmManager.alertMessage(navigationController: navigationController, data: response.notification.request.content.userInfo)

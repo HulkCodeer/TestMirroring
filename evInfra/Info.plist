@@ -34,6 +34,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-4857867142176465~5053865371</string>
 	<key>INIntentsSupported</key>
 	<array>
 		<string>Intent</string>
@@ -117,7 +119,5 @@
 	<string>Light</string>
 	<key>content_available</key>
 	<true/>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-4857867142176465~5053865371</string>
 </dict>
 </plist>
