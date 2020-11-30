@@ -142,7 +142,6 @@ class SearchViewController: UIViewController {
         indicator.isHidden = true
         indicator.stopAnimating()
     }
-
 }
 
 extension SearchViewController: SearchBarDelegate {

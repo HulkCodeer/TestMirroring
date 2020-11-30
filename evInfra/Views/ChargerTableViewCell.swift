@@ -53,7 +53,6 @@ class ChargerTableViewCell: UITableViewCell {
     }
     
     func setAddrMode(item: EIPOIItem) {
-        
         stationName.text = item.getPOIName()
         address.text = item.getPOIAddress()
         if let currentPosition = MainViewController.currentLocation{
@@ -77,22 +76,12 @@ class ChargerTableViewCell: UITableViewCell {
     }
     
     @objc func onClickFavorite(_ sender: UIButton) {
-        Server.setFavorite(chargerId: charger.mChargerId!, mode: !charger.mFavorite) { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                if json["code"].intValue == 1000 {
-                    self.charger.mFavorite = json["mode"].boolValue
-                    self.charger.mFavoriteNoti = true
-                    self.updateFavoriteImage()
-//                    if (charger.mFavorite) {
-//                        showSnackbar(view, "즐겨찾기에 추가하였습니다.");
-//                        charger.mFavoriteNoti = true;
-//                    } else {
-//                        showSnackbar(view, "즐겨찾기에서 제거하였습니다.");
-//                    }
-                } else {
-//                    showSnackbar(view, "즐겨찾기 업데이트를 실패했습니다.\n다시 시도해 주세요.");
-                }
+        ChargerManager.sharedInstance.setFavoriteCharger(charger: charger) { (charger) in
+            self.updateFavoriteImage()
+            if charger.mFavorite {
+                Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
+            } else {
+                Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
             }
         }
     }
@@ -105,7 +94,7 @@ class ChargerTableViewCell: UITableViewCell {
                     self.charger.mFavoriteNoti = json["noti"].boolValue
                     self.updateFavoriteImage()
                 } else {
-//                    showSnackbar(view, "즐겨찾기 알림 업데이트를 실패했습니다.\n다시 시도해 주세요.");
+                    Snackbar().show(message: "즐겨찾기 알림 업데이트를 실패했습니다. 다시 시도해 주세요.")
                 }
             }
         }
@@ -113,16 +102,15 @@ class ChargerTableViewCell: UITableViewCell {
     
     func updateFavoriteImage() {
         if charger.mFavorite {
-            btnFavorite.setImage(UIImage(named: "ic_favorite"), for: .normal)
-            btnAlarm.isHidden = false
+            btnFavorite.setImage(UIImage(named: "bookmark_on"), for: .normal)
             if charger.mFavoriteNoti {
                 btnAlarm.setImage(UIImage(named: "ic_notifications_active"), for: .normal)
             } else {
                 btnAlarm.setImage(UIImage(named: "ic_notifications_off"), for: .normal)
             }
         } else {
-            btnFavorite.setImage(UIImage(named: "ic_favorite_add"), for: .normal)
-            btnAlarm.isHidden = true
+            btnFavorite.setImage(UIImage(named: "bookmark"), for: .normal)
+            btnAlarm.setImage(UIImage(named: "ic_notifications_off"), for: .normal)
         }
     }
 }

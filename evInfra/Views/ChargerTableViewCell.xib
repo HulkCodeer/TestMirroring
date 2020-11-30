@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,43 +18,43 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전소 이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AvM-FC-nTY">
-                        <rect key="frame" x="15" y="11" width="273" height="43"/>
+                        <rect key="frame" x="16" y="11" width="271" height="43"/>
                         <color key="tintColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="주소" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Vf-72-Pyv">
-                        <rect key="frame" x="15" y="62" width="298" height="17"/>
+                        <rect key="frame" x="16" y="62" width="296" height="17"/>
                         <color key="tintColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="기타(상태미확인)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rrt-Xj-5NF">
-                        <rect key="frame" x="15" y="87" width="254" height="17"/>
+                        <rect key="frame" x="16" y="87" width="252" height="17"/>
                         <color key="tintColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="charger type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GXQ-VM-AAN">
-                        <rect key="frame" x="277" y="87" width="83" height="17"/>
+                        <rect key="frame" x="276" y="87" width="83" height="17"/>
                         <color key="tintColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.4392156862745098" green="0.4392156862745098" blue="0.4392156862745098" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="njK-jm-bdX">
-                        <rect key="frame" x="320" y="12.5" width="40" height="40"/>
+                        <rect key="frame" x="319" y="12.5" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="4Z3-DA-hbM"/>
                             <constraint firstAttribute="width" constant="40" id="grX-CK-RLu"/>
                         </constraints>
-                        <state key="normal" image="ic_favorite_add"/>
+                        <state key="normal" image="bookmark"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aAA-gp-sOg">
-                        <rect key="frame" x="280" y="12.5" width="40" height="40"/>
+                        <rect key="frame" x="279" y="12.5" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="F3y-hw-T1g"/>
                             <constraint firstAttribute="height" constant="40" id="RkN-1A-7Me"/>
@@ -61,12 +62,12 @@
                         <state key="normal" image="ic_notifications_off"/>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999.9km" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kh7-RD-m8d">
-                        <rect key="frame" x="297" y="60" width="63" height="21"/>
+                        <rect key="frame" x="296" y="60" width="63" height="21"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="63" id="hX2-O4-yo8"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" systemColor="systemBlueColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -107,7 +108,10 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_favorite_add" width="24" height="24"/>
+        <image name="bookmark" width="20" height="20"/>
         <image name="ic_notifications_off" width="24" height="24"/>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>
