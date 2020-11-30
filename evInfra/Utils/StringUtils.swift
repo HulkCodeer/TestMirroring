@@ -221,14 +221,11 @@ class StringUtils {
     }
     
     public static func convertDistanceString(distance : Double) -> String{
-        var result = ""
-        var km = Int(distance / 1000);
-
-        if (km > 0){
-            result = String(format: "%.2fkm", distance / 1000)
-        }else{
-            result = String(format: "%.2fm", distance)
+        let km = Int(distance / 1000);
+        if (km > 0) {
+            return String(format: "%.2fkm", distance / 1000)
+        } else {
+            return String(format: "%.0fm", distance)
         }
-        return result
     }
 }
