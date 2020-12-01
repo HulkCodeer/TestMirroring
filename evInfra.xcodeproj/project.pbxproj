@@ -21,7 +21,6 @@
 		00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */; };
 		00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C55252EF40100387559 /* HSUnderLineTextField.swift */; };
 		00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */; };
-		00D03A042546878000DA9F2F /* intro_skr_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 00D03A032546878000DA9F2F /* intro_skr_bg.jpg */; };
 		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
 		4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
 		425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5AD2519DA0B0089E87D /* OpenGLES.framework */; };
@@ -296,6 +295,7 @@
 		DBEE9AFA2117DBF000770D04 /* UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEE9AF92117DBF000770D04 /* UIAlertController.swift */; };
 		DBEE9AFC211842ED00770D04 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEE9AFB211842ED00770D04 /* SignUpViewController.swift */; };
 		DBF3827B2304475900FAF772 /* CBT.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF3827A2304475900FAF772 /* CBT.swift */; };
+		DBF62AC42575FC8800D7B49C /* intro_skr_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DBF62AC32575FC8800D7B49C /* intro_skr_bg.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -313,7 +313,6 @@
 		00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResultViewController.swift; sourceTree = "<group>"; };
 		00C75C55252EF40100387559 /* HSUnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSUnderLineTextField.swift; sourceTree = "<group>"; };
 		00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberPartnershipInfo.swift; sourceTree = "<group>"; };
-		00D03A032546878000DA9F2F /* intro_skr_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = intro_skr_bg.jpg; path = "../../../evinfra_android/app/src/main/res/drawable-xhdpi/intro_skr_bg.jpg"; sourceTree = "<group>"; };
 		0BE09DF43E8F5A12E923D6B5 /* Pods-evInfra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra/Pods-evInfra.release.xcconfig"; sourceTree = "<group>"; };
 		4212A25325555775001BB124 /* OfferwallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallTableViewCell.swift; sourceTree = "<group>"; };
 		4212A25425555775001BB124 /* OfferwallTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferwallTableViewCell.xib; sourceTree = "<group>"; };
@@ -621,6 +620,7 @@
 		DBEE9AF92117DBF000770D04 /* UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertController.swift; sourceTree = "<group>"; };
 		DBEE9AFB211842ED00770D04 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		DBF3827A2304475900FAF772 /* CBT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBT.swift; sourceTree = "<group>"; };
+		DBF62AC32575FC8800D7B49C /* intro_skr_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = intro_skr_bg.jpg; sourceTree = "<group>"; };
 		DF73FD6F0BC57C39B41EE0B7 /* Pods_evInfra.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_evInfra.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -782,7 +782,7 @@
 				7357594120916A36008181E9 /* kia_soul.jpg */,
 				7357593F20916A34008181E9 /* leaf.jpg */,
 				736BCE86205A892E0052C9ED /* intro_bg.jpg */,
-				00D03A032546878000DA9F2F /* intro_skr_bg.jpg */,
+				DBF62AC32575FC8800D7B49C /* intro_skr_bg.jpg */,
 				73A7B3B1204E3590002E975F /* bubble_go.png */,
 				73A7B3B4204E3590002E975F /* bubble_info.png */,
 				73A7B3A7204E3590002E975F /* delete_normal.png */,
@@ -1349,6 +1349,7 @@
 				73A7B3FD204E3595002E975F /* reply_btn_normal.png in Resources */,
 				0067D593252C491B00D97146 /* PartnershipListView.xib in Resources */,
 				736813B5204513D50035FC66 /* Main.storyboard in Resources */,
+				DBF62AC42575FC8800D7B49C /* intro_skr_bg.jpg in Resources */,
 				73A7B3FC204E3595002E975F /* reply_normal.png in Resources */,
 				7357594920916A52008181E9 /* spark.jpg in Resources */,
 				73A7B411204E3595002E975F /* thumbnail_mask.png in Resources */,
@@ -1368,7 +1369,6 @@
 				73EF8B73203C85CC00D04494 /* mapbg_tlogo.png in Resources */,
 				73C31C0920A2BB04005B6C53 /* charger_acsingle.jpg in Resources */,
 				DB5C4EDD23619F5F0090139E /* AdvertisingDialog.xib in Resources */,
-				00D03A042546878000DA9F2F /* intro_skr_bg.jpg in Resources */,
 				73A7B414204E3595002E975F /* expand_pressed.png in Resources */,
 				736BCE87205A892E0052C9ED /* intro_bg.jpg in Resources */,
 				73EF8B70203C85CC00D04494 /* HeadingAngleSmall@2x.png in Resources */,
