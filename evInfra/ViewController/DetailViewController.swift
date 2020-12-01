@@ -328,7 +328,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.chargerStatusImg.image = self.charger?.getChargeStateImg(type: chargeState!)
         
         // 주소
-        self.addressLabel.text = (self.charger?.mStationInfoDto?.mAddress)!
+        let addr = (self.charger?.mStationInfoDto?.mAddress)!
+        let addrDetail = self.charger?.mStationInfoDto?.mAddressDetail ?? ""
+        self.addressLabel.text = addr+addrDetail
         self.addressLabel.sizeToFit()
         
         // 설치 형태

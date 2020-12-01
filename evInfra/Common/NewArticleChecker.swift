@@ -67,7 +67,7 @@ class NewArticleChecker {
                             }
                         
                             NewArticleChecker.latestBoardIds.updateValue(brdId, forKey: NewArticleChecker.KEY_COMPANY+companyId)
-                            
+                        
                             NewArticleChecker.companyList.append(clientName)
                             
                             NewArticleChecker.companyNameIdDict.updateValue(companyId, forKey: clientName)
@@ -91,9 +91,9 @@ class NewArticleChecker {
         let eventId = UserDefault().readInt(key: UserDefault.Key.LAST_EVENT_ID)
         
         let companyKey = UserDefault.Key.LAST_COMPANY
-        for a in companyIdList {
-            if UserDefault().readInt(key: companyKey+a) != 0{
-                return UserDefault().readInt(key: companyKey+a) < NewArticleChecker.latestBoardIds[NewArticleChecker.KEY_COMPANY+a] ?? 0
+        for companyId in companyIdList {
+            if UserDefault().readInt(key: companyKey+companyId) != 0{
+                return UserDefault().readInt(key: companyKey+companyId) < NewArticleChecker.latestBoardIds[NewArticleChecker.KEY_COMPANY+companyId] ?? 0
             }
         }
         return noticeId < NewArticleChecker.latestBoardIds[NewArticleChecker.KEY_NOTICE] ?? 0
@@ -109,9 +109,9 @@ class NewArticleChecker {
         let chargerId = UserDefault().readInt(key: UserDefault.Key.LAST_CHARGER_ID)
         
         let companyKey = UserDefault.Key.LAST_COMPANY
-        for a in companyIdList {
-            if UserDefault().readInt(key: companyKey+a) != 0{
-                return UserDefault().readInt(key: companyKey+a) < NewArticleChecker.latestBoardIds[NewArticleChecker.KEY_COMPANY+a] ?? 0
+        for companyId in companyIdList {
+            if UserDefault().readInt(key: companyKey+companyId) != 0{
+                return UserDefault().readInt(key: companyKey+companyId) < NewArticleChecker.latestBoardIds[NewArticleChecker.KEY_COMPANY+companyId] ?? 0
             }
         }
         return noticeId < NewArticleChecker.latestBoardIds[NewArticleChecker.KEY_NOTICE] ?? 0

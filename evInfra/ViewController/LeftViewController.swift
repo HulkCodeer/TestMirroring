@@ -159,7 +159,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         let mypage1Arr = ["결제카드 관리", "회원카드 관리", "충전이력 조회", "포인트 조회"]
         let mypageArr:[Array<String>] = [mypage0Arr, mypage1Arr]
         
-        let commu0Arr = ["EV Infra 공지", "자유 게시판", "충전 소 게시판"]
+        let commu0Arr = ["EV Infra 공지", "자유 게시판", "충전소 게시판"]
         self.companyNameArr = NewArticleChecker.companyList
         
         let commuArr:[Array<String>] = [commu0Arr, companyNameArr]
