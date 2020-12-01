@@ -46,9 +46,9 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     let SUB_MENU_CHARGER_BOARD = 2 // 충전소게시판
     
     // 사업자 게시판
-    let SUB_MENU_GS_CALTEX  = 0 // GS 칼텍스
-    let SUB_MENU_JEVS       = 1 // 제주전기자동차서비스
-    let SUB_MENU_STRAFFIC   = 2 // 에스트래픽
+//    let SUB_MENU_GS_CALTEX  = 0 // GS 칼텍스
+//    let SUB_MENU_JEVS       = 1 // 제주전기자동차서비스
+//    let SUB_MENU_STRAFFIC   = 2 // 에스트래픽
     
     // sub menu - 이벤트
     let SUB_MENU_CELL_EVENT = 0
@@ -71,13 +71,13 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     let SUB_MENU_VERSION       = 2
     
     var sideSectionArrays = [["마이페이지", "PAY"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["설정"]]
-    var sideMenuArrays = [[["개인정보 관리", "내가쓴글 보기", "충전소 제보내역"],
-                           ["결제 정보 등록", "충전카드 신청", "충전이력 조회", "포인트 조회"]],
-                          [["EV Infra 공지", "자유 게시판", "충전소 게시판"],
-                           ["GS 칼텍스", "제주전기자동차서비스", "에스트래픽"]],
-                          [["이벤트", "내 쿠폰함"]],
-                          [["전기차 정보", "충전기 정보", "보조금 안내", "보조금 현황"]],
-                          [["전체 설정", "이용 안내", "버전 정보"]]]
+    
+    // Side menu's name arr
+    var sideMenuArrays:[[Array<String>]] = [[]]
+    // Company id Arr (get each row's company id)
+    var companyIdArr:Array = Array<String>()
+    // Company Name Arr (get partnership name)
+    var companyNameArr:Array = Array<String>()
     
     @IBOutlet weak var btnLogin: UIButton!
     @IBOutlet weak var sideMenuTab: UIView!
@@ -119,6 +119,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initSideViewArr()
         sideTableView.delegate = self
         sideTableView.dataSource = self
         
@@ -151,13 +152,50 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
             btnLogin.visible()
         }
     }
+    
+    func initSideViewArr() {
+        
+        let mypage0Arr = ["개인정보 관리", "내가쓴글 보기", "충전소 제보내역"]
+        let mypage1Arr = ["결제카드 관리", "회원카드 관리", "충전이력 조회", "포인트 조회"]
+        let mypageArr:[Array<String>] = [mypage0Arr, mypage1Arr]
+        
+        let commu0Arr = ["EV Infra 공지", "자유 게시판", "충전 소 게시판"]
+        self.companyNameArr = NewArticleChecker.companyList
+        
+        let commuArr:[Array<String>] = [commu0Arr, companyNameArr]
+        
+        let event0Arr = ["이벤트", "내 쿠폰함"]
+        let event1Arr:Array<String> = []
+        let eventArr:[Array<String>] = [event0Arr, event1Arr]
+        
+        let ev0Arr = ["전기차 정보", "충전기 정보", "보조금 안내", "보조금 현황"]
+        let ev1Arr:Array<String> = []
+        let evArr:[Array<String>] = [ev0Arr, ev1Arr]
+        
+        let setting0Arr = ["전체 설정", "이용 안내", "버전 정보"]
+        let setting1Arr:Array<String> = []
+        let settingArr:[Array<String>] = [setting0Arr, setting1Arr]
+        
+        self.sideMenuArrays = [mypageArr, commuArr, eventArr, evArr, settingArr]
+        
+        initCompanyIdArr()
+    }
+    
+    func initCompanyIdArr() {
+        // get company id from companyNameIdDict using companyNameArr
+        // companyNameIdDict Key = ClientName , Value = Company_id
+        for name in companyNameArr {
+            if let id = NewArticleChecker.companyNameIdDict[name] {
+                companyIdArr.append(id)
+            }
+        }
+    }
  
     func numberOfSections(in tableView: UITableView) -> Int {
         return sideSectionArrays[menuIndex].count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sideMenuArrays[menuIndex][section].count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {        return sideMenuArrays[menuIndex][section].count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -322,25 +360,12 @@ extension LeftViewController {
             default:
                 print("out of index")
             }
-        case SUB_MENU_CELL_COMPANY_BOARD:
+        case SUB_MENU_CELL_COMPANY_BOARD: // 사업자 게시판
             let companyBoardVC = storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
             companyBoardVC.category = BoardData.BOARD_CATEGORY_COMPANY
-            switch index.row {
-            case SUB_MENU_GS_CALTEX:
-                companyBoardVC.companyId = CompanyInfo.COMPANY_ID_GSC
-                navigationController?.push(viewController: companyBoardVC)
-
-            case SUB_MENU_JEVS:
-                companyBoardVC.companyId = CompanyInfo.COMPANY_ID_JEVS
-                navigationController?.push(viewController: companyBoardVC)
-
-            case SUB_MENU_STRAFFIC:
-                companyBoardVC.companyId = CompanyInfo.COMPANY_ID_STRAFFIC
-                navigationController?.push(viewController: companyBoardVC)
-
-            default:
-                print("out of index")
-            }
+            companyBoardVC.companyId = companyIdArr[index.row]
+            companyBoardVC.clientName = companyNameArr[index.row]
+            navigationController?.push(viewController: companyBoardVC)
         default:
             print("out of index")
         }
@@ -434,12 +459,15 @@ extension LeftViewController {
         }
     }
     
+    // 각 게시판에 badge
     private func setNewBadge(cell: SideMenuTableViewCell, index: IndexPath) {
         cell.newBadge.isHidden = true
-        let latestIds = NewArticleChecker.sharedInstance.latestBoardIds
+        let latestIds = NewArticleChecker.latestBoardIds
         
         switch menuIndex {
+        // Board
         case MENU_BOARD:
+            // Board_EvInfra
             if index.section == SUB_MENU_CELL_BOARD {
                 switch index.row {
                 case SUB_MENU_NOTICE:
@@ -466,7 +494,20 @@ extension LeftViewController {
                 default:
                     cell.newBadge.isHidden = true
                 }
+            // Board_Partnership
+            }else if index.section == SUB_MENU_CELL_COMPANY_BOARD{
+                
+                if let companyBoardId = latestIds[NewArticleChecker.KEY_COMPANY+companyIdArr[index.row]] {
+                    
+                    let companyId = UserDefault().readInt(key: NewArticleChecker.KEY_COMPANY+companyIdArr[index.row])
+                    if companyId < companyBoardId {
+                        cell.newBadge.isHidden = false
+                    }else{
+                        cell.newBadge.isHidden = true
+                    }
+                }
             }
+        // Event
         case MENU_EVENT:
             if index.section == SUB_MENU_CELL_EVENT {
                 switch index.row {
@@ -486,6 +527,7 @@ extension LeftViewController {
         }
     }
     
+    // 메인화면 메뉴이미지에 badge
     private func newBadgeInMenu() {
         if NewArticleChecker.sharedInstance.hasNewBoard() {
             if let image = UIImage(named: "menu_board_badge") {

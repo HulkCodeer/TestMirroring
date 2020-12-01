@@ -2079,18 +2079,18 @@
             <objects>
                 <viewController storyboardIdentifier="ReportChargeViewController" id="YMh-ZK-HgW" customClass="ReportChargeViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="srL-rq-Rco">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1100"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="KVj-w3-Fba" userLabel="ServerComIndicator">
-                                <rect key="frame" x="167.5" y="285" width="40" height="40"/>
+                                <rect key="frame" x="167.5" y="501.5" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="2uE-7B-E6Z"/>
                                     <constraint firstAttribute="height" constant="40" id="xgX-MZ-dCB"/>
                                 </constraints>
                             </activityIndicatorView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="85" translatesAutoresizingMaskIntoConstraints="NO" id="fcp-gS-0x8">
-                                <rect key="frame" x="16" y="618" width="343" height="33"/>
+                                <rect key="frame" x="16" y="1051" width="343" height="33"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yCh-p2-PzN" userLabel="DeleteBtn">
                                         <rect key="frame" x="0.0" y="0.0" width="129" height="33"/>
@@ -2111,10 +2111,10 @@
                                 </subviews>
                             </stackView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zOk-XM-DO6">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="610"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="1043"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iy5-87-xwz" userLabel="CommonView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="491"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="493"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fp6-So-TIz" userLabel="LocationMapView">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="275"/>
@@ -2183,7 +2183,7 @@
                                                             <constraint firstAttribute="width" constant="32" id="Kdh-ZC-kB1"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="도로명주소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J4E-2z-NH5" userLabel="AddressLabel">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="도로명주소 (필수)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J4E-2z-NH5" userLabel="AddressLabel">
                                                         <rect key="frame" x="48" y="21.5" width="319" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
@@ -2239,6 +2239,9 @@
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LuT-dv-14D" userLabel="OperatiorBtn">
                                                         <rect key="frame" x="48" y="38" width="319" height="30"/>
+                                                        <connections>
+                                                            <action selector="onClickOperationBtn:" destination="YMh-ZK-HgW" eventType="touchUpInside" id="8IO-nD-ABW"/>
+                                                        </connections>
                                                     </button>
                                                     <textField opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="충전소명을 입력해주세요" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YNc-tb-uAT" userLabel="OperatorText">
                                                         <rect key="frame" x="48" y="78" width="319" height="34"/>
@@ -2271,6 +2274,7 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstAttribute="height" constant="493" id="4Dr-W4-XrV"/>
                                             <constraint firstAttribute="trailing" secondItem="hRW-JT-Wrx" secondAttribute="trailing" id="Fb5-Gu-CLf"/>
                                             <constraint firstItem="fp6-So-TIz" firstAttribute="top" secondItem="Iy5-87-xwz" secondAttribute="top" id="FmY-9Q-9YL"/>
                                             <constraint firstItem="hRW-JT-Wrx" firstAttribute="top" secondItem="YNJ-AD-Of8" secondAttribute="bottom" constant="8" symbolic="YES" id="Giq-ib-Avx"/>
@@ -2278,6 +2282,7 @@
                                             <constraint firstItem="hRW-JT-Wrx" firstAttribute="leading" secondItem="Iy5-87-xwz" secondAttribute="leading" id="a9L-Ot-mgr"/>
                                             <constraint firstAttribute="trailing" secondItem="YNJ-AD-Of8" secondAttribute="trailing" id="awr-0D-2Mf"/>
                                             <constraint firstItem="YNJ-AD-Of8" firstAttribute="top" secondItem="fp6-So-TIz" secondAttribute="bottom" id="fy7-fn-rZq"/>
+                                            <constraint firstItem="YNJ-AD-Of8" firstAttribute="leading" secondItem="Iy5-87-xwz" secondAttribute="leading" id="h77-CU-qff"/>
                                             <constraint firstItem="fp6-So-TIz" firstAttribute="leading" secondItem="Iy5-87-xwz" secondAttribute="leading" id="oTm-34-B5t"/>
                                             <constraint firstAttribute="trailing" secondItem="fp6-So-TIz" secondAttribute="trailing" id="ubC-2m-Xsy"/>
                                             <constraint firstAttribute="bottom" secondItem="hRW-JT-Wrx" secondAttribute="bottom" id="yeR-5C-bw1"/>
