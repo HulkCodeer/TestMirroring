@@ -26,8 +26,11 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var dstLabel: UILabel!               // 현 위치에서 거리
     // 충전소 정보
     @IBOutlet var powerLb: UILabel!                     // 충전속도
+    @IBOutlet var priceLb: UILabel!                     // 충전가격
+    
     @IBOutlet var powerView: UILabel!                   // 충전속도(view)
     @IBOutlet weak var companyLabel: UILabel!           // 운영기관(이름)
+                    
     @IBOutlet var companyView: UIStackView!             // 운영기관(view)
     @IBOutlet weak var timeLabel: UILabel!              // 운영시간
     @IBOutlet weak var callLb: UILabel!                 // 전화번호
@@ -312,9 +315,13 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         if charger?.getCompanyIcon() != nil{
             self.companyImg.image = charger?.getCompanyIcon()
         }
+        
         // 충전 속도
         self.powerLb.text = self.charger?.getChargerPower(power: (charger?.mPower)!, type: (charger?.mTotalType)!)
         
+        // 충전 가격
+        setChargePrice()
+            
         // 충전소 이름
         self.callOutTitle.text = self.charger?.mStationInfoDto?.mSnm
         
@@ -342,6 +349,17 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         } else {
             self.dstLabel.text = "현재 위치를 받아오지 못했습니다."
         }
+    }
+    
+    func setChargePrice() {
+        switch self.charger?.mStationInfoDto?.mPay {
+            case "Y":
+                self.priceLb.text = "유료"
+            case "N":
+                self.priceLb.text = "무료"
+            default:
+                self.priceLb.text = "시범운영"
+            }
     }
     
     func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
