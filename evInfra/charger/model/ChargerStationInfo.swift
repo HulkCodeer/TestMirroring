@@ -37,9 +37,6 @@ class ChargerStationInfo {
     var isAroundPath = true // 이동경로 주변
     var mGuard = false  // 지킴이 관리대상 충전소
     
-    var mGpa: Float = 0.0
-    var mGpaCnt: Int = 0
-    
     var mDistance: Double = 0
     
     init(_ charger_id : String) {
@@ -248,7 +245,7 @@ class ChargerStationInfo {
             markerIcon = ImageMarker.markers["marker_state_no_op_\((mStationInfoDto?.mCompanyId)!)"]
         } else if (self.mTotalStatusName == "충전중") {
             markerIcon = ImageMarker.markers["marker_state_charging_\((mStationInfoDto?.mCompanyId)!)"]
-        } else if (self.mTotalStatusName == "통신미연결" || self.mTotalStatusName == "기타(상태미확인)") {
+        } else if (self.mTotalStatusName == "통신미연결" || self.mTotalStatusName == "상태미확인") {
             markerIcon = ImageMarker.markers["marker_state_no_connect_\((mStationInfoDto?.mCompanyId)!)"]
         } else {
             markerIcon = ImageMarker.markers["marker_state_normal_\((mStationInfoDto?.mCompanyId)!)"]

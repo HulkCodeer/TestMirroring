@@ -9,6 +9,7 @@
 import UIKit
 
 class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
+
     struct Constants {
         static let cellHeight: CGFloat = 60
     }
@@ -39,17 +40,11 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CidTableViewCell", for: indexPath) as! CidTableViewCell
         let cInfo = cidList[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CidTableViewCell", for: indexPath) as! CidTableViewCell
         
         // 충전기 상태
-        let status = cInfo.cstToString(cst: cInfo.status)
-        if status.equals("기타(상태미확인)") {
-            cell.statusLabel.text = "기타\n상태미확인"
-        }else{
-            cell.statusLabel.text = cInfo.cstToString(cst: cInfo.status)
-        }
-        
+        cell.statusLabel.text = cInfo.cstToString(cst: cInfo.status)
         cell.statusLabel.textColor = cInfo.getCstColor(cst: cInfo.status)
         
         // 충전기 타입
@@ -80,12 +75,10 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         
         if let pw = cInfo.power, pw > 0 {
             cell.powerLable.text = String(pw) + "kW"
-            print("csj_pw")
         } else {
             cell.powerLable.text = ""
-            print("csj_pw < 0")
         }
-        
+
         return cell
     }
 }

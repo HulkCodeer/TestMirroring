@@ -1349,7 +1349,7 @@ extension MainViewController: MainViewDelegate {
         }
         
         if ((type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER)
-            || ((type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION) {
+        || ((type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION) {
             
             if (type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
                 let type = "슈퍼차저"
@@ -1532,11 +1532,10 @@ extension MainViewController {
         }
     }
     
-    private func checkJeJuBoundary(){
+    private func checkJeJuBoundary() {
         if let point = MainViewController.currentLocation {
             if 33.11 <= point.getLatitude() && point.getLatitude() <= 33.969
-                && 126.13 <= point.getLongitude() && point.getLongitude() <= 126.99 {
-                print("in jeju boundary")
+            && 126.13 <= point.getLongitude() && point.getLongitude() <= 126.99 {
                 canIgnoreJejuPush = true
                 let window = UIApplication.shared.keyWindow!
                 window.addSubview(PopUpDialog(frame: window.bounds))
@@ -1578,7 +1577,7 @@ extension MainViewController {
     }
     
     @objc func openPartnership(_ notification: NSNotification) {
-        if MemberManager().isLogin(){
+        if MemberManager().isLogin() {
             let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
             let mbscdVC = mbsStoryboard.instantiateViewController(withIdentifier: "MembershipCardViewController") as! MembershipCardViewController
             navigationController?.push(viewController: mbscdVC)
@@ -1677,14 +1676,11 @@ extension MainViewController {
             drawTMapMarker()
         }
     }
-    
-    
 }
 
 extension MainViewController {
     
     func prepareMenuBtnLayer() {
-        
         chargingStatus()
         
         btn_main_offerwall.alignTextUnderImage()
@@ -1798,8 +1794,7 @@ extension MainViewController {
             self.btn_main_charge.tintColor = UIColor(rgb: 0x15435C)
             self.btn_main_charge.setTitle("충전중", for: .normal)
             break
-            
-            
+
         case 2002:
             // 진행중인 충전이 없음
             self.btn_main_charge.alignTextUnderImage()

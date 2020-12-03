@@ -79,8 +79,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     var shareUrl = ""
     
-    var myGradeStarPoint: Int = 0
-    
     var mapView:MTMapView?
     
     override func viewDidLoad() {
@@ -89,12 +87,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         prepareActionBar()
         prepareBoardTableView()
         preparePagingView()
-    
         prepareGuard()
-        prepareGradeStar()
-         
+
         getChargerInfo()
-        getMyGrade()
         
         setDetailLb()
         initKakaoMap()
@@ -103,12 +98,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.boardTableView.setNeedsDisplay()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-        
     }
     
     override func viewWillLayoutSubviews() {
@@ -276,11 +265,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         } else {
             self.callLb.text = "등록된 전화번호가 없습니다."
         }
-        
-        // 평점
-        self.charger?.mGpa = Float(json["gpa"].stringValue)!
-        self.charger?.mGpaCnt = Int(json["cnt"].stringValue)!
-        self.setChargeGPA()
         
         // 충전기 정보
         let clist = json["cl"]
@@ -598,8 +582,6 @@ extension DetailViewController: EditViewDelegate {
                             
                         })
                     }
-                    
-    
                 } else {
                     self.getFirstBoardData()
                 }
@@ -870,7 +852,6 @@ extension DetailViewController {
                 detailViewResize(view: guardView)
             }
         }
- 
     }
     
     @objc
@@ -890,276 +871,5 @@ extension DetailViewController {
     @objc
     fileprivate func onClickKepco() {
         moveToUrl(strUrl: "https://evc.kepco.co.kr:4445/mobile/main.do")
-    }
-}
-
-// 별점주기
-extension DetailViewController {
-    func prepareGradeStar() {
-        myGradeStarPoint = 0
-        setGradeButtonRegMode()
-        let gradeImgStar1 = UITapGestureRecognizer(target: self, action: #selector(self.onClickGradeStart1Btn))
-//        gradeStarImage1.isUserInteractionEnabled = true
-//        gradeStarImage1.addGestureRecognizer(gradeImgStar1)
-
-        let gradeImgStar2 = UITapGestureRecognizer(target: self, action: #selector(self.onClickGradeStart2Btn))
-//        gradeStarImage2.isUserInteractionEnabled = true
-//        gradeStarImage2.addGestureRecognizer(gradeImgStar2)
-
-        let gradeImgStar3 = UITapGestureRecognizer(target: self, action: #selector(self.onClickGradeStart3Btn))
-//        gradeStarImage3.isUserInteractionEnabled = true
-//        gradeStarImage3.addGestureRecognizer(gradeImgStar3)
-
-        let gradeImgStar4 = UITapGestureRecognizer(target: self, action: #selector(self.onClickGradeStart4Btn))
-//        gradeStarImage4.isUserInteractionEnabled = true
-//        gradeStarImage4.addGestureRecognizer(gradeImgStar4)
-
-        let gradeImgStar5 = UITapGestureRecognizer(target: self, action: #selector(self.onClickGradeStart5Btn))
-//        gradeStarImage5.isUserInteractionEnabled = true
-//        gradeStarImage5.addGestureRecognizer(gradeImgStar5)
-    }
-    
-    @objc func onClickGradeStart1Btn(sender: UITapGestureRecognizer) {
-        setGrade(point: 1)
-    }
-    
-    @objc func onClickGradeStart2Btn(sender: UITapGestureRecognizer) {
-        setGrade(point: 2)
-    }
-    
-    @objc func onClickGradeStart3Btn(sender: UITapGestureRecognizer) {
-        setGrade(point: 3)
-    }
-    
-    @objc func onClickGradeStart4Btn(sender: UITapGestureRecognizer) {
-        setGrade(point: 4)
-    }
-    
-    @objc func onClickGradeStart5Btn(sender: UITapGestureRecognizer) {
-        setGrade(point: 5)
-    }
-    
-    func setGradeButtonRegMode() {
-//        gradeRegBtn.isEnabled = false
-//        gradeRegBtn.isHidden = false
-//        gradeDelBtn.isHidden = true
-//        gradeModBtn.isHidden = true
-    }
-    
-    func setGradeButtonModifyMode() {
-//        gradeRegBtn.isHidden = true
-//        gradeDelBtn.isHidden = false
-//        gradeModBtn.isHidden = false
-    }
-    
-    func setGrade(point: Int) {
-//        gradeRegBtn.isEnabled = true
-        myGradeStarPoint = point
-        drawMyGrade(point: myGradeStarPoint)
-    }
-    
-    func drawMyGrade(point:Int) {
-        clearMyGrade()
-        
-        switch point {
-//        case 1:
-//            setStarBg(view: gradeStarImage1)
-//        case 2:
-//            setStarBg(view: gradeStarImage1)
-//            setStarBg(view: gradeStarImage2)
-//        case 3:
-//            setStarBg(view: gradeStarImage1)
-//            setStarBg(view: gradeStarImage2)
-//            setStarBg(view: gradeStarImage3)
-//        case 4:
-//            setStarBg(view: gradeStarImage1)
-//            setStarBg(view: gradeStarImage2)
-//            setStarBg(view: gradeStarImage3)
-//            setStarBg(view: gradeStarImage4)
-//        case 5:
-//            setStarBg(view: gradeStarImage1)
-//            setStarBg(view: gradeStarImage2)
-//            setStarBg(view: gradeStarImage3)
-//            setStarBg(view: gradeStarImage4)
-//            setStarBg(view: gradeStarImage5)
-        default:
-            print("drawGrade() point is 0")
-        }
-    }
-    
-    func clearMyGrade() {
-//        clearStarBg(view: gradeStarImage1)
-//        clearStarBg(view: gradeStarImage2)
-//        clearStarBg(view: gradeStarImage3)
-//        clearStarBg(view: gradeStarImage4)
-//        clearStarBg(view: gradeStarImage5)
-    }
-    
-    func clearStarBg(view:UIImageView) {
-        view.backgroundColor = UIColor.clear
-    }
-    
-    func setStarBg(view:UIImageView) {
-        view.backgroundColor = UIColor(rgb: 0xA0A0A0)
-    }
-    
-    func getMyGrade() {
-        if !MemberManager().isLogin() {
-            return
-        }
-        
-        self.clearMyGrade()
-        self.myGradeStarPoint = 0
-        Server.getGrade(chargerId: (self.charger?.mChargerId)!) { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                if json["code"].exists() {
-                    if json["code"].intValue == 1000 {
-                        self.myGradeStarPoint = json["sp"].intValue
-                        if self.myGradeStarPoint > 0 {
-                            self.setGradeButtonModifyMode()
-                        } else {
-                            self.setGradeButtonRegMode()
-                        }
-                        self.drawMyGrade(point: self.myGradeStarPoint)
-                    }
-                }
-            }
-        }
-    }
-    
-    func addChargeGrade() {
-        if !MemberManager().isLogin() {
-            MemberManager().showLoginAlert(vc: self)
-            return
-        }
-        
-        if self.myGradeStarPoint <= 0 {
-            Snackbar().show(message: "별점을 하나 이상 선택해야 합니다.")
-            return
-        }
-        
-        Server.addGrade(chargerId: (self.charger?.mChargerId)!, point: self.myGradeStarPoint) { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                if json["code"].exists() {
-                    if json["code"].intValue == 1000 {
-                        Snackbar().show(message: "평점을 등록하였습니다.")
-                        self.setGradeButtonModifyMode()
-                        
-                        // 평균 평점 수정
-                        self.charger?.mGpa = Float(json["gpa"].stringValue)!
-                        self.charger?.mGpaCnt = Int(json["cnt"].stringValue)!
-                        self.setChargeGPA()
-                    }
-                }
-            }
-        }
-    }
-
-    func delChargeGrade() {
-        if !MemberManager().isLogin() {
-            MemberManager().showLoginAlert(vc: self)
-            return
-        }
-        
-        Server.deleteGrade(chargerId: (self.charger?.mChargerId)!) { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                if json["code"].exists() {
-                    if json["code"].intValue == 1000 {
-                        Snackbar().show(message: "평점을 삭제하였습니다.")
-                        self.myGradeStarPoint = 0
-                        self.setGradeButtonRegMode()
-                        self.drawMyGrade(point: self.myGradeStarPoint)
-
-                        // 평균 평점 수정
-                        self.charger?.mGpa = Float(json["gpa"].stringValue)!
-                        self.charger?.mGpaCnt = Int(json["cnt"].stringValue)!
-                        self.setChargeGPA()
-                    }
-                }
-            }
-        }
-    }
-
-    // 충전소 평점 표시
-    func setChargeGPA() {
-//        if let gradePointAvg = charger?.gpa, gradePointAvg > 0 {
-//            gpaLabelView.text = String(format:"%.1f", gradePointAvg)
-//            personCntLabelView.text = String(format:"%d 명", (charger?.gpaPersonCnt)!)
-//            drawGpaStar(point: gradePointAvg)
-//        } else {
-//            gpaLabelView.text = String(format:"%.1f", 0.0)
-//            personCntLabelView.text = String(format:"%d 명", 0)
-//            drawGpaStar(point: 0)
-//        }
-    }
-    
-    func drawGpaStar(point:Double) {
-//        clearStarBg(view: gpaStarImage1)
-//        clearStarBg(view: gpaStarImage2)
-//        clearStarBg(view: gpaStarImage3)
-//        clearStarBg(view: gpaStarImage4)
-//        clearStarBg(view: gpaStarImage5)
-        
-        let gpaIntPart = Int(floor(point))
-        var gpaFloatPart = Int(floor(point * 10.0))
-        gpaFloatPart = gpaFloatPart % 10
-       
-        switch gpaIntPart {
-//        case 1:
-//            setStarBg(view: gpaStarImage1)
-//            drawGpaStarFloatAreaBackground(point: gpaFloatPart, view: gpaStarImage2)
-//        case 2:
-//            setStarBg(view: gpaStarImage1)
-//            setStarBg(view: gpaStarImage2)
-//            drawGpaStarFloatAreaBackground(point: gpaFloatPart, view: gpaStarImage3)
-//        case 3:
-//            setStarBg(view: gpaStarImage1)
-//            setStarBg(view: gpaStarImage2)
-//            setStarBg(view: gpaStarImage3)
-//            drawGpaStarFloatAreaBackground(point: gpaFloatPart, view: gpaStarImage4)
-//        case 4:
-//            setStarBg(view: gpaStarImage1)
-//            setStarBg(view: gpaStarImage2)
-//            setStarBg(view: gpaStarImage3)
-//            setStarBg(view: gpaStarImage4)
-//            drawGpaStarFloatAreaBackground(point: gpaFloatPart, view: gpaStarImage5)
-//        case 5:
-//            setStarBg(view: gpaStarImage1)
-//            setStarBg(view: gpaStarImage2)
-//            setStarBg(view: gpaStarImage3)
-//            setStarBg(view: gpaStarImage4)
-//            setStarBg(view: gpaStarImage5)
-        default:
-            print("drawGpaStarBackground() gpaIntPart is 0")
-        }
-    }
-    
-    func drawGpaStarFloatAreaBackground(point:Int, view:UIImageView) {
-        if point <= 0 {
-            clearStarBg(view: view)
-            return
-        }
-        
-        let realWidth = view.frame.size.width
-        let pxToWidth = 9.0/UIScreen.main.scale
-        let cvWidth = realWidth - (pxToWidth * 2.0)
-        
-        var alphaWidth = (cvWidth / 10.0) * CGFloat(point)
-        alphaWidth = round(alphaWidth)
-        
-        UIGraphicsBeginImageContext(view.frame.size)
-        UIGraphicsGetCurrentContext()?.setFillColor(UIColor(rgb: 0xA0A0A0).cgColor)
-        
-        let rect = CGRect(x: 0, y: 0, width: alphaWidth+pxToWidth, height: view.frame.size.height)
-        UIGraphicsGetCurrentContext()?.fill(rect)
-        guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
-            UIGraphicsEndImageContext()
-            return
-        }
-        UIGraphicsEndImageContext()
-        view.backgroundColor = UIColor(patternImage: image)
     }
 }

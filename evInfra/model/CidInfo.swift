@@ -58,7 +58,7 @@ class CidInfo {
                 break
             
             case Const.CHARGER_STATE_UNKNOWN:
-                chargerState = "기타(상태미확인)"
+                chargerState = "상태미확인"
                 break
             
             default:

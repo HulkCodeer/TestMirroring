@@ -73,16 +73,12 @@ class ChargerInfoViewController: UIViewController {
     ]
     
     var chargerModels = [ChargerModel]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.prepareActionBar()
         self.getchargerModels()
         // Do any additional setup after loading the view.
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     /*
@@ -108,6 +104,7 @@ extension ChargerInfoViewController {
         backButton = IconButton(image: Icon.cm.arrowBack)
         backButton.tintColor = UIColor(rgb: 0x15435C)
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+
         navigationItem.hidesBackButton = true
         navigationItem.leftViews = [backButton]
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
@@ -164,7 +161,6 @@ extension ChargerInfoViewController: UICollectionViewDataSource {
 extension ChargerInfoViewController: UICollectionViewDelegate {
     @objc
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("here!!!")
         let detailView:ChargerDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargerDetailViewController") as! ChargerDetailViewController
         detailView.model = chargerModels[indexPath.item]
         self.navigationController?.pushViewController(detailView, animated: true)
@@ -176,7 +172,7 @@ extension ChargerInfoViewController {
         let json = chargerJson
         self.chargerModels.removeAll()
         let evJson = json["lists"]
-        for json in evJson.arrayValue{
+        for json in evJson.arrayValue {
             let chargerModel = ChargerModel(json: json)
             self.chargerModels.append(chargerModel)
         }

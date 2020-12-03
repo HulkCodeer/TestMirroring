@@ -7,13 +7,14 @@
 //
 
 import Foundation
+
 extension String {
     
     public func replaceFirst(of pattern:String,
                              with replacement:String) -> String {
-        if let range = self.range(of: pattern){
+        if let range = self.range(of: pattern) {
             return self.replacingCharacters(in: range, with: replacement)
-        }else{
+        } else {
             return self
         }
     }
@@ -33,7 +34,6 @@ extension String {
                                   options: options,
                                   range: nil,
                                   locale: nil) {
-            
             return self.replacingCharacters(in: range, with: replacement)
         }
         return self
@@ -41,13 +41,13 @@ extension String {
     
     public func replaceAll(of pattern:String,
                            with replacement:String,
-                           options: NSRegularExpression.Options = []) -> String{
-        do{
+                           options: NSRegularExpression.Options = []) -> String {
+        do {
             let regex = try NSRegularExpression(pattern: pattern, options: [])
             let range = NSRange(0..<self.utf16.count)
         return regex.stringByReplacingMatches(in: self, options: [],
                                                   range: range, withTemplate: replacement)
-        }catch{
+        } catch {
             NSLog("replaceAll error: \(error)")
             return self
         }
@@ -57,22 +57,13 @@ extension String {
         return self.replacingOccurrences(of: of, with: with, options: NSString.CompareOptions.literal, range: nil)
     }
 
-    
-    public func equalsIgnoreCase(compare : String) -> Bool{
-        if(self.caseInsensitiveCompare(compare) == ComparisonResult.orderedSame){
-            return true
-        }else{
-            return false
-        }
+    public func equalsIgnoreCase(compare : String) -> Bool {
+        return self.caseInsensitiveCompare(compare) == ComparisonResult.orderedSame
     }
     
-    public func equals(_ compare : String) -> Bool{
-        let compval  = compare
-        if(self.compare(compval) == ComparisonResult.orderedSame){
-            return true
-        }else{
-            return false
-        }
+    public func equals(_ compare : String) -> Bool {
+        let compval = compare
+        return self.compare(compval) == ComparisonResult.orderedSame
     }
     
     func startsWith(_ text: String) -> Bool {
@@ -147,22 +138,20 @@ extension String {
         }
         return results
     }
-    
 
-        func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
-            let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-            let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font : font], context: nil)
-            
-            return ceil(boundingBox.height)
-        }
+    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font : font], context: nil)
         
-        func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
-            let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
-            let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font : font], context: nil)
-            
-            return ceil(boundingBox.width)
-        }
+        return ceil(boundingBox.height)
+    }
     
+    func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font : font], context: nil)
+        
+        return ceil(boundingBox.width)
+    }
 }
 
 class StringUtils {
@@ -198,7 +187,6 @@ class StringUtils {
     }
     
     public static func isNumber(_ string: String) -> Bool {
-        
         if let _ = Int(string) {
             return true
         }
@@ -206,7 +194,6 @@ class StringUtils {
     }
     
     public static func matches(for regex: String, in text: String) -> [String] {
-        
         do {
             let regex = try NSRegularExpression(pattern: regex)
             let results = regex.matches(in: text,
@@ -220,7 +207,7 @@ class StringUtils {
         }
     }
     
-    public static func convertDistanceString(distance : Double) -> String{
+    public static func convertDistanceString(distance : Double) -> String {
         let km = Int(distance / 1000);
         if (km > 0) {
             return String(format: "%.2fkm", distance / 1000)
