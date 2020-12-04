@@ -59,14 +59,25 @@ class UsePointViewController: UIViewController {
         textFieldUsePoint.becomeFirstResponder()
     }
     
-    @IBAction func onClickUseAllPoint(_ sender: UITapGestureRecognizer) {
+    @IBAction func onClickUseAllCb(_ sender: Any) {
+        setAllPoint()
+    }
+    
+    @objc func onClickUseAllPoint(_ sender: UITapGestureRecognizer) {
         cbUseAllPoint.toggleCheckState(true)
+        setAllPoint()
+    }
+    
+    func setAllPoint() {
         if cbUseAllPoint.checkState == .checked {
             textFieldUsePoint.text = String(self.myPoint)
+            
         } else {
             textFieldUsePoint.text = "0"
         }
     }
+    
+    
     
     @IBAction func onClickUsePoint(_ sender: Any) {
         if let strPoint = textFieldUsePoint.text, !strPoint.isEmpty, let point = Int(strPoint) {

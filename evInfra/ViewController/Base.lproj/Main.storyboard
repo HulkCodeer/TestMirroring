@@ -7169,7 +7169,7 @@
                                             <constraint firstAttribute="height" constant="17" id="uCS-6X-GAW"/>
                                         </constraints>
                                         <connections>
-                                            <action selector="onClickUseAllPoint:" destination="zjR-uO-o2s" eventType="touchUpInside" id="1oo-GF-chZ"/>
+                                            <action selector="onClickUseAllCb:" destination="zjR-uO-o2s" eventType="valueChanged" id="hfO-b1-SBb"/>
                                         </connections>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전액사용" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LZV-g4-578">
