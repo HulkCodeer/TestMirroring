@@ -116,14 +116,15 @@ extension MyWritingViewController: BoardTableViewDelegate {
         Server.getBoard(category: boardCategory, page: currentPage, count: pageCount, mine: true) { (isSuccess, value) in
             if isSuccess {
                 self.boardList.removeAll()
-                
                 let json = JSON(value)
                 let boardJson = json["list"]
                 for json in boardJson.arrayValue {
                     let boardData = BoardData(bJson: json)
                     self.boardList.append(boardData)
                 }
+                
                 self.boardTableView.boardList = self.boardList
+                self.boardTableView.category = self.boardCategory
                 self.boardTableView.reloadData()
                 if self.preReadPage > 0 {
                     self.boardTableView.scrollToRow(at: self.scrollIndexPath , at: UITableViewScrollPosition.top, animated: true)
@@ -164,7 +165,6 @@ extension MyWritingViewController: BoardTableViewDelegate {
         editVC.mode = EditViewController.BOARD_EDIT_MODE
         editVC.originBoardData = self.boardList[tag]
         editVC.editViewDelegate = self
-
         self.navigationController?.push(viewController: editVC)
     }
     
@@ -243,7 +243,16 @@ extension MyWritingViewController: BoardTableViewDelegate {
         self.present(dialogMessage, animated: true, completion: nil)
     }
     
-    func goToStation(tag: Int) {}
+    func goToStation(tag: Int) {
+        let detailVC:DetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        
+        if let chargerId = self.boardList[tag].chargerId {
+            if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
+                detailVC.charger = charger
+                self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
+            }
+        }
+    }
 }
 
 extension MyWritingViewController: EditViewDelegate {

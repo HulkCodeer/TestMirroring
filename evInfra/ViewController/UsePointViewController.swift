@@ -29,7 +29,7 @@ class UsePointViewController: UIViewController {
         super.viewDidLoad()
 
         prepareView()
-        
+        prepareTextField()
         getMyPoint()
     }
     
@@ -93,6 +93,11 @@ class UsePointViewController: UIViewController {
 }
 
 extension UsePointViewController: UITextFieldDelegate {
+    
+    func prepareTextField() {
+        self.textFieldUsePoint.delegate = self
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentString: NSString = textField.text! as NSString
         let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString

@@ -52,7 +52,7 @@ class ChargerInfoViewController: UIViewController {
             "image": "charger_ac3.jpg"
         ],[
             "model_id": 5,
-            "name": "데스티네이션/슈퍼차져",
+            "name": "데스티네이션",
             "ampare": "12 A ~ 80 A ~ 250A (단상 ~ 3상)",
             "voltage": "110 VAC ~ 240 VAC ~ 500 VDC (단상 ~ 3상)",
             "current": "1.32 kW ~ 19.26 kW ~ 120/135 kW",
