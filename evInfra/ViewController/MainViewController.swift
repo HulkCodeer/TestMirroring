@@ -487,7 +487,7 @@ class MainViewController: UIViewController {
         btnChargePrice.addGestureRecognizer(gesture)
     }
     
-    func kakaoNavigation(){
+    func kakaoNavigation() {
         let destination = KNVLocation(name: (selectCharger?.mStationInfoDto?.mSnm)!, x: (selectCharger?.mStationInfoDto?.mLongitude)! as NSNumber, y: (selectCharger?.mStationInfoDto?.mLatitude)! as NSNumber)
         let options = KNVOptions()
         options.coordType = KNVCoordType.WGS84
@@ -497,14 +497,13 @@ class MainViewController: UIViewController {
         }
     }
     
-    func tmapNavigation(){
-        if(TMapTapi.isTmapApplicationInstalled()) {
+    func tmapNavigation() {
+        if (TMapTapi.isTmapApplicationInstalled()) {
             let coordinate = CLLocationCoordinate2D(latitude: (selectCharger?.mStationInfoDto?.mLatitude)!, longitude: (selectCharger?.mStationInfoDto?.mLongitude)!)
             TMapTapi.invokeRoute(selectCharger?.mStationInfoDto?.mSnm, coordinate: coordinate)
-            print("Launchin Tmap was successful")
         } else {
             let tmapURL = TMapTapi.getTMapDownUrl()
-            if let url = URL(string: tmapURL!), UIApplication.shared.canOpenURL(url){
+            if let url = URL(string: tmapURL!), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: {(success: Bool) in
                     if success {
                         print("Launching \(url) was successful")
@@ -548,11 +547,6 @@ class MainViewController: UIViewController {
     }
     
     func setStartPoint() {
-//        String snackText = mSelectedCharger.mSnm + "(이)가 출발지로 설정되었습니다.";
-       //        Snackbar snackBar = Snackbar.make(v, snackText, Snackbar.LENGTH_SHORT).setAction("Action", null);
-       //        UtilFont.setGlobalFont(this, snackBar.getView());
-       //        snackBar.show();
-
        if self.selectCharger != nil {
            guard let tc = toolbarController else {
                return
@@ -579,7 +573,7 @@ class MainViewController: UIViewController {
     }
     
     func setStartPath() {
-        if selectCharger != nil {
+        if self.selectCharger != nil {
             let passList = [selectCharger?.getTMapPoint()]
             findPath(passList: passList as! [TMapPoint])
         }
@@ -599,7 +593,6 @@ class MainViewController: UIViewController {
             MemberManager().showLoginAlert(vc: self)
         }
     }
-    
     
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
@@ -639,7 +632,6 @@ class MainViewController: UIViewController {
     @IBAction func onClickShowNavi(_ sender: Any) {
         self.showNavigation()
     }
-    
     
     @IBAction func onClickRouteAddPoint(_ sender: UIButton) {
         if selectCharger != nil {
@@ -842,14 +834,11 @@ extension MainViewController: TextFieldDelegate {
     func prepareRouteField() {
         startField.tag = ROUTE_START
         startField.delegate = self
-        
         if startField.placeholder == nil {
             startField.placeholder = "출발지를 입력하세요"
         }
-        
         startField.placeholderAnimation = .hidden
         startField.isClearIconButtonEnabled = true
-//        startField.dividerActiveColor = Color.blue.darken1
         startField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
 
         endField.tag = ROUTE_END
