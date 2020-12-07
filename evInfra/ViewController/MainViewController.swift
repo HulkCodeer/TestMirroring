@@ -17,7 +17,6 @@ protocol MainViewDelegate {
     func setStartPath()         // 경로찾기(시작)
     func setStartPoint()        // 경로찾기(출발)
     func setEndPoint()          // 경로찾기(도착)
-    func showNavigation()       // 경로찾기(길안내)
 }
 
 class MainViewController: UIViewController {
@@ -487,32 +486,6 @@ class MainViewController: UIViewController {
         btnChargePrice.addGestureRecognizer(gesture)
     }
     
-    func kakaoNavigation() {
-        let destination = KNVLocation(name: (selectCharger?.mStationInfoDto?.mSnm)!, x: (selectCharger?.mStationInfoDto?.mLongitude)! as NSNumber, y: (selectCharger?.mStationInfoDto?.mLatitude)! as NSNumber)
-        let options = KNVOptions()
-        options.coordType = KNVCoordType.WGS84
-        let params = KNVParams(destination: destination, options: options)
-        KNVNaviLauncher.shared().navigate(with: params) { (error) in
-            self.handleError(error: error)
-        }
-    }
-    
-    func tmapNavigation() {
-        if (TMapTapi.isTmapApplicationInstalled()) {
-            let coordinate = CLLocationCoordinate2D(latitude: (selectCharger?.mStationInfoDto?.mLatitude)!, longitude: (selectCharger?.mStationInfoDto?.mLongitude)!)
-            TMapTapi.invokeRoute(selectCharger?.mStationInfoDto?.mSnm, coordinate: coordinate)
-        } else {
-            let tmapURL = TMapTapi.getTMapDownUrl()
-            if let url = URL(string: tmapURL!), UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url, options: [:], completionHandler: {(success: Bool) in
-                    if success {
-                        print("Launching \(url) was successful")
-                    }
-                })
-            }
-        }
-    }
-    
     func handleError(error: Error?) -> Void {
         if let error = error as NSError? {
             print(error)
@@ -520,30 +493,6 @@ class MainViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
-    }
-    
-    func showNavigation() {
-        //action sheet title 지정
-        let optionMenu = UIAlertController(title: nil, message: "네비게이션", preferredStyle: .alert)
-           
-        //옵션 초기화
-        let kakaoMap = UIAlertAction(title: "카카오맵(KAKAO MAP)", style: .default, handler: {
-            (alert: UIAlertAction!) -> Void in
-            self.kakaoNavigation()
-        })
-        let tMap = UIAlertAction(title: "티맵(T MAP)", style: .default, handler: {
-            (alert: UIAlertAction!) -> Void in
-            self.tmapNavigation()
-        })
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-       
-        //action sheet에 옵션 추가.
-        optionMenu.addAction(kakaoMap)
-        optionMenu.addAction(tMap)
-        optionMenu.addAction(cancelAction)
-           
-        //show
-        self.present(optionMenu, animated: true, completion: nil)
     }
     
     func setStartPoint() {
@@ -555,6 +504,7 @@ class MainViewController: UIViewController {
            appTc.enableRouteMode(isRoute: true)
            
            startField.text = selectCharger?.mStationInfoDto?.mSnm
+        
            routeStartPoint = selectCharger?.getTMapPoint()
        }
     }
@@ -630,7 +580,15 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func onClickShowNavi(_ sender: Any) {
-        self.showNavigation()
+        var snm = endField.text ?? ""
+        var lng = routeEndPoint?.getLongitude() ?? 0.0
+        var lat = routeEndPoint?.getLatitude() ?? 0.0
+        if snm.isEmpty, lng == 0.0, lat == 0.0 {
+            snm = selectCharger?.mStationInfoDto?.mSnm ?? ""
+            lng = selectCharger?.mStationInfoDto?.mLongitude ?? 0.0
+            lat = selectCharger?.mStationInfoDto?.mLatitude ?? 0.0
+        }
+        UtilNavigation().showNavigation(vc: self, snm: snm, lat: lat, lng: lng)
     }
     
     @IBAction func onClickRouteAddPoint(_ sender: UIButton) {
@@ -919,12 +877,18 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func findPath(passList: [TMapPoint]) {
-        
         if routeStartPoint == nil{
+            
+            selectCharger?.mStationInfoDto?.mLongitude = routeEndPoint?.getLongitude()
+            selectCharger?.mStationInfoDto?.mLongitude = routeEndPoint?.getLatitude()
+            
+            
             if let currentPoint = MainViewController.currentLocation {
                 startField.text = tMapPathData.convertGpsToAddress(at: currentPoint)
                 routeStartPoint = currentPoint
+                selectCharger?.mStationInfoDto?.mSnm = endField.text
             }
+            selectCharger?.mStationInfoDto?.mSnm = endField.text
         }
         
         if let startPoint = routeStartPoint, let endPoint = routeEndPoint {
@@ -1178,6 +1142,7 @@ extension MainViewController: ChargerSelectDelegate {
 
 // MARK: - Callout
 extension MainViewController: MainViewDelegate {
+    
     func prepareCalloutLayer() {
         callOutLayer.isHidden = true
         addCalloutClickListener()

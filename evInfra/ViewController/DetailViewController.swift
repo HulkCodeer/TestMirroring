@@ -175,7 +175,11 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     @IBAction func onClickNavi(_ sender: UIButton) {
-        self.mainViewDelegate?.showNavigation()
+        let snm = callOutTitle.text ?? ""
+        let lng = charger?.mStationInfoDto?.mLongitude ?? 0.0
+        let lat = charger?.mStationInfoDto?.mLatitude ?? 0.0
+        
+        UtilNavigation().showNavigation(vc: self, snm: snm, lat: lat, lng: lng)
     }
     
     func handleError(error: Error?) -> Void {

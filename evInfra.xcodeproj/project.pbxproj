@@ -23,6 +23,7 @@
 		00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */; };
 		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
 		4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
+		42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42541587257E045600A2A7B9 /* UtilNavigation.swift */; };
 		425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5AD2519DA0B0089E87D /* OpenGLES.framework */; };
 		425EE5B02519DA410089E87D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5AF2519DA410089E87D /* CoreLocation.framework */; };
 		425EE5B22519DA520089E87D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5B12519DA520089E87D /* QuartzCore.framework */; };
@@ -316,6 +317,7 @@
 		0BE09DF43E8F5A12E923D6B5 /* Pods-evInfra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra/Pods-evInfra.release.xcconfig"; sourceTree = "<group>"; };
 		4212A25325555775001BB124 /* OfferwallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallTableViewCell.swift; sourceTree = "<group>"; };
 		4212A25425555775001BB124 /* OfferwallTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferwallTableViewCell.xib; sourceTree = "<group>"; };
+		42541587257E045600A2A7B9 /* UtilNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilNavigation.swift; sourceTree = "<group>"; };
 		425EE5AD2519DA0B0089E87D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		425EE5AF2519DA410089E87D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		425EE5B12519DA520089E87D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -1003,6 +1005,7 @@
 				902A11DF248F756C0049EF8E /* Log.swift */,
 				90517A0B253857FD00FCB1A7 /* DateUtils.swift */,
 				00C75C55252EF40100387559 /* HSUnderLineTextField.swift */,
+				42541587257E045600A2A7B9 /* UtilNavigation.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1613,6 +1616,7 @@
 				732ED1FA21EEFA960012C67B /* MainViewController.swift in Sources */,
 				DB1ECB9922CDD8DB00E3A65E /* ChargingHistoryList.swift in Sources */,
 				73EE8FBD2105B5150016F505 /* NewArticleCheckDelegate.swift in Sources */,
+				42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */,
 				735E87C822D88ED70028F7BD /* ChargingStatus.swift in Sources */,
 				73344AC5207F429300A6A9EC /* EditViewDelegate.swift in Sources */,
 				CEC4322A223A5C9A00B76795 /* SearchTableView.swift in Sources */,
