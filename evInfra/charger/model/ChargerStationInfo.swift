@@ -111,7 +111,7 @@ class ChargerStationInfo {
         }
         
         // 100kW filter
-        if filter.payId == 3 && self.mPower! < 100 {
+        if filter.payId == 3 && (self.mPower != nil) && self.mPower! < 100 {
             return false
         }
         
