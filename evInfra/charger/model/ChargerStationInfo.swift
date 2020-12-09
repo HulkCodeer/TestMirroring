@@ -112,7 +112,7 @@ class ChargerStationInfo {
         
         // 100kW filter
         if (filter.payId == 3){
-            if ((self.mTotalType != nil) && (self.mTotalType! & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER){
+            if (filter.superCharger && (self.mTotalType != nil) && (self.mTotalType! & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER){
                 return true
             }else{
                 if (self.mPower != nil) && self.mPower! < 100 {
