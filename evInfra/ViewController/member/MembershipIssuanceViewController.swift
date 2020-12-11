@@ -86,7 +86,6 @@ class MembershipIssuanceViewController: UIViewController,
     
     override func viewWillLayoutSubviews() {
         btnNext.setDefaultBackground(cornerRadius: 10)
-        btnNext.isEnabled = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -109,6 +108,8 @@ class MembershipIssuanceViewController: UIViewController,
         
         tfPassword.delegate = self
         tfConfirmPassword.delegate = self
+        
+        btnNext.isEnabled = false
         
         btnZipSearch.layer.borderColor = UIColor(hex: "#B2B2B2").cgColor
         btnZipSearch.layer.borderWidth = 2

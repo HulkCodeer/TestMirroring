@@ -50,7 +50,6 @@ class PaymentQRScanViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         self.btnStartCharge.setDefaultBackground(cornerRadius: 10)
-        self.btnStartCharge.isEnabled = false
     }
     
     @objc
@@ -72,6 +71,8 @@ class PaymentQRScanViewController: UIViewController {
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "충전하기"
         self.navigationController?.isNavigationBarHidden = false
+        
+        self.btnStartCharge.isEnabled = false
     }
     
     func prepareView() {
