@@ -38,6 +38,7 @@ class MyPayRegisterViewController: UIViewController {
         webViewConfig.userContentController = webViewContentController
         
         mWebView = WKWebView(frame: self.view.frame, configuration: webViewConfig)
+        mWebView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16D57"
         mWebView.uiDelegate = self
         mWebView.navigationDelegate = self
         mWebView.translatesAutoresizingMaskIntoConstraints = true
