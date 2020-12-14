@@ -10,6 +10,7 @@ import UIKit
 import Material
 import SwiftyJSON
 import Motion
+import FLAnimatedImage
 
 class IntroViewController: UIViewController {
 
@@ -18,6 +19,7 @@ class IntroViewController: UIViewController {
     @IBOutlet weak var progressLabel: UILabel!
     
     @IBOutlet var imgIntroBackground: UIImageView!
+    @IBOutlet var imgIntroFLAnimated: FLAnimatedImageView!
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let fcmManager = FCMManager.sharedInstance
     
@@ -28,7 +30,16 @@ class IntroViewController: UIViewController {
         super.viewDidLoad()
         
         showProgressLayer(isShow: false)
-        
+        if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR){
+            imgIntroBackground.image = UIImage(named: "intro_skr_bg.jpg")
+        } else {
+            let currentMonth = Calendar.current.component(.month, from: Date())
+            let monthOfWinter = Array(arrayLiteral: 1,2,12)
+            if(monthOfWinter.contains(currentMonth)){
+                imgIntroFLAnimated.animatedImage = FLAnimatedImage(gifResource: "evinfra_snow.gif")
+                imgIntroBackground.isHidden = true
+            }
+        }
         ChargerManager.sharedInstance.getChargerCompanyInfo(listener: {
             
             class chargerManagerListener: ChargerManagerListener {
@@ -49,15 +60,17 @@ class IntroViewController: UIViewController {
             
             return chargerManagerListener(self)
         } ())
-        
-        if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR){
-            imgIntroBackground.image = UIImage(named: "intro_skr_bg.jpg")
-        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+}
+
+extension FLAnimatedImage {
+    convenience init(gifResource: String) {
+        self.init(animatedGIFData: NSData(contentsOfFile: Bundle.main.path(forResource: gifResource, ofType: "")!) as Data?)
     }
 }
 
@@ -128,7 +141,9 @@ extension IntroViewController: CompanyInfoCheckerDelegate {
 
 extension IntroViewController: NewArticleCheckDelegate {
     func finishCheckArticleFromServer() {
-        self.finishedServerInit()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            self.finishedServerInit()
+        }
     }
     
     internal func checkLastBoardId() {

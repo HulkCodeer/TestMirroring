@@ -896,6 +896,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ckE-Av-1h3" customClass="FLAnimatedImageView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro_bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="fh4-ME-QqC">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
@@ -947,18 +950,23 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="fh4-ME-QqC" secondAttribute="trailing" id="CgU-0b-a5T"/>
                             <constraint firstAttribute="bottom" secondItem="fh4-ME-QqC" secondAttribute="bottom" id="E08-tC-qNS"/>
+                            <constraint firstItem="iwT-4m-5Xi" firstAttribute="trailing" secondItem="ckE-Av-1h3" secondAttribute="trailing" id="PPD-I3-zai"/>
                             <constraint firstAttribute="bottom" secondItem="UtI-Of-tSr" secondAttribute="bottom" constant="8" id="Qgu-QE-HlF"/>
                             <constraint firstItem="fh4-ME-QqC" firstAttribute="leading" secondItem="iwT-4m-5Xi" secondAttribute="leading" id="RX1-17-Ybm"/>
                             <constraint firstItem="Acx-vT-b7N" firstAttribute="top" secondItem="rbK-ux-PNU" secondAttribute="bottom" constant="48" id="SIU-6k-JIS"/>
                             <constraint firstItem="rbK-ux-PNU" firstAttribute="centerX" secondItem="iwT-4m-5Xi" secondAttribute="centerX" id="aLd-3P-OfJ"/>
                             <constraint firstItem="fh4-ME-QqC" firstAttribute="top" secondItem="iwT-4m-5Xi" secondAttribute="top" id="ar4-L9-hfO"/>
                             <constraint firstItem="UtI-Of-tSr" firstAttribute="centerX" secondItem="iwT-4m-5Xi" secondAttribute="centerX" id="bBC-IJ-2XP"/>
+                            <constraint firstItem="ckE-Av-1h3" firstAttribute="leading" secondItem="iwT-4m-5Xi" secondAttribute="leading" id="jA2-ao-aTs"/>
                             <constraint firstItem="Acx-vT-b7N" firstAttribute="centerX" secondItem="UtI-Of-tSr" secondAttribute="centerX" id="oAC-bw-vUn"/>
+                            <constraint firstItem="ckE-Av-1h3" firstAttribute="top" secondItem="iwT-4m-5Xi" secondAttribute="top" id="sKc-ET-dCO"/>
+                            <constraint firstItem="iwT-4m-5Xi" firstAttribute="bottom" secondItem="ckE-Av-1h3" secondAttribute="bottom" id="w2F-7s-HTw"/>
                             <constraint firstItem="UtI-Of-tSr" firstAttribute="top" secondItem="Acx-vT-b7N" secondAttribute="bottom" constant="5" id="wZY-fn-MQc"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="imgIntroBackground" destination="fh4-ME-QqC" id="4Ox-um-IiD"/>
+                        <outlet property="imgIntroFLAnimated" destination="ckE-Av-1h3" id="HBt-Fi-ca6"/>
                         <outlet property="progressBar" destination="wRh-8t-qpM" id="pmT-vl-CDw"/>
                         <outlet property="progressLabel" destination="4yf-DX-6rL" id="LZY-Xk-cPC"/>
                         <outlet property="progressLayer" destination="rbK-ux-PNU" id="mGg-rL-9Rr"/>

@@ -14,6 +14,7 @@
 		0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067D595252C492A00D97146 /* PartnershipListView.swift */; };
 		0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */; };
 		006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006C90982554EFD100F7C6D7 /* PopUpDialog.swift */; };
+		0093DDCD2587753500715969 /* evinfra_snow.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0093DDCC2587753400715969 /* evinfra_snow.gif */; };
 		00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */; };
 		00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */; };
 		00A84A9625514876008D987D /* PopUpDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A84A9525514876008D987D /* PopUpDialog.xib */; };
@@ -307,6 +308,7 @@
 		0067D595252C492A00D97146 /* PartnershipListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnershipListView.swift; sourceTree = "<group>"; };
 		0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceViewController.swift; sourceTree = "<group>"; };
 		006C90982554EFD100F7C6D7 /* PopUpDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpDialog.swift; sourceTree = "<group>"; };
+		0093DDCC2587753400715969 /* evinfra_snow.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = evinfra_snow.gif; sourceTree = "<group>"; };
 		00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnershipJoinView.swift; sourceTree = "<group>"; };
 		00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartnershipJoinView.xib; sourceTree = "<group>"; };
 		00A84A9525514876008D987D /* PopUpDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PopUpDialog.xib; sourceTree = "<group>"; };
@@ -780,6 +782,7 @@
 				7357594620916A50008181E9 /* sm3.jpg */,
 				7357594720916A51008181E9 /* spark.jpg */,
 				7357593E20916A33008181E9 /* ioniq.jpg */,
+				0093DDCC2587753400715969 /* evinfra_snow.gif */,
 				7357594020916A35008181E9 /* kia_ray.jpg */,
 				7357594120916A36008181E9 /* kia_soul.jpg */,
 				7357593F20916A34008181E9 /* leaf.jpg */,
@@ -1311,6 +1314,7 @@
 				73EF8B77203C85CC00D04494 /* TrackingDot.png in Resources */,
 				738C2CEC20A93682006E268D /* type_super_dim.png in Resources */,
 				73A7B416204E3595002E975F /* navi_free_board.png in Resources */,
+				0093DDCD2587753500715969 /* evinfra_snow.gif in Resources */,
 				7357594520916A37008181E9 /* kia_soul.jpg in Resources */,
 				73A7B424204E3595002E975F /* type_ac_slow.png in Resources */,
 				9098782E24EE477B00AB3DC8 /* eidev in Resources */,
