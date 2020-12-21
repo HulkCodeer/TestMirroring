@@ -81,49 +81,49 @@ class ChargerStationInfo {
     }
     
     func check(filter: ChargerFilter) -> Bool {
+        guard let stationInfo = mStationInfoDto else {
+            return false
+        }
+
         // skind = 01:마트 02:관공서 03:공영주차장 04:마을회관 05:고속도로 06:테마파크(공원) 07:광장 08:휴게소(?)
         // 고속도로
-        if filter.wayId == ChargerFilter.WAY_HIGH && mStationInfoDto?.mSkind != "05" {
+        if filter.wayId == ChargerFilter.WAY_HIGH && stationInfo.mSkind != "05" {
             return false
         }
         
         // 일반도로
-        if filter.wayId == ChargerFilter.WAY_NORMAL && mStationInfoDto?.mSkind == "05" {
+        if filter.wayId == ChargerFilter.WAY_NORMAL && stationInfo.mSkind == "05" {
             return false
         }
         
-        if filter.wayId == ChargerFilter.WAY_HIGH_UP && mStationInfoDto?.mDirection != 1 {
+        if filter.wayId == ChargerFilter.WAY_HIGH_UP && stationInfo.mDirection != 1 {
             return false
         }
         
-        if filter.wayId == ChargerFilter.WAY_HIGH_DOWN && mStationInfoDto?.mDirection != 2  {
+        if filter.wayId == ChargerFilter.WAY_HIGH_DOWN && stationInfo.mDirection != 2  {
             return false
         }
         
         // 유료 충전소
-        if filter.payId == 1 && mStationInfoDto?.mPay == "N" {
+        if filter.payId == 1 && stationInfo.mPay == "N" {
             return false
         }
         
         // 무료 충전소
-        if filter.payId == 2 && mStationInfoDto?.mPay == "Y" {
+        if filter.payId == 2 && stationInfo.mPay == "Y" {
             return false
         }
         
         // 100kW filter
-        if (filter.payId == 3){
-            if (filter.superCharger && (self.mTotalType != nil) && (self.mTotalType! & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER){
-                return true
-            }else{
-                if (self.mPower != nil) && self.mPower! < 100 {
-                    return false
-                }
+        if filter.payId == 3 {
+            guard let power = mPower else { return false }
+            if power < 100 {
+                return false
             }
         }
         
-        
         // 운영 기관
-        if let company = filter.companies[(mStationInfoDto?.mCompanyId)!] {
+        if let company = filter.companies[(stationInfo.mCompanyId)!] {
             if !company {
                 return false
             }
@@ -134,7 +134,7 @@ class ChargerStationInfo {
         // TODO 임시로 company id hard coding. 딱히 쓸만한게 없네~
         // 운영기관 필터에서 수소충전소를 선택했을 때만 수소충전소 노출
         // 그 외에는 보여주지 않음
-        if (mStationInfoDto?.mCompanyId!.elementsEqual("J"))! {
+        if stationInfo.mCompanyId!.elementsEqual("J") {
             return true
         }
         
