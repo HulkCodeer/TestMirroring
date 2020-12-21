@@ -51,18 +51,12 @@ class UserDefault {
         static let FILTER_WAY           = "filter_way"
         static let FILTER_PAY           = "filter_pay"
         
-        static let LAST_NOTICE_ID       = "notice"
-        static let LAST_FREE_ID         = "free"
-        static let LAST_CHARGER_ID      = "station"
-        static let LAST_EVENT_ID        = "event"
+        static let LAST_NOTICE_ID       = "read_notice"
+        static let LAST_FREE_ID         = "read_free"
+        static let LAST_CHARGER_ID      = "read_station"
+        static let LAST_EVENT_ID        = "read_event"
         
-        // read last brd_id
-        static let LAST_COMPANY         = "company_"
-        
-//        static let LAST_COMPANY_GS_ID   = "read_company_gs"
-//        static let LAST_COMPANY_JEJU_ID = "read_company_jeju"
-//        static let LAST_COMPANY_AST_ID  = "read_company_ast"
-        static let MAP_ZOOM_LEVEL       = "map_zoom_level"
+        static let MAP_ZOOM_LEVEL   = "map_zoom_level"
         
         static let INTRO_SKR    = "intro_skr"
         static let JEJU_PUSH    = "jeju_push"

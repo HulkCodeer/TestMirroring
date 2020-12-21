@@ -21,8 +21,6 @@ class CardBoardViewController: UIViewController {
     
     var companyId: String = "A"
     
-    var clientName: String = ""
-    
     var currentPage = 0
     var preReadPage = 0
     var lastPage: Bool = false
@@ -99,13 +97,7 @@ extension CardBoardViewController {
             if let companyName = ChargerManager.sharedInstance.getCompanyName(companyID: self.companyId) {
                 self.navigationItem.titleLabel.text = companyName + " 게시판"
             } else {
-                if !clientName.isEmpty {
-                    // company id 없을경우 client name 으로..
-                    // 게시판 이름은 client name으로 바로써도 괜찮을듯..
-                    self.navigationItem.titleLabel.text = clientName + " 게시판"
-                }else{
-                    self.navigationItem.titleLabel.text = "사업자 게시판"
-                }
+                self.navigationItem.titleLabel.text = "사업자 게시판"
             }
         } else {
             self.navigationItem.titleLabel.text = "자유게시판"
@@ -159,22 +151,13 @@ extension CardBoardViewController: BoardTableViewDelegate {
                     if let id = self.boardList[0].boardId {
                         if self.category.elementsEqual(BoardData.BOARD_CATEGORY_CHARGER) {
                             UserDefault().saveInt(key: UserDefault.Key.LAST_CHARGER_ID, value: id)
-                            print("BOARD_CATEGORY_CHARGER", id)
                         } else if self.category.elementsEqual(BoardData.BOARD_CATEGORY_FREE) {
                             UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: id)
-                        } else if self.category.elementsEqual(BoardData.BOARD_CATEGORY_COMPANY){
-                            self.companySaveKey(id: id)
                         }
                     }
                 }
             }
         }
-    }
-    
-    // id = read brd id
-    func companySaveKey(id:Int) {
-        let companyIdKey = UserDefault.Key.LAST_COMPANY+self.companyId
-        UserDefault().saveInt(key: companyIdKey, value: id)
     }
     
     func getNextBoardData() {
