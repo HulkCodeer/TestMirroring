@@ -33,10 +33,10 @@ class ReportChargeViewController: UIViewController {
     //commonView
     //tmap container view
     @IBOutlet weak var mapViewContainer: UIView!
-    @IBOutlet weak var locationSelectBtn: UIButton!
-    
-    @IBOutlet weak var addressTextView: UITextView!
 
+    @IBOutlet weak var addressTextView: UITextView!
+    @IBOutlet var addressDetailTextView: UITextField!
+    
     @IBOutlet weak var operationLabel: UILabel!
     @IBOutlet weak var operationBtn: UIButton!
     @IBOutlet weak var operationTextView: UITextField!
@@ -52,9 +52,6 @@ class ReportChargeViewController: UIViewController {
         sendDeleteToServer()
     }
     
-    @IBAction func onClickSelectLocation(_ sender: UIButton) {
-        getCenterPointLocation()
-    }
 
     @IBAction func onClickSearchAddrBtn(_ sender: Any) {
         moveSearchAddressView()
@@ -67,6 +64,8 @@ class ReportChargeViewController: UIViewController {
         prepareCommonView()
 
         requestReportData()
+        
+        tMapView?.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -131,11 +130,16 @@ class ReportChargeViewController: UIViewController {
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapViewContainer.addSubview(mapView)
         
-        locationSelectBtn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
     }
     
     func prepareChargerView() {
         addressTextView.text = info.adr
+        if info.adr_dtl != nil {
+            addressDetailTextView.text = info.adr_dtl
+        }else{
+            addressDetailTextView.text = charger?.mStationInfoDto?.mAddressDetail
+        }
+       
         operationTextView.text = info.snm
         
         if let charger = self.charger {
@@ -297,6 +301,7 @@ class ReportChargeViewController: UIViewController {
     func requestReportApply() {
         self.indicatorControll(isStart: true)
         self.info.type_id = ReportCharger.REPORT_CHARGER_TYPE_USER_MOD
+        self.info.adr_dtl = addressDetailTextView.text
 
         Server.modifyReport(info: self.info) { (isSuccess, value) in
             
@@ -415,5 +420,11 @@ extension ReportChargeViewController : UITextFieldDelegate, UITextViewDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         activeTextView = nil
+    }
+}
+
+extension ReportChargeViewController: TMapViewDelegate{
+    func onDidEndScroll(withZoomLevel zoomLevel: Int, center mapPoint: TMapPoint!) {
+        getCenterPointLocation()
     }
 }

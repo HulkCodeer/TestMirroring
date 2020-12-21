@@ -12,6 +12,7 @@ import Material
 class FavoriteViewController: UIViewController {
 
     @IBOutlet weak var tableView: ChargerTableView!
+    @IBOutlet var emptyView: UIView!
     
     var delegate:ChargerSelectDelegate?
     
@@ -48,6 +49,12 @@ extension FavoriteViewController: ChargerTableViewDelegate {
             return charger.mFavorite
         })
         tableView.reloadData()
+        
+        if (tableView.chargerList?.count == 0) {
+            emptyView.isHidden = false
+        }else{
+            emptyView.isHidden = true
+        }
     }
     
     func didSelectRow(row: Int) {

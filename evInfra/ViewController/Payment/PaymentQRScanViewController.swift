@@ -24,8 +24,6 @@ class PaymentQRScanViewController: UIViewController {
     @IBOutlet weak var scannerViewLayer: UIView!
     @IBOutlet weak var lbExplainScanner: UILabel!
     
-    @IBOutlet weak var btnStartCharge: UIButton!
-    
     var mConnectorList = [Connector]()
     
     var mMyPoint = 0
@@ -37,7 +35,7 @@ class PaymentQRScanViewController: UIViewController {
         prepareQRScanner()
         preparePaymentCardStatus()
         //테스트 하거나 UI 확인시 아래 주석을 풀어주시기 바랍니다.
-//        self.onResultScan(scanInfo: "{ \"cp_id\": \"994\", \"connector_id\": \"1\" }")
+//        self.onResultScan(scanInfo: "{ \"cp_id\": \"GS00002101\", \"connector_id\": \"1\" }")
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -47,11 +45,7 @@ class PaymentQRScanViewController: UIViewController {
             captureSession.stopRunning()
         }
     }
-    
-    override func viewWillLayoutSubviews() {
-        self.btnStartCharge.setDefaultBackground(cornerRadius: 10)
-    }
-    
+
     @objc
     fileprivate func handleBackButton() {
         self.navigationController?.pop()
@@ -71,8 +65,6 @@ class PaymentQRScanViewController: UIViewController {
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "충전하기"
         self.navigationController?.isNavigationBarHidden = false
-        
-        self.btnStartCharge.isEnabled = false
     }
     
     func prepareView() {
@@ -237,7 +229,7 @@ extension PaymentQRScanViewController {
             if self.connectorId!.elementsEqual(connector.mId!) {
                 if let status = mConnectorList[index].mStatus {
                     if status.elementsEqual("2") { // 대기중. Const.CHARGER_STATE_WAITING
-                        self.btnStartCharge.isEnabled = true
+                        startCharging()
                     } else if status.elementsEqual("7") { // 시범운영중. 무료 충전 가능. Const.CHARGER_STATE_PILOT
                         showAlertDialogByMessage(message: "시범운영중입니다. 무료로 이용가능합니다.")
                     } else {
