@@ -7435,13 +7435,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="날짜" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f2T-mq-MMI">
-                                                    <rect key="frame" x="16" y="11" width="24.5" height="18"/>
+                                                    <rect key="frame" x="16" y="11" width="24.5" height="31.5"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="적립제목" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5sY-eV-jZJ">
-                                                    <rect key="frame" x="68.5" y="11" width="225.5" height="18"/>
+                                                    <rect key="frame" x="68.5" y="11" width="225.5" height="31.5"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -7453,25 +7453,25 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="시간" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EuA-NU-rkk">
-                                                    <rect key="frame" x="68.5" y="43" width="19.5" height="18"/>
+                                                    <rect key="frame" x="68.5" y="47.5" width="19.5" height="13.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.76078431369999999" green="0.76078431369999999" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="|" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3yn-AU-2s2">
-                                                    <rect key="frame" x="96" y="43" width="4" height="18"/>
+                                                    <rect key="frame" x="96" y="45.5" width="4" height="17.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.76078431369999999" green="0.76078431369999999" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="카테고리" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LkV-hO-IAR">
-                                                    <rect key="frame" x="105" y="45" width="42" height="14.5"/>
+                                                    <rect key="frame" x="105" y="47" width="42" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.76078431369999999" green="0.76078431369999999" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="적립" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ckf-kG-qob">
-                                                    <rect key="frame" x="334.5" y="43.5" width="24.5" height="17"/>
+                                                    <rect key="frame" x="334.5" y="43.5" width="24.5" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.76078431369999999" green="0.76078431369999999" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -7484,21 +7484,24 @@
                                                 <constraint firstItem="3yn-AU-2s2" firstAttribute="centerY" secondItem="EuA-NU-rkk" secondAttribute="centerY" id="8Qu-mq-bZI"/>
                                                 <constraint firstItem="5sY-eV-jZJ" firstAttribute="leading" secondItem="EuA-NU-rkk" secondAttribute="leading" id="9Vn-gt-Mfm"/>
                                                 <constraint firstItem="5sY-eV-jZJ" firstAttribute="leading" secondItem="f2T-mq-MMI" secondAttribute="trailing" constant="28" id="D9T-lf-6jm"/>
+                                                <constraint firstItem="3yn-AU-2s2" firstAttribute="top" secondItem="5sY-eV-jZJ" secondAttribute="bottom" constant="3" id="Dhy-O0-mHP"/>
                                                 <constraint firstItem="f2T-mq-MMI" firstAttribute="leading" secondItem="sH6-DV-Qe5" secondAttribute="leadingMargin" id="GAn-i2-fEx"/>
                                                 <constraint firstItem="5sY-eV-jZJ" firstAttribute="top" secondItem="sH6-DV-Qe5" secondAttribute="topMargin" id="HbH-ZK-A8S"/>
                                                 <constraint firstItem="Ckf-kG-qob" firstAttribute="leading" secondItem="LkV-hO-IAR" secondAttribute="trailing" constant="187.5" id="MhM-7q-nfH"/>
                                                 <constraint firstItem="EuA-NU-rkk" firstAttribute="bottom" secondItem="sH6-DV-Qe5" secondAttribute="bottomMargin" id="Q61-2I-jEZ"/>
+                                                <constraint firstItem="EuA-NU-rkk" firstAttribute="top" secondItem="5sY-eV-jZJ" secondAttribute="bottom" constant="5" id="SaY-fS-CPB"/>
                                                 <constraint firstItem="Ckf-kG-qob" firstAttribute="top" secondItem="45h-lN-lqB" secondAttribute="bottom" constant="15.5" id="VhN-AQ-xM4"/>
                                                 <constraint firstItem="5sY-eV-jZJ" firstAttribute="centerY" secondItem="f2T-mq-MMI" secondAttribute="centerY" id="cbu-mL-gne"/>
                                                 <constraint firstItem="Ckf-kG-qob" firstAttribute="centerY" secondItem="LkV-hO-IAR" secondAttribute="centerY" id="fGv-OW-KIL"/>
                                                 <constraint firstItem="LkV-hO-IAR" firstAttribute="centerY" secondItem="EuA-NU-rkk" secondAttribute="centerY" id="fYD-0L-aJn"/>
-                                                <constraint firstItem="EuA-NU-rkk" firstAttribute="top" secondItem="5sY-eV-jZJ" secondAttribute="bottom" constant="14" id="jbR-hA-vf4"/>
+                                                <constraint firstItem="EuA-NU-rkk" firstAttribute="top" relation="lessThanOrEqual" secondItem="5sY-eV-jZJ" secondAttribute="bottom" constant="14" id="jbR-hA-vf4"/>
                                                 <constraint firstItem="3yn-AU-2s2" firstAttribute="leading" secondItem="EuA-NU-rkk" secondAttribute="trailing" constant="8" id="mSt-xA-H27"/>
                                                 <constraint firstItem="45h-lN-lqB" firstAttribute="baseline" secondItem="f2T-mq-MMI" secondAttribute="firstBaseline" id="mW8-K2-DiU"/>
                                                 <constraint firstItem="45h-lN-lqB" firstAttribute="leading" secondItem="5sY-eV-jZJ" secondAttribute="trailing" constant="28" id="pKR-7B-LZz"/>
                                                 <constraint firstItem="Ckf-kG-qob" firstAttribute="centerY" secondItem="EuA-NU-rkk" secondAttribute="centerY" id="qQY-UP-6WA"/>
                                                 <constraint firstItem="Ckf-kG-qob" firstAttribute="trailing" secondItem="sH6-DV-Qe5" secondAttribute="trailingMargin" id="uS3-td-y8l"/>
                                                 <constraint firstItem="45h-lN-lqB" firstAttribute="top" secondItem="sH6-DV-Qe5" secondAttribute="topMargin" id="yT5-YR-105"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Ckf-kG-qob" secondAttribute="bottom" constant="-4" id="z9W-dZ-yj2"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
