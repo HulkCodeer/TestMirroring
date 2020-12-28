@@ -30,7 +30,6 @@ class ReportChargeViewController: UIViewController {
     
     @IBOutlet weak var serverComIndicator: UIActivityIndicatorView!
     
-    //commonView
     //tmap container view
     @IBOutlet weak var mapViewContainer: UIView!
 
@@ -51,7 +50,6 @@ class ReportChargeViewController: UIViewController {
     @IBAction func onClickDeleteBtn(_ sender: Any) {
         sendDeleteToServer()
     }
-    
 
     @IBAction func onClickSearchAddrBtn(_ sender: Any) {
         moveSearchAddressView()
@@ -61,6 +59,9 @@ class ReportChargeViewController: UIViewController {
         super.viewDidLoad()
         
         prepareActionBar()
+        
+        prepareMapView()
+        prepareChargerView()
         prepareCommonView()
 
         requestReportData()
@@ -97,9 +98,6 @@ class ReportChargeViewController: UIViewController {
     }
     
     func prepareCommonView() {
-        prepareMapView()
-        prepareChargerView()
-
         addressTextView.layer.borderWidth = 0.5
         addressTextView.layer.borderColor = UIColor.white.cgColor
         addressTextView.layer.cornerRadius = 5
@@ -121,30 +119,33 @@ class ReportChargeViewController: UIViewController {
         }
         
         mapView.setSKTMapApiKey(Const.TMAP_APP_KEY)
+        mapView.setTrackingMode(false)
         mapView.setZoomLevel(15)
         if let lat = info.lat, let lon = info.lon {
             mapView.setCenter(TMapPoint(lon: lon, lat: lat))
-        } else {
-            mapView.setTrackingMode(true)
         }
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapViewContainer.addSubview(mapView)
-        
     }
     
     func prepareChargerView() {
+        // 주소
         addressTextView.text = info.adr
-        if info.adr_dtl != nil {
-            addressDetailTextView.text = info.adr_dtl
-        }else{
+        
+        // 상세 주소
+        if let adrDetail = info.adr_dtl {
+            addressDetailTextView.text = adrDetail
+        } else {
             addressDetailTextView.text = charger?.mStationInfoDto?.mAddressDetail
         }
-       
-        operationTextView.text = info.snm
         
+        // 운영 기관
         if let charger = self.charger {
             operationBtn.setTitle(charger.mStationInfoDto?.mOperator, for: UIControlState.normal)
         }
+        
+        // 충전소 이름
+        operationTextView.text = info.snm
         
         // 제보 취소 버튼
         if (info.type_id == ReportCharger.REPORT_CHARGER_TYPE_USER_MOD
