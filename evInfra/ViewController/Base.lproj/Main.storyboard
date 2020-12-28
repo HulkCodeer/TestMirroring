@@ -521,16 +521,16 @@
                                                             <constraint firstAttribute="height" constant="25" id="qmO-II-w4w"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전소이름" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4EA-Rs-uMH">
-                                                        <rect key="frame" x="40" y="0.0" width="69.5" height="25"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="| 000km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zBt-6j-U2a">
-                                                        <rect key="frame" x="117.5" y="0.0" width="59.5" height="25"/>
+                                                        <rect key="frame" x="242.5" y="0.0" width="59.5" height="25"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <color key="textColor" red="0.69803921568627447" green="0.69803921568627447" blue="0.69803921568627447" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="충전소이름" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4EA-Rs-uMH">
+                                                        <rect key="frame" x="40" y="0.0" width="194.5" height="25"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MaQ-cv-qR2">
@@ -549,16 +549,16 @@
                                                 <constraints>
                                                     <constraint firstItem="2nU-Dm-KhU" firstAttribute="top" secondItem="yLb-qN-Gcz" secondAttribute="top" id="766-zX-Dhx"/>
                                                     <constraint firstAttribute="bottom" secondItem="MaQ-cv-qR2" secondAttribute="bottom" id="Ki0-lM-fGw"/>
-                                                    <constraint firstItem="MaQ-cv-qR2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zBt-6j-U2a" secondAttribute="trailing" constant="16" id="OpW-gy-O2Y"/>
                                                     <constraint firstItem="zBt-6j-U2a" firstAttribute="centerY" secondItem="4EA-Rs-uMH" secondAttribute="centerY" id="QH0-8H-l18"/>
                                                     <constraint firstItem="4EA-Rs-uMH" firstAttribute="leading" secondItem="2nU-Dm-KhU" secondAttribute="trailing" id="QSG-gT-YPj"/>
-                                                    <constraint firstItem="zBt-6j-U2a" firstAttribute="leading" secondItem="4EA-Rs-uMH" secondAttribute="trailing" constant="8" id="SZV-VQ-e1a"/>
                                                     <constraint firstItem="MaQ-cv-qR2" firstAttribute="top" secondItem="yLb-qN-Gcz" secondAttribute="top" id="URL-Ne-h9L"/>
                                                     <constraint firstItem="4EA-Rs-uMH" firstAttribute="centerY" secondItem="2nU-Dm-KhU" secondAttribute="centerY" id="Z7Y-mD-HZK"/>
+                                                    <constraint firstItem="MaQ-cv-qR2" firstAttribute="leading" secondItem="zBt-6j-U2a" secondAttribute="trailing" constant="16" id="ZSB-zl-N30"/>
                                                     <constraint firstAttribute="bottom" secondItem="2nU-Dm-KhU" secondAttribute="bottom" id="aYd-xR-iF4"/>
                                                     <constraint firstItem="2nU-Dm-KhU" firstAttribute="leading" secondItem="yLb-qN-Gcz" secondAttribute="leading" id="eon-3H-ec4"/>
                                                     <constraint firstItem="4EA-Rs-uMH" firstAttribute="top" secondItem="yLb-qN-Gcz" secondAttribute="top" id="fGQ-Am-ohr"/>
                                                     <constraint firstAttribute="trailing" secondItem="MaQ-cv-qR2" secondAttribute="trailing" id="j6e-fo-GGB"/>
+                                                    <constraint firstItem="zBt-6j-U2a" firstAttribute="leading" secondItem="4EA-Rs-uMH" secondAttribute="trailing" constant="8" id="pSi-w9-YnF"/>
                                                     <constraint firstItem="zBt-6j-U2a" firstAttribute="top" secondItem="yLb-qN-Gcz" secondAttribute="top" id="vp4-Bp-Unh"/>
                                                 </constraints>
                                             </view>
@@ -2793,7 +2793,7 @@
                                             </prototypes>
                                         </tableView>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="77N-Fw-qH6">
-                                            <rect key="frame" x="16" y="293.5" width="343" height="555"/>
+                                            <rect key="frame" x="16" y="293.5" width="343" height="574"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IIM-mz-Mbb">
                                                     <rect key="frame" x="0.0" y="0.0" width="343" height="19.5"/>
@@ -2971,7 +2971,7 @@
                                                         <constraint firstItem="3z4-BN-P3P" firstAttribute="leading" secondItem="Ijd-CC-HpP" secondAttribute="trailing" constant="8" id="wYu-vx-z8t"/>
                                                     </constraints>
                                                 </stackView>
-                                                <stackView opaque="NO" contentMode="scaleAspectFill" distribution="equalSpacing" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="wIv-ne-avW">
+                                                <stackView opaque="NO" contentMode="scaleAspectFill" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wIv-ne-avW">
                                                     <rect key="frame" x="0.0" y="131.5" width="343" height="16"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QEo-K6-vcD">
@@ -3118,10 +3118,11 @@
                                                         <constraint firstItem="F7b-ap-KMS" firstAttribute="top" secondItem="wIv-ne-avW" secondAttribute="top" id="Mro-bR-5xT"/>
                                                         <constraint firstAttribute="bottom" secondItem="F7b-ap-KMS" secondAttribute="bottom" id="gai-qt-XgX"/>
                                                         <constraint firstAttribute="trailing" secondItem="F7b-ap-KMS" secondAttribute="trailing" id="h4I-aK-9hW"/>
+                                                        <constraint firstItem="QEo-K6-vcD" firstAttribute="width" secondItem="F7b-ap-KMS" secondAttribute="width" multiplier="1:3" id="iNx-Pd-s6O"/>
                                                     </constraints>
                                                 </stackView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ckc-3S-FFs">
-                                                    <rect key="frame" x="0.0" y="163.5" width="343" height="43.5"/>
+                                                <stackView opaque="NO" contentMode="scaleAspectFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ckc-3S-FFs">
+                                                    <rect key="frame" x="0.0" y="163.5" width="343" height="62.5"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zTs-GM-Yyk">
                                                             <rect key="frame" x="0.0" y="0.0" width="343" height="16"/>
@@ -3156,8 +3157,10 @@
                                                                 </view>
                                                             </subviews>
                                                         </stackView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="서울특별시 서초구 서초대로 70길 51 지하 1층 주차장" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gra-wN-A7u" customClass="CopyableLabel" customModule="evInfra" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="24" width="343" height="19.5"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ygr-q3-fD9" customClass="CopyableLabel" customModule="evInfra" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="24" width="343" height="38.5"/>
+                                                            <string key="text">addr
+addrDetail</string>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -3165,7 +3168,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="d7I-Z8-8ux">
-                                                    <rect key="frame" x="0.0" y="223" width="343" height="224"/>
+                                                    <rect key="frame" x="0.0" y="242" width="343" height="224"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="G3N-SA-28z">
                                                             <rect key="frame" x="0.0" y="0.0" width="343" height="16"/>
@@ -3210,7 +3213,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Tvw-Rh-V4z">
-                                                    <rect key="frame" x="0.0" y="463" width="343" height="40"/>
+                                                    <rect key="frame" x="0.0" y="482" width="343" height="40"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="sfG-aY-d1x">
                                                             <rect key="frame" x="0.0" y="0.0" width="343" height="16"/>
@@ -3257,7 +3260,7 @@
                                                     </constraints>
                                                 </stackView>
                                                 <stackView clipsSubviews="YES" contentMode="center" horizontalHuggingPriority="1" horizontalCompressionResistancePriority="1" distribution="fillEqually" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="3X5-ij-6RX">
-                                                    <rect key="frame" x="0.0" y="519" width="343" height="36"/>
+                                                    <rect key="frame" x="0.0" y="538" width="343" height="36"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QGg-Pt-4ch">
                                                             <rect key="frame" x="0.0" y="0.0" width="163.5" height="36"/>
@@ -3352,7 +3355,7 @@
                                             </subviews>
                                         </stackView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LDT-4x-FeV" userLabel="guardView">
-                                            <rect key="frame" x="0.0" y="864.5" width="375" height="79.5"/>
+                                            <rect key="frame" x="0.0" y="883.5" width="375" height="60.5"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="info_share" translatesAutoresizingMaskIntoConstraints="NO" id="gJP-HV-nHO">
                                                     <rect key="frame" x="8" y="8" width="33" height="33"/>
@@ -3437,7 +3440,7 @@
                     <connections>
                         <outlet property="CidTableHeightConstraint" destination="Ynf-a0-tjo" id="VQy-qI-c69"/>
                         <outlet property="addPointBtn" destination="qiu-Dd-X7Q" id="3bK-r9-6Dx"/>
-                        <outlet property="addressLabel" destination="gra-wN-A7u" id="kzP-3q-suS"/>
+                        <outlet property="addressLabel" destination="Ygr-q3-fD9" id="1Th-jg-lXm"/>
                         <outlet property="boardTableView" destination="kZq-ZQ-cbE" id="hgk-pN-eo6"/>
                         <outlet property="callLb" destination="3z4-BN-P3P" id="0EP-AV-iDn"/>
                         <outlet property="callOutFavorite" destination="yNC-LC-8CH" id="uSn-cy-PKJ"/>
@@ -7582,8 +7585,8 @@
         <designable name="Vjd-ZG-9S9">
             <size key="intrinsicContentSize" width="32" height="34"/>
         </designable>
-        <designable name="gra-wN-A7u">
-            <size key="intrinsicContentSize" width="334.5" height="19.5"/>
+        <designable name="Ygr-q3-fD9">
+            <size key="intrinsicContentSize" width="75" height="38.5"/>
         </designable>
     </designables>
     <color key="tintColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>

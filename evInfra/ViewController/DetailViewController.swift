@@ -40,6 +40,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet var checkingView: UIView!                 // 설치형태(확인중)
     @IBOutlet var kakaoMapView: UIView!                 // 스카이뷰(카카오맵)
     @IBOutlet weak var addressLabel: CopyableLabel!    // 충전소 주소
+    
     @IBOutlet weak var memoLabel: UILabel!              // 메모
     @IBOutlet var memoView: UIStackView!                // 메모(view)
     @IBOutlet var shareBtn: UIView!                     // 공유하기
@@ -323,10 +324,18 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.chargerStatusImg.image = self.charger?.getChargeStateImg(type: chargeState!)
         
         // 주소
-        let addr = (self.charger?.mStationInfoDto?.mAddress)!
-        let addrDetail = self.charger?.mStationInfoDto?.mAddressDetail ?? ""
-        self.addressLabel.text = addr+addrDetail
+        if let addr = self.charger?.mStationInfoDto?.mAddress{
+            if let addrDetail = self.charger?.mStationInfoDto?.mAddressDetail{
+                self.addressLabel.text = addr+"\n"+addrDetail
+            }else{
+                self.addressLabel.text = addr
+            }
+        }else{
+            self.addressLabel.isHidden = true
+        }
         self.addressLabel.sizeToFit()
+        
+        
         
         // 설치 형태
         self.stationArea()
