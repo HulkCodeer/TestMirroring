@@ -80,7 +80,7 @@ class UsePointViewController: UIViewController {
     
     
     @IBAction func onClickUsePoint(_ sender: Any) {
-        if let strPoint = textFieldUsePoint.text, !strPoint.isEmpty, let point = Int(strPoint) {
+        if let strPoint = textFieldUsePoint.text, !strPoint.isEmpty, let point = Int(strPoint.replacingOccurrences(of: ",", with: "")) {
             Server.usePoint (point: point) { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
