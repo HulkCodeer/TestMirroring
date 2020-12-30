@@ -78,6 +78,9 @@ class PaymentQRScanViewController: UIViewController {
                 let payCode = json["pay_code"].intValue
                 
                 switch (payCode) {
+                case PaymentStatus.PAY_FINE_USER :
+                    self.captureSession.startRunning()
+                    
                 case PaymentStatus.PAY_NO_USER, PaymentStatus.PAY_NO_CARD_USER:
                     self.showRegisterCardDialog()
                     
@@ -156,8 +159,6 @@ extension PaymentQRScanViewController: AVCaptureMetadataOutputObjectsDelegate {
         scannerViewLayer.layer.addSublayer(videoPreviewLayer!)
         scannerViewLayer.bringSubview(toFront: lbExplainScanner)
         
-        // Start video capture.
-        captureSession.startRunning()
         qrCodeFrameView = UIView()
         
         if let qrCodeFrameView = qrCodeFrameView {
