@@ -30,16 +30,7 @@ class IntroViewController: UIViewController {
         super.viewDidLoad()
         
         showProgressLayer(isShow: false)
-        if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR){
-            imgIntroBackground.image = UIImage(named: "intro_skr_bg.jpg")
-        } else {
-            let currentMonth = Calendar.current.component(.month, from: Date())
-            let monthOfWinter = Array(arrayLiteral: 1,2,12)
-            if(monthOfWinter.contains(currentMonth)){
-                imgIntroFLAnimated.animatedImage = FLAnimatedImage(gifResource: "evinfra_snow.gif")
-                imgIntroBackground.isHidden = true
-            }
-        }
+        showIntro()
         ChargerManager.sharedInstance.getChargerCompanyInfo(listener: {
             
             class chargerManagerListener: ChargerManagerListener {
@@ -65,6 +56,52 @@ class IntroViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func showIntro(){
+        if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR){
+            imgIntroBackground.image = UIImage(named: "intro_skr_bg.jpg")
+        } else {
+//            let currentMonth = Calendar.current.component(.month, from: Date())
+//            let monthOfWinter = Array(arrayLiteral: 1,2,12)
+//            if(monthOfWinter.contains(currentMonth)){
+//                imgIntroFLAnimated.animatedImage = FLAnimatedImage(gifResource: "evinfra_snow.gif")
+//                imgIntroBackground.isHidden = true
+//            }
+            let imgName = "intro_skr_bg.jpg" //UserDefault().readString(key: UserDefault.Key.APP_INTRO_IMAGE)
+            if !imgName.isEmpty {
+                let urlstr = "\(Const.IMG_URL_INTRO)\(imgName)"
+                let url = URL(string: urlstr)
+                if imgName.hasSuffix(".gif"){
+                    DispatchQueue.global().async { [weak self] in
+                        do {
+                            let gifData = try Data(contentsOf: url!)
+                            DispatchQueue.main.async {
+                                self?.imgIntroFLAnimated.animatedImage = FLAnimatedImage(gifData: gifData)
+                                self?.imgIntroBackground.isHidden = true
+                            }
+                        } catch {
+                            print(error)
+                        }
+                    }
+                } else if imgName.hasSuffix(".jpg") {
+                    DispatchQueue.global().async { [weak self] in
+                        do {
+                            let jpgData = try Data(contentsOf: url!)
+                            DispatchQueue.main.async {
+                                self?.imgIntroBackground.image = UIImage(data: jpgData)
+                            }
+                        } catch {
+                            print(error)
+                        }
+                    }
+                    
+                }
+            } else {
+                imgIntroBackground.image = UIImage(named: "intro_bg.jpg")
+            }
+
+        }
     }
 }
 

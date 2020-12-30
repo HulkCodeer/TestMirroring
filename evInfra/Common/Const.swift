@@ -27,10 +27,11 @@ public class Const {
      */
     public static let EV_SERVER_IP = "http://13.124.50.142:2025"  // homepage server
 //    public static let EV_PAY_SERVER = "http://dev.soft-berry.co.kr"
-    public static let EV_PAY_SERVER = "http://spark.soft-berry.co.kr"
+//    public static let EV_PAY_SERVER = "http://spark.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://jspark.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://michael.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://sjdev.soft-berry.co.kr"
+    public static let EV_PAY_SERVER = "http://shchoi.soft-berry.co.kr"
 
 
     // S3 File Server
@@ -47,6 +48,7 @@ public class Const {
     public static let IMG_URL_COMP_MARKER = EV_IMG_SERVER + "/marker/logo/"
     public static let IMG_URL_EV_MODEL    = EV_IMG_SERVER + "/models/"
     public static let IMG_URL_SATELLITE   = EV_IMG_SERVER + "/satellite/"
+    public static let IMG_URL_INTRO       = EV_IMG_SERVER + "/intro/"
     
     // BUCKET KIND OF IMAGE
     public static let CONTENTS_THUMBNAIL = 0

@@ -1496,6 +1496,25 @@ extension MainViewController {
             }
         }
     }
+    
+    private func getIntroImage(){
+        Server.getIntroImage { (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                if let introName = json["img_name"].string, !introName.equals("") {
+                    if let endDate = json["until"].string, !endDate.equals("") {
+                        if Date().isPassedDate(date : endDate, format : "yyyy-mm-dd") {
+                            // save null
+                        } else {
+                            let savedImg = UserDefault().readString(key: UserDefault.Key.APP_INTRO_IMAGE)
+                            let url = "\(Const.IMG_URL_COMP_MARKER)\(introName)"
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 extension MainViewController {
