@@ -899,7 +899,7 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ckE-Av-1h3" customClass="FLAnimatedImageView">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro_bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="fh4-ME-QqC">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fh4-ME-QqC">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rbK-ux-PNU">
@@ -7567,7 +7567,6 @@
         <image name="install_type_cover" width="12" height="12"/>
         <image name="install_type_in" width="12" height="12"/>
         <image name="install_type_out" width="12" height="12"/>
-        <image name="intro_bg.jpg" width="172.80000305175781" height="307.20001220703125"/>
         <image name="marker_state_charging" width="34" height="34"/>
         <image name="menu_board" width="30" height="30"/>
         <image name="menu_event" width="30" height="30"/>

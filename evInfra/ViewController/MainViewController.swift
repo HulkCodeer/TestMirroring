@@ -1420,6 +1420,7 @@ extension MainViewController {
                     if Const.CLOSED_BETA_TEST {
                         CBT.checkCBT(vc: controller!)
                     }
+                    controller?.getIntroImage()
                 }
                 
                 func onError(errorMsg: String) {
@@ -1504,11 +1505,14 @@ extension MainViewController {
                 if let introName = json["img_name"].string, !introName.equals("") {
                     if let endDate = json["until"].string, !endDate.equals("") {
                         if Date().isPassedDate(date : endDate, format : "yyyy-mm-dd") {
-                            // save null
+                            UserDefault().saveString(key: UserDefault.Key.APP_INTRO_IMAGE, value : "")
+                            UserDefault().saveString(key: UserDefault.Key.APP_INTRO_END_DATE, value : "")
                         } else {
                             let savedImg = UserDefault().readString(key: UserDefault.Key.APP_INTRO_IMAGE)
-                            let url = "\(Const.IMG_URL_COMP_MARKER)\(introName)"
-                            
+                            if savedImg.equals("") || !savedImg.equals(introName) {
+                                UserDefault().saveString(key: UserDefault.Key.APP_INTRO_IMAGE, value : introName)
+                                UserDefault().saveString(key: UserDefault.Key.APP_INTRO_END_DATE, value : endDate)
+                            }
                         }
                     }
                 }
