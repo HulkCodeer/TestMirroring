@@ -72,12 +72,12 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var sideSectionArrays = [["마이페이지", "PAY"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["설정"]]
     var sideMenuArrays = [[["개인정보 관리", "내가쓴글 보기", "충전소 제보내역"],
-                           ["결제 정보 등록", "충전카드 신청", "충전이력 조회", "포인트 조회"]],
-                          [["EV Infra 공지", "자유 게시판", "충전소 게시판"],
-                           ["GS 칼텍스", "제주전기자동차서비스", "에스트래픽"]],
-                          [["이벤트", "내 쿠폰함"]],
-                          [["전기차 정보", "충전기 정보", "보조금 안내", "보조금 현황"]],
-                          [["전체 설정", "이용 안내", "버전 정보"]]]
+                          ["결제 정보 등록", "충전카드 신청", "충전이력 조회", "포인트 조회"]],
+                         [["EV Infra 공지", "자유 게시판", "충전소 게시판"],
+                          ["GS 칼텍스", "제주전기자동차서비스", "에스트래픽"]],
+                         [["이벤트", "내 쿠폰함"]],
+                         [["전기차 정보", "충전기 정보", "보조금 안내", "보조금 현황"]],
+                         [["전체 설정", "이용 안내", "버전 정보"]]]
     
     @IBOutlet weak var btnLogin: UIButton!
     @IBOutlet weak var sideMenuTab: UIView!
@@ -118,7 +118,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         sideTableView.delegate = self
         sideTableView.dataSource = self
         
@@ -322,7 +322,7 @@ extension LeftViewController {
             default:
                 print("out of index")
             }
-        case SUB_MENU_CELL_COMPANY_BOARD:
+        case SUB_MENU_CELL_COMPANY_BOARD: // 사업자 게시판
             let companyBoardVC = storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
             companyBoardVC.category = BoardData.BOARD_CATEGORY_COMPANY
             switch index.row {
@@ -434,6 +434,7 @@ extension LeftViewController {
         }
     }
     
+    // 각 게시판에 badge
     private func setNewBadge(cell: SideMenuTableViewCell, index: IndexPath) {
         cell.newBadge.isHidden = true
         let latestIds = NewArticleChecker.sharedInstance.latestBoardIds
@@ -486,6 +487,7 @@ extension LeftViewController {
         }
     }
     
+    // 메인화면 메뉴이미지에 badge
     private func newBadgeInMenu() {
         if NewArticleChecker.sharedInstance.hasNewBoard() {
             if let image = UIImage(named: "menu_board_badge") {

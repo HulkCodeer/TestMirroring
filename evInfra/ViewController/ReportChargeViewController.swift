@@ -30,13 +30,12 @@ class ReportChargeViewController: UIViewController {
     
     @IBOutlet weak var serverComIndicator: UIActivityIndicatorView!
     
-    //commonView
     //tmap container view
     @IBOutlet weak var mapViewContainer: UIView!
-    @IBOutlet weak var locationSelectBtn: UIButton!
-    
-    @IBOutlet weak var addressTextView: UITextView!
 
+    @IBOutlet weak var addressTextView: UITextView!
+    @IBOutlet var addressDetailTextView: UITextField!
+    
     @IBOutlet weak var operationLabel: UILabel!
     @IBOutlet weak var operationBtn: UIButton!
     @IBOutlet weak var operationTextView: UITextField!
@@ -51,10 +50,6 @@ class ReportChargeViewController: UIViewController {
     @IBAction func onClickDeleteBtn(_ sender: Any) {
         sendDeleteToServer()
     }
-    
-    @IBAction func onClickSelectLocation(_ sender: UIButton) {
-        getCenterPointLocation()
-    }
 
     @IBAction func onClickSearchAddrBtn(_ sender: Any) {
         moveSearchAddressView()
@@ -64,9 +59,14 @@ class ReportChargeViewController: UIViewController {
         super.viewDidLoad()
         
         prepareActionBar()
+        
+        prepareMapView()
+        prepareChargerView()
         prepareCommonView()
 
         requestReportData()
+        
+        tMapView?.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -98,9 +98,6 @@ class ReportChargeViewController: UIViewController {
     }
     
     func prepareCommonView() {
-        prepareMapView()
-        prepareChargerView()
-
         addressTextView.layer.borderWidth = 0.5
         addressTextView.layer.borderColor = UIColor.white.cgColor
         addressTextView.layer.cornerRadius = 5
@@ -122,25 +119,33 @@ class ReportChargeViewController: UIViewController {
         }
         
         mapView.setSKTMapApiKey(Const.TMAP_APP_KEY)
+        mapView.setTrackingMode(false)
         mapView.setZoomLevel(15)
         if let lat = info.lat, let lon = info.lon {
             mapView.setCenter(TMapPoint(lon: lon, lat: lat))
-        } else {
-            mapView.setTrackingMode(true)
         }
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapViewContainer.addSubview(mapView)
-        
-        locationSelectBtn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
     }
     
     func prepareChargerView() {
+        // 주소
         addressTextView.text = info.adr
-        operationTextView.text = info.snm
         
+        // 상세 주소
+        if let adrDetail = info.adr_dtl {
+            addressDetailTextView.text = adrDetail
+        } else {
+            addressDetailTextView.text = charger?.mStationInfoDto?.mAddressDetail
+        }
+        
+        // 운영 기관
         if let charger = self.charger {
             operationBtn.setTitle(charger.mStationInfoDto?.mOperator, for: UIControlState.normal)
         }
+        
+        // 충전소 이름
+        operationTextView.text = info.snm
         
         // 제보 취소 버튼
         if (info.type_id == ReportCharger.REPORT_CHARGER_TYPE_USER_MOD
@@ -297,6 +302,7 @@ class ReportChargeViewController: UIViewController {
     func requestReportApply() {
         self.indicatorControll(isStart: true)
         self.info.type_id = ReportCharger.REPORT_CHARGER_TYPE_USER_MOD
+        self.info.adr_dtl = addressDetailTextView.text
 
         Server.modifyReport(info: self.info) { (isSuccess, value) in
             
@@ -415,5 +421,11 @@ extension ReportChargeViewController : UITextFieldDelegate, UITextViewDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         activeTextView = nil
+    }
+}
+
+extension ReportChargeViewController: TMapViewDelegate{
+    func onDidEndScroll(withZoomLevel zoomLevel: Int, center mapPoint: TMapPoint!) {
+        getCenterPointLocation()
     }
 }

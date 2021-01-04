@@ -23,7 +23,7 @@ class NewArticleChecker {
     
     private init() {
     }
-    
+
     func checkLastBoardId() {
         Server.getBoardData { (isSuccess, value) in
             if isSuccess {
@@ -41,7 +41,7 @@ class NewArticleChecker {
         }
     }
     
-    // 전체 메뉴에서 새 글이 있는지 확인
+    // 전체 메뉴에 새 글이 있는지 확인
     func hasNew() -> Bool {
         let noticeId = UserDefault().readInt(key: UserDefault.Key.LAST_NOTICE_ID)
         let freeId = UserDefault().readInt(key: UserDefault.Key.LAST_FREE_ID)

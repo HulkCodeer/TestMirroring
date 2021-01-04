@@ -70,7 +70,7 @@ class UsePointViewController: UIViewController {
     
     func setAllPoint() {
         if cbUseAllPoint.checkState == .checked {
-            textFieldUsePoint.text = String(self.myPoint)
+            textFieldUsePoint.text = String(self.myPoint).currency()
             
         } else {
             textFieldUsePoint.text = "0"
@@ -80,7 +80,7 @@ class UsePointViewController: UIViewController {
     
     
     @IBAction func onClickUsePoint(_ sender: Any) {
-        if let strPoint = textFieldUsePoint.text, !strPoint.isEmpty, let point = Int(strPoint) {
+        if let strPoint = textFieldUsePoint.text, !strPoint.isEmpty, let point = Int(strPoint.replacingOccurrences(of: ",", with: "")) {
             Server.usePoint (point: point) { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
@@ -111,12 +111,18 @@ extension UsePointViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentString: NSString = textField.text! as NSString
-        let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
-        
+        var newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
+        newString = newString.replacingOccurrences(of: ",", with: "") as NSString
+        print(newString)
         if newString.length > 0 {
             if let point = Int(newString as String) {
-                if point > myPoint { // 내가 보유한 포인트보다 큰 수를 입력한 경우 내 포인트를 입력
-                    textFieldUsePoint.text = String(myPoint)
+                if point >= myPoint { // 내가 보유한 포인트보다 큰 수를 입력한 경우 내 포인트를 입력
+                    textFieldUsePoint.text = String(myPoint).currency()
+                    cbUseAllPoint.checkState = .checked
+                    return false
+                } else {
+                    textFieldUsePoint.text = String(newString).currency()
+                    cbUseAllPoint.checkState = .unchecked // 포인트보다 작은 수 입력한 경우 전체사용 해제
                     return false
                 }
             } else {

@@ -125,7 +125,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
         self.lastPage = false
         let pageCount = BoardTableView.PAGE_DATA_COUNT + (BoardTableView.PAGE_DATA_COUNT * self.preReadPage)
         
-        Server.getBoard(category: self.category, companyId: self.companyId, page: currentPage, count: pageCount, mine: false, ad: false) { (isSuccess, value) in
+        Server.getBoard(category: self.category, companyId: self.companyId, page: currentPage, count: pageCount, mine: false, ad: false) { [self] (isSuccess, value) in
             if isSuccess {
                 self.boardList.removeAll()
                 
@@ -146,7 +146,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
                     self.preReadPage = 0
                 }
                 
-                // 가장 최근 글 board id 저장
+                // UserDefault()에 최근 본 board id 저장
                 if self.boardList.count > 0 {
                     if let id = self.boardList[0].boardId {
                         if self.category.elementsEqual(BoardData.BOARD_CATEGORY_CHARGER) {
