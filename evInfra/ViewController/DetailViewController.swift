@@ -599,7 +599,7 @@ extension DetailViewController: BoardTableViewDelegate {
 extension DetailViewController: EditViewDelegate {
     
     func postBoardData(content: String, hasImage: Int, picture: Data?) {
-        Server.postBoard(category: BoardData.BOARD_CATEGORY_CHARGER, chargerId: (self.charger?.mChargerId)!, content: content, hasImage: hasImage) { (isSuccess, value) in
+        Server.postBoard(category: BoardData.BOARD_CATEGORY_CHARGER, bmId: -1, chargerId: (self.charger?.mChargerId)!, content: content, hasImage: hasImage) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if hasImage == 1 {

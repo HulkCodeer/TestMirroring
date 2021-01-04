@@ -19,7 +19,8 @@ class CardBoardViewController: UIViewController {
     
     var category = BoardData.BOARD_CATEGORY_FREE // default 자유게시판
     
-    var companyId: String = "A"
+    var bmId:Int = -1
+    var brdTitle:String = ""
     
     var currentPage = 0
     var preReadPage = 0
@@ -94,9 +95,9 @@ extension CardBoardViewController {
         if self.category.elementsEqual(BoardData.BOARD_CATEGORY_CHARGER) {
             self.navigationItem.titleLabel.text = "충전소 게시판"
         } else if self.category.elementsEqual(BoardData.BOARD_CATEGORY_COMPANY) {
-            if let companyName = ChargerManager.sharedInstance.getCompanyName(companyID: self.companyId) {
-                self.navigationItem.titleLabel.text = companyName + " 게시판"
-            } else {
+            if !self.brdTitle.isEmpty{
+                self.navigationItem.titleLabel.text = self.brdTitle + " 게시판"
+            }else{
                 self.navigationItem.titleLabel.text = "사업자 게시판"
             }
         } else {
@@ -125,7 +126,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
         self.lastPage = false
         let pageCount = BoardTableView.PAGE_DATA_COUNT + (BoardTableView.PAGE_DATA_COUNT * self.preReadPage)
         
-        Server.getBoard(category: self.category, companyId: self.companyId, page: currentPage, count: pageCount, mine: false, ad: false) { [self] (isSuccess, value) in
+        Server.getBoard(category: self.category, bmId: self.bmId , page: currentPage, count: pageCount, mine: false, ad: false) { [self] (isSuccess, value) in
             if isSuccess {
                 self.boardList.removeAll()
                 
@@ -145,17 +146,6 @@ extension CardBoardViewController: BoardTableViewDelegate {
                     self.currentPage = self.preReadPage
                     self.preReadPage = 0
                 }
-                
-                // UserDefault()에 최근 본 board id 저장
-                if self.boardList.count > 0 {
-                    if let id = self.boardList[0].boardId {
-                        if self.category.elementsEqual(BoardData.BOARD_CATEGORY_CHARGER) {
-                            UserDefault().saveInt(key: UserDefault.Key.LAST_CHARGER_ID, value: id)
-                        } else if self.category.elementsEqual(BoardData.BOARD_CATEGORY_FREE) {
-                            UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: id)
-                        }
-                    }
-                }
             }
         }
     }
@@ -163,7 +153,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
     func getNextBoardData() {
         if lastPage == false {
             self.currentPage = self.currentPage + 1
-            Server.getBoard(category: self.category, companyId: self.companyId, page: currentPage, count: BoardTableView.PAGE_DATA_COUNT) { (isSuccess, value) in
+            Server.getBoard(category: self.category, bmId: self.bmId, page: currentPage, count: BoardTableView.PAGE_DATA_COUNT) { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
                     let updateList = json["list"]
@@ -184,6 +174,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
         }
     }
     
+    // 수정 테스트 ok
     func boardEdit(tag: Int) {
         let editVC:EditViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
         editVC.mode = EditViewController.BOARD_EDIT_MODE
@@ -193,6 +184,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
         self.navigationController?.push(viewController: editVC)
     }
     
+    // 삭제 테스트 ok
     func boardDelete(tag: Int) {
         let dialogMessage = UIAlertController(title: "Notice", message: "게시글을 삭제하시겠습니까?", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .default, handler: {(ACTION) -> Void in
@@ -218,6 +210,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
         self.present(dialogMessage, animated: true, completion: nil)
     }
     
+    // 댓글 작성 ok
     func replyEdit(tag: Int) {
         let section = tag / 1000
         let row = tag % 1000
@@ -231,6 +224,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
         self.navigationController?.push(viewController: editVC)
     }
     
+    // 댓글 삭제 ok
     func replyDelete(tag: Int) {
         let dialogMessage = UIAlertController(title: "Notice", message: "댓글을 삭제하시겠습니까?", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .default, handler: {(ACTION) -> Void in
@@ -282,7 +276,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
 extension CardBoardViewController: EditViewDelegate {
     
     func postBoardData(content: String, hasImage: Int, picture: Data?) {
-        Server.postBoard(category: self.category, companyId: self.companyId, content: content, hasImage: hasImage) { (isSuccess, value) in
+        Server.postBoard(category: self.category, bmId: self.bmId, content: content, hasImage: hasImage) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if hasImage == 1 {

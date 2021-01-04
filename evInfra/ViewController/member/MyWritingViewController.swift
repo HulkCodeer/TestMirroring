@@ -258,7 +258,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
 extension MyWritingViewController: EditViewDelegate {
     
     func postBoardData(content: String, hasImage: Int, picture: Data?) {
-        Server.postBoard(category: boardCategory, content: content, hasImage: hasImage) { (isSuccess, value) in
+        Server.postBoard(category: boardCategory, bmId: -1, content: content, hasImage: hasImage) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if hasImage == 1 {
