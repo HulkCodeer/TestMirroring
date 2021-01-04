@@ -57,45 +57,39 @@ class IntroViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func showIntro(){
-        if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR){
-            imgIntroBackground.image = UIImage(named: "intro_skr_bg.jpg")
-        } else {
-            let imgName = UserDefault().readString(key: UserDefault.Key.APP_INTRO_IMAGE)
-            let endDate = UserDefault().readString(key: UserDefault.Key.APP_INTRO_END_DATE)
-            var showDefault : Bool = true;
-            if !imgName.isEmpty , !Date().isPassedDate(date: endDate, format: "yyyy-mm-dd"){
-                let urlstr = "\(Const.IMG_URL_INTRO)\(imgName)"
-                let url = URL(string: urlstr)
-                do {
-                    if imgName.hasSuffix(".gif"){
-                        let gifData = try Data(contentsOf: url!)
-                        showDefault = false;
-                        DispatchQueue.main.async {
-                            self.imgIntroFLAnimated.animatedImage = FLAnimatedImage(gifData: gifData)
-                            self.imgIntroBackground.isHidden = true
-                        }
-                    } else if imgName.hasSuffix(".jpg") {
-                        let jpgData = try Data(contentsOf: url!)
-                        showDefault = false;
-                        imgIntroBackground.image = UIImage(data: jpgData)
-                    }
-                } catch {
-                    print(error)
-                }
-            }
-            
-            if showDefault {
-                imgIntroBackground.image = UIImage(named: "intro_bg.jpg")
-            }
-        }
-    }
 }
 
 extension FLAnimatedImage {
     convenience init(gifResource: String) {
         self.init(animatedGIFData: NSData(contentsOfFile: Bundle.main.path(forResource: gifResource, ofType: "")!) as Data?)
+    }
+}
+
+extension IntroViewController: IntroImageCheckerDelegate {
+    func showIntro(){
+        if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR){
+            imgIntroBackground.image = UIImage(named: "intro_skr_bg.jpg")
+        } else {
+            let checker = IntroImageChecker.init(delegate: self)
+            checker.getIntroImage()
+        }
+    }
+    
+    func finishCheckIntro(imgName : String, path : String){
+        print(imgName)
+        if imgName.hasSuffix(".gif"){
+            let gifData = NSData(contentsOfFile: path)
+            DispatchQueue.main.async {
+                self.imgIntroFLAnimated.animatedImage = FLAnimatedImage(animatedGIFData: gifData as Data?)
+                self.imgIntroBackground.isHidden = true
+            }
+        } else if imgName.hasSuffix(".jpg") {
+            imgIntroBackground.image = UIImage(contentsOfFile: path)
+        }
+    }
+    
+    func showDefaultImage(){
+        imgIntroBackground.image = UIImage(named: "intro_bg.jpg")
     }
 }
 

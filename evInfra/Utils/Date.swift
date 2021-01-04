@@ -42,11 +42,8 @@ extension Date {
         }
     }
     
-    func isPassedDate(date: String, format: String) -> Bool{
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        dateFormatter.dateFormat = format
-        if let newDate: Date = dateFormatter.date(from: date) {
+    func isPassedDate(date: String) -> Bool{
+        if let newDate = toDate(data : date) {
             let current: Date = Date()
             if current > newDate {
                 return true

@@ -1502,20 +1502,8 @@ extension MainViewController {
         Server.getIntroImage { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                if let introName = json["img_name"].string, !introName.equals("") {
-                    if let endDate = json["until"].string, !endDate.equals("") {
-                        if Date().isPassedDate(date : endDate, format : "yyyy-mm-dd") {
-                            UserDefault().saveString(key: UserDefault.Key.APP_INTRO_IMAGE, value : "")
-                            UserDefault().saveString(key: UserDefault.Key.APP_INTRO_END_DATE, value : "")
-                        } else {
-                            let savedImg = UserDefault().readString(key: UserDefault.Key.APP_INTRO_IMAGE)
-                            if savedImg.equals("") || !savedImg.equals(introName) {
-                                UserDefault().saveString(key: UserDefault.Key.APP_INTRO_IMAGE, value : introName)
-                                UserDefault().saveString(key: UserDefault.Key.APP_INTRO_END_DATE, value : endDate)
-                            }
-                        }
-                    }
-                }
+                let checker = IntroImageChecker.init()
+                checker.checkIntroImage(response: json)
             }
         }
     }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0012443C25A2E2EF00376CDC /* IntroImageChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0012443B25A2E2EF00376CDC /* IntroImageChecker.swift */; };
+		0012443F25A2E92300376CDC /* IntroImageCheckerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0012443E25A2E92300376CDC /* IntroImageCheckerDelegate.swift */; };
 		0055D472252AA88B001133DB /* Membership.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0055D471252AA88B001133DB /* Membership.storyboard */; };
 		005643E0252DA18E007BF78D /* MembershipInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */; };
 		0056440D252DB2AB007BF78D /* MembershipQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0056440C252DB2AB007BF78D /* MembershipQRViewController.swift */; };
@@ -301,6 +303,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0012443B25A2E2EF00376CDC /* IntroImageChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroImageChecker.swift; sourceTree = "<group>"; };
+		0012443E25A2E92300376CDC /* IntroImageCheckerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroImageCheckerDelegate.swift; sourceTree = "<group>"; };
 		0055D471252AA88B001133DB /* Membership.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Membership.storyboard; sourceTree = "<group>"; };
 		005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipInfoViewController.swift; sourceTree = "<group>"; };
 		0056440C252DB2AB007BF78D /* MembershipQRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipQRViewController.swift; sourceTree = "<group>"; };
@@ -1009,6 +1013,8 @@
 				90517A0B253857FD00FCB1A7 /* DateUtils.swift */,
 				00C75C55252EF40100387559 /* HSUnderLineTextField.swift */,
 				42541587257E045600A2A7B9 /* UtilNavigation.swift */,
+				0012443B25A2E2EF00376CDC /* IntroImageChecker.swift */,
+				0012443E25A2E92300376CDC /* IntroImageCheckerDelegate.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1674,6 +1680,7 @@
 				73B752802048E5B30077112A /* SideMenuTableViewCell.swift in Sources */,
 				736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */,
 				902A11DA248F5E440049EF8E /* StringUtils.swift in Sources */,
+				0012443F25A2E92300376CDC /* IntroImageCheckerDelegate.swift in Sources */,
 				7379A45022CB43C600F4271C /* Connector.swift in Sources */,
 				CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */,
 				DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */,
@@ -1690,6 +1697,7 @@
 				0056440D252DB2AB007BF78D /* MembershipQRViewController.swift in Sources */,
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
 				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,
+				0012443C25A2E2EF00376CDC /* IntroImageChecker.swift in Sources */,
 				902A11D5248F53D80049EF8E /* StationInfoDto.swift in Sources */,
 				736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */,
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,
