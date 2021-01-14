@@ -20,7 +20,7 @@ class MyWritingViewController: UIViewController {
     var currentPage = 0
     var preReadPage = 0
     var lastPage: Bool = false
-    var boardList: Array<BoardData> = Array<BoardData>()
+    var boardList: Array<BoardItem> = Array<BoardItem>()
     var boardCategory = ""
     var scrollIndexPath = IndexPath(row: 0, section: 0)
     var visibleSection: UITableViewCell? = nil
@@ -72,7 +72,7 @@ extension MyWritingViewController {
         navigationItem.hidesBackButton = true
         navigationItem.leftViews = [backButton]
         
-        if (boardCategory.elementsEqual(BoardData.BOARD_CATEGORY_FREE)) {
+        if (boardCategory.elementsEqual(Board.BOARD_CATEGORY_FREE)) {
             navigationItem.rightViews = [editButton]
         }
         
@@ -82,9 +82,9 @@ extension MyWritingViewController {
     }
     
     func prepareTabItem() {
-        if (boardCategory.elementsEqual(BoardData.BOARD_CATEGORY_FREE)) {
+        if (boardCategory.elementsEqual(Board.BOARD_CATEGORY_FREE)) {
             tabItem.title = "자유게시판"
-        } else if (boardCategory.elementsEqual(BoardData.BOARD_CATEGORY_CHARGER)) {
+        } else if (boardCategory.elementsEqual(Board.BOARD_CATEGORY_CHARGER)) {
             tabItem.title = "충전소게시판"
         }
         tabItem.setTitleColor(UIColor(rgb: 0x15435C), for: .selected)
@@ -119,7 +119,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
                 let json = JSON(value)
                 let boardJson = json["list"]
                 for json in boardJson.arrayValue {
-                    let boardData = BoardData(bJson: json)
+                    let boardData = BoardItem(bJson: json)
                     self.boardList.append(boardData)
                 }
                 
@@ -149,7 +149,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
                     }
                     
                     for json in updateList.arrayValue{
-                        let boardData = BoardData(bJson: json)
+                        let boardData = BoardItem(bJson: json)
                         self.boardList.append(boardData)
                     }
                     self.boardTableView.boardList = self.boardList
@@ -258,7 +258,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
 extension MyWritingViewController: EditViewDelegate {
     
     func postBoardData(content: String, hasImage: Int, picture: Data?) {
-        Server.postBoard(category: boardCategory, content: content, hasImage: hasImage) { (isSuccess, value) in
+        Server.postBoard(category: boardCategory, bmId: -1, content: content, hasImage: hasImage) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if hasImage == 1 {

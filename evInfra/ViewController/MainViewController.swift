@@ -79,9 +79,13 @@ class MainViewController: UIViewController {
     
     @IBOutlet var markerImg: UIImageView!           // 마커이미지
     @IBOutlet weak var callOutStatus: UILabel!      // 충전상태
-    @IBOutlet var typeLb1: UILabel!                 // 타입(view)
-    @IBOutlet var typeLb2: UILabel!                 // 타입(view)
-    @IBOutlet var typeLb3: UILabel!                 // 타입(view)
+    @IBOutlet var typeDemoLb: UILabel!                 // 타입(view)
+    @IBOutlet var typeComboLb: UILabel!                 // 타입(view)
+    @IBOutlet var typeACLb: UILabel!                 // 타입(view)
+    @IBOutlet var typeSlowLb: UILabel!
+    @IBOutlet var typeSuperLb: UILabel!
+    
+    @IBOutlet var typeDestiLb: UILabel!
     
     @IBOutlet var powerView: UILabel!               // 충전속도(view)
     @IBOutlet var chargePowerLb: UILabel!           // 충전속도
@@ -176,9 +180,12 @@ class MainViewController: UIViewController {
         // type/LB round corner
         self.powerView.roundCorners(.allCorners, radius: 3)
         self.priceView.roundCorners(.allCorners, radius: 3)
-        self.typeLb1.roundCorners(.allCorners, radius: 3)
-        self.typeLb2.roundCorners(.allCorners, radius: 3)
-        self.typeLb3.roundCorners(.allCorners, radius: 3)
+        self.typeDemoLb.roundCorners(.allCorners, radius: 3)
+        self.typeComboLb.roundCorners(.allCorners, radius: 3)
+        self.typeACLb.roundCorners(.allCorners, radius: 3)
+        self.typeSlowLb.roundCorners(.allCorners, radius: 3)
+        self.typeSuperLb.roundCorners(.allCorners, radius: 3)
+        self.typeDestiLb.roundCorners(.allCorners, radius: 3)
         // bookmark
         if selectCharger != nil {
             setCallOutFavoriteIcon(charger: self.selectCharger!)
@@ -1280,50 +1287,43 @@ extension MainViewController: MainViewDelegate {
     }
     
     func setChargerTypeImage(type:Int) {
-        self.typeLb1.text = ""
-        self.typeLb2.text = ""
-        self.typeLb3.text = ""
+        self.typeDemoLb.isHidden = true
+        self.typeComboLb.isHidden = true
+        self.typeACLb.isHidden = true
+        self.typeSlowLb.isHidden = true
+        self.typeSuperLb.isHidden = true
+        self.typeDestiLb.isHidden = true
         
         if (type & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
-            let type = "DC차데모"
-            setTextType(type:type)
+            // "DC차데모"
+            self.typeDemoLb.isHidden = false
         }
         if (type & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
-            let type = "DC콤보"
-            setTextType(type:type)
+            // "DC콤보"
+            self.typeComboLb.isHidden = false
         }
         if (type & Const.CTYPE_AC) == Const.CTYPE_AC {
-            let type = "AC3상"
-            setTextType(type:type)
+            // "AC3상"
+            self.typeACLb.isHidden = false
         }
         
         if (type & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
-            let type = "완속"
-            setTextType(type:type)
+            // "완속"
+            self.typeSlowLb.isHidden = false
         }
         
         if ((type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER)
         || ((type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION) {
             
             if (type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
-                let type = "슈퍼차저"
-                setTextType(type:type)
+                // "슈퍼차저"
+                self.typeSuperLb.isHidden = false
             }
             
             if (type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
-                let type = "데스티네이션"
-                setTextType(type:type)
+                // "데스티네이션"
+                self.typeDestiLb.isHidden = false
             }
-        }
-    }
-    
-    func setTextType(type:String) {
-        if self.typeLb1.text == "" {
-            self.typeLb1.text = type
-        }else if self.typeLb2.text == ""{
-            self.typeLb2.text = type
-        } else {
-            self.typeLb3.text = type
         }
     }
     
@@ -1605,7 +1605,7 @@ extension MainViewController {
     }
     
     private func menuBadgeAdd() {
-        if NewArticleChecker.sharedInstance.hasNew() {
+        if Board.sharedInstance.hasNew() {
             appDelegate.appToolbarController.setMenuIcon(hasBadge: true)
         } else {
             appDelegate.appToolbarController.setMenuIcon(hasBadge: false)
