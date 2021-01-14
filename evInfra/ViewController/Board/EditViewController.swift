@@ -47,8 +47,8 @@ class EditViewController: UIViewController, UITextViewDelegate {
     var editImage = 0
     var charger: ChargerStationInfo? = nil
 
-    var originBoardData: BoardData!
-    var originReplyData: BoardData.ReplyData!
+    var originBoardData: BoardItem!
+    var originReplyData: BoardItem.ReplyData!
     var originBoardId: Int?
     
     let picker = UIImagePickerController()

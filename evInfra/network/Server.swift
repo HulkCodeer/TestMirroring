@@ -316,7 +316,7 @@ class Server {
             "mine": mine
         ]
         
-        if category.elementsEqual(BoardData.BOARD_CATEGORY_COMPANY) {
+        if category.elementsEqual(Board.BOARD_CATEGORY_COMPANY) {
             reqParam.updateValue(bmId, forKey: "bm_id")
             reqParam.updateValue(false, forKey: "ad") // 사업자 게시판 광고 포함하지 않음
         } else {
@@ -332,7 +332,7 @@ class Server {
     static func getChargerBoard(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
-            "category": BoardData.BOARD_CATEGORY_CHARGER,
+            "category": Board.BOARD_CATEGORY_CHARGER,
             "charger_id": chargerId,
             "page": -1,
             "page_count": -1,

@@ -17,7 +17,7 @@ class CardBoardViewController: UIViewController {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    var category = BoardData.BOARD_CATEGORY_FREE // default 자유게시판
+    var category = Board.BOARD_CATEGORY_FREE // default 자유게시판
     
     var bmId:Int = -1
     var brdTitle:String = ""
@@ -25,7 +25,7 @@ class CardBoardViewController: UIViewController {
     var currentPage = 0
     var preReadPage = 0
     var lastPage: Bool = false
-    var boardList: Array<BoardData> = Array<BoardData>()
+    var boardList: Array<BoardItem> = Array<BoardItem>()
     
     var scrollIndexPath = IndexPath(row: 0, section: 0)
     
@@ -79,7 +79,7 @@ extension CardBoardViewController {
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
         // 글작성 버튼
-        if !self.category.elementsEqual(BoardData.BOARD_CATEGORY_CHARGER) {
+        if !self.category.elementsEqual(Board.BOARD_CATEGORY_CHARGER) {
             var postButton: IconButton!
             postButton = IconButton(image: Icon.cm.edit)
             postButton.tintColor = UIColor(rgb: 0x15435C)
@@ -92,9 +92,9 @@ extension CardBoardViewController {
         self.navigationItem.leftViews = [backButton]
         self.navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         
-        if self.category.elementsEqual(BoardData.BOARD_CATEGORY_CHARGER) {
+        if self.category.elementsEqual(Board.BOARD_CATEGORY_CHARGER) {
             self.navigationItem.titleLabel.text = "충전소 게시판"
-        } else if self.category.elementsEqual(BoardData.BOARD_CATEGORY_COMPANY) {
+        } else if self.category.elementsEqual(Board.BOARD_CATEGORY_COMPANY) {
             if !self.brdTitle.isEmpty{
                 self.navigationItem.titleLabel.text = self.brdTitle + " 게시판"
             }else{
@@ -133,7 +133,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
                 let json = JSON(value)
                 let boardJson = json["list"]
                 for json in boardJson.arrayValue {
-                    let boardData = BoardData(bJson: json)
+                    let boardData = BoardItem(bJson: json)
                     self.boardList.append(boardData)
                 }
                 
@@ -163,7 +163,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
                     }
                     
                     for json in updateList.arrayValue{
-                        let boardData = BoardData(bJson: json)
+                        let boardData = BoardItem(bJson: json)
                         self.boardList.append(boardData)
                     }
                     

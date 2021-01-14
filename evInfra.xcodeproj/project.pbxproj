@@ -24,7 +24,7 @@
 		00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */; };
 		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
 		4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
-		421569D7259B629100D018DC /* BoardNewInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421569D6259B629100D018DC /* BoardNewInfo.swift */; };
+		421569D7259B629100D018DC /* BoardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421569D6259B629100D018DC /* BoardInfo.swift */; };
 		42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42541587257E045600A2A7B9 /* UtilNavigation.swift */; };
 		425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5AD2519DA0B0089E87D /* OpenGLES.framework */; };
 		425EE5B02519DA410089E87D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5AF2519DA410089E87D /* CoreLocation.framework */; };
@@ -84,7 +84,7 @@
 		736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C9208993BE009535EE /* NoticeTableViewCell.swift */; };
 		736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37CE2089CC52009535EE /* NoticeContentViewController.swift */; };
 		736D37D1208D9BFF009535EE /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736D37D0208D9BFF009535EE /* SDWebImage.framework */; };
-		736D37D3208DC9CE009535EE /* BoardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37D2208DC9CE009535EE /* BoardData.swift */; };
+		736D37D3208DC9CE009535EE /* BoardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37D2208DC9CE009535EE /* BoardItem.swift */; };
 		7376B5C520C6473500A2B7C1 /* MyArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7376B5C420C6473500A2B7C1 /* MyArticleViewController.swift */; };
 		7379A45022CB43C600F4271C /* Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7379A44F22CB43C600F4271C /* Connector.swift */; };
 		7379A45422CDEB0200F4271C /* PaymentStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7379A45322CDEB0200F4271C /* PaymentStatus.swift */; };
@@ -178,8 +178,7 @@
 		73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DD778023164CB60006EFFC /* CopyableLabel.swift */; };
 		73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */; };
 		73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FB42101B7920016F505 /* BedgeButton.swift */; };
-		73EE8FBB2105B3420016F505 /* NewArticleChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FBA2105B3420016F505 /* NewArticleChecker.swift */; };
-		73EE8FBD2105B5150016F505 /* NewArticleCheckDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FBC2105B5150016F505 /* NewArticleCheckDelegate.swift */; };
+		73EE8FBB2105B3420016F505 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FBA2105B3420016F505 /* Board.swift */; };
 		73EE8FC72109B0FD0016F505 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FC62109B0FD0016F505 /* URL.swift */; };
 		73EF8B3F203ACB8500D04494 /* AppToolbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EF8B3E203ACB8500D04494 /* AppToolbarController.swift */; };
 		73EF8B43203BC71100D04494 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EF8B42203BC71100D04494 /* UIColor.swift */; };
@@ -320,7 +319,7 @@
 		0BE09DF43E8F5A12E923D6B5 /* Pods-evInfra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra/Pods-evInfra.release.xcconfig"; sourceTree = "<group>"; };
 		4212A25325555775001BB124 /* OfferwallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallTableViewCell.swift; sourceTree = "<group>"; };
 		4212A25425555775001BB124 /* OfferwallTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferwallTableViewCell.xib; sourceTree = "<group>"; };
-		421569D6259B629100D018DC /* BoardNewInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardNewInfo.swift; sourceTree = "<group>"; };
+		421569D6259B629100D018DC /* BoardInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardInfo.swift; sourceTree = "<group>"; };
 		42541587257E045600A2A7B9 /* UtilNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilNavigation.swift; sourceTree = "<group>"; };
 		425EE5AD2519DA0B0089E87D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		425EE5AF2519DA410089E87D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -385,7 +384,7 @@
 		736D37C9208993BE009535EE /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
 		736D37CE2089CC52009535EE /* NoticeContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeContentViewController.swift; sourceTree = "<group>"; };
 		736D37D0208D9BFF009535EE /* SDWebImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		736D37D2208DC9CE009535EE /* BoardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardData.swift; sourceTree = "<group>"; };
+		736D37D2208DC9CE009535EE /* BoardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardItem.swift; sourceTree = "<group>"; };
 		7376B5C420C6473500A2B7C1 /* MyArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyArticleViewController.swift; sourceTree = "<group>"; };
 		7379A44F22CB43C600F4271C /* Connector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connector.swift; sourceTree = "<group>"; };
 		7379A45322CDEB0200F4271C /* PaymentStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatus.swift; sourceTree = "<group>"; };
@@ -479,8 +478,7 @@
 		73DD778023164CB60006EFFC /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
 		73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		73EE8FB42101B7920016F505 /* BedgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedgeButton.swift; sourceTree = "<group>"; };
-		73EE8FBA2105B3420016F505 /* NewArticleChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewArticleChecker.swift; sourceTree = "<group>"; };
-		73EE8FBC2105B5150016F505 /* NewArticleCheckDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewArticleCheckDelegate.swift; sourceTree = "<group>"; };
+		73EE8FBA2105B3420016F505 /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		73EE8FC62109B0FD0016F505 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		73EF8B3E203ACB8500D04494 /* AppToolbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppToolbarController.swift; sourceTree = "<group>"; };
 		73EF8B42203BC71100D04494 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
@@ -696,8 +694,6 @@
 				737A012120F3225800638812 /* EVFileManager.swift */,
 				7312786720BE38C500861B3E /* FCMManager.swift */,
 				DBA18B1C211D7AF400A2CB4F /* MemberManager.swift */,
-				73EE8FBA2105B3420016F505 /* NewArticleChecker.swift */,
-				73EE8FBC2105B5150016F505 /* NewArticleCheckDelegate.swift */,
 				CE72D73B219BDA32003979D2 /* KeyChainManager.swift */,
 				7379A45322CDEB0200F4271C /* PaymentStatus.swift */,
 			);
@@ -854,7 +850,9 @@
 			isa = PBXGroup;
 			children = (
 				73AF8FB121C77D9B003CB2CF /* clustering */,
-				736D37D2208DC9CE009535EE /* BoardData.swift */,
+				73EE8FBA2105B3420016F505 /* Board.swift */,
+				421569D6259B629100D018DC /* BoardInfo.swift */,
+				736D37D2208DC9CE009535EE /* BoardItem.swift */,
 				CE24840120A59E3000611E24 /* CarModels.swift */,
 				4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */,
 				DB0E4694205FC4D8002DD05D /* ChargerFilter.swift */,
@@ -875,7 +873,6 @@
 				CE93308E214F9807006B7EF6 /* ReportChargerList.swift */,
 				CEBE0600214BA5C30047E6F2 /* ReportCharger.swift */,
 				00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */,
-				421569D6259B629100D018DC /* BoardNewInfo.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1541,7 +1538,7 @@
 				902A11E0248F756C0049EF8E /* Log.swift in Sources */,
 				9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */,
 				73AF8FC121C77E1B003CB2CF /* ClusterManager.swift in Sources */,
-				73EE8FBB2105B3420016F505 /* NewArticleChecker.swift in Sources */,
+				73EE8FBB2105B3420016F505 /* Board.swift in Sources */,
 				DB5041B023506DCF007336BC /* EvPoint.swift in Sources */,
 				90DD2A6724EBCFF5003318CC /* TapjoyRewardedVideoCustomEvent.m in Sources */,
 				73A37CA22085DB5400FD3D0A /* CardBoardViewController.swift in Sources */,
@@ -1578,7 +1575,7 @@
 				733662CE22EFF2A40049AEFE /* NavigationDrawerController.swift in Sources */,
 				DB367BF324FE673E00898BED /* LoginHelper.swift in Sources */,
 				73BFA04F208487050028B35D /* BoardTableView.swift in Sources */,
-				736D37D3208DC9CE009535EE /* BoardData.swift in Sources */,
+				736D37D3208DC9CE009535EE /* BoardItem.swift in Sources */,
 				732ED1CA21ED8ABB0012C67B /* DropDownCheckBoxCell.swift in Sources */,
 				CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */,
 				73D65D702358498C00F564A2 /* Validators.swift in Sources */,
@@ -1622,7 +1619,6 @@
 				DB3B858720A445B6005454F5 /* KoreanChar.swift in Sources */,
 				732ED1FA21EEFA960012C67B /* MainViewController.swift in Sources */,
 				DB1ECB9922CDD8DB00E3A65E /* ChargingHistoryList.swift in Sources */,
-				73EE8FBD2105B5150016F505 /* NewArticleCheckDelegate.swift in Sources */,
 				42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */,
 				735E87C822D88ED70028F7BD /* ChargingStatus.swift in Sources */,
 				73344AC5207F429300A6A9EC /* EditViewDelegate.swift in Sources */,
@@ -1631,7 +1627,7 @@
 				73C31BF92099A024005B6C53 /* EVModel.swift in Sources */,
 				CE24840220A59E3000611E24 /* CarModels.swift in Sources */,
 				73A7B430204F8A72002E975F /* CidInfo.swift in Sources */,
-				421569D7259B629100D018DC /* BoardNewInfo.swift in Sources */,
+				421569D7259B629100D018DC /* BoardInfo.swift in Sources */,
 				DB5C4EDF2361A04B0090139E /* AdvertisingDialog.swift in Sources */,
 				DB6EBE31217078750000F442 /* ChargerSelectDelegate.swift in Sources */,
 				73D65D6E2356E57900F564A2 /* MyPayRegisterViewController.swift in Sources */,

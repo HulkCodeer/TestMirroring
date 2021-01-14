@@ -140,15 +140,15 @@ extension IntroViewController: CompanyInfoCheckerDelegate {
     }
 }
 
-extension IntroViewController: NewArticleCheckDelegate {
-    func finishCheckArticleFromServer() {
+extension IntroViewController: BoardDelegate {
+    func complete() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.finishedServerInit()
         }
     }
     
     internal func checkLastBoardId() {
-        let articleChecker = NewArticleChecker.sharedInstance
+        let articleChecker = Board.sharedInstance
         articleChecker.delegate = self
         articleChecker.checkLastBoardId()
     }

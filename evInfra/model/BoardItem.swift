@@ -9,13 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-class BoardData {
-
-    // 게시판 카테고리
-    public static let BOARD_CATEGORY_CHARGER   = "boardCharger"
-    public static let BOARD_CATEGORY_FREE      = "boardFree"
-    public static let BOARD_CATEGORY_NOTICE    = "boardNotice"
-    public static let BOARD_CATEGORY_COMPANY   = "boardCompany"
+class BoardItem {
 
     var boardId: Int?
     

@@ -72,7 +72,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     var stationInfoArr = [String:String]()
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    var boardList: Array<BoardData> = Array<BoardData>()
+    var boardList: Array<BoardItem> = Array<BoardItem>()
     
     fileprivate var moveHomePageBtn: FABButton!
     fileprivate var moveAppStoreBtn: FABButton!
@@ -509,7 +509,7 @@ extension DetailViewController: BoardTableViewDelegate {
                 let json = JSON(value)
                 let boardJson = json["list"]
                 for json in boardJson.arrayValue {
-                    let boardData = BoardData(bJson: json)
+                    let boardData = BoardItem(bJson: json)
                     self.boardList.append(boardData)
                 }
                 self.boardTableView.boardList = self.boardList
@@ -534,7 +534,7 @@ extension DetailViewController: BoardTableViewDelegate {
     func boardDelete(tag: Int) {
         let dialogMessage = UIAlertController(title: "Notice", message: "게시글을 삭제하시겠습니까?", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .default, handler: {(ACTION) -> Void in
-            Server.deleteBoard(category: BoardData.BOARD_CATEGORY_CHARGER, boardId: self.boardList[tag].boardId!) { (isSuccess, value) in
+            Server.deleteBoard(category: Board.BOARD_CATEGORY_CHARGER, boardId: self.boardList[tag].boardId!) { (isSuccess, value) in
                 if isSuccess {
                     self.getFirstBoardData()
                 }
@@ -569,7 +569,7 @@ extension DetailViewController: BoardTableViewDelegate {
             let section = tag / 1000
             let row = tag % 1000
             let replyValue = self.boardList[section].reply![row]
-            Server.deleteReply(category: BoardData.BOARD_CATEGORY_CHARGER, boardId: replyValue.replyId!) { (isSuccess, value) in
+            Server.deleteReply(category: Board.BOARD_CATEGORY_CHARGER, boardId: replyValue.replyId!) { (isSuccess, value) in
                 if isSuccess {
                     self.getFirstBoardData()
                 }
@@ -599,7 +599,7 @@ extension DetailViewController: BoardTableViewDelegate {
 extension DetailViewController: EditViewDelegate {
     
     func postBoardData(content: String, hasImage: Int, picture: Data?) {
-        Server.postBoard(category: BoardData.BOARD_CATEGORY_CHARGER, bmId: -1, chargerId: (self.charger?.mChargerId)!, content: content, hasImage: hasImage) { (isSuccess, value) in
+        Server.postBoard(category: Board.BOARD_CATEGORY_CHARGER, bmId: -1, chargerId: (self.charger?.mChargerId)!, content: content, hasImage: hasImage) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if hasImage == 1 {
@@ -623,7 +623,7 @@ extension DetailViewController: EditViewDelegate {
     }
     
     func editBoardData(content: String, boardId: Int, editImage: Int, picture: Data?) {
-        Server.editBoard(category: BoardData.BOARD_CATEGORY_CHARGER, boardId: boardId, content: content, editImage: editImage) { (isSuccess, value) in
+        Server.editBoard(category: Board.BOARD_CATEGORY_CHARGER, boardId: boardId, content: content, editImage: editImage) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if editImage == 1 {
@@ -646,7 +646,7 @@ extension DetailViewController: EditViewDelegate {
     }
     
     func postReplyData(content: String,  boardId: Int) {
-        Server.postReply(category: BoardData.BOARD_CATEGORY_CHARGER, boardId: boardId, content: content) { (isSuccess, value) in
+        Server.postReply(category: Board.BOARD_CATEGORY_CHARGER, boardId: boardId, content: content) { (isSuccess, value) in
             if isSuccess {
                 self.getFirstBoardData()
             }
@@ -654,7 +654,7 @@ extension DetailViewController: EditViewDelegate {
     }
     
     func editReplyData(content: String, replyId: Int) {
-        Server.editReply(category: BoardData.BOARD_CATEGORY_CHARGER, replyId: replyId, content: content) { (isSuccess, value) in
+        Server.editReply(category: Board.BOARD_CATEGORY_CHARGER, replyId: replyId, content: content) { (isSuccess, value) in
             if isSuccess {
                 self.getFirstBoardData()
             }

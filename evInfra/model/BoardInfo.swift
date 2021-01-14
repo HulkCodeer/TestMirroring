@@ -9,8 +9,7 @@
 import Foundation
 import UIKit
 
-class BoardNewInfo {
-    var companyId: String?
+class BoardInfo {
     var bmId: Int?
     var boardTitle: String?
     var shardKey: String?

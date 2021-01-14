@@ -1605,7 +1605,7 @@ extension MainViewController {
     }
     
     private func menuBadgeAdd() {
-        if NewArticleChecker.sharedInstance.hasNew() {
+        if Board.sharedInstance.hasNew() {
             appDelegate.appToolbarController.setMenuIcon(hasBadge: true)
         } else {
             appDelegate.appToolbarController.setMenuIcon(hasBadge: false)

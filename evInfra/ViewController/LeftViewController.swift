@@ -152,10 +152,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         let mypageArr:[Array<String>] = [mypage0Arr, mypage1Arr]
         
         let commu0Arr = ["EV Infra 공지", "자유 게시판", "충전소 게시판"]
-        
-        
-        companyNameArr = NewArticleChecker.sharedInstance.getBoardTitleList() ?? []
-        
+        companyNameArr = Board.sharedInstance.getBoardTitleList()
         let commuArr:[Array<String>] = [commu0Arr, companyNameArr]
         
         let event0Arr = ["이벤트", "내 쿠폰함"]
@@ -172,15 +169,13 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.sideMenuArrays = [mypageArr, commuArr, eventArr, evArr, settingArr]
     }
-
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return sideSectionArrays[menuIndex].count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        initSideViewArr()
+//        initSideViewArr()
         return sideMenuArrays[menuIndex][section].count
     }
     
@@ -273,9 +268,9 @@ extension LeftViewController {
                 case SUB_MENU_MY_WRITING: // 내가 쓴 글 보기
                     var myWritingControllers = [MyWritingViewController]()
                     let freeMineVC = storyboard?.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
-                    freeMineVC.boardCategory = BoardData.BOARD_CATEGORY_FREE
+                    freeMineVC.boardCategory = Board.BOARD_CATEGORY_FREE
                     let chargerMineVC = storyboard?.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
-                    chargerMineVC.boardCategory = BoardData.BOARD_CATEGORY_CHARGER
+                    chargerMineVC.boardCategory = Board.BOARD_CATEGORY_CHARGER
                     
                     myWritingControllers.append(chargerMineVC)
                     myWritingControllers.append(freeMineVC)
@@ -335,32 +330,30 @@ extension LeftViewController {
                 navigationController?.push(viewController: noticeVC)
             
             case SUB_MENU_FREE_BOARD: // 자유 게시판
-                UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: NewArticleChecker.sharedInstance.freeBoardId)
+                UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
                 
                 let freeBoardVC = storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
-                freeBoardVC.category = BoardData.BOARD_CATEGORY_FREE
+                freeBoardVC.category = Board.BOARD_CATEGORY_FREE
                 navigationController?.push(viewController: freeBoardVC)
             
             case SUB_MENU_CHARGER_BOARD: // 충전소 게시판
-                UserDefault().saveInt(key: UserDefault.Key.LAST_CHARGER_ID, value: NewArticleChecker.sharedInstance.chargeBoardId)
+                UserDefault().saveInt(key: UserDefault.Key.LAST_CHARGER_ID, value: Board.sharedInstance.chargeBoardId)
                 
                 let stationBoardVC = storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
-                stationBoardVC.category = BoardData.BOARD_CATEGORY_CHARGER
+                stationBoardVC.category = Board.BOARD_CATEGORY_CHARGER
                 navigationController?.push(viewController: stationBoardVC)
             default:
                 print("out of index")
             }
         case SUB_MENU_CELL_COMPANY_BOARD: // 사업자 게시판
             let title:String = self.companyNameArr[index.row]
-            if !title.isEmpty{
-                let companyBoardVC =
-                storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
-                
-                if let boardInfo = NewArticleChecker.sharedInstance.getBoardNewInfo(title: title){
+            if !title.isEmpty {
+                if let boardInfo = Board.sharedInstance.getBoardNewInfo(title: title) {
                     UserDefault().saveInt(key: boardInfo.shardKey!, value: boardInfo.brdId!)
-                    companyBoardVC.category = BoardData.BOARD_CATEGORY_COMPANY
-                    companyBoardVC.bmId = boardInfo.bmId!
                     
+                    let companyBoardVC = storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
+                    companyBoardVC.category = Board.BOARD_CATEGORY_COMPANY
+                    companyBoardVC.bmId = boardInfo.bmId!
                     companyBoardVC.brdTitle = title
                     navigationController?.push(viewController: companyBoardVC)
                 }
@@ -461,21 +454,21 @@ extension LeftViewController {
     // 각 게시판에 badge
     private func setNewBadge(cell: SideMenuTableViewCell, index: IndexPath) {
         cell.newBadge.isHidden = true
-        let latestIds = NewArticleChecker.sharedInstance.latestBoardIds
+        let latestIds = Board.sharedInstance.latestBoardIds
         
         switch menuIndex {
         case MENU_BOARD:
             if index.section == SUB_MENU_CELL_BOARD {
                 switch index.row {
                 case SUB_MENU_NOTICE:
-                    if let latestNoticeId = latestIds[NewArticleChecker.KEY_NOTICE] {
+                    if let latestNoticeId = latestIds[Board.KEY_NOTICE] {
                         let noticeId = UserDefault().readInt(key: UserDefault.Key.LAST_NOTICE_ID)
                         if noticeId < latestNoticeId {
                             cell.newBadge.isHidden = false
                         }
                     }
                 case SUB_MENU_FREE_BOARD:
-                    if let latestFreeBoardId = latestIds[NewArticleChecker.KEY_FREE_BOARD] {
+                    if let latestFreeBoardId = latestIds[Board.KEY_FREE_BOARD] {
                         let freeId = UserDefault().readInt(key: UserDefault.Key.LAST_FREE_ID)
                         if freeId < latestFreeBoardId {
                             cell.newBadge.isHidden = false
@@ -483,7 +476,7 @@ extension LeftViewController {
                     }
                 case SUB_MENU_CHARGER_BOARD:
                     if !sideMenuArrays.isEmpty {
-                        if let latestChargerBoardId = latestIds[NewArticleChecker.KEY_CHARGER_BOARD] {
+                        if let latestChargerBoardId = latestIds[Board.KEY_CHARGER_BOARD] {
                             let chargerId = UserDefault().readInt(key: UserDefault.Key.LAST_CHARGER_ID)
                             if chargerId < latestChargerBoardId {
                                 cell.newBadge.isHidden = false
@@ -495,14 +488,12 @@ extension LeftViewController {
                     cell.newBadge.isHidden = true
                 }
             }
-            if index.section == SUB_MENU_CELL_COMPANY_BOARD{
+            
+            if index.section == SUB_MENU_CELL_COMPANY_BOARD {
                 let title:String = self.companyNameArr[index.row]
-                if let boardInfo = NewArticleChecker.sharedInstance.getBoardNewInfo(title: title){
-                    
-                    let latestCompanyId = boardInfo.brdId!
+                if let boardInfo = Board.sharedInstance.getBoardNewInfo(title: title) {
                     let companyId = UserDefault().readInt(key: boardInfo.shardKey!)
-                    
-                    if companyId < latestCompanyId {
+                    if companyId < boardInfo.brdId! {
                         cell.newBadge.isHidden = false
                     }
                 }
@@ -511,7 +502,7 @@ extension LeftViewController {
             if index.section == SUB_MENU_CELL_EVENT {
                 switch index.row {
                 case SUB_MENU_EVENT:
-                    if let latestEventId = latestIds[NewArticleChecker.KEY_EVENT] {
+                    if let latestEventId = latestIds[Board.KEY_EVENT] {
                         let eventId = UserDefault().readInt(key: UserDefault.Key.LAST_EVENT_ID)
                         if eventId < latestEventId {
                             cell.newBadge.isHidden = false
@@ -528,7 +519,7 @@ extension LeftViewController {
     
     // 메인화면 메뉴이미지에 badge
     private func newBadgeInMenu() {
-        if NewArticleChecker.sharedInstance.hasNewBoard() {
+        if Board.sharedInstance.hasNewBoard() {
             if let image = UIImage(named: "menu_board_badge") {
                 boardBtn.setImage(image, for: .normal)
             }

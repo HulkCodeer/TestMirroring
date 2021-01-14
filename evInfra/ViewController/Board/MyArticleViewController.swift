@@ -14,7 +14,7 @@ import SwiftyJSON
 class MyArticleViewController: UIViewController {
 
     @IBOutlet weak var boardTableView: BoardTableView!
-    var boardList: Array<BoardData> = Array<BoardData>()
+    var boardList: Array<BoardItem> = Array<BoardItem>()
     
     var scrollIndexPath = IndexPath(row: 0, section: 0)
 
@@ -94,7 +94,7 @@ extension MyArticleViewController: BoardTableViewDelegate {
                 let json = JSON(value)
                 let boardJson = json["list"]
                 for json in boardJson.arrayValue{
-                    let boardData = BoardData(bJson: json)
+                    let boardData = BoardItem(bJson: json)
                     self.boardList.append(boardData)
                 }
                 self.boardTableView.boardList = self.boardList
