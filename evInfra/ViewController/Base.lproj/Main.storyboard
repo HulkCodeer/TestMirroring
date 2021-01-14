@@ -5548,10 +5548,10 @@ addrDetail</string>
                                 <rect key="frame" x="16" y="72.5" width="343" height="578.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xT9-U2-GQU">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="195"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="176"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="9eb-Zc-ycd">
-                                                <rect key="frame" x="0.0" y="9.5" width="171.5" height="176"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="171.5" height="176"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dem-fm-dt7">
                                                         <rect key="frame" x="0.0" y="0.0" width="171.5" height="48"/>
@@ -5689,7 +5689,7 @@ addrDetail</string>
                                                 </subviews>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vsT-Iy-Y6j" customClass="CircularProgressBar" customModule="evInfra" customModuleProvider="target">
-                                                <rect key="frame" x="171.5" y="12" width="171.5" height="171.5"/>
+                                                <rect key="frame" x="171.5" y="2.5" width="171.5" height="171.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="vsT-Iy-Y6j" secondAttribute="height" id="bKm-Ro-wt4"/>
@@ -5698,7 +5698,7 @@ addrDetail</string>
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="gRj-Q8-SNW">
-                                        <rect key="frame" x="0.0" y="211" width="343" height="24"/>
+                                        <rect key="frame" x="0.0" y="192" width="343" height="24"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_menu_pay_amount" translatesAutoresizingMaskIntoConstraints="NO" id="6rn-Ke-hvm">
                                                 <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
@@ -5716,17 +5716,27 @@ addrDetail</string>
                                             </label>
                                         </subviews>
                                     </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qyj-d6-p0v">
+                                        <rect key="frame" x="0.0" y="232" width="343" height="1"/>
+                                        <color key="backgroundColor" red="0.32941176470588235" green="0.32941176470588235" blue="0.32941176470588235" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="5LK-4P-ubt"/>
+                                        </constraints>
+                                    </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xD6-YT-Z2a">
-                                        <rect key="frame" x="0.0" y="251" width="343" height="19.5"/>
+                                        <rect key="frame" x="0.0" y="249" width="343" height="19.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="현재 금액" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JMm-SZ-hn4">
-                                                <rect key="frame" x="16" y="0.0" width="60" height="19.5"/>
+                                                <rect key="frame" x="16" y="0.0" width="244" height="19.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="- 원" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vWD-Fs-JCv">
-                                                <rect key="frame" x="84" y="0.0" width="259" height="19.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="0원" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vWD-Fs-JCv">
+                                                <rect key="frame" x="268" y="0.0" width="75" height="19.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="75" id="Tsb-f9-kpa"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -5735,16 +5745,19 @@ addrDetail</string>
                                         <edgeInsets key="layoutMargins" top="0.0" left="16" bottom="0.0" right="0.0"/>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8hy-q5-6l9">
-                                        <rect key="frame" x="0.0" y="286.5" width="343" height="19.5"/>
+                                        <rect key="frame" x="0.0" y="284.5" width="343" height="19.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="베리 사용" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C0D-bj-ier">
-                                                <rect key="frame" x="16" y="0.0" width="60" height="19.5"/>
+                                                <rect key="frame" x="16" y="0.0" width="252" height="19.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="- 0B" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SvJ-3N-TUf">
-                                                <rect key="frame" x="76" y="0.0" width="267" height="19.5"/>
+                                                <rect key="frame" x="268" y="0.0" width="75" height="19.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="75" id="1IB-7g-A9k"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -5752,8 +5765,53 @@ addrDetail</string>
                                         </subviews>
                                         <edgeInsets key="layoutMargins" top="0.0" left="16" bottom="0.0" right="0.0"/>
                                     </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y82-st-ns9">
+                                        <rect key="frame" x="0.0" y="320" width="343" height="52"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="할인 금액" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="li4-jH-DQN">
+                                                <rect key="frame" x="16" y="0.0" width="60" height="28.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="롯데렌터카 1kwh당 15원 할인" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u73-IF-I58">
+                                                <rect key="frame" x="100" y="0.0" width="168" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" red="0.74117647060000003" green="0.74117647060000003" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="- 0원" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7JO-Sl-T2b">
+                                                <rect key="frame" x="268" y="0.0" width="75" height="19.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="75" id="SRM-Go-yVp"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="할인금액 정보" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dvt-W0-g0C">
+                                                <rect key="frame" x="16" y="32.5" width="87.5" height="19.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <color key="textColor" red="0.69803921568627447" green="0.69803921568627447" blue="0.69803921568627447" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="dvt-W0-g0C" firstAttribute="leading" secondItem="y82-st-ns9" secondAttribute="leading" constant="16" id="790-y3-k6l"/>
+                                            <constraint firstItem="dvt-W0-g0C" firstAttribute="top" secondItem="li4-jH-DQN" secondAttribute="bottom" constant="4" id="AcX-f8-h8m"/>
+                                            <constraint firstItem="u73-IF-I58" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="li4-jH-DQN" secondAttribute="trailing" id="Eof-SG-jyP"/>
+                                            <constraint firstItem="li4-jH-DQN" firstAttribute="leading" secondItem="y82-st-ns9" secondAttribute="leading" constant="16" id="Low-Wd-pVa"/>
+                                            <constraint firstItem="u73-IF-I58" firstAttribute="trailing" secondItem="7JO-Sl-T2b" secondAttribute="leading" id="M8d-ki-D8d"/>
+                                            <constraint firstItem="7JO-Sl-T2b" firstAttribute="top" secondItem="y82-st-ns9" secondAttribute="top" id="RWF-UV-qdW"/>
+                                            <constraint firstItem="u73-IF-I58" firstAttribute="top" secondItem="y82-st-ns9" secondAttribute="top" id="UhI-CF-zf9"/>
+                                            <constraint firstAttribute="bottom" secondItem="dvt-W0-g0C" secondAttribute="bottom" id="hFf-0b-zc8"/>
+                                            <constraint firstItem="li4-jH-DQN" firstAttribute="top" secondItem="y82-st-ns9" secondAttribute="top" id="pgb-Bw-UT6"/>
+                                            <constraint firstAttribute="trailing" secondItem="7JO-Sl-T2b" secondAttribute="trailing" id="ulv-nN-tnN"/>
+                                        </constraints>
+                                    </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BMl-Dh-xEy">
-                                        <rect key="frame" x="0.0" y="322" width="343" height="26.5"/>
+                                        <rect key="frame" x="0.0" y="388" width="343" height="26.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="총 결제 금액" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DEZ-HF-O7R">
                                                 <rect key="frame" x="16" y="0.0" width="105.5" height="26.5"/>
@@ -5771,15 +5829,11 @@ addrDetail</string>
                                         <edgeInsets key="layoutMargins" top="0.0" left="16" bottom="0.0" right="0.0"/>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전 내역은 충전기 정보를 가져오는데 약간의 시간차가 있어 실제 정보와 오차가 있는 것처럼 보일 수 있습니다." lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQ4-sl-Vfd">
-                                        <rect key="frame" x="0.0" y="364.5" width="343" height="36"/>
+                                        <rect key="frame" x="0.0" y="430.5" width="343" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IpJ-Ka-PRQ">
-                                        <rect key="frame" x="0.0" y="416.5" width="343" height="50"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JtC-qC-bM9">
                                         <rect key="frame" x="0.0" y="482.5" width="343" height="40"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -5805,6 +5859,8 @@ addrDetail</string>
                                     </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="Qyj-d6-p0v" firstAttribute="leading" secondItem="cEC-JC-Hvm" secondAttribute="leading" id="4YV-tV-Liz"/>
+                                    <constraint firstAttribute="trailing" secondItem="Qyj-d6-p0v" secondAttribute="trailing" id="RE3-lt-5F3"/>
                                     <constraint firstItem="JtC-qC-bM9" firstAttribute="height" secondItem="aJZ-wE-oBV" secondAttribute="height" multiplier="1:1" id="uAf-lG-evz"/>
                                 </constraints>
                             </stackView>
@@ -5843,6 +5899,9 @@ addrDetail</string>
                         <outlet property="lbChargePower" destination="Me8-rn-GEF" id="3ya-o3-v9w"/>
                         <outlet property="lbChargeSpeed" destination="m8I-fy-Eyn" id="4uF-Qd-Q4Z"/>
                         <outlet property="lbChargeTotalFee" destination="JGo-k1-dAu" id="oOD-j8-T7c"/>
+                        <outlet property="lbDiscountAmount" destination="7JO-Sl-T2b" id="Zaw-hr-bsP"/>
+                        <outlet property="lbDiscountInfo" destination="dvt-W0-g0C" id="Z0x-N3-Dng"/>
+                        <outlet property="lbDiscountMsg" destination="u73-IF-I58" id="JjY-mX-jkQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hb3-vd-zqi" userLabel="First Responder" sceneMemberID="firstResponder"/>

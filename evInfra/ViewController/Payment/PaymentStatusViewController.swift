@@ -30,6 +30,10 @@ class PaymentStatusViewController: UIViewController {
     
     @IBOutlet weak var chronometer: Chronometer!
 
+    @IBOutlet var discountView: UIStackView!
+    @IBOutlet var lbDiscountMsg: UILabel!
+    @IBOutlet var lbDiscountAmount: UILabel!
+    @IBOutlet var lbDiscountInfo: UILabel!
     @IBOutlet weak var btnStopCharging: UIButton!
     @IBOutlet weak var btnUseBerry: UIButton!
     

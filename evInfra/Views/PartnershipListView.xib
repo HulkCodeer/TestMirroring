@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,7 +18,7 @@
                 <outlet property="labelContrDate" destination="yh7-hF-vBR" id="LoV-5u-4pM"/>
                 <outlet property="viewAddBtn" destination="9Zw-n2-KT2" id="Iou-hd-GgX"/>
                 <outlet property="viewEvinfraList" destination="tjU-wT-vwL" id="VrK-1j-6BC"/>
-                <outlet property="viewLotteList" destination="js3-HB-HDS" id="fRs-tJ-KT9"/>
+                <outlet property="viewLotteList" destination="js3-HB-HDS" id="V0O-vF-ndu"/>
                 <outlet property="viewSkrList" destination="krc-y6-DiL" id="jaL-Ul-B5Q"/>
             </connections>
         </placeholder>
@@ -31,7 +31,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="mwg-Da-0ep">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="289"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="514"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내 카드" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZsI-0Z-A4q">
                                     <rect key="frame" x="16" y="32" width="343" height="41"/>
@@ -98,8 +98,8 @@
                                         <constraint firstAttribute="width" secondItem="krc-y6-DiL" secondAttribute="height" multiplier="41:24" id="v8K-8N-VI1"/>
                                     </constraints>
                                 </view>
-                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="js3-HB-HDS" userLabel="lotte_view">
-                                    <rect key="frame" x="16" y="85" width="343" height="201"/>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="js3-HB-HDS" userLabel="lotte_view">
+                                    <rect key="frame" x="16" y="97" width="343" height="201"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lotte_card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="eqs-nc-baD">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="201"/>
@@ -149,7 +149,7 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Zw-n2-KT2">
-                                    <rect key="frame" x="16" y="97" width="343" height="160"/>
+                                    <rect key="frame" x="16" y="322" width="343" height="160"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_add_img" translatesAutoresizingMaskIntoConstraints="NO" id="pDd-rf-hSn">
                                             <rect key="frame" x="41.5" y="0.0" width="260" height="160"/>
@@ -194,7 +194,7 @@
         <image name="card_add_img" width="341" height="192"/>
         <image name="card_bg" width="445" height="264"/>
         <image name="evinfra_logo" width="105" height="26.5"/>
-        <image name="lotte_card_bg" width="437" height="256"/>
+        <image name="lotte_card_bg" width="442.5" height="262.5"/>
         <image name="lotte_logo_white" width="105" height="26.5"/>
         <image name="sk_card_bg-1" width="437" height="256"/>
         <systemColor name="systemBackgroundColor">

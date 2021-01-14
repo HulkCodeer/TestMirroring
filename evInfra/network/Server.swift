@@ -164,6 +164,17 @@ class Server {
         .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 회원 - 롯데렌터카 회원정보 조회
+    static func getLotteRentInfo(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId()
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member_partnership/get_lotte_member_info",
+                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
     // 회원 - 롯데렌터카 회원인증
     static func certificateLotteRentaCar(carNo : String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [

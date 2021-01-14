@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0044A05025AEEB1500D0BB0A /* LotteRentIntoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0044A04F25AEEB1500D0BB0A /* LotteRentIntoViewController.swift */; };
 		0055D472252AA88B001133DB /* Membership.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0055D471252AA88B001133DB /* Membership.storyboard */; };
 		005643E0252DA18E007BF78D /* MembershipInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */; };
 		0056440D252DB2AB007BF78D /* MembershipQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0056440C252DB2AB007BF78D /* MembershipQRViewController.swift */; };
@@ -301,6 +302,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0044A04F25AEEB1500D0BB0A /* LotteRentIntoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotteRentIntoViewController.swift; sourceTree = "<group>"; };
 		0055D471252AA88B001133DB /* Membership.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Membership.storyboard; sourceTree = "<group>"; };
 		005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipInfoViewController.swift; sourceTree = "<group>"; };
 		0056440C252DB2AB007BF78D /* MembershipQRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipQRViewController.swift; sourceTree = "<group>"; };
@@ -1165,6 +1167,7 @@
 				0056440C252DB2AB007BF78D /* MembershipQRViewController.swift */,
 				00C75C45252ED4A000387559 /* LotteRentCertificateViewController.swift */,
 				00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */,
+				0044A04F25AEEB1500D0BB0A /* LotteRentIntoViewController.swift */,
 			);
 			path = member;
 			sourceTree = "<group>";
@@ -1615,6 +1618,7 @@
 				73EF8B3F203ACB8500D04494 /* AppToolbarController.swift in Sources */,
 				005643E0252DA18E007BF78D /* MembershipInfoViewController.swift in Sources */,
 				4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */,
+				0044A05025AEEB1500D0BB0A /* LotteRentIntoViewController.swift in Sources */,
 				DB3B858920A45CB8005454F5 /* Character.swift in Sources */,
 				DB3B858720A445B6005454F5 /* KoreanChar.swift in Sources */,
 				732ED1FA21EEFA960012C67B /* MainViewController.swift in Sources */,

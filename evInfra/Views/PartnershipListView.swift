@@ -96,12 +96,19 @@ class PartnershipListView : UIView {
         let ev_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickEvInfra))
         viewEvinfraList.addGestureRecognizer(ev_touch)
         
+        let lotte_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickLotteRent))
+        viewEvinfraList.addGestureRecognizer(lotte_touch)
+        
         let add_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickAddBtn))
         btnAddCard.addGestureRecognizer(add_touch)
     }
     
     @objc func onClickEvInfra(sender: UITapGestureRecognizer) {
         delegate?.showEvinfraMembershipInfo(info : evInfraInfo!)
+    }
+    
+    @objc func onClickLotteRent(sender: UITapGestureRecognizer) {
+        delegate?.showLotteRentInfo()
     }
     
     @objc func onClickAddBtn(sender: UITapGestureRecognizer) {
@@ -111,5 +118,6 @@ class PartnershipListView : UIView {
 protocol PartnershipListViewDelegate {
     func addNewPartnership()
     func showEvinfraMembershipInfo(info : MemberPartnershipInfo)
+    func showLotteRentInfo()
 }
 

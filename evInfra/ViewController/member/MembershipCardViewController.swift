@@ -119,4 +119,9 @@ class MembershipCardViewController: UIViewController,
         mbsInfoVC.setCardInfo(info : info)
         navigationController?.push(viewController: mbsInfoVC)
     }
+    
+    func showLotteRentInfo(){
+        let lotteInfoVC = storyboard?.instantiateViewController(withIdentifier: "LotteRentInfoViewController") as! LotteRentInfoViewController
+        navigationController?.push(viewController: lotteInfoVC)
+    }
 }
