@@ -1420,6 +1420,7 @@ extension MainViewController {
                     if Const.CLOSED_BETA_TEST {
                         CBT.checkCBT(vc: controller!)
                     }
+                    controller?.getIntroImage()
                 }
                 
                 func onError(errorMsg: String) {
@@ -1493,6 +1494,16 @@ extension MainViewController {
                 canIgnoreJejuPush = true
                 let window = UIApplication.shared.keyWindow!
                 window.addSubview(PopUpDialog(frame: window.bounds))
+            }
+        }
+    }
+    
+    private func getIntroImage(){
+        Server.getIntroImage { (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                let checker = IntroImageChecker.init()
+                checker.checkIntroImage(response: json)
             }
         }
     }

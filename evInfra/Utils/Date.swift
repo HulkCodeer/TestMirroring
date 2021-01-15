@@ -42,6 +42,16 @@ extension Date {
         }
     }
     
+    func isPassedDate(date: String) -> Bool{
+        if let newDate = toDate(data : date) {
+            let current: Date = Date()
+            if current > newDate {
+                return true
+            }
+        }
+        return false
+    }
+    
     func offsetFrom(date: Date) -> String {
         let dayHourMinuteSecond: Set<Calendar.Component> = [.day, .hour, .minute]
         let difference = NSCalendar.current.dateComponents(dayHourMinuteSecond, from: date, to: self);
