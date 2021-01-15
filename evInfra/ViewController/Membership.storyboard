@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tWN-en-8E2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tWN-en-8E2">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -215,7 +215,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="EvQ-rK-50W">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="927"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="959"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="5pa-fx-EyC" userLabel="detail_view">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="373.5"/>
@@ -489,9 +489,15 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6jg-b3-mSb">
                                                 <rect key="frame" x="0.0" y="847" width="375" height="24"/>
                                                 <subviews>
-                                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="회원카드 이용약관에 동의합니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UuN-zh-qhq">
-                                                        <rect key="frame" x="16" y="0.0" width="319" height="24"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="회원카드 이용약관" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="40" translatesAutoresizingMaskIntoConstraints="NO" id="UuN-zh-qhq">
+                                                        <rect key="frame" x="16" y="0.0" width="115" height="24"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="에 동의합니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y97-eF-eEv">
+                                                        <rect key="frame" x="131" y="0.0" width="204" height="24"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
@@ -509,11 +515,11 @@
                                                 </subviews>
                                                 <edgeInsets key="layoutMargins" top="0.0" left="16" bottom="0.0" right="16"/>
                                             </stackView>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PP8-Kw-CX5">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eMb-it-Xsy">
                                                 <rect key="frame" x="0.0" y="871" width="375" height="16"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="16" id="P5m-tf-C63"/>
+                                                    <constraint firstAttribute="height" constant="16" id="Cdv-CI-GDj"/>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Me4-zR-fBC">
@@ -529,6 +535,13 @@
                                                     <action selector="onClickNextBtn:" destination="3Aq-t5-kyl" eventType="touchUpInside" id="uzH-gP-ZHf"/>
                                                 </connections>
                                             </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0JU-kb-W7B">
+                                                <rect key="frame" x="0.0" y="927" width="375" height="32"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="WKh-cE-b9M"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="Me4-zR-fBC" secondAttribute="trailing" constant="16" id="CeU-tp-fii"/>
@@ -537,10 +550,8 @@
                                             <constraint firstItem="nEy-YX-ncR" firstAttribute="leading" secondItem="EvQ-rK-50W" secondAttribute="leading" id="QMa-pG-GSH"/>
                                             <constraint firstAttribute="trailing" secondItem="ilH-G1-rga" secondAttribute="trailing" id="aYI-55-yUm"/>
                                             <constraint firstItem="nEy-YX-ncR" firstAttribute="top" secondItem="5pa-fx-EyC" secondAttribute="bottom" id="crW-M3-e4X"/>
-                                            <constraint firstItem="PP8-Kw-CX5" firstAttribute="leading" secondItem="EvQ-rK-50W" secondAttribute="leading" id="jda-9Z-aji"/>
                                             <constraint firstItem="Me4-zR-fBC" firstAttribute="leading" secondItem="EvQ-rK-50W" secondAttribute="leading" constant="16" id="kDf-Re-acs"/>
                                             <constraint firstItem="nEy-YX-ncR" firstAttribute="bottom" secondItem="ilH-G1-rga" secondAttribute="top" id="p1I-I6-4Id"/>
-                                            <constraint firstAttribute="bottom" secondItem="Me4-zR-fBC" secondAttribute="bottom" id="vQa-rc-zqc"/>
                                             <constraint firstItem="5pa-fx-EyC" firstAttribute="leading" secondItem="EvQ-rK-50W" secondAttribute="leading" id="vzw-Ns-l9H"/>
                                             <constraint firstItem="ilH-G1-rga" firstAttribute="leading" secondItem="EvQ-rK-50W" secondAttribute="leading" id="yrk-UO-Cwz"/>
                                         </constraints>
