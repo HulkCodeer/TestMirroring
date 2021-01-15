@@ -26,12 +26,12 @@ public class Const {
      * develop
      */
     public static let EV_SERVER_IP = "http://13.124.50.142:2025"  // homepage server
-//    public static let EV_PAY_SERVER = "http://dev.soft-berry.co.kr"
+    public static let EV_PAY_SERVER = "http://dev.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://spark.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://jspark.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://michael.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://sjdev.soft-berry.co.kr"
-    public static let EV_PAY_SERVER = "http://shchoi.soft-berry.co.kr"
+//    public static let EV_PAY_SERVER = "http://shchoi.soft-berry.co.kr"
 
 
     // S3 File Server

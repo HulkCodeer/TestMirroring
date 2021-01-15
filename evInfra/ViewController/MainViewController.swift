@@ -563,12 +563,16 @@ class MainViewController: UIViewController {
     // MARK: - Action for button
     @IBAction func onClickMyLocation(_ sender: UIButton) {
         if let mapView = tMapView {
-            if mapView.getIsTracking() {
-                tMapView?.setCompassMode(true)
+            if isLocationEnabled(){
+                if mapView.getIsTracking() {
+                    tMapView?.setCompassMode(true)
+                } else {
+                    tMapView?.setTrackingMode(true)
+                }
+                updateMyLocationButton()
             } else {
-                tMapView?.setTrackingMode(true)
+                askPermission()
             }
-            updateMyLocationButton()
         }
     }
     
@@ -1561,6 +1565,39 @@ extension MainViewController {
         }
     }
 
+    func isLocationEnabled() ->Bool{
+        var enabled : Bool = false
+        if CLLocationManager.locationServicesEnabled() {
+            switch CLLocationManager.authorizationStatus() {
+                case .authorizedAlways, .authorizedWhenInUse:
+                    enabled = true
+                    break
+                case .notDetermined, .restricted, .denied:
+                    break
+            }
+        }
+        return enabled
+    }
+    
+    func askPermission(){
+        let alertController = UIAlertController(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 기능을 이용하시려면 모든 권한을 허용해 주십시오.\n[설정] > [EV Infra] 에서 권한을 허용할 수 있습니다.", preferredStyle: UIAlertControllerStyle.alert)
+
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+        alertController.addAction(cancelAction)
+
+        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertActionStyle.default) { (action) in
+            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }
+        }
+        alertController.addAction(openAction)
+
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     internal func myLocationModeOff() {
         tMapView?.setTrackingMode(false)
         tMapView?.setCompassMode(false)
