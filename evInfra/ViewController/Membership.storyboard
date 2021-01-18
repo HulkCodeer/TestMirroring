@@ -606,60 +606,76 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0G5-WI-O6X">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="412.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="426"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QR코드를 카메라 화면 중앙에 위치시켜주세요" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D5Y-eU-3dD">
+                                        <rect key="frame" x="34.5" y="389" width="306" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="qr_loacation_img" translatesAutoresizingMaskIntoConstraints="NO" id="NM3-R9-Q2m">
-                                <rect key="frame" x="119.5" y="545" width="136" height="96"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="136" id="M7Z-kJ-juG"/>
-                                    <constraint firstAttribute="height" constant="96" id="x4a-WY-efK"/>
+                                    <constraint firstItem="D5Y-eU-3dD" firstAttribute="centerX" secondItem="0G5-WI-O6X" secondAttribute="centerX" id="TZ8-TK-MQa"/>
+                                    <constraint firstAttribute="bottom" secondItem="D5Y-eU-3dD" secondAttribute="bottom" constant="16" id="oyJ-iA-lAb"/>
                                 </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QR 확인" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mRd-zd-CXO">
-                                <rect key="frame" x="16" y="444.5" width="113" height="41"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="34"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="카드 뒷면에 있는 QR코드를 스캔해주세요" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEU-dC-fpv">
-                                <rect key="frame" x="16" y="501.5" width="260.5" height="19.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QR코드를 카메라 화면 중앙에 위치시켜주세요" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D5Y-eU-3dD">
-                                <rect key="frame" x="34.5" y="375.5" width="306" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="qr_box" translatesAutoresizingMaskIntoConstraints="NO" id="3IV-Di-PH2">
-                                <rect key="frame" x="79.5" y="98.5" width="216" height="216"/>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="qr_box" translatesAutoresizingMaskIntoConstraints="NO" id="3IV-Di-PH2">
+                                <rect key="frame" x="79.5" y="105" width="216" height="216"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="216" id="XSe-fh-bpK"/>
                                     <constraint firstAttribute="width" constant="216" id="Xv9-hU-ZGI"/>
                                 </constraints>
                             </imageView>
+                            <view contentMode="scaleToFill" horizontalHuggingPriority="252" translatesAutoresizingMaskIntoConstraints="NO" id="KjY-cR-XW1">
+                                <rect key="frame" x="0.0" y="426" width="375" height="241"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QR 확인" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mRd-zd-CXO">
+                                        <rect key="frame" x="16" y="32" width="113" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="카드 뒷면에 있는 QR코드를 스캔해주세요" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEU-dC-fpv">
+                                        <rect key="frame" x="16" y="89" width="260.5" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" verticalHuggingPriority="252" image="qr_loacation_img" translatesAutoresizingMaskIntoConstraints="NO" id="NM3-R9-Q2m">
+                                        <rect key="frame" x="119.5" y="113" width="136" height="96"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="136" id="M7Z-kJ-juG"/>
+                                            <constraint firstAttribute="height" constant="96" id="x4a-WY-efK"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="mRd-zd-CXO" firstAttribute="top" secondItem="KjY-cR-XW1" secondAttribute="top" constant="32" id="2kJ-Eh-W6p"/>
+                                    <constraint firstItem="AEU-dC-fpv" firstAttribute="leading" secondItem="KjY-cR-XW1" secondAttribute="leading" constant="16" id="O7x-hq-cWg"/>
+                                    <constraint firstItem="AEU-dC-fpv" firstAttribute="top" secondItem="mRd-zd-CXO" secondAttribute="bottom" constant="16" id="Ota-DC-qt0"/>
+                                    <constraint firstItem="NM3-R9-Q2m" firstAttribute="centerX" secondItem="KjY-cR-XW1" secondAttribute="centerX" id="eDo-3p-dn5"/>
+                                    <constraint firstItem="mRd-zd-CXO" firstAttribute="leading" secondItem="KjY-cR-XW1" secondAttribute="leading" constant="16" id="fuT-67-0no"/>
+                                    <constraint firstItem="NM3-R9-Q2m" firstAttribute="top" secondItem="AEU-dC-fpv" secondAttribute="top" constant="24" id="kZX-gg-yrC"/>
+                                    <constraint firstAttribute="bottom" secondItem="NM3-R9-Q2m" secondAttribute="bottom" constant="32" id="w0m-SZ-y1r"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="aZ3-rR-Hgs"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="AEU-dC-fpv" firstAttribute="top" secondItem="mRd-zd-CXO" secondAttribute="bottom" constant="16" id="4Kp-J1-0Zr"/>
                             <constraint firstItem="aZ3-rR-Hgs" firstAttribute="trailing" secondItem="0G5-WI-O6X" secondAttribute="trailing" id="63Q-Ni-qyL"/>
                             <constraint firstItem="0G5-WI-O6X" firstAttribute="leading" secondItem="aZ3-rR-Hgs" secondAttribute="leading" id="6LS-gX-1XR"/>
-                            <constraint firstItem="0G5-WI-O6X" firstAttribute="height" secondItem="aZ3-rR-Hgs" secondAttribute="width" multiplier="1.1" id="8dV-sa-s09"/>
-                            <constraint firstItem="AEU-dC-fpv" firstAttribute="leading" secondItem="aZ3-rR-Hgs" secondAttribute="leading" constant="16" id="ASS-2A-vBb"/>
-                            <constraint firstItem="NM3-R9-Q2m" firstAttribute="centerX" secondItem="aZ3-rR-Hgs" secondAttribute="centerX" id="BEZ-en-VZZ"/>
-                            <constraint firstItem="3IV-Di-PH2" firstAttribute="centerY" secondItem="0G5-WI-O6X" secondAttribute="centerY" id="CHw-oW-ydo"/>
-                            <constraint firstItem="mRd-zd-CXO" firstAttribute="leading" secondItem="aZ3-rR-Hgs" secondAttribute="leading" constant="16" id="Dx0-jN-ugk"/>
-                            <constraint firstItem="D5Y-eU-3dD" firstAttribute="centerX" secondItem="0G5-WI-O6X" secondAttribute="centerX" id="IBQ-xx-7pk"/>
-                            <constraint firstItem="3IV-Di-PH2" firstAttribute="centerX" secondItem="0G5-WI-O6X" secondAttribute="centerX" id="IlA-6E-lUH"/>
+                            <constraint firstItem="3IV-Di-PH2" firstAttribute="centerX" secondItem="0G5-WI-O6X" secondAttribute="centerX" id="6N1-vc-u2M"/>
+                            <constraint firstItem="KjY-cR-XW1" firstAttribute="leading" secondItem="aZ3-rR-Hgs" secondAttribute="leading" id="9Gc-6h-B9E"/>
+                            <constraint firstItem="aZ3-rR-Hgs" firstAttribute="bottom" secondItem="KjY-cR-XW1" secondAttribute="bottom" id="9J6-GB-Omw"/>
+                            <constraint firstItem="3IV-Di-PH2" firstAttribute="centerY" secondItem="0G5-WI-O6X" secondAttribute="centerY" id="BXZ-jJ-3Xb"/>
                             <constraint firstItem="0G5-WI-O6X" firstAttribute="centerX" secondItem="aZ3-rR-Hgs" secondAttribute="centerX" id="J5S-Cr-MuO"/>
-                            <constraint firstItem="NM3-R9-Q2m" firstAttribute="top" secondItem="AEU-dC-fpv" secondAttribute="bottom" constant="24" id="Lcb-u9-P9d"/>
+                            <constraint firstItem="aZ3-rR-Hgs" firstAttribute="trailing" secondItem="KjY-cR-XW1" secondAttribute="trailing" id="NB2-n8-kHi"/>
                             <constraint firstItem="0G5-WI-O6X" firstAttribute="top" secondItem="aZ3-rR-Hgs" secondAttribute="top" id="Xae-Fn-FIo"/>
-                            <constraint firstItem="mRd-zd-CXO" firstAttribute="top" secondItem="0G5-WI-O6X" secondAttribute="bottom" constant="32" id="e5I-of-0h7"/>
-                            <constraint firstItem="0G5-WI-O6X" firstAttribute="bottom" secondItem="D5Y-eU-3dD" secondAttribute="bottom" constant="16" id="kNy-SB-QEe"/>
+                            <constraint firstItem="0G5-WI-O6X" firstAttribute="bottom" secondItem="KjY-cR-XW1" secondAttribute="top" id="e4n-w7-iif"/>
                         </constraints>
                     </view>
                     <connections>
