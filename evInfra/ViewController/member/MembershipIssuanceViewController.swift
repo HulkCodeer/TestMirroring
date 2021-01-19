@@ -103,6 +103,12 @@ class MembershipIssuanceViewController: UIViewController,
         let tap_touch = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         view.addGestureRecognizer(tap_touch)
         
+        let text = labelAgreeTerm.text
+        let textRange = NSRange(location: 0, length: (text?.count)!)
+        let attributedText = NSMutableAttributedString(string: text!)
+        attributedText.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: textRange)
+        labelAgreeTerm.attributedText = attributedText
+        
         let term_touch = UITapGestureRecognizer(target: self, action: #selector(self.handleTermTouch(recognizer:)))
         labelAgreeTerm.addGestureRecognizer(term_touch)
         

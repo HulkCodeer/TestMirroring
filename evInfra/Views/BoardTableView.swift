@@ -19,11 +19,11 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     public static let FREE_BOARD            = 2
     public static let STATION_BOARD         = 3
     
-    var boardList: Array<BoardData>!
+    var boardList: Array<BoardItem>!
     
     var tableViewDelegate: BoardTableViewDelegate?
     
-    var category:String = BoardData.BOARD_CATEGORY_FREE
+    var category:String = Board.BOARD_CATEGORY_FREE
     
     var isLastPage:Bool = false
     var isRefresh:Bool = false
@@ -156,7 +156,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         let headerValue = self.boardList[section]
         
         // 충전소 게시판의 경우 충전소 바로가기 버튼
-        if category.elementsEqual(BoardData.BOARD_CATEGORY_CHARGER) {
+        if category.elementsEqual(Board.BOARD_CATEGORY_CHARGER) {
             if headerValue.adId < 1 {
                 headerView.uGoCharger.visible()
                 headerView.uGoCharger.tag =  section
@@ -221,7 +221,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             headerView.uReplyBtn.addTarget(self, action: #selector(self.onClickReply(_:)), for: .touchUpInside)
         }
         
-        if headerValue.stationName != nil && self.category.elementsEqual(BoardData.BOARD_CATEGORY_CHARGER) {
+        if headerValue.stationName != nil && self.category.elementsEqual(Board.BOARD_CATEGORY_CHARGER) {
             headerView.uText?.text = "[\(headerValue.stationName!)]\n\(headerValue.content!)"
         } else {
             headerView.uText?.text = headerValue.content

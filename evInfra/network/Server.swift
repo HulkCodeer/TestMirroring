@@ -318,7 +318,7 @@ class Server {
     }
     
     // 게시판 - 카테고리별 게시판 가져오기
-    static func getBoard(category: String, companyId: String = "", page: Int = -1, count: Int = -1, mine: Bool = false, ad: Bool = true, completion: @escaping (Bool, Any) -> Void) {
+    static func getBoard(category: String, bmId: Int = -1, page: Int = -1, count: Int = -1, mine: Bool = false, ad: Bool = true, completion: @escaping (Bool, Any) -> Void) {
         var reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
             "category": category,
@@ -327,8 +327,8 @@ class Server {
             "mine": mine
         ]
         
-        if category.elementsEqual(BoardData.BOARD_CATEGORY_COMPANY) {
-            reqParam.updateValue(companyId, forKey: "company_id")
+        if category.elementsEqual(Board.BOARD_CATEGORY_COMPANY) {
+            reqParam.updateValue(bmId, forKey: "bm_id")
             reqParam.updateValue(false, forKey: "ad") // 사업자 게시판 광고 포함하지 않음
         } else {
             reqParam.updateValue(true, forKey: "ad") // true: 게시글에 광고 포함. false: 광고 불포함
@@ -343,7 +343,7 @@ class Server {
     static func getChargerBoard(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
-            "category": BoardData.BOARD_CATEGORY_CHARGER,
+            "category": Board.BOARD_CATEGORY_CHARGER,
             "charger_id": chargerId,
             "page": -1,
             "page_count": -1,
@@ -372,16 +372,15 @@ class Server {
     }
     
     // 게시판 - 카테고리별 게시판 본문 작성
-    static func postBoard(category: String, companyId: String = "", chargerId: String = "", content: String, hasImage: Int, completion: @escaping (Bool, Any) -> Void) {
+    static func postBoard(category: String, bmId: Int, chargerId: String = "", content: String, hasImage: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
             "category": category,
-            "company_id": companyId,
             "charger_id": chargerId,
+            "bm_id": bmId,
             "content": content,
             "has_image": hasImage
         ]
-        
         Alamofire.request(Const.EV_PAY_SERVER + "/board/board/create",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .responseJSON { response in responseJson(response: response, completion: completion) }
@@ -890,6 +889,16 @@ class Server {
             "mb_id": MemberManager.getMbId()
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/app_charging/getChargingId",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    static func getIntroImage(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.getMbId()
+        ]
+        Alamofire.request(Const.EV_PAY_SERVER + "/event/intro_event/intro",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }

@@ -67,6 +67,9 @@ class UserDefault {
         static let SETTINGS_CLUSTER = "allow_cluster"
         static let SETTINGS_CLUSTER_ZOOMLEVEL = "user_zoom_lev"
         
+        static let APP_INTRO_IMAGE = "app_intro_image"
+        static let APP_INTRO_END_DATE = "app_intro_end_date"
+        
         // 충전 결제
         static let CHARGING_ID = "charging_id"
         

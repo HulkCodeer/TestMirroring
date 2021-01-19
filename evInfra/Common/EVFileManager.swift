@@ -43,6 +43,11 @@ class EVFileManager {
         }
     }
     
+    func getFilePath(named : String) -> String {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask,true)[0] as NSString
+        return documentsPath.appendingPathComponent(named)
+    }
+    
     func saveImage(image: UIImage, name: String) -> Bool {
         guard let data = UIImagePNGRepresentation(image) else {
             return false
