@@ -32,7 +32,7 @@ class PaymentStatusViewController: UIViewController {
 
     @IBOutlet weak var lbDiscountMsg: UILabel!
     @IBOutlet weak var lbDiscountAmount: UILabel!
-    @IBOutlet weak var lbDiscountInfo: UILabel!
+    @IBOutlet weak var tvDiscountInfo: UITextView!
     @IBOutlet weak var discountView: UIStackView!
     @IBOutlet weak var btnStopCharging: UIButton!
     @IBOutlet weak var btnUseBerry: UIButton!
@@ -348,8 +348,17 @@ extension PaymentStatusViewController {
                     btnStopCharging.isEnabled = true
                 }
                 if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_LOTTE) {
-                    lbDiscountInfo.isHidden = false
-                    lbDiscountInfo.text = "남은 할인 금액은 회원카드 관리 메뉴 > 롯데 렌터카 카드를 클릭하시면 확인하실 수 있습니다."
+                    let discountInfoMsg = NSMutableAttributedString(string: "남은 할인 금액은 ")
+                    let selectablePart = NSMutableAttributedString(string: "회원카드 관리 메뉴 > 롯데 렌터카 카드")
+                    selectablePart.addAttribute(NSAttributedString.Key.underlineStyle, value: 1, range: NSMakeRange(0,selectablePart.length))
+                    selectablePart.addAttribute(NSAttributedString.Key.link, value: "linkToLotte", range: NSMakeRange(0,selectablePart.length))
+                    discountInfoMsg.append(selectablePart)
+                    discountInfoMsg.append(NSMutableAttributedString(string: "를 클릭하시면 확인하실 수 있습니다."))
+                    discountInfoMsg.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(rgb: 0xb2b2b2), range: NSMakeRange(0, discountInfoMsg.length))
+                    discountInfoMsg.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 15), range: NSMakeRange(0, discountInfoMsg.length))
+                    tvDiscountInfo.attributedText = discountInfoMsg
+                    tvDiscountInfo.delegate = self
+                    tvDiscountInfo.isHidden = false
                 }
             } else {
                 btnStopCharging.isEnabled = false
@@ -475,5 +484,14 @@ extension PaymentStatusViewController {
     func getChargingStartTime() -> Double {
         let date = Date().toDate(data: chargingStartTime)
         return Double(date!.timeIntervalSince1970)
+    }
+}
+
+extension PaymentStatusViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
+        let lotteInfoVC = mbsStoryboard.instantiateViewController(withIdentifier: "LotteRentInfoViewController") as! LotteRentInfoViewController
+        navigationController?.push(viewController: lotteInfoVC)
+        return false
     }
 }

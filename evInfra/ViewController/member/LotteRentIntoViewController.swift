@@ -31,7 +31,7 @@ class LotteRentInfoViewController: UIViewController {
                 if json["code"].stringValue.elementsEqual("1000") {
                     self.labelCarNo.text = json["car_no"].stringValue
                     self.labelContrDate.text = json["start_date"].stringValue + " ~ " + json["end_date"].stringValue
-                    self.labelPoint.text = json["point"].stringValue.currency()
+                    self.labelPoint.text = json["point"].stringValue.currency() + " 원"
                 }
             }
         }

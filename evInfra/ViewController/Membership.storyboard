@@ -696,7 +696,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="SI0-cc-B8d">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="525.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="515"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내 카드" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2L-5i-pGA">
                                         <rect key="frame" x="16" y="32" width="343" height="38.5"/>
@@ -762,16 +762,16 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="rSw-KL-CAa">
-                                        <rect key="frame" x="16" y="345" width="343" height="39.5"/>
+                                        <rect key="frame" x="16" y="345" width="343" height="29"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="이번 달 남은 할인 금액" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AeR-gh-ZfG">
-                                                <rect key="frame" x="0.0" y="0.0" width="299.5" height="39.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="33"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="299.5" height="29"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="000원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phV-kA-yKl">
-                                                <rect key="frame" x="299.5" y="10" width="43.5" height="19.5"/>
+                                                <rect key="frame" x="299.5" y="4.5" width="43.5" height="19.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -782,13 +782,13 @@
                                         </constraints>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="사용 안내" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ahq-LT-dh0">
-                                        <rect key="frame" x="16" y="400.5" width="343" height="19.5"/>
+                                        <rect key="frame" x="16" y="390" width="343" height="19.5"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <color key="textColor" red="0.69803921568627447" green="0.69803921568627447" blue="0.69803921568627447" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vJW-4E-mLV">
-                                        <rect key="frame" x="16" y="436" width="343" height="57.5"/>
+                                        <rect key="frame" x="16" y="425.5" width="343" height="57.5"/>
                                         <string key="text">- 충전 시 1kwh 당 15원 할인되며, 한달 최대 3000원까지 할인 받으실 수 있습니다. 
 - 할인 금액은 매월 1일 초기화 됩니다. </string>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>

@@ -5562,8 +5562,8 @@ addrDetail</string>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nme-F7-flM">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="457.5"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="5Wv-M6-w8B">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="434.5"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="446" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="5Wv-M6-w8B">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="446"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Requesting Charging" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s4l-0W-7lg">
                                                         <rect key="frame" x="16" y="32" width="343" height="20.5"/>
@@ -5789,23 +5789,23 @@ addrDetail</string>
                                                         </subviews>
                                                         <edgeInsets key="layoutMargins" top="0.0" left="8" bottom="0.0" right="0.0"/>
                                                     </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mDQ-9K-OeK">
-                                                        <rect key="frame" x="16" y="364.5" width="343" height="19.5"/>
+                                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mDQ-9K-OeK">
+                                                        <rect key="frame" x="16" y="358.5" width="343" height="0.0"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="할인 금액" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="li4-jH-DQN">
-                                                                <rect key="frame" x="8" y="0.0" width="60" height="19.5"/>
+                                                                <rect key="frame" x="8" y="0.0" width="60" height="0.0"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="롯데렌터카 1kwh당 15원 할인" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u73-IF-I58">
-                                                                <rect key="frame" x="68" y="0.0" width="200" height="19.5"/>
+                                                                <rect key="frame" x="68" y="0.0" width="200" height="0.0"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <color key="textColor" red="0.74117647060000003" green="0.74117647060000003" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="- 0원" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7JO-Sl-T2b">
-                                                                <rect key="frame" x="268" y="0.0" width="75" height="19.5"/>
+                                                                <rect key="frame" x="268" y="0.0" width="75" height="0.0"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="75" id="SRM-Go-yVp"/>
                                                                 </constraints>
@@ -5817,16 +5817,20 @@ addrDetail</string>
                                                         <edgeInsets key="layoutMargins" top="0.0" left="8" bottom="0.0" right="0.0"/>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SPp-5y-FbJ">
-                                                        <rect key="frame" x="16" y="396" width="343" height="38.5"/>
+                                                        <rect key="frame" x="16" y="364.5" width="343" height="81.5"/>
                                                         <subviews>
-                                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="남은 할인 금액은 회원카드 관리 메뉴 &gt; 롯데 렌터카 카드를 클릭하시면 확인하실 수 있습니다." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dvt-W0-g0C">
-                                                                <rect key="frame" x="8" y="0.0" width="335" height="38.5"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                                <color key="textColor" red="0.69803921568627447" green="0.69803921568627447" blue="0.69803921568627447" alpha="1" colorSpace="calibratedRGB"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
+                                                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="남은 할인 금액은 회원카드 관리 메뉴 &gt; 롯데 렌터카 카드를 클릭하시면 확인하실 수 있습니다." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ztd-XR-rJR">
+                                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="50"/>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="50" id="lI0-oC-KAb"/>
+                                                                </constraints>
+                                                                <color key="textColor" red="0.69803921570000005" green="0.69803921570000005" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                            </textView>
                                                         </subviews>
-                                                        <edgeInsets key="layoutMargins" top="0.0" left="8" bottom="0.0" right="0.0"/>
+                                                        <edgeInsets key="layoutMargins" top="0.0" left="4" bottom="0.0" right="0.0"/>
                                                     </stackView>
                                                 </subviews>
                                                 <edgeInsets key="layoutMargins" top="32" left="16" bottom="0.0" right="16"/>
@@ -5949,8 +5953,8 @@ addrDetail</string>
                         <outlet property="lbChargeSpeed" destination="m8I-fy-Eyn" id="4uF-Qd-Q4Z"/>
                         <outlet property="lbChargeTotalFee" destination="JGo-k1-dAu" id="oOD-j8-T7c"/>
                         <outlet property="lbDiscountAmount" destination="7JO-Sl-T2b" id="Zaw-hr-bsP"/>
-                        <outlet property="lbDiscountInfo" destination="dvt-W0-g0C" id="Z0x-N3-Dng"/>
                         <outlet property="lbDiscountMsg" destination="u73-IF-I58" id="JjY-mX-jkQ"/>
+                        <outlet property="tvDiscountInfo" destination="ztd-XR-rJR" id="0rP-UQ-rug"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hb3-vd-zqi" userLabel="First Responder" sceneMemberID="firstResponder"/>
