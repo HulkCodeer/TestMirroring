@@ -41,6 +41,9 @@ class ChargingStatus: Decodable {
 
     var cardNumber: String?
     var cardCo: String?
+    
+    var discountAmt: String?
+    var discountMsg: String?
 
     enum CodingKeys: String, CodingKey {
         case code = "code"
@@ -74,6 +77,9 @@ class ChargingStatus: Decodable {
 
         case card_nm = "card_nm"
         case card_co = "card_co"
+        
+        case discount_amt = "discount_amt"
+        case discount_msg = "discount_msg"
     }
 
     required init() {
@@ -114,5 +120,8 @@ class ChargingStatus: Decodable {
 
         cardNumber = try values.decodeIfPresent(String.self, forKey: .card_nm)
         cardCo = try values.decodeIfPresent(String.self, forKey: .card_co)
+        
+        discountAmt = try values.decodeIfPresent(String.self, forKey: .discount_amt)
+        discountMsg = try values.decodeIfPresent(String.self, forKey: .discount_msg)
     }
 }

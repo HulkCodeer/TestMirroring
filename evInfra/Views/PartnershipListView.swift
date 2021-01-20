@@ -97,7 +97,7 @@ class PartnershipListView : UIView {
         viewEvinfraList.addGestureRecognizer(ev_touch)
         
         let lotte_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickLotteRent))
-        viewEvinfraList.addGestureRecognizer(lotte_touch)
+        viewLotteList.addGestureRecognizer(lotte_touch)
         
         let add_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickAddBtn))
         btnAddCard.addGestureRecognizer(add_touch)

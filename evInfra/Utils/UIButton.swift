@@ -68,12 +68,12 @@ public extension UIButton {
         if let layers = layer.sublayers {
             for layer in layers{
                 if let name = layer.name{
-                if name.elementsEqual("borderLayer"){
-                    layer.removeFromSuperlayer()
+                    if name.elementsEqual("borderLayer"){
+                        layer.removeFromSuperlayer()
+                    }
                 }
             }
-        }
-        layer.addSublayer(borderLayer)
+            layer.addSublayer(borderLayer)
         }
     }
     

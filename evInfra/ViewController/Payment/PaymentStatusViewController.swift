@@ -30,10 +30,10 @@ class PaymentStatusViewController: UIViewController {
     
     @IBOutlet weak var chronometer: Chronometer!
 
-    @IBOutlet var discountView: UIStackView!
-    @IBOutlet var lbDiscountMsg: UILabel!
-    @IBOutlet var lbDiscountAmount: UILabel!
-    @IBOutlet var lbDiscountInfo: UILabel!
+    @IBOutlet weak var lbDiscountMsg: UILabel!
+    @IBOutlet weak var lbDiscountAmount: UILabel!
+    @IBOutlet weak var lbDiscountInfo: UILabel!
+    @IBOutlet weak var discountView: UIStackView!
     @IBOutlet weak var btnStopCharging: UIButton!
     @IBOutlet weak var btnUseBerry: UIButton!
     
@@ -292,6 +292,8 @@ extension PaymentStatusViewController {
         chargingStatus.fee = response["fee"].string ?? ""
         chargingStatus.stationName = response["snm"].string ?? ""
         chargingStatus.companyId = response["company_id"].string ?? ""
+        chargingStatus.discountAmt = response["discount_amt"].string ?? ""
+        chargingStatus.discountMsg = response["discount_msg"].string ?? ""
     }
     
     func responseStop(response: JSON) {
@@ -345,10 +347,23 @@ extension PaymentStatusViewController {
                 if isStopCharging == false {
                     btnStopCharging.isEnabled = true
                 }
+                if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_LOTTE) {
+                    lbDiscountInfo.isHidden = false
+                    lbDiscountInfo.text = "남은 할인 금액은 회원카드 관리 메뉴 > 롯데 렌터카 카드를 클릭하시면 확인하실 수 있습니다."
+                }
             } else {
                 btnStopCharging.isEnabled = false
             }
         }
+        
+        // SKRent 한전 충전시 베리사용 막음
+        if let companyId = chargingStatus.companyId {
+            if companyId.elementsEqual(CompanyInfo.COMPANY_ID_KEPCO)
+                        && MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR) {
+                btnUseBerry.isEnabled = false
+            }
+        }
+
         
         // 포인트
         var point = 0.0;
@@ -401,14 +416,24 @@ extension PaymentStatusViewController {
                 let chargePower = "\(chargingKw) Kw"
                 lbChargePower.text = chargePower
 
+                var discountAmt = 0.0;
+                if let discountAmtStr = chargingStatus.discountAmt, !discountAmtStr.isEmpty {
+                    discountAmt = Double(discountAmtStr) ?? 0.0
+                    if discountAmt > 0 {
+                        discountView.isHidden = false
+                        lbDiscountAmount.text = discountAmtStr.currency() + " 원"
+                        lbDiscountMsg.text = chargingStatus.discountMsg
+                    }
+                }
+                
                 if let feeStr = chargingStatus.fee {
                     // 충전 요금
                     lbChargeFee.text = feeStr.currency() + " 원"
                     
                     // 총 결제 금액
                     let fee = feeStr.parseDouble() ?? 0.0
-                    let totalFee = (fee > point) ? fee - point : 0
-                    lbChargeTotalFee.text = String(totalFee).currency() + " 원"
+                    let totalFee = (fee > (point + discountAmt)) ? fee - (point + discountAmt) : 0
+                    lbChargeTotalFee.text = String(totalFee).currency()
                 }
                 
                 // 충전속도

@@ -189,8 +189,12 @@ extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
                         self.showInvalidQrResultDialog()
                     }
                 } else {
+                    print("validation error")
                     self.showInvalidQrResultDialog()
                 }
+            } else {
+                print("validation error")
+                self.showInvalidQrResultDialog()
             }
         }
     }
