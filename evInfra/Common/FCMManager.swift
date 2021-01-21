@@ -22,6 +22,7 @@ class FCMManager {
     static let TARGET_CHARGING_STATUS_FIX = "06"
     static let TARGET_COUPON = "07"
     static let TARGET_POINT  = "08";
+    static let TARGET_MEMBERSHIP = "09";
     
     static let FCM_REQUEST_PAYMENT_STATUS = "fcm_request_payment_status"
     static let sharedInstance = FCMManager()
@@ -141,6 +142,10 @@ class FCMManager {
                     
                 case FCMManager.TARGET_POINT:  // 포인트 적립
                     getPointData(navigationController: navigationController)
+                    
+                case FCMManager.TARGET_MEMBERSHIP:  // 제휴 서비스
+                    getMembershipData(navigationController: navigationController)
+                    
                 default:
                     print("alertMessage() default")
                 }
@@ -224,7 +229,7 @@ class FCMManager {
     
     func getPointData(navigationController: AppNavigationController?) {
         if let visableControll = navigationController?.visibleViewController {
-            if visableControll.isKind(of: ReportBoardViewController.self) {
+            if visableControll.isKind(of: PointViewController.self) {
                 visableControll.viewDidLoad()
                 return
             } else {
@@ -232,6 +237,24 @@ class FCMManager {
                     if let navigation = navigationController {
                         let pointVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
                         navigation.push(viewController: pointVC)
+                    }
+                } else {
+                    MemberManager().showLoginAlert(vc: visableControll)
+                }
+            }
+        }
+    }
+    
+    func getMembershipData(navigationController: AppNavigationController?) {
+        if let visableControll = navigationController?.visibleViewController {
+            if visableControll.isKind(of: LotteRentInfoViewController.self) {
+                visableControll.viewDidLoad()
+                return
+            } else {
+                if MemberManager().isLogin() {
+                    if let navigation = navigationController {
+                        let membershipVC = UIStoryboard(name: "Membership", bundle: nil).instantiateViewController(withIdentifier: "LotteRentInfoViewController") as! LotteRentInfoViewController
+                        navigation.push(viewController: membershipVC)
                     }
                 } else {
                     MemberManager().showLoginAlert(vc: visableControll)
