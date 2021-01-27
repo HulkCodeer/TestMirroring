@@ -23,6 +23,7 @@ class ReceiptView: UIView {
     @IBOutlet weak var labelChargingKw: UILabel!
     @IBOutlet weak var labelFee: UILabel!
     @IBOutlet weak var labelUsedPoint: UILabel!
+    @IBOutlet weak var labelDiscountAmt: UILabel!
     
     @IBOutlet weak var labelTotalFee: UILabel!
     
@@ -62,7 +63,7 @@ class ReceiptView: UIView {
         labelChargingKw.text = status.chargingKw // 충전량
         labelFee.text = status.fee?.currency() // 충전금액
         labelUsedPoint.text = status.usedPoint // 사용포인트
-        
+        labelDiscountAmt.text = status.discountAmt // 할인금액
         labelTotalFee.text = status.payAmount?.currency() // 승인금액
     }
 }
