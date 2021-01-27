@@ -79,6 +79,7 @@ class MainViewController: UIViewController {
     
     @IBOutlet var markerImg: UIImageView!           // 마커이미지
     @IBOutlet weak var callOutStatus: UILabel!      // 충전상태
+
     @IBOutlet var typeDemoLb: UILabel!                 // 타입(view)
     @IBOutlet var typeComboLb: UILabel!                 // 타입(view)
     @IBOutlet var typeACLb: UILabel!                 // 타입(view)
@@ -1193,7 +1194,7 @@ extension MainViewController: MainViewDelegate {
         }
         
         // 선택한 충전소 정보 표시
-        if let selectCharger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId){
+        if let selectCharger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
             showCallOut(charger: selectCharger)
         } else {
             print("Not Found Charger \(ChargerManager.sharedInstance.getChargerStationInfoList().count)")
@@ -1202,13 +1203,13 @@ extension MainViewController: MainViewDelegate {
     
     func showCallOut(charger: ChargerStationInfo) {
         selectCharger = charger
-        if (selectCharger?.mTotalType != nil){
-            setChargerTypeImage(type: (selectCharger?.mTotalType)!)
+        if let totalType = selectCharger?.mTotalType {
+            setChargerTypeImage(type: totalType)
             setChargerPower()
         }
         
-        if (selectCharger?.mStationInfoDto?.mPay != nil){
-            setChargePrice(pay: (selectCharger?.mStationInfoDto?.mPay)!)
+        if let pay = selectCharger?.mStationInfoDto?.mPay {
+            setChargePrice(pay: pay)
         }
         
         setCallOutFavoriteIcon(charger: selectCharger!)
@@ -1238,9 +1239,9 @@ extension MainViewController: MainViewDelegate {
         
         callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
         
-        if selectCharger?.getCompanyIcon() != nil{
+        if selectCharger?.getCompanyIcon() != nil {
             self.companyImg.image = selectCharger?.getCompanyIcon()
-        }else{
+        } else {
             self.companyImg.image = .none
         }
     }
@@ -1291,43 +1292,50 @@ extension MainViewController: MainViewDelegate {
     }
     
     func setChargerTypeImage(type:Int) {
-        self.typeDemoLb.isHidden = true
-        self.typeComboLb.isHidden = true
-        self.typeACLb.isHidden = true
-        self.typeSlowLb.isHidden = true
-        self.typeSuperLb.isHidden = true
-        self.typeDestiLb.isHidden = true
-        
+        // "DC차데모"
         if (type & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
-            // "DC차데모"
             self.typeDemoLb.isHidden = false
+        } else {
+            self.typeDemoLb.isHidden = true
         }
+        
+        // "DC콤보"
         if (type & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
-            // "DC콤보"
             self.typeComboLb.isHidden = false
+        } else {
+            self.typeComboLb.isHidden = true
         }
+        
+        // "AC3상"
         if (type & Const.CTYPE_AC) == Const.CTYPE_AC {
-            // "AC3상"
             self.typeACLb.isHidden = false
+        } else {
+            self.typeACLb.isHidden = true
         }
-        
+
+        // "완속"
         if (type & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
-            // "완속"
             self.typeSlowLb.isHidden = false
+        } else {
+            self.typeSlowLb.isHidden = true
         }
         
-        if ((type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER)
-        || ((type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION) {
-            
-            if (type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
-                // "슈퍼차저"
-                self.typeSuperLb.isHidden = false
-            }
-            
-            if (type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
-                // "데스티네이션"
-                self.typeDestiLb.isHidden = false
-            }
+        // "슈퍼차저"
+        if (type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
+            self.typeSuperLb.isHidden = false
+        } else {
+            self.typeSuperLb.isHidden = true
+        }
+        
+        // "데스티네이션"
+        if (type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
+            self.typeDestiLb.isHidden = false
+        } else {
+            self.typeDestiLb.isHidden = true
+        }
+        
+        DispatchQueue.main.async {
+            self.distanceLb.text = "test"
         }
     }
     
