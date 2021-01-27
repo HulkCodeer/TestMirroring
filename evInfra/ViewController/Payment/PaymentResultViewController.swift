@@ -38,6 +38,9 @@ class PaymentResultViewController: UIViewController {
     @IBOutlet weak var lbSavePoint: UILabel!
     @IBOutlet weak var lbTotalPoint: UILabel!
     
+    @IBOutlet weak var viewDiscount: UIView!
+    @IBOutlet weak var lbDiscountMsg: UILabel!
+    @IBOutlet weak var lbDiscountAmt: UILabel!
     @IBOutlet weak var lbPaymentFailMsg: UILabel!
     @IBOutlet weak var lbPaymentResultMsg: UILabel!
     
@@ -150,6 +153,8 @@ class PaymentResultViewController: UIViewController {
         chargingStatus.savePoint = response["save_point"].string ?? ""
         chargingStatus.totalPoint = response["total_point"].string ?? ""
         
+        chargingStatus.discountAmt = response["discount_amt"].string ?? ""
+        chargingStatus.discountMsg = response["discount_msg"].string ?? ""
         return chargingStatus
     }
     
@@ -166,6 +171,11 @@ class PaymentResultViewController: UIViewController {
         self.lbFinishTime.text = chargingStatus.endDate
         
         self.lbAmount.text = "\(chargingStatus.fee?.currency() ?? "0") 원"
+        if let discountAmtStr = chargingStatus.discountAmt, !discountAmtStr.isEmpty {
+            viewDiscount.isHidden = false
+            self.lbDiscountAmt.text = "\(discountAmtStr.currency()) 원"
+            self.lbDiscountMsg.text = chargingStatus.discountMsg
+        }
         self.lbPayAmount.text = "\(chargingStatus.payAmount?.currency() ?? "0") 원"
         
         self.lbUsedPoint.text = (chargingStatus.usedPoint?.currency() ?? "") + " 포인트"

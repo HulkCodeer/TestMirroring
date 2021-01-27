@@ -5978,17 +5978,17 @@ addrDetail</string>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yza-c6-RaX">
                                 <rect key="frame" x="0.0" y="36.5" width="375" height="565.5"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="537" translatesAutoresizingMaskIntoConstraints="NO" id="6Q6-Ly-ViF">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="617.5"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="k3s-p0-7e2">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="585.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="결제를 실패하였습니다. 결제등록정보를 확인하신 후 미납금액을 별도 납부 부탁드립니다. 미납금액 납부 후 EV PAY 서비스를 계속해서 이용하실 수 있습니다." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ec2-gE-mYM">
-                                                <rect key="frame" x="16" y="16" width="343" height="57.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="결제를 실패하였습니다. 결제등록정보를 확인하신 후 미납금액을 별도 납부 부탁드립니다. 미납금액 납부 후 EV PAY 서비스를 계속해서 이용하실 수 있습니다." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ec2-gE-mYM">
+                                                <rect key="frame" x="16" y="0.0" width="343" height="57.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="1" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9HP-yF-orf" userLabel="View Station Name">
-                                                <rect key="frame" x="16" y="89.5" width="343" height="32"/>
+                                                <rect key="frame" x="16" y="65.5" width="343" height="32"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_menu_ev_station" translatesAutoresizingMaskIntoConstraints="NO" id="7Dr-yh-FMo">
                                                         <rect key="frame" x="0.0" y="4" width="24" height="24"/>
@@ -5999,13 +5999,13 @@ addrDetail</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="충전소명" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mri-AK-hhr">
-                                                        <rect key="frame" x="32" y="6.5" width="56" height="19"/>
+                                                        <rect key="frame" x="32" y="6.5" width="55.5" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                         <color key="textColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWX-2g-csL">
-                                                        <rect key="frame" x="96" y="6" width="239" height="20"/>
+                                                        <rect key="frame" x="95.5" y="6" width="239.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6024,7 +6024,7 @@ addrDetail</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="unr-Cm-pZG" userLabel="View Charger KW">
-                                                <rect key="frame" x="16" y="129.5" width="343" height="32"/>
+                                                <rect key="frame" x="16" y="105.5" width="343" height="32"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_charge_quantity" translatesAutoresizingMaskIntoConstraints="NO" id="WL7-go-a8G">
                                                         <rect key="frame" x="0.0" y="4" width="24" height="24"/>
@@ -6034,13 +6034,13 @@ addrDetail</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="충전량" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YBp-eY-pEQ">
-                                                        <rect key="frame" x="32" y="6.5" width="42" height="19"/>
+                                                        <rect key="frame" x="32" y="6.5" width="42" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                         <color key="textColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Om-WT-Mhk">
-                                                        <rect key="frame" x="82" y="6" width="253" height="20"/>
+                                                        <rect key="frame" x="82" y="6" width="253" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6059,7 +6059,7 @@ addrDetail</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="thg-Fs-apm" userLabel="View Start Time">
-                                                <rect key="frame" x="16" y="169.5" width="343" height="32"/>
+                                                <rect key="frame" x="16" y="145.5" width="343" height="32"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_time" translatesAutoresizingMaskIntoConstraints="NO" id="Zpw-Bm-Mtc">
                                                         <rect key="frame" x="0.0" y="4" width="24" height="24"/>
@@ -6069,13 +6069,13 @@ addrDetail</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="충전시작" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hyJ-wW-uGq">
-                                                        <rect key="frame" x="32" y="6.5" width="56" height="19"/>
+                                                        <rect key="frame" x="32" y="6.5" width="55.5" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                         <color key="textColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UGj-jc-Kwm">
-                                                        <rect key="frame" x="96" y="6" width="239" height="20"/>
+                                                        <rect key="frame" x="95.5" y="6" width="239.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6096,16 +6096,16 @@ addrDetail</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="959-7Q-pr1" userLabel="View Finish Time">
-                                                <rect key="frame" x="16" y="209.5" width="343" height="32"/>
+                                                <rect key="frame" x="16" y="185.5" width="343" height="32"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="충전종료" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cf5-5E-Bd0">
-                                                        <rect key="frame" x="32" y="6.5" width="56" height="19"/>
+                                                        <rect key="frame" x="32" y="6.5" width="55.5" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                         <color key="textColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LD2-eh-3Hc">
-                                                        <rect key="frame" x="96" y="6" width="239" height="20"/>
+                                                        <rect key="frame" x="95.5" y="6" width="239.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6122,8 +6122,15 @@ addrDetail</string>
                                                     <constraint firstItem="LD2-eh-3Hc" firstAttribute="centerY" secondItem="959-7Q-pr1" secondAttribute="centerY" id="yXq-IC-nYX"/>
                                                 </constraints>
                                             </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="trV-fk-oLF">
+                                                <rect key="frame" x="16" y="225.5" width="343" height="8"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="8" id="RJd-Wh-MJF"/>
+                                                </constraints>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ykX-Ab-xkE" userLabel="View Use Amount">
-                                                <rect key="frame" x="16" y="265.5" width="343" height="32"/>
+                                                <rect key="frame" x="16" y="241.5" width="343" height="32"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_menu_pay_amount" translatesAutoresizingMaskIntoConstraints="NO" id="J9b-05-ISf">
                                                         <rect key="frame" x="0.0" y="4" width="24" height="24"/>
@@ -6133,13 +6140,13 @@ addrDetail</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="충전금액" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qWS-RQ-fIf">
-                                                        <rect key="frame" x="32" y="6.5" width="56" height="19"/>
+                                                        <rect key="frame" x="32" y="6.5" width="55.5" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                         <color key="textColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bwy-LF-WFb">
-                                                        <rect key="frame" x="96" y="6" width="239" height="20"/>
+                                                        <rect key="frame" x="95.5" y="6" width="239.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6157,17 +6164,51 @@ addrDetail</string>
                                                     <constraint firstItem="J9b-05-ISf" firstAttribute="centerY" secondItem="ykX-Ab-xkE" secondAttribute="centerY" id="gXt-Rt-4k0"/>
                                                 </constraints>
                                             </view>
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yCj-sO-5ap" userLabel="View Discount">
+                                                <rect key="frame" x="16" y="277.5" width="343" height="32"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="할인금액" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1rI-ig-lcm">
+                                                        <rect key="frame" x="32" y="6.5" width="55.5" height="19.5"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                                        <color key="textColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AOR-8o-Dej">
+                                                        <rect key="frame" x="103.5" y="7" width="174" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" red="0.69803921568627447" green="0.69803921568627447" blue="0.69803921568627447" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zr0-Jd-YU8">
+                                                        <rect key="frame" x="293.5" y="6" width="41.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="1rI-ig-lcm" firstAttribute="centerY" secondItem="yCj-sO-5ap" secondAttribute="centerY" id="J5e-dg-Rji"/>
+                                                    <constraint firstItem="AOR-8o-Dej" firstAttribute="centerY" secondItem="yCj-sO-5ap" secondAttribute="centerY" id="Ll7-q6-h66"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Zr0-Jd-YU8" secondAttribute="trailing" constant="8" id="Y3F-hi-duc"/>
+                                                    <constraint firstItem="Zr0-Jd-YU8" firstAttribute="leading" secondItem="AOR-8o-Dej" secondAttribute="trailing" constant="16" id="cnh-zT-kEe"/>
+                                                    <constraint firstAttribute="height" constant="32" id="f5p-ch-ofA"/>
+                                                    <constraint firstItem="Zr0-Jd-YU8" firstAttribute="centerY" secondItem="yCj-sO-5ap" secondAttribute="centerY" id="fUz-IQ-BhU"/>
+                                                    <constraint firstItem="1rI-ig-lcm" firstAttribute="leading" secondItem="yCj-sO-5ap" secondAttribute="leading" constant="32" id="iIR-2y-uYl"/>
+                                                    <constraint firstItem="AOR-8o-Dej" firstAttribute="leading" secondItem="1rI-ig-lcm" secondAttribute="trailing" constant="16" id="nAn-G4-kJ6"/>
+                                                </constraints>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="czM-as-7WT" userLabel="View Pay Amount">
-                                                <rect key="frame" x="16" y="305.5" width="343" height="32"/>
+                                                <rect key="frame" x="16" y="281.5" width="343" height="32"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="결제금액" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="52v-qr-ODn">
-                                                        <rect key="frame" x="32" y="6.5" width="56" height="19"/>
+                                                        <rect key="frame" x="32" y="6.5" width="55.5" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                         <color key="textColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b26-95-xrG">
-                                                        <rect key="frame" x="96" y="6" width="239" height="20"/>
+                                                        <rect key="frame" x="95.5" y="6" width="239.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6183,8 +6224,15 @@ addrDetail</string>
                                                     <constraint firstItem="b26-95-xrG" firstAttribute="centerY" secondItem="czM-as-7WT" secondAttribute="centerY" id="esv-rs-4zE"/>
                                                 </constraints>
                                             </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z7a-c8-YGm">
+                                                <rect key="frame" x="16" y="321.5" width="343" height="8"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="8" id="NqO-Lg-3xB"/>
+                                                </constraints>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="11b-es-mU8" userLabel="View Used Point">
-                                                <rect key="frame" x="16" y="361.5" width="343" height="32"/>
+                                                <rect key="frame" x="16" y="337.5" width="343" height="32"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_menu_point" translatesAutoresizingMaskIntoConstraints="NO" id="2NK-9f-PKv">
                                                         <rect key="frame" x="0.0" y="4" width="24" height="24"/>
@@ -6194,13 +6242,13 @@ addrDetail</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="사용포인트" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZS1-ek-JnO">
-                                                        <rect key="frame" x="32" y="6.5" width="70" height="19"/>
+                                                        <rect key="frame" x="32" y="6.5" width="69.5" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                         <color key="textColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAj-HK-s2H">
-                                                        <rect key="frame" x="110" y="6" width="225" height="20"/>
+                                                        <rect key="frame" x="109.5" y="6" width="225.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6221,7 +6269,7 @@ addrDetail</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GvF-EM-un3" userLabel="View Save Point">
-                                                <rect key="frame" x="16" y="401.5" width="343" height="32"/>
+                                                <rect key="frame" x="16" y="377.5" width="343" height="32"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_menu_point" translatesAutoresizingMaskIntoConstraints="NO" id="i3c-9o-aTk">
                                                         <rect key="frame" x="0.0" y="4" width="24" height="24"/>
@@ -6231,13 +6279,13 @@ addrDetail</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="적립포인트" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ua5-dW-g1G">
-                                                        <rect key="frame" x="32" y="6.5" width="70" height="19"/>
+                                                        <rect key="frame" x="32" y="6.5" width="69.5" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                         <color key="textColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hDd-YY-Azj">
-                                                        <rect key="frame" x="110" y="6" width="225" height="20"/>
+                                                        <rect key="frame" x="109.5" y="6" width="225.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6258,7 +6306,7 @@ addrDetail</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nyh-bh-Qkk" userLabel="View Total Point">
-                                                <rect key="frame" x="16" y="441.5" width="343" height="32"/>
+                                                <rect key="frame" x="16" y="417.5" width="343" height="32"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_menu_save_point" translatesAutoresizingMaskIntoConstraints="NO" id="frq-jg-MKV">
                                                         <rect key="frame" x="0.0" y="4" width="24" height="24"/>
@@ -6268,13 +6316,13 @@ addrDetail</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="보유포인트" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eu1-sU-Vyx">
-                                                        <rect key="frame" x="32" y="6.5" width="70" height="19"/>
+                                                        <rect key="frame" x="32" y="6.5" width="69.5" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                         <color key="textColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Jv-J3-Asg">
-                                                        <rect key="frame" x="110" y="6" width="225" height="20"/>
+                                                        <rect key="frame" x="109.5" y="6" width="225.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6294,8 +6342,15 @@ addrDetail</string>
                                                     <constraint firstAttribute="height" constant="32" id="gYz-8M-ayb"/>
                                                 </constraints>
                                             </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="epG-eL-0YZ">
+                                                <rect key="frame" x="16" y="457.5" width="343" height="8"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="8" id="XCI-38-azI"/>
+                                                </constraints>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="szG-Mt-xX3" userLabel="View Auth No">
-                                                <rect key="frame" x="16" y="497.5" width="343" height="32"/>
+                                                <rect key="frame" x="16" y="473.5" width="343" height="32"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_menu_pay_auth_no" translatesAutoresizingMaskIntoConstraints="NO" id="9Rb-Ox-IQT">
                                                         <rect key="frame" x="0.0" y="4" width="24" height="24"/>
@@ -6305,13 +6360,13 @@ addrDetail</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="거래번호" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kyd-eE-CN1">
-                                                        <rect key="frame" x="32" y="6.5" width="56" height="19"/>
+                                                        <rect key="frame" x="32" y="6.5" width="55.5" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                         <color key="textColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgm-fT-VPw">
-                                                        <rect key="frame" x="96" y="6" width="239" height="20"/>
+                                                        <rect key="frame" x="95.5" y="6" width="239.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6332,7 +6387,7 @@ addrDetail</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0F5-jj-6DU" userLabel="View Auth Status">
-                                                <rect key="frame" x="16" y="537.5" width="343" height="32"/>
+                                                <rect key="frame" x="16" y="513.5" width="343" height="32"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_menu_check" translatesAutoresizingMaskIntoConstraints="NO" id="iUu-A8-l3C">
                                                         <rect key="frame" x="0.0" y="4" width="24" height="24"/>
@@ -6342,13 +6397,13 @@ addrDetail</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="승인상태" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLE-88-Dyc">
-                                                        <rect key="frame" x="32" y="6.5" width="56" height="19"/>
+                                                        <rect key="frame" x="32" y="6.5" width="55.5" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                         <color key="textColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfM-QY-8EM">
-                                                        <rect key="frame" x="96" y="6" width="239" height="20"/>
+                                                        <rect key="frame" x="95.5" y="6" width="239.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6369,7 +6424,7 @@ addrDetail</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Oe-r9-E25" userLabel="View Auth Msg">
-                                                <rect key="frame" x="16" y="577.5" width="343" height="32"/>
+                                                <rect key="frame" x="16" y="553.5" width="343" height="32"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_menu_message" translatesAutoresizingMaskIntoConstraints="NO" id="2P4-ED-KoN">
                                                         <rect key="frame" x="0.0" y="4" width="24" height="24"/>
@@ -6379,13 +6434,13 @@ addrDetail</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="승인메시지" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4G-W4-kFa">
-                                                        <rect key="frame" x="32" y="6.5" width="70" height="19"/>
+                                                        <rect key="frame" x="32" y="6.5" width="69.5" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                         <color key="textColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VEJ-qn-1Ei">
-                                                        <rect key="frame" x="110" y="6" width="225" height="20"/>
+                                                        <rect key="frame" x="109.5" y="6" width="225.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6406,57 +6461,15 @@ addrDetail</string>
                                                 </constraints>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="11b-es-mU8" secondAttribute="trailing" constant="16" id="1ga-li-agX"/>
-                                            <constraint firstItem="ec2-gE-mYM" firstAttribute="top" secondItem="6Q6-Ly-ViF" secondAttribute="top" constant="16" id="4x5-Is-NxV"/>
-                                            <constraint firstItem="ykX-Ab-xkE" firstAttribute="top" secondItem="959-7Q-pr1" secondAttribute="bottom" constant="24" id="5AD-dF-NKb"/>
-                                            <constraint firstAttribute="bottom" secondItem="8Oe-r9-E25" secondAttribute="bottom" constant="8" id="7v4-Ff-MGp"/>
-                                            <constraint firstItem="szG-Mt-xX3" firstAttribute="top" secondItem="Nyh-bh-Qkk" secondAttribute="bottom" constant="24" id="8Gt-rs-5iQ"/>
-                                            <constraint firstItem="11b-es-mU8" firstAttribute="leading" secondItem="6Q6-Ly-ViF" secondAttribute="leading" constant="16" id="99C-u2-msT"/>
-                                            <constraint firstAttribute="trailing" secondItem="ec2-gE-mYM" secondAttribute="trailing" constant="16" id="Ani-Wk-Bpc"/>
-                                            <constraint firstItem="0F5-jj-6DU" firstAttribute="leading" secondItem="6Q6-Ly-ViF" secondAttribute="leading" constant="16" id="BMJ-At-RSH"/>
-                                            <constraint firstAttribute="trailing" secondItem="szG-Mt-xX3" secondAttribute="trailing" constant="16" id="DLx-3X-WO3"/>
-                                            <constraint firstItem="unr-Cm-pZG" firstAttribute="leading" secondItem="6Q6-Ly-ViF" secondAttribute="leading" constant="16" id="DNc-wA-Im9"/>
-                                            <constraint firstItem="8Oe-r9-E25" firstAttribute="leading" secondItem="6Q6-Ly-ViF" secondAttribute="leading" constant="16" id="Djn-jX-KIu"/>
-                                            <constraint firstItem="GvF-EM-un3" firstAttribute="top" secondItem="11b-es-mU8" secondAttribute="bottom" constant="8" id="Drb-3A-gaX"/>
-                                            <constraint firstItem="ykX-Ab-xkE" firstAttribute="leading" secondItem="6Q6-Ly-ViF" secondAttribute="leading" constant="16" id="EVN-Zi-YXP"/>
-                                            <constraint firstAttribute="trailing" secondItem="8Oe-r9-E25" secondAttribute="trailing" constant="16" id="FxH-8K-peZ"/>
-                                            <constraint firstItem="unr-Cm-pZG" firstAttribute="top" secondItem="9HP-yF-orf" secondAttribute="bottom" constant="8" id="KpB-5e-HQe"/>
-                                            <constraint firstItem="thg-Fs-apm" firstAttribute="top" secondItem="unr-Cm-pZG" secondAttribute="bottom" constant="8" id="Lc1-MV-Xpw"/>
-                                            <constraint firstItem="0F5-jj-6DU" firstAttribute="top" secondItem="szG-Mt-xX3" secondAttribute="bottom" constant="8" id="OBV-1S-qh7"/>
-                                            <constraint firstAttribute="trailing" secondItem="ykX-Ab-xkE" secondAttribute="trailing" constant="16" id="Qd9-6X-FDK"/>
-                                            <constraint firstAttribute="trailing" secondItem="unr-Cm-pZG" secondAttribute="trailing" constant="16" id="SQF-c5-KKo"/>
-                                            <constraint firstAttribute="trailing" secondItem="0F5-jj-6DU" secondAttribute="trailing" constant="16" id="WdN-bj-IUn"/>
-                                            <constraint firstAttribute="trailing" secondItem="GvF-EM-un3" secondAttribute="trailing" constant="16" id="Wlk-Xd-dz5"/>
-                                            <constraint firstAttribute="trailing" secondItem="959-7Q-pr1" secondAttribute="trailing" constant="16" id="Wxp-zD-ENT"/>
-                                            <constraint firstItem="Nyh-bh-Qkk" firstAttribute="leading" secondItem="6Q6-Ly-ViF" secondAttribute="leading" constant="16" id="YnQ-mt-Fb5"/>
-                                            <constraint firstItem="9HP-yF-orf" firstAttribute="top" secondItem="ec2-gE-mYM" secondAttribute="bottom" constant="16" id="alb-zh-PBi"/>
-                                            <constraint firstItem="czM-as-7WT" firstAttribute="leading" secondItem="6Q6-Ly-ViF" secondAttribute="leading" constant="16" id="cVW-E6-W8Z"/>
-                                            <constraint firstItem="szG-Mt-xX3" firstAttribute="leading" secondItem="6Q6-Ly-ViF" secondAttribute="leading" constant="16" id="dYy-vc-IdQ"/>
-                                            <constraint firstAttribute="trailing" secondItem="thg-Fs-apm" secondAttribute="trailing" constant="16" id="eKL-WB-lb0"/>
-                                            <constraint firstAttribute="trailing" secondItem="9HP-yF-orf" secondAttribute="trailing" constant="16" id="iWh-xT-X3B"/>
-                                            <constraint firstItem="czM-as-7WT" firstAttribute="top" secondItem="ykX-Ab-xkE" secondAttribute="bottom" constant="8" id="kb3-P2-qeO"/>
-                                            <constraint firstItem="Nyh-bh-Qkk" firstAttribute="top" secondItem="GvF-EM-un3" secondAttribute="bottom" constant="8" id="loJ-7u-4uX"/>
-                                            <constraint firstAttribute="trailing" secondItem="czM-as-7WT" secondAttribute="trailing" constant="16" id="mPO-en-Nc4"/>
-                                            <constraint firstItem="thg-Fs-apm" firstAttribute="leading" secondItem="6Q6-Ly-ViF" secondAttribute="leading" constant="16" id="o7H-NH-daK"/>
-                                            <constraint firstItem="9HP-yF-orf" firstAttribute="leading" secondItem="6Q6-Ly-ViF" secondAttribute="leading" constant="16" id="p5d-QU-mEF"/>
-                                            <constraint firstItem="ec2-gE-mYM" firstAttribute="leading" secondItem="6Q6-Ly-ViF" secondAttribute="leading" constant="16" id="p6J-ci-AaS"/>
-                                            <constraint firstItem="8Oe-r9-E25" firstAttribute="top" secondItem="0F5-jj-6DU" secondAttribute="bottom" constant="8" id="qTA-T2-y8o"/>
-                                            <constraint firstItem="GvF-EM-un3" firstAttribute="leading" secondItem="6Q6-Ly-ViF" secondAttribute="leading" constant="16" id="sz5-vU-mUf"/>
-                                            <constraint firstItem="959-7Q-pr1" firstAttribute="leading" secondItem="6Q6-Ly-ViF" secondAttribute="leading" constant="16" id="v8B-mY-bAJ"/>
-                                            <constraint firstItem="959-7Q-pr1" firstAttribute="top" secondItem="thg-Fs-apm" secondAttribute="bottom" constant="8" id="vSR-e5-IsD"/>
-                                            <constraint firstAttribute="trailing" secondItem="Nyh-bh-Qkk" secondAttribute="trailing" constant="16" id="w97-Fe-RFV"/>
-                                            <constraint firstItem="11b-es-mU8" firstAttribute="top" secondItem="czM-as-7WT" secondAttribute="bottom" constant="24" id="zxi-IG-UH6"/>
-                                        </constraints>
-                                    </view>
+                                        <edgeInsets key="layoutMargins" top="0.0" left="16" bottom="0.0" right="16"/>
+                                    </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="6Q6-Ly-ViF" firstAttribute="width" secondItem="yza-c6-RaX" secondAttribute="width" id="UCx-sA-M6p"/>
-                                    <constraint firstItem="6Q6-Ly-ViF" firstAttribute="top" secondItem="yza-c6-RaX" secondAttribute="top" id="bHZ-Yh-1ec"/>
-                                    <constraint firstAttribute="bottom" secondItem="6Q6-Ly-ViF" secondAttribute="bottom" id="dob-2D-5Yh"/>
-                                    <constraint firstAttribute="trailing" secondItem="6Q6-Ly-ViF" secondAttribute="trailing" id="kHJ-7W-EJx"/>
-                                    <constraint firstItem="6Q6-Ly-ViF" firstAttribute="leading" secondItem="yza-c6-RaX" secondAttribute="leading" id="r2a-Yc-b2X"/>
+                                    <constraint firstAttribute="bottom" secondItem="k3s-p0-7e2" secondAttribute="bottom" id="5AO-gA-x8U"/>
+                                    <constraint firstItem="k3s-p0-7e2" firstAttribute="width" secondItem="yza-c6-RaX" secondAttribute="width" id="78C-LR-xD9"/>
+                                    <constraint firstItem="k3s-p0-7e2" firstAttribute="leading" secondItem="yza-c6-RaX" secondAttribute="leading" id="R3S-ks-kq4"/>
+                                    <constraint firstItem="k3s-p0-7e2" firstAttribute="top" secondItem="yza-c6-RaX" secondAttribute="top" id="Tgw-dl-2zW"/>
+                                    <constraint firstAttribute="trailing" secondItem="k3s-p0-7e2" secondAttribute="trailing" id="hxy-J5-kva"/>
                                 </constraints>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tqQ-Ge-Gch">
@@ -6504,6 +6517,8 @@ addrDetail</string>
                         <outlet property="lbAuthMsg" destination="VEJ-qn-1Ei" id="idl-Y0-0if"/>
                         <outlet property="lbAuthNo" destination="rgm-fT-VPw" id="1os-wU-yUI"/>
                         <outlet property="lbAuthStatus" destination="zfM-QY-8EM" id="JZ2-t3-Jsa"/>
+                        <outlet property="lbDiscountAmt" destination="Zr0-Jd-YU8" id="6Z4-wR-8GG"/>
+                        <outlet property="lbDiscountMsg" destination="AOR-8o-Dej" id="inx-wV-EsB"/>
                         <outlet property="lbFinishTime" destination="LD2-eh-3Hc" id="dRa-h7-cZp"/>
                         <outlet property="lbPayAmount" destination="b26-95-xrG" id="t18-d1-eBZ"/>
                         <outlet property="lbPaymentFailMsg" destination="ec2-gE-mYM" id="rny-3M-vGH"/>
@@ -6514,6 +6529,7 @@ addrDetail</string>
                         <outlet property="lbStation" destination="tWX-2g-csL" id="VrH-Bc-Clj"/>
                         <outlet property="lbTotalPoint" destination="8Jv-J3-Asg" id="CKc-rn-sCk"/>
                         <outlet property="lbUsedPoint" destination="OAj-HK-s2H" id="qsv-AB-EvN"/>
+                        <outlet property="viewDiscount" destination="yCj-sO-5ap" id="u93-rC-H9E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sbK-GL-8vc" userLabel="First Responder" sceneMemberID="firstResponder"/>
