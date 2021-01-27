@@ -182,16 +182,17 @@ class ChargerManager {
     
     func binarySearch(_ inputArr:Array<ChargerStationInfo>, _ searchItem: ChargerStationInfo) -> Int? {
         
-        guard let chargerId = searchItem.mChargerId, let t2 = Int(chargerId) else {
+        guard let chargerId = searchItem.mChargerId else {
             return nil
         }
 
+        let t2 = chargerId
         var lowerIndex = 0
         var upperIndex = inputArr.count - 1
 
         while (true) {
             let currentIndex = (lowerIndex + upperIndex)/2
-            let t1 = Int(inputArr[currentIndex].mChargerId!)!
+            let t1 = inputArr[currentIndex].mChargerId!
             if (t1 == t2) {
                 return currentIndex
             } else if (lowerIndex > upperIndex) {
@@ -205,7 +206,7 @@ class ChargerManager {
             }
         }
     }
-
+    
     public func getChargerStationInfoById(charger_id : String) -> ChargerStationInfo? {
         let chargerStationInfo = ChargerStationInfo(charger_id)
         if let searchIndex = binarySearch(mChargerStationInfoList, chargerStationInfo) {
