@@ -203,7 +203,7 @@ class DataBaseHelper {
 
     func getStationInfoList() throws -> [StationInfoDto]?{
         let stationinfoDtoList = try mDbQueue!.inDatabase { db in
-            try StationInfoDto.filter(Column("mDel") == 0).fetchAll(db)
+            try StationInfoDto.filter(Column("mDel") == 0).order(Column("mChargerId").asc).fetchAll(db)
         }
         return stationinfoDtoList
     }
