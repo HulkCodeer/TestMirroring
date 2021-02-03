@@ -152,6 +152,7 @@ extension PointViewController {
         toolbar.setItems([btnDone], animated: false)
         
         self.datePicker.date = self.dateFormatter.date(from: self.textFieldDate.text!)!
+        self.datePicker.maximumDate = Date()
         if #available(iOS 13.4, *) {
             self.datePicker.preferredDatePickerStyle = .wheels
         }

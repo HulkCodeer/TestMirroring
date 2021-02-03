@@ -19,7 +19,7 @@ class BoardTableViewHeader: UITableViewHeaderFooterView {
     @IBOutlet weak var uChargerType: UILabel!
     
     @IBOutlet weak var uImage: UIImageView!
-    @IBOutlet weak var uText: UILabel!
+    @IBOutlet weak var uText: UITextView!
     @IBOutlet weak var uGoCharger: UIButton!
     
     @IBOutlet weak var uEditBtn: UIButton!
@@ -39,9 +39,10 @@ class BoardTableViewHeader: UITableViewHeaderFooterView {
         userImageView.layer.cornerRadius = userImageView.frame.height/2
         userImageView.clipsToBounds = true
         
-        uText.numberOfLines = 0
-        uText.lineBreakMode = .byWordWrapping
-        uText.sizeToFit()
+        uText.dataDetectorTypes = .link
+        uText.isEditable = false
+        uText.isScrollEnabled = false
+        
         uReplyCnt.text = ""
     }
 }
