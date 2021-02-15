@@ -17,6 +17,7 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         case UsingTerms        // 서비스 이용약관
         case PersonalInfoTerms // 개인정보처리방침
         case LocationTerms     // 위치기반서비스 이용약관
+        case MembershipTerms   // 회원카드 이용약관
         case Licence           // 라이센스
         case EvBonusGuide      // 보조금 안내
         case EvBonusStatus     // 보조금 현황
@@ -72,6 +73,9 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         case .LocationTerms:
             navigationItem.titleLabel.text = "위치기반서비스 이용약관"
             
+        case .MembershipTerms:
+            navigationItem.titleLabel.text = "회원카드 이용약관"
+            
         case .Licence:
             navigationItem.titleLabel.text = "라이센스"
             
@@ -112,6 +116,9 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         
         case .LocationTerms:
             strUrl = Const.EV_PAY_SERVER + "/terms/term/service_location"
+            
+        case .MembershipTerms:
+            strUrl = Const.EV_PAY_SERVER + "/terms/term/membership"
         
         case .Licence:
             strUrl = Const.EV_PAY_SERVER + "/terms/term/license"

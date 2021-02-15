@@ -372,9 +372,12 @@ extension LeftViewController {
                 self.navigationController?.push(viewController: eventBoardVC)
 
             case SUB_MENU_MY_COUPON: // 내 쿠폰함
-                let coponVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCouponViewController") as! MyCouponViewController
-                self.navigationController?.push(viewController: coponVC)
-
+                if MemberManager().isLogin() {
+                    let coponVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCouponViewController") as! MyCouponViewController
+                    self.navigationController?.push(viewController: coponVC)
+                }else {
+                    MemberManager().showLoginAlert(vc: self)
+                }
             default:
                 print("out of index")
             }

@@ -258,16 +258,6 @@ class MembershipIssuanceViewController: UIViewController,
         payRegistResult = json
     }
     
-    func showMembershipTerm() {
-        let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-        self.membershipTermView = MembershipTermView.init(frame: frame)
-        if let msView = self.membershipTermView {
-            msView.delegate = self
-            self.view.addSubview(msView)
-            msView.loadTerm()
-        }
-    }
-    
     func confirmMembershipTerm() {
         if let msView = self.membershipTermView {
             isConfirmTerm = true
@@ -295,7 +285,10 @@ class MembershipIssuanceViewController: UIViewController,
     
     @objc
     fileprivate func handleTermTouch(recognizer: UITapGestureRecognizer) {
-        self.showMembershipTerm()
+        let mainStoryboard = UIStoryboard(name : "Main", bundle: nil)
+        let termsVC = mainStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        termsVC.tabIndex = .MembershipTerms
+        navigationController?.push(viewController: termsVC)
     }
     
     // MARK: - KeyBoardHeight

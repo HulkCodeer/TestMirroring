@@ -17,11 +17,12 @@ class ServiceGuideViewController: UIViewController , UITableViewDelegate, UITabl
     let SUB_MENU_TERM_SERVICE  = 0
     let SUB_MENU_TERM_PERSONAL = 1
     let SUB_MENU_TERM_LOCATION = 2
-    let SUB_MENU_LICENCE       = 3
-    let SUB_MENU_CONTACT       = 4
-    let SUB_MENU_BUSINESS_INFO = 5
+    let SUB_MENU_TERM_MEMBERSHIP = 3
+    let SUB_MENU_LICENCE       = 4
+    let SUB_MENU_CONTACT       = 5
+    let SUB_MENU_BUSINESS_INFO = 6
     
-    var list = ["서비스 이용약관", "개인정보처리방침", "위치기반서비스 이용약관", "라이센스", "제휴문의", "사업자정보"]
+    var list = ["서비스 이용약관", "개인정보처리방침", "위치기반서비스 이용약관", "회원카드 이용약관", "라이센스", "제휴문의", "사업자정보"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +75,9 @@ class ServiceGuideViewController: UIViewController , UITableViewDelegate, UITabl
             
         case SUB_MENU_TERM_LOCATION: // 위치기반서비스 이용약관
             termsViewControll.tabIndex = .LocationTerms
+            
+        case SUB_MENU_TERM_MEMBERSHIP: // 회원카드 이용약관
+            termsViewControll.tabIndex = .MembershipTerms
             
         case SUB_MENU_LICENCE: // 라이센스
             termsViewControll.tabIndex = .Licence
