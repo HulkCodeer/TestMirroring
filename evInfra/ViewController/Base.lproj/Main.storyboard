@@ -7249,18 +7249,18 @@ addrDetail</string>
                                 <rect key="frame" x="16" y="0.0" width="343" height="605"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="쿠폰 번호를 입력해주세요." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xnv-Kd-AXu">
-                                        <rect key="frame" x="0.0" y="232.5" width="343" height="29"/>
+                                        <rect key="frame" x="0.0" y="155" width="343" height="29"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                         <color key="textColor" red="0.058823529411764705" green="0.19607843137254902" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="여기에 쿠폰 입력하기" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hns-Hx-C1j">
-                                        <rect key="frame" x="0.0" y="285.5" width="343" height="34"/>
+                                        <rect key="frame" x="0.0" y="208" width="343" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GLG-Se-ADV">
-                                        <rect key="frame" x="0.0" y="327.5" width="343" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="250" width="343" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.90196078431372551" green="0.16470588235294117" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -7273,9 +7273,9 @@ addrDetail</string>
                                     <constraint firstItem="Hns-Hx-C1j" firstAttribute="leading" secondItem="eFJ-at-Gkh" secondAttribute="leading" id="LmW-vH-1Le"/>
                                     <constraint firstItem="GLG-Se-ADV" firstAttribute="leading" secondItem="eFJ-at-Gkh" secondAttribute="leading" id="MyV-Y1-eRw"/>
                                     <constraint firstItem="GLG-Se-ADV" firstAttribute="top" secondItem="Hns-Hx-C1j" secondAttribute="bottom" constant="8" id="SUa-qg-hPm"/>
+                                    <constraint firstItem="Xnv-Kd-AXu" firstAttribute="top" secondItem="eFJ-at-Gkh" secondAttribute="top" constant="155" id="cau-QO-FMc"/>
                                     <constraint firstAttribute="trailing" secondItem="Hns-Hx-C1j" secondAttribute="trailing" id="o9j-UT-Gbu"/>
                                     <constraint firstItem="Hns-Hx-C1j" firstAttribute="top" secondItem="Xnv-Kd-AXu" secondAttribute="bottom" constant="24" id="pz1-iQ-tbO"/>
-                                    <constraint firstItem="Hns-Hx-C1j" firstAttribute="centerY" secondItem="eFJ-at-Gkh" secondAttribute="centerY" id="wbI-Az-qq2"/>
                                     <constraint firstItem="Xnv-Kd-AXu" firstAttribute="leading" secondItem="eFJ-at-Gkh" secondAttribute="leading" id="z6F-iN-reU"/>
                                 </constraints>
                             </view>
