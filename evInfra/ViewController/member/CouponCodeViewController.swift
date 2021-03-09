@@ -42,18 +42,16 @@ class CouponCodeViewController: UIViewController {
     }
     
     func couponRegiResponse(json: JSON) {
+        let msg:String = json["msg"].stringValue
         switch json["code"].intValue {
         case 1000:  // 베리 적립 성공
             errorLb.text = ""
-            Snackbar().show(message: "베리가 적립되었습니다.")
-        case 1304:  // DB/마더브레인 데이터 오류
-            errorLb.text = "오류로 인해 베리 적립에 실패하였습니다. \n\n자세한 사항은 고객센터(070-0000-0000)로 \n문의 바랍니다. "
-        case 1302:  // 이미 등록된 쿠폰
-            errorLb.text = "이미 등록된 쿠폰번호 입니다."
-        case 1303:  // 진행중인 이벤트가 아님
-            errorLb.text = "진행중인 이벤트가 아닙니다."
-        case 1301:
-            errorLb.text = "유효하지 않은 쿠폰입니다.\n쿠폰번호를 다시 확인해 주세요."
+            Snackbar().show(message: msg)
+        case 1304,  // DB/마더브레인 데이터 오류
+            1302,  // 이미 등록된 쿠폰
+            1303,  // 진행중인 이벤트가 아님
+            1301:  // 유효하지 않는 쿠폰번호
+            errorLb.text = msg
             break
         default:
             break
