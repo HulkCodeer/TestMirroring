@@ -7246,7 +7246,7 @@ addrDetail</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eFJ-at-Gkh">
-                                <rect key="frame" x="16" y="0.0" width="343" height="605"/>
+                                <rect key="frame" x="16" y="0.0" width="343" height="597"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="쿠폰 번호를 입력해주세요." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xnv-Kd-AXu">
                                         <rect key="frame" x="0.0" y="155" width="343" height="29"/>
@@ -7280,7 +7280,7 @@ addrDetail</string>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3IY-Yt-9mz">
-                                <rect key="frame" x="16" y="605" width="343" height="46"/>
+                                <rect key="frame" x="16" y="597" width="343" height="46"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="46" id="MKM-aZ-djA"/>
                                 </constraints>
@@ -7302,7 +7302,7 @@ addrDetail</string>
                             <constraint firstItem="3IY-Yt-9mz" firstAttribute="leading" secondItem="v1S-LH-rE8" secondAttribute="leading" constant="16" id="i5Q-kd-jXj"/>
                             <constraint firstItem="eFJ-at-Gkh" firstAttribute="top" secondItem="v1S-LH-rE8" secondAttribute="top" id="koX-4J-Tua"/>
                             <constraint firstItem="v1S-LH-rE8" firstAttribute="trailing" secondItem="3IY-Yt-9mz" secondAttribute="trailing" constant="16" id="oN0-Tk-Zzh"/>
-                            <constraint firstItem="v1S-LH-rE8" firstAttribute="bottom" secondItem="3IY-Yt-9mz" secondAttribute="bottom" constant="16" id="tpI-BU-0Ib"/>
+                            <constraint firstItem="v1S-LH-rE8" firstAttribute="bottom" secondItem="3IY-Yt-9mz" secondAttribute="bottom" constant="24" id="tpI-BU-0Ib"/>
                         </constraints>
                     </view>
                     <connections>
