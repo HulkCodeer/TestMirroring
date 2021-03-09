@@ -47,10 +47,10 @@ class CouponCodeViewController: UIViewController {
         case 1000:  // 베리 적립 성공
             errorLb.text = ""
             Snackbar().show(message: msg)
-        case 1304,  // DB/마더브레인 데이터 오류
-            1302,  // 이미 등록된 쿠폰
+        case 1301,  // 쿠폰번호 없음
+            1302,  // 이미 등록된 회원
             1303,  // 진행중인 이벤트가 아님
-            1301:  // 유효하지 않는 쿠폰번호
+            1304:  // 마더브레인 데이터 오류 혹은 DB 수정 오류 (event_coupons.value == 0)
             errorLb.text = msg
             break
         default:
