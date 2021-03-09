@@ -718,6 +718,18 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 쿠폰 - 쿠폰코드 등록
+    static func registerCoupon(couponCode:String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId(),
+            "coupon_code": couponCode
+            ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/event/coupon/register_coupon",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
     // 광고 - large image 정보 요청
     static func getAdLargeInfo(type: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [

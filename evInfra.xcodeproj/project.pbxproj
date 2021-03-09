@@ -38,6 +38,7 @@
 		4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */; };
 		4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
+		4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView.swift */; };
 		7312786820BE38C500861B3E /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786720BE38C500861B3E /* FCMManager.swift */; };
@@ -337,6 +338,7 @@
 		4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceViewController.swift; sourceTree = "<group>"; };
 		4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceTableViewCell.swift; sourceTree = "<group>"; };
 		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
+		4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponCodeViewController.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		7312786720BE38C500861B3E /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
@@ -1174,6 +1176,7 @@
 				00C75C45252ED4A000387559 /* LotteRentCertificateViewController.swift */,
 				00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */,
 				0044A04F25AEEB1500D0BB0A /* LotteRentIntoViewController.swift */,
+				4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */,
 			);
 			path = member;
 			sourceTree = "<group>";
@@ -1699,6 +1702,7 @@
 				00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */,
 				73A7B428204E81A6002E975F /* Const.swift in Sources */,
 				0056440D252DB2AB007BF78D /* MembershipQRViewController.swift in Sources */,
+				4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */,
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
 				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,
 				0012443C25A2E2EF00376CDC /* IntroImageChecker.swift in Sources */,

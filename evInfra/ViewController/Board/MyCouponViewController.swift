@@ -43,8 +43,15 @@ extension MyCouponViewController {
         backButton.tintColor = UIColor(rgb: 0x15435C)
         backButton.addTarget(self, action: #selector(onClickBackBtn), for: .touchUpInside)
         
+        let couponCodeBtn = UIButton()
+        couponCodeBtn.setTitle("쿠폰 번호 등록", for: .normal)
+        couponCodeBtn.setTitleColor(UIColor(rgb: 0x15435C), for: .normal)
+        couponCodeBtn.titleLabel?.font = .systemFont(ofSize: 14)
+        couponCodeBtn.addTarget(self, action: #selector(handlecouponCodeBtn), for: .touchUpInside)
+        
         navigationItem.hidesBackButton = true
         navigationItem.leftViews = [backButton]
+        navigationItem.rightViews = [couponCodeBtn]
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "보유쿠폰"
         self.navigationController?.isNavigationBarHidden = false
@@ -97,6 +104,14 @@ extension MyCouponViewController {
     @objc
     fileprivate func onClickBackBtn() {
         self.navigationController?.pop()
+    }
+    
+    @objc
+    fileprivate func handlecouponCodeBtn() {
+        self.indicator.startAnimating()
+        
+        let mypageVC = storyboard?.instantiateViewController(withIdentifier: "CouponCodeViewController") as! CouponCodeViewController
+        navigationController?.push(viewController: mypageVC)
     }
 }
 
@@ -192,7 +207,7 @@ extension MyCouponViewController {
                         let item: Coupon = Coupon.init()
                         
                         item.couponId = jsonRow["id"].intValue
-                        item.state = jsonRow["type"].intValue
+                        item.state = jsonRow["state"].intValue
                         item.endDate  = jsonRow["finish_date"].stringValue
                         item.description = jsonRow["description"].stringValue
                         item.imagePath = jsonRow["image"].stringValue
