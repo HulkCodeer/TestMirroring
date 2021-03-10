@@ -26,6 +26,10 @@ class CouponCodeViewController: UIViewController {
         registerCouponBtn.setDefaultBackground(cornerRadius: 10)
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+          self.view.endEditing(true)
+    }
+    
     @IBAction func onClickRegisterCoupon(_ sender: Any) {
         if let editCode = editField.text{
             let couponCode = editCode.trimmingCharacters(in: .whitespaces)
