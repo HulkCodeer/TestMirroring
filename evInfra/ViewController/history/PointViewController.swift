@@ -161,8 +161,11 @@ extension PointViewController {
     }
     
     func pickedData() {
-        let startDate = dateFormatter.date(from: textFieldStartDate.text!)!
+        var startDate = dateFormatter.date(from: textFieldStartDate.text!)!
         let endDate = dateFormatter.date(from: textFieldEndDate.text!)!
+        if startDate > endDate {
+            startDate = dateFormatter.date(from: textFieldEndDate.text!)!
+        }
         getPointHistory(isAllDate: false, startDate: startDate, endDate: endDate)
     }
     
