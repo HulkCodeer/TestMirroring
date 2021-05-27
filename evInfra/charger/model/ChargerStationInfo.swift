@@ -271,7 +271,7 @@ class ChargerStationInfo {
             if ((type & Const.CTYPE_DCDEMO) > 0 ||
                 (type & Const.CTYPE_DCCOMBO) > 0 ||
                 (type & Const.CTYPE_AC) > 0) {
-                strPower = "50kWh"
+                strPower = "50kW"
             } else if ((type & Const.CTYPE_SLOW) > 0 ||
                 (type & Const.CTYPE_DESTINATION) > 0) {
                 strPower = "완속"
@@ -279,12 +279,12 @@ class ChargerStationInfo {
             } else if ((type & Const.CTYPE_HYDROGEN) > 0) {
                 strPower = "수소"
             } else if ((type & Const.CTYPE_SUPER_CHARGER) > 0) {
-                strPower = "110kWh 이상"
+                strPower = "110kW 이상"
             } else {
                 strPower = "-"
             }
         } else {
-            strPower = "\(power)kWh"
+            strPower = "\(power)kW"
         }
         return strPower
     }

@@ -137,7 +137,7 @@ class LotteRentCertificateViewController : UIViewController,
         case RESULT_CONFIRM : // check Payment
             checkPaymentCardStatus();
             break
-        case RESILT_NOT_CERTIFIED :
+        case RESULT_NOT_CERTIFIED :
             // do nothing
             break
         case RESULT_PAY_ERROR : // Go Main
