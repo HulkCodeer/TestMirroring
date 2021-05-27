@@ -19,7 +19,7 @@ class LotteRentCertificateViewController : UIViewController,
     var carNo : String = ""
     
     let RESULT_CONFIRM = 1
-    let RESILT_NOT_CERTIFIED = 2
+    let RESULT_NOT_CERTIFIED = 2
     let RESULT_PAY_ERROR = 3
     let RESULT_DONE = 4
     
@@ -98,10 +98,13 @@ class LotteRentCertificateViewController : UIViewController,
                     self.showResultView(code : RESULT_CONFIRM, imgType : "SUCCESS", retry : false, callBtn : false, msg : "정보가 확인되었습니다.")
                     break
                 case 1204 :
-                    self.showResultView(code : RESILT_NOT_CERTIFIED, imgType : "QUESTION", retry : true, callBtn : true, msg : "기존에 등록된 회원 정보입니다.\n차량 번호를 정확하게 입력해주세요.\n\n재시도 이후에도 인증되지 않는 경우 아래 번호로 전화주시기 바랍니다.")
+                    self.showResultView(code : RESULT_NOT_CERTIFIED, imgType : "QUESTION", retry : true, callBtn : true, msg : "기존에 등록된 회원 정보입니다.\n차량 번호를 정확하게 입력해주세요.\n\n재시도 이후에도 인증되지 않는 경우 아래 번호로 전화주시기 바랍니다.")
                     break
                 case 1205 :
-                    self.showResultView(code : RESILT_NOT_CERTIFIED, imgType : "ERROR", retry : true, callBtn : true, msg : "해당 차량 정보를 등록할 수 없습니다. \n정확하게 다시 입력해주세요.\n\n재시도 이후에도 인증되지 않는 경우 아래 번호로 전화주시기 바랍니다.")
+                    self.showResultView(code : RESULT_NOT_CERTIFIED, imgType : "ERROR", retry : true, callBtn : true, msg : "해당 차량 정보를 등록할 수 없습니다.\n 롯데렌터카에서 계약인증 완료 후 차량 번호를 다시 입력해주시기 바랍니다.\n\n재시도 이후에도 인증되지 않는 경우 아래 번호로 전화주시기 바랍니다.")
+                    break
+                case 1206 :
+                    self.showResultView(code : RESULT_NOT_CERTIFIED, imgType : "ERROR", retry : true, callBtn : true, msg : "차량 등록은 계약 시작일 기준 익일부터 이용 가능합니다.\n 계약 시작일 확인 후 다시 등록해주시기 바랍니다.\n\n재시도 이후에도 인증되지 않는 경우 아래 번호로 전화주시기 바랍니다.")
                     break
                 default :
                     print("out of index")
