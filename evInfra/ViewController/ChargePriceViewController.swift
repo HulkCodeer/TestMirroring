@@ -11,6 +11,8 @@ import Material
 import SwiftyJSON
 
 class ChargePriceViewController: UIViewController {
+    @IBOutlet var lbChargePriceTitle: UILabel!
+    @IBOutlet var lbChargePriceMsg: UILabel!
     
     @IBOutlet weak var tvChargePriceMb: UITableView!
     @IBOutlet weak var tvInquiryLink: UITextView!
@@ -124,6 +126,19 @@ extension ChargePriceViewController {
                                 self.lbEVRowStPrice.text = straffic + " 원"
                             }
                         }
+                        if let strTitle = json["title"].string {
+                            if !strTitle.isEmpty {
+                                self.lbChargePriceTitle.text = strTitle
+                            }
+                        }
+                        if let strMsg = json["msg"].string {
+                            if !strMsg.isEmpty {
+                                self.lbChargePriceMsg.text = strMsg
+                            }
+                        }
+                    }else{
+                        self.lbChargePriceTitle.text = "충전요금 인상 안내"
+                        self.lbChargePriceMsg.text = "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요."
                     }
                 }
                 self.tvChargePriceMb.reloadData()
