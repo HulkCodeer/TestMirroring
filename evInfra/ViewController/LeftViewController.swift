@@ -56,7 +56,8 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     let SUB_MENU_EVINFO       = 0
     let SUB_MENU_CHARGER_INFO = 1
     let SUB_MENU_BOJO         = 2
-    let SUB_MENU_BONUS        = 3
+    let SUB_MENU_CHARGE_PRICE = 3
+    let SUB_MENU_BONUS        = 4
     
     // sub menu - 설정
     let SUB_MENU_CELL_SETTINGS = 0
@@ -159,7 +160,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         let event1Arr:Array<String> = []
         let eventArr:[Array<String>] = [event0Arr, event1Arr]
         
-        let ev0Arr = ["전기차 정보", "충전기 정보", "보조금 안내", "보조금 현황"]
+        let ev0Arr = ["전기차 정보", "충전기 정보", "보조금 안내", "충전요금 안내", "보조금 현황"]
         let ev1Arr:Array<String> = []
         let evArr:[Array<String>] = [ev0Arr, ev1Arr]
         
@@ -403,6 +404,10 @@ extension LeftViewController {
                 let bojoInfoVC: TermsViewController = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
                 bojoInfoVC.tabIndex = .EvBonusGuide
                 self.navigationController?.push(viewController: bojoInfoVC)
+                
+            case SUB_MENU_CHARGE_PRICE: // 충전요금 안내
+                let priceVC: ChargePriceViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
+                self.navigationController?.push(viewController: priceVC)
             
             case SUB_MENU_BONUS: // 보조금 현황
                 let bojoDashVC: TermsViewController = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
