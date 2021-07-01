@@ -10,7 +10,6 @@ import UIKit
 
 class MyCouponTableViewCell: UITableViewCell {
 
-
     @IBOutlet weak var couponImageView: UIImageView!
     @IBOutlet weak var couponCommentLabel: UILabel!
     @IBOutlet weak var couponEndDateLabel: UILabel!
@@ -19,12 +18,21 @@ class MyCouponTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        contentView.layer.cornerRadius = 8
+        
+        // set the values for top, left, bottom, right margins
+        let margins = UIEdgeInsets(top: 16, left: 16, bottom: 0, right: 16)
+        contentView.frame = UIEdgeInsetsInsetRect(contentView.frame, margins)
     }
 }

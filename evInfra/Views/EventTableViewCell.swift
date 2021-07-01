@@ -9,7 +9,7 @@
 import UIKit
 
 class EventTableViewCell: UITableViewCell {
-    
+
     @IBOutlet weak var eventImageView: UIImageView!
     @IBOutlet weak var eventCommentLabel: UILabel!
     @IBOutlet weak var eventEndDateLabel: UILabel!
@@ -18,12 +18,21 @@ class EventTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        contentView.layer.cornerRadius = 8
+        
+        // set the values for top, left, bottom, right margins
+        let margins = UIEdgeInsets(top: 16, left: 16, bottom: 0, right: 16)
+        contentView.frame = UIEdgeInsetsInsetRect(contentView.frame, margins)
     }
 }

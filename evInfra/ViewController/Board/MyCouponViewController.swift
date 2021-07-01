@@ -22,21 +22,20 @@ class MyCouponViewController: UIViewController {
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     
-    
     var list = Array<Coupon>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepareActionBar()
         
+        prepareActionBar()
         prepareTableView()
         
         getEventList()
     }
 }
 
-
 extension MyCouponViewController {
+    
     func prepareActionBar() {
         var backButton: IconButton!
         backButton = IconButton(image: Icon.cm.arrowBack)
@@ -87,7 +86,6 @@ extension MyCouponViewController {
             self.emptyView.isHidden = true
             self.tableView.isHidden = false
             self.tableView.reloadData()
-            
         } else {
             self.emptyView.isHidden = false
             self.tableView.isHidden = true
@@ -123,10 +121,8 @@ extension MyCouponViewController: UITableViewDelegate {
 }
 
 extension MyCouponViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.list.count <= 0 {
-            return 0
-        }
         return self.list.count
     }
     
@@ -136,7 +132,6 @@ extension MyCouponViewController: UITableViewDataSource {
         let imgurl: String = "\(Const.EV_PAY_SERVER)/assets/images/event/coupons/adapters/\(item.imagePath)"
         if !imgurl.isEmpty {
             cell.couponImageView.sd_setImage(with: URL(string: imgurl), placeholderImage: UIImage(named: "AppIcon"))
-            
         } else {
             cell.couponImageView.image = UIImage(named: "AppIcon")
             cell.couponImageView.contentMode = .scaleAspectFit
@@ -149,36 +144,41 @@ extension MyCouponViewController: UITableViewDataSource {
             case STATUS_NORMAL:
                 cell.isUserInteractionEnabled = true
                 cell.couponStatusView.isHidden = true
+                cell.couponStatusImageView.isHidden = true
+                
             // 쿠폰 기간 지남
             case STATUS_END_DATE:
                 cell.isUserInteractionEnabled = false
                 cell.couponStatusView.isHidden = false
+                cell.couponStatusImageView.isHidden = false
                 cell.couponStatusImageView.image = UIImage(named: "ic_event_outdate")
 
             // 쿠폰 사용
             case STATUS_USED:
                 cell.isUserInteractionEnabled = false
                 cell.couponStatusView.isHidden = false
+                cell.couponStatusImageView.isHidden = false
                 cell.couponStatusImageView.image = UIImage(named: "ic_event_used")
 
             // 이벤트 취소
             case STATUS_EVENT_CANCEL:
                 cell.isUserInteractionEnabled = false
                 cell.couponStatusView.isHidden = false
+                cell.couponStatusImageView.isHidden = false
                 cell.couponStatusImageView.image = UIImage(named: "ic_event_end")
 
             // 취소된 쿠폰
             case STATUS_CANCELED:
                 cell.isUserInteractionEnabled = false
                 cell.couponStatusView.isHidden = false
+                cell.couponStatusImageView.isHidden = false
                 cell.couponStatusImageView.image = UIImage(named: "ic_event_canceled")
             
             default:
                 cell.isUserInteractionEnabled = true
                 cell.couponStatusView.isHidden = true
-            
+                cell.couponStatusImageView.isHidden = true
         }
-        
         
         return cell
     }
@@ -212,19 +212,18 @@ extension MyCouponViewController {
                         item.description = jsonRow["description"].stringValue
                         item.imagePath = jsonRow["image"].stringValue
                         item.title = jsonRow["title"].stringValue
-                        if (item.state == 0){
+                        
+                        if (item.state == 0) {
                             let formatter = DateFormatter()
-                            let currentDate = Date()
                             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                            if let finishDate = formatter.date(from: item.endDate){
-                                if finishDate <= currentDate{
+                            if let finishDate = formatter.date(from: item.endDate) {
+                                let currentDate = Date()
+                                if finishDate <= currentDate {
                                     item.state = self.STATUS_END_DATE
                                 }
                             }
-                           
                         }
                         self.list.append(item)
-                        
                     }
                     self.list = self.list.sorted(by: {$0.state < $1.state})
                 }

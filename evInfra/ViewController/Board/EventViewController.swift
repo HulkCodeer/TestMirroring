@@ -24,16 +24,16 @@ class EventViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepareActionBar()
         
+        prepareActionBar()
         prepareTableView()
         
         getEventList()
     }
 }
 
-
 extension EventViewController {
+    
     func prepareActionBar() {
         var backButton: IconButton!
         backButton = IconButton(image: Icon.cm.arrowBack)
@@ -44,6 +44,7 @@ extension EventViewController {
         navigationItem.leftViews = [backButton]
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "이벤트"
+        
         self.navigationController?.isNavigationBarHidden = false
     }
     
@@ -52,7 +53,6 @@ extension EventViewController {
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 150.0
-        tableView.separatorColor = UIColor(rgb: 0xE4E4E4)
         tableView.tableFooterView = UIView()
         
         emptyView.isHidden = true
@@ -77,16 +77,15 @@ extension EventViewController {
             self.emptyView.isHidden = true
             self.tableView.isHidden = false
             self.tableView.reloadData()
-          
-            let defaults = UserDefault()
-            defaults.saveInt(key: UserDefault.Key.LAST_EVENT_ID, value: list[0].eventId)
+
+            UserDefault().saveInt(key: UserDefault.Key.LAST_EVENT_ID, value: list[0].eventId)
         } else {
             self.emptyView.isHidden = false
             self.tableView.isHidden = true
         }
     }
     
-    func  goToEventInfo(index: Int) {
+    func goToEventInfo(index: Int) {
         let infoVC = self.storyboard?.instantiateViewController(withIdentifier: "EventContentsViewController") as! EventContentsViewController
         infoVC.eventId = list[index].eventId
         infoVC.eventTitle = list[index].title
@@ -107,10 +106,8 @@ extension EventViewController: UITableViewDelegate {
 }
 
 extension EventViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.list.count <= 0 {
-            return 0
-        }
         return self.list.count
     }
     
@@ -120,7 +117,6 @@ extension EventViewController: UITableViewDataSource {
         let imgurl: String = "\(Const.EV_PAY_SERVER)/assets/images/event/events/adapters/\(item.imagePath)"
         if !imgurl.isEmpty {
             cell.eventImageView.sd_setImage(with: URL(string: imgurl), placeholderImage: UIImage(named: "AppIcon"))
-            
         } else {
             cell.eventImageView.image = UIImage(named: "AppIcon")
             cell.eventImageView.contentMode = .scaleAspectFit
@@ -128,28 +124,29 @@ extension EventViewController: UITableViewDataSource {
         
         cell.eventCommentLabel.text = item.description
         cell.eventEndDateLabel.text = "행사종료 : \(item.endDate)"
-        
+
         if item.state > EVENT_IN_PROGRESS {
-            if item.state == EVENT_SOLD_OUT{
+            if item.state == EVENT_SOLD_OUT {
                 cell.eventStatusImageView.image = UIImage(named: "ic_event_soldout")
-            }else{
+            } else {
                 cell.eventStatusImageView.image = UIImage(named: "ic_event_end")
             }
             cell.isUserInteractionEnabled = false
             cell.eventStatusView.isHidden = false
-            
-            
-        }else{
+            cell.eventStatusImageView.isHidden = false
+        } else {
             let formatter = DateFormatter()
-            let currentDate = Date()
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            if let finishDate = formatter.date(from: item.endDate){
-                if finishDate > currentDate{
+            if let finishDate = formatter.date(from: item.endDate) {
+                let currentDate = Date()
+                if finishDate > currentDate {
                     cell.isUserInteractionEnabled = true
                     cell.eventStatusView.isHidden = true
-                }else{
+                    cell.eventStatusImageView.isHidden = true
+                } else {
                     cell.isUserInteractionEnabled = false
                     cell.eventStatusView.isHidden = false
+                    cell.eventStatusImageView.isHidden = false
                     cell.eventStatusImageView.image = UIImage(named: "ic_event_end")
                 }
             }
@@ -167,6 +164,7 @@ extension EventViewController: UITableViewDataSource {
 }
 
 extension EventViewController {
+    
     func getEventList() {
         indicatorControll(isStart: true)
         
@@ -179,7 +177,6 @@ extension EventViewController {
                     self.updateTableView()
                     self.indicatorControll(isStart: false)
                 } else {
-                    
                     for jsonRow in json["list"].arrayValue {
                         let item: Event = Event.init()
                         
@@ -191,21 +188,20 @@ extension EventViewController {
                         item.description = jsonRow["description"].stringValue
                         item.endDate = jsonRow["finish_date"].stringValue
                         item.title = jsonRow["title"].stringValue
-                        if (item.state == 0){
+                        
+                        if (item.state == 0) {
                             let formatter = DateFormatter()
-                            let currentDate = Date()
                             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                            if let finishDate = formatter.date(from: item.endDate){
-                                if finishDate <= currentDate{
+                            if let finishDate = formatter.date(from: item.endDate) {
+                                let currentDate = Date()
+                                if finishDate <= currentDate {
                                     item.state = self.EVENT_END
                                 }
                             }
                         }
                         self.list.append(item)
-                        
                     }
                     self.list = self.list.sorted(by: {$0.state < $1.state})
-                    
                 }
                 
                 self.updateTableView()

@@ -946,6 +946,7 @@
 				DB3799F521673CEC001D8F69 /* member */,
 				739171E222C4A218007369F9 /* Payment */,
 				736813B3204513D50035FC66 /* Main.storyboard */,
+				0055D471252AA88B001133DB /* Membership.storyboard */,
 				73AD13C7203AC57A00ADD19A /* AppNavigationDrawerController.swift */,
 				73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */,
 				DB49A7802071F908002448E6 /* AppSearchBarController.swift */,
@@ -974,7 +975,6 @@
 				73D65D79235C558E00F564A2 /* SearchAddressViewDelegate.swift */,
 				4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */,
 				4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */,
-				0055D471252AA88B001133DB /* Membership.storyboard */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";

@@ -40,14 +40,6 @@ class AdvertisingDialog: UIView {
                         self.advertiseId = json["ad_id"].intValue
                         self.advertiseUrl = json["ad_url"].stringValue
                         self.imageUrl = json["ad_img"].stringValue
-                        
-                        // node.js 서버 이미지 위치: /images/ad/
-                        // moana 서버 이미지 위치: /ad/
-                        if let imgUrl = self.imageUrl {
-                            if imgUrl.hasPrefix(Const.IMG_PREFIX) {
-                                self.imageUrl = imgUrl.substring(from: Const.IMG_PREFIX.count)
-                            }
-                        }
 
                         self.commonInit()
                         break;
