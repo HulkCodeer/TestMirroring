@@ -62,7 +62,7 @@ class AdvertisingDialog: UIView {
         view.frame = bounds
         addSubview(view)
         
-        imageAd.sd_setImage(with: URL(string: "\(Const.EV_IMG_SERVER)\(imgUrl)"), placeholderImage: UIImage(named: "placeholder.png"))
+        imageAd.sd_setImage(with: URL(string: "\(Const.EI_IMG_SERVER)\(imgUrl)"), placeholderImage: UIImage(named: "placeholder.png"))
         imageAd.isUserInteractionEnabled = true
         imageAd.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onClickAdImage(sender:))))
     }

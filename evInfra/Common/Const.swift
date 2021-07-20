@@ -34,20 +34,20 @@ public class Const {
 //    public static let EV_PAY_SERVER = "http://shchoi.soft-berry.co.kr"
 
 
-    // S3 File Server
-    public static let S3_EV_INFRA = "https://s3.ap-northeast-2.amazonaws.com/ev-infra"
-    public static let urlProfileImage = S3_EV_INFRA + "/thumbnail/"
-    public static let urlBoardImage = S3_EV_INFRA + "/board/"
-    public static let urlShareImage = S3_EV_INFRA + "/share/shareimage.jpg"
+    // File Server
+    public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra"
+    public static let urlProfileImage = EI_FILE_SERVER + "/profile/"
+    public static let urlBoardImage = EI_FILE_SERVER + "/board/"
+    public static let urlShareImage = EI_FILE_SERVER + "/share_default.jpg"
     
     // image 서버
-    public static let EV_IMG_SERVER = "https://img.soft-berry.co.kr"
+    public static let EI_IMG_SERVER = "https://img.soft-berry.co.kr"
 
     // static image: 위성사진, 운영기관 로고, 전기차
-    public static let IMG_URL_COMP_MARKER = EV_IMG_SERVER + "/marker/logo/"
-    public static let IMG_URL_EV_MODEL    = EV_IMG_SERVER + "/models/"
-    public static let IMG_URL_SATELLITE   = EV_IMG_SERVER + "/satellite/"
-    public static let IMG_URL_INTRO       = EV_IMG_SERVER + "/intro/"
+    public static let IMG_URL_COMP_MARKER = EI_IMG_SERVER + "/marker/logo/"
+    public static let IMG_URL_EV_MODEL    = EI_IMG_SERVER + "/models/"
+    public static let IMG_URL_SATELLITE   = EI_IMG_SERVER + "/satellite/"
+    public static let IMG_URL_INTRO       = EI_IMG_SERVER + "/intro/"
     
     // BUCKET KIND OF IMAGE
     public static let CONTENTS_THUMBNAIL = 0
