@@ -20,6 +20,7 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         case MembershipTerms   // 회원카드 이용약관
         case Licence           // 라이센스
         case EvBonusGuide      // 보조금 안내
+        case PriceInfo         // 충전요금 안내
         case EvBonusStatus     // 보조금 현황
         case Help              // 도움말
         case BusinessInfo      // 사업자정보
@@ -85,6 +86,9 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         case .EvBonusGuide:
             navigationItem.titleLabel.text = "보조금 안내"
             
+        case .PriceInfo:
+            navigationItem.titleLabel.text = "충전요금 안내"
+            
         case .EvBonusStatus:
             navigationItem.titleLabel.text = "보조금 현황"
             
@@ -125,6 +129,9 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         
         case .EvBonusGuide:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/subsidy_guide"
+            
+        case .PriceInfo:
+            strUrl = Const.EV_PAY_SERVER + "/docs/info/charge_price_info"
         
         case .EvBonusStatus:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/subsidy_status"

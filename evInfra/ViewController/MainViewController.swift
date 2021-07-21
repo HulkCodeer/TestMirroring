@@ -553,8 +553,11 @@ class MainViewController: UIViewController {
     }
     
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
-        self.navigationController?.push(viewController:vc)
+        let priceInfoVC: TermsViewController = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        priceInfoVC.tabIndex = .PriceInfo
+        self.navigationController?.push(viewController: priceInfoVC)
+//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
+//        self.navigationController?.push(viewController:vc)
     }
     
     @IBAction func onClickFavorite(_ sender: UIButton) {

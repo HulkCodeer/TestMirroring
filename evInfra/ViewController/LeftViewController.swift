@@ -406,8 +406,12 @@ extension LeftViewController {
                 self.navigationController?.push(viewController: bojoInfoVC)
                 
             case SUB_MENU_CHARGE_PRICE: // 충전요금 안내
-                let priceVC: ChargePriceViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
-                self.navigationController?.push(viewController: priceVC)
+                let priceInfoVC: TermsViewController = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                priceInfoVC.tabIndex = .PriceInfo
+                self.navigationController?.push(viewController: priceInfoVC)
+                
+//                let priceVC: ChargePriceViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
+//                self.navigationController?.push(viewController: priceVC)
             
             case SUB_MENU_BONUS: // 보조금 현황
                 let bojoDashVC: TermsViewController = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
