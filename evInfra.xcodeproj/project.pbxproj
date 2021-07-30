@@ -25,6 +25,16 @@
 		00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */; };
 		00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C55252EF40100387559 /* HSUnderLineTextField.swift */; };
 		00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */; };
+		00FDEAE826B3B6A2006617EE /* Charge.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAE726B3B6A2006617EE /* Charge.storyboard */; };
+		00FDEAEA26B3BF1E006617EE /* Member.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAE926B3BF1E006617EE /* Member.storyboard */; };
+		00FDEAEC26B3BF47006617EE /* Payment.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAEB26B3BF47006617EE /* Payment.storyboard */; };
+		00FDEAEE26B3BF5E006617EE /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAED26B3BF5E006617EE /* Map.storyboard */; };
+		00FDEAF026B3BF8C006617EE /* Report.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAEF26B3BF8C006617EE /* Report.storyboard */; };
+		00FDEAF226B3BF97006617EE /* Board.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAF126B3BF97006617EE /* Board.storyboard */; };
+		00FDEAF426B3BFAB006617EE /* Event.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAF326B3BFAB006617EE /* Event.storyboard */; };
+		00FDEAF626B3BFB6006617EE /* Coupon.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAF526B3BFB6006617EE /* Coupon.storyboard */; };
+		00FDEAF826B3BFC1006617EE /* Other.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAF726B3BFC1006617EE /* Other.storyboard */; };
+		00FDEAFA26B3BFCF006617EE /* Info.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAF926B3BFCF006617EE /* Info.storyboard */; };
 		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
 		4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
 		421569D7259B629100D018DC /* BoardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421569D6259B629100D018DC /* BoardInfo.swift */; };
@@ -323,6 +333,16 @@
 		00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResultViewController.swift; sourceTree = "<group>"; };
 		00C75C55252EF40100387559 /* HSUnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSUnderLineTextField.swift; sourceTree = "<group>"; };
 		00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberPartnershipInfo.swift; sourceTree = "<group>"; };
+		00FDEAE726B3B6A2006617EE /* Charge.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Charge.storyboard; sourceTree = "<group>"; };
+		00FDEAE926B3BF1E006617EE /* Member.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Member.storyboard; sourceTree = "<group>"; };
+		00FDEAEB26B3BF47006617EE /* Payment.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Payment.storyboard; sourceTree = "<group>"; };
+		00FDEAED26B3BF5E006617EE /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
+		00FDEAEF26B3BF8C006617EE /* Report.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Report.storyboard; sourceTree = "<group>"; };
+		00FDEAF126B3BF97006617EE /* Board.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Board.storyboard; sourceTree = "<group>"; };
+		00FDEAF326B3BFAB006617EE /* Event.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Event.storyboard; sourceTree = "<group>"; };
+		00FDEAF526B3BFB6006617EE /* Coupon.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Coupon.storyboard; sourceTree = "<group>"; };
+		00FDEAF726B3BFC1006617EE /* Other.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Other.storyboard; sourceTree = "<group>"; };
+		00FDEAF926B3BFCF006617EE /* Info.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Info.storyboard; sourceTree = "<group>"; };
 		0BE09DF43E8F5A12E923D6B5 /* Pods-evInfra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra/Pods-evInfra.release.xcconfig"; sourceTree = "<group>"; };
 		4212A25325555775001BB124 /* OfferwallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallTableViewCell.swift; sourceTree = "<group>"; };
 		4212A25425555775001BB124 /* OfferwallTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferwallTableViewCell.xib; sourceTree = "<group>"; };
@@ -947,6 +967,7 @@
 				739171E222C4A218007369F9 /* Payment */,
 				736813B3204513D50035FC66 /* Main.storyboard */,
 				0055D471252AA88B001133DB /* Membership.storyboard */,
+				00FDEAED26B3BF5E006617EE /* Map.storyboard */,
 				73AD13C7203AC57A00ADD19A /* AppNavigationDrawerController.swift */,
 				73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */,
 				DB49A7802071F908002448E6 /* AppSearchBarController.swift */,
@@ -975,6 +996,15 @@
 				73D65D79235C558E00F564A2 /* SearchAddressViewDelegate.swift */,
 				4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */,
 				4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */,
+				00FDEAE726B3B6A2006617EE /* Charge.storyboard */,
+				00FDEAE926B3BF1E006617EE /* Member.storyboard */,
+				00FDEAEB26B3BF47006617EE /* Payment.storyboard */,
+				00FDEAEF26B3BF8C006617EE /* Report.storyboard */,
+				00FDEAF126B3BF97006617EE /* Board.storyboard */,
+				00FDEAF326B3BFAB006617EE /* Event.storyboard */,
+				00FDEAF526B3BFB6006617EE /* Coupon.storyboard */,
+				00FDEAF726B3BFC1006617EE /* Other.storyboard */,
+				00FDEAF926B3BFCF006617EE /* Info.storyboard */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1330,7 +1360,10 @@
 				7357594520916A37008181E9 /* kia_soul.jpg in Resources */,
 				73A7B424204E3595002E975F /* type_ac_slow.png in Resources */,
 				9098782E24EE477B00AB3DC8 /* eidev in Resources */,
+				00FDEAF426B3BFAB006617EE /* Event.storyboard in Resources */,
 				DB87607620690B370095394B /* BoardTableViewHeader.xib in Resources */,
+				00FDEAF026B3BF8C006617EE /* Report.storyboard in Resources */,
+				00FDEAE826B3B6A2006617EE /* Charge.storyboard in Resources */,
 				73A7B418204E3595002E975F /* reply_count_bg.png in Resources */,
 				73D65D822362D54000F564A2 /* MembershipTermView.xib in Resources */,
 				73A7B413204E3595002E975F /* type_dc_demo_dim.png in Resources */,
@@ -1347,6 +1380,7 @@
 				73A7B3FE204E3595002E975F /* ready_image.png in Resources */,
 				9028E07824A1B8280062A029 /* eirel in Resources */,
 				CE13858F217869B200E3F869 /* ReportChargerChildCell.xib in Resources */,
+				00FDEAEC26B3BF47006617EE /* Payment.storyboard in Resources */,
 				DB18733220A9983400790B77 /* btn_camera.png in Resources */,
 				73A7B423204E3595002E975F /* edit_normal.png in Resources */,
 				73A7B419204E3595002E975F /* edit_pressed.png in Resources */,
@@ -1355,8 +1389,10 @@
 				73EF8B6F203C85CC00D04494 /* HeadingAngleSmall.png in Resources */,
 				73A7B420204E3595002E975F /* type_ac_three.png in Resources */,
 				73A7B41C204E3595002E975F /* reply_pressed.png in Resources */,
+				00FDEAEE26B3BF5E006617EE /* Map.storyboard in Resources */,
 				73A7B3F2204E3595002E975F /* my_page_bg.jpg in Resources */,
 				732121C7203AC023000E105C /* Assets.xcassets in Resources */,
+				00FDEAF826B3BFC1006617EE /* Other.storyboard in Resources */,
 				73EF8B75203C85CC00D04494 /* poweredby.png in Resources */,
 				73A7B415204E3595002E975F /* navi_tmap.png in Resources */,
 				73A7B3F1204E3595002E975F /* type_dc_combo_dim.png in Resources */,
@@ -1383,12 +1419,14 @@
 				73A7B417204E3595002E975F /* navi_bg.jpg in Resources */,
 				732ED1CB21ED8ABB0012C67B /* DropDownCheckBoxCell.xib in Resources */,
 				73BFA04D20847A310028B35D /* BoardTableViewCell.xib in Resources */,
+				00FDEAF626B3BFB6006617EE /* Coupon.storyboard in Resources */,
 				73A7B3EF204E3595002E975F /* ic_add_circle_outline.png in Resources */,
 				7357594420916A37008181E9 /* kia_ray.jpg in Resources */,
 				73EF8B73203C85CC00D04494 /* mapbg_tlogo.png in Resources */,
 				73C31C0920A2BB04005B6C53 /* charger_acsingle.jpg in Resources */,
 				DB5C4EDD23619F5F0090139E /* AdvertisingDialog.xib in Resources */,
 				73A7B414204E3595002E975F /* expand_pressed.png in Resources */,
+				00FDEAFA26B3BFCF006617EE /* Info.storyboard in Resources */,
 				736BCE87205A892E0052C9ED /* intro_bg.jpg in Resources */,
 				73EF8B70203C85CC00D04494 /* HeadingAngleSmall@2x.png in Resources */,
 				73A7B3F4204E3595002E975F /* bubble_go.png in Resources */,
@@ -1396,10 +1434,12 @@
 				73EF8B76203C85CC00D04494 /* poweredby@2x.png in Resources */,
 				73A7B410204E3595002E975F /* type_ac_slow_dim.png in Resources */,
 				DB0D96D72052548B00BA018B /* menu_top_bg.jpg in Resources */,
+				00FDEAF226B3BF97006617EE /* Board.storyboard in Resources */,
 				73EF8B7A203C85CC00D04494 /* TrackingDotHalo@2x.png in Resources */,
 				73EF8B72203C85CC00D04494 /* icon_clustering@2x.png in Resources */,
 				73C31C0620A2BB04005B6C53 /* charger_ac3.jpg in Resources */,
 				73A7B3E8204E3595002E975F /* reply_btn_selected.png in Resources */,
+				00FDEAEA26B3BF1E006617EE /* Member.storyboard in Resources */,
 				DB87607320690B370095394B /* BoardTableViewFooter.xib in Resources */,
 				73C31C0B20A2BB04005B6C53 /* charge_normal.jpg in Resources */,
 			);

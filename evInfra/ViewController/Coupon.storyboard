@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--My Coupon View Controller-->
+        <scene sceneID="zz1-xn-6dw">
+            <objects>
+                <viewController storyboardIdentifier="MyCouponViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="khK-aI-iMh" customClass="MyCouponViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zvd-c1-BEM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="보유중인 쿠폰이 없습니다." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OJD-Dt-HX3" userLabel="emptyView">
+                                <rect key="frame" x="100" y="323.5" width="175.5" height="20.5"/>
+                                <accessibility key="accessibilityConfiguration" label="보유중인 쿠폰이 없습니다"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hoB-rB-AzL" userLabel="indicator">
+                                <rect key="frame" x="167.5" y="313.5" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="aHR-Va-Phu"/>
+                                    <constraint firstAttribute="height" constant="40" id="iBe-5W-qrg"/>
+                                </constraints>
+                            </activityIndicatorView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TvW-UO-hsP">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="MyCouponTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MyCouponTableViewCell" rowHeight="275" id="nVI-7r-E0y" customClass="MyCouponTableViewCell" customModule="evInfra" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="24.5" width="375" height="275"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nVI-7r-E0y" id="xUf-Pi-kES">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="275"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HVT-PI-Tlg" userLabel="EventImageView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="125"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="HVT-PI-Tlg" secondAttribute="height" multiplier="375:125" id="1Qb-xW-IHH"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" verticalCompressionResistancePriority="751" text="Coupon Comment" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIh-WF-3GJ">
+                                                    <rect key="frame" x="16" y="141" width="343" height="21.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <color key="textColor" red="0.098039215686274508" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Coupon End Date" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Rz-xS-9x0">
+                                                    <rect key="frame" x="16" y="170.5" width="343" height="85.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.098039215690000001" green="0.098039215690000001" blue="0.098039215690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view multipleTouchEnabled="YES" alpha="0.62999999523162842" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mSk-Sb-7Gx" userLabel="DisableView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="275"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </view>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hI4-Pw-EUi" userLabel="EventStatusView">
+                                                    <rect key="frame" x="147.5" y="97.5" width="80" height="80"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="80" id="XxO-Tr-zA0"/>
+                                                        <constraint firstAttribute="width" constant="80" id="bdg-Vi-M4L"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstItem="3Rz-xS-9x0" firstAttribute="leading" secondItem="IIh-WF-3GJ" secondAttribute="leading" id="5V5-3h-GHO"/>
+                                                <constraint firstItem="HVT-PI-Tlg" firstAttribute="top" secondItem="xUf-Pi-kES" secondAttribute="top" id="7Ri-W5-EK5"/>
+                                                <constraint firstItem="HVT-PI-Tlg" firstAttribute="leading" secondItem="xUf-Pi-kES" secondAttribute="leading" id="7YB-6A-Aiw"/>
+                                                <constraint firstAttribute="trailing" secondItem="IIh-WF-3GJ" secondAttribute="trailing" constant="16" id="A1b-z5-0ja"/>
+                                                <constraint firstAttribute="trailing" secondItem="HVT-PI-Tlg" secondAttribute="trailing" id="MfR-PS-iJQ"/>
+                                                <constraint firstItem="hI4-Pw-EUi" firstAttribute="centerX" secondItem="xUf-Pi-kES" secondAttribute="centerX" id="NUF-eM-yw8"/>
+                                                <constraint firstAttribute="trailing" secondItem="mSk-Sb-7Gx" secondAttribute="trailing" id="O1a-OD-Sav"/>
+                                                <constraint firstItem="mSk-Sb-7Gx" firstAttribute="leading" secondItem="xUf-Pi-kES" secondAttribute="leading" id="Shh-xN-oo6"/>
+                                                <constraint firstItem="3Rz-xS-9x0" firstAttribute="trailing" secondItem="IIh-WF-3GJ" secondAttribute="trailing" id="Uha-Vb-yyX"/>
+                                                <constraint firstItem="hI4-Pw-EUi" firstAttribute="centerY" secondItem="xUf-Pi-kES" secondAttribute="centerY" id="WrT-AP-LhW"/>
+                                                <constraint firstAttribute="bottom" secondItem="mSk-Sb-7Gx" secondAttribute="bottom" id="ciD-Ae-VJI"/>
+                                                <constraint firstItem="3Rz-xS-9x0" firstAttribute="top" secondItem="IIh-WF-3GJ" secondAttribute="bottom" constant="8" id="jh1-IY-uCl"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="3Rz-xS-9x0" secondAttribute="bottom" constant="8" id="lUj-gP-E5X"/>
+                                                <constraint firstItem="mSk-Sb-7Gx" firstAttribute="top" secondItem="xUf-Pi-kES" secondAttribute="top" id="wJ4-U9-QwV"/>
+                                                <constraint firstItem="IIh-WF-3GJ" firstAttribute="top" secondItem="HVT-PI-Tlg" secondAttribute="bottom" constant="16" id="wrb-UW-fF6"/>
+                                                <constraint firstItem="IIh-WF-3GJ" firstAttribute="leading" secondItem="xUf-Pi-kES" secondAttribute="leading" constant="16" id="xIP-5u-qd6"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="couponCommentLabel" destination="IIh-WF-3GJ" id="KX2-oc-ib9"/>
+                                            <outlet property="couponEndDateLabel" destination="3Rz-xS-9x0" id="0gQ-Bl-PpT"/>
+                                            <outlet property="couponImageView" destination="HVT-PI-Tlg" id="ddy-Bn-YYg"/>
+                                            <outlet property="couponStatusImageView" destination="hI4-Pw-EUi" id="b7x-eF-Zgk"/>
+                                            <outlet property="couponStatusView" destination="mSk-Sb-7Gx" id="ofn-B5-CcG"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="tLR-iz-yvI"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="TvW-UO-hsP" firstAttribute="leading" secondItem="tLR-iz-yvI" secondAttribute="leading" id="22o-6Z-Yml"/>
+                            <constraint firstItem="OJD-Dt-HX3" firstAttribute="centerX" secondItem="tLR-iz-yvI" secondAttribute="centerX" id="9sk-AG-zTJ"/>
+                            <constraint firstItem="hoB-rB-AzL" firstAttribute="centerX" secondItem="tLR-iz-yvI" secondAttribute="centerX" id="D4f-Wh-qqr"/>
+                            <constraint firstItem="TvW-UO-hsP" firstAttribute="top" secondItem="tLR-iz-yvI" secondAttribute="top" id="FmC-tY-D6E"/>
+                            <constraint firstItem="OJD-Dt-HX3" firstAttribute="centerY" secondItem="zvd-c1-BEM" secondAttribute="centerY" id="S3F-Af-4uo"/>
+                            <constraint firstItem="hoB-rB-AzL" firstAttribute="centerY" secondItem="zvd-c1-BEM" secondAttribute="centerY" id="ecq-kn-XFo"/>
+                            <constraint firstItem="TvW-UO-hsP" firstAttribute="trailing" secondItem="tLR-iz-yvI" secondAttribute="trailing" id="hGD-wO-S1S"/>
+                            <constraint firstItem="TvW-UO-hsP" firstAttribute="bottom" secondItem="tLR-iz-yvI" secondAttribute="bottom" id="szs-oK-7aa"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="emptyView" destination="OJD-Dt-HX3" id="meT-vr-GgE"/>
+                        <outlet property="indicator" destination="hoB-rB-AzL" id="TzE-Ya-vwe"/>
+                        <outlet property="tableView" destination="TvW-UO-hsP" id="MDf-Qp-3bb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AQ9-IT-2VB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2820" y="2074"/>
+        </scene>
+        <!--My Coupon Contents View Controller-->
+        <scene sceneID="OBd-Li-sCf">
+            <objects>
+                <viewController storyboardIdentifier="MyCouponContentsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="XXN-r0-dvU" customClass="MyCouponContentsViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="V50-ch-Akt">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rfq-Z8-fT9">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ZH2-Fi-m23"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="rfq-Z8-fT9" firstAttribute="top" secondItem="ZH2-Fi-m23" secondAttribute="top" id="3yA-OH-ZhJ"/>
+                            <constraint firstItem="rfq-Z8-fT9" firstAttribute="leading" secondItem="ZH2-Fi-m23" secondAttribute="leading" id="IVs-4Q-GEc"/>
+                            <constraint firstItem="rfq-Z8-fT9" firstAttribute="trailing" secondItem="ZH2-Fi-m23" secondAttribute="trailing" id="c49-fT-LnO"/>
+                            <constraint firstItem="ZH2-Fi-m23" firstAttribute="bottom" secondItem="rfq-Z8-fT9" secondAttribute="bottom" id="cif-nT-Cqm"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webViewContainer" destination="rfq-Z8-fT9" id="dmr-JR-nug"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oLD-y9-76i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3542" y="2075"/>
+        </scene>
+        <!--Coupon Code View Controller-->
+        <scene sceneID="drU-DW-szN">
+            <objects>
+                <viewController storyboardIdentifier="CouponCodeViewController" id="wZC-Ov-t9D" customClass="CouponCodeViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hjd-Lj-0me">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eFJ-at-Gkh">
+                                <rect key="frame" x="16" y="0.0" width="343" height="597"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="쿠폰 번호를 입력해주세요." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xnv-Kd-AXu">
+                                        <rect key="frame" x="0.0" y="155" width="343" height="29"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                        <color key="textColor" red="0.058823529411764705" green="0.19607843137254902" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="여기에 쿠폰 입력하기" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hns-Hx-C1j">
+                                        <rect key="frame" x="0.0" y="208" width="343" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GLG-Se-ADV">
+                                        <rect key="frame" x="0.0" y="250" width="343" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.90196078431372551" green="0.16470588235294117" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="GLG-Se-ADV" secondAttribute="trailing" id="50r-9B-UXQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="Xnv-Kd-AXu" secondAttribute="trailing" id="J8q-9e-Vwa"/>
+                                    <constraint firstItem="Hns-Hx-C1j" firstAttribute="leading" secondItem="eFJ-at-Gkh" secondAttribute="leading" id="LmW-vH-1Le"/>
+                                    <constraint firstItem="GLG-Se-ADV" firstAttribute="leading" secondItem="eFJ-at-Gkh" secondAttribute="leading" id="MyV-Y1-eRw"/>
+                                    <constraint firstItem="GLG-Se-ADV" firstAttribute="top" secondItem="Hns-Hx-C1j" secondAttribute="bottom" constant="8" id="SUa-qg-hPm"/>
+                                    <constraint firstItem="Xnv-Kd-AXu" firstAttribute="top" secondItem="eFJ-at-Gkh" secondAttribute="top" constant="155" id="cau-QO-FMc"/>
+                                    <constraint firstAttribute="trailing" secondItem="Hns-Hx-C1j" secondAttribute="trailing" id="o9j-UT-Gbu"/>
+                                    <constraint firstItem="Hns-Hx-C1j" firstAttribute="top" secondItem="Xnv-Kd-AXu" secondAttribute="bottom" constant="24" id="pz1-iQ-tbO"/>
+                                    <constraint firstItem="Xnv-Kd-AXu" firstAttribute="leading" secondItem="eFJ-at-Gkh" secondAttribute="leading" id="z6F-iN-reU"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3IY-Yt-9mz">
+                                <rect key="frame" x="16" y="597" width="343" height="46"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="46" id="MKM-aZ-djA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="쿠폰번호 등록하기">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="onClickRegisterCoupon:" destination="wZC-Ov-t9D" eventType="touchUpInside" id="lpr-s0-04b"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="v1S-LH-rE8"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="v1S-LH-rE8" firstAttribute="trailing" secondItem="eFJ-at-Gkh" secondAttribute="trailing" constant="16" id="JPm-SJ-iUh"/>
+                            <constraint firstItem="3IY-Yt-9mz" firstAttribute="top" secondItem="eFJ-at-Gkh" secondAttribute="bottom" id="JRQ-7v-2RN"/>
+                            <constraint firstItem="eFJ-at-Gkh" firstAttribute="leading" secondItem="v1S-LH-rE8" secondAttribute="leading" constant="16" id="esM-Zm-bTZ"/>
+                            <constraint firstItem="3IY-Yt-9mz" firstAttribute="leading" secondItem="v1S-LH-rE8" secondAttribute="leading" constant="16" id="i5Q-kd-jXj"/>
+                            <constraint firstItem="eFJ-at-Gkh" firstAttribute="top" secondItem="v1S-LH-rE8" secondAttribute="top" id="koX-4J-Tua"/>
+                            <constraint firstItem="v1S-LH-rE8" firstAttribute="trailing" secondItem="3IY-Yt-9mz" secondAttribute="trailing" constant="16" id="oN0-Tk-Zzh"/>
+                            <constraint firstItem="v1S-LH-rE8" firstAttribute="bottom" secondItem="3IY-Yt-9mz" secondAttribute="bottom" constant="24" id="tpI-BU-0Ib"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="editField" destination="Hns-Hx-C1j" id="jdf-Wb-px1"/>
+                        <outlet property="errorLb" destination="GLG-Se-ADV" id="cl2-mA-KeM"/>
+                        <outlet property="registerCouponBtn" destination="3IY-Yt-9mz" id="ZNs-NQ-Z5U"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ez7-1D-5Tf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4260" y="2074"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
