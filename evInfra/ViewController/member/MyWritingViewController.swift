@@ -244,7 +244,8 @@ extension MyWritingViewController: BoardTableViewDelegate {
     }
     
     func goToStation(tag: Int) {
-        let detailVC:DetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        let detailStoryboard = UIStoryboard(name : "Detail", bundle: nil)
+        let detailVC:DetailViewController = detailStoryboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         
         if let chargerId = self.boardList[tag].chargerId {
             if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {

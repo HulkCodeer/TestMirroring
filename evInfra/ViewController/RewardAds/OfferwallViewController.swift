@@ -209,7 +209,8 @@ class OfferwallViewController: UIViewController, MPRewardedVideoDelegate {
     }
     
     @IBAction func onClickMyberryBtn(_ sender: Any) {
-        let pointVC = self.storyboard?.instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
+        let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
+        let pointVC = chargeStoryboard.instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
         self.navigationController?.push(viewController: pointVC)
     }
     

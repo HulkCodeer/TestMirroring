@@ -289,7 +289,8 @@ extension PaymentQRScanViewController {
     func showRegisterCardDialog() {
         let dialogMessage = UIAlertController(title: "카드 등록 필요", message: "결제카드 등록 후 사용 가능합니다. \n카드를 등록하시려면 확인 버튼을 누르세요.", preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
-            let myPayInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPayinfoViewController") as! MyPayinfoViewController
+            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
+            let myPayInfoVC = memberStoryboard.instantiateViewController(withIdentifier: "MyPayinfoViewController") as! MyPayinfoViewController
             var vcArray = self.navigationController?.viewControllers
             vcArray!.removeLast()
             vcArray!.append(myPayInfoVC)

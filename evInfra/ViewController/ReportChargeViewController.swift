@@ -236,7 +236,8 @@ class ReportChargeViewController: UIViewController {
     }
     
     func moveSearchAddressView() {
-        let searchVC:AddressToLocationController = self.storyboard?.instantiateViewController(withIdentifier: "AddressToLocationController") as! AddressToLocationController
+        let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
+        let searchVC:AddressToLocationController = mapStoryboard.instantiateViewController(withIdentifier: "AddressToLocationController") as! AddressToLocationController
         searchVC.delegate = self
         self.present(AppSearchBarController(rootViewController: searchVC), animated: true, completion: nil)
     }

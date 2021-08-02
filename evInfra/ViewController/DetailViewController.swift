@@ -522,7 +522,8 @@ extension DetailViewController: BoardTableViewDelegate {
     }
     
     func boardEdit(tag: Int) {
-        let editVC:EditViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
+        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+        let editVC:EditViewController = boardStoryboard.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
         editVC.mode = EditViewController.BOARD_EDIT_MODE
         editVC.charger = self.charger
         editVC.originBoardData = self.boardList[tag]
@@ -554,8 +555,8 @@ extension DetailViewController: BoardTableViewDelegate {
         let section = tag / 1000
         let row = tag % 1000
         let replyValue = self.boardList[section].reply![row]
-        
-        let editVC:EditViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
+        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+        let editVC:EditViewController = boardStoryboard.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
         editVC.mode = EditViewController.REPLY_EDIT_MODE
         editVC.originReplyData = replyValue
         editVC.editViewDelegate = self
@@ -586,7 +587,8 @@ extension DetailViewController: BoardTableViewDelegate {
     }
     
     func makeReply(tag: Int) {
-        let editVC:EditViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
+        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+        let editVC:EditViewController = boardStoryboard.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
         editVC.mode = EditViewController.REPLY_NEW_MODE
         editVC.originBoardId = tag
         editVC.editViewDelegate = self
@@ -725,7 +727,8 @@ extension DetailViewController {
     
     @objc
     fileprivate func onClickEditBtn() {
-        let editVC:EditViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
+        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+        let editVC:EditViewController = boardStoryboard.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
         editVC.mode = EditViewController.BOARD_NEW_MODE
         editVC.charger = self.charger
         editVC.editViewDelegate = self //EditViewDelegate
@@ -736,7 +739,8 @@ extension DetailViewController {
     fileprivate func onClickReportChargeBtn() {
         if MemberManager().isLogin() {
             if let chargerInfo = self.charger {
-                let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
+                let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
+                let reportChargeVC = reportStoryboard.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
                 reportChargeVC.info.charger_id = chargerInfo.mChargerId
                 
                 self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)

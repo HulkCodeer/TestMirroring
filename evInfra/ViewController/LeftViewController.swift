@@ -263,14 +263,16 @@ extension LeftViewController {
             case SUB_MENU_CELL_MYPAGE:
                 switch index.row {
                 case SUB_MENU_MY_PERSONAL_INFO: // 개인정보관리
-                    let mypageVC = storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as! MyPageViewController
+                    let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
+                    let mypageVC = memberStoryboard.instantiateViewController(withIdentifier: "MyPageViewController") as! MyPageViewController
                     navigationController?.push(viewController: mypageVC)
                 
                 case SUB_MENU_MY_WRITING: // 내가 쓴 글 보기
                     var myWritingControllers = [MyWritingViewController]()
-                    let freeMineVC = storyboard?.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
+                    let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+                    let freeMineVC = boardStoryboard.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
                     freeMineVC.boardCategory = Board.BOARD_CATEGORY_FREE
-                    let chargerMineVC = storyboard?.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
+                    let chargerMineVC = boardStoryboard.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
                     chargerMineVC.boardCategory = Board.BOARD_CATEGORY_CHARGER
                     
                     myWritingControllers.append(chargerMineVC)
@@ -284,7 +286,8 @@ extension LeftViewController {
                     navigationController?.push(viewController: tabsController)
                 
                 case SUB_MENU_REPORT_STATION: // 충전소 제보 내역
-                    let reportVC = storyboard?.instantiateViewController(withIdentifier: "ReportBoardViewController") as! ReportBoardViewController
+                    let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
+                    let reportVC = reportStoryboard.instantiateViewController(withIdentifier: "ReportBoardViewController") as! ReportBoardViewController
                     navigationController?.push(viewController: reportVC)
 
                 default:
@@ -293,7 +296,8 @@ extension LeftViewController {
             case SUB_MENU_CELL_PAY:
                 switch index.row {
                 case SUB_MENU_MY_PAYMENT_INFO:
-                    let myPayInfoVC = storyboard?.instantiateViewController(withIdentifier: "MyPayinfoViewController") as! MyPayinfoViewController
+                    let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
+                    let myPayInfoVC = memberStoryboard.instantiateViewController(withIdentifier: "MyPayinfoViewController") as! MyPayinfoViewController
                     navigationController?.push(viewController: myPayInfoVC)
             
                 case SUB_MENU_MY_EVCARD_INFO: // 회원카드 관리
@@ -303,11 +307,13 @@ extension LeftViewController {
                     break
 
                 case SUB_MENU_MY_CHARGING_HISTORY: // 충전이력조회
-                    let chargesVC = storyboard?.instantiateViewController(withIdentifier: "ChargesViewController") as! ChargesViewController
+                    let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
+                    let chargesVC = chargeStoryboard.instantiateViewController(withIdentifier: "ChargesViewController") as! ChargesViewController
                     navigationController?.push(viewController: chargesVC)
 
                 case SUB_MENU_MY_POINT: // 포인트 조회
-                    let pointVC = storyboard?.instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
+                    let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
+                    let pointVC = chargeStoryboard.instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
                     navigationController?.push(viewController: pointVC)
                     break
 
@@ -327,20 +333,23 @@ extension LeftViewController {
         case SUB_MENU_CELL_BOARD:
             switch index.row {
             case SUB_MENU_NOTICE: // 공지사항
-                let noticeVC = storyboard?.instantiateViewController(withIdentifier: "NoticeViewController") as! NoticeViewController
+                let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+                let noticeVC = boardStoryboard.instantiateViewController(withIdentifier: "NoticeViewController") as! NoticeViewController
                 navigationController?.push(viewController: noticeVC)
             
             case SUB_MENU_FREE_BOARD: // 자유 게시판
                 UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
                 
-                let freeBoardVC = storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
+                let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+                let freeBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
                 freeBoardVC.category = Board.BOARD_CATEGORY_FREE
                 navigationController?.push(viewController: freeBoardVC)
             
             case SUB_MENU_CHARGER_BOARD: // 충전소 게시판
                 UserDefault().saveInt(key: UserDefault.Key.LAST_CHARGER_ID, value: Board.sharedInstance.chargeBoardId)
                 
-                let stationBoardVC = storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
+                let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+                let stationBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
                 stationBoardVC.category = Board.BOARD_CATEGORY_CHARGER
                 navigationController?.push(viewController: stationBoardVC)
             default:
@@ -352,7 +361,8 @@ extension LeftViewController {
                 if let boardInfo = Board.sharedInstance.getBoardNewInfo(title: title) {
                     UserDefault().saveInt(key: boardInfo.shardKey!, value: boardInfo.brdId!)
                     
-                    let companyBoardVC = storyboard?.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
+                    let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+                    let companyBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
                     companyBoardVC.category = Board.BOARD_CATEGORY_COMPANY
                     companyBoardVC.bmId = boardInfo.bmId!
                     companyBoardVC.brdTitle = title
@@ -369,12 +379,14 @@ extension LeftViewController {
         case SUB_MENU_CELL_EVENT:
             switch index.row {
             case SUB_MENU_EVENT: // 이벤트
-                let eventBoardVC = self.storyboard?.instantiateViewController(withIdentifier: "EventViewController") as! EventViewController
+                let eventStoryboard = UIStoryboard(name : "Event", bundle: nil)
+                let eventBoardVC = eventStoryboard.instantiateViewController(withIdentifier: "EventViewController") as! EventViewController
                 self.navigationController?.push(viewController: eventBoardVC)
 
             case SUB_MENU_MY_COUPON: // 내 쿠폰함
                 if MemberManager().isLogin() {
-                    let coponVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCouponViewController") as! MyCouponViewController
+                    let couponStoryboard = UIStoryboard(name : "Coupon", bundle: nil)
+                    let coponVC = couponStoryboard.instantiateViewController(withIdentifier: "MyCouponViewController") as! MyCouponViewController
                     self.navigationController?.push(viewController: coponVC)
                 }else {
                     MemberManager().showLoginAlert(vc: self)
@@ -392,21 +404,25 @@ extension LeftViewController {
         case SUB_MENU_CELL_EV_INFO:
             switch index.row {
             case SUB_MENU_EVINFO: // 전기차 정보
-                let evInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "EVInfoViewController") as! EvInfoViewController
+                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+                let evInfoVC = infoStoryboard.instantiateViewController(withIdentifier: "EVInfoViewController") as! EvInfoViewController
                 self.navigationController?.push(viewController: evInfoVC)
             
             case SUB_MENU_CHARGER_INFO: // 충전기 정보
-                let chargerInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "ChargerInfoViewController") as! ChargerInfoViewController
+                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+                let chargerInfoVC = infoStoryboard.instantiateViewController(withIdentifier: "ChargerInfoViewController") as! ChargerInfoViewController
                 // ChargerInfoViewController 자체 animation 사용
                 self.navigationController?.pushViewController(chargerInfoVC, animated: true)
             
             case SUB_MENU_BOJO: // 보조금 안내
-                let bojoInfoVC: TermsViewController = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
+                let bojoInfoVC: TermsViewController = otherStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
                 bojoInfoVC.tabIndex = .EvBonusGuide
                 self.navigationController?.push(viewController: bojoInfoVC)
                 
             case SUB_MENU_CHARGE_PRICE: // 충전요금 안내
-                let priceInfoVC: TermsViewController = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
+                let priceInfoVC: TermsViewController = otherStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
                 priceInfoVC.tabIndex = .PriceInfo
                 self.navigationController?.push(viewController: priceInfoVC)
                 
@@ -414,7 +430,8 @@ extension LeftViewController {
 //                self.navigationController?.push(viewController: priceVC)
             
             case SUB_MENU_BONUS: // 보조금 현황
-                let bojoDashVC: TermsViewController = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
+                let bojoDashVC: TermsViewController = otherStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
                 bojoDashVC.tabIndex = .EvBonusStatus
                 self.navigationController?.push(viewController: bojoDashVC)
             default:
@@ -431,11 +448,13 @@ extension LeftViewController {
         case SUB_MENU_CELL_SETTINGS:
             switch index.row {
             case SUB_MENU_ALL_SETTINGS: // 전체 설정
-                let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+                let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
+                let settingsVC = otherStoryboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
                 self.navigationController?.push(viewController: settingsVC)
             
             case SUB_MENU_SERVICE_GUIDE:
-                let guideVC = self.storyboard?.instantiateViewController(withIdentifier: "ServiceGuideViewController") as! ServiceGuideViewController
+                let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
+                let guideVC = otherStoryboard.instantiateViewController(withIdentifier: "ServiceGuideViewController") as! ServiceGuideViewController
                 self.navigationController?.push(viewController: guideVC)
 
             default:

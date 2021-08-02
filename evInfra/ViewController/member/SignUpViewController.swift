@@ -137,7 +137,8 @@ class SignUpViewController: UIViewController {
     }
     
     func seeTerms(index: TermsViewController.Request) {
-        let termsVc = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
+        let termsVc = otherStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         termsVc.tabIndex = index;
 
         self.navigationController?.push(viewController: termsVc)

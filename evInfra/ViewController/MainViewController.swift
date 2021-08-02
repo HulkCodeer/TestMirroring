@@ -553,7 +553,8 @@ class MainViewController: UIViewController {
     }
     
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
-        let priceInfoVC: TermsViewController = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
+        let priceInfoVC: TermsViewController = otherStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         priceInfoVC.tabIndex = .PriceInfo
         self.navigationController?.push(viewController: priceInfoVC)
 //        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
@@ -771,7 +772,8 @@ extension MainViewController: AppToolbarDelegate {
     func toolBar(didClick iconButton: IconButton, arg: Any?) {
         switch iconButton.tag {
         case 1: // 충전소 검색 버튼
-            let searchVC:SearchViewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
+            let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
+            let searchVC:SearchViewController = mapStoryboard.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
             searchVC.delegate = self
             self.present(AppSearchBarController(rootViewController: searchVC), animated: true, completion: nil)
             
@@ -1175,7 +1177,8 @@ extension MainViewController: MainViewDelegate {
     }
     
     @objc func onClickCalloutLayer(_ sender:UITapGestureRecognizer) {
-        let detailVC:DetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        let detailStoryboard = UIStoryboard(name : "Detail", bundle: nil)
+        let detailVC:DetailViewController = detailStoryboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         detailVC.mainViewDelegate = self
         detailVC.charger = self.selectCharger
         detailVC.stationInfoArr = self.stationInfoArr
@@ -1732,7 +1735,8 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainHelp(_ sender: UIButton) {
-        let termsViewControll = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
+        let termsViewControll = otherStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         termsViewControll.tabIndex = .Help
         self.navigationController?.push(viewController: termsViewControll)
 //        if MemberManager().isLogin() {
@@ -1746,7 +1750,8 @@ extension MainViewController {
     
     @IBAction func onClickMainFavorite(_ sender: UIButton) {
         if MemberManager().isLogin() {
-            let favoriteVC:FavoriteViewController = self.storyboard?.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
+            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
+            let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
             favoriteVC.delegate = self
             self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
         } else {
@@ -1764,14 +1769,16 @@ extension MainViewController {
         switch (response["code"].intValue) {
         case 1000:
             defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
-            let paymentStatusVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
+            let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
+            let paymentStatusVC = paymentStoryboard.instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
             paymentStatusVC.cpId = response["cp_id"].stringValue
             paymentStatusVC.connectorId = response["connector_id"].stringValue
             
             self.navigationController?.push(viewController: paymentStatusVC)
             
         case 2002:
-            let paymentQRScanVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentQRScanViewController") as! PaymentQRScanViewController
+            let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
+            let paymentQRScanVC = paymentStoryboard.instantiateViewController(withIdentifier: "PaymentQRScanViewController") as! PaymentQRScanViewController
             self.navigationController?.push(viewController:paymentQRScanVC)
             
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
