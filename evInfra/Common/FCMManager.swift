@@ -161,7 +161,7 @@ class FCMManager {
             } else {
                 if MemberManager().isLogin() {
                     if let navigation = navigationController {
-                        let vc:ReportBoardViewController =  UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ReportBoardViewController") as! ReportBoardViewController
+                        let vc:ReportBoardViewController =  UIStoryboard(name: "Report", bundle: nil).instantiateViewController(withIdentifier: "ReportBoardViewController") as! ReportBoardViewController
                         
                         navigation.push(viewController: vc)
                     }
@@ -182,7 +182,7 @@ class FCMManager {
                     vc.viewDidLoad()
                     return
                 } else {
-                    let maVC:MyArticleViewController =  UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MyArticleViewController") as! MyArticleViewController
+                    let maVC:MyArticleViewController =  UIStoryboard(name: "Board", bundle: nil).instantiateViewController(withIdentifier: "MyArticleViewController") as! MyArticleViewController
                     maVC.boardId = boardId
                     maVC.category = category
                     
@@ -200,7 +200,7 @@ class FCMManager {
             } else {
                 if MemberManager().isLogin() {
                     if let navigation = navigationController {
-                        let vc:MyCouponViewController =  UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MyCouponViewController") as! MyCouponViewController
+                        let vc:MyCouponViewController =  UIStoryboard(name: "Coupon", bundle: nil).instantiateViewController(withIdentifier: "MyCouponViewController") as! MyCouponViewController
                         
                         navigation.push(viewController: vc)
                     }
@@ -219,7 +219,7 @@ class FCMManager {
                     vc.boardId = noticeId
                     vc.viewDidLoad()
                 } else {
-                    let ndVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NoticeContentViewController") as! NoticeContentViewController
+                    let ndVC = UIStoryboard(name: "Board", bundle: nil).instantiateViewController(withIdentifier: "NoticeContentViewController") as! NoticeContentViewController
                     ndVC.boardId = noticeId
                     navigation.push(viewController: ndVC)
                 }
@@ -235,7 +235,7 @@ class FCMManager {
             } else {
                 if MemberManager().isLogin() {
                     if let navigation = navigationController {
-                        let pointVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
+                        let pointVC = UIStoryboard(name: "Point", bundle: nil).instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
                         navigation.push(viewController: pointVC)
                     }
                 } else {
@@ -291,12 +291,12 @@ class FCMManager {
             if let navigation = navigationController {
                  let center = NotificationCenter.default
                 if cmd.elementsEqual("charging_end") {
-                    let paymentResultVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PaymentResultViewController") as! PaymentResultViewController
+                    let paymentResultVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(withIdentifier: "PaymentResultViewController") as! PaymentResultViewController
                     navigation.push(viewController: paymentResultVC)
                 } else {
                     if let viewController = navigation.visibleViewController {
                         if !String(describing: viewController).contains("PaymentStatusViewController") {
-                            let paymentStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
+                            let paymentStatusVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
                             paymentStatusVC.cpId = cpId
                             paymentStatusVC.connectorId = connectorId
                             
@@ -305,7 +305,7 @@ class FCMManager {
                             center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: data)
                         }
                     } else {
-                        let paymentStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
+                        let paymentStatusVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
                         navigation.push(viewController: paymentStatusVC)
                     }
                 }

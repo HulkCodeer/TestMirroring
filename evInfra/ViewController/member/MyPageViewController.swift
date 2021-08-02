@@ -65,7 +65,8 @@ class MyPageViewController: UIViewController {
     }
     
     @IBAction func onClickSearchZipCode(_ sender: Any) {
-        let saVC = storyboard?.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
+        let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
+        let saVC = mapStoryboard.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
         saVC.searchAddressDelegate = self
         navigationController?.push(viewController: saVC)
     }

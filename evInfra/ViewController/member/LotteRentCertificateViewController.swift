@@ -168,7 +168,7 @@ class LotteRentCertificateViewController : UIViewController,
     }
     
     func moveToMyPayRegist() {
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let mainStoryboard = UIStoryboard(name: "Member", bundle: nil)
         let payRegistVC = mainStoryboard.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
         payRegistVC.myPayRegisterViewDelegate = self
         navigationController?.push(viewController: payRegistVC)

@@ -142,7 +142,7 @@ class MembershipIssuanceViewController: UIViewController,
     }
     
     func moveToMyPayRegist() {
-        let mainStoryboard = UIStoryboard(name : "Main", bundle: nil)
+        let mainStoryboard = UIStoryboard(name : "Member", bundle: nil)
         let payRegistVC = mainStoryboard.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
         payRegistVC.myPayRegisterViewDelegate = self
         navigationController?.push(viewController: payRegistVC)
@@ -243,7 +243,7 @@ class MembershipIssuanceViewController: UIViewController,
     }
     
     func searchZipCode() {
-        let mainStoryboard = UIStoryboard(name : "Main", bundle: nil)
+        let mainStoryboard = UIStoryboard(name : "Map", bundle: nil)
         let saVC = mainStoryboard.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
         saVC.searchAddressDelegate = self
         
@@ -285,7 +285,7 @@ class MembershipIssuanceViewController: UIViewController,
     
     @objc
     fileprivate func handleTermTouch(recognizer: UITapGestureRecognizer) {
-        let mainStoryboard = UIStoryboard(name : "Main", bundle: nil)
+        let mainStoryboard = UIStoryboard(name : "Other", bundle: nil)
         let termsVC = mainStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         termsVC.tabIndex = .MembershipTerms
         navigationController?.push(viewController: termsVC)
