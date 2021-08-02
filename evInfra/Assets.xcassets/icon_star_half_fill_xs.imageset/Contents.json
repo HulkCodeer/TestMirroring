@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icon_star_half_fill_xs.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

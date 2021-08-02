@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icon_building_sm.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
