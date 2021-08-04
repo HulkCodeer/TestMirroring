@@ -18,13 +18,26 @@
 		0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */; };
 		006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006C90982554EFD100F7C6D7 /* PopUpDialog.swift */; };
 		0093DDCD2587753500715969 /* evinfra_snow.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0093DDCC2587753400715969 /* evinfra_snow.gif */; };
+		00A7D5C826B7B0D100C5DBCC /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */; };
+		00A7D5CB26B7B15D00C5DBCC /* FilterTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7D5CA26B7B15D00C5DBCC /* FilterTypeViewController.swift */; };
+		00A7D5D226B7DA2100C5DBCC /* ChargerFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */; };
+		00A7D5D426B7DB3400C5DBCC /* FilterPriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7D5D326B7DB3400C5DBCC /* FilterPriceViewController.swift */; };
+		00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7D5D526B7ED9F00C5DBCC /* TagFlowLayout.swift */; };
 		00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */; };
 		00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */; };
 		00A84A9625514876008D987D /* PopUpDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A84A9525514876008D987D /* PopUpDialog.xib */; };
+		00B4F54726BA2399009A904C /* TagListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B4F54626BA2399009A904C /* TagListViewCell.swift */; };
+		00B4F54926BA23B6009A904C /* TagListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00B4F54826BA23B6009A904C /* TagListViewCell.xib */; };
 		00C75C46252ED4A000387559 /* LotteRentCertificateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C45252ED4A000387559 /* LotteRentCertificateViewController.swift */; };
 		00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */; };
 		00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C55252EF40100387559 /* HSUnderLineTextField.swift */; };
 		00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */; };
+		00EB85C826BA7C9100D1606F /* FilterPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85C726BA7C9100D1606F /* FilterPlaceViewController.swift */; };
+		00EB85CA26BA7D7C00D1606F /* FilterRoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85C926BA7D7C00D1606F /* FilterRoadViewController.swift */; };
+		00EB85CC26BA7DB200D1606F /* FilterSpeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85CB26BA7DB200D1606F /* FilterSpeedViewController.swift */; };
+		00EB85CE26BA7E0D00D1606F /* FilterAccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85CD26BA7E0D00D1606F /* FilterAccessViewController.swift */; };
+		00EB85D026BA805000D1606F /* FilterCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85CF26BA805000D1606F /* FilterCompanyViewController.swift */; };
+		00EB85D226BA8C6100D1606F /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85D126BA8C6100D1606F /* UILabel.swift */; };
 		00FDEAE826B3B6A2006617EE /* Charge.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAE726B3B6A2006617EE /* Charge.storyboard */; };
 		00FDEAEA26B3BF1E006617EE /* Member.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAE926B3BF1E006617EE /* Member.storyboard */; };
 		00FDEAEC26B3BF47006617EE /* Payment.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAEB26B3BF47006617EE /* Payment.storyboard */; };
@@ -327,13 +340,26 @@
 		0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceViewController.swift; sourceTree = "<group>"; };
 		006C90982554EFD100F7C6D7 /* PopUpDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpDialog.swift; sourceTree = "<group>"; };
 		0093DDCC2587753400715969 /* evinfra_snow.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = evinfra_snow.gif; sourceTree = "<group>"; };
+		00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Filter.storyboard; sourceTree = "<group>"; };
+		00A7D5CA26B7B15D00C5DBCC /* FilterTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTypeViewController.swift; sourceTree = "<group>"; };
+		00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerFilterViewController.swift; sourceTree = "<group>"; };
+		00A7D5D326B7DB3400C5DBCC /* FilterPriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPriceViewController.swift; sourceTree = "<group>"; };
+		00A7D5D526B7ED9F00C5DBCC /* TagFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagFlowLayout.swift; sourceTree = "<group>"; };
 		00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnershipJoinView.swift; sourceTree = "<group>"; };
 		00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartnershipJoinView.xib; sourceTree = "<group>"; };
 		00A84A9525514876008D987D /* PopUpDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PopUpDialog.xib; sourceTree = "<group>"; };
+		00B4F54626BA2399009A904C /* TagListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewCell.swift; sourceTree = "<group>"; };
+		00B4F54826BA23B6009A904C /* TagListViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagListViewCell.xib; sourceTree = "<group>"; };
 		00C75C45252ED4A000387559 /* LotteRentCertificateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotteRentCertificateViewController.swift; sourceTree = "<group>"; };
 		00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResultViewController.swift; sourceTree = "<group>"; };
 		00C75C55252EF40100387559 /* HSUnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSUnderLineTextField.swift; sourceTree = "<group>"; };
 		00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberPartnershipInfo.swift; sourceTree = "<group>"; };
+		00EB85C726BA7C9100D1606F /* FilterPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPlaceViewController.swift; sourceTree = "<group>"; };
+		00EB85C926BA7D7C00D1606F /* FilterRoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterRoadViewController.swift; sourceTree = "<group>"; };
+		00EB85CB26BA7DB200D1606F /* FilterSpeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSpeedViewController.swift; sourceTree = "<group>"; };
+		00EB85CD26BA7E0D00D1606F /* FilterAccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAccessViewController.swift; sourceTree = "<group>"; };
+		00EB85CF26BA805000D1606F /* FilterCompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCompanyViewController.swift; sourceTree = "<group>"; };
+		00EB85D126BA8C6100D1606F /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		00FDEAE726B3B6A2006617EE /* Charge.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Charge.storyboard; sourceTree = "<group>"; };
 		00FDEAE926B3BF1E006617EE /* Member.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Member.storyboard; sourceTree = "<group>"; };
 		00FDEAEB26B3BF47006617EE /* Payment.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Payment.storyboard; sourceTree = "<group>"; };
@@ -689,6 +715,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		00A7D5C926B7B13F00C5DBCC /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				00A7D5CA26B7B15D00C5DBCC /* FilterTypeViewController.swift */,
+				00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */,
+				00A7D5D326B7DB3400C5DBCC /* FilterPriceViewController.swift */,
+				00EB85C726BA7C9100D1606F /* FilterPlaceViewController.swift */,
+				00EB85C926BA7D7C00D1606F /* FilterRoadViewController.swift */,
+				00EB85CB26BA7DB200D1606F /* FilterSpeedViewController.swift */,
+				00EB85CD26BA7E0D00D1606F /* FilterAccessViewController.swift */,
+				00EB85CF26BA805000D1606F /* FilterCompanyViewController.swift */,
+			);
+			path = Filter;
+			sourceTree = "<group>";
+		};
+		00A7D5CC26B7C48600C5DBCC /* Tag */ = {
+			isa = PBXGroup;
+			children = (
+				00A7D5D526B7ED9F00C5DBCC /* TagFlowLayout.swift */,
+				00B4F54626BA2399009A904C /* TagListViewCell.swift */,
+				00B4F54826BA23B6009A904C /* TagListViewCell.xib */,
+			);
+			path = Tag;
+			sourceTree = "<group>";
+		};
 		5659BC9F308878047DB36D3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -910,6 +961,7 @@
 		73B75286204928550077112A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				00A7D5CC26B7C48600C5DBCC /* Tag */,
 				CE5242372183076000FF6AB1 /* AddressSearchCell.swift */,
 				DB5C4EDE2361A04B0090139E /* AdvertisingDialog.swift */,
 				DB5C4EDC23619F5F0090139E /* AdvertisingDialog.xib */,
@@ -962,6 +1014,7 @@
 		73EF8B40203BC12F00D04494 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				00A7D5C926B7B13F00C5DBCC /* Filter */,
 				9064133523E2A5E1008B2BB1 /* RewardAds */,
 				DB3799F621673E1E001D8F69 /* Board */,
 				DB5FA59422C20A5100F1508A /* history */,
@@ -1008,6 +1061,7 @@
 				00FDEAF726B3BFC1006617EE /* Other.storyboard */,
 				00FDEAF926B3BFCF006617EE /* Info.storyboard */,
 				425B055A26B7847B00B597A2 /* Detail.storyboard */,
+				00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1052,6 +1106,7 @@
 				42541587257E045600A2A7B9 /* UtilNavigation.swift */,
 				0012443B25A2E2EF00376CDC /* IntroImageChecker.swift */,
 				0012443E25A2E92300376CDC /* IntroImageCheckerDelegate.swift */,
+				00EB85D126BA8C6100D1606F /* UILabel.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1393,6 +1448,7 @@
 				73EF8B6F203C85CC00D04494 /* HeadingAngleSmall.png in Resources */,
 				73A7B420204E3595002E975F /* type_ac_three.png in Resources */,
 				73A7B41C204E3595002E975F /* reply_pressed.png in Resources */,
+				00B4F54926BA23B6009A904C /* TagListViewCell.xib in Resources */,
 				00FDEAEE26B3BF5E006617EE /* Map.storyboard in Resources */,
 				73A7B3F2204E3595002E975F /* my_page_bg.jpg in Resources */,
 				732121C7203AC023000E105C /* Assets.xcassets in Resources */,
@@ -1421,6 +1477,7 @@
 				73C31C0D20A4408C005B6C53 /* GoogleService-Info.plist in Resources */,
 				DB18733820AAEC8400790B77 /* navi_kakao.png in Resources */,
 				73A7B417204E3595002E975F /* navi_bg.jpg in Resources */,
+				00A7D5C826B7B0D100C5DBCC /* Filter.storyboard in Resources */,
 				732ED1CB21ED8ABB0012C67B /* DropDownCheckBoxCell.xib in Resources */,
 				73BFA04D20847A310028B35D /* BoardTableViewCell.xib in Resources */,
 				00FDEAF626B3BFB6006617EE /* Coupon.storyboard in Resources */,
@@ -1592,6 +1649,7 @@
 				73A7B39F204E2A6E002E975F /* ImageMarker.swift in Sources */,
 				73268D5221886C3000C00427 /* MyWritingViewController.swift in Sources */,
 				902A11E0248F756C0049EF8E /* Log.swift in Sources */,
+				00B4F54726BA2399009A904C /* TagListViewCell.swift in Sources */,
 				9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */,
 				73AF8FC121C77E1B003CB2CF /* ClusterManager.swift in Sources */,
 				73EE8FBB2105B3420016F505 /* Board.swift in Sources */,
@@ -1609,6 +1667,7 @@
 				902A11D3248F52B80049EF8E /* InfoLastUpdateDto.swift in Sources */,
 				00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */,
 				4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */,
+				00EB85CC26BA7DB200D1606F /* FilterSpeedViewController.swift in Sources */,
 				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
 				CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */,
 				733662D022F974820049AEFE /* Coupon.swift in Sources */,
@@ -1616,6 +1675,7 @@
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
 				73C6A0FD2345F1B600349A86 /* MyPayinfoViewController.swift in Sources */,
+				00EB85CA26BA7D7C00D1606F /* FilterRoadViewController.swift in Sources */,
 				73008459213687150001DBFA /* DetailViewController.swift in Sources */,
 				DB3799F821673FDD001D8F69 /* FavoriteViewController.swift in Sources */,
 				DB49A77F206CC32D002448E6 /* SearchViewController.swift in Sources */,
@@ -1627,6 +1687,7 @@
 				73EF8B43203BC71100D04494 /* UIColor.swift in Sources */,
 				DB0E4695205FC4D8002DD05D /* ChargerFilter.swift in Sources */,
 				DB4395EE22DC4C380092E0A5 /* Date.swift in Sources */,
+				00A7D5D426B7DB3400C5DBCC /* FilterPriceViewController.swift in Sources */,
 				CE33B4BB2191B8B000B6C632 /* EventViewController.swift in Sources */,
 				733662CE22EFF2A40049AEFE /* NavigationDrawerController.swift in Sources */,
 				DB367BF324FE673E00898BED /* LoginHelper.swift in Sources */,
@@ -1690,8 +1751,10 @@
 				73D65D6E2356E57900F564A2 /* MyPayRegisterViewController.swift in Sources */,
 				73EF8B45203BD1D400D04494 /* EVIcon.swift in Sources */,
 				73AD13C6203AC34400ADD19A /* LeftViewController.swift in Sources */,
+				00EB85C826BA7C9100D1606F /* FilterPlaceViewController.swift in Sources */,
 				73C31BFB20A288BB005B6C53 /* ChargerInfoViewController.swift in Sources */,
 				CE93308F214F9807006B7EF6 /* ReportChargerList.swift in Sources */,
+				00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton.swift in Sources */,
 				902A11DC248F5F550049EF8E /* ChargerConst.swift in Sources */,
 				73D65D7223588ACC00F564A2 /* UITextField.swift in Sources */,
@@ -1709,9 +1772,11 @@
 				73C6A10B2345F1F800349A86 /* MembershipCardViewController.swift in Sources */,
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,
 				DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */,
+				00EB85D226BA8C6100D1606F /* UILabel.swift in Sources */,
 				73AD13C8203AC57A00ADD19A /* AppNavigationDrawerController.swift in Sources */,
 				006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */,
 				7308559D206350890008497E /* UIView.swift in Sources */,
+				00A7D5D226B7DA2100C5DBCC /* ChargerFilterViewController.swift in Sources */,
 				7312786820BE38C500861B3E /* FCMManager.swift in Sources */,
 				0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */,
 				73C31BFD20A288E3005B6C53 /* ChargerDetailViewController.swift in Sources */,
@@ -1723,6 +1788,7 @@
 				73268D4C2188331700C00427 /* SettingsViewController.swift in Sources */,
 				DBEE9AFC211842ED00770D04 /* SignUpViewController.swift in Sources */,
 				736813B2204503B70035FC66 /* NavCenterButton.swift in Sources */,
+				00A7D5CB26B7B15D00C5DBCC /* FilterTypeViewController.swift in Sources */,
 				7339908022D881D100CF72A8 /* PaymentResultViewController.swift in Sources */,
 				DB40639F21FAF5F100B630A8 /* ChargerImageViewController.swift in Sources */,
 				90E8B54F24C6E82F00D03162 /* ChargerManagerListener.swift in Sources */,
@@ -1744,6 +1810,7 @@
 				DBEE9AFA2117DBF000770D04 /* UIAlertController.swift in Sources */,
 				73EE8FC72109B0FD0016F505 /* URL.swift in Sources */,
 				00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */,
+				00EB85CE26BA7E0D00D1606F /* FilterAccessViewController.swift in Sources */,
 				73A7B428204E81A6002E975F /* Const.swift in Sources */,
 				0056440D252DB2AB007BF78D /* MembershipQRViewController.swift in Sources */,
 				4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */,
@@ -1754,6 +1821,7 @@
 				736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */,
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,
 				9098783624EE53D200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.m in Sources */,
+				00EB85D026BA805000D1606F /* FilterCompanyViewController.swift in Sources */,
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,

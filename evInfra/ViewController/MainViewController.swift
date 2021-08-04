@@ -1735,10 +1735,14 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainHelp(_ sender: UIButton) {
-        let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
-        let termsViewControll = otherStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-        termsViewControll.tabIndex = .Help
-        self.navigationController?.push(viewController: termsViewControll)
+//        let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
+//        let termsViewControll = otherStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+//        termsViewControll.tabIndex = .Help
+        
+        let filterStoryboard = UIStoryboard(name : "Filter", bundle: nil)
+        let filterTypeVC = filterStoryboard.instantiateViewController(withIdentifier: "ChargerFilterViewController") as! ChargerFilterViewController
+
+        self.navigationController?.push(viewController: filterTypeVC)
 //        if MemberManager().isLogin() {
 //            let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
 //            reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_MAIN
