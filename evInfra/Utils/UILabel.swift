@@ -6,6 +6,30 @@
 //  Copyright © 2021 soft-berry. All rights reserved.
 //
 
+import UIKit
+
+class PaddingLabel: UILabel {
+    
+    @IBInspectable var topInset: CGFloat = 3.0
+    @IBInspectable var bottomInset: CGFloat = 3.0
+    @IBInspectable var leftInset: CGFloat = 5.0
+    @IBInspectable var rightInset: CGFloat = 5.0
+    
+    override func drawText(in rect: CGRect) {
+        super.drawText(in: rect.insetBy(dx: topInset, dy: topInset))
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        get {
+            var contentSize = super.intrinsicContentSize
+            contentSize.height += topInset + bottomInset
+            contentSize.width += leftInset + rightInset
+            return contentSize
+        }
+    }
+}
+
+
 extension UILabel {
     
     func textSize(font: UIFont, text: String) -> CGRect {
