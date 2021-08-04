@@ -26,12 +26,12 @@ class FilterTypeViewController: UIViewController {
     }
     
     func prepareTagList() {
-        tagList.append(TagValue(title:"dc 콤보", img:"ic_charger_dc_combo_sm", selected:false))
-        tagList.append(TagValue(title:"dc 데모", img:"ic_charger_dc_combo_sm", selected:false))
-        tagList.append(TagValue(title:"ac 3상", img:"ic_charger_dc_combo_sm", selected:false))
-        tagList.append(TagValue(title:"dc 콤보", img:"ic_charger_dc_combo_sm", selected:true))
-        tagList.append(TagValue(title:"dc 콤보", img:"ic_charger_dc_combo_sm", selected:false))
-        tagList.append(TagValue(title:"dc 콤보", img:"ic_charger_dc_combo_sm", selected:false))
+        tagList.append(TagValue(title:"DC콤보", img:"ic_charger_dc_combo_sm", selected:false))
+        tagList.append(TagValue(title:"DC차데모", img:"ic_charger_dc_demo_sm", selected:false))
+        tagList.append(TagValue(title:"AC 3상", img:"ic_charger_acthree_sm", selected:false))
+        tagList.append(TagValue(title:"완속", img:"ic_charger_slow_sm", selected:true))
+        tagList.append(TagValue(title:"슈퍼차저", img:"ic_charger_super_sm", selected:false))
+        tagList.append(TagValue(title:"데스티네이션", img:"ic_charger_slow_sm", selected:false))
     }
 
     func setUpUI(){
