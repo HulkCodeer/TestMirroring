@@ -44,13 +44,14 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hwq-pc-7Qx">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hwq-pc-7Qx">
                                                             <rect key="frame" x="329" y="0.0" width="25" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="25" id="YcQ-X2-kpA"/>
                                                                 <constraint firstAttribute="height" constant="25" id="hQt-2q-0bc"/>
                                                             </constraints>
-                                                            <state key="normal" image="bookmark">
+                                                            <color key="tintColor" name="content-primary"/>
+                                                            <state key="normal" image="icon_star_md">
                                                                 <color key="titleColor" name="content-primary"/>
                                                             </state>
                                                             <connections>
@@ -68,6 +69,7 @@
                                                             </state>
                                                         </button>
                                                     </subviews>
+                                                    <color key="tintColor" name="content-primary"/>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleAspectFit" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="qh8-66-H85">
                                                     <rect key="frame" x="0.0" y="41" width="382" height="20.5"/>
@@ -250,7 +252,7 @@
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Aj3-ct-riC">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_charger_xs" translatesAutoresizingMaskIntoConstraints="NO" id="Aj3-ct-riC">
                                                                         <rect key="frame" x="24" y="10" width="21" height="28"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     </imageView>
@@ -301,6 +303,16 @@
                                                                         </subviews>
                                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                     </view>
+                                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o7p-Cm-IgO">
+                                                                        <rect key="frame" x="127" y="12" width="24" height="26"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <state key="normal" title="Button" image="icon_info_sm"/>
+                                                                    </button>
+                                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ipT-nv-f9B">
+                                                                        <rect key="frame" x="149" y="16" width="24" height="22"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <state key="normal" title="Button" image="lock" catalog="system"/>
+                                                                    </button>
                                                                 </subviews>
                                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                             </view>
@@ -672,13 +684,16 @@
         </designable>
     </designables>
     <resources>
-        <image name="bookmark" width="20" height="20"/>
         <image name="detail_station_btn_report" width="16" height="16"/>
         <image name="detail_station_btn_talk" width="18" height="18"/>
+        <image name="icon_charger_xs" width="16" height="16"/>
         <image name="icon_copy_md" width="24" height="24"/>
         <image name="icon_corner_right_md" width="24" height="24"/>
+        <image name="icon_info_sm" width="20" height="20"/>
         <image name="icon_share_md" width="24" height="24"/>
+        <image name="icon_star_md" width="24" height="24"/>
         <image name="icon_warning_md" width="24" height="24"/>
+        <image name="lock" catalog="system" width="128" height="128"/>
         <image name="station_icon_call" width="16" height="16"/>
         <image name="station_icon_company" width="16" height="16"/>
         <image name="station_icon_installtype" width="16" height="16"/>
