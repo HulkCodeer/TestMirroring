@@ -19,9 +19,9 @@ class FilterPlaceViewController: UIViewController {
     @IBOutlet weak var ivCanopy: UIImageView!
     @IBOutlet weak var lbCanopy: UILabel!
     
-    var indoorSel = false
-    var outDoorSel = false
-    var canopyCel = false
+    var indoorSel = true
+    var outDoorSel = true
+    var canopySel = true
     
     let bgEnColor: UIColor = UIColor(named: "content-positive")!
     let bgDisColor: UIColor = UIColor(named: "content-tertiary")!
@@ -45,7 +45,7 @@ class FilterPlaceViewController: UIViewController {
         selectItem(index: 1)
     }
     @objc func onClickCanopy(_ sender:UITapGestureRecognizer){
-        canopyCel = !canopyCel
+        canopySel = !canopySel
         selectItem(index: 2)
     }
     
@@ -73,7 +73,7 @@ class FilterPlaceViewController: UIViewController {
                 lbOutdoor.textColor = bgDisColor
             }
         } else if(index == 2) {
-            if (canopyCel){
+            if (canopySel){
                 ivCanopy.tintColor = bgEnColor
                 lbCanopy.textColor = bgEnColor
             } else {
