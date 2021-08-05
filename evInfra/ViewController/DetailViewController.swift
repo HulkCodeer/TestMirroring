@@ -37,7 +37,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 //    @IBOutlet var indoorView: UIView!                   // 설치형태(실내)
 //    @IBOutlet var outdoorView: UIView!                  // 설치형태(실외)
 //    @IBOutlet var canopyView: UIView!                   // 설치형태(캐노피)
-    @IBOutlet var checkingView: UIView!                 // 설치형태(확인중)
+    @IBOutlet var checkingView: UILabel!                 // 설치형태(확인중)
     @IBOutlet var kakaoMapView: UIView!                 // 스카이뷰(카카오맵)
     @IBOutlet weak var addressLabel: UILabel!    // 충전소 주소
     
@@ -95,8 +95,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 
         getChargerInfo()
         
-        setDetailLb()
-        initKakaoMap()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -203,6 +201,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func getChargerInfo() {
         getStationDetailInfo()
         getFirstBoardData()
+        setDetailLb()
+        initKakaoMap()
     }
     
     func preparePagingView() {
@@ -303,6 +303,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         // 운영기관 이미지
         if charger?.getCompanyIcon() != nil{
             self.companyImg.image = charger?.getCompanyIcon()
+        }else {
+            self.companyImg.image = UIImage(named: "icon_building_sm")
         }
         
         // 충전 속도
@@ -331,9 +333,10 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
                 self.addressLabel.text = addr
             }
         }else{
-            self.addressLabel.isHidden = true
+            self.addressLabel.text = "신규 충전소로, 주소 업데이트 중입니다."
+//            self.addressLabel.isHidden = true
         }
-        self.addressLabel.sizeToFit()
+//        self.addressLabel.sizeToFit()
         
         
         
@@ -384,25 +387,29 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     func stationArea() {
         let roof = String(self.charger?.mStationInfoDto?.mRoof ?? "")
-
-//        self.indoorView.isHidden = true
-//        self.outdoorView.isHidden = true
-//        self.canopyView.isHidden = true
-        self.checkingView.isHidden = true
-
-        if (roof.equals("0")) {
-            //outdoor
-//            self.outdoorView.isHidden = false
-        } else if (roof.equals("1")) {
-            //indoor
-//            self.indoorView.isHidden = false
-        } else if (roof.equals("2")) {
-            //canopy
-//            self.canopyView.isHidden = false
-        } else if (roof.equals("N")) {
-            //Checking
-            self.checkingView.isHidden = false
+        let area:String!
+        var color:String! = "content-primary"
+        switch roof {
+        case "0":  // outdoor
+            area = "실외"
+            break
+        case "1":  // indoor
+            area = "실내"
+            break
+        case "2":  // canopy
+            area = "캐노피"
+            break
+        case "N": // Checking
+            area = "확인중"
+            color = "content-tertiary"
+            break
+        default:
+            area = "확인중"
+            color = "content-tertiary"
+            break
         }
+        self.checkingView.text = area
+        self.checkingView.textColor = UIColor.init(named:color)
     }
     
     // TODO: bookmark
