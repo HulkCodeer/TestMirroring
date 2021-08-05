@@ -725,7 +725,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="CidTableHeightConstraint" destination="vqP-HU-Gfi" id="wjS-lx-EuS"/>
                         <outlet property="addPointBtn" destination="YwV-RZ-o9N" id="I6h-x7-fM2"/>
+                        <outlet property="addressLabel" destination="IAL-4V-9hd" id="Nco-wm-tUw"/>
                         <outlet property="boardTableView" destination="5nZ-Ka-bJr" id="8nX-Jt-UfF"/>
                         <outlet property="callLb" destination="SjQ-WF-dvh" id="4s8-rZ-Odd"/>
                         <outlet property="callOutFavorite" destination="hwq-pc-7Qx" id="85w-3n-8Bm"/>

@@ -21,25 +21,25 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var companyImg: UIImageView!         // 운영기관(이미지)
     @IBOutlet weak var callOutTitle: UILabel!           // 충전소 이름
     @IBOutlet var callOutFavorite: UIButton!            // 즐겨찾기
-    @IBOutlet var chargerStatusImg: UIImageView!        // 충전기 상태(이미지)
-    @IBOutlet var callOutStatus: UILabel!               // 충전기 상태
-    @IBOutlet weak var dstLabel: UILabel!               // 현 위치에서 거리
+//    @IBOutlet var chargerStatusImg: UIImageView!        // 충전기 상태(이미지)
+//    @IBOutlet var callOutStatus: UILabel!               // 충전기 상태
+//    @IBOutlet weak var dstLabel: UILabel!               // 현 위치에서 거리
     // 충전소 정보
-    @IBOutlet var powerLb: UILabel!                     // 충전속도
-    @IBOutlet var priceLb: UILabel!                     // 충전가격
+//    @IBOutlet var powerLb: UILabel!                     // 충전속도
+//    @IBOutlet var priceLb: UILabel!                     // 충전가격
     
-    @IBOutlet var powerView: UILabel!                   // 충전속도(view)
+//    @IBOutlet var powerView: UILabel!                   // 충전속도(view)
     @IBOutlet weak var companyLabel: UILabel!           // 운영기관(이름)
                     
     @IBOutlet var companyView: UIStackView!             // 운영기관(view)
     @IBOutlet weak var timeLabel: UILabel!              // 운영시간
     @IBOutlet weak var callLb: UILabel!                 // 전화번호
-    @IBOutlet var indoorView: UIView!                   // 설치형태(실내)
-    @IBOutlet var outdoorView: UIView!                  // 설치형태(실외)
-    @IBOutlet var canopyView: UIView!                   // 설치형태(캐노피)
+//    @IBOutlet var indoorView: UIView!                   // 설치형태(실내)
+//    @IBOutlet var outdoorView: UIView!                  // 설치형태(실외)
+//    @IBOutlet var canopyView: UIView!                   // 설치형태(캐노피)
     @IBOutlet var checkingView: UIView!                 // 설치형태(확인중)
     @IBOutlet var kakaoMapView: UIView!                 // 스카이뷰(카카오맵)
-    @IBOutlet weak var addressLabel: CopyableLabel!    // 충전소 주소
+    @IBOutlet weak var addressLabel: UILabel!    // 충전소 주소
     
     @IBOutlet weak var memoLabel: UILabel!              // 메모
     @IBOutlet var memoView: UIStackView!                // 메모(view)
@@ -51,12 +51,12 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet var addPointBtn: UIButton!
     @IBOutlet var naviBtn: UIButton!                    // 경로찾기(길안내)
     // 지킴이
-    @IBOutlet weak var guardView: UIView!
-    @IBOutlet weak var guardImage: UIImageView!
-    @IBOutlet weak var guardFixLabel: UILabel!
-    @IBOutlet weak var guardReportBtn: UIButton!
-    @IBOutlet weak var guardEnvBtn: UIButton!
-    @IBOutlet weak var guardKepcoBtn: UIButton!
+//    @IBOutlet weak var guardView: UIView!
+//    @IBOutlet weak var guardImage: UIImageView!
+//    @IBOutlet weak var guardFixLabel: UILabel!
+//    @IBOutlet weak var guardReportBtn: UIButton!
+//    @IBOutlet weak var guardEnvBtn: UIButton!
+//    @IBOutlet weak var guardKepcoBtn: UIButton!
     
     // 충전기 정보(list)
     @IBOutlet weak var boardTableView: BoardTableView!
@@ -111,21 +111,21 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         self.addPointBtn.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
         // charger power round
-        self.powerView.roundCorners(.allCorners, radius: 3)
-        if isExistAddBtn {
-            self.addPointBtn.isHidden = false
-            self.naviBtn.isHidden = true
-        }else if !isExistAddBtn{
-            self.addPointBtn.isHidden = true
-            self.naviBtn.isHidden = false
-        }
+//        self.powerView.roundCorners(.allCorners, radius: 3)
+//        if isExistAddBtn {
+//            self.addPointBtn.isHidden = false
+//            self.naviBtn.isHidden = true
+//        }else if !isExistAddBtn{
+//            self.addPointBtn.isHidden = true
+//            self.naviBtn.isHidden = false
+//        }
         // share/report btn border
         self.shareBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#33A2DA"), borderWidth: 1)
         self.reportBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#33A2DA"), borderWidth: 1)
         // install round
-        self.indoorView.roundCorners(.allCorners, radius: 3)
-        self.outdoorView.roundCorners(.allCorners, radius: 3)
-        self.canopyView.roundCorners(.allCorners, radius: 3)
+//        self.indoorView.roundCorners(.allCorners, radius: 3)
+//        self.outdoorView.roundCorners(.allCorners, radius: 3)
+//        self.canopyView.roundCorners(.allCorners, radius: 3)
     }
     
     func initKakaoMap(){
@@ -306,7 +306,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
         
         // 충전 속도
-        self.powerLb.text = self.charger?.getChargerPower(power: (charger?.mPower)!, type: (charger?.mTotalType)!)
+//        self.powerLb.text = self.charger?.getChargerPower(power: (charger?.mPower)!, type: (charger?.mTotalType)!)
         
         // 충전 가격
         setChargePrice()
@@ -315,13 +315,13 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.callOutTitle.text = self.charger?.mStationInfoDto?.mSnm
         
         // 충전기 상태
-        self.callOutStatus.text = self.charger?.cidInfo.cstToString(cst: self.charger?.mTotalStatus ?? 2)
+//        self.callOutStatus.text = self.charger?.cidInfo.cstToString(cst: self.charger?.mTotalStatus ?? 2)
         
         // 충전기 상태별 마커 이미지
-        let chargeState = self.callOutStatus.text
-        stationInfoArr[chargeState ?? ""] = "chargeState"
+//        let chargeState = self.callOutStatus.text
+//        stationInfoArr[chargeState ?? ""] = "chargeState"
         
-        self.chargerStatusImg.image = self.charger?.getChargeStateImg(type: chargeState!)
+//        self.chargerStatusImg.image = self.charger?.getChargeStateImg(type: chargeState!)
         
         // 주소
         if let addr = self.charger?.mStationInfoDto?.mAddress{
@@ -344,26 +344,26 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         if let currentLocatin = MainViewController.currentLocation {
             getDistance(curPos: currentLocatin, desPos: self.charger!.marker.getTMapPoint())
         } else {
-            self.dstLabel.text = "현재 위치를 받아오지 못했습니다."
+//            self.dstLabel.text = "현재 위치를 받아오지 못했습니다."
         }
     }
     
     func setChargePrice() {
-        switch self.charger?.mStationInfoDto?.mPay {
-            case "Y":
-                self.priceLb.text = "유료"
-            case "N":
-                self.priceLb.text = "무료"
-            default:
-                self.priceLb.text = "시범운영"
-            }
+//        switch self.charger?.mStationInfoDto?.mPay {
+////            case "Y":
+////                self.priceLb.text = "유료"
+////            case "N":
+////                self.priceLb.text = "무료"
+////            default:
+////                self.priceLb.text = "시범운영"
+//            }
     }
     
     func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
         if desPos.getLatitude() == 0 || desPos.getLongitude() == 0 {
-            self.dstLabel.text = "현재 위치를 받아오지 못했습니다."
+//            self.dstLabel.text = "현재 위치를 받아오지 못했습니다."
         } else {
-            self.dstLabel.text = "계산중"
+//            self.dstLabel.text = "계산중"
             
             DispatchQueue.global(qos: .background).async {
                 let tMapPathData = TMapPathData.init()
@@ -371,11 +371,11 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
                     let distance = Double(path.getDistance() / 1000).rounded()
 
                     DispatchQueue.main.async {
-                        self.dstLabel.text = "여기서 \(distance) Km"
+//                        self.dstLabel.text = "여기서 \(distance) Km"
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.dstLabel.text = "거리를 계산할 수 없습니다."
+//                        self.dstLabel.text = "거리를 계산할 수 없습니다."
                     }
                 }
             }
@@ -385,20 +385,20 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func stationArea() {
         let roof = String(self.charger?.mStationInfoDto?.mRoof ?? "")
 
-        self.indoorView.isHidden = true
-        self.outdoorView.isHidden = true
-        self.canopyView.isHidden = true
+//        self.indoorView.isHidden = true
+//        self.outdoorView.isHidden = true
+//        self.canopyView.isHidden = true
         self.checkingView.isHidden = true
 
         if (roof.equals("0")) {
             //outdoor
-            self.outdoorView.isHidden = false
+//            self.outdoorView.isHidden = false
         } else if (roof.equals("1")) {
             //indoor
-            self.indoorView.isHidden = false
+//            self.indoorView.isHidden = false
         } else if (roof.equals("2")) {
             //canopy
-            self.canopyView.isHidden = false
+//            self.canopyView.isHidden = false
         } else if (roof.equals("N")) {
             //Checking
             self.checkingView.isHidden = false
@@ -875,18 +875,18 @@ extension DetailViewController {
     fileprivate func prepareGuard() {
         if let chargerForGuard = self.charger?.mGuard {
             if chargerForGuard && MemberManager().isGuard() {
-                guardReportBtn.addTarget(self, action: #selector(self.onClickGuardReport), for: .touchUpInside)
-                guardEnvBtn.addTarget(self, action: #selector(self.onClickEnv), for: .touchUpInside)
-                guardKepcoBtn.addTarget(self, action: #selector(self.onClickKepco), for: .touchUpInside)
+//                guardReportBtn.addTarget(self, action: #selector(self.onClickGuardReport), for: .touchUpInside)
+//                guardEnvBtn.addTarget(self, action: #selector(self.onClickEnv), for: .touchUpInside)
+//                guardKepcoBtn.addTarget(self, action: #selector(self.onClickKepco), for: .touchUpInside)
             } else {
-                guardKepcoBtn.gone(spaces: [.top, .bottom])
-                guardEnvBtn.gone(spaces: [.top, .bottom])
-                guardReportBtn.gone(spaces: [.top, .bottom])
-                guardFixLabel.gone(spaces: [.top, .bottom])
-                guardImage.gone(spaces: [.top, .bottom])
-                //guardView.gone(spaces: [.top, .bottom])
-                guardView.isHidden = true
-                detailViewResize(view: guardView)
+//                guardKepcoBtn.gone(spaces: [.top, .bottom])
+//                guardEnvBtn.gone(spaces: [.top, .bottom])
+//                guardReportBtn.gone(spaces: [.top, .bottom])
+//                guardFixLabel.gone(spaces: [.top, .bottom])
+//                guardImage.gone(spaces: [.top, .bottom])
+//                //guardView.gone(spaces: [.top, .bottom])
+//                guardView.isHidden = true
+//                detailViewResize(view: guardView)
             }
         }
     }
