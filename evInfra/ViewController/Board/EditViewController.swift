@@ -241,7 +241,7 @@ extension EditViewController : UIImageCropperProtocol {
     func didCropImage(originalImage: UIImage?, croppedImage: UIImage?) {
         self.editImageView.visible()
         self.editImageDelete.visible()
-        self.editImageView.image = croppedImage
+        self.editImageView.image = croppedImage?.resize(withWidth: 600.0)
         if mode == EditViewController.BOARD_EDIT_MODE {
             self.editImage = 1
         }

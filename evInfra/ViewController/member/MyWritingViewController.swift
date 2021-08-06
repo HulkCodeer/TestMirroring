@@ -265,7 +265,7 @@ extension MyWritingViewController: EditViewDelegate {
                 if hasImage == 1 {
                     let filename =  json["file_name"].stringValue
                     if let data = picture{
-                        Server.uploadImage(data: data, filename: "\(filename).jpg", kind: Const.CONTENTS_BOARD_IMG, completion: { (isSuccess, value) in
+                        Server.uploadImage(data: data, filename: "\(filename).jpg", kind: Const.CONTENTS_BOARD_IMG, targetId: json["board_id"].stringValue, completion: { (isSuccess, value) in
                             let json = JSON(value)
                             if(isSuccess){
                                 self.preReadPage = 0
@@ -291,7 +291,7 @@ extension MyWritingViewController: EditViewDelegate {
                 if editImage == 1 {
                     let filename =  json["file_name"].stringValue
                     if let data = picture {
-                        Server.uploadImage(data: data, filename: "\(filename).jpg", kind: Const.CONTENTS_BOARD_IMG, completion: { (isSuccess, value) in
+                        Server.uploadImage(data: data, filename: "\(filename).jpg", kind: Const.CONTENTS_BOARD_IMG, targetId: json["board_id"].stringValue, completion: { (isSuccess, value) in
                             let json = JSON(value)
                             if isSuccess {
                                 self.preReadPage = 0

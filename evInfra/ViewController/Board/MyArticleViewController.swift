@@ -196,7 +196,7 @@ extension MyArticleViewController: EditViewDelegate {
                 if editImage == 1 {
                     let filename =  json["file_name"].stringValue
                     if let data = picture {
-                        Server.uploadImage(data: data, filename: "\(filename).jpg", kind: Const.CONTENTS_BOARD_IMG, completion: { (isSuccess, value) in
+                        Server.uploadImage(data: data, filename: "\(filename).jpg", kind: Const.CONTENTS_BOARD_IMG, targetId: "\(MemberManager.getMbId())", completion: { (isSuccess, value) in
                             let json = JSON(value)
                             if isSuccess {
                                 self.scrollIndexPath = IndexPath(row: 0, section: self.boardTableView.indexPathsForVisibleRows!.last!.section)
