@@ -9,6 +9,7 @@ import Foundation
 class FilterCompanyViewController: UIViewController {
     
     var tagList = Array<TagValue>()
+    var companyList = Array<CompanyInfoDto>()
     @IBOutlet weak var tagCollectionview: UICollectionView!
     
     override func viewDidLoad() {
@@ -24,12 +25,17 @@ class FilterCompanyViewController: UIViewController {
     }
     
     func prepareTagList() {
-        tagList.append(TagValue(title:"DC콤보", img:"ic_charger_dc_combo_sm", selected:false))
-        tagList.append(TagValue(title:"DC차데모", img:"ic_charger_dc_demo_sm", selected:false))
-        tagList.append(TagValue(title:"AC 3상", img:"ic_charger_acthree_sm", selected:false))
-        tagList.append(TagValue(title:"완속", img:"ic_charger_slow_sm", selected:true))
-        tagList.append(TagValue(title:"슈퍼차저", img:"ic_charger_super_sm", selected:false))
-        tagList.append(TagValue(title:"데스티네이션", img:"ic_charger_slow_sm", selected:false))
+        companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
+        for company in companyList {
+            if let iconName = company.icon_name {
+                if let icon = ImageMarker.companyImg(company: iconName){
+                    let width = icon.width - 20
+                    let height = icon.height/2
+                    let companyIcon = icon.cropImage(image: icon, posX: 10, posY: 10, width: Double(width), height: Double(height))
+                    tagList.append(TagValue(title:company.name!, img:companyIcon, selected: true))
+                }
+            }
+        }
     }
 
     func setUpUI(){
@@ -62,7 +68,7 @@ extension FilterCompanyViewController : UICollectionViewDelegate,UICollectionVie
         let strText = tagList[indexPath.row].title
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagListViewCell", for: indexPath) as! TagListViewCell
         var imgShow = false
-        if (tagList[indexPath.row].img.isEmpty){
+        if (tagList[indexPath.row].img != nil){
             imgShow = true
         }
         return cell.getInteresticSize(strText: strText, cv: collectionView, imgShow:imgShow)

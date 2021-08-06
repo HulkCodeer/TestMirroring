@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="P5J-DZ-D3A">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1186"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1810"/>
                                         <subviews>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eja-5x-EGY" userLabel="Access container">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="128"/>
@@ -78,22 +78,38 @@
                                                     <segue destination="1yH-JA-1Uh" kind="embed" id="Wgz-BY-uun"/>
                                                 </connections>
                                             </containerView>
-                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CdU-9q-eBi" userLabel="Company Container">
-                                                <rect key="frame" x="0.0" y="850" width="375" height="300"/>
+                                            <containerView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="CdU-9q-eBi" userLabel="Company Container">
+                                                <rect key="frame" x="0.0" y="850" width="375" height="900"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="300" id="T5J-j9-k0Q"/>
+                                                    <constraint firstAttribute="height" constant="900" id="JM3-JT-ZfX"/>
                                                 </constraints>
                                                 <connections>
                                                     <segue destination="SwE-Z7-dzN" kind="embed" id="hYa-PS-dXe"/>
                                                 </connections>
                                             </containerView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zA4-R8-C2u">
-                                                <rect key="frame" x="0.0" y="1166" width="375" height="20"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uy3-p1-R2e">
+                                                <rect key="frame" x="0.0" y="1766" width="375" height="44"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zA4-R8-C2u">
+                                                        <rect key="frame" x="16" y="0.0" width="343" height="44"/>
+                                                        <color key="backgroundColor" name="content-positive"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="OYI-wx-hnh"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                        <state key="normal" title="필터 설정 저장하기">
+                                                            <color key="titleColor" name="content-primary"/>
+                                                        </state>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="20" id="OYI-wx-hnh"/>
+                                                    <constraint firstAttribute="bottom" secondItem="zA4-R8-C2u" secondAttribute="bottom" id="Lzr-iN-vKJ"/>
+                                                    <constraint firstAttribute="trailing" secondItem="zA4-R8-C2u" secondAttribute="trailing" constant="16" id="WsK-X0-tVt"/>
+                                                    <constraint firstItem="zA4-R8-C2u" firstAttribute="leading" secondItem="uy3-p1-R2e" secondAttribute="leading" constant="16" id="x7k-ZR-7HP"/>
+                                                    <constraint firstItem="zA4-R8-C2u" firstAttribute="top" secondItem="uy3-p1-R2e" secondAttribute="top" id="yZH-JC-QaH"/>
                                                 </constraints>
-                                                <state key="normal" title="Button"/>
-                                            </button>
+                                            </view>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="eja-5x-EGY" firstAttribute="top" secondItem="P5J-DZ-D3A" secondAttribute="top" id="5TT-rW-NZ6"/>
@@ -103,7 +119,7 @@
                                 <constraints>
                                     <constraint firstItem="P5J-DZ-D3A" firstAttribute="top" secondItem="HH4-VZ-b9v" secondAttribute="top" id="4Vq-1M-HMx"/>
                                     <constraint firstItem="P5J-DZ-D3A" firstAttribute="leading" secondItem="HH4-VZ-b9v" secondAttribute="leading" id="HKD-aC-rlu"/>
-                                    <constraint firstAttribute="bottom" secondItem="P5J-DZ-D3A" secondAttribute="bottom" id="IDf-3F-P0c"/>
+                                    <constraint firstAttribute="bottom" secondItem="P5J-DZ-D3A" secondAttribute="bottom" constant="24" id="IDf-3F-P0c"/>
                                     <constraint firstItem="P5J-DZ-D3A" firstAttribute="width" secondItem="HH4-VZ-b9v" secondAttribute="width" id="fwD-NH-gDx"/>
                                     <constraint firstAttribute="trailing" secondItem="P5J-DZ-D3A" secondAttribute="trailing" id="kqr-k0-Jtd"/>
                                 </constraints>
@@ -119,6 +135,11 @@
                             <constraint firstItem="HH4-VZ-b9v" firstAttribute="top" secondItem="as9-R3-qcp" secondAttribute="top" id="tua-oA-JvF"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="btnApply" destination="zA4-R8-C2u" id="6aL-zf-OwH"/>
+                        <outlet property="companyFilter" destination="CdU-9q-eBi" id="iUV-LY-8ij"/>
+                        <outlet property="companyHeight" destination="JM3-JT-ZfX" id="b6W-2I-rRn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -477,11 +498,11 @@
             <objects>
                 <viewController id="SwE-Z7-dzN" customClass="FilterCompanyViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4Ax-Kg-KHd">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="900"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rlw-cS-Wcs">
-                                <rect key="frame" x="16" y="113.5" width="343" height="178.5"/>
+                                <rect key="frame" x="16" y="113.5" width="343" height="778.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="twi-8x-wnP">
                                     <size key="itemSize" width="128" height="128"/>
@@ -770,11 +791,6 @@
             <point key="canvasLocation" x="-1039" y="-1556"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="OjU-9I-26y">
-            <size key="intrinsicContentSize" width="-1" height="65"/>
-        </designable>
-    </designables>
     <resources>
         <image name="ic_access_non_public" width="48" height="48"/>
         <image name="ic_access_public" width="48" height="48"/>
@@ -789,6 +805,9 @@
         </namedColor>
         <namedColor name="content-positive">
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="content-primary">
+            <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-tertiary">
             <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -10,9 +10,14 @@ import Foundation
 import UIKit
 open class TagValue {
     var title: String = ""
-    var img: String = ""
+    var img: UIImage?
     var selected: Bool = false
     init(title: String, img: String, selected: Bool){
+        self.title = title
+        self.img = UIImage(named: img)!
+        self.selected = selected
+    }
+    init(title: String, img: UIImage, selected: Bool){
         self.title = title
         self.img = img
         self.selected = selected
@@ -54,9 +59,10 @@ class TagListViewCell : UICollectionViewCell {
         select = arrData[index].selected
         tagStr.text = arrData[index].title
         tagStr.sizeToFit()
-        if(!arrData[index].img.isEmpty){
+        if(arrData[index].img != nil){
             tagImg.isHidden = false
-            tagImg.image = UIImage(named: arrData[index].img)?.tint(with: UIColor.black)
+            tagImg.image = arrData[index].img
+            tagImg.tintColor = UIColor.black
         }
     }
     
@@ -71,13 +77,13 @@ class TagListViewCell : UICollectionViewCell {
         if(selected){
             tagContainer.layer.borderWidth = 0.0
             tagContainer.layer.backgroundColor = UIColor(named: "content-positive")?.cgColor
-            tagImg.image = UIImage(named: tagValue!.img)?.tint(with: UIColor(named: "content-on-color")!)
+            tagImg.tintColor = UIColor(named: "content-on-color")
             tagStr.textColor = UIColor(named: "content-on-color")
         } else {
             tagContainer.layer.backgroundColor = UIColor(named: "background-secondary")?.cgColor
             tagContainer.layer.borderColor = UIColor(named: "border-opaque")?.cgColor
             tagContainer.layer.borderWidth = 1.0
-            tagImg.image = UIImage(named: tagValue!.img)?.tint(with: UIColor(named: "content-primary")!)
+            tagImg.tintColor = UIColor(named: "content-primary")
             tagStr.textColor = UIColor(named: "content-primary")
         }
     }

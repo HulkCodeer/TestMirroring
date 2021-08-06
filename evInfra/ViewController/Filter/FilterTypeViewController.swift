@@ -26,12 +26,12 @@ class FilterTypeViewController: UIViewController {
     }
     
     func prepareTagList() {
-        tagList.append(TagValue(title:"DC콤보", img:"ic_charger_dc_combo_sm", selected:false))
-        tagList.append(TagValue(title:"DC차데모", img:"ic_charger_dc_demo_sm", selected:false))
-        tagList.append(TagValue(title:"AC 3상", img:"ic_charger_acthree_sm", selected:false))
-        tagList.append(TagValue(title:"완속", img:"ic_charger_slow_sm", selected:true))
-        tagList.append(TagValue(title:"슈퍼차저", img:"ic_charger_super_sm", selected:false))
-        tagList.append(TagValue(title:"데스티네이션", img:"ic_charger_slow_sm", selected:false))
+        tagList.append(TagValue(title:"DC콤보", img:"ic_charger_dc_combo_md", selected:false))
+        tagList.append(TagValue(title:"DC차데모", img:"ic_charger_dc_demo_md", selected:false))
+        tagList.append(TagValue(title:"AC 3상", img:"ic_charger_acthree_md", selected:false))
+        tagList.append(TagValue(title:"완속", img:"ic_charger_slow_md", selected:true))
+        tagList.append(TagValue(title:"슈퍼차저", img:"ic_charger_super_md", selected:false))
+        tagList.append(TagValue(title:"데스티네이션", img:"ic_charger_slow_md", selected:false))
     }
 
     func setUpUI(){
@@ -66,7 +66,7 @@ extension FilterTypeViewController : UICollectionViewDelegate,UICollectionViewDa
         let strText = tagList[indexPath.row].title
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagListViewCell", for: indexPath) as! TagListViewCell
         var imgShow = false
-        if (tagList[indexPath.row].img.isEmpty){
+        if (tagList[indexPath.row].img != nil){
             imgShow = true
         }
         return cell.getInteresticSize(strText: strText, cv: collectionView, imgShow:imgShow)
