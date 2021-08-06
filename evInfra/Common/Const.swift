@@ -42,7 +42,7 @@ public class Const {
     public static let EI_IMG_SERVER = "https://img.soft-berry.co.kr"
 
     // static image: 위성사진, 운영기관 로고, 전기차
-    public static let IMG_URL_COMP_MARKER = EI_IMG_SERVER + "/marker/logo/"
+    public static let IMG_URL_COMP_MARKER = EI_IMG_SERVER + "/marker/logo_v2/"
     public static let IMG_URL_EV_MODEL    = EI_IMG_SERVER + "/models/"
     public static let IMG_URL_SATELLITE   = EI_IMG_SERVER + "/satellite/"
     public static let IMG_URL_INTRO       = EI_IMG_SERVER + "/intro/"

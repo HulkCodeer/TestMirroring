@@ -34,10 +34,10 @@
                                     <constraint firstAttribute="height" constant="16" id="e98-ID-gFF"/>
                                     <constraint firstAttribute="width" constant="16" id="zHn-eq-TYG"/>
                                 </constraints>
-                                <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+                                <edgeInsets key="layoutMargins" top="8" left="0.0" bottom="8" right="0.0"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z62-X1-WW7">
-                                <rect key="frame" x="8" y="4" width="118" height="16"/>
+                                <rect key="frame" x="4" y="4" width="126" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -46,7 +46,7 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="TRL-g3-cEH"/>
                         </constraints>
-                        <edgeInsets key="layoutMargins" top="4" left="8" bottom="4" right="8"/>
+                        <edgeInsets key="layoutMargins" top="4" left="4" bottom="4" right="4"/>
                     </stackView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

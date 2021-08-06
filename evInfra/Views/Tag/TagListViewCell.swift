@@ -64,6 +64,7 @@ class TagListViewCell : UICollectionViewCell {
             tagImg.image = arrData[index].img
             tagImg.tintColor = UIColor.black
         }
+        setTagSelected(selected: select)
     }
     
     @objc func onClickTag(_ sender:UITapGestureRecognizer){
@@ -73,7 +74,6 @@ class TagListViewCell : UICollectionViewCell {
     }
     
     func setTagSelected(selected: Bool) {
-        select = selected
         if(selected){
             tagContainer.layer.borderWidth = 0.0
             tagContainer.layer.backgroundColor = UIColor(named: "content-positive")?.cgColor

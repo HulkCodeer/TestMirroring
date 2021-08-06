@@ -92,11 +92,11 @@ class EVFileManager {
                 let chargeImage = UIImage(named: "marker_lightning.png")!.withRenderingMode(.alwaysOriginal)
                 
                 let size = CGSize(width: stateImage.width, height: stateImage.height)
-                UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+                UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
                 
                 stateImage.draw(in: CGRect(origin: .zero, size: size))
                 if let companyImage = evFileManager.getSavedImage(named: "\(companyIcon).png")?.withRenderingMode(.alwaysOriginal) {
-                    companyImage.draw(in: CGRect(origin: .zero, size: size))
+                    companyImage.draw(in: CGRect(x: 7, y: 1, width: 20, height: 20))
                 }
                 if stateIcon.elementsEqual("marker_state_charging") {
                     chargeImage.draw(in: CGRect(origin: .zero, size: size))

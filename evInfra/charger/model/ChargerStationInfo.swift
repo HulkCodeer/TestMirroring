@@ -232,10 +232,7 @@ class ChargerStationInfo {
         if let company = companyArray?.filter({$0.company_id!.elementsEqual((mStationInfoDto?.mCompanyId)!)}).first {
             if let iconName = company.icon_name {
                 if let icon = ImageMarker.companyImg(company: iconName){
-                    let width = icon.width - 20
-                    let height = icon.height/2
-                    let companyIcon = icon.cropImage(image: icon, posX: 10, posY: 10, width: Double(width), height: Double(height))
-                    resultIcon = companyIcon
+                    resultIcon = icon
                 }
             }
         }

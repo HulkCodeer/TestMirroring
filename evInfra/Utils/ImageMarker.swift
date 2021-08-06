@@ -63,7 +63,7 @@ public class ImageMarker {
         
         stateImage.draw(in: CGRect(origin: .zero, size: size))
         if let companyImage = eFM.getSavedImage(named: "\(company).png") {
-            companyImage.draw(in: CGRect(origin: .zero, size: size))
+            companyImage.draw(in: CGRect(x: 7, y: 1, width: 20, height: 20))
         }
         if isCharging {
             chargeImage.draw(in: CGRect(origin: .zero, size: size))

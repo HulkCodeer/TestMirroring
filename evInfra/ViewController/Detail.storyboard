@@ -34,9 +34,9 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="382" height="25"/>
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="clq-3R-Smy">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="40" height="25"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="40" id="9gi-xg-feb"/>
+                                                                        <constraint firstAttribute="width" constant="25" id="9gi-xg-feb"/>
                                                                         <constraint firstAttribute="height" constant="25" id="vGy-ik-Ave"/>
                                                                     </constraints>
                                                                 </imageView>
@@ -52,7 +52,7 @@
                                                                     </connections>
                                                                 </button>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전소이름" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gOW-hL-led">
-                                                                    <rect key="frame" x="40" y="0.0" width="69.5" height="25"/>
+                                                                    <rect key="frame" x="25" y="0.0" width="69.5" height="25"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>

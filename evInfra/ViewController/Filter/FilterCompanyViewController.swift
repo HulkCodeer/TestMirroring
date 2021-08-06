@@ -29,10 +29,7 @@ class FilterCompanyViewController: UIViewController {
         for company in companyList {
             if let iconName = company.icon_name {
                 if let icon = ImageMarker.companyImg(company: iconName){
-                    let width = icon.width - 20
-                    let height = icon.height/2
-                    let companyIcon = icon.cropImage(image: icon, posX: 10, posY: 10, width: Double(width), height: Double(height))
-                    tagList.append(TagValue(title:company.name!, img:companyIcon, selected: true))
+                    tagList.append(TagValue(title:company.name!, img:icon, selected: true))
                 }
             }
         }

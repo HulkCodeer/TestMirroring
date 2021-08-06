@@ -514,14 +514,14 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="25"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2nU-Dm-KhU">
-                                                        <rect key="frame" x="0.0" y="0.0" width="40" height="25"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="40" id="q93-LN-a1t"/>
+                                                            <constraint firstAttribute="width" constant="25" id="q93-LN-a1t"/>
                                                             <constraint firstAttribute="height" constant="25" id="qmO-II-w4w"/>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="충전소이름" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4EA-Rs-uMH">
-                                                        <rect key="frame" x="40" y="0.0" width="194.5" height="25"/>
+                                                        <rect key="frame" x="25" y="0.0" width="209.5" height="25"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
