@@ -220,12 +220,12 @@ extension EditViewController {
         var data: Data? = nil
         if self.mode == EditViewController.BOARD_NEW_MODE {
             if hasImage == 1 {
-                data = UIImageJPEGRepresentation(self.editImageView.image!.resize(withWidth: 600)!, 0.8)!
+                data = UIImageJPEGRepresentation(self.editImageView.image!.resize(withWidth: 1200)!, 0.8)!
             }
             self.editViewDelegate?.postBoardData(content: content, hasImage: self.hasImage, picture: data)
         } else if self.mode == EditViewController.BOARD_EDIT_MODE {
             if hasImage == 1 {
-                data = UIImageJPEGRepresentation(self.editImageView.image!.resize(withWidth: 600)!, 0.8)!
+                data = UIImageJPEGRepresentation(self.editImageView.image!.resize(withWidth: 1200)!, 0.8)!
             }
             self.editViewDelegate?.editBoardData(content: content, boardId: originBoardData.boardId!, editImage: self.editImage, picture: data)
         } else if self.mode == EditViewController.REPLY_NEW_MODE {
@@ -241,7 +241,7 @@ extension EditViewController : UIImageCropperProtocol {
     func didCropImage(originalImage: UIImage?, croppedImage: UIImage?) {
         self.editImageView.visible()
         self.editImageDelete.visible()
-        self.editImageView.image = croppedImage
+        self.editImageView.image = croppedImage?.resize(withWidth: 600.0)
         if mode == EditViewController.BOARD_EDIT_MODE {
             self.editImage = 1
         }

@@ -538,7 +538,7 @@ class Server {
             "charger_id": chargerId
         ]
         
-        Alamofire.request(Const.EV_PAY_SERVER + "/charger/station/detail",
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/v1/station/detail",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -936,14 +936,18 @@ class Server {
     }
     
     // image upload To Server
-    static func uploadImage(data: Data, filename: String, kind: Int, completion: @escaping (Bool, Any) -> Void){
+    static func uploadImage(data: Data, filename: String, kind: Int, targetId: String, completion: @escaping (Bool, Any) -> Void){
         let uploadFileName = filename.data(using: .utf8)!
+        let uploadTargetId = targetId.data(using: .utf8)!
         let contentsKind = ("\(kind)").data(using: .utf8)!
+        let contentsSequence = ("0").data(using: .utf8)!
         Alamofire.upload(multipartFormData: { (multipartFormData) in
             multipartFormData.append(contentsKind, withName: "kind" , mimeType: "text/plain; charset=UTF-8")
-            multipartFormData.append(uploadFileName, withName: "filename" , mimeType: "text/plain; charset=UTF-8")
-            multipartFormData.append(data ,  withName:"file" ,  fileName : "upload.jpg" ,  mimeType :  "image/jpeg" )
-        }, to: Const.EV_SERVER_IP + "/imageUploader/imageUpload", encodingCompletion: { encodingResult in
+            multipartFormData.append(uploadFileName, withName: "file_name" , mimeType: "text/plain; charset=UTF-8")
+            multipartFormData.append(uploadTargetId, withName: "target_id" , mimeType: "text/plain; charset=UTF-8")
+            multipartFormData.append(contentsSequence ,  withName:"sequence" ,  mimeType: "text/plain; charset=UTF-8" )
+            multipartFormData.append(data ,  withName:"file" ,  fileName : filename ,  mimeType :  "image/jpeg" )
+        }, to: Const.EV_PAY_SERVER + "/data/image_uploader/upload_image", encodingCompletion: { encodingResult in
             switch encodingResult {
             case .success(let upload, _, _):
                 upload.responseJSON {response in  // ← JSON 형식으로받을

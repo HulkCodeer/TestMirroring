@@ -149,11 +149,11 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="TJ8-03-8Jn"/>
                                 </constraints>
                             </stackView>
-                            <tableView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZIL-9Q-Rvc">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZIL-9Q-Rvc">
                                 <rect key="frame" x="0.0" y="174" width="375" height="493"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" restorationIdentifier="PointTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PointTableViewCell" rowHeight="72" id="ebw-Gv-zzs" userLabel="PointTableViewCell" customClass="PointTableViewCell" customModule="evInfra" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="PointTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PointTableViewCell" rowHeight="72" id="ebw-Gv-zzs" userLabel="PointTableViewCell" customClass="PointTableViewCell" customModule="evInfra" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="24.5" width="375" height="72"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ebw-Gv-zzs" id="sH6-DV-Qe5">

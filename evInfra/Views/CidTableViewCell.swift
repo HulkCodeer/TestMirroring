@@ -9,15 +9,18 @@
 import UIKit
 
 class CidTableViewCell: UITableViewCell {
-
+    // 충전기 상태
     @IBOutlet weak var statusLabel: UILabel!
+    // 충전기 속도
     @IBOutlet weak var powerLable: UILabel!
+    // 타입
     @IBOutlet weak var dcCombo: UIImageView!
     @IBOutlet weak var dcDemo: UIImageView!
     @IBOutlet weak var acSam: UIImageView!
     @IBOutlet weak var slow: UIImageView!
-    
+    // 날짜 lb
     @IBOutlet weak var dateKind: UILabel!
+    // 경과 날짜
     @IBOutlet weak var lastDate: UILabel!
     
     let imgDcCombo = "type_dc_combo"

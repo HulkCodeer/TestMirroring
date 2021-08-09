@@ -155,7 +155,7 @@ class SignUpViewController: UIViewController {
             let userDefault = UserDefault()
             if !profileImgName.isEmpty && ivProfile.image != nil {
                 let data: Data = UIImageJPEGRepresentation(self.ivProfile.image!, 1.0)!
-                Server.uploadImage(data: data, filename: profileImgName, kind: Const.CONTENTS_THUMBNAIL, completion: { (isSuccess, value) in
+                Server.uploadImage(data: data, filename: profileImgName, kind: Const.CONTENTS_THUMBNAIL, targetId: "\(MemberManager.getMbId())", completion: { (isSuccess, value) in
                     let json = JSON(value)
                     if !isSuccess {
                         print("upload image Error : \(json)")
