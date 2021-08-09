@@ -553,8 +553,8 @@ class MainViewController: UIViewController {
     }
     
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
-        let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
-        let priceInfoVC: TermsViewController = otherStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+        let priceInfoVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         priceInfoVC.tabIndex = .PriceInfo
         self.navigationController?.push(viewController: priceInfoVC)
 //        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
@@ -1727,7 +1727,8 @@ extension MainViewController {
     
     @IBAction func onClickMainOfferwall(_ sender: UIButton) {
         if MemberManager().isLogin() {
-            let offerwallVC = self.storyboard?.instantiateViewController(withIdentifier: "OfferwallViewController") as! OfferwallViewController
+            let offerwallStoryboard = UIStoryboard(name : "Offerwall", bundle: nil)
+            let offerwallVC = offerwallStoryboard.instantiateViewController(withIdentifier: "OfferwallViewController") as! OfferwallViewController
             self.navigationController?.push(viewController: offerwallVC)
         } else {
             MemberManager().showLoginAlert(vc: self)
@@ -1735,8 +1736,8 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainHelp(_ sender: UIButton) {
-        let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
-        let termsViewControll = otherStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+        let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         termsViewControll.tabIndex = .Help
         self.navigationController?.push(viewController: termsViewControll)
 //        if MemberManager().isLogin() {

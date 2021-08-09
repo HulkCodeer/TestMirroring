@@ -65,7 +65,8 @@ class ServiceGuideViewController: UIViewController , UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let termsViewControll = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+        let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         switch indexPath.row {
         case SUB_MENU_TERM_SERVICE: // 서비스 이용약관
             termsViewControll.tabIndex = .UsingTerms

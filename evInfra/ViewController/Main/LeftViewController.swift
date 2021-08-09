@@ -83,7 +83,8 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     var menuIndex = 0
     
     @IBAction func clickLogin(_ sender: Any) {
-        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+        let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
+        let loginVC = loginStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
         self.navigationController?.push(viewController: loginVC)
     }
     
@@ -415,14 +416,14 @@ extension LeftViewController {
                 self.navigationController?.pushViewController(chargerInfoVC, animated: true)
             
             case SUB_MENU_BOJO: // 보조금 안내
-                let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
-                let bojoInfoVC: TermsViewController = otherStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+                let bojoInfoVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
                 bojoInfoVC.tabIndex = .EvBonusGuide
                 self.navigationController?.push(viewController: bojoInfoVC)
                 
             case SUB_MENU_CHARGE_PRICE: // 충전요금 안내
-                let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
-                let priceInfoVC: TermsViewController = otherStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+                let priceInfoVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
                 priceInfoVC.tabIndex = .PriceInfo
                 self.navigationController?.push(viewController: priceInfoVC)
                 
@@ -430,8 +431,8 @@ extension LeftViewController {
 //                self.navigationController?.push(viewController: priceVC)
             
             case SUB_MENU_BONUS: // 보조금 현황
-                let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
-                let bojoDashVC: TermsViewController = otherStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+                let bojoDashVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
                 bojoDashVC.tabIndex = .EvBonusStatus
                 self.navigationController?.push(viewController: bojoDashVC)
             default:
@@ -448,13 +449,13 @@ extension LeftViewController {
         case SUB_MENU_CELL_SETTINGS:
             switch index.row {
             case SUB_MENU_ALL_SETTINGS: // 전체 설정
-                let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
-                let settingsVC = otherStoryboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+                let settingsStoryboard = UIStoryboard(name : "Settings", bundle: nil)
+                let settingsVC = settingsStoryboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
                 self.navigationController?.push(viewController: settingsVC)
             
             case SUB_MENU_SERVICE_GUIDE:
-                let otherStoryboard = UIStoryboard(name : "Other", bundle: nil)
-                let guideVC = otherStoryboard.instantiateViewController(withIdentifier: "ServiceGuideViewController") as! ServiceGuideViewController
+                let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
+                let guideVC = loginStoryboard.instantiateViewController(withIdentifier: "ServiceGuideViewController") as! ServiceGuideViewController
                 self.navigationController?.push(viewController: guideVC)
 
             default:

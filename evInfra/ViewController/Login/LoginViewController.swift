@@ -90,7 +90,8 @@ extension LoginViewController: LoginHelperDelegate {
     }
     
     func needSignUp(user: Login) {
-        let signUpVc = self.storyboard?.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
+        let LoginStoryboard = UIStoryboard(name : "Login", bundle: nil)
+        let signUpVc = LoginStoryboard.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
         signUpVc.delegate = self
         signUpVc.user = user
         self.navigationController?.push(viewController: signUpVc)
