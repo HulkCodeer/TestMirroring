@@ -285,8 +285,8 @@ class MembershipIssuanceViewController: UIViewController,
     
     @objc
     fileprivate func handleTermTouch(recognizer: UITapGestureRecognizer) {
-        let mainStoryboard = UIStoryboard(name : "Other", bundle: nil)
-        let termsVC = mainStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+        let termsVC = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         termsVC.tabIndex = .MembershipTerms
         navigationController?.push(viewController: termsVC)
     }

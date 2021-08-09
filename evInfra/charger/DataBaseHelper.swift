@@ -94,7 +94,8 @@ class DataBaseHelper {
     // charger company
     func getCompanyInfoList() throws -> [CompanyInfoDto]? {
         let companyinfoDtoList = try mDbQueue!.inDatabase { db in
-            try CompanyInfoDto.order(Column("sort").asc).fetchAll(db)
+            try CompanyInfoDto.filter(Column("del") == 0).order(Column("sort").asc).fetchAll(db)
+
         }
         return companyinfoDtoList
     }

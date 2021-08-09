@@ -235,7 +235,7 @@ class FCMManager {
             } else {
                 if MemberManager().isLogin() {
                     if let navigation = navigationController {
-                        let pointVC = UIStoryboard(name: "Point", bundle: nil).instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
+                        let pointVC = UIStoryboard(name: "Charge", bundle: nil).instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
                         navigation.push(viewController: pointVC)
                     }
                 } else {
