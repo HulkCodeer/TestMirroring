@@ -52,6 +52,9 @@
 		4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
 		4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */; };
+		42CDF2DF26C2137500555094 /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CDF2DE26C2137500555094 /* SummaryViewController.swift */; };
+		42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */; };
+		42CEB75126C1110D00E37AE4 /* CidInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView.swift */; };
 		7312786820BE38C500861B3E /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786720BE38C500861B3E /* FCMManager.swift */; };
@@ -365,6 +368,9 @@
 		4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceTableViewCell.swift; sourceTree = "<group>"; };
 		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
 		4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponCodeViewController.swift; sourceTree = "<group>"; };
+		42CDF2DE26C2137500555094 /* SummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
+		42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CidInfoTableViewCell.swift; sourceTree = "<group>"; };
+		42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CidInfoTableViewCell.xib; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		7312786720BE38C500861B3E /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
@@ -802,6 +808,7 @@
 			children = (
 				425B055A26B7847B00B597A2 /* Detail.storyboard */,
 				73008458213687150001DBFA /* DetailViewController.swift */,
+				42CDF2DE26C2137500555094 /* SummaryViewController.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -1074,6 +1081,8 @@
 				006C90982554EFD100F7C6D7 /* PopUpDialog.swift */,
 				4212A25325555775001BB124 /* OfferwallTableViewCell.swift */,
 				4212A25425555775001BB124 /* OfferwallTableViewCell.xib */,
+				42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */,
+				42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1532,6 +1541,7 @@
 				73C31C0620A2BB04005B6C53 /* charger_ac3.jpg in Resources */,
 				73A7B3E8204E3595002E975F /* reply_btn_selected.png in Resources */,
 				00FDEAEA26B3BF1E006617EE /* Member.storyboard in Resources */,
+				42CEB75126C1110D00E37AE4 /* CidInfoTableViewCell.xib in Resources */,
 				DB87607320690B370095394B /* BoardTableViewFooter.xib in Resources */,
 				73C31C0B20A2BB04005B6C53 /* charge_normal.jpg in Resources */,
 			);
@@ -1723,7 +1733,9 @@
 				DB367BF324FE673E00898BED /* LoginHelper.swift in Sources */,
 				73BFA04F208487050028B35D /* BoardTableView.swift in Sources */,
 				736D37D3208DC9CE009535EE /* BoardItem.swift in Sources */,
+				42CDF2DF26C2137500555094 /* SummaryViewController.swift in Sources */,
 				732ED1CA21ED8ABB0012C67B /* DropDownCheckBoxCell.swift in Sources */,
+				42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */,
 				CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */,
 				73D65D702358498C00F564A2 /* Validators.swift in Sources */,
 				902A11D7248F56610049EF8E /* StationStatusDto.swift in Sources */,

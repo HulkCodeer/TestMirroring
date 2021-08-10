@@ -17,10 +17,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var detailView: UIView!
 //    @IBOutlet weak var vieagerContainer: UIView!
 
-    // summary
-    @IBOutlet weak var companyImg: UIImageView!         // 운영기관(이미지)
-    @IBOutlet weak var callOutTitle: UILabel!           // 충전소 이름
-    @IBOutlet var callOutFavorite: UIButton!            // 즐겨찾기
+    
 //    @IBOutlet var chargerStatusImg: UIImageView!        // 충전기 상태(이미지)
 //    @IBOutlet var callOutStatus: UILabel!               // 충전기 상태
 //    @IBOutlet weak var dstLabel: UILabel!               // 현 위치에서 거리
@@ -39,17 +36,12 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 //    @IBOutlet var canopyView: UIView!                   // 설치형태(캐노피)
     @IBOutlet var checkingView: UILabel!                 // 설치형태(확인중)
     @IBOutlet var kakaoMapView: UIView!                 // 스카이뷰(카카오맵)
-    @IBOutlet weak var addressLabel: UILabel!    // 충전소 주소
     
     @IBOutlet weak var memoLabel: UILabel!              // 메모
     @IBOutlet var memoView: UIStackView!                // 메모(view)
-    @IBOutlet var shareBtn: UIView!                     // 공유하기
+
     @IBOutlet var reportBtn: UIView!                    // 제보하기
-    // 경로찾기 버튼
-    @IBOutlet var startPointBtn: UIButton!              // 경로찾기(출발)
-    @IBOutlet var endPointBtn: UIButton!                // 경로찾기(도착)
-    @IBOutlet var addPointBtn: UIButton!
-    @IBOutlet var naviBtn: UIButton!                    // 경로찾기(길안내)
+    
     // 지킴이
 //    @IBOutlet weak var guardView: UIView!
 //    @IBOutlet weak var guardImage: UIImageView!
@@ -104,14 +96,11 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     override func viewWillLayoutSubviews() {
         // btn border
-        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        self.addPointBtn.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-     
-        // share/report btn border
-        self.shareBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#33A2DA"), borderWidth: 1)
-        self.reportBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#33A2DA"), borderWidth: 1)
+//        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+//        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+//        self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+//        self.addPointBtn.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+// self.reportBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#33A2DA"), borderWidth: 1)
         // install round
 //        self.indoorView.roundCorners(.allCorners, radius: 3)
 //        self.outdoorView.roundCorners(.allCorners, radius: 3)
@@ -133,38 +122,38 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     // MARK: - Action for button
-    @IBAction func onClickBookmark(_ sender: Any) {
-        self.bookmark()
-    }
-
-    @IBAction func onClickStartPoint(_ sender: Any) {
-        self.mainViewDelegate?.setStartPoint()
-        navigationController?.popViewController(animated: true)
-        dismiss(animated: true, completion: nil)
-    }
+//    @IBAction func onClickBookmark(_ sender: Any) {
+//        self.bookmark()
+//    }
+//
+//    @IBAction func onClickStartPoint(_ sender: Any) {
+//        self.mainViewDelegate?.setStartPoint()
+//        navigationController?.popViewController(animated: true)
+//        dismiss(animated: true, completion: nil)
+//    }
+//
+//    @IBAction func onClickEndPoint(_ sender: Any) {
+//        self.mainViewDelegate?.setEndPoint()
+//        navigationController?.popViewController(animated: true)
+//        dismiss(animated: true, completion: nil)
+//    }
+//
+//    @IBAction func onClickAddPoint(_ sender: Any) {
+//        self.mainViewDelegate?.setStartPath()
+//        navigationController?.popViewController(animated: true)
+//        dismiss(animated: true, completion: nil)
+//    }
     
-    @IBAction func onClickEndPoint(_ sender: Any) {
-        self.mainViewDelegate?.setEndPoint()
-        navigationController?.popViewController(animated: true)
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func onClickAddPoint(_ sender: Any) {
-        self.mainViewDelegate?.setStartPath()
-        navigationController?.popViewController(animated: true)
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func onClickNavi(_ sender: UIButton) {
-        if let chargerData = charger {
-            if let stationDto = chargerData.mStationInfoDto {
-                let snm = callOutTitle.text ?? ""
-                let lng = stationDto.mLongitude ?? 0.0
-                let lat = stationDto.mLatitude ?? 0.0
-                UtilNavigation().showNavigation(vc: self, snm: snm, lat: lat, lng: lng)
-            }
-        }
-    }
+//    @IBAction func onClickNavi(_ sender: UIButton) {
+//        if let chargerData = charger {
+//            if let stationDto = chargerData.mStationInfoDto {
+//                let snm = callOutTitle.text ?? ""
+//                let lng = stationDto.mLongitude ?? 0.0
+//                let lat = stationDto.mLatitude ?? 0.0
+//                UtilNavigation().showNavigation(vc: self, snm: snm, lat: lat, lng: lng)
+//            }
+//        }
+//    }
     
     func handleError(error: Error?) -> Void {
         if let error = error as NSError? {
@@ -178,13 +167,10 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func preparePagingView() {
         let viewPagerController = ViewPagerController(charger: self.charger!)
         addChildViewController(viewPagerController)
-        self.setCallOutFavoriteIcon(charger: self.charger!)
-        
-        let share = UITapGestureRecognizer(target: self, action: #selector(self.shareForKakao))
-        self.shareBtn.addGestureRecognizer(share)
-        
-        let report = UITapGestureRecognizer(target: self, action: #selector(self.onClickReportChargeBtn))
-        self.reportBtn.addGestureRecognizer(report)
+//        self.setCallOutFavoriteIcon(charger: self.charger!)
+//
+//        let report = UITapGestureRecognizer(target: self, action: #selector(self.onClickReportChargeBtn))
+//        self.reportBtn.addGestureRecognizer(report)
     }
     
     func getChargerInfo() {
@@ -197,10 +183,10 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func setDetailLb() {
         if let chargerData = charger {
             if let stationDto = chargerData.mStationInfoDto {
-                // 충전소 이름
-                self.callOutTitle.text = stationDto.mSnm
-                // 주소
-                self.setAddr(stationDto: stationDto)
+//                // 충전소 이름
+//                self.callOutTitle.text = stationDto.mSnm
+//                // 주소
+//                self.setAddr(stationDto: stationDto)
                 // 설치 형태
                 self.stationArea(stationDto: stationDto)
                 // 충전 가격
@@ -208,7 +194,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             }
             
             // 운영기관 이미지
-            setCompanyIcon(chargerData: chargerData)
+//            setCompanyIcon(chargerData: chargerData)
             
             // 충전기 상태
 //            self.callOutStatus.text = chargerData.cidInfo.cstToString(cst: chargerData.mTotalStatus ?? 2)
@@ -230,18 +216,18 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
     }
     
-    func setAddr(stationDto: StationInfoDto) {
-        if let addr = stationDto.mAddress{
-            if let addrDetail = stationDto.mAddressDetail{
-                self.addressLabel.text = addr+"\n"+addrDetail
-            }else{
-                self.addressLabel.text = addr
-            }
-        }else{
-            self.addressLabel.text = "신규 충전소로, 주소 업데이트 중입니다."
-        }
-    }
-    
+//    func setAddr(stationDto: StationInfoDto) {
+//        if let addr = stationDto.mAddress{
+//            if let addrDetail = stationDto.mAddressDetail{
+//                self.addressLabel.text = addr+"\n"+addrDetail
+//            }else{
+//                self.addressLabel.text = addr
+//            }
+//        }else{
+//            self.addressLabel.text = "신규 충전소로, 주소 업데이트 중입니다."
+//        }
+//    }
+//    
     func stationArea(stationDto:StationInfoDto) {
         let roof = String(stationDto.mRoof ?? "확인중")
         let area:String!
@@ -280,13 +266,13 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 //            }
     }
     
-    func setCompanyIcon(chargerData: ChargerStationInfo) {
-        if chargerData.getCompanyIcon() != nil{
-            self.companyImg.image = chargerData.getCompanyIcon()
-        }else {
-            self.companyImg.image = UIImage(named: "icon_building_sm")
-        }
-    }
+//    func setCompanyIcon(chargerData: ChargerStationInfo) {
+//        if chargerData.getCompanyIcon() != nil{
+//            self.companyImg.image = chargerData.getCompanyIcon()
+//        }else {
+//            self.companyImg.image = UIImage(named: "icon_building_sm")
+//        }
+//    }
     
     func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
         if desPos.getLatitude() == 0 || desPos.getLongitude() == 0 {
@@ -431,28 +417,28 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     // TODO: bookmark
-    func bookmark() {
-        if MemberManager().isLogin() {
-            ChargerManager.sharedInstance.setFavoriteCharger(charger: self.charger!) { (charger) in
-                self.setCallOutFavoriteIcon(charger: charger)
-                if charger.mFavorite {
-                    Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
-                } else {
-                    Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
-                }
-            }
-        } else {
-            MemberManager().showLoginAlert(vc: self)
-        }
-    }
+//    func bookmark() {
+//        if MemberManager().isLogin() {
+//            ChargerManager.sharedInstance.setFavoriteCharger(charger: self.charger!) { (charger) in
+//                self.setCallOutFavoriteIcon(charger: charger)
+//                if charger.mFavorite {
+//                    Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
+//                } else {
+//                    Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
+//                }
+//            }
+//        } else {
+//            MemberManager().showLoginAlert(vc: self)
+//        }
+//    }
     
-    func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
-        if charger.mFavorite {
-            self.callOutFavorite.setImage(UIImage(named: "bookmark_on"), for: .normal)
-        } else {
-            self.callOutFavorite.setImage(UIImage(named: "bookmark"), for: .normal)
-        }
-    }
+//    func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
+//        if charger.mFavorite {
+//            self.callOutFavorite.setImage(UIImage(named: "bookmark_on"), for: .normal)
+//        } else {
+//            self.callOutFavorite.setImage(UIImage(named: "bookmark"), for: .normal)
+//        }
+//    }
     
     // MARK: - TableView Height
     
@@ -847,101 +833,3 @@ extension DetailViewController {
         return false
     }
 }
-
-extension DetailViewController {
-    func sendToKakaoTalk() {
-        if let chargerData = charger {
-            if let stationDto = chargerData.mStationInfoDto {
-                let templateId = "10575"
-                var shareList = [String: String]()
-                shareList["width"] = "480"
-                shareList["height"] = "290"
-                shareList["imageUrl"] = shareUrl
-                shareList["title"] = "충전소 상세 정보";
-                if let stationName = stationDto.mSnm {
-                    shareList["stationName"] = stationName;
-                } else {
-                    shareList["stationName"] = "";
-                }
-                if let stationId = chargerData.mChargerId {
-                    shareList["scheme"] = "charger_id=\(stationId)"
-                    shareList["ischeme"] = "charger_id=\(stationId)"
-                }
-                
-                shareList["appstore"] = "https://itunes.apple.com/kr/app/ev-infra/id1206679515?mt=8";
-                shareList["market"] = "https://play.google.com/store/apps/details?id=com.client.ev.activities";
-                
-        //        let shareCenter = KLKTalkLinkCenter.init()
-                
-                KLKTalkLinkCenter.shared().sendCustom(withTemplateId: templateId, templateArgs: shareList, success: { (warnimgMsg, argMsg) in
-                    print("warning message: \(String(describing: warnimgMsg?.description))")
-                    print("argument message: \(String(describing: argMsg?.description))")
-                }) { (error) in
-                    print("error \(error)")
-                }
-            }
-        }
-    }
-    
-    @objc func shareForKakao(sender: UITapGestureRecognizer) {
-        let shareImage: UIImage!
-        let size = CGSize(width: 480.0, height: 290.0)
-        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
-        UIImage(named: "menu_top_bg.jpg")?.draw(in: rect)
-        shareImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-//        let sharedStorage = KLKImageStorage.init()
-
-        KLKImageStorage.shared().upload(with: shareImage, success: { (imageInfo) in
-            self.shareUrl = "\(imageInfo.url)"
-            self.sendToKakaoTalk()
-        }) { (error) in
-            self.shareUrl = Const.urlShareImage
-            self.sendToKakaoTalk()
-            print("makeImage Error \(error)")
-        }
-    }
-}
-
-// MARK: - 지킴이 (삭제했습니다.)
-//extension DetailViewController {
-//    fileprivate func prepareGuard() {
-//        if let chargerForGuard = self.charger?.mGuard {
-//            if chargerForGuard && MemberManager().isGuard() {
-//                guardReportBtn.addTarget(self, action: #selector(self.onClickGuardReport), for: .touchUpInside)
-//                guardEnvBtn.addTarget(self, action: #selector(self.onClickEnv), for: .touchUpInside)
-//                guardKepcoBtn.addTarget(self, action: #selector(self.onClickKepco), for: .touchUpInside)
-//            } else {
-//                guardKepcoBtn.gone(spaces: [.top, .bottom])
-//                guardEnvBtn.gone(spaces: [.top, .bottom])
-//                guardReportBtn.gone(spaces: [.top, .bottom])
-//                guardFixLabel.gone(spaces: [.top, .bottom])
-//                guardImage.gone(spaces: [.top, .bottom])
-//                //guardView.gone(spaces: [.top, .bottom])
-//                guardView.isHidden = true
-//                detailViewResize(view: guardView)
-//            }
-//        }
-//    }
-    
-//    @objc
-//    fileprivate func onClickGuardReport() {
-//        if let url = checklistUrl {
-//            moveToUrl(strUrl: url)
-//        } else {
-//            Snackbar().show(message: "현장점검표 주소를 받아오지 못했습니다. 앱 종료 후 다시 실행해 주세요.")
-//        }
-//    }
-//
-//    @objc
-//    fileprivate func onClickEnv() {
-//        moveToUrl(strUrl: "https://www.ev.or.kr/mobile/main2")
-//    }
-//
-//    @objc
-//    fileprivate func onClickKepco() {
-//        moveToUrl(strUrl: "https://evc.kepco.co.kr:4445/mobile/main.do")
-//    }
-//}
