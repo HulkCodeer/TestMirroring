@@ -40,8 +40,8 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cInfo = cidList[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CidTableViewCell", for: indexPath) as! CidTableViewCell
+        let cidInfo = cidList[indexPath.row]
+        let cell = Bundle.main.loadNibNamed("CidInfoTableViewCell", owner: self, options: nil)?.first as! CidInfoTableViewCell
         
         // 충전기 상태
 //        cell.statusLabel.text = cInfo.cstToString(cst: cInfo.status)
