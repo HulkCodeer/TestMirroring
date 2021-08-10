@@ -718,6 +718,7 @@
 		00A7D5C926B7B13F00C5DBCC /* Filter */ = {
 			isa = PBXGroup;
 			children = (
+				00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */,
 				00A7D5CA26B7B15D00C5DBCC /* FilterTypeViewController.swift */,
 				00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */,
 				00A7D5D326B7DB3400C5DBCC /* FilterPriceViewController.swift */,
@@ -1061,7 +1062,6 @@
 				00FDEAF726B3BFC1006617EE /* Other.storyboard */,
 				00FDEAF926B3BFCF006617EE /* Info.storyboard */,
 				425B055A26B7847B00B597A2 /* Detail.storyboard */,
-				00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
