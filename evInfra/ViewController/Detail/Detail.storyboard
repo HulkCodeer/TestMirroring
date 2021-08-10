@@ -34,30 +34,8 @@
                                                 <segue destination="4Dj-Y5-5o6" kind="embed" id="Ffe-rW-oOS"/>
                                             </connections>
                                         </containerView>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Dv-dJ-lm6" userLabel="ViewWarning">
-                                            <rect key="frame" x="16" y="160" width="382" height="56"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_warning_md" translatesAutoresizingMaskIntoConstraints="NO" id="mWH-FU-H6s">
-                                                    <rect key="frame" x="8" y="18" width="20" height="20"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <color key="tintColor" name="content-negative"/>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="현재 보고계신 충전소는 비개방 충전소이므로, 거주자/관계자/이용자 외 출입이 제한될 수 있습니다." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IOu-4A-7UL">
-                                                    <rect key="frame" x="36" y="0.0" width="346" height="56"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" name="content-primary"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" name="background-secondary"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="56" id="0Kr-pw-Gcz"/>
-                                            </constraints>
-                                        </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bTX-Gy-m0k" userLabel="ViewChargerInfo">
-                                            <rect key="frame" x="16" y="232" width="382" height="20"/>
+                                            <rect key="frame" x="16" y="160" width="382" height="20"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="충전기 정보" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfd-dN-Lo0">
                                                     <rect key="frame" x="0.0" y="0.0" width="73.5" height="19.5"/>
@@ -73,14 +51,14 @@
                                             </constraints>
                                         </view>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="147" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="XBy-N2-pfd" customClass="CidTableView" customModule="evInfra" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="268" width="414" height="100"/>
+                                            <rect key="frame" x="0.0" y="196" width="414" height="100"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="100" id="vqP-HU-Gfi"/>
                                             </constraints>
                                         </tableView>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="oie-IS-8pO">
-                                            <rect key="frame" x="16" y="384" width="382" height="407.5"/>
+                                            <rect key="frame" x="16" y="312" width="382" height="407.5"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Ya-Tj-ICM">
                                                     <rect key="frame" x="0.0" y="0.0" width="382" height="19.5"/>
@@ -384,16 +362,13 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstItem="XBy-N2-pfd" firstAttribute="leading" secondItem="HgN-hh-5BP" secondAttribute="leading" id="2H0-Xx-VIX"/>
-                                        <constraint firstAttribute="trailing" secondItem="1Dv-dJ-lm6" secondAttribute="trailing" constant="16" id="4ZP-KC-C5H"/>
                                         <constraint firstAttribute="trailing" secondItem="bTX-Gy-m0k" secondAttribute="trailing" constant="16" id="8WL-YN-4N3"/>
                                         <constraint firstItem="XBy-N2-pfd" firstAttribute="leading" secondItem="HgN-hh-5BP" secondAttribute="leading" id="Iju-iK-4xi"/>
-                                        <constraint firstItem="1Dv-dJ-lm6" firstAttribute="top" secondItem="XOj-dB-JYL" secondAttribute="bottom" constant="24" id="LID-zy-2hj"/>
                                         <constraint firstAttribute="trailing" secondItem="oie-IS-8pO" secondAttribute="trailing" constant="16" id="Ma2-7Z-bUp"/>
                                         <constraint firstItem="XBy-N2-pfd" firstAttribute="top" secondItem="bTX-Gy-m0k" secondAttribute="bottom" constant="16" id="MhL-f9-BXX"/>
                                         <constraint firstItem="oie-IS-8pO" firstAttribute="top" secondItem="XBy-N2-pfd" secondAttribute="bottom" constant="16" id="OPB-CA-6cW"/>
-                                        <constraint firstItem="1Dv-dJ-lm6" firstAttribute="leading" secondItem="HgN-hh-5BP" secondAttribute="leading" constant="16" id="Qaa-CG-bDK"/>
                                         <constraint firstItem="oie-IS-8pO" firstAttribute="leading" secondItem="HgN-hh-5BP" secondAttribute="leading" constant="16" id="Ruy-nH-fvL"/>
-                                        <constraint firstItem="bTX-Gy-m0k" firstAttribute="top" secondItem="1Dv-dJ-lm6" secondAttribute="bottom" constant="16" id="SUN-6P-snF"/>
+                                        <constraint firstItem="bTX-Gy-m0k" firstAttribute="top" secondItem="XOj-dB-JYL" secondAttribute="bottom" constant="24" id="Sl6-3L-2my"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XBy-N2-pfd" secondAttribute="trailing" id="VtP-eO-KfM"/>
                                         <constraint firstItem="XOj-dB-JYL" firstAttribute="top" secondItem="HgN-hh-5BP" secondAttribute="top" constant="16" id="dR3-6d-T8K"/>
                                         <constraint firstItem="bTX-Gy-m0k" firstAttribute="leading" secondItem="HgN-hh-5BP" secondAttribute="leading" constant="16" id="fsf-nW-k8y"/>
@@ -615,21 +590,14 @@
         <image name="icon_share_md" width="24" height="24"/>
         <image name="icon_star_md" width="24" height="24"/>
         <image name="icon_time_sm" width="20" height="20"/>
-        <image name="icon_warning_md" width="24" height="24"/>
         <namedColor name="background-always-dark">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="background-secondary">
-            <color red="0.96100002527236938" green="0.96100002527236938" blue="0.96100002527236938" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="background-tertiary">
             <color red="0.90200001001358032" green="0.90200001001358032" blue="0.90200001001358032" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-disabled">
             <color red="0.68599998950958252" green="0.68599998950958252" blue="0.68599998950958252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="content-negative">
-            <color red="0.93300002813339233" green="0.15299999713897705" blue="0.21600000560283661" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-positive">
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
