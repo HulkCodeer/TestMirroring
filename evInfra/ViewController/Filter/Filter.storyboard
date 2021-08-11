@@ -10,6 +10,19 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Filter Bar View Controller-->
+        <scene sceneID="K4E-fq-1sX">
+            <objects>
+                <pageViewController storyboardIdentifier="FilterBarViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" pageSpacing="10" navigationOrientation="horizontal" spineLocation="none" id="kJP-u3-kLu" customClass="FilterBarViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                    <size key="freeformSize" width="375" height="128"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isMotionEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ke3-A8-aui" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2764" y="-660"/>
+        </scene>
         <!--Charger Filter View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
@@ -39,7 +52,7 @@
                                                     <constraint firstAttribute="height" constant="116" id="tkG-jn-Dbx"/>
                                                 </constraints>
                                                 <connections>
-                                                    <segue destination="RH2-0C-oVs" kind="embed" id="lum-of-SdF"/>
+                                                    <segue destination="RH2-0C-oVs" kind="embed" id="SJd-IZ-Pee"/>
                                                 </connections>
                                             </containerView>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rDz-JF-aB9" userLabel="Speed Container">
@@ -156,6 +169,9 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="OWr-h1-NXu">
                                 <rect key="frame" x="16" y="51.5" width="343" height="72.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="72.5" id="WCK-Bd-2nV"/>
+                                </constraints>
                                 <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ZVY-vh-wBt">
                                     <size key="itemSize" width="128" height="128"/>
@@ -182,11 +198,11 @@
                             <constraint firstItem="Edd-gp-7tK" firstAttribute="trailing" secondItem="OWr-h1-NXu" secondAttribute="trailing" constant="16" id="QMf-FU-GUu"/>
                             <constraint firstItem="OWr-h1-NXu" firstAttribute="top" secondItem="5AR-1b-wVF" secondAttribute="bottom" constant="8" id="aM1-r3-H86"/>
                             <constraint firstItem="5AR-1b-wVF" firstAttribute="leading" secondItem="Edd-gp-7tK" secondAttribute="leading" constant="16" id="bfs-hM-2mK"/>
-                            <constraint firstItem="Edd-gp-7tK" firstAttribute="bottom" secondItem="OWr-h1-NXu" secondAttribute="bottom" id="gtD-RC-ht6"/>
                             <constraint firstItem="Edd-gp-7tK" firstAttribute="top" secondItem="5AR-1b-wVF" secondAttribute="top" constant="-24" id="sCV-fZ-BEf"/>
                             <constraint firstItem="OWr-h1-NXu" firstAttribute="leading" secondItem="Edd-gp-7tK" secondAttribute="leading" constant="16" id="wbb-Bo-DKE"/>
                         </constraints>
                     </view>
+                    <size key="freeformSize" width="375" height="124"/>
                     <connections>
                         <outlet property="tagCollectionview" destination="OWr-h1-NXu" id="8IL-oO-1ZM"/>
                     </connections>
@@ -233,6 +249,7 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="3Uj-u4-Mnf" firstAttribute="leading" secondItem="rZf-ck-gr5" secondAttribute="trailing" constant="8" id="SSc-dD-Umc"/>
+                                            <constraint firstAttribute="height" constant="75.5" id="WBe-HS-fo2"/>
                                             <constraint firstItem="rZf-ck-gr5" firstAttribute="leading" secondItem="xfl-zc-qlx" secondAttribute="leading" constant="4" id="Yfe-y1-koi"/>
                                             <constraint firstItem="3Uj-u4-Mnf" firstAttribute="centerY" secondItem="xfl-zc-qlx" secondAttribute="centerY" id="aw7-lC-mfi"/>
                                             <constraint firstItem="rZf-ck-gr5" firstAttribute="centerY" secondItem="xfl-zc-qlx" secondAttribute="centerY" id="st1-md-3nl"/>
@@ -270,17 +287,16 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="7nc-iJ-Cab"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ym9-yh-61p" firstAttribute="top" secondItem="Jrn-uU-ZZg" secondAttribute="bottom" constant="4" id="4Jx-Th-aSy"/>
-                            <constraint firstItem="ym9-yh-61p" firstAttribute="leading" secondItem="7nc-iJ-Cab" secondAttribute="leading" constant="16" id="AIb-Ty-8ii"/>
-                            <constraint firstItem="ym9-yh-61p" firstAttribute="bottom" secondItem="7nc-iJ-Cab" secondAttribute="bottom" id="b3D-I1-acp"/>
-                            <constraint firstItem="Jrn-uU-ZZg" firstAttribute="top" secondItem="7nc-iJ-Cab" secondAttribute="top" constant="16" id="bh4-yh-miQ"/>
-                            <constraint firstItem="Jrn-uU-ZZg" firstAttribute="leading" secondItem="7nc-iJ-Cab" secondAttribute="leading" constant="16" id="coj-ma-2S6"/>
-                            <constraint firstItem="ym9-yh-61p" firstAttribute="trailing" secondItem="7nc-iJ-Cab" secondAttribute="trailing" constant="-16" id="xtO-A2-iyw"/>
+                            <constraint firstItem="ym9-yh-61p" firstAttribute="leading" secondItem="zAD-wz-x8Y" secondAttribute="leading" constant="16" id="AIb-Ty-8ii"/>
+                            <constraint firstItem="Jrn-uU-ZZg" firstAttribute="top" secondItem="zAD-wz-x8Y" secondAttribute="top" constant="16" id="bh4-yh-miQ"/>
+                            <constraint firstItem="Jrn-uU-ZZg" firstAttribute="leading" secondItem="zAD-wz-x8Y" secondAttribute="leading" constant="16" id="coj-ma-2S6"/>
+                            <constraint firstItem="ym9-yh-61p" firstAttribute="trailing" secondItem="zAD-wz-x8Y" secondAttribute="trailing" constant="-16" id="xtO-A2-iyw"/>
                         </constraints>
                     </view>
+                    <size key="freeformSize" width="375" height="116"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HTL-O6-P6R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -289,7 +305,7 @@
         <!--Filter Speed View Controller-->
         <scene sceneID="fFM-Gx-58a">
             <objects>
-                <viewController id="zlf-J7-IYF" customClass="FilterSpeedViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FilterSpeedViewController" id="zlf-J7-IYF" customClass="FilterSpeedViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HlM-OT-Sj1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="116"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -304,6 +320,9 @@
                                 <rect key="frame" x="32" y="45" width="311" height="75"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="tintColor" name="content-positive"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="xSk-dj-vT2"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="minValue">
                                         <real key="value" value="0.0"/>
@@ -337,7 +356,6 @@
                         <viewLayoutGuide key="safeArea" id="kGG-3f-UCs"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="OjU-9I-26y" firstAttribute="bottom" secondItem="kGG-3f-UCs" secondAttribute="bottom" constant="4" id="JFy-zy-vNM"/>
                             <constraint firstItem="kGG-3f-UCs" firstAttribute="trailing" secondItem="Vpe-xx-1cP" secondAttribute="trailing" constant="16" id="Jtm-Ta-55N"/>
                             <constraint firstItem="Vpe-xx-1cP" firstAttribute="top" secondItem="kGG-3f-UCs" secondAttribute="top" constant="16" id="Q5O-BI-9tJ"/>
                             <constraint firstItem="Vpe-xx-1cP" firstAttribute="centerY" secondItem="DmR-3z-fm4" secondAttribute="centerY" id="RjA-R4-58j"/>
@@ -348,6 +366,7 @@
                             <constraint firstItem="DmR-3z-fm4" firstAttribute="leading" secondItem="kGG-3f-UCs" secondAttribute="leading" constant="16" id="hpV-R5-xfY"/>
                         </constraints>
                     </view>
+                    <size key="freeformSize" width="375" height="116"/>
                     <connections>
                         <outlet property="rangeSliderSpeed" destination="OjU-9I-26y" id="31e-P6-3QZ"/>
                     </connections>
@@ -359,7 +378,7 @@
         <!--Filter Place View Controller-->
         <scene sceneID="nGk-H8-yIN">
             <objects>
-                <viewController id="1ZT-pS-T6g" customClass="FilterPlaceViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FilterPlaceViewController" id="1ZT-pS-T6g" customClass="FilterPlaceViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dKM-Ej-4Fy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="146"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -460,23 +479,23 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="68" id="XW1-g3-zRp"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="68" id="k5W-na-dKB"/>
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="bJY-C3-yfd"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="JMi-uU-1vX" firstAttribute="leading" secondItem="bJY-C3-yfd" secondAttribute="leading" constant="16" id="3lJ-Qp-xgE"/>
-                            <constraint firstItem="BRd-Hn-k9I" firstAttribute="top" secondItem="bJY-C3-yfd" secondAttribute="top" constant="16" id="DR4-uy-0ur"/>
-                            <constraint firstItem="bJY-C3-yfd" firstAttribute="trailing" secondItem="JMi-uU-1vX" secondAttribute="trailing" constant="16" id="JcA-qj-Kpd"/>
-                            <constraint firstItem="bJY-C3-yfd" firstAttribute="trailing" secondItem="Zd5-Hc-2xL" secondAttribute="trailing" constant="16" id="Uax-Uf-a6q"/>
-                            <constraint firstItem="JMi-uU-1vX" firstAttribute="bottom" secondItem="bJY-C3-yfd" secondAttribute="bottom" id="WYc-vm-G6E"/>
+                            <constraint firstItem="JMi-uU-1vX" firstAttribute="leading" secondItem="dKM-Ej-4Fy" secondAttribute="leading" constant="16" id="3lJ-Qp-xgE"/>
+                            <constraint firstItem="BRd-Hn-k9I" firstAttribute="top" secondItem="dKM-Ej-4Fy" secondAttribute="top" constant="16" id="DR4-uy-0ur"/>
+                            <constraint firstAttribute="trailing" secondItem="JMi-uU-1vX" secondAttribute="trailing" constant="16" id="JcA-qj-Kpd"/>
+                            <constraint firstAttribute="trailing" secondItem="Zd5-Hc-2xL" secondAttribute="trailing" constant="16" id="Uax-Uf-a6q"/>
                             <constraint firstItem="JMi-uU-1vX" firstAttribute="top" secondItem="Zd5-Hc-2xL" secondAttribute="bottom" constant="24" id="Yk5-Bj-oVW"/>
-                            <constraint firstItem="Zd5-Hc-2xL" firstAttribute="leading" secondItem="bJY-C3-yfd" secondAttribute="leading" constant="16" id="nme-Xx-IEf"/>
+                            <constraint firstItem="Zd5-Hc-2xL" firstAttribute="leading" secondItem="dKM-Ej-4Fy" secondAttribute="leading" constant="16" id="nme-Xx-IEf"/>
                             <constraint firstItem="Zd5-Hc-2xL" firstAttribute="top" secondItem="BRd-Hn-k9I" secondAttribute="bottom" constant="4" id="vtb-cc-e6f"/>
-                            <constraint firstItem="BRd-Hn-k9I" firstAttribute="leading" secondItem="bJY-C3-yfd" secondAttribute="leading" constant="16" id="zdO-wr-gmn"/>
+                            <constraint firstItem="BRd-Hn-k9I" firstAttribute="leading" secondItem="dKM-Ej-4Fy" secondAttribute="leading" constant="16" id="zdO-wr-gmn"/>
                         </constraints>
                     </view>
+                    <size key="freeformSize" width="375" height="146"/>
                     <connections>
                         <outlet property="ivCanopy" destination="BIA-bl-eUc" id="PxL-Qi-fZc"/>
                         <outlet property="ivIndoor" destination="ppY-Eq-Rzh" id="u4g-s0-mT3"/>
@@ -496,7 +515,7 @@
         <!--Filter Company View Controller-->
         <scene sceneID="wcx-6b-h4Z">
             <objects>
-                <viewController id="SwE-Z7-dzN" customClass="FilterCompanyViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FilterCompanyViewController" id="SwE-Z7-dzN" customClass="FilterCompanyViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4Ax-Kg-KHd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="900"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -567,7 +586,7 @@
         <!--Filter Road View Controller-->
         <scene sceneID="hUo-4E-MVD">
             <objects>
-                <viewController id="ZGI-Uv-703" customClass="FilterRoadViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FilterRoadViewController" id="ZGI-Uv-703" customClass="FilterRoadViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Qla-FG-s4s">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="124"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -579,7 +598,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="pok-4p-QHB">
-                                <rect key="frame" x="16" y="56" width="343" height="68"/>
+                                <rect key="frame" x="16" y="55.5" width="343" height="68"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HZF-2c-evi">
                                         <rect key="frame" x="0.0" y="0.0" width="114.5" height="68"/>
@@ -662,6 +681,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="68" id="H43-ol-2AS"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="68" id="kKx-2b-Zab"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -671,11 +691,11 @@
                             <constraint firstItem="G4J-UQ-Dvh" firstAttribute="top" secondItem="Qla-FG-s4s" secondAttribute="top" constant="16" id="8Pg-Ju-Waw"/>
                             <constraint firstItem="pok-4p-QHB" firstAttribute="leading" secondItem="GQv-hi-H3J" secondAttribute="leading" constant="16" id="DR4-Fo-fyr"/>
                             <constraint firstItem="G4J-UQ-Dvh" firstAttribute="leading" secondItem="Qla-FG-s4s" secondAttribute="leading" constant="16" id="FGV-S1-Xe7"/>
-                            <constraint firstItem="GQv-hi-H3J" firstAttribute="bottom" secondItem="pok-4p-QHB" secondAttribute="bottom" id="OmU-ku-fAR"/>
-                            <constraint firstItem="pok-4p-QHB" firstAttribute="top" relation="lessThanOrEqual" secondItem="G4J-UQ-Dvh" secondAttribute="bottom" constant="32" id="uci-Na-Bxh"/>
+                            <constraint firstItem="pok-4p-QHB" firstAttribute="top" secondItem="G4J-UQ-Dvh" secondAttribute="bottom" constant="20" id="uci-Na-Bxh"/>
                             <constraint firstItem="GQv-hi-H3J" firstAttribute="trailing" secondItem="pok-4p-QHB" secondAttribute="trailing" constant="16" id="vDq-en-4wU"/>
                         </constraints>
                     </view>
+                    <size key="freeformSize" width="375" height="124"/>
                     <connections>
                         <outlet property="ivGeneral" destination="ZWa-Iy-7P8" id="6Vu-Sf-9ky"/>
                         <outlet property="ivHighDown" destination="ZzR-UG-vmh" id="c6a-eW-Hlo"/>
@@ -695,7 +715,7 @@
         <!--Filter Access View Controller-->
         <scene sceneID="Ftp-gp-he7">
             <objects>
-                <viewController id="VTs-to-pkq" customClass="FilterAccessViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FilterAccessViewController" id="VTs-to-pkq" customClass="FilterAccessViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6Hn-SW-Gio">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -791,6 +811,11 @@
             <point key="canvasLocation" x="-1039" y="-1556"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="OjU-9I-26y">
+            <size key="intrinsicContentSize" width="-1" height="65"/>
+        </designable>
+    </designables>
     <resources>
         <image name="ic_access_non_public" width="48" height="48"/>
         <image name="ic_access_public" width="48" height="48"/>

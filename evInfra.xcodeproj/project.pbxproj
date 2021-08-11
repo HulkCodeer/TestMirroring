@@ -18,6 +18,12 @@
 		0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */; };
 		006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006C90982554EFD100F7C6D7 /* PopUpDialog.swift */; };
 		0093DDCD2587753500715969 /* evinfra_snow.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0093DDCC2587753400715969 /* evinfra_snow.gif */; };
+		00A6A15B26C39F660023DAE3 /* FilterPriceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A15A26C39F660023DAE3 /* FilterPriceView.xib */; };
+		00A6A15D26C3A0F10023DAE3 /* FilterPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A15C26C3A0F10023DAE3 /* FilterPriceView.swift */; };
+		00A6A15F26C3A4930023DAE3 /* FilterPlaceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A15E26C3A4930023DAE3 /* FilterPlaceView.xib */; };
+		00A6A16226C3A4D30023DAE3 /* FilterPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A16126C3A4D30023DAE3 /* FilterPlaceView.swift */; };
+		00A6A16426C3B3BC0023DAE3 /* FilterContainerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A16326C3B3BC0023DAE3 /* FilterContainerView.xib */; };
+		00A6A16626C3B3DC0023DAE3 /* FilterContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A16526C3B3DC0023DAE3 /* FilterContainerView.swift */; };
 		00A7D5C826B7B0D100C5DBCC /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */; };
 		00A7D5CB26B7B15D00C5DBCC /* FilterTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7D5CA26B7B15D00C5DBCC /* FilterTypeViewController.swift */; };
 		00A7D5D226B7DA2100C5DBCC /* ChargerFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */; };
@@ -26,10 +32,10 @@
 		00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */; };
 		00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */; };
 		00A84A9625514876008D987D /* PopUpDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A84A9525514876008D987D /* PopUpDialog.xib */; };
-		00B4F54726BA2399009A904C /* TagListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B4F54626BA2399009A904C /* TagListViewCell.swift */; };
-		00B4F54926BA23B6009A904C /* TagListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00B4F54826BA23B6009A904C /* TagListViewCell.xib */; };
 		00B2E8BF26C0FEF9005D017C /* Offerwall.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00B2E8BE26C0FEF9005D017C /* Offerwall.storyboard */; };
 		00B2E8C826C106AC005D017C /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00B2E8C726C106AC005D017C /* Login.storyboard */; };
+		00B4F54726BA2399009A904C /* TagListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B4F54626BA2399009A904C /* TagListViewCell.swift */; };
+		00B4F54926BA23B6009A904C /* TagListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00B4F54826BA23B6009A904C /* TagListViewCell.xib */; };
 		00C75C46252ED4A000387559 /* LotteRentCertificateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C45252ED4A000387559 /* LotteRentCertificateViewController.swift */; };
 		00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */; };
 		00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C55252EF40100387559 /* HSUnderLineTextField.swift */; };
@@ -342,6 +348,12 @@
 		0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceViewController.swift; sourceTree = "<group>"; };
 		006C90982554EFD100F7C6D7 /* PopUpDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpDialog.swift; sourceTree = "<group>"; };
 		0093DDCC2587753400715969 /* evinfra_snow.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = evinfra_snow.gif; sourceTree = "<group>"; };
+		00A6A15A26C39F660023DAE3 /* FilterPriceView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterPriceView.xib; sourceTree = "<group>"; };
+		00A6A15C26C3A0F10023DAE3 /* FilterPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPriceView.swift; sourceTree = "<group>"; };
+		00A6A15E26C3A4930023DAE3 /* FilterPlaceView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterPlaceView.xib; sourceTree = "<group>"; };
+		00A6A16126C3A4D30023DAE3 /* FilterPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPlaceView.swift; sourceTree = "<group>"; };
+		00A6A16326C3B3BC0023DAE3 /* FilterContainerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterContainerView.xib; sourceTree = "<group>"; };
+		00A6A16526C3B3DC0023DAE3 /* FilterContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterContainerView.swift; sourceTree = "<group>"; };
 		00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Filter.storyboard; sourceTree = "<group>"; };
 		00A7D5CA26B7B15D00C5DBCC /* FilterTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTypeViewController.swift; sourceTree = "<group>"; };
 		00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerFilterViewController.swift; sourceTree = "<group>"; };
@@ -350,10 +362,10 @@
 		00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnershipJoinView.swift; sourceTree = "<group>"; };
 		00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartnershipJoinView.xib; sourceTree = "<group>"; };
 		00A84A9525514876008D987D /* PopUpDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PopUpDialog.xib; sourceTree = "<group>"; };
-		00B4F54626BA2399009A904C /* TagListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewCell.swift; sourceTree = "<group>"; };
-		00B4F54826BA23B6009A904C /* TagListViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagListViewCell.xib; sourceTree = "<group>"; };
 		00B2E8BE26C0FEF9005D017C /* Offerwall.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Offerwall.storyboard; sourceTree = "<group>"; };
 		00B2E8C726C106AC005D017C /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		00B4F54626BA2399009A904C /* TagListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewCell.swift; sourceTree = "<group>"; };
+		00B4F54826BA23B6009A904C /* TagListViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagListViewCell.xib; sourceTree = "<group>"; };
 		00C75C45252ED4A000387559 /* LotteRentCertificateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotteRentCertificateViewController.swift; sourceTree = "<group>"; };
 		00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResultViewController.swift; sourceTree = "<group>"; };
 		00C75C55252EF40100387559 /* HSUnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSUnderLineTextField.swift; sourceTree = "<group>"; };
@@ -719,6 +731,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		00A6A16026C3A4B20023DAE3 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				00A6A15A26C39F660023DAE3 /* FilterPriceView.xib */,
+				00A6A15C26C3A0F10023DAE3 /* FilterPriceView.swift */,
+				00A6A15E26C3A4930023DAE3 /* FilterPlaceView.xib */,
+				00A6A16126C3A4D30023DAE3 /* FilterPlaceView.swift */,
+				00A6A16326C3B3BC0023DAE3 /* FilterContainerView.xib */,
+				00A6A16526C3B3DC0023DAE3 /* FilterContainerView.swift */,
+			);
+			path = Filter;
+			sourceTree = "<group>";
+		};
 		00A7D5C926B7B13F00C5DBCC /* Filter */ = {
 			isa = PBXGroup;
 			children = (
@@ -1081,6 +1106,7 @@
 		73B75286204928550077112A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				00A6A16026C3A4B20023DAE3 /* Filter */,
 				00A7D5CC26B7C48600C5DBCC /* Tag */,
 				CE5242372183076000FF6AB1 /* AddressSearchCell.swift */,
 				DB5C4EDE2361A04B0090139E /* AdvertisingDialog.swift */,
@@ -1511,6 +1537,7 @@
 				00FDEAE826B3B6A2006617EE /* Charge.storyboard in Resources */,
 				73A7B418204E3595002E975F /* reply_count_bg.png in Resources */,
 				73D65D822362D54000F564A2 /* MembershipTermView.xib in Resources */,
+				00A6A15B26C39F660023DAE3 /* FilterPriceView.xib in Resources */,
 				73A7B413204E3595002E975F /* type_dc_demo_dim.png in Resources */,
 				00B2E8BF26C0FEF9005D017C /* Offerwall.storyboard in Resources */,
 				73344AC1207B5F8B00A6A9EC /* awsconfiguration.json in Resources */,
@@ -1525,6 +1552,7 @@
 				DBA3BE93252C709500E2D94A /* ad_illust.png in Resources */,
 				73A7B3FE204E3595002E975F /* ready_image.png in Resources */,
 				9028E07824A1B8280062A029 /* eirel in Resources */,
+				00A6A16426C3B3BC0023DAE3 /* FilterContainerView.xib in Resources */,
 				CE13858F217869B200E3F869 /* ReportChargerChildCell.xib in Resources */,
 				00FDEAEC26B3BF47006617EE /* Payment.storyboard in Resources */,
 				DB18733220A9983400790B77 /* btn_camera.png in Resources */,
@@ -1590,6 +1618,7 @@
 				73A7B3E8204E3595002E975F /* reply_btn_selected.png in Resources */,
 				00FDEAEA26B3BF1E006617EE /* Member.storyboard in Resources */,
 				DB87607320690B370095394B /* BoardTableViewFooter.xib in Resources */,
+				00A6A15F26C3A4930023DAE3 /* FilterPlaceView.xib in Resources */,
 				73C31C0B20A2BB04005B6C53 /* charge_normal.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1828,10 +1857,12 @@
 				0044A05025AEEB1500D0BB0A /* LotteRentIntoViewController.swift in Sources */,
 				DB3B858920A45CB8005454F5 /* Character.swift in Sources */,
 				DB3B858720A445B6005454F5 /* KoreanChar.swift in Sources */,
+				00A6A15D26C3A0F10023DAE3 /* FilterPriceView.swift in Sources */,
 				732ED1FA21EEFA960012C67B /* MainViewController.swift in Sources */,
 				DB1ECB9922CDD8DB00E3A65E /* ChargingHistoryList.swift in Sources */,
 				42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */,
 				735E87C822D88ED70028F7BD /* ChargingStatus.swift in Sources */,
+				00A6A16226C3A4D30023DAE3 /* FilterPlaceView.swift in Sources */,
 				73344AC5207F429300A6A9EC /* EditViewDelegate.swift in Sources */,
 				CEC4322A223A5C9A00B76795 /* SearchTableView.swift in Sources */,
 				CE93309121509A81006B7EF6 /* ReportBoardViewController.swift in Sources */,
@@ -1901,6 +1932,7 @@
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
 				736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController.swift in Sources */,
+				00A6A16626C3B3DC0023DAE3 /* FilterContainerView.swift in Sources */,
 				73EE8FC72109B0FD0016F505 /* URL.swift in Sources */,
 				00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */,
 				00EB85CE26BA7E0D00D1606F /* FilterAccessViewController.swift in Sources */,
