@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" multipleTouchEnabled="YES" tag="100" contentMode="scaleToFill" canCancelContentTouches="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="5nZ-Ka-bJr" customClass="BoardTableView" customModule="evInfra" customModuleProvider="target">
+                            <tableView clipsSubviews="YES" multipleTouchEnabled="YES" tag="100" contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="818" canCancelContentTouches="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="5nZ-Ka-bJr" customClass="BoardTableView" customModule="evInfra" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="HgN-hh-5BP">
@@ -50,7 +50,7 @@
                                                 <constraint firstAttribute="height" constant="20" id="Gf6-ix-4i8"/>
                                             </constraints>
                                         </view>
-                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="147" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="XBy-N2-pfd" customClass="CidTableView" customModule="evInfra" customModuleProvider="target">
+                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="XBy-N2-pfd" customClass="CidTableView" customModule="evInfra" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="196" width="414" height="100"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
@@ -369,7 +369,6 @@
                                         <constraint firstItem="oie-IS-8pO" firstAttribute="top" secondItem="XBy-N2-pfd" secondAttribute="bottom" constant="16" id="OPB-CA-6cW"/>
                                         <constraint firstItem="oie-IS-8pO" firstAttribute="leading" secondItem="HgN-hh-5BP" secondAttribute="leading" constant="16" id="Ruy-nH-fvL"/>
                                         <constraint firstItem="bTX-Gy-m0k" firstAttribute="top" secondItem="XOj-dB-JYL" secondAttribute="bottom" constant="24" id="Sl6-3L-2my"/>
-                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XBy-N2-pfd" secondAttribute="trailing" id="VtP-eO-KfM"/>
                                         <constraint firstItem="XOj-dB-JYL" firstAttribute="top" secondItem="HgN-hh-5BP" secondAttribute="top" constant="16" id="dR3-6d-T8K"/>
                                         <constraint firstItem="bTX-Gy-m0k" firstAttribute="leading" secondItem="HgN-hh-5BP" secondAttribute="leading" constant="16" id="fsf-nW-k8y"/>
                                         <constraint firstAttribute="trailing" secondItem="XOj-dB-JYL" secondAttribute="trailing" id="idI-M3-XZb"/>
@@ -546,6 +545,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="1Sc-BT-pdb"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="bottomMargin" secondItem="W47-M2-vZl" secondAttribute="bottom" id="MH2-hs-SOy"/>
@@ -572,6 +572,9 @@
         </scene>
     </scenes>
     <designables>
+        <designable name="5nZ-Ka-bJr">
+            <size key="intrinsicContentSize" width="414" height="818"/>
+        </designable>
         <designable name="XBy-N2-pfd">
             <size key="intrinsicContentSize" width="414" height="147"/>
         </designable>

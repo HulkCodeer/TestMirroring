@@ -508,7 +508,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="174" translatesAutoresizingMaskIntoConstraints="NO" id="lcn-fZ-1A0">
                                 <rect key="frame" x="0.0" y="493" width="375" height="174"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="140" id="Chu-lo-17Z"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="Chu-lo-17Z"/>
                                 </constraints>
                                 <connections>
                                     <segue destination="zai-Pa-CLz" kind="embed" id="itn-uj-mi4"/>

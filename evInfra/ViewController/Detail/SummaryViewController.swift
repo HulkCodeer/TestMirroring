@@ -13,7 +13,7 @@ class SummaryViewController: UIViewController {
     // summary
     @IBOutlet weak var companyImg: UIImageView!         // 운영기관(이미지)
     @IBOutlet weak var callOutTitle: UILabel!           // 충전소 이름
-    @IBOutlet var callOutFavorite: UIButton!    
+    @IBOutlet var callOutFavorite: UIButton!
     
     @IBOutlet weak var addressLabel: UILabel!    // 충전소 주소
     @IBOutlet var copyBtn: UIButton!
@@ -70,7 +70,6 @@ class SummaryViewController: UIViewController {
     @IBAction func onClickShare(_ sender: Any) {
         self.shareForKakao()
     }
-    
     
     
     func getSummaryInfo() {

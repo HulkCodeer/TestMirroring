@@ -216,6 +216,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
     }
     
+    
 //    func setAddr(stationDto: StationInfoDto) {
 //        if let addr = stationDto.mAddress{
 //            if let addrDetail = stationDto.mAddressDetail{

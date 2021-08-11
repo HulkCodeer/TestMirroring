@@ -11,7 +11,7 @@ import UIKit
 class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
 
     struct Constants {
-        static let cellHeight: CGFloat = 60
+        static let cellHeight: CGFloat = 93
     }
     
     var cidList = [CidInfo]()
