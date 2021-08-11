@@ -72,32 +72,6 @@ class MainViewController: UIViewController {
     
     // Callout View
     @IBOutlet weak var callOutLayer: UIView!
-    @IBOutlet var companyImg: UIImageView!         // 운영기관(이미지)
-    @IBOutlet weak var callOutTitle: UILabel!       // 충전소이름
-    @IBOutlet var distanceLb: UILabel!              // 거리
-    @IBOutlet weak var callOutFavorite: UIButton!   // 북마크
-    
-    @IBOutlet var markerImg: UIImageView!           // 마커이미지
-    @IBOutlet weak var callOutStatus: UILabel!      // 충전상태
-
-    @IBOutlet var typeDemoLb: UILabel!                 // 타입(view)
-    @IBOutlet var typeComboLb: UILabel!                 // 타입(view)
-    @IBOutlet var typeACLb: UILabel!                 // 타입(view)
-    @IBOutlet var typeSlowLb: UILabel!
-    @IBOutlet var typeSuperLb: UILabel!
-    
-    @IBOutlet var typeDestiLb: UILabel!
-    
-    @IBOutlet var powerView: UILabel!               // 충전속도(view)
-    @IBOutlet var chargePowerLb: UILabel!           // 충전속도
-    @IBOutlet var priceView: UILabel!               // 충전금액(view)
-    @IBOutlet var chargePriceLb: UILabel!           // 충전금액
-    
-    @IBOutlet weak var startPointBtn: UIButton!     // 출발
-    @IBOutlet weak var endPointBtn: UIButton!       // 도착
-    @IBOutlet var addPointBtn: UIButton!            // 경유지 추가
-    @IBOutlet weak var naviBtn: UIButton!           // 길안내
-    
     // Menu Button Layer
     @IBOutlet var btn_menu_layer: UIView!
     @IBOutlet var btn_main_charge: UIButton!
@@ -164,34 +138,34 @@ class MainViewController: UIViewController {
         requestStationInfo()
     }
     
-    override func viewWillLayoutSubviews() {
-        // btn border
-        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        self.naviBtn.setBorderRadius(.allCorners, radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        self.addPointBtn.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        if let currentPoint = MainViewController.currentLocation {
-            startField.placeholder = tMapPathData.convertGpsToAddress(at: currentPoint)
-        }
-        // routeDistancBtn radius, gradient
-        self.routeDistanceBtn.roundCorners(.allCorners, radius: 10)
-        self.routeDistanceBtn.setGradientColor(startColor: UIColor(hex: "#2CE0BB"), endColor: UIColor(hex: "#33A2DA"), startPoint: CGPoint(x: 0.0, y: 1.0), endPoint: CGPoint(x: 1.0, y:1.0))
-        self.routeDistanceView.roundCorners(.allCorners, radius: 5)
-        self.routeDistanceView.backgroundColor = UIColor.init(hex: "#F5ffffff")
-        // type/LB round corner
-        self.powerView.roundCorners(.allCorners, radius: 3)
-        self.priceView.roundCorners(.allCorners, radius: 3)
-        self.typeDemoLb.roundCorners(.allCorners, radius: 3)
-        self.typeComboLb.roundCorners(.allCorners, radius: 3)
-        self.typeACLb.roundCorners(.allCorners, radius: 3)
-        self.typeSlowLb.roundCorners(.allCorners, radius: 3)
-        self.typeSuperLb.roundCorners(.allCorners, radius: 3)
-        self.typeDestiLb.roundCorners(.allCorners, radius: 3)
-        // bookmark
-        if selectCharger != nil {
-            setCallOutFavoriteIcon(charger: self.selectCharger!)
-        }
-    }
+//    override func viewWillLayoutSubviews() {
+//        // btn border
+//        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+//        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+//        self.naviBtn.setBorderRadius(.allCorners, radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+//        self.addPointBtn.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
+//        if let currentPoint = MainViewController.currentLocation {
+//            startField.placeholder = tMapPathData.convertGpsToAddress(at: currentPoint)
+//        }
+//        // routeDistancBtn radius, gradient
+//        self.routeDistanceBtn.roundCorners(.allCorners, radius: 10)
+//        self.routeDistanceBtn.setGradientColor(startColor: UIColor(hex: "#2CE0BB"), endColor: UIColor(hex: "#33A2DA"), startPoint: CGPoint(x: 0.0, y: 1.0), endPoint: CGPoint(x: 1.0, y:1.0))
+//        self.routeDistanceView.roundCorners(.allCorners, radius: 5)
+//        self.routeDistanceView.backgroundColor = UIColor.init(hex: "#F5ffffff")
+//        // type/LB round corner
+//        self.powerView.roundCorners(.allCorners, radius: 3)
+//        self.priceView.roundCorners(.allCorners, radius: 3)
+//        self.typeDemoLb.roundCorners(.allCorners, radius: 3)
+//        self.typeComboLb.roundCorners(.allCorners, radius: 3)
+//        self.typeACLb.roundCorners(.allCorners, radius: 3)
+//        self.typeSlowLb.roundCorners(.allCorners, radius: 3)
+//        self.typeSuperLb.roundCorners(.allCorners, radius: 3)
+//        self.typeDestiLb.roundCorners(.allCorners, radius: 3)
+//        // bookmark
+//        if selectCharger != nil {
+//            setCallOutFavoriteIcon(charger: self.selectCharger!)
+//        }
+//    }
     
     override func viewDidAppear(_ animated: Bool) {
         menuBadgeAdd()
@@ -537,20 +511,20 @@ class MainViewController: UIViewController {
         }
     }
     
-    func bookmark() {
-        if MemberManager().isLogin() {
-            ChargerManager.sharedInstance.setFavoriteCharger(charger: selectCharger!) { (charger) in
-                self.setCallOutFavoriteIcon(charger: charger)
-                if charger.mFavorite {
-                    Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
-                } else {
-                    Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
-                }
-            }
-        } else {
-            MemberManager().showLoginAlert(vc: self)
-        }
-    }
+//    func bookmark() {
+//        if MemberManager().isLogin() {
+//            ChargerManager.sharedInstance.setFavoriteCharger(charger: selectCharger!) { (charger) in
+//                self.setCallOutFavoriteIcon(charger: charger)
+//                if charger.mFavorite {
+//                    Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
+//                } else {
+//                    Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
+//                }
+//            }
+//        } else {
+//            MemberManager().showLoginAlert(vc: self)
+//        }
+//    }
     
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
@@ -561,9 +535,9 @@ class MainViewController: UIViewController {
 //        self.navigationController?.push(viewController:vc)
     }
     
-    @IBAction func onClickFavorite(_ sender: UIButton) {
-        bookmark()
-    }
+//    @IBAction func onClickFavorite(_ sender: UIButton) {
+//        bookmark()
+//    }
     
     // MARK: - Action for button
     @IBAction func onClickMyLocation(_ sender: UIButton) {
@@ -858,10 +832,10 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func clearSearchResult() {
-        if self.isExistAddBtn {   // 경유지버튼 있을경우
-            self.addPointBtn.isHidden = true    // 경유지버튼 숨김
-            self.naviBtn.isHidden = false   // 길안내버튼 추가
-        }
+//        if self.isExistAddBtn {   // 경유지버튼 있을경우
+//            self.addPointBtn.isHidden = true    // 경유지버튼 숨김
+//            self.naviBtn.isHidden = false   // 길안내버튼 추가
+//        }
         self.isExistAddBtn = false
         
         hideKeyboard()
@@ -936,11 +910,11 @@ extension MainViewController: TextFieldDelegate {
             self.tMapView?.setCenter(TMapPoint.init(lon: centerLon, lat: centerLat))
             
             // 경유지 추가 버튼 활성화
-            btnRouteCancel.setTitle("경로취소", for: .normal)
-            if !self.isExistAddBtn { // 경유지버튼 없을경우
-                self.naviBtn.isHidden = true    // 길안내버튼 숨김
-                self.addPointBtn.isHidden = false   // 경유지버튼 추가
-            }
+//            btnRouteCancel.setTitle("경로취소", for: .normal)
+//            if !self.isExistAddBtn { // 경유지버튼 없을경우
+//                self.naviBtn.isHidden = true    // 길안내버튼 숨김
+//                self.addPointBtn.isHidden = false   // 경유지버튼 추가
+//            }
             self.isExistAddBtn = true
             
             // 경로 요청
@@ -1210,27 +1184,27 @@ extension MainViewController: MainViewDelegate {
     func showCallOut(charger: ChargerStationInfo) {
         selectCharger = charger
         if let totalType = selectCharger?.mTotalType {
-            setChargerTypeImage(type: totalType)
-            setChargerPower()
+//            setChargerTypeImage(type: totalType)
+//            setChargerPower()
         }
         
         if let pay = selectCharger?.mStationInfoDto?.mPay {
-            setChargePrice(pay: pay)
+//            setChargePrice(pay: pay)
         }
         
-        setCallOutFavoriteIcon(charger: selectCharger!)
-        
-        setDistance()
+//        setCallOutFavoriteIcon(charger: selectCharger!)
+//
+//        setDistance()
        
 //        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cs
         
-        setCallOutLb()
+//        setCallOutLb()
         
-        let chargeState = callOutStatus.text
-        stationInfoArr[chargeState ?? ""] = "chargeState"
-        
-        self.markerImg.image = selectCharger?.getChargeStateImg(type: chargeState!)
-        
+//        let chargeState = callOutStatus.text
+//        stationInfoArr[chargeState ?? ""] = "chargeState"
+//
+//        self.markerImg.image = selectCharger?.getChargeStateImg(type: chargeState!)
+//
         setView(view: callOutLayer, hidden: false)
 
         if let markerItem = self.tMapView!.getMarketItem(fromID: self.selectCharger!.mChargerId) {
@@ -1240,139 +1214,139 @@ extension MainViewController: MainViewDelegate {
         }
     }
     
-    func setCallOutLb() {
-        callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
-        
-        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
-        
-        if selectCharger?.getCompanyIcon() != nil {
-            self.companyImg.image = selectCharger?.getCompanyIcon()
-        } else {
-            self.companyImg.image = .none
-        }
-    }
-    
-    func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
-        if charger.mFavorite {
-            callOutFavorite.setImage(UIImage(named: "bookmark_on"), for: .normal)
-        } else {
-            callOutFavorite.setImage(UIImage(named: "bookmark"), for: .normal)
-        }
-    }
-    
+//    func setCallOutLb() {
+//        callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
+//
+//        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
+//
+//        if selectCharger?.getCompanyIcon() != nil {
+//            self.companyImg.image = selectCharger?.getCompanyIcon()
+//        } else {
+//            self.companyImg.image = .none
+//        }
+//    }
+//
+//    func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
+//        if charger.mFavorite {
+//            callOutFavorite.setImage(UIImage(named: "bookmark_on"), for: .normal)
+//        } else {
+//            callOutFavorite.setImage(UIImage(named: "bookmark"), for: .normal)
+//        }
+//    }
+//
     func setView(view: UIView, hidden: Bool) {
         UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
             view.isHidden = hidden
         })
     }
-    
-    func setDistance() {
-        if let currentLocatin = MainViewController.currentLocation {
-            getDistance(curPos: currentLocatin, desPos: self.selectCharger!.marker.getTMapPoint())
-        } else {
-            self.distanceLb.text = "현재 위치를 받아오지 못했습니다."
-        }
-    }
-    
-    func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
-        if desPos.getLatitude() == 0 || desPos.getLongitude() == 0 {
-            self.distanceLb.text = "현재 위치를 받아오지 못했습니다."
-        } else {
-            self.distanceLb.text = "계산중"
-            
-            DispatchQueue.global(qos: .background).async {
-                let tMapPathData = TMapPathData.init()
-                if let path = tMapPathData.find(from: curPos, to: desPos) {
-                    let distance = Double(path.getDistance() / 1000).rounded()
-
-                    DispatchQueue.main.async {
-                        self.distanceLb.text = "| \(distance) Km"
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self.distanceLb.text = "계산오류."
-                    }
-                }
-            }
-        }
-    }
-    
-    func setChargerTypeImage(type:Int) {
-        // "DC차데모"
-        if (type & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
-            self.typeDemoLb.isHidden = false
-        } else {
-            self.typeDemoLb.isHidden = true
-        }
-        
-        // "DC콤보"
-        if (type & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
-            self.typeComboLb.isHidden = false
-        } else {
-            self.typeComboLb.isHidden = true
-        }
-        
-        // "AC3상"
-        if (type & Const.CTYPE_AC) == Const.CTYPE_AC {
-            self.typeACLb.isHidden = false
-        } else {
-            self.typeACLb.isHidden = true
-        }
-
-        // "완속"
-        if (type & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
-            self.typeSlowLb.isHidden = false
-        } else {
-            self.typeSlowLb.isHidden = true
-        }
-        
-        // "슈퍼차저"
-        if (type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
-            self.typeSuperLb.isHidden = false
-        } else {
-            self.typeSuperLb.isHidden = true
-        }
-        
-        // "데스티네이션"
-        if (type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
-            self.typeDestiLb.isHidden = false
-        } else {
-            self.typeDestiLb.isHidden = true
-        }
-        
-        DispatchQueue.main.async {
-            self.distanceLb.text = "test"
-        }
-    }
-    
-    func setChargerPower() {
-        let power = selectCharger?.getChargerPower(power: (selectCharger?.mPower)!, type: (selectCharger?.mTotalType)!)
-        self.chargePowerLb.text = power
-        stationInfoArr[power ?? ""] = "power"
-    }
-    
-    // -> chargerStationInfo class로
-//    chargerStationInfo -> getChargerPower
-//    self.chargePowerLb.text = strPower
-//    stationInfoArr[strPower] = "power"
-    
-//    chargerStationInfo -> getChargeStateImg
-//    self.markerImg.clipsToBounds = true
-    
-    func setChargePrice(pay: String) {
-        // 과금
-        switch pay {
-        case "Y":
-            self.chargePriceLb.text = "유료"
-            stationInfoArr["유료"] = "pay"
-        case "N":
-            self.chargePriceLb.text = "무료"
-            stationInfoArr["무료"] = "pay"
-        default:
-            self.chargePriceLb.text = "시범운영"
-            stationInfoArr["시범운영"] = "pay"
-        }
-    }
+//
+//    func setDistance() {
+//        if let currentLocatin = MainViewController.currentLocation {
+//            getDistance(curPos: currentLocatin, desPos: self.selectCharger!.marker.getTMapPoint())
+//        } else {
+//            self.distanceLb.text = "현재 위치를 받아오지 못했습니다."
+//        }
+//    }
+//
+//    func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
+//        if desPos.getLatitude() == 0 || desPos.getLongitude() == 0 {
+//            self.distanceLb.text = "현재 위치를 받아오지 못했습니다."
+//        } else {
+//            self.distanceLb.text = "계산중"
+//
+//            DispatchQueue.global(qos: .background).async {
+//                let tMapPathData = TMapPathData.init()
+//                if let path = tMapPathData.find(from: curPos, to: desPos) {
+//                    let distance = Double(path.getDistance() / 1000).rounded()
+//
+//                    DispatchQueue.main.async {
+//                        self.distanceLb.text = "| \(distance) Km"
+//                    }
+//                } else {
+//                    DispatchQueue.main.async {
+//                        self.distanceLb.text = "계산오류."
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//    func setChargerTypeImage(type:Int) {
+//        // "DC차데모"
+//        if (type & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
+//            self.typeDemoLb.isHidden = false
+//        } else {
+//            self.typeDemoLb.isHidden = true
+//        }
+//
+//        // "DC콤보"
+//        if (type & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
+//            self.typeComboLb.isHidden = false
+//        } else {
+//            self.typeComboLb.isHidden = true
+//        }
+//
+//        // "AC3상"
+//        if (type & Const.CTYPE_AC) == Const.CTYPE_AC {
+//            self.typeACLb.isHidden = false
+//        } else {
+//            self.typeACLb.isHidden = true
+//        }
+//
+//        // "완속"
+//        if (type & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
+//            self.typeSlowLb.isHidden = false
+//        } else {
+//            self.typeSlowLb.isHidden = true
+//        }
+//
+//        // "슈퍼차저"
+//        if (type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
+//            self.typeSuperLb.isHidden = false
+//        } else {
+//            self.typeSuperLb.isHidden = true
+//        }
+//
+//        // "데스티네이션"
+//        if (type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
+//            self.typeDestiLb.isHidden = false
+//        } else {
+//            self.typeDestiLb.isHidden = true
+//        }
+//
+//        DispatchQueue.main.async {
+//            self.distanceLb.text = "test"
+//        }
+//    }
+//
+//    func setChargerPower() {
+//        let power = selectCharger?.getChargerPower(power: (selectCharger?.mPower)!, type: (selectCharger?.mTotalType)!)
+//        self.chargePowerLb.text = power
+//        stationInfoArr[power ?? ""] = "power"
+//    }
+//
+//    // -> chargerStationInfo class로
+////    chargerStationInfo -> getChargerPower
+////    self.chargePowerLb.text = strPower
+////    stationInfoArr[strPower] = "power"
+//
+////    chargerStationInfo -> getChargeStateImg
+////    self.markerImg.clipsToBounds = true
+//
+//    func setChargePrice(pay: String) {
+//        // 과금
+//        switch pay {
+//        case "Y":
+//            self.chargePriceLb.text = "유료"
+//            stationInfoArr["유료"] = "pay"
+//        case "N":
+//            self.chargePriceLb.text = "무료"
+//            stationInfoArr["무료"] = "pay"
+//        default:
+//            self.chargePriceLb.text = "시범운영"
+//            stationInfoArr["시범운영"] = "pay"
+//        }
+//    }
 }
 
 // MARK: - Request To Server
