@@ -1,15 +1,17 @@
 //
-//  FilterPriceView.swift
+//  FilterSpeedView.swift
 //  evInfra
 //
-//  Created by SH on 2021/08/11.
+//  Created by SH on 2021/08/12.
 //  Copyright © 2021 soft-berry. All rights reserved.
 //
 
 import Foundation
-@IBDesignable
-class FilterPriceView: UIView {
+import RangeSeekSlider
+class FilterSpeedView: UIView {
     
+    @IBOutlet var lbSpeed: UILabel!
+    @IBOutlet var rangeSliderSpeed: RangeSeekSlider!
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
@@ -21,7 +23,7 @@ class FilterPriceView: UIView {
     }
     
     func initView(){
-        let view = Bundle.main.loadNibNamed("FilterPriceView", owner: self, options: nil)?.first as! UIView
+        let view = Bundle.main.loadNibNamed("FilterSpeedView", owner: self, options: nil)?.first as! UIView
         view.frame = bounds
         addSubview(view)
     }

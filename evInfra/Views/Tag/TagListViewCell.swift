@@ -38,7 +38,16 @@ class TagListViewCell : UICollectionViewCell {
     @IBOutlet var tagImg: UIImageView!
     @IBOutlet var tagStr: UILabel!
     @IBOutlet var tagContainer: UIView!
-    @IBOutlet var tagView: UIStackView!
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.contentView.isUserInteractionEnabled = true
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.contentView.isUserInteractionEnabled = true
+    }
     
     // MARK: - Life cycle method
     override func awakeFromNib() {
@@ -50,7 +59,7 @@ class TagListViewCell : UICollectionViewCell {
         
         tagStr.textColor = UIColor(named: "content-primary")
         let gesture = UITapGestureRecognizer(target: self, action:  #selector (self.onClickTag (_:)))
-        tagView.addGestureRecognizer(gesture)
+        tagContainer.addGestureRecognizer(gesture)
     }
 
     func cellConfig(arrData : Array<TagValue> , index : Int){
@@ -94,11 +103,11 @@ class TagListViewCell : UICollectionViewCell {
         let imgSize:CGFloat = tagImg.image!.width
 
         // 50 - Label Padding
-        if textSize.width + 16 >= cv.frame.size.width{
+        if textSize.width + 8 >= cv.frame.size.width{
             let height = tagStr.heightForView(text: strText, font: UIFont(name: font.Name, size: font.Size+1)!, width: cv.frame.size.width - 15)
             return CGSize(width: cv.frame.size.width + CGFloat(imgSize), height: height + 8)
         }else{
-            return CGSize(width: textSize.width + 16 + CGFloat(imgSize), height: textSize.height + 8)
+            return CGSize(width: textSize.width + 8 + CGFloat(imgSize), height: textSize.height + 8)
         }
     }
 }

@@ -11,6 +11,14 @@ protocol DelegateFilterContainerView {
     func changedFilter()
 }
 class FilterContainerView: UIView {
+    
+    @IBOutlet var filterContainerView: UIView!
+    @IBOutlet var filterTypeView: FilterTypeView!
+    @IBOutlet var filterSpeedView: FilterSpeedView!
+    @IBOutlet var filterPriceView: FilterPriceView!
+    @IBOutlet var filterRoadView: FilterRoadView!
+    @IBOutlet var filterPlaceView: FilterPlaceView!
+    
     var currType: FilterType = FilterType.none
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,6 +42,20 @@ class FilterContainerView: UIView {
     
     func showFilterView(type: FilterType){
         currType = type
-        // bring view to front
+        
+        switch type {
+        case .price:
+            filterContainerView.bringSubview(toFront: filterPriceView!)
+        case .speed:
+            filterContainerView.bringSubview(toFront: filterSpeedView!)
+        case .place:
+            filterContainerView.bringSubview(toFront: filterPlaceView!)
+        case .road:
+            filterContainerView.bringSubview(toFront: filterRoadView!)
+        case .type:
+            filterContainerView.bringSubview(toFront: filterTypeView!)
+        case .none:
+            break;
+        }
     }
 }

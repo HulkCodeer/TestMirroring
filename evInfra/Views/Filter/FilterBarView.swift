@@ -90,8 +90,8 @@ class FilterBarView: UIView {
         if(!clicked){
             btn.layer.borderWidth = 1
             btn.layer.borderColor = UIColor(named: "border-opaque")?.cgColor
-            btn.layer.backgroundColor = UIColor(named: "backgroud-secondary")?.cgColor
-            btn.titleLabel?.tintColor = UIColor(named: "content-primary")
+            btn.layer.backgroundColor = UIColor(named: "background-secondary")?.cgColor
+            btn.titleLabel?.tintColor = UIColor(named: "content-on-color")
         } else {
             btn.layer.borderWidth = 0
             btn.layer.backgroundColor = UIColor(named: "content-positive")?.cgColor

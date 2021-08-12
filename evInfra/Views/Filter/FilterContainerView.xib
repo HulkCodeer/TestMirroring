@@ -3,50 +3,77 @@
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18122"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FilterContainerView" customModule="evInfra" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FilterContainerView" customModule="evInfra" customModuleProvider="target">
+            <connections>
+                <outlet property="filterContainerView" destination="Fyg-f2-dO4" id="Qfs-iV-qqp"/>
+                <outlet property="filterPlaceView" destination="Dsz-0N-mvn" id="6fT-av-RZX"/>
+                <outlet property="filterPriceView" destination="gav-bq-9qN" id="weJ-SR-QOR"/>
+                <outlet property="filterRoadView" destination="8Xx-pd-GNc" id="UE7-kx-3U9"/>
+                <outlet property="filterSpeedView" destination="dFv-cL-itq" id="6GN-wF-ERj"/>
+                <outlet property="filterTypeView" destination="gZd-YQ-ZBF" id="zWf-IM-Df5"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="128"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fyg-f2-dO4">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="128"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fyg-f2-dO4">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gav-bq-9qN" customClass="FilterPriceView" customModule="evInfra" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="128"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dFv-cL-itq" customClass="FilterSpeedView" customModule="evInfra" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dsz-0N-mvn" customClass="FilterPlaceView" customModule="evInfra" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="128"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gZd-YQ-ZBF" customClass="FilterTypeView" customModule="evInfra" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Xx-pd-GNc" customClass="FilterRoadView" customModule="evInfra" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gav-bq-9qN" customClass="FilterPriceView" customModule="evInfra" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
+                        </view>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstItem="gav-bq-9qN" firstAttribute="leading" secondItem="Fyg-f2-dO4" secondAttribute="leading" id="0il-VE-yja"/>
+                        <constraint firstItem="gZd-YQ-ZBF" firstAttribute="top" secondItem="Fyg-f2-dO4" secondAttribute="top" id="C0k-Mh-3fy"/>
                         <constraint firstItem="Dsz-0N-mvn" firstAttribute="leading" secondItem="Fyg-f2-dO4" secondAttribute="leading" id="Cbj-pO-t1n"/>
                         <constraint firstItem="Dsz-0N-mvn" firstAttribute="top" secondItem="Fyg-f2-dO4" secondAttribute="top" id="FZP-JP-9ZJ"/>
+                        <constraint firstAttribute="bottom" secondItem="dFv-cL-itq" secondAttribute="bottom" id="KSr-cb-prM"/>
+                        <constraint firstAttribute="trailing" secondItem="8Xx-pd-GNc" secondAttribute="trailing" id="NiT-NK-dXs"/>
+                        <constraint firstItem="dFv-cL-itq" firstAttribute="top" secondItem="Fyg-f2-dO4" secondAttribute="top" id="O8c-B1-VHb"/>
                         <constraint firstItem="gav-bq-9qN" firstAttribute="top" secondItem="Fyg-f2-dO4" secondAttribute="top" id="PNj-WH-3p6"/>
+                        <constraint firstItem="8Xx-pd-GNc" firstAttribute="top" secondItem="Fyg-f2-dO4" secondAttribute="top" id="QbQ-m0-FCP"/>
+                        <constraint firstItem="gZd-YQ-ZBF" firstAttribute="leading" secondItem="Fyg-f2-dO4" secondAttribute="leading" id="RJ0-yb-1yo"/>
+                        <constraint firstAttribute="bottom" secondItem="8Xx-pd-GNc" secondAttribute="bottom" id="SsW-Mr-cKW"/>
                         <constraint firstAttribute="bottom" secondItem="gav-bq-9qN" secondAttribute="bottom" id="UWG-Bx-0MU"/>
+                        <constraint firstItem="8Xx-pd-GNc" firstAttribute="leading" secondItem="Fyg-f2-dO4" secondAttribute="leading" id="ayt-aE-SHN"/>
+                        <constraint firstAttribute="bottom" secondItem="gZd-YQ-ZBF" secondAttribute="bottom" id="bBS-fe-kSr"/>
                         <constraint firstAttribute="trailing" secondItem="gav-bq-9qN" secondAttribute="trailing" id="ddf-y1-MJs"/>
                         <constraint firstAttribute="bottom" secondItem="Dsz-0N-mvn" secondAttribute="bottom" id="fE9-Sa-6dm"/>
                         <constraint firstAttribute="trailing" secondItem="Dsz-0N-mvn" secondAttribute="trailing" id="gfK-tr-sIu"/>
+                        <constraint firstAttribute="trailing" secondItem="gZd-YQ-ZBF" secondAttribute="trailing" id="kDq-jw-elB"/>
+                        <constraint firstItem="dFv-cL-itq" firstAttribute="leading" secondItem="Fyg-f2-dO4" secondAttribute="leading" id="pA1-jJ-Zuy"/>
+                        <constraint firstAttribute="trailing" secondItem="dFv-cL-itq" secondAttribute="trailing" id="rot-E5-Bzl"/>
                     </constraints>
                 </view>
             </subviews>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Fyg-f2-dO4" secondAttribute="bottom" id="4iu-qF-Jh7"/>
-                <constraint firstItem="Fyg-f2-dO4" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="CXX-82-jU3"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Fyg-f2-dO4" secondAttribute="trailing" id="DcN-co-6xD"/>
-                <constraint firstItem="Fyg-f2-dO4" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="TPe-Ve-sdP"/>
+                <constraint firstAttribute="bottom" secondItem="Fyg-f2-dO4" secondAttribute="bottom" id="4iu-qF-Jh7"/>
+                <constraint firstItem="Fyg-f2-dO4" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="CXX-82-jU3"/>
+                <constraint firstAttribute="trailing" secondItem="Fyg-f2-dO4" secondAttribute="trailing" id="DcN-co-6xD"/>
+                <constraint firstItem="Fyg-f2-dO4" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="TPe-Ve-sdP"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="132" y="143.02848575712144"/>

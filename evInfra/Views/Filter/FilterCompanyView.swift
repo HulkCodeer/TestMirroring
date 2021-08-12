@@ -1,27 +1,37 @@
 //
-//  FilterCompanyViewController.swift
+//  FilterCompanyView.swift
 //  evInfra
 //
-//  Created by SH on 2021/08/04.
+//  Created by SH on 2021/08/12.
 //  Copyright © 2021 soft-berry. All rights reserved.
 //
+
 import Foundation
-class FilterCompanyViewController: UIViewController {
+
+class FilterCompanyView: UIView {
+    @IBOutlet var switchAll: UISwitch!
+    @IBOutlet var collectionView: UICollectionView!
     
     var tagList = Array<TagValue>()
     var companyList = Array<CompanyInfoDto>()
-    @IBOutlet weak var tagCollectionview: UICollectionView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        prepareTagList()
-        setUpUI()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        initView()
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initView()
+    }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+    func initView(){
+        let view = Bundle.main.loadNibNamed("FilterCompanyView", owner: self, options: nil)?.first as! UIView
+        view.frame = bounds
+        addSubview(view)
         
+        prepareTagList()
+        setUpUI()
     }
     
     func prepareTagList() {
@@ -37,16 +47,16 @@ class FilterCompanyViewController: UIViewController {
 
     func setUpUI(){
         let layout = TagFlowLayout()
-        tagCollectionview.collectionViewLayout = layout
-        tagCollectionview.register(UINib(nibName: "TagListViewCell", bundle: nil), forCellWithReuseIdentifier: "tagListViewCell")
-        tagCollectionview.delegate = self
-        tagCollectionview.dataSource = self
-        tagCollectionview.reloadData()
+        collectionView.collectionViewLayout = layout
+        collectionView.register(UINib(nibName: "TagListViewCell", bundle: nil), forCellWithReuseIdentifier: "tagListViewCell")
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.reloadData()
     }
 }
 
 // MARK: - Collectionview Methods
-extension FilterCompanyViewController : UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+extension FilterCompanyView : UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tagList.count
@@ -75,10 +85,9 @@ extension FilterCompanyViewController : UICollectionViewDelegate,UICollectionVie
 
 
 // MARK: - Delegate of Collection Cell
-extension FilterCompanyViewController : DelegateTagListViewCell{
+extension FilterCompanyView : DelegateTagListViewCell{
     func tagClicked(index: Int) {
         // tag selected
         print("clicked position : \(index)")
     }
 }
-

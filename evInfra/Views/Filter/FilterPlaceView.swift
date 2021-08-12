@@ -8,9 +8,28 @@
 
 import Foundation
 import UIKit
+
+@IBDesignable
 class FilterPlaceView: UIView {
+    @IBOutlet var btnIndoor: UIView!
+    @IBOutlet var btnOutdoor: UIView!
+    @IBOutlet var btnCanopy: UIView!
     
-    @IBOutlet var lbPlace: UILabel!
+    @IBOutlet var ivIndoor: UIImageView!
+    @IBOutlet var lbIndoor: UILabel!
+    
+    @IBOutlet var ivOutdoor: UIImageView!
+    @IBOutlet var lbOutdoor: UILabel!
+    @IBOutlet var ivCanopy: UIImageView!
+    @IBOutlet var lbCanopy: UILabel!
+    
+    var indoorSel = true
+    var outDoorSel = true
+    var canopySel = true
+    
+    let bgEnColor: UIColor = UIColor(named: "content-positive")!
+    let bgDisColor: UIColor = UIColor(named: "content-tertiary")!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
@@ -26,6 +45,53 @@ class FilterPlaceView: UIView {
         view.frame = bounds
         addSubview(view)
         
-        lbPlace.text = "place"
+        btnIndoor.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickIndoor (_:))))
+        btnOutdoor.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickOutdoor (_:))))
+        btnCanopy.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickCanopy (_:))))
+        
+        selectItem(index: 0)
+        selectItem(index: 1)
+        selectItem(index: 2)
+    }
+    
+    @objc func onClickIndoor(_ sender:UITapGestureRecognizer){
+        indoorSel = !indoorSel
+        selectItem(index: 0)
+    }
+    @objc func onClickOutdoor(_ sender:UITapGestureRecognizer){
+        outDoorSel = !outDoorSel
+        selectItem(index: 1)
+    }
+    @objc func onClickCanopy(_ sender:UITapGestureRecognizer){
+        canopySel = !canopySel
+        selectItem(index: 2)
+    }
+    
+    func selectItem(index: Int){
+        if(index == 0) {
+            if (indoorSel){
+                ivIndoor.tintColor = bgEnColor
+                lbIndoor.textColor = bgEnColor
+            } else {
+                ivIndoor.tintColor = bgDisColor
+                lbIndoor.textColor = bgDisColor
+            }
+        } else if(index == 1) {
+            if (outDoorSel){
+                ivOutdoor.tintColor = bgEnColor
+                lbOutdoor.textColor = bgEnColor
+            } else {
+                ivOutdoor.tintColor = bgDisColor
+                lbOutdoor.textColor = bgDisColor
+            }
+        } else if(index == 2) {
+            if (canopySel){
+                ivCanopy.tintColor = bgEnColor
+                lbCanopy.textColor = bgEnColor
+            } else {
+                ivCanopy.tintColor = bgDisColor
+                lbCanopy.textColor = bgDisColor
+            }
+        }
     }
 }

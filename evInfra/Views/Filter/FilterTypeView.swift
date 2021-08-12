@@ -1,28 +1,35 @@
 //
-//  FilterTypeViewController.swift
+//  FilterTypeView.swift
 //  evInfra
 //
-//  Created by SH on 2021/08/02.
+//  Created by SH on 2021/08/12.
 //  Copyright © 2021 soft-berry. All rights reserved.
 //
 
-import UIKit
-import Material
+import Foundation
 
-class FilterTypeViewController: UIViewController {
-    var tagList = Array<TagValue>()
-    @IBOutlet weak var tagCollectionview: UICollectionView!
+class FilterTypeView: UIView {
+    @IBOutlet var tagCollectionView: UICollectionView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        prepareTagList()
-        setUpUI()
+    var tagList = Array<TagValue>()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        initView()
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initView()
+    }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+    func initView(){
+        let view = Bundle.main.loadNibNamed("FilterTypeView", owner: self, options: nil)?.first as! UIView
+        view.frame = bounds
+        addSubview(view)
         
+        prepareTagList()
+        setUpUI()
     }
     
     func prepareTagList() {
@@ -35,19 +42,17 @@ class FilterTypeViewController: UIViewController {
     }
 
     func setUpUI(){
-        
-        print("setUp UI")
         let layout = TagFlowLayout()
-        tagCollectionview.collectionViewLayout = layout
-        tagCollectionview.register(UINib(nibName: "TagListViewCell", bundle: nil), forCellWithReuseIdentifier: "tagListViewCell")
-        tagCollectionview.delegate = self
-        tagCollectionview.dataSource = self
-        tagCollectionview.reloadData()
+        tagCollectionView.collectionViewLayout = layout
+        tagCollectionView.register(UINib(nibName: "TagListViewCell", bundle: nil), forCellWithReuseIdentifier: "tagListViewCell")
+        tagCollectionView.delegate = self
+        tagCollectionView.dataSource = self
+        tagCollectionView.reloadData()
     }
 }
 
 // MARK: - Collectionview Methods
-extension FilterTypeViewController : UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+extension FilterTypeView : UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tagList.count
@@ -57,6 +62,7 @@ extension FilterTypeViewController : UICollectionViewDelegate,UICollectionViewDa
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagListViewCell", for: indexPath) as!
                 TagListViewCell
         cell.cellConfig(arrData: tagList, index: indexPath.row)
+        cell.isUserInteractionEnabled = true
         cell.delegateTagClick = self
         return cell
     }
@@ -71,12 +77,11 @@ extension FilterTypeViewController : UICollectionViewDelegate,UICollectionViewDa
         }
         return cell.getInteresticSize(strText: strText, cv: collectionView, imgShow:imgShow)
     }
-    
 }
 
 
 // MARK: - Delegate of Collection Cell
-extension FilterTypeViewController : DelegateTagListViewCell{
+extension FilterTypeView : DelegateTagListViewCell{
     func tagClicked(index: Int) {
         // tag selected
         print("clicked position : \(index)")

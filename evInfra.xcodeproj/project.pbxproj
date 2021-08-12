@@ -18,6 +18,16 @@
 		0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */; };
 		006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006C90982554EFD100F7C6D7 /* PopUpDialog.swift */; };
 		0093DDCD2587753500715969 /* evinfra_snow.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0093DDCC2587753400715969 /* evinfra_snow.gif */; };
+		00A3658D26C4E33100424E40 /* FilterSpeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A3658C26C4E33100424E40 /* FilterSpeedView.xib */; };
+		00A3658F26C4E35900424E40 /* FilterSpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A3658E26C4E35900424E40 /* FilterSpeedView.swift */; };
+		00A3659126C4E36200424E40 /* FilterRoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A3659026C4E36200424E40 /* FilterRoadView.swift */; };
+		00A3659326C4E36D00424E40 /* FilterRoadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A3659226C4E36D00424E40 /* FilterRoadView.xib */; };
+		00A3659526C4E37E00424E40 /* FilterCompanyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A3659426C4E37E00424E40 /* FilterCompanyView.xib */; };
+		00A3659726C4E38700424E40 /* FilterCompanyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A3659626C4E38700424E40 /* FilterCompanyView.swift */; };
+		00A3659926C4E3A000424E40 /* FilterAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A3659826C4E3A000424E40 /* FilterAccessView.swift */; };
+		00A3659B26C4E3A800424E40 /* FilterAccessView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A3659A26C4E3A800424E40 /* FilterAccessView.xib */; };
+		00A3659D26C4E98200424E40 /* FilterTypeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A3659C26C4E98200424E40 /* FilterTypeView.xib */; };
+		00A3659F26C4E98D00424E40 /* FilterTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A3659E26C4E98D00424E40 /* FilterTypeView.swift */; };
 		00A6A15B26C39F660023DAE3 /* FilterPriceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A15A26C39F660023DAE3 /* FilterPriceView.xib */; };
 		00A6A15D26C3A0F10023DAE3 /* FilterPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A15C26C3A0F10023DAE3 /* FilterPriceView.swift */; };
 		00A6A15F26C3A4930023DAE3 /* FilterPlaceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A15E26C3A4930023DAE3 /* FilterPlaceView.xib */; };
@@ -27,9 +37,7 @@
 		00A6A16826C3C4450023DAE3 /* FilterBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A16726C3C4450023DAE3 /* FilterBarView.swift */; };
 		00A6A16A26C3C44E0023DAE3 /* FilterBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A16926C3C44E0023DAE3 /* FilterBarView.xib */; };
 		00A7D5C826B7B0D100C5DBCC /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */; };
-		00A7D5CB26B7B15D00C5DBCC /* FilterTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7D5CA26B7B15D00C5DBCC /* FilterTypeViewController.swift */; };
 		00A7D5D226B7DA2100C5DBCC /* ChargerFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */; };
-		00A7D5D426B7DB3400C5DBCC /* FilterPriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7D5D326B7DB3400C5DBCC /* FilterPriceViewController.swift */; };
 		00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7D5D526B7ED9F00C5DBCC /* TagFlowLayout.swift */; };
 		00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */; };
 		00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */; };
@@ -42,11 +50,6 @@
 		00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */; };
 		00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C55252EF40100387559 /* HSUnderLineTextField.swift */; };
 		00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */; };
-		00EB85C826BA7C9100D1606F /* FilterPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85C726BA7C9100D1606F /* FilterPlaceViewController.swift */; };
-		00EB85CA26BA7D7C00D1606F /* FilterRoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85C926BA7D7C00D1606F /* FilterRoadViewController.swift */; };
-		00EB85CC26BA7DB200D1606F /* FilterSpeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85CB26BA7DB200D1606F /* FilterSpeedViewController.swift */; };
-		00EB85CE26BA7E0D00D1606F /* FilterAccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85CD26BA7E0D00D1606F /* FilterAccessViewController.swift */; };
-		00EB85D026BA805000D1606F /* FilterCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85CF26BA805000D1606F /* FilterCompanyViewController.swift */; };
 		00EB85D226BA8C6100D1606F /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85D126BA8C6100D1606F /* UILabel.swift */; };
 		00FDEAE826B3B6A2006617EE /* Charge.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAE726B3B6A2006617EE /* Charge.storyboard */; };
 		00FDEAEA26B3BF1E006617EE /* Member.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAE926B3BF1E006617EE /* Member.storyboard */; };
@@ -350,6 +353,16 @@
 		0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceViewController.swift; sourceTree = "<group>"; };
 		006C90982554EFD100F7C6D7 /* PopUpDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpDialog.swift; sourceTree = "<group>"; };
 		0093DDCC2587753400715969 /* evinfra_snow.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = evinfra_snow.gif; sourceTree = "<group>"; };
+		00A3658C26C4E33100424E40 /* FilterSpeedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterSpeedView.xib; sourceTree = "<group>"; };
+		00A3658E26C4E35900424E40 /* FilterSpeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSpeedView.swift; sourceTree = "<group>"; };
+		00A3659026C4E36200424E40 /* FilterRoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterRoadView.swift; sourceTree = "<group>"; };
+		00A3659226C4E36D00424E40 /* FilterRoadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterRoadView.xib; sourceTree = "<group>"; };
+		00A3659426C4E37E00424E40 /* FilterCompanyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterCompanyView.xib; sourceTree = "<group>"; };
+		00A3659626C4E38700424E40 /* FilterCompanyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCompanyView.swift; sourceTree = "<group>"; };
+		00A3659826C4E3A000424E40 /* FilterAccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAccessView.swift; sourceTree = "<group>"; };
+		00A3659A26C4E3A800424E40 /* FilterAccessView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterAccessView.xib; sourceTree = "<group>"; };
+		00A3659C26C4E98200424E40 /* FilterTypeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterTypeView.xib; sourceTree = "<group>"; };
+		00A3659E26C4E98D00424E40 /* FilterTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTypeView.swift; sourceTree = "<group>"; };
 		00A6A15A26C39F660023DAE3 /* FilterPriceView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterPriceView.xib; sourceTree = "<group>"; };
 		00A6A15C26C3A0F10023DAE3 /* FilterPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPriceView.swift; sourceTree = "<group>"; };
 		00A6A15E26C3A4930023DAE3 /* FilterPlaceView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterPlaceView.xib; sourceTree = "<group>"; };
@@ -359,9 +372,7 @@
 		00A6A16726C3C4450023DAE3 /* FilterBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBarView.swift; sourceTree = "<group>"; };
 		00A6A16926C3C44E0023DAE3 /* FilterBarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterBarView.xib; sourceTree = "<group>"; };
 		00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Filter.storyboard; sourceTree = "<group>"; };
-		00A7D5CA26B7B15D00C5DBCC /* FilterTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTypeViewController.swift; sourceTree = "<group>"; };
 		00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerFilterViewController.swift; sourceTree = "<group>"; };
-		00A7D5D326B7DB3400C5DBCC /* FilterPriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPriceViewController.swift; sourceTree = "<group>"; };
 		00A7D5D526B7ED9F00C5DBCC /* TagFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagFlowLayout.swift; sourceTree = "<group>"; };
 		00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnershipJoinView.swift; sourceTree = "<group>"; };
 		00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartnershipJoinView.xib; sourceTree = "<group>"; };
@@ -374,11 +385,6 @@
 		00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResultViewController.swift; sourceTree = "<group>"; };
 		00C75C55252EF40100387559 /* HSUnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSUnderLineTextField.swift; sourceTree = "<group>"; };
 		00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberPartnershipInfo.swift; sourceTree = "<group>"; };
-		00EB85C726BA7C9100D1606F /* FilterPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPlaceViewController.swift; sourceTree = "<group>"; };
-		00EB85C926BA7D7C00D1606F /* FilterRoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterRoadViewController.swift; sourceTree = "<group>"; };
-		00EB85CB26BA7DB200D1606F /* FilterSpeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSpeedViewController.swift; sourceTree = "<group>"; };
-		00EB85CD26BA7E0D00D1606F /* FilterAccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAccessViewController.swift; sourceTree = "<group>"; };
-		00EB85CF26BA805000D1606F /* FilterCompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCompanyViewController.swift; sourceTree = "<group>"; };
 		00EB85D126BA8C6100D1606F /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		00FDEAE726B3B6A2006617EE /* Charge.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Charge.storyboard; sourceTree = "<group>"; };
 		00FDEAE926B3BF1E006617EE /* Member.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Member.storyboard; sourceTree = "<group>"; };
@@ -746,6 +752,16 @@
 				00A6A16526C3B3DC0023DAE3 /* FilterContainerView.swift */,
 				00A6A16726C3C4450023DAE3 /* FilterBarView.swift */,
 				00A6A16926C3C44E0023DAE3 /* FilterBarView.xib */,
+				00A3658C26C4E33100424E40 /* FilterSpeedView.xib */,
+				00A3658E26C4E35900424E40 /* FilterSpeedView.swift */,
+				00A3659026C4E36200424E40 /* FilterRoadView.swift */,
+				00A3659226C4E36D00424E40 /* FilterRoadView.xib */,
+				00A3659426C4E37E00424E40 /* FilterCompanyView.xib */,
+				00A3659626C4E38700424E40 /* FilterCompanyView.swift */,
+				00A3659826C4E3A000424E40 /* FilterAccessView.swift */,
+				00A3659A26C4E3A800424E40 /* FilterAccessView.xib */,
+				00A3659C26C4E98200424E40 /* FilterTypeView.xib */,
+				00A3659E26C4E98D00424E40 /* FilterTypeView.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -754,14 +770,7 @@
 			isa = PBXGroup;
 			children = (
 				00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */,
-				00A7D5CA26B7B15D00C5DBCC /* FilterTypeViewController.swift */,
 				00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */,
-				00A7D5D326B7DB3400C5DBCC /* FilterPriceViewController.swift */,
-				00EB85C726BA7C9100D1606F /* FilterPlaceViewController.swift */,
-				00EB85C926BA7D7C00D1606F /* FilterRoadViewController.swift */,
-				00EB85CB26BA7DB200D1606F /* FilterSpeedViewController.swift */,
-				00EB85CD26BA7E0D00D1606F /* FilterAccessViewController.swift */,
-				00EB85CF26BA805000D1606F /* FilterCompanyViewController.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -1528,6 +1537,7 @@
 				73A7B3F6204E3595002E975F /* delete_pressed.png in Resources */,
 				733662FA22FD11860049AEFE /* LeftViewTableHeader.xib in Resources */,
 				DB3799FA2167575A001D8F69 /* ChargerTableViewCell.xib in Resources */,
+				00A3659D26C4E98200424E40 /* FilterTypeView.xib in Resources */,
 				73A7B41A204E3595002E975F /* type_dc_combo.png in Resources */,
 				73EF8B79203C85CC00D04494 /* TrackingDotHalo.png in Resources */,
 				73EF8B77203C85CC00D04494 /* TrackingDot.png in Resources */,
@@ -1541,6 +1551,7 @@
 				DB87607620690B370095394B /* BoardTableViewHeader.xib in Resources */,
 				00FDEAF026B3BF8C006617EE /* Report.storyboard in Resources */,
 				00FDEAE826B3B6A2006617EE /* Charge.storyboard in Resources */,
+				00A3658D26C4E33100424E40 /* FilterSpeedView.xib in Resources */,
 				73A7B418204E3595002E975F /* reply_count_bg.png in Resources */,
 				73D65D822362D54000F564A2 /* MembershipTermView.xib in Resources */,
 				00A6A15B26C39F660023DAE3 /* FilterPriceView.xib in Resources */,
@@ -1560,6 +1571,7 @@
 				9028E07824A1B8280062A029 /* eirel in Resources */,
 				00A6A16426C3B3BC0023DAE3 /* FilterContainerView.xib in Resources */,
 				CE13858F217869B200E3F869 /* ReportChargerChildCell.xib in Resources */,
+				00A3659326C4E36D00424E40 /* FilterRoadView.xib in Resources */,
 				00FDEAEC26B3BF47006617EE /* Payment.storyboard in Resources */,
 				DB18733220A9983400790B77 /* btn_camera.png in Resources */,
 				73A7B423204E3595002E975F /* edit_normal.png in Resources */,
@@ -1577,6 +1589,7 @@
 				73EF8B75203C85CC00D04494 /* poweredby.png in Resources */,
 				73A7B415204E3595002E975F /* navi_tmap.png in Resources */,
 				73A7B3F1204E3595002E975F /* type_dc_combo_dim.png in Resources */,
+				00A3659B26C4E3A800424E40 /* FilterAccessView.xib in Resources */,
 				7357594D20916A68008181E9 /* bolt.jpg in Resources */,
 				7357594320916A37008181E9 /* leaf.jpg in Resources */,
 				00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */,
@@ -1592,6 +1605,7 @@
 				73A7B40B204E3595002E975F /* navi_personal_settings.png in Resources */,
 				73A7B404204E3595002E975F /* thumbnail_mask_white.png in Resources */,
 				738C2CEA20A93682006E268D /* type_destination.png in Resources */,
+				00A3659526C4E37E00424E40 /* FilterCompanyView.xib in Resources */,
 				7357594220916A37008181E9 /* ioniq.jpg in Resources */,
 				73A7B3EA204E3595002E975F /* delete_normal.png in Resources */,
 				0055D472252AA88B001133DB /* Membership.storyboard in Resources */,
@@ -1796,15 +1810,14 @@
 				902A11D3248F52B80049EF8E /* InfoLastUpdateDto.swift in Sources */,
 				00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */,
 				4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */,
-				00EB85CC26BA7DB200D1606F /* FilterSpeedViewController.swift in Sources */,
 				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
 				CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */,
 				733662D022F974820049AEFE /* Coupon.swift in Sources */,
 				0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
+				00A3659126C4E36200424E40 /* FilterRoadView.swift in Sources */,
 				73C6A0FD2345F1B600349A86 /* MyPayinfoViewController.swift in Sources */,
-				00EB85CA26BA7D7C00D1606F /* FilterRoadViewController.swift in Sources */,
 				73008459213687150001DBFA /* DetailViewController.swift in Sources */,
 				DB3799F821673FDD001D8F69 /* FavoriteViewController.swift in Sources */,
 				DB49A77F206CC32D002448E6 /* SearchViewController.swift in Sources */,
@@ -1816,11 +1829,11 @@
 				73EF8B43203BC71100D04494 /* UIColor.swift in Sources */,
 				DB0E4695205FC4D8002DD05D /* ChargerFilter.swift in Sources */,
 				DB4395EE22DC4C380092E0A5 /* Date.swift in Sources */,
-				00A7D5D426B7DB3400C5DBCC /* FilterPriceViewController.swift in Sources */,
 				CE33B4BB2191B8B000B6C632 /* EventViewController.swift in Sources */,
 				733662CE22EFF2A40049AEFE /* NavigationDrawerController.swift in Sources */,
 				DB367BF324FE673E00898BED /* LoginHelper.swift in Sources */,
 				73BFA04F208487050028B35D /* BoardTableView.swift in Sources */,
+				00A3658F26C4E35900424E40 /* FilterSpeedView.swift in Sources */,
 				736D37D3208DC9CE009535EE /* BoardItem.swift in Sources */,
 				732ED1CA21ED8ABB0012C67B /* DropDownCheckBoxCell.swift in Sources */,
 				CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */,
@@ -1839,6 +1852,7 @@
 				73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */,
 				DBA18B1D211D7AF400A2CB4F /* MemberManager.swift in Sources */,
 				9098783224EE537E00AB3DC8 /* GoogleAdMobAdapterConfiguration.m in Sources */,
+				00A3659726C4E38700424E40 /* FilterCompanyView.swift in Sources */,
 				CEBE0601214BA5C30047E6F2 /* ReportCharger.swift in Sources */,
 				CE33B4C12191BD9500B6C632 /* MyCouponViewController.swift in Sources */,
 				DBF3827B2304475900FAF772 /* CBT.swift in Sources */,
@@ -1882,7 +1896,6 @@
 				73D65D6E2356E57900F564A2 /* MyPayRegisterViewController.swift in Sources */,
 				73EF8B45203BD1D400D04494 /* EVIcon.swift in Sources */,
 				73AD13C6203AC34400ADD19A /* LeftViewController.swift in Sources */,
-				00EB85C826BA7C9100D1606F /* FilterPlaceViewController.swift in Sources */,
 				73C31BFB20A288BB005B6C53 /* ChargerInfoViewController.swift in Sources */,
 				CE93308F214F9807006B7EF6 /* ReportChargerList.swift in Sources */,
 				00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */,
@@ -1890,6 +1903,7 @@
 				902A11DC248F5F550049EF8E /* ChargerConst.swift in Sources */,
 				73D65D7223588ACC00F564A2 /* UITextField.swift in Sources */,
 				735759552091758C008181E9 /* EvInfoViewController.swift in Sources */,
+				00A3659F26C4E98D00424E40 /* FilterTypeView.swift in Sources */,
 				90DD2A6424EBCFC4003318CC /* TapjoyGlobalMediationSettings.m in Sources */,
 				73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */,
 				CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */,
@@ -1919,8 +1933,8 @@
 				73268D4C2188331700C00427 /* SettingsViewController.swift in Sources */,
 				DBEE9AFC211842ED00770D04 /* SignUpViewController.swift in Sources */,
 				736813B2204503B70035FC66 /* NavCenterButton.swift in Sources */,
-				00A7D5CB26B7B15D00C5DBCC /* FilterTypeViewController.swift in Sources */,
 				7339908022D881D100CF72A8 /* PaymentResultViewController.swift in Sources */,
+				00A3659926C4E3A000424E40 /* FilterAccessView.swift in Sources */,
 				DB40639F21FAF5F100B630A8 /* ChargerImageViewController.swift in Sources */,
 				90E8B54F24C6E82F00D03162 /* ChargerManagerListener.swift in Sources */,
 				902A11DE248F68450049EF8E /* HangulUtils.swift in Sources */,
@@ -1943,7 +1957,6 @@
 				00A6A16626C3B3DC0023DAE3 /* FilterContainerView.swift in Sources */,
 				73EE8FC72109B0FD0016F505 /* URL.swift in Sources */,
 				00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */,
-				00EB85CE26BA7E0D00D1606F /* FilterAccessViewController.swift in Sources */,
 				73A7B428204E81A6002E975F /* Const.swift in Sources */,
 				0056440D252DB2AB007BF78D /* MembershipQRViewController.swift in Sources */,
 				4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */,
@@ -1954,7 +1967,6 @@
 				736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */,
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,
 				9098783624EE53D200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.m in Sources */,
-				00EB85D026BA805000D1606F /* FilterCompanyViewController.swift in Sources */,
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,

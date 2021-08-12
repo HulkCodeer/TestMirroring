@@ -1,20 +1,21 @@
 //
-//  FilterAccessViewController.swift
+//  FilterAccessView.swift
 //  evInfra
 //
-//  Created by SH on 2021/08/04.
+//  Created by SH on 2021/08/12.
 //  Copyright © 2021 soft-berry. All rights reserved.
 //
 
 import Foundation
-class FilterAccessViewController: UIViewController {
-    @IBOutlet weak var viewPublic: UIView!
-    @IBOutlet weak var viewNonPublic: UIView!
+
+class FilterAccessView: UIView {
+    @IBOutlet var btnPublic: UIView!
+    @IBOutlet var btnNonPublic: UIView!
     
-    @IBOutlet weak var ivPublic: UIImageView!
-    @IBOutlet weak var lbPublic: UILabel!
-    @IBOutlet weak var ivNonPublic: UIImageView!
-    @IBOutlet weak var lbNonPublic: UILabel!
+    @IBOutlet var ivPublic: UIImageView!
+    @IBOutlet var lbPublic: UILabel!
+    @IBOutlet var ivNonPublic: UIImageView!
+    @IBOutlet var lbNonPublic: UILabel!
     
     var publicSel = true
     var nonPublicSel = false
@@ -22,14 +23,27 @@ class FilterAccessViewController: UIViewController {
     let bgEnColor: UIColor = UIColor(named: "content-positive")!
     let bgDisColor: UIColor = UIColor(named: "content-tertiary")!
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         initView()
-        viewPublic.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickPublic (_:))))
-        viewNonPublic.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickNonPublic (_:))))
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initView()
+    }
+    
+    func initView(){
+        let view = Bundle.main.loadNibNamed("FilterAccessView", owner: self, options: nil)?.first as! UIView
+        view.frame = bounds
+        addSubview(view)
+        
+        btnPublic.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickPublic (_:))))
+        btnNonPublic.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickNonPublic (_:))))
+        
+        selectItem(index: 0)
+        selectItem(index: 1)
+    }
     
     @objc func onClickPublic(_ sender:UITapGestureRecognizer){
         publicSel = !publicSel
@@ -37,11 +51,6 @@ class FilterAccessViewController: UIViewController {
     }
     @objc func onClickNonPublic(_ sender:UITapGestureRecognizer){
         nonPublicSel = !nonPublicSel
-        selectItem(index: 1)
-    }
-    
-    func initView(){
-        selectItem(index: 0)
         selectItem(index: 1)
     }
     

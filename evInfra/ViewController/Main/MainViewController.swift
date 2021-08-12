@@ -45,7 +45,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var routeView: UIView!
     @IBOutlet weak var filterBarView: FilterBarView!
     @IBOutlet weak var containerView: FilterContainerView!
-    @IBOutlet var filterHeight: NSLayoutConstraint!
+    @IBOutlet weak var filterHeight: NSLayoutConstraint!
     
     @IBOutlet weak var startField: TextField!
     @IBOutlet weak var endField: TextField!
@@ -402,15 +402,6 @@ class MainViewController: UIViewController {
     
     // checkbox - charger type
     func prepareCheckBox() {
-        
-//        let gesture = UITapGestureRecognizer(target: self, action:  #selector (self.onClickTag (_:)))
-//        btnFilter.addGestureRecognizer(gesture)
-//
-//        filterPriceView = FilterPriceView()
-//        filterContainerView.addSubview(filterPriceView!)
-//        filterPlaceView = FilterPlaceView()
-//        filterContainerView.addSubview(filterPlaceView!)
-        
 //        let checkBoxColor = UIColor(rgb: 0x15435C)
 //
 //        cbDcCombo.boxType = .square
@@ -442,11 +433,6 @@ class MainViewController: UIViewController {
 //        cbSlow.tintColor = checkBoxColor
 //        cbSlow.tag = Const.CHARGER_TYPE_SLOW
 //        svSlow.addTapGesture(target: self, action: #selector(onClickCbSlow(_:)))
-    }
-    
-    @objc func onClickTag(_ sender:UITapGestureRecognizer){
-//        filterContainerView.isHidden = true
-//        filterContainerView.bringSubview(toFront: filterPriceView!)
     }
     
     func prepareMapView() {
@@ -709,14 +695,14 @@ extension MainViewController: DelegateFilterBarView {
     
     func hideFilter(){
         containerView.isHidden = true
-        filterHeight.constant = 124
+        filterHeight.constant = routeView.layer.height + filterBarView.layer.height
         filterView.sizeToFit()
         filterView.layoutIfNeeded()
     }
     
     func showFilter(){
         containerView.isHidden = false
-        filterHeight.constant = 124 + 128
+        filterHeight.constant = routeView.layer.height + filterBarView.layer.height + containerView.layer.height
         filterView.sizeToFit()
         filterView.layoutIfNeeded()
     }
