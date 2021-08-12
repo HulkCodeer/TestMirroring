@@ -7,8 +7,11 @@
 //
 
 import Foundation
+protocol DelegateFilterContainerView {
+    func changedFilter()
+}
 class FilterContainerView: UIView {
-    
+    var currType: FilterType = FilterType.none
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
@@ -23,5 +26,14 @@ class FilterContainerView: UIView {
         let view = Bundle.main.loadNibNamed("FilterContainerView", owner: self, options: nil)?.first as! UIView
         view.frame = bounds
         addSubview(view)
+    }
+    
+    func isSameView(type: FilterType) ->Bool{
+        return currType == type
+    }
+    
+    func showFilterView(type: FilterType){
+        currType = type
+        // bring view to front
     }
 }

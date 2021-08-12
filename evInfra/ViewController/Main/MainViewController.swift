@@ -43,11 +43,9 @@ class MainViewController: UIViewController {
     // Filter View
     @IBOutlet weak var filterView: UIView!
     @IBOutlet weak var routeView: UIView!
-    @IBOutlet var filterBarView: UIView!
-    
-    @IBOutlet var btnFilter: UIView!
-    @IBOutlet var filterTagView: UIStackView!
-    @IBOutlet weak var filterContainerView: UIView!
+    @IBOutlet weak var filterBarView: FilterBarView!
+    @IBOutlet weak var containerView: FilterContainerView!
+    @IBOutlet var filterHeight: NSLayoutConstraint!
     
     @IBOutlet weak var startField: TextField!
     @IBOutlet weak var endField: TextField!
@@ -123,9 +121,6 @@ class MainViewController: UIViewController {
     private var routeEndPoint: TMapPoint? = nil
     private var resultTableView: PoiTableView?
     
-    private var filterPlaceView: FilterPlaceView?
-    private var filterPriceView: FilterPriceView?
-    
     private var selectCharger: ChargerStationInfo? = nil
     private var stationInfoArr = [String:String]()
     
@@ -147,7 +142,7 @@ class MainViewController: UIViewController {
     private var currentClusterLv = 0
     private var isAllowedCluster = true
     private var isExistAddBtn = false
-    var canIgnoreJejuPush = true
+    private var canIgnoreJejuPush = true
     
     // 지킴이 점겸표 url
     private var checklistUrl: String?
@@ -225,6 +220,7 @@ class MainViewController: UIViewController {
     
     // Filter
     func prepareFilterView() {
+        filterBarView.delegate = self
         // drop down - init
 //
 //        DropDown.startListeningToKeyboard()
@@ -406,13 +402,14 @@ class MainViewController: UIViewController {
     
     // checkbox - charger type
     func prepareCheckBox() {
-        let gesture = UITapGestureRecognizer(target: self, action:  #selector (self.onClickTag (_:)))
-        btnFilter.addGestureRecognizer(gesture)
         
-        filterPriceView = FilterPriceView()
-        filterContainerView.addSubview(filterPriceView!)
-        filterPlaceView = FilterPlaceView()
-        filterContainerView.addSubview(filterPlaceView!)
+//        let gesture = UITapGestureRecognizer(target: self, action:  #selector (self.onClickTag (_:)))
+//        btnFilter.addGestureRecognizer(gesture)
+//
+//        filterPriceView = FilterPriceView()
+//        filterContainerView.addSubview(filterPriceView!)
+//        filterPlaceView = FilterPlaceView()
+//        filterContainerView.addSubview(filterPlaceView!)
         
 //        let checkBoxColor = UIColor(rgb: 0x15435C)
 //
@@ -449,7 +446,7 @@ class MainViewController: UIViewController {
     
     @objc func onClickTag(_ sender:UITapGestureRecognizer){
 //        filterContainerView.isHidden = true
-        filterContainerView.bringSubview(toFront: filterPriceView!)
+//        filterContainerView.bringSubview(toFront: filterPriceView!)
     }
     
     func prepareMapView() {
@@ -690,6 +687,43 @@ class MainViewController: UIViewController {
 //        self.saveFilterState()
 //        self.drawTMapMarker()
 //    }
+}
+
+
+extension MainViewController: DelegateFilterContainerView {
+    func changedFilter() {
+        // refresh marker
+    }
+}
+
+extension MainViewController: DelegateFilterBarView {
+    func showFilterContainer(type: FilterType){
+        // change or remove containerview
+        if (containerView.isSameView(type: type)){
+            hideFilter()
+        } else {
+            showFilter()
+            containerView.showFilterView(type: type)
+        }
+    }
+    
+    func hideFilter(){
+        containerView.isHidden = true
+        filterHeight.constant = 124
+        filterView.sizeToFit()
+        filterView.layoutIfNeeded()
+    }
+    
+    func showFilter(){
+        containerView.isHidden = false
+        filterHeight.constant = 124 + 128
+        filterView.sizeToFit()
+        filterView.layoutIfNeeded()
+    }
+    
+    func startFilterSetting(){
+        // chargerFilterViewcontroller
+    }
 }
 
 extension MainViewController {

@@ -24,6 +24,8 @@
 		00A6A16226C3A4D30023DAE3 /* FilterPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A16126C3A4D30023DAE3 /* FilterPlaceView.swift */; };
 		00A6A16426C3B3BC0023DAE3 /* FilterContainerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A16326C3B3BC0023DAE3 /* FilterContainerView.xib */; };
 		00A6A16626C3B3DC0023DAE3 /* FilterContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A16526C3B3DC0023DAE3 /* FilterContainerView.swift */; };
+		00A6A16826C3C4450023DAE3 /* FilterBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A16726C3C4450023DAE3 /* FilterBarView.swift */; };
+		00A6A16A26C3C44E0023DAE3 /* FilterBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A16926C3C44E0023DAE3 /* FilterBarView.xib */; };
 		00A7D5C826B7B0D100C5DBCC /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */; };
 		00A7D5CB26B7B15D00C5DBCC /* FilterTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7D5CA26B7B15D00C5DBCC /* FilterTypeViewController.swift */; };
 		00A7D5D226B7DA2100C5DBCC /* ChargerFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */; };
@@ -354,6 +356,8 @@
 		00A6A16126C3A4D30023DAE3 /* FilterPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPlaceView.swift; sourceTree = "<group>"; };
 		00A6A16326C3B3BC0023DAE3 /* FilterContainerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterContainerView.xib; sourceTree = "<group>"; };
 		00A6A16526C3B3DC0023DAE3 /* FilterContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterContainerView.swift; sourceTree = "<group>"; };
+		00A6A16726C3C4450023DAE3 /* FilterBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBarView.swift; sourceTree = "<group>"; };
+		00A6A16926C3C44E0023DAE3 /* FilterBarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterBarView.xib; sourceTree = "<group>"; };
 		00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Filter.storyboard; sourceTree = "<group>"; };
 		00A7D5CA26B7B15D00C5DBCC /* FilterTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTypeViewController.swift; sourceTree = "<group>"; };
 		00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerFilterViewController.swift; sourceTree = "<group>"; };
@@ -740,6 +744,8 @@
 				00A6A16126C3A4D30023DAE3 /* FilterPlaceView.swift */,
 				00A6A16326C3B3BC0023DAE3 /* FilterContainerView.xib */,
 				00A6A16526C3B3DC0023DAE3 /* FilterContainerView.swift */,
+				00A6A16726C3C4450023DAE3 /* FilterBarView.swift */,
+				00A6A16926C3C44E0023DAE3 /* FilterBarView.xib */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -1613,6 +1619,7 @@
 				DB0D96D72052548B00BA018B /* menu_top_bg.jpg in Resources */,
 				00FDEAF226B3BF97006617EE /* Board.storyboard in Resources */,
 				73EF8B7A203C85CC00D04494 /* TrackingDotHalo@2x.png in Resources */,
+				00A6A16A26C3C44E0023DAE3 /* FilterBarView.xib in Resources */,
 				73EF8B72203C85CC00D04494 /* icon_clustering@2x.png in Resources */,
 				73C31C0620A2BB04005B6C53 /* charger_ac3.jpg in Resources */,
 				73A7B3E8204E3595002E975F /* reply_btn_selected.png in Resources */,
@@ -1921,6 +1928,7 @@
 				73B752802048E5B30077112A /* SideMenuTableViewCell.swift in Sources */,
 				736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */,
 				902A11DA248F5E440049EF8E /* StringUtils.swift in Sources */,
+				00A6A16826C3C4450023DAE3 /* FilterBarView.swift in Sources */,
 				0012443F25A2E92300376CDC /* IntroImageCheckerDelegate.swift in Sources */,
 				7379A45022CB43C600F4271C /* Connector.swift in Sources */,
 				CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */,
