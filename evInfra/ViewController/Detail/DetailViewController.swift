@@ -503,7 +503,8 @@ extension DetailViewController: BoardTableViewDelegate {
         // UITableView cell 높이를 자동으로 설정
         self.boardTableView.tableViewDelegate = self
         self.cidTableView.rowHeight = UITableViewAutomaticDimension
-        self.cidTableView.estimatedRowHeight = CidTableView.Constants.cellHeight
+//        self.cidTableView.estimatedRowHeight = 50
+//        self.cidTableView.estimatedRowHeight = CidTableView.Constants.cellHeight
         self.cidTableView.separatorStyle = .none
         
         self.boardTableView.rowHeight = UITableViewAutomaticDimension

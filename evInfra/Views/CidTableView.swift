@@ -11,7 +11,8 @@ import UIKit
 class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
 
     struct Constants {
-        static let cellHeight: CGFloat = 93
+        static let cellHeight: CGFloat = 93 // 93
+        static let goneHeight: CGFloat = 50
     }
     
     var cidList = [CidInfo]()
@@ -35,50 +36,78 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         return cidList.count
     }
     
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cidInfo = cidList[indexPath.row]
+
+        if cidInfo.chargerType == Const.CHARGER_TYPE_SLOW { // heddien
+            return Constants.goneHeight
+        } else{
+            return Constants.cellHeight
+        }
+    }
+    
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constants.cellHeight
+//        let cidInfo = cidList[indexPath.row]
+//        let cell = Bundle.main.loadNibNamed("CidInfoTableViewCell", owner: self, options: nil)?.first as! CidInfoTableViewCell
+//
+//        if cidInfo.chargerType == Const.CHARGER_TYPE_SLOW {
+//            Constants.goneHeight = Constants.cellHeight - cell.getDividerHeight()
+//            return self.goneCellHeight()
+//        }
+//        return Constants.cellHeight
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cidInfo = cidList[indexPath.row]
         let cell = Bundle.main.loadNibNamed("CidInfoTableViewCell", owner: self, options: nil)?.first as! CidInfoTableViewCell
         
+        if cidInfo.chargerType == Const.CHARGER_TYPE_SLOW {
+            cell.dividerView.isHidden = true
+        }
+        
         // 충전기 상태
-//        cell.statusLabel.text = cInfo.cstToString(cst: cInfo.status)
-//        cell.statusLabel.textColor = cInfo.getCstColor(cst: cInfo.status)
-//
-//        // 충전기 타입
-//        cell.setChargerTypeImage(type: cInfo.chargerType)
+        cell.statusLabel.text = cidInfo.cstToString(cst: cidInfo.status)
+        cell.statusLabel.textColor = cidInfo.getCstColor(cst: cidInfo.status)
+        
+//         충전기 타입
+        cell.setChargerTypeImage(type: cidInfo.chargerType)
 //
 //        // 최근 충전일
-//        if cInfo.recentDate != nil && ((cInfo.recentDate?.count)! > 0) {
-//            cell.dateKind.roundCorners(.allCorners, radius: 5)
+        if cidInfo.recentDate != nil && ((cidInfo.recentDate?.count)! > 0) {
+            cell.dateKind.roundCorners(.allCorners, radius: 5)
+
+            if cidInfo.status == Const.CHARGER_STATE_CHARGING {
+                cell.lastDate.text = cidInfo.getChargingDuration()
+                cell.dateKind.text = "경과시간"
+                cell.dateKind.backgroundColor = UIColor(hex: "#DFECF3")
+            } else {
+                //cell.lastDate.text = cidInfo.getRecentDateSimple()
+                if let dateString = cidInfo.recentDate {
+                    cell.lastDate.text = DateUtils.getDateStringForDetail(date: dateString)
+                }
+                cell.dateKind.text = "마지막 사용"
+                cell.dateKind.backgroundColor = UIColor(hex: "#E2E2E2")
+            }
+        } else {
+            cell.dateKind.roundCorners(.allCorners, radius: 5)
+            cell.dateKind.text = "마지막 사용"
+            cell.lastDate.text = "알 수 없음"
+            cell.dateKind.backgroundColor = UIColor(hex: "#E2E2E2")
+        }
 //
-//            if cInfo.status == Const.CHARGER_STATE_CHARGING {
-//                cell.lastDate.text = cInfo.getChargingDuration()
-//                cell.dateKind.text = "경과시간"
-//                cell.dateKind.backgroundColor = UIColor(hex: "#DFECF3")
-//            } else {
-//                //cell.lastDate.text = cInfo.getRecentDateSimple()
-//                if let dateString = cInfo.recentDate {
-//                    cell.lastDate.text = DateUtils.getDateStringForDetail(date: dateString)
-//                }
-//                cell.dateKind.text = "마지막 사용"
-//                cell.dateKind.backgroundColor = UIColor(hex: "#E2E2E2")
-//            }
-//        } else {
-//            cell.dateKind.roundCorners(.allCorners, radius: 5)
-//            cell.dateKind.text = "마지막 사용"
-//            cell.lastDate.text = "알 수 없음"
-//            cell.dateKind.backgroundColor = UIColor(hex: "#E2E2E2")
-//        }
-//
-//        if let pw = cInfo.power, pw > 0 {
-//            cell.powerLable.text = String(pw) + "kW"
-//        } else {
-//            cell.powerLable.text = ""
-//        }
+        if let pw = cidInfo.power, pw > 0 {
+            cell.powerLable.text = String(pw) + "kW"
+        } else {
+            cell.powerLable.text = ""
+        }
 
         return cell
+    }
+    
+    public func goneCellHeight() -> CGFloat {
+        let cell = Bundle.main.loadNibNamed("CidInfoTableViewCell", owner: self, options: nil)?.first as! CidInfoTableViewCell
+        return Constants.cellHeight - cell.getDividerHeight()
     }
 }
