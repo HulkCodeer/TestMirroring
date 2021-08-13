@@ -48,7 +48,8 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V2b-uc-mkK">
-                            <rect key="frame" x="53.5" y="63" width="51" height="31"/>
+                            <rect key="frame" x="57.5" y="63" width="51" height="31"/>
+                            <color key="onTintColor" name="content-positive"/>
                         </switch>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="충전사업자" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6kW-Zv-eyX">
                             <rect key="frame" x="16" y="16" width="61" height="16"/>
@@ -60,7 +61,7 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstItem="V2b-uc-mkK" firstAttribute="centerY" secondItem="3IQ-sz-Wbc" secondAttribute="centerY" id="55e-zP-vAl"/>
-                        <constraint firstItem="V2b-uc-mkK" firstAttribute="leading" secondItem="3IQ-sz-Wbc" secondAttribute="trailing" constant="8" id="Bqx-W9-71w"/>
+                        <constraint firstItem="V2b-uc-mkK" firstAttribute="leading" secondItem="3IQ-sz-Wbc" secondAttribute="trailing" constant="12" id="Bqx-W9-71w"/>
                         <constraint firstAttribute="trailing" secondItem="4io-4T-m3I" secondAttribute="trailing" constant="16" id="Dxc-cI-ncH"/>
                         <constraint firstItem="6kW-Zv-eyX" firstAttribute="top" secondItem="UYz-gY-qGg" secondAttribute="top" constant="16" id="Ex0-cw-VBT"/>
                         <constraint firstItem="QL0-0B-caU" firstAttribute="top" secondItem="6kW-Zv-eyX" secondAttribute="bottom" constant="4" id="RgF-M1-asV"/>
@@ -81,6 +82,9 @@
         </view>
     </objects>
     <resources>
+        <namedColor name="content-positive">
+            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="content-tertiary">
             <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

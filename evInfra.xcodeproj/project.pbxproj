@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0012443C25A2E2EF00376CDC /* IntroImageChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0012443B25A2E2EF00376CDC /* IntroImageChecker.swift */; };
 		0012443F25A2E92300376CDC /* IntroImageCheckerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0012443E25A2E92300376CDC /* IntroImageCheckerDelegate.swift */; };
+		0033CBC426C631970084B212 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0033CBC326C631970084B212 /* FilterManager.swift */; };
 		0044A05025AEEB1500D0BB0A /* LotteRentIntoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0044A04F25AEEB1500D0BB0A /* LotteRentIntoViewController.swift */; };
 		0055D472252AA88B001133DB /* Membership.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0055D471252AA88B001133DB /* Membership.storyboard */; };
 		005643E0252DA18E007BF78D /* MembershipInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */; };
@@ -344,6 +345,7 @@
 /* Begin PBXFileReference section */
 		0012443B25A2E2EF00376CDC /* IntroImageChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroImageChecker.swift; sourceTree = "<group>"; };
 		0012443E25A2E92300376CDC /* IntroImageCheckerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroImageCheckerDelegate.swift; sourceTree = "<group>"; };
+		0033CBC326C631970084B212 /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
 		0044A04F25AEEB1500D0BB0A /* LotteRentIntoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotteRentIntoViewController.swift; sourceTree = "<group>"; };
 		0055D471252AA88B001133DB /* Membership.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Membership.storyboard; sourceTree = "<group>"; };
 		005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipInfoViewController.swift; sourceTree = "<group>"; };
@@ -1325,6 +1327,7 @@
 				90CA0DE32488B82900904015 /* DataBaseHelper.swift */,
 				90E8B54E24C6E82F00D03162 /* ChargerManagerListener.swift */,
 				9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */,
+				0033CBC326C631970084B212 /* FilterManager.swift */,
 			);
 			path = charger;
 			sourceTree = "<group>";
@@ -1892,6 +1895,7 @@
 				73A7B430204F8A72002E975F /* CidInfo.swift in Sources */,
 				421569D7259B629100D018DC /* BoardInfo.swift in Sources */,
 				DB5C4EDF2361A04B0090139E /* AdvertisingDialog.swift in Sources */,
+				0033CBC426C631970084B212 /* FilterManager.swift in Sources */,
 				DB6EBE31217078750000F442 /* ChargerSelectDelegate.swift in Sources */,
 				73D65D6E2356E57900F564A2 /* MyPayRegisterViewController.swift in Sources */,
 				73EF8B45203BD1D400D04494 /* EVIcon.swift in Sources */,

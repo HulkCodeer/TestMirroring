@@ -81,6 +81,13 @@ extension FilterCompanyView : UICollectionViewDelegate,UICollectionViewDataSourc
         return cell.getInteresticSize(strText: strText, cv: collectionView, imgShow:imgShow)
     }
     
+    func resetFilter() {
+        
+    }
+    
+    func applyFilter() {
+        
+    }
 }
 
 

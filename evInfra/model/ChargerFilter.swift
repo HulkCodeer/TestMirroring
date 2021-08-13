@@ -8,19 +8,42 @@
 
 import Foundation
 
+protocol DelegateFilterChange {
+    func onChangedFilter()
+}
+
 class ChargerFilter {
-    var filterWayDic = [Int: String]()
-    var filterPayDic = [Int: String]()
+    var isFree = true
+    var isPaid = true
     
-    var wayId = 0
-    var payId = 0
-    var companies: [String: Bool] = [:]
+    var isPublic = true
+    var isNonPublic = false
+    
+    var minSpeed = 0
+    var maxSpeed = 350
+    
+    var isIndoor = true
+    var isOutdoor = true
+    var isCanopy = true
+    
+    var isGeneralWay = true
+    var isHighwayUp = true
+    var isHighwayDown = true
     
     var dcDemo = true
     var dcCombo = true
     var ac3 = true
     var superCharger = true
     var slow = true
+    var destination = true
+    
+    var companies: [String: Bool] = [:]
+    
+    var filterWayDic = [Int: String]()
+    var filterPayDic = [Int: String]()
+    
+    var wayId = 0
+    var payId = 0
     
     func isSame(filter : ChargerFilter?) -> Bool{
         guard let ft = filter else{

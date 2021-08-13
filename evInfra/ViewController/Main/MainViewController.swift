@@ -44,7 +44,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var filterView: UIView!
     @IBOutlet weak var routeView: UIView!
     @IBOutlet weak var filterBarView: FilterBarView!
-    @IBOutlet weak var containerView: FilterContainerView!
+    @IBOutlet weak var filterContainerView: FilterContainerView!
     @IBOutlet weak var filterHeight: NSLayoutConstraint!
     
     @IBOutlet weak var startField: TextField!
@@ -221,6 +221,7 @@ class MainViewController: UIViewController {
     // Filter
     func prepareFilterView() {
         filterBarView.delegate = self
+        filterContainerView.delegate = self
         // drop down - init
 //
 //        DropDown.startListeningToKeyboard()
@@ -685,30 +686,33 @@ extension MainViewController: DelegateFilterContainerView {
 extension MainViewController: DelegateFilterBarView {
     func showFilterContainer(type: FilterType){
         // change or remove containerview
-        if (containerView.isSameView(type: type)){
+        if (filterContainerView.isSameView(type: type)){
             hideFilter()
         } else {
             showFilter()
-            containerView.showFilterView(type: type)
+            filterContainerView.showFilterView(type: type)
         }
     }
     
     func hideFilter(){
-        containerView.isHidden = true
+        filterContainerView.isHidden = true
         filterHeight.constant = routeView.layer.height + filterBarView.layer.height
         filterView.sizeToFit()
         filterView.layoutIfNeeded()
     }
     
     func showFilter(){
-        containerView.isHidden = false
-        filterHeight.constant = routeView.layer.height + filterBarView.layer.height + containerView.layer.height
+        filterContainerView.isHidden = false
+        filterHeight.constant = routeView.layer.height + filterBarView.layer.height + filterContainerView.layer.height
         filterView.sizeToFit()
         filterView.layoutIfNeeded()
     }
     
     func startFilterSetting(){
         // chargerFilterViewcontroller
+        let filterStoryboard = UIStoryboard(name : "Filter", bundle: nil)
+        let chargerFilterVC:ChargerFilterViewController = filterStoryboard.instantiateViewController(withIdentifier: "ChargerFilterViewController") as! ChargerFilterViewController
+        self.navigationController?.push(viewController: chargerFilterVC)
     }
 }
 

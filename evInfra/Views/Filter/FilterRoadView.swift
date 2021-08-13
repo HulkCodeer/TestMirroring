@@ -20,6 +20,7 @@ class FilterRoadView: UIView {
     @IBOutlet var ivHighDown: UIImageView!
     @IBOutlet var lbHighDown: UILabel!
     
+    var delegate: DelegateFilterChange?
     var generalSel = true
     var highUpSel = true
     var highDownSel = true
@@ -54,16 +55,19 @@ class FilterRoadView: UIView {
     @objc func onClickGeneral(_ sender:UITapGestureRecognizer){
         generalSel = !generalSel
         selectItem(index: 0)
+        delegate?.onChangedFilter()
     }
     
     @objc func onClickHighTop(_ sender:UITapGestureRecognizer){
         highUpSel = !highUpSel
         selectItem(index: 1)
+        delegate?.onChangedFilter()
     }
     
     @objc func onClickHighDown(_ sender:UITapGestureRecognizer){
         highDownSel = !highDownSel
         selectItem(index: 2)
+        delegate?.onChangedFilter()
     }
     
     func selectItem(index: Int){
@@ -92,5 +96,13 @@ class FilterRoadView: UIView {
                 lbHighDown.textColor = bgDisColor
             }
         }
+    }
+    
+    func resetFilter() {
+        
+    }
+    
+    func applyFilter() {
+        
     }
 }

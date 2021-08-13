@@ -23,6 +23,7 @@ class FilterPlaceView: UIView {
     @IBOutlet var ivCanopy: UIImageView!
     @IBOutlet var lbCanopy: UILabel!
     
+    var delegate: DelegateFilterChange?
     var indoorSel = true
     var outDoorSel = true
     var canopySel = true
@@ -57,14 +58,17 @@ class FilterPlaceView: UIView {
     @objc func onClickIndoor(_ sender:UITapGestureRecognizer){
         indoorSel = !indoorSel
         selectItem(index: 0)
+        delegate?.onChangedFilter()
     }
     @objc func onClickOutdoor(_ sender:UITapGestureRecognizer){
         outDoorSel = !outDoorSel
         selectItem(index: 1)
+        delegate?.onChangedFilter()
     }
     @objc func onClickCanopy(_ sender:UITapGestureRecognizer){
         canopySel = !canopySel
         selectItem(index: 2)
+        delegate?.onChangedFilter()
     }
     
     func selectItem(index: Int){
@@ -93,5 +97,13 @@ class FilterPlaceView: UIView {
                 lbCanopy.textColor = bgDisColor
             }
         }
+    }
+        
+    func resetFilter() {
+        
+    }
+    
+    func applyFilter() {
+        
     }
 }

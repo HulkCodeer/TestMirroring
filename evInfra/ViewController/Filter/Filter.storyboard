@@ -22,10 +22,59 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="P5J-DZ-D3A">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1684"/>
                                         <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1v-sy-gt6" customClass="FilterAccessView" customModule="evInfra" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="128"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="128" id="7OB-l7-ARd"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LiB-FR-qwB" customClass="FilterTypeView" customModule="evInfra" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="144" width="375" height="110"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="110" id="hsp-Gq-IVE"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zsa-2O-Mgt" customClass="FilterSpeedView" customModule="evInfra" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="270" width="375" height="110"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="110" id="dHc-x4-0B0"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HwR-oa-JZf" customClass="FilterPlaceView" customModule="evInfra" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="396" width="375" height="110"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="110" id="Pqh-S3-6tT"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gfm-XD-f4m" customClass="FilterRoadView" customModule="evInfra" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="522" width="375" height="110"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="110" id="Bsa-E5-KhA"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QSD-2x-K3I" customClass="FilterPriceView" customModule="evInfra" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="648" width="375" height="110"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="110" id="od4-zG-058"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NUU-Qm-PsG" customClass="FilterCompanyView" customModule="evInfra" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="774" width="375" height="850"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="850" id="ZW8-g0-dSl"/>
+                                                </constraints>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uy3-p1-R2e">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                                <rect key="frame" x="0.0" y="1640" width="375" height="44"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zA4-R8-C2u">
                                                         <rect key="frame" x="16" y="0.0" width="343" height="44"/>
@@ -37,6 +86,9 @@
                                                         <state key="normal" title="필터 설정 저장하기">
                                                             <color key="titleColor" name="content-primary"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="onClickApplyBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="S8w-nR-643"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -70,7 +122,14 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="accessFilter" destination="m1v-sy-gt6" id="b6r-bm-3Uy"/>
                         <outlet property="btnApply" destination="zA4-R8-C2u" id="6aL-zf-OwH"/>
+                        <outlet property="companyFilter" destination="NUU-Qm-PsG" id="Ozg-JY-XPu"/>
+                        <outlet property="placeFilter" destination="HwR-oa-JZf" id="mIx-mE-kOm"/>
+                        <outlet property="priceFilter" destination="QSD-2x-K3I" id="75a-HD-llP"/>
+                        <outlet property="roadFilter" destination="Gfm-XD-f4m" id="WYG-y5-32L"/>
+                        <outlet property="speedFilter" destination="Zsa-2O-Mgt" id="eta-mV-rND"/>
+                        <outlet property="typeFilter" destination="LiB-FR-qwB" id="a69-Ou-zfb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -73,4 +73,11 @@ class FilterAccessView: UIView {
             }
         }
     }
+    func resetFilter() {
+        
+    }
+    
+    func applyFilter() {
+        
+    }
 }

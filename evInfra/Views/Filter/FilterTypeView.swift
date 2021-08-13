@@ -10,8 +10,8 @@ import Foundation
 
 class FilterTypeView: UIView {
     @IBOutlet var tagCollectionView: UICollectionView!
-    
     var tagList = Array<TagValue>()
+    var delegate: DelegateFilterChange?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -77,6 +77,14 @@ extension FilterTypeView : UICollectionViewDelegate,UICollectionViewDataSource, 
         }
         return cell.getInteresticSize(strText: strText, cv: collectionView, imgShow:imgShow)
     }
+    
+    func resetFilter() {
+        
+    }
+    
+    func applyFilter() {
+        
+    }
 }
 
 
@@ -85,5 +93,6 @@ extension FilterTypeView : DelegateTagListViewCell{
     func tagClicked(index: Int) {
         // tag selected
         print("clicked position : \(index)")
+        self.delegate?.onChangedFilter()
     }
 }

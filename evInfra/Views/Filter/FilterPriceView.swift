@@ -10,6 +10,8 @@ import Foundation
 @IBDesignable
 class FilterPriceView: UIView {
     
+    var delegate: DelegateFilterChange?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
@@ -24,5 +26,15 @@ class FilterPriceView: UIView {
         let view = Bundle.main.loadNibNamed("FilterPriceView", owner: self, options: nil)?.first as! UIView
         view.frame = bounds
         addSubview(view)
+        
+        
+    }
+    
+    func resetFilter() {
+        
+    }
+    
+    func applyFilter() {
+        
     }
 }

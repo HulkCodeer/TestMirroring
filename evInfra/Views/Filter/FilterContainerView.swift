@@ -19,10 +19,16 @@ class FilterContainerView: UIView {
     @IBOutlet var filterRoadView: FilterRoadView!
     @IBOutlet var filterPlaceView: FilterPlaceView!
     
+    var delegate: DelegateFilterContainerView?
     var currType: FilterType = FilterType.none
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
+        filterTypeView.delegate = self
+        filterSpeedView.delegate = self
+        filterRoadView.delegate = self
+        filterPlaceView.delegate = self
+        filterPriceView.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -57,5 +63,11 @@ class FilterContainerView: UIView {
         case .none:
             break;
         }
+    }
+}
+
+extension FilterContainerView: DelegateFilterChange{
+    func onChangedFilter() {
+        delegate?.changedFilter()
     }
 }

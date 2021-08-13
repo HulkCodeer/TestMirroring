@@ -10,21 +10,39 @@ import UIKit
 import Material
 
 class ChargerFilterViewController: UIViewController {
-    @IBOutlet weak var companyFilter: UIView!
     
-    @IBOutlet weak var companyHeight: NSLayoutConstraint!
+    @IBOutlet var accessFilter: FilterAccessView!
+    @IBOutlet var typeFilter: FilterTypeView!
+    @IBOutlet var speedFilter: FilterSpeedView!
+    @IBOutlet var placeFilter: FilterPlaceView!
+    @IBOutlet var roadFilter: FilterRoadView!
+    @IBOutlet var priceFilter: FilterPriceView!
+    @IBOutlet var companyFilter: FilterCompanyView!
+    
     @IBOutlet weak var btnApply: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
         initView()
+    
+    }
+    
+    @IBAction func onClickApplyBtn(_ sender: Any) {
+        // check change
+        typeFilter.applyFilter()
+        speedFilter.applyFilter()
+        roadFilter.applyFilter()
+        placeFilter.applyFilter()
+        priceFilter.applyFilter()
+        accessFilter.applyFilter()
+        companyFilter.applyFilter()
     }
     
     func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+//        let backButton = IconButton(image: Icon.cm.arrowBack)
+//        backButton.tintColor = UIColor(rgb: 0x15435C)
+//        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
         let logoutButton = UIButton()
         logoutButton.setTitle("초기화", for: .normal)
@@ -34,7 +52,7 @@ class ChargerFilterViewController: UIViewController {
         
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "필터설정"
-        navigationItem.leftViews = [backButton]
+//        navigationItem.leftViews = [backButton]
         navigationItem.rightViews = [logoutButton]
         self.navigationController?.isNavigationBarHidden = false
     }
@@ -52,6 +70,13 @@ class ChargerFilterViewController: UIViewController {
     @objc
     fileprivate func resetFilter(){
         print("필터 초기화")
+        typeFilter.resetFilter()
+        speedFilter.resetFilter()
+        roadFilter.resetFilter()
+        placeFilter.resetFilter()
+        priceFilter.resetFilter()
+        accessFilter.resetFilter()
+        companyFilter.resetFilter()
     }
     
 }
