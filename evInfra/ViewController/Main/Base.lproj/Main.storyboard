@@ -4,9 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -510,9 +508,6 @@
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="Chu-lo-17Z"/>
                                 </constraints>
-                                <connections>
-                                    <segue destination="zai-Pa-CLz" kind="embed" id="itn-uj-mi4"/>
-                                </connections>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJq-gl-PDQ" userLabel="Renew Button">
                                 <rect key="frame" x="327" y="122" width="40" height="40"/>
@@ -935,140 +930,6 @@
             </objects>
             <point key="canvasLocation" x="-1388" y="25.637181409295355"/>
         </scene>
-        <!--Summary View Controller-->
-        <scene sceneID="KgO-LS-Hvy">
-            <objects>
-                <viewController id="zai-Pa-CLz" customClass="SummaryViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gyD-Iz-sXT">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="174"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="343" placeholderIntrinsicHeight="142" axis="vertical" distribution="fillProportionally" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Qfo-Rb-Vgm">
-                                <rect key="frame" x="16" y="16" width="343" height="142"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="WGJ-DW-BEk">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="46"/>
-                                        <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="x9O-WB-RdB">
-                                                <rect key="frame" x="0.0" y="0.0" width="34" height="46"/>
-                                            </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전소이름입니다" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KL2-E0-fqg">
-                                                <rect key="frame" x="38" y="13" width="248" height="19.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1SY-QM-WML">
-                                                <rect key="frame" x="290" y="11" width="25" height="24"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="25" id="GGg-AL-7KU"/>
-                                                </constraints>
-                                                <color key="tintColor" name="content-primary"/>
-                                                <state key="normal" image="icon_star_md">
-                                                    <color key="titleColor" name="content-primary"/>
-                                                </state>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fg0-38-LOn">
-                                                <rect key="frame" x="319" y="11" width="24" height="24"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="24" id="20e-8P-3Un"/>
-                                                </constraints>
-                                                <state key="normal" title="Button" image="icon_share_md">
-                                                    <color key="titleColor" name="content-primary"/>
-                                                </state>
-                                            </button>
-                                        </subviews>
-                                        <color key="tintColor" name="content-primary"/>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleAspectFit" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="FmC-P7-Idg">
-                                        <rect key="frame" x="0.0" y="62" width="343" height="37.5"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="제주특별자치도 제주시 첨단로 330 세미양빌딩 " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Upg-a4-9tu">
-                                                <rect key="frame" x="0.0" y="0.0" width="307" height="37.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kJW-uA-evJ">
-                                                <rect key="frame" x="323" y="6.5" width="20" height="24"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="20" id="pJH-gg-yvP"/>
-                                                </constraints>
-                                                <color key="tintColor" name="background-always-dark"/>
-                                                <state key="normal" title="Button" image="icon_copy_md">
-                                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="LDR-KA-3ls">
-                                        <rect key="frame" x="0.0" y="115.5" width="343" height="26.5"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="WCJ-7d-Un7">
-                                                <rect key="frame" x="0.0" y="0.0" width="113" height="26.5"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QfZ-Vy-Tcn">
-                                                        <rect key="frame" x="0.0" y="0.0" width="52.5" height="26.5"/>
-                                                        <color key="backgroundColor" name="background-tertiary"/>
-                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                                        <state key="normal" title="출발">
-                                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                        </state>
-                                                    </button>
-                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ge2-xe-Jq7">
-                                                        <rect key="frame" x="56.5" y="0.0" width="0.0" height="26.5"/>
-                                                        <state key="normal" title="경유지 추가">
-                                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                        </state>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="abh-aA-oN9">
-                                                        <rect key="frame" x="60.5" y="0.0" width="52.5" height="26.5"/>
-                                                        <color key="backgroundColor" name="background-tertiary"/>
-                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                                        <state key="normal" title="도착">
-                                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                        </state>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cDB-Hl-4Hb">
-                                                <rect key="frame" x="121" y="0.0" width="222" height="26.5"/>
-                                                <color key="backgroundColor" name="content-positive"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                <color key="tintColor" name="content-primary"/>
-                                                <state key="normal" title=" 0.00km 안내" image="icon_corner_right_md">
-                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                            </button>
-                                        </subviews>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                                <real key="value" value="0.0"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="Waf-NP-Gjy"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="Qfo-Rb-Vgm" firstAttribute="leading" secondItem="gyD-Iz-sXT" secondAttribute="leading" constant="16" id="VUc-kH-ffO"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="Qfo-Rb-Vgm" secondAttribute="bottom" constant="16" id="lod-J2-gSz"/>
-                            <constraint firstAttribute="trailing" secondItem="Qfo-Rb-Vgm" secondAttribute="trailing" constant="16" id="rOz-6I-mDA"/>
-                            <constraint firstItem="Qfo-Rb-Vgm" firstAttribute="top" secondItem="gyD-Iz-sXT" secondAttribute="topMargin" constant="16" id="zQf-FV-DfB"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NA1-ER-0u6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="83" y="25"/>
-        </scene>
     </scenes>
     <designables>
         <designable name="V0k-eg-psY">
@@ -1089,30 +950,11 @@
         <image name="ic_my_location_tracking" width="40" height="40"/>
         <image name="ic_newbadge" width="20" height="20"/>
         <image name="ic_renew" width="40" height="40"/>
-        <image name="icon_copy_md" width="24" height="24"/>
-        <image name="icon_corner_right_md" width="24" height="24"/>
-        <image name="icon_share_md" width="24" height="24"/>
-        <image name="icon_star_md" width="24" height="24"/>
         <image name="menu_board" width="30" height="30"/>
         <image name="menu_event" width="30" height="30"/>
         <image name="menu_info" width="30" height="30"/>
         <image name="menu_my_info" width="30" height="30"/>
         <image name="menu_settings" width="30" height="30"/>
         <image name="menu_top_bg.jpg" width="230.39999389648438" height="139.19999694824219"/>
-        <namedColor name="background-always-dark">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="background-tertiary">
-            <color red="0.90200001001358032" green="0.90200001001358032" blue="0.90200001001358032" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="content-positive">
-            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="content-primary">
-            <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

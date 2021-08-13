@@ -55,6 +55,8 @@
 		42CDF2DF26C2137500555094 /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CDF2DE26C2137500555094 /* SummaryViewController.swift */; };
 		42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */; };
 		42CEB75126C1110D00E37AE4 /* CidInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */; };
+		42F9BCE126C64C250028B3D1 /* SummaryViewControllerTest.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42F9BCDF26C64C250028B3D1 /* SummaryViewControllerTest.xib */; };
+		42F9BCE326C651340028B3D1 /* SummaryViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F9BCE226C651340028B3D1 /* SummaryViewControllerTest.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView.swift */; };
 		7312786820BE38C500861B3E /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786720BE38C500861B3E /* FCMManager.swift */; };
@@ -371,6 +373,8 @@
 		42CDF2DE26C2137500555094 /* SummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
 		42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CidInfoTableViewCell.swift; sourceTree = "<group>"; };
 		42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CidInfoTableViewCell.xib; sourceTree = "<group>"; };
+		42F9BCDF26C64C250028B3D1 /* SummaryViewControllerTest.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SummaryViewControllerTest.xib; sourceTree = "<group>"; };
+		42F9BCE226C651340028B3D1 /* SummaryViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryViewControllerTest.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		7312786720BE38C500861B3E /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
@@ -809,6 +813,8 @@
 				425B055A26B7847B00B597A2 /* Detail.storyboard */,
 				73008458213687150001DBFA /* DetailViewController.swift */,
 				42CDF2DE26C2137500555094 /* SummaryViewController.swift */,
+				42F9BCDF26C64C250028B3D1 /* SummaryViewControllerTest.xib */,
+				42F9BCE226C651340028B3D1 /* SummaryViewControllerTest.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -1515,6 +1521,7 @@
 				73A7B3EA204E3595002E975F /* delete_normal.png in Resources */,
 				0055D472252AA88B001133DB /* Membership.storyboard in Resources */,
 				73C31C0D20A4408C005B6C53 /* GoogleService-Info.plist in Resources */,
+				42F9BCE126C64C250028B3D1 /* SummaryViewControllerTest.xib in Resources */,
 				DB18733820AAEC8400790B77 /* navi_kakao.png in Resources */,
 				73A7B417204E3595002E975F /* navi_bg.jpg in Resources */,
 				732ED1CB21ED8ABB0012C67B /* DropDownCheckBoxCell.xib in Resources */,
@@ -1703,6 +1710,7 @@
 				DB4063A521FC735000B630A8 /* DayAxisValueFormatter.swift in Sources */,
 				CE24840020A59E2500611E24 /* MyPageViewController.swift in Sources */,
 				DB18732420A8519200790B77 /* String.swift in Sources */,
+				42F9BCE326C651340028B3D1 /* SummaryViewControllerTest.swift in Sources */,
 				73AFF26722D467E000287E67 /* Chronometer.swift in Sources */,
 				DB8936542074A4EB006A10BB /* ChargerTableView.swift in Sources */,
 				DB9673C620843EF6008ACCAE /* ChargerTableViewCell.swift in Sources */,

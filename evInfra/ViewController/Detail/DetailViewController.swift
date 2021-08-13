@@ -13,8 +13,7 @@ import SwiftyJSON
 import JJFloatingActionButton
 
 class DetailViewController: UIViewController, MTMapViewDelegate {
-    
-    @IBOutlet weak var detailView: UIView!
+
 //    @IBOutlet weak var vieagerContainer: UIView!
 
     
@@ -363,14 +362,14 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         if !memo.isEmpty {
             if memo.equals("") {
                 self.memoView.isHidden = true
-                detailViewResize(view: self.memoView)
+//                detailViewResize(view: self.memoView)
             } else {
                 self.memoLabel.text = memo
                 self.memoView.visible()
             }
         } else {
             self.memoView.isHidden = true
-            detailViewResize(view: self.memoView)
+//            detailViewResize(view: self.memoView)
         }
         
         // 센터 전화번호
@@ -413,9 +412,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     // DetailView reSize
-    func detailViewResize(view:UIView) {
-        self.detailView.frame.size = CGSize(width: self.detailView.frame.size.width, height: self.detailView.frame.size.height-view.frame.size.height)
-    }
+//    func detailViewResize(view:UIView) {
+//        self.detailView.frame.size = CGSize(width: self.detailView.frame.size.width, height: self.detailView.frame.size.height-view.frame.size.height)
+//    }
     
     // TODO: bookmark
 //    func bookmark() {
@@ -445,10 +444,10 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     func adjustHeightOfTableview() {
         let contentHeight = self.cidTableView.contentSize.height
-        let expectedFrame = CGRect(x: 0, y: 0, width: self.detailView.frame.width, height: self.detailView.frame.height - CidTableView.Constants.cellHeight + contentHeight)
-        if !self.detailView.frame.equalTo(expectedFrame) {
-            self.detailView.frame = expectedFrame
-        }
+//        let expectedFrame = CGRect(x: 0, y: 0, width: self.detailView.frame.width, height: self.detailView.frame.height - CidTableView.Constants.cellHeight + contentHeight)
+//        if !self.detailView.frame.equalTo(expectedFrame) {
+//            self.detailView.frame = expectedFrame
+//        }
         
         // set the height constraint accordingly
         UIView.animate(withDuration: 0.25, animations: {
@@ -514,7 +513,7 @@ extension DetailViewController: BoardTableViewDelegate {
         self.boardTableView.allowsSelection = false
         
         // Table header 추가
-        self.boardTableView.tableHeaderView = detailView
+//        self.boardTableView.tableHeaderView = detailView
         self.boardTableView.sectionHeaderHeight = UITableViewAutomaticDimension;
         self.boardTableView.estimatedSectionHeaderHeight = 25;
     }
