@@ -41,13 +41,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 
     @IBOutlet var reportBtn: UIView!                    // 제보하기
     
-    // 지킴이
-//    @IBOutlet weak var guardView: UIView!
-//    @IBOutlet weak var guardImage: UIImageView!
-//    @IBOutlet weak var guardFixLabel: UILabel!
-//    @IBOutlet weak var guardReportBtn: UIButton!
-//    @IBOutlet weak var guardEnvBtn: UIButton!
-//    @IBOutlet weak var guardKepcoBtn: UIButton!
     
     // 충전기 정보(list)
     @IBOutlet weak var boardTableView: BoardTableView!
@@ -82,10 +75,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         prepareActionBar()
         prepareBoardTableView()
         preparePagingView()
-//        prepareGuard()  지킴이 삭제
-
         getChargerInfo()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -95,64 +85,12 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     override func viewWillLayoutSubviews() {
         // btn border
-//        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-//        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-//        self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-//        self.addPointBtn.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-// self.reportBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#33A2DA"), borderWidth: 1)
-        // install round
-//        self.indoorView.roundCorners(.allCorners, radius: 3)
-//        self.outdoorView.roundCorners(.allCorners, radius: 3)
-//        self.canopyView.roundCorners(.allCorners, radius: 3)
-        
-        // charger power round
-//        self.powerView.roundCorners(.allCorners, radius: 3)
-//        if isExistAddBtn {
-//            self.addPointBtn.isHidden = false
-//            self.naviBtn.isHidden = true
-//        }else if !isExistAddBtn{
-//            self.addPointBtn.isHidden = true
-//            self.naviBtn.isHidden = false
-//        }
+// self.reportBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(he
     }
     
     @objc func mapViewTap(gesture : UIPanGestureRecognizer!) {
         gesture.cancelsTouchesInView = false
     }
-    
-    // MARK: - Action for button
-//    @IBAction func onClickBookmark(_ sender: Any) {
-//        self.bookmark()
-//    }
-//
-//    @IBAction func onClickStartPoint(_ sender: Any) {
-//        self.mainViewDelegate?.setStartPoint()
-//        navigationController?.popViewController(animated: true)
-//        dismiss(animated: true, completion: nil)
-//    }
-//
-//    @IBAction func onClickEndPoint(_ sender: Any) {
-//        self.mainViewDelegate?.setEndPoint()
-//        navigationController?.popViewController(animated: true)
-//        dismiss(animated: true, completion: nil)
-//    }
-//
-//    @IBAction func onClickAddPoint(_ sender: Any) {
-//        self.mainViewDelegate?.setStartPath()
-//        navigationController?.popViewController(animated: true)
-//        dismiss(animated: true, completion: nil)
-//    }
-    
-//    @IBAction func onClickNavi(_ sender: UIButton) {
-//        if let chargerData = charger {
-//            if let stationDto = chargerData.mStationInfoDto {
-//                let snm = callOutTitle.text ?? ""
-//                let lng = stationDto.mLongitude ?? 0.0
-//                let lat = stationDto.mLatitude ?? 0.0
-//                UtilNavigation().showNavigation(vc: self, snm: snm, lat: lat, lng: lng)
-//            }
-//        }
-//    }
     
     func handleError(error: Error?) -> Void {
         if let error = error as NSError? {
@@ -166,8 +104,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func preparePagingView() {
         let viewPagerController = ViewPagerController(charger: self.charger!)
         addChildViewController(viewPagerController)
-//        self.setCallOutFavoriteIcon(charger: self.charger!)
-//
+
 //        let report = UITapGestureRecognizer(target: self, action: #selector(self.onClickReportChargeBtn))
 //        self.reportBtn.addGestureRecognizer(report)
     }
@@ -414,30 +351,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     // DetailView reSize
 //    func detailViewResize(view:UIView) {
 //        self.detailView.frame.size = CGSize(width: self.detailView.frame.size.width, height: self.detailView.frame.size.height-view.frame.size.height)
-//    }
-    
-    // TODO: bookmark
-//    func bookmark() {
-//        if MemberManager().isLogin() {
-//            ChargerManager.sharedInstance.setFavoriteCharger(charger: self.charger!) { (charger) in
-//                self.setCallOutFavoriteIcon(charger: charger)
-//                if charger.mFavorite {
-//                    Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
-//                } else {
-//                    Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
-//                }
-//            }
-//        } else {
-//            MemberManager().showLoginAlert(vc: self)
-//        }
-//    }
-    
-//    func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
-//        if charger.mFavorite {
-//            self.callOutFavorite.setImage(UIImage(named: "bookmark_on"), for: .normal)
-//        } else {
-//            self.callOutFavorite.setImage(UIImage(named: "bookmark"), for: .normal)
-//        }
 //    }
     
     // MARK: - TableView Height

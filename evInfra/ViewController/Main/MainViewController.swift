@@ -135,37 +135,9 @@ class MainViewController: UIViewController {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
+        prepareSummaryView()
         requestStationInfo()
     }
-    
-//    override func viewWillLayoutSubviews() {
-//        // btn border
-//        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-//        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-//        self.naviBtn.setBorderRadius(.allCorners, radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-//        self.addPointBtn.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-//        if let currentPoint = MainViewController.currentLocation {
-//            startField.placeholder = tMapPathData.convertGpsToAddress(at: currentPoint)
-//        }
-//        // routeDistancBtn radius, gradient
-//        self.routeDistanceBtn.roundCorners(.allCorners, radius: 10)
-//        self.routeDistanceBtn.setGradientColor(startColor: UIColor(hex: "#2CE0BB"), endColor: UIColor(hex: "#33A2DA"), startPoint: CGPoint(x: 0.0, y: 1.0), endPoint: CGPoint(x: 1.0, y:1.0))
-//        self.routeDistanceView.roundCorners(.allCorners, radius: 5)
-//        self.routeDistanceView.backgroundColor = UIColor.init(hex: "#F5ffffff")
-//        // type/LB round corner
-//        self.powerView.roundCorners(.allCorners, radius: 3)
-//        self.priceView.roundCorners(.allCorners, radius: 3)
-//        self.typeDemoLb.roundCorners(.allCorners, radius: 3)
-//        self.typeComboLb.roundCorners(.allCorners, radius: 3)
-//        self.typeACLb.roundCorners(.allCorners, radius: 3)
-//        self.typeSlowLb.roundCorners(.allCorners, radius: 3)
-//        self.typeSuperLb.roundCorners(.allCorners, radius: 3)
-//        self.typeDestiLb.roundCorners(.allCorners, radius: 3)
-//        // bookmark
-//        if selectCharger != nil {
-//            setCallOutFavoriteIcon(charger: self.selectCharger!)
-//        }
-//    }
     
     override func viewDidAppear(_ animated: Bool) {
         menuBadgeAdd()
@@ -468,6 +440,24 @@ class MainViewController: UIViewController {
         btnChargePrice.addGestureRecognizer(gesture)
     }
     
+    func prepareSummaryView() {
+//        let controller = storyboard!.instantiateViewController(withIdentifier: "SummaryViewControllerTest")
+//        addChildViewController(controller)
+//            controller.view.translatesAutoresizingMaskIntoConstraints = false
+//        callOutLayer.addSubview(controller.view)
+//        let containerView = UIView()
+//        view.addSubview(containerView)
+
+//        let controller = storyboard!.instantiateViewController(withIdentifier: "SummaryViewControllerTest")
+//        addChildViewController(controller)
+//        containerView.addSubview(controller.view)
+//        controller.didMove(toParentViewController: self)
+        
+        let test = Bundle.main.loadNibNamed("SummaryViewControllerTest", owner: self, options: nil)?.first as! UIView
+        test.frame = callOutLayer.bounds
+        callOutLayer.addSubview(test)
+    }
+    
     func handleError(error: Error?) -> Void {
         if let error = error as NSError? {
             print(error)
@@ -511,33 +501,12 @@ class MainViewController: UIViewController {
         }
     }
     
-//    func bookmark() {
-//        if MemberManager().isLogin() {
-//            ChargerManager.sharedInstance.setFavoriteCharger(charger: selectCharger!) { (charger) in
-//                self.setCallOutFavoriteIcon(charger: charger)
-//                if charger.mFavorite {
-//                    Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
-//                } else {
-//                    Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
-//                }
-//            }
-//        } else {
-//            MemberManager().showLoginAlert(vc: self)
-//        }
-//    }
-    
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
         let priceInfoVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         priceInfoVC.tabIndex = .PriceInfo
         self.navigationController?.push(viewController: priceInfoVC)
-//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
-//        self.navigationController?.push(viewController:vc)
     }
-    
-//    @IBAction func onClickFavorite(_ sender: UIButton) {
-//        bookmark()
-//    }
     
     // MARK: - Action for button
     @IBAction func onClickMyLocation(_ sender: UIButton) {
@@ -1151,6 +1120,7 @@ extension MainViewController: MainViewDelegate {
     }
     
     @objc func onClickCalloutLayer(_ sender:UITapGestureRecognizer) {
+        print("csj", "onClickCalloutLayer")
         let detailStoryboard = UIStoryboard(name : "Detail", bundle: nil)
         let detailVC:DetailViewController = detailStoryboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         detailVC.mainViewDelegate = self
@@ -1158,6 +1128,7 @@ extension MainViewController: MainViewDelegate {
         detailVC.stationInfoArr = self.stationInfoArr
         detailVC.checklistUrl = self.checklistUrl
         detailVC.isExistAddBtn = self.isExistAddBtn
+        
         self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
     }
     
@@ -1723,16 +1694,16 @@ extension MainViewController {
 //        }
     }
     
-    @IBAction func onClickMainFavorite(_ sender: UIButton) {
-        if MemberManager().isLogin() {
-            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-            let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
-            favoriteVC.delegate = self
-            self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
-        } else {
-            MemberManager().showLoginAlert(vc:self)
-        }
-    }
+//    @IBAction func onClickMainFavorite(_ sender: UIButton) {
+//        if MemberManager().isLogin() {
+//            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
+//            let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
+//            favoriteVC.delegate = self
+//            self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
+//        } else {
+//            MemberManager().showLoginAlert(vc:self)
+//        }
+//    }
 }
 
 extension MainViewController {

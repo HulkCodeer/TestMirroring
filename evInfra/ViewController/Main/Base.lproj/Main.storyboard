@@ -332,9 +332,6 @@
                                                 <state key="normal" title="즐겨찾기" image="ic_line_favorite">
                                                     <color key="titleColor" red="0.082922942939999994" green="0.263746798" blue="0.3624860942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
-                                                <connections>
-                                                    <action selector="onClickMainFavorite:" destination="Dkt-CM-WPs" eventType="touchUpInside" id="Lm1-9L-r5p"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -571,7 +568,7 @@
                         <outlet property="btn_main_help" destination="0Z2-jd-MHp" id="xlV-wl-3LX"/>
                         <outlet property="btn_main_offerwall" destination="xBg-t6-57T" id="ejz-Dq-HvT"/>
                         <outlet property="btn_menu_layer" destination="hUZ-Py-Zxk" id="nnN-qe-zVg"/>
-                        <outlet property="callOutLayer" destination="lcn-fZ-1A0" id="2Vb-Dh-sB2"/>
+                        <outlet property="callOutLayer" destination="lcn-fZ-1A0" id="XI3-C7-csL"/>
                         <outlet property="cbAc3" destination="bWa-ZB-BSk" id="2Oe-ia-hNX"/>
                         <outlet property="cbDcCombo" destination="1jA-vW-V6A" id="gmw-qx-DwD"/>
                         <outlet property="cbDcDemo" destination="eXn-Ok-sal" id="68h-c9-XCa"/>
