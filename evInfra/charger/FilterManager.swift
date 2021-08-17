@@ -136,7 +136,6 @@ class FilterManager {
     }
     
     func saveTypeFilter(index: Int, val: Bool){
-        print("save type index: \(index)")
         switch index {
         case 0:
             defaults.saveBool(key: UserDefault.Key.FILTER_DC_COMBO, value: val)
@@ -150,8 +149,6 @@ class FilterManager {
         case 3:
             defaults.saveBool(key: UserDefault.Key.FILTER_SLOW, value: val)
             filter.slow = val
-            
-            print("save slow with value : \(val)")
         case 4:
             defaults.saveBool(key: UserDefault.Key.FILTER_SUPER_CHARGER, value: val)
             filter.superCharger = val

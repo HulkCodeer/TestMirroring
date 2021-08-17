@@ -72,4 +72,14 @@ class FilterPriceView: UIView {
     func applyFilter() {
         FilterManager.sharedInstance.savePriceFilter(free: isFree, paid: isPaid)
     }
+    
+    func isChanged() -> Bool {
+        var changed = false
+        if (isFree != FilterManager.sharedInstance.filter.isFree){
+            changed = true
+        } else if (isPaid != FilterManager.sharedInstance.filter.isPaid){
+            changed = true
+        }
+        return changed
+    }
 }

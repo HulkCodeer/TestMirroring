@@ -125,4 +125,16 @@ class FilterRoadView: UIView {
     func applyFilter() {
         FilterManager.sharedInstance.saveRoadFilter(general: generalSel, highUp: highUpSel, highDown: highDownSel)
     }
+    
+    func isChanged() -> Bool {
+        var changed = false
+        if (generalSel != FilterManager.sharedInstance.filter.isGeneralWay){
+            changed = true
+        } else if (highUpSel != FilterManager.sharedInstance.filter.isHighwayUp){
+            changed = true
+        } else if (highDownSel != FilterManager.sharedInstance.filter.isHighwayDown){
+            changed = true
+        }
+        return changed
+    }
 }

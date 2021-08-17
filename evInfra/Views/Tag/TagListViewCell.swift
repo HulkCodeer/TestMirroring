@@ -105,7 +105,7 @@ class TagListViewCell : UICollectionViewCell {
         let imgSize:CGFloat = tagImg.image!.width
 
         // 50 - Label Padding
-        if textSize.width + 8 >= cv.frame.size.width{
+        if textSize.width + 16 >= cv.frame.size.width{
             let height = tagStr.heightForView(text: strText, font: UIFont(name: font.Name, size: font.Size+1)!, width: cv.frame.size.width - 15)
             return CGSize(width: cv.frame.size.width + CGFloat(imgSize), height: height + 8)
         }else{

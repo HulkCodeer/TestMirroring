@@ -129,4 +129,16 @@ class FilterPlaceView: UIView {
     func applyFilter() {
         FilterManager.sharedInstance.savePlaceFilter(indoor: indoorSel, outdoor: outdoorSel, canopy: canopySel)
     }
+    
+    func isChanged() -> Bool {
+        var changed = false
+        if (indoorSel != FilterManager.sharedInstance.filter.isIndoor){
+            changed = true
+        } else if (outdoorSel != FilterManager.sharedInstance.filter.isOutdoor){
+            changed = true
+        } else if (canopySel != FilterManager.sharedInstance.filter.isCanopy){
+            changed = true
+        }
+        return changed
+    }
 }

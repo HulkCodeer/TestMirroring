@@ -76,6 +76,7 @@ class FilterAccessView: UIView {
             }
         }
     }
+    
     func resetFilter() {
         publicSel = true
         nonPublicSel = false
@@ -86,5 +87,15 @@ class FilterAccessView: UIView {
     
     func applyFilter() {
         FilterManager.sharedInstance.saveAccessFilter(isPublic: publicSel, nonPublic: nonPublicSel)
+    }
+    
+    func isChanged() -> Bool {
+        var changed = false
+        if (publicSel != FilterManager.sharedInstance.filter.isPublic){
+            changed = true
+        } else if (nonPublicSel != FilterManager.sharedInstance.filter.isNonPublic){
+            changed = true
+        }
+        return changed
     }
 }

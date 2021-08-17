@@ -106,12 +106,31 @@ extension FilterTypeView : UICollectionViewDelegate,UICollectionViewDataSource, 
         FilterManager.sharedInstance.saveTypeFilter(index: 4, val: tagList[4].selected)
         FilterManager.sharedInstance.saveTypeFilter(index: 5, val: tagList[5].selected)
     }
+    
+    func isChanged() -> Bool {
+        var changed = false
+        if (tagList[0].selected != FilterManager.sharedInstance.filter.dcCombo){
+            changed = true
+        } else if (tagList[1].selected != FilterManager.sharedInstance.filter.dcDemo){
+            changed = true
+        } else if (tagList[2].selected != FilterManager.sharedInstance.filter.ac3){
+            changed = true
+        } else if (tagList[3].selected != FilterManager.sharedInstance.filter.slow){
+            changed = true
+        } else if (tagList[4].selected != FilterManager.sharedInstance.filter.superCharger){
+            changed = true
+        } else if (tagList[5].selected != FilterManager.sharedInstance.filter.destination){
+            changed = true
+        }
+        return changed
+    }
 }
 
 // MARK: - Delegate of Collection Cell
 extension FilterTypeView : DelegateTagListViewCell{
     func tagClicked(index: Int, value: Bool) {
         // tag selected
+        tagList[index].selected = value
         if (saveOnChange) {
             FilterManager.sharedInstance.saveTypeFilter(index: index, val: value)
         }

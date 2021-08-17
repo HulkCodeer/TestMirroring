@@ -48,7 +48,8 @@ class FilterSpeedView: UIView {
     func setupView() {
         rangeSliderSpeed.selectedMinValue = CGFloat(minSpeed)
         rangeSliderSpeed.selectedMaxValue = CGFloat(maxSpeed)
-        rangeSliderSpeed.layoutIfNeeded()
+        rangeSliderSpeed.setupStyle()
+        rangeSliderSpeed.setNeedsLayout()
         let str: String = "" + (minSpeed == 0 ? "완속" : "\(minSpeed)") + "~\(maxSpeed)kW"
         lbSpeed.text = str
     }
@@ -62,6 +63,16 @@ class FilterSpeedView: UIView {
     
     func applyFilter() {
         FilterManager.sharedInstance.saveSpeedFilter(min: minSpeed, max: maxSpeed)
+    }
+    
+    func isChanged() -> Bool {
+        var changed = false
+        if (minSpeed != FilterManager.sharedInstance.filter.minSpeed){
+            changed = true
+        } else if (maxSpeed != FilterManager.sharedInstance.filter.maxSpeed){
+            changed = true
+        }
+        return changed
     }
 }
 

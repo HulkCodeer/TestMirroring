@@ -28,21 +28,33 @@ class ChargerFilterViewController: UIViewController {
     
     }
     
+    func checkChange() -> Bool{
+        return typeFilter.isChanged() || speedFilter.isChanged() || roadFilter.isChanged() || placeFilter.isChanged()
+            || priceFilter.isChanged() || accessFilter.isChanged() // || companyFilter.isChanged()
+    }
+    
     @IBAction func onClickApplyBtn(_ sender: Any) {
-        // check change
-        typeFilter.applyFilter()
-        speedFilter.applyFilter()
-        roadFilter.applyFilter()
-        placeFilter.applyFilter()
-        priceFilter.applyFilter()
-        accessFilter.applyFilter()
-        companyFilter.applyFilter()
+        if (checkChange()) {
+            typeFilter.applyFilter()
+            speedFilter.applyFilter()
+            roadFilter.applyFilter()
+            placeFilter.applyFilter()
+            priceFilter.applyFilter()
+            accessFilter.applyFilter()
+            companyFilter.applyFilter()
+            self.navigationController?.pop()
+        } else {
+            let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in})
+            var actions = Array<UIAlertAction>()
+            actions.append(ok)
+            UIAlertController.showAlert(title: "필터 저장 실패", message: "저장할 변경사항이 없습니다", actions: actions)
+        }
     }
     
     func prepareActionBar() {
-//        let backButton = IconButton(image: Icon.cm.arrowBack)
-//        backButton.tintColor = UIColor(rgb: 0x15435C)
-//        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+        let backButton = IconButton(image: Icon.cm.arrowBack)
+        backButton.tintColor = UIColor(rgb: 0x15435C)
+        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
         let logoutButton = UIButton()
         logoutButton.setTitle("초기화", for: .normal)
@@ -52,7 +64,7 @@ class ChargerFilterViewController: UIViewController {
         
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "필터설정"
-//        navigationItem.leftViews = [backButton]
+        navigationItem.leftViews = [backButton]
         navigationItem.rightViews = [logoutButton]
         self.navigationController?.isNavigationBarHidden = false
     }
@@ -64,19 +76,33 @@ class ChargerFilterViewController: UIViewController {
     
     @objc
     fileprivate func handleBackButton() {
-        self.navigationController?.pop()
+        if (checkChange()){
+            let ok = UIAlertAction(title: "나가기", style: .default, handler: {(ACTION) -> Void in
+                self.navigationController?.pop()
+            })
+            let cancel = UIAlertAction(title: "취소", style: .default, handler: {(ACTION) -> Void in})
+            var actions = Array<UIAlertAction>()
+            actions.append(ok)
+            actions.append(cancel)
+            UIAlertController.showAlert(title: "뒤로가기", message: "필터를 저장하지 않고 나가시겠습니까?", actions: actions)
+        }
     }
     
     @objc
     fileprivate func resetFilter(){
-        print("필터 초기화")
-        typeFilter.resetFilter()
-        speedFilter.resetFilter()
-        roadFilter.resetFilter()
-        placeFilter.resetFilter()
-        priceFilter.resetFilter()
-        accessFilter.resetFilter()
-        companyFilter.resetFilter()
+        let ok = UIAlertAction(title: "초기화", style: .default, handler: {(ACTION) -> Void in
+            self.typeFilter.resetFilter()
+            self.speedFilter.resetFilter()
+            self.roadFilter.resetFilter()
+            self.placeFilter.resetFilter()
+            self.priceFilter.resetFilter()
+            self.accessFilter.resetFilter()
+            self.companyFilter.resetFilter()
+        })
+        let cancel = UIAlertAction(title: "취소", style: .default, handler: {(ACTION) -> Void in})
+        var actions = Array<UIAlertAction>()
+        actions.append(cancel)
+        actions.append(ok)
+        UIAlertController.showAlert(title: "필터 초기화", message: "필터를 초기화 하시겠습니까?", actions: actions)
     }
-    
 }
