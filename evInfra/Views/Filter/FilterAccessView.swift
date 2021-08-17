@@ -41,6 +41,9 @@ class FilterAccessView: UIView {
         btnPublic.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickPublic (_:))))
         btnNonPublic.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickNonPublic (_:))))
         
+        publicSel = FilterManager.sharedInstance.filter.isPublic
+        nonPublicSel = FilterManager.sharedInstance.filter.isNonPublic
+        
         selectItem(index: 0)
         selectItem(index: 1)
     }
@@ -74,10 +77,14 @@ class FilterAccessView: UIView {
         }
     }
     func resetFilter() {
+        publicSel = true
+        nonPublicSel = false
         
+        selectItem(index: 0)
+        selectItem(index: 1)
     }
     
     func applyFilter() {
-        
+        FilterManager.sharedInstance.saveAccessFilter(isPublic: publicSel, nonPublic: nonPublicSel)
     }
 }

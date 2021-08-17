@@ -23,10 +23,12 @@ class FilterPlaceView: UIView {
     @IBOutlet var ivCanopy: UIImageView!
     @IBOutlet var lbCanopy: UILabel!
     
+    var saveOnChange: Bool = false
     var delegate: DelegateFilterChange?
-    var indoorSel = true
-    var outDoorSel = true
-    var canopySel = true
+    
+    private var indoorSel = true
+    private var outdoorSel = true
+    private var canopySel = true
     
     let bgEnColor: UIColor = UIColor(named: "content-positive")!
     let bgDisColor: UIColor = UIColor(named: "content-tertiary")!
@@ -50,6 +52,10 @@ class FilterPlaceView: UIView {
         btnOutdoor.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickOutdoor (_:))))
         btnCanopy.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickCanopy (_:))))
         
+        indoorSel = FilterManager.sharedInstance.filter.isIndoor
+        outdoorSel = FilterManager.sharedInstance.filter.isOutdoor
+        canopySel = FilterManager.sharedInstance.filter.isCanopy
+        
         selectItem(index: 0)
         selectItem(index: 1)
         selectItem(index: 2)
@@ -58,16 +64,27 @@ class FilterPlaceView: UIView {
     @objc func onClickIndoor(_ sender:UITapGestureRecognizer){
         indoorSel = !indoorSel
         selectItem(index: 0)
+        if (saveOnChange) {
+            applyFilter()
+        }
         delegate?.onChangedFilter()
     }
+    
     @objc func onClickOutdoor(_ sender:UITapGestureRecognizer){
-        outDoorSel = !outDoorSel
+        outdoorSel = !outdoorSel
         selectItem(index: 1)
+        if (saveOnChange) {
+            applyFilter()
+        }
         delegate?.onChangedFilter()
     }
+    
     @objc func onClickCanopy(_ sender:UITapGestureRecognizer){
         canopySel = !canopySel
         selectItem(index: 2)
+        if (saveOnChange) {
+            applyFilter()
+        }
         delegate?.onChangedFilter()
     }
     
@@ -81,7 +98,7 @@ class FilterPlaceView: UIView {
                 lbIndoor.textColor = bgDisColor
             }
         } else if(index == 1) {
-            if (outDoorSel){
+            if (outdoorSel){
                 ivOutdoor.tintColor = bgEnColor
                 lbOutdoor.textColor = bgEnColor
             } else {
@@ -100,10 +117,16 @@ class FilterPlaceView: UIView {
     }
         
     func resetFilter() {
+        indoorSel = true
+        outdoorSel = true
+        canopySel = true
         
+        selectItem(index: 0)
+        selectItem(index: 1)
+        selectItem(index: 2)
     }
     
     func applyFilter() {
-        
+        FilterManager.sharedInstance.savePlaceFilter(indoor: indoorSel, outdoor: outdoorSel, canopy: canopySel)
     }
 }

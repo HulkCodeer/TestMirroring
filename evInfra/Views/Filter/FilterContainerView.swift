@@ -24,11 +24,6 @@ class FilterContainerView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
-        filterTypeView.delegate = self
-        filterSpeedView.delegate = self
-        filterRoadView.delegate = self
-        filterPlaceView.delegate = self
-        filterPriceView.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,10 +35,26 @@ class FilterContainerView: UIView {
         let view = Bundle.main.loadNibNamed("FilterContainerView", owner: self, options: nil)?.first as! UIView
         view.frame = bounds
         addSubview(view)
+        filterTypeView.saveOnChange = true
+        filterSpeedView.saveOnChange = true
+        filterRoadView.saveOnChange = true
+        filterPlaceView.saveOnChange = true
+        filterPriceView.saveOnChange = true
+        
+        filterTypeView.delegate = self
+        filterSpeedView.delegate = self
+        filterRoadView.delegate = self
+        filterPlaceView.delegate = self
+        filterPriceView.delegate = self
     }
     
     func isSameView(type: FilterType) ->Bool{
-        return currType == type
+        if (currType == type){
+            currType = .none
+            return true
+        }
+
+        return false
     }
     
     func showFilterView(type: FilterType){

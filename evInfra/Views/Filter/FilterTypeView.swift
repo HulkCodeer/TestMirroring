@@ -10,7 +10,9 @@ import Foundation
 
 class FilterTypeView: UIView {
     @IBOutlet var tagCollectionView: UICollectionView!
-    var tagList = Array<TagValue>()
+    
+    private var tagList = Array<TagValue>()
+    var saveOnChange: Bool = false
     var delegate: DelegateFilterChange?
     
     override init(frame: CGRect) {
@@ -33,12 +35,23 @@ class FilterTypeView: UIView {
     }
     
     func prepareTagList() {
-        tagList.append(TagValue(title:"DC콤보", img:"ic_charger_dc_combo_md", selected:false))
-        tagList.append(TagValue(title:"DC차데모", img:"ic_charger_dc_demo_md", selected:false))
-        tagList.append(TagValue(title:"AC 3상", img:"ic_charger_acthree_md", selected:false))
-        tagList.append(TagValue(title:"완속", img:"ic_charger_slow_md", selected:true))
-        tagList.append(TagValue(title:"슈퍼차저", img:"ic_charger_super_md", selected:false))
-        tagList.append(TagValue(title:"데스티네이션", img:"ic_charger_slow_md", selected:false))
+        var selected = FilterManager.sharedInstance.filter.dcCombo
+        tagList.append(TagValue(title:"DC콤보", img:"ic_charger_dc_combo_md", selected:selected))
+        
+        selected = FilterManager.sharedInstance.filter.dcDemo
+        tagList.append(TagValue(title:"DC차데모", img:"ic_charger_dc_demo_md", selected:selected))
+        
+        selected = FilterManager.sharedInstance.filter.ac3
+        tagList.append(TagValue(title:"AC 3상", img:"ic_charger_acthree_md", selected:selected))
+        
+        selected = FilterManager.sharedInstance.filter.slow
+        tagList.append(TagValue(title:"완속", img:"ic_charger_slow_md", selected:selected))
+        
+        selected = FilterManager.sharedInstance.filter.superCharger
+        tagList.append(TagValue(title:"슈퍼차저", img:"ic_charger_super_md", selected:selected))
+        
+        selected = FilterManager.sharedInstance.filter.destination
+        tagList.append(TagValue(title:"데스티네이션", img:"ic_charger_slow_md", selected:selected))
     }
 
     func setUpUI(){
@@ -79,20 +92,29 @@ extension FilterTypeView : UICollectionViewDelegate,UICollectionViewDataSource, 
     }
     
     func resetFilter() {
-        
+        for item in tagList {
+            item.selected = (item.title != "완속")
+        }
+        tagCollectionView.reloadData()
     }
     
     func applyFilter() {
-        
+        FilterManager.sharedInstance.saveTypeFilter(index: 0, val: tagList[0].selected)
+        FilterManager.sharedInstance.saveTypeFilter(index: 1, val: tagList[1].selected)
+        FilterManager.sharedInstance.saveTypeFilter(index: 2, val: tagList[2].selected)
+        FilterManager.sharedInstance.saveTypeFilter(index: 3, val: tagList[3].selected)
+        FilterManager.sharedInstance.saveTypeFilter(index: 4, val: tagList[4].selected)
+        FilterManager.sharedInstance.saveTypeFilter(index: 5, val: tagList[5].selected)
     }
 }
 
-
 // MARK: - Delegate of Collection Cell
 extension FilterTypeView : DelegateTagListViewCell{
-    func tagClicked(index: Int) {
+    func tagClicked(index: Int, value: Bool) {
         // tag selected
-        print("clicked position : \(index)")
+        if (saveOnChange) {
+            FilterManager.sharedInstance.saveTypeFilter(index: index, val: value)
+        }
         self.delegate?.onChangedFilter()
     }
 }

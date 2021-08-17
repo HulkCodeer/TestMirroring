@@ -20,10 +20,11 @@ class FilterRoadView: UIView {
     @IBOutlet var ivHighDown: UIImageView!
     @IBOutlet var lbHighDown: UILabel!
     
+    var saveOnChange: Bool = false
     var delegate: DelegateFilterChange?
-    var generalSel = true
-    var highUpSel = true
-    var highDownSel = true
+    private var generalSel = true
+    private var highUpSel = true
+    private var highDownSel = true
     
     let bgEnColor: UIColor = UIColor(named: "content-positive")!
     let bgDisColor: UIColor = UIColor(named: "content-tertiary")!
@@ -47,6 +48,10 @@ class FilterRoadView: UIView {
         btnHighUp.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickHighTop (_:))))
         btnHighDown.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickHighDown (_:))))
         
+        generalSel = FilterManager.sharedInstance.filter.isGeneralWay
+        highUpSel = FilterManager.sharedInstance.filter.isHighwayUp
+        highDownSel = FilterManager.sharedInstance.filter.isHighwayDown
+        
         selectItem(index: 0)
         selectItem(index: 1)
         selectItem(index: 2)
@@ -55,18 +60,27 @@ class FilterRoadView: UIView {
     @objc func onClickGeneral(_ sender:UITapGestureRecognizer){
         generalSel = !generalSel
         selectItem(index: 0)
+        if (saveOnChange) {
+            applyFilter()
+        }
         delegate?.onChangedFilter()
     }
     
     @objc func onClickHighTop(_ sender:UITapGestureRecognizer){
         highUpSel = !highUpSel
         selectItem(index: 1)
+        if (saveOnChange) {
+            applyFilter()
+        }
         delegate?.onChangedFilter()
     }
     
     @objc func onClickHighDown(_ sender:UITapGestureRecognizer){
         highDownSel = !highDownSel
         selectItem(index: 2)
+        if (saveOnChange) {
+            applyFilter()
+        }
         delegate?.onChangedFilter()
     }
     
@@ -99,10 +113,16 @@ class FilterRoadView: UIView {
     }
     
     func resetFilter() {
+        generalSel = true
+        highUpSel = true
+        highDownSel = true
         
+        selectItem(index: 0)
+        selectItem(index: 1)
+        selectItem(index: 2)
     }
     
     func applyFilter() {
-        
+        FilterManager.sharedInstance.saveRoadFilter(general: generalSel, highUp: highUpSel, highDown: highDownSel)
     }
 }

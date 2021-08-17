@@ -25,7 +25,7 @@ open class TagValue {
 }
 
 protocol DelegateTagListViewCell {
-    func tagClicked(index: Int)
+    func tagClicked(index: Int, value: Bool)
 }
 class TagListViewCell : UICollectionViewCell {
     var delegateTagClick : DelegateTagListViewCell?
@@ -79,7 +79,9 @@ class TagListViewCell : UICollectionViewCell {
     @objc func onClickTag(_ sender:UITapGestureRecognizer){
         select = !select
         setTagSelected(selected: select)
-        delegateTagClick?.tagClicked(index: position)
+        if (delegateTagClick != nil){
+            delegateTagClick?.tagClicked(index: position, value: select)
+        }
     }
     
     func setTagSelected(selected: Bool) {

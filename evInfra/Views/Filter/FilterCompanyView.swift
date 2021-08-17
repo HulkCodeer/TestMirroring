@@ -93,7 +93,7 @@ extension FilterCompanyView : UICollectionViewDelegate,UICollectionViewDataSourc
 
 // MARK: - Delegate of Collection Cell
 extension FilterCompanyView : DelegateTagListViewCell{
-    func tagClicked(index: Int) {
+    func tagClicked(index: Int, value: Bool) {
         // tag selected
         print("clicked position : \(index)")
     }

@@ -8,7 +8,12 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FilterPriceView" customModule="evInfra" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FilterPriceView" customModule="evInfra" customModuleProvider="target">
+            <connections>
+                <outlet property="checkFree" destination="R4H-N6-Gkq" id="blM-Yy-UPP"/>
+                <outlet property="checkPaid" destination="upo-Ys-oFZ" id="HtU-8x-jLL"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
@@ -37,6 +42,9 @@
                                                 <constraint firstAttribute="height" constant="24" id="6jM-nI-7H4"/>
                                                 <constraint firstAttribute="width" constant="24" id="LlD-0w-h5y"/>
                                             </constraints>
+                                            <connections>
+                                                <action selector="onClickCheckPaid:" destination="-1" eventType="valueChanged" id="Vex-bm-7pq"/>
+                                            </connections>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="유료 충전소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6fY-WF-b3J">
                                             <rect key="frame" x="36" y="15.5" width="64.5" height="17"/>
@@ -64,6 +72,9 @@
                                                 <constraint firstAttribute="width" constant="24" id="OHU-3E-W5U"/>
                                                 <constraint firstAttribute="height" constant="24" id="tzN-iL-4bz"/>
                                             </constraints>
+                                            <connections>
+                                                <action selector="onClickCheckFree:" destination="-1" eventType="valueChanged" id="Awe-B9-A71"/>
+                                            </connections>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="무료 충전소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yx4-CM-XBM">
                                             <rect key="frame" x="36" y="15.5" width="64.5" height="17"/>
