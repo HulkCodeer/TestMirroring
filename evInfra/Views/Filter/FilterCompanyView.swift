@@ -39,12 +39,19 @@ class FilterCompanyView: UIView {
         for company in companyList {
             if let iconName = company.icon_name {
                 if let icon = ImageMarker.companyImg(company: iconName){
-                    tagList.append(TagValue(title:company.name!, img:icon, selected: true))
+                    tagList.append(TagValue(title:company.name!, img:icon, selected: company.is_visible))
                 }
             }
         }
     }
-
+    
+    @IBAction func onSwitchValueChanged(_ sender: Any) {
+        for item in tagList {
+            item.selected = switchAll.isOn
+        }
+        collectionView.reloadData()
+    }
+    
     func setUpUI(){
         let layout = TagFlowLayout()
         collectionView.collectionViewLayout = layout
@@ -52,6 +59,54 @@ class FilterCompanyView: UIView {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.reloadData()
+        updateSwitch()
+    }
+    
+    func updateSwitch() {
+        var allSelect = true
+        for item in tagList {
+            if (!item.selected) {
+                allSelect = false
+            }
+        }
+        switchAll.setOn(allSelect, animated: true)
+    }
+    
+    func resetFilter() {
+        for item in tagList {
+            item.selected = true
+        }
+        collectionView.reloadData()
+        switchAll.setOn(true, animated: true)
+    }
+    
+    func applyFilter() {
+        for company in companyList {
+            for item in tagList {
+                if (company.name == item.title){
+                    if let companyId = company.company_id {
+                        ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: item.selected, companyID: companyId)
+                        continue
+                    }
+                }
+            }
+        }
+        FilterManager.sharedInstance.updateCompanyFilter()
+    }
+    
+    func isChanged() -> Bool {
+        var changed = false
+        for company in companyList {
+            for item in tagList {
+                if (company.name == item.title){
+                    if (company.is_visible != item.selected){
+                        changed = true
+                        break
+                    }
+                }
+            }
+        }
+        return changed
     }
 }
 
@@ -74,19 +129,7 @@ extension FilterCompanyView : UICollectionViewDelegate,UICollectionViewDataSourc
         
         let strText = tagList[indexPath.row].title
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagListViewCell", for: indexPath) as! TagListViewCell
-        var imgShow = false
-        if (tagList[indexPath.row].img != nil){
-            imgShow = true
-        }
-        return cell.getInteresticSize(strText: strText, cv: collectionView, imgShow:imgShow)
-    }
-    
-    func resetFilter() {
-        
-    }
-    
-    func applyFilter() {
-        
+        return cell.getInteresticSize(strText: strText, cv: collectionView)
     }
 }
 
@@ -95,6 +138,7 @@ extension FilterCompanyView : UICollectionViewDelegate,UICollectionViewDataSourc
 extension FilterCompanyView : DelegateTagListViewCell{
     func tagClicked(index: Int, value: Bool) {
         // tag selected
-        print("clicked position : \(index)")
+        tagList[index].selected = value
+        updateSwitch()
     }
 }

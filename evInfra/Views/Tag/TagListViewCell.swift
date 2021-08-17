@@ -99,11 +99,11 @@ class TagListViewCell : UICollectionViewCell {
         }
     }
     
-    func getInteresticSize(strText:String,cv:UICollectionView,imgShow:Bool)-> CGSize{
+    func getInteresticSize(strText:String,cv:UICollectionView)-> CGSize{
         let font = (Name:tagStr.font.fontName,Size:tagStr.font.pointSize)
         let textSize = tagStr.textSize(font: UIFont(name: font.Name, size: font.Size)!, text: strText)
-        let imgSize:CGFloat = tagImg.image!.width
-
+        let imgSize = 24
+    
         // 50 - Label Padding
         if textSize.width + 16 >= cv.frame.size.width{
             let height = tagStr.heightForView(text: strText, font: UIFont(name: font.Name, size: font.Size+1)!, width: cv.frame.size.width - 15)

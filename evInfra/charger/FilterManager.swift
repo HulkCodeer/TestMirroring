@@ -159,4 +159,13 @@ class FilterManager {
             break
         }
     }
+    
+    func updateCompanyFilter(){
+        let companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
+        for company in companyList {
+            if let companyId = company.company_id {
+                filter.companies.updateValue(company.is_visible, forKey: companyId)
+            }
+        }
+    }
 }

@@ -30,7 +30,7 @@ class ChargerFilterViewController: UIViewController {
     
     func checkChange() -> Bool{
         return typeFilter.isChanged() || speedFilter.isChanged() || roadFilter.isChanged() || placeFilter.isChanged()
-            || priceFilter.isChanged() || accessFilter.isChanged() // || companyFilter.isChanged()
+            || priceFilter.isChanged() || accessFilter.isChanged() || companyFilter.isChanged()
     }
     
     @IBAction func onClickApplyBtn(_ sender: Any) {
@@ -85,6 +85,8 @@ class ChargerFilterViewController: UIViewController {
             actions.append(ok)
             actions.append(cancel)
             UIAlertController.showAlert(title: "뒤로가기", message: "필터를 저장하지 않고 나가시겠습니까?", actions: actions)
+        } else {
+            self.navigationController?.pop()
         }
     }
     

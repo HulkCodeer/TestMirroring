@@ -84,11 +84,7 @@ extension FilterTypeView : UICollectionViewDelegate,UICollectionViewDataSource, 
         
         let strText = tagList[indexPath.row].title
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagListViewCell", for: indexPath) as! TagListViewCell
-        var imgShow = false
-        if (tagList[indexPath.row].img != nil){
-            imgShow = true
-        }
-        return cell.getInteresticSize(strText: strText, cv: collectionView, imgShow:imgShow)
+        return cell.getInteresticSize(strText: strText, cv: collectionView)
     }
     
     func resetFilter() {
