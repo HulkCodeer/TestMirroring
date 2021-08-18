@@ -28,6 +28,7 @@ class MainViewController: UIViewController {
     // user Default
     let defaults = UserDefault()
     
+    
     @IBOutlet var rootView: UIView!
     
     // Map View
@@ -453,9 +454,23 @@ class MainViewController: UIViewController {
 //        containerView.addSubview(controller.view)
 //        controller.didMove(toParentViewController: self)
         
-        let test = Bundle.main.loadNibNamed("SummaryViewControllerTest", owner: self, options: nil)?.first as! UIView
-        test.frame = callOutLayer.bounds
-        callOutLayer.addSubview(test)
+                // if Constraints
+        //        addViewController.view.translatesAutoresizingMaskIntoConstraints = false
+                
+                
+                // if Constraints
+//        self.view.addConstraints(addViewController.view.constraints)
+//        let window = UIApplication.shared.keyWindow!
+//        let frame:CGRect = callOutLayer.bounds
+//        let testView = SummaryView(frame: frame)
+//        view.addSubview(testView)
+
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(removeSubview))
+//        receiptView.addGestureRecognizer(tapGesture)
+        
+//        let test = Bundle.main.loadNibNamed("SummaryView", owner: self, options: nil)?.first as! UIView
+//        test.frame = callOutLayer.bounds
+//        callOutLayer.addSubview(test)
     }
     
     func handleError(error: Error?) -> Void {
@@ -1133,6 +1148,11 @@ extension MainViewController: MainViewDelegate {
     }
     
     func selectCharger(chargerId: String) {
+        
+        let frame:CGRect = callOutLayer.bounds
+        let testView = SummaryView(frame: frame)
+        view.addSubview(testView)
+        
         myLocationModeOff()
         
         // 이전에 선택된 충전소 마커를 원래 마커로 원복

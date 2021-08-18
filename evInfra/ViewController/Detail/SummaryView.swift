@@ -6,36 +6,57 @@
 //  Copyright © 2021 soft-berry. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-class SummaryViewControllerTest: UIView {
+class SummaryView: UIView {
     
-    @IBOutlet weak var detailView: UIView!
-    
-    @IBOutlet var stationImg: UIImageView!
-    @IBOutlet var stationNameLb: UILabel!
-    @IBOutlet var favoriteBtn: UIButton!  // btn_main_favorite
-    
-    @IBOutlet var shareBtn: UIButton!
-    @IBOutlet var addrLb: UILabel!
-    @IBOutlet var copyBtn: UIButton!
-    
-    @IBOutlet var chargerTypeView: UIStackView!
-    @IBOutlet var StateCountView: UIView!
-    @IBOutlet var stateLb: UILabel!
-    @IBOutlet var fastCountLb: UILabel!
-    @IBOutlet var slowCountLb: UILabel!
-    @IBOutlet var filterView: UIStackView!
-    
-    @IBOutlet var startBtn: UIButton!
-    @IBOutlet var addBtn: UIButton!
-    @IBOutlet var endBtn: UIButton!
-    @IBOutlet var navigationBtn: UIButton!
+//    @IBOutlet weak var summaryView: UIView!
+//
+//    @IBOutlet var stationImg: UIImageView!
+//    @IBOutlet var stationNameLb: UILabel!
+//    @IBOutlet var favoriteBtn: UIButton!  // btn_main_favorite
+//
+//    @IBOutlet var shareBtn: UIButton!
+//    @IBOutlet var addrLb: UILabel!
+//    @IBOutlet var copyBtn: UIButton!
+//
+//    @IBOutlet var chargerTypeView: UIStackView!
+//    @IBOutlet var stateLb: UILabel!
+//    @IBOutlet var fastCountLb: UILabel!
+//    @IBOutlet var slowCountLb: UILabel!
+//    @IBOutlet var filterView: UIStackView!
+//
+//    @IBOutlet var startBtn: UIButton!
+//    @IBOutlet var addBtn: UIButton!
+//    @IBOutlet var endBtn: UIButton!
+//    @IBOutlet var navigationBtn: UIButton!
     
     public enum SummaryType {
         case Summary
         case DetailSumamry
     }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        summeryinit()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+//    required init?(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder)
+//        summeryinit()
+//    }
+    
+    private func summeryinit() {
+        let view = Bundle.main.loadNibNamed("SummaryView", owner: self, options: nil)?.first as! UIView
+        view.frame = bounds
+        addSubview(view)
+    }
+    
+    
     
     
 //    override func viewWillLayoutSubviews() {
@@ -121,9 +142,9 @@ class SummaryViewControllerTest: UIView {
     // Share
     
     // Copy
-    func copy() {
-        UIPasteboard.general.string = addrLb.text
-    }
+//    func copy() {
+//        UIPasteboard.general.string = addrLb.text
+//    }
     
     // [Direction]
     // start
