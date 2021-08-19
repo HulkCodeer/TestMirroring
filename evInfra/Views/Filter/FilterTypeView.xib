@@ -15,12 +15,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XGn-Ww-unO">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <view opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XGn-Ww-unO">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="충전기타입" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FPA-hI-tJz">
                             <rect key="frame" x="16" y="10" width="61" height="16"/>
@@ -29,7 +28,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <collectionView opaque="NO" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5F1-Dh-e9q">
-                            <rect key="frame" x="16" y="36" width="343" height="74"/>
+                            <rect key="frame" x="16" y="36" width="382" height="74"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="74" id="4U3-MO-Qoz"/>
@@ -56,6 +55,12 @@
                 </view>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="XGn-Ww-unO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="9UE-Om-eNk"/>
+                <constraint firstAttribute="trailing" secondItem="XGn-Ww-unO" secondAttribute="trailing" id="Amw-hi-bd2"/>
+                <constraint firstAttribute="bottom" secondItem="XGn-Ww-unO" secondAttribute="bottom" id="eCi-Gl-pya"/>
+                <constraint firstItem="XGn-Ww-unO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="o4L-wg-4it"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-36" y="-154.72263868065968"/>
         </view>

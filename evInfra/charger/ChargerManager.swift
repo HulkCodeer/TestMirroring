@@ -276,11 +276,13 @@ class ChargerManager {
                         let cst = status["st"].intValue
                         let power = status["p"].intValue
                         let type_id = status["tp"].intValue
+                        let limit = status["lm"].stringValue
                         
                         if let chargerStationInfo = self.getChargerStationInfoById(charger_id: chargerId) {
                             chargerStationInfo.mTotalStatus = cst
                             chargerStationInfo.mTotalType = type_id
                             chargerStationInfo.mPower = power
+                            chargerStationInfo.mLimit = limit
                         }
                     }
 

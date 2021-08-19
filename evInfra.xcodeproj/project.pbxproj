@@ -43,6 +43,9 @@
 		00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */; };
 		00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */; };
 		00A84A9625514876008D987D /* PopUpDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A84A9525514876008D987D /* PopUpDialog.xib */; };
+		00AE577926CE4864003E6643 /* RangeSeekSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AE577826CE4864003E6643 /* RangeSeekSlider.swift */; };
+		00AE577B26CE487B003E6643 /* RangeSeekSliderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AE577A26CE487B003E6643 /* RangeSeekSliderDelegate.swift */; };
+		00AE577D26CE4891003E6643 /* TapticEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AE577C26CE4891003E6643 /* TapticEngine.swift */; };
 		00B2E8BF26C0FEF9005D017C /* Offerwall.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00B2E8BE26C0FEF9005D017C /* Offerwall.storyboard */; };
 		00B2E8C826C106AC005D017C /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00B2E8C726C106AC005D017C /* Login.storyboard */; };
 		00B4F54726BA2399009A904C /* TagListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B4F54626BA2399009A904C /* TagListViewCell.swift */; };
@@ -379,6 +382,9 @@
 		00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnershipJoinView.swift; sourceTree = "<group>"; };
 		00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartnershipJoinView.xib; sourceTree = "<group>"; };
 		00A84A9525514876008D987D /* PopUpDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PopUpDialog.xib; sourceTree = "<group>"; };
+		00AE577826CE4864003E6643 /* RangeSeekSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSeekSlider.swift; sourceTree = "<group>"; };
+		00AE577A26CE487B003E6643 /* RangeSeekSliderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSeekSliderDelegate.swift; sourceTree = "<group>"; };
+		00AE577C26CE4891003E6643 /* TapticEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapticEngine.swift; sourceTree = "<group>"; };
 		00B2E8BE26C0FEF9005D017C /* Offerwall.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Offerwall.storyboard; sourceTree = "<group>"; };
 		00B2E8C726C106AC005D017C /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		00B4F54626BA2399009A904C /* TagListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewCell.swift; sourceTree = "<group>"; };
@@ -785,6 +791,16 @@
 				00B4F54826BA23B6009A904C /* TagListViewCell.xib */,
 			);
 			path = Tag;
+			sourceTree = "<group>";
+		};
+		00AE577726CE4851003E6643 /* RangeSeekSlider */ = {
+			isa = PBXGroup;
+			children = (
+				00AE577826CE4864003E6643 /* RangeSeekSlider.swift */,
+				00AE577A26CE487B003E6643 /* RangeSeekSliderDelegate.swift */,
+				00AE577C26CE4891003E6643 /* TapticEngine.swift */,
+			);
+			path = RangeSeekSlider;
 			sourceTree = "<group>";
 		};
 		00B2E8BB26C0FE76005D017C /* Main */ = {
@@ -1208,6 +1224,7 @@
 		73EF8B41203BC53200D04494 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				00AE577726CE4851003E6643 /* RangeSeekSlider */,
 				DB4063A321FC732B00B630A8 /* Charts */,
 				DB3B858120A42B91005454F5 /* Localization */,
 				73EE8FB42101B7920016F505 /* BedgeButton.swift */,
@@ -1682,7 +1699,6 @@
 				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
 				"${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
-				"${BUILT_PRODUCTS_DIR}/RangeSeekSlider/RangeSeekSlider.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/UIImageCropper/UIImageCropper.framework",
@@ -1716,7 +1732,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parchment.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RangeSeekSlider.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImageCropper.framework",
@@ -1801,6 +1816,7 @@
 				73EE8FBB2105B3420016F505 /* Board.swift in Sources */,
 				DB5041B023506DCF007336BC /* EvPoint.swift in Sources */,
 				90DD2A6724EBCFF5003318CC /* TapjoyRewardedVideoCustomEvent.m in Sources */,
+				00AE577B26CE487B003E6643 /* RangeSeekSliderDelegate.swift in Sources */,
 				73A37CA22085DB5400FD3D0A /* CardBoardViewController.swift in Sources */,
 				DB4395F222DD88390092E0A5 /* ReceiptView.swift in Sources */,
 				DB4063A521FC735000B630A8 /* DayAxisValueFormatter.swift in Sources */,
@@ -1838,6 +1854,7 @@
 				73BFA04F208487050028B35D /* BoardTableView.swift in Sources */,
 				00A3658F26C4E35900424E40 /* FilterSpeedView.swift in Sources */,
 				736D37D3208DC9CE009535EE /* BoardItem.swift in Sources */,
+				00AE577D26CE4891003E6643 /* TapticEngine.swift in Sources */,
 				732ED1CA21ED8ABB0012C67B /* DropDownCheckBoxCell.swift in Sources */,
 				CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */,
 				73D65D702358498C00F564A2 /* Validators.swift in Sources */,
@@ -1849,6 +1866,7 @@
 				CECA908A2084A9F50083518B /* TermsViewController.swift in Sources */,
 				90CA0DE42488B82900904015 /* DataBaseHelper.swift in Sources */,
 				DBEE9AF82117DB5600770D04 /* LoginViewController.swift in Sources */,
+				00AE577926CE4864003E6643 /* RangeSeekSlider.swift in Sources */,
 				7357595220916C11008181E9 /* InfoCollectionViewCell.swift in Sources */,
 				73344ABF207B3A9B00A6A9EC /* UIImage.swift in Sources */,
 				00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */,

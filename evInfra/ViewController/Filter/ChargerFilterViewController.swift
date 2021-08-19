@@ -8,9 +8,13 @@
 
 import UIKit
 import Material
+protocol DelegateChargerFilterView {
+    func onApplyFilter()
+}
 
 class ChargerFilterViewController: UIViewController {
     
+    @IBOutlet var filterStackView: UIStackView!
     @IBOutlet var accessFilter: FilterAccessView!
     @IBOutlet var typeFilter: FilterTypeView!
     @IBOutlet var speedFilter: FilterSpeedView!
@@ -21,11 +25,17 @@ class ChargerFilterViewController: UIViewController {
     
     @IBOutlet weak var btnApply: UIButton!
     
+    @IBOutlet var companyViewHeight: NSLayoutConstraint!
+    var delegate: DelegateChargerFilterView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
         initView()
     
+    }
+    
+    override func viewDidLayoutSubviews() {
     }
     
     func checkChange() -> Bool{
@@ -42,6 +52,7 @@ class ChargerFilterViewController: UIViewController {
             priceFilter.applyFilter()
             accessFilter.applyFilter()
             companyFilter.applyFilter()
+            delegate?.onApplyFilter()
             self.navigationController?.pop()
         } else {
             let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in})
@@ -64,6 +75,7 @@ class ChargerFilterViewController: UIViewController {
         
         navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
         navigationItem.titleLabel.text = "필터설정"
+        navigationItem.hidesBackButton = true
         navigationItem.leftViews = [backButton]
         navigationItem.rightViews = [logoutButton]
         self.navigationController?.isNavigationBarHidden = false

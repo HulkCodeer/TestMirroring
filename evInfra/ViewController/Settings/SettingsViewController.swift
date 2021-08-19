@@ -47,7 +47,7 @@ class SettingsViewController: UIViewController {
     
     func prepareSwitchs() {
         alarmSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
-        alarmLocalSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
+        alarmLocalSwitch.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         clusteringSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
         changeAllNotifications(isRecieve: defaults.readBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION))
         changeLocalNotifications(isRecieve: defaults.readBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION))

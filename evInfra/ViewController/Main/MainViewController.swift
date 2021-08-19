@@ -676,10 +676,17 @@ class MainViewController: UIViewController {
 //    }
 }
 
+extension MainViewController: DelegateChargerFilterView {
+    func onApplyFilter() {
+        // refresh marker
+        self.drawTMapMarker()
+    }
+}
 
 extension MainViewController: DelegateFilterContainerView {
     func changedFilter() {
         // refresh marker
+        self.drawTMapMarker()
     }
 }
 
@@ -712,6 +719,7 @@ extension MainViewController: DelegateFilterBarView {
         // chargerFilterViewcontroller
         let filterStoryboard = UIStoryboard(name : "Filter", bundle: nil)
         let chargerFilterVC:ChargerFilterViewController = filterStoryboard.instantiateViewController(withIdentifier: "ChargerFilterViewController") as! ChargerFilterViewController
+        chargerFilterVC.delegate = self
         self.navigationController?.push(viewController: chargerFilterVC)
     }
 }
@@ -720,7 +728,7 @@ extension MainViewController {
     internal func drawTMapMarker() {
         if !ChargerManager.sharedInstance.isReady() { return }
 
-        self.clustering?.clustering(filter: self.getCurrentFilter(), loadedCharger: self.loadedChargers)
+        self.clustering?.clustering(filter: FilterManager.sharedInstance.filter, loadedCharger: self.loadedChargers)
         
         if !self.loadedChargers {
             self.loadedChargers = true

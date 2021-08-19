@@ -22,9 +22,11 @@ class ChargerStationInfo {
 
     var mTotalType: Int?
 
-    var mPower: Int?
+    var mPower: Int = 0
     
     var mPowerSt: String?
+    
+    var mLimit: String?
 
     var usage: Array<Int> = Array() // 충전소 시간별 이용횟수
 
@@ -87,39 +89,76 @@ class ChargerStationInfo {
 
         // skind = 01:마트 02:관공서 03:공영주차장 04:마을회관 05:고속도로 06:테마파크(공원) 07:광장 08:휴게소(?)
         // 고속도로
-        if filter.wayId == ChargerFilter.WAY_HIGH && stationInfo.mSkind != "05" {
-            return false
-        }
-        
-        // 일반도로
-        if filter.wayId == ChargerFilter.WAY_NORMAL && stationInfo.mSkind == "05" {
-            return false
-        }
-        
-        if filter.wayId == ChargerFilter.WAY_HIGH_UP && stationInfo.mDirection != 1 {
-            return false
-        }
-        
-        if filter.wayId == ChargerFilter.WAY_HIGH_DOWN && stationInfo.mDirection != 2  {
-            return false
-        }
+//        if filter.wayId == ChargerFilter.WAY_HIGH && stationInfo.mSkind != "05" {
+//            return false
+//        }
+//
+//        // 일반도로
+//        if filter.wayId == ChargerFilter.WAY_NORMAL && stationInfo.mSkind == "05" {
+//            return false
+//        }
+//
+//        if filter.wayId == ChargerFilter.WAY_HIGH_UP && stationInfo.mDirection != 1 {
+//            return false
+//        }
+//
+//        if filter.wayId == ChargerFilter.WAY_HIGH_DOWN && stationInfo.mDirection != 2  {
+//            return false
+//        }
         
         // 유료 충전소
-        if filter.payId == 1 && stationInfo.mPay == "N" {
+//        if filter.payId == 1 && stationInfo.mPay == "N" {
+//            return false
+//        }
+//
+//        // 무료 충전소
+//        if filter.payId == 2 && stationInfo.mPay == "Y" {
+//            return false
+//        }
+//
+//        // 100kW filter
+//        if filter.payId == 3 {
+//            guard let power = mPower else { return false }
+//            if power < 100 {
+//                return false
+//            }
+//        }
+        if !filter.isPublic && self.mLimit == "N" { // 공용 해제 시 접근제한 N 충전소 false
+            return false
+        }
+        if !filter.isNonPublic && self.mLimit == "Y" {
             return false
         }
         
-        // 무료 충전소
-        if filter.payId == 2 && stationInfo.mPay == "Y" {
+        if !filter.isFree && stationInfo.mPay == "N" { // 무료 해제 시 무료 충전소 false
+            return false
+        }
+        if !filter.isPaid && stationInfo.mPay == "Y" {
             return false
         }
         
-        // 100kW filter
-        if filter.payId == 3 {
-            guard let power = mPower else { return false }
-            if power < 100 {
-                return false
-            }
+        if !filter.isOutdoor && stationInfo.mRoof == "0" { // 실내 해제 시 실내 충전소 false
+            return false
+        }
+        if !filter.isIndoor && stationInfo.mRoof == "1" {
+            return false
+        }
+        if !filter.isCanopy && stationInfo.mRoof == "2" {
+            return false
+        }
+
+        if !filter.isGeneralWay && stationInfo.mSkind != "05" { // 일반도로 해제 시 고속도로 제외 전부 false
+            return false
+        }
+        if !filter.isHighwayUp && (stationInfo.mSkind == "05" && stationInfo.mDirection == 1){ // 상향 고속 해제 시 고속도로인데 상향이면 false
+            return false
+        }
+        if !filter.isHighwayDown && (stationInfo.mSkind == "05" && stationInfo.mDirection == 2){
+            return false
+        }
+        
+        if self.mPower < filter.minSpeed || filter.maxSpeed < self.mPower { // 속도제한 사이
+            return false
         }
         
         // 운영 기관
@@ -131,11 +170,9 @@ class ChargerStationInfo {
             return false
         }
         
-        // TODO 임시로 company id hard coding. 딱히 쓸만한게 없네~
-        // 운영기관 필터에서 수소충전소를 선택했을 때만 수소충전소 노출
-        // 그 외에는 보여주지 않음
+        // 수소충전소 막음
         if stationInfo.mCompanyId!.elementsEqual("J") {
-            return true
+            return false
         }
         
         // chargerType = 01:DC차데모 02:DC콤보 03:DC차데모+AC상 04:AC상 05:DC차데모 + DC콤보 06:DC차데모+AC상+DC콤보 10:완속

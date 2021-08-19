@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="P5J-DZ-D3A">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1684"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1534"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1v-sy-gt6" customClass="FilterAccessView" customModule="evInfra" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="128"/>
@@ -67,14 +67,14 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NUU-Qm-PsG" customClass="FilterCompanyView" customModule="evInfra" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="774" width="375" height="850"/>
+                                                <rect key="frame" x="0.0" y="774" width="375" height="700"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="850" id="ZW8-g0-dSl"/>
+                                                    <constraint firstAttribute="height" constant="700" id="ZW8-g0-dSl"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uy3-p1-R2e">
-                                                <rect key="frame" x="0.0" y="1640" width="375" height="44"/>
+                                                <rect key="frame" x="0.0" y="1490" width="375" height="44"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zA4-R8-C2u">
                                                         <rect key="frame" x="16" y="0.0" width="343" height="44"/>
@@ -125,6 +125,8 @@
                         <outlet property="accessFilter" destination="m1v-sy-gt6" id="b6r-bm-3Uy"/>
                         <outlet property="btnApply" destination="zA4-R8-C2u" id="6aL-zf-OwH"/>
                         <outlet property="companyFilter" destination="NUU-Qm-PsG" id="Ozg-JY-XPu"/>
+                        <outlet property="companyViewHeight" destination="ZW8-g0-dSl" id="rVb-rW-dBe"/>
+                        <outlet property="filterStackView" destination="P5J-DZ-D3A" id="gXl-2c-KxG"/>
                         <outlet property="placeFilter" destination="HwR-oa-JZf" id="mIx-mE-kOm"/>
                         <outlet property="priceFilter" destination="QSD-2x-K3I" id="75a-HD-llP"/>
                         <outlet property="roadFilter" destination="Gfm-XD-f4m" id="WYG-y5-32L"/>

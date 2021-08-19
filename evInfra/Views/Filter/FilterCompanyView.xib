@@ -17,15 +17,14 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="376" height="530"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="814"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="UYz-gY-qGg">
-                    <rect key="frame" x="0.0" y="0.0" width="373" height="530"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UYz-gY-qGg">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="814"/>
                     <subviews>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4io-4T-m3I">
-                            <rect key="frame" x="16" y="110" width="341" height="412"/>
+                            <rect key="frame" x="16" y="110" width="382" height="696"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="chB-7q-eMs">
                                 <size key="itemSize" width="128" height="128"/>
@@ -42,7 +41,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전 사업자 선택 시, 지도에 해당하는 충전 사업자만 노출됩니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QL0-0B-caU">
-                            <rect key="frame" x="16" y="37" width="373" height="15"/>
+                            <rect key="frame" x="16" y="37" width="382" height="15"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" name="content-tertiary"/>
                             <nil key="highlightedColor"/>
@@ -75,13 +74,19 @@
                         <constraint firstItem="3IQ-sz-Wbc" firstAttribute="top" secondItem="QL0-0B-caU" secondAttribute="bottom" constant="16" id="jIo-Zh-Ta1"/>
                         <constraint firstItem="6kW-Zv-eyX" firstAttribute="leading" secondItem="UYz-gY-qGg" secondAttribute="leading" constant="16" id="mw5-H2-qea"/>
                         <constraint firstItem="3IQ-sz-Wbc" firstAttribute="leading" secondItem="UYz-gY-qGg" secondAttribute="leading" constant="16" id="qfO-cX-B8R"/>
-                        <constraint firstItem="QL0-0B-caU" firstAttribute="trailing" secondItem="UYz-gY-qGg" secondAttribute="trailing" constant="16" id="s4Z-kB-A0m"/>
+                        <constraint firstItem="QL0-0B-caU" firstAttribute="trailing" secondItem="UYz-gY-qGg" secondAttribute="trailing" constant="-16" id="s4Z-kB-A0m"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="UYz-gY-qGg" secondAttribute="trailing" id="0Jf-4Q-aHn"/>
+                <constraint firstItem="UYz-gY-qGg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="1Ps-De-YrZ"/>
+                <constraint firstAttribute="bottom" secondItem="UYz-gY-qGg" secondAttribute="bottom" id="7Li-Da-ZgS"/>
+                <constraint firstItem="UYz-gY-qGg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VfW-3U-7Pg"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-81.599999999999994" y="-46.776611694152926"/>
+            <point key="canvasLocation" x="-81.599999999999994" y="80.959520239880064"/>
         </view>
     </objects>
     <resources>

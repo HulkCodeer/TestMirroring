@@ -17,12 +17,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="d5d-0A-vjy">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d5d-0A-vjy">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="충전 속도" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B9h-X8-fnv">
                             <rect key="frame" x="16" y="10" width="52" height="16"/>
@@ -30,10 +29,10 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" verticalHuggingPriority="249" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="r9L-XI-5is" customClass="RangeSeekSlider" customModule="RangeSeekSlider">
-                            <rect key="frame" x="32" y="49" width="311" height="48"/>
+                        <view contentMode="scaleToFill" verticalHuggingPriority="249" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="r9L-XI-5is" customClass="RangeSeekSlider" customModule="evInfra" customModuleProvider="target">
+                            <rect key="frame" x="32" y="39" width="350" height="48"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            <color key="tintColor" name="content-positive"/>
+                            <color key="tintColor" name="background-tertiary"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="48" id="Z0Y-Lt-fto"/>
                             </constraints>
@@ -55,13 +54,26 @@
                                 </userDefinedRuntimeAttribute>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="enableStep" value="YES"/>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="disableRange" value="NO"/>
-                                <userDefinedRuntimeAttribute type="color" keyPath="handleColor">
+                                <userDefinedRuntimeAttribute type="image" keyPath="handleImage" value="progress_btn"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="lineHeight">
+                                    <real key="value" value="4"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="minLabelColor">
+                                    <color key="value" name="content-tertiary"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="maxLabelColor">
+                                    <color key="value" name="content-tertiary"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="initialColor">
                                     <color key="value" name="background-tertiary"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="colorBetweenHandles">
+                                    <color key="value" name="content-positive"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0~350kW" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mu1-B2-QMG">
-                            <rect key="frame" x="295" y="10" width="64" height="17"/>
+                            <rect key="frame" x="334" y="10" width="64" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" name="content-positive"/>
                             <nil key="highlightedColor"/>
@@ -70,7 +82,7 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstItem="r9L-XI-5is" firstAttribute="leading" secondItem="d5d-0A-vjy" secondAttribute="leading" constant="32" id="2d3-zg-6Rj"/>
-                        <constraint firstItem="r9L-XI-5is" firstAttribute="top" secondItem="B9h-X8-fnv" secondAttribute="bottom" constant="22" id="B28-XS-f8f"/>
+                        <constraint firstItem="r9L-XI-5is" firstAttribute="top" secondItem="B9h-X8-fnv" secondAttribute="bottom" constant="12" id="B28-XS-f8f"/>
                         <constraint firstAttribute="trailing" secondItem="r9L-XI-5is" secondAttribute="trailing" constant="32" id="C5H-Xr-Kic"/>
                         <constraint firstItem="B9h-X8-fnv" firstAttribute="leading" secondItem="d5d-0A-vjy" secondAttribute="leading" constant="16" id="QbG-qi-vh6"/>
                         <constraint firstAttribute="trailing" secondItem="mu1-B2-QMG" secondAttribute="trailing" constant="16" id="Z9N-58-OZB"/>
@@ -80,16 +92,26 @@
                 </view>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="d5d-0A-vjy" secondAttribute="bottom" id="7zb-dR-CqM"/>
+                <constraint firstItem="d5d-0A-vjy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="XjU-xV-zVt"/>
+                <constraint firstAttribute="trailing" secondItem="d5d-0A-vjy" secondAttribute="trailing" id="aFH-jF-2bW"/>
+                <constraint firstItem="d5d-0A-vjy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eHa-QD-t1T"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-39.200000000000003" y="-146.62668665667167"/>
         </view>
     </objects>
     <resources>
+        <image name="progress_btn" width="28" height="28"/>
         <namedColor name="background-tertiary">
             <color red="0.90200001001358032" green="0.90200001001358032" blue="0.90200001001358032" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-positive">
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="content-tertiary">
+            <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

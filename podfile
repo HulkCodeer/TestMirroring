@@ -31,7 +31,6 @@ target 'evInfra' do
   pod 'mopub-ios-sdk'                 # for rewarded video mopub mediation
   pod 'TapjoySDK'                     # for rewarded video tapjoy
   pod 'ExpyTableView', '~> 1.2.1'
-  pod 'RangeSeekSlider'
 end
 
 post_install do |installer|

@@ -93,11 +93,9 @@ class FilterBarView: UIView {
             btn.layer.borderWidth = 1
             btn.layer.borderColor = UIColor(named: "border-opaque")?.cgColor
             btn.layer.backgroundColor = UIColor(named: "background-secondary")?.cgColor
-            btn.setTitleColor(UIColor(named: "content-primary"), for: .normal)
         } else {
-            btn.layer.borderWidth = 0
-            btn.layer.backgroundColor = UIColor(named: "content-positive")?.cgColor
-            btn.setTitleColor(UIColor(named: "content-on-color"), for: .normal)
+            btn.layer.borderWidth = 1
+            btn.layer.borderColor = UIColor(named: "content-positive")?.cgColor
         }
     }
     

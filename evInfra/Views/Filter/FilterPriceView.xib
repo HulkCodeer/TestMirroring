@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,13 +16,12 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
+        <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="aQU-mR-yVf">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="116"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aQU-mR-yVf">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" text="충전 금액" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SKS-kW-F4v">
                             <rect key="frame" x="16" y="10" width="52" height="16"/>
@@ -107,7 +107,13 @@
                     </constraints>
                 </view>
             </subviews>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="pMI-Av-aiK"/>
+            <constraints>
+                <constraint firstItem="aQU-mR-yVf" firstAttribute="trailing" secondItem="pMI-Av-aiK" secondAttribute="trailing" id="Al0-1b-LgR"/>
+                <constraint firstItem="aQU-mR-yVf" firstAttribute="top" secondItem="pMI-Av-aiK" secondAttribute="top" id="P1z-BH-7IT"/>
+                <constraint firstItem="pMI-Av-aiK" firstAttribute="bottom" secondItem="aQU-mR-yVf" secondAttribute="bottom" id="pOB-dD-s8A"/>
+                <constraint firstItem="aQU-mR-yVf" firstAttribute="leading" secondItem="pMI-Av-aiK" secondAttribute="leading" id="r6N-jf-5gJ"/>
+            </constraints>
             <point key="canvasLocation" x="-23.199999999999999" y="-160.11994002998503"/>
         </view>
     </objects>

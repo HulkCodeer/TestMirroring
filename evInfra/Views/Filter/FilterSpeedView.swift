@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import RangeSeekSlider
 class FilterSpeedView: UIView {
     @IBOutlet var lbSpeed: UILabel!
     @IBOutlet var rangeSliderSpeed: RangeSeekSlider!
@@ -82,7 +81,6 @@ extension FilterSpeedView: RangeSeekSliderDelegate {
         self.minSpeed = Int(minValue)
         self.maxSpeed = Int(maxValue)
         let str: String = "" + (minSpeed == 0 ? "완속" : "\(minSpeed)") + "~\(maxSpeed)kW"
-        print(str)
         lbSpeed.text = str
         if (saveOnChange) {
            applyFilter()
