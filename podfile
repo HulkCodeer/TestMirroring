@@ -31,6 +31,7 @@ target 'evInfra' do
   pod 'mopub-ios-sdk'                 # for rewarded video mopub mediation
   pod 'TapjoySDK'                     # for rewarded video tapjoy
   pod 'ExpyTableView', '~> 1.2.1'
+  pod 'EasyTipView', '~> 2.1.0'
 end
 
 post_install do |installer|

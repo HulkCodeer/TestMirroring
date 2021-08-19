@@ -4,12 +4,14 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FilterAccessView" customModule="evInfra" customModuleProvider="target">
             <connections>
+                <outlet property="btnInfo" destination="FaR-YU-eXI" id="xRi-nD-end"/>
                 <outlet property="btnNonPublic" destination="ivm-bv-ZOy" id="hqe-be-Pz8"/>
                 <outlet property="btnPublic" destination="fMt-0u-KLY" id="XVx-Td-y5Z"/>
                 <outlet property="ivNonPublic" destination="HXL-66-FEq" id="dVH-Ri-ySA"/>
@@ -27,7 +29,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="414" height="149"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Z7M-Wl-Nuc">
-                            <rect key="frame" x="16" y="57" width="382" height="68"/>
+                            <rect key="frame" x="16" y="59.5" width="382" height="68"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fMt-0u-KLY">
                                     <rect key="frame" x="0.0" y="0.0" width="191" height="68"/>
@@ -86,20 +88,30 @@
                                 <constraint firstAttribute="height" constant="68" id="FGY-6t-7tS"/>
                             </constraints>
                         </stackView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="접근" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1X1-6I-bm8">
-                            <rect key="frame" x="16" y="16" width="24.5" height="16"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="접근" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1X1-6I-bm8">
+                            <rect key="frame" x="16" y="16" width="28" height="19.5"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FaR-YU-eXI">
+                            <rect key="frame" x="52" y="15" width="20" height="22"/>
+                            <color key="tintColor" name="content-tertiary"/>
+                            <state key="normal" image="icon_info_sm"/>
+                            <connections>
+                                <action selector="onClickInfo:" destination="-1" eventType="touchUpInside" id="q0w-FG-lt5"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstItem="Z7M-Wl-Nuc" firstAttribute="top" secondItem="1X1-6I-bm8" secondAttribute="bottom" constant="24" id="1F5-TS-pJn"/>
                         <constraint firstItem="1X1-6I-bm8" firstAttribute="top" secondItem="v8M-lR-f8H" secondAttribute="top" constant="16" id="BAR-Jk-grd"/>
+                        <constraint firstItem="FaR-YU-eXI" firstAttribute="leading" secondItem="1X1-6I-bm8" secondAttribute="trailing" constant="8" id="EYB-4d-H0X"/>
                         <constraint firstItem="Z7M-Wl-Nuc" firstAttribute="leading" secondItem="v8M-lR-f8H" secondAttribute="leading" constant="16" id="XUP-lv-eoQ"/>
                         <constraint firstItem="1X1-6I-bm8" firstAttribute="leading" secondItem="v8M-lR-f8H" secondAttribute="leading" constant="16" id="gaH-Xi-AqO"/>
                         <constraint firstAttribute="trailing" secondItem="Z7M-Wl-Nuc" secondAttribute="trailing" constant="16" id="ikl-jC-fpo"/>
+                        <constraint firstItem="FaR-YU-eXI" firstAttribute="centerY" secondItem="1X1-6I-bm8" secondAttribute="centerY" id="pl1-9c-m4h"/>
                     </constraints>
                 </view>
             </subviews>
@@ -117,6 +129,10 @@
     <resources>
         <image name="ic_access_non_public" width="48" height="48"/>
         <image name="ic_access_public" width="48" height="48"/>
+        <image name="icon_info_sm" width="20" height="20"/>
+        <namedColor name="content-tertiary">
+            <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

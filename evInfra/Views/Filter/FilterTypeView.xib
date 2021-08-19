@@ -21,9 +21,9 @@
                 <view opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XGn-Ww-unO">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="충전기타입" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FPA-hI-tJz">
-                            <rect key="frame" x="16" y="10" width="61" height="16"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="충전기타입" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FPA-hI-tJz">
+                            <rect key="frame" x="16" y="10" width="69.5" height="14"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>

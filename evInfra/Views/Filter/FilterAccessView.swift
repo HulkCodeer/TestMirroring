@@ -7,8 +7,11 @@
 //
 
 import Foundation
+import EasyTipView
 
 class FilterAccessView: UIView {
+    @IBOutlet var btnInfo: UIButton!
+    
     @IBOutlet var btnPublic: UIView!
     @IBOutlet var btnNonPublic: UIView!
     
@@ -47,6 +50,28 @@ class FilterAccessView: UIView {
         selectItem(index: 0)
         selectItem(index: 1)
     }
+    
+    @IBAction func onClickInfo(_ sender: Any) {
+        var preferences = EasyTipView.Preferences()
+        preferences.drawing.backgroundColor = UIColor(named: "content-secondary")!
+        preferences.drawing.foregroundColor = UIColor(named: "background-secondary")!
+        preferences.drawing.textAlignment = NSTextAlignment.center
+        
+        preferences.drawing.arrowPosition = .left
+        
+        preferences.animating.dismissTransform = CGAffineTransform(translationX: -30, y: -100)
+        preferences.animating.showInitialTransform = CGAffineTransform(translationX: 30, y: 100)
+        preferences.animating.showInitialAlpha = 0
+        preferences.animating.showDuration = 1
+        preferences.animating.dismissDuration = 1
+        
+        let text = "비개방충전소 : 충전소 설치 건물 거주/이용/관계자 외엔 사용이 불가한 곳"
+        EasyTipView.show(forView: self.btnInfo,
+            withinSuperview: self,
+            text: text,
+            preferences: preferences)
+    }
+
     
     @objc func onClickPublic(_ sender:UITapGestureRecognizer){
         publicSel = !publicSel

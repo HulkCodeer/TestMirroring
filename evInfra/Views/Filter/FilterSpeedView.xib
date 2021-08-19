@@ -23,14 +23,14 @@
                 <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d5d-0A-vjy">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="충전 속도" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B9h-X8-fnv">
-                            <rect key="frame" x="16" y="10" width="52" height="16"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="충전 속도" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B9h-X8-fnv">
+                            <rect key="frame" x="16" y="10" width="59.5" height="19.5"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" verticalHuggingPriority="249" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="r9L-XI-5is" customClass="RangeSeekSlider" customModule="evInfra" customModuleProvider="target">
-                            <rect key="frame" x="32" y="39" width="350" height="48"/>
+                            <rect key="frame" x="32" y="41.5" width="350" height="48"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <color key="tintColor" name="background-tertiary"/>
                             <constraints>
@@ -73,7 +73,7 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0~350kW" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mu1-B2-QMG">
-                            <rect key="frame" x="334" y="10" width="64" height="17"/>
+                            <rect key="frame" x="334" y="11.5" width="64" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" name="content-positive"/>
                             <nil key="highlightedColor"/>

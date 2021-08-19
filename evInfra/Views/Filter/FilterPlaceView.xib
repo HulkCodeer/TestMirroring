@@ -29,14 +29,14 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dfG-bO-Sn7">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="설치형태" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bt3-mv-TA2">
-                            <rect key="frame" x="16" y="10" width="48.5" height="16"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="설치형태" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bt3-mv-TA2">
+                            <rect key="frame" x="16" y="10" width="55.5" height="19.5"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="QzM-sP-Nd5">
-                            <rect key="frame" x="16" y="35" width="382" height="68"/>
+                            <rect key="frame" x="16" y="37.5" width="382" height="68"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EZv-FV-3MJ">
                                     <rect key="frame" x="0.0" y="0.0" width="127.5" height="68"/>

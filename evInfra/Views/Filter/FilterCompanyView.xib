@@ -24,7 +24,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="414" height="814"/>
                     <subviews>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4io-4T-m3I">
-                            <rect key="frame" x="16" y="110" width="382" height="696"/>
+                            <rect key="frame" x="16" y="112.5" width="382" height="693.5"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="chB-7q-eMs">
                                 <size key="itemSize" width="128" height="128"/>
@@ -35,27 +35,27 @@
                             <cells/>
                         </collectionView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전체" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3IQ-sz-Wbc">
-                            <rect key="frame" x="16" y="68" width="29.5" height="21"/>
+                            <rect key="frame" x="16" y="70.5" width="29.5" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전 사업자 선택 시, 지도에 해당하는 충전 사업자만 노출됩니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QL0-0B-caU">
-                            <rect key="frame" x="16" y="37" width="382" height="15"/>
+                            <rect key="frame" x="16" y="39.5" width="382" height="15"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" name="content-tertiary"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V2b-uc-mkK">
-                            <rect key="frame" x="57.5" y="63" width="51" height="31"/>
+                            <rect key="frame" x="57.5" y="65.5" width="51" height="31"/>
                             <color key="onTintColor" name="content-positive"/>
                             <connections>
                                 <action selector="onSwitchValueChanged:" destination="-1" eventType="valueChanged" id="sKw-XV-01U"/>
                             </connections>
                         </switch>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="충전사업자" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6kW-Zv-eyX">
-                            <rect key="frame" x="16" y="16" width="61" height="16"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="충전사업자" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6kW-Zv-eyX">
+                            <rect key="frame" x="16" y="16" width="69.5" height="19.5"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
