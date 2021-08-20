@@ -137,4 +137,14 @@ class FilterRoadView: UIView {
         }
         return changed
     }
+    
+    func update() {
+        generalSel = FilterManager.sharedInstance.filter.isGeneralWay
+        highUpSel = FilterManager.sharedInstance.filter.isHighwayUp
+        highDownSel = FilterManager.sharedInstance.filter.isHighwayDown
+        
+        selectItem(index: 0)
+        selectItem(index: 1)
+        selectItem(index: 2)
+    }
 }

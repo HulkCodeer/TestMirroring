@@ -73,6 +73,13 @@ class FilterSpeedView: UIView {
         }
         return changed
     }
+    
+    func update() {
+        minSpeed = FilterManager.sharedInstance.filter.minSpeed
+        maxSpeed = FilterManager.sharedInstance.filter.maxSpeed
+        
+        setupView()
+    }
 }
 
 extension FilterSpeedView: RangeSeekSliderDelegate {

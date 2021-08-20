@@ -62,30 +62,6 @@ class FilterTypeView: UIView {
         tagCollectionView.dataSource = self
         tagCollectionView.reloadData()
     }
-}
-
-// MARK: - Collectionview Methods
-extension FilterTypeView : UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tagList.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagListViewCell", for: indexPath) as!
-                TagListViewCell
-        cell.cellConfig(arrData: tagList, index: indexPath.row)
-        cell.isUserInteractionEnabled = true
-        cell.delegateTagClick = self
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath : IndexPath) -> CGSize {
-        
-        let strText = tagList[indexPath.row].title
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagListViewCell", for: indexPath) as! TagListViewCell
-        return cell.getInteresticSize(strText: strText, cv: collectionView)
-    }
     
     func resetFilter() {
         for item in tagList {
@@ -119,6 +95,36 @@ extension FilterTypeView : UICollectionViewDelegate,UICollectionViewDataSource, 
             changed = true
         }
         return changed
+    }
+    
+    func update() {
+        tagList.removeAll()
+        prepareTagList()
+        tagCollectionView.reloadData()
+    }
+}
+
+// MARK: - Collectionview Methods
+extension FilterTypeView : UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return tagList.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagListViewCell", for: indexPath) as!
+                TagListViewCell
+        cell.cellConfig(arrData: tagList, index: indexPath.row)
+        cell.isUserInteractionEnabled = true
+        cell.delegateTagClick = self
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath : IndexPath) -> CGSize {
+        
+        let strText = tagList[indexPath.row].title
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagListViewCell", for: indexPath) as! TagListViewCell
+        return cell.getInteresticSize(strText: strText, cv: collectionView)
     }
 }
 

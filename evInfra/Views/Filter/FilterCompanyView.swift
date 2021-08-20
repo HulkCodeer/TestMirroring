@@ -10,6 +10,7 @@ import Foundation
 
 class FilterCompanyView: UIView {
     @IBOutlet var switchAll: UISwitch!
+    @IBOutlet var topView: UIView!
     @IBOutlet var collectionView: UICollectionView!
     
     var tagList = Array<TagValue>()
@@ -32,6 +33,10 @@ class FilterCompanyView: UIView {
         
         prepareTagList()
         setUpUI()
+    }
+    
+    func getHeightSize() -> CGFloat {
+        return topView.layer.height + collectionView.layer.height + 8
     }
     
     func prepareTagList() {

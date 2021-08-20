@@ -17,7 +17,7 @@ class TagFlowLayout: UICollectionViewFlowLayout {
         var maxY: CGFloat = -1.0
         attributes?.forEach { layoutAttribute in
             if layoutAttribute.frame.origin.y >= maxY {
-                leftMargin = 5
+                leftMargin = 0
             }
             
             layoutAttribute.frame.origin.x = leftMargin

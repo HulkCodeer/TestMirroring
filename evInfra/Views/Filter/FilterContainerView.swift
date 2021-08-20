@@ -75,6 +75,14 @@ class FilterContainerView: UIView {
             break;
         }
     }
+    
+    func updateFilters() {
+        filterPriceView.update()
+        filterSpeedView.update()
+        filterPlaceView.update()
+        filterRoadView.update()
+        filterTypeView.update()
+    }
 }
 
 extension FilterContainerView: DelegateFilterChange{
