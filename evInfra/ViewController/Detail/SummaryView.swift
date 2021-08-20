@@ -82,6 +82,7 @@ class SummaryView: UIView {
     
     
     func setChargerData(stationInfo:ChargerStationInfo) {
+        // delegate 필요
         self.charger = stationInfo
     }
     
@@ -92,6 +93,7 @@ class SummaryView: UIView {
     // Copy
     @IBAction func copyAddr(_ sender: Any) {
         UIPasteboard.general.string = addrLb.text
+        Snackbar().show(message: "주소가 복사되었습니다.")
     }
     
     // [Direction]
@@ -143,18 +145,20 @@ class SummaryView: UIView {
     }
     
     func bookmark() {
-        if MemberManager().isLogin() {
-            ChargerManager.sharedInstance.setFavoriteCharger(charger: self.charger!) { (charger) in
-                self.setCallOutFavoriteIcon(charger: charger)
-                if charger.mFavorite {
-                    Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
-                } else {
-                    Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
+        if let chargerData = self.charger {
+            if MemberManager().isLogin() {
+                ChargerManager.sharedInstance.setFavoriteCharger(charger: chargerData) { (charger) in
+                    self.setCallOutFavoriteIcon(charger: charger)
+                    if charger.mFavorite {
+                        Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
+                    } else {
+                        Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
+                    }
                 }
-            }
-        } else {
-            if let uiVC = self.uIVC {
-                MemberManager().showLoginAlert(vc: uiVC)
+            } else {
+                if let uiVC = self.uIVC {
+                    MemberManager().showLoginAlert(vc: uiVC)
+                }
             }
         }
     }
