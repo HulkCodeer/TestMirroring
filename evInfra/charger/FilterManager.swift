@@ -168,4 +168,97 @@ class FilterManager {
             }
         }
     }
+    
+    func getPriceTitle() -> String {
+        var title = ""
+        // 둘다 설정 or 해제 시 기본 타이틀
+        if ((filter.isPaid && filter.isFree) || !(filter.isPaid || filter.isFree)) {
+            title = "유료/무료"
+        } else {
+            title = filter.isPaid ? "유료" : "무료"
+        }
+        return title
+    }
+    
+    func getSpeedTitle() -> String {
+        var title = ""
+        if (filter.minSpeed == 0 && filter.maxSpeed == 350) {
+            title = "속도"
+        } else if (filter.minSpeed == filter.maxSpeed){
+            title = "\(filter.minSpeed)kW"
+        } else {
+            if (filter.minSpeed == 0) {
+                title = "완속 ~ \(filter.maxSpeed)kW"
+            } else {
+                title = "\(filter.minSpeed) ~ \(filter.maxSpeed)kW"
+            }
+        }
+        return title
+    }
+    
+    func getPlaceTitle() -> String {
+        var title = ""
+        if ((filter.isIndoor && filter.isOutdoor && filter.isCanopy)
+                || !(filter.isIndoor || filter.isOutdoor || filter.isCanopy)){
+            title = "설치형태"
+        } else {
+            if (filter.isIndoor) {
+                title = "실내"
+            }
+            if (filter.isOutdoor) {
+                title += title.isEmpty ? "실외" : ", 실외"
+            }
+            if (filter.isCanopy) {
+                title += title.isEmpty ? "캐노피" : ", 캐노피"
+            }
+        }
+        return title
+    }
+    
+    func getRoadTitle() -> String {
+        var title = ""
+        if ((filter.isGeneralWay && filter.isHighwayUp && filter.isHighwayDown)
+                || !(filter.isGeneralWay || filter.isHighwayUp || filter.isHighwayDown)){
+            title = "도로"
+        } else {
+            if (filter.isGeneralWay) {
+                title = "일반도로"
+            }
+            if (filter.isHighwayUp) {
+                title += title.isEmpty ? "고속도로(상)" : ", 고속도로(상)"
+            }
+            if (filter.isHighwayDown) {
+                title += title.isEmpty ? "고속도로(하)" : ", 고속도로(하)"
+            }
+        }
+        return title
+    }
+    
+    func getTypeTitle() -> String {
+        var title = ""
+        if ((filter.dcCombo && filter.dcDemo && filter.ac3 && filter.slow && filter.superCharger && filter.destination)
+                || !(filter.dcCombo || filter.dcDemo || filter.ac3 || filter.slow || filter.superCharger || filter.destination)){
+            title = "충전기타입"
+        } else {
+            if (filter.dcCombo) {
+                title = "DC콤보"
+            }
+            if (filter.dcDemo) {
+                title += title.isEmpty ? "DC차데모" : ", DC차데모"
+            }
+            if (filter.ac3) {
+                title += title.isEmpty ? "AC 3상" : ", AC 3상"
+            }
+            if (filter.slow) {
+                title += title.isEmpty ? "완속" : ", 완속"
+            }
+            if (filter.superCharger) {
+                title += title.isEmpty ? "슈퍼차저" : ", 슈퍼차저"
+            }
+            if (filter.destination) {
+                title += title.isEmpty ? "데스티네이션" : ", 데스티네이션"
+            }
+        }
+        return title
+    }
 }

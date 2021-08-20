@@ -18,6 +18,7 @@
                 <outlet property="btnRoad" destination="y7A-Fy-dsT" id="OO9-xP-VdR"/>
                 <outlet property="btnSpeed" destination="1ui-xP-KpB" id="wUF-HN-Kwv"/>
                 <outlet property="btnType" destination="N0s-Sb-gqQ" id="zC7-1F-dBU"/>
+                <outlet property="containerBtnView" destination="DnO-As-aiA" id="M2c-TD-AGV"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -56,19 +57,20 @@
                                 <constraint firstItem="5kh-Ij-5PQ" firstAttribute="centerY" secondItem="0D6-Os-pFX" secondAttribute="centerY" id="o4j-J6-v4i"/>
                             </constraints>
                         </view>
-                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QUE-Aw-hth">
+                        <scrollView clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QUE-Aw-hth">
                             <rect key="frame" x="82" y="0.0" width="332" height="40"/>
                             <subviews>
-                                <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="311" placeholderIntrinsicHeight="40" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="gZH-tJ-4jK">
-                                    <rect key="frame" x="0.0" y="0.0" width="324" height="40"/>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DnO-As-aiA">
+                                    <rect key="frame" x="0.0" y="0.0" width="313" height="40"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1m-IW-tkh">
-                                            <rect key="frame" x="0.0" y="8" width="74" height="24"/>
+                                            <rect key="frame" x="0.0" y="8" width="69" height="24"/>
                                             <color key="backgroundColor" name="background-secondary"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="74" id="dxL-aG-8YX"/>
+                                                <constraint firstAttribute="height" constant="24" id="ceS-nf-orf"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <inset key="contentEdgeInsets" minX="8" minY="4" maxX="8" maxY="4"/>
                                             <state key="normal" title="유료/무료">
                                                 <color key="titleColor" name="content-primary"/>
                                             </state>
@@ -77,12 +79,13 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ui-xP-KpB">
-                                            <rect key="frame" x="78" y="8" width="42" height="24"/>
+                                            <rect key="frame" x="73" y="8" width="41" height="24"/>
                                             <color key="backgroundColor" name="background-secondary"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="42" id="Zln-bX-amB"/>
+                                                <constraint firstAttribute="height" constant="24" id="oCO-Gb-dso"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <inset key="contentEdgeInsets" minX="8" minY="4" maxX="8" maxY="4"/>
                                             <state key="normal" title="속도">
                                                 <color key="titleColor" name="content-primary"/>
                                             </state>
@@ -91,12 +94,13 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I7G-nk-aws">
-                                            <rect key="frame" x="124" y="8" width="68" height="24"/>
+                                            <rect key="frame" x="118" y="8" width="65" height="24"/>
                                             <color key="backgroundColor" name="background-secondary"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="68" id="kLc-DQ-dtN"/>
+                                                <constraint firstAttribute="height" constant="24" id="Iu7-cT-PcL"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <inset key="contentEdgeInsets" minX="8" minY="4" maxX="8" maxY="4"/>
                                             <state key="normal" title="설치형태">
                                                 <color key="titleColor" name="content-primary"/>
                                             </state>
@@ -105,12 +109,13 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y7A-Fy-dsT">
-                                            <rect key="frame" x="196" y="8" width="42" height="24"/>
+                                            <rect key="frame" x="187" y="8" width="41" height="24"/>
                                             <color key="backgroundColor" name="background-secondary"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="42" id="6R4-vI-UyW"/>
+                                                <constraint firstAttribute="height" constant="24" id="B0t-0c-0oe"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <inset key="contentEdgeInsets" minX="8" minY="4" maxX="8" maxY="4"/>
                                             <state key="normal" title="도로">
                                                 <color key="titleColor" name="content-primary"/>
                                             </state>
@@ -118,13 +123,14 @@
                                                 <action selector="onClickRoad:" destination="-1" eventType="touchUpInside" id="24k-Cp-Y3u"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N0s-Sb-gqQ">
-                                            <rect key="frame" x="242" y="8" width="82" height="24"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="N0s-Sb-gqQ">
+                                            <rect key="frame" x="232" y="8" width="77" height="24"/>
                                             <color key="backgroundColor" name="background-secondary"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="82" id="Yi2-bV-j46"/>
+                                                <constraint firstAttribute="height" constant="24" id="Umf-EO-L8c"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <inset key="contentEdgeInsets" minX="8" minY="4" maxX="8" maxY="4"/>
                                             <state key="normal" title="충전기타입">
                                                 <color key="titleColor" name="content-primary"/>
                                             </state>
@@ -133,15 +139,28 @@
                                             </connections>
                                         </button>
                                     </subviews>
-                                    <edgeInsets key="layoutMargins" top="8" left="0.0" bottom="8" right="0.0"/>
-                                </stackView>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="N0s-Sb-gqQ" firstAttribute="centerY" secondItem="DnO-As-aiA" secondAttribute="centerY" id="23P-71-pKs"/>
+                                        <constraint firstAttribute="trailing" secondItem="N0s-Sb-gqQ" secondAttribute="trailing" constant="4" id="5Yf-4q-qTd"/>
+                                        <constraint firstItem="h1m-IW-tkh" firstAttribute="leading" secondItem="DnO-As-aiA" secondAttribute="leading" id="9ZX-uc-6CU"/>
+                                        <constraint firstItem="1ui-xP-KpB" firstAttribute="leading" secondItem="h1m-IW-tkh" secondAttribute="trailing" constant="4" id="A52-ve-L5d"/>
+                                        <constraint firstItem="I7G-nk-aws" firstAttribute="leading" secondItem="1ui-xP-KpB" secondAttribute="trailing" constant="4" id="ESY-VV-hDI"/>
+                                        <constraint firstItem="1ui-xP-KpB" firstAttribute="centerY" secondItem="DnO-As-aiA" secondAttribute="centerY" id="IBu-RZ-7LL"/>
+                                        <constraint firstItem="y7A-Fy-dsT" firstAttribute="leading" secondItem="I7G-nk-aws" secondAttribute="trailing" constant="4" id="Iqb-zq-4xt"/>
+                                        <constraint firstItem="I7G-nk-aws" firstAttribute="centerY" secondItem="DnO-As-aiA" secondAttribute="centerY" id="M0S-1P-V5z"/>
+                                        <constraint firstItem="N0s-Sb-gqQ" firstAttribute="leading" secondItem="y7A-Fy-dsT" secondAttribute="trailing" constant="4" id="T3J-Ff-dlJ"/>
+                                        <constraint firstItem="y7A-Fy-dsT" firstAttribute="centerY" secondItem="DnO-As-aiA" secondAttribute="centerY" id="XVK-md-TRc"/>
+                                        <constraint firstItem="h1m-IW-tkh" firstAttribute="centerY" secondItem="DnO-As-aiA" secondAttribute="centerY" id="nO2-TP-6Kp"/>
+                                    </constraints>
+                                </view>
                             </subviews>
                             <constraints>
-                                <constraint firstAttribute="bottom" secondItem="gZH-tJ-4jK" secondAttribute="bottom" id="9QY-0j-Qyu"/>
-                                <constraint firstItem="gZH-tJ-4jK" firstAttribute="height" secondItem="QUE-Aw-hth" secondAttribute="height" id="KVh-cX-8aU"/>
-                                <constraint firstItem="gZH-tJ-4jK" firstAttribute="top" secondItem="QUE-Aw-hth" secondAttribute="top" id="dP3-0L-h6r"/>
-                                <constraint firstAttribute="trailing" secondItem="gZH-tJ-4jK" secondAttribute="trailing" id="kGD-sg-yAN"/>
-                                <constraint firstItem="gZH-tJ-4jK" firstAttribute="leading" secondItem="QUE-Aw-hth" secondAttribute="leading" id="wE5-pB-1xB"/>
+                                <constraint firstItem="DnO-As-aiA" firstAttribute="leading" secondItem="QUE-Aw-hth" secondAttribute="leading" id="6a7-Ae-ijH"/>
+                                <constraint firstItem="DnO-As-aiA" firstAttribute="height" secondItem="QUE-Aw-hth" secondAttribute="height" id="Na6-Lr-gHf"/>
+                                <constraint firstItem="DnO-As-aiA" firstAttribute="top" secondItem="QUE-Aw-hth" secondAttribute="top" id="gNn-h1-P5w"/>
+                                <constraint firstAttribute="bottom" secondItem="DnO-As-aiA" secondAttribute="bottom" id="hl8-4d-88H"/>
+                                <constraint firstAttribute="trailing" secondItem="DnO-As-aiA" secondAttribute="trailing" id="yYP-2u-9V6"/>
                             </constraints>
                         </scrollView>
                     </subviews>

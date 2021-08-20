@@ -26,6 +26,7 @@ class FilterBarView: UIView {
     
     @IBOutlet weak var btnFilter: UIView!
     
+    @IBOutlet weak var containerBtnView: UIView!
     @IBOutlet weak var btnPrice: UIButton!
     @IBOutlet weak var btnSpeed: UIButton!
     @IBOutlet weak var btnPlace: UIButton!
@@ -61,6 +62,7 @@ class FilterBarView: UIView {
         btnFilter.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickOpen (_:))))
         
         updateView(newSelect: .none)
+        updateTitle()
     }
     
     func updateView(newSelect: FilterType){
@@ -86,6 +88,14 @@ class FilterBarView: UIView {
         case .none:
             break;
         }
+    }
+    
+    func updateTitle() {
+        btnPrice.setTitle(FilterManager.sharedInstance.getPriceTitle(), for: .normal)
+        btnSpeed.setTitle(FilterManager.sharedInstance.getSpeedTitle(), for: .normal)
+        btnPlace.setTitle(FilterManager.sharedInstance.getPlaceTitle(), for: .normal)
+        btnRoad.setTitle(FilterManager.sharedInstance.getRoadTitle(), for: .normal)
+        btnType.setTitle(FilterManager.sharedInstance.getTypeTitle(), for: .normal)
     }
     
     func setBtnClicked(btn: UIButton, clicked: Bool){

@@ -681,6 +681,7 @@ extension MainViewController: DelegateChargerFilterView {
         // refresh marker
         self.drawTMapMarker()
         filterContainerView.updateFilters()
+        filterBarView.updateTitle()
     }
 }
 
@@ -688,6 +689,7 @@ extension MainViewController: DelegateFilterContainerView {
     func changedFilter() {
         // refresh marker
         self.drawTMapMarker()
+        filterBarView.updateTitle()
     }
 }
 

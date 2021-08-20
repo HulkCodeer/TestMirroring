@@ -49,7 +49,10 @@ class FilterSpeedView: UIView {
         rangeSliderSpeed.selectedMaxValue = CGFloat(maxSpeed)
         rangeSliderSpeed.setupStyle()
         rangeSliderSpeed.setNeedsLayout()
-        let str: String = "" + (minSpeed == 0 ? "완속" : "\(minSpeed)") + "~\(maxSpeed)kW"
+        var str: String = "" + (minSpeed == 0 ? "완속" : "\(minSpeed)") + "~\(maxSpeed)kW"
+        if (minSpeed == maxSpeed) {
+            str = "\(minSpeed)kW"
+        }
         lbSpeed.text = str
     }
     
