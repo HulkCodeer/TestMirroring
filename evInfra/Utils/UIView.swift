@@ -325,6 +325,10 @@ extension NSLayoutConstraint {
         layer.addSublayer(borderLayer)
     }
     
+    func setCornerCircle(frame:CGRect) {
+        layer.cornerRadius = 0.5 * layer.bounds.size.width
+    }
+    
     // Show/Hide view
     func showOrHideView(view: UIView, expandHeight:CGFloat, viewHeight:CGFloat, imgView: UIImageView) -> CGFloat{
         var height = expandHeight

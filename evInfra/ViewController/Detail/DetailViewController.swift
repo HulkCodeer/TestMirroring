@@ -93,6 +93,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 // self.reportBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(he
     }
     
+    
     @objc func mapViewTap(gesture : UIPanGestureRecognizer!) {
         gesture.cancelsTouchesInView = false
     }
@@ -122,6 +123,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     func setDetailLb() {
+        mapSwitch.transform = CGAffineTransform(scaleX: 0.7, y: 0.645)
+        moveMapBtn.setCornerCircle(frame: moveMapBtn.frame)
 //        let frame:CGRect = summary.bounds
 //        let testView = SummaryView(frame: frame)
 //        testView.tag = self.summaryViewTag
