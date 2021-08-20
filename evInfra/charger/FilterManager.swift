@@ -27,12 +27,6 @@ class FilterManager {
         defaults.registerBool(key: UserDefault.Key.FILTER_INDOOR, val: true)
         defaults.registerBool(key: UserDefault.Key.FILTER_OUTDOOR, val: true)
         defaults.registerBool(key: UserDefault.Key.FILTER_CANOPY, val: true)
-        defaults.registerBool(key: UserDefault.Key.FILTER_DC_DEMO, val: true)
-        defaults.registerBool(key: UserDefault.Key.FILTER_DC_COMBO, val: true)
-        defaults.registerBool(key: UserDefault.Key.FILTER_AC, val: true)
-        defaults.registerBool(key: UserDefault.Key.FILTER_SLOW, val: false)
-        defaults.registerBool(key: UserDefault.Key.FILTER_SUPER_CHARGER, val: true)
-        defaults.registerBool(key: UserDefault.Key.FILTER_DESTINATION, val: true)
         defaults.registerBool(key: UserDefault.Key.FILTER_GENERAL_WAY, val: true)
         defaults.registerBool(key: UserDefault.Key.FILTER_HIGHWAY_UP, val: true)
         defaults.registerBool(key: UserDefault.Key.FILTER_HIGHWAT_DOWN, val: true)
@@ -49,12 +43,47 @@ class FilterManager {
         filter.minSpeed = defaults.readInt(key: UserDefault.Key.FILTER_MIN_SPEED)
         filter.maxSpeed = defaults.readInt(key: UserDefault.Key.FILTER_MAX_SPEED)
         
-        filter.dcDemo = defaults.readBool(key: UserDefault.Key.FILTER_DC_DEMO)
-        filter.dcCombo = defaults.readBool(key: UserDefault.Key.FILTER_DC_COMBO)
-        filter.ac3 = defaults.readBool(key: UserDefault.Key.FILTER_AC)
-        filter.slow = defaults.readBool(key: UserDefault.Key.FILTER_SLOW)
-        filter.superCharger = defaults.readBool(key: UserDefault.Key.FILTER_SUPER_CHARGER)
-        filter.destination = defaults.readBool(key: UserDefault.Key.FILTER_DESTINATION)
+        var defValue = defaults.readString(key: UserDefault.Key.FILTER_DC_DEMO)
+        if defValue.isEmpty {
+            filter.dcDemo = true
+        } else {
+            filter.dcDemo = defValue.equals("Checked")
+        }
+            
+        defValue = defaults.readString(key: UserDefault.Key.FILTER_DC_COMBO)
+        if defValue.isEmpty {
+            filter.dcCombo = true
+        } else {
+            filter.dcCombo = defValue.equals("Checked")
+        }
+        
+        defValue = defaults.readString(key: UserDefault.Key.FILTER_AC)
+        if defValue.isEmpty {
+            filter.ac3 = true
+        } else {
+            filter.ac3 = defValue.equals("Checked")
+        }
+        
+        defValue = defaults.readString(key: UserDefault.Key.FILTER_SLOW)
+        if defValue.isEmpty {
+            filter.slow = true
+        } else {
+            filter.slow = defValue.equals("Checked")
+        }
+                
+        defValue = defaults.readString(key: UserDefault.Key.FILTER_SUPER_CHARGER)
+        if defValue.isEmpty {
+            filter.superCharger = true
+        } else {
+            filter.superCharger = defValue.equals("Checked")
+        }
+        
+        defValue = defaults.readString(key: UserDefault.Key.FILTER_DESTINATION)
+        if defValue.isEmpty {
+            filter.destination = true
+        } else {
+            filter.destination = defValue.equals("Checked")
+        }
         
         filter.isGeneralWay = defaults.readBool(key: UserDefault.Key.FILTER_GENERAL_WAY)
         filter.isHighwayUp = defaults.readBool(key: UserDefault.Key.FILTER_HIGHWAY_UP)
@@ -137,24 +166,24 @@ class FilterManager {
     
     func saveTypeFilter(index: Int, val: Bool){
         switch index {
-        case 0:
-            defaults.saveBool(key: UserDefault.Key.FILTER_DC_COMBO, value: val)
+        case Const.CHARGER_TYPE_DCCOMBO:
             filter.dcCombo = val
-        case 1:
-            defaults.saveBool(key: UserDefault.Key.FILTER_DC_DEMO, value: val)
+            defaults.saveString(key: UserDefault.Key.FILTER_DC_COMBO, value: val ? "Checked" : "Unchecked")
+        case Const.CHARGER_TYPE_DCDEMO:
             filter.dcDemo = val
-        case 2:
-            defaults.saveBool(key: UserDefault.Key.FILTER_AC, value: val)
+            defaults.saveString(key: UserDefault.Key.FILTER_DC_DEMO, value: val ? "Checked" : "Unchecked")
+        case Const.CHARGER_TYPE_AC:
             filter.ac3 = val
-        case 3:
-            defaults.saveBool(key: UserDefault.Key.FILTER_SLOW, value: val)
+            defaults.saveString(key: UserDefault.Key.FILTER_AC, value: val ? "Checked" : "Unchecked")
+        case Const.CHARGER_TYPE_SLOW:
             filter.slow = val
-        case 4:
-            defaults.saveBool(key: UserDefault.Key.FILTER_SUPER_CHARGER, value: val)
+            defaults.saveString(key: UserDefault.Key.FILTER_SLOW, value: val ? "Checked" : "Unchecked")
+        case Const.CHARGER_TYPE_SUPER_CHARGER:
             filter.superCharger = val
-        case 5:
-            defaults.saveBool(key: UserDefault.Key.FILTER_DESTINATION, value: val)
+            defaults.saveString(key: UserDefault.Key.FILTER_SUPER_CHARGER, value: val ? "Checked" : "Unchecked")
+        case Const.CHARGER_TYPE_DESTINATION:
             filter.destination = val
+            defaults.saveString(key: UserDefault.Key.FILTER_DESTINATION, value: val ? "Checked" : "Unchecked")
         default:
             break
         }
@@ -260,5 +289,47 @@ class FilterManager {
             }
         }
         return title
+    }
+    
+    func saveTypeFilterForCarType() {
+        let carType = UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE);
+        if carType != 8 {
+            
+            filter.dcDemo = false
+            filter.dcCombo = false
+            filter.ac3 = false
+            filter.slow = false
+            filter.superCharger = false
+            filter.destination = false
+            
+            switch(carType) {
+            case Const.CHARGER_TYPE_DCDEMO:
+                filter.dcDemo = true
+
+            case Const.CHARGER_TYPE_DCCOMBO:
+                filter.dcCombo = true
+
+            case Const.CHARGER_TYPE_AC:
+                filter.ac3 = true
+
+            case Const.CHARGER_TYPE_SUPER_CHARGER:
+                filter.dcDemo = true
+
+            case Const.CHARGER_TYPE_SLOW:
+                filter.slow = true
+                
+            case Const.CHARGER_TYPE_DESTINATION:
+                filter.destination = true
+
+            default:
+                break
+            }
+        }
+        defaults.saveString(key: UserDefault.Key.FILTER_DC_COMBO, value: filter.dcCombo ? "Checked" : "Unchecked")
+        defaults.saveString(key: UserDefault.Key.FILTER_DC_DEMO, value: filter.dcDemo ? "Checked" : "Unchecked")
+        defaults.saveString(key: UserDefault.Key.FILTER_AC, value: filter.ac3 ? "Checked" : "Unchecked")
+        defaults.saveString(key: UserDefault.Key.FILTER_SUPER_CHARGER, value: filter.slow ? "Checked" : "Unchecked")
+        defaults.saveString(key: UserDefault.Key.FILTER_SLOW, value: filter.superCharger ? "Checked" : "Unchecked")
+        defaults.saveString(key: UserDefault.Key.FILTER_DESTINATION, value: filter.destination ? "Checked" : "Unchecked")
     }
 }

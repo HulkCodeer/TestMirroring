@@ -155,7 +155,6 @@ class MainViewController: UIViewController {
         prepareRouteField()
         preparePOIResultView()
         prepareFilterView()
-        prepareCheckBox()
         prepareMapView()
         prepareCalloutLayer()
         prepareNotificationCenter()
@@ -222,111 +221,6 @@ class MainViewController: UIViewController {
     func prepareFilterView() {
         filterBarView.delegate = self
         filterContainerView.delegate = self
-        // drop down - init
-//
-//        DropDown.startListeningToKeyboard()
-//        DropDown.appearance().textColor = UIColor(rgb: 0x15435C)
-//        DropDown.appearance().textFont = UIFont.systemFont(ofSize: 15)
-//        DropDown.appearance().backgroundColor = UIColor.init(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.85)
-//        DropDown.appearance().selectionBackgroundColor = UIColor.lightGray
-//        DropDown.appearance().cellHeight = 36
-//
-//        let chargerFilter = ChargerFilter.init()
-//        // drop down - 도로
-//        dropDownWay.anchorView = self.btnWay
-//        dropDownWay.dataSource = chargerFilter.getWayFiltersName()
-//        dropDownWay.width = 100
-//        dropDownWay.direction = .bottom
-//        dropDownWay.bottomOffset = CGPoint(x: 0, y: (dropDownWay.anchorView?.plainView.bounds.height)!)
-//        dropDownWay.selectionAction = { [unowned self] (index: Int, item: String) in
-//            self.btnWay.setTitle(item, for: UIControlState.normal)
-//            // 설발행 위해 막음
-////            self.defaults.saveInt(key: UserDefault.Key.FILTER_WAY, value: chargerFilter.getWayFiltersId()[index])
-//            self.drawTMapMarker()
-//        }
-//        // 설발행 위해 막음
-////        setSelectionFromUserDefault(dropDown: dropDownWay, defaultKey: UserDefault.Key.FILTER_WAY, dic: ChargerFilter.WAY_FILTER_DIC, button: btnWay)
-//
-//        // drop down - 과금
-//        dropDownPay.anchorView = self.btnPay
-//        dropDownPay.dataSource = chargerFilter.getPayFiltersName()
-//        dropDownPay.width = 100
-//        dropDownPay.direction = .bottom
-//        dropDownPay.bottomOffset = CGPoint(x: 0, y: (dropDownPay.anchorView?.plainView.bounds.height)!)
-//        dropDownPay.selectionAction = { [unowned self] (index: Int, item: String) in
-//            self.btnPay.setTitle(item, for: UIControlState.normal)
-//            // 설발행 위해 막음
-////            self.defaults.saveInt(key: UserDefault.Key.FILTER_PAY, value: chargerFilter.getWayFiltersId()[index])
-//            self.drawTMapMarker()
-//        }
-//        // 설발행 위해 막음
-////        setSelectionFromUserDefault(dropDown: dropDownPay, defaultKey: UserDefault.Key.FILTER_PAY, dic: ChargerFilter.PAY_FILTER_DIC, button: btnPay)
-//
-//        // drop down - 지역
-//        dropDownRegion.anchorView = self.btnRegion
-//        dropDownRegion.dataSource = regionList.getNameList()
-//        dropDownRegion.width = 100
-//        dropDownRegion.direction = .bottom
-//        dropDownRegion.bottomOffset = CGPoint(x: 0, y: (dropDownRegion.anchorView?.plainView.bounds.height)!)
-//        dropDownRegion.selectionAction = { [unowned self] (index: Int, item: String) in
-//            self.btnRegion.setTitle(item, for: UIControlState.normal)
-//            self.myLocationModeOff()
-//
-//            self.tMapView!.setZoomLevel(Int(self.regionList.getZoomLevel(index: index)))
-//            self.tMapView!.setCenter(self.regionList.getTmapPoint(index: index))
-//            self.drawTMapMarker()
-//        }
-//
-//        // drop down - 기관
-//        let companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
-//        var companyVisibilityList = ChargerManager.sharedInstance.getCompanyVisibilityList()
-//
-//        dropDownCompany.anchorView = self.btnCompany
-//        self.btnCompany.setTitle("기관선택", for: UIControlState.normal)//(item, for: UIControlState.normal)
-//        dropDownCompany.dataSource = ChargerManager.sharedInstance.getCompanyNameList()
-//        dropDownCompany.width = 200
-//        dropDownCompany.direction = .bottom
-//        dropDownCompany.bottomOffset = CGPoint(x: 0, y: (dropDownCompany.anchorView?.plainView.bounds.height)!)
-//        dropDownCompany.dismissMode = .onTap
-//        dropDownCompany.selectionBackgroundColor = .clear
-//        dropDownCompany.cellNib = UINib(nibName: "DropDownCheckBoxCell", bundle: nil)
-//
-//        dropDownCompany.customCellConfiguration = { (index: Int, item: String, cell: DropDownCell) -> Void in
-//            guard let cell = cell as? DropDownCheckBoxCell else { return }
-//            cell.tag = index
-//            cell.setChecked(isChecked: companyVisibilityList[index])
-//        }
-//
-//        dropDownCompany.multiSelectionAction = { [unowned self] (indexes, item) in
-//            self.dropDownCompany.clearSelection()
-//
-//            let isAllSelected = companyVisibilityList[0]
-//            for (idx, _) in companyVisibilityList.enumerated() {
-//                companyVisibilityList[idx] = false
-//            }
-//
-//            if (!isAllSelected && indexes.contains(0)) {
-//                for (idx, _) in companyVisibilityList.enumerated() {
-//                    self.dropDownCompany.selectRow(idx)
-//                    companyVisibilityList[idx] = true
-//                }
-//            } else if !(isAllSelected && !indexes.contains(0)) {
-//                for idx in indexes {
-//                    if idx > 0 {
-//                        self.dropDownCompany.selectRow(idx)
-//                        companyVisibilityList[idx] = true
-//                    }
-//                }
-//                if (isAllSelected && indexes.contains(0)) { // 전체선택이 되어있는 상태에서 일반 아이템이 빠지는 경우
-//                    companyVisibilityList[0] = false
-//                } else if (!isAllSelected && !indexes.contains(0)) {  // 전체선택이 안눌리고 그냥 일반 아이템만 에드할 경우
-//                    if (indexes.count == companyList.count) {
-//                        self.dropDownCompany.selectRow(0)
-//                        companyVisibilityList[0] = true
-//                    }
-//                }
-//            }
-//
 //            for company in companyList {
 //                for (index, companyName) in self.dropDownCompany.dataSource.enumerated() {
 //                    if companyName == company.name {
@@ -397,43 +291,6 @@ class MainViewController: UIViewController {
     func prepareRouteView() {
         let findPath = UITapGestureRecognizer(target: self, action:  #selector (self.onClickShowNavi(_:)))
         self.routeDistanceBtn.addGestureRecognizer(findPath)
-    }
-    
-
-    
-    // checkbox - charger type
-    func prepareCheckBox() {
-//        let checkBoxColor = UIColor(rgb: 0x15435C)
-//
-//        cbDcCombo.boxType = .square
-//        cbDcCombo.checkState = getCheckState(key: UserDefault.Key.FILTER_DC_COMBO)
-//        cbDcCombo.tintColor = checkBoxColor
-//        cbDcCombo.tag = Const.CHARGER_TYPE_DCCOMBO
-//        svDcCombo.addTapGesture(target: self, action: #selector(onClickCbDcCombo(_:)))
-//
-//        cbDcDemo.boxType = .square
-//        cbDcDemo.checkState = getCheckState(key: UserDefault.Key.FILTER_DC_DEMO)
-//        cbDcDemo.tintColor = checkBoxColor
-//        cbDcDemo.tag = Const.CHARGER_TYPE_DCDEMO
-//        svDcDemo.addTapGesture(target: self, action: #selector(onClickCbDcDemo(_:)))
-//
-//        cbAc3.boxType = .square
-//        cbAc3.checkState = getCheckState(key: UserDefault.Key.FILTER_AC)
-//        cbAc3.tintColor = checkBoxColor
-//        cbAc3.tag = Const.CHARGER_TYPE_AC
-//        svAc3.addTapGesture(target: self, action: #selector(onClickCbAc3(_:)))
-//
-//        cbSuper.boxType = .square
-//        cbSuper.checkState = getCheckState(key: UserDefault.Key.FILTER_SUPER_CHARGER)
-//        cbSuper.tintColor = checkBoxColor
-//        cbSuper.tag = Const.CHARGER_TYPE_SUPER_CHARGER
-//        svSuper.addTapGesture(target: self, action: #selector(onClickCbSuper(_:)))
-//
-//        cbSlow.boxType = .square
-//        cbSlow.checkState = getCheckState(key: UserDefault.Key.FILTER_SLOW)
-//        cbSlow.tintColor = checkBoxColor
-//        cbSlow.tag = Const.CHARGER_TYPE_SLOW
-//        svSlow.addTapGesture(target: self, action: #selector(onClickCbSlow(_:)))
     }
     
     func prepareMapView() {
@@ -621,59 +478,6 @@ class MainViewController: UIViewController {
             findPath(passList: passList as! [TMapPoint])
         }
     }
-//
-//    @IBAction func onClickWayButton(_ sender: UIButton) {
-//        self.dropDownWay.show()
-//    }
-//
-//    @IBAction func onClickPayButton(_ sender: UIButton) {
-//        self.dropDownPay.show()
-//    }
-//
-//    @IBAction func onClickRegionButton(_ sender: UIButton) {
-//        self.dropDownRegion.show()
-//    }
-//
-//    @IBAction func onClickCompanyButton(_ sender: UIButton) {
-//        self.dropDownCompany.show()
-//    }
-//
-//    // checkbox click한 경우
-//    @IBAction func onClickCb(_ sender: M13Checkbox) {
-//        self.saveFilterState()
-//        self.drawTMapMarker()
-//    }
-//
-//    // checkbox label click한 경우
-//    @IBAction func onClickCbDcCombo(_ sender: UITapGestureRecognizer) {
-//        self.cbDcCombo.toggleCheckState(true)
-//        self.saveFilterState()
-//        self.drawTMapMarker()
-//    }
-//
-//    @IBAction func onClickCbDcDemo(_ sender: UITapGestureRecognizer) {
-//        self.cbDcDemo.toggleCheckState(true)
-//        self.saveFilterState()
-//        self.drawTMapMarker()
-//    }
-//
-//    @IBAction func onClickCbAc3(_ sender: UITapGestureRecognizer) {
-//        self.cbAc3.toggleCheckState(true)
-//        self.saveFilterState()
-//        self.drawTMapMarker()
-//    }
-//
-//    @IBAction func onClickCbSuper(_ sender: UITapGestureRecognizer) {
-//        self.cbSuper.toggleCheckState(true)
-//        self.saveFilterState()
-//        self.drawTMapMarker()
-//    }
-//
-//    @IBAction func onClickCbSlow(_ sender: UITapGestureRecognizer) {
-//        self.cbSlow.toggleCheckState(true)
-//        self.saveFilterState()
-//        self.drawTMapMarker()
-//    }
 }
 
 extension MainViewController: DelegateChargerFilterView {
@@ -750,79 +554,6 @@ extension MainViewController {
             isContain = true;
         }
         return isContain
-    }
-    
-    internal func saveFilterState() {
-//        self.defaults.saveString(key: UserDefault.Key.FILTER_DC_COMBO, value: cbDcCombo.checkState.rawValue)
-//        self.defaults.saveString(key: UserDefault.Key.FILTER_DC_DEMO, value: cbDcDemo.checkState.rawValue)
-//        self.defaults.saveString(key: UserDefault.Key.FILTER_AC, value: cbAc3.checkState.rawValue)
-//        self.defaults.saveString(key: UserDefault.Key.FILTER_SUPER_CHARGER, value: cbSuper.checkState.rawValue)
-//        self.defaults.saveString(key: UserDefault.Key.FILTER_SLOW, value: cbSlow.checkState.rawValue)
-    }
-    
-    internal func getCheckState(key: String) -> M13Checkbox.CheckState {
-        var checkState = defaults.readString(key: key)
-        if checkState.isEmpty {
-            checkState = "Checked"
-        }
-        return M13Checkbox.CheckState(rawValue: checkState) ?? .checked
-    }
-    
-    internal func checkFilterForCarType() {
-        let carType = UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE);
-//        if carType != 8 {
-//            cbDcDemo.checkState = .unchecked
-//            cbAc3.checkState = .unchecked
-//            cbDcCombo.checkState = .unchecked
-//            cbSuper.checkState = .unchecked
-//            cbSlow.checkState = .unchecked
-//
-//            switch(carType) {
-//            case Const.CHARGER_TYPE_DCDEMO:
-//                cbDcDemo.checkState = .checked
-//
-//            case Const.CHARGER_TYPE_DCCOMBO:
-//                cbDcCombo.checkState = .checked
-//
-//            case Const.CHARGER_TYPE_AC:
-//                cbAc3.checkState = .checked
-//
-//            case Const.CHARGER_TYPE_SUPER_CHARGER:
-//                cbSuper.checkState = .checked
-//
-//            case Const.CHARGER_TYPE_SLOW:
-//                cbSlow.checkState = .checked
-//
-//            default:
-//                break
-//            }
-//            self.saveFilterState()
-//        }
-    }
-    
-    internal func getCurrentFilter() -> ChargerFilter {
-        let filter = ChargerFilter.init()
-//        filter.dcDemo = (cbDcDemo.checkState == .checked)
-//        filter.ac3 = (cbAc3.checkState == .checked)
-//        filter.dcCombo = (cbDcCombo.checkState == .checked)
-//        filter.superCharger = (cbSuper.checkState == .checked)
-//        filter.slow = (cbSlow.checkState == .checked)
-//
-//        if let index = dropDownWay.indexForSelectedRow {
-//            filter.wayId = filter.getWayFiltersId()[index]
-//        }
-//        if let index = dropDownPay.indexForSelectedRow {
-//            filter.payId = filter.getPayFiltersId()[index]
-//        }
-        
-//        let companyName = dropDownCompany.selectedItem
-        let companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
-        for company in companyList {
-            if let companyId = company.company_id {
-                filter.companies.updateValue(company.is_visible, forKey: companyId)
-            }
-        }
-        return filter
     }
 }
 
@@ -1607,7 +1338,9 @@ extension MainViewController {
     }
     
     @objc func updateMemberInfo() {
-        checkFilterForCarType()
+        FilterManager.sharedInstance.saveTypeFilterForCarType()
+        filterContainerView.updateFilters()
+        filterBarView.updateTitle()
     }
     
     @objc func getSharedChargerId(_ notification: NSNotification) {

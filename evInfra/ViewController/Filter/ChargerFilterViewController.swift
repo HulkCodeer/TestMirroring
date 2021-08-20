@@ -85,6 +85,9 @@ class ChargerFilterViewController: UIViewController {
     func initView(){
         btnApply.backgroundColor = UIColor(named: "content-positive")
         btnApply.layer.cornerRadius = 6
+        
+        typeFilter.showExpandView()
+        typeFilter.checkLoginDelegate = self
     }
     
     @objc
@@ -119,5 +122,15 @@ class ChargerFilterViewController: UIViewController {
         actions.append(cancel)
         actions.append(ok)
         UIAlertController.showAlert(title: "필터 초기화", message: "필터를 초기화 하시겠습니까?", actions: actions)
+    }
+}
+
+extension ChargerFilterViewController : DelegateFilterTypeView {
+    func checkMemberLogin() -> Bool {
+        if (!MemberManager().isLogin()){
+            MemberManager().showLoginAlert(vc: self)
+            return false
+        }
+        return true
     }
 }

@@ -12,10 +12,12 @@ open class TagValue {
     var title: String = ""
     var img: UIImage?
     var selected: Bool = false
-    init(title: String, img: String, selected: Bool){
+    var index: Int = 0
+    init(title: String, img: String, selected: Bool, index: Int){
         self.title = title
         self.img = UIImage(named: img)!
         self.selected = selected
+        self.index = index
     }
     init(title: String, img: UIImage, selected: Bool){
         self.title = title
