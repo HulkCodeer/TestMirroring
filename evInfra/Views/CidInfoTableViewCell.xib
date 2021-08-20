@@ -303,13 +303,17 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="acSam" destination="tBc-HP-u1J" id="wwf-hi-F7f"/>
+                <outlet property="acSamLb" destination="8lT-dK-AcN" id="M0S-Ra-5cE"/>
                 <outlet property="dateKind" destination="RfZ-2u-qBI" id="F7l-ss-fLa"/>
                 <outlet property="dcCombo" destination="QPA-CT-LHR" id="ARi-N8-jIv"/>
+                <outlet property="dcComboLb" destination="E2c-4J-F3Q" id="YOE-L8-i9G"/>
                 <outlet property="dcDemo" destination="1dA-Jh-2cv" id="ayo-Zb-2UE"/>
+                <outlet property="dcDemoLb" destination="oPV-ft-9cO" id="9jE-TG-lAY"/>
                 <outlet property="dividerView" destination="Bhe-9b-6IH" id="cqj-op-plw"/>
                 <outlet property="lastDate" destination="Jgu-oM-Qva" id="OOb-DT-Agc"/>
                 <outlet property="powerLable" destination="z4k-F7-LpL" id="5Jm-0a-LWX"/>
                 <outlet property="slow" destination="M77-Zh-hAM" id="jbD-iy-HR0"/>
+                <outlet property="slowLb" destination="CUW-ej-F3C" id="EaS-Cu-2eL"/>
                 <outlet property="statusLabel" destination="vf6-Ez-fvx" id="LDn-ka-jSt"/>
             </connections>
             <point key="canvasLocation" x="209.42028985507247" y="86.049107142857139"/>
