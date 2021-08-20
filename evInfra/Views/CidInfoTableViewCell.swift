@@ -26,19 +26,23 @@ class CidInfoTableViewCell: UITableViewCell {
     // 경과 날짜
     @IBOutlet weak var lastDate: UILabel!
     
-    let imgDcCombo = "type_dc_combo"
-    let imgDcDemo = "type_dc_demo"
-    let imgAcThree = "type_ac_three"
-    let imgAcSlow = "type_ac_slow"
-    let imgSuper = "type_super"
-    let imgDestination = "type_destination"
+    let imgDcCombo = "ic_charger_dc_combo_md"  // type_dc_combo
+    let imgDcDemo = "ic_charger_dc_demo_md"  // type_dc_demo
+    let imgAcThree = "ic_charger_acthree_md"  // type_ac_three
+    let imgAcSlow = "ic_charger_slow_md"  // type_ac_slow
+    let imgSuper = "ic_charger_super_md"  // type_super
+    let imgDestination = "ic_charger_slow_md"  // type_destination
     
-    let imgDcComboDim = "type_dc_combo_dim"
-    let imgDcDemoDim = "type_dc_demo_dim"
-    let imgAcThreeDim = "type_ac_three_dim"
-    let imgAcSlowDim = "type_ac_slow_dim"
-    let imgSuperDim = "type_super_dim"
-    let imgDestinationDim = "type_destination_dim"
+    let positive = "content-positive"
+    let tertiary = "content-tertiary"
+    
+    // dim image 필요 없음 -> 각 이미지의 tint 색상 변경으로 해결가능
+//    let imgDcComboDim = "type_dc_combo_dim"  // type_dc_combo_dim
+//    let imgDcDemoDim = "type_dc_demo_dim"  // type_dc_demo_dim
+//    let imgAcThreeDim = "type_ac_three_dim"  // type_ac_three_dim
+//    let imgAcSlowDim = "type_ac_slow_dim"  // type_ac_slow_dim
+//    let imgSuperDim = "type_super_dim"  // type_super_dim
+//    let imgDestinationDim = "type_destination_dim"  // type_destination_dim
 
 //    override func awakeFromNib() {
 //        super.awakeFromNib()
@@ -58,71 +62,132 @@ class CidInfoTableViewCell: UITableViewCell {
     }
     
     public func setChargerTypeImage(type:Int) {
+        self.dcCombo.image = UIImage(named: imgDcCombo)
+        self.dcDemo.image = UIImage(named: imgDcDemo)
+        self.slow.image = UIImage(named: imgAcSlow)
+        self.acSam.image = UIImage(named: imgAcThree)
+        
+        self.dcCombo.tintColor = UIColor.init(named: tertiary)
+        self.dcDemo.tintColor = UIColor.init(named: tertiary)
+        self.slow.tintColor = UIColor.init(named: tertiary)
+        self.acSam.tintColor = UIColor.init(named: tertiary)
         switch (type) {
         case Const.CHARGER_TYPE_DCDEMO:
-            self.dcCombo.image = UIImage(named: imgDcComboDim)
-            self.dcDemo.image = UIImage(named: imgDcDemo)
-            self.acSam.image = UIImage(named: imgAcThreeDim)
-            self.slow.image = UIImage(named: imgAcSlowDim)
+            self.dcCombo.tintColor = UIColor.init(named: tertiary)
+            self.dcDemo.tintColor = UIColor.init(named: positive)
+            self.slow.tintColor = UIColor.init(named: tertiary)
+            self.acSam.tintColor = UIColor.init(named: tertiary)
+//            self.dcCombo.image = UIImage(named: imgDcComboDim)
+//            self.dcDemo.image = UIImage(named: imgDcDemo)
+//            self.acSam.image = UIImage(named: imgAcThreeDim)
+//            self.slow.image = UIImage(named: imgAcSlowDim)
             break;
             
         case Const.CHARGER_TYPE_DCCOMBO:
-            self.dcCombo.image = UIImage(named: imgDcCombo)
-            self.dcDemo.image = UIImage(named: imgDcDemoDim)
-            self.acSam.image = UIImage(named: imgAcThreeDim)
-            self.slow.image = UIImage(named: imgAcSlowDim)
+            self.dcCombo.tintColor = UIColor.init(named: positive)
+            self.dcDemo.tintColor = UIColor.init(named: tertiary)
+            self.slow.tintColor = UIColor.init(named: tertiary)
+            self.acSam.tintColor = UIColor.init(named: tertiary)
+            
+//            self.dcCombo.image = UIImage(named: imgDcCombo)
+//            self.dcDemo.image = UIImage(named: imgDcDemoDim)
+//            self.acSam.image = UIImage(named: imgAcThreeDim)
+//            self.slow.image = UIImage(named: imgAcSlowDim)
             break;
             
         case Const.CHARGER_TYPE_DCDEMO_AC:
-            self.dcCombo.image = UIImage(named: imgDcComboDim)
-            self.dcDemo.image = UIImage(named: imgDcDemo)
-            self.acSam.image = UIImage(named: imgAcThree)
-            self.slow.image = UIImage(named: imgAcSlowDim)
+            self.dcCombo.tintColor = UIColor.init(named: tertiary)
+            self.dcDemo.tintColor = UIColor.init(named: positive)
+            self.slow.tintColor = UIColor.init(named: tertiary)
+            self.acSam.tintColor = UIColor.init(named: positive)
+            
+//            self.dcCombo.image = UIImage(named: imgDcComboDim)
+//            self.dcDemo.image = UIImage(named: imgDcDemo)
+//            self.acSam.image = UIImage(named: imgAcThree)
+//            self.slow.image = UIImage(named: imgAcSlowDim)
             break;
             
         case Const.CHARGER_TYPE_AC:
-            self.dcCombo.image = UIImage(named: imgDcComboDim)
-            self.dcDemo.image = UIImage(named: imgDcDemoDim)
-            self.acSam.image = UIImage(named: imgAcThree)
-            self.slow.image = UIImage(named: imgAcSlowDim)
+            self.dcCombo.tintColor = UIColor.init(named: tertiary)
+            self.dcDemo.tintColor = UIColor.init(named: tertiary)
+            self.slow.tintColor = UIColor.init(named: positive)
+            self.acSam.tintColor = UIColor.init(named: tertiary)
+            
+//            self.dcCombo.image = UIImage(named: imgDcComboDim)
+//            self.dcDemo.image = UIImage(named: imgDcDemoDim)
+//            self.acSam.image = UIImage(named: imgAcThree)
+//            self.slow.image = UIImage(named: imgAcSlowDim)
             break;
             
         case Const.CHARGER_TYPE_DCDEMO_DCCOMBO:
-            self.dcCombo.image = UIImage(named: imgDcCombo)
-            self.dcDemo.image = UIImage(named: imgDcDemo)
-            self.acSam.image = UIImage(named: imgAcThreeDim)
-            self.slow.image = UIImage(named: imgAcSlowDim)
+            self.dcCombo.tintColor = UIColor.init(named: positive)
+            self.dcDemo.tintColor = UIColor.init(named: positive)
+            self.slow.tintColor = UIColor.init(named: tertiary)
+            self.acSam.tintColor = UIColor.init(named: tertiary)
+            
+//            self.dcCombo.image = UIImage(named: imgDcCombo)
+//            self.dcDemo.image = UIImage(named: imgDcDemo)
+//            self.acSam.image = UIImage(named: imgAcThreeDim)
+//            self.slow.image = UIImage(named: imgAcSlowDim)
             break;
             
         case Const.CHARGER_TYPE_DCDEMO_DCCOMBO_AC:
-            self.dcCombo.image = UIImage(named: imgDcCombo)
-            self.dcDemo.image = UIImage(named: imgDcDemo)
-            self.acSam.image = UIImage(named: imgAcThree)
-            self.slow.image = UIImage(named: imgAcSlowDim)
+            self.dcCombo.tintColor = UIColor.init(named: positive)
+            self.dcDemo.tintColor = UIColor.init(named: positive)
+            self.slow.tintColor = UIColor.init(named: tertiary)
+            self.acSam.tintColor = UIColor.init(named: positive)
+            
+//            self.dcCombo.image = UIImage(named: imgDcCombo)
+//            self.dcDemo.image = UIImage(named: imgDcDemo)
+//            self.acSam.image = UIImage(named: imgAcThree)
+//            self.slow.image = UIImage(named: imgAcSlowDim)
             break;
             
         case Const.CHARGER_TYPE_SLOW:
-            self.dcCombo.image = UIImage(named: imgDcComboDim)
-            self.dcDemo.image = UIImage(named: imgDcDemoDim)
-            self.acSam.image = UIImage(named: imgAcThreeDim)
-            self.slow.image = UIImage(named: imgAcSlow)
+            self.dcCombo.tintColor = UIColor.init(named: tertiary)
+            self.dcDemo.tintColor = UIColor.init(named: tertiary)
+            self.slow.tintColor = UIColor.init(named: positive)
+            self.acSam.tintColor = UIColor.init(named: tertiary)
+            
+//            self.dcCombo.image = UIImage(named: imgDcComboDim)
+//            self.dcDemo.image = UIImage(named: imgDcDemoDim)
+//            self.acSam.image = UIImage(named: imgAcThreeDim)
+//            self.slow.image = UIImage(named: imgAcSlow)
             break;
             
         case Const.CHARGER_TYPE_HYDROGEN:
-            self.dcCombo.image = UIImage(named: imgDcComboDim)
-            self.dcDemo.image = UIImage(named: imgDcDemoDim)
-            self.acSam.image = UIImage(named: imgAcThreeDim)
-            self.slow.image = UIImage(named: imgAcSlowDim)
+            self.dcCombo.image = nil
+            self.dcDemo.image = nil
+            self.slow.image = nil
+            self.acSam.image = nil
+//            self.dcCombo.image = UIImage(named: imgDcComboDim)
+//            self.dcDemo.image = UIImage(named: imgDcDemoDim)
+//            self.acSam.image = UIImage(named: imgAcThreeDim)
+//            self.slow.image = UIImage(named: imgAcSlowDim)
             break;
 
         case Const.CHARGER_TYPE_SUPER_CHARGER:
+            self.dcCombo.image = nil
+            self.acSam.image = nil
             self.dcDemo.image = UIImage(named: imgSuper)
-            self.slow.image = UIImage(named: imgDestinationDim)
+            self.slow.image = UIImage(named: imgAcThree)
+            
+            self.dcDemo.tintColor = UIColor.init(named: positive)
+            self.slow.tintColor = UIColor.init(named: tertiary)
+//            self.dcDemo.image = UIImage(named: imgSuper)
+//            self.slow.image = UIImage(named: imgDestinationDim)
             break;
             
         case Const.CHARGER_TYPE_DESTINATION :
-            self.dcDemo.image = UIImage(named: imgSuperDim)
-            self.slow.image = UIImage(named: imgDestination)
+            self.dcCombo.image = nil
+            self.acSam.image = nil
+            self.dcDemo.image = UIImage(named: imgSuper)
+            self.slow.image = UIImage(named: imgAcThree)
+            
+            self.dcDemo.tintColor = UIColor.init(named: tertiary)
+            self.slow.tintColor = UIColor.init(named: positive)
+//            self.dcDemo.image = UIImage(named: imgSuperDim)
+//            self.slow.image = UIImage(named: imgDestination)
             break;
             
         default:
