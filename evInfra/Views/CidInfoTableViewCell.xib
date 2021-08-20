@@ -68,7 +68,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Uu4-aO-TEx">
                                                 <rect key="frame" x="0.0" y="0.0" width="143.5" height="36"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fFD-h1-OgP">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tla-CY-brU">
                                                         <rect key="frame" x="0.0" y="0.0" width="143.5" height="16"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_charger_xs" translatesAutoresizingMaskIntoConstraints="NO" id="WRH-kd-zzo">
@@ -80,22 +80,13 @@
                                                                 </constraints>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="알 수 없음" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vf6-Ez-fvx">
-                                                                <rect key="frame" x="16" y="0.0" width="95.5" height="16"/>
+                                                                <rect key="frame" x="20" y="0.0" width="64" height="16"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" name="content-warning"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rZN-8J-ZXI">
-                                                                <rect key="frame" x="111.5" y="0.0" width="16" height="16"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="16" id="CEf-Pv-FD9"/>
-                                                                    <constraint firstAttribute="height" constant="16" id="d4S-cF-59Y"/>
-                                                                </constraints>
-                                                                <color key="tintColor" name="content-tertiary"/>
-                                                                <state key="normal" title="Button" image="icon_info_sm"/>
-                                                            </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yMW-EQ-uGd">
-                                                                <rect key="frame" x="127.5" y="0.0" width="16" height="16"/>
+                                                                <rect key="frame" x="108" y="0.0" width="16" height="16"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="16" id="2AD-sr-mpX"/>
                                                                     <constraint firstAttribute="width" constant="16" id="WV6-jh-xmd"/>
@@ -103,8 +94,32 @@
                                                                 <color key="tintColor" name="content-tertiary"/>
                                                                 <state key="normal" title="Button" image="lock" catalog="system"/>
                                                             </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rZN-8J-ZXI">
+                                                                <rect key="frame" x="88" y="0.0" width="16" height="16"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="16" id="CEf-Pv-FD9"/>
+                                                                    <constraint firstAttribute="height" constant="16" id="d4S-cF-59Y"/>
+                                                                </constraints>
+                                                                <color key="tintColor" name="content-tertiary"/>
+                                                                <state key="normal" title="Button" image="icon_info_sm"/>
+                                                            </button>
                                                         </subviews>
-                                                    </stackView>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <constraints>
+                                                            <constraint firstItem="WRH-kd-zzo" firstAttribute="top" secondItem="Tla-CY-brU" secondAttribute="top" id="3oU-rP-Fly"/>
+                                                            <constraint firstItem="rZN-8J-ZXI" firstAttribute="top" secondItem="Tla-CY-brU" secondAttribute="top" id="6Oc-qS-1ik"/>
+                                                            <constraint firstItem="yMW-EQ-uGd" firstAttribute="leading" secondItem="rZN-8J-ZXI" secondAttribute="trailing" constant="4" id="8MJ-xR-Oqc"/>
+                                                            <constraint firstItem="WRH-kd-zzo" firstAttribute="leading" secondItem="Tla-CY-brU" secondAttribute="leading" id="Ke0-4D-bHb"/>
+                                                            <constraint firstItem="yMW-EQ-uGd" firstAttribute="top" secondItem="Tla-CY-brU" secondAttribute="top" id="Mcl-yE-GRW"/>
+                                                            <constraint firstAttribute="bottom" secondItem="WRH-kd-zzo" secondAttribute="bottom" id="Pku-Gw-cir"/>
+                                                            <constraint firstItem="vf6-Ez-fvx" firstAttribute="top" secondItem="Tla-CY-brU" secondAttribute="top" id="Tzt-9f-5Vs"/>
+                                                            <constraint firstItem="rZN-8J-ZXI" firstAttribute="leading" secondItem="vf6-Ez-fvx" secondAttribute="trailing" constant="4" id="ZPX-Ig-u5y"/>
+                                                            <constraint firstAttribute="bottom" secondItem="rZN-8J-ZXI" secondAttribute="bottom" id="cNV-Tg-Ps4"/>
+                                                            <constraint firstItem="vf6-Ez-fvx" firstAttribute="leading" secondItem="WRH-kd-zzo" secondAttribute="trailing" constant="4" id="ifi-cQ-nru"/>
+                                                            <constraint firstAttribute="bottom" secondItem="vf6-Ez-fvx" secondAttribute="bottom" id="tEO-xl-hZQ"/>
+                                                            <constraint firstAttribute="bottom" secondItem="yMW-EQ-uGd" secondAttribute="bottom" id="yL3-ws-ToY"/>
+                                                        </constraints>
+                                                    </view>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="dSd-Ta-wOd">
                                                         <rect key="frame" x="0.0" y="20" width="143.5" height="16"/>
                                                         <subviews>
