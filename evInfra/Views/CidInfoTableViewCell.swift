@@ -168,24 +168,24 @@ class CidInfoTableViewCell: UITableViewCell {
 
         case Const.CHARGER_TYPE_SUPER_CHARGER:
             self.dcCombo.image = nil
-            self.acSam.image = nil
+            self.slow.image = nil
             self.dcDemo.image = UIImage(named: imgSuper)
-            self.slow.image = UIImage(named: imgAcThree)
+            self.acSam.image = UIImage(named: imgAcThree)
             
             self.dcDemo.tintColor = UIColor.init(named: positive)
-            self.slow.tintColor = UIColor.init(named: tertiary)
+            self.acSam.tintColor = UIColor.init(named: tertiary)
 //            self.dcDemo.image = UIImage(named: imgSuper)
 //            self.slow.image = UIImage(named: imgDestinationDim)
             break;
             
         case Const.CHARGER_TYPE_DESTINATION :
             self.dcCombo.image = nil
-            self.acSam.image = nil
+            self.slow.image = nil
             self.dcDemo.image = UIImage(named: imgSuper)
-            self.slow.image = UIImage(named: imgAcThree)
+            self.acSam.image = UIImage(named: imgAcThree)
             
             self.dcDemo.tintColor = UIColor.init(named: tertiary)
-            self.slow.tintColor = UIColor.init(named: positive)
+            self.acSam.tintColor = UIColor.init(named: positive)
 //            self.dcDemo.image = UIImage(named: imgSuperDim)
 //            self.slow.image = UIImage(named: imgDestination)
             break;
