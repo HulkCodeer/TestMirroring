@@ -143,6 +143,10 @@ class MainViewController: UIViewController {
         requestStationInfo()
     }
     
+//    override func viewWillLayoutSubviews() {
+//        callOutLayer.addSubview(SummaryView(frame: callOutLayer.frame))
+//    }
+    
     override func viewDidAppear(_ animated: Bool) {
         menuBadgeAdd()
         updateClustering()
@@ -1123,6 +1127,20 @@ extension MainViewController: MainViewDelegate {
     }
     
     func selectCharger(chargerId: String) {
+        if summaryView == nil {
+            summaryView = SummaryView(frame: callOutLayer.frame.bounds)
+        }
+        if let summary = summaryView {
+            summary.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            callOutLayer.addSubview(summary)
+        }
+        
+//        if let summary = summaryView {
+//            summaryView = SummaryView(frame: callOutLayer.frame.bounds)
+//        }
+        
+        
+        
 //        let frame:CGRect = callOutLayer.bounds
 //        self.summaryView = SummaryView(frame: frame)
 //
