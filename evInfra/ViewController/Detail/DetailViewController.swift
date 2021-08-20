@@ -16,8 +16,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 
 //    @IBOutlet weak var vieagerContainer: UIView!
 
-    
-//    @IBOutlet var chargerStatusImg: UIImageView!        // 충전기 상태(이미지)
+//
+//    @IBOutlet var summary: UIView!
+    //    @IBOutlet var chargerStatusImg: UIImageView!        // 충전기 상태(이미지)
 //    @IBOutlet var callOutStatus: UILabel!               // 충전기 상태
 //    @IBOutlet weak var dstLabel: UILabel!               // 현 위치에서 거리
     // 충전소 정보
@@ -35,6 +36,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 //    @IBOutlet var canopyView: UIView!                   // 설치형태(캐노피)
     @IBOutlet var checkingView: UILabel!                 // 설치형태(확인중)
     @IBOutlet var kakaoMapView: UIView!                 // 스카이뷰(카카오맵)
+    @IBOutlet var mapSwitch: UISwitch!
+    @IBOutlet var moveMapBtn: UIButton! // 충전소위치로 가기 버튼(카카오맵)
     
     @IBOutlet weak var memoLabel: UILabel!              // 메모
     @IBOutlet var memoView: UIStackView!                // 메모(view)
@@ -68,6 +71,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     var shareUrl = ""
     
     var mapView:MTMapView?
+    
+    var summaryViewTag = 20
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,6 +122,12 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     func setDetailLb() {
+//        let frame:CGRect = summary.bounds
+//        let testView = SummaryView(frame: frame)
+//        testView.tag = self.summaryViewTag
+////        testView.leadingAnchor.anchorWithOffset(to: <#T##NSLayoutXAxisAnchor#>)
+//        view.addSubview(testView)
+        
         if let chargerData = charger {
             if let stationDto = chargerData.mStationInfoDto {
 //                // 충전소 이름
@@ -250,7 +261,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
                     poiItem.tag = 1
                     poiItem.showAnimationType = .dropFromHeaven
                     poiItem.mapPoint = mapPoint
-                    poiItem.customImage = UIImage(named: "skyview_point")
+                    poiItem.customImage = UIImage(named: "marker_satellite")
                     mapView.add(poiItem)
                     
                     self.kakaoMapView.addSubview(self.mapView!)
@@ -380,6 +391,27 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     */
     // MARK: - Finish Edit Board
+    
+    // [Map]
+    // 충전소 위치 바로가기 버튼
+    @IBAction func onClickMoveLocation(_ sender: Any) {
+        if let chargerData = charger {
+            if let stationDto = chargerData.mStationInfoDto {
+                let mapPoint:MTMapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude:  (stationDto.mLatitude)!, longitude: (stationDto.mLongitude)!))
+                mapView?.setMapCenter(mapPoint, animated: true)
+            }
+        }
+    }
+    // 맵 타입 변경 스위치
+    @IBAction func onClickMapSwitch(_ sender: UISwitch) {
+        if let map = mapView {
+            if sender.isOn{
+                map.baseMapType = .satellite
+            }else{
+                map.baseMapType = .standard
+            }
+        }
+    }
     
     @objc
     func tapFunction(sender:UITapGestureRecognizer) {

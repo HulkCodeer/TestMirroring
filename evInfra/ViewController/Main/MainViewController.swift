@@ -116,6 +116,9 @@ class MainViewController: UIViewController {
     private var isExistAddBtn = false
     var canIgnoreJejuPush = true
     
+    private var summaryViewTag = 10
+    private var summaryView:SummaryView? = nil
+    
     // 지킴이 점겸표 url
     private var checklistUrl: String?
     
@@ -442,35 +445,7 @@ class MainViewController: UIViewController {
     }
     
     func prepareSummaryView() {
-//        let controller = storyboard!.instantiateViewController(withIdentifier: "SummaryViewControllerTest")
-//        addChildViewController(controller)
-//            controller.view.translatesAutoresizingMaskIntoConstraints = false
-//        callOutLayer.addSubview(controller.view)
-//        let containerView = UIView()
-//        view.addSubview(containerView)
-
-//        let controller = storyboard!.instantiateViewController(withIdentifier: "SummaryViewControllerTest")
-//        addChildViewController(controller)
-//        containerView.addSubview(controller.view)
-//        controller.didMove(toParentViewController: self)
         
-                // if Constraints
-        //        addViewController.view.translatesAutoresizingMaskIntoConstraints = false
-                
-                
-                // if Constraints
-//        self.view.addConstraints(addViewController.view.constraints)
-//        let window = UIApplication.shared.keyWindow!
-//        let frame:CGRect = callOutLayer.bounds
-//        let testView = SummaryView(frame: frame)
-//        view.addSubview(testView)
-
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(removeSubview))
-//        receiptView.addGestureRecognizer(tapGesture)
-        
-//        let test = Bundle.main.loadNibNamed("SummaryView", owner: self, options: nil)?.first as! UIView
-//        test.frame = callOutLayer.bounds
-//        callOutLayer.addSubview(test)
     }
     
     func handleError(error: Error?) -> Void {
@@ -1148,10 +1123,27 @@ extension MainViewController: MainViewDelegate {
     }
     
     func selectCharger(chargerId: String) {
+//        let frame:CGRect = callOutLayer.bounds
+//        self.summaryView = SummaryView(frame: frame)
+//
+//        if let summary = summaryView {
+//            summary.tag = self.summaryViewTag
+//            view.addSubview(summary)
+            
+//            summary.translatesAutoresizingMaskIntoConstraints = false
+//            view.addConstraint(NSLayoutConstraint(item: summary, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: 0))
+//            view.addConstraint(NSLayoutConstraint(item: summary, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 0))
+//            view.addConstraint(NSLayoutConstraint(item: summary, attribute: .top, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0))
+            
+//            print("csj_", "summary != nil")
+//        }else{
+//            print("csj_", "summary == nil")
+//        }
         
-        let frame:CGRect = callOutLayer.bounds
-        let testView = SummaryView(frame: frame)
-        view.addSubview(testView)
+//        view.addConstraint(NSLayoutConstraint(item: summaryView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: 0))
+//        view.addConstraint(NSLayoutConstraint(item: summaryView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 0))
+//        view.addConstraint(NSLayoutConstraint(item: summaryView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0))
+
         
         myLocationModeOff()
         
@@ -1794,3 +1786,15 @@ extension MainViewController {
         }
     }
 }
+
+// Favorite
+//    @IBAction func onClickMainFavorite(_ sender: UIButton) {
+//        if MemberManager().isLogin() {
+//            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
+//            let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
+//            favoriteVC.delegate = self
+//            self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
+//        } else {
+//            MemberManager().showLoginAlert(vc:self)
+//        }
+//    }
