@@ -21,10 +21,18 @@ class CidInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var dcDemo: UIImageView!
     @IBOutlet weak var acSam: UIImageView!
     @IBOutlet weak var slow: UIImageView!
+    // 타입 lb
+    @IBOutlet var dcComboLb: UILabel!
+    @IBOutlet var dcDemoLb: UILabel!
+    @IBOutlet var acSamLb: UILabel!
+    @IBOutlet var slowLb: UILabel!
+    
     // 날짜 lb
     @IBOutlet weak var dateKind: UILabel!
     // 경과 날짜
     @IBOutlet weak var lastDate: UILabel!
+    
+    // TODO :: Ui DC콤보, 데모, 3상, 완속 순!! (3상과 완속 순서가 바뀜)
     
     let imgDcCombo = "ic_charger_dc_combo_md"  // type_dc_combo
     let imgDcDemo = "ic_charger_dc_demo_md"  // type_dc_demo
@@ -62,6 +70,7 @@ class CidInfoTableViewCell: UITableViewCell {
     }
     
     public func setChargerTypeImage(type:Int) {
+        // reset img, lb
         self.dcCombo.image = UIImage(named: imgDcCombo)
         self.dcDemo.image = UIImage(named: imgDcDemo)
         self.slow.image = UIImage(named: imgAcSlow)
@@ -71,12 +80,26 @@ class CidInfoTableViewCell: UITableViewCell {
         self.dcDemo.tintColor = UIColor.init(named: tertiary)
         self.slow.tintColor = UIColor.init(named: tertiary)
         self.acSam.tintColor = UIColor.init(named: tertiary)
+        
+        self.dcComboLb.textColor = UIColor.init(named: tertiary)
+        self.dcDemoLb.textColor = UIColor.init(named: tertiary)
+        self.slowLb.textColor = UIColor.init(named: tertiary)
+        self.acSamLb.textColor = UIColor.init(named: tertiary)
+        
+        self.dcDemoLb.text = "DC데모"
+        self.acSamLb.text = "AC 3상"
+        
         switch (type) {
         case Const.CHARGER_TYPE_DCDEMO:
             self.dcCombo.tintColor = UIColor.init(named: tertiary)
             self.dcDemo.tintColor = UIColor.init(named: positive)
             self.slow.tintColor = UIColor.init(named: tertiary)
             self.acSam.tintColor = UIColor.init(named: tertiary)
+            
+            self.dcComboLb.textColor = UIColor.init(named: tertiary)
+            self.dcDemoLb.textColor = UIColor.init(named: positive)
+            self.slowLb.textColor = UIColor.init(named: tertiary)
+            self.acSamLb.textColor = UIColor.init(named: tertiary)
 //            self.dcCombo.image = UIImage(named: imgDcComboDim)
 //            self.dcDemo.image = UIImage(named: imgDcDemo)
 //            self.acSam.image = UIImage(named: imgAcThreeDim)
@@ -88,6 +111,11 @@ class CidInfoTableViewCell: UITableViewCell {
             self.dcDemo.tintColor = UIColor.init(named: tertiary)
             self.slow.tintColor = UIColor.init(named: tertiary)
             self.acSam.tintColor = UIColor.init(named: tertiary)
+            
+            self.dcComboLb.textColor = UIColor.init(named: positive)
+            self.dcDemoLb.textColor = UIColor.init(named: tertiary)
+            self.slowLb.textColor = UIColor.init(named: tertiary)
+            self.acSamLb.textColor = UIColor.init(named: tertiary)
             
 //            self.dcCombo.image = UIImage(named: imgDcCombo)
 //            self.dcDemo.image = UIImage(named: imgDcDemoDim)
@@ -101,6 +129,11 @@ class CidInfoTableViewCell: UITableViewCell {
             self.slow.tintColor = UIColor.init(named: tertiary)
             self.acSam.tintColor = UIColor.init(named: positive)
             
+            self.dcComboLb.textColor = UIColor.init(named: tertiary)
+            self.dcDemoLb.textColor = UIColor.init(named: positive)
+            self.slowLb.textColor = UIColor.init(named: tertiary)
+            self.acSamLb.textColor = UIColor.init(named: positive)
+            
 //            self.dcCombo.image = UIImage(named: imgDcComboDim)
 //            self.dcDemo.image = UIImage(named: imgDcDemo)
 //            self.acSam.image = UIImage(named: imgAcThree)
@@ -112,6 +145,11 @@ class CidInfoTableViewCell: UITableViewCell {
             self.dcDemo.tintColor = UIColor.init(named: tertiary)
             self.slow.tintColor = UIColor.init(named: positive)
             self.acSam.tintColor = UIColor.init(named: tertiary)
+            
+            self.dcComboLb.textColor = UIColor.init(named: tertiary)
+            self.dcDemoLb.textColor = UIColor.init(named: tertiary)
+            self.slowLb.textColor = UIColor.init(named: positive)
+            self.acSamLb.textColor = UIColor.init(named: tertiary)
             
 //            self.dcCombo.image = UIImage(named: imgDcComboDim)
 //            self.dcDemo.image = UIImage(named: imgDcDemoDim)
@@ -125,6 +163,11 @@ class CidInfoTableViewCell: UITableViewCell {
             self.slow.tintColor = UIColor.init(named: tertiary)
             self.acSam.tintColor = UIColor.init(named: tertiary)
             
+            self.dcComboLb.textColor = UIColor.init(named: positive)
+            self.dcDemoLb.textColor = UIColor.init(named: positive)
+            self.slowLb.textColor = UIColor.init(named: tertiary)
+            self.acSamLb.textColor = UIColor.init(named: tertiary)
+            
 //            self.dcCombo.image = UIImage(named: imgDcCombo)
 //            self.dcDemo.image = UIImage(named: imgDcDemo)
 //            self.acSam.image = UIImage(named: imgAcThreeDim)
@@ -136,6 +179,11 @@ class CidInfoTableViewCell: UITableViewCell {
             self.dcDemo.tintColor = UIColor.init(named: positive)
             self.slow.tintColor = UIColor.init(named: tertiary)
             self.acSam.tintColor = UIColor.init(named: positive)
+            
+            self.dcComboLb.textColor = UIColor.init(named: positive)
+            self.dcDemoLb.textColor = UIColor.init(named: positive)
+            self.slowLb.textColor = UIColor.init(named: tertiary)
+            self.acSamLb.textColor = UIColor.init(named: positive)
             
 //            self.dcCombo.image = UIImage(named: imgDcCombo)
 //            self.dcDemo.image = UIImage(named: imgDcDemo)
@@ -149,6 +197,11 @@ class CidInfoTableViewCell: UITableViewCell {
             self.slow.tintColor = UIColor.init(named: positive)
             self.acSam.tintColor = UIColor.init(named: tertiary)
             
+            self.dcComboLb.textColor = UIColor.init(named: tertiary)
+            self.dcDemoLb.textColor = UIColor.init(named: tertiary)
+            self.slowLb.textColor = UIColor.init(named: positive)
+            self.acSamLb.textColor = UIColor.init(named: tertiary)
+            
 //            self.dcCombo.image = UIImage(named: imgDcComboDim)
 //            self.dcDemo.image = UIImage(named: imgDcDemoDim)
 //            self.acSam.image = UIImage(named: imgAcThreeDim)
@@ -160,6 +213,11 @@ class CidInfoTableViewCell: UITableViewCell {
             self.dcDemo.image = nil
             self.slow.image = nil
             self.acSam.image = nil
+            
+            self.dcComboLb.textColor = UIColor.clear
+            self.dcDemoLb.textColor = UIColor.clear
+            self.slowLb.textColor = UIColor.clear
+            self.acSamLb.textColor = UIColor.clear
 //            self.dcCombo.image = UIImage(named: imgDcComboDim)
 //            self.dcDemo.image = UIImage(named: imgDcDemoDim)
 //            self.acSam.image = UIImage(named: imgAcThreeDim)
@@ -174,6 +232,15 @@ class CidInfoTableViewCell: UITableViewCell {
             
             self.dcDemo.tintColor = UIColor.init(named: positive)
             self.acSam.tintColor = UIColor.init(named: tertiary)
+            
+            self.dcComboLb.textColor = UIColor.clear
+            self.slowLb.textColor = UIColor.clear
+            
+            self.dcDemoLb.textColor = UIColor.init(named: positive)
+            self.acSamLb.textColor = UIColor.init(named: tertiary)
+            
+            self.dcDemoLb.text = "수퍼차저"
+            self.acSamLb.text = "데스티네이션"
 //            self.dcDemo.image = UIImage(named: imgSuper)
 //            self.slow.image = UIImage(named: imgDestinationDim)
             break;
@@ -186,6 +253,17 @@ class CidInfoTableViewCell: UITableViewCell {
             
             self.dcDemo.tintColor = UIColor.init(named: tertiary)
             self.acSam.tintColor = UIColor.init(named: positive)
+            
+            self.dcComboLb.textColor = UIColor.clear
+            self.slowLb.textColor = UIColor.clear
+            
+            self.dcDemoLb.textColor = UIColor.init(named: tertiary)
+            self.acSamLb.textColor = UIColor.init(named: positive)
+            
+            self.dcDemoLb.text = "수퍼차저"
+            self.acSamLb.text = "데스티네이션"
+            
+            
 //            self.dcDemo.image = UIImage(named: imgSuperDim)
 //            self.slow.image = UIImage(named: imgDestination)
             break;
