@@ -48,7 +48,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     // 충전기 정보(list)
     @IBOutlet weak var boardTableView: BoardTableView!
     @IBOutlet weak var cidTableView: CidTableView!
-    @IBOutlet weak var CidTableHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var cidTableHeightConstraint: NSLayoutConstraint!
  
     var mainViewDelegate: MainViewDelegate?
     var charger: ChargerStationInfo?
@@ -180,7 +180,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 //    }
 //    
     func stationArea(stationDto:StationInfoDto) {
-        let roof = String(stationDto.mRoof ?? "확인중")
+        let roof = String(stationDto.mRoof ?? "N")
         let area:String!
         var color:String! = "content-primary"
         switch roof {
@@ -194,11 +194,11 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             area = "캐노피"
             break
         case "N": // Checking
-            area = "확인중"
+            area = "등록된 정보가 없습니다."
             color = "content-tertiary"
             break
         default:
-            area = "확인중"
+            area = "등록된 정보가 없습니다."
             color = "content-tertiary"
             break
         }
@@ -295,28 +295,42 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     func setStationInfo(json: JSON) {
         // 운영기관
-        if !json["op"].stringValue.isEmpty {
-            self.companyLabel.text = json["op"].stringValue
+        let stationOperator = json["op"].stringValue
+        if !stationOperator.isEmpty {
+            if stationOperator.equalsIgnoreCase(compare: "") || stationOperator.equalsIgnoreCase(compare: "null"){
+                self.companyLabel.text = "기타"
+            }else{
+                self.companyLabel.text = json["op"].stringValue
+            }
         } else {
-            self.companyView.isHidden = true
+            self.companyLabel.text = "기타"
         }
         
         // 이용시간
-        if json["ut"].stringValue.isEmpty {
-            self.timeLabel.text = "-"
+        let time = json["ut"].stringValue
+        self.timeLabel.textColor = UIColor.init(named: "content-primary")
+        if !time.isEmpty {
+            if time.equalsIgnoreCase(compare: "") || time.equalsIgnoreCase(compare: "null"){
+                self.timeLabel.text = "등록된 정보가 없습니다."
+                self.timeLabel.textColor = UIColor.init(named: "content-tertiary")
+            }else{
+                self.timeLabel.text = json["ut"].stringValue
+            }
         } else {
-            self.timeLabel.text = json["ut"].stringValue
+            self.timeLabel.text = "등록된 정보가 없습니다."
+            self.timeLabel.textColor = UIColor.init(named: "content-tertiary")
         }
         
         // 메모
         let memo = json["mm"].stringValue
         if !memo.isEmpty {
-            if memo.equals("") {
+            if memo.equals("") || memo.equals("null"){
                 self.memoView.isHidden = true
 //                detailViewResize(view: self.memoView)
             } else {
                 self.memoLabel.text = memo
                 self.memoView.visible()
+                self.memoView.isHidden = false
             }
         } else {
             self.memoView.isHidden = true
@@ -324,14 +338,22 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
         
         // 센터 전화번호
-        if !json["tel"].stringValue.isEmpty {
-            self.phoneNumber = json["tel"].stringValue
-            self.callLb.text = self.phoneNumber
-            let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.tapFunction))
-            self.callLb.isUserInteractionEnabled = true
-            self.callLb.addGestureRecognizer(tap)
+        let call = json["tel"].stringValue
+        self.callLb.textColor = UIColor.init(named: "content-primary")
+        if !call.isEmpty {
+            if call.equalsIgnoreCase(compare: "") || call.equalsIgnoreCase(compare: "null"){
+                self.callLb.textColor = UIColor.init(named: "content-tertiary")
+                self.callLb.text = "등록된 정보가 없습니다."
+            }else{
+                self.phoneNumber = json["tel"].stringValue
+                self.callLb.text = self.phoneNumber
+                let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.tapFunction))
+                self.callLb.isUserInteractionEnabled = true
+                self.callLb.addGestureRecognizer(tap)
+            }
         } else {
-            self.callLb.text = "등록된 전화번호가 없습니다."
+            self.callLb.text = "등록된 정보가 없습니다."
+            self.callLb.textColor = UIColor.init(named: "content-tertiary")
         }
         
         // 충전기 정보
@@ -378,7 +400,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         
         // set the height constraint accordingly
         UIView.animate(withDuration: 0.25, animations: {
-            self.CidTableHeightConstraint.constant = contentHeight;
+            self.cidTableHeightConstraint.constant = contentHeight;
             self.view.needsUpdateConstraints()
             self.boardTableView.reloadData()
         }, completion: nil)
@@ -447,23 +469,24 @@ extension DetailViewController {
 extension DetailViewController: BoardTableViewDelegate {
     
     fileprivate func prepareBoardTableView() {
-        // UITableView cell 높이를 자동으로 설정
-        self.boardTableView.tableViewDelegate = self
         self.cidTableView.rowHeight = UITableViewAutomaticDimension
 //        self.cidTableView.estimatedRowHeight = 50
 //        self.cidTableView.estimatedRowHeight = CidTableView.Constants.cellHeight
         self.cidTableView.separatorStyle = .none
         
+        // UITableView cell 높이를 자동으로 설정
+        self.boardTableView.tableViewDelegate = self
         self.boardTableView.rowHeight = UITableViewAutomaticDimension
         self.boardTableView.estimatedRowHeight = UITableViewAutomaticDimension
+//        self.boardTableView.estimatedRowHeight = UITableViewAutomaticDimension
         self.boardTableView.separatorStyle = .none
         
         self.boardTableView.allowsSelection = false
         
         // Table header 추가
 //        self.boardTableView.tableHeaderView = detailView
-        self.boardTableView.sectionHeaderHeight = UITableViewAutomaticDimension;
-        self.boardTableView.estimatedSectionHeaderHeight = 25;
+        self.boardTableView.sectionHeaderHeight = UITableViewAutomaticDimension // UITableViewAutomaticDimension
+        self.boardTableView.estimatedSectionHeaderHeight = 25  // 25
     }
     
     func getFirstBoardData() {
