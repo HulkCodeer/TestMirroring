@@ -63,8 +63,6 @@ class SummaryView: UIView {
     
     private func summeryinit() {
         let view = Bundle.main.loadNibNamed("SummaryView", owner: self, options: nil)?.first as! UIView
-        print("csj_", "bouns.width : ", bounds.width)
-        print("csj_", "view.width : ", view.frame.width)
         view.frame = bounds
         addSubview(view)
         

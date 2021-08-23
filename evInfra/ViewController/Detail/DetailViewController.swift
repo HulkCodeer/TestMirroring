@@ -28,7 +28,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 //    @IBOutlet var powerView: UILabel!
     // 충전속도(view)
     
-    @IBOutlet var summary: UIView!
+    @IBOutlet var summaryLayout: UIView!
     @IBOutlet weak var companyLabel: UILabel!           // 운영기관(이름)
                     
     @IBOutlet var companyView: UIStackView!             // 운영기관(view)
@@ -84,8 +84,12 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         prepareActionBar()
         prepareBoardTableView()
         preparePagingView()
-        prepareSummaryView()
+//        prepareSummaryView()
         getChargerInfo()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        prepareSummaryView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -121,11 +125,13 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     func prepareSummaryView() {
+        let window = UIApplication.shared.keyWindow!
+        var frameTest:CGRect = summaryLayout.frame
+        frameTest.size.width = window.frame.bounds.width
         if summaryView == nil {
-            summaryView = SummaryView(frame: summary.frame.bounds)
+            summaryView = SummaryView(frame: frameTest)
         }
-        summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        summary.addSubview(summaryView)
+        summaryLayout.addSubview(summaryView)
     }
     
     func getChargerInfo() {

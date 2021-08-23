@@ -139,7 +139,6 @@ class MainViewController: UIViewController {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-        prepareSummaryView()
         requestStationInfo()
     }
     
@@ -448,9 +447,6 @@ class MainViewController: UIViewController {
         btnChargePrice.addGestureRecognizer(gesture)
     }
     
-    func prepareSummaryView() {
-        
-    }
     
     func handleError(error: Error?) -> Void {
         if let error = error as NSError? {
@@ -1114,7 +1110,6 @@ extension MainViewController: MainViewDelegate {
     }
     
     @objc func onClickCalloutLayer(_ sender:UITapGestureRecognizer) {
-        print("csj", "onClickCalloutLayer")
         let detailStoryboard = UIStoryboard(name : "Detail", bundle: nil)
         let detailVC:DetailViewController = detailStoryboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         detailVC.mainViewDelegate = self

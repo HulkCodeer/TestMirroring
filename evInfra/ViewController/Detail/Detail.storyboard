@@ -423,7 +423,7 @@
                         <outlet property="memoView" destination="yB0-LP-rMf" id="c17-UY-U5h"/>
                         <outlet property="moveMapBtn" destination="bZ6-Ho-ihq" id="C2u-oo-NOl"/>
                         <outlet property="reportBtn" destination="lGx-E6-8Nf" id="3UP-TH-7gI"/>
-                        <outlet property="summary" destination="iTG-td-6lJ" id="C3D-5L-VXK"/>
+                        <outlet property="summaryLayout" destination="iTG-td-6lJ" id="bHS-Tz-dcX"/>
                         <outlet property="timeLabel" destination="ftP-Oz-oN7" id="SWR-Xl-iLg"/>
                     </connections>
                 </viewController>
