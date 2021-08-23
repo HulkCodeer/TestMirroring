@@ -11,8 +11,9 @@ import Foundation
 class FilterCompanyView: UIView {
     @IBOutlet var switchAll: UISwitch!
     @IBOutlet var topView: UIView!
-    @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet var collectionView: DynamicCollectionView!
     
+    @IBOutlet var tagViewHeight: NSLayoutConstraint!
     var tagList = Array<TagValue>()
     var companyList = Array<CompanyInfoDto>()
     
@@ -36,7 +37,7 @@ class FilterCompanyView: UIView {
     }
     
     func getHeightSize() -> CGFloat {
-        return topView.layer.height + collectionView.layer.height + 8
+        return topView.layer.height + collectionView.layer.height + 16
     }
     
     func prepareTagList() {
@@ -145,5 +146,18 @@ extension FilterCompanyView : DelegateTagListViewCell{
         // tag selected
         tagList[index].selected = value
         updateSwitch()
+    }
+}
+class DynamicCollectionView: UICollectionView {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if bounds.size != intrinsicContentSize {
+            invalidateIntrinsicContentSize()
+        }
+        bounds.size = intrinsicContentSize
+    }
+
+    override var intrinsicContentSize: CGSize {
+        return self.contentSize
     }
 }

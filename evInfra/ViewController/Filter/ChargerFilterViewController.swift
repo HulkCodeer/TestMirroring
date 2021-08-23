@@ -32,10 +32,10 @@ class ChargerFilterViewController: UIViewController {
         super.viewDidLoad()
         prepareActionBar()
         initView()
-    
     }
     
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         companyViewHeight.constant = CGFloat(companyFilter.getHeightSize())
     }
     

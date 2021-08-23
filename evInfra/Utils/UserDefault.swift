@@ -24,6 +24,7 @@ class UserDefault {
         static let MEMBER_ID        = "member_id"
         
         static let COMPANY_ICON_UPDATE_DATE = "company_icon_update_date"
+        static let COMPANY_ICON_IMAGE_PATH_VERSION = "company_icon_image_path_version"
         
         // 회원 정보
         static let MB_ID            = "mb_id"       // 회원 id

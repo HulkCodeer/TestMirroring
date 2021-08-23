@@ -11,66 +11,91 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FilterCompanyView" customModule="evInfra" customModuleProvider="target">
             <connections>
-                <outlet property="collectionView" destination="4io-4T-m3I" id="Hgq-tt-bsG"/>
+                <outlet property="collectionView" destination="4io-4T-m3I" id="QMs-Uc-4MS"/>
                 <outlet property="switchAll" destination="V2b-uc-mkK" id="vgA-Vm-0sR"/>
+                <outlet property="tagViewHeight" destination="Yps-xW-l02" id="WHb-90-pyl"/>
                 <outlet property="topView" destination="mqe-GW-FqV" id="viR-br-Hf4"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="814"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="860"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="UYz-gY-qGg">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="814"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UYz-gY-qGg">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="860"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mqe-GW-FqV">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="96.5"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="174"/>
                             <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EV Infra 회원카드 필터 적용하기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uzp-mK-Ah3">
+                                    <rect key="frame" x="16" y="10" width="186" height="17"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                    <color key="textColor" name="content-primary"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="차량에 맞는 충전기로 자동 설정됩니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xKL-BB-SZw">
+                                    <rect key="frame" x="16" y="31" width="213" height="17"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" name="content-tertiary"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="충전사업자" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6kW-Zv-eyX">
-                                    <rect key="frame" x="16" y="10" width="69.5" height="19.5"/>
+                                    <rect key="frame" x="16" y="96" width="69.5" height="19.5"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전 사업자 선택 시, 지도에 해당하는 충전 사업자만 노출됩니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QL0-0B-caU">
-                                    <rect key="frame" x="16" y="37.5" width="304.5" height="15"/>
+                                    <rect key="frame" x="16" y="123.5" width="304.5" height="15"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" name="content-tertiary"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전체" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3IQ-sz-Wbc">
-                                    <rect key="frame" x="311.5" y="60.5" width="29.5" height="31"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <rect key="frame" x="316.5" y="146.5" width="24.5" height="31"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V2b-uc-mkK">
-                                    <rect key="frame" x="349" y="60.5" width="51" height="31"/>
+                                    <rect key="frame" x="349" y="146.5" width="51" height="31"/>
                                     <color key="onTintColor" name="content-positive"/>
                                     <connections>
                                         <action selector="onSwitchValueChanged:" destination="-1" eventType="valueChanged" id="sKw-XV-01U"/>
                                     </connections>
                                 </switch>
+                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Rj-vA-xnZ">
+                                    <rect key="frame" x="349" y="10" width="51" height="31"/>
+                                    <color key="onTintColor" name="content-positive"/>
+                                </switch>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
+                                <constraint firstItem="xKL-BB-SZw" firstAttribute="leading" secondItem="mqe-GW-FqV" secondAttribute="leading" constant="16" id="0BY-Hu-Z99"/>
                                 <constraint firstItem="QL0-0B-caU" firstAttribute="top" secondItem="6kW-Zv-eyX" secondAttribute="bottom" constant="8" id="0Ed-SK-sT0"/>
                                 <constraint firstItem="3IQ-sz-Wbc" firstAttribute="top" secondItem="QL0-0B-caU" secondAttribute="bottom" constant="8" id="0y2-0B-28g"/>
+                                <constraint firstItem="6kW-Zv-eyX" firstAttribute="top" secondItem="xKL-BB-SZw" secondAttribute="bottom" constant="48" id="2w0-gm-tAl"/>
+                                <constraint firstItem="uzp-mK-Ah3" firstAttribute="top" secondItem="mqe-GW-FqV" secondAttribute="top" constant="10" id="Do7-wD-kRe"/>
                                 <constraint firstItem="3IQ-sz-Wbc" firstAttribute="centerY" secondItem="V2b-uc-mkK" secondAttribute="centerY" id="JBU-N0-0gi"/>
+                                <constraint firstItem="uzp-mK-Ah3" firstAttribute="leading" secondItem="mqe-GW-FqV" secondAttribute="leading" constant="16" id="LWR-mi-tK1"/>
                                 <constraint firstItem="V2b-uc-mkK" firstAttribute="leading" secondItem="3IQ-sz-Wbc" secondAttribute="trailing" constant="8" id="O2B-jP-dof"/>
                                 <constraint firstAttribute="trailing" secondItem="V2b-uc-mkK" secondAttribute="trailing" constant="16" id="ODH-gj-tPM"/>
-                                <constraint firstItem="6kW-Zv-eyX" firstAttribute="top" secondItem="mqe-GW-FqV" secondAttribute="top" constant="10" id="UBb-Lu-1ei"/>
+                                <constraint firstAttribute="height" constant="174" id="RCn-gr-1fk"/>
+                                <constraint firstItem="1Rj-vA-xnZ" firstAttribute="top" secondItem="mqe-GW-FqV" secondAttribute="top" constant="10" id="Xk8-Ht-FuX"/>
+                                <constraint firstItem="xKL-BB-SZw" firstAttribute="top" secondItem="uzp-mK-Ah3" secondAttribute="bottom" constant="4" id="eGV-El-Nia"/>
                                 <constraint firstItem="QL0-0B-caU" firstAttribute="leading" secondItem="mqe-GW-FqV" secondAttribute="leading" constant="16" id="fcx-qI-oga"/>
+                                <constraint firstAttribute="trailing" secondItem="1Rj-vA-xnZ" secondAttribute="trailing" constant="16" id="udS-nR-bU4"/>
                                 <constraint firstItem="6kW-Zv-eyX" firstAttribute="leading" secondItem="mqe-GW-FqV" secondAttribute="leading" constant="16" id="yUQ-bd-YiG"/>
                                 <constraint firstItem="V2b-uc-mkK" firstAttribute="top" secondItem="QL0-0B-caU" secondAttribute="bottom" constant="8" id="zNi-zC-ebA"/>
                             </constraints>
                         </view>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="4io-4T-m3I">
-                            <rect key="frame" x="16" y="112.5" width="382" height="693.5"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="4io-4T-m3I" customClass="DynamicCollectionView" customModule="evInfra" customModuleProvider="target">
+                            <rect key="frame" x="16" y="517" width="382" height="0.0"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="670" id="Yps-xW-l02"/>
+                            </constraints>
                             <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="chB-7q-eMs">
                                 <size key="itemSize" width="128" height="128"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -87,7 +112,7 @@
                         <constraint firstItem="mqe-GW-FqV" firstAttribute="top" secondItem="UYz-gY-qGg" secondAttribute="top" id="R50-Ad-reE"/>
                         <constraint firstItem="4io-4T-m3I" firstAttribute="leading" secondItem="UYz-gY-qGg" secondAttribute="leading" constant="16" id="V0j-UC-s4c"/>
                         <constraint firstAttribute="bottom" secondItem="4io-4T-m3I" secondAttribute="bottom" constant="8" id="iey-4f-7NY"/>
-                        <constraint firstItem="4io-4T-m3I" firstAttribute="top" secondItem="mqe-GW-FqV" secondAttribute="bottom" constant="16" id="rtD-er-PSy"/>
+                        <constraint firstItem="4io-4T-m3I" firstAttribute="top" secondItem="mqe-GW-FqV" secondAttribute="bottom" constant="8" id="rtD-er-PSy"/>
                         <constraint firstAttribute="trailing" secondItem="mqe-GW-FqV" secondAttribute="trailing" id="sX0-zT-854"/>
                     </constraints>
                 </view>
@@ -100,12 +125,20 @@
                 <constraint firstItem="UYz-gY-qGg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VfW-3U-7Pg"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-81.599999999999994" y="80.959520239880064"/>
+            <point key="canvasLocation" x="-81.599999999999994" y="101.64917541229386"/>
         </view>
     </objects>
+    <designables>
+        <designable name="4io-4T-m3I">
+            <size key="intrinsicContentSize" width="382" height="0.0"/>
+        </designable>
+    </designables>
     <resources>
         <namedColor name="content-positive">
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="content-primary">
+            <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-tertiary">
             <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

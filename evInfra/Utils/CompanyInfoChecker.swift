@@ -18,6 +18,11 @@ class CompanyInfoChecker {
     
     init(delegate: CompanyInfoCheckerDelegate) {
         self.companyInfoCheckerDelegate = delegate
+        let pathVersion = UserDefault().readInt(key: UserDefault.Key.COMPANY_ICON_IMAGE_PATH_VERSION)
+        if (pathVersion == 0) {
+            UserDefault().saveString(key: UserDefault.Key.COMPANY_ICON_UPDATE_DATE, value: "")
+            UserDefault().saveInt(key: UserDefault.Key.COMPANY_ICON_IMAGE_PATH_VERSION, value: 1)
+        }
     }
     
     func checkCompanyInfo() {
