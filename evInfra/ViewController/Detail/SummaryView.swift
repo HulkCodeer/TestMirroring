@@ -94,6 +94,12 @@ class SummaryView: UIView {
         }
     }
     
+    // share
+    @IBAction func onClickShare(_ sender: Any) {
+        detailViewDelegate?.onShare()
+    }
+    
+    
     // Favorite
     @IBAction func onClickFavorite(_ sender: UIButton) {
         detailViewDelegate?.onFavorite()

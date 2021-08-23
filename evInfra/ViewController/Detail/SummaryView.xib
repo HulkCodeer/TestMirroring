@@ -73,6 +73,9 @@
                                             <state key="normal" title="Button" image="icon_share_md">
                                                 <color key="titleColor" name="content-primary"/>
                                             </state>
+                                            <connections>
+                                                <action selector="onClickShare:" destination="-1" eventType="touchUpInside" id="OW8-XH-a3O"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <color key="tintColor" name="content-primary"/>
