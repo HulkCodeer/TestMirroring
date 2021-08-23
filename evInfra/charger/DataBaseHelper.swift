@@ -38,8 +38,17 @@ class DataBaseHelper {
         return mDbQueue
     }
     
-    static func importDatabase() -> Bool {
-        
+    static func existDB() -> Bool {
+        if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let dbPath = documentsURL.appendingPathComponent(DATABASE_NAME).path
+            if (!FileManager.default.fileExists(atPath: dbPath)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    static func isNeedImport() -> Bool {
         var isUpdate = false
         
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
@@ -56,33 +65,30 @@ class DataBaseHelper {
                 }
             }
         }
-
-        if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let dbPath = documentsURL.appendingPathComponent(DATABASE_NAME).path
-            if (!FileManager.default.fileExists(atPath: dbPath) || isUpdate) {
-                do {
-                    if let assetDbPath = Bundle.main.path(forResource: DataBaseHelper.DATABASE_NAME, ofType: "") {
-                        
-                        // for replace
-                        if (FileManager.default.fileExists(atPath: dbPath)){
-                            try FileManager.default.removeItem(atPath: dbPath)
-                        }
-                        
-                        try FileManager.default.copyItem(atPath: assetDbPath, toPath: dbPath)
-                        UserDefault().saveString(key: UserDefault.Key.KEY_APP_VERSION, value: version!)
-                        return true
-                    } else {
-                        print("Unable no")
-                        return false
+        return isUpdate
+    }
+    
+    static func importDatabase() -> Bool {
+        do {
+            if let assetDbPath = Bundle.main.path(forResource: DataBaseHelper.DATABASE_NAME, ofType: "") {
+                if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                    let dbPath = documentsURL.appendingPathComponent(DATABASE_NAME).path
+                    // for replace
+                    if (FileManager.default.fileExists(atPath: dbPath)){
+                        try FileManager.default.removeItem(atPath: dbPath)
                     }
-                } catch {
-                    print("Unable ex: \(error)")
-                    return false
+                    
+                    try FileManager.default.copyItem(atPath: assetDbPath, toPath: dbPath)
+                    
+                    let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+                    UserDefault().saveString(key: UserDefault.Key.KEY_APP_VERSION, value: version!)
+                    return true
                 }
-
-            }else{
-                return true
+            } else {
+                print("Unable no")
             }
+        } catch {
+            print("Unable ex: \(error)")
         }
         return false
     }

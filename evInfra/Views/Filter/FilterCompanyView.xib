@@ -91,7 +91,7 @@
                             </constraints>
                         </view>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="4io-4T-m3I" customClass="DynamicCollectionView" customModule="evInfra" customModuleProvider="target">
-                            <rect key="frame" x="16" y="517" width="382" height="0.0"/>
+                            <rect key="frame" x="16" y="182" width="382" height="670"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="670" id="Yps-xW-l02"/>

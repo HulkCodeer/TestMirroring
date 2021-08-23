@@ -18,18 +18,39 @@ class ChargerManager {
     private var mIsReady: Bool = false
 
     private var mChargerStationInfoList = [ChargerStationInfo]()
-
+    
     public init() {
         if Const.EV_PAY_SERVER.contains("https") == false {
             DataBaseHelper.DATABASE_NAME = DataBaseHelper.DEV_DATABASE_NAME
         }
     
-        if DataBaseHelper.importDatabase() {
-            Log.d(tag: Const.TAG, msg: "im success")
-        } else {
-            Log.d(tag: Const.TAG, msg: "im fail")
+        if !DataBaseHelper.existDB() { // create DB
+            if DataBaseHelper.importDatabase() {
+                Log.d(tag: Const.TAG, msg: "im success")
+            } else {
+                Log.d(tag: Const.TAG, msg: "im fail")
+            }
+            mDb = DataBaseHelper.sharedInstance
+        } else if DataBaseHelper.isNeedImport() { // exist & version update DB
+            mDb = DataBaseHelper.sharedInstance
+            let backUpCompanyList = getCompanyInfoListAll()!
+            if DataBaseHelper.importDatabase() {
+                Log.d(tag: Const.TAG, msg: "im success")
+                mDb = DataBaseHelper.init() // recreate db instance
+                for company in backUpCompanyList {
+                    if let compId = company.company_id {
+                        if let companyInfo = try! mDb!.getCompanyInfo(company_id: compId) {
+                            companyInfo.is_visible = company.is_visible
+                            try! mDb?.updateCompanyInfo(companyInfo: companyInfo)
+                        }
+                    }
+                }
+            } else {
+                Log.d(tag: Const.TAG, msg: "im fail")
+            }
+        } else { // not import DB
+            mDb = DataBaseHelper.sharedInstance
         }
-        mDb = DataBaseHelper.sharedInstance
     }
     
     public func isReady() -> Bool {
