@@ -15,8 +15,10 @@ import JJFloatingActionButton
 class DetailViewController: UIViewController, MTMapViewDelegate {
 
 //    @IBOutlet weak var vieagerContainer: UIView!
+    
 
-//
+    @IBOutlet var detailView: UIView!
+    //
 //    @IBOutlet var summary: UIView!
     //    @IBOutlet var chargerStatusImg: UIImageView!        // 충전기 상태(이미지)
 //    @IBOutlet var callOutStatus: UILabel!               // 충전기 상태
@@ -88,9 +90,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         getChargerInfo()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        prepareSummaryView()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        prepareSummaryView()
+//    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -98,9 +100,12 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     override func viewWillLayoutSubviews() {
-        // btn border
-// self.reportBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(he
+        prepareSummaryView()
     }
+    
+//    override func viewDidLayoutSubviews() {
+//        prepareSummaryView()
+//    }
     
     
     @objc func mapViewTap(gesture : UIPanGestureRecognizer!) {
@@ -345,7 +350,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         if !memo.isEmpty {
             if memo.equals("") || memo.equals("null"){
                 self.memoView.isHidden = true
-//                detailViewResize(view: self.memoView)
+                detailViewResize(view: self.memoView)
             } else {
                 self.memoLabel.text = memo
                 self.memoView.visible()
@@ -353,7 +358,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             }
         } else {
             self.memoView.isHidden = true
-//            detailViewResize(view: self.memoView)
+            detailViewResize(view: self.memoView)
         }
         
         // 센터 전화번호
@@ -404,18 +409,18 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     // DetailView reSize
-//    func detailViewResize(view:UIView) {
-//        self.detailView.frame.size = CGSize(width: self.detailView.frame.size.width, height: self.detailView.frame.size.height-view.frame.size.height)
-//    }
+    func detailViewResize(view:UIView) {
+        self.detailView.frame.size = CGSize(width: self.detailView.frame.size.width, height: self.detailView.frame.size.height-view.frame.size.height)
+    }
     
     // MARK: - TableView Height
     
     func adjustHeightOfTableview() {
         let contentHeight = self.cidTableView.contentSize.height
-//        let expectedFrame = CGRect(x: 0, y: 0, width: self.detailView.frame.width, height: self.detailView.frame.height - CidTableView.Constants.cellHeight + contentHeight)
-//        if !self.detailView.frame.equalTo(expectedFrame) {
-//            self.detailView.frame = expectedFrame
-//        }
+        let expectedFrame = CGRect(x: 0, y: 0, width: self.detailView.frame.width, height: self.detailView.frame.height - CidTableView.Constants.cellHeight + contentHeight)
+        if !self.detailView.frame.equalTo(expectedFrame) {
+            self.detailView.frame = expectedFrame
+        }
         
         // set the height constraint accordingly
         UIView.animate(withDuration: 0.25, animations: {
@@ -493,7 +498,7 @@ extension DetailViewController: BoardTableViewDelegate {
 //        self.cidTableView.estimatedRowHeight = CidTableView.Constants.cellHeight
         self.cidTableView.separatorStyle = .none
         
-        // UITableView cell 높이를 자동으로 설정
+        // UITableView cell(게시판) 높이를 자동으로 설정
         self.boardTableView.tableViewDelegate = self
         self.boardTableView.rowHeight = UITableViewAutomaticDimension
         self.boardTableView.estimatedRowHeight = UITableViewAutomaticDimension
@@ -503,7 +508,7 @@ extension DetailViewController: BoardTableViewDelegate {
         self.boardTableView.allowsSelection = false
         
         // Table header 추가
-//        self.boardTableView.tableHeaderView = detailView
+        self.boardTableView.tableHeaderView = detailView
         self.boardTableView.sectionHeaderHeight = UITableViewAutomaticDimension // UITableViewAutomaticDimension
         self.boardTableView.estimatedSectionHeaderHeight = 25  // 25
     }
