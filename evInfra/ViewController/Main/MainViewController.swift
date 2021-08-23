@@ -1158,6 +1158,8 @@ extension MainViewController: MainViewDelegate {
         summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         callOutLayer.addSubview(summaryView)
         
+        summaryView.mainViewDelegate = self
+        
 //        if let summary = summary{
 //            summaryView = SummaryView(frame: callOutLayer.frame.bounds)
 //        }

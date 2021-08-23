@@ -94,12 +94,11 @@ class SummaryView: UIView {
         }
     }
     
+    // [Summary]
     // share
     @IBAction func onClickShare(_ sender: Any) {
         detailViewDelegate?.onShare()
     }
-    
-    
     // Favorite
     @IBAction func onClickFavorite(_ sender: UIButton) {
         detailViewDelegate?.onFavorite()
@@ -113,18 +112,30 @@ class SummaryView: UIView {
     // [Direction]
     // start
     @IBAction func onClickStartPoint(_ sender: Any) {
+        if mainViewDelegate != nil {
+            mainViewDelegate?.setStartPoint()
+        }
         detailViewDelegate?.onStart()
     }
     // end
     @IBAction func onClickEndPoint(_ sender: Any) {
+        if mainViewDelegate != nil {
+            mainViewDelegate?.setEndPoint()
+        }
         detailViewDelegate?.onEnd()
     }
     // add
     @IBAction func onClickAddPoint(_ sender: Any) {
+        if mainViewDelegate != nil {
+            mainViewDelegate?.setStartPath()
+        }
         detailViewDelegate?.onAdd()
     }
     // navigation
     @IBAction func onClickNavi(_ sender: UIButton) {
+        if mainViewDelegate != nil {
+            mainViewDelegate?.setNavigation()
+        }
         detailViewDelegate?.onNavigation()
     }
 }
