@@ -117,7 +117,7 @@ class MainViewController: UIViewController {
     var canIgnoreJejuPush = true
     
     private var summaryViewTag = 10
-    private var summaryView:SummaryView? = nil
+    private var summaryView:SummaryView!
     
     // 지킴이 점겸표 url
     private var checklistUrl: String?
@@ -1130,10 +1130,8 @@ extension MainViewController: MainViewDelegate {
         if summaryView == nil {
             summaryView = SummaryView(frame: callOutLayer.frame.bounds)
         }
-        if let summary = summaryView {
-            summary.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            callOutLayer.addSubview(summary)
-        }
+        summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        callOutLayer.addSubview(summaryView)
         
 //        if let summary = summaryView {
 //            summaryView = SummaryView(frame: callOutLayer.frame.bounds)

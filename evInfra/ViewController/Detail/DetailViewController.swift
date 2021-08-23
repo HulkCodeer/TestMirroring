@@ -25,7 +25,10 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 //    @IBOutlet var powerLb: UILabel!                     // 충전속도
 //    @IBOutlet var priceLb: UILabel!                     // 충전가격
     
-//    @IBOutlet var powerView: UILabel!                   // 충전속도(view)
+//    @IBOutlet var powerView: UILabel!
+    // 충전속도(view)
+    
+    @IBOutlet var summary: UIView!
     @IBOutlet weak var companyLabel: UILabel!           // 운영기관(이름)
                     
     @IBOutlet var companyView: UIStackView!             // 운영기관(view)
@@ -73,13 +76,15 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     var mapView:MTMapView?
     
     var summaryViewTag = 20
-    
+    var summaryView:SummaryView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         prepareActionBar()
         prepareBoardTableView()
         preparePagingView()
+        prepareSummaryView()
         getChargerInfo()
     }
     
@@ -113,6 +118,14 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 
 //        let report = UITapGestureRecognizer(target: self, action: #selector(self.onClickReportChargeBtn))
 //        self.reportBtn.addGestureRecognizer(report)
+    }
+    
+    func prepareSummaryView() {
+        if summaryView == nil {
+            summaryView = SummaryView(frame: summary.frame.bounds)
+        }
+        summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        summary.addSubview(summaryView)
     }
     
     func getChargerInfo() {
