@@ -13,6 +13,8 @@ import M13Checkbox
 import SwiftyJSON
 
 protocol MainViewDelegate {
+    func setFavorite()
+    func setNavigation()
     func redrawCalloutLayer()
     func setStartPath()         // 경로찾기(시작)
     func setStartPoint()        // 경로찾기(출발)
@@ -491,6 +493,33 @@ class MainViewController: UIViewController {
         }
     }
     
+    func bookmark() {
+        if MemberManager().isLogin() {
+            ChargerManager.sharedInstance.setFavoriteCharger(charger: selectCharger!) { (charger) in
+                self.summaryView.setCallOutFavoriteIcon(charger: charger)
+                if charger.mFavorite {
+                    Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
+                } else {
+                    Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
+                }
+            }
+        } else {
+            MemberManager().showLoginAlert(vc: self)
+        }
+    }
+    
+    func showNavigation() {
+        var snm = endField.text ?? ""
+        var lng = routeEndPoint?.getLongitude() ?? 0.0
+        var lat = routeEndPoint?.getLatitude() ?? 0.0
+        if snm.isEmpty, lng == 0.0, lat == 0.0 {
+            snm = selectCharger?.mStationInfoDto?.mSnm ?? ""
+            lng = selectCharger?.mStationInfoDto?.mLongitude ?? 0.0
+            lat = selectCharger?.mStationInfoDto?.mLatitude ?? 0.0
+        }
+        UtilNavigation().showNavigation(vc: self, snm: snm, lat: lat, lng: lng)
+    }
+    
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
         let priceInfoVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
@@ -529,15 +558,7 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func onClickShowNavi(_ sender: Any) {
-        var snm = endField.text ?? ""
-        var lng = routeEndPoint?.getLongitude() ?? 0.0
-        var lat = routeEndPoint?.getLatitude() ?? 0.0
-        if snm.isEmpty, lng == 0.0, lat == 0.0 {
-            snm = selectCharger?.mStationInfoDto?.mSnm ?? ""
-            lng = selectCharger?.mStationInfoDto?.mLongitude ?? 0.0
-            lat = selectCharger?.mStationInfoDto?.mLatitude ?? 0.0
-        }
-        UtilNavigation().showNavigation(vc: self, snm: snm, lat: lat, lng: lng)
+        self.showNavigation()
     }
     
     @IBAction func onClickRouteAddPoint(_ sender: UIButton) {
@@ -1092,6 +1113,14 @@ extension MainViewController: ChargerSelectDelegate {
 
 // MARK: - Callout
 extension MainViewController: MainViewDelegate {
+    func setNavigation() {
+        self.showNavigation()
+    }
+    
+    
+    func setFavorite() {
+        self.bookmark()
+    }
     
     func prepareCalloutLayer() {
         callOutLayer.isHidden = true
@@ -1117,6 +1146,7 @@ extension MainViewController: MainViewDelegate {
         detailVC.stationInfoArr = self.stationInfoArr
         detailVC.checklistUrl = self.checklistUrl
         detailVC.isExistAddBtn = self.isExistAddBtn
+        summaryView.charger = self.selectCharger
         
         self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
     }
@@ -1128,7 +1158,7 @@ extension MainViewController: MainViewDelegate {
         summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         callOutLayer.addSubview(summaryView)
         
-//        if let summary = summaryView {
+//        if let summary = summary{
 //            summaryView = SummaryView(frame: callOutLayer.frame.bounds)
 //        }
         
@@ -1717,16 +1747,16 @@ extension MainViewController {
 //        }
     }
     
-//    @IBAction func onClickMainFavorite(_ sender: UIButton) {
-//        if MemberManager().isLogin() {
-//            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-//            let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
-//            favoriteVC.delegate = self
-//            self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
-//        } else {
-//            MemberManager().showLoginAlert(vc:self)
-//        }
-//    }
+    @IBAction func onClickMainFavorite(_ sender: UIButton) {
+        if MemberManager().isLogin() {
+            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
+            let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
+            favoriteVC.delegate = self
+            self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
+        } else {
+            MemberManager().showLoginAlert(vc:self)
+        }
+    }
 }
 
 extension MainViewController {

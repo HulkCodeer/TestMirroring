@@ -12,6 +12,14 @@ import Motion
 import SwiftyJSON
 import JJFloatingActionButton
 
+protocol DetailViewDelegate {
+    func onStart()
+    func onEnd()
+    func onAdd()
+    func onNavigation()
+    func onFavorite()
+}
+
 class DetailViewController: UIViewController, MTMapViewDelegate {
 
 //    @IBOutlet weak var vieagerContainer: UIView!
@@ -82,17 +90,12 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         prepareActionBar()
         prepareBoardTableView()
         preparePagingView()
-//        prepareSummaryView()
-        getChargerInfo()
+        prepareChargerInfo()
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        prepareSummaryView()
-//    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -102,11 +105,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     override func viewWillLayoutSubviews() {
         prepareSummaryView()
     }
-    
-//    override func viewDidLayoutSubviews() {
-//        prepareSummaryView()
-//    }
-    
     
     @objc func mapViewTap(gesture : UIPanGestureRecognizer!) {
         gesture.cancelsTouchesInView = false
@@ -137,12 +135,13 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             summaryView = SummaryView(frame: frameTest)
         }
         summaryLayout.addSubview(summaryView)
+        summaryView.detailViewDelegate = self
     }
     
-    func getChargerInfo() {
+    func prepareChargerInfo() {
         getStationDetailInfo()
-        getFirstBoardData()
         setDetailLb()
+        getFirstBoardData()
         initKakaoMap()
     }
     
@@ -609,6 +608,7 @@ extension DetailViewController: BoardTableViewDelegate {
     }
     
     func goToStation(tag: Int) {}
+    
 }
 
 extension DetailViewController: EditViewDelegate {
@@ -827,5 +827,36 @@ extension DetailViewController {
             }
         }
         return false
+    }
+}
+
+extension DetailViewController : DetailViewDelegate {
+    
+    // 즐겨찾기
+    func onFavorite() {
+        mainViewDelegate?.setFavorite()
+    }
+    
+    // [경로찾기]
+    func onStart() {
+        mainViewDelegate?.setStartPoint()
+        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func onEnd() {
+        mainViewDelegate?.setEndPoint()
+        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func onAdd() {
+        mainViewDelegate?.setStartPath()
+        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func onNavigation() {
+        mainViewDelegate?.setNavigation()
     }
 }

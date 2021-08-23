@@ -31,9 +31,9 @@ class SummaryView: UIView {
     @IBOutlet var endBtn: UIButton!
     @IBOutlet var navigationBtn: UIButton!
     
+    public var charger: ChargerStationInfo?
     var mainViewDelegate: MainViewDelegate?
-    var charger: ChargerStationInfo?
-    var uIVC: UIViewController?
+    var detailViewDelegate: DetailViewDelegate?
     
     public enum SummaryType {
         case Summary
@@ -80,16 +80,24 @@ class SummaryView: UIView {
         
     }
     
-    
-    func setChargerData(stationInfo:ChargerStationInfo) {
-        // delegate 필요
-        self.charger = stationInfo
+    // Favorite_setImg
+    public func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
+        print("csj_", "favortiteIcon")
+        if charger.mFavorite {
+            print("csj_", "true")
+            self.favoriteBtn.tintColor = UIColor.init(named: "content-warning")
+            self.favoriteBtn.setImage(UIImage(named: "bookmark_on"), for: .normal)
+        } else {
+            print("csj_", "false")
+            self.favoriteBtn.tintColor = UIColor.init(named: "content-primary")
+            self.favoriteBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+        }
     }
     
-    func setVC(uiVC:UIViewController) {
-        self.uIVC = uiVC
+    // Favorite
+    @IBAction func onClickFavorite(_ sender: UIButton) {
+        detailViewDelegate?.onFavorite()
     }
-    
     // Copy
     @IBAction func copyAddr(_ sender: Any) {
         UIPasteboard.general.string = addrLb.text
@@ -98,77 +106,20 @@ class SummaryView: UIView {
     
     // [Direction]
     // start
-        @IBAction func onClickStartPoint(_ sender: Any) {
-            self.mainViewDelegate?.setStartPoint()
-            // 밑 사항은 VC 에서 처리하도록 새로운 delegate가 필요함
-            if let uiVC = self.uIVC{
-                uiVC.navigationController?.popViewController(animated: true)
-                uiVC.dismiss(animated: true, completion: nil)
-            }
-        }
-    
+    @IBAction func onClickStartPoint(_ sender: Any) {
+        detailViewDelegate?.onStart()
+    }
     // end
-        @IBAction func onClickEndPoint(_ sender: Any) {
-            self.mainViewDelegate?.setEndPoint()
-            if let uiVC = self.uIVC {
-                uiVC.navigationController?.popViewController(animated: true)
-                uiVC.dismiss(animated: true, completion: nil)
-            }
-        }
-    
+    @IBAction func onClickEndPoint(_ sender: Any) {
+        detailViewDelegate?.onEnd()
+    }
     // add
-        @IBAction func onClickAddPoint(_ sender: Any) {
-            self.mainViewDelegate?.setStartPath()
-            if let uiVC = self.uIVC {
-                uiVC.navigationController?.popViewController(animated: true)
-                uiVC.dismiss(animated: true, completion: nil)
-            }
-        }
-    
+    @IBAction func onClickAddPoint(_ sender: Any) {
+        detailViewDelegate?.onAdd()
+    }
     // navigation
-        @IBAction func onClickNavi(_ sender: UIButton) {
-            if let chargerData = charger {
-                if let stationDto = chargerData.mStationInfoDto {
-                    if let vc = self.uIVC {
-                        let snm = stationNameLb.text ?? ""
-                        let lng = stationDto.mLongitude ?? 0.0
-                        let lat = stationDto.mLatitude ?? 0.0
-                        UtilNavigation().showNavigation(vc: vc, snm: snm, lat: lat, lng: lng)
-                    }
-                }
-            }
-        }
-    
-    
-    @IBAction func onClickFavorite(_ sender: UIButton) {
-        bookmark()
-    }
-    
-    func bookmark() {
-        if let chargerData = self.charger {
-            if MemberManager().isLogin() {
-                ChargerManager.sharedInstance.setFavoriteCharger(charger: chargerData) { (charger) in
-                    self.setCallOutFavoriteIcon(charger: charger)
-                    if charger.mFavorite {
-                        Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
-                    } else {
-                        Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
-                    }
-                }
-            } else {
-                if let uiVC = self.uIVC {
-                    MemberManager().showLoginAlert(vc: uiVC)
-                }
-            }
-        }
-    }
-        
-    func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
-        if charger.mFavorite {
-            self.favoriteBtn.setImage(UIImage(named: "bookmark_on"), for: .normal)
-        } else {
-            self.favoriteBtn.setImage(UIImage(named: "bookmark"), for: .normal)
-        }
+    @IBAction func onClickNavi(_ sender: UIButton) {
+        detailViewDelegate?.onNavigation()
     }
 }
 
