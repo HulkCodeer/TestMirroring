@@ -24,6 +24,8 @@ class CompanyInfoDto : Record {
         is_visible = row["is_visible"]
         sort = row["sort"]
         del = row["del"]
+        card_setting = row["card_setting"]
+        recommend = row["recommend"]
         super.init(row: row)
     }
     
@@ -48,6 +50,8 @@ class CompanyInfoDto : Record {
         container["is_visible"] = is_visible
         container["sort"] = sort
         container["del"] = del
+        container["card_setting"] = card_setting
+        container["recommend"] = recommend
     }
     
     public var company_id : String?
@@ -71,6 +75,10 @@ class CompanyInfoDto : Record {
     public var sort : Int?
 
     public var del : Bool?
+    
+    public var card_setting : Bool?
+    
+    public var recommend : Bool?
 
     public func isChangeIcon() -> Bool {
         let updateDate = UserDefault().readString(key: UserDefault.Key.COMPANY_ICON_UPDATE_DATE)
@@ -89,5 +97,7 @@ class CompanyInfoDto : Record {
         //self.is_visible = is_visible.boolValue
         self.sort = json["sort"].intValue
         self.del = json["del"].boolValue
+        self.card_setting = json["card_setting"].boolValue
+        self.recommend = json["recommend"].boolValue
     }
 }

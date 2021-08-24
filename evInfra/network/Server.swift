@@ -467,7 +467,7 @@ class Server {
             "update_date": updateDate
         ]
         
-        Alamofire.request(Const.EV_PAY_SERVER + "/company/v1/company/info",
+        Alamofire.request(Const.EV_PAY_SERVER + "/company/v2/company/info",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }

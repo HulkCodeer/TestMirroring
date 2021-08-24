@@ -10,10 +10,11 @@ import Foundation
 
 class FilterCompanyView: UIView {
     @IBOutlet var switchAll: UISwitch!
+    @IBOutlet var switchCard: UISwitch!
     @IBOutlet var topView: UIView!
     @IBOutlet var collectionView: DynamicCollectionView!
     
-    @IBOutlet var tagViewHeight: NSLayoutConstraint!
+    var allSelect :Bool = true
     var tagList = Array<TagValue>()
     var companyList = Array<CompanyInfoDto>()
     
@@ -46,15 +47,45 @@ class FilterCompanyView: UIView {
             if let iconName = company.icon_name {
                 if let icon = ImageMarker.companyImg(company: iconName){
                     tagList.append(TagValue(title:company.name!, img:icon, selected: company.is_visible))
+                    if !company.is_visible {
+                        allSelect = false
+                    }
                 }
             }
         }
+    }
+    
+    @IBAction func onCardFilterChanged(_ sender: Any) {
+        
+        if switchCard.isOn {
+            for company in companyList {
+                for item in tagList {
+                    if let compName = company.name {
+                        if item.title.equals(compName) {
+                            item.selected = company.recommend ?? false
+                        }
+                    }
+                }
+            }
+        } else {
+            for company in companyList {
+                for item in tagList {
+                    if (company.name == item.title){
+                        item.selected = company.is_visible
+                    }
+                }
+            }
+        }
+        updateSwitch()
+        collectionView.reloadData()
     }
     
     @IBAction func onSwitchValueChanged(_ sender: Any) {
         for item in tagList {
             item.selected = switchAll.isOn
         }
+        updateSwitch()
+        switchCard.isOn = false
         collectionView.reloadData()
     }
     
@@ -69,9 +100,9 @@ class FilterCompanyView: UIView {
     }
     
     func updateSwitch() {
-        var allSelect = true
+        allSelect = true
         for item in tagList {
-            if (!item.selected) {
+            if !item.selected {
                 allSelect = false
             }
         }
@@ -145,6 +176,7 @@ extension FilterCompanyView : DelegateTagListViewCell{
     func tagClicked(index: Int, value: Bool) {
         // tag selected
         tagList[index].selected = value
+        switchCard.isOn = false
         updateSwitch()
     }
 }
@@ -154,7 +186,6 @@ class DynamicCollectionView: UICollectionView {
         if bounds.size != intrinsicContentSize {
             invalidateIntrinsicContentSize()
         }
-        bounds.size = intrinsicContentSize
     }
 
     override var intrinsicContentSize: CGSize {

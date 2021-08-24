@@ -13,7 +13,7 @@
             <connections>
                 <outlet property="collectionView" destination="4io-4T-m3I" id="QMs-Uc-4MS"/>
                 <outlet property="switchAll" destination="V2b-uc-mkK" id="vgA-Vm-0sR"/>
-                <outlet property="tagViewHeight" destination="Yps-xW-l02" id="WHb-90-pyl"/>
+                <outlet property="switchCard" destination="1Rj-vA-xnZ" id="GFe-3n-zp8"/>
                 <outlet property="topView" destination="mqe-GW-FqV" id="viR-br-Hf4"/>
             </connections>
         </placeholder>
@@ -65,9 +65,12 @@
                                         <action selector="onSwitchValueChanged:" destination="-1" eventType="valueChanged" id="sKw-XV-01U"/>
                                     </connections>
                                 </switch>
-                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Rj-vA-xnZ">
+                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1Rj-vA-xnZ">
                                     <rect key="frame" x="349" y="10" width="51" height="31"/>
                                     <color key="onTintColor" name="content-positive"/>
+                                    <connections>
+                                        <action selector="onCardFilterChanged:" destination="-1" eventType="valueChanged" id="24u-kl-wbb"/>
+                                    </connections>
                                 </switch>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
