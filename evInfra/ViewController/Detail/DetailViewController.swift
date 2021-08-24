@@ -136,6 +136,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             summaryView = SummaryView(frame: frameTest)
         }
         summaryLayout.addSubview(summaryView)
+        summaryView.charger = self.charger
         summaryView.detailViewDelegate = self
     }
     
@@ -905,6 +906,7 @@ extension DetailViewController : DetailViewDelegate {
     // 도착
     func onEnd() {
         mainViewDelegate?.setEndPoint()
+        mainViewDelegate?.setStartPath()
         self.navigationController?.popViewController(animated: true)
         self.dismiss(animated: true, completion: nil)
     }

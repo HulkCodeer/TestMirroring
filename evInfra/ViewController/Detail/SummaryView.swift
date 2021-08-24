@@ -31,7 +31,13 @@ class SummaryView: UIView {
     @IBOutlet var endBtn: UIButton!
     @IBOutlet var navigationBtn: UIButton!
     
-    public var charger: ChargerStationInfo?
+    @IBOutlet var testView: UIStackView!
+    @IBOutlet var navigationView: UIStackView!
+    
+    public var charger: ChargerStationInfo!
+    public var type: SummaryType = .Summary
+//    public var isExistAddBtn = false
+    
     var mainViewDelegate: MainViewDelegate?
     var detailViewDelegate: DetailViewDelegate?
     
@@ -52,8 +58,7 @@ class SummaryView: UIView {
     
     func initView() {
         summeryinit()
-        let summary:SummaryType = .Summary
-        switch summary {
+        switch self.type {
         case .Summary:
             layoutMainSummary()
         case .DetailSumamry:
@@ -66,6 +71,9 @@ class SummaryView: UIView {
         view.frame = bounds
         addSubview(view)
         
+//        isExistAddBtn = true
+        layoutAddPathSummary(hiddenAddBtn: true)
+        
         startBtn.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 6)
         endBtn.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 6)
         addBtn.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 6)
@@ -73,22 +81,65 @@ class SummaryView: UIView {
     }
     
     func layoutMainSummary() {
-        
+        if charger != nil {
+            if let stationDto = charger.mStationInfoDto {
+                // 충전소 이름
+                stationNameLb.text = stationDto.mSnm
+                // 주소
+                var addr = "등록된 정보가 없습니다."
+                if stationDto.mAddress != nil && stationDto.mAddressDetail != nil {
+                    addr = stationDto.mAddress! + " " + stationDto.mAddressDetail!
+                }
+                addrLb.text = addr
+            }
+        }
     }
     
     func layoutDetailSummary() {
+        stateLb.text = charger.mTotalStatusName
         
+        let powerView:UILabel = UILabel.init()
+        powerView.text = charger.mPowerSt
+        filterView.addSubview(powerView)
+        
+        let payView:UILabel = UILabel.init()
+        payView.text = charger.mStationInfoDto?.mPay
+        filterView.addSubview(payView)
+        
+        let roofView:UILabel = UILabel.init()
+        roofView.text = charger.mStationInfoDto?.mRoof
+        filterView.addSubview(roofView)
+    }
+    
+    public func layoutAddPathSummary(hiddenAddBtn:Bool) {
+        print("csj_", "layoutAddPathSummary")
+        if hiddenAddBtn && !self.addBtn.isHidden{
+            self.addBtn.isHidden = true
+//            self.testView.arrangedSubviews[1].isHidden = true
+//            self.addBtn.visiblity(gone: true)
+//            self.addBtn.gone()
+        } else if !hiddenAddBtn{
+            self.addBtn.isHidden = false
+//            self.testView.arrangedSubviews[1].isHidden = false
+//            self.addBtn.visiblity(gone: false)
+        }
+//        if !self.isExistAddBtn{  // false -> show
+//            self.addBtn.isHidden = false
+//        }else{  // true -> hide
+//            self.addBtn.isHidden = true
+//        }
+//        self.isExistAddBtn = true
+        self.layoutIfNeeded()
+        self.setNeedsDisplay()
+        self.setNeedsUpdateConstraints()
     }
     
     // Favorite_setImg
     public func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
-        print("csj_", "favortiteIcon")
         if charger.mFavorite {
-            print("csj_", "true")
             self.favoriteBtn.tintColor = UIColor.init(named: "content-warning")
             self.favoriteBtn.setImage(UIImage(named: "bookmark_on"), for: .normal)
         } else {
-            print("csj_", "false")
             self.favoriteBtn.tintColor = UIColor.init(named: "content-primary")
             self.favoriteBtn.setImage(UIImage(named: "bookmark"), for: .normal)
         }
@@ -121,6 +172,7 @@ class SummaryView: UIView {
     @IBAction func onClickEndPoint(_ sender: Any) {
         if mainViewDelegate != nil {
             mainViewDelegate?.setEndPoint()
+            mainViewDelegate?.setStartPath()
         }
         detailViewDelegate?.onEnd()
     }

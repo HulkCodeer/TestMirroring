@@ -115,7 +115,7 @@ class MainViewController: UIViewController {
     private var clustering: ClusterManager? = nil
     private var currentClusterLv = 0
     private var isAllowedCluster = true
-    private var isExistAddBtn = false
+    private var isHiddenAddBtn = true
     var canIgnoreJejuPush = true
     
     private var summaryViewTag = 10
@@ -134,7 +134,7 @@ class MainViewController: UIViewController {
         prepareFilterView()
         prepareCheckBox()
         prepareMapView()
-        prepareCalloutLayer()
+        
         prepareNotificationCenter()
         prepareRouteView()
         prepareClustering()
@@ -142,6 +142,8 @@ class MainViewController: UIViewController {
         
         prepareChargePrice()
         requestStationInfo()
+        
+        prepareCalloutLayer()
     }
     
 //    override func viewWillLayoutSubviews() {
@@ -816,7 +818,8 @@ extension MainViewController: TextFieldDelegate {
 //            self.addPointBtn.isHidden = true    // 경유지버튼 숨김
 //            self.naviBtn.isHidden = false   // 길안내버튼 추가
 //        }
-        self.isExistAddBtn = false
+//        summaryView.isExistAddBtn = false
+        isHiddenAddBtn = true
         
         hideKeyboard()
         hideResultView()
@@ -863,6 +866,8 @@ extension MainViewController: TextFieldDelegate {
         }
         
         if let startPoint = routeStartPoint, let endPoint = routeEndPoint {
+            isHiddenAddBtn = false
+            
             markerIndicator.startAnimating()
             
             // 키보드 숨기기
@@ -889,13 +894,16 @@ extension MainViewController: TextFieldDelegate {
             let centerLon = abs((startPoint.getLongitude() + endPoint.getLongitude()) / 2)
             self.tMapView?.setCenter(TMapPoint.init(lon: centerLon, lat: centerLat))
             
-            // 경유지 추가 버튼 활성화
-//            btnRouteCancel.setTitle("경로취소", for: .normal)
+            isHiddenAddBtn = false
+            summaryView.layoutAddPathSummary(hiddenAddBtn: isHiddenAddBtn)
+            callOutLayer.layoutIfNeeded()
+            summaryView.layoutIfNeeded()
+            
 //            if !self.isExistAddBtn { // 경유지버튼 없을경우
 //                self.naviBtn.isHidden = true    // 길안내버튼 숨김
 //                self.addPointBtn.isHidden = false   // 경유지버튼 추가
 //            }
-            self.isExistAddBtn = true
+//            self.isExistAddBtn = true
             
             // 경로 요청
             DispatchQueue.global(qos: .background).async {
@@ -922,6 +930,11 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func drawPathData(polyLine: TMapPolyLine) {
+        isHiddenAddBtn = false
+//        summaryView.layoutAddPathSummary(hiddenAddBtn: false)
+//        summaryView.layoutIfNeeded()
+//        summaryView.setNeedsUpdateConstraints()
+        
         tMapView?.addTMapPath(polyLine)
         
         // 경로 주변 충전소만 표시
@@ -1145,8 +1158,8 @@ extension MainViewController: MainViewDelegate {
         detailVC.charger = self.selectCharger
         detailVC.stationInfoArr = self.stationInfoArr
         detailVC.checklistUrl = self.checklistUrl
-        detailVC.isExistAddBtn = self.isExistAddBtn
-        summaryView.charger = self.selectCharger
+        //        detailVC.isExistAddBtn = summaryView.isExistAddBtn
+
         
         self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
     }
@@ -1157,8 +1170,6 @@ extension MainViewController: MainViewDelegate {
         }
         summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         callOutLayer.addSubview(summaryView)
-        
-        summaryView.mainViewDelegate = self
         
 //        if let summary = summary{
 //            summaryView = SummaryView(frame: callOutLayer.frame.bounds)
@@ -1192,6 +1203,17 @@ extension MainViewController: MainViewDelegate {
         
         // 이전에 선택된 충전소 마커를 원래 마커로 원복
         if selectCharger != nil {
+            summaryView.charger = self.selectCharger
+
+            print("csj_", "charger : " , self.selectCharger)
+            summaryView.layoutAddPathSummary(hiddenAddBtn: isHiddenAddBtn)
+
+            summaryView.layoutIfNeeded()
+            summaryView.setNeedsUpdateConstraints()
+            callOutLayer.layoutIfNeeded()
+            
+            summaryView.mainViewDelegate = self
+            
             if let markerItem = tMapView!.getMarketItem(fromID: selectCharger!.mChargerId) {
                 markerItem.setIcon(selectCharger!.getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
                 
@@ -1264,6 +1286,10 @@ extension MainViewController: MainViewDelegate {
         UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
             view.isHidden = hidden
         })
+//        // 경유지 추가 버튼 활성화
+//        btnRouteCancel.setTitle("경로취소", for: .normal)
+//        print("csj_", "summaryView : " , summaryView)
+//        summaryView.layoutAddPathSummary(hiddenAddBtn: false)
     }
 //
 //    func setDistance() {
