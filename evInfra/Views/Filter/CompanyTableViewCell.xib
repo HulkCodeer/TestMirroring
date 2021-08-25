@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" restorationIdentifier="CompanyTableViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="CompanyTableViewCell" id="FdT-jp-Eyz" customClass="CompanyTableViewCell" customModule="evInfra" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FdT-jp-Eyz" id="v4N-q2-BuK">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tm4-Lu-Hyt">
+                        <rect key="frame" x="16" y="16" width="35.5" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" name="content-tertiary"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="SU3-mN-v4u" customClass="DynamicCollectionView" customModule="evInfra" customModuleProvider="target">
+                        <rect key="frame" x="16" y="49" width="382" height="31"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="UfY-s7-YgJ">
+                            <size key="itemSize" width="128" height="128"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Tm4-Lu-Hyt" firstAttribute="leading" secondItem="v4N-q2-BuK" secondAttribute="leading" constant="16" id="Ew1-M7-9ZS"/>
+                    <constraint firstAttribute="bottom" secondItem="SU3-mN-v4u" secondAttribute="bottom" id="Hfj-hp-wa4"/>
+                    <constraint firstAttribute="trailing" secondItem="SU3-mN-v4u" secondAttribute="trailing" constant="16" id="Uqu-Sz-GrZ"/>
+                    <constraint firstItem="SU3-mN-v4u" firstAttribute="top" secondItem="Tm4-Lu-Hyt" secondAttribute="bottom" constant="16" id="YXT-Hc-S8O"/>
+                    <constraint firstItem="Tm4-Lu-Hyt" firstAttribute="top" secondItem="v4N-q2-BuK" secondAttribute="top" constant="16" id="bFH-RJ-JCM"/>
+                    <constraint firstItem="SU3-mN-v4u" firstAttribute="leading" secondItem="v4N-q2-BuK" secondAttribute="leading" constant="16" id="vRk-nh-xTh"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="groupTitle" destination="Tm4-Lu-Hyt" id="4ps-pa-Z1a"/>
+                <outlet property="tagView" destination="SU3-mN-v4u" id="Uww-xJ-UPc"/>
+            </connections>
+            <point key="canvasLocation" x="129.59999999999999" y="-286.95652173913044"/>
+        </tableViewCell>
+    </objects>
+    <designables>
+        <designable name="SU3-mN-v4u">
+            <size key="intrinsicContentSize" width="382" height="0.0"/>
+        </designable>
+    </designables>
+    <resources>
+        <namedColor name="content-tertiary">
+            <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

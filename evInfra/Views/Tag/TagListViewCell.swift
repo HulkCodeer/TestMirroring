@@ -19,6 +19,12 @@ open class TagValue {
         self.selected = selected
         self.index = index
     }
+    init(title: String, img: UIImage, selected: Bool, index: Int){
+        self.title = title
+        self.img = img
+        self.selected = selected
+        self.index = index
+    }
     init(title: String, img: UIImage, selected: Bool){
         self.title = title
         self.img = img

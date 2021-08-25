@@ -11,10 +11,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FilterCompanyView" customModule="evInfra" customModuleProvider="target">
             <connections>
-                <outlet property="collectionView" destination="4io-4T-m3I" id="QMs-Uc-4MS"/>
+                <outlet property="companyTableView" destination="6sr-3I-2WK" id="y0U-jX-lou"/>
                 <outlet property="switchAll" destination="V2b-uc-mkK" id="vgA-Vm-0sR"/>
                 <outlet property="switchCard" destination="1Rj-vA-xnZ" id="GFe-3n-zp8"/>
-                <outlet property="topView" destination="mqe-GW-FqV" id="viR-br-Hf4"/>
+                <outlet property="titleView" destination="mqe-GW-FqV" id="QhJ-tj-0i1"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -93,30 +93,20 @@
                                 <constraint firstItem="V2b-uc-mkK" firstAttribute="top" secondItem="QL0-0B-caU" secondAttribute="bottom" constant="8" id="zNi-zC-ebA"/>
                             </constraints>
                         </view>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="4io-4T-m3I" customClass="DynamicCollectionView" customModule="evInfra" customModuleProvider="target">
-                            <rect key="frame" x="16" y="182" width="382" height="670"/>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6sr-3I-2WK" customClass="CompanyTableView" customModule="evInfra" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="182" width="414" height="662"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="670" id="Yps-xW-l02"/>
-                            </constraints>
-                            <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="chB-7q-eMs">
-                                <size key="itemSize" width="128" height="128"/>
-                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                            </collectionViewFlowLayout>
-                            <cells/>
-                        </collectionView>
+                        </tableView>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="4io-4T-m3I" secondAttribute="trailing" constant="16" id="Dxc-cI-ncH"/>
+                        <constraint firstItem="6sr-3I-2WK" firstAttribute="top" secondItem="mqe-GW-FqV" secondAttribute="bottom" constant="8" id="6kP-dg-ikc"/>
                         <constraint firstItem="mqe-GW-FqV" firstAttribute="leading" secondItem="UYz-gY-qGg" secondAttribute="leading" id="FAi-j9-8x1"/>
+                        <constraint firstAttribute="trailing" secondItem="6sr-3I-2WK" secondAttribute="trailing" id="FXI-Gr-qSv"/>
                         <constraint firstItem="mqe-GW-FqV" firstAttribute="top" secondItem="UYz-gY-qGg" secondAttribute="top" id="R50-Ad-reE"/>
-                        <constraint firstItem="4io-4T-m3I" firstAttribute="leading" secondItem="UYz-gY-qGg" secondAttribute="leading" constant="16" id="V0j-UC-s4c"/>
-                        <constraint firstAttribute="bottom" secondItem="4io-4T-m3I" secondAttribute="bottom" constant="8" id="iey-4f-7NY"/>
-                        <constraint firstItem="4io-4T-m3I" firstAttribute="top" secondItem="mqe-GW-FqV" secondAttribute="bottom" constant="8" id="rtD-er-PSy"/>
+                        <constraint firstAttribute="bottom" secondItem="6sr-3I-2WK" secondAttribute="bottom" constant="16" id="sRg-Tc-E5B"/>
                         <constraint firstAttribute="trailing" secondItem="mqe-GW-FqV" secondAttribute="trailing" id="sX0-zT-854"/>
+                        <constraint firstItem="6sr-3I-2WK" firstAttribute="leading" secondItem="UYz-gY-qGg" secondAttribute="leading" id="t3z-NX-XQ8"/>
                     </constraints>
                 </view>
             </subviews>
@@ -131,11 +121,6 @@
             <point key="canvasLocation" x="-81.599999999999994" y="101.64917541229386"/>
         </view>
     </objects>
-    <designables>
-        <designable name="4io-4T-m3I">
-            <size key="intrinsicContentSize" width="382" height="0.0"/>
-        </designable>
-    </designables>
     <resources>
         <namedColor name="content-positive">
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
