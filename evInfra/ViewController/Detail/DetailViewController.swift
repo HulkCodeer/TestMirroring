@@ -138,6 +138,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         summaryLayout.addSubview(summaryView)
         summaryView.charger = self.charger
         summaryView.detailViewDelegate = self
+        summaryView.layoutDetailSummary()
+        
+//        summaryView.layoutAddPathSummary(hiddenAddBtn: true)
     }
     
     func prepareChargerInfo() {

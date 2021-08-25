@@ -172,6 +172,10 @@ class MainViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillLayoutSubviews() {
+        prepareSummaryView()
+    }
+    
     // Filter
     func prepareFilterView() {
         // drop down - init
@@ -895,9 +899,9 @@ extension MainViewController: TextFieldDelegate {
             self.tMapView?.setCenter(TMapPoint.init(lon: centerLon, lat: centerLat))
             
             isHiddenAddBtn = false
-            summaryView.layoutAddPathSummary(hiddenAddBtn: isHiddenAddBtn)
-            callOutLayer.layoutIfNeeded()
-            summaryView.layoutIfNeeded()
+//            summaryView.layoutAddPathSummary(hiddenAddBtn: isHiddenAddBtn)
+//            callOutLayer.layoutIfNeeded()
+//            summaryView.layoutIfNeeded()
             
 //            if !self.isExistAddBtn { // 경유지버튼 없을경우
 //                self.naviBtn.isHidden = true    // 길안내버튼 숨김
@@ -1164,12 +1168,25 @@ extension MainViewController: MainViewDelegate {
         self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
     }
     
-    func selectCharger(chargerId: String) {
+    func prepareSummaryView() {
+        let window = UIApplication.shared.keyWindow!
+        callOutLayer.frame.size.width = window.frame.width
         if summaryView == nil {
             summaryView = SummaryView(frame: callOutLayer.frame.bounds)
         }
         summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         callOutLayer.addSubview(summaryView)
+    }
+    
+    func selectCharger(chargerId: String) {
+//        if summaryView == nil {
+//            summaryView = SummaryView(frame: callOutLayer.frame.bounds)
+//        }
+//        summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        callOutLayer.addSubview(summaryView)
+        
+//        summaryView.layoutAddPathSummary(hiddenAddBtn: isHiddenAddBtn)
+        summaryView.layoutMainSummary()
         
 //        if let summary = summary{
 //            summaryView = SummaryView(frame: callOutLayer.frame.bounds)
@@ -1203,20 +1220,15 @@ extension MainViewController: MainViewDelegate {
         
         // 이전에 선택된 충전소 마커를 원래 마커로 원복
         if selectCharger != nil {
-            summaryView.charger = self.selectCharger
-
-            print("csj_", "charger : " , self.selectCharger)
-            summaryView.layoutAddPathSummary(hiddenAddBtn: isHiddenAddBtn)
-
-            summaryView.layoutIfNeeded()
-            summaryView.setNeedsUpdateConstraints()
-            callOutLayer.layoutIfNeeded()
+            summaryView.charger = selectCharger
+//            summaryView.layoutIfNeeded()
+//            summaryView.setNeedsUpdateConstraints()
+//            callOutLayer.layoutIfNeeded()
             
             summaryView.mainViewDelegate = self
             
             if let markerItem = tMapView!.getMarketItem(fromID: selectCharger!.mChargerId) {
                 markerItem.setIcon(selectCharger!.getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
-                
             }
             selectCharger = nil
         }
@@ -1231,6 +1243,8 @@ extension MainViewController: MainViewDelegate {
     
     func showCallOut(charger: ChargerStationInfo) {
         selectCharger = charger
+        summaryView.charger = charger
+        
         if let totalType = selectCharger?.mTotalType {
 //            setChargerTypeImage(type: totalType)
 //            setChargerPower()

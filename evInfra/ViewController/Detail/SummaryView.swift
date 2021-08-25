@@ -71,8 +71,7 @@ class SummaryView: UIView {
         view.frame = bounds
         addSubview(view)
         
-//        isExistAddBtn = true
-        layoutAddPathSummary(hiddenAddBtn: true)
+        layoutAddPathSummary(hiddenAddBtn: false)
         
         startBtn.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 6)
         endBtn.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 6)
@@ -81,10 +80,13 @@ class SummaryView: UIView {
     }
     
     func layoutMainSummary() {
+        print("csj_", "charger : ", self.charger)
         if charger != nil {
             if let stationDto = charger.mStationInfoDto {
                 // 충전소 이름
                 stationNameLb.text = stationDto.mSnm
+                // 충전소 이미지
+                setCompanyIcon(chargerData: charger)
                 // 주소
                 var addr = "등록된 정보가 없습니다."
                 if stationDto.mAddress != nil && stationDto.mAddressDetail != nil {
@@ -96,42 +98,48 @@ class SummaryView: UIView {
     }
     
     func layoutDetailSummary() {
-        stateLb.text = charger.mTotalStatusName
-        
-        let powerView:UILabel = UILabel.init()
-        powerView.text = charger.mPowerSt
-        filterView.addSubview(powerView)
-        
-        let payView:UILabel = UILabel.init()
-        payView.text = charger.mStationInfoDto?.mPay
-        filterView.addSubview(payView)
-        
-        let roofView:UILabel = UILabel.init()
-        roofView.text = charger.mStationInfoDto?.mRoof
-        filterView.addSubview(roofView)
+        if charger != nil {
+            if let stationDto = charger.mStationInfoDto {
+                // 충전소 이름
+                stationNameLb.text = stationDto.mSnm
+                // 충전소 이미지
+                setCompanyIcon(chargerData: charger)
+                // 주소
+                var addr = "등록된 정보가 없습니다."
+                if stationDto.mAddress != nil && stationDto.mAddressDetail != nil {
+                    addr = stationDto.mAddress! + " " + stationDto.mAddressDetail!
+                }
+                addrLb.text = addr
+                
+                stateLb.text = charger.mTotalStatusName
+                
+                let powerView:UILabel = UILabel.init()
+                powerView.text = charger.mPowerSt
+                filterView.addSubview(powerView)
+                
+                let payView:UILabel = UILabel.init()
+                payView.text = charger.mStationInfoDto?.mPay
+                filterView.addSubview(payView)
+                
+                let roofView:UILabel = UILabel.init()
+                roofView.text = charger.mStationInfoDto?.mRoof
+                filterView.addSubview(roofView)
+            }
+        }
     }
     
     public func layoutAddPathSummary(hiddenAddBtn:Bool) {
         print("csj_", "layoutAddPathSummary")
         if hiddenAddBtn && !self.addBtn.isHidden{
             self.addBtn.isHidden = true
-//            self.testView.arrangedSubviews[1].isHidden = true
-//            self.addBtn.visiblity(gone: true)
-//            self.addBtn.gone()
+            self.addBtn.gone()
         } else if !hiddenAddBtn{
             self.addBtn.isHidden = false
-//            self.testView.arrangedSubviews[1].isHidden = false
-//            self.addBtn.visiblity(gone: false)
         }
-//        if !self.isExistAddBtn{  // false -> show
-//            self.addBtn.isHidden = false
-//        }else{  // true -> hide
-//            self.addBtn.isHidden = true
-//        }
 //        self.isExistAddBtn = true
-        self.layoutIfNeeded()
-        self.setNeedsDisplay()
-        self.setNeedsUpdateConstraints()
+//        self.layoutIfNeeded()
+//        self.setNeedsDisplay()
+//        self.setNeedsUpdateConstraints()
     }
     
     // Favorite_setImg
@@ -142,6 +150,14 @@ class SummaryView: UIView {
         } else {
             self.favoriteBtn.tintColor = UIColor.init(named: "content-primary")
             self.favoriteBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+        }
+    }
+    
+    func setCompanyIcon(chargerData: ChargerStationInfo) {
+        if chargerData.getCompanyIcon() != nil{
+            self.stationImg.image = chargerData.getCompanyIcon()
+        }else {
+            self.stationImg.image = UIImage(named: "icon_building_sm")
         }
     }
     
