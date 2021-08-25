@@ -175,7 +175,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
 //            setCompanyIcon(chargerData: chargerData)
             
             // 충전기 상태
-//            self.callOutStatus.text = chargerData.cidInfo.cstToString(cst: chargerData.mTotalStatus ?? 2)
+//            self.callOutStatus.text = chargerData.cid.cstToString(cst: chargerData.mTotalStatus ?? 2)
             
             // 충전 속도
     //        self.powerLb.text = chargerData.getChargerPower(power: (chargerData.mPower)!, type: (chargerData.mTotalType)!)

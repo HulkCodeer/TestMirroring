@@ -26,14 +26,14 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <view contentMode="scaleAspectFit" verticalCompressionResistancePriority="755" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="171" translatesAutoresizingMaskIntoConstraints="NO" id="iTG-td-6lJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="171"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="186"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="171" id="JRO-yr-I6E"/>
+                                                <constraint firstAttribute="height" constant="186" id="JRO-yr-I6E"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="bTX-Gy-m0k" userLabel="ViewChargerInfo">
-                                            <rect key="frame" x="16" y="195" width="382" height="20"/>
+                                            <rect key="frame" x="16" y="194" width="382" height="20"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="충전기 정보" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfd-dN-Lo0">
                                                     <rect key="frame" x="0.0" y="0.0" width="73.5" height="19.5"/>
@@ -49,14 +49,14 @@
                                             </constraints>
                                         </view>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="200" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="XBy-N2-pfd" customClass="CidTableView" customModule="evInfra" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="231" width="414" height="200"/>
+                                            <rect key="frame" x="0.0" y="230" width="414" height="200"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="200" id="vqP-HU-Gfi"/>
                                             </constraints>
                                         </tableView>
                                         <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="383.5" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="oie-IS-8pO">
-                                            <rect key="frame" x="16" y="447" width="382" height="409.5"/>
+                                            <rect key="frame" x="16" y="446" width="382" height="409.5"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="19.5" translatesAutoresizingMaskIntoConstraints="NO" id="3Ya-Tj-ICM">
                                                     <rect key="frame" x="0.0" y="0.0" width="382" height="19.5"/>
@@ -394,7 +394,7 @@
                                         <constraint firstItem="bTX-Gy-m0k" firstAttribute="leading" secondItem="HgN-hh-5BP" secondAttribute="leading" constant="16" id="fsf-nW-k8y"/>
                                         <constraint firstAttribute="trailing" secondItem="XBy-N2-pfd" secondAttribute="trailing" id="lxB-S9-s2C"/>
                                         <constraint firstItem="oie-IS-8pO" firstAttribute="top" secondItem="XBy-N2-pfd" secondAttribute="bottom" constant="16" id="o2d-4j-fGg"/>
-                                        <constraint firstItem="bTX-Gy-m0k" firstAttribute="top" secondItem="iTG-td-6lJ" secondAttribute="bottom" constant="24" id="qt2-Pk-Z2q"/>
+                                        <constraint firstItem="bTX-Gy-m0k" firstAttribute="top" secondItem="iTG-td-6lJ" secondAttribute="bottom" constant="8" id="qt2-Pk-Z2q"/>
                                         <constraint firstAttribute="trailing" secondItem="iTG-td-6lJ" secondAttribute="trailing" id="zEg-Lo-8OU"/>
                                     </constraints>
                                 </view>
@@ -439,9 +439,6 @@
         </designable>
         <designable name="XBy-N2-pfd">
             <size key="intrinsicContentSize" width="414" height="200"/>
-        </designable>
-        <designable name="iTG-td-6lJ">
-            <size key="intrinsicContentSize" width="414" height="171"/>
         </designable>
     </designables>
     <resources>

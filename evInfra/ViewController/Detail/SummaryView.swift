@@ -11,7 +11,8 @@ import Foundation
 class SummaryView: UIView {
     
     @IBOutlet weak var summaryView: UIView!
-
+    @IBOutlet var summaryContentView: UIStackView!
+    
     @IBOutlet var stationImg: UIImageView!
     @IBOutlet var stationNameLb: UILabel!
     @IBOutlet var favoriteBtn: UIButton!  // btn_main_favorite
@@ -21,10 +22,21 @@ class SummaryView: UIView {
     @IBOutlet var copyBtn: UIButton!
 
     @IBOutlet var chargerTypeView: UIStackView!
+    @IBOutlet var typeDcCombo: UILabel!
+    @IBOutlet var typeACSam: UILabel!
+    @IBOutlet var typeDcDemo: UILabel!
+    @IBOutlet var typeSlow: UILabel!
+    @IBOutlet var typeSuper: UILabel!
+    @IBOutlet var typeDestination: UILabel!
+    
     @IBOutlet var stateLb: UILabel!
     @IBOutlet var fastCountLb: UILabel!
     @IBOutlet var slowCountLb: UILabel!
+    
     @IBOutlet var filterView: UIStackView!
+    @IBOutlet var filterPower: UILabel!
+    @IBOutlet var filterPay: UILabel!
+    @IBOutlet var filterRoof: UILabel!
 
     @IBOutlet var startBtn: UIButton!
     @IBOutlet var addBtn: UIButton!
@@ -34,6 +46,8 @@ class SummaryView: UIView {
     @IBOutlet var stateCountView: UIView!
     @IBOutlet var testView: UIStackView!
     @IBOutlet var navigationView: UIStackView!
+    @IBOutlet var addrView: UIStackView!
+    
     
     public var charger: ChargerStationInfo!
     
@@ -62,6 +76,9 @@ class SummaryView: UIView {
         
         layoutAddPathSummary(hiddenAddBtn: false)
         
+        filterView.isHidden = true
+        addrView.isHidden = false
+        
         startBtn.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 6)
         endBtn.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 6)
         addBtn.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 6)
@@ -83,29 +100,35 @@ class SummaryView: UIView {
                 addrLb.text = addr
                 // 충전소 상태
                 stateLb.text = charger.mTotalStatusName
+                setStationCstColor(charger: charger)
                 // 급/완속 카운터
                 stateCountView.isHidden = false
-//                var powerFast = CidInfo.countFastPower()
+
+                // 충전기 타입
+                setChargerType(charger: charger)
                 
                 // [충전소 필터]
                 // 속도
-                let powerView:UILabel = UILabel.init()
-                powerView.text = charger.mPowerSt
-                filterView.addSubview(powerView)
-                // 가격
-                let payView:UILabel = UILabel.init()
-                payView.text = charger.mStationInfoDto?.mPay
-                filterView.addSubview(payView)
-                // 설치형태
-                let roofView:UILabel = UILabel.init()
-                roofView.text = charger.mStationInfoDto?.mRoof
-                filterView.addSubview(roofView)
                 filterView.isHidden = false
+                self.filterPower.text = charger.getChargerPower(power: (charger.mPower)!, type: (charger.mTotalType)!)
+                filterPower.setBerryTag()
+                // 가격
+                setChargePrice(stationDto: charger.mStationInfoDto!)
+                filterPay.setBerryTag()
+                // 설치형태
+                stationArea(stationDto: charger.mStationInfoDto!)
+                filterRoof.setBerryTag()
+                
+                // 주소 View Gone
+                addrView.isHidden = true
+                
+                summaryView.layoutIfNeeded()
             }
         }
     }
     // Detail_Summary View setting
     func layoutDetailSummary() {
+        
         if charger != nil {
             if let stationDto = charger.mStationInfoDto {
                 // 충전소 이름
@@ -118,6 +141,13 @@ class SummaryView: UIView {
                     addr = stationDto.mAddress! + " " + stationDto.mAddressDetail!
                 }
                 addrLb.text = addr
+                
+                
+                chargerTypeView.isHidden = true
+                stateCountView.isHidden = true
+                filterView.isHidden = true
+                
+                summaryView.layoutIfNeeded()
             }
         }
     }
@@ -152,6 +182,98 @@ class SummaryView: UIView {
         }else {
             self.stationImg.image = UIImage(named: "icon_building_sm")
         }
+    }
+    
+    func setChargePrice(stationDto: StationInfoDto) {
+        switch stationDto.mPay {
+            case "Y":
+                self.filterPay.text = "유료"
+            case "N":
+                self.filterPay.text = "무료"
+            default:
+                self.filterPay.text = "시범운영"
+        }
+    }
+    
+    func stationArea(stationDto:StationInfoDto) {
+        let roof = String(stationDto.mRoof ?? "N")
+        var area:String = "실외"
+        self.filterRoof.isHidden = false
+        switch roof {
+        case "0":  // outdoor
+            area = "실외"
+            break
+        case "1":  // indoor
+            area = "실내"
+            break
+        case "2":  // canopy
+            area = "캐노피"
+            break
+        case "N": // Checking
+            self.filterRoof.isHidden = true
+            break
+        default:
+            self.filterRoof.isHidden = true
+            break
+        }
+        self.filterRoof.text = area
+        self.filterRoof.textColor = UIColor.init(named:"content-parimary")
+    }
+    
+    func setChargerType(charger:ChargerStationInfo) {
+        typeDcCombo.isHidden = true
+        typeACSam.isHidden = true
+        typeDcDemo.isHidden = true
+        typeSlow.isHidden = true
+        typeSuper.isHidden = true
+        typeDestination.isHidden = true
+        switch charger.mTotalType {
+        case Const.CHARGER_TYPE_DCCOMBO:
+            typeDcCombo.isHidden = false
+            break
+        case Const.CHARGER_TYPE_DCCOMBO_AC:
+            typeDcCombo.isHidden = false
+            typeACSam.isHidden = false
+            break
+        case Const.CHARGER_TYPE_AC:
+            typeACSam.isHidden = false
+            break
+        case Const.CHARGER_TYPE_DCDEMO:
+            typeDcDemo.isHidden = false
+            break
+        case Const.CHARGER_TYPE_DCDEMO_AC:
+            typeDcDemo.isHidden = false
+            typeACSam.isHidden = false
+            break
+        case Const.CHARGER_TYPE_DCDEMO_DCCOMBO:
+            typeDcDemo.isHidden = false
+            typeDcCombo.isHidden = false
+            break
+        case Const.CHARGER_TYPE_DCDEMO_DCCOMBO_AC:
+            typeDcDemo.isHidden = false
+            typeDcCombo.isHidden = false
+            typeACSam.isHidden = false
+            break
+        case Const.CHARGER_TYPE_SLOW:
+            typeSlow.isHidden = false
+            break
+        case Const.CHARGER_TYPE_SUPER_CHARGER:
+            typeSuper.isHidden = false
+            break
+        case Const.CHARGER_TYPE_DESTINATION:
+            typeDestination.isHidden = false
+            break
+        default:
+            break
+        }
+    }
+    
+    func setStationCstColor(charger:ChargerStationInfo) {
+        var status = Const.CHARGER_STATE_UNKNOWN
+        if (charger.mTotalStatus != nil){
+            status = (charger.mTotalStatus)!
+        }
+        stateLb.textColor = charger.cidInfo.getCstColor(cst: status)
     }
     
     // [Summary]
