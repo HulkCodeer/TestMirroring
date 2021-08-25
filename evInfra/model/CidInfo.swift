@@ -123,4 +123,27 @@ class CidInfo {
         }
         return durationString
     }
+    
+    public func countAllFastPower() -> String {
+        var allFast:String = ""
+        return allFast
+    }
+    
+    public func countAllSlowPower() -> String {
+        var allSlow:String = ""
+        return allSlow
+    }
+    
+    public func countFastPower() -> Int{
+        var fast:Int = 0
+        if chargerType == Const.CHARGER_TYPE_SLOW || chargerType == Const.CHARGER_TYPE_DESTINATION{
+            fast = fast+1
+        }
+        return fast
+    }
+    
+    public func countSlowPower() -> String{
+        var slow:String = ""
+        return slow
+    }
 }

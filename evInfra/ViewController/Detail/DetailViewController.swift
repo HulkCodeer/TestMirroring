@@ -391,6 +391,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue)
             cidList.append(cidInfo)
         }
+        
         var stationSt = cidList[0].status!
         for cid in cidList {
             if (stationSt != cid.status) {

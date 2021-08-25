@@ -120,6 +120,7 @@ class MainViewController: UIViewController {
     
     private var summaryViewTag = 10
     private var summaryView:SummaryView!
+    private var summaryLayoutTest:Bool = false
     
     // 지킴이 점겸표 url
     private var checklistUrl: String?
@@ -146,9 +147,9 @@ class MainViewController: UIViewController {
         prepareCalloutLayer()
     }
     
-//    override func viewWillLayoutSubviews() {
-//        callOutLayer.addSubview(SummaryView(frame: callOutLayer.frame))
-//    }
+    override func viewWillLayoutSubviews() {
+        prepareSummaryView()
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         menuBadgeAdd()
@@ -170,10 +171,6 @@ class MainViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewWillLayoutSubviews() {
-        prepareSummaryView()
     }
     
     // Filter
@@ -237,7 +234,7 @@ class MainViewController: UIViewController {
         var companyVisibilityList = ChargerManager.sharedInstance.getCompanyVisibilityList()
         
         dropDownCompany.anchorView = self.btnCompany
-        self.btnCompany.setTitle("기관선택", for: UIControlState.normal)//(item, for: UIControlState.normal)
+        self.btnCompany.setTitle("기관선택", for: UIControlState.normal)
         dropDownCompany.dataSource = ChargerManager.sharedInstance.getCompanyNameList()
         dropDownCompany.width = 200
         dropDownCompany.direction = .bottom
@@ -818,11 +815,6 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func clearSearchResult() {
-//        if self.isExistAddBtn {   // 경유지버튼 있을경우
-//            self.addPointBtn.isHidden = true    // 경유지버튼 숨김
-//            self.naviBtn.isHidden = false   // 길안내버튼 추가
-//        }
-//        summaryView.isExistAddBtn = false
         isHiddenAddBtn = true
         
         hideKeyboard()
@@ -935,9 +927,6 @@ extension MainViewController: TextFieldDelegate {
     
     func drawPathData(polyLine: TMapPolyLine) {
         isHiddenAddBtn = false
-//        summaryView.layoutAddPathSummary(hiddenAddBtn: false)
-//        summaryView.layoutIfNeeded()
-//        summaryView.setNeedsUpdateConstraints()
         
         tMapView?.addTMapPath(polyLine)
         
@@ -1179,51 +1168,17 @@ extension MainViewController: MainViewDelegate {
     }
     
     func selectCharger(chargerId: String) {
-//        if summaryView == nil {
-//            summaryView = SummaryView(frame: callOutLayer.frame.bounds)
-//        }
-//        summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        callOutLayer.addSubview(summaryView)
-        
-//        summaryView.layoutAddPathSummary(hiddenAddBtn: isHiddenAddBtn)
-        summaryView.layoutMainSummary()
-        
-//        if let summary = summary{
-//            summaryView = SummaryView(frame: callOutLayer.frame.bounds)
-//        }
-        
-        
-        
-//        let frame:CGRect = callOutLayer.bounds
-//        self.summaryView = SummaryView(frame: frame)
-//
-//        if let summary = summaryView {
-//            summary.tag = self.summaryViewTag
-//            view.addSubview(summary)
-            
-//            summary.translatesAutoresizingMaskIntoConstraints = false
-//            view.addConstraint(NSLayoutConstraint(item: summary, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: 0))
-//            view.addConstraint(NSLayoutConstraint(item: summary, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 0))
-//            view.addConstraint(NSLayoutConstraint(item: summary, attribute: .top, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0))
-            
-//            print("csj_", "summary != nil")
-//        }else{
-//            print("csj_", "summary == nil")
-//        }
-        
-//        view.addConstraint(NSLayoutConstraint(item: summaryView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: 0))
-//        view.addConstraint(NSLayoutConstraint(item: summaryView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 0))
-//        view.addConstraint(NSLayoutConstraint(item: summaryView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0))
-
         
         myLocationModeOff()
         
         // 이전에 선택된 충전소 마커를 원래 마커로 원복
         if selectCharger != nil {
-            summaryView.charger = selectCharger
-//            summaryView.layoutIfNeeded()
-//            summaryView.setNeedsUpdateConstraints()
-//            callOutLayer.layoutIfNeeded()
+            // layout test code
+            summaryLayoutTest = true
+            summaryView.layoutAddPathSummary(hiddenAddBtn: summaryLayoutTest)
+        
+            summaryView.layoutIfNeeded()
+            callOutLayer.layoutIfNeeded()
             
             summaryView.mainViewDelegate = self
             
@@ -1244,29 +1199,8 @@ extension MainViewController: MainViewDelegate {
     func showCallOut(charger: ChargerStationInfo) {
         selectCharger = charger
         summaryView.charger = charger
-        
-        if let totalType = selectCharger?.mTotalType {
-//            setChargerTypeImage(type: totalType)
-//            setChargerPower()
-        }
-        
-        if let pay = selectCharger?.mStationInfoDto?.mPay {
-//            setChargePrice(pay: pay)
-        }
-        
-//        setCallOutFavoriteIcon(charger: selectCharger!)
-//
-//        setDistance()
-       
-//        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cs
-        
-//        setCallOutLb()
-        
-//        let chargeState = callOutStatus.text
-//        stationInfoArr[chargeState ?? ""] = "chargeState"
-//
-//        self.markerImg.image = selectCharger?.getChargeStateImg(type: chargeState!)
-//
+        summaryView.layoutMainSummary()
+
         setView(view: callOutLayer, hidden: false)
 
         if let markerItem = self.tMapView!.getMarketItem(fromID: self.selectCharger!.mChargerId) {
@@ -1276,121 +1210,12 @@ extension MainViewController: MainViewDelegate {
         }
     }
     
-//    func setCallOutLb() {
-//        callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
-//
-//        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
-//
-//        if selectCharger?.getCompanyIcon() != nil {
-//            self.companyImg.image = selectCharger?.getCompanyIcon()
-//        } else {
-//            self.companyImg.image = .none
-//        }
-//    }
-//
-//    func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
-//        if charger.mFavorite {
-//            callOutFavorite.setImage(UIImage(named: "bookmark_on"), for: .normal)
-//        } else {
-//            callOutFavorite.setImage(UIImage(named: "bookmark"), for: .normal)
-//        }
-//    }
-//
     func setView(view: UIView, hidden: Bool) {
         UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
             view.isHidden = hidden
         })
-//        // 경유지 추가 버튼 활성화
-//        btnRouteCancel.setTitle("경로취소", for: .normal)
-//        print("csj_", "summaryView : " , summaryView)
-//        summaryView.layoutAddPathSummary(hiddenAddBtn: false)
     }
-//
-//    func setDistance() {
-//        if let currentLocatin = MainViewController.currentLocation {
-//            getDistance(curPos: currentLocatin, desPos: self.selectCharger!.marker.getTMapPoint())
-//        } else {
-//            self.distanceLb.text = "현재 위치를 받아오지 못했습니다."
-//        }
-//    }
-//
-//    func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
-//        if desPos.getLatitude() == 0 || desPos.getLongitude() == 0 {
-//            self.distanceLb.text = "현재 위치를 받아오지 못했습니다."
-//        } else {
-//            self.distanceLb.text = "계산중"
-//
-//            DispatchQueue.global(qos: .background).async {
-//                let tMapPathData = TMapPathData.init()
-//                if let path = tMapPathData.find(from: curPos, to: desPos) {
-//                    let distance = Double(path.getDistance() / 1000).rounded()
-//
-//                    DispatchQueue.main.async {
-//                        self.distanceLb.text = "| \(distance) Km"
-//                    }
-//                } else {
-//                    DispatchQueue.main.async {
-//                        self.distanceLb.text = "계산오류."
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    func setChargerTypeImage(type:Int) {
-//        // "DC차데모"
-//        if (type & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
-//            self.typeDemoLb.isHidden = false
-//        } else {
-//            self.typeDemoLb.isHidden = true
-//        }
-//
-//        // "DC콤보"
-//        if (type & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
-//            self.typeComboLb.isHidden = false
-//        } else {
-//            self.typeComboLb.isHidden = true
-//        }
-//
-//        // "AC3상"
-//        if (type & Const.CTYPE_AC) == Const.CTYPE_AC {
-//            self.typeACLb.isHidden = false
-//        } else {
-//            self.typeACLb.isHidden = true
-//        }
-//
-//        // "완속"
-//        if (type & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
-//            self.typeSlowLb.isHidden = false
-//        } else {
-//            self.typeSlowLb.isHidden = true
-//        }
-//
-//        // "슈퍼차저"
-//        if (type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
-//            self.typeSuperLb.isHidden = false
-//        } else {
-//            self.typeSuperLb.isHidden = true
-//        }
-//
-//        // "데스티네이션"
-//        if (type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
-//            self.typeDestiLb.isHidden = false
-//        } else {
-//            self.typeDestiLb.isHidden = true
-//        }
-//
-//        DispatchQueue.main.async {
-//            self.distanceLb.text = "test"
-//        }
-//    }
-//
-//    func setChargerPower() {
-//        let power = selectCharger?.getChargerPower(power: (selectCharger?.mPower)!, type: (selectCharger?.mTotalType)!)
-//        self.chargePowerLb.text = power
-//        stationInfoArr[power ?? ""] = "power"
-//    }
-//
+
 //    // -> chargerStationInfo class로
 ////    chargerStationInfo -> getChargerPower
 ////    self.chargePowerLb.text = strPower
@@ -1398,21 +1223,6 @@ extension MainViewController: MainViewDelegate {
 //
 ////    chargerStationInfo -> getChargeStateImg
 ////    self.markerImg.clipsToBounds = true
-//
-//    func setChargePrice(pay: String) {
-//        // 과금
-//        switch pay {
-//        case "Y":
-//            self.chargePriceLb.text = "유료"
-//            stationInfoArr["유료"] = "pay"
-//        case "N":
-//            self.chargePriceLb.text = "무료"
-//            stationInfoArr["무료"] = "pay"
-//        default:
-//            self.chargePriceLb.text = "시범운영"
-//            stationInfoArr["시범운영"] = "pay"
-//        }
-//    }
 }
 
 // MARK: - Request To Server
@@ -1869,15 +1679,3 @@ extension MainViewController {
         }
     }
 }
-
-// Favorite
-//    @IBAction func onClickMainFavorite(_ sender: UIButton) {
-//        if MemberManager().isLogin() {
-//            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-//            let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
-//            favoriteVC.delegate = self
-//            self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
-//        } else {
-//            MemberManager().showLoginAlert(vc:self)
-//        }
-//    }

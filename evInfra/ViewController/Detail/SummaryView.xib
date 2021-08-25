@@ -24,6 +24,7 @@
                 <outlet property="shareBtn" destination="xSF-Fz-5TN" id="Muy-Gk-RS3"/>
                 <outlet property="slowCountLb" destination="wai-bU-YdW" id="TRh-Pc-Dl5"/>
                 <outlet property="startBtn" destination="yky-aC-tez" id="AGz-He-hJW"/>
+                <outlet property="stateCountView" destination="Emc-zz-VBd" id="eyn-5W-xPb"/>
                 <outlet property="stateLb" destination="1FS-PB-eu7" id="y0I-rV-hbt"/>
                 <outlet property="stationImg" destination="6Lx-CZ-bNr" id="mGJ-In-UdO"/>
                 <outlet property="stationNameLb" destination="Xvx-HD-YVf" id="PEd-Rp-iT9"/>
@@ -181,12 +182,13 @@
                                     <rect key="frame" x="0.0" y="88.5" width="382" height="47.5"/>
                                     <subviews>
                                         <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="eGh-jn-FIn">
-                                            <rect key="frame" x="0.0" y="5.5" width="173" height="36"/>
+                                            <rect key="frame" x="0.0" y="5.5" width="166" height="36"/>
                                             <subviews>
                                                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yky-aC-tez">
                                                     <rect key="frame" x="0.0" y="0.0" width="81" height="36"/>
                                                     <color key="backgroundColor" name="background-tertiary"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="width" constant="81" id="fkk-E8-nFx"/>
                                                         <constraint firstAttribute="height" constant="36" id="xLY-6V-0PZ"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
@@ -198,10 +200,11 @@
                                                     </connections>
                                                 </button>
                                                 <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bkc-65-C4D">
-                                                    <rect key="frame" x="83" y="0.0" width="0.0" height="36"/>
+                                                    <rect key="frame" x="83" y="0.0" width="81" height="36"/>
                                                     <color key="backgroundColor" name="background-tertiary"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="36" id="maa-ph-iLX"/>
+                                                        <constraint firstAttribute="width" constant="81" id="zp8-TS-1hj"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <state key="normal" title="경유">
@@ -212,10 +215,11 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89O-KD-6Tb">
-                                                    <rect key="frame" x="85" y="0.0" width="88" height="36"/>
+                                                    <rect key="frame" x="85" y="0.0" width="81" height="36"/>
                                                     <color key="backgroundColor" name="background-tertiary"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="36" id="0VC-ns-BrC"/>
+                                                        <constraint firstAttribute="width" constant="81" id="e3J-Tq-mlH"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <state key="normal" title="도착">
@@ -230,11 +234,12 @@
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="140" id="BM9-YS-rF8"/>
                                             </constraints>
                                         </stackView>
-                                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUs-fX-WKM">
-                                            <rect key="frame" x="177" y="5.5" width="205" height="36"/>
+                                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUs-fX-WKM">
+                                            <rect key="frame" x="170" y="5.5" width="212" height="36"/>
                                             <color key="backgroundColor" name="content-positive"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="36" id="Mem-5B-u0B"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="127" id="kcY-Un-qab"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                             <color key="tintColor" name="content-primary"/>
