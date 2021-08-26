@@ -23,21 +23,7 @@ protocol DetailViewDelegate {
 
 class DetailViewController: UIViewController, MTMapViewDelegate {
 
-//    @IBOutlet weak var vieagerContainer: UIView!
-    
-
     @IBOutlet var detailView: UIView!
-    //
-//    @IBOutlet var summary: UIView!
-    //    @IBOutlet var chargerStatusImg: UIImageView!        // 충전기 상태(이미지)
-//    @IBOutlet var callOutStatus: UILabel!               // 충전기 상태
-//    @IBOutlet weak var dstLabel: UILabel!               // 현 위치에서 거리
-    // 충전소 정보
-//    @IBOutlet var powerLb: UILabel!                     // 충전속도
-//    @IBOutlet var priceLb: UILabel!                     // 충전가격
-    
-//    @IBOutlet var powerView: UILabel!
-    // 충전속도(view)
     
     @IBOutlet var summaryLayout: UIView!
     @IBOutlet weak var companyLabel: UILabel!           // 운영기관(이름)
@@ -45,9 +31,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet var companyView: UIStackView!             // 운영기관(view)
     @IBOutlet weak var timeLabel: UILabel!              // 운영시간
     @IBOutlet weak var callLb: UILabel!                 // 전화번호
-//    @IBOutlet var indoorView: UIView!                   // 설치형태(실내)
-//    @IBOutlet var outdoorView: UIView!                  // 설치형태(실외)
-//    @IBOutlet var canopyView: UIView!                   // 설치형태(캐노피)
     @IBOutlet var checkingView: UILabel!                 // 설치형태(확인중)
     @IBOutlet var kakaoMapView: UIView!                 // 스카이뷰(카카오맵)
     @IBOutlet var mapSwitch: UISwitch!
@@ -66,11 +49,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
  
     var mainViewDelegate: MainViewDelegate?
     var charger: ChargerStationInfo?
-    var checklistUrl: String?
     var isExistAddBtn = false
-    
-    // Charge station info(summary)
-    var stationInfoArr = [String:String]()
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var boardList: Array<BoardItem> = Array<BoardItem>()
@@ -88,6 +67,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     var summaryViewTag = 20
     var summaryView:SummaryView!
+    var stationJson:JSON!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,7 +124,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     func prepareChargerInfo() {
-//        getStationDetailInfo()
+        setStationInfo()
         setDetailLb()
         getFirstBoardData()
         initKakaoMap()
@@ -153,60 +133,15 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func setDetailLb() {
         mapSwitch.transform = CGAffineTransform(scaleX: 0.7, y: 0.645)
         moveMapBtn.setCornerCircle(frame: moveMapBtn.frame)
-//        let frame:CGRect = summary.bounds
-//        let testView = SummaryView(frame: frame)
-//        testView.tag = self.summaryViewTag
-////        testView.leadingAnchor.anchorWithOffset(to: <#T##NSLayoutXAxisAnchor#>)
-//        view.addSubview(testView)
         
         if let chargerData = charger {
             if let stationDto = chargerData.mStationInfoDto {
-//                // 충전소 이름
-//                self.callOutTitle.text = stationDto.mSnm
-//                // 주소
-//                self.setAddr(stationDto: stationDto)
                 // 설치 형태
                 self.stationArea(stationDto: stationDto)
-                // 충전 가격
-//                setChargePrice(stationDto: stationDto)
             }
-            
-            // 운영기관 이미지
-//            setCompanyIcon(chargerData: chargerData)
-            
-            // 충전기 상태
-//            self.callOutStatus.text = chargerData.cid.cstToString(cst: chargerData.mTotalStatus ?? 2)
-            
-            // 충전 속도
-    //        self.powerLb.text = chargerData.getChargerPower(power: (chargerData.mPower)!, type: (chargerData.mTotalType)!)
-            
-            // 충전기 상태별 마커 이미지
-    //        let chargeState = self.callOutStatus.text
-    //        stationInfoArr[chargeState ?? ""] = "chargeState"
-    //        self.chargerStatusImg.image = chargerData.getChargeStateImg(type: chargeState!)
-            
-            // 충전소 거리
-//            if let currentLocatin = MainViewController.currentLocation {
-//                getDistance(curPos: currentLocatin, desPos: chargerData.marker.getTMapPoint())
-//            } else {
-//                self.dstLabel.text = "현재 위치를 받아오지 못했습니다."
-//            }
         }
     }
     
-    
-//    func setAddr(stationDto: StationInfoDto) {
-//        if let addr = stationDto.mAddress{
-//            if let addrDetail = stationDto.mAddressDetail{
-//                self.addressLabel.text = addr+"\n"+addrDetail
-//            }else{
-//                self.addressLabel.text = addr
-//            }
-//        }else{
-//            self.addressLabel.text = "신규 충전소로, 주소 업데이트 중입니다."
-//        }
-//    }
-//    
     func stationArea(stationDto:StationInfoDto) {
         let roof = String(stationDto.mRoof ?? "N")
         let area:String!
@@ -232,48 +167,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
         self.checkingView.text = area
         self.checkingView.textColor = UIColor.init(named:color)
-    }
-    
-    func setChargePrice(stationDto: StationInfoDto) {
-//        switch stationDto.mPay {
-//            case "Y":
-//                self.priceLb.text = "유료"
-//            case "N":
-//                self.priceLb.text = "무료"
-//            default:
-//                self.priceLb.text = "시범운영"
-//            }
-    }
-    
-//    func setCompanyIcon(chargerData: ChargerStationInfo) {
-//        if chargerData.getCompanyIcon() != nil{
-//            self.companyImg.image = chargerData.getCompanyIcon()
-//        }else {
-//            self.companyImg.image = UIImage(named: "icon_building_sm")
-//        }
-//    }
-    
-    func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
-        if desPos.getLatitude() == 0 || desPos.getLongitude() == 0 {
-//            self.dstLabel.text = "현재 위치를 받아오지 못했습니다."
-        } else {
-//            self.dstLabel.text = "계산중"
-            
-            DispatchQueue.global(qos: .background).async {
-                let tMapPathData = TMapPathData.init()
-                if let path = tMapPathData.find(from: curPos, to: desPos) {
-                    let distance = Double(path.getDistance() / 1000).rounded()
-
-                    DispatchQueue.main.async {
-//                        self.dstLabel.text = "여기서 \(distance) Km"
-                    }
-                } else {
-                    DispatchQueue.main.async {
-//                        self.dstLabel.text = "거리를 계산할 수 없습니다."
-                    }
-                }
-            }
-        }
     }
     
     func initKakaoMap(){
@@ -304,28 +197,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     // MARK: - Server Communications
-    
-    // 메인으로 이동
-//    func getStationDetailInfo(list:JSON) {
-//        print("csj_", "getStation_Detail")
-//        if let chargerData = charger {
-//            Server.getStationDetail(chargerId: chargerData.mChargerId!) { (isSuccess, value) in
-//                if isSuccess {
-//                    let json = JSON(value)
-//                    let list = json["list"]
-//
-//        for (_, item):(String, JSON) in list {
-//            self.setStationInfo(json: item)
-//            break
-//        }
-//                }
-//            }
-//        }
-//    }
-    
-    func setStationInfo(json: JSON) {
+    func setStationInfo() {
         // 운영기관
-        let stationOperator:String = json["op"].stringValue
+        let stationOperator:String = stationJson["op"].stringValue
         if !stationOperator.isEmpty && stationOperator != nil{
             if stationOperator.equalsIgnoreCase(compare: "") || stationOperator.equalsIgnoreCase(compare: "null"){
                 self.companyLabel.text = "기타"
@@ -337,14 +211,14 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
         
         // 이용시간
-        let time = json["ut"].stringValue
+        let time = stationJson["ut"].stringValue
         self.timeLabel.textColor = UIColor.init(named: "content-primary")
         if !time.isEmpty {
             if time.equalsIgnoreCase(compare: "") || time.equalsIgnoreCase(compare: "null"){
                 self.timeLabel.text = "등록된 정보가 없습니다."
                 self.timeLabel.textColor = UIColor.init(named: "content-tertiary")
             }else{
-                self.timeLabel.text = json["ut"].stringValue
+                self.timeLabel.text = stationJson["ut"].stringValue
             }
         } else {
             self.timeLabel.text = "등록된 정보가 없습니다."
@@ -352,7 +226,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
         
         // 메모
-        let memo = json["mm"].stringValue
+        let memo = stationJson["mm"].stringValue
         if !memo.isEmpty {
             if memo.equals("") || memo.equals("null"){
                 self.memoView.isHidden = true
@@ -368,14 +242,14 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
         
         // 센터 전화번호
-        let call = json["tel"].stringValue
+        let call = stationJson["tel"].stringValue
         self.callLb.textColor = UIColor.init(named: "content-primary")
         if !call.isEmpty {
             if call.equalsIgnoreCase(compare: "") || call.equalsIgnoreCase(compare: "null"){
                 self.callLb.textColor = UIColor.init(named: "content-tertiary")
                 self.callLb.text = "등록된 정보가 없습니다."
             }else{
-                self.phoneNumber = json["tel"].stringValue
+                self.phoneNumber = stationJson["tel"].stringValue
                 self.callLb.text = self.phoneNumber
                 let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.tapFunction))
                 self.callLb.isUserInteractionEnabled = true
@@ -387,7 +261,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
         
         // 충전기 정보
-        let clist = json["cl"]
+        let clist = stationJson["cl"]
         var cidList = [CidInfo]()
         for (_, item):(String, JSON) in clist {
             let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue)
@@ -501,22 +375,19 @@ extension DetailViewController: BoardTableViewDelegate {
     
     fileprivate func prepareBoardTableView() {
         self.cidTableView.rowHeight = UITableViewAutomaticDimension
-//        self.cidTableView.estimatedRowHeight = 50
-//        self.cidTableView.estimatedRowHeight = CidTableView.Constants.cellHeight
         self.cidTableView.separatorStyle = .none
         
         // UITableView cell(게시판) 높이를 자동으로 설정
         self.boardTableView.tableViewDelegate = self
         self.boardTableView.rowHeight = UITableViewAutomaticDimension
         self.boardTableView.estimatedRowHeight = UITableViewAutomaticDimension
-//        self.boardTableView.estimatedRowHeight = UITableViewAutomaticDimension
         self.boardTableView.separatorStyle = .none
         
         self.boardTableView.allowsSelection = false
         
         // Table header 추가
         self.boardTableView.tableHeaderView = detailView
-        self.boardTableView.sectionHeaderHeight = UITableViewAutomaticDimension // UITableViewAutomaticDimension
+        self.boardTableView.sectionHeaderHeight = UITableViewAutomaticDimension
         self.boardTableView.estimatedSectionHeaderHeight = 25  // 25
     }
     

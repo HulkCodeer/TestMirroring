@@ -1149,16 +1149,16 @@ extension MainViewController: MainViewDelegate {
         let detailVC:DetailViewController = detailStoryboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         detailVC.mainViewDelegate = self
         detailVC.charger = self.selectCharger
-        detailVC.stationInfoArr = self.stationInfoArr
-        detailVC.checklistUrl = self.checklistUrl
-        print("csj_", "summaryView.cidListData" , summaryView.cidListData)
-        //        detailVC.isExistAddBtn = summaryView.isExistAddBtn
+//        detailVC.stationInfoArr = self.stationInfoArr
+//        detailVC.checklistUrl = self.checklistUrl        //        detailVC.isExistAddBtn = summaryView.isExistAddBtn
+        
+        if summaryView.cidListData != nil {
+            detailVC.stationJson = self.summaryView.cidListData
+        }
         
         self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
         
-        if summaryView.cidListData != nil {
-            detailVC.setStationInfo(json: self.summaryView.cidListData)
-        }
+        
     }
     
     func prepareSummaryView() {
