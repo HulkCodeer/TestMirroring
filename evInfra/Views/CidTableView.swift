@@ -61,26 +61,34 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cidInfo = cidList[indexPath.row]
+        print("csj_", "cidInfoRow : " , indexPath.row)
         let cell = Bundle.main.loadNibNamed("CidInfoTableViewCell", owner: self, options: nil)?.first as! CidInfoTableViewCell
         
         // 충전기 상태
         cell.statusLabel.text = cidInfo.cstToString(cst: cidInfo.status)
         cell.statusLabel.textColor = cidInfo.getCstColor(cst: cidInfo.status)
         cell.statusImg.tintColor = cidInfo.getCstColor(cst: cidInfo.status)
-        if cidInfo.status != Const.CHARGER_STATE_CHECKING && cidInfo.status != Const.CHARGER_STATE_UNCONNECTED &&
-            cidInfo.status != Const.CHARGER_STATE_UNKNOWN{
-            if isChargePower(position: indexPath.row) {
-                cell.statusBtn.isHidden = false
+        
+        if cidInfo.chargerType != Const.CHARGER_TYPE_SLOW && cidInfo.chargerType != Const.CHARGER_TYPE_DESTINATION &&
+            cidInfo.chargerType != Const.CHARGER_TYPE_ETC{
+            if isChangePower(position: indexPath.row) {
+                cell.statusBtn.isHidden = true
+                cell.dividerView.isHidden = false
                 if cidInfo.power == 0 {
                     cell.powerLable.text = "50 kW"
                 }else{
                     cell.powerLable.text = String(cidInfo.power) + "kW"
                 }
+            }else{
+                cell.dividerView.isHidden = true
             }
         }else{
-            if isChargePower(position: indexPath.row) {
+            if isTypeSlow(position: indexPath.row) {
+                cell.dividerView.isHidden = false
                 cell.statusBtn.isHidden = false
                 cell.powerLable.text = "완속"
+            }else{
+                cell.dividerView.isHidden = true
             }
         }
         
@@ -117,10 +125,23 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         return Constants.cellHeight - cell.getDividerHeight()
     }
     
-    func isChargePower(position:Int) -> Bool {
+    func isChangePower(position:Int) -> Bool {
         if position > 0 {
             return cidList[position-1].power != cidList[position].power
         }
         return true
+    }
+    
+    func isTypeSlow(position:Int) -> Bool {
+        if position > 0 {
+            if (cidList[position - 1].chargerType != Const.CHARGER_TYPE_SLOW
+                    && cidList[position - 1].chargerType != Const.CHARGER_TYPE_DESTINATION
+                    && cidList[position - 1].chargerType != Const.CHARGER_TYPE_ETC) {
+                return cidList[position].chargerType == Const.CHARGER_TYPE_SLOW || cidList[position].chargerType == Const.CHARGER_TYPE_DESTINATION
+                    || cidList[position].chargerType == Const.CHARGER_TYPE_ETC
+            }
+            return false
+        }
+        return false
     }
 }
