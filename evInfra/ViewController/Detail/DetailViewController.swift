@@ -144,7 +144,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     func prepareChargerInfo() {
-        getStationDetailInfo()
+//        getStationDetailInfo()
         setDetailLb()
         getFirstBoardData()
         initKakaoMap()
@@ -305,30 +305,32 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     // MARK: - Server Communications
     
-    func getStationDetailInfo() {
-        if let chargerData = charger {
-            Server.getStationDetail(chargerId: chargerData.mChargerId!) { (isSuccess, value) in
-                if isSuccess {
-                    let json = JSON(value)
-                    let list = json["list"]
-                    
-                    for (_, item):(String, JSON) in list {
-                        self.setStationInfo(json: item)
-                        break
-                    }
-                }
-            }
-        }
-    }
+    // 메인으로 이동
+//    func getStationDetailInfo(list:JSON) {
+//        print("csj_", "getStation_Detail")
+//        if let chargerData = charger {
+//            Server.getStationDetail(chargerId: chargerData.mChargerId!) { (isSuccess, value) in
+//                if isSuccess {
+//                    let json = JSON(value)
+//                    let list = json["list"]
+//
+//        for (_, item):(String, JSON) in list {
+//            self.setStationInfo(json: item)
+//            break
+//        }
+//                }
+//            }
+//        }
+//    }
     
     func setStationInfo(json: JSON) {
         // 운영기관
-        let stationOperator = json["op"].stringValue
-        if !stationOperator.isEmpty {
+        let stationOperator:String = json["op"].stringValue
+        if !stationOperator.isEmpty && stationOperator != nil{
             if stationOperator.equalsIgnoreCase(compare: "") || stationOperator.equalsIgnoreCase(compare: "null"){
                 self.companyLabel.text = "기타"
             }else{
-                self.companyLabel.text = json["op"].stringValue
+                self.companyLabel.text = stationOperator
             }
         } else {
             self.companyLabel.text = "기타"

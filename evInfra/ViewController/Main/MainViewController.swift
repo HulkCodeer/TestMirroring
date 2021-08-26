@@ -1151,10 +1151,14 @@ extension MainViewController: MainViewDelegate {
         detailVC.charger = self.selectCharger
         detailVC.stationInfoArr = self.stationInfoArr
         detailVC.checklistUrl = self.checklistUrl
+        print("csj_", "summaryView.cidListData" , summaryView.cidListData)
         //        detailVC.isExistAddBtn = summaryView.isExistAddBtn
-
         
         self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
+        
+        if summaryView.cidListData != nil {
+            detailVC.setStationInfo(json: self.summaryView.cidListData)
+        }
     }
     
     func prepareSummaryView() {
@@ -1198,6 +1202,7 @@ extension MainViewController: MainViewDelegate {
     
     func showCallOut(charger: ChargerStationInfo) {
         selectCharger = charger
+        getStationDetailInfo()
         summaryView.charger = charger
         summaryView.layoutMainSummary()
 
@@ -1206,6 +1211,25 @@ extension MainViewController: MainViewDelegate {
         if let markerItem = self.tMapView!.getMarketItem(fromID: self.selectCharger!.mChargerId) {
             if (markerItem.getIcon().isEqual(other: self.selectCharger!.getSelectIcon())) == false {
                 markerItem.setIcon(self.selectCharger!.getSelectIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+            }
+        }
+    }
+    
+    func getStationDetailInfo() {
+        if let chargerData = selectCharger {
+            Server.getStationDetail(chargerId: chargerData.mChargerId!) { (isSuccess, value) in
+                if isSuccess {
+                    let json = JSON(value)
+                    let list = json["list"]
+                    print("csj_", "list : ", list.count)
+                    
+                    for (_, item):(String, JSON) in list {
+                        self.summaryView.setCidInfo(jsonList: item)
+                        break
+                    }
+                    
+                    
+                }
             }
         }
     }

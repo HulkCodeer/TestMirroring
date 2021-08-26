@@ -415,7 +415,7 @@
                         <outlet property="checkingView" destination="sPl-8Y-Zhs" id="cU0-pm-zgr"/>
                         <outlet property="cidTableHeightConstraint" destination="vqP-HU-Gfi" id="wjS-lx-EuS"/>
                         <outlet property="cidTableView" destination="XBy-N2-pfd" id="UPG-UM-e6Z"/>
-                        <outlet property="companyLabel" destination="sHR-S9-CeE" id="r9z-bb-59V"/>
+                        <outlet property="companyLabel" destination="sHR-S9-CeE" id="XV0-Q4-8Nq"/>
                         <outlet property="companyView" destination="RED-I4-L3i" id="oZ5-YB-QRK"/>
                         <outlet property="detailView" destination="HgN-hh-5BP" id="0eJ-lf-i7Z"/>
                         <outlet property="kakaoMapView" destination="AEx-6u-3Gs" id="Msf-ns-CqX"/>

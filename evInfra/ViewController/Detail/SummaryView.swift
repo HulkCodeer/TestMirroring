@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 class SummaryView: UIView {
     
@@ -53,6 +54,8 @@ class SummaryView: UIView {
     
     var mainViewDelegate: MainViewDelegate?
     var detailViewDelegate: DetailViewDelegate?
+    var cidList = [CidInfo]()
+    var cidListData:JSON!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -103,6 +106,8 @@ class SummaryView: UIView {
                 setStationCstColor(charger: charger)
                 // 급/완속 카운터
                 stateCountView.isHidden = false
+                let count = countFastPower(charger: charger)
+//                print("csj_", "count : ", count)
 
                 // 충전기 타입
                 setChargerType(charger: charger)
@@ -126,6 +131,19 @@ class SummaryView: UIView {
             }
         }
     }
+    
+    public func countFastPower(charger:ChargerStationInfo) -> Int{
+        let count = charger.cidInfo
+        print("csj_", "cidInfoTest : ", count)
+//        var fast:Int = 0
+//        if charger.cidInfo.chargerType == Const.CHARGER_TYPE_SLOW || charger.cidInfo.chargerType == Const.CHARGER_TYPE_DESTINATION{
+//            fast = fast+1
+//        }
+//        return fast
+        return 0
+    }
+    
+    
     // Detail_Summary View setting
     func layoutDetailSummary() {
         
@@ -274,6 +292,31 @@ class SummaryView: UIView {
             status = (charger.mTotalStatus)!
         }
         stateLb.textColor = charger.cidInfo.getCstColor(cst: status)
+    }
+    
+    func setCidInfo(jsonList: JSON) {
+        print("csj_", "json", jsonList)
+        cidListData = jsonList
+        
+        let clist = jsonList["cl"]
+        
+        for (_, item):(String, JSON) in clist {
+            let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue)
+            print("csj_", "test", cidInfo.power)
+            cidList.append(cidInfo)
+        }
+        
+        if !cidList.isEmpty {
+            var stationSt = cidList[0].status!
+            for cid in cidList {
+                if (stationSt != cid.status) {
+                    if(cid.status == Const.CHARGER_STATE_WAITING) {
+                        stationSt = cid.status!
+                        break
+                    }
+                }
+            }
+        }
     }
     
     // [Summary]

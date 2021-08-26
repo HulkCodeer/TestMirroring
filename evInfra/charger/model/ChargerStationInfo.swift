@@ -10,6 +10,8 @@ import Foundation
 
 class ChargerStationInfo {
     
+    var cidInfoList: Any!
+    
     var mChargerId: String?
     
     var mStationInfoDto: StationInfoDto?
@@ -308,4 +310,5 @@ class ChargerStationInfo {
         }
         return stateImg
     }
+    
 }
