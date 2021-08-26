@@ -22,7 +22,7 @@
                 <outlet property="filterPay" destination="COM-tZ-Vo2" id="HJz-fS-q8Z"/>
                 <outlet property="filterPower" destination="56c-DO-IVN" id="R2j-Xl-r3J"/>
                 <outlet property="filterRoof" destination="UrW-9f-nTp" id="v5e-RU-P65"/>
-                <outlet property="filterView" destination="yVH-IE-hgy" id="rYw-Cq-tup"/>
+                <outlet property="filterView" destination="ZjV-qj-kBd" id="2y2-39-aAx"/>
                 <outlet property="navigationBtn" destination="wUs-fX-WKM" id="57y-eL-aG1"/>
                 <outlet property="navigationView" destination="qJ3-Jh-jtn" id="E0h-W4-TR2"/>
                 <outlet property="shareBtn" destination="xSF-Fz-5TN" id="Muy-Gk-RS3"/>
@@ -48,13 +48,13 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="189"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MWa-w9-3ln">
+                <view clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MWa-w9-3ln">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="189"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="136" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="KtL-jr-h0J" userLabel="ContentView">
+                        <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="136" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="KtL-jr-h0J" userLabel="ContentView">
                             <rect key="frame" x="16" y="16" width="382" height="157"/>
                             <subviews>
-                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="V4i-d0-lhD" userLabel="TitleView">
+                                <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="V4i-d0-lhD" userLabel="TitleView">
                                     <rect key="frame" x="0.0" y="0.0" width="382" height="25"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Lx-CZ-bNr">
@@ -103,7 +103,7 @@
                                         <constraint firstAttribute="height" constant="25" id="TlE-tM-2fv"/>
                                     </constraints>
                                 </stackView>
-                                <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="5iU-lC-L5a" userLabel="TypeView">
+                                <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="20" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="5iU-lC-L5a" userLabel="TypeView">
                                     <rect key="frame" x="0.0" y="33" width="382" height="20"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DC콤보" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="60R-5u-Qay">
@@ -178,7 +178,7 @@
                                         <constraint firstAttribute="height" constant="20" id="nGh-L9-yVC"/>
                                     </constraints>
                                 </stackView>
-                                <view contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="50" translatesAutoresizingMaskIntoConstraints="NO" id="Emc-zz-VBd" userLabel="StateCountView">
+                                <view clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="50" translatesAutoresizingMaskIntoConstraints="NO" id="Emc-zz-VBd" userLabel="StateCountView">
                                     <rect key="frame" x="0.0" y="61" width="382" height="20"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전 가능" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1FS-PB-eu7">
@@ -247,48 +247,45 @@
                                         <constraint firstItem="udw-Xw-ehy" firstAttribute="top" secondItem="Emc-zz-VBd" secondAttribute="top" id="kTs-fE-nmN"/>
                                     </constraints>
                                 </view>
-                                <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="yVH-IE-hgy" userLabel="FilterView">
+                                <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="ZjV-qj-kBd">
                                     <rect key="frame" x="0.0" y="89" width="382" height="24"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="800kW" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="56c-DO-IVN">
-                                            <rect key="frame" x="0.0" y="0.0" width="60" height="24"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100kw" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="56c-DO-IVN">
+                                            <rect key="frame" x="0.0" y="0.0" width="54" height="24"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="I1C-Y6-F9J"/>
+                                                <constraint firstAttribute="width" constant="54" id="VJa-7b-rGh"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" name="content-primary"/>
+                                            <color key="highlightedColor" name="background-tertiary"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="유료" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="COM-tZ-Vo2">
+                                            <rect key="frame" x="58" y="0.0" width="34" height="24"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="34" id="H4W-vT-oYa"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" name="content-primary"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="유료" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="COM-tZ-Vo2">
-                                            <rect key="frame" x="64" y="0.0" width="38" height="24"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="실내" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UrW-9f-nTp">
+                                            <rect key="frame" x="96" y="0.0" width="34" height="24"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="38" id="hjG-dC-Ytc"/>
+                                                <constraint firstAttribute="width" constant="34" id="IR7-8x-ncf"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" name="content-primary"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="실내" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UrW-9f-nTp">
-                                            <rect key="frame" x="106" y="0.0" width="38" height="24"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="38" id="Mnp-eO-99d"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" name="content-primary"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o5s-Xg-Hez">
-                                            <rect key="frame" x="148" y="0.0" width="234" height="24"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2qZ-OZ-Z6h">
+                                            <rect key="frame" x="134" y="0.0" width="248" height="24"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" name="background-primary"/>
-                                            <color key="highlightedColor" name="background-primary"/>
+                                            <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="24" id="bKh-IN-3rc"/>
-                                    </constraints>
                                 </stackView>
-                                <stackView hidden="YES" opaque="NO" contentMode="scaleAspectFit" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="8ll-hM-f7D" userLabel="AddrView">
+                                <stackView hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="8ll-hM-f7D" userLabel="AddrView">
                                     <rect key="frame" x="0.0" y="117" width="382" height="36"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="제주특별자치도 제주시 첨단로 330 세미양빌딩 " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MOM-Ih-DpB">

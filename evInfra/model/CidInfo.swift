@@ -124,19 +124,19 @@ class CidInfo {
         return durationString
     }
     
-    public func countAllFastPower() -> String {
-        var allFast:String = ""
-        return allFast
-    }
-    
-    public func countAllSlowPower() -> String {
-        var allSlow:String = ""
-        return allSlow
-    }
-    
-    
-    public func countSlowPower() -> String{
-        var slow:String = ""
-        return slow
-    }
+//    public func countAllFastPower() -> String {
+//        let allFast:String = ""
+//        return allFast
+//    }
+//
+//    public func countAllSlowPower() -> String {
+//        var allSlow:String = ""
+//        return allSlow
+//    }
+//
+//
+//    public func countSlowPower() -> String{
+//        var slow:String = ""
+//        return slow
+//    }
 }

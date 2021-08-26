@@ -1149,15 +1149,11 @@ extension MainViewController: MainViewDelegate {
         let detailVC:DetailViewController = detailStoryboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         detailVC.mainViewDelegate = self
         detailVC.charger = self.selectCharger
+        detailVC.detailData = self.summaryView.detailData
 //        detailVC.stationInfoArr = self.stationInfoArr
 //        detailVC.checklistUrl = self.checklistUrl        //        detailVC.isExistAddBtn = summaryView.isExistAddBtn
         
-        if summaryView.cidListData != nil {
-            detailVC.stationJson = self.summaryView.cidListData
-        }
-        
         self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
-        
         
     }
     
@@ -1202,10 +1198,9 @@ extension MainViewController: MainViewDelegate {
     
     func showCallOut(charger: ChargerStationInfo) {
         selectCharger = charger
-        getStationDetailInfo()
         summaryView.charger = charger
+        getStationDetailInfo()
         summaryView.layoutMainSummary()
-
         setView(view: callOutLayer, hidden: false)
 
         if let markerItem = self.tMapView!.getMarketItem(fromID: self.selectCharger!.mChargerId) {
@@ -1221,14 +1216,16 @@ extension MainViewController: MainViewDelegate {
                 if isSuccess {
                     let json = JSON(value)
                     let list = json["list"]
-                    print("csj_", "list : ", list.count)
                     
+                    let detailData = DetailStationData()
                     for (_, item):(String, JSON) in list {
-                        self.summaryView.setCidInfo(jsonList: item)
+                        detailData.setStationInfo(jsonList: item)
                         break
                     }
-                    
-                    
+                    self.summaryView.detailData = detailData
+                    self.summaryView.layoutMainSummary()
+                    print("csj", "status : ", detailData.op)
+//                    self.summaryView.layoutIfNeeded()
                 }
             }
         }

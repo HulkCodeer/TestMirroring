@@ -10,8 +10,6 @@ import Foundation
 
 class ChargerStationInfo {
     
-    var cidInfoList: Any!
-    
     var mChargerId: String?
     
     var mStationInfoDto: StationInfoDto?
@@ -40,6 +38,8 @@ class ChargerStationInfo {
     var mGuard = false  // 지킴이 관리대상 충전소
     
     var mDistance: Double = 0
+    
+    var cidInfoList = [CidInfo]()
     
     init(_ charger_id : String) {
         self.mChargerId = charger_id

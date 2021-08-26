@@ -21,6 +21,7 @@ protocol DetailViewDelegate {
     func onShare()
 }
 
+
 class DetailViewController: UIViewController, MTMapViewDelegate {
 
     @IBOutlet var detailView: UIView!
@@ -68,6 +69,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     var summaryViewTag = 20
     var summaryView:SummaryView!
     var stationJson:JSON!
+    var detailData = DetailStationData()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,8 +122,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         summaryView.charger = self.charger
         summaryView.detailViewDelegate = self
         summaryView.layoutDetailSummary()
-        
-//        summaryView.layoutAddPathSummary(hiddenAddBtn: true)
     }
     
     func prepareChargerInfo() {
@@ -138,6 +139,47 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             if let stationDto = chargerData.mStationInfoDto {
                 // 설치 형태
                 self.stationArea(stationDto: stationDto)
+                
+                self.callLb.text = "등록된 정보가 없습니다."
+                if stationDto.mTel != nil {
+                    if !stationDto.mTel!.isEmpty && !stationDto.mTel!.equalsIgnoreCase(compare: "null"){
+                        let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.tapFunction))
+                        self.callLb.isUserInteractionEnabled = true
+                        self.callLb.addGestureRecognizer(tap)
+                        self.callLb.textColor = UIColor.init(named: "content-primary")
+                        self.callLb.text = stationDto.mTel
+                    }
+                }else{
+                    self.callLb.textColor = UIColor.init(named: "content-tertiary")
+                }
+                
+                self.companyLabel.text = "기타"
+                if stationDto.mOperator != nil {
+                    if !stationDto.mOperator!.isEmpty && !stationDto.mOperator!.equalsIgnoreCase(compare: "null") {
+                        self.companyLabel.text = stationDto.mOperator
+                    }
+                }
+                
+                self.timeLabel.text = "등록된 정보가 없습니다."
+                if stationDto.mUtime != nil {
+                    if !stationDto.mUtime!.isEmpty && !stationDto.mUtime!.equalsIgnoreCase(compare: "null"){
+                        self.timeLabel.textColor = UIColor.init(named: "content-primary")
+                        self.timeLabel.text = stationDto.mUtime
+                    }else {
+                        self.timeLabel.textColor = UIColor.init(named: "content-tertiary")
+                    }
+                }
+                
+                if stationDto.mMemo != nil {
+                    if !stationDto.mMemo!.isEmpty && !stationDto.mMemo!.equalsIgnoreCase(compare: "null"){
+                        self.memoLabel.text = stationDto.mMemo
+                        self.memoView.visible()
+                        self.memoView.isHidden = false
+                    }else{
+                        self.memoView.isHidden = true
+                        detailViewResize(view: self.memoView)
+                    }
+                }
             }
         }
     }
@@ -198,91 +240,12 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     // MARK: - Server Communications
     func setStationInfo() {
-        // 운영기관
-        let stationOperator:String = stationJson["op"].stringValue
-        if !stationOperator.isEmpty && stationOperator != nil{
-            if stationOperator.equalsIgnoreCase(compare: "") || stationOperator.equalsIgnoreCase(compare: "null"){
-                self.companyLabel.text = "기타"
-            }else{
-                self.companyLabel.text = stationOperator
-            }
-        } else {
-            self.companyLabel.text = "기타"
-        }
-        
-        // 이용시간
-        let time = stationJson["ut"].stringValue
-        self.timeLabel.textColor = UIColor.init(named: "content-primary")
-        if !time.isEmpty {
-            if time.equalsIgnoreCase(compare: "") || time.equalsIgnoreCase(compare: "null"){
-                self.timeLabel.text = "등록된 정보가 없습니다."
-                self.timeLabel.textColor = UIColor.init(named: "content-tertiary")
-            }else{
-                self.timeLabel.text = stationJson["ut"].stringValue
-            }
-        } else {
-            self.timeLabel.text = "등록된 정보가 없습니다."
-            self.timeLabel.textColor = UIColor.init(named: "content-tertiary")
-        }
-        
-        // 메모
-        let memo = stationJson["mm"].stringValue
-        if !memo.isEmpty {
-            if memo.equals("") || memo.equals("null"){
-                self.memoView.isHidden = true
-                detailViewResize(view: self.memoView)
-            } else {
-                self.memoLabel.text = memo
-                self.memoView.visible()
-                self.memoView.isHidden = false
-            }
-        } else {
-            self.memoView.isHidden = true
-            detailViewResize(view: self.memoView)
-        }
-        
-        // 센터 전화번호
-        let call = stationJson["tel"].stringValue
-        self.callLb.textColor = UIColor.init(named: "content-primary")
-        if !call.isEmpty {
-            if call.equalsIgnoreCase(compare: "") || call.equalsIgnoreCase(compare: "null"){
-                self.callLb.textColor = UIColor.init(named: "content-tertiary")
-                self.callLb.text = "등록된 정보가 없습니다."
-            }else{
-                self.phoneNumber = stationJson["tel"].stringValue
-                self.callLb.text = self.phoneNumber
-                let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.tapFunction))
-                self.callLb.isUserInteractionEnabled = true
-                self.callLb.addGestureRecognizer(tap)
-            }
-        } else {
-            self.callLb.text = "등록된 정보가 없습니다."
-            self.callLb.textColor = UIColor.init(named: "content-tertiary")
-        }
-        
-        // 충전기 정보
-        let clist = stationJson["cl"]
-        var cidList = [CidInfo]()
-        for (_, item):(String, JSON) in clist {
-            let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue)
-            cidList.append(cidInfo)
-        }
-        
-        var stationSt = cidList[0].status!
-        for cid in cidList {
-            if (stationSt != cid.status) {
-                if(cid.status == Const.CHARGER_STATE_WAITING) {
-                    stationSt = cid.status!
-                    break
-                }
-            }
-        }
-        
         if let chargerData = charger {
-            ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerData.mChargerId!)?.changeStatus(status: stationSt)
+            ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerData.mChargerId!)?.changeStatus(status: detailData.status)
         }
+        print("csj_", "detailData : ", detailData.cidInfoList.count)
         self.mainViewDelegate?.redrawCalloutLayer()
-        self.cidTableView.setCidList(chargerList: cidList)
+        self.cidTableView.setCidList(chargerList: detailData.cidInfoList)
         self.cidTableView.reloadData()
         self.adjustHeightOfTableview()
         

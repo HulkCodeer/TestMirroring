@@ -34,7 +34,7 @@ class SummaryView: UIView {
     @IBOutlet var fastCountLb: UILabel!
     @IBOutlet var slowCountLb: UILabel!
     
-    @IBOutlet var filterView: UIStackView!
+    @IBOutlet var filterView: UIView!
     @IBOutlet var filterPower: UILabel!
     @IBOutlet var filterPay: UILabel!
     @IBOutlet var filterRoof: UILabel!
@@ -54,8 +54,7 @@ class SummaryView: UIView {
     
     var mainViewDelegate: MainViewDelegate?
     var detailViewDelegate: DetailViewDelegate?
-    var cidList = [CidInfo]()
-    var cidListData:JSON!
+    var detailData = DetailStationData()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -78,9 +77,6 @@ class SummaryView: UIView {
         addSubview(view)
         
         layoutAddPathSummary(hiddenAddBtn: false)
-        
-        filterView.isHidden = true
-        addrView.isHidden = false
         
         startBtn.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 6)
         endBtn.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 6)
@@ -106,12 +102,22 @@ class SummaryView: UIView {
                 setStationCstColor(charger: charger)
                 // 급/완속 카운터
                 stateCountView.isHidden = false
-                let count = countFastPower(charger: charger)
-//                print("csj_", "count : ", count)
-
+                let fastPower = detailData.getCountFastPower()
+                let slowPower = detailData.getCountSlowPower()
+                fastCountLb.textColor = UIColor.init(named: "content-primary")
+                slowCountLb.textColor = UIColor.init(named: "content-primary")
+                if !fastPower.isEmpty && !slowPower.isEmpty {
+                    if fastPower.equals("0/0"){
+                        fastCountLb.textColor = UIColor.init(named: "content-tertiary")
+                    }else if slowPower.equals("0/0"){
+                        slowCountLb.textColor = UIColor.init(named: "content-tertiary")
+                    }
+                    fastCountLb.text = fastPower
+                    slowCountLb.text = slowPower
+                }
+                
                 // 충전기 타입
                 setChargerType(charger: charger)
-                
                 // [충전소 필터]
                 // 속도
                 filterView.isHidden = false
@@ -120,6 +126,7 @@ class SummaryView: UIView {
                 // 가격
                 setChargePrice(stationDto: charger.mStationInfoDto!)
                 filterPay.setBerryTag()
+                
                 // 설치형태
                 stationArea(stationDto: charger.mStationInfoDto!)
                 filterRoof.setBerryTag()
@@ -132,21 +139,9 @@ class SummaryView: UIView {
         }
     }
     
-    public func countFastPower(charger:ChargerStationInfo) -> Int{
-        let count = charger.cidInfo
-        print("csj_", "cidInfoTest : ", count)
-//        var fast:Int = 0
-//        if charger.cidInfo.chargerType == Const.CHARGER_TYPE_SLOW || charger.cidInfo.chargerType == Const.CHARGER_TYPE_DESTINATION{
-//            fast = fast+1
-//        }
-//        return fast
-        return 0
-    }
-    
-    
     // Detail_Summary View setting
     func layoutDetailSummary() {
-        
+        addrView.isHidden = false
         if charger != nil {
             if let stationDto = charger.mStationInfoDto {
                 // 충전소 이름
@@ -295,16 +290,16 @@ class SummaryView: UIView {
     }
     
     func setCidInfo(jsonList: JSON) {
-        print("csj_", "json", jsonList)
-        cidListData = jsonList
         
         let clist = jsonList["cl"]
+        var cidList = [CidInfo]()
         
         for (_, item):(String, JSON) in clist {
             let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue)
             print("csj_", "test", cidInfo.power)
             cidList.append(cidInfo)
         }
+        detailData.cidInfoList = cidList
         
         if !cidList.isEmpty {
             var stationSt = cidList[0].status!
@@ -316,7 +311,16 @@ class SummaryView: UIView {
                     }
                 }
             }
+            detailData.status = stationSt
         }
+    }
+    
+    func textSize(text: String) -> CGRect {
+        let myText = text as NSString
+        
+        let rect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+        let labelSize = myText.boundingRect(with: rect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)], context: nil)
+        return labelSize
     }
     
     // [Summary]
