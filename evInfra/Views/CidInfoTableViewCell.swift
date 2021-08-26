@@ -14,6 +14,9 @@ class CidInfoTableViewCell: UITableViewCell {
     @IBOutlet var dividerView: UIView!
     // 충전기 상태
     @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet var statusImg: UIImageView!
+    @IBOutlet var statusBtn: UIButton!
+    
     // 충전기 속도
     @IBOutlet weak var powerLable: UILabel!
     // 타입
@@ -67,6 +70,10 @@ class CidInfoTableViewCell: UITableViewCell {
         let bottomMargin:CGFloat = self.dividerView.layoutMargins.bottom
         let height:CGFloat = dividerHeight+bottomMargin
         return height
+    }
+    
+    @IBAction func onClickWarningBtn(_ sender: Any) {
+        Snackbar().show(message: "통신미연결, 충전기 오류로 상태값을 알 수 없는 상태입니다.")
     }
     
     public func setChargerTypeImage(type:Int) {

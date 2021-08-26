@@ -102,6 +102,9 @@
                                                                 </constraints>
                                                                 <color key="tintColor" name="content-tertiary"/>
                                                                 <state key="normal" title="Button" image="icon_info_sm"/>
+                                                                <connections>
+                                                                    <action selector="onClickWarningBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="qBS-Kb-FxO"/>
+                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -314,6 +317,8 @@
                 <outlet property="powerLable" destination="z4k-F7-LpL" id="5Jm-0a-LWX"/>
                 <outlet property="slow" destination="M77-Zh-hAM" id="jbD-iy-HR0"/>
                 <outlet property="slowLb" destination="CUW-ej-F3C" id="EaS-Cu-2eL"/>
+                <outlet property="statusBtn" destination="rZN-8J-ZXI" id="yvV-aw-zjs"/>
+                <outlet property="statusImg" destination="WRH-kd-zzo" id="39n-uS-xsw"/>
                 <outlet property="statusLabel" destination="vf6-Ez-fvx" id="LDn-ka-jSt"/>
             </connections>
             <point key="canvasLocation" x="209.42028985507247" y="86.049107142857139"/>

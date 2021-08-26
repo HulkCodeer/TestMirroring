@@ -70,6 +70,13 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         // 충전기 상태
         cell.statusLabel.text = cidInfo.cstToString(cst: cidInfo.status)
         cell.statusLabel.textColor = cidInfo.getCstColor(cst: cidInfo.status)
+        cell.statusImg.tintColor = cidInfo.getCstColor(cst: cidInfo.status)
+        if cidInfo.status == Const.CHARGER_STATE_CHECKING || cidInfo.status == Const.CHARGER_STATE_UNCONNECTED ||
+            cidInfo.status == Const.CHARGER_STATE_UNKNOWN{
+            cell.statusBtn.isHidden = false
+        }else{
+            cell.statusBtn.isHidden = true
+        }
         
 //         충전기 타입
         cell.setChargerTypeImage(type: cidInfo.chargerType)
