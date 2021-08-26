@@ -70,6 +70,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     var summaryView:SummaryView!
     var stationJson:JSON!
     var detailData = DetailStationData()
+    
+    var isRouteMode:Bool = false
 
 
     override func viewDidLoad() {
@@ -122,6 +124,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         summaryView.charger = self.charger
         summaryView.detailViewDelegate = self
         summaryView.layoutDetailSummary()
+        summaryView.layoutAddPathSummary(hiddenAddBtn: !isRouteMode)
     }
     
     func prepareChargerInfo() {

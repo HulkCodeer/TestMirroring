@@ -24,7 +24,6 @@
                 <outlet property="filterRoof" destination="UrW-9f-nTp" id="v5e-RU-P65"/>
                 <outlet property="filterView" destination="ZjV-qj-kBd" id="2y2-39-aAx"/>
                 <outlet property="navigationBtn" destination="wUs-fX-WKM" id="57y-eL-aG1"/>
-                <outlet property="navigationView" destination="qJ3-Jh-jtn" id="E0h-W4-TR2"/>
                 <outlet property="shareBtn" destination="xSF-Fz-5TN" id="Muy-Gk-RS3"/>
                 <outlet property="slowCountLb" destination="wai-bU-YdW" id="TRh-Pc-Dl5"/>
                 <outlet property="startBtn" destination="yky-aC-tez" id="AGz-He-hJW"/>
@@ -34,7 +33,6 @@
                 <outlet property="stationNameLb" destination="Xvx-HD-YVf" id="PEd-Rp-iT9"/>
                 <outlet property="summaryContentView" destination="KtL-jr-h0J" id="Zjy-oN-FKs"/>
                 <outlet property="summaryView" destination="MWa-w9-3ln" id="3a3-z3-oui"/>
-                <outlet property="testView" destination="eGh-jn-FIn" id="YUU-fT-xPs"/>
                 <outlet property="typeACSam" destination="oK2-O4-epY" id="Cda-i6-8ah"/>
                 <outlet property="typeDcCombo" destination="60R-5u-Qay" id="UYw-rd-D7P"/>
                 <outlet property="typeDcDemo" destination="HuC-zS-9v8" id="8E9-ET-M05"/>
@@ -314,64 +312,56 @@
                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="36" id="5yQ-KQ-bSy"/>
                                     </constraints>
                                 </stackView>
-                                <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="qJ3-Jh-jtn" userLabel="NaviView">
+                                <view contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="36" translatesAutoresizingMaskIntoConstraints="NO" id="JNc-uN-pPr">
                                     <rect key="frame" x="0.0" y="121" width="382" height="36"/>
                                     <subviews>
-                                        <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" distribution="fillProportionally" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="eGh-jn-FIn">
-                                            <rect key="frame" x="0.0" y="0.0" width="166" height="36"/>
-                                            <subviews>
-                                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yky-aC-tez">
-                                                    <rect key="frame" x="0.0" y="0.0" width="81" height="36"/>
-                                                    <color key="backgroundColor" name="background-tertiary"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="81" id="fkk-E8-nFx"/>
-                                                        <constraint firstAttribute="height" constant="36" id="xLY-6V-0PZ"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                                    <state key="normal" title="출발">
-                                                        <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="onClickStartPoint:" destination="-1" eventType="touchUpInside" id="S2Y-oL-ea7"/>
-                                                    </connections>
-                                                </button>
-                                                <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bkc-65-C4D">
-                                                    <rect key="frame" x="83" y="0.0" width="81" height="36"/>
-                                                    <color key="backgroundColor" name="background-tertiary"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="36" id="maa-ph-iLX"/>
-                                                        <constraint firstAttribute="width" constant="81" id="zp8-TS-1hj"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                                    <state key="normal" title="경유">
-                                                        <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="onClickAddPoint:" destination="-1" eventType="touchUpInside" id="xi7-vS-92e"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89O-KD-6Tb">
-                                                    <rect key="frame" x="85" y="0.0" width="81" height="36"/>
-                                                    <color key="backgroundColor" name="background-tertiary"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="36" id="0VC-ns-BrC"/>
-                                                        <constraint firstAttribute="width" constant="81" id="e3J-Tq-mlH"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                                    <state key="normal" title="도착">
-                                                        <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="onClickEndPoint:" destination="-1" eventType="touchUpInside" id="SwN-xL-7dq"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
+                                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yky-aC-tez">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="36"/>
+                                            <color key="backgroundColor" name="background-tertiary"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="140" id="BM9-YS-rF8"/>
+                                                <constraint firstAttribute="width" constant="48" id="fkk-E8-nFx"/>
+                                                <constraint firstAttribute="height" constant="36" id="xLY-6V-0PZ"/>
                                             </constraints>
-                                        </stackView>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                            <state key="normal" title="출발">
+                                                <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="onClickStartPoint:" destination="-1" eventType="touchUpInside" id="S2Y-oL-ea7"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bkc-65-C4D">
+                                            <rect key="frame" x="52" y="0.0" width="48" height="36"/>
+                                            <color key="backgroundColor" name="background-tertiary"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="36" id="maa-ph-iLX"/>
+                                                <constraint firstAttribute="width" constant="48" id="zp8-TS-1hj"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                            <state key="normal" title="경유">
+                                                <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="onClickAddPoint:" destination="-1" eventType="touchUpInside" id="xi7-vS-92e"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89O-KD-6Tb">
+                                            <rect key="frame" x="104" y="0.0" width="48" height="36"/>
+                                            <color key="backgroundColor" name="background-tertiary"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="36" id="0VC-ns-BrC"/>
+                                                <constraint firstAttribute="width" constant="48" id="e3J-Tq-mlH"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                            <state key="normal" title="도착">
+                                                <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="onClickEndPoint:" destination="-1" eventType="touchUpInside" id="SwN-xL-7dq"/>
+                                            </connections>
+                                        </button>
                                         <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUs-fX-WKM">
-                                            <rect key="frame" x="170" y="0.0" width="212" height="36"/>
+                                            <rect key="frame" x="160" y="0.0" width="222" height="36"/>
                                             <color key="backgroundColor" name="content-positive"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="36" id="Mem-5B-u0B"/>
@@ -386,19 +376,24 @@
                                             </connections>
                                         </button>
                                     </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="36" id="aJf-cY-FTf"/>
-                                        <constraint firstAttribute="trailing" secondItem="wUs-fX-WKM" secondAttribute="trailing" id="yFI-yB-Fs6"/>
+                                        <constraint firstAttribute="bottom" secondItem="wUs-fX-WKM" secondAttribute="bottom" id="DsV-aT-0jV"/>
+                                        <constraint firstItem="89O-KD-6Tb" firstAttribute="top" secondItem="JNc-uN-pPr" secondAttribute="top" id="L3h-ep-X5D"/>
+                                        <constraint firstItem="yky-aC-tez" firstAttribute="leading" secondItem="JNc-uN-pPr" secondAttribute="leading" id="MY4-cX-5EN"/>
+                                        <constraint firstAttribute="bottom" secondItem="yky-aC-tez" secondAttribute="bottom" id="RVh-g3-X0l"/>
+                                        <constraint firstAttribute="bottom" secondItem="bkc-65-C4D" secondAttribute="bottom" id="aBg-vU-1cB"/>
+                                        <constraint firstItem="yky-aC-tez" firstAttribute="top" secondItem="JNc-uN-pPr" secondAttribute="top" id="aa9-pt-IRY"/>
+                                        <constraint firstAttribute="height" constant="36" id="bE4-Oh-Rlo"/>
+                                        <constraint firstItem="wUs-fX-WKM" firstAttribute="top" secondItem="JNc-uN-pPr" secondAttribute="top" id="bmQ-DJ-8Lf"/>
+                                        <constraint firstItem="bkc-65-C4D" firstAttribute="leading" secondItem="yky-aC-tez" secondAttribute="trailing" constant="4" id="cpc-0A-qGq"/>
+                                        <constraint firstItem="89O-KD-6Tb" firstAttribute="leading" secondItem="bkc-65-C4D" secondAttribute="trailing" constant="4" id="eLY-BW-yFE"/>
+                                        <constraint firstItem="bkc-65-C4D" firstAttribute="top" secondItem="JNc-uN-pPr" secondAttribute="top" id="enH-JI-mZQ"/>
+                                        <constraint firstItem="wUs-fX-WKM" firstAttribute="leading" secondItem="89O-KD-6Tb" secondAttribute="trailing" constant="8" id="feD-rf-X1o"/>
+                                        <constraint firstAttribute="trailing" secondItem="wUs-fX-WKM" secondAttribute="trailing" id="hAW-2N-dIU"/>
+                                        <constraint firstAttribute="bottom" secondItem="89O-KD-6Tb" secondAttribute="bottom" id="y3R-sI-7tz"/>
                                     </constraints>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                            <real key="value" value="0.0"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
-                                </stackView>
+                                </view>
                             </subviews>
                         </stackView>
                     </subviews>

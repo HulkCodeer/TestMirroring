@@ -45,8 +45,6 @@ class SummaryView: UIView {
     @IBOutlet var navigationBtn: UIButton!
     
     @IBOutlet var stateCountView: UIView!
-    @IBOutlet var testView: UIStackView!
-    @IBOutlet var navigationView: UIStackView!
     @IBOutlet var addrView: UIStackView!
     
     
@@ -55,6 +53,7 @@ class SummaryView: UIView {
     var mainViewDelegate: MainViewDelegate?
     var detailViewDelegate: DetailViewDelegate?
     var detailData = DetailStationData()
+    var isAddBtnGone:Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -75,13 +74,12 @@ class SummaryView: UIView {
         let view = Bundle.main.loadNibNamed("SummaryView", owner: self, options: nil)?.first as! UIView
         view.frame = bounds
         addSubview(view)
-        
-        layoutAddPathSummary(hiddenAddBtn: false)
-        
-        startBtn.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 6)
-        endBtn.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 6)
-        addBtn.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 6)
-        navigationBtn.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 6)
+                
+        // navigationBtn.layer.cornerRadius = 6
+        startBtn.layer.cornerRadius = 6
+        endBtn.layer.cornerRadius = 6
+        addBtn.layer.cornerRadius = 6
+        navigationBtn.layer.cornerRadius = 6
     }
     // 메인_Sumamry View setting
     func layoutMainSummary() {
@@ -166,16 +164,22 @@ class SummaryView: UIView {
     }
     // 경유지 버튼 visible/gone 관리
     public func layoutAddPathSummary(hiddenAddBtn:Bool) {
-        if hiddenAddBtn && !self.addBtn.isHidden{
-            self.addBtn.isHidden = true
-            self.addBtn.gone()
-        } else if !hiddenAddBtn{
-            self.addBtn.isHidden = false
+        if isAddBtnGone == hiddenAddBtn {
+            return // 변경될때만 동작
         }
+        var width:CGFloat = 0
+        isAddBtnGone = hiddenAddBtn
+        if hiddenAddBtn { // visible > gone
+            self.addBtn.gone()
+            width = self.navigationBtn.bounds.size.width + 48
+         } else if !hiddenAddBtn{
+            self.addBtn.visible()
+            width = self.navigationBtn.bounds.size.width - 48
+         }
         // 레이아웃 redraw함수
+        self.navigationBtn.bounds.size.width = width
+        self.navigationBtn.layoutIfNeeded()
         self.layoutIfNeeded()
-//        self.setNeedsDisplay()
-//        self.setNeedsUpdateConstraints()
     }
     
     // 즐겨찾기 아이콘

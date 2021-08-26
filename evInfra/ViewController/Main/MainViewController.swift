@@ -841,7 +841,8 @@ extension MainViewController: TextFieldDelegate {
             charger.isAroundPath = true
         }
         
-        self.clustering?.isRouteMode = false;
+        self.clustering?.isRouteMode = false
+        summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clustering!.isRouteMode)
 
         drawTMapMarker()
     }
@@ -933,6 +934,7 @@ extension MainViewController: TextFieldDelegate {
         // 경로 주변 충전소만 표시
         findChargerAroundRoute(polyLine: polyLine);
         self.clustering?.isRouteMode = true
+        summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clustering!.isRouteMode)
 
         drawTMapMarker()
         
@@ -947,6 +949,7 @@ extension MainViewController: TextFieldDelegate {
         routeDistanceLabel.text = strDistance as String
         
         setView(view: routeDistanceView, hidden: false)
+        summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clustering!.isRouteMode)
     }
     
     func findChargerAroundRoute(polyLine: TMapPolyLine) {
@@ -1150,11 +1153,9 @@ extension MainViewController: MainViewDelegate {
         detailVC.mainViewDelegate = self
         detailVC.charger = self.selectCharger
         detailVC.detailData = self.summaryView.detailData
-//        detailVC.stationInfoArr = self.stationInfoArr
-//        detailVC.checklistUrl = self.checklistUrl        //        detailVC.isExistAddBtn = summaryView.isExistAddBtn
+        detailVC.isRouteMode = self.clustering!.isRouteMode
         
         self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
-        
     }
     
     func prepareSummaryView() {
@@ -1173,10 +1174,6 @@ extension MainViewController: MainViewDelegate {
         
         // 이전에 선택된 충전소 마커를 원래 마커로 원복
         if selectCharger != nil {
-            // layout test code
-            summaryLayoutTest = true
-            summaryView.layoutAddPathSummary(hiddenAddBtn: summaryLayoutTest)
-        
             summaryView.layoutIfNeeded()
             callOutLayer.layoutIfNeeded()
             
@@ -1202,6 +1199,8 @@ extension MainViewController: MainViewDelegate {
         getStationDetailInfo()
         summaryView.layoutMainSummary()
         setView(view: callOutLayer, hidden: false)
+        
+        summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clustering!.isRouteMode)
 
         if let markerItem = self.tMapView!.getMarketItem(fromID: self.selectCharger!.mChargerId) {
             if (markerItem.getIcon().isEqual(other: self.selectCharger!.getSelectIcon())) == false {
