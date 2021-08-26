@@ -1166,6 +1166,7 @@ extension MainViewController: MainViewDelegate {
         }
         summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         callOutLayer.addSubview(summaryView)
+        summaryView.mainViewDelegate = self
     }
     
     func selectCharger(chargerId: String) {
@@ -1176,9 +1177,7 @@ extension MainViewController: MainViewDelegate {
         if selectCharger != nil {
             summaryView.layoutIfNeeded()
             callOutLayer.layoutIfNeeded()
-            
-            summaryView.mainViewDelegate = self
-            
+                        
             if let markerItem = tMapView!.getMarketItem(fromID: selectCharger!.mChargerId) {
                 markerItem.setIcon(selectCharger!.getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
             }

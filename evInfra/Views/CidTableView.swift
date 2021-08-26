@@ -63,24 +63,30 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         let cidInfo = cidList[indexPath.row]
         let cell = Bundle.main.loadNibNamed("CidInfoTableViewCell", owner: self, options: nil)?.first as! CidInfoTableViewCell
         
-        if cidInfo.chargerType == Const.CHARGER_TYPE_SLOW {
-            cell.dividerView.isHidden = true
-        }
-        
         // 충전기 상태
         cell.statusLabel.text = cidInfo.cstToString(cst: cidInfo.status)
         cell.statusLabel.textColor = cidInfo.getCstColor(cst: cidInfo.status)
         cell.statusImg.tintColor = cidInfo.getCstColor(cst: cidInfo.status)
-        if cidInfo.status == Const.CHARGER_STATE_CHECKING || cidInfo.status == Const.CHARGER_STATE_UNCONNECTED ||
-            cidInfo.status == Const.CHARGER_STATE_UNKNOWN{
-            cell.statusBtn.isHidden = false
+        if cidInfo.status != Const.CHARGER_STATE_CHECKING && cidInfo.status != Const.CHARGER_STATE_UNCONNECTED &&
+            cidInfo.status != Const.CHARGER_STATE_UNKNOWN{
+            if isChargePower(position: indexPath.row) {
+                cell.statusBtn.isHidden = false
+                if cidInfo.power == 0 {
+                    cell.powerLable.text = "50 kW"
+                }else{
+                    cell.powerLable.text = String(cidInfo.power) + "kW"
+                }
+            }
         }else{
-            cell.statusBtn.isHidden = true
+            if isChargePower(position: indexPath.row) {
+                cell.statusBtn.isHidden = false
+                cell.powerLable.text = "완속"
+            }
         }
         
 //         충전기 타입
         cell.setChargerTypeImage(type: cidInfo.chargerType)
-//
+
 //        // 최근 충전일
         if cidInfo.recentDate != nil && ((cidInfo.recentDate?.count)! > 0) {
             cell.dateKind.roundCorners(.allCorners, radius: 5)
@@ -90,7 +96,6 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 cell.dateKind.text = "경과시간"
                 cell.dateKind.backgroundColor = UIColor(hex: "#DFECF3")
             } else {
-                //cell.lastDate.text = cidInfo.getRecentDateSimple()
                 if let dateString = cidInfo.recentDate {
                     cell.lastDate.text = DateUtils.getDateStringForDetail(date: dateString)
                 }
@@ -103,12 +108,6 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             cell.lastDate.text = "알 수 없음"
             cell.dateKind.backgroundColor = UIColor(hex: "#E2E2E2")
         }
-//
-        if let pw = cidInfo.power, pw > 0 {
-            cell.powerLable.text = String(pw) + "kW"
-        } else {
-            cell.powerLable.text = ""
-        }
 
         return cell
     }
@@ -116,5 +115,12 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     public func goneCellHeight() -> CGFloat {
         let cell = Bundle.main.loadNibNamed("CidInfoTableViewCell", owner: self, options: nil)?.first as! CidInfoTableViewCell
         return Constants.cellHeight - cell.getDividerHeight()
+    }
+    
+    func isChargePower(position:Int) -> Bool {
+        if position > 0 {
+            return cidList[position-1].power != cidList[position].power
+        }
+        return true
     }
 }
