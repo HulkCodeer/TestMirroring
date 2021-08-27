@@ -296,11 +296,8 @@ class SummaryView: UIView {
         
         for (_, item):(String, JSON) in clist {
             let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue)
-            print("csj_", "test", cidInfo.power)
             cidList.append(cidInfo)
         }
-        detailData.cidInfoList = cidList
-        detailData.cidSortList = cidList
         
         if !cidList.isEmpty {
             var stationSt = cidList[0].status!

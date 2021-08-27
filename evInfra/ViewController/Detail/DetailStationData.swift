@@ -23,10 +23,10 @@ class DetailStationData {
         
         for (_, item):(String, JSON) in clist {
             let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue)
-            print("csj_", "test", cidInfo.power)
             self.cidInfoList.append(cidInfo)
+            self.cidSortList.append(cidInfo)
         }
-        print("csj_", "cidInfo : ", self.cidInfoList.count)
+        self.sortCharger()
         
         if !self.cidInfoList.isEmpty {
             var stationSt = self.cidInfoList[0].status!
@@ -53,7 +53,6 @@ class DetailStationData {
         } else {
             stationOp = "기타"
         }
-        print("csj_", "op : " + stationOp)
         self.op = stationOp
         
         // 이용시간
@@ -122,9 +121,11 @@ class DetailStationData {
     }
     
     func sortCharger() {
-        cidSortList = cidInfoList.sorted(by: {
-            $0.power > $1.power
-        })
+        if cidSortList.count > 0 {
+            cidSortList = cidSortList.sorted(by: {
+                $0.power > $1.power
+            })
+        }
         
         
 //        cidInfoList = cidInfoList.sort(by: )

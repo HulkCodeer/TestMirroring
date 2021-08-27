@@ -246,9 +246,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         if let chargerData = charger {
             ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerData.mChargerId!)?.changeStatus(status: detailData.status)
         }
-        print("csj_", "detailData : ", detailData.cidInfoList.count)
         self.mainViewDelegate?.redrawCalloutLayer()
-        self.cidTableView.setCidList(chargerList: detailData.cidInfoList)
+        self.cidTableView.setCidSortList(sortList: detailData.cidSortList)
         self.cidTableView.reloadData()
         self.adjustHeightOfTableview()
         

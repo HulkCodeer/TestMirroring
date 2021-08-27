@@ -15,7 +15,7 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         static let goneHeight: CGFloat = 60
     }
     
-    var cidList = [CidInfo]()
+    var cidSortList = [CidInfo]()
     var detailData = DetailStationData()
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,17 +28,17 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         reloadData()
     }
     
-    func setCidList(chargerList: [CidInfo]) {
-        cidList = chargerList
+    func setCidSortList(sortList: [CidInfo]) {
+        cidSortList = sortList
     }
 
     // MARK: - TableView DataSource and Delegate Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return detailData.cidSortList.count
+        return cidSortList.count
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cidInfo = detailData.cidSortList[indexPath.row]
+        let cidInfo = cidSortList[indexPath.row]
 
         if cidInfo.chargerType == Const.CHARGER_TYPE_SLOW { // heddien
             return Constants.goneHeight
@@ -61,9 +61,7 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cidInfo = detailData.cidSortList[indexPath.row]
-        print("csj_", "cidInfoRow : " , indexPath.row)
-        print("csj_", "count : " , detailData.cidSortList.count)
+        let cidInfo = cidSortList[indexPath.row]
         let cell = Bundle.main.loadNibNamed("CidInfoTableViewCell", owner: self, options: nil)?.first as! CidInfoTableViewCell
         
         // 충전기 상태
@@ -129,18 +127,18 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     func isChangePower(position:Int) -> Bool {
         if position > 0 {
-            return detailData.cidSortList[position-1].power != detailData.cidSortList[position].power
+            return cidSortList[position-1].power != cidSortList[position].power
         }
         return true
     }
     
     func isTypeSlow(position:Int) -> Bool {
         if position > 0 {
-            if (detailData.cidSortList[position - 1].chargerType != Const.CHARGER_TYPE_SLOW
-                    && detailData.cidSortList[position - 1].chargerType != Const.CHARGER_TYPE_DESTINATION
-                    && detailData.cidSortList[position - 1].chargerType != Const.CHARGER_TYPE_ETC) {
-                return detailData.cidSortList[position].chargerType == Const.CHARGER_TYPE_SLOW || detailData.cidSortList[position].chargerType == Const.CHARGER_TYPE_DESTINATION
-                    || detailData.cidSortList[position].chargerType == Const.CHARGER_TYPE_ETC
+            if (cidSortList[position - 1].chargerType != Const.CHARGER_TYPE_SLOW
+                    && cidSortList[position - 1].chargerType != Const.CHARGER_TYPE_DESTINATION
+                    && cidSortList[position - 1].chargerType != Const.CHARGER_TYPE_ETC) {
+                return cidSortList[position].chargerType == Const.CHARGER_TYPE_SLOW || cidSortList[position].chargerType == Const.CHARGER_TYPE_DESTINATION
+                    || cidSortList[position].chargerType == Const.CHARGER_TYPE_ETC
             }
             return false
         }
