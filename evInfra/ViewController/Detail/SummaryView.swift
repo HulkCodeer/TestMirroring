@@ -238,50 +238,46 @@ class SummaryView: UIView {
     }
     
     func setChargerType(charger:ChargerStationInfo) {
-        typeDcCombo.isHidden = true
-        typeACSam.isHidden = true
-        typeDcDemo.isHidden = true
-        typeSlow.isHidden = true
-        typeSuper.isHidden = true
-        typeDestination.isHidden = true
-        switch charger.mTotalType {
-        case Const.CHARGER_TYPE_DCCOMBO:
-            typeDcCombo.isHidden = false
-            break
-        case Const.CHARGER_TYPE_DCCOMBO_AC:
-            typeDcCombo.isHidden = false
-            typeACSam.isHidden = false
-            break
-        case Const.CHARGER_TYPE_AC:
-            typeACSam.isHidden = false
-            break
-        case Const.CHARGER_TYPE_DCDEMO:
-            typeDcDemo.isHidden = false
-            break
-        case Const.CHARGER_TYPE_DCDEMO_AC:
-            typeDcDemo.isHidden = false
-            typeACSam.isHidden = false
-            break
-        case Const.CHARGER_TYPE_DCDEMO_DCCOMBO:
-            typeDcDemo.isHidden = false
-            typeDcCombo.isHidden = false
-            break
-        case Const.CHARGER_TYPE_DCDEMO_DCCOMBO_AC:
-            typeDcDemo.isHidden = false
-            typeDcCombo.isHidden = false
-            typeACSam.isHidden = false
-            break
-        case Const.CHARGER_TYPE_SLOW:
-            typeSlow.isHidden = false
-            break
-        case Const.CHARGER_TYPE_SUPER_CHARGER:
-            typeSuper.isHidden = false
-            break
-        case Const.CHARGER_TYPE_DESTINATION:
-            typeDestination.isHidden = false
-            break
-        default:
-            break
+        // "DC차데모"
+        if (charger.mTotalType! & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
+            self.typeDcDemo.isHidden = false
+        } else {
+            self.typeDcDemo.isHidden = true
+        }
+        
+        // "DC콤보"
+        if (charger.mTotalType! & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
+            self.typeDcCombo.isHidden = false
+        } else {
+            self.typeDcCombo.isHidden = true
+        }
+        
+        // "AC3상"
+        if (charger.mTotalType! & Const.CTYPE_AC) == Const.CTYPE_AC {
+            self.typeACSam.isHidden = false
+        } else {
+            self.typeACSam.isHidden = true
+        }
+
+        // "완속"
+        if (charger.mTotalType! & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
+            self.typeSlow.isHidden = false
+        } else {
+            self.typeSlow.isHidden = true
+        }
+        
+        // "슈퍼차저"
+        if (charger.mTotalType! & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
+            self.typeSuper.isHidden = false
+        } else {
+            self.typeSuper.isHidden = true
+        }
+        
+        // "데스티네이션"
+        if (charger.mTotalType! & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
+            self.typeDestination.isHidden = false
+        } else {
+            self.typeDestination.isHidden = true
         }
     }
     
@@ -304,6 +300,7 @@ class SummaryView: UIView {
             cidList.append(cidInfo)
         }
         detailData.cidInfoList = cidList
+        detailData.cidSortList = cidList
         
         if !cidList.isEmpty {
             var stationSt = cidList[0].status!

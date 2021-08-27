@@ -11,6 +11,7 @@ import SwiftyJSON
 
 class DetailStationData {
     var cidInfoList = [CidInfo]()
+    var cidSortList = [CidInfo]()
     var uTime:String = ""
     var op:String = ""
     var memo:String = ""
@@ -121,6 +122,12 @@ class DetailStationData {
     }
     
     func sortCharger() {
+        cidSortList = cidInfoList.sorted(by: {
+            $0.power > $1.power
+        })
+        
+        
+//        cidInfoList = cidInfoList.sort(by: )
 //            mChargerList.sort((charger, charger1) -> {
 //                if (charger.mType != Charger.CHARGER_TYPE_SLOW
 //                        && charger.mType != Charger.CHARGER_TYPE_ETC

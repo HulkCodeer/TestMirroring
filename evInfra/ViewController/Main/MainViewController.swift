@@ -1220,6 +1220,7 @@ extension MainViewController: MainViewDelegate {
                         detailData.setStationInfo(jsonList: item)
                         break
                     }
+                    detailData.sortCharger()
                     self.summaryView.detailData = detailData
                     self.summaryView.layoutMainSummary()
                     print("csj", "status : ", detailData.op)
