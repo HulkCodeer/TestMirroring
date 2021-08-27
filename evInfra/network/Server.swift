@@ -538,7 +538,7 @@ class Server {
             "charger_id": chargerId
         ]
         
-        Alamofire.request(Const.EV_PAY_SERVER + "/charger/station/detail",
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/v1/station/detail",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }

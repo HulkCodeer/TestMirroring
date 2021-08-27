@@ -72,11 +72,11 @@ class CidInfo {
         var cstColor: UIColor!
         switch (cst) {
             case Const.CHARGER_STATE_WAITING:
-            cstColor = UIColor(rgb: 0x77BCE2)
+            cstColor = UIColor(named: "content-positive")
             break
             
             case Const.CHARGER_STATE_CHARGING:
-            cstColor = UIColor(rgb: 0x1BBA3C)
+            cstColor = UIColor(named: "content-primary")
             break
             
             case Const.CHARGER_STATE_PILOT:
@@ -85,11 +85,11 @@ class CidInfo {
             
             case Const.CHARGER_STATE_UNCONNECTED,
                  Const.CHARGER_STATE_UNKNOWN:
-            cstColor = UIColor(rgb: 0xEDC44A)
+            cstColor = UIColor(named: "content-warning")
             break
             
             default: // no operation, unknown
-            cstColor = UIColor(rgb: 0xDE1A1A)
+            cstColor = UIColor(named: "content-disabled")
             break
         }
         return cstColor
@@ -123,4 +123,20 @@ class CidInfo {
         }
         return durationString
     }
+    
+//    public func countAllFastPower() -> String {
+//        let allFast:String = ""
+//        return allFast
+//    }
+//
+//    public func countAllSlowPower() -> String {
+//        var allSlow:String = ""
+//        return allSlow
+//    }
+//
+//
+//    public func countSlowPower() -> String{
+//        var slow:String = ""
+//        return slow
+//    }
 }
