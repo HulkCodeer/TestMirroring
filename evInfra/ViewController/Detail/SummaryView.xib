@@ -97,7 +97,7 @@
                                 <constraint firstAttribute="height" constant="25" id="TlE-tM-2fv"/>
                             </constraints>
                         </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="20" distribution="fillProportionally" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="5iU-lC-L5a" userLabel="TypeView">
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="5iU-lC-L5a" userLabel="TypeView">
                             <rect key="frame" x="16" y="51" width="355" height="16"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="DC콤보" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="60R-5u-Qay">
@@ -165,7 +165,7 @@
                                 <constraint firstAttribute="height" constant="16" id="nGh-L9-yVC"/>
                             </constraints>
                         </stackView>
-                        <view clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="50" translatesAutoresizingMaskIntoConstraints="NO" id="Emc-zz-VBd" userLabel="StateCountView">
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Emc-zz-VBd" userLabel="StateCountView">
                             <rect key="frame" x="16" y="77" width="382" height="20"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전 가능" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1FS-PB-eu7">
@@ -304,10 +304,10 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </stackView>
-                        <view contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="36" translatesAutoresizingMaskIntoConstraints="NO" id="JNc-uN-pPr">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JNc-uN-pPr">
                             <rect key="frame" x="16" y="137" width="382" height="36"/>
                             <subviews>
-                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yky-aC-tez">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yky-aC-tez">
                                     <rect key="frame" x="0.0" y="0.0" width="48" height="36"/>
                                     <color key="backgroundColor" name="background-tertiary"/>
                                     <constraints>
@@ -322,7 +322,7 @@
                                         <action selector="onClickStartPoint:" destination="-1" eventType="touchUpInside" id="S2Y-oL-ea7"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bkc-65-C4D">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bkc-65-C4D">
                                     <rect key="frame" x="52" y="0.0" width="48" height="36"/>
                                     <color key="backgroundColor" name="background-tertiary"/>
                                     <constraints>
@@ -337,7 +337,7 @@
                                         <action selector="onClickAddPoint:" destination="-1" eventType="touchUpInside" id="xi7-vS-92e"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89O-KD-6Tb">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89O-KD-6Tb">
                                     <rect key="frame" x="104" y="0.0" width="48" height="36"/>
                                     <color key="backgroundColor" name="background-tertiary"/>
                                     <constraints>
@@ -352,7 +352,7 @@
                                         <action selector="onClickEndPoint:" destination="-1" eventType="touchUpInside" id="SwN-xL-7dq"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUs-fX-WKM">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUs-fX-WKM">
                                     <rect key="frame" x="160" y="0.0" width="222" height="36"/>
                                     <color key="backgroundColor" name="content-positive"/>
                                     <constraints>
