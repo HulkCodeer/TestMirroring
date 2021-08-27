@@ -50,7 +50,7 @@
                                         </view>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="200" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="XBy-N2-pfd" customClass="CidTableView" customModule="evInfra" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="230" width="414" height="200"/>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="200" id="vqP-HU-Gfi"/>
                                             </constraints>
@@ -434,9 +434,6 @@
         </scene>
     </scenes>
     <designables>
-        <designable name="5nZ-Ka-bJr">
-            <size key="intrinsicContentSize" width="414" height="896"/>
-        </designable>
         <designable name="XBy-N2-pfd">
             <size key="intrinsicContentSize" width="414" height="200"/>
         </designable>

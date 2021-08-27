@@ -11,11 +11,11 @@ import UIKit
 class CidInfoTableViewCell: UITableViewCell {
     
     // power divider
-    @IBOutlet var dividerView: UIView!
+    @IBOutlet weak var dividerView: UIView!
     // 충전기 상태
     @IBOutlet weak var statusLabel: UILabel!
-    @IBOutlet var statusImg: UIImageView!
-    @IBOutlet var statusBtn: UIButton!
+    @IBOutlet weak var statusImg: UIImageView!
+    @IBOutlet weak var statusBtn: UIButton!
     
     // 충전기 속도
     @IBOutlet weak var powerLable: UILabel!
@@ -25,10 +25,10 @@ class CidInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var acSam: UIImageView!
     @IBOutlet weak var slow: UIImageView!
     // 타입 lb
-    @IBOutlet var dcComboLb: UILabel!
-    @IBOutlet var dcDemoLb: UILabel!
-    @IBOutlet var acSamLb: UILabel!
-    @IBOutlet var slowLb: UILabel!
+    @IBOutlet weak var dcComboLb: UILabel!
+    @IBOutlet weak var dcDemoLb: UILabel!
+    @IBOutlet weak var acSamLb: UILabel!
+    @IBOutlet weak var slowLb: UILabel!
     
     // 날짜 lb
     @IBOutlet weak var dateKind: UILabel!

@@ -24,23 +24,23 @@ protocol DetailViewDelegate {
 
 class DetailViewController: UIViewController, MTMapViewDelegate {
 
-    @IBOutlet var detailView: UIView!
+    @IBOutlet weak var detailView: UIView!
     
-    @IBOutlet var summaryLayout: UIView!
+    @IBOutlet weak var summaryLayout: UIView!
     @IBOutlet weak var companyLabel: UILabel!           // 운영기관(이름)
                     
-    @IBOutlet var companyView: UIStackView!             // 운영기관(view)
+    @IBOutlet weak var companyView: UIStackView!             // 운영기관(view)
     @IBOutlet weak var timeLabel: UILabel!              // 운영시간
     @IBOutlet weak var callLb: UILabel!                 // 전화번호
-    @IBOutlet var checkingView: UILabel!                 // 설치형태(확인중)
-    @IBOutlet var kakaoMapView: UIView!                 // 스카이뷰(카카오맵)
-    @IBOutlet var mapSwitch: UISwitch!
-    @IBOutlet var moveMapBtn: UIButton! // 충전소위치로 가기 버튼(카카오맵)
+    @IBOutlet weak var checkingView: UILabel!                 // 설치형태(확인중)
+    @IBOutlet weak var kakaoMapView: UIView!                 // 스카이뷰(카카오맵)
+    @IBOutlet weak var mapSwitch: UISwitch!
+    @IBOutlet weak var moveMapBtn: UIButton! // 충전소위치로 가기 버튼(카카오맵)
     
     @IBOutlet weak var memoLabel: UILabel!              // 메모
-    @IBOutlet var memoView: UIStackView!                // 메모(view)
+    @IBOutlet weak var memoView: UIStackView!                // 메모(view)
 
-    @IBOutlet var reportBtn: UIView!                    // 제보하기
+    @IBOutlet weak var reportBtn: UIView!                    // 제보하기
     
     
     // 충전기 정보(list)
@@ -54,9 +54,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var boardList: Array<BoardItem> = Array<BoardItem>()
-    
-    fileprivate var moveHomePageBtn: FABButton!
-    fileprivate var moveAppStoreBtn: FABButton!
     
     private var phoneNumber:String? = nil
     private var homePage:String? = nil
@@ -660,36 +657,6 @@ extension DetailViewController {
             print("error \(error)")
         }
     }
-        
-        
-//    fileprivate func showMoveHomePageBtn() {
-//        if let strUrl = self.homePage {
-//            if isCanOpenUrl(strUrl: strUrl) {
-//                let img:UIImage? = UIImage(named:"ic_web_browser")
-//                moveHomePageBtn = FABButton(image: img)
-//                moveHomePageBtn.setImage(img, for: .normal)
-//                moveHomePageBtn.addTarget(self, action: #selector(self.onClickMoveCompanyHomePage(_sender:)), for: .touchUpInside)
-//                companyView.layout(moveHomePageBtn).width(32).height(32).right(10).centerVertically()
-//            }
-//        }
-//    }
-//
-//    fileprivate func showMoveAppStoreBtn() {
-//        var rMagin = 10
-//        if let _ = self.moveHomePageBtn {
-//            rMagin = Int(10 + self.moveHomePageBtn.frame.width + 5)
-//        }
-//
-//        if let strUrl = self.appStore {
-//            if isCanOpenUrl(strUrl: strUrl) {
-//                let img:UIImage? = UIImage(named:"ic_app_store")
-//                moveAppStoreBtn = FABButton(image: img)
-//                moveAppStoreBtn.setImage(img, for: .normal)
-//                moveAppStoreBtn.addTarget(self, action: #selector(self.onClickMoveAppStore(_sender:)), for: .touchUpInside)
-//                companyView.layout(moveAppStoreBtn).width(32).height(32).right(CGFloat(rMagin)).centerVertically()
-//            }
-//        }
-//    }
     
     @objc
     func onClickMoveCompanyHomePage(_sender:UIButton) {
@@ -736,6 +703,7 @@ extension DetailViewController : DetailViewDelegate {
     // 즐겨찾기
     func onFavorite() {
         mainViewDelegate?.setFavorite()
+        summaryView.setCallOutFavoriteIcon(charger: self.charger!)
     }
     
     // [경로찾기]

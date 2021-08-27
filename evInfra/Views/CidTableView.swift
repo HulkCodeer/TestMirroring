@@ -38,26 +38,30 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cidInfo = cidSortList[indexPath.row]
-
-        if cidInfo.chargerType == Const.CHARGER_TYPE_SLOW { // heddien
-            return Constants.goneHeight
-        } else{
+        let slow = cidSortList[indexPath.row].chargerType == Const.CHARGER_TYPE_SLOW || cidSortList[indexPath.row].chargerType == Const.CHARGER_TYPE_DESTINATION
+        if indexPath.row == 0 && slow { // 첫 충전기가 완속인 경우 헤더제거
+            return goneCellHeight()
+        }
+        
+        if isChangePower(position: indexPath.row) {
             return Constants.cellHeight
+        } else {
+            return goneCellHeight()
         }
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let cidInfo = cidList[indexPath.row]
-//        let cell = Bundle.main.loadNibNamed("CidInfoTableViewCell", owner: self, options: nil)?.first as! CidInfoTableViewCell
-//
-//        if cidInfo.chargerType == Const.CHARGER_TYPE_SLOW {
-//            Constants.goneHeight = Constants.cellHeight - cell.getDividerHeight()
-//            return self.goneCellHeight()
-//        }
-//        return Constants.cellHeight
-        return UITableViewAutomaticDimension
+        let slow = cidSortList[indexPath.row].chargerType == Const.CHARGER_TYPE_SLOW || cidSortList[indexPath.row].chargerType == Const.CHARGER_TYPE_DESTINATION
+        if indexPath.row == 0 && slow { // 첫 충전기가 완속인 경우 헤더제거
+            return goneCellHeight()
+        }
+        
+        if isChangePower(position: indexPath.row) {
+            return Constants.cellHeight
+        } else {
+            return goneCellHeight()
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -69,10 +73,15 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         cell.statusLabel.textColor = cidInfo.getCstColor(cst: cidInfo.status)
         cell.statusImg.tintColor = cidInfo.getCstColor(cst: cidInfo.status)
         
+        if cidInfo.status == Const.CHARGER_STATE_UNCONNECTED || cidInfo.status == Const.CHARGER_STATE_UNKNOWN {
+            cell.statusBtn.isHidden = false
+        } else {
+            cell.statusBtn.isHidden = true
+        }
+        
         if cidInfo.chargerType != Const.CHARGER_TYPE_SLOW && cidInfo.chargerType != Const.CHARGER_TYPE_DESTINATION &&
             cidInfo.chargerType != Const.CHARGER_TYPE_ETC{
             if isChangePower(position: indexPath.row) {
-                cell.statusBtn.isHidden = true
                 cell.dividerView.isHidden = false
                 if cidInfo.power == 0 {
                     cell.powerLable.text = "50 kW"
@@ -83,11 +92,10 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 cell.dividerView.isHidden = true
             }
         }else{
-            if isTypeSlow(position: indexPath.row) {
+            if indexPath.row > 0 && isChangePower(position: indexPath.row){
                 cell.dividerView.isHidden = false
-                cell.statusBtn.isHidden = false
                 cell.powerLable.text = "완속"
-            }else{
+            } else {
                 cell.dividerView.isHidden = true
             }
         }

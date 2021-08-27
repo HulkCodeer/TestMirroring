@@ -12,40 +12,39 @@ import SwiftyJSON
 class SummaryView: UIView {
     
     @IBOutlet weak var summaryView: UIView!
-    @IBOutlet var summaryContentView: UIStackView!
     
-    @IBOutlet var stationImg: UIImageView!
-    @IBOutlet var stationNameLb: UILabel!
-    @IBOutlet var favoriteBtn: UIButton!  // btn_main_favorite
+    @IBOutlet weak var stationImg: UIImageView!
+    @IBOutlet weak var stationNameLb: UILabel!
+    @IBOutlet weak var favoriteBtn: UIButton!  // btn_main_favorite
 
-    @IBOutlet var shareBtn: UIButton!
-    @IBOutlet var addrLb: UILabel!
-    @IBOutlet var copyBtn: UIButton!
+    @IBOutlet weak var shareBtn: UIButton!
+    @IBOutlet weak var addrLb: UILabel!
+    @IBOutlet weak var copyBtn: UIButton!
 
-    @IBOutlet var chargerTypeView: UIStackView!
-    @IBOutlet var typeDcCombo: UILabel!
-    @IBOutlet var typeACSam: UILabel!
-    @IBOutlet var typeDcDemo: UILabel!
-    @IBOutlet var typeSlow: UILabel!
-    @IBOutlet var typeSuper: UILabel!
-    @IBOutlet var typeDestination: UILabel!
+    @IBOutlet weak var chargerTypeView: UIStackView!
+    @IBOutlet weak var typeDcCombo: UILabel!
+    @IBOutlet weak var typeACSam: UILabel!
+    @IBOutlet weak var typeDcDemo: UILabel!
+    @IBOutlet weak var typeSlow: UILabel!
+    @IBOutlet weak var typeSuper: UILabel!
+    @IBOutlet weak var typeDestination: UILabel!
     
-    @IBOutlet var stateLb: UILabel!
-    @IBOutlet var fastCountLb: UILabel!
-    @IBOutlet var slowCountLb: UILabel!
+    @IBOutlet weak var stateLb: UILabel!
+    @IBOutlet weak var fastCountLb: UILabel!
+    @IBOutlet weak var slowCountLb: UILabel!
     
-    @IBOutlet var filterView: UIView!
-    @IBOutlet var filterPower: UILabel!
-    @IBOutlet var filterPay: UILabel!
-    @IBOutlet var filterRoof: UILabel!
-
-    @IBOutlet var startBtn: UIButton!
-    @IBOutlet var addBtn: UIButton!
-    @IBOutlet var endBtn: UIButton!
-    @IBOutlet var navigationBtn: UIButton!
+    @IBOutlet weak var filterView: UIView!
+    @IBOutlet weak var filterPower: UIButton!
+    @IBOutlet weak var filterPay: UIButton!
+    @IBOutlet weak var filterRoof: UIButton!
     
-    @IBOutlet var stateCountView: UIView!
-    @IBOutlet var addrView: UIStackView!
+    @IBOutlet weak var startBtn: UIButton!
+    @IBOutlet weak var addBtn: UIButton!
+    @IBOutlet weak var endBtn: UIButton!
+    @IBOutlet weak var navigationBtn: UIButton!
+    
+    @IBOutlet weak var stateCountView: UIView!
+    @IBOutlet weak var addrView: UIStackView!
     
     
     public var charger: ChargerStationInfo!
@@ -54,6 +53,7 @@ class SummaryView: UIView {
     var detailViewDelegate: DetailViewDelegate?
     var detailData = DetailStationData()
     var isAddBtnGone:Bool = false
+    var distance: Double = -1.0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -89,12 +89,11 @@ class SummaryView: UIView {
                 stationNameLb.text = stationDto.mSnm
                 // 충전소 이미지
                 setCompanyIcon(chargerData: charger)
-                // 주소
-                var addr = "등록된 정보가 없습니다."
-                if stationDto.mAddress != nil && stationDto.mAddressDetail != nil {
-                    addr = stationDto.mAddress! + " " + stationDto.mAddressDetail!
-                }
-                addrLb.text = addr
+            
+                shareBtn.isHidden = true
+                
+                setCallOutFavoriteIcon(charger: charger)
+                
                 // 충전소 상태
                 stateLb.text = charger.mTotalStatusName
                 setStationCstColor(charger: charger)
@@ -118,19 +117,30 @@ class SummaryView: UIView {
                 setChargerType(charger: charger)
                 // [충전소 필터]
                 // 속도
+                let bordorColor = UIColor.init(named: "border-opaque")?.cgColor
                 filterView.isHidden = false
-                self.filterPower.text = charger.getChargerPower(power: (charger.mPower)!, type: (charger.mTotalType)!)
-                filterPower.setBerryTag()
+                
+                let powerTitle = charger.getChargerPower(power: (charger.mPower)!, type: (charger.mTotalType)!)
+                self.filterPower.setTitle(powerTitle, for: .normal)
+                filterPower.layer.borderWidth = 1
+                filterPower.layer.borderColor = bordorColor
+                filterPower.layer.cornerRadius = 12
                 // 가격
                 setChargePrice(stationDto: charger.mStationInfoDto!)
-                filterPay.setBerryTag()
+                filterPay.layer.borderWidth = 1
+                filterPay.layer.borderColor = bordorColor
+                filterPay.layer.cornerRadius = 12
                 
                 // 설치형태
                 stationArea(stationDto: charger.mStationInfoDto!)
-                filterRoof.setBerryTag()
+                filterRoof.layer.borderWidth = 1
+                filterRoof.layer.borderColor = bordorColor
+                filterRoof.layer.cornerRadius = 12
                 
                 // 주소 View Gone
                 addrView.isHidden = true
+                
+                setDistance()
                 
                 summaryView.layoutIfNeeded()
             }
@@ -146,6 +156,8 @@ class SummaryView: UIView {
                 stationNameLb.text = stationDto.mSnm
                 // 충전소 이미지
                 setCompanyIcon(chargerData: charger)
+                
+                setCallOutFavoriteIcon(charger: charger)
                 // 주소
                 var addr = "등록된 정보가 없습니다."
                 if stationDto.mAddress != nil && stationDto.mAddressDetail != nil {
@@ -157,6 +169,8 @@ class SummaryView: UIView {
                 chargerTypeView.isHidden = true
                 stateCountView.isHidden = true
                 filterView.isHidden = true
+                
+                setDistance()
                 
                 summaryView.layoutIfNeeded()
             }
@@ -186,10 +200,10 @@ class SummaryView: UIView {
     public func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
         if charger.mFavorite {
             self.favoriteBtn.tintColor = UIColor.init(named: "content-warning")
-            self.favoriteBtn.setImage(UIImage(named: "bookmark_on"), for: .normal)
+            self.favoriteBtn.setImage(UIImage(named: "icon_star_fill_md"), for: .normal)
         } else {
             self.favoriteBtn.tintColor = UIColor.init(named: "content-primary")
-            self.favoriteBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+            self.favoriteBtn.setImage(UIImage(named: "icon_star_md"), for: .normal)
         }
     }
     
@@ -204,18 +218,17 @@ class SummaryView: UIView {
     func setChargePrice(stationDto: StationInfoDto) {
         switch stationDto.mPay {
             case "Y":
-                self.filterPay.text = "유료"
+                self.filterPay.setTitle("유료", for: .normal)
             case "N":
-                self.filterPay.text = "무료"
+                self.filterPay.setTitle("무료", for: .normal)
             default:
-                self.filterPay.text = "시범운영"
+                self.filterPay.setTitle("시범운영", for: .normal)
         }
     }
     
     func stationArea(stationDto:StationInfoDto) {
         let roof = String(stationDto.mRoof ?? "N")
         var area:String = "실외"
-        self.filterRoof.isHidden = false
         switch roof {
         case "0":  // outdoor
             area = "실외"
@@ -227,14 +240,14 @@ class SummaryView: UIView {
             area = "캐노피"
             break
         case "N": // Checking
-            self.filterRoof.isHidden = true
+            area = "확인중"
             break
         default:
-            self.filterRoof.isHidden = true
+            self.filterRoof.gone()
             break
         }
-        self.filterRoof.text = area
-        self.filterRoof.textColor = UIColor.init(named:"content-parimary")
+        
+        self.filterRoof.setTitle(area, for: .normal)
     }
     
     func setChargerType(charger:ChargerStationInfo) {
@@ -313,14 +326,6 @@ class SummaryView: UIView {
         }
     }
     
-    func textSize(text: String) -> CGRect {
-        let myText = text as NSString
-        
-        let rect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-        let labelSize = myText.boundingRect(with: rect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)], context: nil)
-        return labelSize
-    }
-    
     // [Summary]
     // share
     @IBAction func onClickShare(_ sender: Any) {
@@ -328,6 +333,9 @@ class SummaryView: UIView {
     }
     // Favorite
     @IBAction func onClickFavorite(_ sender: UIButton) {
+        if mainViewDelegate != nil {
+            mainViewDelegate?.setFavorite()
+        }
         detailViewDelegate?.onFavorite()
     }
     // Copy
@@ -366,60 +374,40 @@ class SummaryView: UIView {
         }
         detailViewDelegate?.onNavigation()
     }
+
+    
+    func setDistance() {
+        if self.distance < 0 {
+            if let currentLocation = MainViewController.currentLocation {
+                getDistance(curPos: currentLocation, desPos: self.charger!.marker.getTMapPoint())
+            } else {
+                self.navigationBtn.setTitle("계산중", for: .normal)
+            }
+        } else {
+            self.navigationBtn.setTitle("\(self.distance) Km 안내 시작", for: .normal)
+        }
+    }
+
+    func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
+        if desPos.getLatitude() == 0 || desPos.getLongitude() == 0 {
+            self.navigationBtn.setTitle("계산중", for: .normal)
+        } else {
+            self.navigationBtn.setTitle("확인중", for: .normal)
+            DispatchQueue.global(qos: .background).async {
+                let tMapPathData = TMapPathData.init()
+                if let path = tMapPathData.find(from: curPos, to: desPos) {
+                    self.distance = round(path.getDistance() / 1000 * 10) / 10
+
+                    DispatchQueue.main.async {
+                        self.navigationBtn.setTitle("\(self.distance) Km 안내 시작", for: .normal)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.navigationBtn.setTitle("계산중", for: .normal)
+                    }
+                }
+            }
+        }
+    }
 }
 
-
-//    override func viewWillLayoutSubviews() {
-        // btn border
-//        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-//        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-//        self.naviBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-//        self.addPointBtn.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-// self.reportBtn.setBorderRadius(.allCorners, radius: 3, borderColor: UIColor(hex: "#33A2DA"), borderWidth: 1)
-        // install round
-//        self.indoorView.roundCorners(.allCorners, radius: 3)
-//        self.outdoorView.roundCorners(.allCorners, radius: 3)
-//        self.canopyView.roundCorners(.allCorners, radius: 3)
-        
-        // charger power round
-//        self.powerView.roundCorners(.allCorners, radius: 3)
-//        if isExistAddBtn {
-//            self.addPointBtn.isHidden = false
-//            self.naviBtn.isHidden = true
-//        }else if !isExistAddBtn{
-//            self.addPointBtn.isHidden = true
-//            self.naviBtn.isHidden = false
-//        }
-//    }
-
-
-//    func setDistance() {
-//        if let currentLocatin = MainViewController.currentLocation {
-//            getDistance(curPos: currentLocatin, desPos: self.selectCharger!.marker.getTMapPoint())
-//        } else {
-//            self.distanceLb.text = "현재 위치를 받아오지 못했습니다."
-//        }
-//    }
-//
-//    func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
-//        if desPos.getLatitude() == 0 || desPos.getLongitude() == 0 {
-//            self.distanceLb.text = "현재 위치를 받아오지 못했습니다."
-//        } else {
-//            self.distanceLb.text = "계산중"
-//
-//            DispatchQueue.global(qos: .background).async {
-//                let tMapPathData = TMapPathData.init()
-//                if let path = tMapPathData.find(from: curPos, to: desPos) {
-//                    let distance = Double(path.getDistance() / 1000).rounded()
-//
-//                    DispatchQueue.main.async {
-//                        self.distanceLb.text = "| \(distance) Km"
-//                    }
-//                } else {
-//                    DispatchQueue.main.async {
-//                        self.distanceLb.text = "계산오류."
-//                    }
-//                }
-//            }
-//        }
-//    }

@@ -53,7 +53,6 @@
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
 		4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */; };
 		42BA340026D765ED00F6683E /* DetailStationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BA33FF26D765ED00F6683E /* DetailStationData.swift */; };
-		42CDF2DF26C2137500555094 /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CDF2DE26C2137500555094 /* SummaryViewController.swift */; };
 		42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */; };
 		42CEB75126C1110D00E37AE4 /* CidInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */; };
 		42F9BCE126C64C250028B3D1 /* SummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42F9BCDF26C64C250028B3D1 /* SummaryView.xib */; };
@@ -372,7 +371,6 @@
 		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
 		4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponCodeViewController.swift; sourceTree = "<group>"; };
 		42BA33FF26D765ED00F6683E /* DetailStationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailStationData.swift; sourceTree = "<group>"; };
-		42CDF2DE26C2137500555094 /* SummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
 		42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CidInfoTableViewCell.swift; sourceTree = "<group>"; };
 		42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CidInfoTableViewCell.xib; sourceTree = "<group>"; };
 		42F9BCDF26C64C250028B3D1 /* SummaryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SummaryView.xib; sourceTree = "<group>"; };
@@ -814,7 +812,6 @@
 			children = (
 				425B055A26B7847B00B597A2 /* Detail.storyboard */,
 				73008458213687150001DBFA /* DetailViewController.swift */,
-				42CDF2DE26C2137500555094 /* SummaryViewController.swift */,
 				42F9BCDF26C64C250028B3D1 /* SummaryView.xib */,
 				42F9BCE226C651340028B3D1 /* SummaryView.swift */,
 				42BA33FF26D765ED00F6683E /* DetailStationData.swift */,
@@ -1744,7 +1741,6 @@
 				DB367BF324FE673E00898BED /* LoginHelper.swift in Sources */,
 				73BFA04F208487050028B35D /* BoardTableView.swift in Sources */,
 				736D37D3208DC9CE009535EE /* BoardItem.swift in Sources */,
-				42CDF2DF26C2137500555094 /* SummaryViewController.swift in Sources */,
 				732ED1CA21ED8ABB0012C67B /* DropDownCheckBoxCell.swift in Sources */,
 				42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */,
 				CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */,
