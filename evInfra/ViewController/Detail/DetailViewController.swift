@@ -250,7 +250,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerData.mChargerId!)?.changeStatus(status: detailData.status)
         }
         self.mainViewDelegate?.redrawCalloutLayer()
-        self.cidTableView.setCidSortList(sortList: detailData.cidSortList)
+        self.cidTableView.setCidInfoList(infoList: detailData.cidInfoList)
         self.cidTableView.reloadData()
         self.adjustHeightOfTableview()
         

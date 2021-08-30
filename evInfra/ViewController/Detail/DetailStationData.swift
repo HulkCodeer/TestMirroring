@@ -11,7 +11,6 @@ import SwiftyJSON
 
 class DetailStationData {
     var cidInfoList = [CidInfo]()
-    var cidSortList = [CidInfo]()
     var uTime:String = ""
     var op:String = ""
     var memo:String = ""
@@ -24,7 +23,6 @@ class DetailStationData {
         for (_, item):(String, JSON) in clist {
             let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue)
             self.cidInfoList.append(cidInfo)
-            self.cidSortList.append(cidInfo)
         }
         self.sortCharger()
         
@@ -121,8 +119,8 @@ class DetailStationData {
     }
     
     func sortCharger() {
-        if cidSortList.count > 0 {
-            cidSortList = cidSortList.sorted(by: {
+        if cidInfoList.count > 0 {
+            cidInfoList = cidInfoList.sorted(by: {
                 $0.power > $1.power
             })
         }
