@@ -114,7 +114,7 @@ class CidInfo {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             if let date = dateFormatter.date(from: dateString) {
-                durationString = Date().dayFrom(date: date)
+                durationString = Date().offsetFrom(date: date)
             }
         }
         
