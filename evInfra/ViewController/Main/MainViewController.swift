@@ -623,6 +623,17 @@ class MainViewController: UIViewController {
         self.saveFilterState()
         self.drawTMapMarker()
     }
+    
+    @IBAction func onClickMainFavorite(_ sender: UIButton) {
+        if MemberManager().isLogin() {
+            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
+            let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
+            favoriteVC.delegate = self
+            self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
+        } else {
+            MemberManager().showLoginAlert(vc:self)
+        }
+    }
 }
 
 extension MainViewController {
@@ -1615,17 +1626,6 @@ extension MainViewController {
 //        } else {
 //            MemberManager().showLoginAlert(vc: self)
 //        }
-    }
-    
-    @IBAction func onClickMainFavorite(_ sender: UIButton) {
-        if MemberManager().isLogin() {
-            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-            let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
-            favoriteVC.delegate = self
-            self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
-        } else {
-            MemberManager().showLoginAlert(vc:self)
-        }
     }
 }
 
