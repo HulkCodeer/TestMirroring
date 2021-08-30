@@ -104,24 +104,23 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         cell.setChargerTypeImage(type: cidInfo.chargerType)
 
         cell.dateKind.setBerryTag()
-//        // 최근 충전일
+        
+        // 최근 충전일
         if cidInfo.recentDate != nil && ((cidInfo.recentDate?.count)! > 0) {
-            cell.dateKind.roundCorners(.allCorners, radius: 5)
-
             if cidInfo.status == Const.CHARGER_STATE_CHARGING {
                 cell.lastDate.text = cidInfo.getChargingDuration()
-                cell.dateKind.text = " 경과시간 "
+                cell.dateKind.setTitle("경과시간", for: .normal)
             } else {
                 if let dateString = cidInfo.recentDate {
                     cell.lastDate.text = DateUtils.getDateStringForDetail(date: dateString)
                 }
-                cell.dateKind.text = " 마지막 사용 "
+                cell.dateKind.setTitle("마지막 사용", for: .normal)
             }
         } else {
-            cell.dateKind.text = " 마지막 사용 "
-            cell.lastDate.text = " 알 수 없음 "
-            
+            cell.dateKind.setTitle("마지막 사용", for: .normal)
+            cell.lastDate.text = "알 수 없음"
         }
+        layoutIfNeeded()
 
         return cell
     }

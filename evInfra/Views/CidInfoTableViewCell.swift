@@ -31,7 +31,7 @@ class CidInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var slowLb: UILabel!
     
     // 날짜 lb
-    @IBOutlet weak var dateKind: UILabel!
+    @IBOutlet weak var dateKind: UIButton!
     // 경과 날짜
     @IBOutlet weak var lastDate: UILabel!
     

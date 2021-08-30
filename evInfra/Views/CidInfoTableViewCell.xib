@@ -66,10 +66,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="389" height="56.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Uu4-aO-TEx">
-                                                <rect key="frame" x="0.0" y="0.0" width="138" height="36"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="146" height="40"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tla-CY-brU">
-                                                        <rect key="frame" x="0.0" y="0.0" width="138" height="16"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="146" height="16"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_charger_xs" translatesAutoresizingMaskIntoConstraints="NO" id="WRH-kd-zzo">
                                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -124,16 +124,22 @@
                                                         </constraints>
                                                     </view>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="dSd-Ta-wOd">
-                                                        <rect key="frame" x="0.0" y="20" width="138" height="16"/>
+                                                        <rect key="frame" x="0.0" y="20" width="146" height="20"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="마지막 사용" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RfZ-2u-qBI">
-                                                                <rect key="frame" x="0.0" y="0.0" width="60" height="16"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rDi-X7-nma">
+                                                                <rect key="frame" x="0.0" y="0.0" width="68" height="20"/>
+                                                                <color key="backgroundColor" name="background-secondary"/>
+                                                                <accessibility key="accessibilityConfiguration">
+                                                                    <accessibilityTraits key="traits" button="YES" notEnabled="YES"/>
+                                                                </accessibility>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
+                                                                <inset key="contentEdgeInsets" minX="4" minY="2" maxX="4" maxY="2"/>
+                                                                <state key="normal" title="마지막 사용">
+                                                                    <color key="titleColor" name="content-primary"/>
+                                                                </state>
+                                                            </button>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123시간 30분" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jgu-oM-Qva">
-                                                                <rect key="frame" x="68" y="1" width="70" height="14.5"/>
+                                                                <rect key="frame" x="76" y="3" width="70" height="14.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -307,7 +313,7 @@
             <connections>
                 <outlet property="acSam" destination="tBc-HP-u1J" id="wwf-hi-F7f"/>
                 <outlet property="acSamLb" destination="8lT-dK-AcN" id="M0S-Ra-5cE"/>
-                <outlet property="dateKind" destination="RfZ-2u-qBI" id="F7l-ss-fLa"/>
+                <outlet property="dateKind" destination="rDi-X7-nma" id="iBX-6g-Rjw"/>
                 <outlet property="dcCombo" destination="QPA-CT-LHR" id="ARi-N8-jIv"/>
                 <outlet property="dcComboLb" destination="E2c-4J-F3Q" id="YOE-L8-i9G"/>
                 <outlet property="dcDemo" destination="1dA-Jh-2cv" id="ayo-Zb-2UE"/>
@@ -328,8 +334,14 @@
         <image name="icon_charger_xs" width="16" height="16"/>
         <image name="icon_info_sm" width="20" height="20"/>
         <image name="lock" catalog="system" width="128" height="128"/>
+        <namedColor name="background-secondary">
+            <color red="0.96100002527236938" green="0.96100002527236938" blue="0.96100002527236938" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="background-tertiary">
             <color red="0.90200001001358032" green="0.90200001001358032" blue="0.90200001001358032" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="content-primary">
+            <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-tertiary">
             <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
