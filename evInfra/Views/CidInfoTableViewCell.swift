@@ -47,24 +47,14 @@ class CidInfoTableViewCell: UITableViewCell {
     let positive = "content-positive"
     let tertiary = "content-tertiary"
     
-    // dim image 필요 없음 -> 각 이미지의 tint 색상 변경으로 해결가능
-//    let imgDcComboDim = "type_dc_combo_dim"  // type_dc_combo_dim
-//    let imgDcDemoDim = "type_dc_demo_dim"  // type_dc_demo_dim
-//    let imgAcThreeDim = "type_ac_three_dim"  // type_ac_three_dim
-//    let imgAcSlowDim = "type_ac_slow_dim"  // type_ac_slow_dim
-//    let imgSuperDim = "type_super_dim"  // type_super_dim
-//    let imgDestinationDim = "type_destination_dim"  // type_destination_dim
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+        dateKind.layer.cornerRadius = 12
+        dateKind.layer.borderWidth = 1
+        dateKind.layer.borderColor = UIColor.init(named: "border-opaque")?.cgColor
+    }
 
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        // Initialization code
-//    }
-//
-//    override func setSelected(_ selected: Bool, animated: Bool) {
-//        super.setSelected(selected, animated: animated)
-//
-//        // Configure the view for the selected state
-//    }
     func getDividerHeight() -> CGFloat {
         let dividerHeight:CGFloat = self.dividerView.bounds.size.height
         let bottomMargin:CGFloat = self.dividerView.layoutMargins.bottom
@@ -107,10 +97,6 @@ class CidInfoTableViewCell: UITableViewCell {
             self.dcDemoLb.textColor = UIColor.init(named: positive)
             self.slowLb.textColor = UIColor.init(named: tertiary)
             self.acSamLb.textColor = UIColor.init(named: tertiary)
-//            self.dcCombo.image = UIImage(named: imgDcComboDim)
-//            self.dcDemo.image = UIImage(named: imgDcDemo)
-//            self.acSam.image = UIImage(named: imgAcThreeDim)
-//            self.slow.image = UIImage(named: imgAcSlowDim)
             break;
             
         case Const.CHARGER_TYPE_DCCOMBO:
@@ -124,10 +110,6 @@ class CidInfoTableViewCell: UITableViewCell {
             self.slowLb.textColor = UIColor.init(named: tertiary)
             self.acSamLb.textColor = UIColor.init(named: tertiary)
             
-//            self.dcCombo.image = UIImage(named: imgDcCombo)
-//            self.dcDemo.image = UIImage(named: imgDcDemoDim)
-//            self.acSam.image = UIImage(named: imgAcThreeDim)
-//            self.slow.image = UIImage(named: imgAcSlowDim)
             break;
             
         case Const.CHARGER_TYPE_DCDEMO_AC:
@@ -141,10 +123,6 @@ class CidInfoTableViewCell: UITableViewCell {
             self.slowLb.textColor = UIColor.init(named: tertiary)
             self.acSamLb.textColor = UIColor.init(named: positive)
             
-//            self.dcCombo.image = UIImage(named: imgDcComboDim)
-//            self.dcDemo.image = UIImage(named: imgDcDemo)
-//            self.acSam.image = UIImage(named: imgAcThree)
-//            self.slow.image = UIImage(named: imgAcSlowDim)
             break;
             
         case Const.CHARGER_TYPE_AC:
@@ -158,10 +136,6 @@ class CidInfoTableViewCell: UITableViewCell {
             self.slowLb.textColor = UIColor.init(named: positive)
             self.acSamLb.textColor = UIColor.init(named: tertiary)
             
-//            self.dcCombo.image = UIImage(named: imgDcComboDim)
-//            self.dcDemo.image = UIImage(named: imgDcDemoDim)
-//            self.acSam.image = UIImage(named: imgAcThree)
-//            self.slow.image = UIImage(named: imgAcSlowDim)
             break;
             
         case Const.CHARGER_TYPE_DCDEMO_DCCOMBO:
@@ -175,10 +149,6 @@ class CidInfoTableViewCell: UITableViewCell {
             self.slowLb.textColor = UIColor.init(named: tertiary)
             self.acSamLb.textColor = UIColor.init(named: tertiary)
             
-//            self.dcCombo.image = UIImage(named: imgDcCombo)
-//            self.dcDemo.image = UIImage(named: imgDcDemo)
-//            self.acSam.image = UIImage(named: imgAcThreeDim)
-//            self.slow.image = UIImage(named: imgAcSlowDim)
             break;
             
         case Const.CHARGER_TYPE_DCDEMO_DCCOMBO_AC:
@@ -192,10 +162,6 @@ class CidInfoTableViewCell: UITableViewCell {
             self.slowLb.textColor = UIColor.init(named: tertiary)
             self.acSamLb.textColor = UIColor.init(named: positive)
             
-//            self.dcCombo.image = UIImage(named: imgDcCombo)
-//            self.dcDemo.image = UIImage(named: imgDcDemo)
-//            self.acSam.image = UIImage(named: imgAcThree)
-//            self.slow.image = UIImage(named: imgAcSlowDim)
             break;
             
         case Const.CHARGER_TYPE_SLOW:
@@ -209,10 +175,6 @@ class CidInfoTableViewCell: UITableViewCell {
             self.slowLb.textColor = UIColor.init(named: positive)
             self.acSamLb.textColor = UIColor.init(named: tertiary)
             
-//            self.dcCombo.image = UIImage(named: imgDcComboDim)
-//            self.dcDemo.image = UIImage(named: imgDcDemoDim)
-//            self.acSam.image = UIImage(named: imgAcThreeDim)
-//            self.slow.image = UIImage(named: imgAcSlow)
             break;
             
         case Const.CHARGER_TYPE_HYDROGEN:
@@ -225,10 +187,6 @@ class CidInfoTableViewCell: UITableViewCell {
             self.dcDemoLb.textColor = UIColor.clear
             self.slowLb.textColor = UIColor.clear
             self.acSamLb.textColor = UIColor.clear
-//            self.dcCombo.image = UIImage(named: imgDcComboDim)
-//            self.dcDemo.image = UIImage(named: imgDcDemoDim)
-//            self.acSam.image = UIImage(named: imgAcThreeDim)
-//            self.slow.image = UIImage(named: imgAcSlowDim)
             break;
 
         case Const.CHARGER_TYPE_SUPER_CHARGER:
@@ -248,8 +206,6 @@ class CidInfoTableViewCell: UITableViewCell {
             
             self.dcDemoLb.text = "수퍼차저"
             self.acSamLb.text = "데스티네이션"
-//            self.dcDemo.image = UIImage(named: imgSuper)
-//            self.slow.image = UIImage(named: imgDestinationDim)
             break;
             
         case Const.CHARGER_TYPE_DESTINATION :
@@ -270,9 +226,6 @@ class CidInfoTableViewCell: UITableViewCell {
             self.dcDemoLb.text = "수퍼차저"
             self.acSamLb.text = "데스티네이션"
             
-            
-//            self.dcDemo.image = UIImage(named: imgSuperDim)
-//            self.slow.image = UIImage(named: imgDestination)
             break;
             
         default:

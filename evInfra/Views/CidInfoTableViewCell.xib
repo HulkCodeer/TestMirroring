@@ -66,10 +66,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="389" height="56.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Uu4-aO-TEx">
-                                                <rect key="frame" x="0.0" y="0.0" width="146" height="40"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="150" height="40"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tla-CY-brU">
-                                                        <rect key="frame" x="0.0" y="0.0" width="146" height="16"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="150" height="16"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_charger_xs" translatesAutoresizingMaskIntoConstraints="NO" id="WRH-kd-zzo">
                                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -124,22 +124,22 @@
                                                         </constraints>
                                                     </view>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="dSd-Ta-wOd">
-                                                        <rect key="frame" x="0.0" y="20" width="146" height="20"/>
+                                                        <rect key="frame" x="0.0" y="20" width="150" height="20"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rDi-X7-nma">
-                                                                <rect key="frame" x="0.0" y="0.0" width="68" height="20"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="72" height="20"/>
                                                                 <color key="backgroundColor" name="background-secondary"/>
                                                                 <accessibility key="accessibilityConfiguration">
                                                                     <accessibilityTraits key="traits" button="YES" notEnabled="YES"/>
                                                                 </accessibility>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                                <inset key="contentEdgeInsets" minX="4" minY="2" maxX="4" maxY="2"/>
+                                                                <inset key="contentEdgeInsets" minX="6" minY="2" maxX="6" maxY="2"/>
                                                                 <state key="normal" title="마지막 사용">
                                                                     <color key="titleColor" name="content-primary"/>
                                                                 </state>
                                                             </button>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123시간 30분" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jgu-oM-Qva">
-                                                                <rect key="frame" x="76" y="3" width="70" height="14.5"/>
+                                                                <rect key="frame" x="80" y="3" width="70" height="14.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>

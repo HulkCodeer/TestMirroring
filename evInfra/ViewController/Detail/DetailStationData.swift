@@ -126,22 +126,5 @@ class DetailStationData {
                 $0.power > $1.power
             })
         }
-        
-        
-//        cidInfoList = cidInfoList.sort(by: )
-//            mChargerList.sort((charger, charger1) -> {
-//                if (charger.mType != Charger.CHARGER_TYPE_SLOW
-//                        && charger.mType != Charger.CHARGER_TYPE_ETC
-//                        && charger.mType != Charger.CHARGER_TYPE_DESTINATION) {
-//                    if (charger1.mType != Charger.CHARGER_TYPE_SLOW
-//                            && charger1.mType != Charger.CHARGER_TYPE_ETC
-//                            && charger1.mType != Charger.CHARGER_TYPE_DESTINATION) {
-//                        return Integer.compare(charger1.mPower, charger.mPower);
-//                    } else {
-//                        return -1;
-//                    }
-//                }
-//                return 1;
-//            });
-        }
+    }
 }

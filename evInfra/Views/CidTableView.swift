@@ -103,7 +103,6 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
 //         충전기 타입
         cell.setChargerTypeImage(type: cidInfo.chargerType)
 
-        cell.dateKind.setBerryTag()
         
         // 최근 충전일
         if cidInfo.recentDate != nil && ((cidInfo.recentDate?.count)! > 0) {

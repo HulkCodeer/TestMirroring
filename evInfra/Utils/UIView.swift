@@ -295,13 +295,6 @@ extension NSLayoutConstraint {
         self.layer.mask = mask
     }
     
-    func setBerryTag() {
-        let borderColor:UIColor = UIColor.init(named: "border-opaque")!
-        let backColor:UIColor = UIColor.init(named: "background-secondary")!
-        setBorderRadius([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 12, borderColor: borderColor, borderWidth: 3)
-        self.backgroundColor = backColor
-    }
-    
     // custom UIView (border, radius)
     func setBorderRadius(_ corners: UIRectCorner, radius: CGFloat, borderColor: UIColor, borderWidth: CGFloat) {
         self.clipsToBounds = true

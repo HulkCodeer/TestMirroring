@@ -219,8 +219,10 @@ class SummaryView: UIView {
     func setCompanyIcon(chargerData: ChargerStationInfo) {
         if chargerData.getCompanyIcon() != nil{
             self.stationImg.image = chargerData.getCompanyIcon()
+            self.stationImg.bounds.size.width = 32
         }else {
             self.stationImg.image = UIImage(named: "icon_building_sm")
+            self.stationImg.bounds.size.width = 20
         }
     }
     

@@ -114,7 +114,7 @@ class CidInfo {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             if let date = dateFormatter.date(from: dateString) {
-                durationString = Date().offsetFrom(date: date)
+                durationString = Date().dayFrom(date: date)
             }
         }
         
@@ -123,20 +123,4 @@ class CidInfo {
         }
         return durationString
     }
-    
-//    public func countAllFastPower() -> String {
-//        let allFast:String = ""
-//        return allFast
-//    }
-//
-//    public func countAllSlowPower() -> String {
-//        var allSlow:String = ""
-//        return allSlow
-//    }
-//
-//
-//    public func countSlowPower() -> String{
-//        var slow:String = ""
-//        return slow
-//    }
 }
