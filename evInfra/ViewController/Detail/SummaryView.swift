@@ -92,7 +92,7 @@ class SummaryView: UIView {
             
                 shareBtn.isHidden = true
                 
-                setCallOutFavoriteIcon(charger: charger)
+                setCallOutFavoriteIcon(favorite: charger.mFavorite)
                 
                 // 충전소 상태
                 stateLb.text = charger.mTotalStatusName
@@ -157,7 +157,7 @@ class SummaryView: UIView {
                 // 충전소 이미지
                 setCompanyIcon(chargerData: charger)
                 
-                setCallOutFavoriteIcon(charger: charger)
+                setCallOutFavoriteIcon(favorite: charger.mFavorite)
                 // 주소
                 var addr = "등록된 정보가 없습니다."
                 if stationDto.mAddress != nil && stationDto.mAddressDetail != nil {
@@ -197,8 +197,8 @@ class SummaryView: UIView {
     }
     
     // 즐겨찾기 아이콘
-    public func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
-        if charger.mFavorite {
+    public func setCallOutFavoriteIcon(favorite: Bool) {
+        if favorite {
             self.favoriteBtn.tintColor = UIColor.init(named: "content-warning")
             self.favoriteBtn.setImage(UIImage(named: "icon_star_fill_md"), for: .normal)
         } else {
@@ -334,7 +334,9 @@ class SummaryView: UIView {
     // Favorite
     @IBAction func onClickFavorite(_ sender: UIButton) {
         if mainViewDelegate != nil {
-            mainViewDelegate?.setFavorite()
+            mainViewDelegate?.setFavorite{ (isFavorite) in
+                self.setCallOutFavoriteIcon(favorite: isFavorite)
+            }
         }
         detailViewDelegate?.onFavorite()
     }

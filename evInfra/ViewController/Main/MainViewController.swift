@@ -13,7 +13,7 @@ import M13Checkbox
 import SwiftyJSON
 
 protocol MainViewDelegate {
-    func setFavorite()
+    func setFavorite(completion: @escaping (Bool) -> Void)
     func setNavigation()
     func redrawCalloutLayer()
     func setStartPath()         // 경로찾기(시작)
@@ -496,10 +496,10 @@ class MainViewController: UIViewController {
         }
     }
     
-    func bookmark() {
+    func bookmark(completion: @escaping (Bool) -> Void) {
         if MemberManager().isLogin() {
             ChargerManager.sharedInstance.setFavoriteCharger(charger: selectCharger!) { (charger) in
-                self.summaryView.setCallOutFavoriteIcon(charger: charger)
+                completion(charger.mFavorite)
                 if charger.mFavorite {
                     Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
                 } else {
@@ -1138,8 +1138,8 @@ extension MainViewController: MainViewDelegate {
     }
     
     
-    func setFavorite() {
-        self.bookmark()
+    func setFavorite(completion: @escaping (Bool) -> Void) {
+        self.bookmark(completion: completion)
     }
     
     func prepareCalloutLayer() {

@@ -708,8 +708,9 @@ extension DetailViewController : DetailViewDelegate {
     
     // 즐겨찾기
     func onFavorite() {
-        mainViewDelegate?.setFavorite()
-        summaryView.setCallOutFavoriteIcon(charger: self.charger!)
+        mainViewDelegate?.setFavorite{ (isFavorite) in
+            self.summaryView.setCallOutFavoriteIcon(favorite: isFavorite)
+        }
     }
     
     // [경로찾기]
