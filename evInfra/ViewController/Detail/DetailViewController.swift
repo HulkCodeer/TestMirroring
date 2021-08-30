@@ -32,6 +32,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet var companyView: UIStackView!             // 운영기관(view)
     @IBOutlet weak var timeLabel: UILabel!              // 운영시간
     @IBOutlet weak var callLb: UILabel!                 // 전화번호
+    @IBOutlet var call: UILabel!                        // 전화하기
     @IBOutlet var checkingView: UILabel!                 // 설치형태(확인중)
     @IBOutlet var kakaoMapView: UIView!                 // 스카이뷰(카카오맵)
     @IBOutlet var mapSwitch: UISwitch!
@@ -144,13 +145,17 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
                 self.stationArea(stationDto: stationDto)
                 
                 self.callLb.text = "등록된 정보가 없습니다."
+                self.call.isHidden = true
                 if stationDto.mTel != nil {
                     if !stationDto.mTel!.isEmpty && !stationDto.mTel!.equalsIgnoreCase(compare: "null"){
+                        self.call.isHidden = false
                         let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.tapFunction))
-                        self.callLb.isUserInteractionEnabled = true
-                        self.callLb.addGestureRecognizer(tap)
+                        self.call.isUserInteractionEnabled = true
+                        self.call.addGestureRecognizer(tap)
+                        
                         self.callLb.textColor = UIColor.init(named: "content-primary")
                         self.callLb.text = stationDto.mTel
+                        self.phoneNumber = stationDto.mTel
                     }
                 }else{
                     self.callLb.textColor = UIColor.init(named: "content-tertiary")
