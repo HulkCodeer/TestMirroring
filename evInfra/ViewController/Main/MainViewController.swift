@@ -505,6 +505,7 @@ class MainViewController: UIViewController {
                 } else {
                     Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
                 }
+                self.summaryView.setCallOutFavoriteIcon(favorite: charger.mFavorite)
             }
         } else {
             MemberManager().showLoginAlert(vc: self)
