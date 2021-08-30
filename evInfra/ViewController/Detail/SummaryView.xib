@@ -52,14 +52,14 @@
                             <rect key="frame" x="16" y="16" width="382" height="25"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Lx-CZ-bNr">
-                                    <rect key="frame" x="0.0" y="2.5" width="20" height="20"/>
+                                    <rect key="frame" x="0.0" y="2.5" width="32" height="20"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="20" id="OL1-OE-YRw"/>
+                                        <constraint firstAttribute="width" constant="32" id="OL1-OE-YRw"/>
                                         <constraint firstAttribute="height" constant="20" id="nnf-bf-ePM"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전소이름입니다" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xvx-HD-YVf">
-                                    <rect key="frame" x="24" y="3" width="301" height="19.5"/>
+                                    <rect key="frame" x="36" y="3" width="289" height="19.5"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
