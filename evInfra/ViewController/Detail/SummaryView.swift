@@ -149,6 +149,7 @@ class SummaryView: UIView {
                 // 주소 View Gone
                 addrView.isHidden = true
                 
+                distance = -1.0
                 setDistance()
                 
                 summaryView.layoutIfNeeded()
@@ -390,14 +391,14 @@ class SummaryView: UIView {
 
     
     func setDistance() {
-        if self.distance < 0 {
+        if self.distance < 0 { // detail에서 여러번 불리는것 방지
             if let currentLocation = MainViewController.currentLocation {
                 getDistance(curPos: currentLocation, desPos: self.charger!.marker.getTMapPoint())
             } else {
                 self.navigationBtn.setTitle("계산중", for: .normal)
             }
         } else {
-            self.navigationBtn.setTitle("\(self.distance) Km 안내 시작", for: .normal)
+            self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
         }
     }
 
@@ -405,14 +406,13 @@ class SummaryView: UIView {
         if desPos.getLatitude() == 0 || desPos.getLongitude() == 0 {
             self.navigationBtn.setTitle("계산중", for: .normal)
         } else {
-            self.navigationBtn.setTitle("확인중", for: .normal)
             DispatchQueue.global(qos: .background).async {
                 let tMapPathData = TMapPathData.init()
                 if let path = tMapPathData.find(from: curPos, to: desPos) {
                     self.distance = round(path.getDistance() / 1000 * 10) / 10
 
                     DispatchQueue.main.async {
-                        self.navigationBtn.setTitle("\(self.distance) Km 안내 시작", for: .normal)
+                        self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
                     }
                 } else {
                     DispatchQueue.main.async {

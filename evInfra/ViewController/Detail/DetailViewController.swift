@@ -718,20 +718,17 @@ extension DetailViewController : DetailViewDelegate {
     func onStart() {
         mainViewDelegate?.setStartPoint()
         self.navigationController?.popViewController(animated: true)
-        self.dismiss(animated: true, completion: nil)
     }
     // 도착
     func onEnd() {
         mainViewDelegate?.setEndPoint()
         mainViewDelegate?.setStartPath()
         self.navigationController?.popViewController(animated: true)
-        self.dismiss(animated: true, completion: nil)
     }
     // 경유지 추가
     func onAdd() {
         mainViewDelegate?.setStartPath()
         self.navigationController?.popViewController(animated: true)
-        self.dismiss(animated: true, completion: nil)
     }
     // 네비게이션
     func onNavigation() {

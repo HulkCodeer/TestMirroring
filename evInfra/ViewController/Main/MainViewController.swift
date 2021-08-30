@@ -1208,7 +1208,6 @@ extension MainViewController: MainViewDelegate {
         selectCharger = charger
         summaryView.charger = charger
         getStationDetailInfo()
-        summaryView.layoutMainSummary()
         setView(view: callOutLayer, hidden: false)
         
         summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clustering!.isRouteMode)
@@ -1234,7 +1233,6 @@ extension MainViewController: MainViewDelegate {
                     }
                     self.summaryView.detailData = detailData
                     self.summaryView.layoutMainSummary()
-//                    self.summaryView.layoutIfNeeded()
                 }
             }
         }
