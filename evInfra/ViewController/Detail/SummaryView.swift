@@ -30,6 +30,8 @@ class SummaryView: UIView {
     @IBOutlet weak var typeDestination: UILabel!
     
     @IBOutlet weak var stateLb: UILabel!
+    @IBOutlet var fastView: UIStackView!
+    @IBOutlet var slowView: UIStackView!
     @IBOutlet weak var fastCountLb: UILabel!
     @IBOutlet weak var slowCountLb: UILabel!
     
@@ -97,17 +99,24 @@ class SummaryView: UIView {
                 // 충전소 상태
                 stateLb.text = charger.mTotalStatusName
                 setStationCstColor(charger: charger)
+                
                 // 급/완속 카운터
                 stateCountView.isHidden = false
                 let fastPower = detailData.getCountFastPower()
                 let slowPower = detailData.getCountSlowPower()
+                // set text color
                 fastCountLb.textColor = UIColor.init(named: "content-primary")
                 slowCountLb.textColor = UIColor.init(named: "content-primary")
+                // 0/0 -> gone 처리
+                fastView.isHidden = false
+                slowView.isHidden = false
                 if !fastPower.isEmpty && !slowPower.isEmpty {
                     if fastPower.equals("0/0"){
-                        fastCountLb.textColor = UIColor.init(named: "content-tertiary")
+                        // Fast GONE
+                        fastView.isHidden = true
                     }else if slowPower.equals("0/0"){
-                        slowCountLb.textColor = UIColor.init(named: "content-tertiary")
+                        // Slow GONE
+                        slowView.isHidden = true
                     }
                     fastCountLb.text = fastPower
                     slowCountLb.text = slowPower
