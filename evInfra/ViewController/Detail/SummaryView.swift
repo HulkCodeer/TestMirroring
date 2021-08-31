@@ -9,6 +9,16 @@
 import Foundation
 import SwiftyJSON
 
+protocol SummaryDelegate {
+    func onStart()
+    func onEnd()
+    func onAdd()
+    func onNavigation()
+    func onRequestLogIn()
+    func onFavoriteChanged(changed: Bool)
+    func onShare()
+}
+
 class SummaryView: UIView {
     
     @IBOutlet weak var summaryView: UIView!
@@ -48,14 +58,16 @@ class SummaryView: UIView {
     @IBOutlet weak var stateCountView: UIView!
     @IBOutlet weak var addrView: UIStackView!
     
-    
-    public var charger: ChargerStationInfo!
-    
-    var mainViewDelegate: MainViewDelegate?
-    var detailViewDelegate: DetailViewDelegate?
+    var delegate: SummaryDelegate?
     var detailData = DetailStationData()
+    var charger:ChargerStationInfo?
     var isAddBtnGone:Bool = false
     var distance: Double = -1.0
+    
+    public enum SummaryType {
+        case MainSummary
+        case DetailSummary
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -67,49 +79,51 @@ class SummaryView: UIView {
         initView()
     }
     
-    func initView() {
-        summeryinit()
-        layoutMainSummary()
-    }
     // Summary 첫 세팅
-    private func summeryinit() {
+    private func initView() {
         let view = Bundle.main.loadNibNamed("SummaryView", owner: self, options: nil)?.first as! UIView
         view.frame = bounds
         addSubview(view)
                 
-        // navigationBtn.layer.cornerRadius = 6
         startBtn.layer.cornerRadius = 6
         endBtn.layer.cornerRadius = 6
         addBtn.layer.cornerRadius = 6
         navigationBtn.layer.cornerRadius = 6
     }
     // 메인_Sumamry View setting
+    func setLayoutType(charger: ChargerStationInfo, type: SummaryType) {
+        self.charger = charger
+        switch type {
+        case .MainSummary:
+            getStationDetailInfo()
+        case .DetailSummary:
+            layoutDetailSummary()
+        default:
+            layoutMainSummary()
+        }
+    }
     func layoutMainSummary() {
-        if charger != nil {
-            if let stationDto = charger.mStationInfoDto {
+        if self.charger != nil {
+            if let stationDto = self.charger!.mStationInfoDto {
+                // 충전소 이미지
+                setCompanyIcon(chargerData: self.charger!)
                 // 충전소 이름
                 stationNameLb.text = stationDto.mSnm
-                // 충전소 이미지
-                setCompanyIcon(chargerData: charger)
-            
+                // 공유하기
                 shareBtn.isHidden = true
-                
-                setCallOutFavoriteIcon(favorite: charger.mFavorite)
-                
+                // 즐겨찾기
+                setCallOutFavoriteIcon(favorite: self.charger!.mFavorite)
+                // 충전기 타입
+                setChargerType(charger: self.charger!)
                 // 충전소 상태
-                stateLb.text = charger.mTotalStatusName
-                setStationCstColor(charger: charger)
-                
-                // 급/완속 카운터
+                stateLb.text = self.charger!.mTotalStatusName
+                setStationCstColor(charger: self.charger!)
+                // 급/완속 카운터 (0/0 -> GONE처리)
                 stateCountView.isHidden = false
-                let fastPower = detailData.getCountFastPower()
-                let slowPower = detailData.getCountSlowPower()
-                // set text color
-                fastCountLb.textColor = UIColor.init(named: "content-primary")
-                slowCountLb.textColor = UIColor.init(named: "content-primary")
-                // 0/0 -> gone 처리
                 fastView.isHidden = false
                 slowView.isHidden = false
+                let fastPower = detailData.getCountFastPower()
+                let slowPower = detailData.getCountSlowPower()
                 if !fastPower.isEmpty && !slowPower.isEmpty {
                     if fastPower.equals("0/0"){
                         // Fast GONE
@@ -121,37 +135,21 @@ class SummaryView: UIView {
                     fastCountLb.text = fastPower
                     slowCountLb.text = slowPower
                 }
-                
-                // 충전기 타입
-                setChargerType(charger: charger)
                 // [충전소 필터]
                 // 속도
-                let bordorColor = UIColor.init(named: "border-opaque")?.cgColor
-                filterView.isHidden = false
-                
-                let powerTitle = charger.getChargerPower(power: (charger.mPower), type: (charger.mTotalType)!)
+                let powerTitle = self.charger!.getChargerPower(power: self.charger!.mPower, type: (self.charger!.mTotalType)!)
                 self.filterPower.setTitle(powerTitle, for: .normal)
-                filterPower.layer.borderWidth = 1
-                filterPower.layer.borderColor = bordorColor
-                filterPower.layer.cornerRadius = 12
+                setBerryTag(btn: filterPower)
                 // 가격
-                setChargePrice(stationDto: charger.mStationInfoDto!)
-                filterPay.layer.borderWidth = 1
-                filterPay.layer.borderColor = bordorColor
-                filterPay.layer.cornerRadius = 12
-                
+                setChargePrice(stationDto: self.charger!.mStationInfoDto!)
+                setBerryTag(btn: filterPay)
                 // 설치형태
-                stationArea(stationDto: charger.mStationInfoDto!)
-                filterRoof.layer.borderWidth = 1
-                filterRoof.layer.borderColor = bordorColor
-                filterRoof.layer.cornerRadius = 12
-                
-                // 주소 View Gone
+                stationArea(stationDto: self.charger!.mStationInfoDto!)
+                setBerryTag(btn: filterRoof)
+                // 주소 GONE
                 addrView.isHidden = true
-                
                 distance = -1.0
-                setDistance()
-                
+                setDistance(charger: self.charger!)
                 summaryView.layoutIfNeeded()
             }
         }
@@ -160,32 +158,54 @@ class SummaryView: UIView {
     // Detail_Summary View setting
     func layoutDetailSummary() {
         addrView.isHidden = false
-        if charger != nil {
-            if let stationDto = charger.mStationInfoDto {
+        if self.charger != nil {
+            if let stationDto = self.charger!.mStationInfoDto {
+                // 충전소 이미지
+                setCompanyIcon(chargerData: self.charger!)
                 // 충전소 이름
                 stationNameLb.text = stationDto.mSnm
-                // 충전소 이미지
-                setCompanyIcon(chargerData: charger)
-                
-                setCallOutFavoriteIcon(favorite: charger.mFavorite)
+                // 즐겨찾기
+                setCallOutFavoriteIcon(favorite: self.charger!.mFavorite)
+                // 충전기 타입 GONE
+                chargerTypeView.isHidden = true
+                // 충전소 상태 GONE
+                stateCountView.isHidden = true
+                // 필터tag GONE
+                filterView.isHidden = true
                 // 주소
                 var addr = "등록된 정보가 없습니다."
                 if stationDto.mAddress != nil && stationDto.mAddressDetail != nil {
                     addr = stationDto.mAddress! + " " + stationDto.mAddressDetail!
                 }
                 addrLb.text = addr
-                
-                
-                chargerTypeView.isHidden = true
-                stateCountView.isHidden = true
-                filterView.isHidden = true
-                
-                setDistance()
+                // 거리
+                setDistance(charger: self.charger!)
                 
                 summaryView.layoutIfNeeded()
             }
         }
     }
+    
+    func getStationDetailInfo() {
+        if self.charger != nil{
+            Server.getStationDetail(chargerId:  self.charger!.mChargerId!) { (isSuccess, value) in
+                if isSuccess {
+                    let json = JSON(value)
+                    let list = json["list"]
+                    
+                    let detailData = DetailStationData()
+                    for (_, item):(String, JSON) in list {
+                        detailData.setStationInfo(jsonList: item)
+                        break
+                    }
+                    self.detailData = detailData
+                    self.layoutMainSummary()
+                    self.layoutIfNeeded()
+                }
+            }
+        }
+    }
+    
     // 경유지 버튼 visible/gone 관리
     public func layoutAddPathSummary(hiddenAddBtn:Bool) {
         if isAddBtnGone == hiddenAddBtn {
@@ -314,6 +334,19 @@ class SummaryView: UIView {
         stateLb.textColor = charger.cidInfo.getCstColor(cst: status)
     }
     
+    func setBerryTag(btn : UIButton) {
+        let bordorColor = UIColor.init(named: "border-opaque")?.cgColor
+        btn.layer.borderWidth = 1
+        btn.layer.borderColor = bordorColor
+        btn.layer.cornerRadius = 12
+    }
+    
+    // Copy
+    @IBAction func copyAddr(_ sender: Any) {
+        UIPasteboard.general.string = addrLb.text
+        Snackbar().show(message: "주소가 복사되었습니다.")
+    }
+    
     func setCidInfo(jsonList: JSON) {
         
         let clist = jsonList["cl"]
@@ -341,64 +374,76 @@ class SummaryView: UIView {
     // [Summary]
     // share
     @IBAction func onClickShare(_ sender: Any) {
-        detailViewDelegate?.onShare()
+        if let delegate = delegate {
+            delegate.onShare()
+        }
     }
     // Favorite
     @IBAction func onClickFavorite(_ sender: UIButton) {
-        if mainViewDelegate != nil {
-            mainViewDelegate?.setFavorite{ (isFavorite) in
-                self.setCallOutFavoriteIcon(favorite: isFavorite)
+        if MemberManager().isLogin() {
+            if self.charger != nil {
+                self.favorite()
+            }
+        } else {
+            if let delegate = delegate {
+                delegate.onRequestLogIn()
             }
         }
-        detailViewDelegate?.onFavorite()
-    }
-    // Copy
-    @IBAction func copyAddr(_ sender: Any) {
-        UIPasteboard.general.string = addrLb.text
-        Snackbar().show(message: "주소가 복사되었습니다.")
     }
     
     // [Direction]
     // start
     @IBAction func onClickStartPoint(_ sender: Any) {
-        if mainViewDelegate != nil {
-            mainViewDelegate?.setStartPoint()
+        if let delegate = delegate {
+            delegate.onStart()
         }
-        detailViewDelegate?.onStart()
     }
     // end
     @IBAction func onClickEndPoint(_ sender: Any) {
-        if mainViewDelegate != nil {
-            mainViewDelegate?.setEndPoint()
-            mainViewDelegate?.setStartPath()
+        if let delegate = delegate {
+            delegate.onEnd()
         }
-        detailViewDelegate?.onEnd()
     }
     // add
     @IBAction func onClickAddPoint(_ sender: Any) {
-        if mainViewDelegate != nil {
-            mainViewDelegate?.setStartPath()
+        if let delegate = delegate {
+            delegate.onAdd()
         }
-        detailViewDelegate?.onAdd()
     }
     // navigation
     @IBAction func onClickNavi(_ sender: UIButton) {
-        if mainViewDelegate != nil {
-            mainViewDelegate?.setNavigation()
+        if let delegate = delegate {
+            delegate.onNavigation()
         }
-        detailViewDelegate?.onNavigation()
     }
 
-    
-    func setDistance() {
-        if self.distance < 0 { // detail에서 여러번 불리는것 방지
-            if let currentLocation = MainViewController.currentLocation {
-                getDistance(curPos: currentLocation, desPos: self.charger!.marker.getTMapPoint())
+    func setDistance(charger: ChargerStationInfo) {
+        if charger != nil {
+            if self.distance < 0 { // detail에서 여러번 불리는것 방지
+                if let currentLocation = MainViewController.currentLocation {
+                    getDistance(curPos: currentLocation, desPos: charger.marker.getTMapPoint())
+                } else {
+                    self.navigationBtn.setTitle("계산중", for: .normal)
+                }
             } else {
-                self.navigationBtn.setTitle("계산중", for: .normal)
+                self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
             }
-        } else {
-            self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
+        }
+    }
+    
+    func favorite() {
+        if self.charger != nil {
+            ChargerManager.sharedInstance.setFavoriteCharger(charger: self.charger!) { (charger) in
+                if charger.mFavorite {
+                    Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
+                } else {
+                    Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
+                }
+                self.setCallOutFavoriteIcon(favorite: charger.mFavorite)
+                if let delegate = self.delegate {
+                    delegate.onFavoriteChanged(changed: charger.mFavorite)
+                }
+            }
         }
     }
 
