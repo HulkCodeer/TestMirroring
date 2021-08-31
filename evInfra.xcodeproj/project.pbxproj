@@ -83,6 +83,11 @@
 		4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
 		4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */; };
+		42BA340026D765ED00F6683E /* DetailStationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BA33FF26D765ED00F6683E /* DetailStationData.swift */; };
+		42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */; };
+		42CEB75126C1110D00E37AE4 /* CidInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */; };
+		42F9BCE126C64C250028B3D1 /* SummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42F9BCDF26C64C250028B3D1 /* SummaryView.xib */; };
+		42F9BCE326C651340028B3D1 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F9BCE226C651340028B3D1 /* SummaryView.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView.swift */; };
 		7312786820BE38C500861B3E /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786720BE38C500861B3E /* FCMManager.swift */; };
@@ -427,6 +432,11 @@
 		4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceTableViewCell.swift; sourceTree = "<group>"; };
 		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
 		4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponCodeViewController.swift; sourceTree = "<group>"; };
+		42BA33FF26D765ED00F6683E /* DetailStationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailStationData.swift; sourceTree = "<group>"; };
+		42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CidInfoTableViewCell.swift; sourceTree = "<group>"; };
+		42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CidInfoTableViewCell.xib; sourceTree = "<group>"; };
+		42F9BCDF26C64C250028B3D1 /* SummaryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SummaryView.xib; sourceTree = "<group>"; };
+		42F9BCE226C651340028B3D1 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		7312786720BE38C500861B3E /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
@@ -921,6 +931,9 @@
 			children = (
 				425B055A26B7847B00B597A2 /* Detail.storyboard */,
 				73008458213687150001DBFA /* DetailViewController.swift */,
+				42F9BCDF26C64C250028B3D1 /* SummaryView.xib */,
+				42F9BCE226C651340028B3D1 /* SummaryView.swift */,
+				42BA33FF26D765ED00F6683E /* DetailStationData.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -1195,6 +1208,8 @@
 				006C90982554EFD100F7C6D7 /* PopUpDialog.swift */,
 				4212A25325555775001BB124 /* OfferwallTableViewCell.swift */,
 				4212A25425555775001BB124 /* OfferwallTableViewCell.xib */,
+				42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */,
+				42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1639,6 +1654,7 @@
 				73A7B3EA204E3595002E975F /* delete_normal.png in Resources */,
 				0055D472252AA88B001133DB /* Membership.storyboard in Resources */,
 				73C31C0D20A4408C005B6C53 /* GoogleService-Info.plist in Resources */,
+				42F9BCE126C64C250028B3D1 /* SummaryView.xib in Resources */,
 				DB18733820AAEC8400790B77 /* navi_kakao.png in Resources */,
 				73A7B417204E3595002E975F /* navi_bg.jpg in Resources */,
 				00A7D5C826B7B0D100C5DBCC /* Filter.storyboard in Resources */,
@@ -1668,6 +1684,7 @@
 				73C31C0620A2BB04005B6C53 /* charger_ac3.jpg in Resources */,
 				73A7B3E8204E3595002E975F /* reply_btn_selected.png in Resources */,
 				00FDEAEA26B3BF1E006617EE /* Member.storyboard in Resources */,
+				42CEB75126C1110D00E37AE4 /* CidInfoTableViewCell.xib in Resources */,
 				DB87607320690B370095394B /* BoardTableViewFooter.xib in Resources */,
 				00A6A15F26C3A4930023DAE3 /* FilterPlaceView.xib in Resources */,
 				73C31C0B20A2BB04005B6C53 /* charge_normal.jpg in Resources */,
@@ -1834,6 +1851,7 @@
 				DB4063A521FC735000B630A8 /* DayAxisValueFormatter.swift in Sources */,
 				CE24840020A59E2500611E24 /* MyPageViewController.swift in Sources */,
 				DB18732420A8519200790B77 /* String.swift in Sources */,
+				42F9BCE326C651340028B3D1 /* SummaryView.swift in Sources */,
 				73AFF26722D467E000287E67 /* Chronometer.swift in Sources */,
 				DB8936542074A4EB006A10BB /* ChargerTableView.swift in Sources */,
 				DB9673C620843EF6008ACCAE /* ChargerTableViewCell.swift in Sources */,
@@ -1868,6 +1886,7 @@
 				736D37D3208DC9CE009535EE /* BoardItem.swift in Sources */,
 				00AE577D26CE4891003E6643 /* TapticEngine.swift in Sources */,
 				732ED1CA21ED8ABB0012C67B /* DropDownCheckBoxCell.swift in Sources */,
+				42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */,
 				CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */,
 				73D65D702358498C00F564A2 /* Validators.swift in Sources */,
 				902A11D7248F56610049EF8E /* StationStatusDto.swift in Sources */,
@@ -1955,6 +1974,7 @@
 				00EB85D226BA8C6100D1606F /* UILabel.swift in Sources */,
 				73AD13C8203AC57A00ADD19A /* AppNavigationDrawerController.swift in Sources */,
 				006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */,
+				42BA340026D765ED00F6683E /* DetailStationData.swift in Sources */,
 				7308559D206350890008497E /* UIView.swift in Sources */,
 				00A7D5D226B7DA2100C5DBCC /* ChargerFilterViewController.swift in Sources */,
 				7312786820BE38C500861B3E /* FCMManager.swift in Sources */,
@@ -2161,7 +2181,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 102;
+				CURRENT_PROJECT_VERSION = 106;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2174,7 +2194,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.2.11;
+				MARKETING_VERSION = 3.5.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -2200,7 +2220,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 102;
+				CURRENT_PROJECT_VERSION = 106;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2213,7 +2233,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.2.11;
+				MARKETING_VERSION = 3.5.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",

@@ -13,6 +13,8 @@ import M13Checkbox
 import SwiftyJSON
 
 protocol MainViewDelegate {
+    func setFavorite(completion: @escaping (Bool) -> Void)
+    func setNavigation()
     func redrawCalloutLayer()
     func setStartPath()         // 경로찾기(시작)
     func setStartPoint()        // 경로찾기(출발)
@@ -27,6 +29,7 @@ class MainViewController: UIViewController {
     
     // user Default
     let defaults = UserDefault()
+    
     
     @IBOutlet var rootView: UIView!
     
@@ -43,6 +46,7 @@ class MainViewController: UIViewController {
     // Filter View
     @IBOutlet weak var filterView: UIView!
     @IBOutlet weak var routeView: UIView!
+    
     @IBOutlet weak var filterBarView: FilterBarView!
     @IBOutlet weak var filterContainerView: FilterContainerView!
     @IBOutlet weak var filterHeight: NSLayoutConstraint!
@@ -75,32 +79,6 @@ class MainViewController: UIViewController {
     
     // Callout View
     @IBOutlet weak var callOutLayer: UIView!
-    @IBOutlet var companyImg: UIImageView!         // 운영기관(이미지)
-    @IBOutlet weak var callOutTitle: UILabel!       // 충전소이름
-    @IBOutlet var distanceLb: UILabel!              // 거리
-    @IBOutlet weak var callOutFavorite: UIButton!   // 북마크
-    
-    @IBOutlet var markerImg: UIImageView!           // 마커이미지
-    @IBOutlet weak var callOutStatus: UILabel!      // 충전상태
-
-    @IBOutlet var typeDemoLb: UILabel!                 // 타입(view)
-    @IBOutlet var typeComboLb: UILabel!                 // 타입(view)
-    @IBOutlet var typeACLb: UILabel!                 // 타입(view)
-    @IBOutlet var typeSlowLb: UILabel!
-    @IBOutlet var typeSuperLb: UILabel!
-    
-    @IBOutlet var typeDestiLb: UILabel!
-    
-    @IBOutlet var powerView: UILabel!               // 충전속도(view)
-    @IBOutlet var chargePowerLb: UILabel!           // 충전속도
-    @IBOutlet var priceView: UILabel!               // 충전금액(view)
-    @IBOutlet var chargePriceLb: UILabel!           // 충전금액
-    
-    @IBOutlet weak var startPointBtn: UIButton!     // 출발
-    @IBOutlet weak var endPointBtn: UIButton!       // 도착
-    @IBOutlet var addPointBtn: UIButton!            // 경유지 추가
-    @IBOutlet weak var naviBtn: UIButton!           // 길안내
-    
     // Menu Button Layer
     @IBOutlet var btn_menu_layer: UIView!
     @IBOutlet var btn_main_charge: UIButton!
@@ -141,8 +119,12 @@ class MainViewController: UIViewController {
     private var clustering: ClusterManager? = nil
     private var currentClusterLv = 0
     private var isAllowedCluster = true
-    private var isExistAddBtn = false
     private var canIgnoreJejuPush = true
+    private var isHiddenAddBtn = true
+    
+    private var summaryViewTag = 10
+    private var summaryView:SummaryView!
+    private var summaryLayoutTest:Bool = false
     
     // 지킴이 점겸표 url
     private var checklistUrl: String?
@@ -156,7 +138,7 @@ class MainViewController: UIViewController {
         preparePOIResultView()
         prepareFilterView()
         prepareMapView()
-        prepareCalloutLayer()
+        
         prepareNotificationCenter()
         prepareRouteView()
         prepareClustering()
@@ -164,35 +146,12 @@ class MainViewController: UIViewController {
         
         prepareChargePrice()
         requestStationInfo()
+        
+        prepareCalloutLayer()
     }
     
     override func viewWillLayoutSubviews() {
-        // btn border
-        self.startPointBtn.setBorderRadius([.bottomLeft, .topLeft], radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        self.endPointBtn.setBorderRadius([.bottomRight, .topRight], radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        self.naviBtn.setBorderRadius(.allCorners, radius: 4, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        self.addPointBtn.setBorderRadius(.allCorners, radius: 0, borderColor: UIColor(hex: "#C8C8C8"), borderWidth: 1)
-        if let currentPoint = MainViewController.currentLocation {
-            startField.placeholder = tMapPathData.convertGpsToAddress(at: currentPoint)
-        }
-        // routeDistancBtn radius, gradient
-        self.routeDistanceBtn.roundCorners(.allCorners, radius: 10)
-        self.routeDistanceBtn.setGradientColor(startColor: UIColor(hex: "#2CE0BB"), endColor: UIColor(hex: "#33A2DA"), startPoint: CGPoint(x: 0.0, y: 1.0), endPoint: CGPoint(x: 1.0, y:1.0))
-        self.routeDistanceView.roundCorners(.allCorners, radius: 5)
-        self.routeDistanceView.backgroundColor = UIColor.init(hex: "#F5ffffff")
-        // type/LB round corner
-        self.powerView.roundCorners(.allCorners, radius: 3)
-        self.priceView.roundCorners(.allCorners, radius: 3)
-        self.typeDemoLb.roundCorners(.allCorners, radius: 3)
-        self.typeComboLb.roundCorners(.allCorners, radius: 3)
-        self.typeACLb.roundCorners(.allCorners, radius: 3)
-        self.typeSlowLb.roundCorners(.allCorners, radius: 3)
-        self.typeSuperLb.roundCorners(.allCorners, radius: 3)
-        self.typeDestiLb.roundCorners(.allCorners, radius: 3)
-        // bookmark
-        if selectCharger != nil {
-            setCallOutFavoriteIcon(charger: self.selectCharger!)
-        }
+        prepareSummaryView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -221,58 +180,6 @@ class MainViewController: UIViewController {
     func prepareFilterView() {
         filterBarView.delegate = self
         filterContainerView.delegate = self
-//            for company in companyList {
-//                for (index, companyName) in self.dropDownCompany.dataSource.enumerated() {
-//                    if companyName == company.name {
-//                        if let companyId = company.company_id {
-//                            ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: companyVisibilityList[index], companyID: companyId)
-//                            continue
-//                        }
-//                    }
-//                }
-//            }
-//            self.drawTMapMarker()
-//            self.dropDownCompany.reloadAllComponents()
-//        }
-//
-//        let isSKR = MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR);
-//        if isSKR {
-//            companyVisibilityList[0] = false
-//            dropDownCompany.deselectRow(0)
-//            for (index, _) in companyVisibilityList.enumerated(){
-//                if index == 1 || index == 2 {
-//                    dropDownCompany.selectRow(index)
-//                    companyVisibilityList[index] = true
-//                } else {
-//                    dropDownCompany.deselectRow(index)
-//                    companyVisibilityList[index] = false
-//                }
-//            }
-//            for company in companyList {
-//                for (index, companyName) in dropDownCompany.dataSource.enumerated() {
-//                    if companyName == company.name {
-//                        if let companyId = company.company_id {
-//                            ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: companyVisibilityList[index], companyID: companyId)
-//                            continue
-//                        }
-//                    }
-//                }
-//            }
-//            drawTMapMarker()
-//            dropDownCompany.reloadAllComponents()
-//        } else {
-//            for (index, comVisible) in companyVisibilityList.enumerated(){
-//                if comVisible {
-//                    dropDownCompany.selectRow(index)
-//                } else {
-//                    dropDownCompany.deselectRow(index)
-//                    if companyVisibilityList[0] {
-//                        companyVisibilityList[0] = false
-//                        dropDownCompany.deselectRow(0)
-//                    }
-//                }
-//            }
-//        }
     }
     
     func setSelectionFromUserDefault(dropDown: DropDown, defaultKey: String, dic: [Int: String], button: UIButton) {
@@ -359,6 +266,7 @@ class MainViewController: UIViewController {
         btnChargePrice.addGestureRecognizer(gesture)
     }
     
+    
     func handleError(error: Error?) -> Void {
         if let error = error as NSError? {
             print(error)
@@ -402,19 +310,32 @@ class MainViewController: UIViewController {
         }
     }
     
-    func bookmark() {
+    func bookmark(completion: @escaping (Bool) -> Void) {
         if MemberManager().isLogin() {
             ChargerManager.sharedInstance.setFavoriteCharger(charger: selectCharger!) { (charger) in
-                self.setCallOutFavoriteIcon(charger: charger)
+                completion(charger.mFavorite)
                 if charger.mFavorite {
                     Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
                 } else {
                     Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
                 }
+                self.summaryView.setCallOutFavoriteIcon(favorite: charger.mFavorite)
             }
         } else {
             MemberManager().showLoginAlert(vc: self)
         }
+    }
+    
+    func showNavigation() {
+        var snm = endField.text ?? ""
+        var lng = routeEndPoint?.getLongitude() ?? 0.0
+        var lat = routeEndPoint?.getLatitude() ?? 0.0
+        if snm.isEmpty, lng == 0.0, lat == 0.0 {
+            snm = selectCharger?.mStationInfoDto?.mSnm ?? ""
+            lng = selectCharger?.mStationInfoDto?.mLongitude ?? 0.0
+            lat = selectCharger?.mStationInfoDto?.mLatitude ?? 0.0
+        }
+        UtilNavigation().showNavigation(vc: self, snm: snm, lat: lat, lng: lng)
     }
     
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
@@ -422,12 +343,6 @@ class MainViewController: UIViewController {
         let priceInfoVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         priceInfoVC.tabIndex = .PriceInfo
         self.navigationController?.push(viewController: priceInfoVC)
-//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
-//        self.navigationController?.push(viewController:vc)
-    }
-    
-    @IBAction func onClickFavorite(_ sender: UIButton) {
-        bookmark()
     }
     
     // MARK: - Action for button
@@ -461,15 +376,7 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func onClickShowNavi(_ sender: Any) {
-        var snm = endField.text ?? ""
-        var lng = routeEndPoint?.getLongitude() ?? 0.0
-        var lat = routeEndPoint?.getLatitude() ?? 0.0
-        if snm.isEmpty, lng == 0.0, lat == 0.0 {
-            snm = selectCharger?.mStationInfoDto?.mSnm ?? ""
-            lng = selectCharger?.mStationInfoDto?.mLongitude ?? 0.0
-            lat = selectCharger?.mStationInfoDto?.mLatitude ?? 0.0
-        }
-        UtilNavigation().showNavigation(vc: self, snm: snm, lat: lat, lng: lng)
+        self.showNavigation()
     }
     
     @IBAction func onClickRouteAddPoint(_ sender: UIButton) {
@@ -528,6 +435,17 @@ extension MainViewController: DelegateFilterBarView {
         let chargerFilterVC:ChargerFilterViewController = filterStoryboard.instantiateViewController(withIdentifier: "ChargerFilterViewController") as! ChargerFilterViewController
         chargerFilterVC.delegate = self
         self.navigationController?.push(viewController: chargerFilterVC)
+    }
+    
+    @IBAction func onClickMainFavorite(_ sender: UIButton) {
+        if MemberManager().isLogin() {
+            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
+            let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
+            favoriteVC.delegate = self
+            self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
+        } else {
+            MemberManager().showLoginAlert(vc:self)
+        }
     }
 }
 
@@ -648,11 +566,7 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func clearSearchResult() {
-        if self.isExistAddBtn {   // 경유지버튼 있을경우
-            self.addPointBtn.isHidden = true    // 경유지버튼 숨김
-            self.naviBtn.isHidden = false   // 길안내버튼 추가
-        }
-        self.isExistAddBtn = false
+        isHiddenAddBtn = true
         
         hideKeyboard()
         hideResultView()
@@ -678,7 +592,8 @@ extension MainViewController: TextFieldDelegate {
             charger.isAroundPath = true
         }
         
-        self.clustering?.isRouteMode = false;
+        self.clustering?.isRouteMode = false
+        summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clustering!.isRouteMode)
 
         drawTMapMarker()
     }
@@ -699,6 +614,8 @@ extension MainViewController: TextFieldDelegate {
         }
         
         if let startPoint = routeStartPoint, let endPoint = routeEndPoint {
+            isHiddenAddBtn = false
+            
             markerIndicator.startAnimating()
             
             // 키보드 숨기기
@@ -725,13 +642,16 @@ extension MainViewController: TextFieldDelegate {
             let centerLon = abs((startPoint.getLongitude() + endPoint.getLongitude()) / 2)
             self.tMapView?.setCenter(TMapPoint.init(lon: centerLon, lat: centerLat))
             
-            // 경유지 추가 버튼 활성화
-            btnRouteCancel.setTitle("경로취소", for: .normal)
-            if !self.isExistAddBtn { // 경유지버튼 없을경우
-                self.naviBtn.isHidden = true    // 길안내버튼 숨김
-                self.addPointBtn.isHidden = false   // 경유지버튼 추가
-            }
-            self.isExistAddBtn = true
+            isHiddenAddBtn = false
+//            summaryView.layoutAddPathSummary(hiddenAddBtn: isHiddenAddBtn)
+//            callOutLayer.layoutIfNeeded()
+//            summaryView.layoutIfNeeded()
+            
+//            if !self.isExistAddBtn { // 경유지버튼 없을경우
+//                self.naviBtn.isHidden = true    // 길안내버튼 숨김
+//                self.addPointBtn.isHidden = false   // 경유지버튼 추가
+//            }
+//            self.isExistAddBtn = true
             
             // 경로 요청
             DispatchQueue.global(qos: .background).async {
@@ -758,11 +678,14 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func drawPathData(polyLine: TMapPolyLine) {
+        isHiddenAddBtn = false
+        
         tMapView?.addTMapPath(polyLine)
         
         // 경로 주변 충전소만 표시
         findChargerAroundRoute(polyLine: polyLine);
         self.clustering?.isRouteMode = true
+        summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clustering!.isRouteMode)
 
         drawTMapMarker()
         
@@ -777,6 +700,7 @@ extension MainViewController: TextFieldDelegate {
         routeDistanceLabel.text = strDistance as String
         
         setView(view: routeDistanceView, hidden: false)
+        summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clustering!.isRouteMode)
     }
     
     func findChargerAroundRoute(polyLine: TMapPolyLine) {
@@ -949,6 +873,14 @@ extension MainViewController: ChargerSelectDelegate {
 
 // MARK: - Callout
 extension MainViewController: MainViewDelegate {
+    func setNavigation() {
+        self.showNavigation()
+    }
+    
+    
+    func setFavorite(completion: @escaping (Bool) -> Void) {
+        self.bookmark(completion: completion)
+    }
     
     func prepareCalloutLayer() {
         callOutLayer.isHidden = true
@@ -971,20 +903,34 @@ extension MainViewController: MainViewDelegate {
         let detailVC:DetailViewController = detailStoryboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         detailVC.mainViewDelegate = self
         detailVC.charger = self.selectCharger
-        detailVC.stationInfoArr = self.stationInfoArr
-        detailVC.checklistUrl = self.checklistUrl
-        detailVC.isExistAddBtn = self.isExistAddBtn
+        detailVC.detailData = self.summaryView.detailData
+        detailVC.isRouteMode = self.clustering!.isRouteMode
+        
         self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
     }
     
+    func prepareSummaryView() {
+        let window = UIApplication.shared.keyWindow!
+        callOutLayer.frame.size.width = window.frame.width
+        if summaryView == nil {
+            summaryView = SummaryView(frame: callOutLayer.frame.bounds)
+        }
+        summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        callOutLayer.addSubview(summaryView)
+        summaryView.mainViewDelegate = self
+    }
+    
     func selectCharger(chargerId: String) {
+        
         myLocationModeOff()
         
         // 이전에 선택된 충전소 마커를 원래 마커로 원복
         if selectCharger != nil {
+            summaryView.layoutIfNeeded()
+            callOutLayer.layoutIfNeeded()
+                        
             if let markerItem = tMapView!.getMarketItem(fromID: selectCharger!.mChargerId) {
                 markerItem.setIcon(selectCharger!.getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
-                
             }
             selectCharger = nil
         }
@@ -999,29 +945,11 @@ extension MainViewController: MainViewDelegate {
     
     func showCallOut(charger: ChargerStationInfo) {
         selectCharger = charger
-        if let totalType = selectCharger?.mTotalType {
-            setChargerTypeImage(type: totalType)
-            setChargerPower()
-        }
-        
-        if let pay = selectCharger?.mStationInfoDto?.mPay {
-            setChargePrice(pay: pay)
-        }
-        
-        setCallOutFavoriteIcon(charger: selectCharger!)
-        
-        setDistance()
-       
-//        callOutStatusBar.backgroundColor = selectCharger?.cidInfo.getCstColor(cs
-        
-        setCallOutLb()
-        
-        let chargeState = callOutStatus.text
-        stationInfoArr[chargeState ?? ""] = "chargeState"
-        
-        self.markerImg.image = selectCharger?.getChargeStateImg(type: chargeState!)
-        
+        summaryView.charger = charger
+        getStationDetailInfo()
         setView(view: callOutLayer, hidden: false)
+        
+        summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clustering!.isRouteMode)
 
         if let markerItem = self.tMapView!.getMarketItem(fromID: self.selectCharger!.mChargerId) {
             if (markerItem.getIcon().isEqual(other: self.selectCharger!.getSelectIcon())) == false {
@@ -1030,23 +958,22 @@ extension MainViewController: MainViewDelegate {
         }
     }
     
-    func setCallOutLb() {
-        callOutTitle.text = selectCharger?.mStationInfoDto?.mSnm
-        
-        callOutStatus.text = selectCharger?.cidInfo.cstToString(cst: selectCharger?.mTotalStatus ?? 2)
-        
-        if selectCharger?.getCompanyIcon() != nil {
-            self.companyImg.image = selectCharger?.getCompanyIcon()
-        } else {
-            self.companyImg.image = .none
-        }
-    }
-    
-    func setCallOutFavoriteIcon(charger: ChargerStationInfo) {
-        if charger.mFavorite {
-            callOutFavorite.setImage(UIImage(named: "bookmark_on"), for: .normal)
-        } else {
-            callOutFavorite.setImage(UIImage(named: "bookmark"), for: .normal)
+    func getStationDetailInfo() {
+        if let chargerData = selectCharger {
+            Server.getStationDetail(chargerId: chargerData.mChargerId!) { (isSuccess, value) in
+                if isSuccess {
+                    let json = JSON(value)
+                    let list = json["list"]
+                    
+                    let detailData = DetailStationData()
+                    for (_, item):(String, JSON) in list {
+                        detailData.setStationInfo(jsonList: item)
+                        break
+                    }
+                    self.summaryView.detailData = detailData
+                    self.summaryView.layoutMainSummary()
+                }
+            }
         }
     }
     
@@ -1055,114 +982,14 @@ extension MainViewController: MainViewDelegate {
             view.isHidden = hidden
         })
     }
-    
-    func setDistance() {
-        if let currentLocatin = MainViewController.currentLocation {
-            getDistance(curPos: currentLocatin, desPos: self.selectCharger!.marker.getTMapPoint())
-        } else {
-            self.distanceLb.text = "현재 위치를 받아오지 못했습니다."
-        }
-    }
-    
-    func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
-        if desPos.getLatitude() == 0 || desPos.getLongitude() == 0 {
-            self.distanceLb.text = "현재 위치를 받아오지 못했습니다."
-        } else {
-            self.distanceLb.text = "계산중"
-            
-            DispatchQueue.global(qos: .background).async {
-                let tMapPathData = TMapPathData.init()
-                if let path = tMapPathData.find(from: curPos, to: desPos) {
-                    let distance = Double(path.getDistance() / 1000).rounded()
 
-                    DispatchQueue.main.async {
-                        self.distanceLb.text = "| \(distance) Km"
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self.distanceLb.text = "계산오류."
-                    }
-                }
-            }
-        }
-    }
-    
-    func setChargerTypeImage(type:Int) {
-        // "DC차데모"
-        if (type & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
-            self.typeDemoLb.isHidden = false
-        } else {
-            self.typeDemoLb.isHidden = true
-        }
-        
-        // "DC콤보"
-        if (type & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
-            self.typeComboLb.isHidden = false
-        } else {
-            self.typeComboLb.isHidden = true
-        }
-        
-        // "AC3상"
-        if (type & Const.CTYPE_AC) == Const.CTYPE_AC {
-            self.typeACLb.isHidden = false
-        } else {
-            self.typeACLb.isHidden = true
-        }
-
-        // "완속"
-        if (type & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
-            self.typeSlowLb.isHidden = false
-        } else {
-            self.typeSlowLb.isHidden = true
-        }
-        
-        // "슈퍼차저"
-        if (type & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
-            self.typeSuperLb.isHidden = false
-        } else {
-            self.typeSuperLb.isHidden = true
-        }
-        
-        // "데스티네이션"
-        if (type & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
-            self.typeDestiLb.isHidden = false
-        } else {
-            self.typeDestiLb.isHidden = true
-        }
-        
-        DispatchQueue.main.async {
-            self.distanceLb.text = "test"
-        }
-    }
-    
-    func setChargerPower() {
-        let power = selectCharger?.getChargerPower(power: (selectCharger?.mPower)!, type: (selectCharger?.mTotalType)!)
-        self.chargePowerLb.text = power
-        stationInfoArr[power ?? ""] = "power"
-    }
-    
-    // -> chargerStationInfo class로
-//    chargerStationInfo -> getChargerPower
-//    self.chargePowerLb.text = strPower
-//    stationInfoArr[strPower] = "power"
-    
-//    chargerStationInfo -> getChargeStateImg
-//    self.markerImg.clipsToBounds = true
-    
-    func setChargePrice(pay: String) {
-        // 과금
-        switch pay {
-        case "Y":
-            self.chargePriceLb.text = "유료"
-            stationInfoArr["유료"] = "pay"
-        case "N":
-            self.chargePriceLb.text = "무료"
-            stationInfoArr["무료"] = "pay"
-        default:
-            self.chargePriceLb.text = "시범운영"
-            stationInfoArr["시범운영"] = "pay"
-        }
-    }
+//    // -> chargerStationInfo class로
+////    chargerStationInfo -> getChargerPower
+////    self.chargePowerLb.text = strPower
+////    stationInfoArr[strPower] = "power"
+//
+////    chargerStationInfo -> getChargeStateImg
+////    self.markerImg.clipsToBounds = true
 }
 
 // MARK: - Request To Server
@@ -1543,17 +1370,6 @@ extension MainViewController {
 //        } else {
 //            MemberManager().showLoginAlert(vc: self)
 //        }
-    }
-    
-    @IBAction func onClickMainFavorite(_ sender: UIButton) {
-        if MemberManager().isLogin() {
-            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-            let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
-            favoriteVC.delegate = self
-            self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
-        } else {
-            MemberManager().showLoginAlert(vc:self)
-        }
     }
 }
 

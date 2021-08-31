@@ -41,6 +41,8 @@ class ChargerStationInfo {
     
     var mDistance: Double = 0
     
+    var cidInfoList = [CidInfo]()
+    
     init(_ charger_id : String) {
         self.mChargerId = charger_id
         initChargerStationInfo()
@@ -342,4 +344,5 @@ class ChargerStationInfo {
         }
         return stateImg
     }
+    
 }
