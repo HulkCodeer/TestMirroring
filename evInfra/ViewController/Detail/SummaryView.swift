@@ -177,6 +177,7 @@ class SummaryView: UIView {
     func layoutDetailSummary(charger:ChargerStationInfo) {
         addrView.isHidden = false
         if charger != nil {
+            self.charger = charger
             if let stationDto = charger.mStationInfoDto {
                 // 충전소 이름
                 stationNameLb.text = stationDto.mSnm
@@ -216,7 +217,7 @@ class SummaryView: UIView {
                         break
                     }
                     self.detailData = detailData
-//                    self.summaryView.detailData = detailData
+                    self.charger = chargerData
                     self.layoutMainSummary(charger: chargerData)
                     self.layoutIfNeeded()
                 }
@@ -392,8 +393,9 @@ class SummaryView: UIView {
     // Favorite
     @IBAction func onClickFavorite(_ sender: UIButton) {
         if MemberManager().isLogin() {
-            // TODO charger
-            self.favorite(charger: self.charger!)
+            if self.charger != nil {
+                self.favorite()
+            }
         } else {
             if let delegate = delegate {
                 delegate.onRequestLogIn()
@@ -441,9 +443,9 @@ class SummaryView: UIView {
         }
     }
     
-    func favorite(charger: ChargerStationInfo) {
-        if charger != nil {
-            ChargerManager.sharedInstance.setFavoriteCharger(charger: charger) { (charger) in
+    func favorite() {
+        if self.charger != nil {
+            ChargerManager.sharedInstance.setFavoriteCharger(charger: self.charger!) { (charger) in
                 if charger.mFavorite {
                     Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
                 } else {
