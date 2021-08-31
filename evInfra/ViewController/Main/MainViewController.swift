@@ -1125,7 +1125,7 @@ extension MainViewController: DetailDelegate {
         let detailVC:DetailViewController = detailStoryboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         detailVC.delegate = self
         detailVC.charger = self.selectCharger
-        detailVC.detailData = self.summaryView.detailData
+//        detailVC.detailData = self.summaryView.detailData
         detailVC.isRouteMode = self.clustering!.isRouteMode
         
         self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)

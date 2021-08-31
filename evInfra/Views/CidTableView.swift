@@ -16,7 +16,6 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     var cidInfoList = [CidInfo]()
-    var detailData = DetailStationData()
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

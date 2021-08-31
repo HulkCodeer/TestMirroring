@@ -59,7 +59,6 @@ class SummaryView: UIView {
     @IBOutlet weak var addrView: UIStackView!
     
     var delegate: SummaryDelegate?
-    var detailData = DetailStationData()
     var charger:ChargerStationInfo?
     var isAddBtnGone:Bool = false
     var distance: Double = -1.0
@@ -122,8 +121,8 @@ class SummaryView: UIView {
                 stateCountView.isHidden = false
                 fastView.isHidden = false
                 slowView.isHidden = false
-                let fastPower = detailData.getCountFastPower()
-                let slowPower = detailData.getCountSlowPower()
+                let fastPower = charger!.getCountFastPower()
+                let slowPower = charger!.getCountSlowPower()
                 if !fastPower.isEmpty && !slowPower.isEmpty {
                     if fastPower.equals("0/0"){
                         // Fast GONE
@@ -193,12 +192,10 @@ class SummaryView: UIView {
                     let json = JSON(value)
                     let list = json["list"]
                     
-                    let detailData = DetailStationData()
                     for (_, item):(String, JSON) in list {
-                        detailData.setStationInfo(jsonList: item)
+                        self.charger!.setStationInfo(jsonList: item)
                         break
                     }
-                    self.detailData = detailData
                     self.layoutMainSummary()
                     self.layoutIfNeeded()
                 }
@@ -367,7 +364,7 @@ class SummaryView: UIView {
                     }
                 }
             }
-            detailData.status = stationSt
+            charger!.status = stationSt
         }
     }
     

@@ -52,7 +52,6 @@
 		4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
 		4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */; };
-		42BA340026D765ED00F6683E /* DetailStationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BA33FF26D765ED00F6683E /* DetailStationData.swift */; };
 		42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */; };
 		42CEB75126C1110D00E37AE4 /* CidInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */; };
 		42F9BCE126C64C250028B3D1 /* SummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42F9BCDF26C64C250028B3D1 /* SummaryView.xib */; };
@@ -370,7 +369,6 @@
 		4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceTableViewCell.swift; sourceTree = "<group>"; };
 		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
 		4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponCodeViewController.swift; sourceTree = "<group>"; };
-		42BA33FF26D765ED00F6683E /* DetailStationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailStationData.swift; sourceTree = "<group>"; };
 		42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CidInfoTableViewCell.swift; sourceTree = "<group>"; };
 		42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CidInfoTableViewCell.xib; sourceTree = "<group>"; };
 		42F9BCDF26C64C250028B3D1 /* SummaryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SummaryView.xib; sourceTree = "<group>"; };
@@ -814,7 +812,6 @@
 				73008458213687150001DBFA /* DetailViewController.swift */,
 				42F9BCDF26C64C250028B3D1 /* SummaryView.xib */,
 				42F9BCE226C651340028B3D1 /* SummaryView.swift */,
-				42BA33FF26D765ED00F6683E /* DetailStationData.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -1821,7 +1818,6 @@
 				DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */,
 				73AD13C8203AC57A00ADD19A /* AppNavigationDrawerController.swift in Sources */,
 				006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */,
-				42BA340026D765ED00F6683E /* DetailStationData.swift in Sources */,
 				7308559D206350890008497E /* UIView.swift in Sources */,
 				7312786820BE38C500861B3E /* FCMManager.swift in Sources */,
 				0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */,
