@@ -38,11 +38,11 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view opaque="NO" clipsSubviews="YES" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="556-qn-87h">
-                                        <rect key="frame" x="119.5" y="9.5" width="269.5" height="2"/>
+                                        <rect key="frame" x="119.5" y="10" width="269.5" height="1"/>
                                         <color key="backgroundColor" name="background-tertiary"/>
                                         <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.0"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="2" id="r8r-4o-qAe"/>
+                                            <constraint firstAttribute="height" constant="1" id="r8r-4o-qAe"/>
                                         </constraints>
                                     </view>
                                 </subviews>

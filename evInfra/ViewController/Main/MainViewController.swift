@@ -12,15 +12,6 @@ import Material
 import M13Checkbox
 import SwiftyJSON
 
-protocol MainViewDelegate {
-    func setFavorite(completion: @escaping (Bool) -> Void)
-    func setNavigation()
-    func redrawCalloutLayer()
-    func setStartPath()         // 경로찾기(시작)
-    func setStartPoint()        // 경로찾기(출발)
-    func setEndPoint()          // 경로찾기(도착)
-}
-
 class MainViewController: UIViewController {
 
     // constant
@@ -115,7 +106,6 @@ class MainViewController: UIViewController {
     private var clustering: ClusterManager? = nil
     private var currentClusterLv = 0
     private var isAllowedCluster = true
-    private var isHiddenAddBtn = true
     var canIgnoreJejuPush = true
     
     private var summaryViewTag = 10
@@ -486,6 +476,8 @@ class MainViewController: UIViewController {
             
             endField.text = selectCharger?.mStationInfoDto?.mSnm
             routeEndPoint = selectCharger?.getTMapPoint()
+            
+            self.setStartPath()
         }
     }
     
@@ -493,22 +485,6 @@ class MainViewController: UIViewController {
         if self.selectCharger != nil {
             let passList = [selectCharger?.getTMapPoint()]
             findPath(passList: passList as! [TMapPoint])
-        }
-    }
-    
-    func bookmark(completion: @escaping (Bool) -> Void) {
-        if MemberManager().isLogin() {
-            ChargerManager.sharedInstance.setFavoriteCharger(charger: selectCharger!) { (charger) in
-                completion(charger.mFavorite)
-                if charger.mFavorite {
-                    Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
-                } else {
-                    Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
-                }
-                self.summaryView.setCallOutFavoriteIcon(favorite: charger.mFavorite)
-            }
-        } else {
-            MemberManager().showLoginAlert(vc: self)
         }
     }
     
@@ -827,8 +803,7 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func clearSearchResult() {
-        isHiddenAddBtn = true
-        
+    
         hideKeyboard()
         hideResultView()
         
@@ -875,7 +850,6 @@ extension MainViewController: TextFieldDelegate {
         }
         
         if let startPoint = routeStartPoint, let endPoint = routeEndPoint {
-            isHiddenAddBtn = false
             
             markerIndicator.startAnimating()
             
@@ -903,16 +877,6 @@ extension MainViewController: TextFieldDelegate {
             let centerLon = abs((startPoint.getLongitude() + endPoint.getLongitude()) / 2)
             self.tMapView?.setCenter(TMapPoint.init(lon: centerLon, lat: centerLat))
             
-            isHiddenAddBtn = false
-//            summaryView.layoutAddPathSummary(hiddenAddBtn: isHiddenAddBtn)
-//            callOutLayer.layoutIfNeeded()
-//            summaryView.layoutIfNeeded()
-            
-//            if !self.isExistAddBtn { // 경유지버튼 없을경우
-//                self.naviBtn.isHidden = true    // 길안내버튼 숨김
-//                self.addPointBtn.isHidden = false   // 경유지버튼 추가
-//            }
-//            self.isExistAddBtn = true
             
             // 경로 요청
             DispatchQueue.global(qos: .background).async {
@@ -939,8 +903,6 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func drawPathData(polyLine: TMapPolyLine) {
-        isHiddenAddBtn = false
-        
         tMapView?.addTMapPath(polyLine)
         
         // 경로 주변 충전소만 표시
@@ -1133,14 +1095,13 @@ extension MainViewController: ChargerSelectDelegate {
 }
 
 // MARK: - Callout
-extension MainViewController: MainViewDelegate {
-    func setNavigation() {
-        self.showNavigation()
+extension MainViewController: DetailDelegate {
+    func onFavoriteChanged(changed: Bool) {
+        summaryView.setCallOutFavoriteIcon(favorite: changed)
     }
     
-    
-    func setFavorite(completion: @escaping (Bool) -> Void) {
-        self.bookmark(completion: completion)
+    func setNavigation() {
+        self.showNavigation()
     }
     
     func prepareCalloutLayer() {
@@ -1162,7 +1123,7 @@ extension MainViewController: MainViewDelegate {
     @objc func onClickCalloutLayer(_ sender:UITapGestureRecognizer) {
         let detailStoryboard = UIStoryboard(name : "Detail", bundle: nil)
         let detailVC:DetailViewController = detailStoryboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-        detailVC.mainViewDelegate = self
+        detailVC.delegate = self
         detailVC.charger = self.selectCharger
         detailVC.detailData = self.summaryView.detailData
         detailVC.isRouteMode = self.clustering!.isRouteMode
@@ -1178,7 +1139,7 @@ extension MainViewController: MainViewDelegate {
         }
         summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         callOutLayer.addSubview(summaryView)
-        summaryView.mainViewDelegate = self
+        summaryView.delegate = self
     }
     
     func selectCharger(chargerId: String) {
@@ -1207,7 +1168,8 @@ extension MainViewController: MainViewDelegate {
     func showCallOut(charger: ChargerStationInfo) {
         selectCharger = charger
         summaryView.charger = charger
-        getStationDetailInfo()
+        summaryView.setLayoutType(charger: charger, type: SummaryView.SummaryType.MainSummary)
+//        getStationDetailInfo()
         setView(view: callOutLayer, hidden: false)
         
         summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clustering!.isRouteMode)
@@ -1218,26 +1180,6 @@ extension MainViewController: MainViewDelegate {
             }
         }
     }
-    
-    func getStationDetailInfo() {
-        if let chargerData = selectCharger {
-            Server.getStationDetail(chargerId: chargerData.mChargerId!) { (isSuccess, value) in
-                if isSuccess {
-                    let json = JSON(value)
-                    let list = json["list"]
-                    
-                    let detailData = DetailStationData()
-                    for (_, item):(String, JSON) in list {
-                        detailData.setStationInfo(jsonList: item)
-                        break
-                    }
-                    self.summaryView.detailData = detailData
-                    self.summaryView.layoutMainSummary()
-                }
-            }
-        }
-    }
-    
     func setView(view: UIView, hidden: Bool) {
         UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
             view.isHidden = hidden
@@ -1251,6 +1193,32 @@ extension MainViewController: MainViewDelegate {
 //
 ////    chargerStationInfo -> getChargeStateImg
 ////    self.markerImg.clipsToBounds = true
+}
+
+extension MainViewController : SummaryDelegate {
+    func onStart() {
+        self.setStartPoint()
+    }
+    
+    func onEnd() {
+        self.setEndPoint()
+    }
+    
+    func onAdd() {
+        self.setStartPath()
+    }
+    
+    func onNavigation() {
+        self.showNavigation()
+    }
+    
+    func onRequestLogIn() {
+        MemberManager().showLoginAlert(vc: self)
+    }
+    
+    func onShare() {
+        
+    }
 }
 
 // MARK: - Request To Server

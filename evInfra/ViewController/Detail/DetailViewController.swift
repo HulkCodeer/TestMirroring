@@ -12,15 +12,14 @@ import Motion
 import SwiftyJSON
 import JJFloatingActionButton
 
-protocol DetailViewDelegate {
-    func onStart()
-    func onEnd()
-    func onAdd()
-    func onNavigation()
-    func onFavorite()
-    func onShare()
+protocol DetailDelegate {
+    func onFavoriteChanged(changed: Bool)
+    func setNavigation()
+    func redrawCalloutLayer()
+    func setStartPath()         // 경로찾기(시작)
+    func setStartPoint()        // 경로찾기(출발)
+    func setEndPoint()          // 경로찾기(도착)
 }
-
 
 class DetailViewController: UIViewController, MTMapViewDelegate {
 
@@ -50,7 +49,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var cidTableView: CidTableView!
     @IBOutlet weak var cidTableHeightConstraint: NSLayoutConstraint!
  
-    var mainViewDelegate: MainViewDelegate?
+    var delegate: DetailDelegate?
     var charger: ChargerStationInfo?
     var isExistAddBtn = false
     
@@ -78,13 +77,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         
         prepareActionBar()
         prepareBoardTableView()
-        preparePagingView()
         prepareChargerInfo()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.boardTableView.setNeedsDisplay()
     }
     
     override func viewWillLayoutSubviews() {
@@ -104,14 +97,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
     }
     
-    func preparePagingView() {
-        let viewPagerController = ViewPagerController(charger: self.charger!)
-        addChildViewController(viewPagerController)
-
-//        let report = UITapGestureRecognizer(target: self, action: #selector(self.onClickReportChargeBtn))
-//        self.reportBtn.addGestureRecognizer(report)
-    }
-    
     func prepareSummaryView() {
         let window = UIApplication.shared.keyWindow!
         var frameTest:CGRect = summaryLayout.frame
@@ -120,9 +105,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             summaryView = SummaryView(frame: frameTest)
         }
         summaryLayout.addSubview(summaryView)
-        summaryView.charger = self.charger
-        summaryView.detailViewDelegate = self
-        summaryView.layoutDetailSummary()
+        summaryView.delegate = self
+        summaryView.setLayoutType(charger: charger!, type: SummaryView.SummaryType.DetailSummary)
+//        summaryView.layoutDetailSummary()
         summaryView.layoutAddPathSummary(hiddenAddBtn: !isRouteMode)
     }
     
@@ -249,7 +234,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         if let chargerData = charger {
             ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerData.mChargerId!)?.changeStatus(status: detailData.status)
         }
-        self.mainViewDelegate?.redrawCalloutLayer()
+        
         self.cidTableView.setCidInfoList(infoList: detailData.cidInfoList)
         self.cidTableView.reloadData()
         self.adjustHeightOfTableview()
@@ -700,38 +685,51 @@ extension DetailViewController {
     }
 }
 
-extension DetailViewController : DetailViewDelegate {
+extension DetailViewController : SummaryDelegate {
+    
+    func onFavoriteChanged(changed: Bool) {
+        if let delegate = delegate {
+            delegate.onFavoriteChanged(changed: changed)
+        }
+    }
+    
     // 공유하기
     func onShare() {
         self.shareForKakao()
     }
     
     // 즐겨찾기
-    func onFavorite() {
-        mainViewDelegate?.setFavorite{ (isFavorite) in
-            self.summaryView.setCallOutFavoriteIcon(favorite: isFavorite)
-        }
+    func onRequestLogIn() {
+        MemberManager().showLoginAlert(vc: self)
     }
     
     // [경로찾기]
     // 출발
     func onStart() {
-        mainViewDelegate?.setStartPoint()
-        self.navigationController?.popViewController(animated: true)
+        if let delegate = self.delegate {
+            self.navigationController?.popViewController(animated: true)
+            delegate.setStartPoint()
+        }
     }
     // 도착
     func onEnd() {
-        mainViewDelegate?.setEndPoint()
-        mainViewDelegate?.setStartPath()
-        self.navigationController?.popViewController(animated: true)
+        if let delegate = self.delegate {
+            self.navigationController?.popViewController(animated: true)
+            delegate.setEndPoint()
+        }
     }
     // 경유지 추가
     func onAdd() {
-        mainViewDelegate?.setStartPath()
-        self.navigationController?.popViewController(animated: true)
+        if let delegate = self.delegate {
+            self.navigationController?.popViewController(animated: true)
+            delegate.setStartPath()
+        }
     }
+    
     // 네비게이션
     func onNavigation() {
-        mainViewDelegate?.setNavigation()
+        if let delegate = self.delegate {
+            delegate.setNavigation()
+        }
     }
 }
