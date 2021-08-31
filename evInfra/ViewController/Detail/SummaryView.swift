@@ -97,8 +97,6 @@ class SummaryView: UIView {
             getStationDetailInfo()
         case .DetailSummary:
             layoutDetailSummary()
-        default:
-            layoutMainSummary()
         }
     }
     func layoutMainSummary() {
@@ -415,16 +413,14 @@ class SummaryView: UIView {
     }
 
     func setDistance(charger: ChargerStationInfo) {
-        if charger != nil {
-            if self.distance < 0 { // detail에서 여러번 불리는것 방지
-                if let currentLocation = MainViewController.currentLocation {
-                    getDistance(curPos: currentLocation, desPos: charger.marker.getTMapPoint())
-                } else {
-                    self.navigationBtn.setTitle("계산중", for: .normal)
-                }
+        if self.distance < 0 { // detail에서 여러번 불리는것 방지
+            if let currentLocation = MainViewController.currentLocation {
+                getDistance(curPos: currentLocation, desPos: charger.marker.getTMapPoint())
             } else {
-                self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
+                self.navigationBtn.setTitle("계산중", for: .normal)
             }
+        } else {
+            self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
         }
     }
     
