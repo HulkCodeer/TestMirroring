@@ -40,8 +40,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     @IBOutlet weak var memoLabel: UILabel!              // 메모
     @IBOutlet weak var memoView: UIStackView!                // 메모(view)
-
-    @IBOutlet weak var reportBtn: UIView!                    // 제보하기
     
     
     // 충전기 정보(list)
@@ -67,7 +65,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     var summaryViewTag = 20
     var summaryView:SummaryView!
     var stationJson:JSON!
-    var detailData = DetailStationData()
     
     var isRouteMode:Bool = false
 
@@ -232,10 +229,10 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     // MARK: - Server Communications
     func setStationInfo() {
         if let chargerData = charger {
-            ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerData.mChargerId!)?.changeStatus(status: detailData.status)
+            ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerData.mChargerId!)?.changeStatus(status: chargerData.mTotalStatus!)
+            
+            self.cidTableView.setCidInfoList(infoList: chargerData.cidInfoList)
         }
-        
-        self.cidTableView.setCidInfoList(infoList: detailData.cidInfoList)
         self.cidTableView.reloadData()
         self.adjustHeightOfTableview()
         

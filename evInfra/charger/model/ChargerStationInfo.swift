@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 class ChargerStationInfo {
     
@@ -43,6 +44,8 @@ class ChargerStationInfo {
     
     var cidInfoList = [CidInfo]()
     
+    var status: Int?
+    
     init(_ charger_id : String) {
         self.mChargerId = charger_id
         initChargerStationInfo()
@@ -57,6 +60,29 @@ class ChargerStationInfo {
     func initChargerStationInfo() {
         cidInfo = CidInfo.init()
         //mTotalStatusName = cidInfo.cstToString(cst: self.mTotalStatus!)
+    }
+    
+    func setStationInfo(jsonList : JSON) {
+        let clist = jsonList["cl"]
+        
+        for (_, item):(String, JSON) in clist {
+            let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue)
+            self.cidInfoList.append(cidInfo)
+        }
+        self.sortCharger()
+        
+        if !self.cidInfoList.isEmpty {
+            var stationSt = self.cidInfoList[0].status!
+            for cid in self.cidInfoList {
+                if (stationSt != cid.status) {
+                    if(cid.status == Const.CHARGER_STATE_WAITING) {
+                        stationSt = cid.status!
+                        break
+                    }
+                }
+            }
+            self.status = stationSt
+        }
     }
     
     func createMarker() {
@@ -344,5 +370,49 @@ class ChargerStationInfo {
         }
         return stateImg
     }
+    func getCountFastPower() -> String {
+        if !self.cidInfoList.isEmpty {
+            var totalFastCount = 0
+            var fastCount = 0
+            var total = "0/0"
+            for cid:CidInfo in self.cidInfoList {
+                if cid.chargerType != Const.CHARGER_TYPE_SLOW && cid.chargerType != Const.CHARGER_TYPE_DESTINATION && cid.chargerType != Const.CHARGER_TYPE_ETC {
+                    totalFastCount += 1
+                    if cid.status == Const.CHARGER_STATE_WAITING{
+                        fastCount += 1
+                    }
+                }
+            }
+            total = String(fastCount) + "/" + String(totalFastCount)
+            return total
+        }
+        return ""
+    }
     
+    func getCountSlowPower() -> String {
+        if !self.cidInfoList.isEmpty {
+            var totalSlowCount = 0
+            var slowCount = 0
+            var total = "0/0"
+            for cid:CidInfo in self.cidInfoList {
+                if cid.chargerType == Const.CHARGER_TYPE_SLOW || cid.chargerType == Const.CHARGER_TYPE_DESTINATION || cid.chargerType == Const.CHARGER_TYPE_ETC {
+                    totalSlowCount += 1
+                    if cid.status == Const.CHARGER_STATE_WAITING {
+                        slowCount += 1
+                    }
+                }
+            }
+            total = String(slowCount) + "/" + String(totalSlowCount)
+            return total
+        }
+        return ""
+    }
+    
+    func sortCharger() {
+        if cidInfoList.count > 0 {
+            cidInfoList = cidInfoList.sorted(by: {
+                $0.power > $1.power
+            })
+        }
+    }
 }

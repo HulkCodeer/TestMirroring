@@ -59,7 +59,6 @@ class SummaryView: UIView {
     @IBOutlet weak var addrView: UIStackView!
     
     var delegate: SummaryDelegate?
-    var detailData = DetailStationData()
     var charger:ChargerStationInfo?
     var isAddBtnGone:Bool = false
     var distance: Double = -1.0
@@ -98,8 +97,6 @@ class SummaryView: UIView {
             getStationDetailInfo()
         case .DetailSummary:
             layoutDetailSummary()
-        default:
-            layoutMainSummary()
         }
     }
     func layoutMainSummary() {
@@ -122,8 +119,8 @@ class SummaryView: UIView {
                 stateCountView.isHidden = false
                 fastView.isHidden = false
                 slowView.isHidden = false
-                let fastPower = detailData.getCountFastPower()
-                let slowPower = detailData.getCountSlowPower()
+                let fastPower = charger!.getCountFastPower()
+                let slowPower = charger!.getCountSlowPower()
                 if !fastPower.isEmpty && !slowPower.isEmpty {
                     if fastPower.equals("0/0"){
                         // Fast GONE
@@ -193,12 +190,10 @@ class SummaryView: UIView {
                     let json = JSON(value)
                     let list = json["list"]
                     
-                    let detailData = DetailStationData()
                     for (_, item):(String, JSON) in list {
-                        detailData.setStationInfo(jsonList: item)
+                        self.charger!.setStationInfo(jsonList: item)
                         break
                     }
-                    self.detailData = detailData
                     self.layoutMainSummary()
                     self.layoutIfNeeded()
                 }
@@ -367,7 +362,7 @@ class SummaryView: UIView {
                     }
                 }
             }
-            detailData.status = stationSt
+            charger!.status = stationSt
         }
     }
     
@@ -418,16 +413,14 @@ class SummaryView: UIView {
     }
 
     func setDistance(charger: ChargerStationInfo) {
-        if charger != nil {
-            if self.distance < 0 { // detail에서 여러번 불리는것 방지
-                if let currentLocation = MainViewController.currentLocation {
-                    getDistance(curPos: currentLocation, desPos: charger.marker.getTMapPoint())
-                } else {
-                    self.navigationBtn.setTitle("계산중", for: .normal)
-                }
+        if self.distance < 0 { // detail에서 여러번 불리는것 방지
+            if let currentLocation = MainViewController.currentLocation {
+                getDistance(curPos: currentLocation, desPos: charger.marker.getTMapPoint())
             } else {
-                self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
+                self.navigationBtn.setTitle("계산중", for: .normal)
             }
+        } else {
+            self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
         }
     }
     
