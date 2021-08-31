@@ -85,7 +85,6 @@ class SummaryView: UIView {
         view.frame = bounds
         addSubview(view)
                 
-        // navigationBtn.layer.cornerRadius = 6
         startBtn.layer.cornerRadius = 6
         endBtn.layer.cornerRadius = 6
         addBtn.layer.cornerRadius = 6
@@ -93,38 +92,38 @@ class SummaryView: UIView {
     }
     // 메인_Sumamry View setting
     func setLayoutType(charger: ChargerStationInfo, type: SummaryType) {
+        self.charger = charger
         switch type {
         case .MainSummary:
-            getStationDetailInfo(chargerData: charger)
+            getStationDetailInfo()
         case .DetailSummary:
-            layoutDetailSummary(charger: charger)
+            layoutDetailSummary()
         default:
-            layoutMainSummary(charger: charger)
+            layoutMainSummary()
         }
     }
-    func layoutMainSummary(charger: ChargerStationInfo) {
-        if charger != nil {
-            if let stationDto = charger.mStationInfoDto {
+    func layoutMainSummary() {
+        if self.charger != nil {
+            if let stationDto = self.charger!.mStationInfoDto {
+                // 충전소 이미지
+                setCompanyIcon(chargerData: self.charger!)
                 // 충전소 이름
                 stationNameLb.text = stationDto.mSnm
-                // 충전소 이미지
-                setCompanyIcon(chargerData: charger)
-            
+                // 공유하기
                 shareBtn.isHidden = true
-                
-                setCallOutFavoriteIcon(favorite: charger.mFavorite)
-                
+                // 즐겨찾기
+                setCallOutFavoriteIcon(favorite: self.charger!.mFavorite)
+                // 충전기 타입
+                setChargerType(charger: self.charger!)
                 // 충전소 상태
-                stateLb.text = charger.mTotalStatusName
-                setStationCstColor(charger: charger)
-                
-                // 급/완속 카운터
+                stateLb.text = self.charger!.mTotalStatusName
+                setStationCstColor(charger: self.charger!)
+                // 급/완속 카운터 (0/0 -> GONE처리)
                 stateCountView.isHidden = false
-                let fastPower = detailData.getCountFastPower()
-                let slowPower = detailData.getCountSlowPower()
-                // 0/0 -> gone 처리
                 fastView.isHidden = false
                 slowView.isHidden = false
+                let fastPower = detailData.getCountFastPower()
+                let slowPower = detailData.getCountSlowPower()
                 if !fastPower.isEmpty && !slowPower.isEmpty {
                     if fastPower.equals("0/0"){
                         // Fast GONE
@@ -136,77 +135,60 @@ class SummaryView: UIView {
                     fastCountLb.text = fastPower
                     slowCountLb.text = slowPower
                 }
-                
-                // 충전기 타입
-                setChargerType(charger: charger)
                 // [충전소 필터]
                 // 속도
-                let bordorColor = UIColor.init(named: "border-opaque")?.cgColor
-                filterView.isHidden = false
-                
-                let powerTitle = charger.getChargerPower(power: (charger.mPower)!, type: (charger.mTotalType)!)
-                // TODO 함수로!!
+                let powerTitle = self.charger!.getChargerPower(power: (self.charger!.mPower)!, type: (self.charger!.mTotalType)!)
                 self.filterPower.setTitle(powerTitle, for: .normal)
-                filterPower.layer.borderWidth = 1
-                filterPower.layer.borderColor = bordorColor
-                filterPower.layer.cornerRadius = 12
+                setBerryTag(btn: filterPower)
                 // 가격
-                setChargePrice(stationDto: charger.mStationInfoDto!)
-                filterPay.layer.borderWidth = 1
-                filterPay.layer.borderColor = bordorColor
-                filterPay.layer.cornerRadius = 12
-                
+                setChargePrice(stationDto: self.charger!.mStationInfoDto!)
+                setBerryTag(btn: filterPay)
                 // 설치형태
-                stationArea(stationDto: charger.mStationInfoDto!)
-                filterRoof.layer.borderWidth = 1
-                filterRoof.layer.borderColor = bordorColor
-                filterRoof.layer.cornerRadius = 12
-                
-                // 주소 View Gone
+                stationArea(stationDto: self.charger!.mStationInfoDto!)
+                setBerryTag(btn: filterRoof)
+                // 주소 GONE
                 addrView.isHidden = true
-                
                 distance = -1.0
-                setDistance(charger: charger)
-                
+                setDistance(charger: self.charger!)
                 summaryView.layoutIfNeeded()
             }
         }
     }
     
     // Detail_Summary View setting
-    func layoutDetailSummary(charger:ChargerStationInfo) {
+    func layoutDetailSummary() {
         addrView.isHidden = false
-        if charger != nil {
-            self.charger = charger
-            if let stationDto = charger.mStationInfoDto {
+        if self.charger != nil {
+            if let stationDto = self.charger!.mStationInfoDto {
+                // 충전소 이미지
+                setCompanyIcon(chargerData: self.charger!)
                 // 충전소 이름
                 stationNameLb.text = stationDto.mSnm
-                // 충전소 이미지
-                setCompanyIcon(chargerData: charger)
-                
-                setCallOutFavoriteIcon(favorite: charger.mFavorite)
+                // 즐겨찾기
+                setCallOutFavoriteIcon(favorite: self.charger!.mFavorite)
+                // 충전기 타입 GONE
+                chargerTypeView.isHidden = true
+                // 충전소 상태 GONE
+                stateCountView.isHidden = true
+                // 필터tag GONE
+                filterView.isHidden = true
                 // 주소
                 var addr = "등록된 정보가 없습니다."
                 if stationDto.mAddress != nil && stationDto.mAddressDetail != nil {
                     addr = stationDto.mAddress! + " " + stationDto.mAddressDetail!
                 }
                 addrLb.text = addr
-                
-                
-                chargerTypeView.isHidden = true
-                stateCountView.isHidden = true
-                filterView.isHidden = true
-                
-                setDistance(charger: charger)
+                // 거리
+                setDistance(charger: self.charger!)
                 
                 summaryView.layoutIfNeeded()
             }
         }
     }
     
-    func getStationDetailInfo(chargerData:ChargerStationInfo) {
-        if chargerData != nil{
-            Server.getStationDetail(chargerId: chargerData.mChargerId!) { (isSuccess, value) in
+    func getStationDetailInfo() {
+        if self.charger != nil{
+            Server.getStationDetail(chargerId:  self.charger!.mChargerId!) { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
                     let list = json["list"]
@@ -217,8 +199,7 @@ class SummaryView: UIView {
                         break
                     }
                     self.detailData = detailData
-                    self.charger = chargerData
-                    self.layoutMainSummary(charger: chargerData)
+                    self.layoutMainSummary()
                     self.layoutIfNeeded()
                 }
             }
@@ -351,6 +332,13 @@ class SummaryView: UIView {
             status = (charger.mTotalStatus)!
         }
         stateLb.textColor = charger.cidInfo.getCstColor(cst: status)
+    }
+    
+    func setBerryTag(btn : UIButton) {
+        let bordorColor = UIColor.init(named: "border-opaque")?.cgColor
+        btn.layer.borderWidth = 1
+        btn.layer.borderColor = bordorColor
+        btn.layer.cornerRadius = 12
     }
     
     // Copy
