@@ -24,7 +24,7 @@
                         <color key="textColor" name="content-tertiary"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="SU3-mN-v4u" customClass="DynamicCollectionView" customModule="evInfra" customModuleProvider="target">
+                    <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="SU3-mN-v4u" customClass="DynamicCollectionView" customModule="evInfra" customModuleProvider="target">
                         <rect key="frame" x="16" y="49" width="382" height="31"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="UfY-s7-YgJ">

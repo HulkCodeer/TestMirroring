@@ -140,8 +140,10 @@ class ChargerManager {
 
     public func updateCompanyVisibility(isVisible : Bool, companyID : String) {
         if let companyInfo = try! mDb?.getCompanyInfo(company_id: companyID)! {
-            companyInfo.is_visible = isVisible
-            try! mDb?.updateCompanyInfo(companyInfo: companyInfo)
+            if companyInfo.is_visible != isVisible {
+                companyInfo.is_visible = isVisible
+                try! mDb?.updateCompanyInfo(companyInfo: companyInfo)
+            }
         }
     }
 

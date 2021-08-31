@@ -7,12 +7,15 @@
 //
 
 import UIKit
-
+protocol CompanyTableCellDelegate {
+    func onClickTag(tagName: String, value: Bool)
+}
 class CompanyTableViewCell: UITableViewCell {
     
     @IBOutlet var groupTitle: UILabel!
     @IBOutlet var tagView: DynamicCollectionView!
     
+    var delegate: CompanyTableCellDelegate?
     var tagList = Array<TagValue>()
     
     
@@ -29,7 +32,7 @@ class CompanyTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     func getCellHeight() -> CGFloat {
@@ -46,37 +49,38 @@ extension CompanyTableViewCell : UICollectionViewDelegate,UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagListViewCell", for: indexPath) as!
-        TagListViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagListViewCell", for: indexPath) as! TagListViewCell
         cell.cellConfig(arrData: tagList, index: indexPath.row)
         cell.delegateTagClick = self
         return cell
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath : IndexPath) -> CGSize {
         let strText = tagList[indexPath.row].title
         return self.getInteresticSize(strText: strText)
     }
-    
     
     func getInteresticSize(strText:String)-> CGSize{
         let nsStr = strText as NSString
         let rect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
         let labelSize = nsStr.boundingRect(with: rect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)], context: nil)
         let imgSize = 24
-    
+        
         return CGSize(width: labelSize.width + 8 + CGFloat(imgSize), height: labelSize.height + 8)
     }
 }
 
 
 
-extension CompanyTableViewCell : DelegateTagListViewCell{
+extension CompanyTableViewCell: DelegateTagListViewCell{
     func tagClicked(index: Int, value: Bool) {
         // tag selected
+        if let delegate = self.delegate {
+            delegate.onClickTag(tagName: tagList[index].title, value: value)
+        }
     }
 }
+
 class DynamicCollectionView: UICollectionView {
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -84,7 +88,7 @@ class DynamicCollectionView: UICollectionView {
             invalidateIntrinsicContentSize()
         }
     }
-
+    
     override var intrinsicContentSize: CGSize {
         return self.contentSize
     }

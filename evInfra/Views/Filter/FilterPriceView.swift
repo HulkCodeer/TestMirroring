@@ -35,6 +35,8 @@ class FilterPriceView: UIView {
         view.frame = bounds
         addSubview(view)
         
+        checkPaid.boxType = .square
+        checkFree.boxType = .square
         isFree = FilterManager.sharedInstance.filter.isFree
         isPaid = FilterManager.sharedInstance.filter.isPaid
         setView()

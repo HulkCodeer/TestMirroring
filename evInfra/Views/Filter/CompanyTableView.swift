@@ -18,10 +18,14 @@ class CompanyGroup {
     }
 }
 
+protocol CompanyTableDelegate {
+    func onClickTag(tagName: String, value: Bool)
+}
+
 class CompanyTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
-    var groupList : Array<CompanyGroup>!
-    
+    var groupList: Array<CompanyGroup>!
+    var tableDelegate: CompanyTableDelegate?
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -44,6 +48,7 @@ class CompanyTableView: UITableView, UITableViewDataSource, UITableViewDelegate 
         cell.groupTitle.text = groupList[indexPath.row].title
         cell.tagList = groupList[indexPath.row].list
         cell.tagView.reloadData()
+        cell.delegate = self
         let height = cell.tagView.collectionViewLayout.collectionViewContentSize.height + 50
         cell.bounds.size.height = height
         cell.layoutIfNeeded()
@@ -51,11 +56,24 @@ class CompanyTableView: UITableView, UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        let cell = Bundle.main.loadNibNamed("CompanyTableViewCell", owner: self, options: nil)?.first as! CompanyTableViewCell
+        cell.tagList = groupList[indexPath.row].list
+        cell.tagView.reloadData()
+        let height = cell.tagView.collectionViewLayout.collectionViewContentSize.height + 50
+        cell.bounds.size.height = height
+        return height
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 
+}
+
+extension CompanyTableView: CompanyTableCellDelegate {
+    func onClickTag(tagName: String, value: Bool) {
+        if let delegate = self.tableDelegate {
+            delegate.onClickTag(tagName: tagName, value: value)
+        }
+    }
 }

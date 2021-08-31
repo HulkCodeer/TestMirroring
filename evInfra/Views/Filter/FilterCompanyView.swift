@@ -14,10 +14,14 @@ class FilterCompanyView: UIView {
     
     @IBOutlet var titleView: UIView!
     @IBOutlet var companyTableView: CompanyTableView!
-    var allSelect :Bool = true
+    
     private let GROUP_TITLE = ["A.B.C..", "가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하", "힣"];
 
+    var companyList = [CompanyInfoDto]()
     var groupList = Array<CompanyGroup>()
+    
+    var allSelect: Bool = false
+    var cardSetting: Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,10 +44,11 @@ class FilterCompanyView: UIView {
     
     func prepareTagList() {
         groupList.removeAll()
+        allSelect = true
         var tagList = Array<TagValue>()
         var recommendList = Array<TagValue>()
         var titleIndex = 1
-        let companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
+        companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
         let wholeList = companyList.sorted { $0.name!.lowercased() < $1.name!.lowercased() }
 
         for company in wholeList {
@@ -64,18 +69,25 @@ class FilterCompanyView: UIView {
                         }
                         titleIndex += 1
                     }
-                    let tag = TagValue(title:company.name!, img:icon, selected: company.is_visible)
+                    
+                    var selected = company.is_visible
+                    if cardSetting {
+                        selected = company.card_setting ?? false // infra card
+                    }
+                    let tag = TagValue(title:company.name!, img:icon, selected: selected)
                     tagList.append(tag)
                     if company.recommend ?? false {
                         recommendList.append(tag)
                     }
 
-                    if !company.is_visible {
+                    if !selected {
                         allSelect = false
                     }
                 }
             }
         }
+        switchAll.isOn = allSelect
+        
         if !tagList.isEmpty {
             groupList.append(CompanyGroup(title: GROUP_TITLE[titleIndex-1], list: tagList))
         }
@@ -84,123 +96,118 @@ class FilterCompanyView: UIView {
         groupList.remove(at: 0)
         groupList.append(abcGroup)
         
-        companyTableView.groupList = groupList
+        groupList.insert(CompanyGroup(title: "추천", list: recommendList), at: 0)
+    }
+    
+    func setUpUI(){
         companyTableView.separatorInset = .zero
         companyTableView.separatorStyle = .none
         companyTableView.allowsSelection = false
-
-        companyTableView.layoutIfNeeded()
-        companyTableView.reloadData()
+        companyTableView.tableDelegate = self
+        
+        updateTable()
     }
     
+    func updateTable() {
+        companyTableView.groupList = groupList
+        companyTableView.reloadData()
+        companyTableView.layoutIfNeeded()
+    }
+
     func getHeight() -> CGFloat {
-        print("title ", titleView.layer.height)
-        print("content", companyTableView.contentSize.height)
         return titleView.layer.height + companyTableView.contentSize.height
     }
     
     @IBAction func onCardFilterChanged(_ sender: Any) {
-//        if switchCard.isOn {
-//            for company in companyList {
-//                for item in tagList {
-//                    if let compName = company.name {
-//                        if item.title.equals(compName) {
-//                            item.selected = company.recommend ?? false
-//                        }
-//                    }
-//                }
-//            }
-//        } else {
-//            for company in companyList {
-//                for item in tagList {
-//                    if (company.name == item.title){
-//                        item.selected = company.is_visible
-//                    }
-//                }
-//            }
-//        }
-//        updateSwitch()
-//        allTagView.reloadData()
+        cardSetting = switchCard.isOn
+        prepareTagList()
+        setUpUI()
     }
     
     @IBAction func onSwitchValueChanged(_ sender: Any) {
-//        for item in tagList {
-//            item.selected = switchAll.isOn
-//        }
-//        updateSwitch()
-//        switchCard.isOn = false
-//        allTagView.reloadData()
-    }
-    
-    func setUpUI(){
-//        let layout = TagFlowLayout()
-//        allTagView.collectionViewLayout = layout
-//        allTagView.register(UINib(nibName: "TagListViewCell", bundle: nil), forCellWithReuseIdentifier: "tagListViewCell")
-//        allTagView.delegate = self
-//        allTagView.dataSource = self
-//        allTagView.reloadData()
-//        updateSwitch()
-        
+        for list in groupList {
+            for tag in list.list {
+                tag.selected = switchAll.isOn
+            }
+        }
+        switchCard.isOn = false
+        allSelect = switchAll.isOn
+        setUpUI()
     }
     
     func updateSwitch() {
-//        allSelect = true
-//        for item in tagList {
-//            if !item.selected {
-//                allSelect = false
-//            }
-//        }
-//        switchAll.setOn(allSelect, animated: true)
+        allSelect = true
+        for list in groupList {
+            for tag in list.list {
+                if tag.selected != true {
+                    allSelect = false
+                }
+            }
+        }
+        switchAll.setOn(allSelect, animated: true)
     }
     
     func resetFilter() {
-//        for item in tagList {
-//            item.selected = true
-//        }
-//        allTagView.reloadData()
-//        switchAll.setOn(true, animated: true)
+        for list in groupList {
+            for tag in list.list {
+                tag.selected = true
+            }
+        }
+        
+        switchAll.setOn(true, animated: true)
+        switchCard.setOn(false, animated: true)
+        setUpUI()
     }
     
     func applyFilter() {
-//        for company in companyList {
-//            for item in tagList {
-//                if (company.name == item.title){
-//                    if let companyId = company.company_id {
-//                        ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: item.selected, companyID: companyId)
-//                        continue
-//                    }
-//                }
-//            }
-//        }
-//        FilterManager.sharedInstance.updateCompanyFilter()
+        for company in companyList {
+            for list in groupList {
+                for tag in list.list {
+                    if (company.name == tag.title){
+                        if let companyId = company.company_id {
+                            ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: tag.selected, companyID: companyId)
+                            continue
+                        }
+                    }
+                }
+            }
+        }
+        FilterManager.sharedInstance.updateCompanyFilter()
     }
     
     func isChanged() -> Bool {
         var changed = false
-//        for company in companyList {
-//            for item in tagList {
-//                if (company.name == item.title){
-//                    if (company.is_visible != item.selected){
-//                        changed = true
-//                        break
-//                    }
-//                }
-//            }
-//        }
+        for company in companyList {
+            for list in groupList {
+                for tag in list.list {
+                    if (company.name == tag.title){
+                        if (company.is_visible != tag.selected){
+                            changed = true
+                            return changed
+                        }
+                    }
+                }
+            }
+        }
         return changed
     }
 }
 
 
-
-
-//
-//// MARK: - Delegate of Collection Cell
-//extension FilterCompanyView : DelegateTagListViewCell{
-//    func tagClicked(index: Int, value: Bool) {
-//        // tag selected
-//        tagList[index].selected = value
-//        switchCard.isOn = false
-//        updateSwitch()
-//    }
-//}
+extension FilterCompanyView : CompanyTableDelegate{
+    func onClickTag(tagName: String, value: Bool) {
+        var changed = false
+        // tag selected
+        for list in groupList {
+            for tag in list.list {
+                if tag.title == tagName {
+                    tag.selected = value
+                    changed = true
+                }
+            }
+        }
+        if changed {
+            updateTable()
+        }
+    }
+}

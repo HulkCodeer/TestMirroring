@@ -14,7 +14,7 @@
         <collectionViewCell opaque="NO" contentMode="center" reuseIdentifier="tagListViewCell" id="cae-Uj-5np" customClass="TagListViewCell" customModule="evInfra" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="134" height="24"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <collectionViewCellContentView key="contentView" opaque="NO" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="GkB-TT-8oe" customClass="UIStackView">
+            <collectionViewCellContentView key="contentView" opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="GkB-TT-8oe" customClass="UIStackView">
                 <rect key="frame" x="0.0" y="0.0" width="134" height="24"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>

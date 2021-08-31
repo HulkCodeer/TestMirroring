@@ -93,7 +93,7 @@
                                 <constraint firstItem="V2b-uc-mkK" firstAttribute="top" secondItem="QL0-0B-caU" secondAttribute="bottom" constant="8" id="zNi-zC-ebA"/>
                             </constraints>
                         </view>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6sr-3I-2WK" customClass="CompanyTableView" customModule="evInfra" customModuleProvider="target">
+                        <tableView contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6sr-3I-2WK" customClass="CompanyTableView" customModule="evInfra" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="182" width="414" height="662"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </tableView>
