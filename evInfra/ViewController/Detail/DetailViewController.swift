@@ -32,6 +32,10 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var timeLabel: UILabel!              // 운영시간
     @IBOutlet weak var callLb: UILabel!                 // 전화번호
 
+    @IBOutlet weak var accessWarningView: UIView!
+    @IBOutlet weak var accessWarningImg: UIImageView!
+    @IBOutlet weak var accessWarningLb: UILabel!
+    
     @IBOutlet weak var checkingView: UILabel!                 // 설치형태(확인중)
     @IBOutlet weak var kakaoMapView: UIView!                 // 스카이뷰(카카오맵)
     @IBOutlet weak var mapSwitch: UISwitch!
@@ -79,6 +83,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     override func viewWillLayoutSubviews() {
         prepareSummaryView()
+        
+        self.accessWarningView.layer.cornerRadius = 16
     }
     
     @objc func mapViewTap(gesture : UIPanGestureRecognizer!) {
@@ -226,12 +232,19 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
     }
     
-    // MARK: - Server Communications
     func setStationInfo() {
         if let chargerData = charger {
             ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerData.mChargerId!)?.changeStatus(status: chargerData.mTotalStatus!)
             
             self.cidTableView.setCidInfoList(infoList: chargerData.cidInfoList)
+            
+            self.accessWarningView.gone()
+            if let limit = chargerData.mLimit, limit == "Y" {
+                self.accessWarningView.visible()
+            } else {
+                self.accessWarningImg.isHidden = true
+                self.accessWarningLb.isHidden = true
+            }
         }
         self.cidTableView.reloadData()
         self.adjustHeightOfTableview()
@@ -260,17 +273,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             self.boardTableView.reloadData()
         }, completion: nil)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    // MARK: - Finish Edit Board
     
     // [Map]
     // 충전소 위치 바로가기 버튼

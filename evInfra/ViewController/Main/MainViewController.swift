@@ -93,11 +93,6 @@ class MainViewController: UIViewController {
     private var selectCharger: ChargerStationInfo? = nil
     private var stationInfoArr = [String:String]()
     
-    private let dropDownWay = DropDown()
-//    private let dropDownPay = DropDown()
-//    private let dropDownRegion = DropDown()
-//    private let dropDownCompany = DropDown()
-    
     private var filterWayIdArray = Array<Int>()
     private var filterPayIdArray = Array<Int>()
 
@@ -145,6 +140,7 @@ class MainViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         menuBadgeAdd()
         updateClustering()
         if self.sharedChargerId != nil {
@@ -1322,15 +1318,11 @@ extension MainViewController {
         }
     }
     
-    @IBAction func onClickMainHelp(_ sender: UIButton) {        
-        let filterStoryboard = UIStoryboard(name : "Filter", bundle: nil)
-        let filterTypeVC = filterStoryboard.instantiateViewController(withIdentifier: "ChargerFilterViewController") as! ChargerFilterViewController
-
-        self.navigationController?.push(viewController: filterTypeVC)
-//        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-//        let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-//        termsViewControll.tabIndex = .Help
-//        self.navigationController?.push(viewController: termsViewControll)
+    @IBAction func onClickMainHelp(_ sender: UIButton) {
+        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+        let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        termsViewControll.tabIndex = .Help
+        self.navigationController?.push(viewController: termsViewControll)
 //        if MemberManager().isLogin() {
 //            let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
 //            reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_MAIN

@@ -66,7 +66,7 @@ class ChargerStationInfo {
         let clist = jsonList["cl"]
         
         for (_, item):(String, JSON) in clist {
-            let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue)
+            let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue, limit: item["lm"].stringValue)
             self.cidInfoList.append(cidInfo)
         }
         self.sortCharger()
@@ -165,13 +165,13 @@ class ChargerStationInfo {
             return false
         }
         
-        if !filter.isOutdoor && stationInfo.mRoof == "0" { // 실내 해제 시 실내 충전소 false
+        if !filter.isOutdoor && !(stationInfo.mRoof == "1" || stationInfo.mRoof == "2") { // 실내 해제 시 실외거나 케노피 아닐시 false
             return false
         }
-        if !filter.isIndoor && stationInfo.mRoof == "1" {
+        if !filter.isIndoor && !(stationInfo.mRoof == "0" || stationInfo.mRoof == "2") {
             return false
         }
-        if !filter.isCanopy && stationInfo.mRoof == "2" {
+        if !filter.isCanopy && !(stationInfo.mRoof == "0" || stationInfo.mRoof == "1") {
             return false
         }
 

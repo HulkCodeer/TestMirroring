@@ -15,15 +15,17 @@ class CidInfo {
     var status: Int!
     var recentDate: String?
     var power: Int!
+    var limit: String?
     init() {
     }
     
-    init(cid: String, chargerType: Int, cst: String, recentDate: String, power:Int) {
+    init(cid: String, chargerType: Int, cst: String, recentDate: String, power:Int, limit: String) {
         self.cid = cid
         self.chargerType = chargerType
         self.status = Int(cst)!
         self.recentDate = recentDate
         self.power = power
+        self.limit = limit
     }
     
     public func cstToString(cst:Int) -> String {

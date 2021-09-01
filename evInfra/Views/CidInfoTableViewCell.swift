@@ -17,6 +17,8 @@ class CidInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var statusImg: UIImageView!
     @IBOutlet weak var statusBtn: UIButton!
     
+    @IBOutlet weak var lockBtn: UIButton!
+    
     // 충전기 속도
     @IBOutlet weak var powerLable: UILabel!
     // 타입
@@ -64,6 +66,10 @@ class CidInfoTableViewCell: UITableViewCell {
     
     @IBAction func onClickWarningBtn(_ sender: Any) {
         Snackbar().show(message: "통신미연결, 충전기 오류로 상태값을 알 수 없는 상태입니다.")
+    }
+    
+    @IBAction func onClickLockBtn(_ sender: Any) {
+        Snackbar().show(message: "비개방 충전기로 충전소의 거주자, 이용자 외에는 이용 및 충전이 제한될 수 있습니다. ")
     }
     
     public func setChargerTypeImage(type:Int) {

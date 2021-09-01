@@ -40,8 +40,8 @@ class SummaryView: UIView {
     @IBOutlet weak var typeDestination: UILabel!
     
     @IBOutlet weak var stateLb: UILabel!
-    @IBOutlet var fastView: UIStackView!
-    @IBOutlet var slowView: UIStackView!
+    @IBOutlet weak var fastView: UIStackView!
+    @IBOutlet weak var slowView: UIStackView!
     @IBOutlet weak var fastCountLb: UILabel!
     @IBOutlet weak var slowCountLb: UILabel!
     
@@ -49,6 +49,7 @@ class SummaryView: UIView {
     @IBOutlet weak var filterPower: UIButton!
     @IBOutlet weak var filterPay: UIButton!
     @IBOutlet weak var filterRoof: UIButton!
+    @IBOutlet weak var filterAccess: UIButton!
     
     @IBOutlet weak var startBtn: UIButton!
     @IBOutlet weak var addBtn: UIButton!
@@ -89,6 +90,7 @@ class SummaryView: UIView {
         addBtn.layer.cornerRadius = 6
         navigationBtn.layer.cornerRadius = 6
     }
+    
     // 메인_Sumamry View setting
     func setLayoutType(charger: ChargerStationInfo, type: SummaryType) {
         self.charger = charger
@@ -99,6 +101,7 @@ class SummaryView: UIView {
             layoutDetailSummary()
         }
     }
+    
     func layoutMainSummary() {
         if self.charger != nil {
             if let stationDto = self.charger!.mStationInfoDto {
@@ -143,6 +146,14 @@ class SummaryView: UIView {
                 // 설치형태
                 stationArea(stationDto: self.charger!.mStationInfoDto!)
                 setBerryTag(btn: filterRoof)
+                
+                if let limit = self.charger!.mLimit, limit == "Y" {
+                    filterAccess.setTitle("비공용", for: .normal)
+                } else {
+                    filterAccess.setTitle("공용", for: .normal)
+                }
+                setBerryTag(btn: filterAccess)
+                
                 // 주소 GONE
                 addrView.isHidden = true
                 distance = -1.0
@@ -235,10 +246,8 @@ class SummaryView: UIView {
     func setCompanyIcon(chargerData: ChargerStationInfo) {
         if chargerData.getCompanyIcon() != nil{
             self.stationImg.image = chargerData.getCompanyIcon()
-            self.stationImg.bounds.size.width = 32
         }else {
             self.stationImg.image = UIImage(named: "icon_building_sm")
-            self.stationImg.bounds.size.width = 20
         }
     }
     
@@ -342,29 +351,6 @@ class SummaryView: UIView {
         Snackbar().show(message: "주소가 복사되었습니다.")
     }
     
-    func setCidInfo(jsonList: JSON) {
-        
-        let clist = jsonList["cl"]
-        var cidList = [CidInfo]()
-        
-        for (_, item):(String, JSON) in clist {
-            let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue)
-            cidList.append(cidInfo)
-        }
-        
-        if !cidList.isEmpty {
-            var stationSt = cidList[0].status!
-            for cid in cidList {
-                if (stationSt != cid.status) {
-                    if(cid.status == Const.CHARGER_STATE_WAITING) {
-                        stationSt = cid.status!
-                        break
-                    }
-                }
-            }
-            charger!.status = stationSt
-        }
-    }
     
     // [Summary]
     // share
@@ -412,18 +398,6 @@ class SummaryView: UIView {
         }
     }
 
-    func setDistance(charger: ChargerStationInfo) {
-        if self.distance < 0 { // detail에서 여러번 불리는것 방지
-            if let currentLocation = MainViewController.currentLocation {
-                getDistance(curPos: currentLocation, desPos: charger.marker.getTMapPoint())
-            } else {
-                self.navigationBtn.setTitle("계산중", for: .normal)
-            }
-        } else {
-            self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
-        }
-    }
-    
     func favorite() {
         if self.charger != nil {
             ChargerManager.sharedInstance.setFavoriteCharger(charger: self.charger!) { (charger) in
@@ -439,8 +413,20 @@ class SummaryView: UIView {
             }
         }
     }
-
-    func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
+    
+    func setDistance(charger: ChargerStationInfo) {
+        if self.distance < 0 { // detail에서 여러번 불리는것 방지
+            if let currentLocation = MainViewController.currentLocation {
+                getDistance(curPos: currentLocation, desPos: charger.marker.getTMapPoint())
+            } else {
+                self.navigationBtn.setTitle("계산중", for: .normal)
+            }
+        } else {
+            self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
+        }
+    }
+    
+    internal func getDistance(curPos: TMapPoint, desPos: TMapPoint) {
         if desPos.getLatitude() == 0 || desPos.getLongitude() == 0 {
             self.navigationBtn.setTitle("계산중", for: .normal)
         } else {

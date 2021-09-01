@@ -72,10 +72,12 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         cell.statusLabel.textColor = cidInfo.getCstColor(cst: cidInfo.status)
         cell.statusImg.tintColor = cidInfo.getCstColor(cst: cidInfo.status)
         
-        if cidInfo.status == Const.CHARGER_STATE_UNCONNECTED || cidInfo.status == Const.CHARGER_STATE_UNKNOWN {
-            cell.statusBtn.isHidden = false
-        } else {
-            cell.statusBtn.isHidden = true
+        if cidInfo.status != Const.CHARGER_STATE_UNCONNECTED && cidInfo.status != Const.CHARGER_STATE_UNKNOWN {
+            cell.statusBtn.gone()
+        }
+        
+        if let limit = cidInfo.limit, limit != "Y" {
+            cell.lockBtn.isHidden = true
         }
         
         if cidInfo.chargerType != Const.CHARGER_TYPE_SLOW && cidInfo.chargerType != Const.CHARGER_TYPE_DESTINATION &&

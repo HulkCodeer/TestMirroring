@@ -130,7 +130,6 @@
 		735E87C822D88ED70028F7BD /* ChargingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735E87C722D88ED70028F7BD /* ChargingStatus.swift */; };
 		736813B2204503B70035FC66 /* NavCenterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736813B1204503B70035FC66 /* NavCenterButton.swift */; };
 		736813B5204513D50035FC66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 736813B3204513D50035FC66 /* Main.storyboard */; };
-		736BCE85205A89070052C9ED /* CidTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736BCE84205A89060052C9ED /* CidTableViewCell.swift */; };
 		736BCE87205A892E0052C9ED /* intro_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 736BCE86205A892E0052C9ED /* intro_bg.jpg */; };
 		736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C520871B15009535EE /* BoardTableViewDelegate.swift */; };
 		736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C9208993BE009535EE /* NoticeTableViewCell.swift */; };
@@ -482,7 +481,6 @@
 		735E87C722D88ED70028F7BD /* ChargingStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargingStatus.swift; sourceTree = "<group>"; };
 		736813B1204503B70035FC66 /* NavCenterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavCenterButton.swift; sourceTree = "<group>"; };
 		736813B4204513D50035FC66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		736BCE84205A89060052C9ED /* CidTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CidTableViewCell.swift; sourceTree = "<group>"; };
 		736BCE86205A892E0052C9ED /* intro_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = intro_bg.jpg; sourceTree = "<group>"; };
 		736D37C520871B15009535EE /* BoardTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewDelegate.swift; sourceTree = "<group>"; };
 		736D37C9208993BE009535EE /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
@@ -1175,7 +1173,6 @@
 				DB9673C520843EF6008ACCAE /* ChargerTableViewCell.swift */,
 				DB3799F92167575A001D8F69 /* ChargerTableViewCell.xib */,
 				DB0E4692205B6F1F002DD05D /* CidTableView.swift */,
-				736BCE84205A89060052C9ED /* CidTableViewCell.swift */,
 				DB39688C22D5B93E00170F2E /* ChargesTableViewCell.swift */,
 				732ED1C821ED8ABB0012C67B /* DropDownCheckBoxCell.swift */,
 				732ED1C921ED8ABB0012C67B /* DropDownCheckBoxCell.xib */,
@@ -1918,7 +1915,6 @@
 				7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */,
 				DBDC59A0234B6E4E00F75D64 /* UsePointViewController.swift in Sources */,
 				9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */,
-				736BCE85205A89070052C9ED /* CidTableViewCell.swift in Sources */,
 				73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */,
 				732B929A20EDD0C60090E9FC /* CompanyInfoChecker.swift in Sources */,
 				902A11D1248F4DAC0049EF8E /* CompanyInfoDto.swift in Sources */,

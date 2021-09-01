@@ -76,6 +76,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="3RR-82-jR6" secondAttribute="trailing" id="0Qn-ri-3fw"/>
                                     <constraint firstItem="Bp2-BV-hd6" firstAttribute="leading" secondItem="MjX-0u-Kq9" secondAttribute="leading" id="2b9-LC-p4E"/>

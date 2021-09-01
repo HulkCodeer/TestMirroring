@@ -30,6 +30,7 @@ class ChargerFilterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         prepareActionBar()
         initView()
         companyViewHeight.constant = companyFilter.getHeight()

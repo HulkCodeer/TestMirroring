@@ -48,7 +48,7 @@ extension AppToolbarController {
     }
     
     fileprivate func preparemapButton() {
-        mapButton = IconButton(image: UIImage(named: "ic_map_normal")?.withRenderingMode(.alwaysTemplate))
+        mapButton = IconButton(image: UIImage(named: "icon_map_course_md")?.withRenderingMode(.alwaysTemplate))
         mapButton.tintColor = UIColor(rgb: 0x15435C)
         mapButton.addTarget(self, action: #selector(handleMapButton), for: .touchUpInside)
         mapButton.tag = 2
@@ -90,10 +90,10 @@ extension AppToolbarController {
     
     func enableRouteMode(isRoute: Bool) {
         if isRoute {
-            mapButton.setImage(UIImage(named: "ic_map_navigation")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            mapButton.setImage(UIImage(named: "icon_map_course_md")?.withRenderingMode(.alwaysTemplate), for: .normal)
             isRouteMode = true
         } else {
-            mapButton.setImage(UIImage(named: "ic_map_normal")?.withRenderingMode(.alwaysTemplate), for: .normal)//(image: Icon.normalMode, forState: .Normal)
+            mapButton.setImage(UIImage(named: "icon_map_course_md")?.withRenderingMode(.alwaysTemplate), for: .normal)//(image: Icon.normalMode, forState: .Normal)
             isRouteMode = false
         }
         self.delegate?.toolBar(didClick: self.mapButton, arg: isRoute)
