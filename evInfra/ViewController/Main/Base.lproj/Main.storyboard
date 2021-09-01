@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -293,9 +294,15 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJq-gl-PDQ" userLabel="Renew Button">
-                                <rect key="frame" x="327" y="48" width="40" height="40"/>
+                                <rect key="frame" x="335" y="48" width="32" height="32"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="ic_renew">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="i12-8V-bba"/>
+                                    <constraint firstAttribute="width" constant="40" id="uMc-2a-EPI"/>
+                                </constraints>
+                                <color key="tintColor" name="content-primary"/>
+                                <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                <state key="normal" image="icon_refresh_md">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -310,13 +317,15 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z5-Ng-0pM" userLabel="My Location Button">
-                                <rect key="frame" x="327" y="96" width="40" height="40"/>
+                                <rect key="frame" x="335" y="88" width="32" height="32"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="727-he-HJ6"/>
-                                    <constraint firstAttribute="height" constant="40" id="CRO-MT-vZw"/>
+                                    <constraint firstAttribute="width" constant="40" id="YpY-Du-EoB"/>
+                                    <constraint firstAttribute="height" constant="40" id="hMG-Vd-OIF"/>
                                 </constraints>
-                                <state key="normal" image="ic_my_location_tracking"/>
+                                <color key="tintColor" name="content-primary"/>
+                                <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                <state key="normal" image="icon_current_location_md"/>
                                 <connections>
                                     <action selector="onClickMyLocation:" destination="Dkt-CM-WPs" eventType="touchUpInside" id="WYc-Sz-irR"/>
                                 </connections>
@@ -737,15 +746,18 @@
         <image name="ic_line_help" width="32" height="24"/>
         <image name="ic_line_offerwall" width="32" height="24"/>
         <image name="ic_line_payment" width="32" height="24"/>
-        <image name="ic_my_location_tracking" width="40" height="40"/>
         <image name="ic_newbadge" width="20" height="20"/>
-        <image name="ic_renew" width="40" height="40"/>
+        <image name="icon_current_location_md" width="24" height="24"/>
+        <image name="icon_refresh_md" width="24" height="24"/>
         <image name="menu_board" width="30" height="30"/>
         <image name="menu_event" width="30" height="30"/>
         <image name="menu_info" width="30" height="30"/>
         <image name="menu_my_info" width="30" height="30"/>
         <image name="menu_settings" width="30" height="30"/>
         <image name="menu_top_bg.jpg" width="230.39999389648438" height="139.19999694824219"/>
+        <namedColor name="content-primary">
+            <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

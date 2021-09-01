@@ -213,22 +213,14 @@ class MainViewController: UIViewController {
         mapContainerView.addSubview(mapView)
         
         // Map Refresh an myLocation Button Look change
-        myLocationButton.layer.cornerRadius = 5
-        myLocationButton.clipsToBounds = true
-        myLocationButton.layer.shadowRadius = 5
-        myLocationButton.layer.shadowColor = UIColor.black.cgColor
-        myLocationButton.layer.shadowOpacity = 0.5
-        myLocationButton.layer.shadowOffset = CGSize(width: 0.5, height: 2)
-        myLocationButton.layer.masksToBounds = false
+        myLocationButton.layer.cornerRadius = 20
+        myLocationButton.layer.borderWidth = 1
+        myLocationButton.layer.borderColor = UIColor.init(named: "border-opaque")?.cgColor
         updateMyLocationButton()
         
-        reNewButton.layer.cornerRadius = 5
-        reNewButton.clipsToBounds = true
-        reNewButton.layer.shadowRadius = 5
-        reNewButton.layer.shadowColor = UIColor.black.cgColor
-        reNewButton.layer.shadowOpacity = 0.5
-        reNewButton.layer.shadowOffset = CGSize(width: 0.5, height: 2)
-        reNewButton.layer.masksToBounds = false
+        reNewButton.layer.cornerRadius = 20
+        reNewButton.layer.borderWidth = 1
+        reNewButton.layer.borderColor = UIColor.init(named: "border-opaque")?.cgColor
 
         btn_menu_layer.layer.cornerRadius = 5
         btn_menu_layer.clipsToBounds = true
@@ -1208,13 +1200,16 @@ extension MainViewController {
                 DispatchQueue.main.async {
                     // Run UI Updates or call completion block
                     if tMapView.getIsCompass() {
-                        self.myLocationButton.setImage(UIImage(named: "ic_my_location_compass"), for: .normal)
+                        self.myLocationButton.setImage(UIImage(named: "icon_compass_lg"), for: .normal)
+                        self.myLocationButton.tintColor = UIColor.init(named: "content-positive")
                         UIApplication.shared.isIdleTimerDisabled = true // 화면 켜짐 유지
                     } else if tMapView.getIsTracking() {
-                        self.myLocationButton.setImage(UIImage(named: "ic_my_location_tracking"), for: .normal)
+                        self.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
+                        self.myLocationButton.tintColor = UIColor.init(named: "content-positive")
                         UIApplication.shared.isIdleTimerDisabled = true // 화면 켜짐 유지
                     } else {
-                        self.myLocationButton.setImage(UIImage(named: "ic_my_location_off"), for: .normal)
+                        self.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
+                        self.myLocationButton.tintColor = UIColor.init(named: "content-primary")
                         UIApplication.shared.isIdleTimerDisabled = false // 화면 켜짐 유지 끔
                     }
                 }
