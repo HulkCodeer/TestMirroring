@@ -9,15 +9,15 @@
 import Foundation
 import SwiftyJSON
 
-protocol SummaryDelegate {
-    func onStart()
-    func onEnd()
-    func onAdd()
-    func onNavigation()
-    func onRequestLogIn()
-    func onFavoriteChanged(changed: Bool)
-    func onShare()
-}
+//protocol SummaryDelegate {
+//    func onStart()
+//    func onEnd()
+//    func onAdd()
+//    func onNavigation()
+//    func onRequestLogIn()
+//    func onFavoriteChanged(changed: Bool)
+//    func onShare()
+//}
 
 class SummaryView: UIView {
     
@@ -59,10 +59,15 @@ class SummaryView: UIView {
     @IBOutlet weak var stateCountView: UIView!
     @IBOutlet weak var addrView: UIStackView!
     
-    var delegate: SummaryDelegate?
+//    var delegate: SummaryDelegate?
     var charger:ChargerStationInfo?
     var isAddBtnGone:Bool = false
     var distance: Double = -1.0
+    
+    let startKey = "summaryView.start"
+    let endKey = "summaryView.end"
+    let addKey = "summaryView.add"
+    let navigationKey = "summaryView.navigation"
     
     public enum SummaryType {
         case MainSummary
@@ -355,9 +360,9 @@ class SummaryView: UIView {
     // [Summary]
     // share
     @IBAction func onClickShare(_ sender: Any) {
-        if let delegate = delegate {
-            delegate.onShare()
-        }
+//        if let delegate = delegate {
+//            delegate.onShare()
+//        }
     }
     // Favorite
     @IBAction func onClickFavorite(_ sender: UIButton) {
@@ -366,36 +371,32 @@ class SummaryView: UIView {
                 self.favorite()
             }
         } else {
-            if let delegate = delegate {
-                delegate.onRequestLogIn()
-            }
+//            if let delegate = delegate {
+//                delegate.onRequestLogIn()
+//            }
         }
     }
     
     // [Direction]
     // start
     @IBAction func onClickStartPoint(_ sender: Any) {
-        if let delegate = delegate {
-            delegate.onStart()
-        }
+        let start = Notification.Name(rawValue: startKey)
+        NotificationCenter.default.post(name: start, object: charger)
     }
     // end
     @IBAction func onClickEndPoint(_ sender: Any) {
-        if let delegate = delegate {
-            delegate.onEnd()
-        }
+        let end = Notification.Name(rawValue: endKey)
+        NotificationCenter.default.post(name: end, object: charger)
     }
     // add
     @IBAction func onClickAddPoint(_ sender: Any) {
-        if let delegate = delegate {
-            delegate.onAdd()
-        }
+        let add = Notification.Name(rawValue: addKey)
+        NotificationCenter.default.post(name: add, object: charger)
     }
     // navigation
     @IBAction func onClickNavi(_ sender: UIButton) {
-        if let delegate = delegate {
-            delegate.onNavigation()
-        }
+        let navigation = Notification.Name(rawValue: navigationKey)
+        NotificationCenter.default.post(name: navigation, object: charger)
     }
 
     func favorite() {
@@ -407,9 +408,9 @@ class SummaryView: UIView {
                     Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
                 }
                 self.setCallOutFavoriteIcon(favorite: charger.mFavorite)
-                if let delegate = self.delegate {
-                    delegate.onFavoriteChanged(changed: charger.mFavorite)
-                }
+//                if let delegate = self.delegate {
+//                    delegate.onFavoriteChanged(changed: charger.mFavorite)
+//                }
             }
         }
     }

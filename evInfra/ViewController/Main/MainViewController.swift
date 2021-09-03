@@ -114,6 +114,11 @@ class MainViewController: UIViewController {
     // 지킴이 점겸표 url
     private var checklistUrl: String?
     
+    let startKey = "summaryView.start"
+    let endKey = "summaryView.end"
+    let addKey = "summaryView.add"
+    let navigationKey = "summaryView.navigation"
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -866,7 +871,7 @@ extension MainViewController: DetailDelegate {
         }
         summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         callOutLayer.addSubview(summaryView)
-        summaryView.delegate = self
+//        summaryView.delegate = self
     }
     
     func selectCharger(chargerId: String) {
@@ -922,31 +927,31 @@ extension MainViewController: DetailDelegate {
 ////    self.markerImg.clipsToBounds = true
 }
 
-extension MainViewController : SummaryDelegate {
-    func onStart() {
-        self.setStartPoint()
-    }
-    
-    func onEnd() {
-        self.setEndPoint()
-    }
-    
-    func onAdd() {
-        self.setStartPath()
-    }
-    
-    func onNavigation() {
-        self.showNavigation()
-    }
-    
-    func onRequestLogIn() {
-        MemberManager().showLoginAlert(vc: self)
-    }
-    
-    func onShare() {
-        
-    }
-}
+//extension MainViewController : SummaryDelegate {
+//    func onStart() {
+//        self.setStartPoint()
+//    }
+//
+//    func onEnd() {
+//        self.setEndPoint()
+//    }
+//
+//    func onAdd() {
+//        self.setStartPath()
+//    }
+//
+//    func onNavigation() {
+//        self.showNavigation()
+//    }
+//
+//    func onRequestLogIn() {
+//        MemberManager().showLoginAlert(vc: self)
+//    }
+//
+//    func onShare() {
+//
+//    }
+//}
 
 // MARK: - Request To Server
 extension MainViewController {
@@ -1107,6 +1112,12 @@ extension MainViewController {
         center.addObserver(self, selector: #selector(updateMemberInfo), name: Notification.Name("updateMemberInfo"), object: nil)
         center.addObserver(self, selector: #selector(getSharedChargerId(_:)), name: Notification.Name("kakaoScheme"), object: nil)
         center.addObserver(self, selector: #selector(openPartnership(_:)), name: Notification.Name("partnershipScheme"), object: nil)
+        // [Direction observer]
+        center.addObserver(self, selector: #selector(directionStartPoint(_:)), name: Notification.Name(startKey), object: nil)
+        center.addObserver(self, selector: #selector(directionStartPath(_:)), name: Notification.Name(addKey), object: nil)
+        center.addObserver(self, selector: #selector(directionEnd(_:)), name: Notification.Name(endKey), object: nil)
+        center.addObserver(self, selector: #selector(directionNavigation(_:)), name: Notification.Name(navigationKey), object: nil)
+        center.addObserver(self, selector: #selector(directionStartPoint(_:)), name: Notification.Name(startKey), object: nil)
     }
     
     func removeObserver() {
@@ -1142,6 +1153,38 @@ extension MainViewController {
         } else {
             MemberManager().showLoginAlert(vc: self)
         }
+    }
+    
+    @objc func directionStartPoint(_ notification: NSNotification) {
+        selectCharger = (notification.object as! ChargerStationInfo)
+        if navigationDrawerController?.isOpened == true{
+            navigationDrawerController?.toggleLeftView()
+        }
+        self.navigationController?.popToRootViewController(animated: true)
+        self.setStartPoint()
+    }
+    
+    @objc func directionStartPath(_ notification: NSNotification) {
+        selectCharger = (notification.object as! ChargerStationInfo)
+        if navigationDrawerController?.isOpened == true{
+            navigationDrawerController?.toggleLeftView()
+        }
+        self.navigationController?.popToRootViewController(animated: true)
+        self.setStartPath()
+    }
+        
+    @objc func directionEnd(_ notification: NSNotification) {
+        selectCharger = (notification.object as! ChargerStationInfo)
+        if navigationDrawerController?.isOpened == true{
+            navigationDrawerController?.toggleLeftView()
+        }
+        self.navigationController?.popToRootViewController(animated: true)
+        self.setEndPoint()
+    }
+    
+    @objc func directionNavigation(_ notification: NSNotification) {
+        selectCharger = (notification.object as! ChargerStationInfo)
+        self.setNavigation()
     }
     
     func selectChargerFromShared() {
