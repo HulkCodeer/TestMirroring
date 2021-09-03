@@ -113,21 +113,21 @@
                                     <color key="textColor" name="content-tertiary"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="AC 3상" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oK2-O4-epY">
-                                    <rect key="frame" x="54.5" y="0.0" width="49" height="16"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="DC 차데모" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HuC-zS-9v8">
+                                    <rect key="frame" x="54.5" y="0.0" width="68.5" height="16"/>
                                     <color key="backgroundColor" name="background-secondary"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="49" id="EIn-9T-pIo"/>
+                                        <constraint firstAttribute="width" constant="68.5" id="3Ef-EW-GNE"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" name="content-tertiary"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="DC 차데모" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HuC-zS-9v8">
-                                    <rect key="frame" x="107.5" y="0.0" width="68.5" height="16"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="AC 3상" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oK2-O4-epY">
+                                    <rect key="frame" x="127" y="0.0" width="49" height="16"/>
                                     <color key="backgroundColor" name="background-secondary"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="68.5" id="3Ef-EW-GNE"/>
+                                        <constraint firstAttribute="width" constant="49" id="EIn-9T-pIo"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" name="content-tertiary"/>

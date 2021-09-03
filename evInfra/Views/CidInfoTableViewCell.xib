@@ -276,6 +276,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstItem="mcX-IQ-9Pk" firstAttribute="top" secondItem="8ym-hc-GZG" secondAttribute="top" id="Ksh-rG-uah"/>
+                                                    <constraint firstAttribute="width" constant="224" id="fPT-kZ-LeV"/>
                                                     <constraint firstAttribute="bottom" secondItem="mcX-IQ-9Pk" secondAttribute="bottom" constant="16" id="lMW-fg-lEN"/>
                                                     <constraint firstAttribute="trailing" secondItem="mcX-IQ-9Pk" secondAttribute="trailing" id="oZB-iU-QsB"/>
                                                     <constraint firstItem="mcX-IQ-9Pk" firstAttribute="leading" secondItem="8ym-hc-GZG" secondAttribute="leading" id="uqv-7H-0Fe"/>

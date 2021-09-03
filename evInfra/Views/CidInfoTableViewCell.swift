@@ -89,7 +89,7 @@ class CidInfoTableViewCell: UITableViewCell {
         self.slowLb.textColor = UIColor.init(named: tertiary)
         self.acSamLb.textColor = UIColor.init(named: tertiary)
         
-        self.dcDemoLb.text = "DC데모"
+        self.dcDemoLb.text = "DC 차데모"
         self.acSamLb.text = "AC 3상"
         
         switch (type) {
