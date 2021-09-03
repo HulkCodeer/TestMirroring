@@ -9,16 +9,6 @@
 import Foundation
 import SwiftyJSON
 
-//protocol SummaryDelegate {
-//    func onStart()
-//    func onEnd()
-//    func onAdd()
-//    func onNavigation()
-//    func onRequestLogIn()
-//    func onFavoriteChanged(changed: Bool)
-//    func onShare()
-//}
-
 class SummaryView: UIView {
     
     @IBOutlet weak var summaryView: UIView!
@@ -68,6 +58,10 @@ class SummaryView: UIView {
     let endKey = "summaryView.end"
     let addKey = "summaryView.add"
     let navigationKey = "summaryView.navigation"
+    let loginKey = "summaryView.logIn"
+    let favoriteKey = "summaryView.favorite"
+    
+    var shareUrl = ""
     
     public enum SummaryType {
         case MainSummary
@@ -360,9 +354,7 @@ class SummaryView: UIView {
     // [Summary]
     // share
     @IBAction func onClickShare(_ sender: Any) {
-//        if let delegate = delegate {
-//            delegate.onShare()
-//        }
+        shareForKakao()
     }
     // Favorite
     @IBAction func onClickFavorite(_ sender: UIButton) {
@@ -371,9 +363,8 @@ class SummaryView: UIView {
                 self.favorite()
             }
         } else {
-//            if let delegate = delegate {
-//                delegate.onRequestLogIn()
-//            }
+            let logIn = Notification.Name(rawValue: loginKey)
+            NotificationCenter.default.post(name: logIn, object: nil)
         }
     }
     
@@ -408,9 +399,9 @@ class SummaryView: UIView {
                     Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
                 }
                 self.setCallOutFavoriteIcon(favorite: charger.mFavorite)
-//                if let delegate = self.delegate {
-//                    delegate.onFavoriteChanged(changed: charger.mFavorite)
-//                }
+                
+                let favorite = Notification.Name(rawValue: self.favoriteKey)
+                NotificationCenter.default.post(name: favorite, object: charger.mFavorite)
             }
         }
     }
@@ -445,6 +436,58 @@ class SummaryView: UIView {
                     }
                 }
             }
+        }
+    }
+    
+    func shareForKakao() {
+        let shareImage: UIImage!
+        let size = CGSize(width: 480.0, height: 290.0)
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
+        UIImage(named: "menu_top_bg.jpg")?.draw(in: rect)
+        shareImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+//        let sharedStorage = KLKImageStorage.init()
+
+        KLKImageStorage.shared().upload(with: shareImage, success: { (imageInfo) in
+            self.shareUrl = "\(imageInfo.url)"
+            self.sendToKakaoTalk()
+        }) { (error) in
+            self.shareUrl = Const.urlShareImage
+            self.sendToKakaoTalk()
+            print("makeImage Error \(error)")
+        }
+    }
+
+
+    func sendToKakaoTalk() {
+        let templateId = "10575"
+        var shareList = [String: String]()
+        shareList["width"] = "480"
+        shareList["height"] = "290"
+        shareList["imageUrl"] = shareUrl
+        shareList["title"] = "충전소 상세 정보";
+        if let stationName = charger?.mStationInfoDto?.mSnm {
+            shareList["stationName"] = stationName;
+        } else {
+            shareList["stationName"] = "";
+        }
+        if let stationId = charger?.mChargerId {
+            shareList["scheme"] = "charger_id=\(stationId)"
+            shareList["ischeme"] = "charger_id=\(stationId)"
+        }
+
+        shareList["appstore"] = "https://itunes.apple.com/kr/app/ev-infra/id1206679515?mt=8";
+        shareList["market"] = "https://play.google.com/store/apps/details?id=com.client.ev.activities";
+
+//        let shareCenter = KLKTalkLinkCenter.init()
+
+        KLKTalkLinkCenter.shared().sendCustom(withTemplateId: templateId, templateArgs: shareList, success: { (warnimgMsg, argMsg) in
+            print("warning message: \(String(describing: warnimgMsg?.description))")
+            print("argument message: \(String(describing: argMsg?.description))")
+        }) { (error) in
+            print("error \(error)")
         }
     }
 }

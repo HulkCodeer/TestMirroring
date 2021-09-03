@@ -118,6 +118,9 @@ class MainViewController: UIViewController {
     let endKey = "summaryView.end"
     let addKey = "summaryView.add"
     let navigationKey = "summaryView.navigation"
+    let loginKey = "summaryView.logIn"
+    let favoriteKey = "summaryView.favorite"
+
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -927,32 +930,6 @@ extension MainViewController: DetailDelegate {
 ////    self.markerImg.clipsToBounds = true
 }
 
-//extension MainViewController : SummaryDelegate {
-//    func onStart() {
-//        self.setStartPoint()
-//    }
-//
-//    func onEnd() {
-//        self.setEndPoint()
-//    }
-//
-//    func onAdd() {
-//        self.setStartPath()
-//    }
-//
-//    func onNavigation() {
-//        self.showNavigation()
-//    }
-//
-//    func onRequestLogIn() {
-//        MemberManager().showLoginAlert(vc: self)
-//    }
-//
-//    func onShare() {
-//
-//    }
-//}
-
 // MARK: - Request To Server
 extension MainViewController {
     /*
@@ -1117,6 +1094,8 @@ extension MainViewController {
         center.addObserver(self, selector: #selector(directionStartPath(_:)), name: Notification.Name(addKey), object: nil)
         center.addObserver(self, selector: #selector(directionEnd(_:)), name: Notification.Name(endKey), object: nil)
         center.addObserver(self, selector: #selector(directionNavigation(_:)), name: Notification.Name(navigationKey), object: nil)
+        center.addObserver(self, selector: #selector(requestLogIn(_:)), name: Notification.Name(loginKey), object: nil)
+        center.addObserver(self, selector: #selector(isChangeFavorite(_:)), name: Notification.Name(favoriteKey), object: nil)
         center.addObserver(self, selector: #selector(directionStartPoint(_:)), name: Notification.Name(startKey), object: nil)
     }
     
@@ -1185,6 +1164,15 @@ extension MainViewController {
     @objc func directionNavigation(_ notification: NSNotification) {
         selectCharger = (notification.object as! ChargerStationInfo)
         self.setNavigation()
+    }
+    
+    @objc func requestLogIn(_ notification: NSNotification) {
+        MemberManager().showLoginAlert(vc: self)
+    }
+    
+    @objc func isChangeFavorite(_ notification: NSNotification) {
+        let changed = (notification.object as! Bool)
+        summaryView.setCallOutFavoriteIcon(favorite: changed)
     }
     
     func selectChargerFromShared() {

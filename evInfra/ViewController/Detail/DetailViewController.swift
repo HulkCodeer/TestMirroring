@@ -61,9 +61,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     private var phoneNumber:String? = nil
     private var homePage:String? = nil
     private var appStore:String? = nil
-    
-    var shareUrl = ""
-    
+        
     var mapView:MTMapView?
     
     var summaryViewTag = 20
@@ -596,58 +594,6 @@ extension DetailViewController {
 }
 
 extension DetailViewController {
-    func shareForKakao() {
-        let shareImage: UIImage!
-        let size = CGSize(width: 480.0, height: 290.0)
-        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
-        UIImage(named: "menu_top_bg.jpg")?.draw(in: rect)
-        shareImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-//        let sharedStorage = KLKImageStorage.init()
-
-        KLKImageStorage.shared().upload(with: shareImage, success: { (imageInfo) in
-            self.shareUrl = "\(imageInfo.url)"
-            self.sendToKakaoTalk()
-        }) { (error) in
-            self.shareUrl = Const.urlShareImage
-            self.sendToKakaoTalk()
-            print("makeImage Error \(error)")
-        }
-    }
-
-
-    func sendToKakaoTalk() {
-        let templateId = "10575"
-        var shareList = [String: String]()
-        shareList["width"] = "480"
-        shareList["height"] = "290"
-        shareList["imageUrl"] = shareUrl
-        shareList["title"] = "충전소 상세 정보";
-        if let stationName = charger?.mStationInfoDto?.mSnm {
-            shareList["stationName"] = stationName;
-        } else {
-            shareList["stationName"] = "";
-        }
-        if let stationId = charger?.mChargerId {
-            shareList["scheme"] = "charger_id=\(stationId)"
-            shareList["ischeme"] = "charger_id=\(stationId)"
-        }
-
-        shareList["appstore"] = "https://itunes.apple.com/kr/app/ev-infra/id1206679515?mt=8";
-        shareList["market"] = "https://play.google.com/store/apps/details?id=com.client.ev.activities";
-
-//        let shareCenter = KLKTalkLinkCenter.init()
-
-        KLKTalkLinkCenter.shared().sendCustom(withTemplateId: templateId, templateArgs: shareList, success: { (warnimgMsg, argMsg) in
-            print("warning message: \(String(describing: warnimgMsg?.description))")
-            print("argument message: \(String(describing: argMsg?.description))")
-        }) { (error) in
-            print("error \(error)")
-        }
-    }
-    
     @objc
     func onClickMoveCompanyHomePage(_sender:UIButton) {
         if let strUrl = self.homePage {
