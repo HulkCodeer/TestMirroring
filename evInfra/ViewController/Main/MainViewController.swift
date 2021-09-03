@@ -113,15 +113,7 @@ class MainViewController: UIViewController {
     
     // 지킴이 점겸표 url
     private var checklistUrl: String?
-    
-    let startKey = "summaryView.start"
-    let endKey = "summaryView.end"
-    let addKey = "summaryView.add"
-    let navigationKey = "summaryView.navigation"
-    let loginKey = "summaryView.logIn"
-    let favoriteKey = "summaryView.favorite"
 
-    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,6 +124,7 @@ class MainViewController: UIViewController {
         prepareFilterView()
         prepareMapView()
         
+        prepareSummaryView()
         prepareNotificationCenter()
         prepareRouteView()
         prepareClustering()
@@ -159,17 +152,19 @@ class MainViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        print("csj_", "viewWillDisappear")
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        print("csj_", "viewDidDisappear")
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     // Filter
     func prepareFilterView() {
         filterBarView.delegate = self
@@ -1089,19 +1084,28 @@ extension MainViewController {
         center.addObserver(self, selector: #selector(updateMemberInfo), name: Notification.Name("updateMemberInfo"), object: nil)
         center.addObserver(self, selector: #selector(getSharedChargerId(_:)), name: Notification.Name("kakaoScheme"), object: nil)
         center.addObserver(self, selector: #selector(openPartnership(_:)), name: Notification.Name("partnershipScheme"), object: nil)
-        // [Direction observer]
-        center.addObserver(self, selector: #selector(directionStartPoint(_:)), name: Notification.Name(startKey), object: nil)
-        center.addObserver(self, selector: #selector(directionStartPath(_:)), name: Notification.Name(addKey), object: nil)
-        center.addObserver(self, selector: #selector(directionEnd(_:)), name: Notification.Name(endKey), object: nil)
-        center.addObserver(self, selector: #selector(directionNavigation(_:)), name: Notification.Name(navigationKey), object: nil)
-        center.addObserver(self, selector: #selector(requestLogIn(_:)), name: Notification.Name(loginKey), object: nil)
-        center.addObserver(self, selector: #selector(isChangeFavorite(_:)), name: Notification.Name(favoriteKey), object: nil)
-        center.addObserver(self, selector: #selector(directionStartPoint(_:)), name: Notification.Name(startKey), object: nil)
+        // [Summary observer]
+        center.addObserver(self, selector: #selector(directionStartPoint(_:)), name: Notification.Name(summaryView.startKey), object: nil)
+        center.addObserver(self, selector: #selector(directionStartPath(_:)), name: Notification.Name(summaryView.addKey), object: nil)
+        center.addObserver(self, selector: #selector(directionEnd(_:)), name: Notification.Name(summaryView.endKey), object: nil)
+        center.addObserver(self, selector: #selector(directionNavigation(_:)), name: Notification.Name(summaryView.navigationKey), object: nil)
+        center.addObserver(self, selector: #selector(requestLogIn(_:)), name: Notification.Name(summaryView.loginKey), object: nil)
+        center.addObserver(self, selector: #selector(isChangeFavorite(_:)), name: Notification.Name(summaryView.favoriteKey), object: nil)
     }
     
     func removeObserver() {
         let center = NotificationCenter.default
         center.removeObserver(self, name: Notification.Name("updateMemberInfo"), object: nil)
+    }
+    
+    func removeSummaryObserver() {
+        let center = NotificationCenter.default
+        center.removeObserver(self, name: Notification.Name(summaryView.startKey), object: nil)
+        center.removeObserver(self, name: Notification.Name(summaryView.endKey), object: nil)
+        center.removeObserver(self, name: Notification.Name(summaryView.addKey), object: nil)
+        center.removeObserver(self, name: Notification.Name(summaryView.navigationKey), object: nil)
+        center.removeObserver(self, name: Notification.Name(summaryView.loginKey), object: nil)
+        center.removeObserver(self, name: Notification.Name(summaryView.favoriteKey), object: nil)
     }
     
     @objc func saveLastZoomLevel() {
