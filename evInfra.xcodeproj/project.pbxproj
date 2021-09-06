@@ -71,6 +71,14 @@
 		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
 		4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
 		421569D7259B629100D018DC /* BoardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421569D6259B629100D018DC /* BoardInfo.swift */; };
+		424ED9D126E5E02C004EA8F9 /* FAQTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424ED9D026E5E02C004EA8F9 /* FAQTop.swift */; };
+		424ED9D326E5E065004EA8F9 /* FAQTopList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424ED9D226E5E065004EA8F9 /* FAQTopList.swift */; };
+		424ED9D526E5E08F004EA8F9 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424ED9D426E5E08F004EA8F9 /* FAQViewController.swift */; };
+		424ED9D726E5E0A6004EA8F9 /* FAQAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424ED9D626E5E0A6004EA8F9 /* FAQAdapter.swift */; };
+		424ED9D926E5E0B0004EA8F9 /* FAQContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424ED9D826E5E0B0004EA8F9 /* FAQContent.swift */; };
+		424ED9DB26E5E0C1004EA8F9 /* FAQContentAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424ED9DA26E5E0C1004EA8F9 /* FAQContentAdapter.swift */; };
+		424ED9DD26E5E443004EA8F9 /* FAQContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424ED9DC26E5E443004EA8F9 /* FAQContentViewController.swift */; };
+		424ED9DF26E5E45B004EA8F9 /* FAQ.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 424ED9DE26E5E45B004EA8F9 /* FAQ.storyboard */; };
 		42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42541587257E045600A2A7B9 /* UtilNavigation.swift */; };
 		425B055B26B7847B00B597A2 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 425B055A26B7847B00B597A2 /* Detail.storyboard */; };
 		425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5AD2519DA0B0089E87D /* OpenGLES.framework */; };
@@ -418,6 +426,14 @@
 		4212A25325555775001BB124 /* OfferwallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallTableViewCell.swift; sourceTree = "<group>"; };
 		4212A25425555775001BB124 /* OfferwallTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferwallTableViewCell.xib; sourceTree = "<group>"; };
 		421569D6259B629100D018DC /* BoardInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardInfo.swift; sourceTree = "<group>"; };
+		424ED9D026E5E02C004EA8F9 /* FAQTop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQTop.swift; sourceTree = "<group>"; };
+		424ED9D226E5E065004EA8F9 /* FAQTopList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQTopList.swift; sourceTree = "<group>"; };
+		424ED9D426E5E08F004EA8F9 /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
+		424ED9D626E5E0A6004EA8F9 /* FAQAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQAdapter.swift; sourceTree = "<group>"; };
+		424ED9D826E5E0B0004EA8F9 /* FAQContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQContent.swift; sourceTree = "<group>"; };
+		424ED9DA26E5E0C1004EA8F9 /* FAQContentAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQContentAdapter.swift; sourceTree = "<group>"; };
+		424ED9DC26E5E443004EA8F9 /* FAQContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQContentViewController.swift; sourceTree = "<group>"; };
+		424ED9DE26E5E45B004EA8F9 /* FAQ.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FAQ.storyboard; sourceTree = "<group>"; };
 		42541587257E045600A2A7B9 /* UtilNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilNavigation.swift; sourceTree = "<group>"; };
 		425B055A26B7847B00B597A2 /* Detail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
 		425EE5AD2519DA0B0089E87D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -935,6 +951,21 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
+		424ED9CF26E5E00F004EA8F9 /* FAQ */ = {
+			isa = PBXGroup;
+			children = (
+				424ED9D026E5E02C004EA8F9 /* FAQTop.swift */,
+				424ED9D226E5E065004EA8F9 /* FAQTopList.swift */,
+				424ED9D426E5E08F004EA8F9 /* FAQViewController.swift */,
+				424ED9D626E5E0A6004EA8F9 /* FAQAdapter.swift */,
+				424ED9D826E5E0B0004EA8F9 /* FAQContent.swift */,
+				424ED9DA26E5E0C1004EA8F9 /* FAQContentAdapter.swift */,
+				424ED9DC26E5E443004EA8F9 /* FAQContentViewController.swift */,
+				424ED9DE26E5E45B004EA8F9 /* FAQ.storyboard */,
+			);
+			path = FAQ;
+			sourceTree = "<group>";
+		};
 		5659BC9F308878047DB36D3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1213,6 +1244,7 @@
 		73EF8B40203BC12F00D04494 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				424ED9CF26E5E00F004EA8F9 /* FAQ */,
 				00A7D5C926B7B13F00C5DBCC /* Filter */,
 				00B2E8C926C10895005D017C /* Detail */,
 				00B2E8C626C106A0005D017C /* Login */,
@@ -1674,6 +1706,7 @@
 				73EF8B76203C85CC00D04494 /* poweredby@2x.png in Resources */,
 				73A7B410204E3595002E975F /* type_ac_slow_dim.png in Resources */,
 				DB0D96D72052548B00BA018B /* menu_top_bg.jpg in Resources */,
+				424ED9DF26E5E45B004EA8F9 /* FAQ.storyboard in Resources */,
 				00FDEAF226B3BF97006617EE /* Board.storyboard in Resources */,
 				73EF8B7A203C85CC00D04494 /* TrackingDotHalo@2x.png in Resources */,
 				00A6A16A26C3C44E0023DAE3 /* FilterBarView.xib in Resources */,
@@ -1862,6 +1895,7 @@
 				4273DB4826E20F0A00B4B60A /* ReportAdditionalView.swift in Sources */,
 				0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
+				424ED9D726E5E0A6004EA8F9 /* FAQAdapter.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
 				00A3659126C4E36200424E40 /* FilterRoadView.swift in Sources */,
 				73C6A0FD2345F1B600349A86 /* MyPayinfoViewController.swift in Sources */,
@@ -1897,6 +1931,7 @@
 				DBEE9AF82117DB5600770D04 /* LoginViewController.swift in Sources */,
 				00AE577926CE4864003E6643 /* RangeSeekSlider.swift in Sources */,
 				7357595220916C11008181E9 /* InfoCollectionViewCell.swift in Sources */,
+				424ED9D526E5E08F004EA8F9 /* FAQViewController.swift in Sources */,
 				73344ABF207B3A9B00A6A9EC /* UIImage.swift in Sources */,
 				00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */,
 				00B36C4126D4B33100749FFE /* CompanyTableViewCell.swift in Sources */,
@@ -1952,6 +1987,7 @@
 				00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton.swift in Sources */,
 				902A11DC248F5F550049EF8E /* ChargerConst.swift in Sources */,
+				424ED9D326E5E065004EA8F9 /* FAQTopList.swift in Sources */,
 				73D65D7223588ACC00F564A2 /* UITextField.swift in Sources */,
 				735759552091758C008181E9 /* EvInfoViewController.swift in Sources */,
 				00A3659F26C4E98D00424E40 /* FilterTypeView.swift in Sources */,
@@ -2011,8 +2047,10 @@
 				00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */,
 				73A7B428204E81A6002E975F /* Const.swift in Sources */,
 				0056440D252DB2AB007BF78D /* MembershipQRViewController.swift in Sources */,
+				424ED9DD26E5E443004EA8F9 /* FAQContentViewController.swift in Sources */,
 				4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */,
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
+				424ED9DB26E5E0C1004EA8F9 /* FAQContentAdapter.swift in Sources */,
 				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,
 				0012443C25A2E2EF00376CDC /* IntroImageChecker.swift in Sources */,
 				902A11D5248F53D80049EF8E /* StationInfoDto.swift in Sources */,
@@ -2032,10 +2070,12 @@
 				CE93309921511AD4006B7EF6 /* ReportBoardTableViewCell.swift in Sources */,
 				739171E122C4A209007369F9 /* PaymentQRScanViewController.swift in Sources */,
 				73B752852049284B0077112A /* NoticeViewController.swift in Sources */,
+				424ED9D926E5E0B0004EA8F9 /* FAQContent.swift in Sources */,
 				732121C5203AC023000E105C /* evInfra.xcdatamodeld in Sources */,
 				4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */,
 				73450EFA2071EB01008516E9 /* EditViewController.swift in Sources */,
 				73C31BFF20A2B246005B6C53 /* ChargerModel.swift in Sources */,
+				424ED9D126E5E02C004EA8F9 /* FAQTop.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
