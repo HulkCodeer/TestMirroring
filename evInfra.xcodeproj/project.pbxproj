@@ -81,6 +81,7 @@
 		425EE66D2519EE3C0089E87D /* DaumMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE66C2519EE3C0089E87D /* DaumMap.framework */; };
 		4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */; };
 		4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
+		4273DB4826E20F0A00B4B60A /* ReportAdditionalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273DB4726E20F0A00B4B60A /* ReportAdditionalView.swift */; };
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
 		4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */; };
 		42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */; };
@@ -428,6 +429,7 @@
 		425EE66C2519EE3C0089E87D /* DaumMap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DaumMap.framework; path = DaumMap.embeddedframework/DaumMap.framework; sourceTree = "<group>"; };
 		4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceViewController.swift; sourceTree = "<group>"; };
 		4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceTableViewCell.swift; sourceTree = "<group>"; };
+		4273DB4726E20F0A00B4B60A /* ReportAdditionalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAdditionalView.swift; sourceTree = "<group>"; };
 		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
 		4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponCodeViewController.swift; sourceTree = "<group>"; };
 		42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CidInfoTableViewCell.swift; sourceTree = "<group>"; };
@@ -1474,6 +1476,7 @@
 				00FDEAEF26B3BF8C006617EE /* Report.storyboard */,
 				CE93309021509A81006B7EF6 /* ReportBoardViewController.swift */,
 				CE00E811214A330B00020D6E /* ReportChargeViewController.swift */,
+				4273DB4726E20F0A00B4B60A /* ReportAdditionalView.swift */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -1856,6 +1859,7 @@
 				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
 				CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */,
 				733662D022F974820049AEFE /* Coupon.swift in Sources */,
+				4273DB4826E20F0A00B4B60A /* ReportAdditionalView.swift in Sources */,
 				0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
