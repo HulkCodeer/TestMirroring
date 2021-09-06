@@ -81,7 +81,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     override func viewWillLayoutSubviews() {
         prepareSummaryView()
-        
         self.accessWarningView.layer.cornerRadius = 16
     }
     
@@ -106,7 +105,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             summaryView = SummaryView(frame: frameTest)
         }
         summaryLayout.addSubview(summaryView)
-//        summaryView.delegate = self
+        summaryView.delegate = self
         summaryView.setLayoutType(charger: charger!, type: SummaryView.SummaryType.DetailSummary)
 //        summaryView.layoutDetailSummary()
         summaryView.layoutAddPathSummary(hiddenAddBtn: !isRouteMode)
@@ -233,6 +232,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func setStationInfo() {
         if let chargerData = charger {
             ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerData.mChargerId!)?.changeStatus(status: chargerData.mTotalStatus!)
+            
             
             self.cidTableView.setCidInfoList(infoList: chargerData.cidInfoList)
             
@@ -627,6 +627,12 @@ extension DetailViewController {
             }
         }
         return false
+    }
+}
+
+extension DetailViewController : SummaryDelegate {
+    func setCidInfoList() {
+        self.setStationInfo()
     }
 }
 
