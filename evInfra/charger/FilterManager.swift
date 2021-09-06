@@ -214,7 +214,11 @@ class FilterManager {
         if (filter.minSpeed == 0 && filter.maxSpeed == 350) {
             title = "속도"
         } else if (filter.minSpeed == filter.maxSpeed){
-            title = "\(filter.minSpeed)kW"
+            if (filter.minSpeed == 0) {
+                title = "완속~완속"
+            } else {
+                title = "\(filter.minSpeed)kW"
+            }
         } else {
             if (filter.minSpeed == 0) {
                 title = "완속 ~ \(filter.maxSpeed)kW"

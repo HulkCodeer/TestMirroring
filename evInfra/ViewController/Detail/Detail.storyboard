@@ -33,7 +33,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c7H-63-x2Q" userLabel="access warning">
-                                            <rect key="frame" x="16" y="194" width="343" height="56"/>
+                                            <rect key="frame" x="16" y="186" width="343" height="56"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_warning_md" translatesAutoresizingMaskIntoConstraints="NO" id="Nmt-CQ-a3Z">
                                                     <rect key="frame" x="16" y="18" width="20" height="20"/>
@@ -61,7 +61,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="bTX-Gy-m0k" userLabel="ViewChargerInfo">
-                                            <rect key="frame" x="16" y="274" width="343" height="20"/>
+                                            <rect key="frame" x="16" y="258" width="343" height="20"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="충전기 정보" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfd-dN-Lo0">
                                                     <rect key="frame" x="0.0" y="0.0" width="73.5" height="19.5"/>
@@ -77,14 +77,14 @@
                                             </constraints>
                                         </view>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="200" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="XBy-N2-pfd" customClass="CidTableView" customModule="evInfra" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="310" width="375" height="200"/>
+                                            <rect key="frame" x="0.0" y="294" width="375" height="200"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="200" id="vqP-HU-Gfi"/>
                                             </constraints>
                                         </tableView>
                                         <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="383.5" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="oie-IS-8pO">
-                                            <rect key="frame" x="16" y="526" width="343" height="409.5"/>
+                                            <rect key="frame" x="16" y="510" width="343" height="409.5"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" placeholderIntrinsicWidth="382" placeholderIntrinsicHeight="19.5" translatesAutoresizingMaskIntoConstraints="NO" id="3Ya-Tj-ICM">
                                                     <rect key="frame" x="0.0" y="0.0" width="343" height="19.5"/>
@@ -343,7 +343,7 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstItem="XBy-N2-pfd" firstAttribute="leading" secondItem="HgN-hh-5BP" secondAttribute="leading" id="2H0-Xx-VIX"/>
-                                        <constraint firstItem="c7H-63-x2Q" firstAttribute="bottom" secondItem="bTX-Gy-m0k" secondAttribute="top" constant="-24" id="4rx-06-nK8"/>
+                                        <constraint firstItem="c7H-63-x2Q" firstAttribute="bottom" secondItem="bTX-Gy-m0k" secondAttribute="top" constant="-16" id="4rx-06-nK8"/>
                                         <constraint firstAttribute="trailing" secondItem="bTX-Gy-m0k" secondAttribute="trailing" constant="16" id="8WL-YN-4N3"/>
                                         <constraint firstItem="iTG-td-6lJ" firstAttribute="leading" secondItem="HgN-hh-5BP" secondAttribute="leading" id="9SS-Ju-onZ"/>
                                         <constraint firstItem="c7H-63-x2Q" firstAttribute="leading" secondItem="HgN-hh-5BP" secondAttribute="leading" constant="16" id="Hdw-ts-g8H"/>
@@ -353,7 +353,7 @@
                                         <constraint firstItem="oie-IS-8pO" firstAttribute="leading" secondItem="HgN-hh-5BP" secondAttribute="leading" constant="16" id="Ruy-nH-fvL"/>
                                         <constraint firstItem="XBy-N2-pfd" firstAttribute="top" secondItem="bTX-Gy-m0k" secondAttribute="bottom" constant="16" id="efR-bm-1BD"/>
                                         <constraint firstItem="bTX-Gy-m0k" firstAttribute="leading" secondItem="HgN-hh-5BP" secondAttribute="leading" constant="16" id="fsf-nW-k8y"/>
-                                        <constraint firstItem="c7H-63-x2Q" firstAttribute="top" secondItem="iTG-td-6lJ" secondAttribute="bottom" constant="8" id="jWt-3K-mx8"/>
+                                        <constraint firstItem="c7H-63-x2Q" firstAttribute="top" secondItem="iTG-td-6lJ" secondAttribute="bottom" id="jWt-3K-mx8"/>
                                         <constraint firstAttribute="trailing" secondItem="XBy-N2-pfd" secondAttribute="trailing" id="lxB-S9-s2C"/>
                                         <constraint firstAttribute="trailing" secondItem="c7H-63-x2Q" secondAttribute="trailing" constant="16" id="mgY-36-7qz"/>
                                         <constraint firstItem="oie-IS-8pO" firstAttribute="top" secondItem="XBy-N2-pfd" secondAttribute="bottom" constant="16" id="o2d-4j-fGg"/>

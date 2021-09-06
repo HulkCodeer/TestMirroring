@@ -12,15 +12,6 @@ import Motion
 import SwiftyJSON
 import JJFloatingActionButton
 
-protocol DetailDelegate {
-    func onFavoriteChanged(changed: Bool)
-    func setNavigation()
-    func redrawCalloutLayer()
-    func setStartPath()         // 경로찾기(시작)
-    func setStartPoint()        // 경로찾기(출발)
-    func setEndPoint()          // 경로찾기(도착)
-}
-
 class DetailViewController: UIViewController, MTMapViewDelegate {
 
     @IBOutlet weak var detailView: UIView!
@@ -51,7 +42,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var cidTableView: CidTableView!
     @IBOutlet weak var cidTableHeightConstraint: NSLayoutConstraint!
  
-    var delegate: DetailDelegate?
     var charger: ChargerStationInfo?
     var isExistAddBtn = false
     
@@ -635,52 +625,3 @@ extension DetailViewController : SummaryDelegate {
         self.setStationInfo()
     }
 }
-
-//extension DetailViewController : SummaryDelegate {
-//
-//    func onFavoriteChanged(changed: Bool) {
-//        if let delegate = delegate {
-//            delegate.onFavoriteChanged(changed: changed)
-//        }
-//    }
-//
-//    // 공유하기
-//    func onShare() {
-//        self.shareForKakao()
-//    }
-//
-//    // 즐겨찾기
-//    func onRequestLogIn() {
-//        MemberManager().showLoginAlert(vc: self)
-//    }
-//
-//    // [경로찾기]
-//    // 출발
-//    func onStart() {
-//        if let delegate = self.delegate {
-//            self.navigationController?.popViewController(animated: true)
-//            delegate.setStartPoint()
-//        }
-//    }
-//    // 도착
-//    func onEnd() {
-//        if let delegate = self.delegate {
-//            self.navigationController?.popViewController(animated: true)
-//            delegate.setEndPoint()
-//        }
-//    }
-//    // 경유지 추가
-//    func onAdd() {
-//        if let delegate = self.delegate {
-//            self.navigationController?.popViewController(animated: true)
-//            delegate.setStartPath()
-//        }
-//    }
-//
-//    // 네비게이션
-//    func onNavigation() {
-//        if let delegate = self.delegate {
-//            delegate.setNavigation()
-//        }
-//    }
-//}

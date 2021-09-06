@@ -11,8 +11,10 @@ import M13Checkbox
 
 @IBDesignable
 class FilterPriceView: UIView {
-    @IBOutlet var checkPaid: M13Checkbox!
-    @IBOutlet var checkFree: M13Checkbox!
+    @IBOutlet weak var checkPaid: M13Checkbox!
+    @IBOutlet weak var checkFree: M13Checkbox!
+    @IBOutlet weak var paidView: UIView!
+    @IBOutlet weak var freeView: UIView!
     
     var saveOnChange: Bool = false
     var delegate: DelegateFilterChange?
@@ -37,6 +39,10 @@ class FilterPriceView: UIView {
         
         checkPaid.boxType = .square
         checkFree.boxType = .square
+        
+        paidView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickCheckPaid (_:))))
+        freeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickCheckFree (_:))))
+        
         isFree = FilterManager.sharedInstance.filter.isFree
         isPaid = FilterManager.sharedInstance.filter.isPaid
         setView()
@@ -47,7 +53,7 @@ class FilterPriceView: UIView {
         checkFree.checkState = isFree ? .checked : .unchecked
     }
     
-    @IBAction func onClickCheckPaid(_ sender: Any) {
+    @objc func onClickCheckPaid(_ sender: Any) {
         isPaid = !isPaid
         setView()
         if (saveOnChange) {
@@ -56,7 +62,7 @@ class FilterPriceView: UIView {
         delegate?.onChangedFilter()
     }
     
-    @IBAction func onClickCheckFree(_ sender: Any) {
+    @objc func onClickCheckFree(_ sender: Any) {
         isFree = !isFree
         setView()
         if (saveOnChange) {

@@ -66,7 +66,6 @@ class DateUtils {
         let iDate = dateFormatter.date(from: date)!
                 
         dateFormatter.dateFormat = "yyyy. MM. dd."
-        let today = Date()
         
         let duration = DateUtils.currentTimeMillis() - Int64((iDate.timeIntervalSince1970) * 1000)
         var seconds = duration / 1000

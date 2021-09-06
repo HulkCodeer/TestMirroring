@@ -314,7 +314,6 @@ import UIKit
         } else {
             handleTracking = .right
         }
-        let handle: CALayer = (handleTracking == .left) ? leftHandle : rightHandle
 
         delegate?.didStartTouches(in: self)
 
@@ -353,7 +352,6 @@ import UIKit
     }
 
     open override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        let handle: CALayer = (handleTracking == .left) ? leftHandle : rightHandle
         handleTracking = .none
 
         delegate?.didEndTouches(in: self)
