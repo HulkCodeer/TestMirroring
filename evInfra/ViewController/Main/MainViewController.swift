@@ -550,8 +550,7 @@ extension MainViewController: TextFieldDelegate {
         if routeStartPoint == nil{
             
             selectCharger?.mStationInfoDto?.mLongitude = routeEndPoint?.getLongitude()
-            selectCharger?.mStationInfoDto?.mLongitude = routeEndPoint?.getLatitude()
-            
+            selectCharger?.mStationInfoDto?.mLatitude = routeEndPoint?.getLatitude()
             
             if let currentPoint = MainViewController.currentLocation {
                 startField.text = tMapPathData.convertGpsToAddress(at: currentPoint)

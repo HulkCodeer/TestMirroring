@@ -38,28 +38,36 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         let slow = cidInfoList[indexPath.row].chargerType == Const.CHARGER_TYPE_SLOW || cidInfoList[indexPath.row].chargerType == Const.CHARGER_TYPE_DESTINATION
-        if indexPath.row == 0 && slow { // 첫 충전기가 완속인 경우 헤더제거
-            return goneCellHeight()
-        }
-        
-        if isChangeType(position: indexPath.row) {
-            return Constants.cellHeight
+        if slow {
+            if indexPath.row != 0 && isChangeType(position: indexPath.row){
+                return Constants.cellHeight
+            } else {
+                return goneCellHeight()
+            }
         } else {
-            return goneCellHeight()
+            if isChangePower(position: indexPath.row) {
+                return Constants.cellHeight
+            } else {
+                return goneCellHeight()
+            }
         }
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let slow = cidInfoList[indexPath.row].chargerType == Const.CHARGER_TYPE_SLOW || cidInfoList[indexPath.row].chargerType == Const.CHARGER_TYPE_DESTINATION
-        if indexPath.row == 0 && slow { // 첫 충전기가 완속인 경우 헤더제거
-            return goneCellHeight()
-        }
-        
-        if isChangeType(position: indexPath.row) {
-            return Constants.cellHeight
+        if slow {
+            if indexPath.row != 0 && isChangeType(position: indexPath.row){
+                return Constants.cellHeight
+            } else {
+                return goneCellHeight()
+            }
         } else {
-            return goneCellHeight()
+            if isChangePower(position: indexPath.row) {
+                return Constants.cellHeight
+            } else {
+                return goneCellHeight()
+            }
         }
     }
     
@@ -142,18 +150,5 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             return cidInfoList[position-1].chargerType != cidInfoList[position].chargerType
         }
         return true
-    }
-    
-    func isTypeSlow(position:Int) -> Bool {
-        if position > 0 {
-            if (cidInfoList[position - 1].chargerType != Const.CHARGER_TYPE_SLOW
-                    && cidInfoList[position - 1].chargerType != Const.CHARGER_TYPE_DESTINATION
-                    && cidInfoList[position - 1].chargerType != Const.CHARGER_TYPE_ETC) {
-                return cidInfoList[position].chargerType == Const.CHARGER_TYPE_SLOW || cidInfoList[position].chargerType == Const.CHARGER_TYPE_DESTINATION
-                    || cidInfoList[position].chargerType == Const.CHARGER_TYPE_ETC
-            }
-            return false
-        }
-        return false
     }
 }
