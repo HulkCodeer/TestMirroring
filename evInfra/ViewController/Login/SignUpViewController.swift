@@ -145,7 +145,7 @@ class SignUpViewController: UIViewController {
     }
     
     @IBAction func onClickSignUp(_ sender: Any) {
-        if let user = self.user {
+        if let me = self.user {
             if tfNickname.text?.isEmpty ?? true {
                 Snackbar().show(message: "닉네임을 입력해주세요.")
                 return
@@ -165,12 +165,9 @@ class SignUpViewController: UIViewController {
             }
             
             userDefault.saveString(key: UserDefault.Key.MB_NICKNAME, value: tfNickname.text!)
-            userDefault.saveString(key: UserDefault.Key.MB_USER_ID, value: user.userId!)
+            userDefault.saveString(key: UserDefault.Key.MB_USER_ID, value: me.userId!)
             
-            let email = user.email ?? ""
-            let emailVerify = user.emailVerified
-            
-            Server.signUp(type: user.type, email: email, emailVerify: emailVerify) { (isSuccess, value) in
+            Server.signUp(user: me) { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
                     if json["mb_id"].stringValue.isEmpty {

@@ -84,15 +84,20 @@ class Server {
     }
     
     // 회원 - 회원 가입
-    static func signUp(type: Login.LoginType, email: String, emailVerify: Bool, completion: @escaping (Bool, Any) -> Void) {
+    static func signUp(user: Login, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "member_id": MemberManager.getMemberId(),
             "user_id": MemberManager.getUserId(),
-            "login_type": type.rawValue,
+            
             "nickname": UserDefault().readString(key: UserDefault.Key.MB_NICKNAME),
             "profile": UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME),
-            "email": email,
-            "email_cert": emailVerify
+            
+            "login_type": user.type.rawValue,
+            "email": user.email ?? "",
+            "email_cert": user.emailVerified,
+            "phone_no": user.phoneNo ?? "",
+            "age_range": user.ageRange ?? "",
+            "gender": user.gender ?? ""
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/sign_up",
@@ -120,10 +125,6 @@ class Server {
             "region": region,
             "car_id": carId,
             "profile": profile
-//            "zip_code": zipCode,
-//            "addr": address,
-//            "addr_detail": addressDetail,
-//            "car_no":carNo
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/update_info",
