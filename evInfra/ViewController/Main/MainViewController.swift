@@ -365,6 +365,7 @@ extension MainViewController: DelegateFilterBarView {
     }
     
     func hideFilter(){
+        filterBarView.updateView(newSelect: .none)
         filterContainerView.isHidden = true
         filterHeight.constant = routeView.layer.height + filterBarView.layer.height
         filterView.sizeToFit()
