@@ -108,6 +108,7 @@ class FilterTypeView: UIView {
             item.selected = (item.title != "완속")
         }
         tagCollectionView.reloadData()
+        switchCarSetting.setOn(false, animated: true)
     }
     
     func applyFilter() {

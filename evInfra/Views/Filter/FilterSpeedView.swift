@@ -49,11 +49,7 @@ class FilterSpeedView: UIView {
         rangeSliderSpeed.selectedMaxValue = CGFloat(maxSpeed)
         rangeSliderSpeed.setupStyle()
         rangeSliderSpeed.setNeedsLayout()
-        var str: String = "" + (minSpeed == 0 ? "완속" : "\(minSpeed)") + "~\(maxSpeed)kW"
-        if (minSpeed == maxSpeed) {
-            str = "\(minSpeed)kW"
-        }
-        lbSpeed.text = str
+        updateSpeedLabel()
     }
     
     func resetFilter() {
@@ -83,6 +79,27 @@ class FilterSpeedView: UIView {
         
         setupView()
     }
+    
+    func updateSpeedLabel() {
+        var title = ""
+        if (minSpeed == 0 && maxSpeed == 350) {
+            title = "속도"
+        } else if (minSpeed == maxSpeed){
+            if (minSpeed == 0) {
+                title = "완속~완속"
+            } else {
+                title = "\(minSpeed)kW"
+            }
+        } else {
+            if (minSpeed == 0) {
+                title = "완속 ~ \(maxSpeed)kW"
+            } else {
+                title = "\(minSpeed) ~ \(maxSpeed)kW"
+            }
+        }
+        
+        lbSpeed.text = title
+    }
 }
 
 extension FilterSpeedView: RangeSeekSliderDelegate {
@@ -90,8 +107,7 @@ extension FilterSpeedView: RangeSeekSliderDelegate {
     func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
         self.minSpeed = Int(minValue)
         self.maxSpeed = Int(maxValue)
-        let str: String = "" + (minSpeed == 0 ? "완속" : "\(minSpeed)") + "~\(maxSpeed)kW"
-        lbSpeed.text = str
+        updateSpeedLabel()
         if (saveOnChange) {
            applyFilter()
         }

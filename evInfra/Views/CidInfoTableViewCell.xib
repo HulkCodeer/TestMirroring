@@ -131,19 +131,22 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="dSd-Ta-wOd">
                                                         <rect key="frame" x="0.0" y="20" width="150" height="20"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rDi-X7-nma">
+                                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rDi-X7-nma">
                                                                 <rect key="frame" x="0.0" y="0.0" width="72" height="20"/>
                                                                 <color key="backgroundColor" name="background-secondary"/>
                                                                 <accessibility key="accessibilityConfiguration">
                                                                     <accessibilityTraits key="traits" button="YES" notEnabled="YES"/>
                                                                 </accessibility>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="72" id="IMy-fJ-ZmI"/>
+                                                                </constraints>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                 <inset key="contentEdgeInsets" minX="6" minY="2" maxX="6" maxY="2"/>
                                                                 <state key="normal" title="마지막 사용">
                                                                     <color key="titleColor" name="content-primary"/>
                                                                 </state>
                                                             </button>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123시간 30분" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jgu-oM-Qva">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" text="123시간 30분" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jgu-oM-Qva">
                                                                 <rect key="frame" x="80" y="3" width="70" height="14.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                 <nil key="textColor"/>
@@ -152,8 +155,11 @@
                                                         </subviews>
                                                     </stackView>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="KiU-Fs-2nK"/>
+                                                </constraints>
                                             </stackView>
-                                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="154" placeholderIntrinsicHeight="56.5" translatesAutoresizingMaskIntoConstraints="NO" id="8ym-hc-GZG">
+                                            <view contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="154" placeholderIntrinsicHeight="56.5" translatesAutoresizingMaskIntoConstraints="NO" id="8ym-hc-GZG">
                                                 <rect key="frame" x="165" y="0.0" width="224" height="56.5"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="mcX-IQ-9Pk">
@@ -268,15 +274,12 @@
                                                                 </constraints>
                                                             </view>
                                                         </subviews>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="190" id="V94-tg-KAm"/>
-                                                        </constraints>
                                                     </stackView>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="224" id="Dap-i5-DOe"/>
                                                     <constraint firstItem="mcX-IQ-9Pk" firstAttribute="top" secondItem="8ym-hc-GZG" secondAttribute="top" id="Ksh-rG-uah"/>
-                                                    <constraint firstAttribute="width" constant="224" id="fPT-kZ-LeV"/>
                                                     <constraint firstAttribute="bottom" secondItem="mcX-IQ-9Pk" secondAttribute="bottom" constant="16" id="lMW-fg-lEN"/>
                                                     <constraint firstAttribute="trailing" secondItem="mcX-IQ-9Pk" secondAttribute="trailing" id="oZB-iU-QsB"/>
                                                     <constraint firstItem="mcX-IQ-9Pk" firstAttribute="leading" secondItem="8ym-hc-GZG" secondAttribute="leading" id="uqv-7H-0Fe"/>

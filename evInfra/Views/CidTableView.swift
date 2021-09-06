@@ -42,7 +42,7 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             return goneCellHeight()
         }
         
-        if isChangePower(position: indexPath.row) {
+        if isChangeType(position: indexPath.row) {
             return Constants.cellHeight
         } else {
             return goneCellHeight()
@@ -56,7 +56,7 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             return goneCellHeight()
         }
         
-        if isChangePower(position: indexPath.row) {
+        if isChangeType(position: indexPath.row) {
             return Constants.cellHeight
         } else {
             return goneCellHeight()
@@ -93,7 +93,7 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 cell.dividerView.isHidden = true
             }
         }else{
-            if indexPath.row > 0 && isChangePower(position: indexPath.row){
+            if indexPath.row > 0 && isChangeType(position: indexPath.row){
                 cell.dividerView.isHidden = false
                 cell.powerLable.text = "완속"
             } else {
@@ -133,6 +133,13 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     func isChangePower(position:Int) -> Bool {
         if position > 0 {
             return cidInfoList[position-1].power != cidInfoList[position].power
+        }
+        return true
+    }
+    
+    func isChangeType(position:Int) -> Bool {
+        if position > 0 {
+            return cidInfoList[position-1].chargerType != cidInfoList[position].chargerType
         }
         return true
     }

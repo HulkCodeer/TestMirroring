@@ -40,7 +40,7 @@ class MemberManager {
     }
     
     static func setSKRentConfig(){
-        var arr = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
+        let arr = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
         if !arr.contains(MemberManager.RENT_CLIENT_SKR){
             UserDefault().addItemToIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT, value: RENT_CLIENT_SKR)
         }

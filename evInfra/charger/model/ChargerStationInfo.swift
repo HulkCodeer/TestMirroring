@@ -69,6 +69,7 @@ class ChargerStationInfo {
             let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue, limit: item["lm"].stringValue)
             self.cidInfoList.append(cidInfo)
         }
+        print("csj_", cidInfoList.count)
         self.sortCharger()
         
         if !self.cidInfoList.isEmpty {
@@ -115,42 +116,6 @@ class ChargerStationInfo {
             return false
         }
 
-        // skind = 01:마트 02:관공서 03:공영주차장 04:마을회관 05:고속도로 06:테마파크(공원) 07:광장 08:휴게소(?)
-        // 고속도로
-//        if filter.wayId == ChargerFilter.WAY_HIGH && stationInfo.mSkind != "05" {
-//            return false
-//        }
-//
-//        // 일반도로
-//        if filter.wayId == ChargerFilter.WAY_NORMAL && stationInfo.mSkind == "05" {
-//            return false
-//        }
-//
-//        if filter.wayId == ChargerFilter.WAY_HIGH_UP && stationInfo.mDirection != 1 {
-//            return false
-//        }
-//
-//        if filter.wayId == ChargerFilter.WAY_HIGH_DOWN && stationInfo.mDirection != 2  {
-//            return false
-//        }
-        
-        // 유료 충전소
-//        if filter.payId == 1 && stationInfo.mPay == "N" {
-//            return false
-//        }
-//
-//        // 무료 충전소
-//        if filter.payId == 2 && stationInfo.mPay == "Y" {
-//            return false
-//        }
-//
-//        // 100kW filter
-//        if filter.payId == 3 {
-//            guard let power = mPower else { return false }
-//            if power < 100 {
-//                return false
-//            }
-//        }
         if !filter.isPublic && self.mLimit == "N" { // 공용 해제 시 접근제한 N 충전소 false
             return false
         }
@@ -185,10 +150,6 @@ class ChargerStationInfo {
             return false
         }
         
-        if self.mPower < filter.minSpeed || filter.maxSpeed < self.mPower { // 속도제한 사이
-            return false
-        }
-        
         // 운영 기관
         if let company = filter.companies[(stationInfo.mCompanyId)!] {
             if !company {
@@ -207,6 +168,14 @@ class ChargerStationInfo {
         
         if self.mTotalType == nil {
             //Log.d(tag: Const.TAG, msg: "mTotalType = nil : id = " + self.mChargerId!)
+            return false
+        }
+        
+        if filter.minSpeed == 0 && filter.maxSpeed == 0 {   // 완속만 필터링
+            if (self.mTotalType! & Const.CTYPE_SLOW) != Const.CTYPE_SLOW {
+                return false
+            }
+        } else if self.mPower < filter.minSpeed || filter.maxSpeed < self.mPower { // 속도제한 사이
             return false
         }
         
@@ -233,7 +202,10 @@ class ChargerStationInfo {
         if filter.slow {
             if (self.mTotalType! & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
                 return true
-            } else if (self.mTotalType! & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
+            } 
+        }
+        if filter.destination {
+            if (self.mTotalType! & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
                 return true
             }
         }

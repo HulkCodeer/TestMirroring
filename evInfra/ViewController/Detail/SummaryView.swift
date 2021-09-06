@@ -9,6 +9,10 @@
 import Foundation
 import SwiftyJSON
 
+protocol SummaryDelegate {
+    func setCidInfoList()
+}
+
 class SummaryView: UIView {
     
     @IBOutlet weak var summaryView: UIView!
@@ -49,10 +53,10 @@ class SummaryView: UIView {
     @IBOutlet weak var stateCountView: UIView!
     @IBOutlet weak var addrView: UIStackView!
     
-//    var delegate: SummaryDelegate?
     var charger:ChargerStationInfo?
     var isAddBtnGone:Bool = false
     var distance: Double = -1.0
+    var delegate:SummaryDelegate?
     
     let startKey = "summaryView.start"
     let endKey = "summaryView.end"
@@ -93,9 +97,16 @@ class SummaryView: UIView {
     // 메인_Sumamry View setting
     func setLayoutType(charger: ChargerStationInfo, type: SummaryType) {
         self.charger = charger
+        initLayout(type: type)
+        if charger.cidInfoList.count <= 0 {
+            getStationDetailInfo(type: type)
+        }
+    }
+    
+    func initLayout(type: SummaryType) {
         switch type {
         case .MainSummary:
-            getStationDetailInfo()
+            layoutMainSummary()
         case .DetailSummary:
             layoutDetailSummary()
         }
@@ -193,7 +204,7 @@ class SummaryView: UIView {
         }
     }
     
-    func getStationDetailInfo() {
+    func getStationDetailInfo(type: SummaryType) {
         if self.charger != nil{
             Server.getStationDetail(chargerId:  self.charger!.mChargerId!) { (isSuccess, value) in
                 if isSuccess {
@@ -204,8 +215,13 @@ class SummaryView: UIView {
                         self.charger!.setStationInfo(jsonList: item)
                         break
                     }
-                    self.layoutMainSummary()
-                    self.layoutIfNeeded()
+                    if self.charger!.cidInfoList.count > 0 {
+                        self.initLayout(type: type)
+                        if let delegate = self.delegate {
+                            delegate.setCidInfoList()
+                            self.layoutIfNeeded()
+                        }
+                    }
                 }
             }
         }

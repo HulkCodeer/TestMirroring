@@ -152,12 +152,10 @@ class MainViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("csj_", "viewWillDisappear")
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        print("csj_", "viewDidDisappear")
     }
     
     override func didReceiveMemoryWarning() {
@@ -266,7 +264,6 @@ class MainViewController: UIViewController {
            appTc.enableRouteMode(isRoute: true)
            
            startField.text = selectCharger?.mStationInfoDto?.mSnm
-        
            routeStartPoint = selectCharger?.getTMapPoint()
        }
     }
@@ -334,23 +331,8 @@ class MainViewController: UIViewController {
         }
     }
     
-    @IBAction func onClickRouteStartPoint(_ sender: UIButton) {
-        self.setStartPoint()
-    }
-    
-    @IBAction func onClickRouteEndPoint(_ sender: UIButton) {
-        self.setEndPoint()
-    }
-    
-    @IBAction func onClickShowNavi(_ sender: Any) {
+    @objc func onClickShowNavi(_ sender: Any) {
         self.showNavigation()
-    }
-    
-    @IBAction func onClickRouteAddPoint(_ sender: UIButton) {
-        if selectCharger != nil {
-            let passList = [selectCharger?.getTMapPoint()]
-            findPath(passList: passList as! [TMapPoint])
-        }
     }
 }
 
@@ -775,6 +757,7 @@ extension MainViewController: TMapViewDelegate {
             }
             selectCharger = nil
         }
+        hideFilter()
     }
     
     func onCustomObjectClick(_ obj: TMapObject!) {
@@ -822,27 +805,10 @@ extension MainViewController: ChargerSelectDelegate {
             }
         }
     }
-}
-
-// MARK: - Callout
-extension MainViewController: DetailDelegate {
-    func onFavoriteChanged(changed: Bool) {
-        summaryView.setCallOutFavoriteIcon(favorite: changed)
-    }
-    
-    func setNavigation() {
-        self.showNavigation()
-    }
     
     func prepareCalloutLayer() {
         callOutLayer.isHidden = true
         addCalloutClickListener()
-    }
-    
-    func redrawCalloutLayer() {
-        if let charger = selectCharger {
-            showCallOut(charger: charger)
-        }
     }
     
     func addCalloutClickListener() {
@@ -853,9 +819,7 @@ extension MainViewController: DetailDelegate {
     @objc func onClickCalloutLayer(_ sender:UITapGestureRecognizer) {
         let detailStoryboard = UIStoryboard(name : "Detail", bundle: nil)
         let detailVC:DetailViewController = detailStoryboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-        detailVC.delegate = self
         detailVC.charger = self.selectCharger
-//        detailVC.detailData = self.summaryView.detailData
         detailVC.isRouteMode = self.clustering!.isRouteMode
         
         self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
@@ -915,14 +879,6 @@ extension MainViewController: DetailDelegate {
             view.isHidden = hidden
         })
     }
-
-//    // -> chargerStationInfo class로
-////    chargerStationInfo -> getChargerPower
-////    self.chargePowerLb.text = strPower
-////    stationInfoArr[strPower] = "power"
-//
-////    chargerStationInfo -> getChargeStateImg
-////    self.markerImg.clipsToBounds = true
 }
 
 // MARK: - Request To Server
@@ -1167,7 +1123,7 @@ extension MainViewController {
     
     @objc func directionNavigation(_ notification: NSNotification) {
         selectCharger = (notification.object as! ChargerStationInfo)
-        self.setNavigation()
+        self.showNavigation()
     }
     
     @objc func requestLogIn(_ notification: NSNotification) {
