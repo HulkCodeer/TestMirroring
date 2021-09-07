@@ -120,7 +120,7 @@
                                                 <color key="textColor" name="content-positive"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ogx-jH-zfV">
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ogx-jH-zfV">
                                                 <rect key="frame" x="41" y="76.5" width="357" height="128"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
@@ -230,6 +230,7 @@
                     <connections>
                         <outlet property="faqContentCallView" destination="4zL-ze-fXY" id="Y32-Ya-v6w"/>
                         <outlet property="faqContentTableView" destination="ogx-jH-zfV" id="wiR-B4-j9a"/>
+                        <outlet property="faqContentTableViewHeight" destination="ibo-Qw-pj4" id="mT1-s4-hXC"/>
                         <outlet property="faqContentTitle" destination="Q3K-zX-2pf" id="rrR-EY-Fce"/>
                     </connections>
                 </viewController>

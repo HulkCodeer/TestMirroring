@@ -42,7 +42,6 @@ class FAQViewController: UIViewController{
     func initView() {
         let faqTopList = FAQTopList()
         self.faqTopArr = faqTopList.getFAQTopArr()
-        print("csj_", "count : ", faqTopArr.count)
     }
     
     func adjustTableview() {
@@ -88,6 +87,8 @@ extension FAQViewController : UITableViewDelegate, UITableViewDataSource {
         let faqStoryboard = UIStoryboard(name : "FAQ", bundle: nil)
         let faqContentVC = faqStoryboard.instantiateViewController(withIdentifier: "FAQContentViewController") as! FAQContentViewController
         faqContentVC.faqTitle = faqTopArr[indexPath.row].getFAQTitle()
+        faqContentVC.contentArr = faqTopArr[indexPath.row].getFAQContentArr()
+        print("csj_", "FAQContentArr.count : ", faqTopArr[indexPath.row].getFAQContentArr().count)
         self.navigationController?.push(viewController: faqContentVC)
 //        self.performSegue(withIdentifier: "FAQContentController", sender: nil)
     }

@@ -263,10 +263,10 @@ public class FAQTopList {
     }
     
     func setContentData(faqContent:FAQContent?, contentArr:[FAQContent]?, content:String?, imgName:String?) {
-        var faqContnetArr = contentArr!
+        var faqContentArr:[FAQContent] = contentArr!
         faqContent!.setComment(comment: content ?? "")
         faqContent!.setImgName(imgName: imgName ?? "")
-        faqContnetArr.append(faqContent!)
+        faqContentArr.append(faqContent!)
     }
     
     func setData(faqTop:FAQTop, title:String, faqContentArr:[FAQContent], priority:Int) {

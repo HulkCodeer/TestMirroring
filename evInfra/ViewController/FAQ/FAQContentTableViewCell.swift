@@ -9,7 +9,9 @@
 import UIKit
 
 class FAQContentTableViewCell: UITableViewCell {
-
+    @IBOutlet var faqContentLb: UILabel!
+    @IBOutlet var faqContentIv: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
