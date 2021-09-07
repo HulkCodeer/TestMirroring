@@ -83,7 +83,7 @@ class FilterSpeedView: UIView {
     func updateSpeedLabel() {
         var title = ""
         if (minSpeed == 0 && maxSpeed == 350) {
-            title = "속도"
+            title = "완속 ~ 350kW"
         } else if (minSpeed == maxSpeed){
             if (minSpeed == 0) {
                 title = "완속~완속"

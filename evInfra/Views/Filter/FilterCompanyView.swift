@@ -52,39 +52,44 @@ class FilterCompanyView: UIView {
         let wholeList = companyList.sorted { $0.name!.lowercased() < $1.name!.lowercased() }
 
         for company in wholeList {
-            if let iconName = company.icon_name {
-                if let icon = ImageMarker.companyImg(company: iconName){
-                    if company.name! >= GROUP_TITLE[titleIndex] {
-                        let currentIndex = titleIndex
-                        for index in (currentIndex+1)..<GROUP_TITLE.count {
-                            if company.name! >= GROUP_TITLE[index] {
-                                titleIndex += 1
-                            } else {
-                                break
-                            }
-                        }
-                        if !tagList.isEmpty {
-                            groupList.append(CompanyGroup(title: GROUP_TITLE[titleIndex-1], list: tagList))
-                            tagList = Array<TagValue>()
-                        }
+            if company.name! >= GROUP_TITLE[titleIndex] {
+                let currentIndex = titleIndex
+                for index in (currentIndex+1)..<GROUP_TITLE.count {
+                    if company.name! >= GROUP_TITLE[index] {
                         titleIndex += 1
-                    }
-                    
-                    var selected = company.is_visible
-                    if cardSetting {
-                        selected = company.card_setting ?? false // infra card
-                    }
-                    let tag = TagValue(title:company.name!, img:icon, selected: selected)
-                    tagList.append(tag)
-                    if company.recommend ?? false {
-                        recommendList.append(tag)
-                    }
-
-                    if !selected {
-                        allSelect = false
+                    } else {
+                        break
                     }
                 }
+                if !tagList.isEmpty {
+                    groupList.append(CompanyGroup(title: GROUP_TITLE[titleIndex-1], list: tagList))
+                    tagList = Array<TagValue>()
+                }
+                titleIndex += 1
             }
+            
+            var selected = company.is_visible
+            if cardSetting {
+                selected = company.card_setting ?? false // infra card
+            }
+            
+            let icon : UIImage?
+            if company.icon_name != nil {
+                icon = ImageMarker.companyImg(company: company.icon_name!)
+            } else {
+                icon = UIImage(named: "icon_building_sm")
+            }
+            
+            let tag = TagValue(title:company.name!, img:icon!, selected: selected)
+            tagList.append(tag)
+            if company.recommend ?? false {
+                recommendList.append(tag)
+            }
+
+            if !selected {
+                allSelect = false
+            }
+            
         }
         switchAll.isOn = allSelect
         

@@ -57,7 +57,7 @@
                                 <constraint firstItem="5kh-Ij-5PQ" firstAttribute="centerY" secondItem="0D6-Os-pFX" secondAttribute="centerY" id="o4j-J6-v4i"/>
                             </constraints>
                         </view>
-                        <scrollView clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QUE-Aw-hth">
+                        <scrollView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUE-Aw-hth">
                             <rect key="frame" x="82" y="0.0" width="332" height="40"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DnO-As-aiA">
