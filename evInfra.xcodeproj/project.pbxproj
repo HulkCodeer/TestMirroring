@@ -74,9 +74,7 @@
 		424ED9D126E5E02C004EA8F9 /* FAQTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424ED9D026E5E02C004EA8F9 /* FAQTop.swift */; };
 		424ED9D326E5E065004EA8F9 /* FAQTopList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424ED9D226E5E065004EA8F9 /* FAQTopList.swift */; };
 		424ED9D526E5E08F004EA8F9 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424ED9D426E5E08F004EA8F9 /* FAQViewController.swift */; };
-		424ED9D726E5E0A6004EA8F9 /* FAQAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424ED9D626E5E0A6004EA8F9 /* FAQAdapter.swift */; };
 		424ED9D926E5E0B0004EA8F9 /* FAQContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424ED9D826E5E0B0004EA8F9 /* FAQContent.swift */; };
-		424ED9DB26E5E0C1004EA8F9 /* FAQContentAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424ED9DA26E5E0C1004EA8F9 /* FAQContentAdapter.swift */; };
 		424ED9DD26E5E443004EA8F9 /* FAQContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424ED9DC26E5E443004EA8F9 /* FAQContentViewController.swift */; };
 		424ED9DF26E5E45B004EA8F9 /* FAQ.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 424ED9DE26E5E45B004EA8F9 /* FAQ.storyboard */; };
 		42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42541587257E045600A2A7B9 /* UtilNavigation.swift */; };
@@ -92,6 +90,10 @@
 		4273DB4826E20F0A00B4B60A /* ReportAdditionalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273DB4726E20F0A00B4B60A /* ReportAdditionalView.swift */; };
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
 		4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */; };
+		42C7A78226E6E980000AA802 /* FAQTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7A78026E6E980000AA802 /* FAQTableViewCell.swift */; };
+		42C7A78326E6E980000AA802 /* FAQTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C7A78126E6E980000AA802 /* FAQTableViewCell.xib */; };
+		42C7A78626E6EEF9000AA802 /* FAQContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7A78426E6EEF9000AA802 /* FAQContentTableViewCell.swift */; };
+		42C7A78726E6EEF9000AA802 /* FAQContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C7A78526E6EEF9000AA802 /* FAQContentTableViewCell.xib */; };
 		42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */; };
 		42CEB75126C1110D00E37AE4 /* CidInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */; };
 		42F9BCE126C64C250028B3D1 /* SummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42F9BCDF26C64C250028B3D1 /* SummaryView.xib */; };
@@ -429,9 +431,7 @@
 		424ED9D026E5E02C004EA8F9 /* FAQTop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQTop.swift; sourceTree = "<group>"; };
 		424ED9D226E5E065004EA8F9 /* FAQTopList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQTopList.swift; sourceTree = "<group>"; };
 		424ED9D426E5E08F004EA8F9 /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
-		424ED9D626E5E0A6004EA8F9 /* FAQAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQAdapter.swift; sourceTree = "<group>"; };
 		424ED9D826E5E0B0004EA8F9 /* FAQContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQContent.swift; sourceTree = "<group>"; };
-		424ED9DA26E5E0C1004EA8F9 /* FAQContentAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQContentAdapter.swift; sourceTree = "<group>"; };
 		424ED9DC26E5E443004EA8F9 /* FAQContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQContentViewController.swift; sourceTree = "<group>"; };
 		424ED9DE26E5E45B004EA8F9 /* FAQ.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FAQ.storyboard; sourceTree = "<group>"; };
 		42541587257E045600A2A7B9 /* UtilNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilNavigation.swift; sourceTree = "<group>"; };
@@ -448,6 +448,10 @@
 		4273DB4726E20F0A00B4B60A /* ReportAdditionalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAdditionalView.swift; sourceTree = "<group>"; };
 		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
 		4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponCodeViewController.swift; sourceTree = "<group>"; };
+		42C7A78026E6E980000AA802 /* FAQTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQTableViewCell.swift; sourceTree = "<group>"; };
+		42C7A78126E6E980000AA802 /* FAQTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FAQTableViewCell.xib; sourceTree = "<group>"; };
+		42C7A78426E6EEF9000AA802 /* FAQContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQContentTableViewCell.swift; sourceTree = "<group>"; };
+		42C7A78526E6EEF9000AA802 /* FAQContentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FAQContentTableViewCell.xib; sourceTree = "<group>"; };
 		42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CidInfoTableViewCell.swift; sourceTree = "<group>"; };
 		42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CidInfoTableViewCell.xib; sourceTree = "<group>"; };
 		42F9BCDF26C64C250028B3D1 /* SummaryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SummaryView.xib; sourceTree = "<group>"; };
@@ -943,10 +947,10 @@
 		00B2E8C926C10895005D017C /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				425B055A26B7847B00B597A2 /* Detail.storyboard */,
 				73008458213687150001DBFA /* DetailViewController.swift */,
-				42F9BCDF26C64C250028B3D1 /* SummaryView.xib */,
 				42F9BCE226C651340028B3D1 /* SummaryView.swift */,
+				42F9BCDF26C64C250028B3D1 /* SummaryView.xib */,
+				425B055A26B7847B00B597A2 /* Detail.storyboard */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -954,13 +958,15 @@
 		424ED9CF26E5E00F004EA8F9 /* FAQ */ = {
 			isa = PBXGroup;
 			children = (
-				424ED9D026E5E02C004EA8F9 /* FAQTop.swift */,
-				424ED9D226E5E065004EA8F9 /* FAQTopList.swift */,
 				424ED9D426E5E08F004EA8F9 /* FAQViewController.swift */,
-				424ED9D626E5E0A6004EA8F9 /* FAQAdapter.swift */,
-				424ED9D826E5E0B0004EA8F9 /* FAQContent.swift */,
-				424ED9DA26E5E0C1004EA8F9 /* FAQContentAdapter.swift */,
 				424ED9DC26E5E443004EA8F9 /* FAQContentViewController.swift */,
+				424ED9D226E5E065004EA8F9 /* FAQTopList.swift */,
+				424ED9D026E5E02C004EA8F9 /* FAQTop.swift */,
+				424ED9D826E5E0B0004EA8F9 /* FAQContent.swift */,
+				42C7A78026E6E980000AA802 /* FAQTableViewCell.swift */,
+				42C7A78426E6EEF9000AA802 /* FAQContentTableViewCell.swift */,
+				42C7A78126E6E980000AA802 /* FAQTableViewCell.xib */,
+				42C7A78526E6EEF9000AA802 /* FAQContentTableViewCell.xib */,
 				424ED9DE26E5E45B004EA8F9 /* FAQ.storyboard */,
 			);
 			path = FAQ;
@@ -1685,6 +1691,7 @@
 				73C31C0D20A4408C005B6C53 /* GoogleService-Info.plist in Resources */,
 				42F9BCE126C64C250028B3D1 /* SummaryView.xib in Resources */,
 				DB18733820AAEC8400790B77 /* navi_kakao.png in Resources */,
+				42C7A78726E6EEF9000AA802 /* FAQContentTableViewCell.xib in Resources */,
 				73A7B417204E3595002E975F /* navi_bg.jpg in Resources */,
 				00A7D5C826B7B0D100C5DBCC /* Filter.storyboard in Resources */,
 				732ED1CB21ED8ABB0012C67B /* DropDownCheckBoxCell.xib in Resources */,
@@ -1709,6 +1716,7 @@
 				424ED9DF26E5E45B004EA8F9 /* FAQ.storyboard in Resources */,
 				00FDEAF226B3BF97006617EE /* Board.storyboard in Resources */,
 				73EF8B7A203C85CC00D04494 /* TrackingDotHalo@2x.png in Resources */,
+				42C7A78326E6E980000AA802 /* FAQTableViewCell.xib in Resources */,
 				00A6A16A26C3C44E0023DAE3 /* FilterBarView.xib in Resources */,
 				73EF8B72203C85CC00D04494 /* icon_clustering@2x.png in Resources */,
 				73C31C0620A2BB04005B6C53 /* charger_ac3.jpg in Resources */,
@@ -1895,7 +1903,6 @@
 				4273DB4826E20F0A00B4B60A /* ReportAdditionalView.swift in Sources */,
 				0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
-				424ED9D726E5E0A6004EA8F9 /* FAQAdapter.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
 				00A3659126C4E36200424E40 /* FilterRoadView.swift in Sources */,
 				73C6A0FD2345F1B600349A86 /* MyPayinfoViewController.swift in Sources */,
@@ -2016,6 +2023,7 @@
 				732121BD203AC023000E105C /* AppDelegate.swift in Sources */,
 				73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */,
 				7376B5C520C6473500A2B7C1 /* MyArticleViewController.swift in Sources */,
+				42C7A78626E6EEF9000AA802 /* FAQContentTableViewCell.swift in Sources */,
 				00C75C46252ED4A000387559 /* LotteRentCertificateViewController.swift in Sources */,
 				73268D4C2188331700C00427 /* SettingsViewController.swift in Sources */,
 				DBEE9AFC211842ED00770D04 /* SignUpViewController.swift in Sources */,
@@ -2050,7 +2058,6 @@
 				424ED9DD26E5E443004EA8F9 /* FAQContentViewController.swift in Sources */,
 				4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */,
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
-				424ED9DB26E5E0C1004EA8F9 /* FAQContentAdapter.swift in Sources */,
 				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,
 				0012443C25A2E2EF00376CDC /* IntroImageChecker.swift in Sources */,
 				902A11D5248F53D80049EF8E /* StationInfoDto.swift in Sources */,
@@ -2060,6 +2067,7 @@
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,
+				42C7A78226E6E980000AA802 /* FAQTableViewCell.swift in Sources */,
 				CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */,
 				DB5041AE23506A14007336BC /* PointTableViewCell.swift in Sources */,
 				73D65D802362D52E00F564A2 /* MembershipTermView.swift in Sources */,

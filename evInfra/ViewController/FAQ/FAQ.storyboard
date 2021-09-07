@@ -13,7 +13,7 @@
         <!--자주묻는질문-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController title="자주묻는질문" id="Y6W-OH-hqX" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FAQViewController" title="자주묻는질문" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="FAQViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -30,14 +30,14 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Dgt-FC-WgV">
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Dgt-FC-WgV" userLabel="faqTopTable">
                                                 <rect key="frame" x="16" y="51.5" width="382" height="520"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="520" id="jqf-jB-sFJ"/>
                                                 </constraints>
                                             </tableView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="추가 궁금사항은 02-6925-4257 로 전화주시면 자세하게 답변 드리겠습니다." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTG-r8-QIf">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="추가 궁금하신 사항은 고객센터(070-8633-9009)로 전화주시면 자세하게 답변 드리겠습니다." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTG-r8-QIf">
                                                 <rect key="frame" x="16" y="579.5" width="382" height="41"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -79,6 +79,9 @@
                             <constraint firstItem="Mgc-uQ-gwK" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="o8b-sy-rsq"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="faqTopTableView" destination="Dgt-FC-WgV" id="cjF-PE-RcJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -87,7 +90,7 @@
         <!--질문 상세-->
         <scene sceneID="VCa-6V-0TW">
             <objects>
-                <viewController title="질문 상세" id="2Ig-xy-38R" sceneMemberID="viewController">
+                <viewController title="질문 상세" id="2Ig-xy-38R" customClass="FAQContentViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aTM-9p-cUm">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -129,7 +132,7 @@
                                                 <color key="textColor" name="content-primary"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="추가 궁금사항은 고객센터 번호 000-0000-0000로 전화 주시면 자세하게 답변 드리겠습니다." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDS-it-AHt">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="추가 궁금하신 사항은 고객센터(070-8633-9009) 로 전화 주시면 자세하게 답변 드리겠습니다." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDS-it-AHt">
                                                 <rect key="frame" x="16" y="264.5" width="382" height="41"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" name="content-tertiary"/>
@@ -223,6 +226,11 @@
                             <constraint firstItem="s9W-io-sZd" firstAttribute="bottom" secondItem="egP-64-WAH" secondAttribute="bottom" id="y6t-To-Lds"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="faqContentCallView" destination="4zL-ze-fXY" id="Y32-Ya-v6w"/>
+                        <outlet property="faqContentTableView" destination="ogx-jH-zfV" id="wiR-B4-j9a"/>
+                        <outlet property="faqContentTitle" destination="Q3K-zX-2pf" id="rrR-EY-Fce"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nPR-hS-LZb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
