@@ -91,12 +91,6 @@ class MainViewController: UIViewController {
     private var resultTableView: PoiTableView?
     
     private var selectCharger: ChargerStationInfo? = nil
-    private var stationInfoArr = [String:String]()
-    
-    private var filterWayIdArray = Array<Int>()
-    private var filterPayIdArray = Array<Int>()
-
-    private let regionList = Regions.init()
     
     static var currentLocation: TMapPoint? = nil
     var sharedChargerId: String? = nil

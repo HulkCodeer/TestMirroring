@@ -102,7 +102,7 @@ class ClusterManager {
                 }
             }
         }
-        self.clusterFilter = filter
+        self.clusterFilter = filter.copy()
         isNeedChangeText = true
     }
     
@@ -128,7 +128,6 @@ class ClusterManager {
                 }
                 self.calClustering(filter: filter)
             }
-            
             DispatchQueue.main.async {
                 var clusterLv = ClusterManager.CLUSTER_LEVEL_0
                 if self.isNeedChangeText {
@@ -215,7 +214,7 @@ class ClusterManager {
                         }
                     }
                 }
-                self.clusterFilter = filter
+                
                 self.currentClusterLv = clusterLv
             }
         }
