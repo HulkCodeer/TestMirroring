@@ -15,7 +15,15 @@ class FAQContentViewController: UIViewController {
     @IBOutlet var faqContentTableView: UITableView!
     @IBOutlet var faqContentCallView: UIView!
     
+    var faqTitle:String!
+    var contentArr:[FAQContent] = [FAQContent]()
+    
     override func viewDidLoad() {
+        initView()
+    }
+    
+    func initView() {
+        faqContentTitle.text = faqTitle
         
     }
 }

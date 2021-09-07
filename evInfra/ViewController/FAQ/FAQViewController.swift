@@ -12,6 +12,7 @@ import Foundation
 class FAQViewController: UIViewController{
     
     @IBOutlet var faqTopTableView: UITableView!
+    @IBOutlet var tableviewHeight: NSLayoutConstraint!
     
     var faqTopArr:[FAQTop] = [FAQTop]()
     
@@ -43,6 +44,13 @@ class FAQViewController: UIViewController{
         self.faqTopArr = faqTopList.getFAQTopArr()
         print("csj_", "count : ", faqTopArr.count)
     }
+    
+    func adjustTableview() {
+        if self.faqTopTableView.contentSize.height > 0.0 {
+            self.tableviewHeight.constant = self.faqTopTableView.contentSize.height
+            faqTopTableView.layoutIfNeeded()
+        }
+    }
 }
 
 extension FAQViewController : UITableViewDelegate, UITableViewDataSource {
@@ -59,7 +67,6 @@ extension FAQViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("csj_", "cell")
         let cell = Bundle.main.loadNibNamed("FAQTableViewCell", owner: self, options: nil)?.first as! FAQTableViewCell
         
         cell.faqNumLb.text = String(faqTopArr[indexPath.row].getFAQPriority() + 1)
@@ -70,5 +77,18 @@ extension FAQViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 62
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.faqTopTableView.deselectRow(at: indexPath, animated: true)
+        let faqStoryboard = UIStoryboard(name : "FAQ", bundle: nil)
+        let faqContentVC = faqStoryboard.instantiateViewController(withIdentifier: "FAQContentViewController") as! FAQContentViewController
+        faqContentVC.faqTitle = faqTopArr[indexPath.row].getFAQTitle()
+        self.navigationController?.push(viewController: faqContentVC)
+//        self.performSegue(withIdentifier: "FAQContentController", sender: nil)
     }
 }
