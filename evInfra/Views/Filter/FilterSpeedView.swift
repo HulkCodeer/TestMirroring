@@ -73,6 +73,13 @@ class FilterSpeedView: UIView {
         return changed
     }
     
+    @IBAction func onTouchUpSlider(_ sender: Any) {
+        if (saveOnChange) {
+           applyFilter()
+        }
+        delegate?.onChangedFilter(type: .speed)
+    }
+    
     func update() {
         minSpeed = FilterManager.sharedInstance.filter.minSpeed
         maxSpeed = FilterManager.sharedInstance.filter.maxSpeed
@@ -107,11 +114,8 @@ extension FilterSpeedView: RangeSeekSliderDelegate {
     func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
         self.minSpeed = Int(minValue)
         self.maxSpeed = Int(maxValue)
+        
         updateSpeedLabel()
-        if (saveOnChange) {
-           applyFilter()
-        }
-        delegate?.onChangedFilter()
     }
 
     func didStartTouches(in slider: RangeSeekSlider) {

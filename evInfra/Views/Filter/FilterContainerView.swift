@@ -8,7 +8,7 @@
 
 import Foundation
 protocol DelegateFilterContainerView {
-    func changedFilter()
+    func changedFilter(type: FilterType)
 }
 class FilterContainerView: UIView {
     
@@ -86,7 +86,7 @@ class FilterContainerView: UIView {
 }
 
 extension FilterContainerView: DelegateFilterChange{
-    func onChangedFilter() {
-        delegate?.changedFilter()
+    func onChangedFilter(type: FilterType) {
+        delegate?.changedFilter(type: type)
     }
 }

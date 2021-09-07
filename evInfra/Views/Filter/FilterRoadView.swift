@@ -63,7 +63,7 @@ class FilterRoadView: UIView {
         if (saveOnChange) {
             applyFilter()
         }
-        delegate?.onChangedFilter()
+        delegate?.onChangedFilter(type: .road)
     }
     
     @objc func onClickHighTop(_ sender:UITapGestureRecognizer){
@@ -72,7 +72,7 @@ class FilterRoadView: UIView {
         if (saveOnChange) {
             applyFilter()
         }
-        delegate?.onChangedFilter()
+        delegate?.onChangedFilter(type: .road)
     }
     
     @objc func onClickHighDown(_ sender:UITapGestureRecognizer){
@@ -81,7 +81,7 @@ class FilterRoadView: UIView {
         if (saveOnChange) {
             applyFilter()
         }
-        delegate?.onChangedFilter()
+        delegate?.onChangedFilter(type: .road)
     }
     
     func selectItem(index: Int){

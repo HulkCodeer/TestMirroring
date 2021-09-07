@@ -114,6 +114,7 @@ class FilterCompanyView: UIView {
     }
     
     func updateTable() {
+        updateSwitch()
         companyTableView.groupList = groupList
         companyTableView.reloadData()
         companyTableView.layoutIfNeeded()

@@ -18,11 +18,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uy3-p1-R2e">
+                                <rect key="frame" x="0.0" y="591" width="375" height="76"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zA4-R8-C2u">
+                                        <rect key="frame" x="16" y="16" width="343" height="44"/>
+                                        <color key="backgroundColor" name="content-positive"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="OYI-wx-hnh"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <state key="normal" title="필터 설정 저장하기">
+                                            <color key="titleColor" name="content-primary"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onClickApplyBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="S8w-nR-643"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="zA4-R8-C2u" secondAttribute="bottom" constant="16" id="Lzr-iN-vKJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="zA4-R8-C2u" secondAttribute="trailing" constant="16" id="WsK-X0-tVt"/>
+                                    <constraint firstItem="zA4-R8-C2u" firstAttribute="leading" secondItem="uy3-p1-R2e" secondAttribute="leading" constant="16" id="x7k-ZR-7HP"/>
+                                    <constraint firstItem="zA4-R8-C2u" firstAttribute="top" secondItem="uy3-p1-R2e" secondAttribute="top" constant="16" id="yZH-JC-QaH"/>
+                                </constraints>
+                            </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HH4-VZ-b9v">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="591"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="P5J-DZ-D3A">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1396"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1312"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1v-sy-gt6" customClass="FilterAccessView" customModule="evInfra" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="128"/>
@@ -73,32 +99,6 @@
                                                     <constraint firstAttribute="height" constant="500" id="ZW8-g0-dSl"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uy3-p1-R2e">
-                                                <rect key="frame" x="0.0" y="1328" width="375" height="68"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zA4-R8-C2u">
-                                                        <rect key="frame" x="16" y="24" width="343" height="44"/>
-                                                        <color key="backgroundColor" name="content-positive"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="44" id="OYI-wx-hnh"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                        <state key="normal" title="필터 설정 저장하기">
-                                                            <color key="titleColor" name="content-primary"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="onClickApplyBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="S8w-nR-643"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="bottom" secondItem="zA4-R8-C2u" secondAttribute="bottom" id="Lzr-iN-vKJ"/>
-                                                    <constraint firstAttribute="trailing" secondItem="zA4-R8-C2u" secondAttribute="trailing" constant="16" id="WsK-X0-tVt"/>
-                                                    <constraint firstItem="zA4-R8-C2u" firstAttribute="leading" secondItem="uy3-p1-R2e" secondAttribute="leading" constant="16" id="x7k-ZR-7HP"/>
-                                                    <constraint firstItem="zA4-R8-C2u" firstAttribute="top" secondItem="uy3-p1-R2e" secondAttribute="top" constant="24" id="yZH-JC-QaH"/>
-                                                </constraints>
-                                            </view>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -114,9 +114,12 @@
                         <viewLayoutGuide key="safeArea" id="as9-R3-qcp"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="as9-R3-qcp" firstAttribute="bottom" secondItem="HH4-VZ-b9v" secondAttribute="bottom" id="5Sd-lk-lSt"/>
                             <constraint firstItem="as9-R3-qcp" firstAttribute="trailing" secondItem="HH4-VZ-b9v" secondAttribute="trailing" id="5ZF-p1-0Km"/>
                             <constraint firstItem="HH4-VZ-b9v" firstAttribute="leading" secondItem="as9-R3-qcp" secondAttribute="leading" id="BZa-27-mFi"/>
+                            <constraint firstItem="as9-R3-qcp" firstAttribute="trailing" secondItem="uy3-p1-R2e" secondAttribute="trailing" id="DXt-if-4Kr"/>
+                            <constraint firstItem="uy3-p1-R2e" firstAttribute="leading" secondItem="as9-R3-qcp" secondAttribute="leading" id="IIv-fJ-ZmB"/>
+                            <constraint firstItem="uy3-p1-R2e" firstAttribute="top" secondItem="HH4-VZ-b9v" secondAttribute="bottom" id="RNO-xR-3iM"/>
+                            <constraint firstItem="as9-R3-qcp" firstAttribute="bottom" secondItem="uy3-p1-R2e" secondAttribute="bottom" id="fuv-56-ZmK"/>
                             <constraint firstItem="HH4-VZ-b9v" firstAttribute="width" secondItem="as9-R3-qcp" secondAttribute="width" id="q2d-eI-u1J"/>
                             <constraint firstItem="HH4-VZ-b9v" firstAttribute="top" secondItem="as9-R3-qcp" secondAttribute="top" id="tua-oA-JvF"/>
                         </constraints>

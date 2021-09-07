@@ -59,7 +59,7 @@ class FilterPriceView: UIView {
         if (saveOnChange) {
             applyFilter()
         }
-        delegate?.onChangedFilter()
+        delegate?.onChangedFilter(type: .price)
     }
     
     @objc func onClickCheckFree(_ sender: Any) {
@@ -68,7 +68,7 @@ class FilterPriceView: UIView {
         if (saveOnChange) {
             applyFilter()
         }
-        delegate?.onChangedFilter()
+        delegate?.onChangedFilter(type: .price)
     }
     
     func resetFilter() {

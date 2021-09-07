@@ -332,18 +332,18 @@ class MainViewController: UIViewController {
 
 extension MainViewController: DelegateChargerFilterView {
     func onApplyFilter() {
-        // refresh marker
-        self.drawTMapMarker()
         filterContainerView.updateFilters()
         filterBarView.updateTitle()
+        // refresh marker
+        self.drawTMapMarker()
     }
 }
 
 extension MainViewController: DelegateFilterContainerView {
-    func changedFilter() {
+    func changedFilter(type: FilterType) {
+        filterBarView.updateTitleByType(type: type)
         // refresh marker
         self.drawTMapMarker()
-        filterBarView.updateTitle()
     }
 }
 

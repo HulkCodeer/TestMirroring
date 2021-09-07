@@ -178,6 +178,6 @@ extension FilterTypeView : DelegateTagListViewCell{
         if (saveOnChange) {
             FilterManager.sharedInstance.saveTypeFilter(index: tagList[index].index, val: value)
         }
-        self.delegate?.onChangedFilter()
+        self.delegate?.onChangedFilter(type: .type)
     }
 }

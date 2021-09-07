@@ -98,6 +98,28 @@ class FilterBarView: UIView {
         btnType.setTitle(FilterManager.sharedInstance.getTypeTitle(), for: .normal)
     }
     
+    func updateTitleByType(type: FilterType) {
+        switch type {
+        case .price :
+            btnPrice.setTitle(FilterManager.sharedInstance.getPriceTitle(), for: .normal)
+            break
+        case .speed :
+            btnSpeed.setTitle(FilterManager.sharedInstance.getSpeedTitle(), for: .normal)
+            break
+        case .place :
+            btnPlace.setTitle(FilterManager.sharedInstance.getPlaceTitle(), for: .normal)
+            break
+        case .road :
+            btnRoad.setTitle(FilterManager.sharedInstance.getRoadTitle(), for: .normal)
+            break
+        case .type :
+            btnType.setTitle(FilterManager.sharedInstance.getTypeTitle(), for: .normal)
+            break
+        default :
+            break
+        }
+    }
+    
     func setBtnClicked(btn: UIButton, clicked: Bool){
         if(!clicked){
             btn.layer.borderWidth = 1

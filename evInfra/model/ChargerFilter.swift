@@ -9,7 +9,7 @@
 import Foundation
 
 protocol DelegateFilterChange {
-    func onChangedFilter()
+    func onChangedFilter(type: FilterType)
 }
 
 class ChargerFilter {

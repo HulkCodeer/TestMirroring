@@ -71,6 +71,9 @@
                                     <color key="value" name="content-positive"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="onTouchUpSlider:" destination="-1" eventType="touchUpInside" id="iUW-Pk-hbl"/>
+                            </connections>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0~350kW" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mu1-B2-QMG">
                             <rect key="frame" x="334" y="11.5" width="64" height="17"/>

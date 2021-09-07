@@ -67,7 +67,7 @@ class FilterPlaceView: UIView {
         if (saveOnChange) {
             applyFilter()
         }
-        delegate?.onChangedFilter()
+        delegate?.onChangedFilter(type: .place)
     }
     
     @objc func onClickOutdoor(_ sender:UITapGestureRecognizer){
@@ -76,7 +76,7 @@ class FilterPlaceView: UIView {
         if (saveOnChange) {
             applyFilter()
         }
-        delegate?.onChangedFilter()
+        delegate?.onChangedFilter(type: .place)
     }
     
     @objc func onClickCanopy(_ sender:UITapGestureRecognizer){
@@ -85,7 +85,7 @@ class FilterPlaceView: UIView {
         if (saveOnChange) {
             applyFilter()
         }
-        delegate?.onChangedFilter()
+        delegate?.onChangedFilter(type: .place)
     }
     
     func selectItem(index: Int){
