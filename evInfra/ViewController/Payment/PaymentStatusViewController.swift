@@ -461,11 +461,9 @@ extension PaymentStatusViewController {
                             let speed = chargingKw / sec * 3600
                             self.lbChargeSpeed.text = "\((speed * 100).rounded() / 100) Kw"
                         }
-                    } else {
-                        self.lbChargeSpeed.text = "0 Kw"
                     }
-                    preChargingKw = chargingStatus.chargingKw ?? ""
-                    preUpdateTime = chargingStatus.updateTime ?? ""
+                    preChargingKw = chargingStatus.chargingKw ?? preChargingKw
+                    preUpdateTime = chargingStatus.updateTime ?? preUpdateTime
                 }
             }
         }
