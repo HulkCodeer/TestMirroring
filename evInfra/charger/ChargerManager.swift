@@ -32,11 +32,12 @@ class ChargerManager {
             }
             mDb = DataBaseHelper.sharedInstance
         } else if DataBaseHelper.isNeedImport() { // exist & version update DB
-            mDb = DataBaseHelper.sharedInstance
-            let backUpCompanyList = getCompanyInfoListAll()!
+            let db = DataBaseHelper()
+            var backUpCompanyList = [CompanyInfoDto]()
+            backUpCompanyList = try! db.getCompanyInfoList()!
             if DataBaseHelper.importDatabase() {
                 Log.d(tag: Const.TAG, msg: "im success")
-                mDb = DataBaseHelper.init() // recreate db instance
+                mDb = DataBaseHelper.sharedInstance // recreate db instance
                 for company in backUpCompanyList {
                     if let compId = company.company_id {
                         if let companyInfo = try! mDb!.getCompanyInfo(company_id: compId) {
@@ -46,6 +47,7 @@ class ChargerManager {
                     }
                 }
             } else {
+                mDb = DataBaseHelper.sharedInstance
                 Log.d(tag: Const.TAG, msg: "im fail")
             }
         } else { // not import DB

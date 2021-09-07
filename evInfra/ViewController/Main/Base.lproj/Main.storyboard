@@ -527,7 +527,6 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kU-vs-cgu">
                                         <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="70" id="eQa-bG-TFd"/>
                                             <constraint firstAttribute="height" constant="70" id="tsP-ga-PrU"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="10"/>
@@ -549,7 +548,6 @@
                                         <rect key="frame" x="0.0" y="70" width="70" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="5Yg-YR-Us0"/>
-                                            <constraint firstAttribute="width" constant="70" id="Wts-Yc-Yke"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="10"/>
                                         <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
@@ -570,7 +568,6 @@
                                         <rect key="frame" x="0.0" y="140" width="70" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="BPa-xC-xdD"/>
-                                            <constraint firstAttribute="width" constant="70" id="uU0-jf-kVq"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="10"/>
                                         <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
@@ -590,7 +587,6 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="enQ-s8-Z8p">
                                         <rect key="frame" x="0.0" y="210" width="70" height="70"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="70" id="d2D-Ek-a18"/>
                                             <constraint firstAttribute="height" constant="70" id="dbc-Sf-nx1"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="10"/>
@@ -612,7 +608,6 @@
                                         <rect key="frame" x="0.0" y="280" width="70" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="1IY-fJ-IPh"/>
-                                            <constraint firstAttribute="width" constant="70" id="EvP-07-Zbt"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="10"/>
                                         <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
@@ -637,12 +632,16 @@
                                     <constraint firstItem="yLE-sk-Lp8" firstAttribute="leading" secondItem="lfh-Bp-avO" secondAttribute="leading" id="7mi-xI-Okx"/>
                                     <constraint firstItem="enQ-s8-Z8p" firstAttribute="top" secondItem="yLE-sk-Lp8" secondAttribute="bottom" id="BS8-QB-V8L"/>
                                     <constraint firstItem="7kU-vs-cgu" firstAttribute="leading" secondItem="lfh-Bp-avO" secondAttribute="leading" id="FXw-Wi-4yQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="7kU-vs-cgu" secondAttribute="trailing" id="IrV-66-h9j"/>
+                                    <constraint firstAttribute="trailing" secondItem="enQ-s8-Z8p" secondAttribute="trailing" id="Jh3-lB-i3V"/>
                                     <constraint firstItem="3c0-jt-d4I" firstAttribute="leading" secondItem="lfh-Bp-avO" secondAttribute="leading" id="XMR-sR-U0b"/>
                                     <constraint firstItem="hrw-SH-9sV" firstAttribute="leading" secondItem="lfh-Bp-avO" secondAttribute="leading" id="ZmH-aC-YBO"/>
+                                    <constraint firstAttribute="trailing" secondItem="hrw-SH-9sV" secondAttribute="trailing" id="fR0-lW-bg8"/>
                                     <constraint firstAttribute="width" constant="70" id="hsj-hB-4rB"/>
                                     <constraint firstItem="3c0-jt-d4I" firstAttribute="top" secondItem="enQ-s8-Z8p" secondAttribute="bottom" id="iEe-Ki-1zR"/>
                                     <constraint firstItem="hrw-SH-9sV" firstAttribute="top" secondItem="7kU-vs-cgu" secondAttribute="bottom" id="lna-2A-xIP"/>
                                     <constraint firstItem="yLE-sk-Lp8" firstAttribute="top" secondItem="hrw-SH-9sV" secondAttribute="bottom" id="mx2-eL-Nlx"/>
+                                    <constraint firstAttribute="trailing" secondItem="yLE-sk-Lp8" secondAttribute="trailing" id="sUN-9U-kcA"/>
                                     <constraint firstAttribute="trailing" secondItem="3c0-jt-d4I" secondAttribute="trailing" id="y1l-n5-ID3"/>
                                 </constraints>
                             </view>
