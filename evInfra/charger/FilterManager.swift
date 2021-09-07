@@ -21,7 +21,7 @@ class FilterManager {
         defaults.registerBool(key: UserDefault.Key.FILTER_FREE, val: true)
         defaults.registerBool(key: UserDefault.Key.FILTER_PAID, val: true)
         defaults.registerBool(key: UserDefault.Key.FILTER_PUBLIC, val: true)
-        defaults.registerBool(key: UserDefault.Key.FILTER_NONPUBLIC, val: false)
+        defaults.registerBool(key: UserDefault.Key.FILTER_NONPUBLIC, val: true)
         defaults.registerInt(key: UserDefault.Key.FILTER_MIN_SPEED, val: 0)
         defaults.registerInt(key: UserDefault.Key.FILTER_MAX_SPEED, val: 350)
         defaults.registerBool(key: UserDefault.Key.FILTER_INDOOR, val: true)

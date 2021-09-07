@@ -410,8 +410,11 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ckE-Av-1h3" customClass="FLAnimatedImageView">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fh4-ME-QqC">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro_bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="fh4-ME-QqC">
+                                <rect key="frame" x="0.0" y="-123" width="375" height="833"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="fh4-ME-QqC" secondAttribute="height" multiplier="9:20" id="uqB-ZW-TZZ"/>
+                                </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rbK-ux-PNU">
                                 <rect key="frame" x="16" y="518" width="343" height="48"/>
@@ -459,16 +462,15 @@
                         <viewLayoutGuide key="safeArea" id="iwT-4m-5Xi"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="fh4-ME-QqC" secondAttribute="trailing" id="CgU-0b-a5T"/>
-                            <constraint firstAttribute="bottom" secondItem="fh4-ME-QqC" secondAttribute="bottom" id="E08-tC-qNS"/>
+                            <constraint firstItem="fh4-ME-QqC" firstAttribute="trailing" secondItem="iwT-4m-5Xi" secondAttribute="trailing" id="Njd-dd-bmN"/>
                             <constraint firstItem="iwT-4m-5Xi" firstAttribute="trailing" secondItem="ckE-Av-1h3" secondAttribute="trailing" id="PPD-I3-zai"/>
+                            <constraint firstItem="fh4-ME-QqC" firstAttribute="centerY" secondItem="iwT-4m-5Xi" secondAttribute="centerY" constant="-40" id="Pye-xb-MU6"/>
                             <constraint firstAttribute="bottom" secondItem="UtI-Of-tSr" secondAttribute="bottom" constant="8" id="Qgu-QE-HlF"/>
-                            <constraint firstItem="fh4-ME-QqC" firstAttribute="leading" secondItem="iwT-4m-5Xi" secondAttribute="leading" id="RX1-17-Ybm"/>
                             <constraint firstItem="Acx-vT-b7N" firstAttribute="top" secondItem="rbK-ux-PNU" secondAttribute="bottom" constant="48" id="SIU-6k-JIS"/>
                             <constraint firstItem="rbK-ux-PNU" firstAttribute="centerX" secondItem="iwT-4m-5Xi" secondAttribute="centerX" id="aLd-3P-OfJ"/>
-                            <constraint firstItem="fh4-ME-QqC" firstAttribute="top" secondItem="iwT-4m-5Xi" secondAttribute="top" id="ar4-L9-hfO"/>
                             <constraint firstItem="UtI-Of-tSr" firstAttribute="centerX" secondItem="iwT-4m-5Xi" secondAttribute="centerX" id="bBC-IJ-2XP"/>
                             <constraint firstItem="ckE-Av-1h3" firstAttribute="leading" secondItem="iwT-4m-5Xi" secondAttribute="leading" id="jA2-ao-aTs"/>
+                            <constraint firstItem="iwT-4m-5Xi" firstAttribute="leading" secondItem="fh4-ME-QqC" secondAttribute="leading" id="lpW-qO-yyA"/>
                             <constraint firstItem="Acx-vT-b7N" firstAttribute="centerX" secondItem="UtI-Of-tSr" secondAttribute="centerX" id="oAC-bw-vUn"/>
                             <constraint firstItem="ckE-Av-1h3" firstAttribute="top" secondItem="iwT-4m-5Xi" secondAttribute="top" id="sKc-ET-dCO"/>
                             <constraint firstItem="iwT-4m-5Xi" firstAttribute="bottom" secondItem="ckE-Av-1h3" secondAttribute="bottom" id="w2F-7s-HTw"/>
@@ -659,7 +661,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QOn-oJ-4pb">
                                                     <rect key="frame" x="24" y="11.5" width="35.5" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="content-primary"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_newbadge" translatesAutoresizingMaskIntoConstraints="NO" id="hxw-Rr-W6c">
@@ -672,12 +674,12 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3JV-mo-acs" userLabel="Contents">
                                                     <rect key="frame" x="254.5" y="11.5" width="35.5" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" red="0.1333333333" green="0.52549019610000003" blue="0.76470588240000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" name="content-positive"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="3JV-mo-acs" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="hxw-Rr-W6c" secondAttribute="trailing" symbolic="YES" id="DnZ-8O-n0N"/>
+                                                <constraint firstItem="3JV-mo-acs" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="hxw-Rr-W6c" secondAttribute="trailing" constant="8" symbolic="YES" id="DnZ-8O-n0N"/>
                                                 <constraint firstItem="hxw-Rr-W6c" firstAttribute="leading" secondItem="QOn-oJ-4pb" secondAttribute="trailing" id="IZL-Pz-uTY"/>
                                                 <constraint firstItem="hxw-Rr-W6c" firstAttribute="centerY" secondItem="QOn-oJ-4pb" secondAttribute="centerY" id="YLz-eg-tgY"/>
                                                 <constraint firstAttribute="trailing" secondItem="3JV-mo-acs" secondAttribute="trailing" constant="15" id="eK4-S4-Jaw"/>
@@ -748,12 +750,16 @@
         <image name="ic_newbadge" width="20" height="20"/>
         <image name="icon_current_location_md" width="24" height="24"/>
         <image name="icon_refresh_md" width="24" height="24"/>
+        <image name="intro_bg.jpg" width="1440" height="3200"/>
         <image name="menu_board" width="30" height="30"/>
         <image name="menu_event" width="30" height="30"/>
         <image name="menu_info" width="30" height="30"/>
         <image name="menu_my_info" width="30" height="30"/>
         <image name="menu_settings" width="30" height="30"/>
-        <image name="menu_top_bg.jpg" width="230.39999389648438" height="139.19999694824219"/>
+        <image name="menu_top_bg.jpg" width="960" height="580"/>
+        <namedColor name="content-positive">
+            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="content-primary">
             <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

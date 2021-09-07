@@ -429,7 +429,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="MWa-w9-3ln" firstAttribute="bottom" secondItem="6Lz-Jv-QEw" secondAttribute="bottom" id="AaL-zq-aL2"/>
                 <constraint firstAttribute="leading" secondItem="MWa-w9-3ln" secondAttribute="leading" id="Qhw-QT-f6U"/>
