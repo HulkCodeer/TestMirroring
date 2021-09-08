@@ -48,26 +48,6 @@ class MainViewController: UIViewController {
     @IBOutlet weak var btnRouteCancel: UIButton!
     @IBOutlet weak var btnRoute: UIButton!
     
-    @IBOutlet weak var btnWay: UIButton!
-    @IBOutlet weak var btnPay: UIButton!
-    @IBOutlet weak var btnRegion: UIButton!
-    @IBOutlet weak var btnCompany: UIButton!
-    
-//    @IBOutlet weak var cbDcDemo: M13Checkbox!
-//    @IBOutlet weak var svDcDemo: UIView!
-//
-//    @IBOutlet weak var cbAc3: M13Checkbox!
-//    @IBOutlet weak var svAc3: UIView!
-//
-//    @IBOutlet weak var cbDcCombo: M13Checkbox!
-//    @IBOutlet weak var svDcCombo: UIView!
-//
-//    @IBOutlet weak var cbSuper: M13Checkbox!
-//    @IBOutlet weak var svSuper: UIView!
-//
-//    @IBOutlet weak var cbSlow: M13Checkbox!
-//    @IBOutlet weak var svSlow: UIView!
-    
     // Callout View
     @IBOutlet weak var callOutLayer: UIView!
     // Menu Button Layer
@@ -93,6 +73,7 @@ class MainViewController: UIViewController {
     private var selectCharger: ChargerStationInfo? = nil
     
     static var currentLocation: TMapPoint? = nil
+    private var searchLocation: TMapPoint? = nil
     var sharedChargerId: String? = nil
     
     private var loadedChargers = false
@@ -404,6 +385,12 @@ extension MainViewController {
             if self.sharedChargerId != nil {
                 self.selectChargerFromShared()
             }
+        }
+        if searchLocation != nil {
+            let poiItem = TMapPOIItem(tMapPoint: searchLocation)
+            poiItem!.setIcon(UIImage(named: "marker_search"), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+            tMapView?.removeCustomObject("search")
+            tMapView?.addCustomObject(poiItem, id: "search")
         }
     }
     
@@ -783,6 +770,11 @@ extension MainViewController: ChargerSelectDelegate {
             myLocationModeOff()
             self.tMapView?.setZoomLevel(15)
             self.tMapView?.setCenter(TMapPoint.init(lon: lon, lat: lat))
+            searchLocation = TMapPoint(lon: lon, lat: lat)
+            let poiItem = TMapPOIItem(tMapPoint: searchLocation)
+            poiItem!.setIcon(UIImage(named: "marker_search"), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+            tMapView?.removeCustomObject("search")
+            tMapView?.addCustomObject(poiItem, id: "search")
         }
     }
     
@@ -791,6 +783,8 @@ extension MainViewController: ChargerSelectDelegate {
             self.tMapView?.setZoomLevel(15)
             self.tMapView?.setCenter(charger.getTMapPoint())
             
+            searchLocation = nil
+            tMapView?.removeCustomObject("search")
             DispatchQueue.global(qos: .background).async {
                 // Background Thread
                 DispatchQueue.main.async {

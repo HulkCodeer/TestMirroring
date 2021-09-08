@@ -411,7 +411,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro_bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="fh4-ME-QqC">
-                                <rect key="frame" x="0.0" y="-123" width="375" height="833"/>
+                                <rect key="frame" x="0.0" y="-83" width="375" height="833"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="fh4-ME-QqC" secondAttribute="height" multiplier="9:20" id="uqB-ZW-TZZ"/>
                                 </constraints>
@@ -464,7 +464,7 @@
                         <constraints>
                             <constraint firstItem="fh4-ME-QqC" firstAttribute="trailing" secondItem="iwT-4m-5Xi" secondAttribute="trailing" id="Njd-dd-bmN"/>
                             <constraint firstItem="iwT-4m-5Xi" firstAttribute="trailing" secondItem="ckE-Av-1h3" secondAttribute="trailing" id="PPD-I3-zai"/>
-                            <constraint firstItem="fh4-ME-QqC" firstAttribute="centerY" secondItem="iwT-4m-5Xi" secondAttribute="centerY" constant="-40" id="Pye-xb-MU6"/>
+                            <constraint firstItem="fh4-ME-QqC" firstAttribute="centerY" secondItem="iwT-4m-5Xi" secondAttribute="centerY" id="Pye-xb-MU6"/>
                             <constraint firstAttribute="bottom" secondItem="UtI-Of-tSr" secondAttribute="bottom" constant="8" id="Qgu-QE-HlF"/>
                             <constraint firstItem="Acx-vT-b7N" firstAttribute="top" secondItem="rbK-ux-PNU" secondAttribute="bottom" constant="48" id="SIU-6k-JIS"/>
                             <constraint firstItem="rbK-ux-PNU" firstAttribute="centerX" secondItem="iwT-4m-5Xi" secondAttribute="centerX" id="aLd-3P-OfJ"/>
