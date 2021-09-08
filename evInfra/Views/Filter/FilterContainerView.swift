@@ -9,7 +9,9 @@
 import Foundation
 protocol DelegateFilterContainerView {
     func changedFilter(type: FilterType)
+    func swipeFilterTo(type: FilterType)
 }
+
 class FilterContainerView: UIView {
     
     @IBOutlet var filterContainerView: UIView!
@@ -35,6 +37,15 @@ class FilterContainerView: UIView {
         let view = Bundle.main.loadNibNamed("FilterContainerView", owner: self, options: nil)?.first as! UIView
         view.frame = bounds
         addSubview(view)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
+        swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
+        self.filterContainerView.addGestureRecognizer(swipeLeft)
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.filterContainerView.addGestureRecognizer(swipeRight)
+        
         filterTypeView.saveOnChange = true
         filterSpeedView.saveOnChange = true
         filterRoadView.saveOnChange = true
@@ -47,6 +58,63 @@ class FilterContainerView: UIView {
         filterPlaceView.delegate = self
         filterPriceView.delegate = self
     }
+    
+    @objc func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
+        // 만일 제스쳐가 있다면
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer{
+            switch swipeGesture.direction {
+                case UISwipeGestureRecognizer.Direction.left :
+                    swipeLeft()
+                case UISwipeGestureRecognizer.Direction.right :
+                    swipeRight()
+                default:
+                    break
+            }
+        }
+    }
+    
+    func swipeLeft() {
+        var newType: FilterType = .none
+        switch currType {
+        case .price:
+            newType = .speed
+        case .speed:
+            newType = .place
+        case .place:
+            newType = .road
+        case .road:
+            newType = .type
+        case .type:
+            newType = .price
+        case .none:
+            break;
+        }
+        
+        showFilterView(type: newType)
+        delegate?.swipeFilterTo(type: newType)
+    }
+    
+    func swipeRight() {
+        var newType: FilterType = .none
+        switch currType {
+        case .price:
+            newType = .type
+        case .speed:
+            newType = .price
+        case .place:
+            newType = .speed
+        case .road:
+            newType = .place
+        case .type:
+            newType = .road
+        case .none:
+            break;
+        }
+        
+        showFilterView(type: newType)
+        delegate?.swipeFilterTo(type: newType)
+    }
+    
     
     func isSameView(type: FilterType) ->Bool{
         if (currType == type){

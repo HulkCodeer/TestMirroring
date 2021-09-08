@@ -321,6 +321,10 @@ extension MainViewController: DelegateChargerFilterView {
 }
 
 extension MainViewController: DelegateFilterContainerView {
+    func swipeFilterTo(type: FilterType) {
+        filterBarView.updateView(newSelect: type)
+    }
+    
     func changedFilter(type: FilterType) {
         filterBarView.updateTitleByType(type: type)
         // refresh marker
