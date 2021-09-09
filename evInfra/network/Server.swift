@@ -757,7 +757,8 @@ class Server {
     static func getUpdateGuide(guide_version: Int, app_version: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "app_version": app_version,
-            "guide_version": guide_version
+            "guide_version": guide_version,
+            "os": "IOS"
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/docs/guide/guide_url",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
