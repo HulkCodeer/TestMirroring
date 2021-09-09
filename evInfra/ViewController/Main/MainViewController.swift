@@ -924,7 +924,7 @@ extension MainViewController {
                     
                     // app 실행 시 전면 광고 dialog
                     controller?.showStartAd()
-                    
+                    controller?.showGuide()
                     controller?.checkFCM()
                     
                     // 즐겨찾기 목록 가져오기
@@ -1219,6 +1219,11 @@ extension MainViewController {
                 window.addSubview(AdvertisingDialog(frame: window.bounds))
             }
         }
+    }
+    
+    private func showGuide() {
+        let window = UIApplication.shared.keyWindow!
+        window.addSubview(GuideAlertDialog(frame: window.bounds))
     }
     
     private func checkFCM() {

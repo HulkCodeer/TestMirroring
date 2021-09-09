@@ -43,6 +43,8 @@
 		00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */; };
 		00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */; };
 		00A84A9625514876008D987D /* PopUpDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A84A9525514876008D987D /* PopUpDialog.xib */; };
+		00AB7BD726E870730040CFDE /* GuideAlertDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00AB7BD626E870730040CFDE /* GuideAlertDialog.xib */; };
+		00AB7BD926E870820040CFDE /* GuideAlertDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AB7BD826E870820040CFDE /* GuideAlertDialog.swift */; };
 		00AE577926CE4864003E6643 /* RangeSeekSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AE577826CE4864003E6643 /* RangeSeekSlider.swift */; };
 		00AE577B26CE487B003E6643 /* RangeSeekSliderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AE577A26CE487B003E6643 /* RangeSeekSliderDelegate.swift */; };
 		00AE577D26CE4891003E6643 /* TapticEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AE577C26CE4891003E6643 /* TapticEngine.swift */; };
@@ -388,6 +390,8 @@
 		00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnershipJoinView.swift; sourceTree = "<group>"; };
 		00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartnershipJoinView.xib; sourceTree = "<group>"; };
 		00A84A9525514876008D987D /* PopUpDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PopUpDialog.xib; sourceTree = "<group>"; };
+		00AB7BD626E870730040CFDE /* GuideAlertDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GuideAlertDialog.xib; sourceTree = "<group>"; };
+		00AB7BD826E870820040CFDE /* GuideAlertDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideAlertDialog.swift; sourceTree = "<group>"; };
 		00AE577826CE4864003E6643 /* RangeSeekSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSeekSlider.swift; sourceTree = "<group>"; };
 		00AE577A26CE487B003E6643 /* RangeSeekSliderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSeekSliderDelegate.swift; sourceTree = "<group>"; };
 		00AE577C26CE4891003E6643 /* TapticEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapticEngine.swift; sourceTree = "<group>"; };
@@ -1204,6 +1208,8 @@
 				4212A25425555775001BB124 /* OfferwallTableViewCell.xib */,
 				42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */,
 				42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */,
+				00AB7BD626E870730040CFDE /* GuideAlertDialog.xib */,
+				00AB7BD826E870820040CFDE /* GuideAlertDialog.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1676,6 +1682,7 @@
 				00A6A16A26C3C44E0023DAE3 /* FilterBarView.xib in Resources */,
 				73EF8B72203C85CC00D04494 /* icon_clustering@2x.png in Resources */,
 				73C31C0620A2BB04005B6C53 /* charger_ac3.jpg in Resources */,
+				00AB7BD726E870730040CFDE /* GuideAlertDialog.xib in Resources */,
 				73A7B3E8204E3595002E975F /* reply_btn_selected.png in Resources */,
 				00FDEAEA26B3BF1E006617EE /* Member.storyboard in Resources */,
 				42CEB75126C1110D00E37AE4 /* CidInfoTableViewCell.xib in Resources */,
@@ -1883,6 +1890,7 @@
 				42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */,
 				CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */,
 				73D65D702358498C00F564A2 /* Validators.swift in Sources */,
+				00AB7BD926E870820040CFDE /* GuideAlertDialog.swift in Sources */,
 				902A11D7248F56610049EF8E /* StationStatusDto.swift in Sources */,
 				73BFA04C20847A310028B35D /* BoardTableViewCell.swift in Sources */,
 				90517A0C253857FD00FCB1A7 /* DateUtils.swift in Sources */,

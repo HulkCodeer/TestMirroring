@@ -75,6 +75,7 @@ class UserDefault {
         
         static let INTRO_SKR    = "intro_skr"
         static let JEJU_PUSH    = "jeju_push"
+        static let GUIDE_VERSION = "guide_vesion"
         
         // 전체설정
         static let SETTINGS_ALLOW_NOTIFICATION = "allow_notification"
