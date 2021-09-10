@@ -82,9 +82,7 @@ class MainViewController: UIViewController {
     private var isAllowedCluster = true
     private var canIgnoreJejuPush = true
     
-    private var summaryViewTag = 10
     private var summaryView:SummaryView!
-    private var summaryLayoutTest:Bool = false
     
     // 지킴이 점겸표 url
     private var checklistUrl: String?

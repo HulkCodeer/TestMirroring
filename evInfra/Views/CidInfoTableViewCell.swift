@@ -52,7 +52,7 @@ class CidInfoTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        dateKind.layer.cornerRadius = 10
+        dateKind.layer.cornerRadius = 10.5
         dateKind.layer.borderWidth = 1
         dateKind.layer.borderColor = UIColor.init(named: "border-opaque")?.cgColor
     }
