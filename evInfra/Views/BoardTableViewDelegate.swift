@@ -22,4 +22,6 @@ protocol BoardTableViewDelegate {
     func replyDelete(tag: Int)
     
     func goToStation(tag: Int)
+    
+    func showImageViewer(url: URL)
 }

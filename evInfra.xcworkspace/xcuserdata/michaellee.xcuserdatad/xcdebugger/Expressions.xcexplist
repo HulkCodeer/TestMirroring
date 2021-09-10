@@ -48,12 +48,15 @@
                value = "view.frame.size.height">
             </PersistentString>
             <PersistentString
-               value = "self.detailView.frame.size">
-            </PersistentString>
-            <PersistentString
                value = "self.detailView.frame.size.height">
             </PersistentString>
+            <PersistentString
+               value = "self.detailView.frame.size">
+            </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "BoardItem.init(bJson:):BoardItem.swift">
       </ContextState>
       <ContextState
          contextName = "OfferwallViewController.onClickAdmobAd(_:):OfferwallViewController.swift">
@@ -138,6 +141,17 @@
          <PersistentStrings>
             <PersistentString
                value = "self.detailView.frame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "BoardTableView.tableView(_:viewForHeaderInSection:):BoardTableView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Const.urlBoardImage">
+            </PersistentString>
+            <PersistentString
+               value = "headerValue.content_img!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

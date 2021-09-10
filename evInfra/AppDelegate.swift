@@ -12,6 +12,7 @@ import Material
 import Firebase
 import UserNotifications
 import AuthenticationServices
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

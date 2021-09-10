@@ -274,6 +274,10 @@
 		9098783824EE567000AB3DC8 /* MPGoogleGlobalMediationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9098783724EE567000AB3DC8 /* MPGoogleGlobalMediationSettings.m */; };
 		9098783C24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9098783B24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m */; };
 		90CA0DE42488B82900904015 /* DataBaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CA0DE32488B82900904015 /* DataBaseHelper.swift */; };
+		90CBCC6626EAD64D002B2591 /* EIImageViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CBCC6526EAD64D002B2591 /* EIImageViewerViewController.swift */; };
+		90CBCC6B26EB18F1002B2591 /* img_load_fail.png in Resources */ = {isa = PBXBuildFile; fileRef = 90CBCC6926EB18F1002B2591 /* img_load_fail.png */; };
+		90CBCC6C26EB18F1002B2591 /* img_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 90CBCC6A26EB18F1002B2591 /* img_default.png */; };
+		90CBCC7026EB1E41002B2591 /* NSDataExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CBCC6F26EB1E41002B2591 /* NSDataExtention.swift */; };
 		90DD2A6124EBCF7B003318CC /* TapjoyAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 90DD2A6024EBCF7B003318CC /* TapjoyAdapterConfiguration.m */; };
 		90DD2A6424EBCFC4003318CC /* TapjoyGlobalMediationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 90DD2A6324EBCFC4003318CC /* TapjoyGlobalMediationSettings.m */; };
 		90DD2A6724EBCFF5003318CC /* TapjoyRewardedVideoCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 90DD2A6624EBCFF5003318CC /* TapjoyRewardedVideoCustomEvent.m */; };
@@ -650,6 +654,10 @@
 		9098783B24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPGoogleAdMobAdditions.m"; sourceTree = "<group>"; };
 		9098783D24EE68CB00AB3DC8 /* UIView+MPGoogleAdMobAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+MPGoogleAdMobAdditions.h"; sourceTree = "<group>"; };
 		90CA0DE32488B82900904015 /* DataBaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseHelper.swift; sourceTree = "<group>"; };
+		90CBCC6526EAD64D002B2591 /* EIImageViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIImageViewerViewController.swift; sourceTree = "<group>"; };
+		90CBCC6926EB18F1002B2591 /* img_load_fail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_load_fail.png; sourceTree = "<group>"; };
+		90CBCC6A26EB18F1002B2591 /* img_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_default.png; sourceTree = "<group>"; };
+		90CBCC6F26EB1E41002B2591 /* NSDataExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDataExtention.swift; sourceTree = "<group>"; };
 		90DD2A5F24EBCF48003318CC /* TapjoyAdapterConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TapjoyAdapterConfiguration.h; sourceTree = "<group>"; };
 		90DD2A6024EBCF7B003318CC /* TapjoyAdapterConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TapjoyAdapterConfiguration.m; sourceTree = "<group>"; };
 		90DD2A6224EBCFA6003318CC /* TapjoyGlobalMediationSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TapjoyGlobalMediationSettings.h; sourceTree = "<group>"; };
@@ -1041,6 +1049,8 @@
 		736813A62043E98F0035FC66 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				90CBCC6A26EB18F1002B2591 /* img_default.png */,
+				90CBCC6926EB18F1002B2591 /* img_load_fail.png */,
 				DBA3BE92252C709400E2D94A /* ad_illust.png */,
 				DB18733120A9983200790B77 /* btn_camera.png */,
 				738C2CE720A9367E006E268D /* type_destination_dim.png */,
@@ -1248,6 +1258,7 @@
 		73EF8B41203BC53200D04494 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				90CBCC6F26EB1E41002B2591 /* NSDataExtention.swift */,
 				00AE577726CE4851003E6643 /* RangeSeekSlider */,
 				DB4063A321FC732B00B630A8 /* Charts */,
 				DB3B858120A42B91005454F5 /* Localization */,
@@ -1452,6 +1463,7 @@
 				73450EF92071EB01008516E9 /* EditViewController.swift */,
 				73344AC4207F429300A6A9EC /* EditViewDelegate.swift */,
 				7376B5C420C6473500A2B7C1 /* MyArticleViewController.swift */,
+				90CBCC6526EAD64D002B2591 /* EIImageViewerViewController.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -1501,6 +1513,7 @@
 			buildConfigurationList = 732121CE203AC023000E105C /* Build configuration list for PBXNativeTarget "evInfra" */;
 			buildPhases = (
 				4EBD2CEED38AA378C00CEE4E /* [CP] Check Pods Manifest.lock */,
+				EF8A0C8002B17A5237282200 /* [CP] Prepare Artifacts */,
 				732121B5203AC023000E105C /* Sources */,
 				732121B6203AC023000E105C /* Frameworks */,
 				732121B7203AC023000E105C /* Resources */,
@@ -1581,6 +1594,7 @@
 				73A7B3F6204E3595002E975F /* delete_pressed.png in Resources */,
 				733662FA22FD11860049AEFE /* LeftViewTableHeader.xib in Resources */,
 				DB3799FA2167575A001D8F69 /* ChargerTableViewCell.xib in Resources */,
+				90CBCC6B26EB18F1002B2591 /* img_load_fail.png in Resources */,
 				00A3659D26C4E98200424E40 /* FilterTypeView.xib in Resources */,
 				73A7B41A204E3595002E975F /* type_dc_combo.png in Resources */,
 				73EF8B79203C85CC00D04494 /* TrackingDotHalo.png in Resources */,
@@ -1664,6 +1678,7 @@
 				00B2E8C826C106AC005D017C /* Login.storyboard in Resources */,
 				00FDEAF626B3BFB6006617EE /* Coupon.storyboard in Resources */,
 				73A7B3EF204E3595002E975F /* ic_add_circle_outline.png in Resources */,
+				90CBCC6C26EB18F1002B2591 /* img_default.png in Resources */,
 				7357594420916A37008181E9 /* kia_ray.jpg in Resources */,
 				73EF8B73203C85CC00D04494 /* mapbg_tlogo.png in Resources */,
 				73C31C0920A2BB04005B6C53 /* charger_acsingle.jpg in Resources */,
@@ -1702,7 +1717,9 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/EasyTipView/EasyTipView.framework",
@@ -1729,6 +1746,7 @@
 				"${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/UIImageCropper/UIImageCropper.framework",
 				"${BUILT_PRODUCTS_DIR}/mopub-ios-sdk/MoPub.framework",
@@ -1737,6 +1755,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyTipView.framework",
@@ -1763,6 +1782,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parchment.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyGif.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImageCropper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MoPub.framework",
@@ -1830,6 +1850,25 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
+		EF8A0C8002B17A5237282200 /* [CP] Prepare Artifacts */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-artifacts.sh",
+				"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework-Current/GoogleMobileAds.xcframework",
+				"${PODS_ROOT}/GoogleUserMessagingPlatform/Frameworks/Release/UserMessagingPlatform.xcframework",
+			);
+			name = "[CP] Prepare Artifacts";
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-artifacts.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1863,6 +1902,7 @@
 				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
 				CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */,
 				733662D022F974820049AEFE /* Coupon.swift in Sources */,
+				90CBCC7026EB1E41002B2591 /* NSDataExtention.swift in Sources */,
 				0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
@@ -1871,6 +1911,7 @@
 				73008459213687150001DBFA /* DetailViewController.swift in Sources */,
 				DB3799F821673FDD001D8F69 /* FavoriteViewController.swift in Sources */,
 				DB49A77F206CC32D002448E6 /* SearchViewController.swift in Sources */,
+				90CBCC6626EAD64D002B2591 /* EIImageViewerViewController.swift in Sources */,
 				73D65D7E23605D1000F564A2 /* MyPayRegisterViewDelegate.swift in Sources */,
 				DB4063AB21FED66600B630A8 /* HourAxisValueFormatter.swift in Sources */,
 				73D65D7C2360299700F564A2 /* PaymentCard.swift in Sources */,

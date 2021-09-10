@@ -190,6 +190,9 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 headerView.uImage.addGestureRecognizer(adTab)
             } else {
                 headerView.uImage.sd_setImage(with: URL(string: "\(Const.urlBoardImage)\(headerValue.content_img!).jpg"), placeholderImage: UIImage(named: "placeholder.png"))
+                let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+                headerView.uImage.isUserInteractionEnabled = true
+                headerView.uImage.addGestureRecognizer(tapGestureRecognizer)
             }
         }
 
@@ -322,5 +325,11 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 }
             }
         }
+    }
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        let tappedImage = tapGestureRecognizer.view as! UIImageView
+            
+        tableViewDelegate?.showImageViewer(url: tappedImage.sd_imageURL()!);
     }
 }

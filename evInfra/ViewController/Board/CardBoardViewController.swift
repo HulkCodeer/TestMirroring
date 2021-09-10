@@ -358,4 +358,12 @@ extension CardBoardViewController: EditViewDelegate {
             }
         }
     }
+    
+    func showImageViewer(url: URL) {
+        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+        let imageVC:EIImageViewerViewController = boardStoryboard.instantiateViewController(withIdentifier: "EIImageViewerViewController") as! EIImageViewerViewController
+        imageVC.mImageURL = url;
+    
+        self.navigationController?.push(viewController: imageVC)
+    }
 }

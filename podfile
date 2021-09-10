@@ -11,6 +11,7 @@ target 'evInfra' do
   pod 'Material', '~> 2.0'
   pod 'MaterialComponents/Snackbar'
   pod 'Alamofire', '~> 4.7'
+  pod 'AlamofireImage', '~> 3.3'
   pod 'SwiftyJSON'
   pod 'HandyJSON'
   pod 'Firebase/Core'                 # For firebase Core
@@ -32,6 +33,7 @@ target 'evInfra' do
   pod 'TapjoySDK'                     # for rewarded video tapjoy
   pod 'ExpyTableView', '~> 1.2.1'
   pod 'EasyTipView', '~> 2.1.0'
+  pod 'SwiftyGif'
 end
 
 post_install do |installer|

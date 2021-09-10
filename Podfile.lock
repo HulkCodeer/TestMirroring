@@ -1,5 +1,7 @@
 PODS:
   - Alamofire (4.9.1)
+  - AlamofireImage (3.6.0):
+    - Alamofire (~> 4.9)
   - Charts (3.2.2):
     - Charts/Core (= 3.2.2)
   - Charts/Core (3.2.2)
@@ -186,12 +188,14 @@ PODS:
   - SDWebImage/GIF (4.4.8):
     - FLAnimatedImage (~> 1.0)
     - SDWebImage/Core
+  - SwiftyGif (5.4.0)
   - SwiftyJSON (5.0.0)
   - TapjoySDK (12.7.1)
   - UIImageCropper (1.4.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
+  - AlamofireImage (~> 3.3)
   - Charts (~> 3.2.2)
   - DropDown
   - EasyTipView (~> 2.1.0)
@@ -210,6 +214,7 @@ DEPENDENCIES:
   - mopub-ios-sdk
   - Parchment
   - SDWebImage/GIF
+  - SwiftyGif
   - SwiftyJSON
   - TapjoySDK
   - UIImageCropper
@@ -217,6 +222,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
+    - AlamofireImage
     - Charts
     - DropDown
     - EasyTipView
@@ -250,12 +256,14 @@ SPEC REPOS:
     - Parchment
     - PromisesObjC
     - SDWebImage
+    - SwiftyGif
     - SwiftyJSON
     - TapjoySDK
     - UIImageCropper
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  AlamofireImage: be9963c6582d68b39e89191f64c82a7d7bf40fdd
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   EasyTipView: a92b6edc377b81c5ac18e9fd35d5ee78e9409488
@@ -289,10 +297,11 @@ SPEC CHECKSUMS:
   Parchment: 002785473861582385db5c6725165353c500198e
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   SDWebImage: 783af2c3fa36291a250030c4752ee370a9a51d13
+  SwiftyGif: 5d4af95df24caf1c570dbbcb32a3b8a0763bc6d7
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   TapjoySDK: 27e4116ba377dcbe064743ca3ec3a8d70ccee2bb
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
 
-PODFILE CHECKSUM: 67874c12017234e3a6656997153bad326da46e92
+PODFILE CHECKSUM: c96e7349baf6011b4a93b72d2b3ec9af0b8239a2
 
-COCOAPODS: 1.10.0.rc.1
+COCOAPODS: 1.9.3
