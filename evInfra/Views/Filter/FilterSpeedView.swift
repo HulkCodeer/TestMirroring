@@ -8,6 +8,7 @@
 
 import Foundation
 class FilterSpeedView: UIView {
+    
     @IBOutlet var lbSpeed: UILabel!
     @IBOutlet var rangeSliderSpeed: RangeSeekSlider!
     
@@ -27,18 +28,15 @@ class FilterSpeedView: UIView {
         initView()
     }
     
-    func initView(){
+    func initView() {
         let view = Bundle.main.loadNibNamed("FilterSpeedView", owner: self, options: nil)?.first as! UIView
         view.frame = bounds
         addSubview(view)
         
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
-        swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
-        self.rangeSliderSpeed.addGestureRecognizer(swipeLeft)
+        let cancelGesture = UIPanGestureRecognizer(target: nil, action:nil)
+        cancelGesture.cancelsTouchesInView = false
+        self.rangeSliderSpeed.addGestureRecognizer(cancelGesture)
         
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
-        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
-        self.rangeSliderSpeed.addGestureRecognizer(swipeRight)
         rangeSliderSpeed.delegate = self
         
         rangeSliderSpeed.minValue = 0.0
