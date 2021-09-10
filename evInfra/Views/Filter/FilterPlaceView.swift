@@ -30,7 +30,7 @@ class FilterPlaceView: UIView {
     private var outdoorSel = true
     private var canopySel = true
     
-    let bgEnColor: UIColor = UIColor(named: "content-positive")!
+    let bgEnColor: UIColor = UIColor(named: "gr-6")!
     let bgDisColor: UIColor = UIColor(named: "content-tertiary")!
     
     override init(frame: CGRect) {

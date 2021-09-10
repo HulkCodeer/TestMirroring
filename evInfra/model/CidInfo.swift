@@ -74,11 +74,11 @@ class CidInfo {
         var cstColor: UIColor!
         switch (cst) {
             case Const.CHARGER_STATE_WAITING:
-            cstColor = UIColor(named: "content-positive")
+            cstColor = UIColor(named: "bl")
             break
             
             case Const.CHARGER_STATE_CHARGING:
-            cstColor = UIColor(named: "content-primary")
+            cstColor = UIColor(named: "gr-6")
             break
             
             case Const.CHARGER_STATE_PILOT:

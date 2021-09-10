@@ -26,7 +26,7 @@ class FilterRoadView: UIView {
     private var highUpSel = true
     private var highDownSel = true
     
-    let bgEnColor: UIColor = UIColor(named: "content-positive")!
+    let bgEnColor: UIColor = UIColor(named: "gr-6")!
     let bgDisColor: UIColor = UIColor(named: "content-tertiary")!
     
     override init(frame: CGRect) {

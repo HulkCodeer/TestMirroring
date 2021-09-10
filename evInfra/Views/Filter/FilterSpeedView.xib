@@ -68,7 +68,7 @@
                                     <color key="value" name="background-tertiary"/>
                                 </userDefinedRuntimeAttribute>
                                 <userDefinedRuntimeAttribute type="color" keyPath="colorBetweenHandles">
-                                    <color key="value" name="content-positive"/>
+                                    <color key="value" name="gr-6"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                             <connections>
@@ -78,7 +78,7 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0~350kW" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mu1-B2-QMG">
                             <rect key="frame" x="334" y="11.5" width="64" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" name="content-positive"/>
+                            <color key="textColor" name="gr-6"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
@@ -105,16 +105,21 @@
             <point key="canvasLocation" x="-39.200000000000003" y="-146.62668665667167"/>
         </view>
     </objects>
+    <designables>
+        <designable name="r9L-XI-5is">
+            <size key="intrinsicContentSize" width="-1" height="65"/>
+        </designable>
+    </designables>
     <resources>
         <image name="progress_btn" width="28" height="28"/>
         <namedColor name="background-tertiary">
             <color red="0.90200001001358032" green="0.90200001001358032" blue="0.90200001001358032" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="content-positive">
-            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="content-tertiary">
             <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="gr-6">
+            <color red="0.17299999296665192" green="0.75300002098083496" blue="0.49799999594688416" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

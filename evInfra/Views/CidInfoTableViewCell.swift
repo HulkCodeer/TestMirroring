@@ -46,13 +46,13 @@ class CidInfoTableViewCell: UITableViewCell {
     let imgSuper = "ic_charger_super_md"  // type_super
     let imgDestination = "ic_charger_slow_md"  // type_destination
     
-    let positive = "content-positive"
+    let positive = "gr-6"
     let tertiary = "content-tertiary"
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        dateKind.layer.cornerRadius = 12
+        dateKind.layer.cornerRadius = 10
         dateKind.layer.borderWidth = 1
         dateKind.layer.borderColor = UIColor.init(named: "border-opaque")?.cgColor
     }

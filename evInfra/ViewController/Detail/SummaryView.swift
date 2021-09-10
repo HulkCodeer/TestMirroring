@@ -267,13 +267,14 @@ class SummaryView: UIView {
     }
     
     func setChargePrice(stationDto: StationInfoDto) {
-        switch stationDto.mPay {
-            case "Y":
+        if stationDto.mIsPilot ?? false {
+            self.filterPay.setTitle("시범운영", for: .normal)
+        } else {
+            if stationDto.mPay == "Y" {
                 self.filterPay.setTitle("유료", for: .normal)
-            case "N":
+            } else if stationDto.mPay == "N" {
                 self.filterPay.setTitle("무료", for: .normal)
-            default:
-                self.filterPay.setTitle("시범운영", for: .normal)
+            }
         }
     }
     
