@@ -32,6 +32,13 @@ class FilterSpeedView: UIView {
         view.frame = bounds
         addSubview(view)
         
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
+        swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
+        self.rangeSliderSpeed.addGestureRecognizer(swipeLeft)
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.rangeSliderSpeed.addGestureRecognizer(swipeRight)
         rangeSliderSpeed.delegate = self
         
         rangeSliderSpeed.minValue = 0.0
@@ -43,6 +50,8 @@ class FilterSpeedView: UIView {
         
         setupView()
     }
+    
+    @objc func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {}
     
     func setupView() {
         rangeSliderSpeed.selectedMinValue = CGFloat(minSpeed)

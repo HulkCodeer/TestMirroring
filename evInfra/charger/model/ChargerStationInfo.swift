@@ -69,7 +69,7 @@ class ChargerStationInfo {
             let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue, limit: item["lm"].stringValue)
             self.cidInfoList.append(cidInfo)
         }
-        print("csj_", cidInfoList.count)
+        
         self.sortCharger()
         
         if !self.cidInfoList.isEmpty {
