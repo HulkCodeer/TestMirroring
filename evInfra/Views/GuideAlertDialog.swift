@@ -21,13 +21,11 @@ class GuideAlertDialog: UIView, WKNavigationDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        initView()
         getUpdateGuide()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        initView()
         getUpdateGuide()
     }
     
@@ -55,6 +53,7 @@ class GuideAlertDialog: UIView, WKNavigationDelegate {
                     case "1000":
                         self.guideUrl = Const.EV_PAY_SERVER + json["url"].stringValue
                         self.newVersion = json["version"].intValue
+                        self.initView()
                         self.showGuide()
                         break;
 
