@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Dp-qz-yxe">
-                    <rect key="frame" x="0.0" y="101" width="414" height="761"/>
+                    <rect key="frame" x="16" y="101" width="382" height="761"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="업데이트 안내" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5JU-r8-9Ja">
@@ -59,7 +59,7 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="8Dp-qz-yxe" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="6T9-vQ-Jaa"/>
+                <constraint firstItem="8Dp-qz-yxe" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="6T9-vQ-Jaa"/>
                 <constraint firstItem="5JU-r8-9Ja" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="A24-Nx-XdJ"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="IBD-d0-Ov4" secondAttribute="trailing" constant="22" id="IMa-0a-Jbq"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="wR3-xe-0mu" secondAttribute="bottom" constant="30" id="KAV-Tc-zxM"/>
@@ -67,7 +67,7 @@
                 <constraint firstItem="8Dp-qz-yxe" firstAttribute="top" secondItem="5JU-r8-9Ja" secondAttribute="bottom" constant="12" id="anA-Kg-cz7"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="8Dp-qz-yxe" secondAttribute="bottom" id="ieo-5x-ZHw"/>
                 <constraint firstItem="IBD-d0-Ov4" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="22" id="jso-JX-UzY"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="8Dp-qz-yxe" secondAttribute="trailing" id="qWL-qK-fOT"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="8Dp-qz-yxe" secondAttribute="trailing" constant="16" id="qWL-qK-fOT"/>
                 <constraint firstItem="5JU-r8-9Ja" firstAttribute="centerY" secondItem="IBD-d0-Ov4" secondAttribute="centerY" id="wJg-Jy-uV6"/>
             </constraints>
             <point key="canvasLocation" x="132" y="130"/>
