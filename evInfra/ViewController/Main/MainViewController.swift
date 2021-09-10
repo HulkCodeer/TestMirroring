@@ -91,7 +91,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.grey.lighten5
-        
+        showGuide()
         prepareRouteField()
         preparePOIResultView()
         prepareFilterView()
@@ -922,7 +922,6 @@ extension MainViewController {
                     
                     // app 실행 시 전면 광고 dialog
                     controller?.showStartAd()
-                    controller?.showGuide()
                     controller?.checkFCM()
                     
                     // 즐겨찾기 목록 가져오기
