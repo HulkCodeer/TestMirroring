@@ -11,8 +11,8 @@ import UIKit
 class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
 
     struct Constants {
-        static let cellHeight: CGFloat = 95 // 93
-        static let goneHeight: CGFloat = 60
+        static let cellHeight: CGFloat = 96
+        static let goneHeight: CGFloat = 64
     }
     
     var cidInfoList = [CidInfo]()
@@ -42,13 +42,13 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             if indexPath.row != 0 && isChangeType(position: indexPath.row){
                 return Constants.cellHeight
             } else {
-                return goneCellHeight()
+                return Constants.goneHeight
             }
         } else {
             if isChangePower(position: indexPath.row) {
                 return Constants.cellHeight
             } else {
-                return goneCellHeight()
+                return Constants.goneHeight
             }
         }
     }
@@ -60,13 +60,13 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             if indexPath.row != 0 && isChangeType(position: indexPath.row){
                 return Constants.cellHeight
             } else {
-                return goneCellHeight()
+                return Constants.goneHeight
             }
         } else {
             if isChangePower(position: indexPath.row) {
                 return Constants.cellHeight
             } else {
-                return goneCellHeight()
+                return Constants.goneHeight
             }
         }
     }
@@ -131,11 +131,6 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         layoutIfNeeded()
 
         return cell
-    }
-    
-    public func goneCellHeight() -> CGFloat {
-        let cell = Bundle.main.loadNibNamed("CidInfoTableViewCell", owner: self, options: nil)?.first as! CidInfoTableViewCell
-        return Constants.cellHeight - cell.getDividerHeight()
     }
     
     func isChangePower(position:Int) -> Bool {

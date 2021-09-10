@@ -23,7 +23,7 @@ class FilterAccessView: UIView {
     var publicSel = true
     var nonPublicSel = false
     
-    let bgEnColor: UIColor = UIColor(named: "content-positive")!
+    let bgEnColor: UIColor = UIColor(named: "gr-6")!
     let bgDisColor: UIColor = UIColor(named: "content-tertiary")!
     
     override init(frame: CGRect) {
