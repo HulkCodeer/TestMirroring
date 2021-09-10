@@ -49,8 +49,6 @@ class FilterSpeedView: UIView {
         setupView()
     }
     
-    @objc func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {}
-    
     func setupView() {
         rangeSliderSpeed.selectedMinValue = CGFloat(minSpeed)
         rangeSliderSpeed.selectedMaxValue = CGFloat(maxSpeed)
