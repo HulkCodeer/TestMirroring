@@ -104,7 +104,7 @@ class FilterAccessView: UIView {
     
     func resetFilter() {
         publicSel = true
-        nonPublicSel = false
+        nonPublicSel = true
         
         selectItem(index: 0)
         selectItem(index: 1)
