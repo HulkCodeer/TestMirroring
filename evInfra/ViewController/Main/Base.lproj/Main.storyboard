@@ -426,6 +426,8 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="wRh-8t-qpM" secondAttribute="height" multiplier="233:2" id="1tP-jG-uvg"/>
                                         </constraints>
+                                        <color key="progressTintColor" red="0.031372549019607843" green="0.62352941176470589" blue="0.36078431372549019" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="trackTintColor" red="0.070588235294117646" green="0.74901960784313726" blue="0.45098039215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </progressView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4yf-DX-6rL">
                                         <rect key="frame" x="106" y="20" width="131" height="20"/>
