@@ -77,6 +77,7 @@ class GuideAlertDialog: UIView, WKNavigationDelegate {
     
     @IBAction func onClickDismiss(_ sender: Any) {
         UserDefault().saveInt(key: UserDefault.Key.GUIDE_VERSION, value: newVersion)
+        Snackbar().show(message: "업데이트 안내 다시보지 않기가 설정되었습니다. ")
         self.removeFromSuperview()
     }
     
