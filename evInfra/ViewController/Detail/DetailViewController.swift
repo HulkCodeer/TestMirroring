@@ -156,9 +156,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
                         self.memoLabel.text = stationDto.mMemo
                         self.memoView.visible()
                         self.memoView.isHidden = false
+                        detailViewResize(viewHeight: -self.memoView.layer.height)
                     }else{
                         self.memoView.isHidden = true
-                        detailViewResize(view: self.memoView)
                     }
                 }
             }
@@ -180,11 +180,10 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             area = "캐노피"
             break
         case "N": // Checking
-            area = "등록된 정보가 없습니다."
+            area = "설치형태 확인중입니다."
             color = "content-tertiary"
-            break
         default:
-            area = "등록된 정보가 없습니다."
+            area = "설치형태 확인중입니다."
             color = "content-tertiary"
             break
         }
@@ -232,6 +231,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
             } else {
                 self.accessWarningImg.isHidden = true
                 self.accessWarningLb.isHidden = true
+                detailViewResize(viewHeight: self.accessWarningView.layer.height)
             }
         }
         self.cidTableView.reloadData()
@@ -241,19 +241,18 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     // DetailView reSize
-    func detailViewResize(view:UIView) {
-        self.detailView.frame.size = CGSize(width: self.detailView.frame.size.width, height: self.detailView.frame.size.height-view.frame.size.height)
+    func detailViewResize(viewHeight:CGFloat) {
+        self.detailView.frame.size = CGSize(width: self.detailView.frame.width, height: self.detailView.frame.height - viewHeight)
     }
     
     // MARK: - TableView Height
     
     func adjustHeightOfTableview() {
         let contentHeight = self.cidTableView.contentSize.height
-        let expectedFrame = CGRect(x: 0, y: 0, width: self.detailView.frame.width, height: self.detailView.frame.height - CidTableView.Constants.cellHeight + contentHeight)
+        let expectedFrame = CGRect(x: 0, y: 0, width: self.detailView.frame.width, height: self.detailView.frame.height - self.cidTableHeightConstraint.constant + contentHeight)
         if !self.detailView.frame.equalTo(expectedFrame) {
             self.detailView.frame = expectedFrame
         }
-        
         // set the height constraint accordingly
         UIView.animate(withDuration: 0.25, animations: {
             self.cidTableHeightConstraint.constant = contentHeight;

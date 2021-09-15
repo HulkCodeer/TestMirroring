@@ -158,9 +158,9 @@ class SummaryView: UIView {
                 setBerryTag(btn: filterRoof)
                 
                 if let limit = self.charger!.mLimit, limit == "Y" {
-                    filterAccess.setTitle("비공용", for: .normal)
+                    filterAccess.setTitle("비개방", for: .normal)
                 } else {
-                    filterAccess.setTitle("공용", for: .normal)
+                    filterAccess.setTitle("개방", for: .normal)
                 }
                 setBerryTag(btn: filterAccess)
                 
@@ -281,21 +281,23 @@ class SummaryView: UIView {
     func stationArea(stationDto:StationInfoDto) {
         let roof = String(stationDto.mRoof ?? "N")
         var area:String = "실외"
+        
+        self.filterRoof.gone()
         switch roof {
         case "0":  // outdoor
+            self.filterRoof.visible()
             area = "실외"
             break
         case "1":  // indoor
+            self.filterRoof.visible()
             area = "실내"
             break
         case "2":  // canopy
             area = "캐노피"
             break
         case "N": // Checking
-            area = "확인중"
             break
         default:
-            self.filterRoof.gone()
             break
         }
         
