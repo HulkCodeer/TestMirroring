@@ -64,6 +64,7 @@ class ChargerStationInfo {
     
     func setStationInfo(jsonList : JSON) {
         let clist = jsonList["cl"]
+        self.cidInfoList.removeAll()
         
         for (_, item):(String, JSON) in clist {
             let cidInfo = CidInfo.init(cid: item["cid"].stringValue, chargerType: item["tid"].intValue, cst: item["cst"].stringValue, recentDate: item["rdt"].stringValue, power: item["p"].intValue, limit: item["lm"].stringValue)
