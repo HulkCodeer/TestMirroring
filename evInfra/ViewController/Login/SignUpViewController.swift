@@ -58,12 +58,12 @@ class SignUpViewController: UIViewController {
     
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
+        backButton.tintColor = UIColor(named: "content-primary")
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
 
         navigationItem.leftViews = [backButton]
         navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         navigationItem.titleLabel.text = "회원 가입"
 
         self.navigationController?.isNavigationBarHidden = false
@@ -78,7 +78,7 @@ class SignUpViewController: UIViewController {
     }
     
     func prepareCheckbox() {
-        let checkboxColor = UIColor(rgb: 0x15435C)
+        let checkboxColor = UIColor(named: "content-primary")
         
         cbUsingTerm.boxType = .square
         cbUsingTerm.checkState = .unchecked

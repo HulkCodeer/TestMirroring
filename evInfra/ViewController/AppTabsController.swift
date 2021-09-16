@@ -38,7 +38,7 @@ extension AppTabsController {
     fileprivate func preparePageTabBar() {
         tabBar.isDividerHidden = true
         tabBar.backgroundColor = Color.grey.lighten5
-        tabBar.setLineColor(UIColor(rgb: 0x15435C), for: .selected)
+        tabBar.setLineColor(UIColor(named: "content-primary")!, for: .selected)
     }
 }
 
@@ -47,12 +47,12 @@ extension AppTabsController {
     func prepareActionBar() {
         var backButton: IconButton!
         backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
+        backButton.tintColor = UIColor(named: "content-primary")
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
         navigationItem.hidesBackButton = true
         navigationItem.leftViews = [backButton]
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         if let titleText = actionTitle{
             navigationItem.titleLabel.text = titleText
         }

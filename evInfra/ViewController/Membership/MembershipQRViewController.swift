@@ -47,7 +47,7 @@ class MembershipQRViewController: UIViewController,
     }
     
     func prepareActionBar() {
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         navigationItem.titleLabel.text = "SK Rent Car 카드 연동"
         self.navigationController?.isNavigationBarHidden = false
     }

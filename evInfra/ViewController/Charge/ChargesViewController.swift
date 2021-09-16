@@ -48,12 +48,12 @@ class ChargesViewController: UIViewController {
     
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
+        backButton.tintColor = UIColor(named: "content-primary")
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
         navigationItem.hidesBackButton = true
         navigationItem.leftViews = [backButton]
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         navigationItem.titleLabel.text = "충전이력 조회"
         self.navigationController?.isNavigationBarHidden = false
     }
@@ -65,7 +65,7 @@ class ChargesViewController: UIViewController {
     fileprivate func prepareCheckBox() {
         checkBoxAllDuration.boxType = .square
         checkBoxAllDuration.checkState = .unchecked
-        checkBoxAllDuration.tintColor = UIColor(rgb: 0x15435C)
+        checkBoxAllDuration.tintColor = UIColor(named: "content-primary")
         
         viewAllDuration.addTapGesture(target: self, action: #selector(onClickCbAll(_:)))
     }

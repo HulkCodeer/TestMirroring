@@ -62,11 +62,11 @@ extension MyWritingViewController {
     
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
+        backButton.tintColor = UIColor(named: "content-primary")
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
 
         let editButton = IconButton(image: Icon.cm.edit)
-        editButton.tintColor = UIColor(rgb: 0x15435C)
+        editButton.tintColor = UIColor(named: "content-primary")
         editButton.addTarget(self, action: #selector(handleEditButton), for: .touchUpInside)
         
         navigationItem.hidesBackButton = true
@@ -76,7 +76,7 @@ extension MyWritingViewController {
             navigationItem.rightViews = [editButton]
         }
         
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         navigationItem.titleLabel.text = "내글보기"
         self.navigationController?.isNavigationBarHidden = false
     }
@@ -87,7 +87,7 @@ extension MyWritingViewController {
         } else if (boardCategory.elementsEqual(Board.BOARD_CATEGORY_CHARGER)) {
             tabItem.title = "충전소게시판"
         }
-        tabItem.setTitleColor(UIColor(rgb: 0x15435C), for: .selected)
+        tabItem.setTitleColor(UIColor(named: "content-primary")!, for: .selected)
         tabItem.setTitleColor(Color.grey.base, for: .normal)
     
 //        tabItem.addTarget(self, action: #selector(handleBackButton) for: .selected)

@@ -39,19 +39,19 @@ extension MyCouponViewController {
     func prepareActionBar() {
         var backButton: IconButton!
         backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
+        backButton.tintColor = UIColor(named: "content-primary")
         backButton.addTarget(self, action: #selector(onClickBackBtn), for: .touchUpInside)
         
         let couponCodeBtn = UIButton()
         couponCodeBtn.setTitle("쿠폰 번호 등록", for: .normal)
-        couponCodeBtn.setTitleColor(UIColor(rgb: 0x15435C), for: .normal)
+        couponCodeBtn.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
         couponCodeBtn.titleLabel?.font = .systemFont(ofSize: 14)
         couponCodeBtn.addTarget(self, action: #selector(handlecouponCodeBtn), for: .touchUpInside)
         
         navigationItem.hidesBackButton = true
         navigationItem.leftViews = [backButton]
         navigationItem.rightViews = [couponCodeBtn]
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         navigationItem.titleLabel.text = "보유쿠폰"
         self.navigationController?.isNavigationBarHidden = false
     }

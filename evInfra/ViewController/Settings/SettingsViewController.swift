@@ -31,12 +31,12 @@ class SettingsViewController: UIViewController {
     func prepareActionBar() {
         var backButton: IconButton!
         backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
+        backButton.tintColor = UIColor(named: "content-primary")
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
         navigationItem.hidesBackButton = true
         navigationItem.leftViews = [backButton]
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         navigationItem.titleLabel.text = "전체 설정"
         self.navigationController?.isNavigationBarHidden = false
     }

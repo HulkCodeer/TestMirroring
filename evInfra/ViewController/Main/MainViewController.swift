@@ -1263,15 +1263,15 @@ extension MainViewController {
         chargingStatus()
         
         btn_main_offerwall.alignTextUnderImage()
-        btn_main_offerwall.tintColor = UIColor(rgb: 0x15435C)
+        btn_main_offerwall.tintColor = UIColor(named: "gr-8")
         btn_main_offerwall.setImage(UIImage(named: "ic_line_offerwall")?.withRenderingMode(.alwaysTemplate), for: .normal)
         
         btn_main_help.alignTextUnderImage()
-        btn_main_help.tintColor = UIColor(rgb: 0x15435C)
+        btn_main_help.tintColor = UIColor(named: "gr-8")
         btn_main_help.setImage(UIImage(named: "ic_line_help")?.withRenderingMode(.alwaysTemplate), for: .normal)
 
         btn_main_favorite.alignTextUnderImage()
-        btn_main_favorite.tintColor = UIColor(rgb: 0x15435C)
+        btn_main_favorite.tintColor = UIColor(named: "gr-8")
         btn_main_favorite.setImage(UIImage(named: "ic_line_favorite")?.withRenderingMode(.alwaysTemplate), for: .normal)
     }
     
@@ -1352,7 +1352,7 @@ extension MainViewController {
         } else {
             // 진행중인 충전이 없음
             self.btn_main_charge.alignTextUnderImage()
-            self.btn_main_charge.tintColor = UIColor(rgb: 0x15435C)
+            self.btn_main_charge.tintColor = UIColor(named: "gr-8")
             self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
             self.btn_main_charge.setTitle("간편 충전", for: .normal)
         }
@@ -1364,14 +1364,14 @@ extension MainViewController {
             // 충전중
             self.btn_main_charge.alignTextUnderImage()
             self.btn_main_charge.setImage(UIImage(named: "ic_line_charging")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            self.btn_main_charge.tintColor = UIColor(rgb: 0x15435C)
+            self.btn_main_charge.tintColor = UIColor(named: "gr-8")
             self.btn_main_charge.setTitle("충전중", for: .normal)
             break
 
         case 2002:
             // 진행중인 충전이 없음
             self.btn_main_charge.alignTextUnderImage()
-            self.btn_main_charge.tintColor = UIColor(rgb: 0x15435C)
+            self.btn_main_charge.tintColor = UIColor(named: "gr-8")
             self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
             self.btn_main_charge.setTitle("간편 충전", for: .normal)
             break

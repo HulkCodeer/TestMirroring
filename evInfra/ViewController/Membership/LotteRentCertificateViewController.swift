@@ -84,7 +84,7 @@ class LotteRentCertificateViewController : UIViewController,
     }
     
     func prepareActionBar() {
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         navigationItem.titleLabel.text = "롯데회원 등록"
         self.navigationController?.isNavigationBarHidden = false
     }

@@ -95,7 +95,7 @@ class MembershipIssuanceViewController: UIViewController,
     func initView() {
         viewSeperator.backgroundColor = UIColor(hex: "#B2B2B2")
         
-        let checkboxColor = UIColor(rgb: 0x15435C)
+        let checkboxColor = UIColor(named: "content-primary")
         checkAgree.boxType = .square
         checkAgree.checkState = .unchecked
         checkAgree.tintColor = checkboxColor
@@ -268,7 +268,7 @@ class MembershipIssuanceViewController: UIViewController,
     }
     
     func prepareActionBar() {
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         navigationItem.titleLabel.text = "EV Infra 멤버쉽 카드 신청"
         self.navigationController?.isNavigationBarHidden = false
     }

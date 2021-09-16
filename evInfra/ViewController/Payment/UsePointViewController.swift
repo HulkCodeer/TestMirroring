@@ -52,7 +52,7 @@ class UsePointViewController: UIViewController {
     
     func prepareView() {
         cbUseAllPoint.boxType = .square
-        cbUseAllPoint.tintColor = UIColor(rgb: 0x15435C)
+        cbUseAllPoint.tintColor = UIColor(named: "content-primary")
         
         viewUseAllPoint.addTapGesture(target: self, action: #selector(onClickUseAllPoint(_:)))
         

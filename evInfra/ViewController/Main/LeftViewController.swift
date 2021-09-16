@@ -232,7 +232,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
         infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
         settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        
+
         myPageBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
         boardBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
         boardCompanyBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
@@ -552,11 +552,11 @@ extension LeftViewController {
     // 메인화면 메뉴이미지에 badge
     private func newBadgeInMenu() {
         if Board.sharedInstance.hasNewBoard() {
-            if let image = UIImage(named: "menu_board_badge") {
+            if let image = UIImage(named: "icon_comment_badge") {
                 boardBtn.setImage(image, for: .normal)
             }
         } else {
-            if let image = UIImage(named: "menu_board") {
+            if let image = UIImage(named: "icon_comment") {
                 boardBtn.setImage(image, for: .normal)
             }
         }

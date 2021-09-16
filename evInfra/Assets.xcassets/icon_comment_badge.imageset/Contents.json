@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icon_comment_badge.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

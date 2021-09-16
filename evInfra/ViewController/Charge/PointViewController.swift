@@ -89,12 +89,12 @@ class PointViewController: UIViewController {
     
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
+        backButton.tintColor = UIColor(named: "content-primary")
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
         navigationItem.leftViews = [backButton]
         navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         navigationItem.titleLabel.text = "MY 베리 내역"
         navigationController?.isNavigationBarHidden = false
     }

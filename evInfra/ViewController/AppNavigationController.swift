@@ -44,6 +44,6 @@ class AppNavigationController: NavigationController {
         navigationItem.leftViews.removeAll()
         navigationItem.leftItemsSupplementBackButton = false
         
-        (navigationBar as? NavigationBar)?.backButtonImage = Icon.cm.arrowBack?.tint(with: UIColor(rgb: 0x15435C))
+        (navigationBar as? NavigationBar)?.backButtonImage = Icon.cm.arrowBack?.tint(with: UIColor(named: "content-primary")!)
     }
 }

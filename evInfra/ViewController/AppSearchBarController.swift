@@ -45,13 +45,13 @@ class AppSearchBarController: SearchBarController {
     
     private func prepareBackButton() {
         menuButton = IconButton(image: Icon.cm.arrowBack)
-        menuButton.tintColor = UIColor(rgb: 0x15435C)
+        menuButton.tintColor = UIColor(named: "content-primary")
         menuButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
     }
     
     private func prepareMoreButton() {
         moreButton = IconButton(image: Icon.cm.moreVertical)
-        menuButton.tintColor = UIColor(rgb: 0x15435C)
+        menuButton.tintColor = UIColor(named: "content-primary")
     }
     
     private func prepareStatusBar() {

@@ -77,7 +77,7 @@ class RegisterResultViewController : UIViewController {
     }
     
     func prepareActionBar() {
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         navigationItem.titleLabel.text = "조회 결과"
         self.navigationController?.isNavigationBarHidden = false
     }

@@ -75,14 +75,14 @@ extension CardBoardViewController {
         self.navigationController?.isNavigationBarHidden = false
         
         let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
+        backButton.tintColor = UIColor(named: "content-primary")
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
         // 글작성 버튼
         if !self.category.elementsEqual(Board.BOARD_CATEGORY_CHARGER) {
             var postButton: IconButton!
             postButton = IconButton(image: Icon.cm.edit)
-            postButton.tintColor = UIColor(rgb: 0x15435C)
+            postButton.tintColor = UIColor(named: "content-primary")
             postButton.addTarget(self, action: #selector(handlePostButton), for: .touchUpInside)
             
             self.navigationItem.rightViews = [postButton]
@@ -90,7 +90,7 @@ extension CardBoardViewController {
         
         self.navigationItem.hidesBackButton = true
         self.navigationItem.leftViews = [backButton]
-        self.navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        self.navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         
         if self.category.elementsEqual(Board.BOARD_CATEGORY_CHARGER) {
             self.navigationItem.titleLabel.text = "충전소 게시판"

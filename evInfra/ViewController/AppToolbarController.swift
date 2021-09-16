@@ -35,21 +35,21 @@ class AppToolbarController: ToolbarController {
 
 extension AppToolbarController {
     fileprivate func prepareMenuButton() {
-        menuButton = IconButton(image: UIImage(named: "ic_menu"))
-        menuButton.tintColor = UIColor(rgb: 0x15435C)
+        menuButton = IconButton(image: UIImage(named: "icon_menu_sm"))
+        menuButton.tintColor = UIColor(named: "content-primary")
         menuButton.addTarget(self, action: #selector(handleMenuButton), for: .touchUpInside)
     }
     
     fileprivate func prepareSearchButton() {
         searchButton = IconButton(image: Icon.search)
-        searchButton.tintColor = UIColor(rgb: 0x15435C)
+        searchButton.tintColor = UIColor(named: "content-primary")
         searchButton.addTarget(self, action: #selector(handleSearchButton), for: .touchUpInside)
         searchButton.tag = 1
     }
     
     fileprivate func preparemapButton() {
         mapButton = IconButton(image: UIImage(named: "icon_map_course_md")?.withRenderingMode(.alwaysTemplate))
-        mapButton.tintColor = UIColor(rgb: 0x15435C)
+        mapButton.tintColor = UIColor(named: "content-primary")
         mapButton.addTarget(self, action: #selector(handleMapButton), for: .touchUpInside)
         mapButton.tag = 2
     }
@@ -62,7 +62,7 @@ extension AppToolbarController {
     }
     
     fileprivate func prepareToolbar() {
-        toolbar.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        toolbar.titleLabel.textColor = UIColor(named: "content-primary")
         toolbar.titleLabel.textAlignment = .left
         toolbar.title = "EV Infra"
         
@@ -111,9 +111,9 @@ extension AppToolbarController {
     
     func setMenuIcon(hasBadge : Bool) {
         if(hasBadge) {
-            menuButton.image = UIImage(named: "ic_menu_badge")
+            menuButton.image = UIImage(named: "icon_menu_badge")
         } else {
-            menuButton.image = UIImage(named: "ic_menu")
+            menuButton.image = UIImage(named: "icon_menu_sm")
         }
     }
 }

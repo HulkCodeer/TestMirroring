@@ -66,16 +66,16 @@ class ChargerFilterViewController: UIViewController {
     
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(rgb: 0x15435C)
+        backButton.tintColor = UIColor(named: "content-primary")
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
         let logoutButton = UIButton()
         logoutButton.setTitle("초기화", for: .normal)
-        logoutButton.setTitleColor(UIColor(rgb: 0x15435C), for: .normal)
+        logoutButton.setTitleColor(UIColor(named: "content-primary"), for: .normal)
         logoutButton.titleLabel?.font = .systemFont(ofSize: 14)
         logoutButton.addTarget(self, action: #selector(resetFilter), for: .touchUpInside)
         
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         navigationItem.titleLabel.text = "필터설정"
         navigationItem.hidesBackButton = true
         navigationItem.leftViews = [backButton]

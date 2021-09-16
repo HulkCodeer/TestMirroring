@@ -195,12 +195,12 @@ extension EditViewController {
     func prepareActionBar() {
         var shareButton: IconButton!
         shareButton = IconButton(image: UIImage(named: "ic_upload")?.withRenderingMode(.alwaysTemplate))
-        shareButton.tintColor = UIColor(rgb: 0x15435C)
+        shareButton.tintColor = UIColor(named: "content-primary")
         shareButton.addTarget(self, action: #selector(handleShareButton), for: .touchUpInside)
         
         navigationItem.hidesBackButton = true
         navigationItem.rightViews = [shareButton]
-        navigationItem.titleLabel.textColor = UIColor(rgb: 0x15435C)
+        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         
         if mode == EditViewController.BOARD_NEW_MODE {
             navigationItem.titleLabel.text = "글쓰기"
