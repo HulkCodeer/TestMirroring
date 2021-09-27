@@ -24,9 +24,11 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         case EvBonusStatus     // 보조금 현황
         case Help              // 도움말
         case BusinessInfo      // 사업자정보
+        case StationPrice      // 충전소 요금정보
     }
 
     var tabIndex:Request = .UsingTerms
+    var subParams:String = ""
     var webView: WKWebView!
 
     @IBOutlet weak var fixWebView: UIView!
@@ -94,8 +96,12 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             
         case .Help:
             navigationItem.titleLabel.text = "도움말"
+            
         case .BusinessInfo:
             navigationItem.titleLabel.text = "사업자 정보"
+            
+        case .StationPrice:
+            navigationItem.titleLabel.text = "충전소 가격정보"
         }
         
         self.navigationController?.isNavigationBarHidden = false
@@ -141,11 +147,24 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         
         case .BusinessInfo:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/business_info"
+            
+        case .StationPrice:
+            strUrl = Const.EV_PAY_SERVER + "/docs/info/charge_price_info"
         }
 
-        let url = NSURL(string:strUrl)
-        let request = NSURLRequest(url: url! as URL)
-        webView.load(request as URLRequest)
+        if subParams.isEmpty {
+            let url = NSURL(string:strUrl)
+            let request = NSURLRequest(url: url! as URL)
+            webView.load(request as URLRequest)
+        } else {
+            let url = NSURL(string:strUrl)
+            var request = URLRequest(url: url! as URL)
+            request.httpMethod = "POST"
+            request.setValue("application/x-www-form-urlencoded",
+                forHTTPHeaderField: "Content-Type")
+            request.httpBody = subParams.data(using: .utf8)
+            webView.load(request as URLRequest)
+        }
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {

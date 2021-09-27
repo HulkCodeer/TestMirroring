@@ -211,6 +211,10 @@ class SummaryView: UIView {
                     let json = JSON(value)
                     let list = json["list"]
                     
+                    self.charger!.hasPriceInfo = json["info"].boolValue
+                    self.charger!.slowPrice = json["slow"].stringValue
+                    self.charger!.fastPrice = json["fast"].stringValue
+                    
                     for (_, item):(String, JSON) in list {
                         self.charger!.setStationInfo(jsonList: item)
                         break

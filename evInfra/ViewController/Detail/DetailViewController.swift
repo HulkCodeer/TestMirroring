@@ -42,6 +42,16 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var cidTableView: CidTableView!
     @IBOutlet weak var cidTableHeightConstraint: NSLayoutConstraint!
  
+    @IBOutlet weak var priceTypeLb: UILabel!
+    @IBOutlet weak var priceTableView: UIStackView!
+    @IBOutlet weak var priceBtnView: UIView!
+    @IBOutlet weak var slowPriceLb: UILabel!
+    @IBOutlet weak var fastPriceLb: UILabel!
+    @IBOutlet weak var priceInfoBtn: UIButton!
+    @IBOutlet weak var priceAlertLb: UILabel!
+    @IBOutlet weak var priceTableHeader: UIStackView!
+    @IBOutlet weak var priceTableHeight: NSLayoutConstraint!
+    
     var charger: ChargerStationInfo?
     var isExistAddBtn = false
     
@@ -72,6 +82,11 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     override func viewWillLayoutSubviews() {
         prepareSummaryView()
         self.accessWarningView.layer.cornerRadius = 16
+        self.priceInfoBtn.layer.cornerRadius = 6
+        let view = UIView(frame:self.priceTableHeader.bounds)
+        view.backgroundColor = UIColor(named: "background-tertiary")
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.priceTableHeader.insertSubview(view, at: 0)
     }
     
     @objc func mapViewTap(gesture : UIPanGestureRecognizer!) {
@@ -222,7 +237,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         if let chargerData = charger {
             ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerData.mChargerId!)?.changeStatus(status: chargerData.mTotalStatus!)
             
-            
             self.cidTableView.setCidInfoList(infoList: chargerData.cidInfoList)
             
             self.accessWarningView.gone()
@@ -232,6 +246,37 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
                 self.accessWarningImg.isHidden = true
                 self.accessWarningLb.isHidden = true
                 detailViewResize(viewHeight: self.accessWarningView.layer.height)
+            }
+            
+            if chargerData.mStationInfoDto?.mPay == "Y" {
+                if chargerData.hasPriceInfo {
+                    if !chargerData.slowPrice.isEmpty {
+                        self.slowPriceLb.text = chargerData.slowPrice
+                        self.fastPriceLb.text = chargerData.fastPrice
+                    } else {
+                        if !self.priceTableView.isHidden {
+                            detailViewResize(viewHeight: 80)
+                        }
+                        self.priceTableView.isHidden = true
+                        self.priceTableHeight.constant = 88
+                    }
+                } else {
+                    if !self.priceTableView.isHidden {
+                        detailViewResize(viewHeight: 80)
+                    }
+                    self.priceTableView.isHidden = true
+                    self.priceTableHeight.constant = 88
+                    self.priceAlertLb.isHidden = false
+                    self.priceInfoBtn.isHidden = true
+                }
+            } else {
+                if !self.priceTableView.isHidden && !self.priceBtnView.isHidden {
+                    detailViewResize(viewHeight: 132)
+                }
+                self.priceTypeLb.text = "무료"
+                self.priceTableView.isHidden = true
+                self.priceBtnView.isHidden = true
+                self.priceTableHeight.constant = 36
             }
         }
         self.cidTableView.reloadData()
@@ -285,6 +330,14 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @objc
     func tapFunction(sender:UITapGestureRecognizer) {
         self.onClickCallBtn()
+    }
+    
+    @IBAction func onClickPriceInfo(_ sender: Any) {
+        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+        let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        termsViewControll.tabIndex = .StationPrice
+        termsViewControll.subParams = "company_id=" + (charger?.mStationInfoDto?.mCompanyId)!
+        self.navigationController?.push(viewController: termsViewControll)
     }
 }
 

@@ -46,6 +46,12 @@ class ChargerStationInfo {
     
     var status: Int?
     
+    var hasPriceInfo: Bool = false
+    
+    var slowPrice: String = ""
+    
+    var fastPrice: String = ""
+    
     init(_ charger_id : String) {
         self.mChargerId = charger_id
         initChargerStationInfo()
