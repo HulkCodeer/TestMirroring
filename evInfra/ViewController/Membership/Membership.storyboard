@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tWN-en-8E2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tWN-en-8E2">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -59,12 +60,13 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x9h-W1-LNy">
                                 <rect key="frame" x="16" y="595" width="343" height="40"/>
+                                <color key="backgroundColor" name="gr-5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="dsj-RS-26v"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <state key="normal" title="등록">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" name="content-primary"/>
                                 </state>
                                 <connections>
                                     <action selector="onClickRegistBtn:" destination="0sa-oC-veu" eventType="touchUpInside" id="zNJ-RX-FMg"/>
@@ -130,12 +132,13 @@
                             </stackView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xGd-Av-clT">
                                 <rect key="frame" x="16" y="595" width="343" height="40"/>
+                                <color key="backgroundColor" name="gr-5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="7AQ-aR-wNc"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <state key="normal" title="완료">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" name="content-primary"/>
                                 </state>
                                 <connections>
                                     <action selector="onClickCompleteBtn:" destination="8Be-Jf-no0" eventType="touchUpInside" id="neP-VM-7Rc"/>
@@ -149,9 +152,9 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="s4n-3B-C9u"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <state key="normal" title="재시도하기">
-                                            <color key="titleColor" red="0.13725490196078433" green="0.59607843137254901" blue="0.58431372549019611" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" name="content-primary"/>
                                         </state>
                                         <connections>
                                             <action selector="onClickRetryBtn:" destination="8Be-Jf-no0" eventType="touchUpInside" id="1ap-si-7fa"/>
@@ -159,9 +162,10 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wx7-4d-KUk">
                                         <rect key="frame" x="179.5" y="0.0" width="163.5" height="40"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="backgroundColor" name="gr-5"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <state key="normal" title="메인 화면으로">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" name="content-primary"/>
                                         </state>
                                         <connections>
                                             <action selector="onClickGoMainBtn:" destination="8Be-Jf-no0" eventType="touchUpInside" id="IdP-Ig-ngn"/>
@@ -524,12 +528,13 @@
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Me4-zR-fBC">
                                                 <rect key="frame" x="16" y="887" width="343" height="40"/>
+                                                <color key="backgroundColor" name="gr-5"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="qWe-lD-sDU"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                 <state key="normal" title="다음">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="titleColor" name="content-primary"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="onClickNextBtn:" destination="3Aq-t5-kyl" eventType="touchUpInside" id="uzH-gP-ZHf"/>
@@ -998,6 +1003,7 @@
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KiH-TM-X9U">
                                                         <rect key="frame" x="111.5" y="0.0" width="120" height="40"/>
+                                                        <color key="backgroundColor" name="gr-5"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="DQx-4G-2Ir"/>
                                                             <constraint firstAttribute="width" constant="120" id="WDL-gz-6ad"/>
@@ -1088,7 +1094,7 @@
             <size key="intrinsicContentSize" width="83.5" height="31"/>
         </designable>
         <designable name="zsd-hA-A4V">
-            <size key="intrinsicContentSize" width="127.5" height="38"/>
+            <size key="intrinsicContentSize" width="127" height="38"/>
         </designable>
     </designables>
     <resources>
@@ -1100,6 +1106,12 @@
         <image name="qr_box" width="285" height="284"/>
         <image name="qr_loacation_img" width="181" height="128"/>
         <image name="result_check_img" width="149" height="138.5"/>
+        <namedColor name="content-primary">
+            <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="gr-5">
+            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

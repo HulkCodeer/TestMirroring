@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -129,7 +130,7 @@
                                                                                         <rect key="frame" x="32" y="0.0" width="139.5" height="24"/>
                                                                                         <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
                                                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                                                        <color key="textColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                        <color key="textColor" name="gr-8"/>
                                                                                         <nil key="highlightedColor"/>
                                                                                     </label>
                                                                                 </subviews>
@@ -173,7 +174,7 @@
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DfT-ax-pEZ" customClass="Chronometer" customModule="evInfra" customModuleProvider="target">
                                                                                         <rect key="frame" x="32" y="0.0" width="139.5" height="24"/>
                                                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                                                        <color key="textColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                        <color key="textColor" name="gr-8"/>
                                                                                         <nil key="highlightedColor"/>
                                                                                     </label>
                                                                                 </subviews>
@@ -217,7 +218,7 @@
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8I-fy-Eyn">
                                                                                         <rect key="frame" x="32" y="0.0" width="139.5" height="24"/>
                                                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                                                        <color key="textColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                                                        <color key="textColor" name="gr-8"/>
                                                                                         <nil key="highlightedColor"/>
                                                                                     </label>
                                                                                 </subviews>
@@ -393,20 +394,20 @@
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JtC-qC-bM9">
                                                 <rect key="frame" x="16" y="97.5" width="343" height="40"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                 <state key="normal" title="베리 사용하기">
-                                                    <color key="titleColor" red="0.1333333333" green="0.75686274509999996" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleColor" name="content-primary"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="onClickUsePoint:" destination="V7S-tk-w3k" eventType="touchUpInside" id="BYp-RW-Jgj"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJZ-wE-oBV">
+                                            <button opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJZ-wE-oBV">
                                                 <rect key="frame" x="16" y="153.5" width="343" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="Led-8h-fyL"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                 <state key="normal" title="충전 종료 및 결제 하기">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -490,7 +491,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yza-c6-RaX">
-                                <rect key="frame" x="0.0" y="36.5" width="375" height="565.5"/>
+                                <rect key="frame" x="0.0" y="36.5" width="375" height="566.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="k3s-p0-7e2">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="585.5"/>
@@ -987,9 +988,15 @@
                                 </constraints>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tqQ-Ge-Gch">
-                                <rect key="frame" x="16" y="618" width="343" height="33"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="확인"/>
+                                <rect key="frame" x="16" y="619" width="343" height="40"/>
+                                <color key="backgroundColor" name="gr-5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="VlN-Sd-Thf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <state key="normal" title="확인">
+                                    <color key="titleColor" name="background-always-light"/>
+                                </state>
                                 <connections>
                                     <action selector="onClickPaymentResultOk:" destination="GsB-ZF-zbH" eventType="touchUpInside" id="ddw-0i-IYM"/>
                                 </connections>
@@ -1005,7 +1012,7 @@
                             <constraint firstItem="yza-c6-RaX" firstAttribute="trailing" secondItem="KIg-Kb-WRU" secondAttribute="trailing" id="5lF-Op-btr"/>
                             <constraint firstItem="KIg-Kb-WRU" firstAttribute="trailing" secondItem="tqQ-Ge-Gch" secondAttribute="trailing" constant="16" id="7bE-8o-Fd1"/>
                             <constraint firstItem="yza-c6-RaX" firstAttribute="top" secondItem="SB6-wP-bMb" secondAttribute="bottom" id="7z8-0S-fRg"/>
-                            <constraint firstItem="KIg-Kb-WRU" firstAttribute="bottom" secondItem="tqQ-Ge-Gch" secondAttribute="bottom" constant="16" id="JEr-0a-LN5"/>
+                            <constraint firstItem="KIg-Kb-WRU" firstAttribute="bottom" secondItem="tqQ-Ge-Gch" secondAttribute="bottom" constant="8" id="JEr-0a-LN5"/>
                             <constraint firstItem="KIg-Kb-WRU" firstAttribute="trailing" secondItem="SB6-wP-bMb" secondAttribute="trailing" constant="16" id="RRj-Id-t8k"/>
                             <constraint firstItem="8Ee-mk-PgR" firstAttribute="centerY" secondItem="ILg-gC-HmL" secondAttribute="centerY" id="SW0-Dr-pmj"/>
                             <constraint firstItem="SB6-wP-bMb" firstAttribute="leading" secondItem="KIg-Kb-WRU" secondAttribute="leading" constant="16" id="eeJ-pF-6JD"/>
@@ -1190,7 +1197,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lk3-1e-ewn">
                                 <rect key="frame" x="140" y="208" width="95" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" title="포인트 사용하기"/>
+                                <state key="normal" title="포인트 사용하기">
+                                    <color key="titleColor" name="gr-8"/>
+                                </state>
                                 <connections>
                                     <action selector="onClickUsePoint:" destination="zjR-uO-o2s" eventType="touchUpInside" id="lnS-dK-Vhx"/>
                                 </connections>
@@ -1244,6 +1253,18 @@
         <image name="ic_menu_save_point" width="30" height="30"/>
         <image name="ic_time" width="30" height="30"/>
         <image name="qr_box" width="285" height="284"/>
+        <namedColor name="background-always-light">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="content-primary">
+            <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="gr-5">
+            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="gr-8">
+            <color red="0.097999997437000275" green="0.43900001049041748" blue="0.28999999165534973" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

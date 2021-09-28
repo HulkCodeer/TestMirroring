@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -214,31 +215,40 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s2N-jj-PeS">
-                                        <rect key="frame" x="16" y="627" width="343" height="32"/>
+                                        <rect key="frame" x="16" y="619" width="343" height="40"/>
+                                        <color key="backgroundColor" name="gr-5"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="32" id="QD0-SO-3QA"/>
+                                            <constraint firstAttribute="height" constant="40" id="QD0-SO-3QA"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <state key="normal" title="확인"/>
+                                        <state key="normal" title="확인">
+                                            <color key="titleColor" name="nt-white"/>
+                                        </state>
                                         <connections>
                                             <action selector="onClickOkBtn:" destination="ofj-9O-aTe" eventType="touchUpInside" id="xRi-Wz-Xt5"/>
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="aAU-bT-4br">
-                                        <rect key="frame" x="16" y="627" width="343" height="32"/>
+                                        <rect key="frame" x="16" y="619" width="343" height="40"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lka-AL-dgC">
-                                                <rect key="frame" x="0.0" y="0.0" width="167.5" height="32"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="167.5" height="40"/>
+                                                <color key="backgroundColor" name="gr-5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <state key="normal" title="삭제"/>
+                                                <state key="normal" title="삭제">
+                                                    <color key="titleColor" name="nt-white"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="onClickDeleteBtn:" destination="ofj-9O-aTe" eventType="touchUpInside" id="4j6-5T-2jV"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hdw-xn-NQn">
-                                                <rect key="frame" x="175.5" y="0.0" width="167.5" height="32"/>
+                                                <rect key="frame" x="175.5" y="0.0" width="167.5" height="40"/>
+                                                <color key="backgroundColor" name="gr-5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <state key="normal" title="변경"/>
+                                                <state key="normal" title="변경">
+                                                    <color key="titleColor" name="nt-white"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="onClickChangeBtn:" destination="ofj-9O-aTe" eventType="touchUpInside" id="ujg-qq-uw4"/>
                                                 </connections>
@@ -247,7 +257,7 @@
                                         <constraints>
                                             <constraint firstItem="Hdw-xn-NQn" firstAttribute="top" secondItem="aAU-bT-4br" secondAttribute="top" id="1sG-2a-hZC"/>
                                             <constraint firstItem="Hdw-xn-NQn" firstAttribute="width" secondItem="lka-AL-dgC" secondAttribute="width" id="9V3-QZ-7mt"/>
-                                            <constraint firstAttribute="height" constant="32" id="Jwc-QR-lFk"/>
+                                            <constraint firstAttribute="height" constant="40" id="Jwc-QR-lFk"/>
                                             <constraint firstAttribute="bottom" secondItem="Hdw-xn-NQn" secondAttribute="bottom" id="eGS-Pn-auf"/>
                                             <constraint firstAttribute="bottom" secondItem="lka-AL-dgC" secondAttribute="bottom" id="nNs-f0-qWg"/>
                                             <constraint firstItem="lka-AL-dgC" firstAttribute="top" secondItem="aAU-bT-4br" secondAttribute="top" id="xuD-bt-Py9"/>
@@ -682,6 +692,7 @@
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CIg-iF-s4B">
                                                                 <rect key="frame" x="107.5" y="222" width="120" height="36"/>
+                                                                <color key="backgroundColor" name="gr-5"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="120" id="XxK-eE-OYk"/>
                                                                     <constraint firstAttribute="height" constant="36" id="d4O-Bt-quF"/>
@@ -764,6 +775,12 @@
         <image name="btn_camera.png" width="75.599998474121094" height="75.599998474121094"/>
         <image name="empty_bookmark_img" width="111.5" height="175.5"/>
         <image name="ic_persom_base150" width="150" height="150"/>
+        <namedColor name="gr-5">
+            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="nt-white">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

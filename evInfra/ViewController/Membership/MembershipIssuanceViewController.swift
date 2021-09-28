@@ -85,7 +85,7 @@ class MembershipIssuanceViewController: UIViewController,
     }
     
     override func viewWillLayoutSubviews() {
-        btnNext.setDefaultBackground(cornerRadius: 10)
+        btnNext.layer.cornerRadius = 4
     }
     
     override func viewWillDisappear(_ animated: Bool) {

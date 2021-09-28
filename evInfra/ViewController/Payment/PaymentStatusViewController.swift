@@ -94,6 +94,9 @@ class PaymentStatusViewController: UIViewController {
         circleView.safePercent = 100
         
         btnStopCharging.isEnabled = false
+        
+        btnStopCharging.layer.backgroundColor = UIColor(named: "background-disabled")!.cgColor
+        btnStopCharging.setTitleColor(UIColor(named: "content-disabled")!, for: .normal)
     }
     
     func prepareNotificationCenter() {
@@ -107,13 +110,11 @@ class PaymentStatusViewController: UIViewController {
     }
     
     func btnSetBorder() {
-        let borderColor = UIColor(hex: "#22C1BB")
-        let startColor = UIColor(hex: "#2CE0BB").cgColor
-        let endColor = UIColor(hex: "#33A2DA").cgColor
+        let borderColor = UIColor(named: "border-opaque")!
         
-        btnUseBerry.roundCorners(.allCorners, radius: 20, borderColor: borderColor, borderWidth: 4)
+        btnUseBerry.roundCorners(.allCorners, radius: 4, borderColor: borderColor, borderWidth: 2)
         
-        btnStopCharging.setRoundGradient(startColor: startColor, endColor: endColor)
+        btnStopCharging.layer.cornerRadius = 4
     }
     
     @objc func requestStatusFromFCM(notification: Notification) {
@@ -346,6 +347,9 @@ extension PaymentStatusViewController {
             if companyId.elementsEqual(CompanyInfo.COMPANY_ID_GSC) {
                 if isStopCharging == false {
                     btnStopCharging.isEnabled = true
+                    
+                    btnStopCharging.layer.backgroundColor = UIColor(named: "background-positive")!.cgColor
+                    btnStopCharging.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
                 }
                 if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_LOTTE) {
                     let discountInfoMsg = NSMutableAttributedString(string: "남은 할인 금액은 ")

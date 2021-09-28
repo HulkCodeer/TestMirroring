@@ -48,7 +48,7 @@ class MembershipInfoViewController: UIViewController {
     
     func initView() {
         indicator.isHidden = true
-        btnModify.setDefaultBackground(cornerRadius: 4)
+        btnModify.layer.cornerRadius = 4
         let str = memberInfo?.cardNo!.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-");
         lbCardNo.text = str
         lbCardStatus.text = getCardStatusToString(status: memberInfo!.status!)

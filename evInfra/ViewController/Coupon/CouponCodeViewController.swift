@@ -23,7 +23,7 @@ class CouponCodeViewController: UIViewController {
     }
     
     override func viewWillLayoutSubviews() {
-        registerCouponBtn.setDefaultBackground(cornerRadius: 10)
+        registerCouponBtn.layer.cornerRadius = 4
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){

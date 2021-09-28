@@ -88,9 +88,11 @@ class RegisterResultViewController : UIViewController {
     }
     
     override func viewWillLayoutSubviews() {
-        btnComplete.setDefaultBackground(cornerRadius: 20)
-        btnRetry.layer.cornerRadius = 10
-        btnGoMain.setDefaultBackground(cornerRadius: 20)
+        btnComplete.layer.cornerRadius = 4
+        btnRetry.layer.cornerRadius = 4
+        btnRetry.layer.borderWidth = 1
+        btnRetry.layer.borderColor = UIColor(named: "border-opaque")!.cgColor
+        btnGoMain.layer.cornerRadius = 4
     }
     
     func initView() {

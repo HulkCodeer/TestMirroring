@@ -58,7 +58,7 @@ class LotteRentCertificateViewController : UIViewController,
     }
     
     override func viewWillLayoutSubviews() {
-        btnRegister.setDefaultBackground(cornerRadius: 20)
+        btnRegister.layer.cornerRadius = 4
     }
     
     func updateAfterPayRegist(json: JSON) {
