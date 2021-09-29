@@ -80,10 +80,16 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="446" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="5Wv-M6-w8B">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="446"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Requesting Charging" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s4l-0W-7lg">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Requesting Charging" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s4l-0W-7lg">
                                                         <rect key="frame" x="16" y="32" width="343" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="버튼 클릭 시, 베리 사용 및 결제가 진행됩니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w5i-I9-RKp">
+                                                        <rect key="frame" x="16" y="58.5" width="343" height="0.0"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <color key="textColor" name="content-tertiary"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xT9-U2-GQU">
@@ -466,6 +472,7 @@
                         <outlet property="lbChargeFee" destination="vWD-Fs-JCv" id="4Yy-Z7-woD"/>
                         <outlet property="lbChargePower" destination="Me8-rn-GEF" id="3ya-o3-v9w"/>
                         <outlet property="lbChargeSpeed" destination="m8I-fy-Eyn" id="4uF-Qd-Q4Z"/>
+                        <outlet property="lbChargeSubComment" destination="w5i-I9-RKp" id="xfh-bE-aWb"/>
                         <outlet property="lbChargeTotalFee" destination="JGo-k1-dAu" id="oOD-j8-T7c"/>
                         <outlet property="lbDiscountAmount" destination="7JO-Sl-T2b" id="Zaw-hr-bsP"/>
                         <outlet property="lbDiscountMsg" destination="u73-IF-I58" id="JjY-mX-jkQ"/>
@@ -1258,6 +1265,9 @@
         </namedColor>
         <namedColor name="content-primary">
             <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="content-tertiary">
+            <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="gr-5">
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
