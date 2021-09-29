@@ -146,7 +146,7 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             strUrl = Const.EV_PAY_SERVER + "/docs/info/business_info"
             
         case .FAQTop:
-            strUrl = Const.EV_PAY_SERVER + "/docs/info/faq_top"
+            strUrl = Const.EV_PAY_SERVER + "/docs/info/faq_main"
         }
 
         let url = NSURL(string:strUrl)
