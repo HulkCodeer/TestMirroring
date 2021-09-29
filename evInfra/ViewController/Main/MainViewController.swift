@@ -1299,10 +1299,16 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainHelp(_ sender: UIButton) {
+//        let infoStoryboard = UIStoryboard(name : "FAQ", bundle: nil)
+//        let faqViewController = infoStoryboard.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
+//        self.navigationController?.push(viewController: faqViewController)
+        
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
         let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-        termsViewControll.tabIndex = .Help
+        termsViewControll.tabIndex = .FAQTop
         self.navigationController?.push(viewController: termsViewControll)
+        
+        // 원래주석된 코드
 //        if MemberManager().isLogin() {
 //            let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
 //            reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_MAIN

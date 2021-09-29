@@ -9,6 +9,7 @@
 import UIKit
 import Material
 import WebKit
+import JavaScriptCore
 
 class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
     
@@ -22,9 +23,9 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         case EvBonusGuide      // 보조금 안내
         case PriceInfo         // 충전요금 안내
         case EvBonusStatus     // 보조금 현황
-        case Help              // 도움말
         case BusinessInfo      // 사업자정보
         case StationPrice      // 충전소 요금정보
+        case FAQTop            // FAQ (top10)
     }
 
     var tabIndex:Request = .UsingTerms
@@ -98,10 +99,12 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             navigationItem.titleLabel.text = "도움말"
             
         case .BusinessInfo:
+            print("csj_", "faqTop")
             navigationItem.titleLabel.text = "사업자 정보"
-            
         case .StationPrice:
             navigationItem.titleLabel.text = "충전소 가격정보"
+        case .FAQTop:
+            navigationItem.titleLabel.text = "자주묻는 질문"
         }
         
         self.navigationController?.isNavigationBarHidden = false
@@ -109,7 +112,11 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
     
     @objc
     fileprivate func handleBackButton() {
-        self.navigationController?.pop()
+        if webView.canGoBack {
+            webView.goBack()
+        }else{
+            self.navigationController?.pop()
+        }
     }
     
     func loadFromUrl() {
@@ -142,14 +149,13 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         case .EvBonusStatus:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/subsidy_status"
         
-        case .Help:
-            strUrl = Const.EV_PAY_SERVER + "/docs/info/ev_infra_help"
-        
         case .BusinessInfo:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/business_info"
             
         case .StationPrice:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/charge_price_info"
+        case .FAQTop:
+            strUrl = Const.EV_PAY_SERVER + "/docs/info/faq_main"
         }
 
         if subParams.isEmpty {

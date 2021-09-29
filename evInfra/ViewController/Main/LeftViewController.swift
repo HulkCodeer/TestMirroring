@@ -63,8 +63,9 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     let SUB_MENU_CELL_SETTINGS = 0
     
     let SUB_MENU_ALL_SETTINGS  = 0
-    let SUB_MENU_SERVICE_GUIDE = 1
-    let SUB_MENU_VERSION       = 2
+    let SUB_MENU_FAQ  = 1
+    let SUB_MENU_SERVICE_GUIDE = 2
+    let SUB_MENU_VERSION       = 3
     
     var sideMenuArrays:[[Array<String>]] = [[]]
     // Company id Arr (get each row's company id)
@@ -165,7 +166,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         let ev1Arr:Array<String> = []
         let evArr:[Array<String>] = [ev0Arr, ev1Arr]
         
-        let setting0Arr = ["전체 설정", "이용 안내", "버전 정보"]
+        let setting0Arr = ["전체 설정", "자주묻는 질문", "이용 안내", "버전 정보"]
         let setting1Arr:Array<String> = []
         let settingArr:[Array<String>] = [setting0Arr, setting1Arr]
         
@@ -433,8 +434,11 @@ extension LeftViewController {
                 priceInfoVC.tabIndex = .PriceInfo
                 self.navigationController?.push(viewController: priceInfoVC)
                 
-//                let priceVC: ChargePriceViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargePriceViewController") as! ChargePriceViewController
-//                self.navigationController?.push(viewController: priceVC)
+            case SUB_MENU_BONUS:
+                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+                let bojoDashVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                bojoDashVC.tabIndex = .EvBonusStatus
+                self.navigationController?.push(viewController: bojoDashVC)
             default:
                 print("out of index")
             }
@@ -452,6 +456,12 @@ extension LeftViewController {
                 let settingsStoryboard = UIStoryboard(name : "Settings", bundle: nil)
                 let settingsVC = settingsStoryboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
                 self.navigationController?.push(viewController: settingsVC)
+                
+            case SUB_MENU_FAQ: // 자주묻는 질문
+                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+                let termsVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                termsVC.tabIndex = .FAQTop
+                self.navigationController?.push(viewController: termsVC)
             
             case SUB_MENU_SERVICE_GUIDE:
                 let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
