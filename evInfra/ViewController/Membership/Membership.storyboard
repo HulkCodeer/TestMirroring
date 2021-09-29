@@ -838,7 +838,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="ZSa-Yc-5ce">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="789"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="814"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내 카드" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YMo-uO-d60">
                                                 <rect key="frame" x="16" y="32" width="343" height="39.5"/>
@@ -847,18 +847,11 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yif-Ju-7Nc" userLabel="evinfra_view">
-                                                <rect key="frame" x="16" y="95.5" width="343" height="202.5"/>
+                                                <rect key="frame" x="16" y="95.5" width="343" height="227.5"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="UqG-mX-yEL">
-                                                        <rect key="frame" x="0.0" y="0.0" width="343" height="202.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="343" height="227.5"/>
                                                         <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
-                                                    </imageView>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="evinfra_logo" translatesAutoresizingMaskIntoConstraints="NO" id="Xh4-7C-5Xt">
-                                                        <rect key="frame" x="219" y="24" width="100" height="24"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="100" id="GZi-hK-eOL"/>
-                                                            <constraint firstAttribute="height" constant="24" id="zAn-hb-vv8"/>
-                                                        </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="발급 상태" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Spr-Ig-m9f">
                                                         <rect key="frame" x="24" y="24" width="60" height="19.5"/>
@@ -867,42 +860,45 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000-0000-0000-0000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6S-gQ-ZLE">
-                                                        <rect key="frame" x="24" y="152" width="242.5" height="26.5"/>
+                                                        <rect key="frame" x="24" y="177" width="242.5" height="26.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_evinfra_logo" translatesAutoresizingMaskIntoConstraints="NO" id="BkI-t3-Bgh">
+                                                        <rect key="frame" x="247" y="26" width="72" height="16"/>
+                                                    </imageView>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstItem="Spr-Ig-m9f" firstAttribute="leading" secondItem="yif-Ju-7Nc" secondAttribute="leading" constant="24" id="508-Fh-3Eu"/>
-                                                    <constraint firstItem="Xh4-7C-5Xt" firstAttribute="top" secondItem="yif-Ju-7Nc" secondAttribute="top" constant="24" id="9Qk-Nj-2BB"/>
-                                                    <constraint firstAttribute="trailing" secondItem="Xh4-7C-5Xt" secondAttribute="trailing" constant="24" id="KSa-h9-GVf"/>
                                                     <constraint firstItem="UqG-mX-yEL" firstAttribute="width" secondItem="yif-Ju-7Nc" secondAttribute="width" id="LBp-cJ-cbZ"/>
                                                     <constraint firstItem="W6S-gQ-ZLE" firstAttribute="leading" secondItem="yif-Ju-7Nc" secondAttribute="leading" constant="24" id="Lpo-H7-72e"/>
                                                     <constraint firstItem="Spr-Ig-m9f" firstAttribute="top" secondItem="yif-Ju-7Nc" secondAttribute="top" constant="24" id="N6p-Lf-2OC"/>
-                                                    <constraint firstAttribute="width" secondItem="yif-Ju-7Nc" secondAttribute="height" multiplier="61:36" id="SPm-Vs-0rq"/>
+                                                    <constraint firstAttribute="width" secondItem="yif-Ju-7Nc" secondAttribute="height" multiplier="163:108" id="SPm-Vs-0rq"/>
+                                                    <constraint firstItem="BkI-t3-Bgh" firstAttribute="centerY" secondItem="Spr-Ig-m9f" secondAttribute="centerY" id="biB-XM-arh"/>
                                                     <constraint firstItem="UqG-mX-yEL" firstAttribute="leading" secondItem="yif-Ju-7Nc" secondAttribute="leading" id="foS-kO-wC1"/>
+                                                    <constraint firstAttribute="trailing" secondItem="BkI-t3-Bgh" secondAttribute="trailing" constant="24" id="p9l-az-e4E"/>
                                                     <constraint firstItem="UqG-mX-yEL" firstAttribute="top" secondItem="yif-Ju-7Nc" secondAttribute="top" id="qOS-tF-6aw"/>
                                                     <constraint firstItem="UqG-mX-yEL" firstAttribute="height" secondItem="yif-Ju-7Nc" secondAttribute="height" id="u1p-3x-mff"/>
                                                     <constraint firstAttribute="bottom" secondItem="W6S-gQ-ZLE" secondAttribute="bottom" constant="24" id="vIW-n1-LHz"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hRn-Vg-O0D">
-                                                <rect key="frame" x="16" y="322" width="343" height="8"/>
+                                                <rect key="frame" x="16" y="347" width="343" height="8"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="8" id="X3X-EY-Xbm"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="결제 정보 변경" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ru-rd-hjW">
-                                                <rect key="frame" x="16" y="354" width="343" height="38.5"/>
+                                                <rect key="frame" x="16" y="379" width="343" height="38.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="o9I-Oj-ge5">
-                                                <rect key="frame" x="16" y="416.5" width="343" height="65.5"/>
+                                                <rect key="frame" x="16" y="441.5" width="343" height="65.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="현재 비밀번호" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WB4-lQ-cQg">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="19.5"/>
@@ -932,7 +928,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="N3I-AK-Or3">
-                                                <rect key="frame" x="16" y="506" width="343" height="65.5"/>
+                                                <rect key="frame" x="16" y="531" width="343" height="65.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="새 비밀번호" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjW-tA-lq2">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="19.5"/>
@@ -962,7 +958,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1bR-A2-Y7Z">
-                                                <rect key="frame" x="16" y="595.5" width="343" height="65.5"/>
+                                                <rect key="frame" x="16" y="620.5" width="343" height="65.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="새 비밀번호 확인" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vuk-hZ-Qsd">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="19.5"/>
@@ -992,14 +988,14 @@
                                                 </subviews>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5G2-RV-MQs">
-                                                <rect key="frame" x="16" y="685" width="343" height="8"/>
+                                                <rect key="frame" x="16" y="710" width="343" height="8"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="8" id="JK7-L5-c8M"/>
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="aty-Fw-sf0">
-                                                <rect key="frame" x="16" y="717" width="343" height="40"/>
+                                                <rect key="frame" x="16" y="742" width="343" height="40"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KiH-TM-X9U">
                                                         <rect key="frame" x="111.5" y="0.0" width="120" height="40"/>
@@ -1099,8 +1095,8 @@
     </designables>
     <resources>
         <image name="call_btn" width="202.5" height="48"/>
-        <image name="card_bg" width="445" height="264"/>
-        <image name="evinfra_logo" width="105" height="26.5"/>
+        <image name="card_bg" width="328" height="216"/>
+        <image name="card_evinfra_logo" width="72" height="16"/>
         <image name="lotte_card_bg" width="442.5" height="262.5"/>
         <image name="lotte_logo_white" width="105" height="26.5"/>
         <image name="qr_box" width="285" height="284"/>

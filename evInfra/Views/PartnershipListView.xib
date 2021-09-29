@@ -40,18 +40,11 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tjU-wT-vwL" userLabel="evinfra_view">
-                                    <rect key="frame" x="16" y="85" width="343" height="201"/>
+                                    <rect key="frame" x="16" y="85" width="343" height="227.5"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="gLY-YF-gXL">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="201"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="227.5"/>
                                             <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
-                                        </imageView>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="evinfra_logo" translatesAutoresizingMaskIntoConstraints="NO" id="Ft7-ja-yGm">
-                                            <rect key="frame" x="219" y="24" width="100" height="24"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="24" id="9Mv-j3-ohQ"/>
-                                                <constraint firstAttribute="width" constant="100" id="d94-5p-BMh"/>
-                                            </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="발급 상태" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nh1-Wa-4F4">
                                             <rect key="frame" x="24" y="24" width="60" height="19.5"/>
@@ -60,31 +53,34 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000-0000-0000-0000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cKz-Vd-B2Y">
-                                            <rect key="frame" x="24" y="150.5" width="242.5" height="26.5"/>
+                                            <rect key="frame" x="24" y="177" width="242.5" height="26.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_evinfra_logo" translatesAutoresizingMaskIntoConstraints="NO" id="NaH-D8-A2N">
+                                            <rect key="frame" x="247" y="26" width="72" height="16"/>
+                                        </imageView>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="gLY-YF-gXL" firstAttribute="width" secondItem="tjU-wT-vwL" secondAttribute="width" id="0gw-dl-xfP"/>
                                         <constraint firstItem="cKz-Vd-B2Y" firstAttribute="leading" secondItem="tjU-wT-vwL" secondAttribute="leading" constant="24" id="4mb-gA-FFl"/>
-                                        <constraint firstAttribute="width" secondItem="tjU-wT-vwL" secondAttribute="height" multiplier="41:24" id="7PK-8j-bof"/>
+                                        <constraint firstAttribute="width" secondItem="tjU-wT-vwL" secondAttribute="height" multiplier="163:108" id="7PK-8j-bof"/>
                                         <constraint firstItem="gLY-YF-gXL" firstAttribute="height" secondItem="tjU-wT-vwL" secondAttribute="height" id="Gyy-nm-yON"/>
-                                        <constraint firstItem="Ft7-ja-yGm" firstAttribute="top" secondItem="tjU-wT-vwL" secondAttribute="top" constant="24" id="K5k-Sr-yr8"/>
                                         <constraint firstItem="Nh1-Wa-4F4" firstAttribute="top" secondItem="tjU-wT-vwL" secondAttribute="top" constant="24" id="QhZ-pz-dRW"/>
+                                        <constraint firstItem="NaH-D8-A2N" firstAttribute="centerY" secondItem="Nh1-Wa-4F4" secondAttribute="centerY" id="T1G-dT-ARc"/>
                                         <constraint firstAttribute="bottom" secondItem="cKz-Vd-B2Y" secondAttribute="bottom" constant="24" id="Vgd-X8-VTQ"/>
                                         <constraint firstItem="gLY-YF-gXL" firstAttribute="top" secondItem="tjU-wT-vwL" secondAttribute="top" id="gTw-HJ-MbC"/>
-                                        <constraint firstAttribute="trailing" secondItem="Ft7-ja-yGm" secondAttribute="trailing" constant="24" id="ip3-IX-fAy"/>
                                         <constraint firstItem="Nh1-Wa-4F4" firstAttribute="leading" secondItem="tjU-wT-vwL" secondAttribute="leading" constant="24" id="p2m-87-HYU"/>
                                         <constraint firstItem="gLY-YF-gXL" firstAttribute="leading" secondItem="tjU-wT-vwL" secondAttribute="leading" id="rSS-tT-A0M"/>
+                                        <constraint firstAttribute="trailing" secondItem="NaH-D8-A2N" secondAttribute="trailing" constant="24" id="woE-zW-OBL"/>
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="krc-y6-DiL" userLabel="skr_view">
                                     <rect key="frame" x="16" y="85" width="343" height="201"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sk_card_bg-1" translatesAutoresizingMaskIntoConstraints="NO" id="Sa9-9b-uzd">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sk_card_bg-1" translatesAutoresizingMaskIntoConstraints="NO" id="Sa9-9b-uzd">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="201"/>
                                             <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
                                         </imageView>
@@ -92,10 +88,10 @@
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="Sa9-9b-uzd" firstAttribute="leading" secondItem="krc-y6-DiL" secondAttribute="leading" id="FyD-xb-YpD"/>
-                                        <constraint firstItem="Sa9-9b-uzd" firstAttribute="height" secondItem="krc-y6-DiL" secondAttribute="height" id="OK2-gt-d47"/>
-                                        <constraint firstItem="Sa9-9b-uzd" firstAttribute="width" secondItem="krc-y6-DiL" secondAttribute="width" id="cCi-16-hZn"/>
+                                        <constraint firstAttribute="width" secondItem="krc-y6-DiL" secondAttribute="height" multiplier="437:256" id="OVX-oy-laS"/>
                                         <constraint firstItem="Sa9-9b-uzd" firstAttribute="top" secondItem="krc-y6-DiL" secondAttribute="top" id="mGC-xg-UnZ"/>
-                                        <constraint firstAttribute="width" secondItem="krc-y6-DiL" secondAttribute="height" multiplier="41:24" id="v8K-8N-VI1"/>
+                                        <constraint firstAttribute="trailing" secondItem="Sa9-9b-uzd" secondAttribute="trailing" id="oBR-wy-Orp"/>
+                                        <constraint firstAttribute="bottom" secondItem="Sa9-9b-uzd" secondAttribute="bottom" id="uLu-1E-1Nt"/>
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="js3-HB-HDS" userLabel="lotte_view">
@@ -192,8 +188,8 @@
     </objects>
     <resources>
         <image name="card_add_img" width="341" height="192"/>
-        <image name="card_bg" width="445" height="264"/>
-        <image name="evinfra_logo" width="105" height="26.5"/>
+        <image name="card_bg" width="328" height="216"/>
+        <image name="card_evinfra_logo" width="72" height="16"/>
         <image name="lotte_card_bg" width="442.5" height="262.5"/>
         <image name="lotte_logo_white" width="105" height="26.5"/>
         <image name="sk_card_bg-1" width="437" height="256"/>
