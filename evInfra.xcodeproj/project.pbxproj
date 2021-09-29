@@ -1899,11 +1899,8 @@
 				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
 				CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */,
 				733662D022F974820049AEFE /* Coupon.swift in Sources */,
-<<<<<<< HEAD
 				90CBCC7026EB1E41002B2591 /* NSDataExtention.swift in Sources */,
-=======
 				4273DB4826E20F0A00B4B60A /* ReportAdditionalView.swift in Sources */,
->>>>>>> dev_faq
 				0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
