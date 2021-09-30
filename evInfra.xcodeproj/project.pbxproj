@@ -83,11 +83,8 @@
 		425EE66D2519EE3C0089E87D /* DaumMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE66C2519EE3C0089E87D /* DaumMap.framework */; };
 		4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */; };
 		4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
-		4273DB4826E20F0A00B4B60A /* ReportAdditionalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273DB4726E20F0A00B4B60A /* ReportAdditionalView.swift */; };
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
 		4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */; };
-		42C7A78926E898F8000AA802 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7A78826E898F8000AA802 /* FAQViewController.swift */; };
-		42C7A78B26E89904000AA802 /* FAQ.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42C7A78A26E89904000AA802 /* FAQ.storyboard */; };
 		42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */; };
 		42CEB75126C1110D00E37AE4 /* CidInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */; };
 		42F9BCE126C64C250028B3D1 /* SummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42F9BCDF26C64C250028B3D1 /* SummaryView.xib */; };
@@ -439,11 +436,8 @@
 		425EE66C2519EE3C0089E87D /* DaumMap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DaumMap.framework; path = DaumMap.embeddedframework/DaumMap.framework; sourceTree = "<group>"; };
 		4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceViewController.swift; sourceTree = "<group>"; };
 		4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceTableViewCell.swift; sourceTree = "<group>"; };
-		4273DB4726E20F0A00B4B60A /* ReportAdditionalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAdditionalView.swift; sourceTree = "<group>"; };
 		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
 		4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponCodeViewController.swift; sourceTree = "<group>"; };
-		42C7A78826E898F8000AA802 /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
-		42C7A78A26E89904000AA802 /* FAQ.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FAQ.storyboard; sourceTree = "<group>"; };
 		42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CidInfoTableViewCell.swift; sourceTree = "<group>"; };
 		42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CidInfoTableViewCell.xib; sourceTree = "<group>"; };
 		42F9BCDF26C64C250028B3D1 /* SummaryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SummaryView.xib; sourceTree = "<group>"; };
@@ -951,15 +945,6 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
-		424ED9CF26E5E00F004EA8F9 /* FAQ */ = {
-			isa = PBXGroup;
-			children = (
-				42C7A78826E898F8000AA802 /* FAQViewController.swift */,
-				42C7A78A26E89904000AA802 /* FAQ.storyboard */,
-			);
-			path = FAQ;
-			sourceTree = "<group>";
-		};
 		5659BC9F308878047DB36D3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1242,7 +1227,6 @@
 		73EF8B40203BC12F00D04494 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				424ED9CF26E5E00F004EA8F9 /* FAQ */,
 				00A7D5C926B7B13F00C5DBCC /* Filter */,
 				00B2E8C926C10895005D017C /* Detail */,
 				00B2E8C626C106A0005D017C /* Login */,
@@ -1508,7 +1492,6 @@
 				00FDEAEF26B3BF8C006617EE /* Report.storyboard */,
 				CE93309021509A81006B7EF6 /* ReportBoardViewController.swift */,
 				CE00E811214A330B00020D6E /* ReportChargeViewController.swift */,
-				4273DB4726E20F0A00B4B60A /* ReportAdditionalView.swift */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -1708,7 +1691,6 @@
 				73EF8B76203C85CC00D04494 /* poweredby@2x.png in Resources */,
 				73A7B410204E3595002E975F /* type_ac_slow_dim.png in Resources */,
 				DB0D96D72052548B00BA018B /* menu_top_bg.jpg in Resources */,
-				42C7A78B26E89904000AA802 /* FAQ.storyboard in Resources */,
 				00FDEAF226B3BF97006617EE /* Board.storyboard in Resources */,
 				73EF8B7A203C85CC00D04494 /* TrackingDotHalo@2x.png in Resources */,
 				00A6A16A26C3C44E0023DAE3 /* FilterBarView.xib in Resources */,
@@ -1900,7 +1882,6 @@
 				CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */,
 				733662D022F974820049AEFE /* Coupon.swift in Sources */,
 				90CBCC7026EB1E41002B2591 /* NSDataExtention.swift in Sources */,
-				4273DB4826E20F0A00B4B60A /* ReportAdditionalView.swift in Sources */,
 				0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
@@ -2053,7 +2034,6 @@
 				73EE8FC72109B0FD0016F505 /* URL.swift in Sources */,
 				00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */,
 				73A7B428204E81A6002E975F /* Const.swift in Sources */,
-				42C7A78926E898F8000AA802 /* FAQViewController.swift in Sources */,
 				0056440D252DB2AB007BF78D /* MembershipQRViewController.swift in Sources */,
 				4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */,
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,

@@ -95,11 +95,7 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         case .EvBonusStatus:
             navigationItem.titleLabel.text = "보조금 현황"
             
-        case .Help:
-            navigationItem.titleLabel.text = "도움말"
-            
         case .BusinessInfo:
-            print("csj_", "faqTop")
             navigationItem.titleLabel.text = "사업자 정보"
         case .StationPrice:
             navigationItem.titleLabel.text = "충전소 가격정보"
@@ -174,6 +170,7 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        
         if navigationAction.navigationType == .linkActivated  {
             if let newURL = navigationAction.request.url,
                 let host = newURL.host , !host.hasPrefix(Const.EV_PAY_SERVER + "/docs/info/ev_infra_help") &&

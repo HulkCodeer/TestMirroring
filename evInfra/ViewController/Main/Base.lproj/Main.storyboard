@@ -123,7 +123,7 @@
                                                 <rect key="frame" x="165.5" y="0.0" width="79" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                 <color key="tintColor" name="gr-8"/>
-                                                <state key="normal" title="도움말" image="ic_line_help">
+                                                <state key="normal" title="FAQ" image="ic_line_help">
                                                     <color key="titleColor" name="gr-8"/>
                                                 </state>
                                                 <connections>

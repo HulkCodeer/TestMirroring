@@ -1299,9 +1299,6 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainHelp(_ sender: UIButton) {
-//        let infoStoryboard = UIStoryboard(name : "FAQ", bundle: nil)
-//        let faqViewController = infoStoryboard.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
-//        self.navigationController?.push(viewController: faqViewController)
         
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
         let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
