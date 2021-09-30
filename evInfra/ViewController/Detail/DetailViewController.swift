@@ -77,10 +77,10 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         prepareActionBar()
         prepareBoardTableView()
         prepareChargerInfo()
+        prepareSummaryView()
     }
     
     override func viewWillLayoutSubviews() {
-        prepareSummaryView()
         self.accessWarningView.layer.cornerRadius = 16
         self.priceInfoBtn.layer.cornerRadius = 6
         let view = UIView(frame:self.priceTableHeader.bounds)
@@ -112,7 +112,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         summaryLayout.addSubview(summaryView)
         summaryView.delegate = self
         summaryView.setLayoutType(charger: charger!, type: SummaryView.SummaryType.DetailSummary)
-//        summaryView.layoutDetailSummary()
         summaryView.layoutAddPathSummary(hiddenAddBtn: !isRouteMode)
     }
     
@@ -260,6 +259,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
                         self.priceTableView.isHidden = true
                         self.priceTableHeight.constant = 88
                     }
+                    self.priceAlertLb.isHidden = true
+                    self.priceInfoBtn.isHidden = false
                 } else {
                     if !self.priceTableView.isHidden {
                         detailViewResize(viewHeight: 80)
