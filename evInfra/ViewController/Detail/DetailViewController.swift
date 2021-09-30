@@ -36,7 +36,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var memoLabel: UILabel!              // 메모
     @IBOutlet weak var memoView: UIStackView!                // 메모(view)
     
-    
     // 충전기 정보(list)
     @IBOutlet weak var boardTableView: BoardTableView!
     @IBOutlet weak var cidTableView: CidTableView!
@@ -53,21 +52,14 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var priceTableHeight: NSLayoutConstraint!
     
     var charger: ChargerStationInfo?
-    var isExistAddBtn = false
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var boardList: Array<BoardItem> = Array<BoardItem>()
     
     private var phoneNumber:String? = nil
-    private var homePage:String? = nil
-    private var appStore:String? = nil
         
     var mapView:MTMapView?
-    
-    var summaryViewTag = 20
     var summaryView:SummaryView!
-    var stationJson:JSON!
-    
     var isRouteMode:Bool = false
 
 
@@ -562,11 +554,9 @@ extension DetailViewController {
         let actionButton = JJFloatingActionButton()
         actionButton.buttonColor = UIColor.clear
         actionButton.buttonImage = UIImage(named: "detail_plus")
-//        actionButton.buttonImageSize = actionButton.buttonImage?.size ?? CGSize.init(width:  74.55, height:  74.55)
         if let image = actionButton.buttonImage {
             actionButton.buttonImageSize = image.size
         }
-//        actionButton.buttonImageSize = CGSize.init(width: 56, height: 136)
         
         let ret = prepareCallItem()
         if ret {
@@ -645,20 +635,6 @@ extension DetailViewController {
 }
 
 extension DetailViewController {
-    @objc
-    func onClickMoveCompanyHomePage(_sender:UIButton) {
-        if let strUrl = self.homePage {
-            moveToUrl(strUrl: strUrl)
-        }
-    }
-    
-    @objc
-    func onClickMoveAppStore(_sender:UIButton) {
-        if let strUrl = self.appStore {
-            moveToUrl(strUrl: strUrl)
-        }
-    }
-    
     func moveToUrl(strUrl:String) {
         let encode_url = strUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         if let url = NSURL(string: encode_url) {

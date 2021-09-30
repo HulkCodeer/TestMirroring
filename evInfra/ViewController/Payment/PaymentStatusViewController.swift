@@ -391,16 +391,8 @@ extension PaymentStatusViewController {
                 lbChargeBerry.text = pointStr.currency() + " B"
                 point = Double(pointStr) ?? 0.0
                 if point > 0 {
-    //                mBtnRemovePoint.setVisibility(View.VISIBLE);
-    //                mBtnUsePoint.setBackground(getResources().getDrawable(R.drawable.btn_selector_gray));
-    //                mBtnUsePoint.setTextColor(getResources().getColor(R.color.normal_btn_bg_gray));
-
                     btnUseBerry.setTitle("베리 수정하기", for: .normal)
                 } else {
-    //                mBtnRemovePoint.setVisibility(View.GONE);
-    //                mBtnUsePoint.setBackground(getResources().getDrawable(R.drawable.btn_selector_green));
-    //                mBtnUsePoint.setTextColor(getResources().getColor(R.color.normal_btn_bg_green));
-
                     btnUseBerry.setTitle("베리 사용하기", for: .normal)
                 }
             }
