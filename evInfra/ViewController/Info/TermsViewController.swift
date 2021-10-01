@@ -56,6 +56,10 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         webView.translatesAutoresizingMaskIntoConstraints = true
         webView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         self.view = webView
+        
+        let uiScreenEdgePan = UIScreenEdgePanGestureRecognizer(target: self, action:  #selector(swipeEvent))
+        uiScreenEdgePan.edges = .left
+        webView.addGestureRecognizer(uiScreenEdgePan)
     }
     
     func prepareActionBar() {
@@ -108,12 +112,24 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
     
     @objc
     fileprivate func handleBackButton() {
+        backKeyEvent()
+    }
+    
+    @objc
+    func swipeEvent(_ recogniger : UIScreenEdgePanGestureRecognizer) {
+        if recogniger.state == .recognized {
+            backKeyEvent()
+        }
+    }
+    
+    @objc func backKeyEvent() {
         if webView.canGoBack {
             webView.goBack()
         }else{
             self.navigationController?.pop()
         }
     }
+    
     
     func loadFromUrl() {
         var strUrl = Const.EV_PAY_SERVER + "/terms/term/service_use"
