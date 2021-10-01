@@ -54,7 +54,9 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         webView.uiDelegate = self
         webView.navigationDelegate = self
         webView.translatesAutoresizingMaskIntoConstraints = true
-        webView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        webView.autoresizingMask = [.flexibleHeight]
+        webView.allowsBackForwardNavigationGestures = true
+        
         self.view = webView
         
         let uiScreenEdgePan = UIScreenEdgePanGestureRecognizer(target: self, action:  #selector(swipeEvent))
@@ -203,5 +205,15 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         } else {
             decisionHandler(.allow)
         }
+    }
+}
+extension UINavigationController: UIGestureRecognizerDelegate {
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = self
+    }
+
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return viewControllers.count > 1
     }
 }
