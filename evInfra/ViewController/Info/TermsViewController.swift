@@ -58,10 +58,6 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         webView.allowsBackForwardNavigationGestures = true
         
         self.view = webView
-        
-        let uiScreenEdgePan = UIScreenEdgePanGestureRecognizer(target: self, action:  #selector(swipeEvent))
-        uiScreenEdgePan.edges = .left
-        webView.addGestureRecognizer(uiScreenEdgePan)
     }
     
     func prepareActionBar() {
@@ -205,15 +201,5 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         } else {
             decisionHandler(.allow)
         }
-    }
-}
-extension UINavigationController: UIGestureRecognizerDelegate {
-    override open func viewDidLoad() {
-        super.viewDidLoad()
-        interactivePopGestureRecognizer?.delegate = self
-    }
-
-    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return viewControllers.count > 1
     }
 }
