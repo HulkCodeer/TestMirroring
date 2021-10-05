@@ -1063,6 +1063,7 @@ extension MainViewController {
         FilterManager.sharedInstance.saveTypeFilterForCarType()
         filterContainerView.updateFilters()
         filterBarView.updateTitle()
+        drawTMapMarker()
     }
     
     @objc func getSharedChargerId(_ notification: NSNotification) {

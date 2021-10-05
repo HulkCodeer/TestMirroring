@@ -317,7 +317,7 @@ class FilterManager {
                 filter.ac3 = true
 
             case Const.CHARGER_TYPE_SUPER_CHARGER:
-                filter.dcDemo = true
+                filter.superCharger = true
 
             case Const.CHARGER_TYPE_SLOW:
                 filter.slow = true
@@ -332,8 +332,8 @@ class FilterManager {
         defaults.saveString(key: UserDefault.Key.FILTER_DC_COMBO, value: filter.dcCombo ? "Checked" : "Unchecked")
         defaults.saveString(key: UserDefault.Key.FILTER_DC_DEMO, value: filter.dcDemo ? "Checked" : "Unchecked")
         defaults.saveString(key: UserDefault.Key.FILTER_AC, value: filter.ac3 ? "Checked" : "Unchecked")
-        defaults.saveString(key: UserDefault.Key.FILTER_SUPER_CHARGER, value: filter.slow ? "Checked" : "Unchecked")
-        defaults.saveString(key: UserDefault.Key.FILTER_SLOW, value: filter.superCharger ? "Checked" : "Unchecked")
+        defaults.saveString(key: UserDefault.Key.FILTER_SLOW, value: filter.slow ? "Checked" : "Unchecked")
+        defaults.saveString(key: UserDefault.Key.FILTER_SUPER_CHARGER, value: filter.superCharger ? "Checked" : "Unchecked")
         defaults.saveString(key: UserDefault.Key.FILTER_DESTINATION, value: filter.destination ? "Checked" : "Unchecked")
     }
 }
