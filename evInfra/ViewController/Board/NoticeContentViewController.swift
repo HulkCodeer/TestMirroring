@@ -21,6 +21,7 @@ class NoticeContentViewController: UIViewController {
         
         prepareActionBar()
         
+        content.textContainerInset = UIEdgeInsetsMake(16, 16, 16, 16)
         content.isEditable = false
         content.dataDetectorTypes = .link
         content.sizeToFit()
