@@ -113,7 +113,6 @@ extension UsePointViewController: UITextFieldDelegate {
         let currentString: NSString = textField.text! as NSString
         var newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
         newString = newString.replacingOccurrences(of: ",", with: "") as NSString
-        print(newString)
         if newString.length > 0 {
             if let point = Int(newString as String) {
                 if point >= myPoint { // 내가 보유한 포인트보다 큰 수를 입력한 경우 내 포인트를 입력

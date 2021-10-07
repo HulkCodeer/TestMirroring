@@ -268,6 +268,29 @@ class Server {
                 .validate().responseJSON { response in responseData(response: response, completion: completion) }
     }
     
+    // 회원 - 설정 포인트 가져오기
+    static func getUsePoint(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.getMbId()
+        ]
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member/get_use_point",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 회원 - 설정 포인트 변경
+    static func setUsePoint(usePoint: Int, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.getMbId(),
+            "point": usePoint
+        ]
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member/set_use_point",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
     // 회원 - 즐겨찾기 목록
     static func getFavoriteList(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
