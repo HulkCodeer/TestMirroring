@@ -59,9 +59,12 @@ class CompanyTableView: UITableView, UITableViewDataSource, UITableViewDelegate 
         let cell = Bundle.main.loadNibNamed("CompanyTableViewCell", owner: self, options: nil)?.first as! CompanyTableViewCell
         cell.tagList = groupList[indexPath.row].list
         cell.tagView.reloadData()
-        let height = cell.tagView.collectionViewLayout.collectionViewContentSize.height + 50
-        cell.bounds.size.height = height
-        return height
+        cell.layoutIfNeeded()
+        var height: CGFloat = 32 * CGFloat(cell.rowCounts) + 48
+        if (cell.rowCounts > 1) {
+            height -= 8
+        }
+        return CGFloat(height)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

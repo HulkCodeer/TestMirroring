@@ -17,7 +17,8 @@ class CompanyTableViewCell: UITableViewCell {
     
     var delegate: CompanyTableCellDelegate?
     var tagList = Array<TagValue>()
-    
+    var totalWidthPerRow = CGFloat(0)
+    var rowCounts = 1
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,18 +26,24 @@ class CompanyTableViewCell: UITableViewCell {
         tagView.collectionViewLayout = TagFlowLayout()
         tagView.register(UINib(nibName: "TagListViewCell", bundle: nil), forCellWithReuseIdentifier: "tagListViewCell")
         self.autoresizingMask = UIViewAutoresizing.flexibleHeight
+        tagView.isScrollEnabled = false
         tagView.delegate = self
         tagView.dataSource = self
         tagView.reloadData()
+    }
+    
+    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
+        tagView.layoutIfNeeded()
+        tagView.frame = CGRect(x: 0, y: 0, width: targetSize.width - 16 - 16, height: 1)
+        let size = tagView.collectionViewLayout.collectionViewContentSize
+        let newSize = CGSize(width: size.width, height: size.height + 48)
+        return newSize
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
-    }
-    func getCellHeight() -> CGFloat {
-        return tagView.collectionViewLayout.collectionViewContentSize.height
     }
 }
 
@@ -57,8 +64,20 @@ extension CompanyTableViewCell : UICollectionViewDelegate,UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath : IndexPath) -> CGSize {
         let strText = tagList[indexPath.row].title
-        return self.getInteresticSize(strText: strText)
+        let cellSize = self.getInteresticSize(strText: strText)
+        
+        let collectionViewWidth = UIScreen.main.bounds.width - 32
+        let dynamicCellWidth = cellSize.width
+        totalWidthPerRow += dynamicCellWidth + 8
+              
+        if (totalWidthPerRow > collectionViewWidth) {
+           rowCounts += 1
+           totalWidthPerRow = dynamicCellWidth + 8
+        }
+        return cellSize
     }
+    
+    
     
     func getInteresticSize(strText:String)-> CGSize{
         let nsStr = strText as NSString
@@ -69,8 +88,6 @@ extension CompanyTableViewCell : UICollectionViewDelegate,UICollectionViewDataSo
         return CGSize(width: labelSize.width + 8 + CGFloat(imgSize), height: labelSize.height + 8)
     }
 }
-
-
 
 extension CompanyTableViewCell: DelegateTagListViewCell{
     func tagClicked(index: Int, value: Bool) {
@@ -90,6 +107,6 @@ class DynamicCollectionView: UICollectionView {
     }
     
     override var intrinsicContentSize: CGSize {
-        return self.contentSize
+        return self.collectionViewLayout.collectionViewContentSize
     }
 }
