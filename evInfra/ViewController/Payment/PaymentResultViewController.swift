@@ -12,27 +12,20 @@ import Material
 
 class PaymentResultViewController: UIViewController {
 
-    @IBOutlet weak var ivStation: UIImageView!
-    @IBOutlet weak var ivQuantity: UIImageView!
-    
-    @IBOutlet weak var ivAmount: UIImageView!
-    @IBOutlet weak var ivAuthNo: UIImageView!
-    @IBOutlet weak var ivAuthStatus: UIImageView!
-    @IBOutlet weak var ivMessage: UIImageView!
-    @IBOutlet weak var ivTime: UIImageView!
-    @IBOutlet weak var ivPoint: UIImageView!
-    @IBOutlet weak var ivSavePoint: UIImageView!
-    
-    @IBOutlet weak var lbStation: UILabel!
-    @IBOutlet weak var lbQuantity: UILabel!
-    @IBOutlet weak var lbAmount: UILabel!
-    @IBOutlet weak var lbPayAmount: UILabel!
+    @IBOutlet var ivResultBg: UIImageView!
+    @IBOutlet var ivResultIcon: UIImageView!
+    @IBOutlet var lbResultStatus: UILabel!
+    @IBOutlet var lbResultMsg: UILabel!
     
     @IBOutlet weak var lbAuthNo: UILabel!
-    @IBOutlet weak var lbAuthStatus: UILabel!
+    @IBOutlet weak var lbStation: UILabel!
+    @IBOutlet weak var lbQuantity: UILabel!
+    @IBOutlet var lbDurationTime: UILabel!
+    @IBOutlet weak var lbAmount: UILabel!
+    
+    @IBOutlet weak var btnAuthStatus: UIButton!
+    @IBOutlet weak var lbPayAmount: UILabel!
     @IBOutlet weak var lbAuthMsg: UILabel!
-    @IBOutlet weak var lbStartTime: UILabel!
-    @IBOutlet weak var lbFinishTime: UILabel!
     
     @IBOutlet weak var lbUsedPoint: UILabel!
     @IBOutlet weak var lbSavePoint: UILabel!
@@ -41,13 +34,15 @@ class PaymentResultViewController: UIViewController {
     @IBOutlet weak var viewDiscount: UIView!
     @IBOutlet weak var lbDiscountMsg: UILabel!
     @IBOutlet weak var lbDiscountAmt: UILabel!
-    @IBOutlet weak var lbPaymentFailMsg: UILabel!
-    @IBOutlet weak var lbPaymentResultMsg: UILabel!
     
+    @IBOutlet var viewBerryResult: UIView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
+    @IBOutlet var btnRight: UIButton! // goMain / goPay
+    @IBOutlet var btnLeft: UIButton! // sub button
+    
     let defaults = UserDefault()
-    var chargingId = ""
+    var chargingId = "59855"
     
     override func viewWillAppear(_ animated: Bool) {
         lbPaymentFailMsg.gone()
@@ -59,9 +54,9 @@ class PaymentResultViewController: UIViewController {
         prepareView()
         showProgress()
         
-        if chargingId.isEmpty {
-            chargingId = getChargingId()
-        }
+//        if chargingId.isEmpty {
+//            chargingId = getChargingId()
+//        }
         Server.getChargingResult(chargingId: chargingId) { (isSuccess, value) in
             self.hideProgress()
             if isSuccess {
