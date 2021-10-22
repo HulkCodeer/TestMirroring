@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import Material
 import Firebase
+import FirebaseDynamicLinks
 import UserNotifications
 import AuthenticationServices
 import GoogleMobileAds
@@ -26,8 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var chargingStatusPayload: [AnyHashable: Any]? = nil
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-
-        setupEntryController()
+        print("application:didFinishLaunchingWithOptions:options")
+        FirebaseApp.configure()
+        if #available(iOS 13.0, *) {
+        } else {
+            setupEntryController()
+        }
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
         
         // Initialize the Google Mobile Ads SDK.
@@ -35,14 +40,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // SNS 로그인
         LoginHelper.shared.prepareLogin()
-        
+
         return true
     }
     
-    fileprivate func setupEntryController() {
+    private func setupEntryController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
-        
+            
         window = UIWindow(frame: Screen.bounds)
         navigationController = AppNavigationController(rootViewController: introViewController)//
         navigationController?.navigationBar.isHidden = true
@@ -51,24 +56,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func setupPushNotification(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
-        FirebaseApp.configure()
         Messaging.messaging().delegate = self
 //        Messaging.messaging().shouldEstablishDirectChannel = true
-        if #available(iOS 10.0, *) {
-            // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().delegate = self
             
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: {_, _ in })
-            if let notification = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
-                fcmManager.fcmNotification = notification
-            }
-        } else {
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: {_, _ in })
+        if let notification = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
+            fcmManager.fcmNotification = notification
         }
         
         application.registerForRemoteNotifications()
@@ -85,13 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         guard url.scheme != nil else { return true }
-        
-        if let partnershipUrl = url.valueOf("partnership"){
-            if partnershipUrl == "true" {
-                NotificationCenter.default.post(name: Notification.Name("partnershipScheme"), object: nil)
-            }
-        }
-        
+                
         if let shareChargerId = url.valueOf("charger_id") {
             NotificationCenter.default.post(name: Notification.Name("kakaoScheme"), object: nil, userInfo: ["sharedid": shareChargerId])
         }
@@ -197,8 +188,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-// [START ios_10_message_handling]
-@available(iOS 10, *)
 extension AppDelegate : UNUserNotificationCenterDelegate {
     
     // Receive displayed notifications for iOS 10 devices.
@@ -241,7 +230,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         completionHandler()
     }
 }
-// [END ios_10_message_handling]
 
 extension AppDelegate : MessagingDelegate {
     // [START refresh_token]

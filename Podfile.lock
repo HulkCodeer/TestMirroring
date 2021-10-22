@@ -8,11 +8,16 @@ PODS:
   - DropDown (2.3.13)
   - EasyTipView (2.1.0)
   - ExpyTableView (1.2.1)
+  - Firebase/Analytics (7.4.0):
+    - Firebase/Core
   - Firebase/Core (7.4.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 7.4.0)
   - Firebase/CoreOnly (7.4.0):
     - FirebaseCore (= 7.4.0)
+  - Firebase/DynamicLinks (7.4.0):
+    - Firebase/CoreOnly
+    - FirebaseDynamicLinks (~> 7.4.0)
   - Firebase/Messaging (7.4.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 7.4.0)
@@ -40,6 +45,8 @@ PODS:
     - GoogleDataTransport (~> 8.0)
     - nanopb (~> 2.30907.0)
     - PromisesObjC (~> 1.2)
+  - FirebaseDynamicLinks (7.4.0):
+    - FirebaseCore (~> 7.0)
   - FirebaseInstallations (7.4.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
@@ -200,7 +207,9 @@ DEPENDENCIES:
   - DropDown
   - EasyTipView (~> 2.1.0)
   - ExpyTableView (~> 1.2.1)
+  - Firebase/Analytics
   - Firebase/Core
+  - Firebase/DynamicLinks
   - Firebase/Messaging
   - FirebaseCrashlytics
   - Google-Mobile-Ads-SDK
@@ -232,6 +241,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCrashlytics
+    - FirebaseDynamicLinks
     - FirebaseInstallations
     - FirebaseInstanceID
     - FirebaseMessaging
@@ -273,6 +283,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 99c06e5a1e8d6952e75cb1f0a6d0b23c0f5ccdcf
   FirebaseCoreDiagnostics: 3770093ac4f2be4590fa03cfa1d3a6e5602d4557
   FirebaseCrashlytics: ef6b0947ab6819b5cb335f8c0a7677cd57d544c5
+  FirebaseDynamicLinks: f2119c7df57f1d8faf7036629a58a37e89f59aff
   FirebaseInstallations: 30646fc9a61c6f4ee3cd7a8b7231721842b40c95
   FirebaseInstanceID: 46d93d287108246fabbd85371ca27141d2c21ff9
   FirebaseMessaging: 6112b5cd04e0ff58c4a9920e5e29cf193ea88439
@@ -302,6 +313,6 @@ SPEC CHECKSUMS:
   TapjoySDK: 27e4116ba377dcbe064743ca3ec3a8d70ccee2bb
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
 
-PODFILE CHECKSUM: c96e7349baf6011b4a93b72d2b3ec9af0b8239a2
+PODFILE CHECKSUM: e7b629992fb5d9b77da539ef0adf1e618ca48d9e
 
 COCOAPODS: 1.10.2

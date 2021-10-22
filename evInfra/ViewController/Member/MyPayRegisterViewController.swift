@@ -136,13 +136,8 @@ extension MyPayRegisterViewController: WKNavigationDelegate{
                         }
                     })
                 }else{
-                    if #available(iOS 10.0, *) {
-                        UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
-                    } else {
-                        UIApplication.shared.openURL(newURL)
-                    }
+                    UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
                 }
-                
                 decisionHandler(.allow)
             } else {
                 decisionHandler(.allow)

@@ -65,8 +65,16 @@ class PointViewController: UIViewController {
 
         // 오늘 포인트 이력 가져오기
         btnAllBerry.isSelected = true
-        let currentDate = Date()
-        getPointHistory(isAllDate: false, startDate: currentDate, endDate: currentDate)
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if MemberManager().isLogin() {
+            let currentDate = Date()
+            getPointHistory(isAllDate: false, startDate: currentDate, endDate: currentDate)
+        } else {
+            MemberManager().showLoginAlert(vc: self)
+        }
     }
     
     override func viewDidLayoutSubviews() {

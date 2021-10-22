@@ -135,6 +135,10 @@ class MainViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func showDeepLink() {
+        DeepLinkPath.sharedInstance.runDeepLink(navigationController: navigationController!)
+    }
 
     // Filter
     func prepareFilterView() {
@@ -933,7 +937,7 @@ extension MainViewController {
                     if Const.CLOSED_BETA_TEST {
                         CBT.checkCBT(vc: controller!)
                     }
-                    controller?.getIntroImage()
+                    controller?.showDeepLink()
                 }
                 
                 func onError(errorMsg: String) {
@@ -1010,16 +1014,6 @@ extension MainViewController {
             }
         }
     }
-    
-    private func getIntroImage(){
-        Server.getIntroImage { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                let checker = IntroImageChecker.init()
-                checker.checkIntroImage(response: json)
-            }
-        }
-    }
 }
 
 extension MainViewController {
@@ -1028,7 +1022,6 @@ extension MainViewController {
         center.addObserver(self, selector: #selector(saveLastZoomLevel), name: .UIApplicationDidEnterBackground, object: nil)
         center.addObserver(self, selector: #selector(updateMemberInfo), name: Notification.Name("updateMemberInfo"), object: nil)
         center.addObserver(self, selector: #selector(getSharedChargerId(_:)), name: Notification.Name("kakaoScheme"), object: nil)
-        center.addObserver(self, selector: #selector(openPartnership(_:)), name: Notification.Name("partnershipScheme"), object: nil)
         // [Summary observer]
         center.addObserver(self, selector: #selector(directionStartPoint(_:)), name: Notification.Name(summaryView.startKey), object: nil)
         center.addObserver(self, selector: #selector(directionStartPath(_:)), name: Notification.Name(summaryView.addKey), object: nil)
@@ -1037,7 +1030,6 @@ extension MainViewController {
         center.addObserver(self, selector: #selector(requestLogIn(_:)), name: Notification.Name(summaryView.loginKey), object: nil)
         center.addObserver(self, selector: #selector(isChangeFavorite(_:)), name: Notification.Name(summaryView.favoriteKey), object: nil)
     }
-    
     func removeObserver() {
         let center = NotificationCenter.default
         center.removeObserver(self, name: Notification.Name("updateMemberInfo"), object: nil)
@@ -1071,16 +1063,6 @@ extension MainViewController {
         self.sharedChargerId = sharedid
         if self.loadedChargers {
             selectChargerFromShared()
-        }
-    }
-    
-    @objc func openPartnership(_ notification: NSNotification) {
-        if MemberManager().isLogin() {
-            let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-            let mbscdVC = mbsStoryboard.instantiateViewController(withIdentifier: "MembershipCardViewController") as! MembershipCardViewController
-            navigationController?.push(viewController: mbscdVC)
-        } else {
-            MemberManager().showLoginAlert(vc: self)
         }
     }
     
