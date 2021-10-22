@@ -343,47 +343,45 @@ extension PaymentStatusViewController {
             }
         }
         
+        if let companyId = chargingStatus.companyId {
+            // GSC 외에는 충전 중지 할 수 없으므로 충전 중지 버튼 disable
+            if companyId.elementsEqual(CompanyInfo.COMPANY_ID_GSC) {
+                if isStopCharging == false {
+                    btnStopCharging.isEnabled = true
+                    
+                    btnStopCharging.layer.backgroundColor = UIColor(named: "background-positive")!.cgColor
+                    btnStopCharging.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
+                }
+                if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_LOTTE) {
+                    let discountInfoMsg = NSMutableAttributedString(string: "남은 할인 금액은 ")
+                    let selectablePart = NSMutableAttributedString(string: "회원카드 관리 메뉴 > 롯데 렌터카 카드")
+                    selectablePart.addAttribute(NSAttributedString.Key.underlineStyle, value: 1, range: NSMakeRange(0,selectablePart.length))
+                    selectablePart.addAttribute(NSAttributedString.Key.link, value: "linkToLotte", range: NSMakeRange(0,selectablePart.length))
+                    discountInfoMsg.append(selectablePart)
+                    discountInfoMsg.append(NSMutableAttributedString(string: "를 클릭하시면 확인하실 수 있습니다."))
+                    discountInfoMsg.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(rgb: 0xb2b2b2), range: NSMakeRange(0, discountInfoMsg.length))
+                    discountInfoMsg.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 15), range: NSMakeRange(0, discountInfoMsg.length))
+                    tvDiscountInfo.attributedText = discountInfoMsg
+                    tvDiscountInfo.delegate = self
+                    tvDiscountInfo.isHidden = false
+                }
+            } else if companyId.elementsEqual(CompanyInfo.COMPANY_ID_KEPCO) {
+                lbChargeComment.text = "직접 충전기에서 충전 종료를 눌러주세요."
+                lbChargeSubComment.isHidden = false
+                btnStopCharging.isHidden = true
+                if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR) {
+                    lbChargeSubComment.isHidden = true
+                    btnUseBerry.isEnabled = false
+                }
+            }
+        }
+        
         if chargingStatus.status == STATUS_READY {
             lbChargeComment.text = "충전 커넥터를 차량과 연결 후 잠시만 기다려 주세요"
             btnStopCharging.setTitle("충전 취소", for: .normal)
         } else {
             lbChargeComment.text = "충전이 진행중입니다"
-            if (btnStopCharging.isEnabled) {
-                btnStopCharging.setTitle("충전 종료", for: .normal)
-            }
-            
-            // GSC 외에는 충전 중지 할 수 없으므로 충전 중지 버튼 disable
-            if let companyId = chargingStatus.companyId {
-                if companyId.elementsEqual(CompanyInfo.COMPANY_ID_GSC) {
-                    if isStopCharging == false {
-                        btnStopCharging.isEnabled = true
-                        
-                        btnStopCharging.layer.backgroundColor = UIColor(named: "background-positive")!.cgColor
-                        btnStopCharging.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
-                    }
-                    if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_LOTTE) {
-                        let discountInfoMsg = NSMutableAttributedString(string: "남은 할인 금액은 ")
-                        let selectablePart = NSMutableAttributedString(string: "회원카드 관리 메뉴 > 롯데 렌터카 카드")
-                        selectablePart.addAttribute(NSAttributedString.Key.underlineStyle, value: 1, range: NSMakeRange(0,selectablePart.length))
-                        selectablePart.addAttribute(NSAttributedString.Key.link, value: "linkToLotte", range: NSMakeRange(0,selectablePart.length))
-                        discountInfoMsg.append(selectablePart)
-                        discountInfoMsg.append(NSMutableAttributedString(string: "를 클릭하시면 확인하실 수 있습니다."))
-                        discountInfoMsg.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(rgb: 0xb2b2b2), range: NSMakeRange(0, discountInfoMsg.length))
-                        discountInfoMsg.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 15), range: NSMakeRange(0, discountInfoMsg.length))
-                        tvDiscountInfo.attributedText = discountInfoMsg
-                        tvDiscountInfo.delegate = self
-                        tvDiscountInfo.isHidden = false
-                    }
-                } else if companyId.elementsEqual(CompanyInfo.COMPANY_ID_KEPCO) {
-                    lbChargeComment.text = "직접 충전기에서 충전 종료를 눌러주세요."
-                    lbChargeSubComment.isHidden = false
-                    btnStopCharging.isHidden = true
-                    if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR) {
-                        lbChargeSubComment.isHidden = true
-                        btnUseBerry.isEnabled = false
-                    }
-                }
-            }
+            btnStopCharging.setTitle("충전 종료", for: .normal)
             
             // 포인트
             var point = 0.0;
