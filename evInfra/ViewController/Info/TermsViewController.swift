@@ -26,6 +26,7 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         case BusinessInfo      // 사업자정보
         case StationPrice      // 충전소 요금정보
         case FAQTop            // FAQ (top10)
+        case FAQDetail         // FAQ detail page
     }
 
     var tabIndex:Request = .UsingTerms
@@ -99,9 +100,11 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             
         case .BusinessInfo:
             navigationItem.titleLabel.text = "사업자 정보"
+            
         case .StationPrice:
             navigationItem.titleLabel.text = "충전소 가격정보"
-        case .FAQTop:
+            
+        case .FAQDetail, .FAQTop:
             navigationItem.titleLabel.text = "자주묻는 질문"
         }
         
@@ -164,8 +167,12 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             
         case .StationPrice:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/charge_price_info"
+            
         case .FAQTop:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/faq_main"
+            
+        case .FAQDetail:
+            strUrl = Const.EV_PAY_SERVER + "/docs/info/faq_detail"
         }
 
         if subParams.isEmpty {

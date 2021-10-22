@@ -20,7 +20,8 @@ class DeepLinkPath {
     private let URL_PATH_EVENT = "/event"
     private let URL_PATH_TERMS = "/webview"
     
-    private let URL_PARAM_WEBVIEW_FAQ = "10"
+    private let URL_PARAM_WEBVIEW_FAQ_TOP = "10"
+    private let URL_PARAM_WEBVIEW_FAQ_DETAIL = "11"
     
     public init() {
         linkPath = ""
@@ -62,12 +63,17 @@ class DeepLinkPath {
         case URL_PATH_TERMS :
             guard let paramItems = linkParameter else { return }
             if let type = paramItems.first(where: { $0.name == "type"})?.value {
-                if (type == URL_PARAM_WEBVIEW_FAQ) {
-                    let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                    let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+                let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                if (type == URL_PARAM_WEBVIEW_FAQ_TOP) {
                     termsViewControll.tabIndex = .FAQTop
-                    navigationController.push(viewController: termsViewControll)
+                } else if (type == URL_PARAM_WEBVIEW_FAQ_DETAIL){
+                    termsViewControll.tabIndex = .FAQDetail
+                    if let page = paramItems.first(where: { $0.name == "page"})?.value {
+                        termsViewControll.subParams = page
+                    }
                 }
+                navigationController.push(viewController: termsViewControll)
             }
             break
             
