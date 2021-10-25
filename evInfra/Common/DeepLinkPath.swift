@@ -70,7 +70,7 @@ class DeepLinkPath {
                 } else if (type == URL_PARAM_WEBVIEW_FAQ_DETAIL){
                     termsViewControll.tabIndex = .FAQDetail
                     if let page = paramItems.first(where: { $0.name == "page"})?.value {
-                        termsViewControll.subParams = page
+                        termsViewControll.subParams = "page="+page
                     }
                 }
                 navigationController.push(viewController: termsViewControll)
