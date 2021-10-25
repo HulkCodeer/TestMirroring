@@ -1251,7 +1251,7 @@ extension MainViewController {
         
         btn_main_help.alignTextUnderImage()
         btn_main_help.tintColor = UIColor(named: "gr-8")
-        btn_main_help.setImage(UIImage(named: "ic_line_help")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        btn_main_help.setImage(UIImage(named: "icon_main_faq")?.withRenderingMode(.alwaysTemplate), for: .normal)
 
         btn_main_favorite.alignTextUnderImage()
         btn_main_favorite.tintColor = UIColor(named: "gr-8")
