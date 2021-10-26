@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import UIKit
 
 class DeepLinkPath {
     static let sharedInstance = DeepLinkPath()
     var linkPath: String
     var linkParameter: [URLQueryItem]?
+    var isReady: Bool = false
     
     private let URL_PATH_MEMBERSHIP = "/membership_card"
     private let URL_PATH_PAYMENT = "/payment"
@@ -28,6 +30,9 @@ class DeepLinkPath {
     }
     
     public func runDeepLink(navigationController: UINavigationController) {
+        if !isReady {
+            return
+        }
         switch linkPath {
         case URL_PATH_MEMBERSHIP:
             let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)

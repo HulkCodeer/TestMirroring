@@ -28,14 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // setup Deeplink instance if app started by Dynamic Link
         if let userActivity = connectionOptions.userActivities.first {
-            self.handleUserActivity(userActivity: userActivity) {
-                (url) in
-                // set DeepLinkPath
-                DeepLinkPath.sharedInstance.linkPath = url.path
-                if let component = URLComponents(url: url, resolvingAgainstBaseURL: false) {
-                    DeepLinkPath.sharedInstance.linkParameter = component.queryItems
-                }
-            }
+            self.handleUserActivity(userActivity: userActivity)
         }
         
         setupEntryController(scene)
@@ -45,7 +38,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
         print("scene:userActivity")
         // Dynamic Link
-        self.handleUserActivity(userActivity: userActivity, completion: self.runLinkDirectly)
+        self.handleUserActivity(userActivity: userActivity)
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
@@ -72,7 +65,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    func handleUserActivity(userActivity: NSUserActivity, completion: @escaping (_ url: URL) -> Void){
+    func handleUserActivity(userActivity: NSUserActivity){
         if let incomingURL = userActivity.webpageURL {
             print("Incoming : \(incomingURL)")
             let linkHandled = DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) {
@@ -82,7 +75,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     return
                 }
                 if let dynamicLink = dynamicLink {
-                    self.handleIncomingDynamicLink(dynamicLink, completion: completion)
+                    self.handleIncomingDynamicLink(dynamicLink)
                 }
             }
             if !linkHandled {
@@ -92,7 +85,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    func handleIncomingDynamicLink(_ dynamicLink: DynamicLink, completion: @escaping (_ url: URL) -> Void) {
+    func handleIncomingDynamicLink(_ dynamicLink: DynamicLink) {
         guard let url = dynamicLink.url else {
             print("has no url")
             return
@@ -100,11 +93,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         print("url : \(url.absoluteString)")
         if url.absoluteString.startsWith(DYNAMIC_LINK_PREFIX) { // filter URL by Prefix
-            completion(url)
+            runLinkDirectly(url: url)
         }
     }
     
-    func runLinkDirectly(url: URL) -> Void {
+    func runLinkDirectly(url: URL) {
         let path = url.path
         print("path : \(path)")
         

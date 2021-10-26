@@ -10,7 +10,7 @@ import Foundation
 import SwiftyJSON
 import WebKit
 
-class GuideAlertDialog: UIView, WKNavigationDelegate {
+class GuideAlertDialog: UIView, WKUIDelegate, WKNavigationDelegate {
     
     @IBOutlet var dismissBtn: UIButton!
     @IBOutlet var guideView: UIView!
@@ -81,4 +81,29 @@ class GuideAlertDialog: UIView, WKNavigationDelegate {
         self.removeFromSuperview()
     }
     
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if navigationAction.navigationType == .linkActivated  {
+            if let newURL = navigationAction.request.url,
+                let host = newURL.host , !host.hasPrefix(Const.EV_PAY_SERVER) &&
+                UIApplication.shared.canOpenURL(newURL) {
+                if host.hasPrefix("evinfra.page.link") { // deeplink
+                    if #available(iOS 13.0, *) {
+                        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+                        DeepLinkPath.sharedInstance.linkPath = newURL.path
+                        DeepLinkPath.sharedInstance.runDeepLink(navigationController: (sceneDelegate?.navigationController)!)
+                    } else {
+                        UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
+                    }
+                } else {
+                    UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
+                }
+                self.removeFromSuperview()
+                decisionHandler(.cancel)
+            } else {
+                decisionHandler(.allow)
+            }
+        } else {
+            decisionHandler(.allow)
+        }
+    }
 }
