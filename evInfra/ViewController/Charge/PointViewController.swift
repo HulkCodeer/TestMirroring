@@ -210,9 +210,8 @@ extension PointViewController {
                     
                     let currMonth = Calendar.current.component(.month, from: Date())
                     var expireMsg = String(format:"%0d월 소멸예정 베리 ", currMonth)
-                    let expirePoint = "\(self.pointHistory.expire_point)".currency()
+                    let expirePoint = "\(self.pointHistory.expire_point)".currency() + " 베리"
                     expireMsg.append(expirePoint)
-                    expireMsg.append(" 베리")
                     let range = (expireMsg as NSString).range(of: expirePoint)
                     let mutableAttributedString = NSMutableAttributedString.init(string: expireMsg)
                     mutableAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black, range: range)
