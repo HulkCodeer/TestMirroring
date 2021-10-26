@@ -34,6 +34,8 @@ class FCMManager {
     var registerId: String? = nil
     var nfcNoti: UNNotification? = nil
     var fcmNotification: [AnyHashable: Any]? = nil
+    var isReady: Bool = false
+    
     func getFCMRegisterId() -> String? {
         if let id = registerId {
             return id
@@ -73,7 +75,6 @@ class FCMManager {
             if let navigation = navigationController {
                 if let viewController = navigation.visibleViewController {
                     // 여기다가 뷰컨트롤러가 이거일 경우... 저거일 경우... 고고씡
-                    
                     if  (targetId != nil) {
                         if targetId == FCMManager.TARGET_CHARGING && String(describing: viewController).contains("PaymentStatusViewController") {
                             let center = NotificationCenter.default
@@ -105,6 +106,9 @@ class FCMManager {
     }
     
     func alertMessage(navigationController: AppNavigationController?, data: [AnyHashable: Any]?) {
+        if !isReady {
+            return
+        }
         if let notification = data {
             if let targetId = notification[AnyHashable("target_id")] as! String? {
                 switch targetId {

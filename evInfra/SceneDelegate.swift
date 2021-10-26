@@ -14,13 +14,10 @@ import UserNotifications
 import AuthenticationServices
 import GoogleMobileAds
 
-
-
 @available(iOS 13.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var appToolbarController: AppToolbarController!
     var navigationController: AppNavigationController?
     
     private let DYNAMIC_LINK_PREFIX = "https://com.soft-berry.ev-infra/"
@@ -41,6 +38,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
         
+        setupEntryController(scene)
+    }
+
+    // background
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        print("scene:userActivity")
+        // Dynamic Link
+        self.handleUserActivity(userActivity: userActivity, completion: self.runLinkDirectly)
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        // kakao auto login
+        if let url = URLContexts.first?.url {
+            if KOSession.isKakaoAccountLoginCallback(url.absoluteURL) {
+                KOSession.handleOpen(url)
+            }
+        }
+    }
+    
+    private func setupEntryController(_ scene: UIScene) {
         // init initial view controller
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
@@ -53,12 +70,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window!.rootViewController = navigationController
             window!.makeKeyAndVisible()
         }
-    }
-
-    // background
-    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        print("scene:userActivity")
-        self.handleUserActivity(userActivity: userActivity, completion: self.runLinkDirectly)
     }
     
     func handleUserActivity(userActivity: NSUserActivity, completion: @escaping (_ url: URL) -> Void){

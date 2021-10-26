@@ -12,8 +12,6 @@ import Motion
 import SwiftyJSON
 
 class MyWritingViewController: UIViewController {
-
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     @IBOutlet weak var boardTableView: BoardTableView!
     

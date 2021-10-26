@@ -10,7 +10,6 @@ import UIKit
 import Material
 
 class AppNavigationDrawerController: NavigationDrawerController {
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     open override func prepare() {
         super.prepare()
         

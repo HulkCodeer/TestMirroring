@@ -920,6 +920,7 @@ extension MainViewController {
 
             class chargerManagerListener: ChargerManagerListener {
                 func onComplete() {
+                    FCMManager.sharedInstance.isReady = true
                     controller?.markerIndicator.startAnimating()
                     controller?.drawTMapMarker()
                     controller?.markerIndicator.stopAnimating()
@@ -1208,7 +1209,12 @@ extension MainViewController {
     
     private func checkFCM() {
         if let notification = FCMManager.sharedInstance.fcmNotification {
-            FCMManager.sharedInstance.alertMessage(navigationController: appDelegate.navigationController, data: notification)
+            if #available(iOS 13.0, *) {
+                let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+                FCMManager.sharedInstance.alertMessage(navigationController: sceneDelegate!.navigationController, data: notification)
+            } else {
+                FCMManager.sharedInstance.alertMessage(navigationController: appDelegate.navigationController, data: notification)
+            }
         }
     }
     

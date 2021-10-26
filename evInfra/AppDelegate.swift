@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         print("application:didFinishLaunchingWithOptions:options")
         FirebaseApp.configure()
-        if #available(iOS 13.0, *) {
+        if #available(iOS 13.0, *) { // SceneDelegate
         } else {
             setupEntryController()
         }
@@ -211,7 +211,12 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         print("Notification body: \(notification.request.content.body)")
         // Change this to your preferred presentation option
         completionHandler([])
-        fcmManager.alertFCMMessage(navigationController: navigationController)
+        
+        if #available(iOS 13.0, *) { // SceneDelegate의 navigationController 사용
+            fcmManager.alertFCMMessage(navigationController: (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.navigationController)
+        } else {
+            fcmManager.alertFCMMessage(navigationController: navigationController)
+        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
@@ -225,7 +230,13 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // 노티바에서는 여기로 메세지가 들어옴
         fcmManager.nfcNoti = response.notification
         fcmManager.fcmNotification = response.notification.request.content.userInfo
-//        fcmManager.alertMessage(navigationController: navigationController, data: response.notification.request.content.userInfo)
+        
+        // 메인 실행이 완료되지 않으면 실행하지 않고 메인에서 끝날때 호출
+        if #available(iOS 13.0, *) { // SceneDelegate의 navigationController 사용
+            fcmManager.alertMessage(navigationController: (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.navigationController, data: response.notification.request.content.userInfo)
+        } else {
+            fcmManager.alertMessage(navigationController: navigationController, data: response.notification.request.content.userInfo)
+        }
         
         completionHandler()
     }

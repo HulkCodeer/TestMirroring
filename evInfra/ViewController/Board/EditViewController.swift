@@ -35,7 +35,6 @@ class EditViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var cameraBtn: UIButton!
     @IBOutlet weak var galleryBtn: UIButton!
 
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var editViewDelegate: EditViewDelegate?
     
     var mode = BOARD_NEW_MODE
