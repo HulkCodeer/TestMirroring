@@ -30,7 +30,8 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
     }
 
     var tabIndex:Request = .UsingTerms
-    var subParams:String = ""
+    var subParams:String = "" // POST parameter
+    var subURL:String = "" // GET parameter
     var webView: WKWebView!
 
     @IBOutlet weak var fixWebView: UIView!
@@ -176,6 +177,9 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         }
 
         if subParams.isEmpty {
+            if !subURL.isEmpty {
+                strUrl = strUrl + "?" + subURL
+            }
             let url = NSURL(string:strUrl)
             let request = NSURLRequest(url: url! as URL)
             webView.load(request as URLRequest)
