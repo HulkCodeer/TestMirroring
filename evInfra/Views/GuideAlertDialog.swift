@@ -51,7 +51,7 @@ class GuideAlertDialog: UIView, WKUIDelegate, WKNavigationDelegate {
                 let code = json["code"].stringValue
                 switch(code) {
                     case "1000":
-                        self.guideUrl = Const.EV_PAY_SERVER + json["url"].stringValue
+                        self.guideUrl = Const.EV_PAY_SERVER + "/docs/guide/update_guide?view=" + json["url"].stringValue
                         self.newVersion = json["version"].intValue
                         self.initView()
                         self.showGuide()
