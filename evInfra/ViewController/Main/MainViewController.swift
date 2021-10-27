@@ -816,14 +816,15 @@ extension MainViewController: ChargerSelectDelegate {
     }
     
     func prepareSummaryView() {
-        let window = UIApplication.shared.keyWindow!
-        callOutLayer.frame.size.width = window.frame.width
-        if summaryView == nil {
-            summaryView = SummaryView(frame: callOutLayer.frame.bounds)
+        if let window = UIApplication.shared.keyWindow {
+            callOutLayer.frame.size.width = window.frame.width
+            if summaryView == nil {
+                summaryView = SummaryView(frame: callOutLayer.frame.bounds)
+            }
+            summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            callOutLayer.addSubview(summaryView)
+    //        summaryView.delegate = self
         }
-        summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        callOutLayer.addSubview(summaryView)
-//        summaryView.delegate = self
     }
     
     func selectCharger(chargerId: String) {

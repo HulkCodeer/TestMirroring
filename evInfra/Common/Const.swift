@@ -20,7 +20,8 @@ public class Const {
      * product
      */
     public static let EV_PAY_SERVER = "https://api.soft-berry.co.kr"
-
+    
+    public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra"
     /*
      * develop
      */
@@ -31,9 +32,9 @@ public class Const {
 //    public static let EV_PAY_SERVER = "http://sjdev.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://shchoi.soft-berry.co.kr"
 
+//    public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra/dev"
 
     // File Server
-    public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra"
     public static let urlProfileImage = EI_FILE_SERVER + "/profile/"
     public static let urlBoardImage = EI_FILE_SERVER + "/board/"
     public static let urlShareImage = EI_FILE_SERVER + "/share_default.jpg"
