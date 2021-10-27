@@ -33,8 +33,6 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     var sectionHeightsDictionary: [Int: CGFloat] = [:]
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         

@@ -26,10 +26,12 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         case BusinessInfo      // 사업자정보
         case StationPrice      // 충전소 요금정보
         case FAQTop            // FAQ (top10)
+        case FAQDetail         // FAQ detail page
     }
 
     var tabIndex:Request = .UsingTerms
-    var subParams:String = ""
+    var subParams:String = "" // POST parameter
+    var subURL:String = "" // GET parameter
     var webView: WKWebView!
 
     @IBOutlet weak var fixWebView: UIView!
@@ -99,9 +101,11 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             
         case .BusinessInfo:
             navigationItem.titleLabel.text = "사업자 정보"
+            
         case .StationPrice:
             navigationItem.titleLabel.text = "충전소 가격정보"
-        case .FAQTop:
+            
+        case .FAQDetail, .FAQTop:
             navigationItem.titleLabel.text = "자주묻는 질문"
         }
         
@@ -164,11 +168,18 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             
         case .StationPrice:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/charge_price_info"
+            
         case .FAQTop:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/faq_main"
+            
+        case .FAQDetail:
+            strUrl = Const.EV_PAY_SERVER + "/docs/info/faq_detail"
         }
 
         if subParams.isEmpty {
+            if !subURL.isEmpty {
+                strUrl = strUrl + "?" + subURL
+            }
             let url = NSURL(string:strUrl)
             let request = NSURLRequest(url: url! as URL)
             webView.load(request as URLRequest)
@@ -189,10 +200,16 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             if let newURL = navigationAction.request.url,
                 let host = newURL.host , !host.hasPrefix(Const.EV_PAY_SERVER + "/docs/info/ev_infra_help") &&
                 UIApplication.shared.canOpenURL(newURL) {
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
+                if host.hasPrefix("evinfra.page.link") { // deeplink
+                    if #available(iOS 13.0, *) {
+                        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+                        DeepLinkPath.sharedInstance.linkPath = newURL.path
+                        DeepLinkPath.sharedInstance.runDeepLink(navigationController: (sceneDelegate?.navigationController)!)
+                    } else {
+                        UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
+                    }
                 } else {
-                    UIApplication.shared.openURL(newURL)
+                    UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
                 }
                 decisionHandler(.cancel)
             } else {

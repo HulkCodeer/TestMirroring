@@ -47,10 +47,14 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if let result = payRegisterResult {
-            showRegisteredResult(json: result)
+        if MemberManager().isLogin() {
+            if let result = payRegisterResult {
+                showRegisteredResult(json: result)
+            } else {
+                checkRegisterPayment()
+            }
         } else {
-            checkRegisterPayment()
+            MemberManager().showLoginAlert(vc: self)
         }
     }
 

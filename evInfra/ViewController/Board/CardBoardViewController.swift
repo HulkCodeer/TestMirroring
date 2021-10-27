@@ -15,8 +15,6 @@ class CardBoardViewController: UIViewController {
     
     @IBOutlet weak var boardTableView: BoardTableView!
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
     var category = Board.BOARD_CATEGORY_FREE // default 자유게시판
     
     var bmId:Int = -1

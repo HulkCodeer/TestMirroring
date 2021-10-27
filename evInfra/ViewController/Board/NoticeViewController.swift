@@ -11,8 +11,6 @@ import Material
 import SwiftyJSON
 
 class NoticeViewController: UIViewController {
-    
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var boardList: JSON!
     
     @IBOutlet weak var tableView: UITableView!

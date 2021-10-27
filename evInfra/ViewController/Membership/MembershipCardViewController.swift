@@ -25,7 +25,11 @@ class MembershipCardViewController: UIViewController,
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        checkMembershipData()
+        if MemberManager().isLogin() {
+            checkMembershipData()
+        } else {
+            MemberManager().showLoginAlert(vc: self)
+        }
     }
 
     func checkMembershipData() {        

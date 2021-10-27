@@ -52,8 +52,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var priceTableHeight: NSLayoutConstraint!
     
     var charger: ChargerStationInfo?
-    
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var boardList: Array<BoardItem> = Array<BoardItem>()
     
     private var phoneNumber:String? = nil

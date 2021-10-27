@@ -108,11 +108,7 @@ class MainViewController: UIViewController {
         
         prepareCalloutLayer()
     }
-    
-    override func viewWillLayoutSubviews() {
-        prepareSummaryView()
-    }
-    
+        
     override func viewDidAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         menuBadgeAdd()
@@ -134,6 +130,10 @@ class MainViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func showDeepLink() {
+        DeepLinkPath.sharedInstance.runDeepLink(navigationController: navigationController!)
     }
 
     // Filter
@@ -816,14 +816,15 @@ extension MainViewController: ChargerSelectDelegate {
     }
     
     func prepareSummaryView() {
-        let window = UIApplication.shared.keyWindow!
-        callOutLayer.frame.size.width = window.frame.width
-        if summaryView == nil {
-            summaryView = SummaryView(frame: callOutLayer.frame.bounds)
+        if let window = UIApplication.shared.keyWindow {
+            callOutLayer.frame.size.width = window.frame.width
+            if summaryView == nil {
+                summaryView = SummaryView(frame: callOutLayer.frame.bounds)
+            }
+            summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            callOutLayer.addSubview(summaryView)
+    //        summaryView.delegate = self
         }
-        summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        callOutLayer.addSubview(summaryView)
-//        summaryView.delegate = self
     }
     
     func selectCharger(chargerId: String) {
@@ -916,6 +917,8 @@ extension MainViewController {
 
             class chargerManagerListener: ChargerManagerListener {
                 func onComplete() {
+                    FCMManager.sharedInstance.isReady = true
+                    DeepLinkPath.sharedInstance.isReady = true
                     controller?.markerIndicator.startAnimating()
                     controller?.drawTMapMarker()
                     controller?.markerIndicator.stopAnimating()
@@ -933,7 +936,7 @@ extension MainViewController {
                     if Const.CLOSED_BETA_TEST {
                         CBT.checkCBT(vc: controller!)
                     }
-                    controller?.getIntroImage()
+                    controller?.showDeepLink()
                 }
                 
                 func onError(errorMsg: String) {
@@ -1010,16 +1013,6 @@ extension MainViewController {
             }
         }
     }
-    
-    private func getIntroImage(){
-        Server.getIntroImage { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                let checker = IntroImageChecker.init()
-                checker.checkIntroImage(response: json)
-            }
-        }
-    }
 }
 
 extension MainViewController {
@@ -1028,7 +1021,6 @@ extension MainViewController {
         center.addObserver(self, selector: #selector(saveLastZoomLevel), name: .UIApplicationDidEnterBackground, object: nil)
         center.addObserver(self, selector: #selector(updateMemberInfo), name: Notification.Name("updateMemberInfo"), object: nil)
         center.addObserver(self, selector: #selector(getSharedChargerId(_:)), name: Notification.Name("kakaoScheme"), object: nil)
-        center.addObserver(self, selector: #selector(openPartnership(_:)), name: Notification.Name("partnershipScheme"), object: nil)
         // [Summary observer]
         center.addObserver(self, selector: #selector(directionStartPoint(_:)), name: Notification.Name(summaryView.startKey), object: nil)
         center.addObserver(self, selector: #selector(directionStartPath(_:)), name: Notification.Name(summaryView.addKey), object: nil)
@@ -1037,7 +1029,6 @@ extension MainViewController {
         center.addObserver(self, selector: #selector(requestLogIn(_:)), name: Notification.Name(summaryView.loginKey), object: nil)
         center.addObserver(self, selector: #selector(isChangeFavorite(_:)), name: Notification.Name(summaryView.favoriteKey), object: nil)
     }
-    
     func removeObserver() {
         let center = NotificationCenter.default
         center.removeObserver(self, name: Notification.Name("updateMemberInfo"), object: nil)
@@ -1071,16 +1062,6 @@ extension MainViewController {
         self.sharedChargerId = sharedid
         if self.loadedChargers {
             selectChargerFromShared()
-        }
-    }
-    
-    @objc func openPartnership(_ notification: NSNotification) {
-        if MemberManager().isLogin() {
-            let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-            let mbscdVC = mbsStoryboard.instantiateViewController(withIdentifier: "MembershipCardViewController") as! MembershipCardViewController
-            navigationController?.push(viewController: mbscdVC)
-        } else {
-            MemberManager().showLoginAlert(vc: self)
         }
     }
     
@@ -1226,7 +1207,7 @@ extension MainViewController {
     
     private func checkFCM() {
         if let notification = FCMManager.sharedInstance.fcmNotification {
-            FCMManager.sharedInstance.alertMessage(navigationController: appDelegate.navigationController, data: notification)
+            FCMManager.sharedInstance.alertMessage(navigationController: navigationController, data: notification)
         }
     }
     
@@ -1269,7 +1250,7 @@ extension MainViewController {
         
         btn_main_help.alignTextUnderImage()
         btn_main_help.tintColor = UIColor(named: "gr-8")
-        btn_main_help.setImage(UIImage(named: "ic_line_help")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        btn_main_help.setImage(UIImage(named: "icon_main_faq")?.withRenderingMode(.alwaysTemplate), for: .normal)
 
         btn_main_favorite.alignTextUnderImage()
         btn_main_favorite.tintColor = UIColor(named: "gr-8")

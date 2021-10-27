@@ -31,6 +31,14 @@
 				<string>evInfra</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.soft-berry.ev-infra</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
@@ -119,5 +127,26 @@
 	<string>Light</string>
 	<key>content_available</key>
 	<true/>
+	
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+        		<key>UIApplicationSupportsMultipleScenes</key>
+		<true/>
+        		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+            		<array>
+                			<dict>
+                    			<key>UISceneConfigurationName</key>
+                    			<string>Default Configuration</string>
+                    			<key>UISceneDelegateClassName</key>
+                    			<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+
+                    			<key>Storyboard Name</key>
+                    			<string>Main</string>
+                			</dict>
+            		</array>
+        		</dict>
+    	</dict>
 </dict>
 </plist>

@@ -34,6 +34,8 @@ class FCMManager {
     var registerId: String? = nil
     var nfcNoti: UNNotification? = nil
     var fcmNotification: [AnyHashable: Any]? = nil
+    var isReady: Bool = false
+    
     func getFCMRegisterId() -> String? {
         if let id = registerId {
             return id
@@ -50,7 +52,7 @@ class FCMManager {
         }
     }
     
-    func alertFCMMessage(navigationController: AppNavigationController?) {
+    func alertFCMMessage(navigationController: UINavigationController?) {
         if let notification = getFCMMessageData() {
             
             let targetId = notification.request.content.userInfo[AnyHashable("target_id")] as! String?
@@ -73,7 +75,6 @@ class FCMManager {
             if let navigation = navigationController {
                 if let viewController = navigation.visibleViewController {
                     // 여기다가 뷰컨트롤러가 이거일 경우... 저거일 경우... 고고씡
-                    
                     if  (targetId != nil) {
                         if targetId == FCMManager.TARGET_CHARGING && String(describing: viewController).contains("PaymentStatusViewController") {
                             let center = NotificationCenter.default
@@ -104,7 +105,10 @@ class FCMManager {
         }
     }
     
-    func alertMessage(navigationController: AppNavigationController?, data: [AnyHashable: Any]?) {
+    func alertMessage(navigationController: UINavigationController?, data: [AnyHashable: Any]?) {
+        if !isReady {
+            return
+        }
         if let notification = data {
             if let targetId = notification[AnyHashable("target_id")] as! String? {
                 switch targetId {
@@ -153,7 +157,7 @@ class FCMManager {
         }
     }
     
-    func getBoardReportData(navigationController: AppNavigationController?) {
+    func getBoardReportData(navigationController: UINavigationController?) {
         if let visableControll = navigationController?.visibleViewController {
             if visableControll.isKind(of: ReportBoardViewController.self) {
                 visableControll.viewDidLoad()
@@ -172,7 +176,7 @@ class FCMManager {
         }
     }
     
-    func getBoardData(navigationController: AppNavigationController?, boardId: Int, category: String) {
+    func getBoardData(navigationController: UINavigationController?, boardId: Int, category: String) {
         if let navigation = navigationController {
             if let visableControll = navigation.visibleViewController {
                 if visableControll.isKind(of: MyArticleViewController.self) {
@@ -192,7 +196,7 @@ class FCMManager {
         }
     }
     
-    func getCouponIssueData(navigationController: AppNavigationController?) {
+    func getCouponIssueData(navigationController: UINavigationController?) {
         if let visableControll = navigationController?.visibleViewController {
             if visableControll.isKind(of: ReportBoardViewController.self) {
                 visableControll.viewDidLoad()
@@ -211,7 +215,7 @@ class FCMManager {
         }
     }
     
-    func getNoticeData(navigationController: AppNavigationController?, noticeId: Int) {
+    func getNoticeData(navigationController: UINavigationController?, noticeId: Int) {
         if let navigation = navigationController {
             if let visableControll = navigation.visibleViewController {
                 if visableControll.isKind(of: NoticeContentViewController.self) {
@@ -227,7 +231,7 @@ class FCMManager {
         }
     }
     
-    func getPointData(navigationController: AppNavigationController?) {
+    func getPointData(navigationController: UINavigationController?) {
         if let visableControll = navigationController?.visibleViewController {
             if visableControll.isKind(of: PointViewController.self) {
                 visableControll.viewDidLoad()
@@ -245,7 +249,7 @@ class FCMManager {
         }
     }
     
-    func getMembershipData(navigationController: AppNavigationController?) {
+    func getMembershipData(navigationController: UINavigationController?) {
         if let visableControll = navigationController?.visibleViewController {
             if visableControll.isKind(of: LotteRentInfoViewController.self) {
                 visableControll.viewDidLoad()
@@ -263,7 +267,7 @@ class FCMManager {
         }
     }
     
-    func startTagetCharging(navigationController: AppNavigationController?, data: [AnyHashable: Any]){
+    func startTagetCharging(navigationController: UINavigationController?, data: [AnyHashable: Any]){
         if MemberManager().isLogin() {
             var chargingId = defaults.readString(key: UserDefault.Key.CHARGING_ID)
             var cmd = ""

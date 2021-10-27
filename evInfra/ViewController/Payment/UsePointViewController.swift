@@ -23,8 +23,6 @@ class UsePointViewController: UIViewController {
     var delegate: SendPointDelegate?
     var data = ""
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
