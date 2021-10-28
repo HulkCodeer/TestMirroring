@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import Material
+import M13Checkbox
 
 class PaymentStatusViewController: UIViewController {
 
@@ -19,24 +20,38 @@ class PaymentStatusViewController: UIViewController {
     let TIMER_COUNT_NORMAL_TICK = 5 // 30 30초 주기로 충전 상태 가져옴. 시연을 위해 임시 5초
     let TIMER_COUNT_COMPLETE_TICK = 5 // TODO test 위해 10초로 변경. 시그넷 충전기 테스트 후 시간 정할 것.
     
-    @IBOutlet weak var lbChargeComment: UILabel!
-    @IBOutlet weak var lbChargeSubComment: UILabel!
+    
+    @IBOutlet var lbStationName: UILabel!
+    @IBOutlet var lbChargeStatus: UILabel!
     @IBOutlet weak var circleView: CircularProgressBar!
+    @IBOutlet weak var lbChargeComment: UILabel!
     
     @IBOutlet weak var lbChargePower: UILabel!
+    @IBOutlet weak var chronometer: Chronometer!
     @IBOutlet weak var lbChargeSpeed: UILabel!
+    
+    @IBOutlet var viewDiscount: UIView!
+    @IBOutlet weak var lbDiscountMsg: UILabel!
+    @IBOutlet weak var lbDiscountAmount: UILabel!
+    
+    @IBOutlet var lbSavedPoint: UILabel!
+    @IBOutlet var lbPreUsePoint: UILabel!
+    
+    @IBOutlet var tfUsePoint: UITextField!
+    @IBOutlet var btnUsePointAll: UIButton!
+    @IBOutlet var viewUseAlways: UIView!
+    @IBOutlet var lbUseAlways: UILabel!
+    @IBOutlet var cbUseAlways: M13Checkbox!
+    
     @IBOutlet weak var lbChargeFee: UILabel!
     @IBOutlet weak var lbChargeBerry: UILabel!
     @IBOutlet weak var lbChargeTotalFee: UILabel!
     
-    @IBOutlet weak var chronometer: Chronometer!
-
-    @IBOutlet weak var lbDiscountMsg: UILabel!
-    @IBOutlet weak var lbDiscountAmount: UILabel!
-    @IBOutlet weak var tvDiscountInfo: UITextView!
-    @IBOutlet weak var discountView: UIStackView!
+    @IBOutlet var viewPayDiscount: UIView!
+    @IBOutlet var lbPayDiscountMsg: UILabel!
+    @IBOutlet var lbPayDiscountAmount: UILabel!
+    
     @IBOutlet weak var btnStopCharging: UIButton!
-    @IBOutlet weak var btnUseBerry: UIButton!
     
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
@@ -91,7 +106,6 @@ class PaymentStatusViewController: UIViewController {
     }
     
     func prepareView() {
-        circleView.labelSize = 60
         circleView.safePercent = 100
         
         btnStopCharging.isEnabled = false
@@ -113,9 +127,7 @@ class PaymentStatusViewController: UIViewController {
     func btnSetBorder() {
         let borderColor = UIColor(named: "border-opaque")!
         
-        btnUseBerry.roundCorners(.allCorners, radius: 4, borderColor: borderColor, borderWidth: 2)
-        
-        btnStopCharging.layer.cornerRadius = 4
+        btnUsePointAll.roundCorners(.allCorners, radius: 4, borderColor: borderColor, borderWidth: 2)
     }
     
     @objc func requestStatusFromFCM(notification: Notification) {
@@ -352,27 +364,8 @@ extension PaymentStatusViewController {
                     btnStopCharging.layer.backgroundColor = UIColor(named: "background-positive")!.cgColor
                     btnStopCharging.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
                 }
-                if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_LOTTE) {
-                    let discountInfoMsg = NSMutableAttributedString(string: "남은 할인 금액은 ")
-                    let selectablePart = NSMutableAttributedString(string: "회원카드 관리 메뉴 > 롯데 렌터카 카드")
-                    selectablePart.addAttribute(NSAttributedString.Key.underlineStyle, value: 1, range: NSMakeRange(0,selectablePart.length))
-                    selectablePart.addAttribute(NSAttributedString.Key.link, value: "linkToLotte", range: NSMakeRange(0,selectablePart.length))
-                    discountInfoMsg.append(selectablePart)
-                    discountInfoMsg.append(NSMutableAttributedString(string: "를 클릭하시면 확인하실 수 있습니다."))
-                    discountInfoMsg.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(rgb: 0xb2b2b2), range: NSMakeRange(0, discountInfoMsg.length))
-                    discountInfoMsg.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 15), range: NSMakeRange(0, discountInfoMsg.length))
-                    tvDiscountInfo.attributedText = discountInfoMsg
-                    tvDiscountInfo.delegate = self
-                    tvDiscountInfo.isHidden = false
-                }
             } else if companyId.elementsEqual(CompanyInfo.COMPANY_ID_KEPCO) {
-                lbChargeComment.text = "직접 충전기에서 충전 종료를 눌러주세요."
-                lbChargeSubComment.isHidden = false
                 btnStopCharging.isHidden = true
-                if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR) {
-                    lbChargeSubComment.isHidden = true
-                    btnUseBerry.isEnabled = false
-                }
             }
         }
         
@@ -388,11 +381,7 @@ extension PaymentStatusViewController {
             if let pointStr = chargingStatus.usedPoint, !pointStr.isEmpty {
                 lbChargeBerry.text = pointStr.currency() + " B"
                 point = Double(pointStr) ?? 0.0
-                if point > 0 {
-                    btnUseBerry.setTitle("베리 수정하기", for: .normal)
-                } else {
-                    btnUseBerry.setTitle("베리 사용하기", for: .normal)
-                }
+                
             }
             
             
@@ -422,7 +411,7 @@ extension PaymentStatusViewController {
                 if let discountAmtStr = chargingStatus.discountAmt, !discountAmtStr.isEmpty {
                     discountAmt = Double(discountAmtStr) ?? 0.0
                     if discountAmt > 0 {
-                        discountView.isHidden = false
+                        viewDiscount.isHidden = false
                         lbDiscountAmount.text = discountAmtStr.currency() + " 원"
                         lbDiscountMsg.text = chargingStatus.discountMsg
                     }
