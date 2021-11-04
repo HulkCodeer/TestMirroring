@@ -843,28 +843,28 @@ extension MainViewController: ChargerSelectDelegate {
         }
         
         // 선택한 충전소 정보 표시
-        if let selectCharger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
-            showCallOut(charger: selectCharger)
+        if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
+            selectCharger = charger
+            if let markerItem = tMapView!.getMarketItem(fromID: selectCharger!.mChargerId) { // 선택된 충전소 아이콘 업데이트
+                if (!markerItem.getIcon().isEqual(other: selectCharger!.getSelectIcon())) {
+                    markerItem.setIcon(selectCharger!.getSelectIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+                }
+            }
+            
+            showCallOut(charger: charger)
         } else {
             print("Not Found Charger \(ChargerManager.sharedInstance.getChargerStationInfoList().count)")
         }
     }
     
     func showCallOut(charger: ChargerStationInfo) {
-        selectCharger = charger
         summaryView.charger = charger
         summaryView.setLayoutType(charger: charger, type: SummaryView.SummaryType.MainSummary)
-//        getStationDetailInfo()
         setView(view: callOutLayer, hidden: false)
         
         summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clustering!.isRouteMode)
-
-        if let markerItem = self.tMapView!.getMarketItem(fromID: self.selectCharger!.mChargerId) {
-            if (markerItem.getIcon().isEqual(other: self.selectCharger!.getSelectIcon())) == false {
-                markerItem.setIcon(self.selectCharger!.getSelectIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
-            }
-        }
     }
+    
     func setView(view: UIView, hidden: Bool) {
         UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
             view.isHidden = hidden

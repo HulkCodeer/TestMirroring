@@ -107,7 +107,6 @@ class ChargerStationInfo {
     func changeStatus(status: Int) {
         self.mTotalStatus = status
         mTotalStatusName = cidInfo.cstToString(cst: self.mTotalStatus!)
-        marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
     }
     
     func getTMapPoint() -> TMapPoint {
