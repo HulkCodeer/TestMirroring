@@ -62,6 +62,7 @@
 		00EAB7C427225108004E78D2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EAB7C327225108004E78D2 /* SceneDelegate.swift */; };
 		00EAB7C627228F42004E78D2 /* DeepLinkPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EAB7C527228F42004E78D2 /* DeepLinkPath.swift */; };
 		00EB85D226BA8C6100D1606F /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85D126BA8C6100D1606F /* UILabel.swift */; };
+		00F1AC7727031FAA009847E7 /* PreUsePointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F1AC7627031FAA009847E7 /* PreUsePointViewController.swift */; };
 		00FDEAE826B3B6A2006617EE /* Charge.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAE726B3B6A2006617EE /* Charge.storyboard */; };
 		00FDEAEA26B3BF1E006617EE /* Member.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAE926B3BF1E006617EE /* Member.storyboard */; };
 		00FDEAEC26B3BF47006617EE /* Payment.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAEB26B3BF47006617EE /* Payment.storyboard */; };
@@ -414,6 +415,7 @@
 		00EAB7C327225108004E78D2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		00EAB7C527228F42004E78D2 /* DeepLinkPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkPath.swift; sourceTree = "<group>"; };
 		00EB85D126BA8C6100D1606F /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
+		00F1AC7627031FAA009847E7 /* PreUsePointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreUsePointViewController.swift; sourceTree = "<group>"; };
 		00FDEAE726B3B6A2006617EE /* Charge.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Charge.storyboard; sourceTree = "<group>"; };
 		00FDEAE926B3BF1E006617EE /* Member.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Member.storyboard; sourceTree = "<group>"; };
 		00FDEAEB26B3BF47006617EE /* Payment.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Payment.storyboard; sourceTree = "<group>"; };
@@ -897,6 +899,7 @@
 				DB5041AB235066CA007336BC /* PointViewController.swift */,
 				DB5FA59522C20A8400F1508A /* ChargesViewController.swift */,
 				00FDEAE726B3B6A2006617EE /* Charge.storyboard */,
+				00F1AC7627031FAA009847E7 /* PreUsePointViewController.swift */,
 			);
 			path = Charge;
 			sourceTree = "<group>";
@@ -1979,6 +1982,7 @@
 				73C31BFB20A288BB005B6C53 /* ChargerInfoViewController.swift in Sources */,
 				CE93308F214F9807006B7EF6 /* ReportChargerList.swift in Sources */,
 				00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */,
+				00F1AC7727031FAA009847E7 /* PreUsePointViewController.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton.swift in Sources */,
 				902A11DC248F5F550049EF8E /* ChargerConst.swift in Sources */,
 				73D65D7223588ACC00F564A2 /* UITextField.swift in Sources */,
