@@ -280,10 +280,11 @@ class Server {
     }
     
     // 회원 - 설정 포인트 변경
-    static func setUsePoint(usePoint: Int, completion: @escaping (Bool, Any) -> Void) {
+    static func setUsePoint(usePoint: Int, useNow: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
             "mb_id": MemberManager.getMbId(),
+            "use_now": useNow,
             "point": usePoint
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/set_use_point",

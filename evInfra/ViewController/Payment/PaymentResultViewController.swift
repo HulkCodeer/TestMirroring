@@ -248,10 +248,11 @@ class PaymentResultViewController: UIViewController {
                         let chargeHistory = try! JSONDecoder().decode(ChargingHistoryList.self, from: data)
                         if chargeHistory.code != 1000 {
                             Snackbar().show(message: "결제 정보를 받아오지 못했습니다.")
-                        }
-                        if (chargeHistory.list!.count > 0) {
-                            let charge = chargeHistory.list![0]
-                            self.didSelectReceipt(charge: charge)
+                        } else {
+                            if chargeHistory.list!.count > 0 {
+                                let charge = chargeHistory.list![0]
+                                self.didSelectReceipt(charge: charge)
+                            }
                         }
                     }
                 }

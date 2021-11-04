@@ -103,13 +103,13 @@
                                                                 </constraints>
                                                             </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전 대기" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eFH-V1-c7E">
-                                                                <rect key="frame" x="143.5" y="178.5" width="88.5" height="29"/>
+                                                                <rect key="frame" x="143.5" y="169" width="88.5" height="29"/>
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                                                 <color key="textColor" name="content-disabled"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s4l-0W-7lg">
-                                                                <rect key="frame" x="107.5" y="215.5" width="160.5" height="33.5"/>
+                                                                <rect key="frame" x="107.5" y="206" width="160.5" height="33.5"/>
                                                                 <string key="text">충전 커넥터를 차량과 연결 후
 잠시만 기다려 주세요.</string>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -207,13 +207,13 @@
                                                             <constraint firstItem="zwT-xo-iXM" firstAttribute="leading" secondItem="Zpg-HR-Hcm" secondAttribute="leading" constant="16" id="YVl-Yn-iL6"/>
                                                             <constraint firstItem="Jm2-qp-d0Y" firstAttribute="leading" secondItem="Zpg-HR-Hcm" secondAttribute="leading" constant="16" id="ZgF-bd-QQK"/>
                                                             <constraint firstItem="eFH-V1-c7E" firstAttribute="centerX" secondItem="vsT-Iy-Y6j" secondAttribute="centerX" id="cOT-cl-Iyo"/>
+                                                            <constraint firstItem="eFH-V1-c7E" firstAttribute="top" secondItem="vsT-Iy-Y6j" secondAttribute="centerY" constant="-24" id="cgz-aj-ynY"/>
                                                             <constraint firstItem="vsT-Iy-Y6j" firstAttribute="centerX" secondItem="Zpg-HR-Hcm" secondAttribute="centerX" id="dta-dm-hEL"/>
                                                             <constraint firstItem="zwT-xo-iXM" firstAttribute="top" secondItem="Zpg-HR-Hcm" secondAttribute="top" constant="16" id="gVD-jZ-rPn"/>
                                                             <constraint firstItem="bC2-jC-IrA" firstAttribute="leading" secondItem="Zpg-HR-Hcm" secondAttribute="leading" id="hpi-my-VGX"/>
                                                             <constraint firstAttribute="trailing" secondItem="Jm2-qp-d0Y" secondAttribute="trailing" constant="16" id="mji-ss-ISl"/>
                                                             <constraint firstItem="vsT-Iy-Y6j" firstAttribute="top" secondItem="Jm2-qp-d0Y" secondAttribute="bottom" constant="32" id="mk9-HA-YQC"/>
                                                             <constraint firstItem="Jm2-qp-d0Y" firstAttribute="top" secondItem="zwT-xo-iXM" secondAttribute="bottom" constant="8" id="qif-Ks-7oN"/>
-                                                            <constraint firstItem="eFH-V1-c7E" firstAttribute="centerY" secondItem="vsT-Iy-Y6j" secondAttribute="centerY" id="rBG-f9-pK1"/>
                                                             <constraint firstItem="s4l-0W-7lg" firstAttribute="top" secondItem="eFH-V1-c7E" secondAttribute="bottom" constant="8" id="sUU-a9-NmD"/>
                                                         </constraints>
                                                     </view>
@@ -233,8 +233,8 @@
                                                                 <color key="textColor" name="content-primary"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="롯데렌터카 1kwh당 15원 할인" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u73-IF-I58">
-                                                                <rect key="frame" x="16" y="43.5" width="168" height="17"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(할인내역)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u73-IF-I58">
+                                                                <rect key="frame" x="16" y="43.5" width="59" height="17"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <color key="textColor" name="content-tertiary"/>
                                                                 <nil key="highlightedColor"/>
@@ -308,7 +308,7 @@
                                                                 <color key="textColor" name="content-primary"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rhI-wO-eCo">
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="rhI-wO-eCo">
                                                                 <rect key="frame" x="16" y="130.5" width="231" height="40"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="40" id="p17-W4-lOw"/>
@@ -329,22 +329,26 @@
                                                                 <state key="normal" title="전액 사용">
                                                                     <color key="titleColor" name="content-primary"/>
                                                                 </state>
+                                                                <connections>
+                                                                    <action selector="onClickUseAll:" destination="V7S-tk-w3k" eventType="touchUpInside" id="YVo-ZZ-JX4"/>
+                                                                </connections>
                                                             </button>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tVn-OO-hyw">
                                                                 <rect key="frame" x="16" y="186.5" width="343" height="24"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="항상 이 베리 사용" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iaC-xD-gpO">
-                                                                        <rect key="frame" x="201.5" y="2.5" width="109.5" height="19.5"/>
+                                                                        <rect key="frame" x="207.5" y="2.5" width="109.5" height="19.5"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                         <color key="textColor" name="content-primary"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dV5-2X-ClD" customClass="M13Checkbox" customModule="M13Checkbox">
-                                                                        <rect key="frame" x="319" y="0.0" width="24" height="24"/>
+                                                                        <rect key="frame" x="325" y="3" width="18" height="18"/>
                                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                        <color key="tintColor" name="content-primary"/>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="height" constant="24" id="Ikb-7K-cZi"/>
-                                                                            <constraint firstAttribute="width" constant="24" id="tkL-eu-JYg"/>
+                                                                            <constraint firstAttribute="height" constant="18" id="Ikb-7K-cZi"/>
+                                                                            <constraint firstAttribute="width" constant="18" id="tkL-eu-JYg"/>
                                                                         </constraints>
                                                                     </view>
                                                                 </subviews>
@@ -394,7 +398,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="VI3-P9-sY8">
                                                         <rect key="frame" x="0.0" y="748" width="375" height="315"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="베리 사용" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kxG-iw-8ko">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="결제 정보" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kxG-iw-8ko">
                                                                 <rect key="frame" x="16" y="24" width="343" height="19.5"/>
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                                 <color key="textColor" name="content-primary"/>
@@ -566,7 +570,7 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="lIq-s8-lyj" firstAttribute="leading" secondItem="Nme-F7-flM" secondAttribute="leading" id="5hr-SZ-vBg"/>
-                                            <constraint firstAttribute="bottom" secondItem="lIq-s8-lyj" secondAttribute="bottom" constant="129.5" id="6aL-nM-UTC"/>
+                                            <constraint firstAttribute="bottom" secondItem="lIq-s8-lyj" secondAttribute="bottom" id="6aL-nM-UTC"/>
                                             <constraint firstItem="lIq-s8-lyj" firstAttribute="top" secondItem="Nme-F7-flM" secondAttribute="top" id="Qwt-hT-Qo8"/>
                                             <constraint firstItem="lIq-s8-lyj" firstAttribute="width" secondItem="Nme-F7-flM" secondAttribute="width" id="TLz-Ts-OSh"/>
                                             <constraint firstAttribute="trailing" secondItem="lIq-s8-lyj" secondAttribute="trailing" id="tYx-y5-pPn"/>
@@ -641,10 +645,13 @@
                         <outlet property="lbSavedPoint" destination="jeT-JF-S24" id="bU9-tI-RQ0"/>
                         <outlet property="lbStationName" destination="zwT-xo-iXM" id="L1p-eR-cnt"/>
                         <outlet property="lbUseAlways" destination="iaC-xD-gpO" id="URF-zb-g3w"/>
+                        <outlet property="payResultViewHeight" destination="q1A-a9-447" id="mNe-id-zSF"/>
+                        <outlet property="scrollview_bottom" destination="fhQ-VA-5dZ" id="0uC-yE-Xpb"/>
                         <outlet property="tfUsePoint" destination="rhI-wO-eCo" id="a0t-19-SPf"/>
                         <outlet property="viewDiscount" destination="8PJ-c2-mfd" id="Ohx-Nd-Ah8"/>
                         <outlet property="viewPayDiscount" destination="ZCi-YB-0LB" id="luj-hc-Hnq"/>
                         <outlet property="viewUseAlways" destination="tVn-OO-hyw" id="ohf-AT-dzn"/>
+                        <outlet property="viewUsePoint" destination="bqB-AL-0Nt" id="9BD-uI-WJh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hb3-vd-zqi" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -21,8 +21,8 @@ class PaymentStatusViewController: UIViewController {
     let TIMER_COUNT_COMPLETE_TICK = 5 // TODO test 위해 10초로 변경. 시그넷 충전기 테스트 후 시간 정할 것.
     
     
-    @IBOutlet var lbStationName: UILabel!
-    @IBOutlet var lbChargeStatus: UILabel!
+    @IBOutlet weak var lbStationName: UILabel!
+    @IBOutlet weak var lbChargeStatus: UILabel!
     @IBOutlet weak var circleView: CircularProgressBar!
     @IBOutlet weak var lbChargeComment: UILabel!
     
@@ -30,31 +30,34 @@ class PaymentStatusViewController: UIViewController {
     @IBOutlet weak var chronometer: Chronometer!
     @IBOutlet weak var lbChargeSpeed: UILabel!
     
-    @IBOutlet var viewDiscount: UIView!
+    @IBOutlet weak var viewDiscount: UIView!
     @IBOutlet weak var lbDiscountMsg: UILabel!
     @IBOutlet weak var lbDiscountAmount: UILabel!
     
-    @IBOutlet var lbSavedPoint: UILabel!
-    @IBOutlet var lbPreUsePoint: UILabel!
+    @IBOutlet weak var lbSavedPoint: UILabel!
+    @IBOutlet weak var lbPreUsePoint: UILabel!
     
-    @IBOutlet var tfUsePoint: UITextField!
-    @IBOutlet var btnUsePointAll: UIButton!
-    @IBOutlet var viewUseAlways: UIView!
-    @IBOutlet var lbUseAlways: UILabel!
-    @IBOutlet var cbUseAlways: M13Checkbox!
+    @IBOutlet weak var viewUsePoint: UIView!
+    @IBOutlet weak var tfUsePoint: UITextField!
+    @IBOutlet weak var btnUsePointAll: UIButton!
+    @IBOutlet weak var viewUseAlways: UIView!
+    @IBOutlet weak var lbUseAlways: UILabel!
+    @IBOutlet weak var cbUseAlways: M13Checkbox!
     
     @IBOutlet weak var lbChargeFee: UILabel!
     @IBOutlet weak var lbChargeBerry: UILabel!
     @IBOutlet weak var lbChargeTotalFee: UILabel!
     
-    @IBOutlet var viewPayDiscount: UIView!
-    @IBOutlet var lbPayDiscountMsg: UILabel!
-    @IBOutlet var lbPayDiscountAmount: UILabel!
+    @IBOutlet weak var viewPayDiscount: UIView!
+    @IBOutlet weak var lbPayDiscountMsg: UILabel!
+    @IBOutlet weak var lbPayDiscountAmount: UILabel!
     
     @IBOutlet weak var btnStopCharging: UIButton!
     
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
+    @IBOutlet var payResultViewHeight: NSLayoutConstraint!
+    @IBOutlet var scrollview_bottom: NSLayoutConstraint!
     var chargingStartTime = ""
     var isStopCharging = false
 
@@ -66,6 +69,11 @@ class PaymentStatusViewController: UIViewController {
     var preChargingKw: String = ""
     var preUpdateTime: String = ""
     
+    var myPoint = 0 // 소유 베리
+    var willUsePoint = 0 // 사용예정 베리 (충전 계산 시 적용될 최종 베리)
+    var alwaysUsePoint = 0 // 항상 사용할 베리 (베리사용 설정)
+    var prevAlwaysUsePoint = 0 // 설정이 변경되었을 경우 되돌릴 설정베리값
+    
     var timer = Timer()
     
     override func viewDidLoad() {
@@ -73,17 +81,24 @@ class PaymentStatusViewController: UIViewController {
         
         prepareActionBar()
         prepareView()
+        prepareTextField()
         prepareNotificationCenter()
         
         requestOpenCharger()
+        requestPointInfo()
     }
     
     override func viewDidLayoutSubviews() {
-        btnSetBorder()
+        btnUsePointAll.layer.cornerRadius = 4
     }
     
     override func viewDidAppear(_ animated: Bool) {
         startTimer(tick: TIMER_COUNT_NORMAL_TICK)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -92,7 +107,11 @@ class PaymentStatusViewController: UIViewController {
 
         removeNotificationCenter()
     }
-
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
         backButton.tintColor = UIColor(named: "content-primary")
@@ -106,12 +125,26 @@ class PaymentStatusViewController: UIViewController {
     }
     
     func prepareView() {
+        let tapTouch = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
+        view.addGestureRecognizer(tapTouch)
+        
+        let tapViewUseAlways = UITapGestureRecognizer(target: self, action: #selector(self.handleViewUseAlways))
+                                                   
+        viewUseAlways.addGestureRecognizer(tapViewUseAlways)
+                                                   
+        cbUseAlways.boxType = .square
+        cbUseAlways.isEnabled = false
         circleView.safePercent = 100
         
         btnStopCharging.isEnabled = false
-        
         btnStopCharging.layer.backgroundColor = UIColor(named: "background-disabled")!.cgColor
         btnStopCharging.setTitleColor(UIColor(named: "content-disabled")!, for: .normal)
+        
+        tfUsePoint.clearButtonMode = .whileEditing
+        tfUsePoint.layer.cornerRadius = 6
+        tfUsePoint.layer.masksToBounds = true
+        tfUsePoint.layer.borderColor = UIColor(named: "content-disabled")?.cgColor
+        tfUsePoint.layer.borderWidth = 1.0
     }
     
     func prepareNotificationCenter() {
@@ -124,10 +157,25 @@ class PaymentStatusViewController: UIViewController {
         center.removeObserver(self, name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: nil)
     }
     
-    func btnSetBorder() {
-        let borderColor = UIColor(named: "border-opaque")!
-        
-        btnUsePointAll.roundCorners(.allCorners, radius: 4, borderColor: borderColor, borderWidth: 2)
+    // MARK: - KeyBoardHeight
+    @objc func keyboardWillShow(_ notification: Notification) {
+        var keyboardHeight: CGFloat = 0
+        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            keyboardHeight = keyboardRectangle.height  + CGFloat(16.0)
+        }
+        self.scrollview_bottom.constant = keyboardHeight - self.btnStopCharging.frame.height
+        self.tfUsePoint.layer.masksToBounds = true
+        self.tfUsePoint.layer.borderColor = UIColor(named: "content-primary")?.cgColor
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        self.scrollview_bottom.constant = 0
+        self.tfUsePoint.layer.masksToBounds = false
+        self.tfUsePoint.layer.borderColor = UIColor(named: "content-disabled")?.cgColor
+        if let point = Int(tfUsePoint.text! as String) {
+            savePoint(point: point)
+        }
     }
     
     @objc func requestStatusFromFCM(notification: Notification) {
@@ -143,6 +191,24 @@ class PaymentStatusViewController: UIViewController {
             }
         }
     }
+    @objc
+    fileprivate func handleTap(recognizer: UITapGestureRecognizer) {
+        self.view.endEditing(true)
+    }
+    
+    @objc
+    fileprivate func handleViewUseAlways(recognizer: UITapGestureRecognizer) {
+        var preUsePoint = willUsePoint
+        if cbUseAlways.checkState == .checked {
+            preUsePoint = prevAlwaysUsePoint
+        }
+        
+        Server.setUsePoint(usePoint: preUsePoint, useNow: false) {
+            (isSuccess, value) in
+            let json = JSON(value)
+            self.responseSetUsePoint(response: json)
+        }
+    }
     
     @objc
     fileprivate func handleBackButton() {
@@ -152,6 +218,11 @@ class PaymentStatusViewController: UIViewController {
     @IBAction func onClickUsePoint(_ sender: Any) {
         let usePointVC = self.storyboard?.instantiateViewController(withIdentifier: "UsePointController") as! UsePointViewController
         self.present(usePointVC, animated: true, completion: nil)
+    }
+    
+    @IBAction func onClickUseAll(_ sender: Any) {
+        tfUsePoint.text = String(myPoint)
+        savePoint(point: myPoint)
     }
     
     @IBAction func onClickStopCharging(_ sender: Any) {
@@ -214,12 +285,60 @@ extension PaymentStatusViewController {
         timer = Timer()
     }
     
+    func savePoint(point: Int) {
+        if point != willUsePoint && point >= 0 {
+            Server.usePoint(point: point) { (isSuccess, value) in
+                if isSuccess {
+                    let json = JSON(value)
+                    self.responseUsePoint(response: json)
+                } else {
+                    Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료 후 재시도 바랍니다.")
+                }
+            }
+        }
+    }
+    
+    func requestPointInfo() {
+        Server.getPoint() { (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                if json.isEmpty {
+                    return
+                }
+                switch (json["code"].stringValue) {
+                case "1000":
+                    var totalPoint = json["point"].intValue
+                    var usePoint = json["use_point"].intValue
+                    if totalPoint < 0 {
+                        totalPoint = 0
+                    }
+                    self.myPoint = totalPoint
+                    self.lbSavedPoint.text = "\(String(totalPoint).currency()) 베리"
+                    
+                    if usePoint < 0 {
+                        usePoint = self.myPoint
+                    }
+                    self.willUsePoint = usePoint
+                    self.alwaysUsePoint = usePoint
+                    self.prevAlwaysUsePoint = usePoint
+                    
+                    self.updateBerryUse(point: self.willUsePoint)
+                    
+                default:
+                    Snackbar().show(message:json["msg"].stringValue)
+                }
+            }
+        }
+    }
+    
     // charging id가 있을 경우 충전중인 상태이므로
     // charging id가 없을 경우에만 충전기에 충전 시작을 요청함
     func requestOpenCharger() {
         let chargingId = getChargingId()
         if chargingId.isEmpty {
             showProgress()
+            lbChargeStatus.text = "충전 요청중"
+            lbChargeComment.text = "충전 요청중 입니다.\n잠시만 기다려 주세요."
             Server.openCharger(cpId: cpId, connectorId: connectorId) { (isSuccess, value) in
                 self.hideProgress()
                 if isSuccess {
@@ -262,13 +381,35 @@ extension PaymentStatusViewController {
         }
     }
     
+    func responseSetUsePoint(response: JSON) {
+        if response.isEmpty {
+            return
+        }
+        if response["code"].stringValue == "1000" {
+            let point = response["use_point"].stringValue
+            alwaysUsePoint = Int(point as String)!
+            updateBerryUse(point: willUsePoint)
+        }
+    }
+    
+    func responseUsePoint(response: JSON) {
+        if response.isEmpty {
+            return
+        }
+        if response["code"].stringValue == "1000" {
+            let point = response["point"].stringValue
+            willUsePoint = Int(point as String)!
+            updateBerryUse(point: willUsePoint)
+        }
+    }
+    
     func responseOpenCharger(response: JSON) {
         if response.isEmpty {
             return
         }
         switch (response["code"].stringValue) {
         case "1000":
-            lbChargeComment.text = "충전 커넥터를 차량과 연결 후 \n잠시만 기다려 주세요 "
+            lbChargeComment.text = "충전 커넥터를 차량과 연결 후\n잠시만 기다려 주세요 "
             setChargingId(chargerId: response["charging_id"].stringValue)
         default:
             Snackbar().show(message:response["msg"].stringValue)
@@ -346,13 +487,16 @@ extension PaymentStatusViewController {
     }
 }
 
-// chronometer
 extension PaymentStatusViewController {
     func updateChargingStatus() {
         if let status = chargingStatus.status {
             if status < STATUS_READY || status > STATUS_FINISH {
                 return
             }
+        }
+        
+        if let stationName = chargingStatus.stationName {
+            lbStationName.text = stationName
         }
         
         if let companyId = chargingStatus.companyId {
@@ -365,25 +509,24 @@ extension PaymentStatusViewController {
                     btnStopCharging.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
                 }
             } else if companyId.elementsEqual(CompanyInfo.COMPANY_ID_KEPCO) {
-                btnStopCharging.isHidden = true
+                btnStopCharging.isUserInteractionEnabled = false
+                btnStopCharging.backgroundColor = UIColor(named: "background-disabled")
+                btnStopCharging.setTitleColor(UIColor(named: "content-disabled"), for: .normal)
+                if MemberManager.isPartnershipClient(clientId: 23) { // 한전&SK -> 포인트사용 block
+                    viewUsePoint.isHidden = true
+                }
             }
         }
         
         if chargingStatus.status == STATUS_READY {
-            lbChargeComment.text = "충전 커넥터를 차량과 연결 후 잠시만 기다려 주세요"
+            lbChargeStatus.text = "충전 대기"
+            lbChargeComment.text = "충전 커넥터를 차량과 연결 후\n잠시만 기다려 주세요"
             btnStopCharging.setTitle("충전 취소", for: .normal)
         } else {
-            lbChargeComment.text = "충전이 진행중입니다"
+            lbChargeStatus.textColor = UIColor(named: "content-positive")
+            lbChargeComment.text = "충전중"
             btnStopCharging.setTitle("충전 종료", for: .normal)
-            
-            // 포인트
-            var point = 0.0;
-            if let pointStr = chargingStatus.usedPoint, !pointStr.isEmpty {
-                lbChargeBerry.text = pointStr.currency() + " B"
-                point = Double(pointStr) ?? 0.0
-                
-            }
-            
+                      
             
             // 충전진행시간
             if chargingStartTime.isEmpty || !chargingStartTime.elementsEqual(chargingStatus.startDate ?? "") {
@@ -400,6 +543,16 @@ extension PaymentStatusViewController {
                 if chargingRate > 0.0 {
                     circleView.setRateProgress(progress: Double(chargingRate))
                 }
+                lbChargeStatus.text = "\(chargingRate)%"
+            }
+            
+            // 포인트
+            var point = 0.0
+            if let pointStr = chargingStatus.usedPoint, !pointStr.isEmpty {
+                lbPreUsePoint.text = "\(pointStr.currency()) 베리"
+                point = Double(pointStr) ?? 0.0
+                willUsePoint = Int(point)
+                updateBerryUse(point: willUsePoint)
             }
             
             if let chargingKw = chargingStatus.chargingKw {
@@ -407,14 +560,19 @@ extension PaymentStatusViewController {
                 let chargePower = "\(chargingKw) Kw"
                 lbChargePower.text = chargePower
 
-                var discountAmt = 0.0;
-                if let discountAmtStr = chargingStatus.discountAmt, !discountAmtStr.isEmpty {
-                    discountAmt = Double(discountAmtStr) ?? 0.0
+                var discountAmt = 0.0
+                if let discountMsg = chargingStatus.discountMsg, !discountMsg.isEmpty {
+                    discountAmt = Double(chargingStatus.discountAmt!) ?? 0.0
                     if discountAmt > 0 {
-                        viewDiscount.isHidden = false
-                        lbDiscountAmount.text = discountAmtStr.currency() + " 원"
-                        lbDiscountMsg.text = chargingStatus.discountMsg
+                        lbDiscountAmount.text = "\(chargingStatus.discountAmt!.currency()) 원"
+                        lbDiscountMsg.text = discountMsg
+                        lbPayDiscountAmount.text = "-\(chargingStatus.discountAmt!.currency()) 원"
+                        lbPayDiscountMsg.text = discountMsg
                     }
+                } else {
+                    viewDiscount.isHidden = true
+                    viewPayDiscount.isHidden = true
+                    payResultViewHeight.constant = 263 //315 - 52
                 }
                 
                 if let feeStr = chargingStatus.fee {
@@ -423,8 +581,16 @@ extension PaymentStatusViewController {
                     
                     // 총 결제 금액
                     let fee = feeStr.parseDouble() ?? 0.0
-                    let totalFee = (fee > (point + discountAmt)) ? fee - (point + discountAmt) : 0
+                    var totalFee = (fee > discountAmt) ? fee - discountAmt : 0
+                    point = Double((willUsePoint > myPoint) ? myPoint : willUsePoint)
+                    if totalFee > point {
+                        totalFee -= point
+                    } else {
+                        point = totalFee
+                        totalFee = 0
+                    }
                     lbChargeTotalFee.text = String(totalFee).currency()
+                    lbChargeBerry.text = "-\(String(point).currency()) 베리"
                 }
                 
                 // 충전속도
@@ -451,6 +617,38 @@ extension PaymentStatusViewController {
         }
     }
     
+    func updateBerryUse(point: Int) {
+        if point == myPoint {
+            btnUsePointAll.layer.backgroundColor = UIColor(named: "background-disabled")?.cgColor
+            btnUsePointAll.setTitleColor(UIColor(named: "content-disabled"), for: .normal)
+        } else {
+            btnUsePointAll.layer.backgroundColor = UIColor(named: "background-secondary")?.cgColor
+            btnUsePointAll.setTitleColor(UIColor(named: "content-primary"), for: .normal)
+        }
+        
+        lbPreUsePoint.text = "\(String(point).currency()) 베리"
+        if point != alwaysUsePoint { // 설정베리와 사용베리가 다른경우
+            lbUseAlways.textColor = UIColor(named: "content-primary")
+            cbUseAlways.checkState = .unchecked
+            viewUseAlways.isUserInteractionEnabled = true
+        } else {
+            if alwaysUsePoint == prevAlwaysUsePoint { // 설정베리가 변경된적 없는 경우
+                lbUseAlways.textColor = UIColor(named: "content-tertiary")
+                viewUseAlways.isUserInteractionEnabled = false
+                
+                if prevAlwaysUsePoint == 0 {
+                    cbUseAlways.checkState = .unchecked
+                } else {
+                    cbUseAlways.checkState = .checked
+                }
+            } else { // 설정베리가 변경되어 사용베리와 다른 경우
+                lbUseAlways.textColor = UIColor(named: "content-primary")
+                cbUseAlways.checkState = .checked
+                viewUseAlways.isUserInteractionEnabled = true
+            }
+        }
+    }
+    
     func stopCharging() {
         removeTimer()
         chronometer.stop()
@@ -467,11 +665,40 @@ extension PaymentStatusViewController {
     }
 }
 
-extension PaymentStatusViewController: UITextViewDelegate {
-    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-        let lotteInfoVC = mbsStoryboard.instantiateViewController(withIdentifier: "LotteRentInfoViewController") as! LotteRentInfoViewController
-        navigationController?.push(viewController: lotteInfoVC)
-        return false
+extension PaymentStatusViewController: UITextFieldDelegate {
+    func prepareTextField() {
+        self.tfUsePoint.delegate = self
+        self.tfUsePoint.keyboardType = .numberPad
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentString: NSString = textField.text! as NSString
+        let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
+        if newString.length > 5 {
+            tfUsePoint.borderColor = UIColor(named: "content-negative")
+            Snackbar().show(message: "베리 입력은 100,000원을 초과하여 입력하실 수 없습니다.")
+            return false
+        }
+        
+        tfUsePoint.borderColor = UIColor(named: "content-disabled")
+        if newString.length > 0 {
+            if let point = Int(newString as String) {
+                if point > myPoint { // 내가 보유한 포인트보다 큰 수를 입력한 경우 내 포인트를 입력
+                    tfUsePoint.borderColor = UIColor(named: "content-negative")
+                    Snackbar().show(message: "사용 베리는 보유 베리보다 많이 입력할 수 없습니다.")
+                    return false
+                } else {
+                    tfUsePoint.borderColor = UIColor(named: "content-primary")
+                    if newString.hasPrefix("0"){
+                        tfUsePoint.text = String(point)
+                        return false
+                    }
+                    return true
+                }
+            } else {
+                return false // 숫자 이외의 문자 입력받지 않음
+            }
+        }
+        return true
     }
 }
