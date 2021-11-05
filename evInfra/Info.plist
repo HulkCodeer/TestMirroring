@@ -98,6 +98,25 @@
 	<string>글 작성 및 프로필 이미지 업로드를 위해  포토 라이브러리 접근 권한이 필요합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>글 작성을 위해 사진 정보에 접근 권한이 필요합니다.</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<true/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>Storyboard Name</key>
+					<string>Main</string>
+					<key>UISceneConfigurationName</key>
+					<string>Default Configuration</string>
+					<key>UISceneDelegateClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
@@ -127,26 +146,5 @@
 	<string>Light</string>
 	<key>content_available</key>
 	<true/>
-	
-	<key>UIApplicationSceneManifest</key>
-	<dict>
-        		<key>UIApplicationSupportsMultipleScenes</key>
-		<true/>
-        		<key>UISceneConfigurations</key>
-		<dict>
-			<key>UIWindowSceneSessionRoleApplication</key>
-            		<array>
-                			<dict>
-                    			<key>UISceneConfigurationName</key>
-                    			<string>Default Configuration</string>
-                    			<key>UISceneDelegateClassName</key>
-                    			<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
-
-                    			<key>Storyboard Name</key>
-                    			<string>Main</string>
-                			</dict>
-            		</array>
-        		</dict>
-    	</dict>
 </dict>
 </plist>
