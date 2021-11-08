@@ -97,10 +97,8 @@ class SummaryView: UIView {
     // 메인_Sumamry View setting
     func setLayoutType(charger: ChargerStationInfo, type: SummaryType) {
         self.charger = charger
-        initLayout(type: type)
-        if charger.cidInfoList.count <= 0 {
-            getStationDetailInfo(type: type)
-        }
+        initLayout(type: type)        
+        getStationDetailInfo(type: type)
     }
     
     func initLayout(type: SummaryType) {
@@ -126,8 +124,7 @@ class SummaryView: UIView {
                 // 충전기 타입
                 setChargerType(charger: self.charger!)
                 // 충전소 상태
-                stateLb.text = self.charger!.mTotalStatusName
-                setStationCstColor(charger: self.charger!)
+                setStationStatus(charger: self.charger!)
                 // 급/완속 카운터 (0/0 -> GONE처리)
                 stateCountView.isHidden = false
                 fastView.isHidden = false
@@ -219,6 +216,8 @@ class SummaryView: UIView {
                         self.charger!.setStationInfo(jsonList: item)
                         break
                     }
+                    // update status
+                    self.setStationStatus(charger: self.charger!)
                     if self.charger!.cidInfoList.count > 0 {
                         self.initLayout(type: type)
                         if let delegate = self.delegate {
@@ -352,12 +351,13 @@ class SummaryView: UIView {
         }
     }
     
-    func setStationCstColor(charger:ChargerStationInfo) {
+    func setStationStatus(charger:ChargerStationInfo) {
         var status = Const.CHARGER_STATE_UNKNOWN
         if (charger.mTotalStatus != nil){
             status = (charger.mTotalStatus)!
         }
         stateLb.textColor = charger.cidInfo.getCstColor(cst: status)
+        stateLb.text = charger.mTotalStatusName
     }
     
     func setBerryTag(btn : UIButton) {

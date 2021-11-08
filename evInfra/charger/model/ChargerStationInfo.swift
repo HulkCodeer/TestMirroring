@@ -78,19 +78,6 @@ class ChargerStationInfo {
         }
         
         self.sortCharger()
-        
-        if !self.cidInfoList.isEmpty {
-            var stationSt = self.cidInfoList[0].status!
-            for cid in self.cidInfoList {
-                if (stationSt != cid.status) {
-                    if(cid.status == Const.CHARGER_STATE_WAITING) {
-                        stationSt = cid.status!
-                        break
-                    }
-                }
-            }
-            self.status = stationSt
-        }
     }
     
     func createMarker() {
@@ -104,9 +91,12 @@ class ChargerStationInfo {
         marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
     }
     
-    func changeStatus(status: Int) {
+    func changeStatus(status: Int, markerChange: Bool) {
         self.mTotalStatus = status
         mTotalStatusName = cidInfo.cstToString(cst: self.mTotalStatus!)
+        if markerChange {
+            marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+        }
     }
     
     func getTMapPoint() -> TMapPoint {

@@ -224,7 +224,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     func setStationInfo() {
         if let chargerData = charger {
-            ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerData.mChargerId!)?.changeStatus(status: chargerData.mTotalStatus!)
+            ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerData.mChargerId!)?.changeStatus(status: chargerData.mTotalStatus!, markerChange:  false)
             
             self.cidTableView.setCidInfoList(infoList: chargerData.cidInfoList)
             
