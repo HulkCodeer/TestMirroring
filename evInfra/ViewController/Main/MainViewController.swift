@@ -388,6 +388,7 @@ extension MainViewController {
                 self.selectChargerFromShared()
             }
         }
+        
         if searchLocation != nil {
             let poiItem = TMapPOIItem(tMapPoint: searchLocation)
             poiItem!.setIcon(UIImage(named: "marker_search"), anchorPoint: CGPoint(x: 0.5, y: 1.0))
@@ -518,6 +519,7 @@ extension MainViewController: TextFieldDelegate {
         tMapView?.removeTMapPath()
         tMapView?.removeCustomObject("start")
         tMapView?.removeCustomObject("end")
+        tMapView?.removeCustomObject("add")
         
         // 경로 주변 충전소 초기화
         for charger in ChargerManager.sharedInstance.getChargerStationInfoList(){
@@ -532,20 +534,13 @@ extension MainViewController: TextFieldDelegate {
     
     func findPath(passList: [TMapPoint]) {
         if routeStartPoint == nil{
-            
-            selectCharger?.mStationInfoDto?.mLongitude = routeEndPoint?.getLongitude()
-            selectCharger?.mStationInfoDto?.mLatitude = routeEndPoint?.getLatitude()
-            
             if let currentPoint = MainViewController.currentLocation {
                 startField.text = tMapPathData.convertGpsToAddress(at: currentPoint)
                 routeStartPoint = currentPoint
-                selectCharger?.mStationInfoDto?.mSnm = endField.text
             }
-            selectCharger?.mStationInfoDto?.mSnm = endField.text
         }
         
         if let startPoint = routeStartPoint, let endPoint = routeEndPoint {
-            
             markerIndicator.startAnimating()
             
             // 키보드 숨기기
@@ -590,6 +585,23 @@ extension MainViewController: TextFieldDelegate {
                 
                 DispatchQueue.main.async {
                     // 지도에 경로 그리기
+                    let startPoint = TMapPOIItem(tMapPoint: self.routeStartPoint)
+                    startPoint!.setIcon(UIImage(named: "ic_route_start"), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+                    self.tMapView?.removeCustomObject("start")
+                    self.tMapView?.addCustomObject(startPoint, id: "start")
+                    
+                    if passList.count > 0 {
+                        let routePoint = TMapPOIItem(tMapPoint: self.selectCharger?.getTMapPoint())
+                        routePoint!.setIcon(UIImage(named: "ic_route_add"), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+                        self.tMapView?.removeCustomObject("add")
+                        self.tMapView?.addCustomObject(routePoint, id: "add")
+                    }
+                    
+                    let endPoint = TMapPOIItem(tMapPoint: self.routeEndPoint)
+                    endPoint!.setIcon(UIImage(named: "ic_route_end"), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+                    self.tMapView?.removeCustomObject("end")
+                    self.tMapView?.addCustomObject(endPoint, id: "end")
+                    
                     self.drawPathData(polyLine: polyLine);
                     self.markerIndicator.stopAnimating()
                 }
@@ -989,7 +1001,7 @@ extension MainViewController {
                 for (_, item):(String, JSON) in list {
                     let id = item["id"].stringValue
                     if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: id){
-                        charger.changeStatus(status: item["st"].intValue)
+                        charger.changeStatus(status: item["st"].intValue, markerChange: true)
                         
                         if (self.tMapView!.getMarketItem(fromID: charger.mChargerId) != nil) {
                             if self.tMapView!.getMarketItem(fromID: id).getIcon() != charger.marker.getIcon() {

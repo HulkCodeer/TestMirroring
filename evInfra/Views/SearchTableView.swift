@@ -43,7 +43,7 @@ extension SearchTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = Bundle.main.loadNibNamed("ChargerTableViewCell", owner: self, options: nil)?.first as! ChargerTableViewCell
         
-        if indexPath.row >= (poiList?.count)! {
+        if indexPath.row >= (poiList?.count ?? 0) {
             return cell
         }
         
