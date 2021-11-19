@@ -568,19 +568,6 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    
-    // Station - 충전소 이용률 데이터
-    static func getStationUsage(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
-            "charger_id": chargerId
-        ]
-        
-        Alamofire.request(Const.EV_PAY_SERVER + "/charger/station/usage",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
     // Station - 본인이 등록한 평점 가져오기
     static func getGrade(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [

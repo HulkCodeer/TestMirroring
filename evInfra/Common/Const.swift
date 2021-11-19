@@ -44,15 +44,11 @@ public class Const {
     // static image: 위성사진, 운영기관 로고, 전기차
     public static let IMG_URL_COMP_MARKER = EI_IMG_SERVER + "/marker/logo_v2/"
     public static let IMG_URL_EV_MODEL    = EI_IMG_SERVER + "/models/"
-    public static let IMG_URL_SATELLITE   = EI_IMG_SERVER + "/satellite/"
     public static let IMG_URL_INTRO       = EI_IMG_SERVER + "/intro/"
     
     // BUCKET KIND OF IMAGE
     public static let CONTENTS_THUMBNAIL = 0
     public static let CONTENTS_BOARD_IMG = 1
-    public static let CONTENTS_SATELLITE = 2
-    public static let CONTENTS_CAR_MODEL = 3
-    public static let CONTENTS_COMP_ICON = 4
 
     // KEY
     public static let TMAP_APP_KEY = "7fcc4bac-2c24-41ed-b479-25e6b6c04a7f"

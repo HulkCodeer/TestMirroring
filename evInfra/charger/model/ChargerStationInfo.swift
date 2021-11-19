@@ -29,8 +29,6 @@ class ChargerStationInfo {
     
     var mLimit: String?
 
-    var usage: Array<Int> = Array() // 충전소 시간별 이용횟수
-
     var marker: TMapMarkerItem!
     var cidInfo: CidInfo!
     

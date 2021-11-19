@@ -322,10 +322,6 @@
 		DB3B858320A42C81005454F5 /* KoreanTextMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B858220A42C81005454F5 /* KoreanTextMatcher.swift */; };
 		DB3B858720A445B6005454F5 /* KoreanChar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B858620A445B6005454F5 /* KoreanChar.swift */; };
 		DB3B858920A45CB8005454F5 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B858820A45CB8005454F5 /* Character.swift */; };
-		DB40639F21FAF5F100B630A8 /* ChargerImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB40639E21FAF5F100B630A8 /* ChargerImageViewController.swift */; };
-		DB4063A521FC735000B630A8 /* DayAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4063A421FC735000B630A8 /* DayAxisValueFormatter.swift */; };
-		DB4063AB21FED66600B630A8 /* HourAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4063AA21FED66600B630A8 /* HourAxisValueFormatter.swift */; };
-		DB4063AD22014D6800B630A8 /* ViewPagerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4063AC22014D6800B630A8 /* ViewPagerController.swift */; };
 		DB4395EE22DC4C380092E0A5 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4395ED22DC4C380092E0A5 /* Date.swift */; };
 		DB4395F222DD88390092E0A5 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4395F122DD88390092E0A5 /* ReceiptView.swift */; };
 		DB4395F422DD88770092E0A5 /* ReceiptView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB4395F322DD88770092E0A5 /* ReceiptView.xib */; };
@@ -710,10 +706,6 @@
 		DB3B858220A42C81005454F5 /* KoreanTextMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanTextMatcher.swift; sourceTree = "<group>"; };
 		DB3B858620A445B6005454F5 /* KoreanChar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanChar.swift; sourceTree = "<group>"; };
 		DB3B858820A45CB8005454F5 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
-		DB40639E21FAF5F100B630A8 /* ChargerImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerImageViewController.swift; sourceTree = "<group>"; };
-		DB4063A421FC735000B630A8 /* DayAxisValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayAxisValueFormatter.swift; sourceTree = "<group>"; };
-		DB4063AA21FED66600B630A8 /* HourAxisValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourAxisValueFormatter.swift; sourceTree = "<group>"; };
-		DB4063AC22014D6800B630A8 /* ViewPagerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPagerController.swift; sourceTree = "<group>"; };
 		DB4395ED22DC4C380092E0A5 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		DB4395F122DD88390092E0A5 /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
 		DB4395F322DD88770092E0A5 /* ReceiptView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReceiptView.xib; sourceTree = "<group>"; };
@@ -1247,7 +1239,6 @@
 				00B2E8BD26C0FEA2005D017C /* Membership */,
 				00B2E8BC26C0FE98005D017C /* Map */,
 				00B2E8BB26C0FE76005D017C /* Main */,
-				9064133523E2A5E1008B2BB1 /* RewardAds */,
 				DB3799F621673E1E001D8F69 /* Board */,
 				DB5FA59422C20A5100F1508A /* Report */,
 				DB3799F521673CEC001D8F69 /* Member */,
@@ -1257,8 +1248,6 @@
 				DB49A7802071F908002448E6 /* AppSearchBarController.swift */,
 				734FBDEE219001EA00BEDB60 /* AppTabsController.swift */,
 				73EF8B3E203ACB8500D04494 /* AppToolbarController.swift */,
-				DB4063AC22014D6800B630A8 /* ViewPagerController.swift */,
-				DB40639E21FAF5F100B630A8 /* ChargerImageViewController.swift */,
 				DB6EBE30217078750000F442 /* ChargerSelectDelegate.swift */,
 			);
 			path = ViewController;
@@ -1267,46 +1256,45 @@
 		73EF8B41203BC53200D04494 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				90CBCC6F26EB1E41002B2591 /* NSDataExtention.swift */,
-				00AE577726CE4851003E6643 /* RangeSeekSlider */,
-				DB4063A321FC732B00B630A8 /* Charts */,
 				DB3B858120A42B91005454F5 /* Localization */,
+				00AE577726CE4851003E6643 /* RangeSeekSlider */,
 				73EE8FB42101B7920016F505 /* BedgeButton.swift */,
+				DBF3827A2304475900FAF772 /* CBT.swift */,
 				DB3B858820A45CB8005454F5 /* Character.swift */,
 				73AFF26622D467E000287E67 /* Chronometer.swift */,
 				7379A45522CF156E00F4271C /* CircularProgressBar.swift */,
 				732B929920EDD0C60090E9FC /* CompanyInfoChecker.swift */,
 				737A012920F709B300638812 /* CompanyInfoCheckerDelegate.swift */,
+				73DD778023164CB60006EFFC /* CopyableLabel.swift */,
 				DB4395ED22DC4C380092E0A5 /* Date.swift */,
+				90517A0B253857FD00FCB1A7 /* DateUtils.swift */,
 				73EF8B44203BD1D400D04494 /* EVIcon.swift */,
+				902A11DD248F68450049EF8E /* HangulUtils.swift */,
+				00C75C55252EF40100387559 /* HSUnderLineTextField.swift */,
 				73A7B39E204E2A6E002E975F /* ImageMarker.swift */,
+				0012443B25A2E2EF00376CDC /* IntroImageChecker.swift */,
+				0012443E25A2E92300376CDC /* IntroImageCheckerDelegate.swift */,
+				902A11DF248F756C0049EF8E /* Log.swift */,
 				736813B1204503B70035FC66 /* NavCenterButton.swift */,
 				733662CD22EFF2A40049AEFE /* NavigationDrawerController.swift */,
+				90CBCC6F26EB1E41002B2591 /* NSDataExtention.swift */,
 				DBE579B421A3E3CA005DD998 /* Snackbar.swift */,
 				DB18732320A8519200790B77 /* String.swift */,
+				902A11D9248F5E440049EF8E /* StringUtils.swift */,
 				DBEE9AF92117DBF000770D04 /* UIAlertController.swift */,
+				739171DC22BB4520007369F9 /* UIButton.swift */,
 				73EF8B42203BC71100D04494 /* UIColor.swift */,
 				DB876077206B40FF0095394B /* UIDevice.swift */,
 				73344ABE207B3A9B00A6A9EC /* UIImage.swift */,
+				00EB85D126BA8C6100D1606F /* UILabel.swift */,
 				DB198F44212FCE9200708ECD /* UINavigationController.swift */,
 				73CF041920B2736500BEA9CF /* UIScrollView.swift */,
-				7308559C206350890008497E /* UIView.swift */,
-				CE24840320A59E6400611E24 /* UserDefault.swift */,
-				73EE8FC62109B0FD0016F505 /* URL.swift */,
-				739171DC22BB4520007369F9 /* UIButton.swift */,
-				DBF3827A2304475900FAF772 /* CBT.swift */,
-				73DD778023164CB60006EFFC /* CopyableLabel.swift */,
-				73D65D6F2358498B00F564A2 /* Validators.swift */,
 				73D65D7123588ACC00F564A2 /* UITextField.swift */,
-				902A11D9248F5E440049EF8E /* StringUtils.swift */,
-				902A11DD248F68450049EF8E /* HangulUtils.swift */,
-				902A11DF248F756C0049EF8E /* Log.swift */,
-				90517A0B253857FD00FCB1A7 /* DateUtils.swift */,
-				00C75C55252EF40100387559 /* HSUnderLineTextField.swift */,
+				7308559C206350890008497E /* UIView.swift */,
+				73EE8FC62109B0FD0016F505 /* URL.swift */,
+				CE24840320A59E6400611E24 /* UserDefault.swift */,
 				42541587257E045600A2A7B9 /* UtilNavigation.swift */,
-				0012443B25A2E2EF00376CDC /* IntroImageChecker.swift */,
-				0012443E25A2E92300376CDC /* IntroImageCheckerDelegate.swift */,
-				00EB85D126BA8C6100D1606F /* UILabel.swift */,
+				73D65D6F2358498B00F564A2 /* Validators.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1393,16 +1381,6 @@
 			path = charger;
 			sourceTree = "<group>";
 		};
-		9064133523E2A5E1008B2BB1 /* RewardAds */ = {
-			isa = PBXGroup;
-			children = (
-				90DD2A5D24EBCF01003318CC /* adapters */,
-				9064133623E2A603008B2BB1 /* OfferwallViewController.swift */,
-				00B2E8BE26C0FEF9005D017C /* Offerwall.storyboard */,
-			);
-			path = RewardAds;
-			sourceTree = "<group>";
-		};
 		9098782F24EE530300AB3DC8 /* Admob */ = {
 			isa = PBXGroup;
 			children = (
@@ -1486,15 +1464,6 @@
 			path = Localization;
 			sourceTree = "<group>";
 		};
-		DB4063A321FC732B00B630A8 /* Charts */ = {
-			isa = PBXGroup;
-			children = (
-				DB4063A421FC735000B630A8 /* DayAxisValueFormatter.swift */,
-				DB4063AA21FED66600B630A8 /* HourAxisValueFormatter.swift */,
-			);
-			path = Charts;
-			sourceTree = "<group>";
-		};
 		DB5FA59422C20A5100F1508A /* Report */ = {
 			isa = PBXGroup;
 			children = (
@@ -1508,10 +1477,13 @@
 		DBABCC4727477B1800E2C7ED /* Ads */ = {
 			isa = PBXGroup;
 			children = (
+				90DD2A5D24EBCF01003318CC /* adapters */,
 				DB5C4EDE2361A04B0090139E /* EIAdDialog.swift */,
 				DB5C4EDC23619F5F0090139E /* EIAdDialog.xib */,
 				DBABCC4827477BC600E2C7ED /* EIAdManager.swift */,
 				DBABCC4A2747943000E2C7ED /* EIAdInfo.swift */,
+				9064133623E2A603008B2BB1 /* OfferwallViewController.swift */,
+				00B2E8BE26C0FEF9005D017C /* Offerwall.storyboard */,
 			);
 			path = Ads;
 			sourceTree = "<group>";
@@ -1737,7 +1709,6 @@
 				"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
-				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/EasyTipView/EasyTipView.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpyTableView/ExpyTableView.framework",
@@ -1761,7 +1732,6 @@
 				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
 				"${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework",
 				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
-				"${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework",
@@ -1774,7 +1744,6 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyTipView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpyTableView.framework",
@@ -1798,7 +1767,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MaterialComponents.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parchment.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyGif.framework",
@@ -1888,7 +1856,6 @@
 				00AE577B26CE487B003E6643 /* RangeSeekSliderDelegate.swift in Sources */,
 				73A37CA22085DB5400FD3D0A /* CardBoardViewController.swift in Sources */,
 				DB4395F222DD88390092E0A5 /* ReceiptView.swift in Sources */,
-				DB4063A521FC735000B630A8 /* DayAxisValueFormatter.swift in Sources */,
 				CE24840020A59E2500611E24 /* MyPageViewController.swift in Sources */,
 				DB18732420A8519200790B77 /* String.swift in Sources */,
 				42F9BCE326C651340028B3D1 /* SummaryView.swift in Sources */,
@@ -1914,7 +1881,6 @@
 				00EAB7C427225108004E78D2 /* SceneDelegate.swift in Sources */,
 				90CBCC6626EAD64D002B2591 /* EIImageViewerViewController.swift in Sources */,
 				73D65D7E23605D1000F564A2 /* MyPayRegisterViewDelegate.swift in Sources */,
-				DB4063AB21FED66600B630A8 /* HourAxisValueFormatter.swift in Sources */,
 				73D65D7C2360299700F564A2 /* PaymentCard.swift in Sources */,
 				732B92C220EF4D5C0090E9FC /* CompanyInfo.swift in Sources */,
 				CE5242382183076000FF6AB1 /* AddressSearchCell.swift in Sources */,
@@ -1937,7 +1903,6 @@
 				73BFA04C20847A310028B35D /* BoardTableViewCell.swift in Sources */,
 				90517A0C253857FD00FCB1A7 /* DateUtils.swift in Sources */,
 				DB876078206B40FF0095394B /* UIDevice.swift in Sources */,
-				DB4063AD22014D6800B630A8 /* ViewPagerController.swift in Sources */,
 				CECA908A2084A9F50083518B /* TermsViewController.swift in Sources */,
 				DBABCC4927477BC600E2C7ED /* EIAdManager.swift in Sources */,
 				90CA0DE42488B82900904015 /* DataBaseHelper.swift in Sources */,
@@ -2036,7 +2001,6 @@
 				7339908022D881D100CF72A8 /* PaymentResultViewController.swift in Sources */,
 				00A3659926C4E3A000424E40 /* FilterAccessView.swift in Sources */,
 				00B36C4526D4B6FE00749FFE /* CompanyTableView.swift in Sources */,
-				DB40639F21FAF5F100B630A8 /* ChargerImageViewController.swift in Sources */,
 				90E8B54F24C6E82F00D03162 /* ChargerManagerListener.swift in Sources */,
 				902A11DE248F68450049EF8E /* HangulUtils.swift in Sources */,
 				7379A45422CDEB0200F4271C /* PaymentStatus.swift in Sources */,
