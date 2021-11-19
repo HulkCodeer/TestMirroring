@@ -21,7 +21,6 @@ class MainViewController: UIViewController {
     // user Default
     let defaults = UserDefault()
     
-    
     @IBOutlet var rootView: UIView!
     
     // Map View
@@ -91,7 +90,9 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.grey.lighten5
+        
         showGuide()
+        
         prepareRouteField()
         preparePOIResultView()
         prepareFilterView()
@@ -108,7 +109,7 @@ class MainViewController: UIViewController {
         
         prepareCalloutLayer()
     }
-        
+    
     override func viewDidAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         menuBadgeAdd()
@@ -1193,21 +1194,21 @@ extension MainViewController {
     
     // 더 이상 보지 않기 한 광고가 정해진 기간을 넘겼는지 체크 및 광고 노출
     private func showStartAd() {
-        let window = UIApplication.shared.keyWindow!
-        
-        let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
-        if keepDateStr.isEmpty {
-            window.addSubview(AdvertisingDialog(frame: window.bounds))
-        } else {
-            if let keepDate = Date().toDate(data: keepDateStr) {
-                let difference = NSCalendar.current.dateComponents([.day], from: keepDate, to: Date());
-                if let day = difference.day {
-                    if day > 3 {
-                        window.addSubview(AdvertisingDialog(frame: window.bounds))
-                    }
-                }
+        if let window = UIApplication.shared.keyWindow {
+            let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
+            if keepDateStr.isEmpty {
+                window.addSubview(EIAdDialog(frame: window.bounds))
             } else {
-                window.addSubview(AdvertisingDialog(frame: window.bounds))
+                if let keepDate = Date().toDate(data: keepDateStr) {
+                    let difference = NSCalendar.current.dateComponents([.day], from: keepDate, to: Date());
+                    if let day = difference.day {
+                        if day > 3 {
+                            window.addSubview(EIAdDialog(frame: window.bounds))
+                        }
+                    }
+                } else {
+                    window.addSubview(EIAdDialog(frame: window.bounds))
+                }
             }
         }
     }

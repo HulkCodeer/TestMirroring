@@ -335,8 +335,8 @@
 		DB5041AC235066CA007336BC /* PointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5041AB235066CA007336BC /* PointViewController.swift */; };
 		DB5041AE23506A14007336BC /* PointTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5041AD23506A14007336BC /* PointTableViewCell.swift */; };
 		DB5041B023506DCF007336BC /* EvPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5041AF23506DCF007336BC /* EvPoint.swift */; };
-		DB5C4EDD23619F5F0090139E /* AdvertisingDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5C4EDC23619F5F0090139E /* AdvertisingDialog.xib */; };
-		DB5C4EDF2361A04B0090139E /* AdvertisingDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5C4EDE2361A04B0090139E /* AdvertisingDialog.swift */; };
+		DB5C4EDD23619F5F0090139E /* EIAdDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5C4EDC23619F5F0090139E /* EIAdDialog.xib */; };
+		DB5C4EDF2361A04B0090139E /* EIAdDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5C4EDE2361A04B0090139E /* EIAdDialog.swift */; };
 		DB5FA59622C20A8400F1508A /* ChargesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5FA59522C20A8400F1508A /* ChargesViewController.swift */; };
 		DB6E59492063C595002E75C8 /* Regions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6E59482063C595002E75C8 /* Regions.swift */; };
 		DB6EBE31217078750000F442 /* ChargerSelectDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6EBE30217078750000F442 /* ChargerSelectDelegate.swift */; };
@@ -349,6 +349,8 @@
 		DB9673C620843EF6008ACCAE /* ChargerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9673C520843EF6008ACCAE /* ChargerTableViewCell.swift */; };
 		DBA18B1D211D7AF400A2CB4F /* MemberManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA18B1C211D7AF400A2CB4F /* MemberManager.swift */; };
 		DBA3BE93252C709500E2D94A /* ad_illust.png in Resources */ = {isa = PBXBuildFile; fileRef = DBA3BE92252C709400E2D94A /* ad_illust.png */; };
+		DBABCC4927477BC600E2C7ED /* EIAdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBABCC4827477BC600E2C7ED /* EIAdManager.swift */; };
+		DBABCC4B2747943000E2C7ED /* EIAdInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBABCC4A2747943000E2C7ED /* EIAdInfo.swift */; };
 		DBDC59A0234B6E4E00F75D64 /* UsePointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDC599F234B6E4E00F75D64 /* UsePointViewController.swift */; };
 		DBE579B521A3E3CA005DD998 /* Snackbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE579B421A3E3CA005DD998 /* Snackbar.swift */; };
 		DBE591982114A93A00FE913B /* KakaoOpenSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBE591972114A93900FE913B /* KakaoOpenSDK.framework */; };
@@ -721,8 +723,8 @@
 		DB5041AB235066CA007336BC /* PointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewController.swift; sourceTree = "<group>"; };
 		DB5041AD23506A14007336BC /* PointTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointTableViewCell.swift; sourceTree = "<group>"; };
 		DB5041AF23506DCF007336BC /* EvPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvPoint.swift; sourceTree = "<group>"; };
-		DB5C4EDC23619F5F0090139E /* AdvertisingDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdvertisingDialog.xib; sourceTree = "<group>"; };
-		DB5C4EDE2361A04B0090139E /* AdvertisingDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisingDialog.swift; sourceTree = "<group>"; };
+		DB5C4EDC23619F5F0090139E /* EIAdDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EIAdDialog.xib; sourceTree = "<group>"; };
+		DB5C4EDE2361A04B0090139E /* EIAdDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIAdDialog.swift; sourceTree = "<group>"; };
 		DB5FA59522C20A8400F1508A /* ChargesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargesViewController.swift; sourceTree = "<group>"; };
 		DB6E59482063C595002E75C8 /* Regions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regions.swift; sourceTree = "<group>"; };
 		DB6EBE30217078750000F442 /* ChargerSelectDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerSelectDelegate.swift; sourceTree = "<group>"; };
@@ -735,6 +737,8 @@
 		DB9673C520843EF6008ACCAE /* ChargerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerTableViewCell.swift; sourceTree = "<group>"; };
 		DBA18B1C211D7AF400A2CB4F /* MemberManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberManager.swift; sourceTree = "<group>"; };
 		DBA3BE92252C709400E2D94A /* ad_illust.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ad_illust.png; sourceTree = "<group>"; };
+		DBABCC4827477BC600E2C7ED /* EIAdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIAdManager.swift; sourceTree = "<group>"; };
+		DBABCC4A2747943000E2C7ED /* EIAdInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIAdInfo.swift; sourceTree = "<group>"; };
 		DBDC599F234B6E4E00F75D64 /* UsePointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsePointViewController.swift; sourceTree = "<group>"; };
 		DBE579B421A3E3CA005DD998 /* Snackbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snackbar.swift; sourceTree = "<group>"; };
 		DBE591972114A93900FE913B /* KakaoOpenSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoOpenSDK.framework; path = evInfra/Lib/KakaoOpenSDK.framework; sourceTree = "<group>"; };
@@ -1017,6 +1021,7 @@
 				732B92C020EF45A70090E9FC /* ExLib */,
 				736813A62043E98F0035FC66 /* Images */,
 				7312786220B7D81A00861B3E /* Common */,
+				DBABCC4727477B1800E2C7ED /* Ads */,
 				9058A3BF248639A700091823 /* charger */,
 				73B752812048EC8D0077112A /* model */,
 				DB306366221BD59500D1276E /* network */,
@@ -1179,8 +1184,6 @@
 				00A6A16026C3A4B20023DAE3 /* Filter */,
 				00A7D5CC26B7C48600C5DBCC /* Tag */,
 				CE5242372183076000FF6AB1 /* AddressSearchCell.swift */,
-				DB5C4EDE2361A04B0090139E /* AdvertisingDialog.swift */,
-				DB5C4EDC23619F5F0090139E /* AdvertisingDialog.xib */,
 				73BFA04E208487050028B35D /* BoardTableView.swift */,
 				73BFA04A20847A310028B35D /* BoardTableViewCell.swift */,
 				73BFA04B20847A310028B35D /* BoardTableViewCell.xib */,
@@ -1502,6 +1505,17 @@
 			path = Report;
 			sourceTree = "<group>";
 		};
+		DBABCC4727477B1800E2C7ED /* Ads */ = {
+			isa = PBXGroup;
+			children = (
+				DB5C4EDE2361A04B0090139E /* EIAdDialog.swift */,
+				DB5C4EDC23619F5F0090139E /* EIAdDialog.xib */,
+				DBABCC4827477BC600E2C7ED /* EIAdManager.swift */,
+				DBABCC4A2747943000E2C7ED /* EIAdInfo.swift */,
+			);
+			path = Ads;
+			sourceTree = "<group>";
+		};
 		F0519D7EF9D227801C35EA9E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1687,7 +1701,7 @@
 				7357594420916A37008181E9 /* kia_ray.jpg in Resources */,
 				73EF8B73203C85CC00D04494 /* mapbg_tlogo.png in Resources */,
 				73C31C0920A2BB04005B6C53 /* charger_acsingle.jpg in Resources */,
-				DB5C4EDD23619F5F0090139E /* AdvertisingDialog.xib in Resources */,
+				DB5C4EDD23619F5F0090139E /* EIAdDialog.xib in Resources */,
 				73A7B414204E3595002E975F /* expand_pressed.png in Resources */,
 				00FDEAFA26B3BFCF006617EE /* Info.storyboard in Resources */,
 				736BCE87205A892E0052C9ED /* intro_bg.jpg in Resources */,
@@ -1925,6 +1939,7 @@
 				DB876078206B40FF0095394B /* UIDevice.swift in Sources */,
 				DB4063AD22014D6800B630A8 /* ViewPagerController.swift in Sources */,
 				CECA908A2084A9F50083518B /* TermsViewController.swift in Sources */,
+				DBABCC4927477BC600E2C7ED /* EIAdManager.swift in Sources */,
 				90CA0DE42488B82900904015 /* DataBaseHelper.swift in Sources */,
 				DBEE9AF82117DB5600770D04 /* LoginViewController.swift in Sources */,
 				00AE577926CE4864003E6643 /* RangeSeekSlider.swift in Sources */,
@@ -1973,7 +1988,7 @@
 				CE24840220A59E3000611E24 /* CarModels.swift in Sources */,
 				73A7B430204F8A72002E975F /* CidInfo.swift in Sources */,
 				421569D7259B629100D018DC /* BoardInfo.swift in Sources */,
-				DB5C4EDF2361A04B0090139E /* AdvertisingDialog.swift in Sources */,
+				DB5C4EDF2361A04B0090139E /* EIAdDialog.swift in Sources */,
 				0033CBC426C631970084B212 /* FilterManager.swift in Sources */,
 				DB6EBE31217078750000F442 /* ChargerSelectDelegate.swift in Sources */,
 				73D65D6E2356E57900F564A2 /* MyPayRegisterViewController.swift in Sources */,
@@ -2053,6 +2068,7 @@
 				736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */,
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,
 				9098783624EE53D200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.m in Sources */,
+				DBABCC4B2747943000E2C7ED /* EIAdInfo.swift in Sources */,
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,

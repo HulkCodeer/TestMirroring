@@ -1,5 +1,5 @@
 //
-//  AdvertisingDialog.swift
+//  EIAdDialog.swift
 //  evInfra
 //
 //  Created by Shin Park on 24/10/2019.
@@ -7,18 +7,14 @@
 //
 
 import Foundation
-import SwiftyJSON
 
-class AdvertisingDialog: UIView {
-    
-    public let AD_TYPE_COMMON = 0
-    public let AD_TYPE_START = 1
-    
-    private var advertiseId = -1
-    private var advertiseUrl: String?
-    private var imageUrl: String?
+class EIAdDialog: UIView {
     
     @IBOutlet weak var imageAd: UIImageView!
+    
+    private var adType = EIAdManager.AD_TYPE_COMMON
+    
+    private var adInfo = EIAdInfo()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,34 +27,23 @@ class AdvertisingDialog: UIView {
     }
     
     private func getAdInfo() {
-        Server.getAdLargeInfo(type: AD_TYPE_START) { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                let code = json["code"].stringValue
-                switch(code) {
-                    case "1000":
-                        self.advertiseId = json["ad_id"].intValue
-                        self.advertiseUrl = json["ad_url"].stringValue
-                        self.imageUrl = json["ad_img"].stringValue
-
-                        self.commonInit()
-                        break;
-
-                    default:
-                        self.removeFromSuperview()
-                        break;
-                }
+        EIAdManager.sharedInstance.getPageAd() { (info) in
+            self.adInfo = info
+            if self.adInfo.adId != nil {
+                self.commonInit()
+            } else {
+                self.removeFromSuperview()
             }
         }
     }
     
     private func commonInit() {
-        guard let imgUrl = imageUrl else {
+        guard let imgUrl = self.adInfo.adImage else {
             self.removeFromSuperview()
             return
         }
         
-        let view = Bundle.main.loadNibNamed("AdvertisingDialog", owner: self, options: nil)?.first as! UIView
+        let view = Bundle.main.loadNibNamed("EIAdDialog", owner: self, options: nil)?.first as! UIView
         view.frame = bounds
         addSubview(view)
         
@@ -68,12 +53,12 @@ class AdvertisingDialog: UIView {
     }
     
     @objc func onClickAdImage(sender: UITapGestureRecognizer) {
-        if let urlString = advertiseUrl {
+        if let urlString = self.adInfo.adUrl {
             if let url = URL(string: urlString) {
                 UIApplication.shared.open(url, options: [:])
                 
                 // 광고 click event 전송
-                Server.addCountForAd(adId: advertiseId)
+                EIAdManager.sharedInstance.increase(ad: self.adInfo, action: EIAdManager.ACTION_CLICK)
             }
         } else {
             self.removeFromSuperview()

@@ -318,7 +318,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                         UIApplication.shared.open(url, options: [:])
                         
                         // 광고 click event 전송
-                        Server.addCountForAd(adId: boardList[view.tag].adId)
+                        Server.countAdAction(adId: boardList[view.tag].adId, action: EIAdManager.ACTION_CLICK)
                     }
                 }
             }
