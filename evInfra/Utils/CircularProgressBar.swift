@@ -115,10 +115,10 @@ class CircularProgressBar: UIView {
     
     private func drawForegroundLayer(){
         
-        let startAngle = 3 * (CGFloat.pi/2)
-        let endAngle = 2 * -CGFloat.pi + startAngle
+        let startAngle = (-CGFloat.pi/2)
+        let endAngle = 2 * CGFloat.pi + startAngle
         
-        let path = UIBezierPath(arcCenter: pathCenter, radius: self.radius, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+        let path = UIBezierPath(arcCenter: pathCenter, radius: self.radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
         
         foregroundLayer.path = path.cgPath
         foregroundLayer.lineWidth = lineWidth
