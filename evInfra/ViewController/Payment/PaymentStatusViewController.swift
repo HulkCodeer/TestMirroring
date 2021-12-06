@@ -215,11 +215,6 @@ class PaymentStatusViewController: UIViewController {
         self.navigationController?.pop()
     }
     
-    @IBAction func onClickUsePoint(_ sender: Any) {
-        let usePointVC = self.storyboard?.instantiateViewController(withIdentifier: "UsePointController") as! UsePointViewController
-        self.present(usePointVC, animated: true, completion: nil)
-    }
-    
     @IBAction func onClickUseAll(_ sender: Any) {
         tfUsePoint.text = String(myPoint)
         savePoint(point: myPoint)

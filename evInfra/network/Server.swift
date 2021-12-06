@@ -810,6 +810,25 @@ class Server {
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
+    
+    static func getFailedPayList (completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId()
+        ]
+        Alamofire.request(Const.EV_PAY_SERVER + "/pay/v2/evPay/getFailedPayList",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    static func repayCharge (usePoint: Int, completion: @escaping (Bool, Data?) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId(),
+            "use_point": usePoint
+        ]
+        Alamofire.request(Const.EV_PAY_SERVER + "/pay/v2/evPay/repay",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseData(response: response, completion: completion) }
+    }
 
     // QR 충전
     static func getChargerInfo(cpId: String, completion: @escaping (Bool, Any) -> Void) {

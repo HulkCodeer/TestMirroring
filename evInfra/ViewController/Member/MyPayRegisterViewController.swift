@@ -79,11 +79,7 @@ class MyPayRegisterViewController: UIViewController {
     
     @objc
     fileprivate func handleBackButton() {
-        if let viewControllers = self.navigationController?.viewControllers{
-            self.navigationController?.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
-        }else{
-            self.navigationController?.pop()
-        }
+        self.navigationController?.pop()
     }
        
 }

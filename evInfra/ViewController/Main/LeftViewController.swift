@@ -499,6 +499,15 @@ extension LeftViewController {
         let latestIds = Board.sharedInstance.latestBoardIds
         
         switch menuIndex {
+        case MENU_MY_PAGE:
+            if index.section == SUB_MENU_CELL_PAY {
+                if index.row == SUB_MENU_MY_PAYMENT_INFO { // 미수금 표시
+                    if UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
+                        cell.newBadge.isHidden = false
+                    }
+                }
+            }
+            break
         case MENU_BOARD:
             if index.section == SUB_MENU_CELL_BOARD {
                 switch index.row {
@@ -571,6 +580,15 @@ extension LeftViewController {
             }
         }
         
+        if UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
+            if let image = UIImage(named: "icon_user_badge") {
+                myPageBtn.setImage(image, for: .normal)
+            }
+        } else {
+            if let image = UIImage(named: "icon_user") {
+                myPageBtn.setImage(image, for: .normal)
+            }
+        }
         // refresh new badge in sub menu
         sideTableView.reloadData()
     }

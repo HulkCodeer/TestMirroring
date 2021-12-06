@@ -13,7 +13,7 @@ import M13Checkbox
 import SwiftyJSON
 
 class MainViewController: UIViewController {
-
+    
     // constant
     let ROUTE_START = 0
     let ROUTE_END   = 1
@@ -61,6 +61,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var routeDistanceLabel: UILabel!
     @IBOutlet var routeDistanceBtn: UIView!
     
+    @IBOutlet weak var ivMainChargeNew: UIImageView!
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     private var tMapView: TMapView? = nil
@@ -85,7 +86,7 @@ class MainViewController: UIViewController {
     
     // 지킴이 점겸표 url
     private var checklistUrl: String?
-
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,6 +113,7 @@ class MainViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        chargingStatus()
         menuBadgeAdd()
         updateClustering()
         if self.sharedChargerId != nil {
@@ -136,7 +138,7 @@ class MainViewController: UIViewController {
     func showDeepLink() {
         DeepLinkPath.sharedInstance.runDeepLink(navigationController: navigationController!)
     }
-
+    
     // Filter
     func prepareFilterView() {
         filterBarView.delegate = self
@@ -196,7 +198,7 @@ class MainViewController: UIViewController {
         reNewButton.layer.cornerRadius = 20
         reNewButton.layer.borderWidth = 1
         reNewButton.layer.borderColor = UIColor.init(named: "border-opaque")?.cgColor
-
+        
         btn_menu_layer.layer.cornerRadius = 5
         btn_menu_layer.clipsToBounds = true
         btn_menu_layer.layer.shadowRadius = 5
@@ -230,16 +232,16 @@ class MainViewController: UIViewController {
     }
     
     func setStartPoint() {
-       if self.selectCharger != nil {
-           guard let tc = toolbarController else {
-               return
-           }
-           let appTc = tc as! AppToolbarController
-           appTc.enableRouteMode(isRoute: true)
-           
-           startField.text = selectCharger?.mStationInfoDto?.mSnm
-           routeStartPoint = selectCharger?.getTMapPoint()
-       }
+        if self.selectCharger != nil {
+            guard let tc = toolbarController else {
+                return
+            }
+            let appTc = tc as! AppToolbarController
+            appTc.enableRouteMode(isRoute: true)
+            
+            startField.text = selectCharger?.mStationInfoDto?.mSnm
+            routeStartPoint = selectCharger?.getTMapPoint()
+        }
     }
     
     func setEndPoint() {
@@ -380,7 +382,7 @@ extension MainViewController: DelegateFilterBarView {
 extension MainViewController {
     internal func drawTMapMarker() {
         if !ChargerManager.sharedInstance.isReady() { return }
-
+        
         self.clustering?.clustering(filter: FilterManager.sharedInstance.filter, loadedCharger: self.loadedChargers)
         
         if !self.loadedChargers {
@@ -458,7 +460,7 @@ extension MainViewController: TextFieldDelegate {
         startField.placeholderAnimation = .hidden
         startField.isClearIconButtonEnabled = true
         startField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-
+        
         endField.tag = ROUTE_END
         endField.delegate = self
         endField.placeholder = "도착지를 입력하세요"
@@ -468,7 +470,7 @@ extension MainViewController: TextFieldDelegate {
         
         btnRouteCancel.addTarget(self, action: #selector(onClickRouteCancel(_:)), for: .touchUpInside)
         btnRoute.addTarget(self, action: #selector(onClickRoute(_:)), for: .touchUpInside)
-
+        
         routeDistanceView.isHidden = true
     }
     
@@ -501,7 +503,7 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func clearSearchResult() {
-    
+        
         hideKeyboard()
         hideResultView()
         
@@ -514,7 +516,7 @@ extension MainViewController: TextFieldDelegate {
         
         routeStartPoint = nil
         routeEndPoint = nil
-
+        
         btnRouteCancel.setTitle("지우기", for: .normal)
         
         tMapView?.removeTMapPath()
@@ -529,7 +531,7 @@ extension MainViewController: TextFieldDelegate {
         
         self.clustering?.isRouteMode = false
         summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clustering!.isRouteMode)
-
+        
         drawTMapMarker()
     }
     
@@ -617,7 +619,7 @@ extension MainViewController: TextFieldDelegate {
         findChargerAroundRoute(polyLine: polyLine);
         self.clustering?.isRouteMode = true
         summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clustering!.isRouteMode)
-
+        
         drawTMapMarker()
         
         // 두 지점간 거리 표시
@@ -765,7 +767,7 @@ extension MainViewController: TMapViewDelegate {
             } else if markerItem.getID()!.contains("cluster3") {
                 self.tMapView?.setZoomLevel(ClusterManager.LEVEL_2_ZOOM)
             } else {
-                    self.tMapView?.setZoomLevel(ClusterManager.LEVEL_1_ZOOM)
+                self.tMapView?.setZoomLevel(ClusterManager.LEVEL_1_ZOOM)
             }
             self.tMapView?.setCenter(markerItem.getTMapPoint())
         } else {
@@ -836,7 +838,7 @@ extension MainViewController: ChargerSelectDelegate {
             }
             summaryView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             callOutLayer.addSubview(summaryView)
-    //        summaryView.delegate = self
+            //        summaryView.delegate = self
         }
     }
     
@@ -848,7 +850,7 @@ extension MainViewController: ChargerSelectDelegate {
         if selectCharger != nil {
             summaryView.layoutIfNeeded()
             callOutLayer.layoutIfNeeded()
-                        
+            
             if let markerItem = tMapView!.getMarketItem(fromID: selectCharger!.mChargerId) {
                 markerItem.setIcon(selectCharger!.getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
             }
@@ -993,7 +995,7 @@ extension MainViewController {
     
     internal func refreshChargerInfo() {
         self.markerIndicator.startAnimating()
-
+        
         Server.getStationStatus { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
@@ -1019,7 +1021,7 @@ extension MainViewController {
     private func checkJeJuBoundary() {
         if let point = MainViewController.currentLocation {
             if 33.11 <= point.getLatitude() && point.getLatitude() <= 33.969
-            && 126.13 <= point.getLongitude() && point.getLongitude() <= 126.99 {
+                && 126.13 <= point.getLongitude() && point.getLongitude() <= 126.99 {
                 canIgnoreJejuPush = true
                 let window = UIApplication.shared.keyWindow!
                 window.addSubview(PopUpDialog(frame: window.bounds))
@@ -1095,7 +1097,7 @@ extension MainViewController {
         self.navigationController?.popToRootViewController(animated: true)
         self.setStartPath()
     }
-        
+    
     @objc func directionEnd(_ notification: NSNotification) {
         selectCharger = (notification.object as! ChargerStationInfo)
         if navigationDrawerController?.isOpened == true{
@@ -1128,16 +1130,16 @@ extension MainViewController {
             }
         }
     }
-
+    
     func isLocationEnabled() ->Bool{
         var enabled : Bool = false
         if CLLocationManager.locationServicesEnabled() {
             switch CLLocationManager.authorizationStatus() {
-                case .authorizedAlways, .authorizedWhenInUse:
-                    enabled = true
-                    break
-                case .notDetermined, .restricted, .denied:
-                    break
+            case .authorizedAlways, .authorizedWhenInUse:
+                enabled = true
+                break
+            case .notDetermined, .restricted, .denied:
+                break
             }
         }
         return enabled
@@ -1145,11 +1147,11 @@ extension MainViewController {
     
     func askPermission(){
         let alertController = UIAlertController(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 기능을 이용하시려면 모든 권한을 허용해 주십시오.\n[설정] > [EV Infra] 에서 권한을 허용할 수 있습니다.", preferredStyle: UIAlertControllerStyle.alert)
-
-
+        
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
         alertController.addAction(cancelAction)
-
+        
         let openAction = UIAlertAction(title: "Open Settings", style: UIAlertActionStyle.default) { (action) in
             if let url = URL(string: UIApplicationOpenSettingsURLString) {
                 if UIApplication.shared.canOpenURL(url) {
@@ -1158,7 +1160,7 @@ extension MainViewController {
             }
         }
         alertController.addAction(openAction)
-
+        
         self.present(alertController, animated: true, completion: nil)
     }
     
@@ -1225,7 +1227,7 @@ extension MainViewController {
     }
     
     private func menuBadgeAdd() {
-        if Board.sharedInstance.hasNew() {
+        if Board.sharedInstance.hasNew() || UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
             appDelegate.appToolbarController.setMenuIcon(hasBadge: true)
         } else {
             appDelegate.appToolbarController.setMenuIcon(hasBadge: false)
@@ -1235,7 +1237,7 @@ extension MainViewController {
     func prepareClustering() {
         clustering = ClusterManager.init(mapView: tMapView!)
         clustering?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
-//        clustering?.clusterDelegate = self
+        //        clustering?.clusterDelegate = self
     }
     
     func updateClustering() {
@@ -1246,7 +1248,7 @@ extension MainViewController {
             } else {
                 clustering?.removeClusterFromSettings()
             }
-
+            
             drawTMapMarker()
         }
     }
@@ -1255,8 +1257,6 @@ extension MainViewController {
 extension MainViewController {
     
     func prepareMenuBtnLayer() {
-        chargingStatus()
-        
         btn_main_offerwall.alignTextUnderImage()
         btn_main_offerwall.tintColor = UIColor(named: "gr-8")
         btn_main_offerwall.setImage(UIImage(named: "ic_line_offerwall")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -1264,7 +1264,7 @@ extension MainViewController {
         btn_main_help.alignTextUnderImage()
         btn_main_help.tintColor = UIColor(named: "gr-8")
         btn_main_help.setImage(UIImage(named: "icon_main_faq")?.withRenderingMode(.alwaysTemplate), for: .normal)
-
+        
         btn_main_favorite.alignTextUnderImage()
         btn_main_favorite.tintColor = UIColor(named: "gr-8")
         btn_main_favorite.setImage(UIImage(named: "ic_line_favorite")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -1301,13 +1301,13 @@ extension MainViewController {
         self.navigationController?.push(viewController: termsViewControll)
         
         // 원래주석된 코드
-//        if MemberManager().isLogin() {
-//            let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
-//            reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_MAIN
-//            self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
-//        } else {
-//            MemberManager().showLoginAlert(vc: self)
-//        }
+        //        if MemberManager().isLogin() {
+        //            let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
+        //            reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_MAIN
+        //            self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
+        //        } else {
+        //            MemberManager().showLoginAlert(vc: self)
+        //        }
     }
 }
 
@@ -1317,10 +1317,10 @@ extension MainViewController {
             return
         }
         
+        let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
         switch (response["code"].intValue) {
         case 1000:
             defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
-            let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
             let paymentStatusVC = paymentStoryboard.instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
             paymentStatusVC.cpId = response["cp_id"].stringValue
             paymentStatusVC.connectorId = response["connector_id"].stringValue
@@ -1328,14 +1328,19 @@ extension MainViewController {
             self.navigationController?.push(viewController: paymentStatusVC)
             
         case 2002:
-            let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
-            let paymentQRScanVC = paymentStoryboard.instantiateViewController(withIdentifier: "PaymentQRScanViewController") as! PaymentQRScanViewController
-            self.navigationController?.push(viewController:paymentQRScanVC)
-            
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
+            if response["pay_code"].stringValue.equals("8804") {
+                let repayListVC = paymentStoryboard.instantiateViewController(withIdentifier: "RepayListViewController") as! RepayListViewController
+                repayListVC.delegate = self
+                self.navigationController?.push(viewController: repayListVC)
+            } else {
+                let paymentQRScanVC = paymentStoryboard.instantiateViewController(withIdentifier: "PaymentQRScanViewController") as! PaymentQRScanViewController
+                self.navigationController?.push(viewController:paymentQRScanVC)
+            }
             
         default:
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
+            
         }
     }
     
@@ -1357,6 +1362,13 @@ extension MainViewController {
     }
     
     func getChargingStatus(response: JSON) {
+        if response["pay_code"].stringValue.equals("8804") {
+            defaults.saveBool(key: UserDefault.Key.HAS_FAILED_PAYMENT, value: true)
+            ivMainChargeNew.isHidden = false
+        } else {
+            defaults.saveBool(key: UserDefault.Key.HAS_FAILED_PAYMENT, value: false)
+            ivMainChargeNew.isHidden = true
+        }
         switch (response["code"].intValue) {
         case 1000:
             // 충전중
@@ -1365,7 +1377,7 @@ extension MainViewController {
             self.btn_main_charge.tintColor = UIColor(named: "gr-8")
             self.btn_main_charge.setTitle("충전중", for: .normal)
             break
-
+            
         case 2002:
             // 진행중인 충전이 없음
             self.btn_main_charge.alignTextUnderImage()
@@ -1377,5 +1389,16 @@ extension MainViewController {
         default:
             break
         }
+    }
+}
+
+extension MainViewController: RepaymentListDelegate {
+    func onRepaySuccess() {
+        let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
+        let paymentQRScanVC = paymentStoryboard.instantiateViewController(withIdentifier: "PaymentQRScanViewController") as! PaymentQRScanViewController
+        self.navigationController?.push(viewController:paymentQRScanVC)
+    }
+    
+    func onRepayFail() {
     }
 }

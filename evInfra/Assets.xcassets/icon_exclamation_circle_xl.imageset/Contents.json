@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icon_exclamation_circle_xl.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

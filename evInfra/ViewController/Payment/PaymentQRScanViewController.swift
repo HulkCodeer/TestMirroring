@@ -84,7 +84,12 @@ class PaymentQRScanViewController: UIViewController {
                 case PaymentStatus.PAY_NO_USER, PaymentStatus.PAY_NO_CARD_USER:
                     self.showRegisterCardDialog()
                     
-                case PaymentStatus.PAY_DEBTOR_USER, PaymentStatus.PAY_NO_VERIFY_USER, PaymentStatus.PAY_DELETE_FAIL_USER:
+                case PaymentStatus.PAY_DEBTOR_USER:
+                    let repayListVC = self.storyboard!.instantiateViewController(withIdentifier: "RepayListViewController") as! RepayListViewController
+                    repayListVC.delegate = self
+                    self.navigationController?.push(viewController: repayListVC)
+                    break;
+                case PaymentStatus.PAY_NO_VERIFY_USER, PaymentStatus.PAY_DELETE_FAIL_USER:
                     let resultMessage = json["ResultMsg"].stringValue
                     let message = resultMessage.replacingOccurrences(of: "\\n", with: "\n")
                     self.showAlertDialogByMessage(message: message)
@@ -305,5 +310,16 @@ extension PaymentQRScanViewController {
         dialogMessage.addAction(ok)
         dialogMessage.addAction(cancel)
         self.present(dialogMessage, animated: true, completion: nil)
+    }
+}
+extension PaymentQRScanViewController: RepaymentListDelegate {
+    func onRepaySuccess() {
+        if (captureSession?.isRunning == false) {
+            captureSession.startRunning()
+        }
+    }
+    
+    func onRepayFail(){
+        self.navigationController?.pop()
     }
 }

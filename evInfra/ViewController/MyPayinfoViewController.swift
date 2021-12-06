@@ -11,8 +11,7 @@ import Material
 import WebKit
 import SwiftyJSON
 
-class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
-    
+class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, RepaymentListDelegate {
     let DELETE_MODE = 0
     let CHANGE_MODE = 1
     
@@ -36,6 +35,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
     @IBOutlet weak var changeBtn: UIButton!
     
     var payRegisterResult: JSON?
+    var myPayCode: Int?
     override func loadView() {
         super.loadView()
     }
@@ -50,7 +50,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
         if MemberManager().isLogin() {
             if let result = payRegisterResult {
                 showRegisteredResult(json: result)
-            } else {
+            } else {//if myPayCode == nil {
                 checkRegisterPayment()
             }
         } else {
@@ -66,13 +66,19 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
         Server.getPayRegisterStatus { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                let payCode = json["pay_code"].intValue
-                switch(payCode){
+                self.myPayCode = json["pay_code"].intValue
+                switch(self.myPayCode){
                     case PaymentCard.PAY_NO_USER, PaymentCard.PAY_NO_CARD_USER:
                         self.moveToMyPayRegist()
                         
                         break;
-                    case PaymentCard.PAY_DEBTOR_USER, PaymentCard.PAY_NO_VERIFY_USER, PaymentCard.PAY_DELETE_FAIL_USER:
+                    case PaymentCard.PAY_DEBTOR_USER:
+                        let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
+                        let repayListVC = paymentStoryboard.instantiateViewController(withIdentifier: "RepayListViewController") as! RepayListViewController
+                        repayListVC.delegate = self
+                        self.navigationController?.push(viewController: repayListVC)
+                        break;
+                    case PaymentCard.PAY_NO_VERIFY_USER, PaymentCard.PAY_DELETE_FAIL_USER:
                         let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in
                             self.navigationController?.pop()
                         })
@@ -273,6 +279,14 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate{
     
     func finishRegisterResult(json: JSON) {
         payRegisterResult = json
+    }
+    
+    func onRepaySuccess() {
+        
+    }
+    
+    func onRepayFail() {
+        self.navigationController?.pop()
     }
 }
 

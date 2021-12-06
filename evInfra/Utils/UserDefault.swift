@@ -77,6 +77,8 @@ class UserDefault {
         static let JEJU_PUSH    = "jeju_push"
         static let GUIDE_VERSION = "guide_vesion"
         
+        static let HAS_FAILED_PAYMENT = "has_failed_payment"
+        
         // 전체설정
         static let SETTINGS_ALLOW_NOTIFICATION = "allow_notification"
         static let SETTINGS_ALLOW_JEJU_NOTIFICATION = "allow_jeju_notification"

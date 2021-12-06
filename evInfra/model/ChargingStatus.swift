@@ -8,7 +8,10 @@
 
 import Foundation
 
-class ChargingStatus: Decodable {
+class ChargingStatus: Decodable, Equatable {
+    static func == (lhs: ChargingStatus, rhs: ChargingStatus) -> Bool {
+        return lhs.chargingId == rhs.chargingId
+    }
     
     var resultCode: Int?
     var msg: String?
