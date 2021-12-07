@@ -23,6 +23,8 @@ class FCMManager {
     static let TARGET_COUPON = "07"
     static let TARGET_POINT  = "08";
     static let TARGET_MEMBERSHIP = "09";
+//    static let TARGET_COMMUNITY = "10";
+    static let TARGET_REPAYMENT = "11";
     
     static let FCM_REQUEST_PAYMENT_STATUS = "fcm_request_payment_status"
     static let sharedInstance = FCMManager()
@@ -150,6 +152,8 @@ class FCMManager {
                 case FCMManager.TARGET_MEMBERSHIP:  // 제휴 서비스
                     getMembershipData(navigationController: navigationController)
                     
+                case FCMManager.TARGET_REPAYMENT:  // 미수금 정산
+                    getRepaymentData(navigationController: navigationController)
                 default:
                     print("alertMessage() default")
                 }
@@ -259,6 +263,24 @@ class FCMManager {
                     if let navigation = navigationController {
                         let membershipVC = UIStoryboard(name: "Membership", bundle: nil).instantiateViewController(withIdentifier: "LotteRentInfoViewController") as! LotteRentInfoViewController
                         navigation.push(viewController: membershipVC)
+                    }
+                } else {
+                    MemberManager().showLoginAlert(vc: visableControll)
+                }
+            }
+        }
+    }
+    
+    func getRepaymentData(navigationController: UINavigationController?) {
+        if let visableControll = navigationController?.visibleViewController {
+            if visableControll.isKind(of: RepayListViewController.self) {
+                visableControll.viewDidLoad()
+                return
+            } else {
+                if MemberManager().isLogin() {
+                    if let navigation = navigationController {
+                        let paymentVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(withIdentifier: "RepayListViewController") as! RepayListViewController
+                        navigation.push(viewController: paymentVC)
                     }
                 } else {
                     MemberManager().showLoginAlert(vc: visableControll)
