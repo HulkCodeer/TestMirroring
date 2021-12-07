@@ -133,7 +133,7 @@ class FilterTypeView: UIView {
     
     func resetFilter() {
         for item in tagList {
-            item.selected = (item.title != "완속")
+            item.selected = !(item.index == Const.CHARGER_TYPE_SLOW || item.index == Const.CHARGER_TYPE_DESTINATION)
         }
         tagCollectionView.reloadData()
         switchCarSetting.setOn(false, animated: true)

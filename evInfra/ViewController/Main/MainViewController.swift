@@ -1369,6 +1369,7 @@ extension MainViewController {
             defaults.saveBool(key: UserDefault.Key.HAS_FAILED_PAYMENT, value: false)
             ivMainChargeNew.isHidden = true
         }
+        menuBadgeAdd()
         switch (response["code"].intValue) {
         case 1000:
             // 충전중

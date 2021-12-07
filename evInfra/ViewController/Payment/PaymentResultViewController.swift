@@ -268,10 +268,12 @@ class PaymentResultViewController: UIViewController {
         self.navigationController?.pop()
     }
     @IBAction func onClickFailRight(_ sender: Any) {
-        // call center
-        guard let number = URL(string : "tel://" + "070-8633-9009") else {
-            return
-        }
-        UIApplication.shared.open(number)
+        // repayment list
+        let repayListVC = self.storyboard!.instantiateViewController(withIdentifier: "RepayListViewController") as! RepayListViewController
+        var vcArray = self.navigationController?.viewControllers
+        vcArray!.removeLast()
+        vcArray!.append(repayListVC)
+        self.navigationController?.setViewControllers(vcArray!, animated: true)
+    
     }
 }

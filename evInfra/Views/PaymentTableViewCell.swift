@@ -23,16 +23,14 @@ class PaymentTableViewCell: UITableViewCell {
             if let stationName = charging.stationName {
                 self.lbStationName.text = stationName
             }
-            self.lbAmount.text = charging.fee
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            if let date = charging.payAuthDate, let iDate = dateFormatter.date(from: date) {
-                dateFormatter.dateFormat = "yyyy.MM.dd"
-                lbDate.text = dateFormatter.string(from: iDate)
+            if let fee = charging.fee {
+                self.lbAmount.text = "\(fee)원"
             }
-            lbFailMsg.text = charging.payResultMsg
+            
+            if let date = charging.payAuthDate {
+                self.lbDate.text = date
+            }
+            self.lbFailMsg.text = charging.payResultMsg
         }
     }
 }

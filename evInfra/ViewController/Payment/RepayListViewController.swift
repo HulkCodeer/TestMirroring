@@ -63,7 +63,7 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                     if totalPoint > totalAmount {
                         // dialog
                         let dialogMessage = UIAlertController(title: "변경된 카드로 결제가 진행됩니다", message: "베리로 미수금 결제를 원하시는 경우, 취소를 누른 뒤 결제 재시도를 눌러주세요.", preferredStyle: .alert)
-                        let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
+                        let ok = UIAlertAction(title: "결제", style: .default, handler: {(ACTION) -> Void in
                             self.requestRepay(byPoint: false)
                         })
                         let cancel = UIAlertAction(title: "취소", style: .cancel, handler:{ (ACTION) -> Void in

@@ -74,7 +74,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="551" translatesAutoresizingMaskIntoConstraints="NO" id="aXY-At-VpG">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="671.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="655.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="현재 회원님께 미수금이 있습니다. " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D66-DD-U2e">
                                                 <rect key="frame" x="16" y="24" width="214.5" height="19.5"/>
@@ -176,7 +176,7 @@
                                                 </constraints>
                                             </view>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="hFd-QZ-N9K">
-                                                <rect key="frame" x="16" y="314.5" width="343" height="128"/>
+                                                <rect key="frame" x="16" y="298.5" width="343" height="128"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="128" id="U3R-UF-Jhy"/>
@@ -246,13 +246,13 @@
                                                 </prototypes>
                                             </tableView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="외 미수금 N 건" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c2Z-FB-CxH">
-                                                <rect key="frame" x="146.5" y="450.5" width="82.5" height="17"/>
+                                                <rect key="frame" x="146.5" y="434.5" width="82.5" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <color key="textColor" name="content-primary"/>
+                                                <color key="textColor" name="content-disabled"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RKI-0A-ydg">
-                                                <rect key="frame" x="16" y="467.5" width="343" height="204"/>
+                                                <rect key="frame" x="16" y="451.5" width="343" height="204"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="미수금 안내" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c19-Ns-lqx">
                                                         <rect key="frame" x="0.0" y="16" width="64.5" height="17"/>
@@ -306,7 +306,7 @@
                                             <constraint firstAttribute="trailing" secondItem="Trm-Jt-aWS" secondAttribute="trailing" constant="16" id="jHo-Wf-Sel"/>
                                             <constraint firstItem="fCA-ZH-psS" firstAttribute="leading" secondItem="aXY-At-VpG" secondAttribute="leading" constant="16" id="mHu-ug-nyB"/>
                                             <constraint firstItem="Trm-Jt-aWS" firstAttribute="leading" secondItem="aXY-At-VpG" secondAttribute="leading" constant="16" id="tw8-zM-lc5"/>
-                                            <constraint firstItem="hFd-QZ-N9K" firstAttribute="top" secondItem="Tz0-2a-Oxk" secondAttribute="bottom" constant="16" id="w1p-4b-sje"/>
+                                            <constraint firstItem="hFd-QZ-N9K" firstAttribute="top" secondItem="Tz0-2a-Oxk" secondAttribute="bottom" id="w1p-4b-sje"/>
                                             <constraint firstAttribute="trailing" secondItem="RKI-0A-ydg" secondAttribute="trailing" constant="16" id="wGB-JE-94l"/>
                                             <constraint firstAttribute="trailing" secondItem="Tz0-2a-Oxk" secondAttribute="trailing" constant="16" id="x3d-za-WAS"/>
                                             <constraint firstAttribute="trailing" secondItem="hFd-QZ-N9K" secondAttribute="trailing" constant="16" id="y8I-xr-lf7"/>
@@ -1586,7 +1586,7 @@
                                                 <rect key="frame" x="0.0" y="888" width="375" height="84"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ajr-ri-XJ3">
-                                                        <rect key="frame" x="16" y="24" width="105.5" height="44"/>
+                                                        <rect key="frame" x="16" y="24" width="153.5" height="44"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="44" id="n53-o4-J2z"/>
                                                         </constraints>
@@ -1600,7 +1600,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1fR-Ro-PF2">
-                                                        <rect key="frame" x="129.5" y="24" width="229.5" height="44"/>
+                                                        <rect key="frame" x="177.5" y="24" width="181.5" height="44"/>
                                                         <color key="backgroundColor" name="gr-5"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="44" id="7UJ-E4-iKQ"/>
@@ -1608,7 +1608,7 @@
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                         <color key="tintColor" name="content-primary"/>
                                                         <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                        <state key="normal" title="고객센터 전화하기" image="icon_call_md">
+                                                        <state key="normal" title="미수금 결제">
                                                             <color key="titleColor" name="content-primary"/>
                                                         </state>
                                                         <connections>
@@ -1707,7 +1707,6 @@
         </designable>
     </designables>
     <resources>
-        <image name="icon_call_md" width="24" height="24"/>
         <image name="icon_check_md" width="24" height="24"/>
         <image name="icon_check_round_xl" width="88" height="88"/>
         <image name="icon_map_pin_sm" width="20" height="20"/>

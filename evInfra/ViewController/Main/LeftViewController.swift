@@ -147,6 +147,8 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             btnLogin.visible()
         }
+        
+        newBadgeInMenu()
     }
  
     func initSideViewArr() {

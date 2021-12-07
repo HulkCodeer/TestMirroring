@@ -66,7 +66,7 @@ class FilterManager {
         
         defValue = defaults.readString(key: UserDefault.Key.FILTER_SLOW)
         if defValue.isEmpty {
-            filter.slow = true
+            filter.slow = false
         } else {
             filter.slow = defValue.equals("Checked")
         }
@@ -80,7 +80,7 @@ class FilterManager {
         
         defValue = defaults.readString(key: UserDefault.Key.FILTER_DESTINATION)
         if defValue.isEmpty {
-            filter.destination = true
+            filter.destination = false
         } else {
             filter.destination = defValue.equals("Checked")
         }
