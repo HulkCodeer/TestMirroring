@@ -11,6 +11,10 @@ import Foundation
 protocol DelegateFilterTypeView {
     func checkMemberLogin() -> Bool
 }
+
+protocol DelegateSlowTypeChange {
+    func onChangeSlowType(slowOn: Bool)
+}
 class FilterTypeView: UIView {
     @IBOutlet var tagCollectionView: UICollectionView!
     
@@ -21,6 +25,7 @@ class FilterTypeView: UIView {
     var saveOnChange: Bool = false
     var delegate: DelegateFilterChange?
     var checkLoginDelegate: DelegateFilterTypeView?
+    var slowTypeChangeDelegate: DelegateSlowTypeChange?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,6 +66,8 @@ class FilterTypeView: UIView {
         } else {
             update()
         }
+        
+        sendTypeChange()
     }
     
     func setForCarType(){
@@ -69,8 +76,29 @@ class FilterTypeView: UIView {
             for item in tagList {
                 item.selected = carType == item.index
             }
-            
             tagCollectionView.reloadData()
+        }
+    }
+    
+    func setSlowTypeOn(slowTypeOn: Bool) {
+        tagList[3].selected = slowTypeOn
+        tagList[5].selected = slowTypeOn
+        
+        if (saveOnChange) {
+            FilterManager.sharedInstance.saveTypeFilter(index: tagList[3].index, val: slowTypeOn)
+            FilterManager.sharedInstance.saveTypeFilter(index: tagList[5].index, val: slowTypeOn)
+        }
+        
+        tagCollectionView.reloadData()
+        if let delegate = delegate {
+            delegate.onChangedFilter(type: .type)
+        }
+    }
+    
+    func sendTypeChange() {
+        let changed = tagList[3].selected || tagList[5].selected
+        if let delegate = slowTypeChangeDelegate {
+            delegate.onChangeSlowType(slowOn: changed)
         }
     }
     
@@ -179,5 +207,8 @@ extension FilterTypeView : DelegateTagListViewCell{
             FilterManager.sharedInstance.saveTypeFilter(index: tagList[index].index, val: value)
         }
         self.delegate?.onChangedFilter(type: .type)
+        if index == 3 || index == 5 {
+            sendTypeChange()
+        }
     }
 }

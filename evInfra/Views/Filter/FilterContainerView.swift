@@ -57,6 +57,9 @@ class FilterContainerView: UIView {
         filterRoadView.delegate = self
         filterPlaceView.delegate = self
         filterPriceView.delegate = self
+        
+        filterSpeedView.slowSpeedChangeDelegate = self
+        filterTypeView.slowTypeChangeDelegate = self
     }
     
     @objc func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
@@ -156,5 +159,17 @@ class FilterContainerView: UIView {
 extension FilterContainerView: DelegateFilterChange{
     func onChangedFilter(type: FilterType) {
         delegate?.changedFilter(type: type)
+    }
+}
+
+extension FilterContainerView : DelegateSlowTypeChange {
+    func onChangeSlowType(slowOn: Bool) {
+        filterSpeedView.setSlowOn(slowOn: slowOn)
+    }
+}
+
+extension FilterContainerView : DelegateSlowSpeedChange {
+    func onChangeSlowSpeed(isSlow: Bool) {
+        filterTypeView.setSlowTypeOn(slowTypeOn: isSlow)
     }
 }

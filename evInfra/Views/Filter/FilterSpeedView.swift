@@ -7,6 +7,9 @@
 //
 
 import Foundation
+protocol DelegateSlowSpeedChange {
+    func onChangeSlowSpeed(isSlow: Bool)
+}
 class FilterSpeedView: UIView {
     
     @IBOutlet var lbSpeed: UILabel!
@@ -14,8 +17,9 @@ class FilterSpeedView: UIView {
     
     var saveOnChange: Bool = false
     var delegate: DelegateFilterChange?
+    var slowSpeedChangeDelegate: DelegateSlowSpeedChange?
     
-    private var minSpeed = 0
+    private var minSpeed = 50
     private var maxSpeed = 350
     
     override init(frame: CGRect) {
@@ -58,7 +62,7 @@ class FilterSpeedView: UIView {
     }
     
     func resetFilter() {
-        minSpeed = 0
+        minSpeed = 50
         maxSpeed = 350
         
         setupView()
@@ -66,6 +70,23 @@ class FilterSpeedView: UIView {
     
     func applyFilter() {
         FilterManager.sharedInstance.saveSpeedFilter(min: minSpeed, max: maxSpeed)
+    }
+    
+    func setSlowOn(slowOn: Bool){
+        if slowOn && minSpeed > 0 {
+            minSpeed = 0;
+            setupView()
+        } else if !slowOn && minSpeed == 0 {
+            minSpeed = 50
+            if maxSpeed == 0 {
+                maxSpeed = 50
+            }
+            setupView()
+        }
+        if (saveOnChange) {
+           applyFilter()
+        }
+        delegate?.onChangedFilter(type: .speed)
     }
     
     func isChanged() -> Bool {
@@ -117,10 +138,18 @@ class FilterSpeedView: UIView {
 extension FilterSpeedView: RangeSeekSliderDelegate {
 
     func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
-        self.minSpeed = Int(minValue)
+        let min = Int(minValue)
+        if min != self.minSpeed, let del = slowSpeedChangeDelegate {
+            if min == 0 {
+                del.onChangeSlowSpeed(isSlow: true)
+            } else if self.minSpeed == 0 {
+                del.onChangeSlowSpeed(isSlow: false)
+            }
+        }
+        self.minSpeed = min
         self.maxSpeed = Int(maxValue)
         
-        updateSpeedLabel()
+        updateSpeedLabel()        
     }
 
     func didStartTouches(in slider: RangeSeekSlider) {

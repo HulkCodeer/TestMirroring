@@ -89,6 +89,9 @@ class ChargerFilterViewController: UIViewController {
         
         typeFilter.showExpandView()
         typeFilter.checkLoginDelegate = self
+        typeFilter.slowTypeChangeDelegate = self
+        
+        speedFilter.slowSpeedChangeDelegate = self
     }
     
     @objc
@@ -133,5 +136,17 @@ extension ChargerFilterViewController : DelegateFilterTypeView {
             return false
         }
         return true
+    }
+}
+
+extension ChargerFilterViewController : DelegateSlowTypeChange {
+    func onChangeSlowType(slowOn: Bool) {
+        speedFilter.setSlowOn(slowOn: slowOn)
+    }
+}
+
+extension ChargerFilterViewController : DelegateSlowSpeedChange {
+    func onChangeSlowSpeed(isSlow: Bool) {
+        typeFilter.setSlowTypeOn(slowTypeOn: isSlow)
     }
 }
