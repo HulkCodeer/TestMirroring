@@ -236,9 +236,12 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                     resultVC.delegate = self
                     resultVC.payResult = paymentStatus
                     self.navigationController?.push(viewController: resultVC)
-                    self.viewProcessing.isHidden = true
+                    
                 }
+            } else {
+                Snackbar().show(message: "오류가 발생했습니다. 다시 시도해 주세요.")
             }
+            self.viewProcessing.isHidden = true
         }
     }
 }

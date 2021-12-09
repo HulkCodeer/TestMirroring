@@ -234,10 +234,10 @@ class ClusterManager {
                     }
                 }
             }
-            if (markerCount > 6000) {
+            if (markerCount > 1000) {
                 if let zoomLev = self.tMapView?.getZoomLevel() {
-                    if (ClusterManager.MAX_ZOOM_LEVEL - zoomLev > 0) {
-                        markerThreshold = (ClusterManager.MAX_ZOOM_LEVEL - zoomLev) * ClusterManager.MARKER_THRESHOLD_SIZE
+                    if (zoomLev < 13) {
+                        markerThreshold = (markerCount >> 9)
                     }
                 }
             }
