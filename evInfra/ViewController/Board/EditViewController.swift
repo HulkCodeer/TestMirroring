@@ -10,6 +10,7 @@ import UIKit
 import Material
 import SwiftyJSON
 import UIImageCropper
+import AVFoundation
 
 class EditViewController: UIViewController, UITextViewDelegate {
 
@@ -184,8 +185,37 @@ class EditViewController: UIViewController, UITextViewDelegate {
     }
     
     func openCamera() {
-        picker.sourceType = .camera
-        self.present(picker, animated: false, completion: nil)
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        if status == .notDetermined || status == .authorized || status == .denied {
+            // 권한 요청
+            AVCaptureDevice.requestAccess(for: .video) { grated in
+                if grated {
+                    self.picker.sourceType = .camera
+                    self.present(self.picker, animated: false, completion: nil)
+                } else {
+                    self.showAuthAlert()
+                }
+            }
+        }
+    }
+    
+    private func showAuthAlert() {
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) in
+            Snackbar().show(message: "카메라 기능이 활성화되지 않았습니다.")
+            self.navigationController?.pop()
+        }
+        
+        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertActionStyle.default) { (action) in
+            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }
+        }
+        var actions = Array<UIAlertAction>()
+        actions.append(cancelAction)
+        actions.append(openAction)
+        UIAlertController.showAlert(title: "카메라 기능이 활성화되지 않았습니다", message: "사진추가를 위해 카메라 권한이 필요합니다", actions: actions)
     }
 }
 

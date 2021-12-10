@@ -24,6 +24,8 @@ class MembershipQRViewController: UIViewController,
         super.viewDidLoad()
         prepareActionBar()
         prepareView()
+        
+        checkPermission()
         prepareQRScanner()
     }
 
@@ -54,6 +56,38 @@ class MembershipQRViewController: UIViewController,
     
     func prepareView() {
         self.scannerViewLayer.frame.size.width = self.view.frame.width
+    }
+    
+    private func showAuthAlert() {
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) in
+            Snackbar().show(message: "카메라 기능이 활성화되지 않아 QR스캔을 실행 할 수 없습니다.")
+            self.navigationController?.pop()
+        }
+        
+        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertActionStyle.default) { (action) in
+            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }
+        }
+        var actions = Array<UIAlertAction>()
+        actions.append(cancelAction)
+        actions.append(openAction)
+        UIAlertController.showAlert(title: "카메라 기능이 활성화되지 않았습니다", message: "QR스캔을 위해 카메라 권한이 필요합니다", actions: actions)
+    }
+    
+    func checkPermission() {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        if status == .notDetermined || status == .authorized || status == .denied {
+            // 권한 요청
+            AVCaptureDevice.requestAccess(for: .video) { grated in
+                if grated {
+                } else {
+                    self.showAuthAlert()
+                }
+            }
+        }
     }
     
     func showInvalidQrResultDialog() {
