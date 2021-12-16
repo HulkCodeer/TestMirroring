@@ -19,7 +19,6 @@ target 'evInfra' do
   pod 'FirebaseCrashlytics'           # For firebase Crashlytics
   pod 'Firebase/Analytics'
   pod 'Firebase/DynamicLinks'
-  pod 'Google-Mobile-Ads-SDK'
   pod 'UIImageCropper'
   pod 'SDWebImage/GIF'
   pod 'M13Checkbox'                   # For material checkbox
@@ -27,8 +26,6 @@ target 'evInfra' do
   pod 'GRDB.swift'
   pod 'KeychainSwift', '~> 13.0'      # For keychain
   pod 'JJFloatingActionButton'
-  pod 'mopub-ios-sdk'                 # for rewarded video mopub mediation
-  pod 'TapjoySDK'                     # for rewarded video tapjoy
   pod 'ExpyTableView', '~> 1.2.1'
   pod 'EasyTipView', '~> 2.1.0'
   pod 'SwiftyGif'

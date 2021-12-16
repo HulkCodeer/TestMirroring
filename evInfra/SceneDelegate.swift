@@ -12,7 +12,6 @@ import Firebase
 import FirebaseDynamicLinks
 import UserNotifications
 import AuthenticationServices
-import GoogleMobileAds
 
 @available(iOS 13.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {

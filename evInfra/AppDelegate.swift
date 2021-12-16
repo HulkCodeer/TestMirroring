@@ -13,7 +13,6 @@ import Firebase
 import FirebaseDynamicLinks
 import UserNotifications
 import AuthenticationServices
-import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -34,9 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             setupEntryController()
         }
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
-        
-        // Initialize the Google Mobile Ads SDK.
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
         // SNS 로그인
         LoginHelper.shared.prepareLogin()

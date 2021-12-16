@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I0H-Up-SNg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I0H-Up-SNg">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -13,7 +13,7 @@
         <!--Main View Controller-->
         <scene sceneID="dLf-mh-wCs">
             <objects>
-                <viewController storyboardIdentifier="MainViewController" id="Dkt-CM-WPs" customClass="MainViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Dkt-CM-WPs" customClass="MainViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="heY-bS-hgo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -109,11 +109,11 @@
                                         <rect key="frame" x="90" y="0.0" width="81.5" height="64"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <color key="tintColor" name="gr-8"/>
-                                        <state key="normal" title="무료베리충전" image="ic_line_offerwall">
+                                        <state key="normal" title="자유게시판" image="ic_comment">
                                             <color key="titleColor" name="gr-8"/>
                                         </state>
                                         <connections>
-                                            <action selector="onClickMainOfferwall:" destination="Dkt-CM-WPs" eventType="touchUpInside" id="Pwf-zb-px5"/>
+                                            <action selector="onClickCommunityBtn:" destination="Dkt-CM-WPs" eventType="touchUpInside" id="2fv-3d-bKr"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z2-jd-MHp">
@@ -395,9 +395,9 @@
                         <outlet property="btnRoute" destination="nUo-2a-WfK" id="zBL-Qd-ohE"/>
                         <outlet property="btnRouteCancel" destination="3ai-r8-BQA" id="5rO-1o-jry"/>
                         <outlet property="btn_main_charge" destination="rx1-ZB-nqj" id="Sah-ce-kgd"/>
+                        <outlet property="btn_main_community" destination="xBg-t6-57T" id="cAy-pV-jdF"/>
                         <outlet property="btn_main_favorite" destination="9yb-v3-RaX" id="vTk-DY-RUP"/>
                         <outlet property="btn_main_help" destination="0Z2-jd-MHp" id="xlV-wl-3LX"/>
-                        <outlet property="btn_main_offerwall" destination="xBg-t6-57T" id="ejz-Dq-HvT"/>
                         <outlet property="btn_menu_layer" destination="hUZ-Py-Zxk" id="nnN-qe-zVg"/>
                         <outlet property="callOutLayer" destination="5EV-dN-PRm" id="23s-gK-5Qu"/>
                         <outlet property="endField" destination="V0k-eg-psY" id="yii-3c-jxj"/>
@@ -517,7 +517,7 @@
         <!--Left View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="LeftViewController" id="BYZ-38-t0r" customClass="LeftViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LeftViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="LeftViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -564,14 +564,9 @@
                                         <inset key="titleEdgeInsets" minX="-48" minY="36" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="6" minY="-16" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="마이페이지" image="icon_user">
-                                            <color key="titleColor" name="background-always-dark"/>
+                                            <color key="titleColor" name="content-primary"/>
                                         </state>
-                                        <state key="selected" image="menu_my_info">
-                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
+                                        <state key="selected" image="menu_my_info"/>
                                         <connections>
                                             <action selector="clickMyPage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u33-da-tXn"/>
                                         </connections>
@@ -786,8 +781,8 @@
         <image name="botton_new_dot" width="6" height="6"/>
         <image name="electric_icon" width="11.729000091552734" height="17.047000885009766"/>
         <image name="go_navi_icon_white" width="16" height="16"/>
+        <image name="ic_comment" width="32" height="24"/>
         <image name="ic_line_favorite" width="32" height="24"/>
-        <image name="ic_line_offerwall" width="32" height="24"/>
         <image name="ic_line_payment" width="32" height="24"/>
         <image name="ic_newbadge" width="20" height="20"/>
         <image name="icon_comment" width="48" height="48"/>

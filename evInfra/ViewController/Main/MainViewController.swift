@@ -52,7 +52,7 @@ class MainViewController: UIViewController {
     // Menu Button Layer
     @IBOutlet var btn_menu_layer: UIView!
     @IBOutlet var btn_main_charge: UIButton!
-    @IBOutlet var btn_main_offerwall: UIButton!
+    @IBOutlet var btn_main_community: UIButton!
     @IBOutlet var btn_main_help: UIButton!
     @IBOutlet var btn_main_favorite: UIButton!
     
@@ -1257,9 +1257,9 @@ extension MainViewController {
 extension MainViewController {
     
     func prepareMenuBtnLayer() {
-        btn_main_offerwall.alignTextUnderImage()
-        btn_main_offerwall.tintColor = UIColor(named: "gr-8")
-        btn_main_offerwall.setImage(UIImage(named: "ic_line_offerwall")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        btn_main_community.alignTextUnderImage()
+        btn_main_community.tintColor = UIColor(named: "gr-8")
+        btn_main_community.setImage(UIImage(named: "ic_comment")?.withRenderingMode(.alwaysTemplate), for: .normal)
         
         btn_main_help.alignTextUnderImage()
         btn_main_help.tintColor = UIColor(named: "gr-8")
@@ -1283,14 +1283,13 @@ extension MainViewController {
         }
     }
     
-    @IBAction func onClickMainOfferwall(_ sender: UIButton) {
-        if MemberManager().isLogin() {
-            let offerwallStoryboard = UIStoryboard(name : "Offerwall", bundle: nil)
-            let offerwallVC = offerwallStoryboard.instantiateViewController(withIdentifier: "OfferwallViewController") as! OfferwallViewController
-            self.navigationController?.push(viewController: offerwallVC)
-        } else {
-            MemberManager().showLoginAlert(vc: self)
-        }
+    @IBAction func onClickCommunityBtn(_ sender: Any) {
+        UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
+        
+        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+        let freeBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
+        freeBoardVC.category = Board.BOARD_CATEGORY_FREE
+        navigationController?.push(viewController: freeBoardVC)
     }
     
     @IBAction func onClickMainHelp(_ sender: UIButton) {

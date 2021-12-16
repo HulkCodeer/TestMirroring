@@ -51,7 +51,6 @@
 		00AE577926CE4864003E6643 /* RangeSeekSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AE577826CE4864003E6643 /* RangeSeekSlider.swift */; };
 		00AE577B26CE487B003E6643 /* RangeSeekSliderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AE577A26CE487B003E6643 /* RangeSeekSliderDelegate.swift */; };
 		00AE577D26CE4891003E6643 /* TapticEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AE577C26CE4891003E6643 /* TapticEngine.swift */; };
-		00B2E8BF26C0FEF9005D017C /* Offerwall.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00B2E8BE26C0FEF9005D017C /* Offerwall.storyboard */; };
 		00B2E8C826C106AC005D017C /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00B2E8C726C106AC005D017C /* Login.storyboard */; };
 		00B36C4126D4B33100749FFE /* CompanyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B36C4026D4B33100749FFE /* CompanyTableViewCell.swift */; };
 		00B36C4326D4B36300749FFE /* CompanyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00B36C4226D4B36300749FFE /* CompanyTableViewCell.xib */; };
@@ -275,20 +274,12 @@
 		90517A0C253857FD00FCB1A7 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90517A0B253857FD00FCB1A7 /* DateUtils.swift */; };
 		9058A3C1248639D000091823 /* ChargerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058A3C0248639D000091823 /* ChargerManager.swift */; };
 		9064133423E2A470008B2BB1 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9064133323E2A470008B2BB1 /* AdSupport.framework */; };
-		9064133723E2A603008B2BB1 /* OfferwallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9064133623E2A603008B2BB1 /* OfferwallViewController.swift */; };
 		9098782E24EE477B00AB3DC8 /* eidev in Resources */ = {isa = PBXBuildFile; fileRef = 9098782D24EE477B00AB3DC8 /* eidev */; };
-		9098783224EE537E00AB3DC8 /* GoogleAdMobAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 9098783124EE537E00AB3DC8 /* GoogleAdMobAdapterConfiguration.m */; };
-		9098783624EE53D200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 9098783524EE53D200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.m */; };
-		9098783824EE567000AB3DC8 /* MPGoogleGlobalMediationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9098783724EE567000AB3DC8 /* MPGoogleGlobalMediationSettings.m */; };
-		9098783C24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9098783B24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m */; };
 		90CA0DE42488B82900904015 /* DataBaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CA0DE32488B82900904015 /* DataBaseHelper.swift */; };
 		90CBCC6626EAD64D002B2591 /* EIImageViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CBCC6526EAD64D002B2591 /* EIImageViewerViewController.swift */; };
 		90CBCC6B26EB18F1002B2591 /* img_load_fail.png in Resources */ = {isa = PBXBuildFile; fileRef = 90CBCC6926EB18F1002B2591 /* img_load_fail.png */; };
 		90CBCC6C26EB18F1002B2591 /* img_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 90CBCC6A26EB18F1002B2591 /* img_default.png */; };
 		90CBCC7026EB1E41002B2591 /* NSDataExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CBCC6F26EB1E41002B2591 /* NSDataExtention.swift */; };
-		90DD2A6124EBCF7B003318CC /* TapjoyAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 90DD2A6024EBCF7B003318CC /* TapjoyAdapterConfiguration.m */; };
-		90DD2A6424EBCFC4003318CC /* TapjoyGlobalMediationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 90DD2A6324EBCFC4003318CC /* TapjoyGlobalMediationSettings.m */; };
-		90DD2A6724EBCFF5003318CC /* TapjoyRewardedVideoCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 90DD2A6624EBCFF5003318CC /* TapjoyRewardedVideoCustomEvent.m */; };
 		90E8B54F24C6E82F00D03162 /* ChargerManagerListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E8B54E24C6E82F00D03162 /* ChargerManagerListener.swift */; };
 		CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE00E811214A330B00020D6E /* ReportChargeViewController.swift */; };
 		CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE13858C2178698300E3F869 /* ReportChargerChildCell.swift */; };
@@ -406,7 +397,6 @@
 		00AE577826CE4864003E6643 /* RangeSeekSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSeekSlider.swift; sourceTree = "<group>"; };
 		00AE577A26CE487B003E6643 /* RangeSeekSliderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSeekSliderDelegate.swift; sourceTree = "<group>"; };
 		00AE577C26CE4891003E6643 /* TapticEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapticEngine.swift; sourceTree = "<group>"; };
-		00B2E8BE26C0FEF9005D017C /* Offerwall.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Offerwall.storyboard; sourceTree = "<group>"; };
 		00B2E8C726C106AC005D017C /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		00B36C4026D4B33100749FFE /* CompanyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyTableViewCell.swift; sourceTree = "<group>"; };
 		00B36C4226D4B36300749FFE /* CompanyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CompanyTableViewCell.xib; sourceTree = "<group>"; };
@@ -655,27 +645,12 @@
 		90517A0B253857FD00FCB1A7 /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
 		9058A3C0248639D000091823 /* ChargerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerManager.swift; sourceTree = "<group>"; };
 		9064133323E2A470008B2BB1 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
-		9064133623E2A603008B2BB1 /* OfferwallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallViewController.swift; sourceTree = "<group>"; };
 		9098782D24EE477B00AB3DC8 /* eidev */ = {isa = PBXFileReference; lastKnownFileType = file; path = eidev; sourceTree = "<group>"; };
-		9098783024EE532E00AB3DC8 /* GoogleAdMobAdapterConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleAdMobAdapterConfiguration.h; sourceTree = "<group>"; };
-		9098783124EE537E00AB3DC8 /* GoogleAdMobAdapterConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleAdMobAdapterConfiguration.m; sourceTree = "<group>"; };
-		9098783424EE53B200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPGoogleAdMobRewardedVideoCustomEvent.h; sourceTree = "<group>"; };
-		9098783524EE53D200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPGoogleAdMobRewardedVideoCustomEvent.m; sourceTree = "<group>"; };
-		9098783724EE567000AB3DC8 /* MPGoogleGlobalMediationSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPGoogleGlobalMediationSettings.m; sourceTree = "<group>"; };
-		9098783924EE56BA00AB3DC8 /* MPGoogleGlobalMediationSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPGoogleGlobalMediationSettings.h; sourceTree = "<group>"; };
-		9098783B24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPGoogleAdMobAdditions.m"; sourceTree = "<group>"; };
-		9098783D24EE68CB00AB3DC8 /* UIView+MPGoogleAdMobAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+MPGoogleAdMobAdditions.h"; sourceTree = "<group>"; };
 		90CA0DE32488B82900904015 /* DataBaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseHelper.swift; sourceTree = "<group>"; };
 		90CBCC6526EAD64D002B2591 /* EIImageViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIImageViewerViewController.swift; sourceTree = "<group>"; };
 		90CBCC6926EB18F1002B2591 /* img_load_fail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_load_fail.png; sourceTree = "<group>"; };
 		90CBCC6A26EB18F1002B2591 /* img_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_default.png; sourceTree = "<group>"; };
 		90CBCC6F26EB1E41002B2591 /* NSDataExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDataExtention.swift; sourceTree = "<group>"; };
-		90DD2A5F24EBCF48003318CC /* TapjoyAdapterConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TapjoyAdapterConfiguration.h; sourceTree = "<group>"; };
-		90DD2A6024EBCF7B003318CC /* TapjoyAdapterConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TapjoyAdapterConfiguration.m; sourceTree = "<group>"; };
-		90DD2A6224EBCFA6003318CC /* TapjoyGlobalMediationSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TapjoyGlobalMediationSettings.h; sourceTree = "<group>"; };
-		90DD2A6324EBCFC4003318CC /* TapjoyGlobalMediationSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TapjoyGlobalMediationSettings.m; sourceTree = "<group>"; };
-		90DD2A6524EBCFDE003318CC /* TapjoyRewardedVideoCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TapjoyRewardedVideoCustomEvent.h; sourceTree = "<group>"; };
-		90DD2A6624EBCFF5003318CC /* TapjoyRewardedVideoCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TapjoyRewardedVideoCustomEvent.m; sourceTree = "<group>"; };
 		90E8B54E24C6E82F00D03162 /* ChargerManagerListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerManagerListener.swift; sourceTree = "<group>"; };
 		9B45BB8F11249F72B3D2E7EF /* Pods-evInfra.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra/Pods-evInfra.debug.xcconfig"; sourceTree = "<group>"; };
 		CE00E811214A330B00020D6E /* ReportChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChargeViewController.swift; sourceTree = "<group>"; };
@@ -1401,43 +1376,6 @@
 			path = charger;
 			sourceTree = "<group>";
 		};
-		9098782F24EE530300AB3DC8 /* Admob */ = {
-			isa = PBXGroup;
-			children = (
-				9098783024EE532E00AB3DC8 /* GoogleAdMobAdapterConfiguration.h */,
-				9098783124EE537E00AB3DC8 /* GoogleAdMobAdapterConfiguration.m */,
-				9098783424EE53B200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.h */,
-				9098783524EE53D200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.m */,
-				9098783924EE56BA00AB3DC8 /* MPGoogleGlobalMediationSettings.h */,
-				9098783724EE567000AB3DC8 /* MPGoogleGlobalMediationSettings.m */,
-				9098783D24EE68CB00AB3DC8 /* UIView+MPGoogleAdMobAdditions.h */,
-				9098783B24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m */,
-			);
-			path = Admob;
-			sourceTree = "<group>";
-		};
-		90DD2A5D24EBCF01003318CC /* adapters */ = {
-			isa = PBXGroup;
-			children = (
-				9098782F24EE530300AB3DC8 /* Admob */,
-				90DD2A5E24EBCF2D003318CC /* Tapjoy */,
-			);
-			path = adapters;
-			sourceTree = "<group>";
-		};
-		90DD2A5E24EBCF2D003318CC /* Tapjoy */ = {
-			isa = PBXGroup;
-			children = (
-				90DD2A5F24EBCF48003318CC /* TapjoyAdapterConfiguration.h */,
-				90DD2A6024EBCF7B003318CC /* TapjoyAdapterConfiguration.m */,
-				90DD2A6224EBCFA6003318CC /* TapjoyGlobalMediationSettings.h */,
-				90DD2A6324EBCFC4003318CC /* TapjoyGlobalMediationSettings.m */,
-				90DD2A6524EBCFDE003318CC /* TapjoyRewardedVideoCustomEvent.h */,
-				90DD2A6624EBCFF5003318CC /* TapjoyRewardedVideoCustomEvent.m */,
-			);
-			path = Tapjoy;
-			sourceTree = "<group>";
-		};
 		DB306366221BD59500D1276E /* network */ = {
 			isa = PBXGroup;
 			children = (
@@ -1497,13 +1435,10 @@
 		DBABCC4727477B1800E2C7ED /* Ads */ = {
 			isa = PBXGroup;
 			children = (
-				90DD2A5D24EBCF01003318CC /* adapters */,
 				DB5C4EDE2361A04B0090139E /* EIAdDialog.swift */,
 				DB5C4EDC23619F5F0090139E /* EIAdDialog.xib */,
 				DBABCC4827477BC600E2C7ED /* EIAdManager.swift */,
 				DBABCC4A2747943000E2C7ED /* EIAdInfo.swift */,
-				9064133623E2A603008B2BB1 /* OfferwallViewController.swift */,
-				00B2E8BE26C0FEF9005D017C /* Offerwall.storyboard */,
 			);
 			path = Ads;
 			sourceTree = "<group>";
@@ -1529,7 +1464,6 @@
 				732121B6203AC023000E105C /* Frameworks */,
 				732121B7203AC023000E105C /* Resources */,
 				2D2CA8AB0C473AF5F3E3093F /* [CP] Embed Pods Frameworks */,
-				C804CAE6215FA262E0E13BC6 /* [CP] Copy Pods Resources */,
 				DB43761E21DDD433004A4C4B /* Run Script */,
 			);
 			buildRules = (
@@ -1625,7 +1559,6 @@
 				73D65D822362D54000F564A2 /* MembershipTermView.xib in Resources */,
 				00A6A15B26C39F660023DAE3 /* FilterPriceView.xib in Resources */,
 				73A7B413204E3595002E975F /* type_dc_demo_dim.png in Resources */,
-				00B2E8BF26C0FEF9005D017C /* Offerwall.storyboard in Resources */,
 				73344AC1207B5F8B00A6A9EC /* awsconfiguration.json in Resources */,
 				73A7B3EB204E3595002E975F /* reply_icon.png in Resources */,
 				73EF8B74203C85CC00D04494 /* mapbg_tlogo@2x.png in Resources */,
@@ -1759,7 +1692,6 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/UIImageCropper/UIImageCropper.framework",
-				"${BUILT_PRODUCTS_DIR}/mopub-ios-sdk/MoPub.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1794,7 +1726,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyGif.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImageCropper.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MoPub.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1818,24 +1749,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C804CAE6215FA262E0E13BC6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh",
-				"${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_v12.7.1/Libraries/Tapjoy.embeddedframework/Tapjoy.framework/Versions/A/Resources/TapjoyResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TapjoyResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DB43761E21DDD433004A4C4B /* Run Script */ = {
@@ -1874,7 +1787,6 @@
 				73AF8FC121C77E1B003CB2CF /* ClusterManager.swift in Sources */,
 				73EE8FBB2105B3420016F505 /* Board.swift in Sources */,
 				DB5041B023506DCF007336BC /* EvPoint.swift in Sources */,
-				90DD2A6724EBCFF5003318CC /* TapjoyRewardedVideoCustomEvent.m in Sources */,
 				00AE577B26CE487B003E6643 /* RangeSeekSliderDelegate.swift in Sources */,
 				73A37CA22085DB5400FD3D0A /* CardBoardViewController.swift in Sources */,
 				DB4395F222DD88390092E0A5 /* ReceiptView.swift in Sources */,
@@ -1938,12 +1850,10 @@
 				00B36C4126D4B33100749FFE /* CompanyTableViewCell.swift in Sources */,
 				73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */,
 				DBA18B1D211D7AF400A2CB4F /* MemberManager.swift in Sources */,
-				9098783224EE537E00AB3DC8 /* GoogleAdMobAdapterConfiguration.m in Sources */,
 				00A3659726C4E38700424E40 /* FilterCompanyView.swift in Sources */,
 				CEBE0601214BA5C30047E6F2 /* ReportCharger.swift in Sources */,
 				CE33B4C12191BD9500B6C632 /* MyCouponViewController.swift in Sources */,
 				DBF3827B2304475900FAF772 /* CBT.swift in Sources */,
-				9098783C24EE675B00AB3DC8 /* UIView+MPGoogleAdMobAdditions.m in Sources */,
 				73CF041A20B2736500BEA9CF /* UIScrollView.swift in Sources */,
 				00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */,
 				DBE579B521A3E3CA005DD998 /* Snackbar.swift in Sources */,
@@ -1951,7 +1861,6 @@
 				DB367BF124FE429D00898BED /* Login.swift in Sources */,
 				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
-				9098783824EE567000AB3DC8 /* MPGoogleGlobalMediationSettings.m in Sources */,
 				7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */,
 				9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */,
 				73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */,
@@ -1991,12 +1900,10 @@
 				73D65D7223588ACC00F564A2 /* UITextField.swift in Sources */,
 				735759552091758C008181E9 /* EvInfoViewController.swift in Sources */,
 				00A3659F26C4E98D00424E40 /* FilterTypeView.swift in Sources */,
-				90DD2A6424EBCFC4003318CC /* TapjoyGlobalMediationSettings.m in Sources */,
 				00EAB7C627228F42004E78D2 /* DeepLinkPath.swift in Sources */,
 				73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */,
 				CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */,
 				DB0E4693205B6F1F002DD05D /* CidTableView.swift in Sources */,
-				9064133723E2A603008B2BB1 /* OfferwallViewController.swift in Sources */,
 				DB3B858020874788005454F5 /* PoiTableView.swift in Sources */,
 				733662F822FD11740049AEFE /* LeftViewTableHeader.swift in Sources */,
 				CE5242362182FD9000FF6AB1 /* AddressToLocationController.swift in Sources */,
@@ -2013,7 +1920,6 @@
 				7312786820BE38C500861B3E /* FCMManager.swift in Sources */,
 				0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */,
 				73C31BFD20A288E3005B6C53 /* ChargerDetailViewController.swift in Sources */,
-				90DD2A6124EBCF7B003318CC /* TapjoyAdapterConfiguration.m in Sources */,
 				732121BD203AC023000E105C /* AppDelegate.swift in Sources */,
 				73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */,
 				7376B5C520C6473500A2B7C1 /* MyArticleViewController.swift in Sources */,
@@ -2054,7 +1960,6 @@
 				902A11D5248F53D80049EF8E /* StationInfoDto.swift in Sources */,
 				736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */,
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,
-				9098783624EE53D200AB3DC8 /* MPGoogleAdMobRewardedVideoCustomEvent.m in Sources */,
 				DBABCC4B2747943000E2C7ED /* EIAdInfo.swift in Sources */,
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
@@ -2215,7 +2120,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 120;
+				CURRENT_PROJECT_VERSION = 124;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2228,7 +2133,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.5.5;
+				MARKETING_VERSION = 3.5.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -2254,7 +2159,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 120;
+				CURRENT_PROJECT_VERSION = 124;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2267,7 +2172,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.5.5;
+				MARKETING_VERSION = 3.5.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
