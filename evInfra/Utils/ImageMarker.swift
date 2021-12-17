@@ -28,9 +28,6 @@ public class ImageMarker {
         for company in companyArray {
             for icon in stateIcons {
                 if let companyId = company.company_id {
-                    if companyId.elementsEqual("A") { // A(기타)인 경우 마커 없음
-                        continue
-                    }
                     let markerName = "\(icon)_\(companyId)"
                     if let image = evFileManager.loadImageWithoutScale(name: markerName + ".png")?.withRenderingMode(.alwaysOriginal) {
                         ImageMarker.markers[markerName] = image
