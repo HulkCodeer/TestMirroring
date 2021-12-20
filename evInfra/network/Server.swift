@@ -905,7 +905,7 @@ class Server {
             reqParam["e_date"] = eDate
         }
         
-        Alamofire.request(Const.EV_PAY_SERVER + "/charger/app_charging/history",
+        Alamofire.request(Const.EV_PAY_SERVER + "/charger/v2/app_charging/history",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseData(response: response, completion: completion) }
     }

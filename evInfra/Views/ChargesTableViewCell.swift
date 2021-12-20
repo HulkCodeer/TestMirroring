@@ -41,8 +41,11 @@ class ChargesTableViewCell: UITableViewCell {
             self.labelStationName.text = charging.stationName
             self.labelCardNo.text = charging.cardNumber
             
-            let startDate = charging.startDate ?? ""
+            var startDate = charging.startDate ?? ""
             let endDate = charging.endDate ?? ""
+            if let connectDate = charging.connectDate {
+                startDate = connectDate
+            }
             self.labelDate.text = startDate + " ~ " + endDate
             
             self.labelChargingTime.text = charging.chargingTime
