@@ -154,7 +154,7 @@ extension PaymentQRScanViewController: AVCaptureMetadataOutputObjectsDelegate {
     
     func checkPermission() {
         let status = AVCaptureDevice.authorizationStatus(for: .video)
-        if status == .notDetermined || status == .authorized || status == .denied {
+        if status == .notDetermined || status == .denied {
             // 권한 요청
             AVCaptureDevice.requestAccess(for: .video) { grated in
                 if grated {

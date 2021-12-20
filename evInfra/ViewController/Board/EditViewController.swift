@@ -186,16 +186,16 @@ class EditViewController: UIViewController, UITextViewDelegate {
     
     func openCamera() {
         let status = AVCaptureDevice.authorizationStatus(for: .video)
-        if status == .notDetermined || status == .authorized || status == .denied {
+        if status == .notDetermined || status == .denied {
             // 권한 요청
             AVCaptureDevice.requestAccess(for: .video) { grated in
-                if grated {
-                    self.picker.sourceType = .camera
-                    self.present(self.picker, animated: false, completion: nil)
-                } else {
+                if !grated {
                     self.showAuthAlert()
                 }
             }
+        } else if status == .authorized {
+            self.picker.sourceType = .camera
+            self.present(self.picker, animated: false, completion: nil)
         }
     }
     
