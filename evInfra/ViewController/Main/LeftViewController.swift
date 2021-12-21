@@ -19,7 +19,8 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     let MENU_BOARD      = 1
     let MENU_EVENT      = 2
     let MENU_EVINFO     = 3
-    let MENU_SETTINGS   = 4
+    let MENU_BATTERY    = 4
+    let MENU_SETTINGS   = 5
     
     // sub menu - 마이페이지
     let SUB_MENU_CELL_MYPAGE = 0
@@ -59,6 +60,9 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     let SUB_MENU_BONUS        = 3
     let SUB_MENU_CHARGE_PRICE = 4
     
+    // sub menu - 배터리 저보
+    let SUB_MENU_CELL_BATTERY = 0
+    
     // sub menu - 설정
     let SUB_MENU_CELL_SETTINGS = 0
     
@@ -79,6 +83,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var boardBtn: UIButton!
     @IBOutlet weak var boardCompanyBtn: UIButton!
     @IBOutlet weak var infoBtn: UIButton!
+    @IBOutlet weak var batteryBtn: UIButton!
     @IBOutlet weak var settingsBtn: UIButton!
     
     var menuIndex = 0
@@ -105,6 +110,10 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableViewLoad(index: MENU_EVINFO)
     }
     
+    @IBAction func clickBattery(_ sender: Any) {
+        tableViewLoad(index: MENU_BATTERY)
+    }
+    
     @IBAction func clickSettings(_ sender: UIButton) {
         tableViewLoad(index: MENU_SETTINGS)
     }
@@ -128,6 +137,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidAppear(_ animated: Bool) {
         appDelegate.hideStatusBar()
         newBadgeInMenu()
+        updateBatteryMenu()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -168,11 +178,15 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         let ev1Arr:Array<String> = []
         let evArr:[Array<String>] = [ev0Arr, ev1Arr]
         
+        let battery0Arr = ["배터리 진단 정보"]
+        let battery1Arr:Array<String> = []
+        let batteryArr:[Array<String>] = [battery0Arr, battery1Arr]
+        
         let setting0Arr = ["전체 설정", "자주묻는 질문", "이용 안내", "버전 정보"]
         let setting1Arr:Array<String> = []
         let settingArr:[Array<String>] = [setting0Arr, setting1Arr]
         
-        self.sideMenuArrays = [mypageArr, commuArr, eventArr, evArr, settingArr]
+        self.sideMenuArrays = [mypageArr, commuArr, eventArr, evArr, batteryArr, settingArr]
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -223,6 +237,8 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
             selectedEvnetCouponMenu(index: indexPath)
         } else if menuIndex == MENU_EVINFO { // 전기차 정보
             selectedEvInfoMenu(index: indexPath)
+        } else if menuIndex == MENU_BATTERY { // 배터리 정보
+            selectedBatteryMenu(index: indexPath)
         } else if menuIndex == MENU_SETTINGS { // 전체 설정
             selectedSettingsMenu(index: indexPath)
         }
@@ -234,12 +250,14 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
         boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
         infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+        batteryBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
         settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
 
         myPageBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
         boardBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
         boardCompanyBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
         infoBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        batteryBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
         settingsBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
         
         switch index {
@@ -251,6 +269,8 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
             boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
         case MENU_EVINFO:
             infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        case MENU_BATTERY:
+            batteryBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
         case MENU_SETTINGS:
             settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
         default:
@@ -422,6 +442,7 @@ extension LeftViewController {
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let bojoInfoVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
                 bojoInfoVC.tabIndex = .EvBonusGuide
+                bojoInfoVC.subParams = "devId=M2210704130"
                 self.navigationController?.push(viewController: bojoInfoVC)
             
             case SUB_MENU_BONUS: // 보조금 현황
@@ -445,6 +466,19 @@ extension LeftViewController {
                 print("out of index")
             }
         
+        default:
+            print("out of index")
+        }
+    }
+    
+    private func selectedBatteryMenu(index: IndexPath) {
+        switch index.section {
+        case SUB_MENU_CELL_BATTERY:
+            let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+            let termsVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+            termsVC.tabIndex = .BatteryInfo
+            termsVC.subParams = "devId=" + MemberManager.getDeviceId()
+            self.navigationController?.push(viewController: termsVC)
         default:
             print("out of index")
         }
@@ -492,6 +526,14 @@ extension LeftViewController {
             } else {
                 cell.menuLabel.text = "충전카드 신청"
             }
+        }
+    }
+    
+    private func updateBatteryMenu() {
+        if !MemberManager.getDeviceId().isEmpty {
+            batteryBtn.isHidden = false
+        } else {
+            batteryBtn.isHidden = true
         }
     }
     

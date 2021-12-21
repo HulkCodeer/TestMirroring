@@ -27,6 +27,7 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         case StationPrice      // 충전소 요금정보
         case FAQTop            // FAQ (top10)
         case FAQDetail         // FAQ detail page
+        case BatteryInfo       // SK Battery
     }
 
     var tabIndex:Request = .UsingTerms
@@ -107,6 +108,9 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             
         case .FAQDetail, .FAQTop:
             navigationItem.titleLabel.text = "자주묻는 질문"
+            
+        case .BatteryInfo:
+            navigationItem.titleLabel.text = ""
         }
         
         self.navigationController?.isNavigationBarHidden = false
@@ -174,6 +178,9 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             
         case .FAQDetail:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/faq_detail"
+        
+        case .BatteryInfo:
+            strUrl = Const.SK_BATTERY_SERVER
         }
 
         if subParams.isEmpty {

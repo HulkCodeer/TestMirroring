@@ -30,6 +30,10 @@ class MemberManager {
         return UserDefault().readString(key: UserDefault.Key.MB_USER_ID)
     }
     
+    static func getDeviceId() -> String {
+        return UserDefault().readString(key: UserDefault.Key.MB_DEVICE_ID)
+    }
+    
     static func getLoginType() -> Login.LoginType {
         return Login.LoginType(rawValue: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)) ?? .kakao
     }
@@ -96,6 +100,7 @@ class MemberManager {
             userDefault.saveInt(key: UserDefault.Key.MB_CAR_TYPE, value: data["car_type"].intValue)
             savePartnershipClientId(data : data["rent_client"].arrayValue)
             userDefault.saveBool(key: UserDefault.Key.MB_PAYMENT, value: data["payment"].boolValue)
+            userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value: data["battery_device_id"].stringValue)
         }
     }
     
@@ -111,6 +116,7 @@ class MemberManager {
         userDefault.saveIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT, value: [JSON]())
         userDefault.saveBool(key: UserDefault.Key.INTRO_SKR, value: false)
         userDefault.saveBool(key: UserDefault.Key.MB_PAYMENT, value: false)
+        userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value:  "")
     }
     
     func showLoginAlert(vc: UIViewController, completion: ((Bool) -> ())? = nil) {

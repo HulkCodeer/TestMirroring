@@ -550,138 +550,150 @@
                                     <constraint firstAttribute="width" secondItem="9Zx-sG-8p7" secondAttribute="height" multiplier="96:58" id="rbP-96-vHb"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lfh-Bp-avO">
+                            <view contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="XxX-Uk-lEE">
                                 <rect key="frame" x="0.0" y="226.5" width="70" height="440.5"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kU-vs-cgu">
-                                        <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="yja-kZ-hlj">
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="420"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kU-vs-cgu">
+                                                <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="tsP-ga-PrU"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="tintColor" name="background-always-dark"/>
+                                                <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                                                <inset key="titleEdgeInsets" minX="-48" minY="36" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="6" minY="-16" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="마이페이지" image="icon_user">
+                                                    <color key="titleColor" name="content-primary"/>
+                                                </state>
+                                                <state key="selected" image="menu_my_info"/>
+                                                <connections>
+                                                    <action selector="clickMyPage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u33-da-tXn"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hrw-SH-9sV">
+                                                <rect key="frame" x="0.0" y="70" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="5Yg-YR-Us0"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="tintColor" name="background-always-dark"/>
+                                                <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                                                <inset key="titleEdgeInsets" minX="-48" minY="36" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="6" minY="-16" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="커뮤니티" image="icon_comment">
+                                                    <color key="titleColor" name="background-always-dark"/>
+                                                </state>
+                                                <state key="selected">
+                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="clickBoard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="men-RG-p7R"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yLE-sk-Lp8">
+                                                <rect key="frame" x="0.0" y="140" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="BPa-xC-xdD"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="tintColor" name="background-always-dark"/>
+                                                <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                                                <inset key="titleEdgeInsets" minX="-34" minY="36" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="이벤트" image="icon_gift_lg">
+                                                    <color key="titleColor" name="background-always-dark"/>
+                                                </state>
+                                                <state key="selected">
+                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="clickEvent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ISW-HY-eTC"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="enQ-s8-Z8p">
+                                                <rect key="frame" x="0.0" y="210" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="dbc-Sf-nx1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="tintColor" name="background-always-dark"/>
+                                                <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                                                <inset key="titleEdgeInsets" minX="-33" minY="36" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="전기차정보" image="icon_ev">
+                                                    <color key="titleColor" name="background-always-dark"/>
+                                                </state>
+                                                <state key="selected">
+                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="clickInfo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ANv-tp-sxu"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pa0-OH-1Uq">
+                                                <rect key="frame" x="0.0" y="280" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="JOR-HG-Y6y"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="tintColor" name="background-always-dark"/>
+                                                <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                                                <inset key="titleEdgeInsets" minX="-33" minY="36" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="배터리 정보" image="icon_battery">
+                                                    <color key="titleColor" name="background-always-dark"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="clickBattery:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fS4-Pf-LHV"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-jt-d4I" userLabel="Settings Btn">
+                                                <rect key="frame" x="0.0" y="350" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="1IY-fJ-IPh"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="tintColor" name="background-always-dark"/>
+                                                <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                                                <inset key="titleEdgeInsets" minX="-34" minY="36" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="설정" image="icon_setting_lg">
+                                                    <color key="titleColor" name="background-always-dark"/>
+                                                </state>
+                                                <state key="selected">
+                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="clickSettings:" destination="BYZ-38-t0r" eventType="touchUpInside" id="68g-T0-E57"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="tsP-ga-PrU"/>
+                                            <constraint firstAttribute="width" constant="70" id="FRQ-Cn-C76"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="tintColor" name="background-always-dark"/>
-                                        <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
-                                        <inset key="titleEdgeInsets" minX="-48" minY="36" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="6" minY="-16" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="마이페이지" image="icon_user">
-                                            <color key="titleColor" name="content-primary"/>
-                                        </state>
-                                        <state key="selected" image="menu_my_info"/>
-                                        <connections>
-                                            <action selector="clickMyPage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u33-da-tXn"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hrw-SH-9sV">
-                                        <rect key="frame" x="0.0" y="70" width="70" height="70"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="5Yg-YR-Us0"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="tintColor" name="background-always-dark"/>
-                                        <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
-                                        <inset key="titleEdgeInsets" minX="-48" minY="36" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="6" minY="-16" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="커뮤니티" image="icon_comment">
-                                            <color key="titleColor" name="background-always-dark"/>
-                                        </state>
-                                        <state key="selected">
-                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="clickBoard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="men-RG-p7R"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yLE-sk-Lp8">
-                                        <rect key="frame" x="0.0" y="140" width="70" height="70"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="BPa-xC-xdD"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="tintColor" name="background-always-dark"/>
-                                        <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
-                                        <inset key="titleEdgeInsets" minX="-34" minY="36" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="이벤트" image="icon_gift_lg">
-                                            <color key="titleColor" name="background-always-dark"/>
-                                        </state>
-                                        <state key="selected">
-                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="clickEvent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ISW-HY-eTC"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="enQ-s8-Z8p">
-                                        <rect key="frame" x="0.0" y="210" width="70" height="70"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="dbc-Sf-nx1"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="tintColor" name="background-always-dark"/>
-                                        <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
-                                        <inset key="titleEdgeInsets" minX="-33" minY="36" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="전기차정보" image="icon_ev">
-                                            <color key="titleColor" name="background-always-dark"/>
-                                        </state>
-                                        <state key="selected">
-                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="clickInfo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ANv-tp-sxu"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-jt-d4I" userLabel="Settings Btn">
-                                        <rect key="frame" x="0.0" y="280" width="70" height="70"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="1IY-fJ-IPh"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="tintColor" name="background-always-dark"/>
-                                        <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
-                                        <inset key="titleEdgeInsets" minX="-34" minY="36" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="설정" image="icon_setting_lg">
-                                            <color key="titleColor" name="background-always-dark"/>
-                                        </state>
-                                        <state key="selected">
-                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="clickSettings:" destination="BYZ-38-t0r" eventType="touchUpInside" id="68g-T0-E57"/>
-                                        </connections>
-                                    </button>
+                                    </stackView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.79559785127639771" green="0.79620712995529175" blue="0.79569226503372192" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="background-tertiary"/>
                                 <constraints>
-                                    <constraint firstItem="7kU-vs-cgu" firstAttribute="top" secondItem="lfh-Bp-avO" secondAttribute="top" id="2Nt-ph-aZF"/>
-                                    <constraint firstItem="enQ-s8-Z8p" firstAttribute="leading" secondItem="lfh-Bp-avO" secondAttribute="leading" id="6YR-G1-HKw"/>
-                                    <constraint firstItem="yLE-sk-Lp8" firstAttribute="leading" secondItem="lfh-Bp-avO" secondAttribute="leading" id="7mi-xI-Okx"/>
-                                    <constraint firstItem="enQ-s8-Z8p" firstAttribute="top" secondItem="yLE-sk-Lp8" secondAttribute="bottom" id="BS8-QB-V8L"/>
-                                    <constraint firstItem="7kU-vs-cgu" firstAttribute="leading" secondItem="lfh-Bp-avO" secondAttribute="leading" id="FXw-Wi-4yQ"/>
-                                    <constraint firstAttribute="trailing" secondItem="7kU-vs-cgu" secondAttribute="trailing" id="IrV-66-h9j"/>
-                                    <constraint firstAttribute="trailing" secondItem="enQ-s8-Z8p" secondAttribute="trailing" id="Jh3-lB-i3V"/>
-                                    <constraint firstItem="3c0-jt-d4I" firstAttribute="leading" secondItem="lfh-Bp-avO" secondAttribute="leading" id="XMR-sR-U0b"/>
-                                    <constraint firstItem="hrw-SH-9sV" firstAttribute="leading" secondItem="lfh-Bp-avO" secondAttribute="leading" id="ZmH-aC-YBO"/>
-                                    <constraint firstAttribute="trailing" secondItem="hrw-SH-9sV" secondAttribute="trailing" id="fR0-lW-bg8"/>
-                                    <constraint firstAttribute="width" constant="70" id="hsj-hB-4rB"/>
-                                    <constraint firstItem="3c0-jt-d4I" firstAttribute="top" secondItem="enQ-s8-Z8p" secondAttribute="bottom" id="iEe-Ki-1zR"/>
-                                    <constraint firstItem="hrw-SH-9sV" firstAttribute="top" secondItem="7kU-vs-cgu" secondAttribute="bottom" id="lna-2A-xIP"/>
-                                    <constraint firstItem="yLE-sk-Lp8" firstAttribute="top" secondItem="hrw-SH-9sV" secondAttribute="bottom" id="mx2-eL-Nlx"/>
-                                    <constraint firstAttribute="trailing" secondItem="yLE-sk-Lp8" secondAttribute="trailing" id="sUN-9U-kcA"/>
-                                    <constraint firstAttribute="trailing" secondItem="3c0-jt-d4I" secondAttribute="trailing" id="y1l-n5-ID3"/>
+                                    <constraint firstItem="yja-kZ-hlj" firstAttribute="leading" secondItem="XxX-Uk-lEE" secondAttribute="leading" id="Qaz-1L-1uJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="yja-kZ-hlj" secondAttribute="trailing" id="Yvx-U5-q2f"/>
+                                    <constraint firstItem="yja-kZ-hlj" firstAttribute="top" secondItem="XxX-Uk-lEE" secondAttribute="top" id="uBX-vh-hoH"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="47" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pAd-B7-N1u">
@@ -737,29 +749,28 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="pjj-q5-5FX"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="pAd-B7-N1u" firstAttribute="leading" secondItem="lfh-Bp-avO" secondAttribute="trailing" id="9g3-gO-fBf"/>
+                            <constraint firstItem="XxX-Uk-lEE" firstAttribute="top" secondItem="9Zx-sG-8p7" secondAttribute="bottom" id="6SV-Kj-uou"/>
                             <constraint firstItem="9Zx-sG-8p7" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="9nV-Ds-atv"/>
-                            <constraint firstItem="pAd-B7-N1u" firstAttribute="trailing" secondItem="pjj-q5-5FX" secondAttribute="trailing" id="Bxp-k5-bqq"/>
-                            <constraint firstAttribute="bottom" secondItem="lfh-Bp-avO" secondAttribute="bottom" id="O0i-Ia-0iB"/>
-                            <constraint firstItem="lfh-Bp-avO" firstAttribute="leading" secondItem="pjj-q5-5FX" secondAttribute="leading" id="XwO-pP-qRd"/>
+                            <constraint firstItem="pAd-B7-N1u" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="Bxp-k5-bqq"/>
+                            <constraint firstAttribute="bottom" secondItem="XxX-Uk-lEE" secondAttribute="bottom" id="ZgQ-Ws-0yv"/>
+                            <constraint firstItem="XxX-Uk-lEE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="dyY-fY-clZ"/>
                             <constraint firstItem="pAd-B7-N1u" firstAttribute="top" secondItem="9Zx-sG-8p7" secondAttribute="bottom" id="e0Q-8D-hyb"/>
-                            <constraint firstItem="lfh-Bp-avO" firstAttribute="top" secondItem="9Zx-sG-8p7" secondAttribute="bottom" id="eiF-zp-sCk"/>
-                            <constraint firstItem="pjj-q5-5FX" firstAttribute="trailing" secondItem="9Zx-sG-8p7" secondAttribute="trailing" id="fR5-Ms-tD6"/>
-                            <constraint firstItem="9Zx-sG-8p7" firstAttribute="leading" secondItem="pjj-q5-5FX" secondAttribute="leading" id="xTi-eJ-Vty"/>
-                            <constraint firstItem="pAd-B7-N1u" firstAttribute="bottom" secondItem="pjj-q5-5FX" secondAttribute="bottom" id="z33-rd-B2Q"/>
+                            <constraint firstAttribute="trailing" secondItem="9Zx-sG-8p7" secondAttribute="trailing" id="fR5-Ms-tD6"/>
+                            <constraint firstItem="pAd-B7-N1u" firstAttribute="leading" secondItem="XxX-Uk-lEE" secondAttribute="trailing" id="uPY-C7-QGV"/>
+                            <constraint firstItem="9Zx-sG-8p7" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="xTi-eJ-Vty"/>
+                            <constraint firstItem="pAd-B7-N1u" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="z33-rd-B2Q"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="batteryBtn" destination="Pa0-OH-1Uq" id="lIU-iU-Mtj"/>
                         <outlet property="boardBtn" destination="hrw-SH-9sV" id="pXf-5M-SER"/>
                         <outlet property="boardCompanyBtn" destination="yLE-sk-Lp8" id="xqI-Q0-rIk"/>
                         <outlet property="btnLogin" destination="6Vg-Ft-cDd" id="Vny-Ml-j52"/>
                         <outlet property="infoBtn" destination="enQ-s8-Z8p" id="Pgy-vf-u3i"/>
                         <outlet property="myPageBtn" destination="7kU-vs-cgu" id="hpt-5l-upM"/>
                         <outlet property="settingsBtn" destination="3c0-jt-d4I" id="vSx-ob-zwC"/>
-                        <outlet property="sideMenuTab" destination="lfh-Bp-avO" id="v0o-uK-MAd"/>
                         <outlet property="sideTableView" destination="pAd-B7-N1u" id="dBk-MI-3yV"/>
                     </connections>
                 </viewController>
@@ -785,6 +796,7 @@
         <image name="ic_line_favorite" width="32" height="24"/>
         <image name="ic_line_payment" width="32" height="24"/>
         <image name="ic_newbadge" width="20" height="20"/>
+        <image name="icon_battery" width="32" height="32"/>
         <image name="icon_comment" width="48" height="48"/>
         <image name="icon_current_location_md" width="24" height="24"/>
         <image name="icon_ev" width="32" height="32"/>
@@ -801,6 +813,9 @@
         </namedColor>
         <namedColor name="background-negative">
             <color red="0.93300002813339233" green="0.15299999713897705" blue="0.21600000560283661" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="background-tertiary">
+            <color red="0.90200001001358032" green="0.90200001001358032" blue="0.90200001001358032" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-positive">
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
