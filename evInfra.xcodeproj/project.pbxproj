@@ -61,8 +61,6 @@
 		00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */; };
 		00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75C55252EF40100387559 /* HSUnderLineTextField.swift */; };
 		00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */; };
-		00D4CBA5274F22B300C236AD /* Community.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00D4CBA4274F22B200C236AD /* Community.storyboard */; };
-		00D4CBA7274F2A2E00C236AD /* EIBoardListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00D4CBA6274F2A2E00C236AD /* EIBoardListView.xib */; };
 		00EAB7C427225108004E78D2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EAB7C327225108004E78D2 /* SceneDelegate.swift */; };
 		00EAB7C627228F42004E78D2 /* DeepLinkPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EAB7C527228F42004E78D2 /* DeepLinkPath.swift */; };
 		00EB85D226BA8C6100D1606F /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85D126BA8C6100D1606F /* UILabel.swift */; };
@@ -407,8 +405,6 @@
 		00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResultViewController.swift; sourceTree = "<group>"; };
 		00C75C55252EF40100387559 /* HSUnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSUnderLineTextField.swift; sourceTree = "<group>"; };
 		00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberPartnershipInfo.swift; sourceTree = "<group>"; };
-		00D4CBA4274F22B200C236AD /* Community.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Community.storyboard; sourceTree = "<group>"; };
-		00D4CBA6274F2A2E00C236AD /* EIBoardListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EIBoardListView.xib; sourceTree = "<group>"; };
 		00EAB7C327225108004E78D2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		00EAB7C527228F42004E78D2 /* DeepLinkPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkPath.swift; sourceTree = "<group>"; };
 		00EB85D126BA8C6100D1606F /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
@@ -929,15 +925,6 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
-		00D4CBA3274F229F00C236AD /* Community */ = {
-			isa = PBXGroup;
-			children = (
-				00D4CBA4274F22B200C236AD /* Community.storyboard */,
-				00D4CBA6274F2A2E00C236AD /* EIBoardListView.xib */,
-			);
-			path = Community;
-			sourceTree = "<group>";
-		};
 		5659BC9F308878047DB36D3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1222,7 +1209,6 @@
 		73EF8B40203BC12F00D04494 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				00D4CBA3274F229F00C236AD /* Community */,
 				00A7D5C926B7B13F00C5DBCC /* Filter */,
 				00B2E8C926C10895005D017C /* Detail */,
 				00B2E8C626C106A0005D017C /* Login */,
@@ -1570,11 +1556,9 @@
 				73EF8B71203C85CC00D04494 /* icon_clustering.png in Resources */,
 				DBA3BE93252C709500E2D94A /* ad_illust.png in Resources */,
 				73A7B3FE204E3595002E975F /* ready_image.png in Resources */,
-				00D4CBA5274F22B300C236AD /* Community.storyboard in Resources */,
 				9028E07824A1B8280062A029 /* eirel in Resources */,
 				00A6A16426C3B3BC0023DAE3 /* FilterContainerView.xib in Resources */,
 				CE13858F217869B200E3F869 /* ReportChargerChildCell.xib in Resources */,
-				00D4CBA7274F2A2E00C236AD /* EIBoardListView.xib in Resources */,
 				00A3659326C4E36D00424E40 /* FilterRoadView.xib in Resources */,
 				00FDEAEC26B3BF47006617EE /* Payment.storyboard in Resources */,
 				DB18733220A9983400790B77 /* btn_camera.png in Resources */,
@@ -2120,7 +2104,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 127;
+				CURRENT_PROJECT_VERSION = 128;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2133,7 +2117,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.5.7;
+				MARKETING_VERSION = 3.5.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -2159,7 +2143,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 127;
+				CURRENT_PROJECT_VERSION = 128;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2172,7 +2156,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.5.7;
+				MARKETING_VERSION = 3.5.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
