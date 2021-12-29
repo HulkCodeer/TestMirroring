@@ -442,7 +442,6 @@ extension LeftViewController {
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let bojoInfoVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
                 bojoInfoVC.tabIndex = .EvBonusGuide
-                bojoInfoVC.subParams = "devId=M2210704130"
                 self.navigationController?.push(viewController: bojoInfoVC)
             
             case SUB_MENU_BONUS: // 보조금 현황
@@ -457,11 +456,6 @@ extension LeftViewController {
                 priceInfoVC.tabIndex = .PriceInfo
                 self.navigationController?.push(viewController: priceInfoVC)
                 
-            case SUB_MENU_BONUS:
-                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let bojoDashVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-                bojoDashVC.tabIndex = .EvBonusStatus
-                self.navigationController?.push(viewController: bojoDashVC)
             default:
                 print("out of index")
             }
