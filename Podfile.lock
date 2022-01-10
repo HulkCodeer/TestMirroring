@@ -179,8 +179,10 @@ PODS:
   - SDWebImage/GIF (4.4.8):
     - FLAnimatedImage (~> 1.0)
     - SDWebImage/Core
+  - SnapKit (5.0.1)
   - SwiftyGif (5.4.0)
   - SwiftyJSON (5.0.0)
+  - TTGTagCollectionView (2.1.0)
   - UIImageCropper (1.4.0)
 
 DEPENDENCIES:
@@ -202,8 +204,10 @@ DEPENDENCIES:
   - Material (~> 2.0)
   - MaterialComponents/Snackbar
   - SDWebImage/GIF
+  - SnapKit (~> 5.0.0)
   - SwiftyGif
   - SwiftyJSON
+  - TTGTagCollectionView
   - UIImageCropper
 
 SPEC REPOS:
@@ -239,8 +243,10 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - SDWebImage
+    - SnapKit
     - SwiftyGif
     - SwiftyJSON
+    - TTGTagCollectionView
     - UIImageCropper
 
 SPEC CHECKSUMS:
@@ -275,10 +281,12 @@ SPEC CHECKSUMS:
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   SDWebImage: 783af2c3fa36291a250030c4752ee370a9a51d13
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyGif: 5d4af95df24caf1c570dbbcb32a3b8a0763bc6d7
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+  TTGTagCollectionView: a2a8668c659b39e7a6ffd6590475ea53a7ae95f7
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
 
-PODFILE CHECKSUM: fdbd785d1677cbb4583ab0b9af394bfb96a82f46
+PODFILE CHECKSUM: 668a092b10982c9f21c5cfb5bac8407ac1439cdc
 
-COCOAPODS: 1.10.2
+COCOAPODS: 1.11.2
