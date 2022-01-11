@@ -94,6 +94,14 @@
 		42CEB75126C1110D00E37AE4 /* CidInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */; };
 		42F9BCE126C64C250028B3D1 /* SummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42F9BCDF26C64C250028B3D1 /* SummaryView.xib */; };
 		42F9BCE326C651340028B3D1 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F9BCE226C651340028B3D1 /* SummaryView.swift */; };
+		525E3A25278D728100F5C54D /* CommunityBoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A24278D728000F5C54D /* CommunityBoardTableViewCell.swift */; };
+		525E3A27278D728B00F5C54D /* CommunityBoardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */; };
+		525E3A2A278D729600F5C54D /* CommunityBoardTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */; };
+		525E3A2B278D729600F5C54D /* CommunityBoardTableViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A29278D729600F5C54D /* CommunityBoardTableViewHeader.xib */; };
+		525E3A2D278D72C200F5C54D /* BannerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */; };
+		525E3A30278D732700F5C54D /* BoardWriteViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A2E278D732700F5C54D /* BoardWriteViewController.storyboard */; };
+		525E3A31278D732700F5C54D /* BoardWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */; };
+		525E3A33278D739E00F5C54D /* BoardWriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A32278D739E00F5C54D /* BoardWriteButton.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView.swift */; };
 		7312786820BE38C500861B3E /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786720BE38C500861B3E /* FCMManager.swift */; };
@@ -440,6 +448,14 @@
 		42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CidInfoTableViewCell.xib; sourceTree = "<group>"; };
 		42F9BCDF26C64C250028B3D1 /* SummaryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SummaryView.xib; sourceTree = "<group>"; };
 		42F9BCE226C651340028B3D1 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
+		525E3A24278D728000F5C54D /* CommunityBoardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityBoardTableViewCell.swift; sourceTree = "<group>"; };
+		525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityBoardTableViewCell.xib; sourceTree = "<group>"; };
+		525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityBoardTableViewHeader.swift; sourceTree = "<group>"; };
+		525E3A29278D729600F5C54D /* CommunityBoardTableViewHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityBoardTableViewHeader.xib; sourceTree = "<group>"; };
+		525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BannerCollectionViewCell.xib; sourceTree = "<group>"; };
+		525E3A2E278D732700F5C54D /* BoardWriteViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BoardWriteViewController.storyboard; sourceTree = "<group>"; };
+		525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardWriteViewController.swift; sourceTree = "<group>"; };
+		525E3A32278D739E00F5C54D /* BoardWriteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardWriteButton.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		7312786720BE38C500861B3E /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
@@ -1157,6 +1173,12 @@
 				00A7D5CC26B7C48600C5DBCC /* Tag */,
 				CE5242372183076000FF6AB1 /* AddressSearchCell.swift */,
 				73BFA04E208487050028B35D /* BoardTableView.swift */,
+				525E3A24278D728000F5C54D /* CommunityBoardTableViewCell.swift */,
+				525E3A32278D739E00F5C54D /* BoardWriteButton.swift */,
+				525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */,
+				525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */,
+				525E3A29278D729600F5C54D /* CommunityBoardTableViewHeader.xib */,
+				525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */,
 				73BFA04A20847A310028B35D /* BoardTableViewCell.swift */,
 				73BFA04B20847A310028B35D /* BoardTableViewCell.xib */,
 				DB87607020690B360095394B /* BoardTableViewHeader.swift */,
@@ -1387,6 +1409,8 @@
 			isa = PBXGroup;
 			children = (
 				73268D5121886C3000C00427 /* MyWritingViewController.swift */,
+				525E3A2E278D732700F5C54D /* BoardWriteViewController.storyboard */,
+				525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */,
 				00FDEAF126B3BF97006617EE /* Board.storyboard */,
 				73B752842049284B0077112A /* NoticeViewController.swift */,
 				736D37CE2089CC52009535EE /* NoticeContentViewController.swift */,
@@ -1542,6 +1566,7 @@
 				00FDEAE826B3B6A2006617EE /* Charge.storyboard in Resources */,
 				00A3658D26C4E33100424E40 /* FilterSpeedView.xib in Resources */,
 				73A7B418204E3595002E975F /* reply_count_bg.png in Resources */,
+				525E3A2B278D729600F5C54D /* CommunityBoardTableViewHeader.xib in Resources */,
 				73D65D822362D54000F564A2 /* MembershipTermView.xib in Resources */,
 				00A6A15B26C39F660023DAE3 /* FilterPriceView.xib in Resources */,
 				73A7B413204E3595002E975F /* type_dc_demo_dim.png in Resources */,
@@ -1581,6 +1606,7 @@
 				7357594D20916A68008181E9 /* bolt.jpg in Resources */,
 				7357594320916A37008181E9 /* leaf.jpg in Resources */,
 				00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */,
+				525E3A2D278D72C200F5C54D /* BannerCollectionViewCell.xib in Resources */,
 				73A7B41D204E3595002E975F /* type_dc_demo.png in Resources */,
 				73A7B3E4204E3595002E975F /* navi_notice_board.png in Resources */,
 				73A7B3FD204E3595002E975F /* reply_btn_normal.png in Resources */,
@@ -1598,12 +1624,14 @@
 				73A7B3EA204E3595002E975F /* delete_normal.png in Resources */,
 				0055D472252AA88B001133DB /* Membership.storyboard in Resources */,
 				73C31C0D20A4408C005B6C53 /* GoogleService-Info.plist in Resources */,
+				525E3A27278D728B00F5C54D /* CommunityBoardTableViewCell.xib in Resources */,
 				42F9BCE126C64C250028B3D1 /* SummaryView.xib in Resources */,
 				DB18733820AAEC8400790B77 /* navi_kakao.png in Resources */,
 				73A7B417204E3595002E975F /* navi_bg.jpg in Resources */,
 				00A7D5C826B7B0D100C5DBCC /* Filter.storyboard in Resources */,
 				732ED1CB21ED8ABB0012C67B /* DropDownCheckBoxCell.xib in Resources */,
 				73BFA04D20847A310028B35D /* BoardTableViewCell.xib in Resources */,
+				525E3A30278D732700F5C54D /* BoardWriteViewController.storyboard in Resources */,
 				00B36C4326D4B36300749FFE /* CompanyTableViewCell.xib in Resources */,
 				00B2E8C826C106AC005D017C /* Login.storyboard in Resources */,
 				00FDEAF626B3BFB6006617EE /* Coupon.storyboard in Resources */,
@@ -1673,8 +1701,10 @@
 				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/TTGTagCollectionView/TTGTags.framework",
 				"${BUILT_PRODUCTS_DIR}/UIImageCropper/UIImageCropper.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -1707,8 +1737,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyGif.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTGTags.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImageCropper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -1791,9 +1823,11 @@
 				0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
+				525E3A33278D739E00F5C54D /* BoardWriteButton.swift in Sources */,
 				00A3659126C4E36200424E40 /* FilterRoadView.swift in Sources */,
 				73C6A0FD2345F1B600349A86 /* MyPayinfoViewController.swift in Sources */,
 				73008459213687150001DBFA /* DetailViewController.swift in Sources */,
+				525E3A25278D728100F5C54D /* CommunityBoardTableViewCell.swift in Sources */,
 				DB3799F821673FDD001D8F69 /* FavoriteViewController.swift in Sources */,
 				DB49A77F206CC32D002448E6 /* SearchViewController.swift in Sources */,
 				00EAB7C427225108004E78D2 /* SceneDelegate.swift in Sources */,
@@ -1917,6 +1951,7 @@
 				90E8B54F24C6E82F00D03162 /* ChargerManagerListener.swift in Sources */,
 				902A11DE248F68450049EF8E /* HangulUtils.swift in Sources */,
 				7379A45422CDEB0200F4271C /* PaymentStatus.swift in Sources */,
+				525E3A2A278D729600F5C54D /* CommunityBoardTableViewHeader.swift in Sources */,
 				73B752802048E5B30077112A /* SideMenuTableViewCell.swift in Sources */,
 				736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */,
 				902A11DA248F5E440049EF8E /* StringUtils.swift in Sources */,
@@ -1940,6 +1975,7 @@
 				4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */,
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
 				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,
+				525E3A31278D732700F5C54D /* BoardWriteViewController.swift in Sources */,
 				0012443C25A2E2EF00376CDC /* IntroImageChecker.swift in Sources */,
 				902A11D5248F53D80049EF8E /* StationInfoDto.swift in Sources */,
 				736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */,

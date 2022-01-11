@@ -10,6 +10,7 @@ import UIKit
 import Motion
 import Material
 import SwiftyJSON
+import SnapKit
 
 class CardBoardViewController: UIViewController {
     
@@ -27,6 +28,8 @@ class CardBoardViewController: UIViewController {
     
     var scrollIndexPath = IndexPath(row: 0, section: 0)
     
+    let boardWriteButton = BoardWriteButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,6 +44,19 @@ class CardBoardViewController: UIViewController {
         self.boardTableView.separatorInset = .zero
         self.boardTableView.separatorStyle = .none
         self.boardTableView.allowsSelection = false
+        
+        if #available(iOS 15.0, *) {
+            self.boardTableView.sectionHeaderTopPadding = 0
+        }
+        
+        self.view.addSubview(boardWriteButton)
+        
+        boardWriteButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-74)
+            $0.trailing.equalToSuperview().offset(-24)
+            $0.width.equalTo(101)
+            $0.height.equalTo(36)
+        }
         
 //        boardTableView.register(UINib.init(nibName: "BoardTableViewCell", bundle: nil), forCellReuseIdentifier: "BoardTableViewCell")
 //        boardTableView.register(UINib.init(nibName: "BoardTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "BoardTableViewHeader")

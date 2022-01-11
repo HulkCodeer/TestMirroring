@@ -112,23 +112,21 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if self.boardList == nil {
-            return 0
-        }
-        return self.boardList!.count
+        return 1
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        if let height =  sectionHeightsDictionary[section] {
-            return height
-        }
-
-        let headerValue = self.boardList[section]
-        if headerValue.content_img == nil || headerValue.content_img!.isEmpty {
-            return 134
-        } else {
-            return 370
-        }
+//        if let height =  sectionHeightsDictionary[section] {
+//            return height
+//        }
+//
+//        let headerValue = self.boardList[section]
+//        if headerValue.content_img == nil || headerValue.content_img!.isEmpty {
+//            return 134
+//        } else {
+//            return 370
+//        }
+        return 370
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -147,6 +145,18 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         sectionHeightsDictionary[section] = view.frame.size.height
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView = Bundle.main.loadNibNamed("CommunityBoardTableViewHeader", owner: self, options: nil)?.first as? CommunityBoardTableViewHeader else { return UIView() }
+        
+        headerView.setupBannerView()
+        headerView.setPageControll()
+        headerView.setupTagCollectionView()
+        headerView.setupTagCollectionViewLayout()
+        
+        return headerView
+    }
+ 
+    /*
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = Bundle.main.loadNibNamed("BoardTableViewHeader", owner: self, options: nil)?.first as! BoardTableViewHeader
 //        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "BoardTableViewHeader") as! BoardTableViewHeader
@@ -251,7 +261,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
 
         return headerView
     }
-    
+    */
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView =  Bundle.main.loadNibNamed("BoardTableViewFooter", owner: self, options: nil)?.first as! BoardTableViewFooter
         footerView.footerView.layer.shadowColor = UIColor.black.cgColor
