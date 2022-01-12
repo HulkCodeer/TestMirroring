@@ -189,8 +189,7 @@ class BannerCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        bannerImageView.layer.cornerRadius = 8
+        bannerImageView.layer.cornerRadius = 16
     }
 }
 

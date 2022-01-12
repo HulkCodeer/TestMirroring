@@ -20,10 +20,10 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CWG-36-eRd">
                         <rect key="frame" x="16" y="16" width="382" height="72"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="EKX-wt-wFX">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="EKX-wt-wFX">
                                 <rect key="frame" x="0.0" y="0.0" width="310" height="72"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="G9D-L4-Hhc">
+                                    <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="G9D-L4-Hhc">
                                         <rect key="frame" x="0.0" y="0.0" width="136" height="25.5"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wRT-sP-eqm">
@@ -39,7 +39,7 @@
                                                 <color key="textColor" red="0.098039215686274508" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YLf-op-gys">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileTagAdm" translatesAutoresizingMaskIntoConstraints="NO" id="YLf-op-gys">
                                                 <rect key="frame" x="65" y="3" width="36" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="Ehb-Xa-DKi"/>
@@ -54,7 +54,7 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dP8-UI-pz6">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성커뮤니티작성성커뮤니티작성커뮤니티작성커뮤니티작성" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dP8-UI-pz6">
                                         <rect key="frame" x="0.0" y="33.5" width="310" height="38.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <nil key="textColor"/>
@@ -62,10 +62,8 @@
                                     </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="dP8-UI-pz6" firstAttribute="height" secondItem="G9D-L4-Hhc" secondAttribute="height" multiplier="1.5" id="DuR-LG-nNP"/>
                                     <constraint firstItem="dP8-UI-pz6" firstAttribute="leading" secondItem="EKX-wt-wFX" secondAttribute="leading" id="LkS-5f-MZY"/>
                                     <constraint firstAttribute="trailing" secondItem="dP8-UI-pz6" secondAttribute="trailing" id="SJH-1O-Ju5"/>
-                                    <constraint firstItem="dP8-UI-pz6" firstAttribute="top" secondItem="G9D-L4-Hhc" secondAttribute="bottom" constant="10" id="VVU-YV-L4l"/>
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kCO-lh-72P">
@@ -132,10 +130,11 @@
                 <outlet property="replyView" destination="kCO-lh-72P" id="C6x-Cj-7Jg"/>
                 <outlet property="userNameLable" destination="zOk-do-V4J" id="nCv-9W-b5g"/>
             </connections>
-            <point key="canvasLocation" x="-38.399999999999999" y="-99.850074962518747"/>
+            <point key="canvasLocation" x="-38" y="-30"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="profileTagAdm" width="36" height="20"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
