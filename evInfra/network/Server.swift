@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import CoreMedia
 
 class Server {
     static let VERSION = 1
@@ -329,6 +330,27 @@ class Server {
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
+    
+    // MARK: - Coummunity 개선 - 게시판 조회
+    
+    static func fetchBoardList(mid: String, page: String, mode: String, sort: String, completion: @escaping (Any?) -> Void) {
+        
+        let headers = ["mb_id" : "\(MemberManager.getMbId())"]
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/list/mid/\(mid)/page/\(page)/mode/\(mode)/\(sort)",
+                          method: .get,
+                          parameters: nil,
+                          encoding: JSONEncoding.default,
+                          headers: headers).validate().responseJSON { response in
+            switch response.result {
+            case .success(_):
+                completion(response.data)
+            case .failure(let error):
+                completion(error.localizedDescription)
+            }
+        }
+    }
+    
     
     // 게시판 - 공지사항 리스트
     static func getNoticeList(completion: @escaping (Bool, Any) -> Void) {
