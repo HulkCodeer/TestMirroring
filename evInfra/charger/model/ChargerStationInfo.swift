@@ -117,10 +117,10 @@ class ChargerStationInfo {
             return false
         }
         
-        if !filter.isFree && stationInfo.mPay == "N" { // 무료 해제 시 무료 충전소 false
+        if !filter.isFree && (stationInfo.mPay == "N" || stationInfo.mIsPilot == true) { // 무료 해제 시 무료 충전소 false
             return false
         }
-        if !filter.isPaid && stationInfo.mPay == "Y" {
+        if !filter.isPaid && (stationInfo.mPay == "Y" && stationInfo.mIsPilot != true) {
             return false
         }
         
