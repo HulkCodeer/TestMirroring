@@ -8,52 +8,136 @@
 
 import UIKit
 import Material
-import M13Checkbox
 import SwiftyJSON
+import AnyFormatKit
+import DLRadioButton
+import MaterialComponents.MaterialBottomSheet
 
 protocol SignUpViewControllerDelegate {
-    func cancelSignUp()
+    func successSignUp()
 }
-
 class SignUpViewController: UIViewController {
-
-    @IBOutlet weak var ivProfile: UIImageView!
-    @IBOutlet weak var tfNickname: UITextField!
+    @IBOutlet weak var viewSignUpInfo_1: UIView!
+    @IBOutlet weak var viewSignUpInfo_2: UIView!
+    
+    @IBOutlet var tfNickname: UITextField!
+    @IBOutlet var tfEmail: UITextField!
+    @IBOutlet var tfPhone: UITextField!
+    @IBOutlet var viewAge: UIView!
+    @IBOutlet var lbAge: UILabel!
+    
+    @IBOutlet var lbWarnNickname: UILabel!
+    @IBOutlet var lbWarnEmail: UILabel!
+    @IBOutlet var lbWarnPhone: UILabel!
+    @IBOutlet var lbWarnAge: UILabel!
+    @IBOutlet var lbWarnGender: UILabel!
+    @IBOutlet var radioMale: DLRadioButton!
+    @IBOutlet var radioFemale: DLRadioButton!
+    @IBOutlet var radioOther: DLRadioButton!
     @IBOutlet weak var btnSignUp: UIButton!
     
-    @IBOutlet weak var cbUsingTerm: M13Checkbox!
-    @IBOutlet weak var cbPersonalInfo: M13Checkbox!
-    @IBOutlet weak var cbLocation: M13Checkbox!
-    @IBOutlet weak var cbAcceptAll: M13Checkbox!
-
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var scrollviewBottomConstraints: NSLayoutConstraint!
+    let ageList: Array<String> = ["20대", "30대", "40대", "50대 이상", "선택안함"]
     var delegate: SignUpViewControllerDelegate?
-
     var user: Login?
+    var page = 0
+    var ageIndex = 0
+    var genderSelected: String?
     
     private var profileImgName = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         prepareActionBar()
-        prepareCheckbox()
-        enableSignUpButton()
-        
-        if let user = self.user {
-            prepareProfileImg()
-            
-            let mbNickname = UserDefault().readString(key: UserDefault.Key.MB_NICKNAME)
-            if mbNickname.isEmpty || mbNickname.contains("GUEST") {
-                tfNickname.text = user.name
-            } else {
-                tfNickname.text = mbNickname
-            }
-        }
+        prepareView()
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
-        super.touchesBegan(touches, with: event)
+    override func viewWillLayoutSubviews() {
+        viewAge.layer.borderColor = UIColor(named: "border-opaque")?.cgColor
+        viewAge.layer.borderWidth = 1
+        viewAge.layer.cornerRadius = 6
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    func prepareView() {
+        tfNickname.delegate = self
+        tfEmail.delegate = self
+        tfPhone.delegate = self
+        
+        tfEmail.keyboardType = .emailAddress
+        tfPhone.keyboardType = .numberPad
+        
+        if let user = self.user {
+            tfNickname.text = user.name
+            tfEmail.text = user.email
+            tfPhone.text = user.phoneNo
+            if let age = user.ageRange, !age.isEmpty {
+                ageIndex = ageList.index(of: age)!
+                lbAge.text = ageList[ageIndex]
+            }
+            
+            if let gender = user.gender, !gender.isEmpty {
+                if gender.equals("남성") {
+                    radioMale.isSelected = true
+                } else if gender.equals("여성") {
+                    radioFemale.isSelected = true
+                } else {
+                    radioOther.isSelected = true
+                }
+                genderSelected = gender
+            }
+        }
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTap)))
+        viewAge.addTapGesture(target: self, action: #selector(openBottonSheet(_:)))
+        
+        radioMale.addTarget(self, action: #selector(btnTouch(_:)), for: .touchUpInside)
+        radioFemale.addTarget(self, action: #selector(btnTouch(_:)), for: .touchUpInside)
+        radioOther.addTarget(self, action: #selector(btnTouch(_:)), for: .touchUpInside)
+    }
+    
+    // MARK: - KeyBoardHeight
+    @objc func keyboardWillShow(_ notification: Notification) {
+        var keyboardHeight: CGFloat = 0
+        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            keyboardHeight = keyboardRectangle.height
+        }
+        self.scrollviewBottomConstraints.constant = -keyboardHeight + self.btnSignUp.bounds.height
+        self.scrollView.setNeedsLayout()
+        self.scrollView.layoutIfNeeded()
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        self.scrollviewBottomConstraints.constant = 0
+        self.scrollView.setNeedsLayout()
+        self.scrollView.layoutIfNeeded()
+    }
+    
+    @objc
+    fileprivate func handleTap(recognizer: UITapGestureRecognizer) {
+        self.view.endEditing(true)
+    }
+    
+    @IBAction func openBottonSheet(_ sender: UITapGestureRecognizer) {
+        let componentStoryboard = UIStoryboard(name : "BerryComponent", bundle: nil)
+        let bottomSheetVC = componentStoryboard.instantiateViewController(withIdentifier: "BottomSheetViewController") as! BottomSheetViewController
+        
+        bottomSheetVC.titleStr = "연령대 선택"
+        bottomSheetVC.contentList = ageList
+        bottomSheetVC.delegate = self
+        let bottomSheet: MDCBottomSheetController = MDCBottomSheetController(contentViewController: bottomSheetVC)
+
+        bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = 292
+        self.navigationController?.present(bottomSheet, animated: true, completion: nil)
+    }
+    
+    @objc func btnTouch(_ sender:DLRadioButton) {
+        genderSelected = sender.currentTitle!
     }
     
     func prepareActionBar() {
@@ -71,101 +155,77 @@ class SignUpViewController: UIViewController {
     
     @objc
     fileprivate func handleBackButton() {
-        self.navigationController?.pop()
-        if let delegate = self.delegate {
-            delegate.cancelSignUp()
-        }
-    }
-    
-    func prepareCheckbox() {
-        let checkboxColor = UIColor(named: "content-primary")
-        
-        cbUsingTerm.boxType = .square
-        cbUsingTerm.checkState = .unchecked
-        cbUsingTerm.tintColor = checkboxColor
-        
-        cbPersonalInfo.boxType = .square
-        cbPersonalInfo.checkState = .unchecked
-        cbPersonalInfo.tintColor = checkboxColor
-        
-        cbLocation.boxType = .square
-        cbLocation.checkState = .unchecked
-        cbLocation.tintColor = checkboxColor
-        
-        cbAcceptAll.boxType = .square
-        cbAcceptAll.checkState = .unchecked
-        cbAcceptAll.tintColor = checkboxColor
-    }
-
-    @IBAction func onValueChanged(_ sender: M13Checkbox) {
-        if cbUsingTerm.checkState == .checked && cbPersonalInfo.checkState == .checked && cbLocation.checkState == .checked {
-            cbAcceptAll.setCheckState(.checked, animated: true)
+        if page != 0 {
+            viewSignUpInfo_2.isHidden = true
+            page = 0
+            btnSignUp.setTitle("다음으로", for: .normal)
         } else {
-            cbAcceptAll.setCheckState(.unchecked, animated: true)
+            self.navigationController?.pop()
         }
-        enableSignUpButton()
     }
     
-    @IBAction func onValueChangedAcceptAll(_ sender: M13Checkbox) {
-        switch sender.checkState {
-        case .unchecked:
-            cbUsingTerm.setCheckState(.unchecked, animated: true)
-            cbPersonalInfo.setCheckState(.unchecked, animated: true)
-            cbLocation.setCheckState(.unchecked, animated: true)
-            break
-        case .checked:
-            cbUsingTerm.setCheckState(.checked, animated: true)
-            cbPersonalInfo.setCheckState(.checked, animated: true)
-            cbLocation.setCheckState(.checked, animated: true)
-            break
-        case .mixed:
-            break
-        }
-        enableSignUpButton()
-    }
-    
-    @IBAction func onClickSeeUsingTerms(_ sender: Any) {
-        seeTerms(index: .UsingTerms)
-    }
-    
-    @IBAction func onClickSeePersonalInfoTerms(_ sendeer: Any) {
-        seeTerms(index: .PersonalInfoTerms)
-    }
-    
-    @IBAction func onClickSeeLocationTerms(_ sender: Any) {
-        seeTerms(index: .LocationTerms)
-    }
-    
-    func seeTerms(index: TermsViewController.Request) {
-        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let termsVc = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-        termsVc.tabIndex = index;
 
-        self.navigationController?.push(viewController: termsVc)
+    @IBAction func onClickSignUp(_ sender: Any) {
+        if page == 0 {
+            if checkValidFirstForm() {
+                viewSignUpInfo_2.isHidden = false
+                page = 1
+                btnSignUp.setTitle("EV Infra 시작하기", for: .normal)
+            }
+        } else {
+            if checkValidSecondForm() {
+                signUp()
+            }
+        }
     }
     
-    @IBAction func onClickSignUp(_ sender: Any) {
-        if let me = self.user {
-            if tfNickname.text?.isEmpty ?? true {
-                Snackbar().show(message: "닉네임을 입력해주세요.")
-                return
+    func checkValidFirstForm() -> Bool {
+        if let name = tfNickname.text, !name.isEmpty, name.count > 1, !name.contains(" ") {
+            lbWarnNickname.isHidden = true
+            if let email = tfEmail.text, StringUtils.isValidEmail(email) {
+                lbWarnEmail.isHidden = true
+                if let phone = tfPhone.text, StringUtils.isValidPhoneNum(phone) {
+                    lbWarnPhone.isHidden = true
+                    return true
+                } else {
+                    lbWarnPhone.isHidden = false
+                }
+            } else {
+                lbWarnEmail.isHidden = false
             }
-//            showProgress(true)
-            
+        } else {
+            lbWarnNickname.isHidden = false
+        }
+        return false
+    }
+    
+    func checkValidSecondForm() -> Bool {
+        if ageIndex > -1 {
+            lbWarnAge.isHidden = true
+            if let gender = genderSelected, !gender.isEmpty {
+                lbWarnGender.isHidden = true
+                return true
+            } else {
+                lbWarnGender.isHidden = false
+            }
+        } else {
+            lbWarnAge.isHidden = false
+        }
+        return false
+    }
+    
+    func signUp() {
+        if var me = self.user {
             let userDefault = UserDefault()
-            if !profileImgName.isEmpty && ivProfile.image != nil {
-                let data: Data = UIImageJPEGRepresentation(self.ivProfile.image!, 1.0)!
-                Server.uploadImage(data: data, filename: profileImgName, kind: Const.CONTENTS_THUMBNAIL, targetId: "\(MemberManager.getMbId())", completion: { (isSuccess, value) in
-                    let json = JSON(value)
-                    if !isSuccess {
-                        print("upload image Error : \(json)")
-                    }
-                })
-                userDefault.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: profileImgName)
+            if !profileImgName.isEmpty{
+                me.profile_image = profileImgName
             }
             
-            userDefault.saveString(key: UserDefault.Key.MB_NICKNAME, value: tfNickname.text!)
-            userDefault.saveString(key: UserDefault.Key.MB_USER_ID, value: me.userId!)
+            me.name = tfNickname.text
+            me.email = tfEmail.text
+            me.phoneNo = tfPhone.text
+            me.ageRange = ageList[ageIndex]
+            me.gender = genderSelected
             
             Server.signUp(user: me) { (isSuccess, value) in
                 if isSuccess {
@@ -175,59 +235,80 @@ class SignUpViewController: UIViewController {
                     } else {
                         MemberManager().setData(data: json)
                         self.navigationController?.pop()
+                        if let delegate = self.delegate {
+                            delegate.successSignUp()
+                        }
                     }
                 }
             }
-        }
-    }
-    
-    func enableSignUpButton() {
-        switch cbAcceptAll.checkState {
-        case .unchecked:
-            btnSignUp.isEnabled = false
-            break
-        case .checked:
-            btnSignUp.isEnabled = true
-            break
-        case .mixed:
-            break
         }
     }
 }
 
 extension SignUpViewController {
     
-    func prepareProfileImg() {
-        ivProfile.layer.borderWidth = 1
-        ivProfile.layer.masksToBounds = false
-        ivProfile.layer.borderColor = UIColor.white.cgColor
-        ivProfile.layer.cornerRadius = ivProfile.frame.height/2
-        ivProfile.clipsToBounds = true
-        
-        profileImgName = UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME)
-        if profileImgName.count > 10 {
-            ivProfile.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(profileImgName)"), placeholderImage: UIImage(named: "ic_launcher"))
-        } else {
-            // 프로파일 이미지가 없는 경우 카카오 프로파일 이미지 사용. "" / "null" / "undefined"
-            if let profileUrl = self.user?.profileURL {
-                createProfileImage(profileImageURL: (profileUrl))
+    func createProfileImage() {
+        if let profileUrl = self.user?.otherInfo?.profile_image {
+            // 프로파일 이미지 이름 생성
+            let memberId = MemberManager.getMemberId()
+            let curTime = Int64(NSDate().timeIntervalSince1970 * 1000)
+            profileImgName = memberId + "_" + "\(curTime).jpg"
+            
+            // 카카오 프로파일 이미지 다운로드
+            Server.getData(url: profileUrl) { (isSuccess, responseData) in
+                if isSuccess {
+                    if let data = responseData {
+                        Server.uploadImage(data: data, filename: self.profileImgName, kind: Const.CONTENTS_THUMBNAIL, targetId: "\(MemberManager.getMbId())", completion: { (isSuccess, value) in
+                            let json = JSON(value)
+                            if !isSuccess {
+                                print("upload image Error : \(json)")
+                            }
+                        })
+                    }
+                }
             }
         }
     }
-    
-    func createProfileImage(profileImageURL: URL) {
-        // 프로파일 이미지 이름 생성
-        let memberId = MemberManager.getMemberId()
-        let curTime = Int64(NSDate().timeIntervalSince1970 * 1000)
-        profileImgName = memberId + "_" + "\(curTime).jpg"
-        
-        // 카카오 프로파일 이미지 다운로드
-        Server.getData(url: profileImageURL) { (isSuccess, responseData) in
-            if isSuccess {
-                if let data = responseData {
-                    self.ivProfile.image = UIImage(data: data)
-                }
+}
+extension SignUpViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == tfPhone {
+            guard let text = textField.text else {
+                return false
             }
+            let characterSet = CharacterSet(charactersIn: string)
+            if CharacterSet.decimalDigits.isSuperset(of: characterSet) == false {
+                return false
+            }
+
+            let formatter = DefaultTextInputFormatter(textPattern: "###-####-####")
+            let result = formatter.formatInput(currentText: text, range: range, replacementString: string)
+            textField.text = result.formattedText
+            let position = textField.position(from: textField.beginningOfDocument, offset: result.caretBeginOffset)!
+            textField.selectedTextRange = textField.textRange(from: position, to: position)
+            return false
+        }
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == tfNickname {
+            tfEmail.becomeFirstResponder()
+        } else if textField == tfEmail {
+            tfPhone.becomeFirstResponder()
+        } else {
+            tfPhone.resignFirstResponder()
+            view.endEditing(true)
+        }
+        return true
+    }
+}
+
+extension SignUpViewController: BottomSheetDelegate {
+    func onSelected(index: Int) {
+        if index >= 0 {
+            ageIndex = index
+            lbAge.text = ageList[index]
         }
     }
 }

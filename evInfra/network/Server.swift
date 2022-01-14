@@ -85,21 +85,7 @@ class Server {
     
     // 회원 - 회원 가입
     static func signUp(user: Login, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
-            "user_id": MemberManager.getUserId(),
-            
-            "nickname": UserDefault().readString(key: UserDefault.Key.MB_NICKNAME),
-            "profile": UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME),
-            
-            "login_type": user.type.rawValue,
-            "email": user.email ?? "",
-            "email_cert": user.emailVerified,
-            "phone_no": user.phoneNo ?? "",
-            "age_range": user.ageRange ?? "",
-            "gender": user.gender ?? ""
-        ]
-        
+        let reqParam = user.convertToParams()
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/sign_up",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
@@ -113,6 +99,19 @@ class Server {
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/login",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 회원 - 법인 로그인
+    static func corpLogin(id: String, pwd: String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId(),
+            "signing_id": id,
+            "mb_pw" : pwd
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member/login_corp",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }

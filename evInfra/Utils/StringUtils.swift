@@ -173,6 +173,18 @@ class StringUtils {
         }
     }
     
+    public static func isValidEmail(_ testStr:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: testStr)
+    }
+    
+    public static func isValidPhoneNum(_ testStr:String) -> Bool {
+        let phoneRegEx = "^010-?([0-9]{4})-?([0-9]{4})"
+        let phoneTest = NSPredicate(format:"SELF MATCHES %@", phoneRegEx)
+        return phoneTest.evaluate(with: testStr)
+    }
+    
     public static func getThousandNumber(_ number: Int64) -> String {
         var strNumber = String(number)
         strNumber = strNumber.replaceAll(of: "(?<=[0-9])(?=([0-9][0-9][0-9])+(?![0-9]))", with: ",")

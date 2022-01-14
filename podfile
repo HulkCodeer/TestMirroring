@@ -10,6 +10,7 @@ target 'evInfra' do
   # Pods for evInfra
   pod 'Material', '~> 2.0'
   pod 'MaterialComponents/Snackbar'
+  pod 'MaterialComponents/BottomSheet'
   pod 'Alamofire', '~> 4.7'
   pod 'AlamofireImage', '~> 3.3'
   pod 'SwiftyJSON'
@@ -29,6 +30,8 @@ target 'evInfra' do
   pod 'ExpyTableView', '~> 1.2.1'
   pod 'EasyTipView', '~> 2.1.0'
   pod 'SwiftyGif'
+  pod 'DLRadioButton', '~> 1.4'
+  pod 'AnyFormatKit'
 end
 
 post_install do |installer|

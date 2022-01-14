@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Alamofire
+import SwiftyJSON
 import AuthenticationServices // apple login
 
 struct Login {
@@ -14,6 +16,7 @@ struct Login {
     enum LoginType: String {
         case apple
         case kakao
+        case corp
     }
     
     var type: LoginType
@@ -22,11 +25,13 @@ struct Login {
     var name: String?
     var email: String?
     var emailVerified = false
-    var profileURL: URL?
+    var profile_image: String?
     
     var gender: String?
     var ageRange: String?
     var phoneNo: String?
+    
+    var otherInfo: MemberOtherInfo?
     
     init(_ type: LoginType) {
         self.type = type
@@ -35,7 +40,6 @@ struct Login {
     @available(iOS 13.0, *)
     static func apple(_ user: ASAuthorizationAppleIDCredential) -> Login {
         var login = Login(.apple)
-        
         login.userId = user.user
         login.name = user.fullName?.givenName
         login.email = user.email
@@ -49,7 +53,6 @@ struct Login {
         
         login.userId = user.id
         login.name = user.nickname
-        login.profileURL = user.profileImageURL
         
         if let userAccount = user.account {
             login.email = userAccount.email ?? ""
@@ -67,12 +70,33 @@ struct Login {
             if userAccount.hasGender == KOOptionalBoolean.true {
                 login.gender = getGender(gender: userAccount.gender)
             }
+            
+            login.otherInfo = MemberOtherInfo(me:user)
         }
 
         return login
     }
     
-    static func getGender(gender: KOUserGender) -> String {
+    public func convertToParams() -> Parameters {
+        var reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId(),
+            "user_id": userId,
+            "nickname": name ?? "",
+            "profile": profile_image ?? "",
+            "login_type": type.rawValue,
+            "email": email ?? "",
+            "email_cert": emailVerified,
+            "phone_no": phoneNo ?? "",
+            "age_range": ageRange ?? "",
+            "gender": gender ?? "",
+        ]
+        if let other = otherInfo {
+            reqParam["other"] = other.toDictionary()
+        }
+        return reqParam
+    }
+    
+    static func getKOGender(gender: KOUserGender) -> String {
         switch gender {
         case KOUserGender.null:
             return "other"
@@ -85,7 +109,8 @@ struct Login {
         }
     }
     
-    static func getRange(ageRange: KOUserAgeRange) -> String {
+    
+    static func getKORange(ageRange: KOUserAgeRange) -> String {
         switch ageRange {
         case KOUserAgeRange.null:
             return "N/A"
@@ -111,4 +136,45 @@ struct Login {
             return "N/A"
         }
     }
+    
+    static func getGender(gender: KOUserGender) -> String {
+        switch gender {
+        case KOUserGender.null:
+            return "기타"
+        case KOUserGender.male:
+            return "남성"
+        case KOUserGender.female:
+            return "여성"
+        default:
+            return "기타"
+        }
+    }
+    
+    static func getRange(ageRange: KOUserAgeRange) -> String {
+        switch ageRange {
+        case KOUserAgeRange.null:
+            return "선택안함"
+        case KOUserAgeRange.type15:
+            return "10대"
+        case KOUserAgeRange.type20:
+            return "20대"
+        case KOUserAgeRange.type30:
+            return "30대"
+        case KOUserAgeRange.type40:
+            return "40대"
+        case KOUserAgeRange.type50:
+            return "50대 이상"
+        case KOUserAgeRange.type60:
+            return "50대 이상"
+        case KOUserAgeRange.type70:
+            return "50대 이상"
+        case KOUserAgeRange.type80:
+            return "50대 이상"
+        case KOUserAgeRange.type90:
+            return "50대 이상"
+        default:
+            return "선택안함"
+        }
+    }
+    
 }

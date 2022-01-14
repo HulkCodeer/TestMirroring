@@ -36,6 +36,8 @@ class LoginHelper: NSObject {
             
             // 클라이언트 시크릿 설정
             KOSession.shared().clientSecret = Const.KAKAO_CLIENT_SECRET
+        case .corp:
+            break;
         }
     }
     
@@ -49,6 +51,8 @@ class LoginHelper: NSObject {
             if KOSession.shared().isOpen() {
                 requestMeToKakao()
             }
+        case .corp:
+            requestLoginToEvInfra(user: nil)
         }
     }
     
@@ -68,6 +72,9 @@ class LoginHelper: NSObject {
                     completion(false)
                 }
             }
+        case .corp:
+            MemberManager().clearData()
+            completion(true)
         }
     }
 

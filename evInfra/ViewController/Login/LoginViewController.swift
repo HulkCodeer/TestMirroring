@@ -15,18 +15,18 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var loginButtonStackView: UIStackView!
     @IBOutlet weak var btnKakaoLogin: KOLoginButton!
+    @IBOutlet weak var btnCorpLogin: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         prepareActionBar()
         prepareLoginButton()
+        LoginHelper.shared.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        LoginHelper.shared.delegate = self
         LoginHelper.shared.checkLogin()
     }
     
@@ -45,6 +45,11 @@ class LoginViewController: UIViewController {
     func prepareLoginButton() {
         // 카카오 로그인 버튼
         btnKakaoLogin.addTarget(self, action: #selector(handleKakaoButtonPress), for: .touchUpInside)
+        
+        btnCorpLogin.layer.borderColor = UIColor(named: "content-primary")?.cgColor
+        btnCorpLogin.layer.borderWidth = 1
+        btnCorpLogin.layer.cornerRadius = 8
+        btnCorpLogin.addTarget(self, action: #selector(handleCorpButtonPress), for: .touchUpInside)
         
         // Apple ID 로그인 버튼
         if #available(iOS 13.0, *) {
@@ -69,6 +74,11 @@ class LoginViewController: UIViewController {
     fileprivate func handleAuthorizationAppleIDButtonPress() {
         LoginHelper.shared.appleLogin()
     }
+    
+    @objc
+    fileprivate func handleCorpButtonPress() {
+        corpLogin()
+    }
 }
 
 extension LoginViewController: LoginHelperDelegate {
@@ -91,15 +101,16 @@ extension LoginViewController: LoginHelperDelegate {
     
     func needSignUp(user: Login) {
         let LoginStoryboard = UIStoryboard(name : "Login", bundle: nil)
-        let signUpVc = LoginStoryboard.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
-        signUpVc.delegate = self
-        signUpVc.user = user
+        let acceptTermsVc = LoginStoryboard.instantiateViewController(withIdentifier: "AcceptTermsViewController") as! AcceptTermsViewController
+        acceptTermsVc.user = user
+        self.navigationController?.push(viewController: acceptTermsVc)
+    }
+    
+    func corpLogin() {
+        let LoginStoryboard = UIStoryboard(name : "Login", bundle: nil)
+        let signUpVc = LoginStoryboard.instantiateViewController(withIdentifier: "CorporationLoginViewController") as! CorporationLoginViewController
         self.navigationController?.push(viewController: signUpVc)
     }
 }
 
-extension LoginViewController: SignUpViewControllerDelegate {
-    func cancelSignUp() {
-        self.navigationController?.pop()
-    }
-}
+
