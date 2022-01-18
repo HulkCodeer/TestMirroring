@@ -92,11 +92,16 @@ class Server {
     }
     
     // 회원 - 로그인
-    static func login(completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
-            "user_id": MemberManager.getUserId()
-        ]
+    static func login(user: Login?, completion: @escaping (Bool, Any) -> Void) {
+        var reqParam: Parameters
+        if let userInfo = user {
+            reqParam = userInfo.convertToParams()
+        } else {
+            reqParam = [
+                "member_id": MemberManager.getMemberId(),
+                "user_id": MemberManager.getUserId()
+            ]
+        }
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/login",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)

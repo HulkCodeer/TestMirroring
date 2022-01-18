@@ -178,7 +178,7 @@ class LoginHelper: NSObject {
     
     // MARK: - EV Infra 로그인 및 회원가입
     func requestLoginToEvInfra(user: Login?) {
-        Server.login { (isSuccess, value) in
+        Server.login(user: user) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].intValue == 1000 {
