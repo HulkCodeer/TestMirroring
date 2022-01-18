@@ -13,8 +13,6 @@ struct MemberOtherInfo: Codable {
     var mType: String = "kakao"
     
     var user_id: String = ""
-    var member_id: String = ""
-    var mb_id: Int = -1
     var nickname: String = ""
     var profile_image: URL?
     var has_email: Bool = false
@@ -37,8 +35,6 @@ struct MemberOtherInfo: Codable {
         mType = "kakao"
         
         user_id = me.id!
-        member_id = MemberManager.getMemberId()
-        mb_id = MemberManager.getMbId()
         nickname = me.nickname ?? ""
         if let profile = me.profileImageURL {
             profile_image = profile
@@ -70,8 +66,6 @@ struct MemberOtherInfo: Codable {
         }
         let dict = [
             "user_id": user_id as Any,
-            "member_id": member_id as Any,
-            "mb_id": mb_id as Any,
             "nickname": nickname as Any,
             "profile_image": profile_path as Any,
             "has_email": has_email as Any,
