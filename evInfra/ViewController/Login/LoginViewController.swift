@@ -27,7 +27,6 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        LoginHelper.shared.checkLogin()
     }
     
     func prepareActionBar() {
@@ -103,14 +102,29 @@ extension LoginViewController: LoginHelperDelegate {
         let LoginStoryboard = UIStoryboard(name : "Login", bundle: nil)
         let acceptTermsVc = LoginStoryboard.instantiateViewController(withIdentifier: "AcceptTermsViewController") as! AcceptTermsViewController
         acceptTermsVc.user = user
+        acceptTermsVc.delegate = self
         self.navigationController?.push(viewController: acceptTermsVc)
     }
     
     func corpLogin() {
         let LoginStoryboard = UIStoryboard(name : "Login", bundle: nil)
         let signUpVc = LoginStoryboard.instantiateViewController(withIdentifier: "CorporationLoginViewController") as! CorporationLoginViewController
+        signUpVc.delegate = self
         self.navigationController?.push(viewController: signUpVc)
     }
 }
+
+extension LoginViewController: AcceptTermsViewControllerDelegate {
+    func onSignUpDone() {
+        self.navigationController?.pop()
+    }
+}
+
+extension LoginViewController: CorporationLoginViewControllerDelegate {
+    func successSignUp() {
+        self.navigationController?.pop()
+    }
+}
+
 
 

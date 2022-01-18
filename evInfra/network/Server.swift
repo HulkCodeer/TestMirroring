@@ -104,14 +104,14 @@ class Server {
     }
     
     // 회원 - 법인 로그인
-    static func corpLogin(id: String, pwd: String, completion: @escaping (Bool, Any) -> Void) {
+    static func loginWithID(id: String, pwd: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "member_id": MemberManager.getMemberId(),
             "signing_id": id,
             "mb_pw" : pwd
         ]
         
-        Alamofire.request(Const.EV_PAY_SERVER + "/member/member/login_corp",
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member/login_id",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }

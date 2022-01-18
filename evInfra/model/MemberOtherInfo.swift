@@ -12,8 +12,8 @@ import SwiftyJSON
 struct MemberOtherInfo: Codable {
     var mType: String = "kakao"
     
-    var user_id: String?
-    var member_id: String?
+    var user_id: String = ""
+    var member_id: String = ""
     var mb_id: Int = -1
     var nickname: String = ""
     var profile_image: URL?
@@ -36,11 +36,13 @@ struct MemberOtherInfo: Codable {
     init(me: KOUserMe){
         mType = "kakao"
         
-        user_id = me.id
+        user_id = me.id!
         member_id = MemberManager.getMemberId()
         mb_id = MemberManager.getMbId()
         nickname = me.nickname ?? ""
-        profile_image = me.profileImageURL
+        if let profile = me.profileImageURL {
+            profile_image = profile
+        }
         
         if let userAccount = me.account {
             has_email = userAccount.hasEmail == KOOptionalBoolean.true ? true : false
@@ -62,12 +64,16 @@ struct MemberOtherInfo: Codable {
     }
     
     func toDictionary() -> [String:Any] {
-        return [
+        var profile_path = ""
+        if let profile = profile_image {
+            profile_path = "\(profile)"
+        }
+        let dict = [
             "user_id": user_id as Any,
             "member_id": member_id as Any,
             "mb_id": mb_id as Any,
             "nickname": nickname as Any,
-            "profile_image": profile_image as Any,
+            "profile_image": profile_path as Any,
             "has_email": has_email as Any,
             "email_needs_agreement": email_needs_agreement as Any,
             "is_email_verified": is_email_verified as Any,
@@ -84,5 +90,6 @@ struct MemberOtherInfo: Codable {
             "has_gender": has_gender as Any,
             "gender": gender as Any
         ]
+        return dict
     }
 }

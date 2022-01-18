@@ -10,15 +10,21 @@ import Foundation
 import Material
 import M13Checkbox
 import UIKit
-class AcceptTermsViewController: UIViewController {
-    @IBOutlet var cbAcceptAll: M13Checkbox!
-    @IBOutlet var cbUsingTerm: M13Checkbox!
-    @IBOutlet var cbPersonalInfo: M13Checkbox!
-    @IBOutlet var cbLocation: M13Checkbox!
 
-    @IBOutlet var btnNext: UIButton!
+protocol AcceptTermsViewControllerDelegate {
+    func onSignUpDone()
+}
+class AcceptTermsViewController: UIViewController {
+    @IBOutlet weak var cbAcceptAll: M13Checkbox!
+    @IBOutlet weak var cbUsingTerm: M13Checkbox!
+    @IBOutlet weak var cbPersonalInfo: M13Checkbox!
+    @IBOutlet weak var cbLocation: M13Checkbox!
+    @IBOutlet weak var ivNext: UIImageView!
+    
+    @IBOutlet weak var btnNext: UIButton!
 
     var user: Login?
+    var delegate: AcceptTermsViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,11 +137,13 @@ class AcceptTermsViewController: UIViewController {
             btnNext.isEnabled = false
             btnNext.setBackgroundColor(UIColor(named: "background-disabled")!, for: .normal)
             btnNext.setTitleColor(UIColor(named: "content-disabled"), for: .normal)
+            ivNext.tintColor = UIColor(named: "content-disabled")
             break
         case .checked:
             btnNext.isEnabled = true
             btnNext.setBackgroundColor(UIColor(named: "background-positive")!, for: .normal)
             btnNext.setTitleColor(UIColor(named: "content-primary"), for: .normal)
+            ivNext.tintColor = UIColor(named: "content-primary")
             break
         case .mixed:
             break
@@ -145,5 +153,8 @@ class AcceptTermsViewController: UIViewController {
 extension AcceptTermsViewController: SignUpViewControllerDelegate {
     func successSignUp() {
         self.navigationController?.pop()
+        if let delegate = self.delegate {
+            delegate.onSignUpDone()
+        }
     }
 }

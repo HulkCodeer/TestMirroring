@@ -9,9 +9,14 @@
 import Foundation
 import SwiftyJSON
 
+protocol CorporationLoginViewControllerDelegate {
+    func successSignUp()
+}
 class CorporationLoginViewController: UIViewController {
-    @IBOutlet var tfCorpId: UITextField!
-    @IBOutlet var tfCorpPwd: UITextField!
+    @IBOutlet weak var tfCorpId: UITextField!
+    @IBOutlet weak var tfCorpPwd: UITextField!
+    
+    var delegate: CorporationLoginViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +24,7 @@ class CorporationLoginViewController: UIViewController {
         tfCorpPwd.delegate = self
         
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTap)))
+        tfCorpPwd.isSecureTextEntry = true
     }
     
     
@@ -38,14 +44,18 @@ class CorporationLoginViewController: UIViewController {
     func trySignUp() {
         if let id = tfCorpId.text, !id.isEmpty, id.count > 5 {
             if let pwd = tfCorpPwd.text, !pwd.isEmpty, pwd.count > 5 {
-                Server.corpLogin(id: id, pwd: pwd) { (isSuccess, value) in
+                Server.loginWithID(id: id, pwd: pwd) { (isSuccess, value) in
                     if isSuccess {
                         let json = JSON(value)
                         if json["code"].intValue != 1000 {
                             Snackbar().show(message: json["msg"].stringValue)
                         } else {
+                            Snackbar().show(message: "로그인 성공")
                             MemberManager().setData(data: json)
                             self.navigationController?.pop()
+                            if let delegate = self.delegate {
+                                delegate.successSignUp()
+                            }
                         }
                     }
                 }

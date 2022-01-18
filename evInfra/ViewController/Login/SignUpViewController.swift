@@ -20,21 +20,22 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var viewSignUpInfo_1: UIView!
     @IBOutlet weak var viewSignUpInfo_2: UIView!
     
-    @IBOutlet var tfNickname: UITextField!
-    @IBOutlet var tfEmail: UITextField!
-    @IBOutlet var tfPhone: UITextField!
-    @IBOutlet var viewAge: UIView!
-    @IBOutlet var lbAge: UILabel!
+    @IBOutlet weak var tfNickname: UITextField!
+    @IBOutlet weak var tfEmail: UITextField!
+    @IBOutlet weak var tfPhone: UITextField!
+    @IBOutlet weak var viewAge: UIView!
+    @IBOutlet weak var lbAge: UILabel!
     
-    @IBOutlet var lbWarnNickname: UILabel!
-    @IBOutlet var lbWarnEmail: UILabel!
-    @IBOutlet var lbWarnPhone: UILabel!
-    @IBOutlet var lbWarnAge: UILabel!
-    @IBOutlet var lbWarnGender: UILabel!
-    @IBOutlet var radioMale: DLRadioButton!
-    @IBOutlet var radioFemale: DLRadioButton!
-    @IBOutlet var radioOther: DLRadioButton!
+    @IBOutlet weak var lbWarnNickname: UILabel!
+    @IBOutlet weak var lbWarnEmail: UILabel!
+    @IBOutlet weak var lbWarnPhone: UILabel!
+    @IBOutlet weak var lbWarnAge: UILabel!
+    @IBOutlet weak var lbWarnGender: UILabel!
+    @IBOutlet weak var radioMale: DLRadioButton!
+    @IBOutlet weak var radioFemale: DLRadioButton!
+    @IBOutlet weak var radioOther: DLRadioButton!
     @IBOutlet weak var btnSignUp: UIButton!
+    @IBOutlet var ivNext: UIImageView!
     
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var scrollviewBottomConstraints: NSLayoutConstraint!
@@ -51,6 +52,7 @@ class SignUpViewController: UIViewController {
         super.viewDidLoad()
         prepareActionBar()
         prepareView()
+        createProfileImage()
     }
     
     override func viewWillLayoutSubviews() {
@@ -74,7 +76,12 @@ class SignUpViewController: UIViewController {
         
         if let user = self.user {
             tfNickname.text = user.name
-            tfEmail.text = user.email
+            if let other = user.otherInfo, other.is_email_verified == true{
+                tfEmail.text = user.email
+                tfEmail.isEnabled = false
+            }
+
+            
             tfPhone.text = user.phoneNo
             if let age = user.ageRange, !age.isEmpty {
                 ageIndex = ageList.index(of: age)!
@@ -132,7 +139,7 @@ class SignUpViewController: UIViewController {
         bottomSheetVC.delegate = self
         let bottomSheet: MDCBottomSheetController = MDCBottomSheetController(contentViewController: bottomSheetVC)
 
-        bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = 292
+        bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = 312
         self.navigationController?.present(bottomSheet, animated: true, completion: nil)
     }
     
@@ -159,6 +166,7 @@ class SignUpViewController: UIViewController {
             viewSignUpInfo_2.isHidden = true
             page = 0
             btnSignUp.setTitle("다음으로", for: .normal)
+            ivNext.isHidden = false
         } else {
             self.navigationController?.pop()
         }
@@ -171,6 +179,7 @@ class SignUpViewController: UIViewController {
                 viewSignUpInfo_2.isHidden = false
                 page = 1
                 btnSignUp.setTitle("EV Infra 시작하기", for: .normal)
+                ivNext.isHidden = true
             }
         } else {
             if checkValidSecondForm() {
@@ -233,6 +242,7 @@ class SignUpViewController: UIViewController {
                     if json["mb_id"].stringValue.isEmpty {
                         Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
                     } else {
+                        Snackbar().show(message: "로그인 성공")
                         MemberManager().setData(data: json)
                         self.navigationController?.pop()
                         if let delegate = self.delegate {
@@ -287,6 +297,16 @@ extension SignUpViewController: UITextFieldDelegate {
             let position = textField.position(from: textField.beginningOfDocument, offset: result.caretBeginOffset)!
             textField.selectedTextRange = textField.textRange(from: position, to: position)
             return false
+        } else if textField == tfNickname {
+            guard let text = textField.text else {
+                return false
+            }
+            
+            let newLength = text.characters.count + string.characters.count - range.length
+            if newLength > 12 {
+                Snackbar().show(message: "닉네임은 최대 12자까지 입력가능합니다")
+                return false
+            }
         }
         return true
     }

@@ -16,7 +16,7 @@ struct Login {
     enum LoginType: String {
         case apple
         case kakao
-        case corp
+        case evinfra
     }
     
     var type: LoginType
@@ -80,7 +80,7 @@ struct Login {
     public func convertToParams() -> Parameters {
         var reqParam: Parameters = [
             "member_id": MemberManager.getMemberId(),
-            "user_id": userId,
+            "user_id": userId ?? "",
             "nickname": name ?? "",
             "profile": profile_image ?? "",
             "login_type": type.rawValue,

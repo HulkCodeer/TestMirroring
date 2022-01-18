@@ -389,15 +389,25 @@
                                     <action selector="onClickNextBtn:" destination="EwO-al-H08" eventType="touchUpInside" id="bAG-EX-Ep0"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_arrow_right_lg" translatesAutoresizingMaskIntoConstraints="NO" id="QPI-I6-Bb9">
+                                <rect key="frame" x="327" y="619" width="32" height="32"/>
+                                <color key="tintColor" name="content-primary"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="5ix-ER-ls5"/>
+                                    <constraint firstAttribute="height" constant="32" id="tCe-Da-RWB"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="YSF-j9-Lbl"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="QPI-I6-Bb9" firstAttribute="centerY" secondItem="alb-Mq-ldv" secondAttribute="centerY" id="9pL-fi-12F"/>
                             <constraint firstItem="YSF-j9-Lbl" firstAttribute="trailing" secondItem="9Vw-7S-evW" secondAttribute="trailing" id="Bc8-Ga-GEx"/>
                             <constraint firstItem="alb-Mq-ldv" firstAttribute="leading" secondItem="YSF-j9-Lbl" secondAttribute="leading" id="QlD-np-0RM"/>
                             <constraint firstItem="9Vw-7S-evW" firstAttribute="leading" secondItem="YSF-j9-Lbl" secondAttribute="leading" id="jDd-LJ-rHc"/>
                             <constraint firstItem="9Vw-7S-evW" firstAttribute="top" secondItem="YSF-j9-Lbl" secondAttribute="top" id="ldx-SB-A5d"/>
                             <constraint firstItem="YSF-j9-Lbl" firstAttribute="bottom" secondItem="alb-Mq-ldv" secondAttribute="bottom" id="nbq-gV-7OS"/>
+                            <constraint firstItem="QPI-I6-Bb9" firstAttribute="trailing" secondItem="alb-Mq-ldv" secondAttribute="trailing" constant="-16" id="ntf-pU-c4K"/>
                             <constraint firstItem="YSF-j9-Lbl" firstAttribute="trailing" secondItem="alb-Mq-ldv" secondAttribute="trailing" id="q2B-gM-4Wl"/>
                             <constraint firstItem="YSF-j9-Lbl" firstAttribute="bottom" secondItem="9Vw-7S-evW" secondAttribute="bottom" id="tzY-JU-sN6"/>
                         </constraints>
@@ -408,6 +418,7 @@
                         <outlet property="cbLocation" destination="8ll-og-olk" id="1KI-Ih-8Xy"/>
                         <outlet property="cbPersonalInfo" destination="Pht-0M-U2V" id="Jac-LV-bBQ"/>
                         <outlet property="cbUsingTerm" destination="dSS-8c-hwf" id="BMB-mY-MVL"/>
+                        <outlet property="ivNext" destination="QPI-I6-Bb9" id="k7F-Iy-maV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J83-ek-ocB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -860,13 +871,14 @@
                                     <constraint firstAttribute="trailing" secondItem="fNi-MN-Rox" secondAttribute="trailing" id="gAY-rN-vIz"/>
                                 </constraints>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ExM-Uw-Sbn">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ExM-Uw-Sbn">
                                 <rect key="frame" x="0.0" y="603" width="375" height="64"/>
                                 <color key="backgroundColor" name="background-positive"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="xbj-tY-A0H"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <color key="tintColor" name="content-primary"/>
                                 <state key="normal" title="다음으로">
                                     <color key="titleColor" name="content-primary"/>
                                 </state>
@@ -874,6 +886,14 @@
                                     <action selector="onClickSignUp:" destination="oAI-YI-98l" eventType="touchUpInside" id="EHf-gD-mMl"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_arrow_right_lg" translatesAutoresizingMaskIntoConstraints="NO" id="NC9-Ig-ijd">
+                                <rect key="frame" x="327" y="619" width="32" height="32"/>
+                                <color key="tintColor" name="content-primary"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="7rb-WA-G54"/>
+                                    <constraint firstAttribute="width" constant="32" id="CeM-qY-hl2"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="35F-nt-Bji"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -883,13 +903,16 @@
                             <constraint firstItem="JYK-qk-G33" firstAttribute="top" secondItem="35F-nt-Bji" secondAttribute="top" id="J2s-uW-fgQ"/>
                             <constraint firstItem="JYK-qk-G33" firstAttribute="bottom" secondItem="ExM-Uw-Sbn" secondAttribute="top" id="Sdx-4p-yyA"/>
                             <constraint firstItem="35F-nt-Bji" firstAttribute="trailing" secondItem="JYK-qk-G33" secondAttribute="trailing" id="YXD-Pt-Wa7"/>
+                            <constraint firstItem="NC9-Ig-ijd" firstAttribute="trailing" secondItem="ExM-Uw-Sbn" secondAttribute="trailing" constant="-16" id="cVB-Fu-MBB"/>
                             <constraint firstItem="35F-nt-Bji" firstAttribute="bottom" secondItem="ExM-Uw-Sbn" secondAttribute="bottom" id="cd2-uq-f1q"/>
                             <constraint firstItem="JYK-qk-G33" firstAttribute="width" secondItem="iLg-MV-eCG" secondAttribute="width" id="fYV-k7-ezz"/>
+                            <constraint firstItem="NC9-Ig-ijd" firstAttribute="centerY" secondItem="ExM-Uw-Sbn" secondAttribute="centerY" id="gbT-P1-8ca"/>
                             <constraint firstItem="JYK-qk-G33" firstAttribute="leading" secondItem="35F-nt-Bji" secondAttribute="leading" id="nsv-DS-EiS"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="btnSignUp" destination="ExM-Uw-Sbn" id="dLO-mY-k1E"/>
+                        <outlet property="ivNext" destination="NC9-Ig-ijd" id="3l8-oL-QKB"/>
                         <outlet property="lbAge" destination="ICj-FU-fjN" id="8is-pz-mPz"/>
                         <outlet property="lbWarnAge" destination="HBR-0X-T31" id="aRO-ZZ-JAj"/>
                         <outlet property="lbWarnEmail" destination="6H7-5d-ZZd" id="O9n-Nr-VV7"/>
@@ -955,7 +978,7 @@
                                 </constraints>
                                 <color key="textColor" name="content-primary"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" textContentType="password"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vNT-Se-B4X">
                                 <rect key="frame" x="0.0" y="603" width="375" height="64"/>
@@ -1019,6 +1042,7 @@
     </designables>
     <resources>
         <image name="evinfra_frame" width="102" height="24"/>
+        <image name="icon_arrow_right_lg" width="32" height="32"/>
         <image name="icon_chevron_down_md" width="24" height="24"/>
         <image name="icon_chevron_right_md" width="24" height="24"/>
         <namedColor name="background-always-dark">

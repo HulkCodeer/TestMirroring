@@ -14,11 +14,11 @@
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="BottomSheetViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="BottomSheetViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="FuB-ce-wlX">
+                    <view key="view" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" id="FuB-ce-wlX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s3I-9L-WiX">
+                            <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s3I-9L-WiX">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qgy-By-7Gh">
@@ -35,11 +35,8 @@
                                         </constraints>
                                     </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="48" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="aJL-FJ-Lj4">
-                                        <rect key="frame" x="0.0" y="51.5" width="375" height="240"/>
+                                        <rect key="frame" x="0.0" y="51.5" width="375" height="615.5"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="240" id="of5-vS-PaC"/>
-                                        </constraints>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="BottomSheetTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="BottomSheetTableViewCell" id="Bee-p2-PHY" userLabel="BottomSheetTableViewCell" customClass="BottomSheetTableViewCell" customModule="evInfra" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="44.5" width="375" height="48"/>
@@ -93,6 +90,7 @@
                                     <constraint firstItem="upY-H0-SIR" firstAttribute="leading" secondItem="s3I-9L-WiX" secondAttribute="leading" id="jan-VG-5pS"/>
                                     <constraint firstItem="aJL-FJ-Lj4" firstAttribute="leading" secondItem="s3I-9L-WiX" secondAttribute="leading" id="kVu-BS-J7w"/>
                                     <constraint firstItem="Qgy-By-7Gh" firstAttribute="top" secondItem="s3I-9L-WiX" secondAttribute="top" constant="16" id="p2y-Bg-QUu"/>
+                                    <constraint firstAttribute="bottom" secondItem="aJL-FJ-Lj4" secondAttribute="bottom" id="q6w-R0-Cas"/>
                                     <constraint firstItem="upY-H0-SIR" firstAttribute="bottom" secondItem="aJL-FJ-Lj4" secondAttribute="top" id="sDz-ZU-Rw2"/>
                                 </constraints>
                             </view>
