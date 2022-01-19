@@ -106,6 +106,14 @@ extension MyWritingViewController {
 }
 
 extension MyWritingViewController: BoardTableViewDelegate {
+    func fetchFirstBoard(mid: String, sort: Board.SortType) {
+        
+    }
+    
+    func fetchNextBoard(mid: String, sort: Board.SortType) {
+        
+    }
+    
     
     func getFirstBoardData() {
         self.currentPage = 0

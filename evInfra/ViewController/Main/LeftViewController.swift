@@ -295,9 +295,9 @@ extension LeftViewController {
                     var myWritingControllers = [MyWritingViewController]()
                     let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
                     let freeMineVC = boardStoryboard.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
-                    freeMineVC.boardCategory = Board.BOARD_CATEGORY_FREE
+                    freeMineVC.boardCategory = Board.CommunityType.FREE.rawValue
                     let chargerMineVC = boardStoryboard.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
-                    chargerMineVC.boardCategory = Board.BOARD_CATEGORY_CHARGER
+                    chargerMineVC.boardCategory = Board.CommunityType.CHARGER.rawValue
                     
                     myWritingControllers.append(chargerMineVC)
                     myWritingControllers.append(freeMineVC)
@@ -366,7 +366,7 @@ extension LeftViewController {
                 
                 let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
                 let freeBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
-                freeBoardVC.category = Board.BOARD_CATEGORY_FREE
+                freeBoardVC.category = Board.CommunityType.FREE.rawValue
                 navigationController?.push(viewController: freeBoardVC)
             
             case SUB_MENU_CHARGER_BOARD: // 충전소 게시판
@@ -374,7 +374,7 @@ extension LeftViewController {
                 
                 let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
                 let stationBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
-                stationBoardVC.category = Board.BOARD_CATEGORY_CHARGER
+                stationBoardVC.category = Board.CommunityType.CHARGER.rawValue
                 navigationController?.push(viewController: stationBoardVC)
             default:
                 print("out of index")
@@ -387,7 +387,7 @@ extension LeftViewController {
                     
                     let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
                     let companyBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
-                    companyBoardVC.category = Board.BOARD_CATEGORY_COMPANY
+                    companyBoardVC.category = Board.CommunityType.getCompanyType(index: index.row)
                     companyBoardVC.bmId = boardInfo.bmId!
                     companyBoardVC.brdTitle = title
                     navigationController?.push(viewController: companyBoardVC)

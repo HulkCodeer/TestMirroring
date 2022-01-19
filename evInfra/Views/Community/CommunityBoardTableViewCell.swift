@@ -35,7 +35,7 @@ class CommunityBoardTableViewCell: UITableViewCell {
     private func initUI() {
         profileImage.layer.cornerRadius = profileImage.frame.height/2
         replyView.layer.cornerRadius = 8
-//        adminIconImage.isHidden = true
+        adminIconImage.isHidden = true
         contentsLabel.lineBreakMode = .byTruncatingTail
         contentsLabel.numberOfLines = 2
     }

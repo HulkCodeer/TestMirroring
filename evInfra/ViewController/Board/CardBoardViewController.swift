@@ -16,7 +16,7 @@ class CardBoardViewController: UIViewController {
     
     @IBOutlet weak var boardTableView: BoardTableView!
     
-    var category = Board.BOARD_CATEGORY_FREE // default 자유게시판
+    var category = Board.CommunityType.FREE.rawValue // default 자유게시판
     
     var bmId:Int = -1
     var brdTitle:String = ""
@@ -29,13 +29,15 @@ class CardBoardViewController: UIViewController {
     var scrollIndexPath = IndexPath(row: 0, section: 0)
     
     let boardWriteButton = BoardWriteButton()
+    var communityBoardList: [BoardListItem] = [BoardListItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         prepareActionBar()
         
-        self.getFirstBoardData()
+//        self.getFirstBoardData()
+        self.fetchFirstBoard(mid: category, sort: .LATEST)
         
         self.boardTableView.tableViewDelegate = self
         self.boardTableView.category = self.category
@@ -57,6 +59,8 @@ class CardBoardViewController: UIViewController {
             $0.width.equalTo(101)
             $0.height.equalTo(36)
         }
+        
+        boardWriteButton.addTarget(self, action: #selector(handlePostButton), for: .touchUpInside)
         
 //        boardTableView.register(UINib.init(nibName: "BoardTableViewCell", bundle: nil), forCellReuseIdentifier: "BoardTableViewCell")
 //        boardTableView.register(UINib.init(nibName: "BoardTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "BoardTableViewHeader")
@@ -93,6 +97,7 @@ extension CardBoardViewController {
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
         // 글작성 버튼
+        /*
         if !self.category.elementsEqual(Board.BOARD_CATEGORY_CHARGER) {
             var postButton: IconButton!
             postButton = IconButton(image: Icon.cm.edit)
@@ -101,11 +106,26 @@ extension CardBoardViewController {
             
             self.navigationItem.rightViews = [postButton]
         }
+        */
         
         self.navigationItem.hidesBackButton = true
         self.navigationItem.leftViews = [backButton]
         self.navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         
+        switch self.category {
+        case Board.CommunityType.CHARGER.rawValue:
+            self.navigationItem.titleLabel.text = "충전소 게시판"
+        case Board.CommunityType.CORP_GS.rawValue,
+            Board.CommunityType.CORP_JEV.rawValue,
+            Board.CommunityType.CORP_STC.rawValue,
+            Board.CommunityType.CORP_SBC.rawValue:
+            self.navigationItem.titleLabel.text = self.brdTitle + " 게시판"
+        case Board.CommunityType.FREE.rawValue:
+            self.navigationItem.titleLabel.text = "자유게시판"
+        default:
+            self.navigationItem.titleLabel.text = "게시판"
+        }
+        /*
         if self.category.elementsEqual(Board.BOARD_CATEGORY_CHARGER) {
             self.navigationItem.titleLabel.text = "충전소 게시판"
         } else if self.category.elementsEqual(Board.BOARD_CATEGORY_COMPANY) {
@@ -117,6 +137,7 @@ extension CardBoardViewController {
         } else {
             self.navigationItem.titleLabel.text = "자유게시판"
         }
+        */
     }
     
     @objc
@@ -126,19 +147,106 @@ extension CardBoardViewController {
     
     @objc
     fileprivate func handlePostButton() {
-        let editVC:EditViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
-        editVC.mode = EditViewController.BOARD_NEW_MODE
-        editVC.editViewDelegate = self
-        self.navigationController?.push(viewController: editVC)
+        let storyboard = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil)
+        guard let boardWriteViewController = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
+        
+        boardWriteViewController.category = self.category
+        
+        self.navigationController?.push(viewController: boardWriteViewController)
     }
 }
 
+// MARK: - TableView Delegate
 extension CardBoardViewController: BoardTableViewDelegate {
+    func fetchNextBoard(mid: String, sort: Board.SortType) {
+        if lastPage == false {
+            self.currentPage = self.currentPage + 1
+            
+            Server.fetchBoardList(mid: mid,
+                                  page: "\(self.currentPage)",
+                                  mode: Board.ScreenType.FEED.rawValue,
+                                  sort: sort.rawValue) { (data) in
+                guard let data = data as? Data else { return }
+                let decoder = JSONDecoder()
+                
+                do {
+                    let result = try decoder.decode(BoardResponseData.self, from: data)
+                    
+                    if let updateList = result.list {
+                        self.communityBoardList += updateList
+                        self.boardTableView.communityBoardList = self.communityBoardList
+                        
+                        DispatchQueue.main.async {
+                            self.boardTableView.reloadData()
+                        }
+                    }
+                } catch {
+                    debugPrint("error")
+                }
+            }
+        }
+    }
     
-    func getFirstBoardData() {
-        self.currentPage = 0
+
+    func fetchFirstBoard(mid: String, sort: Board.SortType) {
+        self.currentPage = 1
         self.lastPage = false
         let pageCount = BoardTableView.PAGE_DATA_COUNT + (BoardTableView.PAGE_DATA_COUNT * self.preReadPage)
+        
+        Server.fetchBoardList(mid: mid,
+                              page: "\(currentPage)",
+                              mode: Board.ScreenType.FEED.rawValue,
+                              sort: sort.rawValue) { (data) in
+            guard let data = data as? Data else { return }
+            let decoder = JSONDecoder()
+            
+            do {
+                let result = try decoder.decode(BoardResponseData.self, from: data)
+                
+                if let itemList = result.list {
+                    self.communityBoardList.removeAll()
+                    self.communityBoardList = itemList
+                    self.boardTableView.communityBoardList = self.communityBoardList
+                    
+                    DispatchQueue.main.async {
+                        self.boardTableView.reloadData()
+                    }
+                }
+            } catch {
+                debugPrint("error")
+            }
+        }
+    }
+    
+    func getFirstBoardData() {
+        self.currentPage = 1
+        self.lastPage = false
+        let pageCount = BoardTableView.PAGE_DATA_COUNT + (BoardTableView.PAGE_DATA_COUNT * self.preReadPage)
+        
+        Server.fetchBoardList(mid: category,
+                              page: "\(currentPage)",
+                              mode: Board.ScreenType.FEED.rawValue,
+                              sort: "0") { (data) in
+            guard let data = data as? Data else { return }
+            let decoder = JSONDecoder()
+            
+            do {
+                let result = try decoder.decode(BoardResponseData.self, from: data)
+                
+                if let itemList = result.list {
+                    self.communityBoardList.removeAll()
+                    self.communityBoardList = itemList
+                    self.boardTableView.communityBoardList = self.communityBoardList
+                    
+                    DispatchQueue.main.async {
+                        self.boardTableView.reloadData()
+                    }
+                }
+            } catch {
+                debugPrint("error")
+            }
+        }
+        /*
         
         Server.getBoard(category: self.category, bmId: self.bmId , page: currentPage, count: pageCount, mine: false, ad: false) { [self] (isSuccess, value) in
             if isSuccess {
@@ -162,11 +270,35 @@ extension CardBoardViewController: BoardTableViewDelegate {
                 }
             }
         }
+         */
     }
     
     func getNextBoardData() {
         if lastPage == false {
             self.currentPage = self.currentPage + 1
+            
+            Server.fetchBoardList(mid: category,
+                                  page: "\(self.currentPage)",
+                                  mode: Board.ScreenType.FEED.rawValue, sort: "0") { (data) in
+                guard let data = data as? Data else { return }
+                let decoder = JSONDecoder()
+                
+                do {
+                    let result = try decoder.decode(BoardResponseData.self, from: data)
+                    
+                    if let updateList = result.list {
+                        self.communityBoardList += updateList
+                        self.boardTableView.communityBoardList = self.communityBoardList
+                        
+                        DispatchQueue.main.async {
+                            self.boardTableView.reloadData()
+                        }
+                    }
+                } catch {
+                    debugPrint("error")
+                }
+            }
+            /*
             Server.getBoard(category: self.category, bmId: self.bmId, page: currentPage, count: BoardTableView.PAGE_DATA_COUNT) { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
@@ -185,6 +317,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
                     self.boardTableView.reloadData()
                 }
             }
+             */
         }
     }
     
@@ -194,7 +327,6 @@ extension CardBoardViewController: BoardTableViewDelegate {
         editVC.mode = EditViewController.BOARD_EDIT_MODE
         editVC.originBoardData = self.boardList[tag]
         editVC.editViewDelegate = self
-        
         self.navigationController?.push(viewController: editVC)
     }
     

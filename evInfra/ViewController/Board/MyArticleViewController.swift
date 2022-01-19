@@ -85,6 +85,14 @@ extension MyArticleViewController {
 }
 
 extension MyArticleViewController: BoardTableViewDelegate {
+    func fetchFirstBoard(mid: String, sort: Board.SortType) {
+        
+    }
+    
+    func fetchNextBoard(mid: String, sort: Board.SortType) {
+        
+    }
+    
 
     func getFirstBoardData() {
         Server.getBoardContent(category: category!, boardId: boardId) { (isSuccess, value) in

@@ -11,40 +11,76 @@ import SnapKit
 import TTGTags
 
 protocol CommunityBoardTableViewHeaderDelegate: AnyObject {
-    func didSelectTag(_ selectedIndex: Int)
+    func didSelectTag(_ selectedType: Board.SortType)
 }
 
-class CommunityBoardTableViewHeader: UIView {
+class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
     
     @IBOutlet var bannerCollectionView: UICollectionView!
     @IBOutlet var boardSubscriptionLabel: UILabel!
     
     private let pageControl = UIPageControl()
-    
     private lazy var tagCollectionView = TTGTextTagCollectionView()
-    private weak var delegate: CommunityBoardTableViewHeaderDelegate?
     
-    private var tags: [String] = ["최신", "인기"]
-    let images = ["adCommunity01.png", "adCommunity02.png"]
+    weak var delegate: CommunityBoardTableViewHeaderDelegate?
+    
+    private var tags: [String] = []
+    private let images = ["adCommunity01.png", "adCommunity02.png"]
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setUI()
     }
     
-    func setupBannerView() {
-        bannerCollectionView.register(UINib(nibName: "BannerCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BannerCollectionViewCell")
-        bannerCollectionView.dataSource = self
-        bannerCollectionView.delegate = self
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
+    
+    func setUI() {
+        self.bannerCollectionView.register(UINib(nibName: "BannerCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BannerCollectionViewCell")
+        self.bannerCollectionView.dataSource = self
+        self.bannerCollectionView.delegate = self
+        self.tags = ["최신", "인기"]
+        
+        setupTagCollectionView()
+        setupTagCollectionViewLayout()
+        setPageControll()
+    }
+
+    func setupBannerView(categoryType: String) {
+
+        var description = ""
+        switch categoryType {
+        case Board.CommunityType.FREE.rawValue:
+            description = "자유롭게 이야기를 나누어요."
+            break
+        case Board.CommunityType.CHARGER.rawValue:
+            description = "충전소 관련 이야기를 모아봐요."
+            break
+        case Board.CommunityType.CORP_GS.rawValue:
+            description = "GS칼텍스 전용 게시판입니다."
+            break
+        case Board.CommunityType.CORP_JEV.rawValue:
+            description = "제주전기차서비스 전용 게시판입니다."
+            break
+        case Board.CommunityType.CORP_STC.rawValue:
+            description = "에스트래픽 전용 게시판입니다."
+            break
+        case Board.CommunityType.CORP_SBC.rawValue:
+            description = "EV Infra에 의견을 전달해 보세요."
+            break
+        default:
+            break
+        }
+        
+        boardSubscriptionLabel.text = description
     }
     
     func setPageControll() {
         pageControl.numberOfPages = images.count
         pageControl.currentPageIndicatorTintColor = .lightGray
         pageControl.pageIndicatorTintColor = .white
+        
         self.addSubview(pageControl)
         
         pageControl.snp.makeConstraints {
@@ -106,22 +142,20 @@ extension CommunityBoardTableViewHeader: UICollectionViewDataSource {
 
 extension CommunityBoardTableViewHeader: TTGTextTagCollectionViewDelegate {
     func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTap tag: TTGTextTag!, at index: UInt) {
-//        guard tag.selected else { return }
-        
-        if index == 0 {
-            if tag.selected {
-                
-            } else {
-                tag.selected = !tag.selected
-            }
-        } else {
-            
-        }
+        guard tag.selected else { return }
             
         debugPrint("\(Int(index)) tag \(tag.selected)")
-        delegate?.didSelectTag(Int(index))
+        let selectedIndex = Int(index)
         
-        debugPrint("delegete : select tag \(Int(index))")
+        var type: Board.SortType = .LATEST
+        Board.SortType.allCases.forEach {
+            let index = Int($0.rawValue)
+            if index == selectedIndex {
+                type = $0
+            }
+        }
+        
+        delegate?.didSelectTag(type)
     }
 }
 
@@ -129,6 +163,8 @@ extension CommunityBoardTableViewHeader {
     func setupTagCollectionView() {
         tagCollectionView.delegate = self
         tagCollectionView.numberOfLines = 1
+        tagCollectionView.selectionLimit = 1
+        tagCollectionView.alignment = .left
         tagCollectionView.scrollDirection = .horizontal
         tagCollectionView.showsHorizontalScrollIndicator = false
         tagCollectionView.showsVerticalScrollIndicator = false

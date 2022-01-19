@@ -23,7 +23,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     var tableViewDelegate: BoardTableViewDelegate?
     
-    var category:String = Board.BOARD_CATEGORY_FREE
+    var category:String = Board.CommunityType.FREE.rawValue
     
     var isLastPage:Bool = false
     var isRefresh:Bool = false
@@ -32,6 +32,9 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     var mode = 0
     
     var sectionHeightsDictionary: [Int: CGFloat] = [:]
+
+    var communityBoardList: [BoardListItem] = [BoardListItem]()
+    var sortType: Board.SortType = .LATEST
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -40,76 +43,88 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         self.delegate = self
         self.autoresizingMask = UIViewAutoresizing.flexibleHeight
         self.separatorStyle = .none
-        
+        self.register(UINib(nibName: "CommunityBoardTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "CommunityBoardTableViewHeader")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.boardList == nil {
-            return 0
-        }
-      
-        if (self.boardList[section].reply == nil || self.boardList[section].reply!.count == 0) {
-            return 0
-        }
-
-        return self.boardList[section].reply!.count
+        return self.communityBoardList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = Bundle.main.loadNibNamed("BoardTableViewCell", owner: self, options: nil)?.first as! BoardTableViewCell
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "BoardTableViewCell", for: indexPath) as! BoardTableViewCell
-
-        let replyValue = self.boardList[indexPath.section].reply![indexPath.row]
         
-        // 지킴이 표시
-        if replyValue.mbLevel == MemberManager.MB_LEVEL_GUARD {
-            cell.rUserGuardIcon.visible()
-            cell.rUserGuardLabel.visible()
-        } else {
-            cell.rUserGuardIcon.gone()
-            cell.rUserGuardLabel.gone()
+        switch category {
+        case Board.CommunityType.FREE.rawValue,
+            Board.CommunityType.CORP_GS.rawValue,
+            Board.CommunityType.CORP_JEV.rawValue,
+            Board.CommunityType.CORP_STC.rawValue,
+            Board.CommunityType.CORP_SBC.rawValue:
+            guard let cell = Bundle.main.loadNibNamed("CommunityBoardTableViewCell", owner: self, options: nil)?.first as? CommunityBoardTableViewCell else { return UITableViewCell() }
+            
+            cell.configure(item: communityBoardList[indexPath.row])
+            
+            return cell
+        case Board.CommunityType.CHARGER.rawValue:
+            guard let cell = Bundle.main.loadNibNamed("CommunityChargeStationTableViewCell", owner: self, options: nil)?.first as? CommunityChargeStationTableViewCell else { return UITableViewCell() }
+            
+            cell.configure(item: communityBoardList[indexPath.row])
+            
+            return cell
+        default:
+            return UITableViewCell()
         }
-        
-        cell.rUserName?.text = replyValue.nick
-        cell.rDate?.text = Date().toStringToMinute(data: replyValue.date!)
-        //replyValue["rdate"].stringValue.components(separatedBy: "T")[0]
-        cell.rContents?.text = replyValue.content
-        
-        if let cType = replyValue.chargerType, !cType.isEmpty {
-            cell.rChargerType.visible()
-            cell.rChargerType.text = cType
-        } else {
-            cell.rChargerType.gone()
-        }
-        if (MemberManager.getMbId() > 0) && (MemberManager.getMbId() == replyValue.mbId)  {
-            cell.rEditBtn.visible()
-            cell.rDeleteBtn.visible()
-            cell.rEditBtn.tag = (indexPath.section * 1000) + indexPath.row
-            cell.rDeleteBtn.tag =  (indexPath.section * 1000) + indexPath.row
-            cell.rEditBtn.addTarget(self, action: #selector(self.onClickReplyEdit(_:)), for: .touchUpInside)
-            cell.rDeleteBtn.addTarget(self, action: #selector(self.onClickReplyDelete(_:)), for: .touchUpInside)
-        } else {
-            cell.rEditBtn.gone()
-            cell.rDeleteBtn.gone()
-        }
-        
-        if replyValue.profile_img != nil {
-            cell.rUserImage.sd_setImage(with: URL(string: "\(Const.urlProfileImage)\(replyValue.profile_img!)"), placeholderImage: UIImage(named: "ic_person_base36"))
-        } else {
-            cell.rUserImage.image = UIImage(named: "ic_person_base36")
-            cell.rUserImage.contentMode = .scaleAspectFit
-        }
-
-        return cell
+//
+//        let cell = Bundle.main.loadNibNamed("BoardTableViewCell", owner: self, options: nil)?.first as! BoardTableViewCell
+////        let cell = tableView.dequeueReusableCell(withIdentifier: "BoardTableViewCell", for: indexPath) as! BoardTableViewCell
+//
+//        let replyValue = self.boardList[indexPath.section].reply![indexPath.row]
+//
+//        // 지킴이 표시
+//        if replyValue.mbLevel == MemberManager.MB_LEVEL_GUARD {
+//            cell.rUserGuardIcon.visible()
+//            cell.rUserGuardLabel.visible()
+//        } else {
+//            cell.rUserGuardIcon.gone()
+//            cell.rUserGuardLabel.gone()
+//        }
+//
+//        cell.rUserName?.text = replyValue.nick
+//        cell.rDate?.text = Date().toStringToMinute(data: replyValue.date!)
+//        //replyValue["rdate"].stringValue.components(separatedBy: "T")[0]
+//        cell.rContents?.text = replyValue.content
+//
+//        if let cType = replyValue.chargerType, !cType.isEmpty {
+//            cell.rChargerType.visible()
+//            cell.rChargerType.text = cType
+//        } else {
+//            cell.rChargerType.gone()
+//        }
+//        if (MemberManager.getMbId() > 0) && (MemberManager.getMbId() == replyValue.mbId)  {
+//            cell.rEditBtn.visible()
+//            cell.rDeleteBtn.visible()
+//            cell.rEditBtn.tag = (indexPath.section * 1000) + indexPath.row
+//            cell.rDeleteBtn.tag =  (indexPath.section * 1000) + indexPath.row
+//            cell.rEditBtn.addTarget(self, action: #selector(self.onClickReplyEdit(_:)), for: .touchUpInside)
+//            cell.rDeleteBtn.addTarget(self, action: #selector(self.onClickReplyDelete(_:)), for: .touchUpInside)
+//        } else {
+//            cell.rEditBtn.gone()
+//            cell.rDeleteBtn.gone()
+//        }
+//
+//        if replyValue.profile_img != nil {
+//            cell.rUserImage.sd_setImage(with: URL(string: "\(Const.urlProfileImage)\(replyValue.profile_img!)"), placeholderImage: UIImage(named: "ic_person_base36"))
+//        } else {
+//            cell.rUserImage.image = UIImage(named: "ic_person_base36")
+//            cell.rUserImage.contentMode = .scaleAspectFit
+//        }
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableViewAutomaticDimension
+//    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -133,25 +148,26 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         return UITableViewAutomaticDimension
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
-        return 16
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
+//    func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
+//        return 16
+//    }
+//
+//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return UITableViewAutomaticDimension
+//    }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         sectionHeightsDictionary[section] = view.frame.size.height
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerView = Bundle.main.loadNibNamed("CommunityBoardTableViewHeader", owner: self, options: nil)?.first as? CommunityBoardTableViewHeader else { return UIView() }
+    
+//        guard let headerView = Bundle.main.loadNibNamed("CommunityBoardTableViewHeader", owner: self, options: nil)?.first as? CommunityBoardTableViewHeader else { return UIView() }
         
-        headerView.setupBannerView()
-        headerView.setPageControll()
-        headerView.setupTagCollectionView()
-        headerView.setupTagCollectionViewLayout()
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "CommunityBoardTableViewHeader") as! CommunityBoardTableViewHeader
+        
+        headerView.setupBannerView(categoryType: category)
+        headerView.delegate = self
         
         return headerView
     }
@@ -262,14 +278,14 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         return headerView
     }
     */
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView =  Bundle.main.loadNibNamed("BoardTableViewFooter", owner: self, options: nil)?.first as! BoardTableViewFooter
-        footerView.footerView.layer.shadowColor = UIColor.black.cgColor
-        footerView.footerView.layer.shadowOpacity = 0.5
-        footerView.footerView.layer.shadowOffset = CGSize(width: 0, height: -1)
-        
-        return footerView
-    }
+//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        let footerView =  Bundle.main.loadNibNamed("BoardTableViewFooter", owner: self, options: nil)?.first as! BoardTableViewFooter
+//        footerView.footerView.layer.shadowColor = UIColor.black.cgColor
+//        footerView.footerView.layer.shadowOpacity = 0.5
+//        footerView.footerView.layer.shadowOffset = CGSize(width: 0, height: -1)
+//
+//        return footerView
+//    }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         // UITableView only moves in one direction, y axis
@@ -277,7 +293,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
 
         if maximumOffset - currentOffset <= -20.0 {
-            self.tableViewDelegate?.getNextBoardData()
+            self.tableViewDelegate?.fetchNextBoard(mid: category, sort: sortType)
         }
     }
 
@@ -339,5 +355,13 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         let tappedImage = tapGestureRecognizer.view as! UIImageView
             
         tableViewDelegate?.showImageViewer(url: tappedImage.sd_imageURL()!);
+    }
+}
+
+// MARK: - Header Delegate
+extension BoardTableView: CommunityBoardTableViewHeaderDelegate {
+    func didSelectTag(_ selectedType: Board.SortType) {
+        sortType = selectedType
+        self.tableViewDelegate?.fetchFirstBoard(mid: self.category, sort: self.sortType)
     }
 }

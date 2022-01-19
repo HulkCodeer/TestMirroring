@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 import SDWebImage
 
 class CommunityChargeStationTableViewCell: UITableViewCell {
@@ -29,9 +30,7 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         
-        profileImageView.layer.borderWidth = 1
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
         profileImageView.clipsToBounds = true
         
@@ -51,12 +50,24 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
 
     func configure(item: BoardListItem?) {
         guard let item = item else { return }
-        
+        // 프로필 이미지
         profileImageView.sd_setImage(with: URL(string: "\(Const.urlProfileImage)\(item.mb_profile!)"), placeholderImage: UIImage(named: "ic_person_base36"))
         
+        // 닉네임
         nickNameLabel.text = item.nick_name
+        // 등록 날짜
         dateLabel.text = "| \(DateUtils.getTimesAgoString(date: item.regdate!))"
         
+        // 충전소 정보
+        let tags = JSON(parseJSON: item.tags!)
+        let chargerId = tags["charger_id"].string!
+        
+        if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
+            chargeStationButton.setTitle(charger.mStationInfoDto?.mSnm, for: .normal)
+            chargeStationButton.titleLabel?.font = .boldSystemFont(ofSize: 14)
+        }
+        
+        // 이미지 썸네일
         thumbNailImage1.isHidden = true
         thumbNailImage2.isHidden = true
         thumbNailImage3.isHidden = true
@@ -84,10 +95,13 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
             }
         }
         
+        // 제목
         titleLabel.text = item.title
+        // 내용
         contentsLabel.text = item.content
-        
+        // 좋아요 수
         likedCount.text = item.like_count
+        // 댓글 수
         replyCount.text = item.comment_count
     }
 }

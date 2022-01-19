@@ -94,6 +94,8 @@
 		42CEB75126C1110D00E37AE4 /* CidInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */; };
 		42F9BCE126C64C250028B3D1 /* SummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42F9BCDF26C64C250028B3D1 /* SummaryView.xib */; };
 		42F9BCE326C651340028B3D1 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F9BCE226C651340028B3D1 /* SummaryView.swift */; };
+		5208784F279561BA009DD329 /* PhotoRegisterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5208784D279561BA009DD329 /* PhotoRegisterCollectionViewCell.swift */; };
+		52087850279561BA009DD329 /* PhotoRegisterCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5208784E279561BA009DD329 /* PhotoRegisterCollectionViewCell.xib */; };
 		525E3A25278D728100F5C54D /* CommunityBoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A24278D728000F5C54D /* CommunityBoardTableViewCell.swift */; };
 		525E3A27278D728B00F5C54D /* CommunityBoardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */; };
 		525E3A2A278D729600F5C54D /* CommunityBoardTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */; };
@@ -102,6 +104,11 @@
 		525E3A30278D732700F5C54D /* BoardWriteViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A2E278D732700F5C54D /* BoardWriteViewController.storyboard */; };
 		525E3A31278D732700F5C54D /* BoardWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */; };
 		525E3A33278D739E00F5C54D /* BoardWriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A32278D739E00F5C54D /* BoardWriteButton.swift */; };
+		52ADE4FF27964A1F00FBBA25 /* BoardWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ADE4FE27964A1F00FBBA25 /* BoardWriteViewModel.swift */; };
+		52ADE50127969ED900FBBA25 /* ConfirmPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ADE50027969ED900FBBA25 /* ConfirmPopupViewController.swift */; };
+		52B2594A278E5E5C0042B22C /* BoardListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B25949278E5E5C0042B22C /* BoardListItem.swift */; };
+		52B2594E278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B2594C278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift */; };
+		52B2594F278EBBC90042B22C /* CommunityChargeStationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52B2594D278EBBC90042B22C /* CommunityChargeStationTableViewCell.xib */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView.swift */; };
 		7312786820BE38C500861B3E /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786720BE38C500861B3E /* FCMManager.swift */; };
@@ -448,6 +455,8 @@
 		42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CidInfoTableViewCell.xib; sourceTree = "<group>"; };
 		42F9BCDF26C64C250028B3D1 /* SummaryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SummaryView.xib; sourceTree = "<group>"; };
 		42F9BCE226C651340028B3D1 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
+		5208784D279561BA009DD329 /* PhotoRegisterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRegisterCollectionViewCell.swift; sourceTree = "<group>"; };
+		5208784E279561BA009DD329 /* PhotoRegisterCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoRegisterCollectionViewCell.xib; sourceTree = "<group>"; };
 		525E3A24278D728000F5C54D /* CommunityBoardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityBoardTableViewCell.swift; sourceTree = "<group>"; };
 		525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityBoardTableViewCell.xib; sourceTree = "<group>"; };
 		525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityBoardTableViewHeader.swift; sourceTree = "<group>"; };
@@ -456,6 +465,11 @@
 		525E3A2E278D732700F5C54D /* BoardWriteViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BoardWriteViewController.storyboard; sourceTree = "<group>"; };
 		525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardWriteViewController.swift; sourceTree = "<group>"; };
 		525E3A32278D739E00F5C54D /* BoardWriteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardWriteButton.swift; sourceTree = "<group>"; };
+		52ADE4FE27964A1F00FBBA25 /* BoardWriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardWriteViewModel.swift; sourceTree = "<group>"; };
+		52ADE50027969ED900FBBA25 /* ConfirmPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPopupViewController.swift; sourceTree = "<group>"; };
+		52B25949278E5E5C0042B22C /* BoardListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListItem.swift; sourceTree = "<group>"; };
+		52B2594C278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityChargeStationTableViewCell.swift; sourceTree = "<group>"; };
+		52B2594D278EBBC90042B22C /* CommunityChargeStationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommunityChargeStationTableViewCell.xib; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		7312786720BE38C500861B3E /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
@@ -941,6 +955,24 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
+		52B2594B278EBAB90042B22C /* Community */ = {
+			isa = PBXGroup;
+			children = (
+				525E3A24278D728000F5C54D /* CommunityBoardTableViewCell.swift */,
+				525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */,
+				525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */,
+				525E3A29278D729600F5C54D /* CommunityBoardTableViewHeader.xib */,
+				525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */,
+				525E3A32278D739E00F5C54D /* BoardWriteButton.swift */,
+				52B2594C278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift */,
+				52B2594D278EBBC90042B22C /* CommunityChargeStationTableViewCell.xib */,
+				5208784D279561BA009DD329 /* PhotoRegisterCollectionViewCell.swift */,
+				5208784E279561BA009DD329 /* PhotoRegisterCollectionViewCell.xib */,
+				52ADE50027969ED900FBBA25 /* ConfirmPopupViewController.swift */,
+			);
+			path = Community;
+			sourceTree = "<group>";
+		};
 		5659BC9F308878047DB36D3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1162,6 +1194,7 @@
 				CE93308E214F9807006B7EF6 /* ReportChargerList.swift */,
 				CEBE0600214BA5C30047E6F2 /* ReportCharger.swift */,
 				00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */,
+				52B25949278E5E5C0042B22C /* BoardListItem.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1169,16 +1202,11 @@
 		73B75286204928550077112A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				52B2594B278EBAB90042B22C /* Community */,
 				00A6A16026C3A4B20023DAE3 /* Filter */,
 				00A7D5CC26B7C48600C5DBCC /* Tag */,
 				CE5242372183076000FF6AB1 /* AddressSearchCell.swift */,
 				73BFA04E208487050028B35D /* BoardTableView.swift */,
-				525E3A24278D728000F5C54D /* CommunityBoardTableViewCell.swift */,
-				525E3A32278D739E00F5C54D /* BoardWriteButton.swift */,
-				525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */,
-				525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */,
-				525E3A29278D729600F5C54D /* CommunityBoardTableViewHeader.xib */,
-				525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */,
 				73BFA04A20847A310028B35D /* BoardTableViewCell.swift */,
 				73BFA04B20847A310028B35D /* BoardTableViewCell.xib */,
 				DB87607020690B360095394B /* BoardTableViewHeader.swift */,
@@ -1411,6 +1439,7 @@
 				73268D5121886C3000C00427 /* MyWritingViewController.swift */,
 				525E3A2E278D732700F5C54D /* BoardWriteViewController.storyboard */,
 				525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */,
+				52ADE4FE27964A1F00FBBA25 /* BoardWriteViewModel.swift */,
 				00FDEAF126B3BF97006617EE /* Board.storyboard */,
 				73B752842049284B0077112A /* NoticeViewController.swift */,
 				736D37CE2089CC52009535EE /* NoticeContentViewController.swift */,
@@ -1574,6 +1603,7 @@
 				73A7B3EB204E3595002E975F /* reply_icon.png in Resources */,
 				73EF8B74203C85CC00D04494 /* mapbg_tlogo@2x.png in Resources */,
 				7357594820916A52008181E9 /* sm3.jpg in Resources */,
+				52B2594F278EBBC90042B22C /* CommunityChargeStationTableViewCell.xib in Resources */,
 				73C31C0A20A2BB04005B6C53 /* charger_chademo.jpg in Resources */,
 				738C2CEB20A93682006E268D /* type_destination_dim.png in Resources */,
 				738C2CED20A93682006E268D /* type_super.png in Resources */,
@@ -1587,6 +1617,7 @@
 				00A3659326C4E36D00424E40 /* FilterRoadView.xib in Resources */,
 				00FDEAEC26B3BF47006617EE /* Payment.storyboard in Resources */,
 				DB18733220A9983400790B77 /* btn_camera.png in Resources */,
+				52087850279561BA009DD329 /* PhotoRegisterCollectionViewCell.xib in Resources */,
 				73A7B423204E3595002E975F /* edit_normal.png in Resources */,
 				73A7B419204E3595002E975F /* edit_pressed.png in Resources */,
 				7357594B20916A61008181E9 /* i3.jpg in Resources */,
@@ -1808,6 +1839,7 @@
 				DB4395F222DD88390092E0A5 /* ReceiptView.swift in Sources */,
 				CE24840020A59E2500611E24 /* MyPageViewController.swift in Sources */,
 				DB18732420A8519200790B77 /* String.swift in Sources */,
+				52ADE50127969ED900FBBA25 /* ConfirmPopupViewController.swift in Sources */,
 				42F9BCE326C651340028B3D1 /* SummaryView.swift in Sources */,
 				73AFF26722D467E000287E67 /* Chronometer.swift in Sources */,
 				DB8936542074A4EB006A10BB /* ChargerTableView.swift in Sources */,
@@ -1879,6 +1911,7 @@
 				DB367BF124FE429D00898BED /* Login.swift in Sources */,
 				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
+				5208784F279561BA009DD329 /* PhotoRegisterCollectionViewCell.swift in Sources */,
 				7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */,
 				9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */,
 				73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */,
@@ -1931,6 +1964,7 @@
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,
 				DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */,
 				00EB85D226BA8C6100D1606F /* UILabel.swift in Sources */,
+				52B2594E278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift in Sources */,
 				73AD13C8203AC57A00ADD19A /* AppNavigationDrawerController.swift in Sources */,
 				006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */,
 				7308559D206350890008497E /* UIView.swift in Sources */,
@@ -1988,6 +2022,7 @@
 				CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */,
 				DB5041AE23506A14007336BC /* PointTableViewCell.swift in Sources */,
 				73D65D802362D52E00F564A2 /* MembershipTermView.swift in Sources */,
+				52ADE4FF27964A1F00FBBA25 /* BoardWriteViewModel.swift in Sources */,
 				DB3B858320A42C81005454F5 /* KoreanTextMatcher.swift in Sources */,
 				DB306368221BD5CD00D1276E /* Server.swift in Sources */,
 				CE33B4BD2191BA1200B6C632 /* EventContentsViewController.swift in Sources */,
@@ -1995,6 +2030,7 @@
 				CE93309921511AD4006B7EF6 /* ReportBoardTableViewCell.swift in Sources */,
 				739171E122C4A209007369F9 /* PaymentQRScanViewController.swift in Sources */,
 				73B752852049284B0077112A /* NoticeViewController.swift in Sources */,
+				52B2594A278E5E5C0042B22C /* BoardListItem.swift in Sources */,
 				732121C5203AC023000E105C /* evInfra.xcdatamodeld in Sources */,
 				4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */,
 				73450EFA2071EB01008516E9 /* EditViewController.swift in Sources */,

@@ -355,6 +355,14 @@ extension DetailViewController {
 }
 
 extension DetailViewController: BoardTableViewDelegate {
+    func fetchFirstBoard(mid: String, sort: Board.SortType) {
+        
+    }
+    
+    func fetchNextBoard(mid: String, sort: Board.SortType) {
+        
+    }
+    
     
     fileprivate func prepareBoardTableView() {
         self.cidTableView.rowHeight = UITableViewAutomaticDimension
