@@ -74,16 +74,7 @@ class CardBoardViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        // Recalculates height
-        self.boardTableView.beginUpdates()
-        self.boardTableView.endUpdates()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        self.boardTableView.setNeedsDisplay()
-        self.boardTableView.reloadData()
+        self.fetchFirstBoard(mid: category, sort: .LATEST)
     }
 }
 

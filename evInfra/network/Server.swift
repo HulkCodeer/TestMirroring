@@ -11,6 +11,7 @@ import Alamofire
 import CoreMedia
 
 class Server {
+    
     static let VERSION = 1
     static func responseData(response: DataResponse<Any>, completion: @escaping (Bool, Data?) -> Void) {
         switch response.result {
@@ -332,10 +333,13 @@ class Server {
     }
     
     // MARK: - Coummunity 개선 - 게시판 조회
-    
     static func fetchBoardList(mid: String, page: String, mode: String, sort: String, completion: @escaping (Any?) -> Void) {
         
-        let headers = ["mb_id" : "\(MemberManager.getMbId())"]
+        let headers = [
+            "mb_id" : "\(MemberManager.getMbId())",
+            "nick_name" : "\(MemberManager.getMemberNickname())",
+            "profile" : "\(MemberManager.getProfileImage())"
+        ]
         
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/list/mid/\(mid)/page/\(page)/mode/\(mode)/sort/\(sort)",
                           method: .get,
@@ -348,6 +352,29 @@ class Server {
             case .failure(let error):
                 completion(error.localizedDescription)
             }
+        }
+    }
+    // MARK: - Community 개선 - 게시글 등록
+    static func postBoardData(mid: String, title: String, content: String, tags: String, charger_id: String, completion: @escaping (Bool, Any) -> Void) {
+        
+        let headers = [
+            "mb_id" : "\(MemberManager.getMbId())",
+            "nick_name" : "\(MemberManager.getMemberNickname())",
+            "profile" : "\(MemberManager.getProfileImage())"
+        ]
+        
+        let parameters: Parameters = [
+            "title" : title,
+            "content" : content,
+            "tags" : "{\"charger_id\" : \"\(charger_id)\"}"
+        ]
+
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/write/mid/\(mid)",
+                          method: .post,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers).validate().responseJSON { response in
+            responseJson(response: response, completion: completion)
         }
     }
     

@@ -43,7 +43,7 @@ class CommunityBoardTableViewCell: UITableViewCell {
     func configure(item: BoardListItem?) {
         guard let item = item else { return }
         
-        profileImage.sd_setImage(with: URL(string: "\(Const.urlProfileImage)\(item.mb_profile!)"), placeholderImage: UIImage(named: "ic_person_base36"))
+        profileImage.sd_setImage(with: URL(string: "\(Const.urlProfileImage)\(item.mb_profile ?? "")"), placeholderImage: UIImage(named: "ic_person_base36"))
         
         userNameLable.text = item.nick_name
         dateLabel.text = "| \(DateUtils.getTimesAgoString(date: item.regdate!))"
