@@ -337,7 +337,7 @@ class Server {
         
         let headers = ["mb_id" : "\(MemberManager.getMbId())"]
         
-        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/list/mid/\(mid)/page/\(page)/mode/\(mode)/\(sort)",
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/list/mid/\(mid)/page/\(page)/mode/\(mode)/sort/\(sort)",
                           method: .get,
                           parameters: nil,
                           encoding: JSONEncoding.default,
@@ -373,14 +373,14 @@ class Server {
             "page_count": count,
             "mine": mine
         ]
-        
+/*
         if category.elementsEqual(Board.BOARD_CATEGORY_COMPANY) {
             reqParam.updateValue(bmId, forKey: "bm_id")
             reqParam.updateValue(false, forKey: "ad") // 사업자 게시판 광고 포함하지 않음
         } else {
             reqParam.updateValue(true, forKey: "ad") // true: 게시글에 광고 포함. false: 광고 불포함
         }
-
+*/
         Alamofire.request(Const.EV_PAY_SERVER + "/board/board/contents",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }

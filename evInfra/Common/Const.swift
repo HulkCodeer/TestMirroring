@@ -33,6 +33,7 @@ public class Const {
      * product
      */
     public static let EV_PAY_SERVER = "https://api.soft-berry.co.kr"
+    public static let EV_COMMUNITY_SERVER = "https://comm.ev-infra.com/community/v2/EiCommunity"
     public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra"
     #endif
     
