@@ -13,6 +13,7 @@ class ConfirmPopupViewController: UIViewController {
     
     private var titleText: String?
     private var messageText: String?
+    var callback: ((Bool) -> Void)?
     
     private lazy var backgroundView: UIView = {
        let view = UIView()
@@ -27,7 +28,7 @@ class ConfirmPopupViewController: UIViewController {
         return view
     }()
     
-    let dialogView: UIStackView = {
+    private lazy var dialogView: UIStackView = {
        let view = UIStackView()
         view.axis = .vertical
         view.alignment = .fill
@@ -35,25 +36,25 @@ class ConfirmPopupViewController: UIViewController {
         return view
     }()
     
-    let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
        let label = UILabel()
-        label.text = "삭제 안내"
+        label.text = titleText
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 18, weight: .bold)
         label.textColor = UIColor(named: "nt-9")
         return label
     }()
     
-    let descriptionLabel: UILabel = {
+    private lazy var descriptionLabel: UILabel = {
        let label = UILabel()
-        label.text = "선택하신 사진을 삭제하시겠습니까?"
+        label.text = messageText
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14)
         label.textColor = UIColor(named: "nt-9")
         return label
     }()
     
-    let buttonStackView: UIStackView = {
+    private lazy var buttonStackView: UIStackView = {
        let view = UIStackView()
         view.axis = .horizontal
         view.distribution = .fillEqually
@@ -61,30 +62,35 @@ class ConfirmPopupViewController: UIViewController {
         return view
     }()
     
-    let cancelButton: UIButton = {
+    private lazy var cancelButton: UIButton = {
        let button = UIButton()
         button.layer.cornerRadius = 6
         button.backgroundColor = UIColor(named: "nt-1")
         button.setTitleColor(UIColor(named: "nt-9"), for: .normal)
         button.setTitle("취소", for: .normal)
+        button.addTarget(self, action: #selector(cancelPopup), for: .touchUpInside)
         return button
     }()
     
-    let confirmButton: UIButton = {
+    private lazy var confirmButton: UIButton = {
        let button = UIButton()
         button.layer.cornerRadius = 6
         button.backgroundColor = UIColor(named: "gr-5")
         button.setTitleColor(UIColor(named: "nt-9"), for: .normal)
         button.setTitle("삭제", for: .normal)
+        button.addTarget(self, action: #selector(confirmAction), for: .touchUpInside)
         return button
     }()
     
-//    convenience init(contentView: UIView) {
-//        self.init()
-//
-//        self.backgroundView = contentView
-//        modalPresentationStyle = .overFullScreen
-//    }
+    convenience init(titleText: String, messageText: String) {
+        self.init()
+        
+        self.titleLabel.text = titleText
+        self.descriptionLabel.text = messageText
+        
+        modalPresentationStyle = .overFullScreen
+        modalTransitionStyle = .crossDissolve
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,26 +134,26 @@ class ConfirmPopupViewController: UIViewController {
             $0.width.equalToSuperview()
             $0.height.equalTo(40)
         }
+        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        // curveEaseOut: 시작은 천천히, 끝날 땐 빠르게
-        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseOut) { [weak self] in
-            self?.backgroundView.transform = .identity
-            self?.backgroundView.isHidden = false
-        }
+    @objc
+    func cancelPopup() {
+        dismissPopup()
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        // curveEaseIn: 시작은 빠르게, 끝날 땐 천천히
-        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseIn) { [weak self] in
-            self?.backgroundView.transform = .identity
-            self?.backgroundView.isHidden = true
-        }
+    
+    @objc
+    func confirmAction() {
+        callback?(true)
+        dismissPopup()
+    }
+    
+    func deleteCompletion(callback: @escaping (_ status: Bool) -> Void) {
+        self.callback = callback
+    }
+    
+    private func dismissPopup() {
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
