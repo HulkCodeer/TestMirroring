@@ -38,6 +38,14 @@ class MemberManager {
         return Login.LoginType(rawValue: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)) ?? .kakao
     }
     
+    static func getProfileImage() -> String {
+        return UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME)
+    }
+    
+    static func getMemberNickname() -> String {
+        return UserDefault().readString(key: UserDefault.Key.MB_NICKNAME)
+    }
+    
     static func isPartnershipClient(clientId : Int) -> Bool {
         let list = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
         return list.contains(clientId)
