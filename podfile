@@ -31,6 +31,7 @@ target 'evInfra' do
   pod 'SwiftyGif'
   pod 'TTGTagCollectionView'
   pod 'SnapKit', '~> 5.0.0'
+  pod 'PanModal'
 end
 
 post_install do |installer|

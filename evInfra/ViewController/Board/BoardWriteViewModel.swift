@@ -20,6 +20,16 @@ struct BoardWriteViewModel {
         }
     }
     
+    func registerBoard(_ mid: String, _ title: String, _ content: String, completion: @escaping (Bool) -> Void) {
+        Server.postBoardData(mid: mid, title: title, content: content, tags: "", charger_id: "") { (isSuccess, value) in
+            if isSuccess {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
+    }
+    
     mutating func validateCompletion(callback: @escaping (_ status: Bool) -> Void) {
         self.callback = callback
     }

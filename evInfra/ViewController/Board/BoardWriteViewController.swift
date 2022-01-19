@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import PanModal
 
 class BoardWriteViewController: UIViewController, UINavigationControllerDelegate {
 
@@ -36,18 +37,37 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
                 self?.completeButton.isEnabled = true
                 self?.completeButton.setTitleColor(UIColor(named: "nt-9"), for: .normal)
                 self?.completeButton.backgroundColor = UIColor(named: "gr-5")
-                print("성공")
             } else {
                 self?.completeButton.isEnabled = false
                 self?.completeButton.setTitleColor(UIColor(named: "nt-3"), for: .normal)
                 self?.completeButton.backgroundColor = UIColor(named: "nt-0")
-                print("실패")
             }
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if !MemberManager().isLogin() {
+            MemberManager().showLoginAlert(vc: self, completion: { (result) -> Void in
+                if !result {
+                    self.navigationController?.pop()
+                }
+            })
+        }
+    }
+    
     @IBAction func completeButtonClick(_ sender: Any) {
-        print("클릭")
+        boardWriteViewModel.registerBoard(category,
+                                          titleTextView.text,
+                                          contentsTextView.text) { [weak self] isSuccess in
+            if isSuccess {
+                self?.navigationController?.pop()
+                print("전송 성공")
+            } else {
+                
+            }
+        }
     }
     
     private func setUI() {
@@ -64,6 +84,8 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         
         // 제목
         titleTextView.delegate = self
+        titleTextView.text = "제목을 입력해주세요."
+        titleTextView.textColor = UIColor(named: "nt-5")
         titleTextView.layer.borderWidth = 1
         titleTextView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
         titleTextView.layer.cornerRadius = 4
@@ -71,6 +93,8 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         
         // 내용
         contentsTextView.delegate = self
+        contentsTextView.text = "내용을 입력해주세요."
+        contentsTextView.textColor = UIColor(named: "nt-5")
         contentsTextView.textContainerInset = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
         contentsView.layer.borderWidth = 1
         contentsView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
@@ -88,8 +112,15 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         completeButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         
         picker.delegate = self
-//        let tapGestureReconizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-//        view.addGestureRecognizer(tapGestureReconizer)
+        let tapGestureReconizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGestureReconizer.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGestureReconizer)
+        
+    }
+    
+    func openPhotoLib() {
+        picker.sourceType = .photoLibrary
+        self.present(picker, animated: false, completion: nil)
     }
     
     func openCamera() {
@@ -102,8 +133,8 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
                 }
             }
         } else if status == .authorized {
-            self.picker.sourceType = .camera
-            self.present(self.picker, animated: false, completion: nil)
+            picker.sourceType = .camera
+            self.present(picker, animated: false, completion: nil)
         }
     }
     
@@ -141,10 +172,34 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
 extension BoardWriteViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item == selectedImages.count {
-            self.openCamera()
+            let rowVC = GroupViewController()
+            rowVC.members = ["갤러리 이동", "사진 촬영"]
+            presentPanModal(rowVC)
+            
+            rowVC.selectedCompletion = { index in
+                self.dismiss(animated: true, completion: nil)
+                
+                switch index {
+                case 0:
+                    self.openPhotoLib()
+                case 1:
+                    self.openCamera()
+                default:
+                    break
+                }
+            }
+
         } else {
-            let popup = ConfirmPopupViewController()
-            popup.modalPresentationStyle = .overFullScreen
+            let popup = ConfirmPopupViewController(titleText: "삭제 안내", messageText: "선택하신 사진을 삭제 하시겠습니까?")
+            popup.deleteCompletion { [weak self] canDelete in
+                if canDelete {
+                    self?.selectedImages.remove(at: indexPath.row)
+                    
+                    DispatchQueue.main.async {
+                        self?.photoCollectionView.reloadData()
+                    }
+                }
+            }
             self.present(popup, animated: true, completion: nil)
         }
     }
@@ -176,6 +231,11 @@ extension BoardWriteViewController: UICollectionViewDataSource {
 // MARK: - TextView Delegate
 extension BoardWriteViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor(named: "nt-5") {
+            textView.text = nil
+            textView.textColor = UIColor(named: "nt-9")
+        }
+        
         switch textView.tag {
         case 0:
             titleTextView.layer.borderColor = UIColor(named: "nt-9")?.cgColor
@@ -190,8 +250,18 @@ extension BoardWriteViewController: UITextViewDelegate {
         switch textView.tag {
         case 0:
             titleTextView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
+            
+            if titleTextView.text.isEmpty {
+                titleTextView.text = "제목을 입력해주세요."
+                titleTextView.textColor = UIColor(named: "nt-5")
+            }
         case 1:
             contentsView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
+            
+            if contentsTextView.text.isEmpty {
+                contentsTextView.text = "내용을 입력해주세요."
+                contentsTextView.textColor = UIColor(named: "nt-5")
+            }
         default:
             break
         }
