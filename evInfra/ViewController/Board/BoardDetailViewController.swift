@@ -14,7 +14,7 @@ class BoardDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("detail view")
+        
         self.detailTableView.delegate = self
         self.detailTableView.dataSource = self
         self.detailTableView.register(UINib(nibName: "BoardDetailTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "BoardDetailTableViewHeader")
@@ -29,6 +29,9 @@ extension BoardDetailViewController: UITableViewDelegate {
             
             return view
         } else {
+            // 댓글이 없을 경우, empty view 표시
+            
+            // 댓글이 있을 경우, 테이블뷰 셀 표시
             guard let view = tableView.dequeueReusableCell(withIdentifier: "BoardDetailTableViewCell") as? BoardDetailTableViewCell else { return UIView() }
             
             return view
@@ -36,6 +39,7 @@ extension BoardDetailViewController: UITableViewDelegate {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        // section은 무조건 댓글갯수 + 1(헤더)
         return 2
     }
 
@@ -60,6 +64,7 @@ extension BoardDetailViewController: UITableViewDelegate {
 
 extension BoardDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // 대댓글이 있을 경우 그 갯수 만큼
         return 0
     }
     

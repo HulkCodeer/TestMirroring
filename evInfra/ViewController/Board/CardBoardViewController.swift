@@ -45,7 +45,7 @@ class CardBoardViewController: UIViewController {
         self.boardTableView.separatorColor = UIColor(rgb: 0xE4E4E4)
         self.boardTableView.separatorInset = .zero
         self.boardTableView.separatorStyle = .none
-        self.boardTableView.allowsSelection = false
+        self.boardTableView.allowsSelection = true
         
         if #available(iOS 15.0, *) {
             self.boardTableView.sectionHeaderTopPadding = 0
@@ -209,6 +209,13 @@ extension CardBoardViewController: BoardTableViewDelegate {
         }
     }
     
+    func didSelectItem() {
+        let storyboard = UIStoryboard(name: "BoardDetailViewController", bundle: nil)
+        guard let boardDetailTableViewController = storyboard.instantiateViewController(withIdentifier: "BoardDetailViewController") as? BoardDetailViewController else { return }
+        
+        self.navigationController?.push(viewController: boardDetailTableViewController)
+    }
+    
     func getFirstBoardData() {
         self.currentPage = 1
         self.lastPage = false
@@ -237,6 +244,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
                 debugPrint("error")
             }
         }
+        
         /*
         
         Server.getBoard(category: self.category, bmId: self.bmId , page: currentPage, count: pageCount, mine: false, ad: false) { [self] (isSuccess, value) in

@@ -41,6 +41,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         
         self.dataSource = self
         self.delegate = self
+        self.allowsSelection = true
         self.autoresizingMask = UIViewAutoresizing.flexibleHeight
         self.separatorStyle = .none
         self.register(UINib(nibName: "CommunityBoardTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "CommunityBoardTableViewHeader")
@@ -48,6 +49,10 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.communityBoardList.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableViewDelegate?.didSelectItem()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -61,17 +66,20 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             guard let cell = Bundle.main.loadNibNamed("CommunityBoardTableViewCell", owner: self, options: nil)?.first as? CommunityBoardTableViewCell else { return UITableViewCell() }
             
             cell.configure(item: communityBoardList[indexPath.row])
+            cell.selectionStyle = .none
             
             return cell
         case Board.CommunityType.CHARGER.rawValue:
             guard let cell = Bundle.main.loadNibNamed("CommunityChargeStationTableViewCell", owner: self, options: nil)?.first as? CommunityChargeStationTableViewCell else { return UITableViewCell() }
             
             cell.configure(item: communityBoardList[indexPath.row])
+            cell.selectionStyle = .none
             
             return cell
         default:
             return UITableViewCell()
         }
+
 //
 //        let cell = Bundle.main.loadNibNamed("BoardTableViewCell", owner: self, options: nil)?.first as! BoardTableViewCell
 ////        let cell = tableView.dequeueReusableCell(withIdentifier: "BoardTableViewCell", for: indexPath) as! BoardTableViewCell
@@ -308,6 +316,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     */
     
     // MARK: - Action for button
+    /*
     @objc func onClickBoardEdit(_ sender: UIButton) {
         tableViewDelegate?.boardEdit(tag: sender.tag)
     }
@@ -335,7 +344,8 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         print("Station BUTTON CLICK \(sender.tag)")
         tableViewDelegate?.goToStation(tag: sender.tag)
     }
-    
+     */
+    /*
     @objc func onClickAdImage(sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             if let view = sender.view {
@@ -356,9 +366,10 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             
         tableViewDelegate?.showImageViewer(url: tappedImage.sd_imageURL()!);
     }
+     */
 }
 
-// MARK: - Header Delegate
+ // MARK: - Header Delegate
 extension BoardTableView: CommunityBoardTableViewHeaderDelegate {
     func didSelectTag(_ selectedType: Board.SortType) {
         sortType = selectedType

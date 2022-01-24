@@ -93,6 +93,10 @@ extension MyArticleViewController: BoardTableViewDelegate {
         
     }
     
+    func didSelectItem() {
+        
+    }
+    
 
     func getFirstBoardData() {
         Server.getBoardContent(category: category!, boardId: boardId) { (isSuccess, value) in

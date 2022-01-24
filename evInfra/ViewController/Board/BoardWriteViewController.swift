@@ -63,9 +63,9 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
                                           contentsTextView.text) { [weak self] isSuccess in
             if isSuccess {
                 self?.navigationController?.pop()
-                print("전송 성공")
+                Snackbar().show(message: "게시글 등록이 완료되었습니다.")
             } else {
-                
+                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요.")
             }
         }
     }
@@ -84,7 +84,7 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         
         // 제목
         titleTextView.delegate = self
-        titleTextView.text = "제목을 입력해주세요."
+        titleTextView.text = Const.BoardConstants.titlePlaceHolder
         titleTextView.textColor = UIColor(named: "nt-5")
         titleTextView.layer.borderWidth = 1
         titleTextView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
@@ -93,7 +93,7 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         
         // 내용
         contentsTextView.delegate = self
-        contentsTextView.text = "내용을 입력해주세요."
+        contentsTextView.text = Const.BoardConstants.contentsPlaceHolder
         contentsTextView.textColor = UIColor(named: "nt-5")
         contentsTextView.textContainerInset = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
         contentsView.layer.borderWidth = 1
@@ -190,6 +190,25 @@ extension BoardWriteViewController: UICollectionViewDelegate {
             }
 
         } else {
+            let cancel = UIAlertAction(title: "취소", style: .default) { action in
+                self.dismiss(animated: true, completion: nil)
+            }
+            let ok = UIAlertAction(title: "확인", style: .default) { action in
+                self.dismiss(animated: true, completion: nil)
+                self.selectedImages.remove(at: indexPath.row)
+                
+                DispatchQueue.main.async {
+                    self.photoCollectionView.reloadData()
+                }
+            }
+            
+            var actions = [UIAlertAction]()
+            actions.append(cancel)
+            actions.append(ok)
+            
+            let message = "선택하신 사진을 삭제하시겠습니까?"
+            UIAlertController.showAlert(title: "삭제안내", message: message, actions: actions)
+            /*
             let popup = ConfirmPopupViewController(titleText: "삭제 안내", messageText: "선택하신 사진을 삭제 하시겠습니까?")
             popup.deleteCompletion { [weak self] canDelete in
                 if canDelete {
@@ -201,6 +220,7 @@ extension BoardWriteViewController: UICollectionViewDelegate {
                 }
             }
             self.present(popup, animated: true, completion: nil)
+             */
         }
     }
 }

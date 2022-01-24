@@ -114,6 +114,10 @@ extension MyWritingViewController: BoardTableViewDelegate {
         
     }
     
+    func didSelectItem() {
+        
+    }
+    
     
     func getFirstBoardData() {
         self.currentPage = 0

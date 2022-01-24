@@ -378,6 +378,33 @@ class Server {
         }
     }
     
+    // MARK: - Community 개선 - 게시글 상세 조회
+    static func fetchBoardDetail(mid: String, document_srl: String, completion: @escaping (Any?) -> Void) {
+        let headers = [
+            "mb_id" : "\(MemberManager.getMbId())",
+            "nick_name" : "\(MemberManager.getMemberNickname())",
+            "profile" : "\(MemberManager.getProfileImage())"
+        ]
+        
+        let parameters: Parameters = [
+            "mid" : mid,
+            "document_srl" : document_srl
+        ]
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/mid/\(mid)/document_srl/\(document_srl)",
+                          method: .get,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers).validate().responseJSON { response in
+            switch response.result {
+            case .success(_):
+                completion(response.data)
+            case .failure(let error):
+                completion(error.localizedDescription)
+            }
+        }
+    }
+    
     
     // 게시판 - 공지사항 리스트
     static func getNoticeList(completion: @escaping (Bool, Any) -> Void) {

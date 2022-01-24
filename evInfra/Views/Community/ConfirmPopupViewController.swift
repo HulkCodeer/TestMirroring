@@ -155,5 +155,9 @@ class ConfirmPopupViewController: UIViewController {
     private func dismissPopup() {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    func showPopup() {
+        
+    }
 }
 

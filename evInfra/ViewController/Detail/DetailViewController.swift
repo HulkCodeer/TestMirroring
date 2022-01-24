@@ -363,6 +363,9 @@ extension DetailViewController: BoardTableViewDelegate {
         
     }
     
+    func didSelectItem() {
+        
+    }
     
     fileprivate func prepareBoardTableView() {
         self.cidTableView.rowHeight = UITableViewAutomaticDimension

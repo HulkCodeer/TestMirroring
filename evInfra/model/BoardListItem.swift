@@ -58,3 +58,44 @@ struct FilesItem: Decodable {
     var file_seq: String?
     var thumb_filename: String?
 }
+
+struct BoardDetailResponseData: Decodable {
+    var comments: [String]?
+    var has_next: Bool?
+    var has_prev: Bool?
+    var prize: Int?
+    var liked: Int?
+    var document: Document?
+    var files: [FilesItem]?
+}
+
+struct Document: Decodable {
+    var document_srl: String?
+    var module_srl: String?
+    var is_notice: String?
+    var title: String?
+    var title_bold: String?
+    var title_color: String?
+    var content: String?
+    var readed_count: String?
+    var like_count: String?
+    var hate_count: String?
+    var comment_count: String?
+    var uploaded_count: String?
+    var report_count: String?
+    var mb_id: String?
+    var nick_name: String?
+    var mb_profile: String?
+    var tags: String?
+    var youtube: String?
+    var cover_filename: String?
+    var fromMobile: String?
+    var regdate: String?
+    var last_update: String?
+    var last_updater: String?
+    var status: String?
+    var comment_status: String?
+    var ipadress: String?
+    var board_id: String?
+    var findYoutube: Bool?
+}

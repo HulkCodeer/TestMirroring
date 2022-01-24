@@ -13,7 +13,10 @@ struct BoardWriteViewModel {
     var callback: ((Bool) -> Void)?
     
     func validateInput(_ title: String, _ contents: String) {
-        if title.count <= 10 && contents.count <= 600  {
+        if title.count <= 50 &&
+            !title.contains(Const.BoardConstants.titlePlaceHolder) &&
+            contents.count <= 1200 &&
+            !contents.contains(Const.BoardConstants.contentsPlaceHolder) {
             self.callback?(true)
         } else {
             self.callback?(false)

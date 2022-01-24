@@ -92,4 +92,9 @@ public class Const {
     public static let CHARGER_STATE_BOOKING          = 6    // 예약중
     public static let CHARGER_STATE_PILOT            = 7    // 시범운영중
     public static let CHARGER_STATE_UNKNOWN          = 9    // 기타(상태미확인)
+    
+    struct BoardConstants {
+        static let titlePlaceHolder = "제목을 입력해주세요."
+        static let contentsPlaceHolder = "내용을 입력해주세요."
+    }
 }
