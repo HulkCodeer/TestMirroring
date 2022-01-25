@@ -76,11 +76,11 @@ class SignUpViewController: UIViewController {
         
         if let user = self.user {
             tfNickname.text = user.name
+            tfEmail.text = user.email
+            
             if let other = user.otherInfo, other.is_email_verified == true{
-                tfEmail.text = user.email
                 tfEmail.isEnabled = false
             }
-
             
             tfPhone.text = user.phoneNo
             if let age = user.ageRange, !age.isEmpty {
