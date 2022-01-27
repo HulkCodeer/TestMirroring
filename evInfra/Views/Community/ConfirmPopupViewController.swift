@@ -9,11 +9,16 @@
 import UIKit
 import SnapKit
 
+enum ButtonType {
+    case cancel
+    case confirm
+}
+
 class ConfirmPopupViewController: UIViewController {
     
     private var titleText: String?
     private var messageText: String?
-    var callback: ((Bool) -> Void)?
+    var confirmDelegate: ((Bool) -> Void)? = nil
     
     private lazy var backgroundView: UIView = {
        let view = UIView()
@@ -62,26 +67,6 @@ class ConfirmPopupViewController: UIViewController {
         return view
     }()
     
-    private lazy var cancelButton: UIButton = {
-       let button = UIButton()
-        button.layer.cornerRadius = 6
-        button.backgroundColor = UIColor(named: "nt-1")
-        button.setTitleColor(UIColor(named: "nt-9"), for: .normal)
-        button.setTitle("취소", for: .normal)
-        button.addTarget(self, action: #selector(cancelPopup), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var confirmButton: UIButton = {
-       let button = UIButton()
-        button.layer.cornerRadius = 6
-        button.backgroundColor = UIColor(named: "gr-5")
-        button.setTitleColor(UIColor(named: "nt-9"), for: .normal)
-        button.setTitle("삭제", for: .normal)
-        button.addTarget(self, action: #selector(confirmAction), for: .touchUpInside)
-        return button
-    }()
-    
     convenience init(titleText: String, messageText: String) {
         self.init()
         
@@ -98,9 +83,6 @@ class ConfirmPopupViewController: UIViewController {
         view.addSubview(backgroundView)
         backgroundView.addSubview(containerView)
         containerView.addSubview(dialogView)
-        
-        buttonStackView.addArrangedSubview(cancelButton)
-        buttonStackView.addArrangedSubview(confirmButton)
         
         dialogView.addArrangedSubview(titleLabel)
         dialogView.addArrangedSubview(descriptionLabel)
@@ -137,6 +119,28 @@ class ConfirmPopupViewController: UIViewController {
         
     }
     
+    func addActionToButton(title: String?,
+                           buttonType: ButtonType?) {
+        let button = UIButton()
+        button.setTitleColor(UIColor(named: "nt-9"), for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
+        button.layer.cornerRadius = 6
+        button.setTitle(title, for: .normal)
+        
+        switch buttonType {
+        case .cancel:
+            button.backgroundColor = UIColor(named: "nt-1")
+            button.addTarget(self, action: #selector(cancelPopup), for: .touchUpInside)
+        case .confirm:
+            button.backgroundColor = UIColor(named: "gr-5")
+            button.addTarget(self, action: #selector(confirmAction), for: .touchUpInside)
+        case .none:
+            break
+        }
+
+        buttonStackView.addArrangedSubview(button)
+    }
+    
     @objc
     func cancelPopup() {
         dismissPopup()
@@ -144,20 +148,16 @@ class ConfirmPopupViewController: UIViewController {
     
     @objc
     func confirmAction() {
-        callback?(true)
+        confirmDelegate?(true)
         dismissPopup()
     }
     
-    func deleteCompletion(callback: @escaping (_ status: Bool) -> Void) {
-        self.callback = callback
+    func confirmCompletion(callback: @escaping (Bool) -> Void) {
+        self.confirmDelegate = callback
     }
     
     private func dismissPopup() {
         self.dismiss(animated: true, completion: nil)
-    }
-    
-    func showPopup() {
-        
     }
 }
 
