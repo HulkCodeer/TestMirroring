@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="KeyboardInputView" customModule="evInfra" customModuleProvider="target">
+            <connections>
+                <outlet property="inputBorderView" destination="KIO-tH-yiL" id="nxs-wn-5ck"/>
+                <outlet property="inputTextView" destination="lkE-fB-NsQ" id="pZC-mR-LUH"/>
+                <outlet property="sendButton" destination="VhC-yr-cXt" id="rcS-Y2-5kb"/>
+                <outlet property="textfield" destination="lkE-fB-NsQ" id="5D9-Oo-cK1"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="57"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="X8z-lZ-cQM">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="57"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wu6-oz-4Jt">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
+                            <color key="backgroundColor" name="nt-2"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="lYN-j1-cva"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wFn-JM-Scr">
+                            <rect key="frame" x="0.0" y="1" width="414" height="56"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zFa-1p-gt7">
+                                    <rect key="frame" x="16" y="8" width="382" height="40"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KIO-tH-yiL">
+                                            <rect key="frame" x="0.0" y="0.0" width="312" height="40"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="NwA-0k-tCC">
+                                                    <rect key="frame" x="12" y="10" width="288" height="20"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A6t-3V-3lh">
+                                                            <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="20" id="ZeM-rj-Llj"/>
+                                                                <constraint firstAttribute="width" constant="20" id="ZzE-x6-YcU"/>
+                                                            </constraints>
+                                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                            <state key="normal" image="iconAddCircleSm"/>
+                                                            <connections>
+                                                                <action selector="addMediaButtonClick:" destination="-1" eventType="touchUpInside" id="dsb-QB-jTJ"/>
+                                                            </connections>
+                                                        </button>
+                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="댓글 입력해주세요." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lkE-fB-NsQ">
+                                                            <rect key="frame" x="23" y="0.0" width="242" height="20"/>
+                                                            <color key="textColor" name="nt-5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                            <textInputTraits key="textInputTraits"/>
+                                                        </textField>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="enV-gu-y2l">
+                                                            <rect key="frame" x="268" y="0.0" width="20" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="20" id="TS8-Mn-BHb"/>
+                                                                <constraint firstAttribute="height" constant="20" id="k0b-AG-rt7"/>
+                                                            </constraints>
+                                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                            <state key="normal" image="iconCloseSm"/>
+                                                            <connections>
+                                                                <action selector="deleteTextField:" destination="-1" eventType="touchUpInside" id="NGM-Se-nTf"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="qBE-Qi-Ata"/>
+                                                    </constraints>
+                                                </stackView>
+                                            </subviews>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <constraints>
+                                                <constraint firstItem="NwA-0k-tCC" firstAttribute="leading" secondItem="KIO-tH-yiL" secondAttribute="leading" constant="12" id="JMc-Fd-gEY"/>
+                                                <constraint firstAttribute="trailing" secondItem="NwA-0k-tCC" secondAttribute="trailing" constant="12" id="cWt-JK-U24"/>
+                                                <constraint firstItem="NwA-0k-tCC" firstAttribute="top" secondItem="KIO-tH-yiL" secondAttribute="top" constant="10" id="pxo-MA-5vT"/>
+                                                <constraint firstAttribute="bottom" secondItem="NwA-0k-tCC" secondAttribute="bottom" constant="10" id="tIo-KP-jwI"/>
+                                            </constraints>
+                                        </view>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VhC-yr-cXt">
+                                            <rect key="frame" x="320" y="0.0" width="62" height="40"/>
+                                            <color key="backgroundColor" name="nt-0"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="40" id="Anf-R8-6t4"/>
+                                                <constraint firstAttribute="width" constant="62" id="sz5-fg-ypi"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                            <state key="normal" title="작성">
+                                                <color key="titleColor" name="nt-9"/>
+                                            </state>
+                                            <state key="disabled">
+                                                <color key="titleColor" name="nt-3"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="sendMessage:" destination="-1" eventType="touchUpInside" id="bac-Kz-lHW"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstItem="zFa-1p-gt7" firstAttribute="leading" secondItem="wFn-JM-Scr" secondAttribute="leading" constant="16" id="7V1-CB-wz2"/>
+                                <constraint firstItem="zFa-1p-gt7" firstAttribute="top" secondItem="wFn-JM-Scr" secondAttribute="top" constant="8" id="l1H-et-Yhz"/>
+                                <constraint firstAttribute="trailing" secondItem="zFa-1p-gt7" secondAttribute="trailing" constant="16" id="psM-qh-doi"/>
+                                <constraint firstAttribute="bottom" secondItem="zFa-1p-gt7" secondAttribute="bottom" constant="8" id="s2R-op-38B"/>
+                                <constraint firstAttribute="height" constant="56" id="zFr-Bd-ddG"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="X8z-lZ-cQM" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="0YX-tS-Zce"/>
+                <constraint firstItem="X8z-lZ-cQM" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="6pz-hy-fiF"/>
+                <constraint firstItem="X8z-lZ-cQM" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="W7H-zW-kei"/>
+                <constraint firstItem="X8z-lZ-cQM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="fwY-gy-1GL"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="137.68115942028987" y="1.3392857142857142"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="iconAddCircleSm" width="20" height="20"/>
+        <image name="iconCloseSm" width="20" height="20"/>
+        <namedColor name="nt-0">
+            <color red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="nt-2">
+            <color red="0.84313725490196079" green="0.84313725490196079" blue="0.84313725490196079" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="nt-3">
+            <color red="0.68627450980392157" green="0.68627450980392157" blue="0.68627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="nt-5">
+            <color red="0.49019607843137253" green="0.49019607843137253" blue="0.49019607843137253" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="nt-9">
+            <color red="0.098039215686274508" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

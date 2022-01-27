@@ -8,18 +8,44 @@
 
 import Foundation
 
-struct BoardDetailViewModel {
+class BoardDetailViewModel {
     
-    func fetchBoardDetail() {
-        Server.fetchBoardDetail(mid: "", document_srl: "") { data in
-            guard let data = data as? Data else { return }
-            let decoder = JSONDecoder()
-            
-            do {
-                let result = try decoder.decode(BoardResponseData.self, from: data)
-                
-            } catch {
-                debugPrint("error")
+    var listener: ((BoardDetailResponseData?) -> Void)?
+    
+    private var detailData: BoardDetailResponseData? = nil {
+        didSet {
+            self.listener?(detailData)
+        }
+    }
+    
+    func fetchBoardDetail(mid: String, document_srl: String) {
+        Server.fetchBoardDetail(mid: mid, document_srl: document_srl) { responseData in
+            guard let responseData = responseData as? BoardDetailResponseData else { return }
+            self.detailData = responseData
+        }
+    }
+    
+    func counOfComments() -> Int {
+        guard let comments = detailData?.comments else { return 0 }
+        return comments.count
+    }
+    
+    func getDetailData() -> BoardDetailResponseData? {
+        guard let data = detailData else { return nil }
+        return data
+    }
+    
+    func getComment(at index: Int) -> Comment {
+        guard let comments = detailData?.comments else { return Comment() }
+        return comments[index]
+    }
+    
+    func setLikeCount(document_srl: String, completion: @escaping (Bool) -> Void) {
+        Server.setLikeCount(document_srl: document_srl) { (isSuccess, _) in
+            if isSuccess {
+                completion(true)
+            } else {
+                completion(false)
             }
         }
     }
