@@ -93,7 +93,7 @@ extension MyArticleViewController: BoardTableViewDelegate {
         
     }
     
-    func didSelectItem() {
+    func didSelectItem(at index: Int) {
         
     }
     

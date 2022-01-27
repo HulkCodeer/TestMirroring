@@ -114,7 +114,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
         
     }
     
-    func didSelectItem() {
+    func didSelectItem(at index: Int) {
         
     }
     

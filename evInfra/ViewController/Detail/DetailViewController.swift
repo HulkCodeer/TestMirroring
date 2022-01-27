@@ -363,7 +363,7 @@ extension DetailViewController: BoardTableViewDelegate {
         
     }
     
-    func didSelectItem() {
+    func didSelectItem(at index: Int) {
         
     }
     
