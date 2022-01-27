@@ -391,17 +391,34 @@ class Server {
             "document_srl" : document_srl
         ]
         
-        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/mid/\(mid)/document_srl/\(document_srl)",
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/view/mid/\(mid)/document_srl/\(document_srl)",
                           method: .get,
-                          parameters: parameters,
+                          parameters: nil,
                           encoding: JSONEncoding.default,
                           headers: headers).validate().responseJSON { response in
             switch response.result {
             case .success(_):
-                completion(response.data)
+                guard let data = response.data else { return }
+                let decoder = JSONDecoder()
+                
+                do {
+                    let result = try decoder.decode(BoardDetailResponseData.self, from: data)
+                    completion(result)
+                } catch {
+                    debugPrint("error")
+                }
+                
             case .failure(let error):
-                completion(error.localizedDescription)
+                completion(error)
             }
+        }
+    }
+    
+    // MARK: - 게시글/댓글 좋아요 기능
+    static func setLikeCount(document_srl: String, completion: @escaping (Bool, Any) -> Void) {
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/like/document_srl/\(document_srl)")
+            .responseJSON { response in
+                responseJson(response: response, completion: completion)
         }
     }
     
