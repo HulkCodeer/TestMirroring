@@ -98,7 +98,7 @@ class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
             ).offset(16)
             $0.left.equalToSuperview().offset(16)
             $0.right.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-8)
         }
     }
     

@@ -74,7 +74,7 @@ class CardBoardViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.fetchFirstBoard(mid: category, sort: .LATEST)
+//        self.fetchFirstBoard(mid: category, sort: .LATEST)
     }
 }
 
@@ -209,9 +209,12 @@ extension CardBoardViewController: BoardTableViewDelegate {
         }
     }
     
-    func didSelectItem() {
+    func didSelectItem(at index: Int) {
         let storyboard = UIStoryboard(name: "BoardDetailViewController", bundle: nil)
         guard let boardDetailTableViewController = storyboard.instantiateViewController(withIdentifier: "BoardDetailViewController") as? BoardDetailViewController else { return }
+        
+        boardDetailTableViewController.category = category
+        boardDetailTableViewController.document_srl = communityBoardList[index].document_srl ?? ""
         
         self.navigationController?.push(viewController: boardDetailTableViewController)
     }

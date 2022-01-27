@@ -60,7 +60,7 @@ struct FilesItem: Decodable {
 }
 
 struct BoardDetailResponseData: Decodable {
-    var comments: [String]?
+    var comments: [Comment]?
     var has_next: Bool?
     var has_prev: Bool?
     var prize: Int?
@@ -95,7 +95,39 @@ struct Document: Decodable {
     var last_updater: String?
     var status: String?
     var comment_status: String?
-    var ipadress: String?
+    var ipaddress: String?
     var board_id: String?
     var findYoutube: Bool?
+}
+
+struct Comment: Decodable {
+    var comment_srl: String?
+    var module_srl: String?
+    var document_srl: String?
+    var parent_srl: String?
+    var is_secret: String?
+    var content: String?
+    var like_count: String?
+    var hate_count: String?
+    var report_count: String?
+    var mb_id: String?
+    var nick_name: String?
+    var uploaded_count: String?
+    var regdate: String?
+    var last_update: String?
+    var ipaddress: String?
+    var status: String?
+    var mb_profile: String?
+    var target_mb_id: String?
+    var target_nick_name: String?
+    var cover_filename: String?
+    var tags: String?
+    var comment_count: String?
+    var head: String?
+    var arrange: String?
+    var depth: String?
+    var blind: String?
+    var block: String?
+    var liked: Int?
+    var files: [FilesItem]?
 }

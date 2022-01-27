@@ -189,38 +189,21 @@ extension BoardWriteViewController: UICollectionViewDelegate {
                 }
             }
 
-        } else {
-            let cancel = UIAlertAction(title: "취소", style: .default) { action in
-                self.dismiss(animated: true, completion: nil)
-            }
-            let ok = UIAlertAction(title: "확인", style: .default) { action in
-                self.dismiss(animated: true, completion: nil)
-                self.selectedImages.remove(at: indexPath.row)
-                
-                DispatchQueue.main.async {
-                    self.photoCollectionView.reloadData()
-                }
-            }
-            
-            var actions = [UIAlertAction]()
-            actions.append(cancel)
-            actions.append(ok)
-            
-            let message = "선택하신 사진을 삭제하시겠습니까?"
-            UIAlertController.showAlert(title: "삭제안내", message: message, actions: actions)
-            /*
+        } else {            
             let popup = ConfirmPopupViewController(titleText: "삭제 안내", messageText: "선택하신 사진을 삭제 하시겠습니까?")
-            popup.deleteCompletion { [weak self] canDelete in
+            popup.addActionToButton(title: "취소", buttonType: .cancel)
+            popup.addActionToButton(title: "삭제", buttonType: .confirm)
+            popup.confirmDelegate = { [weak self] canDelete in
                 if canDelete {
                     self?.selectedImages.remove(at: indexPath.row)
-                    
+
                     DispatchQueue.main.async {
                         self?.photoCollectionView.reloadData()
                     }
                 }
             }
+            
             self.present(popup, animated: true, completion: nil)
-             */
         }
     }
 }
