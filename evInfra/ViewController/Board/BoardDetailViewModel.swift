@@ -49,4 +49,18 @@ class BoardDetailViewModel {
             }
         }
     }
+    
+    func reportBoard(document_srl: String, completion: @escaping (Bool, String) -> Void) {
+        Server.reportBoard(document_srl: document_srl) { (isSuccess, value) in
+            if isSuccess {
+                if let dictionary = value as? Dictionary<String, String> {
+                    completion(true, dictionary["error"] ?? "")
+                } else {
+                    completion(true, "게시글이 신고되었습니다.")
+                }
+            } else {
+                completion(false, "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요.")
+            }
+        }
+    }
 }

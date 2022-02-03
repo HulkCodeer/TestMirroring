@@ -21,30 +21,18 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="761"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z6d-w4-zr3" customClass="KeyboardInputView" customModule="evInfra" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="805" width="414" height="57"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="57" id="5fl-Fc-XW4"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="2qD-uk-uFN" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="85N-hQ-TxV"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="2qD-uk-uFN" secondAttribute="bottom" constant="57" id="AyO-Nu-ARi"/>
-                            <constraint firstItem="Z6d-w4-zr3" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="E71-dC-V64"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="2qD-uk-uFN" secondAttribute="bottom" constant="57" id="IMj-IK-q08"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="2qD-uk-uFN" secondAttribute="trailing" id="L2P-pt-4rm"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Z6d-w4-zr3" secondAttribute="trailing" id="PLg-FX-6fb"/>
                             <constraint firstItem="2qD-uk-uFN" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="h8G-Zy-Wh1"/>
-                            <constraint firstItem="Z6d-w4-zr3" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="hgt-Uj-bfS"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="detailTableView" destination="2qD-uk-uFN" id="zfx-rM-JDD"/>
-                        <outlet property="keyboardInputView" destination="Z6d-w4-zr3" id="ZFV-DM-Jlc"/>
-                        <outlet property="keyboardInputViewBottomMargin" destination="hgt-Uj-bfS" id="p9u-73-OKD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

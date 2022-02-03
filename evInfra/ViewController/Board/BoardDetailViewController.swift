@@ -8,50 +8,153 @@
 
 import UIKit
 import SnapKit
+import PanModal
+import AVFoundation
+import Material
 
-class BoardDetailViewController: UIViewController {
+class BoardDetailViewController: UIViewController, UINavigationControllerDelegate {
     
     @IBOutlet var detailTableView: UITableView!
-    @IBOutlet var keyboardInputView: KeyboardInputView!
-    @IBOutlet var selectedImageShowView: UIView!
-    @IBOutlet var keyboardInputViewBottomMargin: NSLayoutConstraint!
     
     var category = Board.CommunityType.FREE.rawValue
     var document_srl: String = ""
     let boardDetailViewModel = BoardDetailViewModel()
+    let picker = UIImagePickerController()
+    
+    var keyboardInputView = KeyboardInputView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        fetchData()
+        setDelegate()
+        setKeyboardInputView()
+        setKeyboardTapGesture()
+        setSendButtonCompletion()
+    }
+    private func fetchData() {
         boardDetailViewModel.fetchBoardDetail(mid: category, document_srl: document_srl)
         boardDetailViewModel.listener = { [weak self] detail in
             DispatchQueue.main.async {
                 self?.detailTableView.reloadData()
             }
         }
-        
-        self.detailTableView.delegate = self
-        self.detailTableView.dataSource = self
-        self.detailTableView.register(UINib(nibName: "BoardDetailTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "BoardDetailTableViewHeader")
-        self.detailTableView.register(UINib(nibName: "BoardDetailTableViewCell", bundle: nil), forCellReuseIdentifier: "BoardDetailTableViewCell")
+    }
+    
+    private func setDelegate() {
+        picker.delegate = self
+        keyboardInputView.delegate = self
+        detailTableView.delegate = self
+        detailTableView.dataSource = self
+        detailTableView.register(UINib(nibName: "BoardDetailTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "BoardDetailTableViewHeader")
+        detailTableView.register(UINib(nibName: "BoardDetailTableViewCell", bundle: nil), forCellReuseIdentifier: "BoardDetailTableViewCell")
         if #available(iOS 15.0, *) {
             self.detailTableView.sectionHeaderTopPadding = 0
         }
+    }
+    
+    private func setKeyboardInputView() {
+        self.view.addSubview(keyboardInputView)
         
-        setSelectedImageView()
-        setKeyboardObserver()
+        keyboardInputView.snp.makeConstraints {
+            $0.left.right.equalToSuperview().offset(0)
+            $0.bottom.equalToSuperview().offset(0)
+        }
     }
     
-    private func setSelectedImageView() {
-//        selectedImageShowView.isHidden = true
-    }
-    
-    private func setKeyboardObserver() {
+    private func setKeyboardTapGesture() {
         let tapTouch = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        view.addGestureRecognizer(tapTouch)
+        self.view.addGestureRecognizer(tapTouch)
+    }
+    
+    private func setSendButtonCompletion() {
+        keyboardInputView.sendButtonCompletionHandler = { text in
+            print(text)
+            
+            
+        }
+    }
+}
+
+extension BoardDetailViewController: MediaButtonTappedDelegate {
+    func presentModal() {
+        let rowVC = GroupViewController()
+        rowVC.members = ["갤러리 이동", "사진 촬영"]
+        presentPanModal(rowVC)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustInputView), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustInputView), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        rowVC.selectedCompletion = { index in
+            self.dismiss(animated: true, completion: nil)
+            
+            switch index {
+            case 0:
+                self.openPhotoLib()
+            case 1:
+                self.openCamera()
+            default:
+                break
+            }
+        }
+    }
+    
+    func openPhotoLib() {
+        picker.sourceType = .photoLibrary
+        self.present(picker, animated: false, completion: nil)
+    }
+    
+    func openCamera() {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        if status == .notDetermined || status == .denied {
+            // 권한 요청
+            AVCaptureDevice.requestAccess(for: .video) { grated in
+                if !grated {
+                    self.showAuthAlert()
+                }
+            }
+        } else if status == .authorized {
+            picker.sourceType = .camera
+            self.present(picker, animated: false, completion: nil)
+        }
+    }
+    
+    private func showAuthAlert() {
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) in
+            Snackbar().show(message: "카메라 기능이 활성화되지 않았습니다.")
+            self.navigationController?.pop()
+        }
+        
+        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertActionStyle.default) { (action) in
+            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }
+        }
+        var actions = Array<UIAlertAction>()
+        actions.append(cancelAction)
+        actions.append(openAction)
+        
+        UIAlertController.showAlert(title: "카메라 기능이 활성화되지 않았습니다", message: "사진추가를 위해 카메라 권한이 필요합니다", actions: actions)
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate
+extension BoardDetailViewController: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage
+        let selectedImage = editedImage ?? originalImage
+        
+        keyboardInputView.selectedImageView.isHidden = false
+        keyboardInputView.selectedImageView.image = selectedImage
+        keyboardInputView.trashButton.isHidden = false
+        keyboardInputView.selectedImageViewHeight.constant = 80
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -62,13 +165,12 @@ extension BoardDetailViewController: UITableViewDelegate {
             
             view.configure(item: boardDetailViewModel.getDetailData())
             view.setUI()
+            view.buttonClickDelegate = self
             return view
         } else {
             // 댓글이 없을 경우, empty view 표시
             if boardDetailViewModel.getDetailData()?.comments?.count == 0 {
-                let emptyView: BoardEmptyView = BoardEmptyView()
-                
-                return emptyView
+                return BoardEmptyView()
             } else {
                 return nil
             }
@@ -135,10 +237,31 @@ extension BoardDetailViewController: UITableViewDataSource {
 
 // MARK: - ButtonClickDelegate
 extension BoardDetailViewController: ButtonClickDelegate {
-    
-    
-    func reportButtonCliked() {
-        
+    func reportButtonCliked(isHeader: Bool) {
+        if isHeader {
+            let rowVC = GroupViewController()
+            rowVC.members = ["공유하기", "신고하기"]
+            presentPanModal(rowVC)
+            
+            rowVC.selectedCompletion = { index in
+                self.dismiss(animated: true) {
+                    switch index {
+                    case 0:
+                        // 공유하기
+                        print("공유하기")
+                    case 1:
+                        // 신고하기
+                        self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { (_, message) in
+                            Snackbar().show(message: message)
+                        }
+                    default:
+                        break
+                    }
+                }
+            }
+        } else {
+            
+        }
     }
     
     func likeButtonCliked(isLiked: Bool, document_srl: String) {
@@ -167,30 +290,10 @@ extension BoardDetailViewController: ButtonClickDelegate {
     }
 }
 
-
-// MARK: - Keyboard
+// MARK: - EndEditing
 extension BoardDetailViewController {
-    @objc private func adjustInputView(notification: Notification) {
-        guard let userInfo = notification.userInfo else { return }
-        guard let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-        guard let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
-        
-        if notification.name == NSNotification.Name.UIKeyboardWillShow {
-            let adjustmentHeight = keyboardFrame.height - self.view.safeAreaInsets.bottom
-            
-            UIView.animate(withDuration: animationDuration) {
-                self.keyboardInputViewBottomMargin.constant = -adjustmentHeight
-                self.view.layoutIfNeeded()
-            }
-        } else {
-            UIView.animate(withDuration: animationDuration) {
-                self.keyboardInputViewBottomMargin.constant = 0
-                self.view.layoutIfNeeded()
-            }
-        }
-    }
-    
     @objc private func handleTap(recognizer: UITapGestureRecognizer) {
         self.view.endEditing(true)
     }
 }
+

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ButtonClickDelegate {
-    func reportButtonCliked()
+    func reportButtonCliked(isHeader: Bool)
     func likeButtonCliked(isLiked: Bool, document_srl: String)
     func commentButtonCliked()
     func deleteButtonCliked()
@@ -144,7 +144,7 @@ class BoardDetailTableViewCell: UITableViewCell {
     }
     
     @IBAction func reportButtonClick(_ sender: Any) {
-        self.buttonClickDelegate?.reportButtonCliked()
+        self.buttonClickDelegate?.reportButtonCliked(isHeader: false)
     }
     
     @IBAction func likeButtonClick(_ sender: Any) {

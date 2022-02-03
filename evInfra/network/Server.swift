@@ -422,6 +422,22 @@ class Server {
         }
     }
     
+    // MARK: - 게시글/댓글 신고하기 기능
+    static func reportBoard(document_srl: String, completion: @escaping (Bool, Any) -> Void) {
+        let headers = [
+            "mb_id" : "\(MemberManager.getMbId())",
+            "nick_name" : "\(MemberManager.getMemberNickname())",
+            "profile" : "\(MemberManager.getProfileImage())"
+        ]
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/report/document_srl/\(document_srl)",
+                          method: .get,
+                          parameters: nil,
+                          encoding: JSONEncoding.default,
+                          headers: headers).responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
     
     // 게시판 - 공지사항 리스트
     static func getNoticeList(completion: @escaping (Bool, Any) -> Void) {
