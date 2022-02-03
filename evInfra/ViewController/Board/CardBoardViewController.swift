@@ -210,11 +210,14 @@ extension CardBoardViewController: BoardTableViewDelegate {
     }
     
     func didSelectItem(at index: Int) {
+        guard let documentSRL = communityBoardList[index].document_srl,
+        !documentSRL.elementsEqual("-1") else { return }
+        
         let storyboard = UIStoryboard(name: "BoardDetailViewController", bundle: nil)
         guard let boardDetailTableViewController = storyboard.instantiateViewController(withIdentifier: "BoardDetailViewController") as? BoardDetailViewController else { return }
         
         boardDetailTableViewController.category = category
-        boardDetailTableViewController.document_srl = communityBoardList[index].document_srl ?? ""
+        boardDetailTableViewController.document_srl = documentSRL
         
         self.navigationController?.push(viewController: boardDetailTableViewController)
     }

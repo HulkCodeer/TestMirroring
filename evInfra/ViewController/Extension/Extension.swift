@@ -25,6 +25,7 @@ class GroupViewController: UITableViewController {
     func setupTableView() {
 
         tableView.separatorStyle = .singleLine
+        tableView.isScrollEnabled = false
         tableView.backgroundColor = UIColor(named: "nt-white")
         tableView.register(GroupMemeberCell.self, forCellReuseIdentifier: "cell")
     }
@@ -45,13 +46,12 @@ class GroupViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60.0
+        return 55.0
     }
 
     // MARK: - UITableViewDelegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedCompletion?(indexPath.row)
-//        self.dismiss(animated: true, completion: nil)
     }
 }
 

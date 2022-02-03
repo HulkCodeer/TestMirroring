@@ -14,6 +14,7 @@ struct BoardResponseData: Decodable {
     var size: Int?
     var prize: Int?
     var list: [BoardListItem]?
+    var liked: [String]?
 }
 
 struct BoardListItem: Decodable {
