@@ -128,7 +128,7 @@
                 <outlet property="profileImage" destination="wRT-sP-eqm" id="BFF-jJ-1e6"/>
                 <outlet property="replyCountLabel" destination="bac-kc-MM3" id="UBs-yp-8Sc"/>
                 <outlet property="replyView" destination="kCO-lh-72P" id="C6x-Cj-7Jg"/>
-                <outlet property="userNameLable" destination="zOk-do-V4J" id="nCv-9W-b5g"/>
+                <outlet property="userNameLabel" destination="zOk-do-V4J" id="g4F-gu-yT1"/>
             </connections>
             <point key="canvasLocation" x="-38" y="-30"/>
         </tableViewCell>

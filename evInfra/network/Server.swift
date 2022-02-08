@@ -427,9 +427,27 @@ class Server {
         }
     }
     
-    // MARK: - Community 개선 - 게시글/댓글 좋아요 기능
-    static func setLikeCount(document_srl: String, completion: @escaping (Bool, Any) -> Void) {
-        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/like/document_srl/\(document_srl)")
+    // MARK: - Community 개선 - 게시글 좋아요 기능
+    static func setLikeCount(srl: String, isComment: Bool, completion: @escaping (Bool, Any) -> Void) {
+        let headers = [
+            "mb_id" : "\(MemberManager.getMbId())",
+            "nick_name" : "\(MemberManager.getMemberNickname())",
+            "profile" : "\(MemberManager.getProfileImage())"
+        ]
+        
+        var url = Const.EV_COMMUNITY_SERVER
+        
+        if isComment {
+            url += "/comment_like/comment_srl/\(srl)"
+        } else {
+            url += "/like/document_srl/\(srl)"
+        }
+        
+        Alamofire.request(url,
+                          method: .get,
+                          parameters: nil,
+                          encoding: JSONEncoding.default,
+                          headers: headers)
             .responseJSON { response in
                 responseJson(response: response, completion: completion)
         }
@@ -453,7 +471,7 @@ class Server {
     }
     
     // MARK: - Community 개선 - 댓글 작성
-    static func postComment(mid: String, documentSRL: String, targetMbId: String, targetNickName: String, parentSRL: String, head: String, depth: String, content: String, isRecomment: Bool, completion: @escaping (Bool, Any) -> Void) {
+    static func postComment(mid: String, documentSRL: String, recomment: Recomment?, content: String, isRecomment: Bool, completion: @escaping (Bool, Any) -> Void) {
         let headers = [
             "mb_id" : "\(MemberManager.getMbId())",
             "nick_name" : "\(MemberManager.getMemberNickname())",
@@ -463,11 +481,13 @@ class Server {
         var parameters: [String: String] = ["content" : "\(content)"]
         
         if isRecomment {
-            parameters["target_mb_id"] = targetMbId
-            parameters["target_nick_name"] = targetNickName
-            parameters["parent_srl"] = parentSRL
-            parameters["head"] = head
-            parameters["depth"] = depth
+            guard let recomment = recomment else { return }
+
+            parameters["target_mb_id"] = recomment.targetMbId
+            parameters["target_nick_name"] = recomment.targetNickName
+            parameters["parent_srl"] = recomment.parentSRL
+            parameters["head"] = recomment.head
+            parameters["depth"] = recomment.depth
         }
         
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/comment_write/mid/\(mid)/document_srl/\(documentSRL)",
@@ -495,9 +515,18 @@ class Server {
     }
     
     // MARK: - Community 개선 - 댓글 이미지 업로드
-    static func commentImageUpload(mid: String, document_srl: String, comment_srl: String) {
+    static func commentImageUpload(mid: String, document_srl: String, comment_srl: String, image: UIImage, completion: @escaping(Bool, Any) -> Void) {
+        guard let imageData = UIImageJPEGRepresentation(image, 1.0) else { return }
+        
         let url = Const.EV_COMMUNITY_SERVER + "/comment_file/mid/\(mid)/document_srl/\(document_srl)/comment_srl/\(comment_srl)"
         
+        imageUpload(imageData: imageData, url: url) { (isSuccess, response) in
+            if isSuccess {
+                completion(true, response)
+            } else {
+                completion(false, response)
+            }
+        }
     }
     
     // MARK: - Community 개선 - 이미지 업로드 로직 (게시글, 댓글)

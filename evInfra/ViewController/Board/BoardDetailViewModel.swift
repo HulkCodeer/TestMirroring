@@ -25,6 +25,53 @@ class BoardDetailViewModel {
         }
     }
     
+    func deleteBoard(document_srl: String, completion: @escaping (Bool) -> Void) {
+        Server.deleteBoard(document_srl: document_srl) { (isSuccess, response) in
+            if isSuccess {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
+    }
+    
+    func postComment(mid: String, documentSRL: String, recomment: Recomment?, content: String, isRecomment: Bool, image: UIImage?, completion: @escaping (Bool) -> Void) {
+        
+        Server.postComment(mid: mid,
+                           documentSRL: documentSRL,
+                           recomment: recomment,
+                           content: content,
+                           isRecomment: isRecomment) { isSuccess, value in
+            if isSuccess {
+                if let results = value as? Dictionary<String, String>,
+                    let commentSRL = results["comment_srl"] {
+                    
+                    guard let image = image else {
+                        completion(true)
+                        return
+                    }
+                    
+                    Server.commentImageUpload(mid: mid, document_srl: documentSRL, comment_srl: commentSRL, image: image) { isSuccess, response in
+                        if isSuccess {
+                            completion(true)
+                        } else {
+                            completion(false)
+                        }
+                    }
+                } else {
+                    completion(false)
+                }
+            } else {
+                completion(false)
+            }
+        }
+    }
+    
+    func isMyBoard(mb_id: String) -> Bool {
+        let memberMB_ID = String(MemberManager.getMbId())
+        return memberMB_ID.elementsEqual(mb_id)
+    }
+    
     func counOfComments() -> Int {
         guard let comments = detailData?.comments else { return 0 }
         return comments.count
@@ -40,12 +87,17 @@ class BoardDetailViewModel {
         return comments[index]
     }
     
-    func setLikeCount(document_srl: String, completion: @escaping (Bool) -> Void) {
-        Server.setLikeCount(document_srl: document_srl) { (isSuccess, _) in
+    func setLikeCount(srl: String, isComment: Bool, completion: @escaping (Bool, Any?) -> Void) {
+        Server.setLikeCount(srl: srl, isComment: isComment) { (isSuccess, value) in
             if isSuccess {
-                completion(true)
+                if let response = value as? Dictionary<String, String> {
+                    let message = response["error"]
+                    completion(true, message)
+                } else {
+                    completion(true, nil)
+                }
             } else {
-                completion(false)
+                completion(false, nil)
             }
         }
     }

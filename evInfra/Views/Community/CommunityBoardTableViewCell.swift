@@ -13,7 +13,7 @@ import SDWebImage
 class CommunityBoardTableViewCell: UITableViewCell {
     
     @IBOutlet var profileImage: UIImageView!
-    @IBOutlet var userNameLable: UILabel!
+    @IBOutlet var userNameLabel: UILabel!
     @IBOutlet var adminIconImage: UIImageView!
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var contentsLabel: UILabel!
@@ -43,9 +43,19 @@ class CommunityBoardTableViewCell: UITableViewCell {
     func configure(item: BoardListItem?) {
         guard let item = item else { return }
         
+        if isReportedItem(item: item) {
+            profileImage.isHidden = true
+            userNameLabel.isHidden = true
+            dateLabel.isHidden = true
+            contentsLabel.text = item.title
+            contentsLabel.numberOfLines = 1
+            replyView.isHidden = true
+            return
+        }
+        
         profileImage.sd_setImage(with: URL(string: "\(Const.urlProfileImage)\(item.mb_profile ?? "")"), placeholderImage: UIImage(named: "ic_person_base36"))   
         
-        userNameLable.text = item.nick_name
+        userNameLabel.text = item.nick_name
         dateLabel.text = "| \(DateUtils.getTimesAgoString(date: item.regdate!))"
         
         if let files = item.files {
@@ -75,5 +85,10 @@ class CommunityBoardTableViewCell: UITableViewCell {
                 replyCountLabel.text = "\(count)"
             }
         }
+    }
+    
+    func isReportedItem(item: BoardListItem) -> Bool {
+        guard let documentSRL = item.document_srl else { return false }
+        return documentSRL.elementsEqual("-1")
     }
 }

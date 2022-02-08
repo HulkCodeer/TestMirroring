@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 import PanModal
 import AVFoundation
-import Material
 
 class BoardDetailViewController: UIViewController, UINavigationControllerDelegate {
     
@@ -18,10 +17,12 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
     
     var category = Board.CommunityType.FREE.rawValue
     var document_srl: String = ""
+    var detail: BoardDetailResponseData? = nil
+    var keyboardInputView = KeyboardInputView()
+    var recomment: Recomment?
+    
     let boardDetailViewModel = BoardDetailViewModel()
     let picker = UIImagePickerController()
-    
-    var keyboardInputView = KeyboardInputView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,12 +33,31 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
         setKeyboardTapGesture()
         setSendButtonCompletion()
     }
+    
     private func fetchData() {
         boardDetailViewModel.fetchBoardDetail(mid: category, document_srl: document_srl)
         boardDetailViewModel.listener = { [weak self] detail in
+            self?.detail = detail
             DispatchQueue.main.async {
                 self?.detailTableView.reloadData()
             }
+        }
+    }
+    
+    private func scrollToBottom() {
+        guard let countOfComments = detail?.comments?.count,
+        countOfComments > 0 else { return }
+        
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: countOfComments - 1, section: 1)
+            self.detailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+    }
+    
+    private func scrollToRow(row: Int) {
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: row - 1, section: 1)
+            self.detailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
     
@@ -48,6 +68,7 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
         detailTableView.dataSource = self
         detailTableView.register(UINib(nibName: "BoardDetailTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "BoardDetailTableViewHeader")
         detailTableView.register(UINib(nibName: "BoardDetailTableViewCell", bundle: nil), forCellReuseIdentifier: "BoardDetailTableViewCell")
+        
         if #available(iOS 15.0, *) {
             self.detailTableView.sectionHeaderTopPadding = 0
         }
@@ -68,10 +89,25 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
     }
     
     private func setSendButtonCompletion() {
-        keyboardInputView.sendButtonCompletionHandler = { text in
-            print(text)
+        keyboardInputView.sendButtonCompletionHandler = { [weak self] text, isRecomment in
+            guard let self = self,
+                    let detail = self.detail,
+                    let document = detail.document else { return }
             
+            let selectedImage = self.keyboardInputView.selectedImageView.image
             
+            self.boardDetailViewModel.postComment(mid: self.category,
+                                                  documentSRL: document.document_srl!,
+                                                  recomment: self.recomment,
+                                                  content: text,
+                                                  isRecomment: isRecomment,
+                                                  image: selectedImage) { isSuccess in
+                if isSuccess {
+                    self.fetchData()
+                } else {
+                    // show error
+                }
+            }
         }
     }
 }
@@ -133,7 +169,7 @@ extension BoardDetailViewController: MediaButtonTappedDelegate {
         actions.append(cancelAction)
         actions.append(openAction)
         
-        UIAlertController.showAlert(title: "카메라 기능이 활성화되지 않았습니다", message: "사진추가를 위해 카메라 권한이 필요합니다", actions: actions)
+        UIAlertController.showAlert(title: "카메라 기능이 활성화되지 않았습니다.", message: "사진추가를 위해 카메라 권한이 필요합니다.", actions: actions)
     }
 }
 
@@ -213,7 +249,6 @@ extension BoardDetailViewController: UITableViewDelegate {
 
 extension BoardDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // 대댓글이 있을 경우 그 갯수 만큼
         if section == 0 {
             return 0
         } else {
@@ -225,7 +260,7 @@ extension BoardDetailViewController: UITableViewDataSource {
         if indexPath.section == 1 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "BoardDetailTableViewCell", for: indexPath) as? BoardDetailTableViewCell else { return UITableViewCell() }
             
-            cell.configureComment(comment: boardDetailViewModel.getComment(at: indexPath.row))
+            cell.configureComment(comment: boardDetailViewModel.getComment(at: indexPath.row), row: indexPath.row)
             cell.buttonClickDelegate = self
             
             return cell
@@ -237,25 +272,74 @@ extension BoardDetailViewController: UITableViewDataSource {
 
 // MARK: - ButtonClickDelegate
 extension BoardDetailViewController: ButtonClickDelegate {
+    
     func reportButtonCliked(isHeader: Bool) {
+        guard let detail = detail,
+        let document = detail.document else { return }
+        
+        let rowVC = GroupViewController()
+        
         if isHeader {
-            let rowVC = GroupViewController()
-            rowVC.members = ["공유하기", "신고하기"]
-            presentPanModal(rowVC)
-            
-            rowVC.selectedCompletion = { index in
-                self.dismiss(animated: true) {
-                    switch index {
-                    case 0:
-                        // 공유하기
-                        print("공유하기")
-                    case 1:
-                        // 신고하기
-                        self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { (_, message) in
-                            Snackbar().show(message: message)
+            if boardDetailViewModel.isMyBoard(mb_id: document.mb_id!) {
+                rowVC.members = ["수정하기", "삭제하기", "공유하기"]
+                presentPanModal(rowVC)
+                
+                rowVC.selectedCompletion = { index in
+                    self.dismiss(animated: true) {
+                        switch index {
+                        case 0:
+                            // 수정하기
+                            print("수정하기")
+                        case 1:
+                            // 삭제하기
+                            let popup = ConfirmPopupViewController(titleText: "삭제", messageText: "게시글을 삭제 하시겠습니까?")
+                            popup.addActionToButton(title: "취소", buttonType: .cancel)
+                            popup.addActionToButton(title: "삭제", buttonType: .confirm)
+                            popup.confirmDelegate = { [weak self] isDelete in
+                                guard let self = self else { return }
+                                
+                                self.boardDetailViewModel.deleteBoard(document_srl: self.document_srl) { isSuccess in
+                                    let trasientAlertView = TransientAlertViewController()
+                                    
+                                    if isSuccess {
+                                        trasientAlertView.titlemessage = "게시글이 삭제 되었습니다."
+                                        trasientAlertView.dismissCompletion = {
+                                            self.navigationController?.pop()
+                                        }
+                                    } else {
+                                        trasientAlertView.titlemessage = "오류가 발생했습니다. 다시 시도해 주세요."
+                                    }
+                                    self.presentPanModal(trasientAlertView)
+                                }
+                            }
+                            
+                            self.present(popup, animated: true, completion: nil)
+                        case 2:
+                            // 공유하기
+                            print("공유하기")
+                        default:
+                            break
                         }
-                    default:
-                        break
+                    }
+                }
+            } else {
+                rowVC.members = ["공유하기", "신고하기"]
+                presentPanModal(rowVC)
+                
+                rowVC.selectedCompletion = { index in
+                    self.dismiss(animated: true) {
+                        switch index {
+                        case 0:
+                            // 공유하기
+                            print("공유하기")
+                        case 1:
+                            // 신고하기
+                            self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { (_, message) in
+                                Snackbar().show(message: message)
+                            }
+                        default:
+                            break
+                        }
                     }
                 }
             }
@@ -264,15 +348,28 @@ extension BoardDetailViewController: ButtonClickDelegate {
         }
     }
     
-    func likeButtonCliked(isLiked: Bool, document_srl: String) {
-        let popup = ConfirmPopupViewController(titleText: "좋아요", messageText: "좋아요 하시겠습니까?")
+    func likeButtonCliked(isLiked: Bool, isComment: Bool, srl: String) {
+        var title = "좋아요"
+        var message = "좋아요 하시겠습니까?"
+        
+        if isLiked {
+            title = "좋아요 취소"
+            message = "좋아요 취소하시겠습니까?"
+        }
+        
+        let popup = ConfirmPopupViewController(titleText: title, messageText: message)
         popup.addActionToButton(title: "취소", buttonType: .cancel)
-        popup.addActionToButton(title: "좋아요", buttonType: .confirm)
+        popup.addActionToButton(title: title, buttonType: .confirm)
         popup.confirmDelegate = { [weak self] isLiked in
-            self?.boardDetailViewModel.setLikeCount(document_srl: document_srl) { [weak self] isSuccess in
+            guard let self = self else { return }
+            self.boardDetailViewModel.setLikeCount(srl: srl, isComment: isComment) { (isSuccess, message) in
                 if isSuccess {
-                    DispatchQueue.main.async {
-                        self?.detailTableView.reloadData()
+                    if let message = message as? String {
+                        let trasientAlertView = TransientAlertViewController()
+                        trasientAlertView.titlemessage = message
+                        self.presentPanModal(trasientAlertView)
+                    } else {
+                        self.fetchData()
                     }
                 }
             }
@@ -281,8 +378,9 @@ extension BoardDetailViewController: ButtonClickDelegate {
         self.present(popup, animated: true, completion: nil)
     }
     
-    func commentButtonCliked() {
-        
+    func commentButtonCliked(recomment: Recomment) {
+        self.recomment = recomment
+        keyboardInputView.becomeResponder(targetNickName: recomment.targetNickName)
     }
     
     func deleteButtonCliked() {

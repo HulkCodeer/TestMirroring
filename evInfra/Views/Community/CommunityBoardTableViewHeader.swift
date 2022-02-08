@@ -144,7 +144,6 @@ extension CommunityBoardTableViewHeader: TTGTextTagCollectionViewDelegate {
     func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTap tag: TTGTextTag!, at index: UInt) {
         guard tag.selected else { return }
             
-        debugPrint("\(Int(index)) tag \(tag.selected)")
         let selectedIndex = Int(index)
         
         var type: Board.SortType = .LATEST
@@ -178,19 +177,20 @@ extension CommunityBoardTableViewHeader {
 
         let cornerRadiusValue: CGFloat = 12.0
         let shadowOpacity: CGFloat = 0.0
-        let extraSpace = CGSize(width: 24, height: 14)
+        let extraSpace = CGSize.init(width: 24, height: 14)
 
         let style = TTGTextTagStyle()
-        style.backgroundColor = UIColor(red: 245, green: 245, blue: 245)
+        style.backgroundColor = UIColor(named: "nt-0")!
         style.cornerRadius = cornerRadiusValue
-        style.borderWidth = 0.0
+        style.borderWidth = 1
         style.shadowOpacity = shadowOpacity
         style.extraSpace = extraSpace
-        // bordercolor 정의
+        style.borderColor = UIColor(named: "nt-2")!
 
         let selectedStyle = TTGTextTagStyle()
-        selectedStyle.backgroundColor = .black
+        selectedStyle.backgroundColor = UIColor(named: "nt-9")!
         selectedStyle.cornerRadius = cornerRadiusValue
+        selectedStyle.borderWidth = 0
         selectedStyle.shadowOpacity = shadowOpacity
         selectedStyle.extraSpace = extraSpace
 
@@ -216,6 +216,8 @@ extension CommunityBoardTableViewHeader {
 
             tagCollectionView.addTag(tag)
         }
+        
+        tagCollectionView.updateTag(at: 0, selected: true)
     }
 }
 

@@ -132,3 +132,12 @@ struct Comment: Decodable {
     var liked: Int?
     var files: [FilesItem]?
 }
+
+struct Recomment {
+    var targetMbId: String
+    var targetNickName: String
+    var parentSRL: String
+    var head: String
+    var depth: String
+    var row: Int
+}

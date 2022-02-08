@@ -107,6 +107,9 @@
 		525E3A30278D732700F5C54D /* BoardWriteViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A2E278D732700F5C54D /* BoardWriteViewController.storyboard */; };
 		525E3A31278D732700F5C54D /* BoardWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */; };
 		525E3A33278D739E00F5C54D /* BoardWriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A32278D739E00F5C54D /* BoardWriteButton.swift */; };
+		527165C327B2516D0078DF3A /* TransientAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527165C227B2516D0078DF3A /* TransientAlertViewController.swift */; };
+		527165C527B251820078DF3A /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527165C427B251820078DF3A /* AlertViewController.swift */; };
+		527165C727B251E20078DF3A /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527165C627B251E20078DF3A /* AlertView.swift */; };
 		52ADE4FF27964A1F00FBBA25 /* BoardWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ADE4FE27964A1F00FBBA25 /* BoardWriteViewModel.swift */; };
 		52ADE50127969ED900FBBA25 /* ConfirmPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ADE50027969ED900FBBA25 /* ConfirmPopupViewController.swift */; };
 		52B2241F27A0DDF900B620BB /* BoardEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B2241E27A0DDF900B620BB /* BoardEmptyView.swift */; };
@@ -480,6 +483,9 @@
 		525E3A2E278D732700F5C54D /* BoardWriteViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BoardWriteViewController.storyboard; sourceTree = "<group>"; };
 		525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardWriteViewController.swift; sourceTree = "<group>"; };
 		525E3A32278D739E00F5C54D /* BoardWriteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardWriteButton.swift; sourceTree = "<group>"; };
+		527165C227B2516D0078DF3A /* TransientAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransientAlertViewController.swift; sourceTree = "<group>"; };
+		527165C427B251820078DF3A /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		527165C627B251E20078DF3A /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		52ADE4FE27964A1F00FBBA25 /* BoardWriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardWriteViewModel.swift; sourceTree = "<group>"; };
 		52ADE50027969ED900FBBA25 /* ConfirmPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPopupViewController.swift; sourceTree = "<group>"; };
 		52B2241E27A0DDF900B620BB /* BoardEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEmptyView.swift; sourceTree = "<group>"; };
@@ -987,6 +993,16 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		527165C127B2514A0078DF3A /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				527165C227B2516D0078DF3A /* TransientAlertViewController.swift */,
+				527165C427B251820078DF3A /* AlertViewController.swift */,
+				527165C627B251E20078DF3A /* AlertView.swift */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
 		52B2594B278EBAB90042B22C /* Community */ = {
 			isa = PBXGroup;
 			children = (
@@ -1326,6 +1342,7 @@
 		73EF8B41203BC53200D04494 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				527165C127B2514A0078DF3A /* Alert */,
 				DB3B858120A42B91005454F5 /* Localization */,
 				00AE577726CE4851003E6643 /* RangeSeekSlider */,
 				73EE8FB42101B7920016F505 /* BedgeButton.swift */,
@@ -1946,6 +1963,8 @@
 				CECA908A2084A9F50083518B /* TermsViewController.swift in Sources */,
 				52D0F66A279E33B80070824E /* BoardDetailViewModel.swift in Sources */,
 				DBABCC4927477BC600E2C7ED /* EIAdManager.swift in Sources */,
+				527165C527B251820078DF3A /* AlertViewController.swift in Sources */,
+				527165C327B2516D0078DF3A /* TransientAlertViewController.swift in Sources */,
 				90CA0DE42488B82900904015 /* DataBaseHelper.swift in Sources */,
 				52B2241F27A0DDF900B620BB /* BoardEmptyView.swift in Sources */,
 				DBEE9AF82117DB5600770D04 /* LoginViewController.swift in Sources */,
@@ -2048,6 +2067,7 @@
 				736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */,
 				902A11DA248F5E440049EF8E /* StringUtils.swift in Sources */,
 				00A6A16826C3C4450023DAE3 /* FilterBarView.swift in Sources */,
+				527165C727B251E20078DF3A /* AlertView.swift in Sources */,
 				0012443F25A2E92300376CDC /* IntroImageCheckerDelegate.swift in Sources */,
 				7379A45022CB43C600F4271C /* Connector.swift in Sources */,
 				CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */,

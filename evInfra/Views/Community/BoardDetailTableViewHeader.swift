@@ -21,6 +21,9 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     @IBOutlet var likedCountLabel: UILabel!
     @IBOutlet var commentsCountLabel: UILabel!
     
+    @IBOutlet var likeButton: UIButton!
+    @IBOutlet var commentButton: UIButton!
+    
     @IBOutlet var imageContainerView: UIView!
     @IBOutlet var imageStackView: UIStackView!
     @IBOutlet var image1: UIImageView!
@@ -29,7 +32,9 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     @IBOutlet var image4: UIImageView!
     @IBOutlet var image5: UIImageView!
     
+    private var document: Document?
     private var files: [FilesItem] = []
+    var buttonClickDelegate: ButtonClickDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -39,21 +44,11 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     
     func setUI() {
         profileImageView.layer.cornerRadius = profileImageView.frame.height/2
-        image1.translatesAutoresizingMaskIntoConstraints = true
-        image2.translatesAutoresizingMaskIntoConstraints = true
-        image3.translatesAutoresizingMaskIntoConstraints = true
-        image4.translatesAutoresizingMaskIntoConstraints = true
-        image5.translatesAutoresizingMaskIntoConstraints = true
-//        image1.isHidden = true
-//        image2.isHidden = true
-//        image3.isHidden = true
-//        image4.isHidden = true
-//        image5.isHidden = true
-//        imageStackView.isHidden = true
-//        self.addSubview(imageTableView)
-//        self.imageTableView.delegate = self
-//        self.imageTableView.dataSource = self
-//        self.imageTableView.register(UINib(nibName: "ImageTableViewCell", bundle: nil), forCellReuseIdentifier: "ImageTableViewCell")
+        image1.clipsToBounds = true
+        image2.clipsToBounds = true
+        image3.clipsToBounds = true
+        image4.clipsToBounds = true
+        image5.clipsToBounds = true
     }       
     
     override func prepareForReuse() {
@@ -62,8 +57,8 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     }
     
     func configure(item: BoardDetailResponseData?) {
-        
-        guard let document = item?.document else { return }
+        self.document = item?.document
+        guard let document = self.document else { return }
         
         profileImageView.sd_setImage(with: URL(string: "\(Const.urlProfileImage)\(document.mb_profile ?? "")"), placeholderImage: UIImage(named: "ic_person_base36"))
         
@@ -136,41 +131,14 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
             break
         }
     }
-}
-
-//extension BoardDetailTableViewHeader: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableViewAutomaticDimension
-//    }
-//}
-//
-//extension BoardDetailTableViewHeader: UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 1
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ImageTableViewCell") as? ImageTableViewCell else { return UITableViewCell() }
-//
-//        cell.configure(file: files[indexPath.row])
-//
-//        debugPrint("\(files[indexPath.row].uploaded_filename)")
-//
-//        return cell
-//    }
-//}
-
-
-class ImageTableViewCell: UITableViewCell {
     
-    @IBOutlet var fileImageView: UIImageView!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    @IBAction func likeButtonTapped(_ sender: Any) {
+        guard let documentSRL = self.document?.document_srl else { return }
+        self.buttonClickDelegate?.likeButtonCliked(isLiked: likeButton.isSelected, isComment: false, srl: documentSRL)
     }
     
-    func configure(file: FilesItem) {
-        fileImageView.sd_setImage(with: URL(string: file.uploaded_filename ?? ""))
+    @IBAction func reportButtonTapped(_ sender: Any) {
+        self.buttonClickDelegate?.reportButtonCliked(isHeader: true)
     }
 }
 
