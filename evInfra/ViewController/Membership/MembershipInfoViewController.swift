@@ -59,7 +59,7 @@ class MembershipInfoViewController: UIViewController {
     
     func prepareActionBar() {
         navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "등록된 카드 정보"
+        navigationItem.titleLabel.text = "회원카드 관리"
         self.navigationController?.isNavigationBarHidden = false
     }
     

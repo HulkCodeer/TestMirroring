@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,16 +32,16 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="mwg-Da-0ep">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="289"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="277"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내 카드" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZsI-0Z-A4q">
-                                    <rect key="frame" x="16" y="32" width="343" height="41"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                                    <rect key="frame" x="16" y="32" width="343" height="29"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tjU-wT-vwL" userLabel="evinfra_view">
-                                    <rect key="frame" x="16" y="85" width="343" height="227.5"/>
+                                    <rect key="frame" x="16" y="73" width="343" height="227.5"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="gLY-YF-gXL">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="227.5"/>
@@ -78,7 +79,7 @@
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="krc-y6-DiL" userLabel="skr_view">
-                                    <rect key="frame" x="16" y="85" width="343" height="201"/>
+                                    <rect key="frame" x="16" y="73" width="343" height="201"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sk_card_bg-1" translatesAutoresizingMaskIntoConstraints="NO" id="Sa9-9b-uzd">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="201"/>
@@ -95,7 +96,7 @@
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="js3-HB-HDS" userLabel="lotte_view">
-                                    <rect key="frame" x="16" y="85" width="343" height="201"/>
+                                    <rect key="frame" x="16" y="73" width="343" height="201"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lotte_card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="eqs-nc-baD">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="201"/>
@@ -145,7 +146,7 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Zw-n2-KT2">
-                                    <rect key="frame" x="16" y="97" width="343" height="160"/>
+                                    <rect key="frame" x="16" y="85" width="343" height="160"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_add_img" translatesAutoresizingMaskIntoConstraints="NO" id="pDd-rf-hSn">
                                             <rect key="frame" x="41.5" y="0.0" width="260" height="160"/>
@@ -154,10 +155,18 @@
                                                 <constraint firstAttribute="height" constant="160" id="vdn-3V-MIw"/>
                                             </constraints>
                                         </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전카드 추가하기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4gn-Kp-rwZ">
+                                            <rect key="frame" x="121" y="127" width="101" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" name="content-tertiary"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
+                                        <constraint firstItem="4gn-Kp-rwZ" firstAttribute="bottom" secondItem="pDd-rf-hSn" secondAttribute="bottom" constant="-16" id="0DL-Sm-Vv6"/>
                                         <constraint firstItem="pDd-rf-hSn" firstAttribute="centerX" secondItem="9Zw-n2-KT2" secondAttribute="centerX" id="V9M-o1-GcV"/>
+                                        <constraint firstItem="4gn-Kp-rwZ" firstAttribute="centerX" secondItem="pDd-rf-hSn" secondAttribute="centerX" id="Ze1-32-dVB"/>
                                         <constraint firstItem="pDd-rf-hSn" firstAttribute="centerY" secondItem="9Zw-n2-KT2" secondAttribute="centerY" id="hv8-Jh-Be3"/>
                                         <constraint firstItem="pDd-rf-hSn" firstAttribute="top" secondItem="9Zw-n2-KT2" secondAttribute="top" id="wHH-ue-QzO"/>
                                     </constraints>
@@ -193,6 +202,9 @@
         <image name="lotte_card_bg" width="442.5" height="262.5"/>
         <image name="lotte_logo_white" width="105" height="26.5"/>
         <image name="sk_card_bg-1" width="437" height="256"/>
+        <namedColor name="content-tertiary">
+            <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
