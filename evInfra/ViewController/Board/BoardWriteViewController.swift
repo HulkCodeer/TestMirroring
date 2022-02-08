@@ -73,12 +73,17 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
                                                         title,
                                                         contents,
                                                         self.selectedImages) { isSuccess in
+                    let trasientAlertView = TransientAlertViewController()
+                    
                     if isSuccess {
-                        self.navigationController?.pop()
-                        Snackbar().show(message: "게시글 등록이 완료되었습니다.")
+                        trasientAlertView.titlemessage = "게시글 등록이 완료되었습니다."
+                        trasientAlertView.dismissCompletion = {
+                            self.navigationController?.pop()
+                        }
                     } else {
-                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요.")
+                        trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
                     }
+                    self.presentPanModal(trasientAlertView)
                 }
             }
         }
