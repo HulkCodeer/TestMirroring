@@ -11,4 +11,5 @@ import SwiftyJSON
 
 protocol MyPayRegisterViewDelegate {
     func finishRegisterResult(json: JSON)
+    func onCancelRegister()
 }

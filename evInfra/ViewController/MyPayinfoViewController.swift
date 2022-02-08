@@ -34,8 +34,6 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var changeBtn: UIButton!
     
-    var payRegisterResult: JSON?
-    var myPayCode: Int?
     override func loadView() {
         super.loadView()
     }
@@ -44,15 +42,9 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
         super.viewDidLoad()
         prepareActionBar()
         initInfoView()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
+        
         if MemberManager().isLogin() {
-            if let result = payRegisterResult {
-                showRegisteredResult(json: result)
-            } else {//if myPayCode == nil {
-                checkRegisterPayment()
-            }
+            checkRegisterPayment()
         } else {
             MemberManager().showLoginAlert(vc: self)
         }
@@ -66,8 +58,8 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
         Server.getPayRegisterStatus { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                self.myPayCode = json["pay_code"].intValue
-                switch(self.myPayCode){
+                let payCode = json["pay_code"].intValue
+                switch(payCode){
                     case PaymentCard.PAY_NO_USER, PaymentCard.PAY_NO_CARD_USER:
                         self.moveToMyPayRegist()
                         
@@ -132,7 +124,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
             
-            case PaymentCard.PAY_REGISTER_FAIL, PaymentCard.PAY_REGISTER_FAIL_PG, PaymentCard.PAY_REGISTER_CANCEL_FROM_USER:
+            case PaymentCard.PAY_REGISTER_FAIL, PaymentCard.PAY_REGISTER_FAIL_PG:
                 self.registerCardInfo.isHidden = true
                 self.okBtn.isHidden = false
                 self.registerInfoBtnLayer.isHidden = true
@@ -140,6 +132,10 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
             
+            case PaymentCard.PAY_REGISTER_CANCEL_FROM_USER:
+                Snackbar().show(message: "결제정보 등록을 취소했습니다")
+                self.navigationController?.pop()
+                
             case PaymentCard.PAY_MEMBER_DELETE_SUCESS, PaymentCard.PAY_MEMBER_DELETE_FAIL_NO_USER, PaymentCard.PAY_MEMBER_DELETE_FAIL, PaymentCard.PAY_MEMBER_DELETE_FAIL_DB:
                 self.registerCardInfo.isHidden = true
                 self.okBtn.isHidden = false
@@ -149,6 +145,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
             
             case PaymentCard.PAY_FINE_USER:
+                self.registerInfo.visiblity(gone: true)
                 self.registerCardInfo.isHidden = false
                 self.okBtn.isHidden = true
                 self.registerInfoBtnLayer.isHidden = false
@@ -278,7 +275,12 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     }
     
     func finishRegisterResult(json: JSON) {
-        payRegisterResult = json
+        let result = JSON(json)
+        showRegisteredResult(json: result)
+    }
+    
+    func onCancelRegister() {
+        self.navigationController?.pop()
     }
     
     func onRepaySuccess() {

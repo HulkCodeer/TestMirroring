@@ -215,6 +215,10 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
         payRegisterResult = json
     }
     
+    func onCancelRegister() {
+        Snackbar().show(message: "결제 카드 변경을 취소했습니다.")
+    }
+    
     func onConfirmBtnPressed() {
         self.navigationController?.pop()
         if let del = self.delegate {

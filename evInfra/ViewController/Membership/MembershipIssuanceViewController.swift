@@ -227,11 +227,8 @@ class MembershipIssuanceViewController: UIViewController,
                         let message = "회원카드는 일반우편으로 발송되며 즉시 충전을 원하실 경우 마이페이지 > 회원카드 관리에 있는 카드번호를 충전기에 입력하시면 됩니다.\n감사합니다.(한전 이외의 충전사업자는 익일 반영됩니다)"
                         UIAlertController.showAlert(title: "알림", message: message, actions: actions)
 
-                    case "1101":
-                        UIAlertController.showAlert(title: "알림", message: json["msg"].stringValue, actions: actions)
-
                     default:
-                        print("default")
+                        UIAlertController.showAlert(title: "알림", message: json["msg"].stringValue, actions: actions)
                 }
             }
         })
@@ -256,6 +253,10 @@ class MembershipIssuanceViewController: UIViewController,
     
     func finishRegisterResult(json: JSON) {
         payRegistResult = json
+    }
+    
+    func onCancelRegister() {
+        Snackbar().show(message: "결제 수단 등록이 취소되었습니다. 다시 시도해주세요.")
     }
     
     func confirmMembershipTerm() {

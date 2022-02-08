@@ -178,6 +178,10 @@ class LotteRentCertificateViewController : UIViewController,
         payRegistResult = json
     }
     
+    func onCancelRegister() {
+        Snackbar().show(message: "결제 수단 등록이 취소되었습니다. 다시 시도해주세요.")
+    }
+    
     private func checkPaymentCardStatus() {
         Server.getPayRegisterStatus { [self] (isSuccess, value) in
             if isSuccess {

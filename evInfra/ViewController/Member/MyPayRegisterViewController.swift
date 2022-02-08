@@ -80,6 +80,7 @@ class MyPayRegisterViewController: UIViewController {
     @objc
     fileprivate func handleBackButton() {
         self.navigationController?.pop()
+        myPayRegisterViewDelegate?.onCancelRegister()
     }
        
 }
@@ -161,12 +162,11 @@ extension MyPayRegisterViewController: WKScriptMessageHandler {
             } else{
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
             }
-            
         }
     }
     
     func showRegisteredResult(json: JSON) {
-        myPayRegisterViewDelegate?.finishRegisterResult(json: json)
         self.navigationController?.pop()
+        myPayRegisterViewDelegate?.finishRegisterResult(json: json)
     }
 }

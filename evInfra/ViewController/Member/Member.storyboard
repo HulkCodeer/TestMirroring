@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -211,10 +211,11 @@
                                             <constraint firstItem="s5l-kz-JQI" firstAttribute="top" secondItem="8hq-GV-utQ" secondAttribute="bottom" constant="8" id="f3b-2t-FSx"/>
                                             <constraint firstItem="cfC-Qx-zUS" firstAttribute="top" secondItem="8hq-GV-utQ" secondAttribute="bottom" constant="8" id="kfi-Y1-0cA"/>
                                             <constraint firstAttribute="trailing" secondItem="8hq-GV-utQ" secondAttribute="trailing" constant="8" id="lHz-zR-0HI"/>
+                                            <constraint firstAttribute="height" constant="82" id="qBw-Ba-U9e"/>
                                             <constraint firstAttribute="trailing" secondItem="cfC-Qx-zUS" secondAttribute="trailing" constant="16" id="xwZ-KR-rKv"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s2N-jj-PeS">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s2N-jj-PeS">
                                         <rect key="frame" x="16" y="619" width="343" height="40"/>
                                         <color key="backgroundColor" name="gr-5"/>
                                         <constraints>
