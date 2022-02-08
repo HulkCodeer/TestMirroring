@@ -164,8 +164,10 @@ class PaymentResultViewController: UIViewController {
             let sDate = Date().toDate(data: startTime)!
             let eDate = Date().toDate(data: endTime)!
             let dayHourMinuteSecond: Set<Calendar.Component> = [.hour, .minute, .second]
-            let difference = NSCalendar.current.dateComponents(dayHourMinuteSecond, from: sDate, to: eDate);
-            self.lbDurationTime.text = "\(difference.hour!):\(difference.minute!):\(difference.second!)"
+            let difference = NSCalendar.current.dateComponents(dayHourMinuteSecond, from: sDate, to: eDate)
+            if let hour = difference.hour, let minute = difference.minute, let second = difference.second {
+                self.lbDurationTime.text = String(format: "%02d:%02d:%02d", hour, minute, second)
+            }
         }
         
         self.lbAmount.text = "\(chargingStatus.fee?.currency() ?? "0") 원"
