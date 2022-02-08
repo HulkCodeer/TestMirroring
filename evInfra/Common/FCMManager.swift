@@ -133,6 +133,9 @@ class FCMManager {
 
                 case FCMManager.TARGET_FAVORITE: // 즐겨찾기
                     print("alertMessage() FCMManager.TARGET_FAVORITE")
+                    if let charger_id = notification[AnyHashable("charger_id")] as! String? {
+                        NotificationCenter.default.post(name: Notification.Name("kakaoScheme"), object: nil, userInfo: ["sharedid": charger_id])
+                    }
                     
                 case FCMManager.TARGET_REPORT: // 제보하기
                     getBoardReportData(navigationController: navigationController)
@@ -179,6 +182,7 @@ class FCMManager {
             }
         }
     }
+
     
     func getBoardData(navigationController: UINavigationController?, boardId: Int, category: String) {
         if let navigation = navigationController {
