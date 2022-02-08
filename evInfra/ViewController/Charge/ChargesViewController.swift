@@ -220,6 +220,7 @@ extension ChargesViewController: UITableViewDelegate, UITableViewDataSource, Cha
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChargesTableViewCell", for: indexPath) as! ChargesTableViewCell
+        cell.selectionStyle = .none
         cell.reloadChargeData(charge: self.chargesList[indexPath.row])
         cell.delegate = self
 

@@ -59,7 +59,7 @@ class ServiceGuideViewController: UIViewController , UITableViewDelegate, UITabl
             withIdentifier: "ServiceGuideCell",
             for: indexPath
         )
-
+        cell.selectionStyle = .none
         cell.textLabel?.text = list[indexPath.row]
         return cell
     }
