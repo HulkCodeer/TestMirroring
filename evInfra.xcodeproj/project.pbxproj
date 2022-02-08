@@ -122,7 +122,6 @@
 		52B709D7279929CE006C5706 /* BoardDetailTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B709D6279929CE006C5706 /* BoardDetailTableViewHeader.swift */; };
 		52B87A002799381500562436 /* BoardDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B879FF2799381500562436 /* BoardDetailTableViewCell.swift */; };
 		52B87A042799388500562436 /* BoardDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52B87A032799388500562436 /* BoardDetailTableViewCell.xib */; };
-		52C9251D279FE0CD0039B22C /* ImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52C9251C279FE0CD0039B22C /* ImageTableViewCell.xib */; };
 		52D0F66A279E33B80070824E /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D0F669279E33B80070824E /* BoardDetailViewModel.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView.swift */; };
@@ -498,7 +497,6 @@
 		52B709D6279929CE006C5706 /* BoardDetailTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailTableViewHeader.swift; sourceTree = "<group>"; };
 		52B879FF2799381500562436 /* BoardDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailTableViewCell.swift; sourceTree = "<group>"; };
 		52B87A032799388500562436 /* BoardDetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BoardDetailTableViewCell.xib; sourceTree = "<group>"; };
-		52C9251C279FE0CD0039B22C /* ImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageTableViewCell.xib; sourceTree = "<group>"; };
 		52D0F669279E33B80070824E /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
@@ -1020,7 +1018,6 @@
 				52B709D4279929B8006C5706 /* BoardDetailTableViewHeader.xib */,
 				52B709D6279929CE006C5706 /* BoardDetailTableViewHeader.swift */,
 				52B879FF2799381500562436 /* BoardDetailTableViewCell.swift */,
-				52C9251C279FE0CD0039B22C /* ImageTableViewCell.xib */,
 				52B87A032799388500562436 /* BoardDetailTableViewCell.xib */,
 				52B2241E27A0DDF900B620BB /* BoardEmptyView.swift */,
 			);
@@ -1641,7 +1638,6 @@
 				DB3799FA2167575A001D8F69 /* ChargerTableViewCell.xib in Resources */,
 				90CBCC6B26EB18F1002B2591 /* img_load_fail.png in Resources */,
 				00A3659D26C4E98200424E40 /* FilterTypeView.xib in Resources */,
-				52C9251D279FE0CD0039B22C /* ImageTableViewCell.xib in Resources */,
 				73A7B41A204E3595002E975F /* type_dc_combo.png in Resources */,
 				73EF8B79203C85CC00D04494 /* TrackingDotHalo.png in Resources */,
 				73EF8B77203C85CC00D04494 /* TrackingDot.png in Resources */,
