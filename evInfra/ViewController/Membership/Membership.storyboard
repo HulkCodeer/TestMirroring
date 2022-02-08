@@ -787,15 +787,17 @@
                                         </constraints>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="사용 안내" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ahq-LT-dh0">
-                                        <rect key="frame" x="16" y="390" width="343" height="19.5"/>
+                                        <rect key="frame" x="16" y="373" width="343" height="19.5"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <color key="textColor" red="0.69803921568627447" green="0.69803921568627447" blue="0.69803921568627447" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vJW-4E-mLV">
-                                        <rect key="frame" x="16" y="425.5" width="343" height="57.5"/>
-                                        <string key="text">- 충전 시 1kwh 당 15원 할인되며, 한달 최대 3000원까지 할인 받으실 수 있습니다. 
-- 할인 금액은 매월 1일 초기화 됩니다. </string>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vJW-4E-mLV">
+                                        <rect key="frame" x="16" y="408.5" width="343" height="134"/>
+                                        <string key="text">- 충전 시 GS 칼텍스 환경부 고지금액 대비 10% 충전 할인 됩니다. 
+- *할인 금액은 최대 3000원까지 할인 받을 수 있으며, 충전 시 10원씩 차감됩니다. 
+    10원 차감 -&gt; 3000원/10원 = 충전량 300kwh 까지 할인 혜택 제공
+- *할인 금액은 매월 1일 초기화 됩니다.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" red="0.69803921568627447" green="0.69803921568627447" blue="0.69803921568627447" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
