@@ -30,8 +30,15 @@ class KeyboardInputView: UIView {
     private let maxHeight: CGFloat = 150
     private let minHeight: CGFloat = 20
     
-    var sendButtonCompletionHandler: ((String) -> Void)?
+    var sendButtonCompletionHandler: ((String, Bool) -> Void)?
     var delegate: MediaButtonTappedDelegate?
+    var isRecomment: Bool = false
+    var targetNickName: String = ""
+    var attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "")
+    
+    let fontColor = UIColor(named: "gr-5") ?? UIColor.black
+    var range: NSString = ""
+    let font = UIFont.systemFont(ofSize: 16, weight: .bold)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,8 +59,8 @@ class KeyboardInputView: UIView {
         self.addSubview(view)
         
         // 키보드 입력 컨테이너 뷰
-        inputBorderView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
-        inputBorderView.layer.borderWidth = 2
+        inputBorderView.borderColor = UIColor(named: "nt-2")
+        inputBorderView.layer.borderWidth = 1
         inputBorderView.layer.cornerRadius = 4
         
         // 키보드 입력 뷰
@@ -85,29 +92,72 @@ class KeyboardInputView: UIView {
         self.endEditing(true)
         delegate?.presentModal()
     }
+    
     @IBAction func deleteTextButtonTapped(_ sender: Any) {
         textView.text = ""
     }
     
     @IBAction func sendButtonTapped(_ sender: Any) {
         guard let text = textView.text else { return }
-        sendButtonCompletionHandler?(text)
+        
+        if attributedString.length > 0 {
+
+        }
+        
+        sendButtonCompletionHandler?(text, isRecomment)
+        
+        textView.text = nil
+        textView.endEditing(true)
+        textView.attributedText = nil
+        isRecomment = false
+        
+        hiddenSelectedView()
     }
     
     @IBAction func deleteImageButtonTapped(_ sender: Any) {
+        hiddenSelectedView()
+    }
+    
+    private func hiddenSelectedView() {
+        selectedImageView.isHidden = true
         selectedImageView.image = nil
+        trashButton.isHidden = true
         selectedImageViewHeight.constant = 0
-        selectedView.layoutIfNeeded()
     }
 }
 
 extension KeyboardInputView: UITextViewDelegate {
+    func becomeResponder(targetNickName: String) {
+        isRecomment = true
+        textView.becomeFirstResponder()
+//        placeholderTextField.isHidden = true
+//        textView.text = "\(targetNickName) "
+//        self.targetNickName = targetNickName
+//        range = textView.text as NSString
+//
+//        attributedString = NSMutableAttributedString(string: "\(targetNickName) ")
+//        attributedString.addAttribute(.foregroundColor, value: fontColor, range: range.range(of: "\(targetNickName )"))
+//        attributedString.addAttribute(.font, value: font, range: range.range(of: "\(targetNickName )"))
+//
+//        textView.attributedText = attributedString
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        inputBorderView.borderColor = UIColor(named: "nt-9")
+        inputBorderView.layer.borderWidth = 2
+    }
+    
     func textViewDidEndEditing(_ textView: UITextView) {
+        if !textView.text.isEmpty {
+            sendButton.backgroundColor = UIColor(named: "gr-5")
+        } else {
+            sendButton.backgroundColor = UIColor(named: "nt-0")
+        }
+        
+        sendButton.isEnabled = !textView.text.isEmpty
         placeholderTextField.isHidden = !textView.text.isEmpty
         inputBorderView.layer.borderWidth = 1
-        inputBorderView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
-        sendButton.backgroundColor = UIColor(named: "nt-0")
-        sendButton.isEnabled = false
+        inputBorderView.borderColor = UIColor(named: "nt-2")
     }
     
     func textViewDidChange(_ textView: UITextView) {
