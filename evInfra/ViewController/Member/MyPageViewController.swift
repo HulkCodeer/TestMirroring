@@ -325,7 +325,7 @@ extension MyPageViewController {
             if nickName.count == 0 {
                 Snackbar().show(message: "별명을 작성해 주세요.")
                 return false
-            } else if nickName.count >= 12 {
+            } else if nickName.count > 12 {
                 Snackbar().show(message: "별명은 최대 12자까지 입력가능합니다")
                 return false
             }
@@ -441,13 +441,17 @@ extension MyPageViewController {
 
 extension MyPageViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let count = textField.text?.count ?? 0
-        if textField == self.nickNameField && count >= 12 {
-            Snackbar().show(message: "별명은 최대 12자까지 입력가능합니다")
-            textField.deleteBackward()
+        guard let text = textField.text else {
+            return false
+        }
+        let newLength = text.count + string.count - range.length
+        if newLength > 12 {
+            Snackbar().show(message: "닉네임은 최대 12자까지 입력가능합니다")
+            return false
         }
         return true
     }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField.tag {
         case 0: // "별명"
