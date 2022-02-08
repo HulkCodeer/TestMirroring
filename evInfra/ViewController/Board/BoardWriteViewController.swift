@@ -58,16 +58,32 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
     }
     
     @IBAction func completeButtonClick(_ sender: Any) {
-        boardWriteViewModel.registerBoard(category,
-                                          titleTextView.text,
-                                          contentsTextView.text) { [weak self] isSuccess in
-            if isSuccess {
-                self?.navigationController?.pop()
-                Snackbar().show(message: "게시글 등록이 완료되었습니다.")
-            } else {
-                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요.")
+        guard let title = self.titleTextView.text,
+                let contents = self.contentsTextView.text else { return }
+        
+        
+        let popup = ConfirmPopupViewController(titleText: "등록", messageText: "게시물을 등록 하시겠습니까?")
+        popup.addActionToButton(title: "취소", buttonType: .cancel)
+        popup.addActionToButton(title: "등록", buttonType: .confirm)
+        popup.confirmDelegate = { [weak self] canRegist in
+            guard let self = self else { return }
+            
+            if canRegist {
+                self.boardWriteViewModel.registerBoard(self.category,
+                                                        title,
+                                                        contents,
+                                                        self.selectedImages) { isSuccess in
+                    if isSuccess {
+                        self.navigationController?.pop()
+                        Snackbar().show(message: "게시글 등록이 완료되었습니다.")
+                    } else {
+                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요.")
+                    }
+                }
             }
         }
+        
+        self.present(popup, animated: true, completion: nil)
     }
     
     private func setUI() {

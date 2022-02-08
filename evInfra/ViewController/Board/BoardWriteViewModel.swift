@@ -23,10 +23,30 @@ struct BoardWriteViewModel {
         }
     }
     
-    func registerBoard(_ mid: String, _ title: String, _ content: String, completion: @escaping (Bool) -> Void) {
+    func registerBoard(_ mid: String, _ title: String, _ content: String, _ images: [UIImage] , completion: @escaping (Bool) -> Void) {
+        
         Server.postBoardData(mid: mid, title: title, content: content, tags: "", charger_id: "") { (isSuccess, value) in
             if isSuccess {
-                completion(true)
+                if let results = value as? Dictionary<String, String>,
+                   let documentSRL = results["document_srl"] {
+                    
+                    guard images.count != 0 else {
+                        completion(true)
+                        return
+                    }
+                    
+                    for (index, image) in images.enumerated() {
+                        Server.boardImageUpload(mid: mid, document_srl: documentSRL, image: image, seq: "\(index)") { isSuccess, response in
+                            if isSuccess {
+                                completion(true)
+                            } else {
+                                completion(false)
+                            }
+                        }
+                    }
+                } else {
+                    completion(false)
+                }
             } else {
                 completion(false)
             }

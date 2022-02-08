@@ -74,7 +74,7 @@ class CardBoardViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-//        self.fetchFirstBoard(mid: category, sort: .LATEST)
+        self.fetchFirstBoard(mid: category, sort: .LATEST)
     }
 }
 

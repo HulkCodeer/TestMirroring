@@ -414,7 +414,20 @@ class Server {
         }
     }
     
-    // MARK: - 게시글/댓글 좋아요 기능
+    // MARK: - Community 개선 - 게시글 삭제
+    static func deleteBoard(document_srl: String, completion: @escaping (Bool, Any) -> Void) {
+        let headers = [
+            "mb_id" : "\(MemberManager.getMbId())",
+            "nick_name" : "\(MemberManager.getMemberNickname())",
+            "profile" : "\(MemberManager.getProfileImage())"
+        ]
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/delete/document_srl/\(document_srl)", method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 게시글/댓글 좋아요 기능
     static func setLikeCount(document_srl: String, completion: @escaping (Bool, Any) -> Void) {
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/like/document_srl/\(document_srl)")
             .responseJSON { response in
@@ -422,7 +435,7 @@ class Server {
         }
     }
     
-    // MARK: - 게시글/댓글 신고하기 기능
+    // MARK: - Community 개선 - 게시글/댓글 신고하기 기능
     static func reportBoard(document_srl: String, completion: @escaping (Bool, Any) -> Void) {
         let headers = [
             "mb_id" : "\(MemberManager.getMbId())",
@@ -437,6 +450,77 @@ class Server {
                           headers: headers).responseJSON { response in
             responseJson(response: response, completion: completion)
         }
+    }
+    
+    // MARK: - Community 개선 - 댓글 작성
+    static func postComment(mid: String, documentSRL: String, targetMbId: String, targetNickName: String, parentSRL: String, head: String, depth: String, content: String, isRecomment: Bool, completion: @escaping (Bool, Any) -> Void) {
+        let headers = [
+            "mb_id" : "\(MemberManager.getMbId())",
+            "nick_name" : "\(MemberManager.getMemberNickname())",
+            "profile" : "\(MemberManager.getProfileImage())"
+        ]
+        
+        var parameters: [String: String] = ["content" : "\(content)"]
+        
+        if isRecomment {
+            parameters["target_mb_id"] = targetMbId
+            parameters["target_nick_name"] = targetNickName
+            parameters["parent_srl"] = parentSRL
+            parameters["head"] = head
+            parameters["depth"] = depth
+        }
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/comment_write/mid/\(mid)/document_srl/\(documentSRL)",
+                          method: .post,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers).responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 게시글 이미지 업로드
+    static func boardImageUpload(mid: String, document_srl: String, image: UIImage, seq: String, completion: @escaping (Bool, Any) -> Void) {
+        guard let imageData = UIImageJPEGRepresentation(image, 1.0) else { return }
+        
+        let url = Const.EV_COMMUNITY_SERVER + "/file/mid/\(mid)/document_srl/\(document_srl)/seq/\(seq)"
+        
+        imageUpload(imageData: imageData, url: url) { (isSuccess, response) in
+            if isSuccess {
+                completion(true, response)
+            } else {
+                completion(false, response)
+            }
+        }
+    }
+    
+    // MARK: - Community 개선 - 댓글 이미지 업로드
+    static func commentImageUpload(mid: String, document_srl: String, comment_srl: String) {
+        let url = Const.EV_COMMUNITY_SERVER + "/comment_file/mid/\(mid)/document_srl/\(document_srl)/comment_srl/\(comment_srl)"
+        
+    }
+    
+    // MARK: - Community 개선 - 이미지 업로드 로직 (게시글, 댓글)
+    private static func imageUpload(imageData: Data,
+                            url: String,
+                            completion: @escaping (Bool, Any) -> Void) {
+        
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            multipartFormData.append(imageData ,  withName: "userfile" ,  fileName: "\(DateUtils.currentTimeMillis()).jpg" ,  mimeType:  "image/jpeg" )
+        }, to: url, encodingCompletion: { encodingResult in
+            switch encodingResult {
+            case .success(let upload, _, _):
+                upload.responseJSON {response in  // ← JSON 형식으로받을
+                    if !response.result.isSuccess  {
+                        completion(false, response)
+                    } else  {
+                        completion(true, response)
+                    }
+                }
+            case .failure(let encodingError):
+                completion(false, encodingError)
+            }
+        })
     }
     
     // 게시판 - 공지사항 리스트
