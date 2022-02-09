@@ -245,7 +245,7 @@
                                                                     <constraint firstAttribute="height" constant="38" id="Adf-wE-CcZ"/>
                                                                 </constraints>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                                <textInputTraits key="textInputTraits"/>
+                                                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                                 <userDefinedRuntimeAttributes>
                                                                     <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
                                                                         <color key="value" red="0.8528983161" green="0.8528983161" blue="0.8528983161" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -275,7 +275,7 @@
                                                                     <constraint firstAttribute="height" constant="38" id="nMd-x9-RAa"/>
                                                                 </constraints>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                                <textInputTraits key="textInputTraits"/>
+                                                                <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                                                 <userDefinedRuntimeAttributes>
                                                                     <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
                                                                         <color key="value" red="0.8528983161" green="0.8528983161" blue="0.8528983161" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -914,7 +914,7 @@
                                                             <constraint firstAttribute="height" constant="38" id="ohn-nd-hCd"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
                                                                 <color key="value" red="0.85491353270000003" green="0.85488122700000002" blue="0.85490316150000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -944,7 +944,7 @@
                                                             <constraint firstAttribute="height" constant="38" id="ljc-RR-hbx"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
                                                                 <color key="value" red="0.85491353270000003" green="0.85488122700000002" blue="0.85490316150000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -974,7 +974,7 @@
                                                             <constraint firstAttribute="height" constant="38" id="d4s-gc-d0g"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
                                                                 <color key="value" red="0.85491353270000003" green="0.85488122700000002" blue="0.85490316150000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -1062,16 +1062,16 @@
             <size key="intrinsicContentSize" width="171" height="31"/>
         </designable>
         <designable name="Cpa-eT-664">
-            <size key="intrinsicContentSize" width="171" height="31"/>
+            <size key="intrinsicContentSize" width="171" height="30"/>
         </designable>
         <designable name="Eyz-uC-HqI">
-            <size key="intrinsicContentSize" width="216.5" height="31"/>
+            <size key="intrinsicContentSize" width="216.5" height="30"/>
         </designable>
         <designable name="am0-2G-HBD">
             <size key="intrinsicContentSize" width="284.5" height="31"/>
         </designable>
         <designable name="kxv-Fj-6EB">
-            <size key="intrinsicContentSize" width="133.5" height="31"/>
+            <size key="intrinsicContentSize" width="133.5" height="30"/>
         </designable>
         <designable name="l6S-h8-7Fh">
             <size key="intrinsicContentSize" width="294.5" height="31"/>
@@ -1080,13 +1080,13 @@
             <size key="intrinsicContentSize" width="202.5" height="31"/>
         </designable>
         <designable name="qI8-eB-YMF">
-            <size key="intrinsicContentSize" width="147.5" height="31"/>
+            <size key="intrinsicContentSize" width="147.5" height="30"/>
         </designable>
         <designable name="rXg-Yl-EXT">
             <size key="intrinsicContentSize" width="100.5" height="31"/>
         </designable>
         <designable name="vM7-rb-ElD">
-            <size key="intrinsicContentSize" width="147.5" height="31"/>
+            <size key="intrinsicContentSize" width="147.5" height="30"/>
         </designable>
         <designable name="xwG-TM-UtW">
             <size key="intrinsicContentSize" width="83.5" height="31"/>
