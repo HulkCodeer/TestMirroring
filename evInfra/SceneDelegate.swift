@@ -59,6 +59,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window = UIWindow(windowScene: windowScene)
             navigationController = AppNavigationController(rootViewController: introViewController)//
             navigationController?.navigationBar.isHidden = true
+            
+            let appearance = UINavigationBarAppearance()
+            appearance.backgroundColor = UIColor(named: "nt-white")
+            appearance.shadowColor = nil
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.compactAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            
             window!.rootViewController = navigationController
             window!.makeKeyAndVisible()
         }
