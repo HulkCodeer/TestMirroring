@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import SDWebImage
 
 protocol ButtonClickDelegate {
     func reportButtonCliked(isHeader: Bool)
     func likeButtonCliked(isLiked: Bool, isComment:Bool, srl: String)
-    func commentButtonCliked(recomment: Recomment)
-    func deleteButtonCliked()
+    func commentButtonCliked(recomment: Comment)
+    func deleteButtonCliked(documentSRL: String, commentSRL: String)
+    func modifyButtonCliked(comment: Comment)
 }
 
 class BoardDetailTableViewCell: UITableViewCell {
@@ -25,12 +27,14 @@ class BoardDetailTableViewCell: UITableViewCell {
     @IBOutlet var commentLabel: UILabel!
     @IBOutlet var likedCountLabel: UILabel!
     @IBOutlet var commentCountLabel: UILabel!
+    
+    @IBOutlet var modifyButton: UIButton!
     @IBOutlet var reportButton: UIButton!
     @IBOutlet var deleteButton: UIButton!
     
     @IBOutlet var likeStackView: UIStackView!
-    
     @IBOutlet var commentStackView: UIStackView!
+    
     @IBOutlet var likeButton: UIButton!
     @IBOutlet var writeCommentButton: UIButton!
     
@@ -46,36 +50,68 @@ class BoardDetailTableViewCell: UITableViewCell {
     var comment: Comment?
     var row: Int = 0
     
-    private var documentSrl: String = ""
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         setUI()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        image1.sd_cancelCurrentImageLoad()
+        image2.sd_cancelCurrentImageLoad()
+        image3.sd_cancelCurrentImageLoad()
+        image4.sd_cancelCurrentImageLoad()
+        image5.sd_cancelCurrentImageLoad()
+        
+        setUI()
+        setDeletedCommentUI(isOn: false)
+    }
+    
     private func setUI() {
-        subCommentImageView.isHidden = true
+        titleLabel.attributedText = nil
+        titleLabel.text = nil
+        dateLabel.text = nil
+        commentLabel.text = nil
+        likedCountLabel.text = nil
+        commentCountLabel.text = nil
+        
         reportButton.isHidden = false
         deleteButton.isHidden = true
+        modifyButton.isHidden = true
+        
+        subCommentImageView.isHidden = true
         imageScrollStackView.isHidden = true
+        commentStackView.isHidden = false
+        
         image1.layer.cornerRadius = 12
         image2.layer.cornerRadius = 12
         image3.layer.cornerRadius = 12
         image4.layer.cornerRadius = 12
         image5.layer.cornerRadius = 12
+        
+        backgroundCell.backgroundColor = UIColor(named: "nt-white")
+        backView.backgroundColor = UIColor(named: "nt-white")
+    }
+    
+    private func setDeletedCommentUI(isOn: Bool) {
+        titleLabel.attributedText = nil
+        dateLabel.isHidden = isOn
+        likeStackView.isHidden = isOn
+        commentStackView.isHidden = isOn
+        reportButton.isHidden = isOn
+        modifyButton.isHidden = isOn
+        deleteButton.isHidden = isOn
+        commentLabel.isHidden = isOn
     }
     
     private func isMyComment(mb_id: String) -> Bool {
-        if MemberManager.getMbId().description.equals(mb_id) {
-            return true
-        }
-        return false
+        return MemberManager.getMbId().description.equals(mb_id)
     }
     
     func configureComment(comment: Comment?, row: Int) {
+        guard let comment = comment else { return }
         self.comment = comment
-        guard let comment = self.comment else { return }
-//        self.documentSrl = comment.document_srl ?? ""
         self.row = row
         
         // 대댓글 표시
@@ -88,34 +124,35 @@ class BoardDetailTableViewCell: UITableViewCell {
         
         // 삭제 댓글 표시
         if comment.status!.equals("-1") {
-            titleLabel.isHidden = true
-            dateLabel.isHidden = true
-            likeStackView.isHidden = true
-            commentStackView.isHidden = true
-            reportButton.isHidden = true
-            deleteButton.isHidden = true
-            commentLabel.text = "삭제된 댓글 입니다."
-            return
+            setDeletedCommentUI(isOn: true)
+            titleLabel.attributedText = comment.content?.htmlToAttributedString()
+        } else {
+            setDeletedCommentUI(isOn: false)
+            // 댓글에 이미지 표시
+            setImage(files: comment.files)
+            
+            titleLabel.text = comment.nick_name
+            dateLabel.text = "| \(DateUtils.getTimesAgoString(date: comment.regdate ?? ""))"
+            commentLabel.text = comment.content
+            likedCountLabel.text = comment.like_count
+            commentCountLabel.text = comment.comment_count
+            
+            // 나의 댓글
+            if isMyComment(mb_id: comment.mb_id ?? "") {
+                reportButton.isHidden = true
+                modifyButton.isHidden = false
+                deleteButton.isHidden = false
+            } else {
+                reportButton.isHidden = false
+                modifyButton.isHidden = true
+                deleteButton.isHidden = true
+            }
         }
         
-        if isMyComment(mb_id: comment.mb_id ?? "") {
-            reportButton.isHidden = true
-            deleteButton.isHidden = false
-        }
-        
-        // 본인이 좋아요 버튼 클릭
+        // 본인이 좋아요 한 글, 하트 표시
         if comment.liked! >= 1 {
             likeButton.isSelected = true
         }
-        
-        // 댓글에 이미지 표시
-        setImage(files: comment.files)
-        
-        titleLabel.text = comment.nick_name
-        dateLabel.text = "| \(DateUtils.getTimesAgoString(date: comment.regdate ?? ""))"
-        commentLabel.text = comment.content
-        likedCountLabel.text = comment.like_count
-        commentCountLabel.text = comment.comment_count
     }
     
     private func setImage(files: [FilesItem]?) {
@@ -150,10 +187,9 @@ class BoardDetailTableViewCell: UITableViewCell {
         default:
             break
         }
-        
     }
     
-    @IBAction func reportButtonClick(_ sender: Any) {
+    @IBAction func reportButtonTapped(_ sender: Any) {
         self.buttonClickDelegate?.reportButtonCliked(isHeader: false)
     }
     
@@ -162,18 +198,24 @@ class BoardDetailTableViewCell: UITableViewCell {
         self.buttonClickDelegate?.likeButtonCliked(isLiked: likeButton.isSelected, isComment: true, srl: commentSRL)
     }
     
-    @IBAction func writeCommentButtonClick(_ sender: Any) {        
+    @IBAction func writeCommentButtonClick(_ sender: Any) {
         guard let comment = self.comment else {
             return
         }
         
-        let recomment = Recomment(targetMbId: comment.mb_id!, targetNickName: comment.nick_name!, parentSRL: comment.comment_srl!, head: comment.head!, depth: "\(Int(comment.depth!)! + 1)", row: row)
-        
-        self.buttonClickDelegate?.commentButtonCliked(recomment: recomment)
+        self.buttonClickDelegate?.commentButtonCliked(recomment: comment)
     }
     
-    @IBAction func deleteButtonClick(_ sender: Any) {
-        self.buttonClickDelegate?.deleteButtonCliked()
+    @IBAction func deleteButtonTapped(_ sender: Any) {
+        guard let comment = comment else { return }
+        
+        self.buttonClickDelegate?.deleteButtonCliked(documentSRL: comment.document_srl!, commentSRL: comment.comment_srl!)
+    }
+    
+    @IBAction func modifyButtonTapped(_ sender: Any) {
+        guard let comment = comment else { return }
+
+        self.buttonClickDelegate?.modifyButtonCliked(comment: comment)
     }
 }
 

@@ -53,7 +53,7 @@
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                             <state key="normal" image="icon_more_vertical"/>
                                             <connections>
-                                                <action selector="reportButtonTapped:" destination="-1" eventType="touchUpInside" id="tnX-NY-8Qi"/>
+                                                <action selector="reportButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="WR9-Mi-b8q"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -137,8 +137,9 @@
                                                     </constraints>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="icon_liked"/>
+                                                    <state key="selected" image="iconHeartFill24"/>
                                                     <connections>
-                                                        <action selector="likeButtonTapped:" destination="-1" eventType="touchUpInside" id="C7C-ne-vau"/>
+                                                        <action selector="likeButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="7um-DX-bmz"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FaS-6u-FQF">
@@ -227,6 +228,7 @@
         </view>
     </objects>
     <resources>
+        <image name="iconHeartFill24" width="24" height="24"/>
         <image name="icon_comment-1" width="24" height="24"/>
         <image name="icon_liked" width="24" height="24"/>
         <image name="icon_more_vertical" width="16" height="16"/>

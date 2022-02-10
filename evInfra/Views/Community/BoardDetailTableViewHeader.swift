@@ -67,6 +67,13 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
         titleLabel.text = document.title
         contentsLabel.text = document.content
         
+        
+        if item?.liked ?? 0 >= 1 {
+            likeButton.isSelected = true
+        } else {
+            likeButton.isSelected = false
+        }
+        
         setImage(files: item?.files)
         
         likedCountLabel.text = document.like_count
