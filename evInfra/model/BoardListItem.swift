@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct BoardResponseData: Decodable {
     var total: Int?
@@ -131,6 +132,22 @@ struct Comment: Decodable {
     var block: String?
     var liked: Int?
     var files: [FilesItem]?
+}
+
+struct DocumentParameter {
+    var document: Document
+    var text: String
+    var image: [UIImage]?
+}
+
+struct CommentParameter {
+    var mid: String
+    var documentSRL: String
+    var comment: Comment?
+    var text: String
+    var image: UIImage?
+    var selectedCommentRow: Int
+    var isModify: Bool
 }
 
 struct Recomment {

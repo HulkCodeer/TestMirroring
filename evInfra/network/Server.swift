@@ -471,32 +471,83 @@ class Server {
     }
     
     // MARK: - Community 개선 - 댓글 작성
-    static func postComment(mid: String, documentSRL: String, recomment: Recomment?, content: String, isRecomment: Bool, completion: @escaping (Bool, Any) -> Void) {
+    static func postComment(commentParameter: CommentParameter,
+                            completion: @escaping (Bool, Any) -> Void) {
         let headers = [
             "mb_id" : "\(MemberManager.getMbId())",
             "nick_name" : "\(MemberManager.getMemberNickname())",
             "profile" : "\(MemberManager.getProfileImage())"
         ]
         
-        var parameters: [String: String] = ["content" : "\(content)"]
+        let isRecomment = commentParameter.selectedCommentRow
         
-        if isRecomment {
-            guard let recomment = recomment else { return }
-
-            parameters["target_mb_id"] = recomment.targetMbId
-            parameters["target_nick_name"] = recomment.targetNickName
-            parameters["parent_srl"] = recomment.parentSRL
-            parameters["head"] = recomment.head
-            parameters["depth"] = recomment.depth
+        var parameters: [String: String] = ["content" : "\(commentParameter.text)"]
+        if let comment = commentParameter.comment {
+            if isRecomment != 0 {
+                parameters["target_mb_id"] = comment.mb_id
+                parameters["target_nick_name"] = comment.nick_name
+                parameters["parent_srl"] = comment.comment_srl
+                parameters["head"] = comment.head
+                parameters["depth"] = "\(Int(comment.depth ?? "0")! + 1)"
+            }
         }
         
-        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/comment_write/mid/\(mid)/document_srl/\(documentSRL)",
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/comment_write/mid/\(commentParameter.mid)/document_srl/\(commentParameter.documentSRL)",
                           method: .post,
                           parameters: parameters,
                           encoding: JSONEncoding.default,
                           headers: headers).responseJSON { response in
             responseJson(response: response, completion: completion)
         }
+    }
+    
+    // MARK: - Community 개선 - 댓글/대댓글 삭제
+    static func deleteBoardComment(documentSRL: String, commentSRL: String, completion: @escaping (Bool, Any) -> Void) {
+        let headers = [
+            "mb_id" : "\(MemberManager.getMbId())",
+            "nick_name" : "\(MemberManager.getMemberNickname())",
+            "profile" : "\(MemberManager.getProfileImage())"
+        ]
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/comment_delete/document_srl/\(documentSRL)/comment_srl/\(commentSRL)",
+                          method: .delete,
+                          parameters: nil,
+                          encoding: JSONEncoding.default,
+                          headers: headers).responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 댓글 수정
+    static func modifyBoardComment(commentParameter: CommentParameter,
+                                   completion: @escaping (Bool, Any) -> Void) {
+        
+        let headers = [
+            "mb_id" : "\(MemberManager.getMbId())",
+            "nick_name" : "\(MemberManager.getMemberNickname())",
+            "profile" : "\(MemberManager.getProfileImage())"
+        ]
+        
+        var parameters: [String: String] = ["content" : "\(commentParameter.text)"]
+        let url = Const.EV_COMMUNITY_SERVER + "/comment_update/mid/\(commentParameter.mid)/document_srl/\(commentParameter.documentSRL)/comment_srl/\(commentParameter.comment!.comment_srl ?? "")"
+        // TODO: Invalid URL 처리
+        // TODO: 대댓글 수정
+        Alamofire.request(url,
+                          method: .post,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers).responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+//        if let comment = commentParameter.comment {
+//            parameters["target_mb_id"] = comment.target_mb_id
+//            parameters["target_nick_name"] = comment.target_nick_name
+//            parameters["parent_srl"] = comment.target_nick_name
+//            parameters["head"] = comment.head
+//            parameters["depth"] = comment.depth
+//
+//
+//        }
     }
     
     // MARK: - Community 개선 - 게시글 이미지 업로드

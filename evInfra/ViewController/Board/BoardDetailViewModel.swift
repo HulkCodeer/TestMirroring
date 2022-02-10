@@ -35,23 +35,31 @@ class BoardDetailViewModel {
         }
     }
     
-    func postComment(mid: String, documentSRL: String, recomment: Recomment?, content: String, isRecomment: Bool, image: UIImage?, completion: @escaping (Bool) -> Void) {
-        
-        Server.postComment(mid: mid,
-                           documentSRL: documentSRL,
-                           recomment: recomment,
-                           content: content,
-                           isRecomment: isRecomment) { isSuccess, value in
+    func deleteBoardComment(documentSRL: String, commentSRL: String, completion: @escaping (Bool) -> Void) {
+        Server.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { (isSuccess, response) in
+            if isSuccess {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
+    }
+    
+    func modifyBoardComment(commentParameter: CommentParameter,
+                            completion: @escaping (Bool) -> Void) {
+        Server.modifyBoardComment(commentParameter: commentParameter) { isSuccess, value in
             if isSuccess {
                 if let results = value as? Dictionary<String, String>,
                     let commentSRL = results["comment_srl"] {
                     
-                    guard let image = image else {
+                    guard let image = commentParameter.image else {
                         completion(true)
                         return
                     }
                     
-                    Server.commentImageUpload(mid: mid, document_srl: documentSRL, comment_srl: commentSRL, image: image) { isSuccess, response in
+                    Server.commentImageUpload(mid: commentParameter.mid,
+                                              document_srl: commentSRL,
+                                              comment_srl: commentSRL, image: image) { isSuccess, response in
                         if isSuccess {
                             completion(true)
                         } else {
@@ -64,6 +72,104 @@ class BoardDetailViewModel {
             } else {
                 completion(false)
             }
+        }
+    }
+    
+    func postComment(commentParameter: CommentParameter,
+                     isModify: Bool,
+                     completion: @escaping (Bool) -> Void) {
+        
+        if isModify {
+            modifyBoardComment(commentParameter: commentParameter) { isSuccess in
+                if isSuccess {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+            }
+//            Server.modifyBoardComment(commentParameter: commentParameter) { isSuccess, value in
+//                if isSuccess {
+//                    if let results = value as? Dictionary<String, String>,
+//                        let commentSRL = results["comment_srl"] {
+//
+//                        guard let image = commentParameter.image else {
+//                            completion(true)
+//                            return
+//                        }
+//
+//                        Server.commentImageUpload(mid: commentParameter.mid,
+//                                                  document_srl: commentSRL,
+//                                                  comment_srl: commentSRL, image: image) { isSuccess, response in
+//                            if isSuccess {
+//                                completion(true)
+//                            } else {
+//                                completion(false)
+//                            }
+//                        }
+//                    } else {
+//                        completion(false)
+//                    }
+//                } else {
+//                    completion(false)
+//                }
+//            }
+        } else {
+            Server.postComment(commentParameter: commentParameter) { isSuccess, value in
+                if isSuccess {
+                    if let results = value as? Dictionary<String, String>,
+                        let commentSRL = results["comment_srl"] {
+                        
+                        guard let image = commentParameter.image else {
+                            completion(true)
+                            return
+                        }
+                        
+                        Server.commentImageUpload(mid: commentParameter.mid,
+                                                  document_srl: commentSRL,
+                                                  comment_srl: commentSRL, image: image) { isSuccess, response in
+                            if isSuccess {
+                                completion(true)
+                            } else {
+                                completion(false)
+                            }
+                        }
+                    } else {
+                        completion(false)
+                    }
+                } else {
+                    completion(false)
+                }
+            }
+            
+//
+//            Server.postComment(mid: mid,
+//                               documentSRL: document.document_srl,
+//                               recomment: ,
+//                               content: content,
+//                               isRecomment: isRecomment) { isSuccess, value in
+//                if isSuccess {
+//                    if let results = value as? Dictionary<String, String>,
+//                        let commentSRL = results["comment_srl"] {
+//
+//                        guard let image = image else {
+//                            completion(true)
+//                            return
+//                        }
+//
+//                        Server.commentImageUpload(mid: mid, document_srl: documentSRL, comment_srl: commentSRL, image: image) { isSuccess, response in
+//                            if isSuccess {
+//                                completion(true)
+//                            } else {
+//                                completion(false)
+//                            }
+//                        }
+//                    } else {
+//                        completion(false)
+//                    }
+//                } else {
+//                    completion(false)
+//                }
+//            }
         }
     }
     

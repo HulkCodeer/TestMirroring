@@ -12,9 +12,9 @@ import SDWebImage
 protocol ButtonClickDelegate {
     func reportButtonCliked(isHeader: Bool)
     func likeButtonCliked(isLiked: Bool, isComment:Bool, srl: String)
-    func commentButtonCliked(recomment: Comment)
+    func commentButtonCliked(recomment: Comment, selectedRow: Int)
     func deleteButtonCliked(documentSRL: String, commentSRL: String)
-    func modifyButtonCliked(comment: Comment)
+    func modifyButtonCliked(comment: Comment, selectedRow: Int)
 }
 
 class BoardDetailTableViewCell: UITableViewCell {
@@ -203,7 +203,7 @@ class BoardDetailTableViewCell: UITableViewCell {
             return
         }
         
-        self.buttonClickDelegate?.commentButtonCliked(recomment: comment)
+        self.buttonClickDelegate?.commentButtonCliked(recomment: comment, selectedRow: row)
     }
     
     @IBAction func deleteButtonTapped(_ sender: Any) {
@@ -215,7 +215,7 @@ class BoardDetailTableViewCell: UITableViewCell {
     @IBAction func modifyButtonTapped(_ sender: Any) {
         guard let comment = comment else { return }
 
-        self.buttonClickDelegate?.modifyButtonCliked(comment: comment)
+        self.buttonClickDelegate?.modifyButtonCliked(comment: comment, selectedRow: row)
     }
 }
 

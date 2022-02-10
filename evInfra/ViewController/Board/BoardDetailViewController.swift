@@ -38,12 +38,19 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
         boardDetailViewModel.fetchBoardDetail(mid: category, document_srl: document_srl)
         boardDetailViewModel.listener = { [weak self] detail in
             self?.detail = detail
-            DispatchQueue.main.async {
-                self?.detailTableView.reloadData()
-            }
+            self?.detailTableView.reloadData()
         }
     }
     
+    private func reloadData(_ row: Int) {
+        detailTableView.reloadData()
+        
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: row - 1, section: 1)
+            self.detailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+    }
+    /*
     private func scrollToBottom() {
         guard let countOfComments = detail?.comments?.count,
         countOfComments > 0 else { return }
@@ -60,7 +67,7 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
             self.detailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
-    
+    */
     private func setDelegate() {
         picker.delegate = self
         keyboardInputView.delegate = self
@@ -68,6 +75,8 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
         detailTableView.dataSource = self
         detailTableView.register(UINib(nibName: "BoardDetailTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "BoardDetailTableViewHeader")
         detailTableView.register(UINib(nibName: "BoardDetailTableViewCell", bundle: nil), forCellReuseIdentifier: "BoardDetailTableViewCell")
+        detailTableView.estimatedRowHeight = 100
+        detailTableView.rowHeight = UITableViewAutomaticDimension
         
         if #available(iOS 15.0, *) {
             self.detailTableView.sectionHeaderTopPadding = 0
@@ -89,19 +98,27 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
     }
     
     private func setSendButtonCompletion() {
-        keyboardInputView.sendButtonCompletionHandler = { [weak self] text, isRecomment in
+        keyboardInputView.sendButtonCompletionHandler = { [weak self] text, selectedRow, isModify in
             guard let self = self,
                     let detail = self.detail,
-                    let document = detail.document else { return }
+                    let comments = detail.comments,
+                  let document = detail.document else { return }
             
             let selectedImage = self.keyboardInputView.selectedImageView.image
             
-            self.boardDetailViewModel.postComment(mid: self.category,
-                                                  documentSRL: document.document_srl!,
-                                                  recomment: self.recomment,
-                                                  content: text,
-                                                  isRecomment: isRecomment,
-                                                  image: selectedImage) { isSuccess in
+            var commentParamters = CommentParameter(mid: self.category,
+                                                    documentSRL: document.document_srl!,
+                                                    comment: nil,
+                                                    text: text,
+                                                    image: selectedImage,
+                                                    selectedCommentRow: selectedRow,
+                                                    isModify: isModify)
+            
+            if !comments.isEmpty {
+                commentParamters.comment = comments[selectedRow]
+            }
+            
+            self.boardDetailViewModel.postComment(commentParameter: commentParamters, isModify: isModify) { isSuccess in
                 if isSuccess {
                     self.fetchData()
                 } else {
@@ -132,11 +149,13 @@ extension BoardDetailViewController: MediaButtonTappedDelegate {
         }
     }
     
+    // 공통
     func openPhotoLib() {
         picker.sourceType = .photoLibrary
         self.present(picker, animated: false, completion: nil)
     }
     
+    // 공통
     func openCamera() {
         let status = AVCaptureDevice.authorizationStatus(for: .video)
         if status == .notDetermined || status == .denied {
@@ -152,6 +171,7 @@ extension BoardDetailViewController: MediaButtonTappedDelegate {
         }
     }
     
+    // 공통
     private func showAuthAlert() {
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) in
             Snackbar().show(message: "카메라 기능이 활성화되지 않았습니다.")
@@ -272,7 +292,6 @@ extension BoardDetailViewController: UITableViewDataSource {
 
 // MARK: - ButtonClickDelegate
 extension BoardDetailViewController: ButtonClickDelegate {
-    
     func reportButtonCliked(isHeader: Bool) {
         guard let detail = detail,
         let document = detail.document else { return }
@@ -378,13 +397,45 @@ extension BoardDetailViewController: ButtonClickDelegate {
         self.present(popup, animated: true, completion: nil)
     }
     
-    func commentButtonCliked(recomment: Recomment) {
-        self.recomment = recomment
-        keyboardInputView.becomeResponder(targetNickName: recomment.targetNickName)
+    // TODO: selectedrow
+    func commentButtonCliked(recomment: Comment, selectedRow: Int) {
+        keyboardInputView.becomeResponder(comment: recomment, isModify: false, selectedRow: selectedRow)
     }
     
-    func deleteButtonCliked() {
+    func deleteButtonCliked(documentSRL: String, commentSRL: String) {
+        let popup = ConfirmPopupViewController(titleText: "삭제", messageText: "댓글을 삭제하시겠습니까?")
+        popup.addActionToButton(title: "취소", buttonType: .cancel)
+        popup.addActionToButton(title: "삭제", buttonType: .confirm)
+        popup.confirmDelegate = { [weak self] isDeleted in
+            guard let self = self else { return }
+            self.boardDetailViewModel.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { isSuccess in
+                let trasientAlertView = TransientAlertViewController()
+                if isSuccess {
+                    trasientAlertView.titlemessage = "삭제되었습니다."
+                } else {
+                    trasientAlertView.titlemessage = "오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+                }
+                self.presentPanModal(trasientAlertView)
+                self.fetchData()
+            }
+        }
         
+        self.present(popup, animated: true, completion: nil)
+    }
+    
+    func modifyButtonCliked(comment: Comment, selectedRow: Int) {
+        let popup = ConfirmPopupViewController(titleText: "수정", messageText: "댓글을 수정하시겠습니까?")
+        popup.addActionToButton(title: "취소", buttonType: .cancel)
+        popup.addActionToButton(title: "수정", buttonType: .confirm)
+        popup.confirmDelegate = { [weak self] isDeleted in
+            guard let self = self else { return }
+            
+            if isDeleted {
+                self.keyboardInputView.becomeResponder(comment: comment, isModify: true, selectedRow: selectedRow)
+            }
+        }
+        
+        self.present(popup, animated: true, completion: nil)
     }
 }
 

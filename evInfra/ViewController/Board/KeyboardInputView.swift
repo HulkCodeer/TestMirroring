@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import SDWebImage
 
 protocol MediaButtonTappedDelegate {
     func presentModal()
@@ -30,9 +31,11 @@ class KeyboardInputView: UIView {
     private let maxHeight: CGFloat = 150
     private let minHeight: CGFloat = 20
     
-    var sendButtonCompletionHandler: ((String, Bool) -> Void)?
+    var sendButtonCompletionHandler: ((String, Int, Bool) -> Void)?
     var delegate: MediaButtonTappedDelegate?
     var isRecomment: Bool = false
+    var isModify: Bool = false
+    var selectedRow: Int = 0
     var targetNickName: String = ""
     var attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "")
     
@@ -104,12 +107,15 @@ class KeyboardInputView: UIView {
 
         }
         
-        sendButtonCompletionHandler?(text, isRecomment)
+        sendButtonCompletionHandler?(text, selectedRow, isModify)
         
         textView.text = nil
         textView.endEditing(true)
         textView.attributedText = nil
+        textViewConstraint.constant = minHeight
         isRecomment = false
+        isModify = false
+        selectedRow = 0
         
         hiddenSelectedView()
     }
@@ -127,19 +133,22 @@ class KeyboardInputView: UIView {
 }
 
 extension KeyboardInputView: UITextViewDelegate {
-    func becomeResponder(targetNickName: String) {
-        isRecomment = true
+    func becomeResponder(comment: Comment, isModify: Bool, selectedRow: Int) {
+        self.isModify = isModify
+        self.selectedRow = selectedRow
         textView.becomeFirstResponder()
-//        placeholderTextField.isHidden = true
-//        textView.text = "\(targetNickName) "
-//        self.targetNickName = targetNickName
-//        range = textView.text as NSString
-//
-//        attributedString = NSMutableAttributedString(string: "\(targetNickName) ")
-//        attributedString.addAttribute(.foregroundColor, value: fontColor, range: range.range(of: "\(targetNickName )"))
-//        attributedString.addAttribute(.font, value: font, range: range.range(of: "\(targetNickName )"))
-//
-//        textView.attributedText = attributedString
+        placeholderTextField.isHidden = true
+        
+        if isModify {
+            textView.text = comment.content
+            if let files = comment.files,
+                !files.isEmpty {
+                selectedImageView.sd_setImage(with: URL(string: files[0].uploaded_filename ?? ""))
+                trashButton.isHidden = false
+                selectedImageView.isHidden = false
+                selectedImageViewHeight.constant = 80
+            }
+        }
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
