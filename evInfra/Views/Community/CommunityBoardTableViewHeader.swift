@@ -142,7 +142,9 @@ extension CommunityBoardTableViewHeader: UICollectionViewDataSource {
 
 extension CommunityBoardTableViewHeader: TTGTextTagCollectionViewDelegate {
     func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTap tag: TTGTextTag!, at index: UInt) {
-        guard tag.selected else { return }
+        
+        tag.selected = !tag.selected
+        textTagCollectionView.updateTag(at: index, selected: true)
             
         let selectedIndex = Int(index)
         
@@ -155,6 +157,16 @@ extension CommunityBoardTableViewHeader: TTGTextTagCollectionViewDelegate {
         }
         
         delegate?.didSelectTag(type)
+    }
+    
+    func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, canTap tag: TTGTextTag!, at index: UInt) -> Bool {
+        guard let allTags = textTagCollectionView.allTags() else { return false }
+        
+        for (index, _) in allTags.enumerated() {
+            tagCollectionView.updateTag(at: UInt(index), selected: false)
+        }
+        
+        return true
     }
 }
 
