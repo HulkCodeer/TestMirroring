@@ -40,6 +40,8 @@ class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
         self.bannerCollectionView.register(UINib(nibName: "BannerCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BannerCollectionViewCell")
         self.bannerCollectionView.dataSource = self
         self.bannerCollectionView.delegate = self
+        self.bannerCollectionView.layer.cornerRadius = 16
+        self.bannerCollectionView.backgroundColor = .clear
         self.tags = ["최신", "인기"]
         
         setupTagCollectionView()
