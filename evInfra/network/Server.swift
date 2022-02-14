@@ -355,7 +355,7 @@ class Server {
         }
     }
     // MARK: - Community 개선 - 게시글 등록
-    static func postBoardData(mid: String, title: String, content: String, tags: String, charger_id: String, completion: @escaping (Bool, Any) -> Void) {
+    static func postBoardData(mid: String, title: String, content: String, charger_id: String, completion: @escaping (Bool, Any) -> Void) {
         
         let headers = [
             "mb_id" : "\(MemberManager.getMbId())",
@@ -372,6 +372,46 @@ class Server {
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/write/mid/\(mid)",
                           method: .post,
                           parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers).validate().responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 게시글 수정
+    static func updateBoardData(mid: String, documentSRL: String, title: String, content: String, charger_id: String, completion: @escaping (Bool, Any) -> Void) {
+        let headers = [
+            "mb_id" : "\(MemberManager.getMbId())",
+            "nick_name" : "\(MemberManager.getMemberNickname())",
+            "profile" : "\(MemberManager.getProfileImage())"
+        ]
+        
+        let parameters: Parameters = [
+            "title" : title,
+            "content" : content,
+            "tags" : "{\"charger_id\" : \"\(charger_id)\"}"
+        ]
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/update/mid/\(mid)/document_srl/\(documentSRL)",
+                          method: .post,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers).validate().responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 게시물 파일 삭제
+    static func deleteDocumnetFile(documentSRL: String, fileSRL: String, isCover: String, completion: @escaping (Bool, Any) -> Void) {
+        let headers = [
+            "mb_id" : "\(MemberManager.getMbId())",
+            "nick_name" : "\(MemberManager.getMemberNickname())",
+            "profile" : "\(MemberManager.getProfileImage())"
+        ]
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/file/document_srl/\(documentSRL)/file_srl/\(fileSRL)/cover/\(isCover)",
+                          method: .delete,
+                          parameters: nil,
                           encoding: JSONEncoding.default,
                           headers: headers).validate().responseJSON { response in
             responseJson(response: response, completion: completion)
@@ -528,7 +568,10 @@ class Server {
             "profile" : "\(MemberManager.getProfileImage())"
         ]
         
-        var parameters: [String: String] = ["content" : "\(commentParameter.text)"]
+        let parameters: Parameters = [
+            "content" : "\(commentParameter.text)"
+        ]
+        
         let url = Const.EV_COMMUNITY_SERVER + "/comment_update/mid/\(commentParameter.mid)/document_srl/\(commentParameter.documentSRL)/comment_srl/\(commentParameter.comment!.comment_srl ?? "")"
         // TODO: Invalid URL 처리
         // TODO: 대댓글 수정
@@ -536,7 +579,7 @@ class Server {
                           method: .post,
                           parameters: parameters,
                           encoding: JSONEncoding.default,
-                          headers: headers).responseJSON { response in
+                          headers: headers).validate().responseJSON { response in
             responseJson(response: response, completion: completion)
         }
 //        if let comment = commentParameter.comment {

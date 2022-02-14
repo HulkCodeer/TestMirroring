@@ -62,4 +62,10 @@ extension String {
         return NSAttributedString()
       }
     }
+    
+    func urlToImage() -> UIImage? {
+        let url = URL(string: self)
+        let data = try? Data(contentsOf: url!)
+        return UIImage(data: data!)
+    }
 }

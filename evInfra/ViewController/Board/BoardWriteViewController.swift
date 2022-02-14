@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import SDWebImage
 import PanModal
 
 class BoardWriteViewController: UIViewController, UINavigationControllerDelegate {
@@ -22,9 +23,12 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
     
     @IBOutlet var photoCollectionView: UICollectionView!
 
-    private var selectedImages: [UIImage] = []
+    var selectedImages: [UIImage] = []
+    var uploadedImages: [FilesItem]? = []
     var category = Board.CommunityType.FREE.rawValue
+    var document: Document?
     var boardWriteViewModel = BoardWriteViewModel()
+    var popCompletion: (() -> Void)?
     let picker = UIImagePickerController()
     
     override func viewDidLoad() {
@@ -32,15 +36,18 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
 
         setUI()
         
-        boardWriteViewModel.validateCompletion { [weak self] status in
-            if status {
-                self?.completeButton.isEnabled = true
-                self?.completeButton.setTitleColor(UIColor(named: "nt-9"), for: .normal)
-                self?.completeButton.backgroundColor = UIColor(named: "gr-5")
+        boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text)
+        boardWriteViewModel.subscribe { [weak self] isEnable in
+            guard let self = self else { return }
+
+            self.completeButton.isEnabled = isEnable
+            
+            if isEnable {
+                self.completeButton.tintColor = UIColor(named: "nt-9")
+                self.completeButton.backgroundColor = UIColor(named: "gr-5")
             } else {
-                self?.completeButton.isEnabled = false
-                self?.completeButton.setTitleColor(UIColor(named: "nt-3"), for: .normal)
-                self?.completeButton.backgroundColor = UIColor(named: "nt-0")
+                self.completeButton.tintColor = UIColor(named: "nt-3")
+                self.completeButton.backgroundColor = UIColor(named: "nt-0")
             }
         }
     }
@@ -61,34 +68,62 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         guard let title = self.titleTextView.text,
                 let contents = self.contentsTextView.text else { return }
         
-        
-        let popup = ConfirmPopupViewController(titleText: "등록", messageText: "게시물을 등록 하시겠습니까?")
-        popup.addActionToButton(title: "취소", buttonType: .cancel)
-        popup.addActionToButton(title: "등록", buttonType: .confirm)
-        popup.confirmDelegate = { [weak self] canRegist in
-            guard let self = self else { return }
-            
-            if canRegist {
-                self.boardWriteViewModel.registerBoard(self.category,
-                                                        title,
-                                                        contents,
-                                                        self.selectedImages) { isSuccess in
-                    let trasientAlertView = TransientAlertViewController()
-                    
-                    if isSuccess {
-                        trasientAlertView.titlemessage = "게시글 등록이 완료되었습니다."
-                        trasientAlertView.dismissCompletion = {
-                            self.navigationController?.pop()
+        if let document = document {
+            let popup = ConfirmPopupViewController(titleText: "수정", messageText: "게시물을 수정 하시겠습니까?")
+            popup.addActionToButton(title: "취소", buttonType: .cancel)
+            popup.addActionToButton(title: "수정", buttonType: .confirm)
+            popup.confirmDelegate = { [weak self] canModify in
+                guard let self = self else { return }
+                
+                if canModify {
+                    self.boardWriteViewModel.updateBoard(self.category, document.document_srl!, title, contents, "", self.uploadedImages, self.selectedImages) { isSuccess in
+                        let trasientAlertView = TransientAlertViewController()
+
+                        if isSuccess {
+                            trasientAlertView.titlemessage = "게시글 수정이 완료되었습니다."
+                            trasientAlertView.dismissCompletion = {
+                                self.popCompletion?()
+                                self.navigationController?.pop()
+                            }
+                        } else {
+                            trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
                         }
-                    } else {
-                        trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
+                        self.presentPanModal(trasientAlertView)
                     }
-                    self.presentPanModal(trasientAlertView)
                 }
             }
+            
+            self.present(popup, animated: true, completion: nil)
+        } else {
+            // 신규 등록
+            let popup = ConfirmPopupViewController(titleText: "등록", messageText: "게시물을 등록 하시겠습니까?")
+            popup.addActionToButton(title: "취소", buttonType: .cancel)
+            popup.addActionToButton(title: "등록", buttonType: .confirm)
+            popup.confirmDelegate = { [weak self] canRegist in
+                guard let self = self else { return }
+                
+                if canRegist {
+                    self.boardWriteViewModel.postBoard(self.category,
+                                                            title,
+                                                            contents,
+                                                            self.selectedImages) { isSuccess in
+                        let trasientAlertView = TransientAlertViewController()
+                        
+                        if isSuccess {
+                            trasientAlertView.titlemessage = "게시글 등록이 완료되었습니다."
+                            trasientAlertView.dismissCompletion = {
+                                self.navigationController?.pop()
+                            }
+                        } else {
+                            trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
+                        }
+                        self.presentPanModal(trasientAlertView)
+                    }
+                }
+            }
+            
+            self.present(popup, animated: true, completion: nil)
         }
-        
-        self.present(popup, animated: true, completion: nil)
     }
     
     private func setUI() {
@@ -103,23 +138,30 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
             stationSearchButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 4)
         }
         
+        if let document = document {
+            titleTextView.text = document.title ?? Const.BoardConstants.titlePlaceHolder
+            contentsTextView.text = document.content ?? Const.BoardConstants.contentsPlaceHolder
+        } else {
+            titleTextView.text = Const.BoardConstants.titlePlaceHolder
+            contentsTextView.text = Const.BoardConstants.contentsPlaceHolder
+        }
+        
         // 제목
         titleTextView.delegate = self
-        titleTextView.text = Const.BoardConstants.titlePlaceHolder
         titleTextView.textColor = UIColor(named: "nt-5")
-        titleTextView.layer.borderWidth = 1
         titleTextView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
+        titleTextView.layer.borderWidth = 1
         titleTextView.layer.cornerRadius = 4
         titleTextView.textContainerInset = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
         
         // 내용
         contentsTextView.delegate = self
-        contentsTextView.text = Const.BoardConstants.contentsPlaceHolder
         contentsTextView.textColor = UIColor(named: "nt-5")
-        contentsTextView.textContainerInset = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
-        contentsView.layer.borderWidth = 1
         contentsView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
+        contentsView.layer.borderWidth = 1
         contentsView.layer.cornerRadius = 6
+        contentsTextView.textContainerInset = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
+        countOfWordsLabel.text = "\(contentsTextView.text?.count ?? 0) / 1200"
         
         // 사진 등록
         photoCollectionView.register(UINib(nibName: "PhotoRegisterCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "PhotoRegisterCollectionViewCell")
@@ -128,8 +170,15 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         photoCollectionView.dataSource = self
         photoCollectionView.layer.cornerRadius = 16
         
+        let filenames = uploadedImages?.compactMap({ item in item.uploaded_filename })
+        if let uploadedImages = filenames {
+            for image in uploadedImages {
+                let uiImage = image.urlToImage()!
+                selectedImages.append(uiImage)
+            }
+        }
+        
         // 작성 완료 버튼
-        completeButton.isEnabled = false
         completeButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         
         picker.delegate = self
@@ -255,36 +304,28 @@ extension BoardWriteViewController: UICollectionViewDataSource {
 // MARK: - TextView Delegate
 extension BoardWriteViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor(named: "nt-5") {
-            textView.text = nil
-            textView.textColor = UIColor(named: "nt-9")
-        }
+        textView.layer.borderColor = UIColor(named: "nt-9")?.cgColor
+        textView.textColor = UIColor(named: "nt-9")
         
-        switch textView.tag {
-        case 0:
-            titleTextView.layer.borderColor = UIColor(named: "nt-9")?.cgColor
-        case 1:
-            contentsView.layer.borderColor = UIColor(named: "nt-9")?.cgColor
-        default:
-            break
+        if let _ = document {
+            
+        } else {
+            textView.text = nil
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
+        textView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
+        textView.textColor = UIColor(named: "nt-5")
+        
         switch textView.tag {
         case 0:
-            titleTextView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
-            
             if titleTextView.text.isEmpty {
                 titleTextView.text = "제목을 입력해주세요."
-                titleTextView.textColor = UIColor(named: "nt-5")
             }
         case 1:
-            contentsView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
-            
             if contentsTextView.text.isEmpty {
                 contentsTextView.text = "내용을 입력해주세요."
-                contentsTextView.textColor = UIColor(named: "nt-5")
             }
         default:
             break
@@ -301,14 +342,13 @@ extension BoardWriteViewController: UITextViewDelegate {
             break
         }
         
-        boardWriteViewModel.validateInput(titleTextView.text, contentsTextView.text)
+        boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text)
     }
 }
 
 // MARK: - UIImagePickerControllerDelegate
 extension BoardWriteViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        print("didFinishPickingMediaWithInfo : \(info)")
         
         let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage

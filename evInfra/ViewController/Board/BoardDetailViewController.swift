@@ -37,8 +37,13 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
     private func fetchData() {
         boardDetailViewModel.fetchBoardDetail(mid: category, document_srl: document_srl)
         boardDetailViewModel.listener = { [weak self] detail in
-            self?.detail = detail
-            self?.detailTableView.reloadData()
+            guard let self = self else { return }
+            
+            self.detail = detail
+            
+            DispatchQueue.main.async {
+                self.detailTableView.reloadData()
+            }
         }
     }
     
@@ -303,19 +308,29 @@ extension BoardDetailViewController: ButtonClickDelegate {
                 rowVC.members = ["수정하기", "삭제하기", "공유하기"]
                 presentPanModal(rowVC)
                 
-                rowVC.selectedCompletion = { index in
+                rowVC.selectedCompletion = { [weak self] index in
+                    guard let self = self else { return }
+                    
                     self.dismiss(animated: true) {
                         switch index {
                         case 0:
                             // 수정하기
-                            print("수정하기")
+                            let storyboard = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil)
+                            guard let boardWriteViewController = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
+                            
+                            boardWriteViewController.category = self.category
+                            boardWriteViewController.document = self.boardDetailViewModel.getDetailData()?.document
+                            boardWriteViewController.uploadedImages = self.boardDetailViewModel.getDetailData()?.files
+                            self.navigationController?.push(viewController: boardWriteViewController)
+                            boardWriteViewController.popCompletion = {
+                                self.fetchData()
+                            }
                         case 1:
                             // 삭제하기
                             let popup = ConfirmPopupViewController(titleText: "삭제", messageText: "게시글을 삭제 하시겠습니까?")
                             popup.addActionToButton(title: "취소", buttonType: .cancel)
                             popup.addActionToButton(title: "삭제", buttonType: .confirm)
-                            popup.confirmDelegate = { [weak self] isDelete in
-                                guard let self = self else { return }
+                            popup.confirmDelegate = { isDelete in
                                 
                                 self.boardDetailViewModel.deleteBoard(document_srl: self.document_srl) { isSuccess in
                                     let trasientAlertView = TransientAlertViewController()
@@ -345,7 +360,9 @@ extension BoardDetailViewController: ButtonClickDelegate {
                 rowVC.members = ["공유하기", "신고하기"]
                 presentPanModal(rowVC)
                 
-                rowVC.selectedCompletion = { index in
+                rowVC.selectedCompletion = { [weak self] index in
+                    guard let self = self else { return }
+                    
                     self.dismiss(animated: true) {
                         switch index {
                         case 0:
@@ -381,6 +398,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
         popup.addActionToButton(title: title, buttonType: .confirm)
         popup.confirmDelegate = { [weak self] isLiked in
             guard let self = self else { return }
+            
             self.boardDetailViewModel.setLikeCount(srl: srl, isComment: isComment) { (isSuccess, message) in
                 if isSuccess {
                     if let message = message as? String {
