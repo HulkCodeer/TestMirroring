@@ -112,6 +112,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
         
         switch payCode {
             case PaymentCard.PAY_REGISTER_SUCCESS:
+                self.registerInfo.isHidden = false
                 self.registerCardInfo.isHidden = false
                 self.okBtn.isHidden = false
                 self.registerInfoBtnLayer.isHidden = true
@@ -125,6 +126,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
             
             case PaymentCard.PAY_REGISTER_FAIL, PaymentCard.PAY_REGISTER_FAIL_PG:
+                self.registerInfo.isHidden = false
                 self.registerCardInfo.isHidden = true
                 self.okBtn.isHidden = false
                 self.registerInfoBtnLayer.isHidden = true
@@ -133,10 +135,10 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
             
             case PaymentCard.PAY_REGISTER_CANCEL_FROM_USER:
-                Snackbar().show(message: "결제정보 등록을 취소했습니다")
-                self.navigationController?.pop()
-                
+                self.onCancelRegister()
+            
             case PaymentCard.PAY_MEMBER_DELETE_SUCESS, PaymentCard.PAY_MEMBER_DELETE_FAIL_NO_USER, PaymentCard.PAY_MEMBER_DELETE_FAIL, PaymentCard.PAY_MEMBER_DELETE_FAIL_DB:
+                self.registerInfo.isHidden = false
                 self.registerCardInfo.isHidden = true
                 self.okBtn.isHidden = false
                 self.registerInfoBtnLayer.isHidden = true
@@ -145,7 +147,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
             
             case PaymentCard.PAY_FINE_USER:
-                self.registerInfo.visiblity(gone: true)
+                self.registerInfo.isHidden = true
                 self.registerCardInfo.isHidden = false
                 self.okBtn.isHidden = true
                 self.registerInfoBtnLayer.isHidden = false
@@ -280,6 +282,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     }
     
     func onCancelRegister() {
+        Snackbar().show(message: "결제정보 등록을 취소했습니다")
         self.navigationController?.pop()
     }
     
