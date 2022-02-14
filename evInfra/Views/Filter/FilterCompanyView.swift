@@ -23,6 +23,7 @@ class FilterCompanyView: UIView {
     var allSelect: Bool = false
     var cardSetting: Bool = false
     
+    var delegate: DelegateFilterChange?
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
@@ -79,7 +80,6 @@ class FilterCompanyView: UIView {
             } else {
                 icon = UIImage(named: "icon_building_sm")
             }
-            
             let tag = TagValue(title:company.name!, img:icon!, selected: selected)
             tagList.append(tag)
             if company.recommend ?? false {
@@ -214,6 +214,7 @@ extension FilterCompanyView : CompanyTableDelegate{
         }
         if changed {
             updateTable()
+            delegate?.onChangedFilter(type: .company)
         }
     }
 }

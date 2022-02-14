@@ -19,6 +19,8 @@ enum FilterType {
     case place
     case road
     case type
+    case access
+    case company
     case none
 }
 
@@ -85,7 +87,7 @@ class FilterBarView: UIView {
             setBtnClicked(btn: btnRoad, clicked: true)
         case .type:
             setBtnClicked(btn: btnType, clicked: true)
-        case .none:
+        default:
             break;
         }
     }

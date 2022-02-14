@@ -302,7 +302,7 @@ extension SignUpViewController: UITextFieldDelegate {
                 return false
             }
             
-            let newLength = text.characters.count + string.characters.count - range.length
+            let newLength = text.count + string.count - range.length
             if newLength > 12 {
                 Snackbar().show(message: "닉네임은 최대 12자까지 입력가능합니다")
                 return false

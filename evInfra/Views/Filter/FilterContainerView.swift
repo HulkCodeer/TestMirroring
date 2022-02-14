@@ -89,7 +89,7 @@ class FilterContainerView: UIView {
             newType = .type
         case .type:
             newType = .price
-        case .none:
+        default:
             break;
         }
         
@@ -110,7 +110,7 @@ class FilterContainerView: UIView {
             newType = .place
         case .type:
             newType = .road
-        case .none:
+        default:
             break;
         }
         
@@ -142,7 +142,7 @@ class FilterContainerView: UIView {
             filterContainerView.bringSubview(toFront: filterRoadView!)
         case .type:
             filterContainerView.bringSubview(toFront: filterTypeView!)
-        case .none:
+        default:
             break;
         }
     }

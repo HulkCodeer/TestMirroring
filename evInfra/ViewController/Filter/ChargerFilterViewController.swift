@@ -46,22 +46,15 @@ class ChargerFilterViewController: UIViewController {
     }
     
     @IBAction func onClickApplyBtn(_ sender: Any) {
-        if (checkChange()) {
-            typeFilter.applyFilter()
-            speedFilter.applyFilter()
-            roadFilter.applyFilter()
-            placeFilter.applyFilter()
-            priceFilter.applyFilter()
-            accessFilter.applyFilter()
-            companyFilter.applyFilter()
-            delegate?.onApplyFilter()
-            self.navigationController?.pop()
-        } else {
-            let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in})
-            var actions = Array<UIAlertAction>()
-            actions.append(ok)
-            UIAlertController.showAlert(title: "필터 저장 실패", message: "저장할 변경사항이 없습니다", actions: actions)
-        }
+        typeFilter.applyFilter()
+        speedFilter.applyFilter()
+        roadFilter.applyFilter()
+        placeFilter.applyFilter()
+        priceFilter.applyFilter()
+        accessFilter.applyFilter()
+        companyFilter.applyFilter()
+        delegate?.onApplyFilter()
+        self.navigationController?.pop()
     }
     
     func prepareActionBar() {
@@ -84,14 +77,34 @@ class ChargerFilterViewController: UIViewController {
     }
     
     func initView(){
-        btnApply.backgroundColor = UIColor(named: "content-positive")
         btnApply.layer.cornerRadius = 6
+        setApplyBtnStatus(enabled: false)
+        
+        
+        typeFilter.delegate = self
+        speedFilter.delegate = self
+        roadFilter.delegate = self
+        placeFilter.delegate = self
+        priceFilter.delegate = self
+        accessFilter.delegate = self
+        companyFilter.delegate = self
         
         typeFilter.showExpandView()
         typeFilter.checkLoginDelegate = self
         typeFilter.slowTypeChangeDelegate = self
         
         speedFilter.slowSpeedChangeDelegate = self
+    }
+    
+    func setApplyBtnStatus(enabled : Bool) {
+        btnApply.isEnabled = enabled
+        if enabled {
+            btnApply.setTitleColor(UIColor(named: "content-primary"), for: .normal)
+            btnApply.backgroundColor = UIColor(named: "background-positive")
+        } else {
+            btnApply.setTitleColor(UIColor(named: "content-disabled"), for: .normal)
+            btnApply.backgroundColor = UIColor(named: "background-disabled")
+        }
     }
     
     @objc
@@ -126,6 +139,12 @@ class ChargerFilterViewController: UIViewController {
         actions.append(cancel)
         actions.append(ok)
         UIAlertController.showAlert(title: "필터 초기화", message: "필터를 초기화 하시겠습니까?", actions: actions)
+    }
+}
+
+extension ChargerFilterViewController : DelegateFilterChange {
+    func onChangedFilter(type: FilterType) {
+        setApplyBtnStatus(enabled: checkChange())
     }
 }
 

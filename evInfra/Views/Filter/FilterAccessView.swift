@@ -26,6 +26,7 @@ class FilterAccessView: UIView {
     let bgEnColor: UIColor = UIColor(named: "gr-6")!
     let bgDisColor: UIColor = UIColor(named: "content-tertiary")!
     
+    var delegate: DelegateFilterChange?
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
@@ -100,6 +101,7 @@ class FilterAccessView: UIView {
                 lbNonPublic.textColor = bgDisColor
             }
         }
+        delegate?.onChangedFilter(type: .access)
     }
     
     func resetFilter() {
