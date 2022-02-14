@@ -61,7 +61,7 @@ class CommunityBoardTableViewCell: UITableViewCell {
         if let files = item.files {
             if files.count > 0 {
                 let attachment = NSTextAttachment()
-                attachment.image = UIImage(named: "icon_image_xs")
+                attachment.image = UIImage(named: "icon_image_xs")?.tint(with: UIColor(named: "nt-5")!)
                 attachment.bounds = CGRect(x: 0, y: 0, width: 16, height: 16)
                 
                 let attributedString = NSMutableAttributedString(string: item.content!)
