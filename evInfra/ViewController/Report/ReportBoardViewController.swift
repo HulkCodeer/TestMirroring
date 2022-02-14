@@ -115,6 +115,7 @@ extension ReportBoardViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reportCell", for: indexPath) as! ReportBoardTableViewCell
         let item = reportList[indexPath.row]
         
+        cell.selectionStyle = .none
         cell.stationName.text = item.snm
         cell.rType.text = String(item.type!)
         cell.status.text = String(item.status!)
