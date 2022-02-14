@@ -299,7 +299,7 @@
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="00임0000" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="rXg-Yl-EXT" customClass="HSUnderLineTextField" customModule="evInfra" customModuleProvider="target">
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="차량등록번호 입력" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="rXg-Yl-EXT" customClass="HSUnderLineTextField" customModule="evInfra" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="27.5" width="343" height="38"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="38" id="oEV-1v-T3a"/>
@@ -349,7 +349,7 @@
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="배송 시, 수령하신분의 이름을 입력하세요" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="am0-2G-HBD" customClass="HSUnderLineTextField" customModule="evInfra" customModuleProvider="target">
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="배송 시, 수령하실분의 이름을 입력하세요" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="am0-2G-HBD" customClass="HSUnderLineTextField" customModule="evInfra" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="27.5" width="343" height="38"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="38" id="M1c-SG-3Lf"/>
@@ -1083,7 +1083,7 @@
             <size key="intrinsicContentSize" width="147.5" height="30"/>
         </designable>
         <designable name="rXg-Yl-EXT">
-            <size key="intrinsicContentSize" width="100.5" height="31"/>
+            <size key="intrinsicContentSize" width="143" height="31"/>
         </designable>
         <designable name="vM7-rb-ElD">
             <size key="intrinsicContentSize" width="147.5" height="30"/>
