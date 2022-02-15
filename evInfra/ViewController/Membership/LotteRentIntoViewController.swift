@@ -38,6 +38,12 @@ class LotteRentInfoViewController: UIViewController {
     }
     
     func prepareActionBar() {
+        let backButton = IconButton(image: Icon.cm.arrowBack)
+        backButton.tintColor = UIColor(named: "content-primary")
+        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+        
+        navigationItem.leftViews = [backButton]
+        navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         navigationItem.titleLabel.text = "등록된 카드 정보"
         self.navigationController?.isNavigationBarHidden = false
