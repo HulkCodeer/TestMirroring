@@ -61,8 +61,23 @@
                                         <constraint firstAttribute="height" constant="32" id="gmD-U9-T4E"/>
                                     </constraints>
                                 </stackView>
+                                <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g4e-eg-NJA">
+                                    <rect key="frame" x="0.0" y="40" width="382" height="16"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="16" id="uMq-uN-nZy"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                    <color key="tintColor" name="gr-5"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="4" maxY="0.0"/>
+                                    <state key="normal" image="iconChargerSm">
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="bold"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="chargeStationButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="0fa-wI-ZWw"/>
+                                    </connections>
+                                </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxj-vK-8nh">
-                                    <rect key="frame" x="0.0" y="40" width="382" height="20"/>
+                                    <rect key="frame" x="0.0" y="64" width="382" height="20"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="20" id="NiE-lT-ZuF"/>
                                     </constraints>
@@ -71,7 +86,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJe-fy-nDE">
-                                    <rect key="frame" x="0.0" y="68" width="382" height="300"/>
+                                    <rect key="frame" x="0.0" y="92" width="382" height="276"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" name="nt-7"/>
                                     <nil key="highlightedColor"/>
@@ -182,8 +197,10 @@
                                 <constraint firstItem="3Gr-pC-frF" firstAttribute="leading" secondItem="Atl-Fj-dni" secondAttribute="leading" id="VJS-RH-2K9"/>
                                 <constraint firstAttribute="trailing" secondItem="rJe-fy-nDE" secondAttribute="trailing" id="W4C-xa-1a2"/>
                                 <constraint firstItem="vpk-Fi-dJx" firstAttribute="leading" secondItem="Atl-Fj-dni" secondAttribute="leading" id="WNw-tM-DP8"/>
+                                <constraint firstItem="g4e-eg-NJA" firstAttribute="leading" secondItem="Atl-Fj-dni" secondAttribute="leading" id="lOT-aa-A0e"/>
                                 <constraint firstAttribute="trailing" secondItem="vpk-Fi-dJx" secondAttribute="trailing" id="lOy-AN-83A"/>
                                 <constraint firstAttribute="bottom" secondItem="3Gr-pC-frF" secondAttribute="bottom" id="tXx-9b-dcb"/>
+                                <constraint firstAttribute="trailing" secondItem="g4e-eg-NJA" secondAttribute="trailing" id="uBp-yX-bXX"/>
                                 <constraint firstItem="rJe-fy-nDE" firstAttribute="leading" secondItem="Atl-Fj-dni" secondAttribute="leading" id="uJC-3x-K1u"/>
                             </constraints>
                         </stackView>
@@ -207,6 +224,7 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="chargeStationButton" destination="g4e-eg-NJA" id="Ne8-mh-fwp"/>
                 <outlet property="commentButton" destination="0FT-2h-M3p" id="qEj-Ns-owr"/>
                 <outlet property="commentsCountLabel" destination="Atp-Kr-zQ4" id="no8-Nn-HiL"/>
                 <outlet property="contentsLabel" destination="rJe-fy-nDE" id="cao-pE-ZJw"/>
@@ -228,10 +246,14 @@
         </view>
     </objects>
     <resources>
+        <image name="iconChargerSm" width="20" height="20"/>
         <image name="iconHeartFill24" width="24" height="24"/>
         <image name="icon_comment-1" width="24" height="24"/>
         <image name="icon_liked" width="24" height="24"/>
         <image name="icon_more_vertical" width="16" height="16"/>
+        <namedColor name="gr-5">
+            <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="nt-5">
             <color red="0.49019607843137253" green="0.49019607843137253" blue="0.49019607843137253" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import SDWebImage
+import SwiftyJSON
 import Accelerate
 
 class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
@@ -16,6 +17,9 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var nickNameLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
+    
+    @IBOutlet var chargeStationButton: UIButton!
+    
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var contentsLabel: UILabel!
     @IBOutlet var likedCountLabel: UILabel!
@@ -34,6 +38,7 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     
     private var document: Document?
     private var files: [FilesItem] = []
+    private var chargerId: String?
     var buttonClickDelegate: ButtonClickDelegate?
     
     override func awakeFromNib() {
@@ -49,16 +54,22 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
         image3.clipsToBounds = true
         image4.clipsToBounds = true
         image5.clipsToBounds = true
+        chargeStationButton.isHidden = true
     }       
     
     override func prepareForReuse() {
         profileImageView.sd_cancelCurrentImageLoad()
-        profileImageView.image = nil
+        image1.sd_cancelCurrentImageLoad()
+        image2.sd_cancelCurrentImageLoad()
+        image3.sd_cancelCurrentImageLoad()
+        image4.sd_cancelCurrentImageLoad()
+        image5.sd_cancelCurrentImageLoad()
     }
     
-    func configure(item: BoardDetailResponseData?) {
-        self.document = item?.document
-        guard let document = self.document else { return }
+    func configure(item: BoardDetailResponseData?, isFromStationDetailView: Bool) {
+        guard let item = item,
+        let document = item.document else { return }
+        self.document = document
         
         profileImageView.sd_setImage(with: URL(string: "\(Const.urlProfileImage)\(document.mb_profile ?? "")"), placeholderImage: UIImage(named: "ic_person_base36"))
         
@@ -67,17 +78,36 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
         titleLabel.text = document.title
         contentsLabel.text = document.content
         
+        // 충전소 정보
+        if document.board_id == Board.BOARD_CATEGORY_CHARGER {
+            if isFromStationDetailView {
+                chargeStationButton.isHidden = true
+            } else {
+                chargeStationButton.isHidden = false
+
+                let tags = JSON(parseJSON: document.tags!)
+                let chargerId = tags["charger_id"].string!
+                self.chargerId = chargerId
+                
+                if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
+                    chargeStationButton.setTitle(charger.mStationInfoDto?.mSnm, for: .normal)
+                    chargeStationButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
+                }
+            }
+        } else {
+            chargeStationButton.isHidden = true
+        }
         
-        if item?.liked ?? 0 >= 1 {
+        if item.liked ?? 0 >= 1 {
             likeButton.isSelected = true
         } else {
             likeButton.isSelected = false
         }
         
-        setImage(files: item?.files)
+        setImage(files: item.files)
         
         likedCountLabel.text = document.like_count
-        commentsCountLabel.text = "\(item?.comments?.count ?? 0)"
+        commentsCountLabel.text = "\(item.comments?.count ?? 0)"
     }
     
     func setImage(files: [FilesItem]?) {
@@ -146,6 +176,12 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     
     @IBAction func reportButtonTapped(_ sender: Any) {
         self.buttonClickDelegate?.reportButtonCliked(isHeader: true)
+    }
+    
+    @IBAction func chargeStationButtonTapped(_ sender: Any) {
+        guard let chargerId = chargerId else { return }
+
+        self.buttonClickDelegate?.moveToStation(with: chargerId)
     }
 }
 

@@ -35,6 +35,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
 
     var communityBoardList: [BoardListItem] = [BoardListItem]()
     var sortType: Board.SortType = .LATEST
+    var isFromStailDetailView: Bool = false
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -65,15 +66,15 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             Board.CommunityType.CORP_SBC.rawValue:
             guard let cell = Bundle.main.loadNibNamed("CommunityBoardTableViewCell", owner: self, options: nil)?.first as? CommunityBoardTableViewCell else { return UITableViewCell() }
             
-            cell.configure(item: communityBoardList[indexPath.row])
             cell.selectionStyle = .none
+            cell.configure(item: communityBoardList[indexPath.row])
             
             return cell
         case Board.CommunityType.CHARGER.rawValue:
             guard let cell = Bundle.main.loadNibNamed("CommunityChargeStationTableViewCell", owner: self, options: nil)?.first as? CommunityChargeStationTableViewCell else { return UITableViewCell() }
             
-            cell.configure(item: communityBoardList[indexPath.row])
             cell.selectionStyle = .none
+            cell.configure(item: communityBoardList[indexPath.row])
             
             return cell
         default:
@@ -139,16 +140,6 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-//        if let height =  sectionHeightsDictionary[section] {
-//            return height
-//        }
-//
-//        let headerValue = self.boardList[section]
-//        if headerValue.content_img == nil || headerValue.content_img!.isEmpty {
-//            return 134
-//        } else {
-//            return 370
-//        }
         return 370
     }
     
@@ -156,28 +147,18 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         return UITableViewAutomaticDimension
     }
     
-//    func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
-//        return 16
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return UITableViewAutomaticDimension
-//    }
-    
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        sectionHeightsDictionary[section] = view.frame.size.height
-    }
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    
-//        guard let headerView = Bundle.main.loadNibNamed("CommunityBoardTableViewHeader", owner: self, options: nil)?.first as? CommunityBoardTableViewHeader else { return UIView() }
         
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "CommunityBoardTableViewHeader") as! CommunityBoardTableViewHeader
-        
-        headerView.setupBannerView(categoryType: category)
-        headerView.delegate = self
-        
-        return headerView
+        if isFromStailDetailView {
+            return nil
+        } else {
+            guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "CommunityBoardTableViewHeader") as? CommunityBoardTableViewHeader else { return UIView() }
+            
+            headerView.setupBannerView(categoryType: category)
+            headerView.delegate = self
+            
+            return headerView
+        }
     }
  
     /*

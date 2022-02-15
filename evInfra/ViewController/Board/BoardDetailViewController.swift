@@ -20,6 +20,7 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
     var detail: BoardDetailResponseData? = nil
     var keyboardInputView = KeyboardInputView()
     var recomment: Recomment?
+    var isFromStationDetailView: Bool = false
     
     let boardDetailViewModel = BoardDetailViewModel()
     let picker = UIImagePickerController()
@@ -224,9 +225,9 @@ extension BoardDetailViewController: UITableViewDelegate {
         if section == 0 {
             guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "BoardDetailTableViewHeader") as? BoardDetailTableViewHeader else { return UIView() }
             
-            view.configure(item: boardDetailViewModel.getDetailData())
-            view.setUI()
+            view.configure(item: boardDetailViewModel.getDetailData(), isFromStationDetailView: isFromStationDetailView)
             view.buttonClickDelegate = self
+            
             return view
         } else {
             // 댓글이 없을 경우, empty view 표시
@@ -454,6 +455,16 @@ extension BoardDetailViewController: ButtonClickDelegate {
         }
         
         self.present(popup, animated: true, completion: nil)
+    }
+    
+    func moveToStation(with chargerId: String) {
+        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
+        guard let detailViewController = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController else { return }
+        
+        if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
+            detailViewController.charger = charger
+            self.navigationController?.push(viewController: detailViewController, subtype: kCATransitionFromTop)
+        }
     }
 }
 

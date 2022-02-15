@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import SDWebImage
+import SnapKit
 
 class CommunityChargeStationTableViewCell: UITableViewCell {
 
@@ -21,31 +22,52 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var contentsLabel: UILabel!
     
+    @IBOutlet var imageStackView: UIStackView!
     @IBOutlet var thumbNailImage1: UIImageView!
     @IBOutlet var thumbNailImage2: UIImageView!
     @IBOutlet var thumbNailImage3: UIImageView!
+    @IBOutlet var thumbNailImage4: UIImageView!
     
     @IBOutlet var likedCount: UILabel!
     @IBOutlet var replyCount: UILabel!
     
+    var chargerId: String?
+    var chargeStataionButtonTappedCompletion: ((String) -> Void)?
+    
+    private lazy var additionalCountLabel: UILabel = {
+       let label = UILabel()
+        label.text = "+1"
+        label.textColor = UIColor(named: "nt-white")
+        label.font = .systemFont(ofSize: 14, weight: .bold)
+        return label
+    }()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        setUI()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        profileImageView.sd_cancelCurrentImageLoad()
+        thumbNailImage1.sd_cancelCurrentImageLoad()
+        thumbNailImage2.sd_cancelCurrentImageLoad()
+        thumbNailImage3.sd_cancelCurrentImageLoad()
+        thumbNailImage4.sd_cancelCurrentImageLoad()
+    }
+    
+    private func setUI() {
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
         profileImageView.clipsToBounds = true
         
         thumbNailImage1.layer.cornerRadius = 12
         thumbNailImage2.layer.cornerRadius = 12
         thumbNailImage3.layer.cornerRadius = 12
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
+        thumbNailImage4.layer.cornerRadius = 12
         
-        profileImageView.image = nil
-        thumbNailImage1.image = nil
-        thumbNailImage2.image = nil
-        thumbNailImage3.image = nil
+        imageStackView.isHidden = true
     }
 
     func configure(item: BoardListItem?) {
@@ -61,39 +83,15 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
         // 충전소 정보
         let tags = JSON(parseJSON: item.tags!)
         let chargerId = tags["charger_id"].string!
+        self.chargerId = chargerId
         
         if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
             chargeStationButton.setTitle(charger.mStationInfoDto?.mSnm, for: .normal)
-            chargeStationButton.titleLabel?.font = .boldSystemFont(ofSize: 14)
+            chargeStationButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
         }
         
         // 이미지 썸네일
-        thumbNailImage1.isHidden = true
-        thumbNailImage2.isHidden = true
-        thumbNailImage3.isHidden = true
-        
-        if let files = item.files {
-            if files.count > 0 {
-                if files.count == 1 {
-                    thumbNailImage1.isHidden = false
-                    thumbNailImage1.sd_setImage(with: URL(string: "\(files[0].uploaded_filename!)"))
-                } else if files.count == 2 {
-                    thumbNailImage1.isHidden = false
-                    thumbNailImage2.isHidden = false
-                    
-                    thumbNailImage1.sd_setImage(with: URL(string: "\(files[0].uploaded_filename!)"))
-                    thumbNailImage2.sd_setImage(with: URL(string: "\(files[1].uploaded_filename!)"))
-                } else {
-                    thumbNailImage1.isHidden = false
-                    thumbNailImage2.isHidden = false
-                    thumbNailImage3.isHidden = false
-                    
-                    thumbNailImage1.sd_setImage(with: URL(string: "\(files[0].uploaded_filename!)"))
-                    thumbNailImage2.sd_setImage(with: URL(string: "\(files[1].uploaded_filename!)"))
-                    thumbNailImage3.sd_setImage(with: URL(string: "\(files[2].uploaded_filename!)"))
-                }
-            }
-        }
+        setImage(files: item.files)
         
         // 제목
         titleLabel.text = item.title
@@ -103,5 +101,53 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
         likedCount.text = item.like_count
         // 댓글 수
         replyCount.text = item.comment_count
+    }
+    
+    private func setImage(files: [FilesItem]?) {
+        guard let files = files, files.count != 0 else {
+            imageStackView.isHidden = true
+            return
+        }
+        
+        imageStackView.isHidden = false
+        
+        switch files.count {
+        case 1:
+            thumbNailImage1.sd_setImage(with: URL(string: "\(files[0].uploaded_filename!)"))
+        case 2:
+            thumbNailImage1.sd_setImage(with: URL(string: "\(files[0].uploaded_filename!)"))
+            thumbNailImage2.sd_setImage(with: URL(string: "\(files[1].uploaded_filename!)"))
+        case 3:
+            thumbNailImage1.sd_setImage(with: URL(string: "\(files[0].uploaded_filename!)"))
+            thumbNailImage2.sd_setImage(with: URL(string: "\(files[1].uploaded_filename!)"))
+            thumbNailImage3.sd_setImage(with: URL(string: "\(files[2].uploaded_filename!)"))
+        case 4:
+            thumbNailImage1.sd_setImage(with: URL(string: "\(files[0].uploaded_filename!)"))
+            thumbNailImage2.sd_setImage(with: URL(string: "\(files[1].uploaded_filename!)"))
+            thumbNailImage3.sd_setImage(with: URL(string: "\(files[2].uploaded_filename!)"))
+            thumbNailImage4.sd_setImage(with: URL(string: "\(files[3].uploaded_filename!)"))
+        case 5:
+            thumbNailImage1.sd_setImage(with: URL(string: "\(files[0].uploaded_filename!)"))
+            thumbNailImage2.sd_setImage(with: URL(string: "\(files[1].uploaded_filename!)"))
+            thumbNailImage3.sd_setImage(with: URL(string: "\(files[2].uploaded_filename!)"))
+            thumbNailImage4.sd_setImage(with: URL(string: "\(files[3].uploaded_filename!)"))
+            
+            thumbNailImage4.addSubview(additionalCountLabel)
+            additionalCountLabel.snp.makeConstraints {
+                $0.centerX.centerY.equalToSuperview()
+                $0.width.equalTo(17)
+                $0.height.equalTo(16)
+            }
+        default:
+            break
+        }
+    }
+    
+    @IBAction func chargeStationButtonTapped(_ sender: Any) {
+        guard let chargerId = chargerId else {
+            return
+        }
+        
+        chargeStataionButtonTappedCompletion?(chargerId)
     }
 }

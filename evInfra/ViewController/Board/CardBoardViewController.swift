@@ -156,7 +156,9 @@ extension CardBoardViewController: BoardTableViewDelegate {
             Server.fetchBoardList(mid: mid,
                                   page: "\(self.currentPage)",
                                   mode: Board.ScreenType.FEED.rawValue,
-                                  sort: sort.rawValue) { (data) in
+                                  sort: sort.rawValue,
+                                  searchType: "",
+                                  searchKeyword: "") { (data) in
                 guard let data = data as? Data else { return }
                 let decoder = JSONDecoder()
                 
@@ -187,7 +189,9 @@ extension CardBoardViewController: BoardTableViewDelegate {
         Server.fetchBoardList(mid: mid,
                               page: "\(currentPage)",
                               mode: Board.ScreenType.FEED.rawValue,
-                              sort: sort.rawValue) { (data) in
+                              sort: sort.rawValue,
+                              searchType: "",
+                              searchKeyword: "") { (data) in
             guard let data = data as? Data else { return }
             let decoder = JSONDecoder()
             
@@ -218,38 +222,41 @@ extension CardBoardViewController: BoardTableViewDelegate {
         
         boardDetailTableViewController.category = category
         boardDetailTableViewController.document_srl = documentSRL
+        boardDetailTableViewController.isFromStationDetailView = false
         
         self.navigationController?.push(viewController: boardDetailTableViewController)
     }
     
     func getFirstBoardData() {
-        self.currentPage = 1
-        self.lastPage = false
-        let pageCount = BoardTableView.PAGE_DATA_COUNT + (BoardTableView.PAGE_DATA_COUNT * self.preReadPage)
-        
-        Server.fetchBoardList(mid: category,
-                              page: "\(currentPage)",
-                              mode: Board.ScreenType.FEED.rawValue,
-                              sort: "0") { (data) in
-            guard let data = data as? Data else { return }
-            let decoder = JSONDecoder()
-            
-            do {
-                let result = try decoder.decode(BoardResponseData.self, from: data)
-                
-                if let itemList = result.list {
-                    self.communityBoardList.removeAll()
-                    self.communityBoardList = itemList
-                    self.boardTableView.communityBoardList = self.communityBoardList
-                    
-                    DispatchQueue.main.async {
-                        self.boardTableView.reloadData()
-                    }
-                }
-            } catch {
-                debugPrint("error")
-            }
-        }
+//        self.currentPage = 1
+//        self.lastPage = false
+//        let pageCount = BoardTableView.PAGE_DATA_COUNT + (BoardTableView.PAGE_DATA_COUNT * self.preReadPage)
+//
+//        Server.fetchBoardList(mid: category,
+//                              page: "\(currentPage)",
+//                              mode: Board.ScreenType.FEED.rawValue,
+//                              sort: "0",
+//                              searchType: "",
+//                              searchKeyword: "") { (data) in
+//            guard let data = data as? Data else { return }
+//            let decoder = JSONDecoder()
+//
+//            do {
+//                let result = try decoder.decode(BoardResponseData.self, from: data)
+//
+//                if let itemList = result.list {
+//                    self.communityBoardList.removeAll()
+//                    self.communityBoardList = itemList
+//                    self.boardTableView.communityBoardList = self.communityBoardList
+//
+//                    DispatchQueue.main.async {
+//                        self.boardTableView.reloadData()
+//                    }
+//                }
+//            } catch {
+//                debugPrint("error")
+//            }
+//        }
         
         /*
         
@@ -279,30 +286,32 @@ extension CardBoardViewController: BoardTableViewDelegate {
     }
     
     func getNextBoardData() {
-        if lastPage == false {
-            self.currentPage = self.currentPage + 1
-            
-            Server.fetchBoardList(mid: category,
-                                  page: "\(self.currentPage)",
-                                  mode: Board.ScreenType.FEED.rawValue, sort: "0") { (data) in
-                guard let data = data as? Data else { return }
-                let decoder = JSONDecoder()
-                
-                do {
-                    let result = try decoder.decode(BoardResponseData.self, from: data)
-                    
-                    if let updateList = result.list {
-                        self.communityBoardList += updateList
-                        self.boardTableView.communityBoardList = self.communityBoardList
-                        
-                        DispatchQueue.main.async {
-                            self.boardTableView.reloadData()
-                        }
-                    }
-                } catch {
-                    debugPrint("error")
-                }
-            }
+//        if lastPage == false {
+//            self.currentPage = self.currentPage + 1
+//
+//            Server.fetchBoardList(mid: category,
+//                                  page: "\(self.currentPage)",
+//                                  mode: Board.ScreenType.FEED.rawValue, sort: "0",
+//                                  searchType: "",
+//                                  searchKeyword: "") { (data) in
+//                guard let data = data as? Data else { return }
+//                let decoder = JSONDecoder()
+//
+//                do {
+//                    let result = try decoder.decode(BoardResponseData.self, from: data)
+//
+//                    if let updateList = result.list {
+//                        self.communityBoardList += updateList
+//                        self.boardTableView.communityBoardList = self.communityBoardList
+//
+//                        DispatchQueue.main.async {
+//                            self.boardTableView.reloadData()
+//                        }
+//                    }
+//                } catch {
+//                    debugPrint("error")
+//                }
+//            }
             /*
             Server.getBoard(category: self.category, bmId: self.bmId, page: currentPage, count: BoardTableView.PAGE_DATA_COUNT) { (isSuccess, value) in
                 if isSuccess {
@@ -322,8 +331,9 @@ extension CardBoardViewController: BoardTableViewDelegate {
                     self.boardTableView.reloadData()
                 }
             }
-             */
+             
         }
+             */
     }
     
     // 수정 테스트 ok
@@ -413,15 +423,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
     }
     
     func goToStation(tag: Int) {
-        let detailStoryboard = UIStoryboard(name : "Detail", bundle: nil)
-        let detailVC:DetailViewController = detailStoryboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         
-        if let chargerId = self.boardList[tag].chargerId {
-            if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
-                detailVC.charger = charger
-                self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
-            }
-        }
     }
 }
 

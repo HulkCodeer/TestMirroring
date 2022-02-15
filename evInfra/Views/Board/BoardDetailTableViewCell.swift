@@ -15,6 +15,7 @@ protocol ButtonClickDelegate {
     func commentButtonCliked(recomment: Comment, selectedRow: Int)
     func deleteButtonCliked(documentSRL: String, commentSRL: String)
     func modifyButtonCliked(comment: Comment, selectedRow: Int)
+    func moveToStation(with chargerId: String)
 }
 
 class BoardDetailTableViewCell: UITableViewCell {
