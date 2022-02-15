@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import SDWebImage
+import UIImageCropper
 import PanModal
 
 class BoardWriteViewController: UIViewController, UINavigationControllerDelegate {
@@ -30,6 +31,7 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
     var boardWriteViewModel = BoardWriteViewModel()
     var popCompletion: (() -> Void)?
     let picker = UIImagePickerController()
+    let cropper = UIImageCropper(cropRatio: 100/115)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,6 +131,9 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
     private func setUI() {
         self.navigationItem.titleLabel.text = "글쓰기"
         
+        self.cropper.picker = picker
+        self.cropper.delegate = self
+        
         // 충전소 검색 버튼
         if category.equals(Board.CommunityType.CHARGER.rawValue) {
             chargeStationStackView.isHidden = false
@@ -181,7 +186,6 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         // 작성 완료 버튼
         completeButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         
-        picker.delegate = self
         let tapGestureReconizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGestureReconizer.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGestureReconizer)
@@ -346,24 +350,21 @@ extension BoardWriteViewController: UITextViewDelegate {
     }
 }
 
-// MARK: - UIImagePickerControllerDelegate
-extension BoardWriteViewController: UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage
-        let selectedImage = editedImage ?? originalImage
-        
-        selectedImages.append(selectedImage)
-        
+// MARK: - UIImagePickerControllerDelegate(Cropped)
+extension BoardWriteViewController: UIImageCropperProtocol {
+    func didCropImage(originalImage: UIImage?, croppedImage: UIImage?) {
+        guard let croppedImage = croppedImage else { return }
+
+        selectedImages.append(croppedImage)
+
         DispatchQueue.main.async {
             self.photoCollectionView.reloadData()
         }
-        
-        picker.dismiss(animated: true, completion: nil)
+
+        didCancel()
     }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+
+    func didCancel() {
         picker.dismiss(animated: true, completion: nil)
     }
 }
