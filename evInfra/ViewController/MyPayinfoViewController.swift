@@ -114,8 +114,10 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
             case PaymentCard.PAY_REGISTER_SUCCESS:
                 self.registerInfo.isHidden = false
                 self.registerCardInfo.isHidden = false
-                self.okBtn.isHidden = false
-                self.registerInfoBtnLayer.isHidden = true
+                
+                // 등록 완료 -> 확인버튼
+                self.showConfirmBtn(show: true)
+                
                 self.franchiseeLabel.text = "(주)소프트베리"
                 self.vanLabel.text = "스마트로(주)"
                 self.cardCoLabel.text = json["card_co"].stringValue
@@ -128,8 +130,9 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
             case PaymentCard.PAY_REGISTER_FAIL, PaymentCard.PAY_REGISTER_FAIL_PG:
                 self.registerInfo.isHidden = false
                 self.registerCardInfo.isHidden = true
-                self.okBtn.isHidden = false
-                self.registerInfoBtnLayer.isHidden = true
+            
+                // 등록 실패 -> 확인버튼
+                self.showConfirmBtn(show: true)
                 
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
@@ -140,8 +143,8 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
             case PaymentCard.PAY_MEMBER_DELETE_SUCESS, PaymentCard.PAY_MEMBER_DELETE_FAIL_NO_USER, PaymentCard.PAY_MEMBER_DELETE_FAIL, PaymentCard.PAY_MEMBER_DELETE_FAIL_DB:
                 self.registerInfo.isHidden = false
                 self.registerCardInfo.isHidden = true
-                self.okBtn.isHidden = false
-                self.registerInfoBtnLayer.isHidden = true
+                // 삭제 -> 확인버튼
+                self.showConfirmBtn(show: true)
                 
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
@@ -149,8 +152,9 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
             case PaymentCard.PAY_FINE_USER:
                 self.registerInfo.isHidden = true
                 self.registerCardInfo.isHidden = false
-                self.okBtn.isHidden = true
-                self.registerInfoBtnLayer.isHidden = false
+            
+                // 조회 -> 삭제/변경 버튼
+                self.showConfirmBtn(show: false)
                 self.franchiseeLabel.text = "(주)소프트베리"
                 self.vanLabel.text = "스마트로(주)"
                 self.cardCoLabel.text = json["card_co"].stringValue
@@ -162,9 +166,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
             
             default:
                 self.registerCardInfo.isHidden = true
-                self.okBtn.isHidden = false
-                self.registerInfoBtnLayer.isHidden = true
-                
+                self.showConfirmBtn(show: true)
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
         }
@@ -176,15 +178,22 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
         navigationController?.push(viewController: payRegistVC)
     }
     
+    func showConfirmBtn(show: Bool) {
+        self.okBtn.isHidden = !show
+        self.deleteBtn.isHidden = show
+        self.changeBtn.isHidden = show
+    }
+    
     func deletePayMember() {
         Server.deletePayMember { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 let payCode = json["pay_code"].intValue
                 
+                self.registerInfo.isHidden = false
                 self.registerCardInfo.isHidden = true
-                self.okBtn.isHidden = false
-                self.registerInfoBtnLayer.isHidden = true
+                // 삭제 -> 확인버튼
+                self.showConfirmBtn(show: true)
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
             } else {

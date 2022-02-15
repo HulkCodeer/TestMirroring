@@ -183,7 +183,9 @@ extension ChargesViewController {
     
     fileprivate func updateSumData(charges: ChargingHistoryList) {
         self.chargesTotalTime.text = charges.total_time ?? "00:00:00"
-        self.chargesTotalKwh.text = charges.total_kw ?? "0.00"
+        let kwhStr = charges.total_kw ?? "0.0"
+        let totalKwh: Double = kwhStr.parseDouble()!
+        self.chargesTotalKwh.text = String(format: "%.2f", totalKwh)
         self.chargesTotalFee.text = charges.total_pay?.currency() ?? "0"
     }
     

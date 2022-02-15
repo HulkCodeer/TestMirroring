@@ -70,7 +70,7 @@ class FCMManager {
             
             dialogMessage.addAction(ok)
             
-            if (targetId == nil || targetId != FCMManager.TARGET_POINT){
+            if (targetId == nil){
                 dialogMessage.addAction(cancel)
             }
             
@@ -322,6 +322,7 @@ class FCMManager {
                  let center = NotificationCenter.default
                 if cmd.elementsEqual("charging_end") {
                     let paymentResultVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(withIdentifier: "PaymentResultViewController") as! PaymentResultViewController
+                    paymentResultVC.chargingId = chargingId
                     navigation.push(viewController: paymentResultVC)
                 } else {
                     if let viewController = navigation.visibleViewController {
