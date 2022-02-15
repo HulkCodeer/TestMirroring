@@ -147,6 +147,16 @@ class Server {
         .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 회원 - sk on jwt 토큰 발급
+    static func getBatteryJwt(completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "batteryDeviceId": MemberManager.getDeviceId()
+        ]
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/member/get_jwt",
+                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
     // 회원 - 회원카드 정보 가져오기
     static func getInfoMembershipCard(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [

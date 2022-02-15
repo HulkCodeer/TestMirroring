@@ -8,6 +8,7 @@
 
 import UIKit
 import Material
+import SwiftyJSON
 
 class LeftViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -468,14 +469,38 @@ extension LeftViewController {
     private func selectedBatteryMenu(index: IndexPath) {
         switch index.section {
         case SUB_MENU_CELL_BATTERY:
-            let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-            let termsVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-            termsVC.tabIndex = .BatteryInfo
-            termsVC.subParams = "devId=" + MemberManager.getDeviceId()
-            self.navigationController?.push(viewController: termsVC)
+            requestGetJwt()
         default:
             print("out of index")
         }
+    }
+    
+    private func requestGetJwt() {
+        Server.getBatteryJwt(completion: {(isSuccess, response) in
+            if isSuccess {
+                let json = JSON(response)
+                if json["code"].stringValue.elementsEqual("1000") {
+                    let accessToken = json["access_token"].stringValue
+                    if !accessToken.isEmpty {
+                        self.startBatteryWebView(token: accessToken)
+                    } else {
+                        Snackbar().show(message: "인증실패")
+                    }
+                } else {
+                    Snackbar().show(message: "인증실패")
+                }
+            } else {
+                Snackbar().show(message: "인증실패")
+            }
+        })
+    }
+    
+    private func startBatteryWebView(token: String) {
+        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+        let termsVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        termsVC.tabIndex = .BatteryInfo
+        termsVC.setHeader(key: "Authorization", value: "Bearer " + token)
+        self.navigationController?.push(viewController: termsVC)
     }
     
     private func selectedSettingsMenu(index: IndexPath) {

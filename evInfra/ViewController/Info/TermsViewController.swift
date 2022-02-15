@@ -10,6 +10,7 @@ import UIKit
 import Material
 import WebKit
 import JavaScriptCore
+import SwiftyJSON
 
 class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
     
@@ -33,6 +34,7 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
     var tabIndex:Request = .UsingTerms
     var subParams:String = "" // POST parameter
     var subURL:String = "" // GET parameter
+    var header: [String: String] = ["Content-Type":"application/x-www-form-urlencoded"]
     var webView: WKWebView!
 
     @IBOutlet weak var fixWebView: UIView!
@@ -137,6 +139,10 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
     }
     
     
+    public func setHeader(key: String, value: String) {
+        header[key] = value
+    }
+    
     func loadFromUrl() {
         var strUrl = Const.EV_PAY_SERVER + "/terms/term/service_use"
         switch tabIndex {
@@ -181,24 +187,33 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
         
         case .BatteryInfo:
             strUrl = Const.SK_BATTERY_SERVER
+            let contentController = webView.configuration.userContentController
+            contentController.add(self, name: "BaaSWebHandler")
         }
 
-        if subParams.isEmpty {
-            if !subURL.isEmpty {
-                strUrl = strUrl + "?" + subURL
-            }
-            let url = NSURL(string:strUrl)
-            let request = NSURLRequest(url: url! as URL)
-            webView.load(request as URLRequest)
-        } else {
-            let url = NSURL(string:strUrl)
-            var request = URLRequest(url: url! as URL)
-            request.httpMethod = "POST"
-            request.setValue("application/x-www-form-urlencoded",
-                forHTTPHeaderField: "Content-Type")
-            request.httpBody = subParams.data(using: .utf8)
-            webView.load(request as URLRequest)
+        loadWebView(webUrl: strUrl)
+    }
+    
+    func loadWebView(webUrl: String) {
+        var strUrl = webUrl
+        
+        if !subURL.isEmpty {
+            strUrl = strUrl + "?" + subURL
         }
+        
+        let url = NSURL(string:strUrl)
+        var request = URLRequest(url: url! as URL)
+        
+        if !header.isEmpty {
+            for (key, value) in header {
+                request.setValue(value, forHTTPHeaderField: key)
+            }
+        }
+        if !subParams.isEmpty {
+            request.httpMethod = "POST"
+            request.httpBody = subParams.data(using: .utf8)
+        }
+        webView.load(request as URLRequest)
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -224,6 +239,20 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             }
         } else {
             decisionHandler(.allow)
+        }
+    }
+}
+extension TermsViewController: WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        if message.name == "BaaSWebHandler", let messageBody = message.body as? String {
+            if let dataFromString = messageBody.data(using: .utf8, allowLossyConversion: false) {
+                if let json = try? JSON(data: dataFromString) {
+                    let method = json["method"].stringValue
+                    if method == "goBack" {
+                        self.navigationController?.pop()
+                    }
+                }
+            }
         }
     }
 }

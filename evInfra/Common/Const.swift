@@ -22,7 +22,7 @@ public class Const {
     public static let EV_PAY_SERVER = "https://api.soft-berry.co.kr"
     
     public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra"
-    public static let SK_BATTERY_SERVER = "https://mbaas.sk-on.com/ev-infra/main"
+    public static let SK_BATTERY_SERVER = "https://mbaas.sk-on.com/ev-infra/web"
     /*
      * develop
      */
@@ -32,7 +32,7 @@ public class Const {
 //    public static let EV_PAY_SERVER = "http://shchoi.soft-berry.co.kr"
 
 //    public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra/dev"
-//    public static let SK_BATTERY_SERVER = "http://mbaas.koreacentral.cloudapp.azure.com/ev-infra/main"
+//    public static let SK_BATTERY_SERVER = "http://mbaas.koreacentral.cloudapp.azure.com/ev-infra/web"
     
     // File Server
     public static let urlProfileImage = EI_FILE_SERVER + "/profile/"
