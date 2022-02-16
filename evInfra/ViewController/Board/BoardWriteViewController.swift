@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import SDWebImage
 import UIImageCropper
+import SwiftyJSON
 import PanModal
 
 class BoardWriteViewController: UIViewController, UINavigationControllerDelegate {
@@ -26,6 +27,7 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
 
     var selectedImages: [UIImage] = []
     var uploadedImages: [FilesItem]? = []
+    var chargerInfo: [String: String] = [:]
     var category = Board.CommunityType.FREE.rawValue
     var document: Document?
     var boardWriteViewModel = BoardWriteViewModel()
@@ -38,7 +40,13 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
 
         setUI()
         
-        boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text)
+        if category.equals(Board.CommunityType.CHARGER.rawValue) {
+            let stationName = stationSearchButton.titleLabel?.text
+            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, stationName)
+        } else {
+            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, nil)
+        }
+        
         boardWriteViewModel.subscribe { [weak self] isEnable in
             guard let self = self else { return }
 
@@ -67,8 +75,8 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
     }
     
     @IBAction func completeButtonClick(_ sender: Any) {
-        guard let title = self.titleTextView.text,
-                let contents = self.contentsTextView.text else { return }
+        guard let title = titleTextView.text,
+                let contents = contentsTextView.text else { return }
         
         if let document = document {
             let popup = ConfirmPopupViewController(titleText: "수정", messageText: "게시물을 수정 하시겠습니까?")
@@ -78,7 +86,13 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
                 guard let self = self else { return }
                 
                 if canModify {
-                    self.boardWriteViewModel.updateBoard(self.category, document.document_srl!, title, contents, "", self.uploadedImages, self.selectedImages) { isSuccess in
+                    self.boardWriteViewModel.updateBoard(self.category,
+                                                         document.document_srl!,
+                                                         title,
+                                                         contents,
+                                                         self.chargerInfo["chargerId"] ?? "",
+                                                         self.uploadedImages,
+                                                         self.selectedImages) { isSuccess in
                         let trasientAlertView = TransientAlertViewController()
 
                         if isSuccess {
@@ -106,9 +120,10 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
                 
                 if canRegist {
                     self.boardWriteViewModel.postBoard(self.category,
-                                                            title,
-                                                            contents,
-                                                            self.selectedImages) { isSuccess in
+                                                       title,
+                                                       contents,
+                                                       self.chargerInfo["chargerId"] ?? "",
+                                                       self.selectedImages) { isSuccess in
                         let trasientAlertView = TransientAlertViewController()
                         
                         if isSuccess {
@@ -137,15 +152,29 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         // 충전소 검색 버튼
         if category.equals(Board.CommunityType.CHARGER.rawValue) {
             chargeStationStackView.isHidden = false
-            stationSearchButton.layer.borderWidth = 1
-            stationSearchButton.layer.borderColor = UIColor(named: "nt-2")?.cgColor
-            stationSearchButton.layer.cornerRadius = 4
-            stationSearchButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 4)
+        } else {
+            chargeStationStackView.isHidden = true
         }
+        
+        stationSearchButton.layer.borderWidth = 1
+        stationSearchButton.layer.borderColor = UIColor(named: "nt-2")?.cgColor
+        stationSearchButton.layer.cornerRadius = 4
+        stationSearchButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 4)
         
         if let document = document {
             titleTextView.text = document.title ?? Const.BoardConstants.titlePlaceHolder
             contentsTextView.text = document.content ?? Const.BoardConstants.contentsPlaceHolder
+            
+            let tags = JSON(parseJSON: document.tags!)
+            if let chargerId = tags["charger_id"].string, let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
+                
+                guard let chargerStaionInfoDto = charger.mStationInfoDto else { return }
+                
+                chargerInfo["chargerId"] = chargerId
+                chargerInfo["chargerName"] = chargerStaionInfoDto.mSnm!
+                
+                stationSearchButton.setTitle(chargerStaionInfoDto.mSnm, for: .normal)
+            }
         } else {
             titleTextView.text = Const.BoardConstants.titlePlaceHolder
             contentsTextView.text = Const.BoardConstants.contentsPlaceHolder
@@ -189,7 +218,6 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         let tapGestureReconizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGestureReconizer.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGestureReconizer)
-        
     }
     
     func openPhotoLib() {
@@ -238,7 +266,29 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
     }
     
     @IBAction func searchButtonClick(_ sender: Any) {
-        stationSearchButton.setTitle("테스트", for: .normal)
+        let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
+        guard let searchViewController: SearchViewController = mapStoryboard.instantiateViewController(withIdentifier: "SearchViewController") as? SearchViewController else { return }
+        searchViewController.delegate = self
+        
+        self.present(AppSearchBarController(rootViewController: searchViewController), animated: true, completion: nil)
+    }
+}
+
+// MARK: - ChargerSelectDelegate
+extension BoardWriteViewController: ChargerSelectDelegate {
+    func moveToSelected(chargerId: String) {
+        if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
+            guard let chargerStaionInfoDto = charger.mStationInfoDto else { return }
+            
+            chargerInfo["chargerId"] = chargerId
+            chargerInfo["chargerName"] = chargerStaionInfoDto.mSnm!
+            
+            stationSearchButton.setTitle(chargerStaionInfoDto.mSnm, for: .normal)
+        }
+    }
+    
+    func moveToSelectLocation(lat: Double, lon: Double) {
+        
     }
 }
 
@@ -346,7 +396,12 @@ extension BoardWriteViewController: UITextViewDelegate {
             break
         }
         
-        boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text)
+        if category.equals(Board.CommunityType.CHARGER.rawValue) {
+            let stationName = stationSearchButton.titleLabel?.text
+            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, stationName)
+        } else {
+            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, nil)
+        }
     }
 }
 

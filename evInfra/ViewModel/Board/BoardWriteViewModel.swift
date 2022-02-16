@@ -22,20 +22,37 @@ struct BoardWriteViewModel {
         self.listener = listener
     }
     
-    mutating func bindInputText(_ title: String, _ contents: String) {
-        if title.count <= 100 &&
-            !title.contains(Const.BoardConstants.titlePlaceHolder) &&
-            contents.count <= 1200 &&
-            !contents.contains(Const.BoardConstants.contentsPlaceHolder) {
-            self.isValid = true
+    mutating func bindInputText(_ title: String, _ contents: String, _ stationName: String?) {
+        
+        if let stationName = stationName {
+            if title.count <= 100 &&
+                !title.contains(Const.BoardConstants.titlePlaceHolder) &&
+                contents.count <= 1200 &&
+                !contents.contains(Const.BoardConstants.contentsPlaceHolder) &&
+                !stationName.isEmpty && !stationName.contains(Const.BoardConstants.chargerPlaceHolder) {
+                self.isValid = true
+            } else {
+                self.isValid = false
+            }
         } else {
-            self.isValid = false
+            if title.count <= 100 &&
+                !title.contains(Const.BoardConstants.titlePlaceHolder) &&
+                contents.count <= 1200 &&
+                !contents.contains(Const.BoardConstants.contentsPlaceHolder) {
+                self.isValid = true
+            } else {
+                self.isValid = false
+            }
         }
     }
     
-    func postBoard(_ mid: String, _ title: String, _ content: String, _ images: [UIImage] , completion: @escaping (Bool) -> Void) {
+    private func validate() {
         
-        Server.postBoardData(mid: mid, title: title, content: content, charger_id: "") { (isSuccess, value) in
+    }
+    
+    func postBoard(_ mid: String, _ title: String, _ content: String, _ chargerId: String, _ images: [UIImage] , completion: @escaping (Bool) -> Void) {
+        
+        Server.postBoardData(mid: mid, title: title, content: content, charger_id: chargerId) { (isSuccess, value) in
             if isSuccess {
                 if let results = value as? Dictionary<String, String>,
                    let documentSRL = results["document_srl"] {

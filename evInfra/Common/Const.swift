@@ -96,5 +96,6 @@ public class Const {
     struct BoardConstants {
         static let titlePlaceHolder = "제목을 입력해주세요."
         static let contentsPlaceHolder = "내용을 입력해주세요."
+        static let chargerPlaceHolder = "충전소 검색"
     }
 }
