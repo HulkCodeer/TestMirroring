@@ -84,24 +84,17 @@ extension CardBoardViewController {
         self.navigationController?.isNavigationBarHidden = false
         
         let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
+        backButton.tintColor = UIColor(named: "nt-9")
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
-        // 글작성 버튼
-        /*
-        if !self.category.elementsEqual(Board.BOARD_CATEGORY_CHARGER) {
-            var postButton: IconButton!
-            postButton = IconButton(image: Icon.cm.edit)
-            postButton.tintColor = UIColor(named: "content-primary")
-            postButton.addTarget(self, action: #selector(handlePostButton), for: .touchUpInside)
-            
-            self.navigationItem.rightViews = [postButton]
-        }
-        */
+        let searchButton = IconButton(image: UIImage(named: "iconSearchMd"))
+        searchButton.tintColor = UIColor(named: "nt-9")
+        searchButton.addTarget(self, action: #selector(handleSearchButton), for: .touchUpInside)
         
         self.navigationItem.hidesBackButton = true
         self.navigationItem.leftViews = [backButton]
-        self.navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
+        self.navigationItem.rightViews = [searchButton]
+        self.navigationItem.titleLabel.textColor = UIColor(named: "nt-9")
         
         switch self.category {
         case Board.CommunityType.CHARGER.rawValue:
@@ -116,24 +109,19 @@ extension CardBoardViewController {
         default:
             self.navigationItem.titleLabel.text = "게시판"
         }
-        /*
-        if self.category.elementsEqual(Board.BOARD_CATEGORY_CHARGER) {
-            self.navigationItem.titleLabel.text = "충전소 게시판"
-        } else if self.category.elementsEqual(Board.BOARD_CATEGORY_COMPANY) {
-            if !self.brdTitle.isEmpty{
-                self.navigationItem.titleLabel.text = self.brdTitle + " 게시판"
-            }else{
-                self.navigationItem.titleLabel.text = "사업자 게시판"
-            }
-        } else {
-            self.navigationItem.titleLabel.text = "자유게시판"
-        }
-        */
     }
     
     @objc
     fileprivate func handleBackButton() {
         self.navigationController?.pop()
+    }
+    
+    @objc
+    fileprivate func handleSearchButton() {
+        let storyboard = UIStoryboard.init(name: "BoardSearchViewController", bundle: nil)
+        guard let boardSearchViewController = storyboard.instantiateViewController(withIdentifier: "BoardSearchViewController") as? BoardSearchViewController else { return }
+        self.navigationItem.titleLabel.text = "게시글 검색"
+        self.navigationController?.push(viewController: boardSearchViewController)
     }
     
     @objc
