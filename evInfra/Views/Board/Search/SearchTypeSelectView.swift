@@ -26,9 +26,8 @@ class SearchTypeSelectView: UIView {
         button.setTitle("제목+내용", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 12, weight: .regular)
         button.setTitleColor(UIColor(named: "nt-black"), for: .normal)
-        button.setImage(UIImage(named: "iconRadioSelected"), for: .normal)
-        button.setImage(UIImage(named: "iconRadioUnselected"), for: .selected)
-        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
+        button.setImage(UIImage(named: "iconRadioSelected"), for: .selected)
+        button.setImage(UIImage(named: "iconRadioUnselected"), for: .normal)
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
         return button
     }()
@@ -40,7 +39,6 @@ class SearchTypeSelectView: UIView {
         button.setTitleColor(UIColor(named: "nt-black"), for: .normal)
         button.setImage(UIImage(named: "iconRadioSelected"), for: .selected)
         button.setImage(UIImage(named: "iconRadioUnselected"), for: .normal)
-        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
         return button
     }()
@@ -65,13 +63,33 @@ class SearchTypeSelectView: UIView {
     
     private func setUI() {
         self.backgroundColor = UIColor(named: "nt-0")
+        
+        titleWithContentButton.isSelected = true
+        
         buttonGroup.append(titleWithContentButton)
         buttonGroup.append(writerButton)
         
         addSubview(containerStackView)
-        containerStackView.addArrangedSubview(titleWithContentButton)
-        containerStackView.addArrangedSubview(writerButton)
-        containerStackView.addArrangedSubview(spacerView)
+        
+        [titleWithContentButton,
+         writerButton,
+         spacerView
+        ].forEach {
+            containerStackView.addArrangedSubview($0)
+        }
+        
+        titleWithContentButton.addTarget(self, action: #selector(butttonTapped), for: .touchUpInside)
+        writerButton.addTarget(self, action: #selector(butttonTapped), for: .touchUpInside)
+        
+        titleWithContentButton.snp.makeConstraints {
+            $0.width.equalTo(85)
+            $0.top.bottom.equalTo(containerStackView)
+        }
+        
+        writerButton.snp.makeConstraints {
+            $0.width.equalTo(62)
+            $0.top.bottom.equalTo(containerStackView)
+        }
         
         containerStackView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(16)
@@ -82,7 +100,15 @@ class SearchTypeSelectView: UIView {
         }
     }
     
-    @objc func butttonTapped() {
-        
+    @objc func butttonTapped(_ sender: UIButton) {
+        if !sender.isSelected {
+            buttonGroup.forEach {
+                $0.isSelected = false
+            }
+            sender.isSelected = true
+            
+            let index = buttonGroup.firstIndex(of: sender)
+            debugPrint("selected \(index)")
+        }
     }
 }
