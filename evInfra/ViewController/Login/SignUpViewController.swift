@@ -82,7 +82,12 @@ class SignUpViewController: UIViewController {
                 tfEmail.isEnabled = false
             }
             
-            tfPhone.text = user.phoneNo
+            var phoneNo = user.phoneNo
+            if phoneNo!.starts(with: "+82") {
+                phoneNo = phoneNo?.replaceAll(of: "^[^1]*1", with: "01")
+            }
+            tfPhone.text = phoneNo
+            
             if let age = user.ageRange, !age.isEmpty {
                 ageIndex = ageList.index(of: age)!
                 lbAge.text = ageList[ageIndex]

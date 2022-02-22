@@ -110,8 +110,7 @@ class LoginHelper: NSObject {
                 } else if let me = me as KOUserMe? {
                     if me.hasSignedUp == .true {
                         UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: me.id!)
-                        
-                        self.requestLoginToEvInfra(user: nil)
+                        self.requestLoginToEvInfra(user: Login.kakao(me))
                     }
                 }
             }
