@@ -27,6 +27,36 @@ class Board {
         case FEED = "2"
         case GALLERY = "3"
     }
+    
+    // 검색 타입
+    enum SearchType: String {
+        case TITLE_WITH_CONTENT = "title"
+        case NICK_NAME = "nick_name"
+        case MBID = "mb_id"
+        case STATION = "station"
+        
+        var index: Int {
+            switch self {
+                case .TITLE_WITH_CONTENT: return 0
+                case .NICK_NAME: return 1
+                case .MBID: return 2
+                case .STATION: return 3
+            }
+        }
+        
+        static func getSearchType(index: Int) -> String {
+            var text: String = SearchType.TITLE_WITH_CONTENT.rawValue
+
+            CommunityType.allCases.forEach {
+                if $0.index == index {
+                    text = $0.rawValue
+                }
+            }
+
+            return text
+        }
+    }
+    
     // 게시판 타입
     enum CommunityType: String, CaseIterable {
         case CHARGER = "station"

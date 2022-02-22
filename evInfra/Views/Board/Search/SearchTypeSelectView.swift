@@ -50,6 +50,7 @@ class SearchTypeSelectView: UIView {
     }()
     
     var buttonGroup: [UIButton] = []
+    var selectedType: String = Board.SearchType.TITLE_WITH_CONTENT.rawValue
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,6 +60,7 @@ class SearchTypeSelectView: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        
     }
     
     private func setUI() {
@@ -107,8 +109,10 @@ class SearchTypeSelectView: UIView {
             }
             sender.isSelected = true
             
-            let index = buttonGroup.firstIndex(of: sender)
-            debugPrint("selected \(index)")
+            guard let index = buttonGroup.firstIndex(of: sender) else { return }
+            
+            selectedType = Board.SearchType.getSearchType(index: index)
+            debugPrint("selected \(selectedType)")
         }
     }
 }
