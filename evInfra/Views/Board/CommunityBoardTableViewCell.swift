@@ -20,6 +20,14 @@ class CommunityBoardTableViewCell: UITableViewCell {
     @IBOutlet var replyCountLabel: UILabel!
     @IBOutlet var replyView: UIView!
     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
