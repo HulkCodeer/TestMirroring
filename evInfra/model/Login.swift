@@ -17,6 +17,7 @@ struct Login {
         case apple
         case kakao
         case evinfra
+        case none
     }
     
     var type: LoginType

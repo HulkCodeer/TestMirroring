@@ -37,7 +37,9 @@ class LoginHelper: NSObject {
             // 클라이언트 시크릿 설정
             KOSession.shared().clientSecret = Const.KAKAO_CLIENT_SECRET
         case .evinfra:
-            break;
+            break
+        default:
+            break
         }
     }
     
@@ -45,14 +47,18 @@ class LoginHelper: NSObject {
     func checkLogin() {
         switch MemberManager.getLoginType() {
         case .apple:
-            requestLoginToEvInfra(user: nil)
+            requestLoginToApple()
             
         case .kakao:
             if KOSession.shared().isOpen() {
                 requestMeToKakao()
             }
+            
         case .evinfra:
             requestLoginToEvInfra(user: nil)
+            
+        default:
+            MemberManager().clearData()
         }
     }
     
@@ -73,6 +79,9 @@ class LoginHelper: NSObject {
                 }
             }
         case .evinfra:
+            MemberManager().clearData()
+            completion(true)
+        default:
             MemberManager().clearData()
             completion(true)
         }
@@ -108,9 +117,11 @@ class LoginHelper: NSObject {
                 if (error as NSError?) != nil {
                     MemberManager().clearData() // 비회원
                 } else if let me = me as KOUserMe? {
+                    UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: me.id!)
                     if me.hasSignedUp == .true {
-                        UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: me.id!)
-                        self.requestLoginToEvInfra(user: Login.kakao(me))
+                        if !self.needUpdateScope(me: me) {
+                            self.requestLoginToEvInfra(user: Login.kakao(me))
+                        }
                     }
                 }
             }
@@ -127,7 +138,9 @@ class LoginHelper: NSObject {
                 if me.hasSignedUp == .false {
                     self?.requestSignUpToKakao()
                 } else {
-                    self?.requestLoginToEvInfra(user: Login.kakao(me))
+                    if let needUpdate = self?.needUpdateScope(me: me), needUpdate == false {
+                        self?.requestLoginToEvInfra(user: Login.kakao(me))
+                    }
                 }
             }
         }
@@ -141,6 +154,35 @@ class LoginHelper: NSObject {
                 self?.requestMeToKakao()
             }
         })
+    }
+    
+    
+    func needUpdateScope(me: KOUserMe) -> Bool {
+        if let account = me.account {
+            var scopes = [String]()
+            if account.needsScopeAccountEmail() {
+                scopes.append("account_email");
+            }
+            if account.needsScopePhoneNumber() {
+                scopes.append("phone_number");
+            }
+            if account.needsScopeAgeRange() {
+                scopes.append("age_range");
+            }
+            if account.needsScopeGender() {
+                scopes.append("gender");
+            }
+            if !scopes.isEmpty {
+                KOSession.shared().updateScopes(scopes, completionHandler: { (error) in
+                    guard error == nil else {
+                        return
+                    }
+                    self.requestMeToKakao()
+                })
+                return true
+            }
+        }
+        return false
     }
     
     // MARK: - Apple ID
@@ -185,6 +227,8 @@ class LoginHelper: NSObject {
                         delegate.successLogin()
                     }
                     MemberManager().setData(data: json)
+                    // 즐겨찾기 목록 가져오기
+                    ChargerManager.sharedInstance.getFavoriteCharger()
                 } else {
                     if let delegate = self.delegate, let user = user {
                         delegate.needSignUp(user: user) // ev infra 회원가입

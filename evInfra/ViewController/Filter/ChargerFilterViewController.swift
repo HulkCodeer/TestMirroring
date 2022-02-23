@@ -62,17 +62,17 @@ class ChargerFilterViewController: UIViewController {
         backButton.tintColor = UIColor(named: "content-primary")
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
-        let logoutButton = UIButton()
-        logoutButton.setTitle("초기화", for: .normal)
-        logoutButton.setTitleColor(UIColor(named: "content-primary"), for: .normal)
-        logoutButton.titleLabel?.font = .systemFont(ofSize: 14)
-        logoutButton.addTarget(self, action: #selector(resetFilter), for: .touchUpInside)
+        let resetButton = UIButton()
+        resetButton.setTitle("초기화", for: .normal)
+        resetButton.setTitleColor(UIColor(named: "content-primary"), for: .normal)
+        resetButton.titleLabel?.font = .systemFont(ofSize: 14)
+        resetButton.addTarget(self, action: #selector(resetFilter), for: .touchUpInside)
         
         navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
         navigationItem.titleLabel.text = "필터설정"
         navigationItem.hidesBackButton = true
         navigationItem.leftViews = [backButton]
-        navigationItem.rightViews = [logoutButton]
+        navigationItem.rightViews = [resetButton]
         self.navigationController?.isNavigationBarHidden = false
     }
     

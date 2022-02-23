@@ -928,10 +928,13 @@ extension MainViewController {
     }
     */
     func requestStationInfo() {
+        LoginHelper.shared.delegate = self
         ChargerManager.sharedInstance.getStationInfoFromServer(listener: {
 
             class chargerManagerListener: ChargerManagerListener {
                 func onComplete() {
+                    LoginHelper.shared.checkLogin()
+                    
                     FCMManager.sharedInstance.isReady = true
                     DeepLinkPath.sharedInstance.isReady = true
                     controller?.markerIndicator.startAnimating()
@@ -941,9 +944,6 @@ extension MainViewController {
                     // app 실행 시 전면 광고 dialog
                     controller?.showStartAd()
                     controller?.checkFCM()
-                    
-                    // 즐겨찾기 목록 가져오기
-                    ChargerManager.sharedInstance.getFavoriteCharger()
                     
                     // 지킴이 충전소 목록 요청
                     controller?.getChargerListForGuard()
@@ -1293,20 +1293,10 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainHelp(_ sender: UIButton) {
-        
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
         let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         termsViewControll.tabIndex = .FAQTop
         self.navigationController?.push(viewController: termsViewControll)
-        
-        // 원래주석된 코드
-        //        if MemberManager().isLogin() {
-        //            let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
-        //            reportChargeVC.info.from = Const.REPORT_CHARGER_FROM_MAIN
-        //            self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
-        //        } else {
-        //            MemberManager().showLoginAlert(vc: self)
-        //        }
     }
 }
 
@@ -1339,7 +1329,6 @@ extension MainViewController {
             
         default:
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
-            
         }
     }
     
@@ -1400,5 +1389,18 @@ extension MainViewController: RepaymentListDelegate {
     }
     
     func onRepayFail() {
+    }
+}
+
+extension MainViewController: LoginHelperDelegate {
+    var loginViewController: UIViewController {
+        return self
+    }
+    
+    func successLogin() {
+        self.chargingStatus()
+    }
+    
+    func needSignUp(user: Login) {
     }
 }

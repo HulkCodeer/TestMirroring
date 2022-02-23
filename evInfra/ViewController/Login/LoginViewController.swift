@@ -29,6 +29,10 @@ class LoginViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        LoginHelper.shared.delegate = nil
+    }
+    
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
         backButton.tintColor = UIColor(named: "content-primary")
@@ -87,10 +91,7 @@ extension LoginViewController: LoginHelperDelegate {
     
     func successLogin() {
         Snackbar().show(message: "로그인 성공")
-        
-        // get favorite
-        ChargerManager.sharedInstance.getFavoriteCharger()
-        
+                
         if Const.CLOSED_BETA_TEST {
             CBT.checkCBT(vc: self)
         }

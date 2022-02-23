@@ -35,7 +35,7 @@ class MemberManager {
     }
     
     static func getLoginType() -> Login.LoginType {
-        return Login.LoginType(rawValue: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)) ?? .kakao
+        return Login.LoginType(rawValue: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)) ?? .none
     }
     
     static func isPartnershipClient(clientId : Int) -> Bool {

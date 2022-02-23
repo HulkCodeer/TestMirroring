@@ -83,7 +83,7 @@ class SignUpViewController: UIViewController {
             }
             
             var phoneNo = user.phoneNo
-            if phoneNo!.starts(with: "+82") {
+            if phoneNo != nil, phoneNo!.starts(with: "+82") {
                 phoneNo = phoneNo?.replaceAll(of: "^[^1]*1", with: "01")
             }
             tfPhone.text = phoneNo

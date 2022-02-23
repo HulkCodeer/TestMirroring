@@ -552,7 +552,7 @@ extension PaymentStatusViewController {
             
             if let chargingKw = chargingStatus.chargingKw {
                 // 충전량
-                let chargePower = "\(chargingKw) Kw"
+                let chargePower = "\(chargingKw) kWh"
                 lbChargePower.text = chargePower
 
                 var discountAmt = 0.0

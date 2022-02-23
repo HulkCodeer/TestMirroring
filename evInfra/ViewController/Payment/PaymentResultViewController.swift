@@ -154,7 +154,7 @@ class PaymentResultViewController: UIViewController {
         self.lbAuthNo.text = "거래번호 " + (chargingStatus.payAuthCode ?? "0")
         self.lbStation.text = chargingStatus.stationName
         if let chargingKw = chargingStatus.chargingKw {
-            let chargePower = "\(chargingKw) Kw"
+            let chargePower = "\(chargingKw) kWh"
             lbQuantity.text = chargePower
         } else {
             self.lbQuantity.text = " - "

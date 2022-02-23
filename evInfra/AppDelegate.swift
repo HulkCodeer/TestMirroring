@@ -33,9 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             setupEntryController()
         }
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
-        
-        // SNS 로그인
-        LoginHelper.shared.prepareLogin()
 
         return true
     }
