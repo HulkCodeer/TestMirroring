@@ -52,6 +52,8 @@ class LoginHelper: NSObject {
         case .kakao:
             if KOSession.shared().isOpen() {
                 requestMeToKakao()
+            } else {
+                MemberManager().clearData()
             }
             
         case .evinfra:
@@ -131,8 +133,8 @@ class LoginHelper: NSObject {
     // 카카오에게 사용자 정보 요청
     fileprivate func requestMeToKakao() {
         KOSessionTask.userMeTask { [weak self] (error, me) in
-            if let error = error as NSError? {
-                UIAlertController.showMessage(error.description)
+            if (error as NSError?) != nil {
+                MemberManager().clearData()
             } else if let me = me as KOUserMe? {
                 UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: me.id!)
                 if me.hasSignedUp == .false {
