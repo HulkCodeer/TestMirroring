@@ -60,6 +60,7 @@ class SearchHeaderView: UITableViewHeaderFooterView {
     }
    
     private func setUI() {
+        self.backgroundColor = UIColor(named: "nt-white")
         addSubview(headerStackView)
         
         [headerTitleLabel, allDeleteButton].forEach {

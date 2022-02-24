@@ -56,7 +56,6 @@ class RecentKeywordTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
     
     override func prepareForReuse() {
@@ -95,7 +94,7 @@ class RecentKeywordTableViewCell: UITableViewCell {
     func configure(item: Keyword) {
         let keyword = item.title
         if let date = item.date {
-            dateLabel.text = " \(DateUtils.getTimesAgoString(date: date))"
+            dateLabel.text = " ·\(DateUtils.getTimesAgoString(date: date))"
         }
         keywordTitleLabel.text = keyword
     }

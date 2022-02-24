@@ -49,7 +49,7 @@ class BoardSearchViewController: UIViewController {
     }
 }
 
-// MARK: - Extension
+// MARK: - Private Extension
 private extension BoardSearchViewController {
     func setNavigationController() {
         navigationItem.titleLabel.text = "게시글 검색"
@@ -82,7 +82,9 @@ private extension BoardSearchViewController {
         }
         
         tableView.register(RecentKeywordTableViewCell.classForCoder(), forCellReuseIdentifier: "RecentKeywordTableViewCell")
+        tableView.register(EmptyTableViewCell.classForCoder(), forCellReuseIdentifier: "EmptyTableViewCell")
         tableView.register(SearchHeaderView.classForCoder(), forHeaderFooterViewReuseIdentifier: "SearchHeaderView")
+        tableView.keyboardDismissMode = .onDrag
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
@@ -105,15 +107,10 @@ private extension BoardSearchViewController {
             guard let self = self else { return }
             
             self.isSearchButtonTapped = true
-            
-            if boardList.isEmpty {
-                // 검색 결과 없음 view 표시
-            } else {
-                self.boardList += boardList
-                                    
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+            self.boardList += boardList
+                                
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
         }
     }
@@ -179,7 +176,18 @@ extension BoardSearchViewController: UITableViewDataSource {
             return recentKeywords.count
         } else {
             if isSearchButtonTapped {
-                return boardList.count
+                if boardList.isEmpty {
+                    switch section {
+                    case 0:
+                        return 1
+                    case 1:
+                        return recentKeywords.count
+                    default:
+                        return 0
+                    }
+                } else {
+                    return boardList.count
+                }
             } else {
                 return recentKeywords.count
             }
@@ -195,12 +203,46 @@ extension BoardSearchViewController: UITableViewDataSource {
             return recentKeywordCell
         } else {
             if isSearchButtonTapped {
-                guard let cell = Bundle.main.loadNibNamed("CommunityBoardTableViewCell", owner: self, options: nil)?.first as? CommunityBoardTableViewCell else { return UITableViewCell() }
+                if boardList.isEmpty {
+                    switch indexPath.section {
+                    case 0:
+                        guard let emptyTableViewCell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell", for: indexPath) as? EmptyTableViewCell else { return UITableViewCell() }
+                        emptyTableViewCell.configure(isSearchViewType: true)
+                        emptyTableViewCell.selectionStyle = .none
+                        return emptyTableViewCell
+                    case 1:
+                        guard let recentKeywordCell = tableView.dequeueReusableCell(withIdentifier: "RecentKeywordTableViewCell", for: indexPath) as? RecentKeywordTableViewCell else { return UITableViewCell() }
 
-                cell.configure(item: boardList[indexPath.row])
-                cell.selectionStyle = .none
-                
-                return cell
+                        recentKeywordCell.configure(item: recentKeywords[indexPath.row])
+
+                        return recentKeywordCell
+                    default:
+                        return UITableViewCell()
+                    }
+                } else {
+                    switch self.category {
+                    case Board.CommunityType.FREE.rawValue,
+                        Board.CommunityType.CORP_GS.rawValue,
+                        Board.CommunityType.CORP_JEV.rawValue,
+                        Board.CommunityType.CORP_STC.rawValue,
+                        Board.CommunityType.CORP_SBC.rawValue:
+                        guard let cell = Bundle.main.loadNibNamed("CommunityBoardTableViewCell", owner: self, options: nil)?.first as? CommunityBoardTableViewCell else { return UITableViewCell() }
+
+                        cell.configure(item: boardList[indexPath.row])
+                        cell.selectionStyle = .none
+                        
+                        return cell
+                    case Board.CommunityType.CHARGER.rawValue:
+                        guard let cell = Bundle.main.loadNibNamed("CommunityChargeStationTableViewCell", owner: self, options: nil)?.first as? CommunityChargeStationTableViewCell else { return UITableViewCell() }
+                        
+                        cell.configure(item: boardList[indexPath.row])
+                        cell.selectionStyle = .none
+                        
+                        return cell
+                    default:
+                        return UITableViewCell()
+                    }
+                }
             } else {
                 guard let recentKeywordCell = tableView.dequeueReusableCell(withIdentifier: "RecentKeywordTableViewCell", for: indexPath) as? RecentKeywordTableViewCell else { return UITableViewCell() }
 
@@ -230,9 +272,33 @@ extension BoardSearchViewController: RecentKeywordTableViewCellDelegate {
 // MARK: - UITableViewDelegate
 extension BoardSearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerVeiw = SearchHeaderView(isSearchButtonTapped, self.boardList.count)
-        headerVeiw.delegate = self
-        return headerVeiw
+        if isSearchButtonTapped {
+            if boardList.isEmpty {
+                switch section {
+                case 0:
+                    return SearchHeaderView(true, 0)
+                case 1:
+                    return SearchHeaderView(false, self.recentKeywords.count)
+                default:
+                    return SearchHeaderView(true, 0)
+                }
+            } else {
+                return SearchHeaderView(isSearchButtonTapped, self.boardList.count)
+            }
+        } else {
+            let headerVeiw = SearchHeaderView(isSearchButtonTapped, self.boardList.count)
+            headerVeiw.delegate = self
+            return headerVeiw
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if isSearchButtonTapped {
+            if boardList.isEmpty {
+                return 2
+            }
+        }
+        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -247,7 +313,26 @@ extension BoardSearchViewController: UITableViewDelegate {
             fetchSearchResultList(page: self.page)
         } else {
             if isSearchButtonTapped {
-                print("상세보기")
+                if boardList.isEmpty {
+                    if indexPath.section == 1 {
+                        guard let keyword = self.recentKeywords[indexPath.row].title else { return }
+                        
+                        self.searchBarView.searchBar.text = keyword
+                        boardSearchViewModel.setKeyword(keyword)
+                        fetchSearchResultList(page: self.page)
+                    }
+                } else {
+                    guard let documentSRL = boardList[indexPath.row].document_srl else { return }
+                    
+                    let storyboard = UIStoryboard(name: "BoardDetailViewController", bundle: nil)
+                    guard let boardDetailTableViewController = storyboard.instantiateViewController(withIdentifier: "BoardDetailViewController") as? BoardDetailViewController else { return }
+                    
+                    boardDetailTableViewController.category = category
+                    boardDetailTableViewController.document_srl = documentSRL
+                    boardDetailTableViewController.isFromStationDetailView = false
+                    
+                    self.navigationController?.push(viewController: boardDetailTableViewController)
+                }
             } else {
                 guard let keyword = self.recentKeywords[indexPath.row].title else { return }
                 
@@ -259,9 +344,9 @@ extension BoardSearchViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - UIScrollViewDelegate
 extension BoardSearchViewController {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        // UITableView only moves in one direction, y axis
         let currentOffset = scrollView.contentOffset.y
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
 
@@ -276,8 +361,6 @@ extension BoardSearchViewController {
                         let addedPage = "\(Int(self.page)! + 1)"
                         fetchSearchResultList(page: addedPage)
                     }
-                } else {
-                    
                 }
             }
         }

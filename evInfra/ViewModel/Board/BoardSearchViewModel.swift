@@ -35,21 +35,25 @@ final class BoardSearchViewModel {
     }
     
     func fetchSearchResultList(mid: String, page: String, searchType: String, keyword: String, completion: @escaping ([BoardListItem]) -> Void) {
-        Server.fetchBoardList(mid: mid, page: page, mode: "1", sort: "0", searchType: searchType, searchKeyword: keyword) { (data) in
+        Server.fetchBoardList2(mid: mid, page: page, mode: "1", sort: "0", searchType: searchType, searchKeyword: keyword) { (isSuccess, value) in
             
-            guard let data = data as? Data else { return }
-            let decoder = JSONDecoder()
-            
-            do {
-                let result = try decoder.decode(BoardResponseData.self, from: data)
+            if isSuccess {
+                guard let data = value else { return }
+                let decoder = JSONDecoder()
+                
+                do {
+                    let result = try decoder.decode(BoardResponseData.self, from: data)
 
-                if let updateList = result.list {
-                    if updateList.count < result.size! {
-                        self.lastPage = true
+                    if let updateList = result.list {
+                        if updateList.count < result.size! {
+                            self.lastPage = true
+                        }
+                        completion(updateList)
                     }
-                    completion(updateList)
+                } catch {
+                    completion([])
                 }
-            } catch {
+            } else {
                 completion([])
             }
         }
