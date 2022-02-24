@@ -51,8 +51,8 @@ class KeyboardInputView: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setUI()
-        setKeyboardObserver()
+//        setUI()
+//        setKeyboardObserver()
     }
     
     private func setUI() {
@@ -60,7 +60,7 @@ class KeyboardInputView: UIView {
         
         view.frame = bounds
         self.addSubview(view)
-        
+        translatesAutoresizingMaskIntoConstraints = false
         // 키보드 입력 컨테이너 뷰
         inputBorderView.borderColor = UIColor(named: "nt-2")
         inputBorderView.layer.borderWidth = 1
@@ -84,6 +84,8 @@ class KeyboardInputView: UIView {
         // 이미지 제거 버튼
         trashButton.layer.cornerRadius = trashButton.frame.height / 2
         trashButton.isHidden = true
+        
+//        keyboardInputViewBottomMargin.constant = -34
     }
     
     private func setKeyboardObserver() {
@@ -209,7 +211,7 @@ extension KeyboardInputView {
                 self.keyboardInputViewBottomMargin.constant = -adjustmentHeight
                 self.superview?.layoutIfNeeded()
             }
-        } else {
+        } else if notification.name == NSNotification.Name.UIKeyboardWillHide {
             UIView.animate(withDuration: animationDuration) {
                 self.keyboardInputViewBottomMargin.constant = 0
                 self.superview?.layoutIfNeeded()

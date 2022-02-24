@@ -10,6 +10,27 @@ import UIKit
 import PanModal
 import SnapKit
 
+class BaseViewController: UIViewController {
+    lazy var activityIndicator: UIActivityIndicatorView = {
+       let activitiIndicator = UIActivityIndicatorView()
+        activitiIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activitiIndicator.center = self.view.center
+        
+        
+        activitiIndicator.color = UIColor(named: "nt-5")
+        activitiIndicator.hidesWhenStopped = true
+        if #available(iOS 13.0, *) {
+            activitiIndicator.activityIndicatorViewStyle = .large
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        activitiIndicator.stopAnimating()
+        
+        return activitiIndicator
+    }()
+}
+
 class GroupViewController: UITableViewController {
     
     var members: [String] = []

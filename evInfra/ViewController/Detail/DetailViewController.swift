@@ -369,9 +369,9 @@ extension DetailViewController: BoardTableViewDelegate {
                     if let updateList = result.list {
                         self.boardList.removeAll()
                         self.boardList += updateList
-                        
+                          
                         self.boardTableView.communityBoardList = self.boardList
-                        self.boardTableView.isFromStailDetailView = true
+                        self.boardTableView.isNoneHeader = true
                         
                         DispatchQueue.main.async {
                             self.boardTableView.reloadData()

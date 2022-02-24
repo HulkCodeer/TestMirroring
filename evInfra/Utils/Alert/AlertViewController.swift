@@ -28,12 +28,12 @@ class AlertViewController: UIViewController, PanModalPresentable {
     private func setupView() {
         view.addSubview(alertView)
         alertView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         alertView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(-85)
+            $0.top.equalTo(view.snp.top)
+            $0.leading.equalTo(view.snp.leading).offset(20)
+            $0.trailing.equalTo(view.snp.trailing).offset(-20)
             $0.height.equalTo(alertViewHeight)
-            $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-20)
         }
     }
 

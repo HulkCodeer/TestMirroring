@@ -35,11 +35,21 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
 
     var communityBoardList: [BoardListItem] = [BoardListItem]()
     var sortType: Board.SortType = .LATEST
-    var isFromStailDetailView: Bool = false
+    var isNoneHeader: Bool = false
+    
+    override init(frame: CGRect, style: UITableView.Style) {
+        super.init(frame: frame, style: style)
+        
+        configuration()
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
+        configuration()
+    }
+    
+    private func configuration() {
         self.dataSource = self
         self.delegate = self
         self.allowsSelection = true
@@ -149,7 +159,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        if isFromStailDetailView {
+        if isNoneHeader {
             return nil
         } else {
             guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "CommunityBoardTableViewHeader") as? CommunityBoardTableViewHeader else { return UIView() }

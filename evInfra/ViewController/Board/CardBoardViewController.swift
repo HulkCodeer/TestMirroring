@@ -12,7 +12,7 @@ import Material
 import SwiftyJSON
 import SnapKit
 
-class CardBoardViewController: UIViewController {
+class CardBoardViewController: BaseViewController {
     
     @IBOutlet weak var boardTableView: BoardTableView!
     
@@ -30,28 +30,32 @@ class CardBoardViewController: UIViewController {
     
     let boardWriteButton = BoardWriteButton()
     var communityBoardList: [BoardListItem] = [BoardListItem]()
+    var sortType: Board.SortType = .LATEST
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         prepareActionBar()
         
-//        self.getFirstBoardData()
-        self.fetchFirstBoard(mid: category, sort: .LATEST)
+        fetchFirstBoard(mid: category, sort: sortType)
         
-        self.boardTableView.tableViewDelegate = self
-        self.boardTableView.category = self.category
+        boardTableView.tableViewDelegate = self
+        boardTableView.category = self.category
 
-        self.boardTableView.separatorColor = UIColor(rgb: 0xE4E4E4)
-        self.boardTableView.separatorInset = .zero
-        self.boardTableView.separatorStyle = .none
-        self.boardTableView.allowsSelection = true
+        boardTableView.refreshControl = UIRefreshControl()
+        boardTableView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        boardTableView.refreshControl?.attributedTitle = NSAttributedString(string: "새로고침")
+        boardTableView.separatorColor = UIColor(rgb: 0xE4E4E4)
+        boardTableView.separatorInset = .zero
+        boardTableView.separatorStyle = .none
+        boardTableView.allowsSelection = true
         
         if #available(iOS 15.0, *) {
             self.boardTableView.sectionHeaderTopPadding = 0
         }
         
         self.view.addSubview(boardWriteButton)
+        self.view.addSubview(activityIndicator)
         
         boardWriteButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-74)
@@ -61,24 +65,27 @@ class CardBoardViewController: UIViewController {
         }
         
         boardWriteButton.addTarget(self, action: #selector(handlePostButton), for: .touchUpInside)
-        
-//        boardTableView.register(UINib.init(nibName: "BoardTableViewCell", bundle: nil), forCellReuseIdentifier: "BoardTableViewCell")
-//        boardTableView.register(UINib.init(nibName: "BoardTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "BoardTableViewHeader")
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        self.fetchFirstBoard(mid: category, sort: .LATEST)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
 }
 
 extension CardBoardViewController {
+    
+    @objc func pullToRefresh(refresh: UIRefreshControl) {
+        refresh.endRefreshing()
+        fetchFirstBoard(mid: category, sort: sortType)
+    }
     
     func prepareActionBar() {
         self.navigationController?.isNavigationBarHidden = false
@@ -91,23 +98,24 @@ extension CardBoardViewController {
         searchButton.tintColor = UIColor(named: "nt-9")
         searchButton.addTarget(self, action: #selector(handleSearchButton), for: .touchUpInside)
         
-        self.navigationItem.hidesBackButton = true
-        self.navigationItem.leftViews = [backButton]
-        self.navigationItem.rightViews = [searchButton]
-        self.navigationItem.titleLabel.textColor = UIColor(named: "nt-9")
+        navigationItem.hidesBackButton = true
+        navigationItem.leftViews = [backButton]
+        navigationItem.rightViews = [searchButton]
+        navigationItem.titleLabel.textColor = UIColor(named: "nt-9")
+        navigationItem.titleLabel.text = "게시판"
         
         switch self.category {
         case Board.CommunityType.CHARGER.rawValue:
-            self.navigationItem.titleLabel.text = "충전소 게시판"
+            navigationItem.titleLabel.text = "충전소 게시판"
         case Board.CommunityType.CORP_GS.rawValue,
             Board.CommunityType.CORP_JEV.rawValue,
             Board.CommunityType.CORP_STC.rawValue,
             Board.CommunityType.CORP_SBC.rawValue:
-            self.navigationItem.titleLabel.text = self.brdTitle + " 게시판"
+            navigationItem.titleLabel.text = self.brdTitle + " 게시판"
         case Board.CommunityType.FREE.rawValue:
-            self.navigationItem.titleLabel.text = "자유게시판"
+            navigationItem.titleLabel.text = "자유게시판"
         default:
-            self.navigationItem.titleLabel.text = "게시판"
+            break
         }
     }
     
@@ -120,7 +128,8 @@ extension CardBoardViewController {
     fileprivate func handleSearchButton() {
         let storyboard = UIStoryboard.init(name: "BoardSearchViewController", bundle: nil)
         guard let boardSearchViewController = storyboard.instantiateViewController(withIdentifier: "BoardSearchViewController") as? BoardSearchViewController else { return }
-        self.navigationItem.titleLabel.text = "게시글 검색"
+        
+        boardSearchViewController.category = self.category
         self.navigationController?.push(viewController: boardSearchViewController)
     }
     
@@ -170,12 +179,13 @@ extension CardBoardViewController: BoardTableViewDelegate {
     
 
     func fetchFirstBoard(mid: String, sort: Board.SortType) {
+        activityIndicator.startAnimating()
         self.currentPage = 1
         self.lastPage = false
-        let pageCount = BoardTableView.PAGE_DATA_COUNT + (BoardTableView.PAGE_DATA_COUNT * self.preReadPage)
+        self.sortType = sort
         
         Server.fetchBoardList(mid: mid,
-                              page: "\(currentPage)",
+                              page: "\(self.currentPage)",
                               mode: Board.ScreenType.FEED.rawValue,
                               sort: sort.rawValue,
                               searchType: "",
@@ -190,6 +200,8 @@ extension CardBoardViewController: BoardTableViewDelegate {
                     self.communityBoardList.removeAll()
                     self.communityBoardList = itemList
                     self.boardTableView.communityBoardList = self.communityBoardList
+                    
+                    self.activityIndicator.stopAnimating()
                     
                     DispatchQueue.main.async {
                         self.boardTableView.reloadData()

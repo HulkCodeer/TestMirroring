@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import Material
 import PanModal
 import AVFoundation
 
@@ -18,7 +19,7 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
     var category = Board.CommunityType.FREE.rawValue
     var document_srl: String = ""
     var detail: BoardDetailResponseData? = nil
-    var keyboardInputView = KeyboardInputView()
+    lazy var keyboardInputView: KeyboardInputView? = nil
     var recomment: Recomment?
     var isFromStationDetailView: Bool = false
     
@@ -30,9 +31,29 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
         
         fetchData()
         setDelegate()
+        prepareActionBar()
         setKeyboardInputView()
         setKeyboardTapGesture()
         setSendButtonCompletion()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
+    private func prepareActionBar() {
+        self.navigationController?.isNavigationBarHidden = false
+        
+        let backButton = IconButton(image: Icon.cm.arrowBack)
+        backButton.tintColor = UIColor(named: "nt-9")
+        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+        
+        navigationItem.hidesBackButton = true
+        navigationItem.leftViews = [backButton]
     }
     
     private func fetchData() {
@@ -76,11 +97,13 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
     */
     private func setDelegate() {
         picker.delegate = self
-        keyboardInputView.delegate = self
+        keyboardInputView = KeyboardInputView()
+        keyboardInputView?.delegate = self
         detailTableView.delegate = self
         detailTableView.dataSource = self
         detailTableView.register(UINib(nibName: "BoardDetailTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "BoardDetailTableViewHeader")
         detailTableView.register(UINib(nibName: "BoardDetailTableViewCell", bundle: nil), forCellReuseIdentifier: "BoardDetailTableViewCell")
+        detailTableView.register(EmptyTableViewCell.classForCoder(), forCellReuseIdentifier: "EmptyTableViewCell")
         detailTableView.estimatedRowHeight = 100
         detailTableView.rowHeight = UITableViewAutomaticDimension
         
@@ -90,11 +113,14 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
     }
     
     private func setKeyboardInputView() {
+        guard let keyboardInputView = keyboardInputView else {
+            return
+        }
         self.view.addSubview(keyboardInputView)
         
-        keyboardInputView.snp.makeConstraints {
-            $0.left.right.equalToSuperview().offset(0)
-            $0.bottom.equalToSuperview().offset(0)
+        keyboardInputView.snp.updateConstraints {
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
     }
     
@@ -104,13 +130,13 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
     }
     
     private func setSendButtonCompletion() {
-        keyboardInputView.sendButtonCompletionHandler = { [weak self] text, selectedRow, isModify in
+        keyboardInputView?.sendButtonCompletionHandler = { [weak self] text, selectedRow, isModify in
             guard let self = self,
                     let detail = self.detail,
                     let comments = detail.comments,
                   let document = detail.document else { return }
             
-            let selectedImage = self.keyboardInputView.selectedImageView.image
+            let selectedImage = self.keyboardInputView?.selectedImageView.image
             
             var commentParamters = CommentParameter(mid: self.category,
                                                     documentSRL: document.document_srl!,
@@ -132,6 +158,11 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
                 }
             }
         }
+    }
+    
+    @objc
+    fileprivate func handleBackButton() {
+        self.navigationController?.pop()
     }
 }
 
@@ -207,10 +238,10 @@ extension BoardDetailViewController: UIImagePickerControllerDelegate {
         let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage
         let selectedImage = editedImage ?? originalImage
         
-        keyboardInputView.selectedImageView.isHidden = false
-        keyboardInputView.selectedImageView.image = selectedImage
-        keyboardInputView.trashButton.isHidden = false
-        keyboardInputView.selectedImageViewHeight.constant = 80
+        keyboardInputView?.selectedImageView.isHidden = false
+        keyboardInputView?.selectedImageView.image = selectedImage
+        keyboardInputView?.trashButton.isHidden = false
+        keyboardInputView?.selectedImageViewHeight.constant = 80
         
         picker.dismiss(animated: true, completion: nil)
     }
@@ -230,12 +261,7 @@ extension BoardDetailViewController: UITableViewDelegate {
             
             return view
         } else {
-            // 댓글이 없을 경우, empty view 표시
-            if boardDetailViewModel.getDetailData()?.comments?.count == 0 {
-                return BoardEmptyView()
-            } else {
-                return nil
-            }
+            return nil
         }
     }
     
@@ -252,7 +278,7 @@ extension BoardDetailViewController: UITableViewDelegate {
             return UITableViewAutomaticDimension
         } else {
             if boardDetailViewModel.getDetailData()?.comments?.count == 0 {
-                return 200
+                return 64
             }
             return 0
         }
@@ -278,18 +304,33 @@ extension BoardDetailViewController: UITableViewDataSource {
         if section == 0 {
             return 0
         } else {
-            return boardDetailViewModel.counOfComments()
+            let countOfComments = boardDetailViewModel.counOfComments()
+            
+            if countOfComments == 0 {
+                return 1
+            } else {
+                return countOfComments
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 1 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "BoardDetailTableViewCell", for: indexPath) as? BoardDetailTableViewCell else { return UITableViewCell() }
+            let countOfComments = boardDetailViewModel.counOfComments()
             
-            cell.configureComment(comment: boardDetailViewModel.getComment(at: indexPath.row), row: indexPath.row)
-            cell.buttonClickDelegate = self
-            
-            return cell
+            if countOfComments == 0 {
+                guard let emptyTableViewCell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell", for: indexPath) as? EmptyTableViewCell else { return UITableViewCell() }
+                emptyTableViewCell.configure(isSearchViewType: false)
+                emptyTableViewCell.selectionStyle = .none
+                return emptyTableViewCell
+            } else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "BoardDetailTableViewCell", for: indexPath) as? BoardDetailTableViewCell else { return UITableViewCell() }
+                
+                cell.configureComment(comment: boardDetailViewModel.getComment(at: indexPath.row), row: indexPath.row)
+                cell.buttonClickDelegate = self
+                
+                return cell
+            }
         } else {
             return UITableViewCell.init(frame: .zero)
         }
@@ -418,7 +459,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
     
     // TODO: selectedrow
     func commentButtonCliked(recomment: Comment, selectedRow: Int) {
-        keyboardInputView.becomeResponder(comment: recomment, isModify: false, selectedRow: selectedRow)
+        keyboardInputView?.becomeResponder(comment: recomment, isModify: false, selectedRow: selectedRow)
     }
     
     func deleteButtonCliked(documentSRL: String, commentSRL: String) {
@@ -450,7 +491,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
             guard let self = self else { return }
             
             if isDeleted {
-                self.keyboardInputView.becomeResponder(comment: comment, isModify: true, selectedRow: selectedRow)
+                self.keyboardInputView?.becomeResponder(comment: comment, isModify: true, selectedRow: selectedRow)
             }
         }
         
