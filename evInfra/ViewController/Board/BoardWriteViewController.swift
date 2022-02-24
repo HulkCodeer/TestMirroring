@@ -13,7 +13,7 @@ import UIImageCropper
 import SwiftyJSON
 import PanModal
 
-class BoardWriteViewController: UIViewController, UINavigationControllerDelegate {
+class BoardWriteViewController: BaseViewController, UINavigationControllerDelegate {
 
     @IBOutlet var chargeStationStackView: UIStackView!
     @IBOutlet var stationSearchButton: UIButton!
@@ -22,7 +22,6 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
     @IBOutlet var contentsTextView: UITextView!
     @IBOutlet var countOfWordsLabel: UILabel!
     @IBOutlet var completeButton: UIButton!
-    
     @IBOutlet var photoCollectionView: UICollectionView!
 
     var selectedImages: [UIImage] = []
@@ -34,18 +33,13 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
     var popCompletion: (() -> Void)?
     let picker = UIImagePickerController()
     let cropper = UIImageCropper(cropRatio: 100/115)
+    let trasientAlertView = TransientAlertViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setUI()
-        
-        if category.equals(Board.CommunityType.CHARGER.rawValue) {
-            let stationName = stationSearchButton.titleLabel?.text
-            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, stationName)
-        } else {
-            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, nil)
-        }
+        stationCheck()
         
         boardWriteViewModel.subscribe { [weak self] isEnable in
             guard let self = self else { return }
@@ -74,16 +68,25 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
     @IBAction func completeButtonClick(_ sender: Any) {
         guard let title = titleTextView.text,
                 let contents = contentsTextView.text else { return }
         
         if let document = document {
+            
+            
             let popup = ConfirmPopupViewController(titleText: "수정", messageText: "게시물을 수정 하시겠습니까?")
             popup.addActionToButton(title: "취소", buttonType: .cancel)
             popup.addActionToButton(title: "수정", buttonType: .confirm)
             popup.confirmDelegate = { [weak self] canModify in
                 guard let self = self else { return }
+                
+                
+                self.activityIndicator.startAnimating()
                 
                 if canModify {
                     self.boardWriteViewModel.updateBoard(self.category,
@@ -93,18 +96,21 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
                                                          self.chargerInfo["chargerId"] ?? "",
                                                          self.uploadedImages,
                                                          self.selectedImages) { isSuccess in
-                        let trasientAlertView = TransientAlertViewController()
-
+                        
+                        self.activityIndicator.stopAnimating()
+                        
                         if isSuccess {
-                            trasientAlertView.titlemessage = "게시글 수정이 완료되었습니다."
-                            trasientAlertView.dismissCompletion = {
+                            self.trasientAlertView.titlemessage = "게시글 수정이 완료되었습니다."
+                            self.trasientAlertView.dismissCompletion = {
                                 self.popCompletion?()
                                 self.navigationController?.pop()
                             }
                         } else {
-                            trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
+                            self.trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
                         }
-                        self.presentPanModal(trasientAlertView)
+                        DispatchQueue.main.async {
+                            self.presentPanModal(self.trasientAlertView)
+                        }
                     }
                 }
             }
@@ -118,23 +124,27 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
             popup.confirmDelegate = { [weak self] canRegist in
                 guard let self = self else { return }
                 
+                self.activityIndicator.startAnimating()
+                
                 if canRegist {
                     self.boardWriteViewModel.postBoard(self.category,
                                                        title,
                                                        contents,
                                                        self.chargerInfo["chargerId"] ?? "",
                                                        self.selectedImages) { isSuccess in
-                        let trasientAlertView = TransientAlertViewController()
+                        self.activityIndicator.stopAnimating()
                         
                         if isSuccess {
-                            trasientAlertView.titlemessage = "게시글 등록이 완료되었습니다."
-                            trasientAlertView.dismissCompletion = {
+                            self.trasientAlertView.titlemessage = "게시글 등록이 완료되었습니다."
+                            self.trasientAlertView.dismissCompletion = {
                                 self.navigationController?.pop()
                             }
                         } else {
-                            trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
+                            self.trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
                         }
-                        self.presentPanModal(trasientAlertView)
+                        DispatchQueue.main.async {
+                            self.presentPanModal(self.trasientAlertView)
+                        }
                     }
                 }
             }
@@ -143,7 +153,17 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         }
     }
     
+    private func stationCheck() {
+        if category.equals(Board.CommunityType.CHARGER.rawValue) {
+            let stationName = stationSearchButton.titleLabel?.text
+            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, stationName)
+        } else {
+            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, nil)
+        }
+    }
+    
     private func setUI() {
+        view.addSubview(activityIndicator)
         self.navigationItem.titleLabel.text = "글쓰기"
         
         self.cropper.picker = picker
@@ -164,6 +184,7 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         if let document = document {
             titleTextView.text = document.title ?? Const.BoardConstants.titlePlaceHolder
             contentsTextView.text = document.content ?? Const.BoardConstants.contentsPlaceHolder
+            countOfWordsLabel.text = "\(contentsTextView.text?.count ?? 0) / 1200"
             
             let tags = JSON(parseJSON: document.tags!)
             if let chargerId = tags["charger_id"].string, let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
@@ -178,6 +199,7 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         } else {
             titleTextView.text = Const.BoardConstants.titlePlaceHolder
             contentsTextView.text = Const.BoardConstants.contentsPlaceHolder
+            countOfWordsLabel.text = "0 / 1200"
         }
         
         // 제목
@@ -195,7 +217,7 @@ class BoardWriteViewController: UIViewController, UINavigationControllerDelegate
         contentsView.layer.borderWidth = 1
         contentsView.layer.cornerRadius = 6
         contentsTextView.textContainerInset = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
-        countOfWordsLabel.text = "\(contentsTextView.text?.count ?? 0) / 1200"
+        
         
         // 사진 등록
         photoCollectionView.register(UINib(nibName: "PhotoRegisterCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "PhotoRegisterCollectionViewCell")
@@ -318,11 +340,13 @@ extension BoardWriteViewController: UICollectionViewDelegate {
             popup.addActionToButton(title: "취소", buttonType: .cancel)
             popup.addActionToButton(title: "삭제", buttonType: .confirm)
             popup.confirmDelegate = { [weak self] canDelete in
+                guard let self = self else { return }
+                
                 if canDelete {
-                    self?.selectedImages.remove(at: indexPath.row)
-
+                    self.selectedImages.remove(at: indexPath.row)
+                    
                     DispatchQueue.main.async {
-                        self?.photoCollectionView.reloadData()
+                        self.photoCollectionView.reloadData()
                     }
                 }
             }
@@ -375,11 +399,11 @@ extension BoardWriteViewController: UITextViewDelegate {
         switch textView.tag {
         case 0:
             if titleTextView.text.isEmpty {
-                titleTextView.text = "제목을 입력해주세요."
+                titleTextView.text = Const.BoardConstants.titlePlaceHolder
             }
         case 1:
             if contentsTextView.text.isEmpty {
-                contentsTextView.text = "내용을 입력해주세요."
+                contentsTextView.text = Const.BoardConstants.contentsPlaceHolder
             }
         default:
             break

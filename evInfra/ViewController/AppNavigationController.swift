@@ -34,7 +34,7 @@ import Material
 class AppNavigationController: NavigationController {
     open override func prepare() {
         super.prepare()
-        isMotionEnabled = true
+//        isMotionEnabled = true
         
         motionNavigationTransitionType = .autoReverse(presenting: .none)
         self.navigationBar.barStyle = .default

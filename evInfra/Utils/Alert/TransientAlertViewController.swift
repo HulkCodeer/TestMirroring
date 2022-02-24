@@ -38,7 +38,7 @@ class TransientAlertViewController: AlertViewController {
     @objc func updateMessage() {
         guard countdown > 0 else {
             invalidateTimer()
-            dismiss(animated: false) {
+            dismiss(animated: true) {
                 self.dismissCompletion?()
             }
             return
