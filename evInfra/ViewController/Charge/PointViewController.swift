@@ -327,6 +327,7 @@ extension PointViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PointTableViewCell", for: indexPath) as! PointTableViewCell
         cell.reloadData(pointList: evPointList, position: indexPath.row)
+        cell.selectionStyle = .none
         return cell
     }
 }
