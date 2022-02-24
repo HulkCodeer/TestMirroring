@@ -217,8 +217,20 @@ extension MyPageViewController {
     
     @objc
     fileprivate func handlelogoutButton() {
+        var actions = Array<UIAlertAction>()
+        let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in
+            self.logout()
+        })
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler:{ (ACTION) -> Void in
+            self.dismiss(animated: false, completion: nil)
+        })
+        actions.append(ok)
+        actions.append(cancel)
+        UIAlertController.showAlert(title: "로그아웃 하시겠습니까?", message: "", actions: actions)
+    }
+
+    func logout() {
         self.indicator.startAnimating()
-        
         LoginHelper.shared.logout(completion: { success in
             self.indicator.stopAnimating()
             if success {
