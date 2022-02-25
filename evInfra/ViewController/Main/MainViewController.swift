@@ -800,8 +800,11 @@ extension MainViewController: ChargerSelectDelegate {
             self.tMapView?.setZoomLevel(15)
             self.tMapView?.setCenter(charger.getTMapPoint())
             
-            searchLocation = nil
+            searchLocation = TMapPoint(lon: charger.getTMapPoint().getLongitude(), lat: charger.getTMapPoint().getLatitude())
+            let poiItem = TMapPOIItem(tMapPoint: searchLocation)
+            poiItem!.setIcon(UIImage(named: "marker_search"), anchorPoint: CGPoint(x: 0.5, y: 1.0))
             tMapView?.removeCustomObject("search")
+            tMapView?.addCustomObject(poiItem, id: "search")
             DispatchQueue.global(qos: .background).async {
                 // Background Thread
                 DispatchQueue.main.async {
