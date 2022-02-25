@@ -172,13 +172,24 @@ class PaymentResultViewController: UIViewController {
         
         self.lbAmount.text = "\(chargingStatus.fee?.currency() ?? "0") 원"
         if let discountMsgStr = chargingStatus.discountMsg, !discountMsgStr.isEmpty {
-            self.lbDiscountAmt.text = (chargingStatus.discountAmt?.currency() ?? "0") + " 원"
+            let discountAmt = Double(chargingStatus.discountAmt!) ?? 0.0
+            var discountStr = chargingStatus.discountAmt!.currency()
+            if discountAmt != 0 {
+                discountStr = "- " + discountStr
+            }
+            self.lbDiscountAmt.text = "\(discountStr) 원"
             self.lbDiscountMsg.text = discountMsgStr
         } else {
             self.viewDiscount.isHidden = true
             self.heightViewDiscount.constant -= 52
         }
-        self.lbUsedPoint.text = (chargingStatus.usedPoint?.currency() ?? "") + " 베리"
+        
+        let usedPoint = Double(chargingStatus.usedPoint!) ?? 0.0
+        var pointStr = chargingStatus.usedPoint!.currency()
+        if usedPoint != 0 {
+            pointStr = "- " + pointStr
+        }
+        self.lbUsedPoint.text = "\(pointStr) 베리"
         self.lbPayAmount.text = "\(chargingStatus.payAmount?.currency() ?? "0") 원"
         
         self.lbSavePoint.text = (chargingStatus.savePoint?.currency() ?? "") + " 베리"

@@ -225,7 +225,7 @@ class PaymentStatusViewController: UIViewController {
     }
     
     func showStopChargingDialog() {
-        var title = "충전 종료"
+        var title = "충전 종료 및 결제하기"
         var msg = "확인 버튼을 누르면 충전이 종료됩니다."
         if chargingStatus.status == STATUS_READY {
             title = "충전 취소";
@@ -520,7 +520,7 @@ extension PaymentStatusViewController {
         } else {
             lbChargeStatus.textColor = UIColor(named: "content-positive")
             lbChargeComment.text = "충전중"
-            btnStopCharging.setTitle("충전 종료", for: .normal)
+            btnStopCharging.setTitle("충전 종료 및 결제하기", for: .normal)
                       
             
             // 충전진행시간
@@ -538,7 +538,7 @@ extension PaymentStatusViewController {
                 if chargingRate > 0.0 {
                     circleView.setRateProgress(progress: Double(chargingRate))
                 }
-                lbChargeStatus.text = "\(chargingRate)%"
+                lbChargeStatus.text = "\(Int(chargingRate))%"
             }
             
             // 포인트
@@ -552,18 +552,21 @@ extension PaymentStatusViewController {
             
             if let chargingKw = chargingStatus.chargingKw {
                 // 충전량
-                let chargePower = "\(chargingKw) kWh"
+                let chargePower = "\(chargingKw)kWh"
                 lbChargePower.text = chargePower
 
                 var discountAmt = 0.0
                 if let discountMsg = chargingStatus.discountMsg, !discountMsg.isEmpty {
+                    lbDiscountMsg.text = discountMsg
+                    
                     discountAmt = Double(chargingStatus.discountAmt!) ?? 0.0
-                    if discountAmt > 0 {
-                        lbDiscountAmount.text = "\(chargingStatus.discountAmt!.currency()) 원"
-                        lbDiscountMsg.text = discountMsg
-                        lbPayDiscountAmount.text = "-\(chargingStatus.discountAmt!.currency()) 원"
-                        lbPayDiscountMsg.text = discountMsg
+                    var discountStr = chargingStatus.discountAmt!.currency()
+                    if discountAmt != 0 {
+                        discountStr = "- " + discountStr
                     }
+                    lbDiscountAmount.text = "\(discountStr) 원"
+                    lbPayDiscountAmount.text = "\(discountStr) 원"
+                    lbPayDiscountMsg.text = discountMsg
                 } else {
                     viewDiscount.isHidden = true
                     viewPayDiscount.isHidden = true
@@ -585,7 +588,11 @@ extension PaymentStatusViewController {
                         totalFee = 0
                     }
                     lbChargeTotalFee.text = String(totalFee).currency()
-                    lbChargeBerry.text = "-\(String(point).currency()) 베리"
+                    var berryStr = String(point).currency()
+                    if point != 0 {
+                        berryStr = "- " + berryStr
+                    }
+                    lbChargeBerry.text = "\(berryStr) 베리"
                 }
                 
                 // 충전속도
