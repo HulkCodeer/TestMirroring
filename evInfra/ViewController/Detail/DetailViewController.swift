@@ -416,15 +416,6 @@ extension DetailViewController: BoardTableViewDelegate {
         self.boardTableView.estimatedSectionHeaderHeight = 25  // 25
     }
     
-    func getFirstBoardData() {}
-    func getNextBoardData() {}
-    func boardEdit(tag: Int) {}
-    func boardDelete(tag: Int) {}
-    func replyEdit(tag: Int) {}
-    func replyDelete(tag: Int) {}
-    func makeReply(tag: Int) {}
-    func goToStation(tag: Int) {}
-    
     func showImageViewer(url: URL) {
         let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
         let imageVC:EIImageViewerViewController = boardStoryboard.instantiateViewController(withIdentifier: "EIImageViewerViewController") as! EIImageViewerViewController

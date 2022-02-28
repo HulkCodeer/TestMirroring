@@ -57,9 +57,27 @@ class BoardDetailViewModel {
                         return
                     }
                     
+                    if let previousFiles = commentParameter.comment?.files {
+                        let file = previousFiles[0]
+                        // TODO: 첨부파일 삭제
+                        Server.deleteDocumnetFile(documentSRL: commentSRL, fileSRL: file.file_srl!, isCover: file.cover_image!) { isSuccess, response in
+                            if isSuccess {
+                                if let value = response as? String,
+                                    value.contains("success") {
+                                    debugPrint("이미지 삭제 완료")
+                                } else {
+                                    completion(false)
+                                }
+                            } else {
+                                completion(false)
+                            }
+                        }
+                    }
+                    
                     Server.commentImageUpload(mid: commentParameter.mid,
                                               document_srl: commentSRL,
-                                              comment_srl: commentSRL, image: image) { isSuccess, response in
+                                              comment_srl: commentSRL,
+                                              image: image) { isSuccess, response in
                         if isSuccess {
                             completion(true)
                         } else {
@@ -76,100 +94,32 @@ class BoardDetailViewModel {
     }
     
     func postComment(commentParameter: CommentParameter,
-                     isModify: Bool,
                      completion: @escaping (Bool) -> Void) {
-        
-        if isModify {
-            modifyBoardComment(commentParameter: commentParameter) { isSuccess in
-                if isSuccess {
-                    completion(true)
-                } else {
-                    completion(false)
-                }
-            }
-//            Server.modifyBoardComment(commentParameter: commentParameter) { isSuccess, value in
-//                if isSuccess {
-//                    if let results = value as? Dictionary<String, String>,
-//                        let commentSRL = results["comment_srl"] {
-//
-//                        guard let image = commentParameter.image else {
-//                            completion(true)
-//                            return
-//                        }
-//
-//                        Server.commentImageUpload(mid: commentParameter.mid,
-//                                                  document_srl: commentSRL,
-//                                                  comment_srl: commentSRL, image: image) { isSuccess, response in
-//                            if isSuccess {
-//                                completion(true)
-//                            } else {
-//                                completion(false)
-//                            }
-//                        }
-//                    } else {
-//                        completion(false)
-//                    }
-//                } else {
-//                    completion(false)
-//                }
-//            }
-        } else {
-            Server.postComment(commentParameter: commentParameter) { isSuccess, value in
-                if isSuccess {
-                    if let results = value as? Dictionary<String, String>,
-                        let commentSRL = results["comment_srl"] {
-                        
-                        guard let image = commentParameter.image else {
+        Server.postComment(commentParameter: commentParameter) { isSuccess, value in
+            if isSuccess {
+                if let results = value as? Dictionary<String, String>,
+                    let commentSRL = results["comment_srl"] {
+                    
+                    guard let image = commentParameter.image else {
+                        completion(true)
+                        return
+                    }
+                    
+                    Server.commentImageUpload(mid: commentParameter.mid,
+                                              document_srl: commentSRL,
+                                              comment_srl: commentSRL, image: image) { isSuccess, response in
+                        if isSuccess {
                             completion(true)
-                            return
+                        } else {
+                            completion(false)
                         }
-                        
-                        Server.commentImageUpload(mid: commentParameter.mid,
-                                                  document_srl: commentSRL,
-                                                  comment_srl: commentSRL, image: image) { isSuccess, response in
-                            if isSuccess {
-                                completion(true)
-                            } else {
-                                completion(false)
-                            }
-                        }
-                    } else {
-                        completion(false)
                     }
                 } else {
                     completion(false)
                 }
+            } else {
+                completion(false)
             }
-            
-//
-//            Server.postComment(mid: mid,
-//                               documentSRL: document.document_srl,
-//                               recomment: ,
-//                               content: content,
-//                               isRecomment: isRecomment) { isSuccess, value in
-//                if isSuccess {
-//                    if let results = value as? Dictionary<String, String>,
-//                        let commentSRL = results["comment_srl"] {
-//
-//                        guard let image = image else {
-//                            completion(true)
-//                            return
-//                        }
-//
-//                        Server.commentImageUpload(mid: mid, document_srl: documentSRL, comment_srl: commentSRL, image: image) { isSuccess, response in
-//                            if isSuccess {
-//                                completion(true)
-//                            } else {
-//                                completion(false)
-//                            }
-//                        }
-//                    } else {
-//                        completion(false)
-//                    }
-//                } else {
-//                    completion(false)
-//                }
-//            }
         }
     }
     
