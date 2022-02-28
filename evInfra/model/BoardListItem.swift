@@ -147,7 +147,7 @@ struct CommentParameter {
     var text: String
     var image: UIImage?
     var selectedCommentRow: Int
-    var isModify: Bool
+    var isRecomment: Bool
 }
 
 struct Recomment {

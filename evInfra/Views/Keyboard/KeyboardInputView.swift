@@ -31,7 +31,7 @@ class KeyboardInputView: UIView {
     private let maxHeight: CGFloat = 150
     private let minHeight: CGFloat = 20
     
-    var sendButtonCompletionHandler: ((String, Int, Bool) -> Void)?
+    var sendButtonCompletionHandler: ((String, Int, Bool, Bool) -> Void)?
     var delegate: MediaButtonTappedDelegate?
     var isRecomment: Bool = false
     var isModify: Bool = false
@@ -109,7 +109,7 @@ class KeyboardInputView: UIView {
 
         }
         
-        sendButtonCompletionHandler?(text, selectedRow, isModify)
+        sendButtonCompletionHandler?(text, selectedRow, isModify, isRecomment)
         
         textView.text = nil
         textView.endEditing(true)
@@ -135,8 +135,9 @@ class KeyboardInputView: UIView {
 }
 
 extension KeyboardInputView: UITextViewDelegate {
-    func becomeResponder(comment: Comment, isModify: Bool, selectedRow: Int) {
+    func becomeResponder(comment: Comment, isModify: Bool, isRecomment: Bool, selectedRow: Int) {
         self.isModify = isModify
+        self.isRecomment = isRecomment
         self.selectedRow = selectedRow
         textView.becomeFirstResponder()
         placeholderTextField.isHidden = true

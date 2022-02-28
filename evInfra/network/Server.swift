@@ -333,7 +333,7 @@ class Server {
     }
     
     // MARK: - Coummunity 개선 - 게시판 조회
-    static func fetchBoardList(mid: String, page: String, mode: String, sort: String, completion: @escaping (Any?) -> Void) {
+    static func fetchBoardList(mid: String, page: String, mode: String, sort: String, searchType: String, searchKeyword: String, completion: @escaping (Any?) -> Void) {
         
         let headers = [
             "mb_id" : "\(MemberManager.getMbId())",
@@ -341,19 +341,46 @@ class Server {
             "profile" : "\(MemberManager.getProfileImage())"
         ]
         
-        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/list/mid/\(mid)/page/\(page)/mode/\(mode)/sort/\(sort)",
-                          method: .get,
-                          parameters: nil,
-                          encoding: JSONEncoding.default,
-                          headers: headers).validate().responseJSON { response in
-            switch response.result {
-            case .success(_):
-                completion(response.data)
-            case .failure(let error):
-                completion(error.localizedDescription)
+        let urlString = Const.EV_COMMUNITY_SERVER + "/list/mid/\(mid)/page/\(page)/mode/\(mode)/sort/\(sort)/search_type/\(searchType)/search_keyword/\(searchKeyword)"
+        
+        if let encodedUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
+            Alamofire.request(encodedUrl,
+                              method: .get,
+                              parameters: nil,
+                              encoding: JSONEncoding.default,
+                              headers: headers).validate().responseJSON { response in
+                switch response.result {
+                case .success(_):
+                    completion(response.data)
+                case .failure(let error):
+                    completion(error)
+                }
             }
         }
     }
+    
+    // MARK: - Coummunity 개선 - 게시판 조회
+    static func fetchBoardList2(mid: String, page: String, mode: String, sort: String, searchType: String, searchKeyword: String, completion: @escaping (Bool, Data?) -> Void) {
+        
+        let headers = [
+            "mb_id" : "\(MemberManager.getMbId())",
+            "nick_name" : "\(MemberManager.getMemberNickname())",
+            "profile" : "\(MemberManager.getProfileImage())"
+        ]
+        
+        let urlString = Const.EV_COMMUNITY_SERVER + "/list/mid/\(mid)/page/\(page)/mode/\(mode)/sort/\(sort)/search_type/\(searchType)/search_keyword/\(searchKeyword)"
+        
+        if let encodedUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
+            Alamofire.request(encodedUrl,
+                              method: .get,
+                              parameters: nil,
+                              encoding: JSONEncoding.default,
+                              headers: headers).validate().responseJSON { response in
+                responseData(response: response, completion: completion)
+            }
+        }
+    }
+    
     // MARK: - Community 개선 - 게시글 등록
     static func postBoardData(mid: String, title: String, content: String, charger_id: String, completion: @escaping (Bool, Any) -> Void) {
         
@@ -424,11 +451,6 @@ class Server {
             "mb_id" : "\(MemberManager.getMbId())",
             "nick_name" : "\(MemberManager.getMemberNickname())",
             "profile" : "\(MemberManager.getProfileImage())"
-        ]
-        
-        let parameters: Parameters = [
-            "mid" : mid,
-            "document_srl" : document_srl
         ]
         
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/view/mid/\(mid)/document_srl/\(document_srl)",
@@ -519,17 +541,19 @@ class Server {
             "profile" : "\(MemberManager.getProfileImage())"
         ]
         
-        let isRecomment = commentParameter.selectedCommentRow
+        let isRecomment = commentParameter.isRecomment
         
-        var parameters: [String: String] = ["content" : "\(commentParameter.text)"]
-        if let comment = commentParameter.comment {
-            if isRecomment != 0 {
-                parameters["target_mb_id"] = comment.mb_id
-                parameters["target_nick_name"] = comment.nick_name
-                parameters["parent_srl"] = comment.comment_srl
-                parameters["head"] = comment.head
-                parameters["depth"] = "\(Int(comment.depth ?? "0")! + 1)"
-            }
+        var parameters: Parameters = [
+            "content" : "\(commentParameter.text)"
+        ]
+
+        if let comment = commentParameter.comment,
+            isRecomment {
+            parameters["target_mb_id"] = comment.mb_id
+            parameters["target_nick_name"] = comment.nick_name
+            parameters["parent_srl"] = comment.comment_srl
+            parameters["head"] = comment.head
+            parameters["depth"] = "\(Int(comment.depth ?? "0")! + 1)"
         }
         
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/comment_write/mid/\(commentParameter.mid)/document_srl/\(commentParameter.documentSRL)",
@@ -568,34 +592,40 @@ class Server {
             "profile" : "\(MemberManager.getProfileImage())"
         ]
         
-        let parameters: Parameters = [
-            "content" : "\(commentParameter.text)"
+        var parameters: Parameters = [
+            "content" : "\(commentParameter.text)",
+            "document_srl" : "\(commentParameter.documentSRL)",
+            "comment_srl" : "\(commentParameter.comment!.comment_srl ?? "")"
         ]
         
-        let url = Const.EV_COMMUNITY_SERVER + "/comment_update/mid/\(commentParameter.mid)/document_srl/\(commentParameter.documentSRL)/comment_srl/\(commentParameter.comment!.comment_srl ?? "")"
-        // TODO: Invalid URL 처리
-        // TODO: 대댓글 수정
-        Alamofire.request(url,
-                          method: .post,
-                          parameters: parameters,
-                          encoding: JSONEncoding.default,
-                          headers: headers).validate().responseJSON { response in
-            responseJson(response: response, completion: completion)
+        let isRecomment = commentParameter.isRecomment
+        
+        if let comment = commentParameter.comment,
+            isRecomment {
+            parameters["target_mb_id"] = comment.target_mb_id
+            parameters["target_nick_name"] = comment.target_nick_name
+            parameters["parent_srl"] = comment.parent_srl
+            parameters["head"] = comment.head
+            parameters["depth"] = comment.depth
         }
-//        if let comment = commentParameter.comment {
-//            parameters["target_mb_id"] = comment.target_mb_id
-//            parameters["target_nick_name"] = comment.target_nick_name
-//            parameters["parent_srl"] = comment.target_nick_name
-//            parameters["head"] = comment.head
-//            parameters["depth"] = comment.depth
-//
-//
-//        }
+        
+        let urlString = Const.EV_COMMUNITY_SERVER + "/comment_update/mid/\(commentParameter.mid)/document_srl/\(commentParameter.documentSRL)/comment_srl/\(commentParameter.comment!.comment_srl ?? "")"
+        
+        if let encodedUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
+            Alamofire.request(encodedUrl,
+                              method: .post,
+                              parameters: parameters,
+                              encoding: JSONEncoding.default,
+                              headers: headers).validate()
+                .responseJSON { response in
+                responseJson(response: response, completion: completion)
+            }
+        }
     }
     
     // MARK: - Community 개선 - 게시글 이미지 업로드
     static func boardImageUpload(mid: String, document_srl: String, image: UIImage, seq: String, completion: @escaping (Bool, Any) -> Void) {
-        guard let imageData = UIImageJPEGRepresentation(image, 1.0) else { return }
+        guard let imageData = UIImageJPEGRepresentation(image, 0.8) else { return }
         
         let url = Const.EV_COMMUNITY_SERVER + "/file/mid/\(mid)/document_srl/\(document_srl)/seq/\(seq)"
         
@@ -610,7 +640,7 @@ class Server {
     
     // MARK: - Community 개선 - 댓글 이미지 업로드
     static func commentImageUpload(mid: String, document_srl: String, comment_srl: String, image: UIImage, completion: @escaping(Bool, Any) -> Void) {
-        guard let imageData = UIImageJPEGRepresentation(image, 1.0) else { return }
+        guard let imageData = UIImageJPEGRepresentation(image, 0.8) else { return }
         
         let url = Const.EV_COMMUNITY_SERVER + "/comment_file/mid/\(mid)/document_srl/\(document_srl)/comment_srl/\(comment_srl)"
         
