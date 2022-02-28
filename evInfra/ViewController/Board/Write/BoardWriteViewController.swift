@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AVFoundation
 import SDWebImage
 import UIImageCropper
 import SwiftyJSON
@@ -31,7 +30,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     var document: Document?
     var boardWriteViewModel = BoardWriteViewModel()
     var popCompletion: (() -> Void)?
-    let picker = UIImagePickerController()
+//    let picker = UIImagePickerController()
     let cropper = UIImageCropper(cropRatio: 100/115)
     let trasientAlertView = TransientAlertViewController()
     
@@ -242,46 +241,6 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
         view.addGestureRecognizer(tapGestureReconizer)
     }
     
-    func openPhotoLib() {
-        picker.sourceType = .photoLibrary
-        self.present(picker, animated: false, completion: nil)
-    }
-    
-    func openCamera() {
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        if status == .notDetermined || status == .denied {
-            // 권한 요청
-            AVCaptureDevice.requestAccess(for: .video) { grated in
-                if !grated {
-                    self.showAuthAlert()
-                }
-            }
-        } else if status == .authorized {
-            picker.sourceType = .camera
-            self.present(picker, animated: false, completion: nil)
-        }
-    }
-    
-    private func showAuthAlert() {
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) in
-            Snackbar().show(message: "카메라 기능이 활성화되지 않았습니다.")
-            self.navigationController?.pop()
-        }
-        
-        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertActionStyle.default) { (action) in
-            if let url = URL(string: UIApplicationOpenSettingsURLString) {
-                if UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
-            }
-        }
-        var actions = Array<UIAlertAction>()
-        actions.append(cancelAction)
-        actions.append(openAction)
-        
-        UIAlertController.showAlert(title: "카메라 기능이 활성화되지 않았습니다", message: "사진추가를 위해 카메라 권한이 필요합니다", actions: actions)
-    }
-    
     @objc
     func dismissKeyboard() {
         self.view.endEditing(true)
@@ -318,6 +277,14 @@ extension BoardWriteViewController: ChargerSelectDelegate {
 extension BoardWriteViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item == selectedImages.count {
+            guard selectedImages.count < 5 else {
+                trasientAlertView.titlemessage = "사진을 최대 5장 등록 가능합니다."
+                DispatchQueue.main.async {
+                    self.presentPanModal(self.trasientAlertView)
+                }
+                return
+            }
+            
             let rowVC = GroupViewController()
             rowVC.members = ["갤러리 이동", "사진 촬영"]
             presentPanModal(rowVC)
@@ -433,7 +400,6 @@ extension BoardWriteViewController: UITextViewDelegate {
 extension BoardWriteViewController: UIImageCropperProtocol {
     func didCropImage(originalImage: UIImage?, croppedImage: UIImage?) {
         guard let croppedImage = croppedImage else { return }
-
         selectedImages.append(croppedImage)
 
         DispatchQueue.main.async {

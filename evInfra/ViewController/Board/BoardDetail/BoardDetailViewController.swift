@@ -10,9 +10,8 @@ import UIKit
 import SnapKit
 import Material
 import PanModal
-import AVFoundation
 
-class BoardDetailViewController: UIViewController, UINavigationControllerDelegate {
+class BoardDetailViewController: BaseViewController, UINavigationControllerDelegate {
     
     @IBOutlet var detailTableView: UITableView!
     
@@ -24,13 +23,12 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
     var isFromStationDetailView: Bool = false
     
     let boardDetailViewModel = BoardDetailViewModel()
-    let picker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         fetchData()
-        setDelegate()
+        setConfiguration()
         prepareActionBar()
         setKeyboardInputView()
         setKeyboardTapGesture()
@@ -69,14 +67,14 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
         }
     }
     
-    private func reloadData(_ row: Int) {
-        detailTableView.reloadData()
-        
-        DispatchQueue.main.async {
-            let indexPath = IndexPath(row: row - 1, section: 1)
-            self.detailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-        }
-    }
+//    private func reloadData(_ row: Int) {
+//        detailTableView.reloadData()
+//
+//        DispatchQueue.main.async {
+//            let indexPath = IndexPath(row: row - 1, section: 1)
+//            self.detailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+//        }
+//    }
     /*
     private func scrollToBottom() {
         guard let countOfComments = detail?.comments?.count,
@@ -95,10 +93,11 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
         }
     }
     */
-    private func setDelegate() {
-        picker.delegate = self
+    private func setConfiguration() {
+        view.addSubview(activityIndicator)
         keyboardInputView = KeyboardInputView()
         keyboardInputView?.delegate = self
+        picker.delegate = self
         detailTableView.delegate = self
         detailTableView.dataSource = self
         detailTableView.register(UINib(nibName: "BoardDetailTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "BoardDetailTableViewHeader")
@@ -130,31 +129,44 @@ class BoardDetailViewController: UIViewController, UINavigationControllerDelegat
     }
     
     private func setSendButtonCompletion() {
-        keyboardInputView?.sendButtonCompletionHandler = { [weak self] text, selectedRow, isModify in
+        keyboardInputView?.sendButtonCompletionHandler = { [weak self] text, selectedRow, isModify, isRecomment in
             guard let self = self,
-                    let detail = self.detail,
-                    let comments = detail.comments,
-                  let document = detail.document else { return }
+                    let detail = self.detail else { return }
+            guard let comments = detail.comments else { return }
             
             let selectedImage = self.keyboardInputView?.selectedImageView.image
             
             var commentParamters = CommentParameter(mid: self.category,
-                                                    documentSRL: document.document_srl!,
+                                                    documentSRL: detail.document!.document_srl!,
                                                     comment: nil,
                                                     text: text,
                                                     image: selectedImage,
                                                     selectedCommentRow: selectedRow,
-                                                    isModify: isModify)
+                                                    isRecomment: isRecomment)
             
             if !comments.isEmpty {
                 commentParamters.comment = comments[selectedRow]
             }
-            
-            self.boardDetailViewModel.postComment(commentParameter: commentParamters, isModify: isModify) { isSuccess in
-                if isSuccess {
-                    self.fetchData()
-                } else {
-                    // show error
+            self.activityIndicator.startAnimating()
+            if isModify {
+                // 댓글/대댓글 수정
+                self.boardDetailViewModel.modifyBoardComment(commentParameter: commentParamters) { isSuccess in
+                    self.activityIndicator.stopAnimating()
+                    if isSuccess {
+                        self.fetchData()
+                    } else {
+                        // show error
+                    }
+                }
+            } else {
+                // 댓글/대댓글 신규
+                self.boardDetailViewModel.postComment(commentParameter: commentParamters) { isSuccess in
+                    self.activityIndicator.stopAnimating()
+                    if isSuccess {
+                        self.fetchData()
+                    } else {
+                        // show error
+                    }
                 }
             }
         }
@@ -184,49 +196,6 @@ extension BoardDetailViewController: MediaButtonTappedDelegate {
                 break
             }
         }
-    }
-    
-    // 공통
-    func openPhotoLib() {
-        picker.sourceType = .photoLibrary
-        self.present(picker, animated: false, completion: nil)
-    }
-    
-    // 공통
-    func openCamera() {
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        if status == .notDetermined || status == .denied {
-            // 권한 요청
-            AVCaptureDevice.requestAccess(for: .video) { grated in
-                if !grated {
-                    self.showAuthAlert()
-                }
-            }
-        } else if status == .authorized {
-            picker.sourceType = .camera
-            self.present(picker, animated: false, completion: nil)
-        }
-    }
-    
-    // 공통
-    private func showAuthAlert() {
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) in
-            Snackbar().show(message: "카메라 기능이 활성화되지 않았습니다.")
-            self.navigationController?.pop()
-        }
-        
-        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertActionStyle.default) { (action) in
-            if let url = URL(string: UIApplicationOpenSettingsURLString) {
-                if UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
-            }
-        }
-        var actions = Array<UIAlertAction>()
-        actions.append(cancelAction)
-        actions.append(openAction)
-        
-        UIAlertController.showAlert(title: "카메라 기능이 활성화되지 않았습니다.", message: "사진추가를 위해 카메라 권한이 필요합니다.", actions: actions)
     }
 }
 
@@ -457,9 +426,11 @@ extension BoardDetailViewController: ButtonClickDelegate {
         self.present(popup, animated: true, completion: nil)
     }
     
-    // TODO: selectedrow
     func commentButtonCliked(recomment: Comment, selectedRow: Int) {
-        keyboardInputView?.becomeResponder(comment: recomment, isModify: false, selectedRow: selectedRow)
+        keyboardInputView?.becomeResponder(comment: recomment,
+                                           isModify: false,
+                                           isRecomment: true,
+                                           selectedRow: selectedRow)
     }
     
     func deleteButtonCliked(documentSRL: String, commentSRL: String) {
@@ -490,8 +461,10 @@ extension BoardDetailViewController: ButtonClickDelegate {
         popup.confirmDelegate = { [weak self] isDeleted in
             guard let self = self else { return }
             
+            let isRecomment = !comment.parent_srl!.equals("0")
+            
             if isDeleted {
-                self.keyboardInputView?.becomeResponder(comment: comment, isModify: true, selectedRow: selectedRow)
+                self.keyboardInputView?.becomeResponder(comment: comment, isModify: true, isRecomment: isRecomment, selectedRow: selectedRow)
             }
         }
         

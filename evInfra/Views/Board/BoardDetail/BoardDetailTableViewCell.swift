@@ -80,6 +80,8 @@ class BoardDetailTableViewCell: UITableViewCell {
         reportButton.isHidden = false
         deleteButton.isHidden = true
         modifyButton.isHidden = true
+        writeCommentButton.isHidden = false
+        commentCountLabel.isHidden = false
         
         subCommentImageView.isHidden = true
         imageScrollStackView.isHidden = true
@@ -116,11 +118,13 @@ class BoardDetailTableViewCell: UITableViewCell {
         self.row = row
         
         // 대댓글 표시
-        if !comment.parent_srl!.equals("0") {
+        let isRecomment = !comment.parent_srl!.equals("0")
+        if isRecomment {
             backgroundCell.backgroundColor = UIColor(named: "nt-0")
             backView.backgroundColor = UIColor(named: "nt-0")
-            subCommentImageView.isHidden = false
-            commentStackView.isHidden = true
+            subCommentImageView.isHidden = !isRecomment
+            writeCommentButton.isHidden = isRecomment
+            commentCountLabel.isHidden = isRecomment
         }
         
         // 삭제 댓글 표시
