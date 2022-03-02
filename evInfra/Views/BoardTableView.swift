@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
+class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
     
     var tableViewDelegate: BoardTableViewDelegate?
     var category :String = Board.CommunityType.FREE.rawValue
@@ -18,6 +18,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     var communityBoardList: [BoardListItem] = [BoardListItem]()
     var sortType: Board.SortType = .LATEST
     var isNoneHeader: Bool = false
+    var adIndex: Int = -1
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -34,6 +35,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     private func configuration() {
         self.dataSource = self
         self.delegate = self
+        self.prefetchDataSource = self
         self.allowsSelection = true
         self.autoresizingMask = UIViewAutoresizing.flexibleHeight
         self.separatorStyle = .none
@@ -44,7 +46,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.communityBoardList.count
+        return communityBoardList.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -53,25 +55,45 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let isAd = communityBoardList[indexPath.row].board_id?.contains("ad") ?? false
+        
         switch category {
         case Board.CommunityType.FREE.rawValue,
             Board.CommunityType.CORP_GS.rawValue,
             Board.CommunityType.CORP_JEV.rawValue,
             Board.CommunityType.CORP_STC.rawValue,
             Board.CommunityType.CORP_SBC.rawValue:
-            guard let cell = Bundle.main.loadNibNamed("CommunityBoardTableViewCell", owner: self, options: nil)?.first as? CommunityBoardTableViewCell else { return UITableViewCell() }
             
-            cell.selectionStyle = .none
-            cell.configure(item: communityBoardList[indexPath.row])
-            
-            return cell
+            if isAd {
+                guard let adCell = Bundle.main.loadNibNamed("CommunityBoardAdsCell", owner: self, options: nil)?.first as? CommunityBoardAdsCell else { return UITableViewCell() }
+                
+                adCell.configuration(item: communityBoardList[indexPath.row])
+
+                return adCell
+            } else {
+                guard let cell = Bundle.main.loadNibNamed("CommunityBoardTableViewCell", owner: self, options: nil)?.first as? CommunityBoardTableViewCell else { return UITableViewCell() }
+                
+                cell.selectionStyle = .none
+                cell.configure(item: communityBoardList[indexPath.row])
+                
+                return cell
+            }
         case Board.CommunityType.CHARGER.rawValue:
-            guard let cell = Bundle.main.loadNibNamed("CommunityChargeStationTableViewCell", owner: self, options: nil)?.first as? CommunityChargeStationTableViewCell else { return UITableViewCell() }
             
-            cell.selectionStyle = .none
-            cell.configure(item: communityBoardList[indexPath.row])
-            
-            return cell
+            if isAd {
+                guard let adCell = Bundle.main.loadNibNamed("CommunityBoardAdsCell", owner: self, options: nil)?.first as? CommunityBoardAdsCell else { return UITableViewCell() }
+                
+                adCell.configuration(item: communityBoardList[indexPath.row])
+
+                return adCell
+            } else {
+                guard let cell = Bundle.main.loadNibNamed("CommunityChargeStationTableViewCell", owner: self, options: nil)?.first as? CommunityChargeStationTableViewCell else { return UITableViewCell() }
+                
+                cell.selectionStyle = .none
+                cell.configure(item: communityBoardList[indexPath.row])
+                
+                return cell
+            }
         default:
             return UITableViewCell()
         }
@@ -106,6 +128,14 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             return headerView
         }
     }
+    
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            if indexPath.row % 20 == 19 {
+                self.tableViewDelegate?.fetchNextBoard(mid: self.category, sort: self.sortType)
+            }
+        }
+    }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         // UITableView only moves in one direction, y axis
@@ -113,7 +143,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
 
         if maximumOffset - currentOffset <= -20.0 {
-            self.tableViewDelegate?.fetchNextBoard(mid: category, sort: sortType)
+//            self.tableViewDelegate?.fetchNextBoard(mid: category, sort: sortType)
         }
     }
 }

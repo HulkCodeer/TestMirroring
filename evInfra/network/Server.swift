@@ -333,34 +333,7 @@ class Server {
     }
     
     // MARK: - Coummunity 개선 - 게시판 조회
-    static func fetchBoardList(mid: String, page: String, mode: String, sort: String, searchType: String, searchKeyword: String, completion: @escaping (Any?) -> Void) {
-        
-        let headers = [
-            "mb_id" : "\(MemberManager.getMbId())",
-            "nick_name" : "\(MemberManager.getMemberNickname())",
-            "profile" : "\(MemberManager.getProfileImage())"
-        ]
-        
-        let urlString = Const.EV_COMMUNITY_SERVER + "/list/mid/\(mid)/page/\(page)/mode/\(mode)/sort/\(sort)/search_type/\(searchType)/search_keyword/\(searchKeyword)"
-        
-        if let encodedUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
-            Alamofire.request(encodedUrl,
-                              method: .get,
-                              parameters: nil,
-                              encoding: JSONEncoding.default,
-                              headers: headers).validate().responseJSON { response in
-                switch response.result {
-                case .success(_):
-                    completion(response.data)
-                case .failure(let error):
-                    completion(error)
-                }
-            }
-        }
-    }
-    
-    // MARK: - Coummunity 개선 - 게시판 조회
-    static func fetchBoardList2(mid: String, page: String, mode: String, sort: String, searchType: String, searchKeyword: String, completion: @escaping (Bool, Data?) -> Void) {
+    static func fetchBoardList(mid: String, page: String, mode: String, sort: String, searchType: String, searchKeyword: String, completion: @escaping (Bool, Data?) -> Void) {
         
         let headers = [
             "mb_id" : "\(MemberManager.getMbId())",
@@ -1086,6 +1059,16 @@ class Server {
         Alamofire.request(Const.EV_PAY_SERVER + "/event/coupon/register_coupon",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // MARK: - 게시판 광고 리스트 조회
+    static func getBoardAds(client_id: String, completion: @escaping (Bool, Data?) -> Void) {
+        Alamofire.request(Const.EV_PAY_SERVER + "/ad/ad_board/get_list/client_id/\(client_id)",
+                          method: .get,
+                          parameters: nil,
+                          encoding: JSONEncoding.default)
+            .validate()
+            .responseJSON { response in responseData(response: response, completion: completion) }
     }
     
     // 광고 - large image 정보 요청

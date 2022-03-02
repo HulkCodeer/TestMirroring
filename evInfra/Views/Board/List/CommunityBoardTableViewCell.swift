@@ -61,10 +61,11 @@ class CommunityBoardTableViewCell: UITableViewCell {
             return
         }
         
+        
         profileImage.sd_setImage(with: URL(string: "\(Const.urlProfileImage)\(item.mb_profile ?? "")"), placeholderImage: UIImage(named: "ic_person_base36"))   
         
         userNameLabel.text = item.nick_name
-        dateLabel.text = "| \(DateUtils.getTimesAgoString(date: item.regdate!))"
+        dateLabel.text = "| \(DateUtils.getTimesAgoString(date: item.regdate ?? ""))"
         
         if let files = item.files {
             if files.count > 0 {
