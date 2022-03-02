@@ -19,7 +19,6 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         prepareActionBar()
         prepareLoginButton()
         LoginHelper.shared.delegate = self
@@ -27,10 +26,6 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        LoginHelper.shared.delegate = nil
     }
     
     func prepareActionBar() {

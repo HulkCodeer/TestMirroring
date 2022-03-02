@@ -121,9 +121,7 @@ class LoginHelper: NSObject {
                 } else if let me = me as KOUserMe? {
                     UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: me.id!)
                     if me.hasSignedUp == .true {
-                        if !self.needUpdateScope(me: me) {
-                            self.requestLoginToEvInfra(user: Login.kakao(me))
-                        }
+                        self.ifNeedUpdateScope(me: me)
                     }
                 }
             }
@@ -140,9 +138,7 @@ class LoginHelper: NSObject {
                 if me.hasSignedUp == .false {
                     self?.requestSignUpToKakao()
                 } else {
-                    if let needUpdate = self?.needUpdateScope(me: me), needUpdate == false {
-                        self?.requestLoginToEvInfra(user: Login.kakao(me))
-                    }
+                    self?.ifNeedUpdateScope(me: me)
                 }
             }
         }
@@ -159,7 +155,7 @@ class LoginHelper: NSObject {
     }
     
     
-    func needUpdateScope(me: KOUserMe) -> Bool {
+    func ifNeedUpdateScope(me: KOUserMe) {
         if let account = me.account {
             var scopes = [String]()
             if account.needsScopeAccountEmail() {
@@ -175,16 +171,24 @@ class LoginHelper: NSObject {
                 scopes.append("gender");
             }
             if !scopes.isEmpty {
-                KOSession.shared().updateScopes(scopes, completionHandler: { (error) in
-                    guard error == nil else {
-                        return
-                    }
-                    self.requestMeToKakao()
+                let ok = UIAlertAction(title: "다음", style: .default, handler: {(ACTION) -> Void in
+                    KOSession.shared().updateScopes(scopes, completionHandler: { (error) in
+                        guard error == nil else {
+                            self.requestLoginToEvInfra(user: Login.kakao(me))
+                            return
+                        }
+                        
+                        self.requestMeToKakao()
+                    })
                 })
-                return true
+                
+                var actions = Array<UIAlertAction>()
+                actions.append(ok)
+                UIAlertController.showAlert(title: "개인정보 동의 안내", message: "더 나은 서비스 운영을 위한 추가적인 개인정보 수집 동의가 필요합니다. 각 수집 사유 및 사용 용도는 다음 화면에서 확인 가능합니다.", actions: actions)
+            } else {
+                self.requestLoginToEvInfra(user: Login.kakao(me))
             }
         }
-        return false
     }
     
     // MARK: - Apple ID
