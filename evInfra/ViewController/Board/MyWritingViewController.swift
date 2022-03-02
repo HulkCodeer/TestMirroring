@@ -77,25 +77,29 @@ extension MyWritingViewController: BoardTableViewDelegate {
                               mode: Board.ScreenType.FEED.rawValue,
                               sort: sort.rawValue,
                               searchType: Board.SearchType.MBID.rawValue,
-                              searchKeyword: "\(mbID)") { (data) in
-            guard let data = data as? Data else { return }
-            let decoder = JSONDecoder()
-            
-            do {
-                let result = try decoder.decode(BoardResponseData.self, from: data)
+                              searchKeyword: "\(mbID)") { (isSuccess, value) in
+            if isSuccess {
+                guard let data = value as? Data else { return }
+                let decoder = JSONDecoder()
                 
-                if let itemList = result.list {
-                    self.communityBoardList.removeAll()
-                    self.communityBoardList = itemList
-                    self.boardTableView.communityBoardList = self.communityBoardList
-                    self.activityIndicator.stopAnimating()
+                do {
+                    let result = try decoder.decode(BoardResponseData.self, from: data)
+                    
+                    if let itemList = result.list {
+                        self.communityBoardList.removeAll()
+                        self.communityBoardList = itemList
+                        self.boardTableView.communityBoardList = self.communityBoardList
+                        self.activityIndicator.stopAnimating()
 
-                    DispatchQueue.main.async {
-                        self.boardTableView.reloadData()
+                        DispatchQueue.main.async {
+                            self.boardTableView.reloadData()
+                        }
                     }
+                } catch {
+                    debugPrint("error")
                 }
-            } catch {
-                debugPrint("error")
+            } else {
+                
             }
         }
     }
@@ -110,23 +114,27 @@ extension MyWritingViewController: BoardTableViewDelegate {
                               mode: Board.ScreenType.FEED.rawValue,
                               sort: sort.rawValue,
                               searchType: Board.SearchType.MBID.rawValue,
-                              searchKeyword: "\(mbID)") { (data) in
-            guard let data = data as? Data else { return }
-            let decoder = JSONDecoder()
-            
-            do {
-                let result = try decoder.decode(BoardResponseData.self, from: data)
+                              searchKeyword: "\(mbID)") { (isSuccess, value) in
+            if isSuccess {
+                guard let data = value else { return }
+                let decoder = JSONDecoder()
                 
-                if let updateList = result.list {
-                    self.communityBoardList += updateList
-                    self.boardTableView.communityBoardList = self.communityBoardList
+                do {
+                    let result = try decoder.decode(BoardResponseData.self, from: data)
                     
-                    DispatchQueue.main.async {
-                        self.boardTableView.reloadData()
+                    if let updateList = result.list {
+                        self.communityBoardList += updateList
+                        self.boardTableView.communityBoardList = self.communityBoardList
+                        
+                        DispatchQueue.main.async {
+                            self.boardTableView.reloadData()
+                        }
                     }
+                } catch {
+                    debugPrint("error")
                 }
-            } catch {
-                debugPrint("error")
+            } else {
+                
             }
         }
     }

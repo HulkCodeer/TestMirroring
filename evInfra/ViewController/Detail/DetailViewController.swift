@@ -53,7 +53,6 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     var charger: ChargerStationInfo?
     var boardList: [BoardListItem] = [BoardListItem]()
-//    var boardList: Array<BoardItem> = Array<BoardItem>()
     
     private var phoneNumber:String? = nil
         
@@ -358,27 +357,31 @@ extension DetailViewController {
 extension DetailViewController: BoardTableViewDelegate {
     func fetchFirstBoard(mid: String, sort: Board.SortType) {
         if let chargerData = charger {
-            Server.fetchBoardList(mid: "station", page: "1", mode: "1", sort: "0", searchType: "station", searchKeyword: chargerData.mChargerId!) { (data) in
+            Server.fetchBoardList(mid: "station", page: "1", mode: "1", sort: "0", searchType: "station", searchKeyword: chargerData.mChargerId!) { (isSuccess, value) in
                 
-                guard let data = data as? Data else { return }
-                let decoder = JSONDecoder()
-                
-                do {
-                    let result = try decoder.decode(BoardResponseData.self, from: data)
+                if isSuccess {
+                    guard let data = value else { return }
+                    let decoder = JSONDecoder()
                     
-                    if let updateList = result.list {
-                        self.boardList.removeAll()
-                        self.boardList += updateList
-                          
-                        self.boardTableView.communityBoardList = self.boardList
-                        self.boardTableView.isNoneHeader = true
+                    do {
+                        let result = try decoder.decode(BoardResponseData.self, from: data)
                         
-                        DispatchQueue.main.async {
-                            self.boardTableView.reloadData()
+                        if let updateList = result.list {
+                            self.boardList.removeAll()
+                            self.boardList += updateList
+                              
+                            self.boardTableView.communityBoardList = self.boardList
+                            self.boardTableView.isNoneHeader = true
+                            
+                            DispatchQueue.main.async {
+                                self.boardTableView.reloadData()
+                            }
                         }
+                    } catch {
+                        debugPrint("error")
                     }
-                } catch {
-                    debugPrint("error")
+                } else {
+                    
                 }
             }
         }

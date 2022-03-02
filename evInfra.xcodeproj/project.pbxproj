@@ -123,6 +123,8 @@
 		52B53D2A27BCBFD900D446A9 /* BoardSearchViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52B53D2927BCBFD900D446A9 /* BoardSearchViewController.storyboard */; };
 		52B53D2D27BCC49D00D446A9 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B53D2C27BCC49D00D446A9 /* SearchBarView.swift */; };
 		52B53D2F27BCF30100D446A9 /* SearchTypeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B53D2E27BCF30100D446A9 /* SearchTypeSelectView.swift */; };
+		52B5DECD27CEFB74006F8325 /* CommunityBoardAdsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52B5DECC27CEFB74006F8325 /* CommunityBoardAdsCell.xib */; };
+		52B5DECF27CEFFBD006F8325 /* CommunityBoardAdsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B5DECE27CEFFBD006F8325 /* CommunityBoardAdsCell.swift */; };
 		52B709D02799287A006C5706 /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B709CE2799287A006C5706 /* BoardDetailViewController.swift */; };
 		52B709D3279928CD006C5706 /* BoardDetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52B709D2279928CD006C5706 /* BoardDetailViewController.storyboard */; };
 		52B709D5279929B8006C5706 /* BoardDetailTableViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52B709D4279929B8006C5706 /* BoardDetailTableViewHeader.xib */; };
@@ -506,6 +508,8 @@
 		52B53D2927BCBFD900D446A9 /* BoardSearchViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = BoardSearchViewController.storyboard; sourceTree = "<group>"; };
 		52B53D2C27BCC49D00D446A9 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		52B53D2E27BCF30100D446A9 /* SearchTypeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTypeSelectView.swift; sourceTree = "<group>"; };
+		52B5DECC27CEFB74006F8325 /* CommunityBoardAdsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommunityBoardAdsCell.xib; sourceTree = "<group>"; };
+		52B5DECE27CEFFBD006F8325 /* CommunityBoardAdsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityBoardAdsCell.swift; sourceTree = "<group>"; };
 		52B709CE2799287A006C5706 /* BoardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewController.swift; sourceTree = "<group>"; };
 		52B709D2279928CD006C5706 /* BoardDetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = BoardDetailViewController.storyboard; sourceTree = "<group>"; };
 		52B709D4279929B8006C5706 /* BoardDetailTableViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BoardDetailTableViewHeader.xib; sourceTree = "<group>"; };
@@ -1097,6 +1101,8 @@
 				525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */,
 				52B2594C278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift */,
 				52B2594D278EBBC90042B22C /* CommunityChargeStationTableViewCell.xib */,
+				52B5DECC27CEFB74006F8325 /* CommunityBoardAdsCell.xib */,
+				52B5DECE27CEFFBD006F8325 /* CommunityBoardAdsCell.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -1780,6 +1786,7 @@
 				738C2CED20A93682006E268D /* type_super.png in Resources */,
 				73A7B3FF204E3595002E975F /* type_ac_three_dim.png in Resources */,
 				73EF8B71203C85CC00D04494 /* icon_clustering.png in Resources */,
+				52B5DECD27CEFB74006F8325 /* CommunityBoardAdsCell.xib in Resources */,
 				DBA3BE93252C709500E2D94A /* ad_illust.png in Resources */,
 				73A7B3FE204E3595002E975F /* ready_image.png in Resources */,
 				9028E07824A1B8280062A029 /* eirel in Resources */,
@@ -2181,6 +2188,7 @@
 				73B752802048E5B30077112A /* SideMenuTableViewCell.swift in Sources */,
 				736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */,
 				902A11DA248F5E440049EF8E /* StringUtils.swift in Sources */,
+				52B5DECF27CEFFBD006F8325 /* CommunityBoardAdsCell.swift in Sources */,
 				52B53D2F27BCF30100D446A9 /* SearchTypeSelectView.swift in Sources */,
 				00A6A16826C3C4450023DAE3 /* FilterBarView.swift in Sources */,
 				527165C727B251E20078DF3A /* AlertView.swift in Sources */,
