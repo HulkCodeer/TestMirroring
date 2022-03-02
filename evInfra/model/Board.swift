@@ -29,7 +29,7 @@ class Board {
     }
     
     // 검색 타입
-    enum SearchType: String {
+    enum SearchType: String, CaseIterable {
         case TITLE_WITH_CONTENT = "title"
         case NICK_NAME = "nick_name"
         case MBID = "mb_id"
@@ -47,7 +47,7 @@ class Board {
         static func getSearchType(index: Int) -> String {
             var text: String = SearchType.TITLE_WITH_CONTENT.rawValue
 
-            CommunityType.allCases.forEach {
+            SearchType.allCases.forEach {
                 if $0.index == index {
                     text = $0.rawValue
                 }

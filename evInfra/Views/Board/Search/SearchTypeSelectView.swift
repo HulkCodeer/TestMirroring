@@ -112,7 +112,6 @@ class SearchTypeSelectView: UIView {
             guard let index = buttonGroup.firstIndex(of: sender) else { return }
             
             selectedType = Board.SearchType.getSearchType(index: index)
-            debugPrint("selected \(selectedType)")
         }
     }
 }
