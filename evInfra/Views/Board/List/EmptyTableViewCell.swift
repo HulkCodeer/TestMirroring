@@ -9,6 +9,16 @@
 import UIKit
 import SnapKit
 
+enum EmptyCellType: String {
+    case Keyword
+    case Searching
+    case Board
+    
+    var id: String {
+        return self.rawValue
+    }
+}
+
 class EmptyTableViewCell: UITableViewCell {
     lazy var containerStackView: UIStackView = {
         let stackView = UIStackView()
@@ -79,6 +89,22 @@ class EmptyTableViewCell: UITableViewCell {
             warningLabel.text = "검색결과가 없습니다.\n입력하신 검색어를 확인해주세요."
         } else {
             
+        }
+    }
+    
+    func configure(isSearchViewType: EmptyCellType) {
+        switch isSearchViewType {
+        case .Keyword:
+            warningImageView.isHidden = true
+            warningLabel.text = "검색 종류를 선택한 뒤,\n궁금한 내용을 검색하세요."
+        case .Searching:
+            warningImageView.isHidden = false
+            warningImageView.image = UIImage(named: "iconExclamationCircleLg")
+            warningLabel.text = "검색결과가 없습니다.\n입력하신 검색어를 확인해주세요."
+        case .Board:
+            warningImageView.isHidden = false
+            warningImageView.image = UIImage(named: "iconCommentLg")
+            warningLabel.text = "첫 댓글의 주인공이 되어주세요."
         }
     }
 }

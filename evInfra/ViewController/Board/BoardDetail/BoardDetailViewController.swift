@@ -23,6 +23,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     var isFromStationDetailView: Bool = false
     
     let boardDetailViewModel = BoardDetailViewModel()
+    let trasientAlertView = TransientAlertViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -289,7 +290,7 @@ extension BoardDetailViewController: UITableViewDataSource {
             
             if countOfComments == 0 {
                 guard let emptyTableViewCell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell", for: indexPath) as? EmptyTableViewCell else { return UITableViewCell() }
-                emptyTableViewCell.configure(isSearchViewType: false)
+                emptyTableViewCell.configure(isSearchViewType: .Board)
                 emptyTableViewCell.selectionStyle = .none
                 return emptyTableViewCell
             } else {
@@ -343,18 +344,20 @@ extension BoardDetailViewController: ButtonClickDelegate {
                             popup.addActionToButton(title: "삭제", buttonType: .confirm)
                             popup.confirmDelegate = { isDelete in
                                 
-                                self.boardDetailViewModel.deleteBoard(document_srl: self.document_srl) { isSuccess in
-                                    let trasientAlertView = TransientAlertViewController()
+                                self.boardDetailViewModel.deleteBoard(document_srl: self.document_srl) { [weak self] isSuccess in
+                                    guard let self = self else { return }
                                     
                                     if isSuccess {
-                                        trasientAlertView.titlemessage = "게시글이 삭제 되었습니다."
-                                        trasientAlertView.dismissCompletion = {
+                                        self.trasientAlertView.titlemessage = "게시글이 삭제 되었습니다."
+                                        self.trasientAlertView.dismissCompletion = {
                                             self.navigationController?.pop()
                                         }
                                     } else {
-                                        trasientAlertView.titlemessage = "오류가 발생했습니다. 다시 시도해 주세요."
+                                        self.trasientAlertView.titlemessage = "오류가 발생했습니다. 다시 시도해 주세요."
                                     }
-                                    self.presentPanModal(trasientAlertView)
+                                    DispatchQueue.main.async {
+                                        self.presentPanModal(self.trasientAlertView)
+                                    }
                                 }
                             }
                             
