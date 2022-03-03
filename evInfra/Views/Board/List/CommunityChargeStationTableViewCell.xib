@@ -36,11 +36,18 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="닉네임길어요닉네임길어요닉네임길어요닉네임길어요닉네임길어요닉네임길어요닉네임길어요닉네임길어요닉네임길어요" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IQK-Z1-xE4">
-                                                <rect key="frame" x="36.000000000000014" y="0.0" width="202.33333333333337" height="32"/>
+                                                <rect key="frame" x="36" y="0.0" width="162.33333333333334" height="32"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileTagAdm" translatesAutoresizingMaskIntoConstraints="NO" id="pjf-gn-BP4">
+                                                <rect key="frame" x="202.33333333333334" y="0.0" width="36" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="36" id="2V1-1o-Pnr"/>
+                                                    <constraint firstAttribute="height" constant="32" id="gG9-c5-vnc"/>
+                                                </constraints>
+                                            </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2021.09.01" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0RW-K9-6sx">
                                                 <rect key="frame" x="242.33333333333329" y="0.0" width="61.666666666666657" height="32"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -50,6 +57,8 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="32" id="8a4-vL-6xz"/>
+                                            <constraint firstAttribute="bottom" secondItem="pjf-gn-BP4" secondAttribute="bottom" id="I9F-E6-NkT"/>
+                                            <constraint firstItem="pjf-gn-BP4" firstAttribute="top" secondItem="ADF-n4-7L6" secondAttribute="top" id="Uze-BP-jsS"/>
                                         </constraints>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4z3-sM-KGC">
@@ -204,6 +213,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="adminIconImage" destination="pjf-gn-BP4" id="h9i-pD-3zU"/>
                 <outlet property="chargeStationButton" destination="4z3-sM-KGC" id="RCV-co-N9o"/>
                 <outlet property="contentsLabel" destination="bSa-Bg-0mP" id="oOV-Sk-0ub"/>
                 <outlet property="dateLabel" destination="0RW-K9-6sx" id="Wgd-D8-ZIe"/>
@@ -223,6 +233,7 @@
     </objects>
     <resources>
         <image name="iconChargerSm" width="20" height="20"/>
+        <image name="profileTagAdm" width="36" height="20"/>
         <namedColor name="gr-5">
             <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

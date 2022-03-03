@@ -19,6 +19,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
     var sortType: Board.SortType = .LATEST
     var isNoneHeader: Bool = false
     var adIndex: Int = -1
+    private var adminList: [Admin] = [Admin]()
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -42,6 +43,24 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
         self.register(UINib(nibName: "CommunityBoardTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "CommunityBoardTableViewHeader")
         if #available(iOS 15.0, *) {
             self.sectionHeaderTopPadding = 0
+        }
+        
+        getAdminList { adminList in
+            self.adminList = adminList
+        }
+    }
+    
+    private func getAdminList(completion: @escaping ([Admin]) -> Void) {
+        Server.getAdminList { (isSuccess, data) in
+            guard let data = data as? Data else { return }
+            let decoder = JSONDecoder()
+            
+            do {
+                let result = try decoder.decode([Admin].self, from: data)
+                completion(result)
+            } catch {
+                completion([])
+            }
         }
     }
     
@@ -74,6 +93,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
                 guard let cell = Bundle.main.loadNibNamed("CommunityBoardTableViewCell", owner: self, options: nil)?.first as? CommunityBoardTableViewCell else { return UITableViewCell() }
                 
                 cell.selectionStyle = .none
+                cell.adminList = adminList
                 cell.configure(item: communityBoardList[indexPath.row])
                 
                 return cell
@@ -90,6 +110,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
                 guard let cell = Bundle.main.loadNibNamed("CommunityChargeStationTableViewCell", owner: self, options: nil)?.first as? CommunityChargeStationTableViewCell else { return UITableViewCell() }
                 
                 cell.selectionStyle = .none
+                cell.adminList = adminList
                 cell.configure(item: communityBoardList[indexPath.row])
                 
                 return cell

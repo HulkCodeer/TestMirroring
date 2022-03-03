@@ -18,12 +18,13 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     var category = Board.CommunityType.FREE.rawValue
     var document_srl: String = ""
     var detail: BoardDetailResponseData? = nil
-    lazy var keyboardInputView: KeyboardInputView? = nil
     var recomment: Recomment?
     var isFromStationDetailView: Bool = false
+    lazy var keyboardInputView: KeyboardInputView? = nil
     
     let boardDetailViewModel = BoardDetailViewModel()
     let trasientAlertView = TransientAlertViewController()
+    private var adminList: [Admin] = [Admin]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,34 +67,25 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
                 self.detailTableView.reloadData()
             }
         }
-    }
-    
-//    private func reloadData(_ row: Int) {
-//        detailTableView.reloadData()
-//
-//        DispatchQueue.main.async {
-//            let indexPath = IndexPath(row: row - 1, section: 1)
-//            self.detailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-//        }
-//    }
-    /*
-    private func scrollToBottom() {
-        guard let countOfComments = detail?.comments?.count,
-        countOfComments > 0 else { return }
-        
-        DispatchQueue.main.async {
-            let indexPath = IndexPath(row: countOfComments - 1, section: 1)
-            self.detailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        getAdminList { adminList in
+            self.adminList = adminList
         }
     }
     
-    private func scrollToRow(row: Int) {
-        DispatchQueue.main.async {
-            let indexPath = IndexPath(row: row - 1, section: 1)
-            self.detailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+    private func getAdminList(completion: @escaping ([Admin]) -> Void) {
+        Server.getAdminList { (isSuccess, data) in
+            guard let data = data as? Data else { return }
+            let decoder = JSONDecoder()
+            
+            do {
+                let result = try decoder.decode([Admin].self, from: data)
+                completion(result)
+            } catch {
+                completion([])
+            }
         }
     }
-    */
+
     private func setConfiguration() {
         view.addSubview(activityIndicator)
         keyboardInputView = KeyboardInputView()
@@ -134,6 +126,14 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
             guard let self = self,
                     let detail = self.detail else { return }
             guard let comments = detail.comments else { return }
+            guard MemberManager().isLogin() else {
+                MemberManager().showLoginAlert(vc: self, completion: { (result) -> Void in
+                    if !result {
+                        self.navigationController?.pop()
+                    }
+                })
+                return
+            }
             
             let selectedImage = self.keyboardInputView?.selectedImageView.image
             
@@ -296,6 +296,7 @@ extension BoardDetailViewController: UITableViewDataSource {
             } else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "BoardDetailTableViewCell", for: indexPath) as? BoardDetailTableViewCell else { return UITableViewCell() }
                 
+                cell.adminList = adminList
                 cell.configureComment(comment: boardDetailViewModel.getComment(at: indexPath.row), row: indexPath.row)
                 cell.buttonClickDelegate = self
                 
@@ -309,15 +310,35 @@ extension BoardDetailViewController: UITableViewDataSource {
 
 // MARK: - ButtonClickDelegate
 extension BoardDetailViewController: ButtonClickDelegate {
-    func reportButtonCliked(isHeader: Bool) {
+    func reportButtonCliked(isHeader: Bool, row: Int) {
         guard let detail = detail,
         let document = detail.document else { return }
         
         let rowVC = GroupViewController()
         
         if isHeader {
+            if !MemberManager().isLogin() {
+                rowVC.members = ["공유하기"]
+                presentPanModal(rowVC)
+                
+                rowVC.selectedCompletion = { [weak self] index in
+                    guard let self = self else { return }
+                    
+                    self.dismiss(animated: true) {
+                        switch index {
+                        case 0:
+                            print("공유하기")
+                        default:
+                            break
+                        }
+                    }
+                }
+                
+                return
+            }
+            
             if boardDetailViewModel.isMyBoard(mb_id: document.mb_id!) {
-                rowVC.members = ["수정하기", "삭제하기", "공유하기"]
+                rowVC.members = ["공유하기", "수정하기", "삭제하기"]
                 presentPanModal(rowVC)
                 
                 rowVC.selectedCompletion = { [weak self] index in
@@ -394,7 +415,91 @@ extension BoardDetailViewController: ButtonClickDelegate {
                 }
             }
         } else {
+            if !MemberManager().isLogin() {
+                MemberManager().showLoginAlert(vc:self)
+                return
+            }
             
+            guard let comments = detail.comments else { return }
+            let comment = comments[row]
+            
+            if boardDetailViewModel.isMyBoard(mb_id: comment.mb_id!) {
+                rowVC.members = ["공유하기","수정하기", "삭제하기"]
+                presentPanModal(rowVC)
+                
+                rowVC.selectedCompletion = { [weak self] index in
+                    guard let self = self else { return }
+                    
+                    self.dismiss(animated: true) {
+                        switch index {
+                        case 0:
+                            // 수정하기
+                            let storyboard = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil)
+                            guard let boardWriteViewController = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
+                            
+                            boardWriteViewController.category = self.category
+                            boardWriteViewController.document = self.boardDetailViewModel.getDetailData()?.document
+                            boardWriteViewController.uploadedImages = self.boardDetailViewModel.getDetailData()?.files
+                            self.navigationController?.push(viewController: boardWriteViewController)
+                            boardWriteViewController.popCompletion = {
+                                self.fetchData()
+                            }
+                        case 1:
+                            // 삭제하기
+                            let popup = ConfirmPopupViewController(titleText: "삭제", messageText: "게시글을 삭제 하시겠습니까?")
+                            popup.addActionToButton(title: "취소", buttonType: .cancel)
+                            popup.addActionToButton(title: "삭제", buttonType: .confirm)
+                            popup.confirmDelegate = { isDelete in
+                                
+                                self.boardDetailViewModel.deleteBoard(document_srl: self.document_srl) { [weak self] isSuccess in
+                                    guard let self = self else { return }
+                                    
+                                    if isSuccess {
+                                        self.trasientAlertView.titlemessage = "게시글이 삭제 되었습니다."
+                                        self.trasientAlertView.dismissCompletion = {
+                                            self.navigationController?.pop()
+                                        }
+                                    } else {
+                                        self.trasientAlertView.titlemessage = "오류가 발생했습니다. 다시 시도해 주세요."
+                                    }
+                                    DispatchQueue.main.async {
+                                        self.presentPanModal(self.trasientAlertView)
+                                    }
+                                }
+                            }
+                            
+                            self.present(popup, animated: true, completion: nil)
+                        case 2:
+                            // 공유하기
+                            print("공유하기")
+                        default:
+                            break
+                        }
+                    }
+                }
+            } else {
+                rowVC.members = ["공유하기", "신고하기"]
+                presentPanModal(rowVC)
+                
+                rowVC.selectedCompletion = { [weak self] index in
+                    guard let self = self else { return }
+                    
+                    self.dismiss(animated: true) {
+                        switch index {
+                        case 0:
+                            // 공유하기
+                            print("공유하기")
+                        case 1:
+                            // 신고하기
+                            self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { (_, message) in
+                                Snackbar().show(message: message)
+                            }
+                        default:
+                            break
+                        }
+                    }
+                }
+            }
         }
     }
     

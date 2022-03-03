@@ -10,7 +10,7 @@ import UIKit
 import SDWebImage
 
 protocol ButtonClickDelegate {
-    func reportButtonCliked(isHeader: Bool)
+    func reportButtonCliked(isHeader: Bool, row: Int)
     func likeButtonCliked(isLiked: Bool, isComment:Bool, srl: String)
     func commentButtonCliked(recomment: Comment, selectedRow: Int)
     func deleteButtonCliked(documentSRL: String, commentSRL: String)
@@ -29,9 +29,8 @@ class BoardDetailTableViewCell: UITableViewCell {
     @IBOutlet var likedCountLabel: UILabel!
     @IBOutlet var commentCountLabel: UILabel!
     
-    @IBOutlet var modifyButton: UIButton!
+    @IBOutlet var adminTagImage: UIImageView!
     @IBOutlet var reportButton: UIButton!
-    @IBOutlet var deleteButton: UIButton!
     
     @IBOutlet var likeStackView: UIStackView!
     @IBOutlet var commentStackView: UIStackView!
@@ -50,6 +49,15 @@ class BoardDetailTableViewCell: UITableViewCell {
     var buttonClickDelegate: ButtonClickDelegate?
     var comment: Comment?
     var row: Int = 0
+    var adminList: [Admin]?
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -77,9 +85,6 @@ class BoardDetailTableViewCell: UITableViewCell {
         likedCountLabel.text = nil
         commentCountLabel.text = nil
         
-        reportButton.isHidden = false
-        deleteButton.isHidden = true
-        modifyButton.isHidden = true
         writeCommentButton.isHidden = false
         commentCountLabel.isHidden = false
         
@@ -103,13 +108,17 @@ class BoardDetailTableViewCell: UITableViewCell {
         likeStackView.isHidden = isOn
         commentStackView.isHidden = isOn
         reportButton.isHidden = isOn
-        modifyButton.isHidden = isOn
-        deleteButton.isHidden = isOn
+        adminTagImage.isHidden = isOn
         commentLabel.isHidden = isOn
     }
     
     private func isMyComment(mb_id: String) -> Bool {
         return MemberManager.getMbId().description.equals(mb_id)
+    }
+    
+    private func isAdmin(mbId: String) -> Bool {
+        guard let adminList = adminList else { return false }
+        return adminList.contains { $0.mb_id.equals(mbId) }
     }
     
     func configureComment(comment: Comment?, row: Int) {
@@ -128,30 +137,21 @@ class BoardDetailTableViewCell: UITableViewCell {
         }
         
         // 삭제 댓글 표시
-        if comment.status!.equals("-1") {
+        let isDeletedComment = comment.status!.equals("-1")
+        if isDeletedComment {
             setDeletedCommentUI(isOn: true)
             titleLabel.attributedText = comment.content?.htmlToAttributedString()
         } else {
             setDeletedCommentUI(isOn: false)
-            // 댓글에 이미지 표시
-            setImage(files: comment.files)
             
+            setImage(files: comment.files)
             titleLabel.text = comment.nick_name
             dateLabel.text = "| \(DateUtils.getTimesAgoString(date: comment.regdate ?? ""))"
+            reportButton.isHidden = isAdmin(mbId: comment.mb_id!)
+            adminTagImage.isHidden = !isAdmin(mbId: comment.mb_id!)
             commentLabel.text = comment.content
             likedCountLabel.text = comment.like_count
             commentCountLabel.text = comment.comment_count
-            
-            // 나의 댓글
-            if isMyComment(mb_id: comment.mb_id ?? "") {
-                reportButton.isHidden = true
-                modifyButton.isHidden = false
-                deleteButton.isHidden = false
-            } else {
-                reportButton.isHidden = false
-                modifyButton.isHidden = true
-                deleteButton.isHidden = true
-            }
         }
         
         // 본인이 좋아요 한 글, 하트 표시
@@ -195,7 +195,7 @@ class BoardDetailTableViewCell: UITableViewCell {
     }
     
     @IBAction func reportButtonTapped(_ sender: Any) {
-        self.buttonClickDelegate?.reportButtonCliked(isHeader: false)
+        self.buttonClickDelegate?.reportButtonCliked(isHeader: false, row: self.row)
     }
     
     @IBAction func likeButtonClick(_ sender: Any) {

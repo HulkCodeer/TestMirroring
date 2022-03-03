@@ -33,11 +33,18 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="249" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chu-Ew-mzl">
-                                            <rect key="frame" x="36" y="0.0" width="256" height="32"/>
+                                            <rect key="frame" x="36" y="0.0" width="216" height="32"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                             <color key="textColor" name="nt-9"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" image="profileTagAdm" translatesAutoresizingMaskIntoConstraints="NO" id="CP0-0t-Xgc">
+                                            <rect key="frame" x="256" y="6" width="36" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="PE5-fJ-DtS"/>
+                                                <constraint firstAttribute="width" constant="36" id="lay-Vf-rU7"/>
+                                            </constraints>
+                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="agp-NL-hsC">
                                             <rect key="frame" x="296" y="0.0" width="50" height="32"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -224,6 +231,7 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="adminTagImage" destination="CP0-0t-Xgc" id="qym-hc-cNA"/>
                 <outlet property="chargeStationButton" destination="g4e-eg-NJA" id="Ne8-mh-fwp"/>
                 <outlet property="commentButton" destination="0FT-2h-M3p" id="qEj-Ns-owr"/>
                 <outlet property="commentsCountLabel" destination="Atp-Kr-zQ4" id="no8-Nn-HiL"/>
@@ -240,6 +248,7 @@
                 <outlet property="likedCountLabel" destination="FaS-6u-FQF" id="Bmq-b8-f1z"/>
                 <outlet property="nickNameLabel" destination="chu-Ew-mzl" id="16K-WV-vSI"/>
                 <outlet property="profileImageView" destination="znb-xs-aaB" id="Nuq-wk-Y6g"/>
+                <outlet property="reportButton" destination="tpZ-oH-U3h" id="5r0-xm-fHu"/>
                 <outlet property="titleLabel" destination="vxj-vK-8nh" id="aFX-js-Sat"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="103.79464285714285"/>
@@ -251,6 +260,7 @@
         <image name="icon_comment-1" width="24" height="24"/>
         <image name="icon_liked" width="24" height="24"/>
         <image name="icon_more_vertical" width="16" height="16"/>
+        <image name="profileTagAdm" width="36" height="20"/>
         <namedColor name="gr-5">
             <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

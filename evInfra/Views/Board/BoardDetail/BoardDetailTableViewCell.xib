@@ -49,8 +49,15 @@
                                                                 <color key="textColor" name="nt-9"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" image="profileTagAdm" translatesAutoresizingMaskIntoConstraints="NO" id="c4k-eJ-KXz">
+                                                                <rect key="frame" x="40.5" y="0.0" width="36" height="16"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="36" id="ctR-BL-9gK"/>
+                                                                    <constraint firstAttribute="height" constant="16" id="vEF-pj-0yB"/>
+                                                                </constraints>
+                                                            </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="| 17분전" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PuL-5s-Ww2">
-                                                                <rect key="frame" x="40.5" y="0.0" width="272.5" height="16"/>
+                                                                <rect key="frame" x="80.5" y="0.0" width="245.5" height="16"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="16" id="XK8-Pl-WDd"/>
                                                                 </constraints>
@@ -58,64 +65,29 @@
                                                                 <color key="textColor" name="nt-5"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZnP-83-XKq">
-                                                                <rect key="frame" x="315" y="0.0" width="45" height="16"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kjo-sE-IwW">
+                                                                <rect key="frame" x="330" y="0.0" width="32" height="16"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="height" constant="16" id="IFA-lA-u2D"/>
-                                                                    <constraint firstAttribute="width" constant="45" id="P34-lK-K3w"/>
+                                                                    <constraint firstAttribute="width" constant="32" id="8KZ-gH-Zx6"/>
+                                                                    <constraint firstAttribute="height" constant="16" id="mUf-IX-pUK"/>
                                                                 </constraints>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                                <state key="normal" title="수정하기">
-                                                                    <color key="titleColor" name="nt-5"/>
-                                                                </state>
+                                                                <state key="normal" image="icon_more_vertical"/>
                                                                 <connections>
-                                                                    <action selector="modifyButtonTapped:" destination="isd-XY-kym" eventType="touchUpInside" id="32e-Gh-hux"/>
-                                                                </connections>
-                                                            </button>
-                                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mk1-Rh-LCm">
-                                                                <rect key="frame" x="315" y="0.0" width="45" height="16"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="45" id="6BK-Ag-GMx"/>
-                                                                    <constraint firstAttribute="height" constant="16" id="M9e-MZ-sFc"/>
-                                                                </constraints>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                                <state key="normal" title="삭제하기">
-                                                                    <color key="titleColor" name="nt-5"/>
-                                                                </state>
-                                                                <connections>
-                                                                    <action selector="deleteButtonTapped:" destination="isd-XY-kym" eventType="touchUpInside" id="IRA-ZB-6Td"/>
-                                                                </connections>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eJK-W3-eTZ">
-                                                                <rect key="frame" x="317" y="0.0" width="45" height="16"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="45" id="FxR-Is-wM0"/>
-                                                                    <constraint firstAttribute="height" constant="16" id="plw-Fb-Mbb"/>
-                                                                </constraints>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                                <state key="normal" title="신고하기">
-                                                                    <color key="titleColor" name="nt-5"/>
-                                                                </state>
-                                                                <connections>
-                                                                    <action selector="reportButtonTapped:" destination="isd-XY-kym" eventType="touchUpInside" id="lHg-n1-CjA"/>
+                                                                    <action selector="reportButtonTapped:" destination="isd-XY-kym" eventType="touchUpInside" id="X92-3l-Dmd"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="bottom" secondItem="eJK-W3-eTZ" secondAttribute="bottom" id="9oh-kI-gNQ"/>
+                                                            <constraint firstAttribute="bottom" secondItem="Kjo-sE-IwW" secondAttribute="bottom" id="6xZ-MD-hcZ"/>
+                                                            <constraint firstItem="Kjo-sE-IwW" firstAttribute="top" secondItem="TtZ-zj-OR7" secondAttribute="top" id="7gQ-sY-nAn"/>
+                                                            <constraint firstItem="c4k-eJ-KXz" firstAttribute="top" secondItem="TtZ-zj-OR7" secondAttribute="top" id="CaK-po-xtu"/>
                                                             <constraint firstAttribute="height" constant="16" id="GiM-6b-7ls"/>
                                                             <constraint firstItem="ien-cG-g5z" firstAttribute="top" secondItem="TtZ-zj-OR7" secondAttribute="top" id="VHQ-Zn-9CD"/>
                                                             <constraint firstAttribute="bottom" secondItem="PuL-5s-Ww2" secondAttribute="bottom" id="eHm-Mj-li5"/>
                                                             <constraint firstItem="PuL-5s-Ww2" firstAttribute="top" secondItem="TtZ-zj-OR7" secondAttribute="top" id="f0a-Iu-Gt1"/>
-                                                            <constraint firstAttribute="bottom" secondItem="ZnP-83-XKq" secondAttribute="bottom" id="g02-98-kud"/>
-                                                            <constraint firstItem="eJK-W3-eTZ" firstAttribute="top" secondItem="TtZ-zj-OR7" secondAttribute="top" id="hal-DA-ErA"/>
                                                             <constraint firstAttribute="bottom" secondItem="ien-cG-g5z" secondAttribute="bottom" id="mSJ-4B-11V"/>
-                                                            <constraint firstAttribute="bottom" secondItem="mk1-Rh-LCm" secondAttribute="bottom" id="ngy-Jf-blG"/>
-                                                            <constraint firstItem="mk1-Rh-LCm" firstAttribute="top" secondItem="TtZ-zj-OR7" secondAttribute="top" id="upi-ei-yY3"/>
-                                                            <constraint firstItem="ZnP-83-XKq" firstAttribute="top" secondItem="TtZ-zj-OR7" secondAttribute="top" id="x5d-KM-yiR"/>
+                                                            <constraint firstAttribute="bottom" secondItem="c4k-eJ-KXz" secondAttribute="bottom" id="xt8-yP-KXb"/>
                                                         </constraints>
                                                     </stackView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="테스트" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1o4-C3-wmY">
@@ -288,13 +260,13 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="adminTagImage" destination="c4k-eJ-KXz" id="5ni-WT-XGH"/>
                 <outlet property="backView" destination="an8-Vd-9mq" id="YdN-hS-qG4"/>
                 <outlet property="backgroundCell" destination="Yce-eT-il4" id="OnA-BN-eCI"/>
                 <outlet property="commentCountLabel" destination="1Tf-zG-k9e" id="UUl-gq-Mi5"/>
                 <outlet property="commentLabel" destination="1o4-C3-wmY" id="G3B-YM-agC"/>
                 <outlet property="commentStackView" destination="uJe-dR-2cn" id="wfK-aD-nUa"/>
                 <outlet property="dateLabel" destination="PuL-5s-Ww2" id="5js-lh-jSm"/>
-                <outlet property="deleteButton" destination="mk1-Rh-LCm" id="amM-rH-qSE"/>
                 <outlet property="image1" destination="Hiv-p3-bY7" id="s8h-MV-Z1M"/>
                 <outlet property="image2" destination="g1W-ED-Wfj" id="2EK-nN-9sq"/>
                 <outlet property="image3" destination="JIB-Ww-ySE" id="7v5-as-A9B"/>
@@ -304,8 +276,7 @@
                 <outlet property="likeButton" destination="k8O-f0-a1q" id="PbW-6I-uXS"/>
                 <outlet property="likeStackView" destination="uc6-KR-zJg" id="bXS-zP-Op6"/>
                 <outlet property="likedCountLabel" destination="Rf8-NY-Ltr" id="wT5-pB-UTa"/>
-                <outlet property="modifyButton" destination="ZnP-83-XKq" id="9tF-pJ-QE7"/>
-                <outlet property="reportButton" destination="eJK-W3-eTZ" id="y9h-Ac-2zH"/>
+                <outlet property="reportButton" destination="Kjo-sE-IwW" id="afj-XZ-nDo"/>
                 <outlet property="subCommentImageView" destination="6ah-JX-Q5Y" id="p8P-Rw-TTR"/>
                 <outlet property="titleLabel" destination="ien-cG-g5z" id="ail-KJ-BH9"/>
                 <outlet property="writeCommentButton" destination="pfz-ZT-eEP" id="fhi-dE-1e4"/>
@@ -317,6 +288,8 @@
         <image name="iconCommentSm" width="20" height="20"/>
         <image name="iconHeartFillSm" width="20" height="20"/>
         <image name="iconHeartSm" width="20" height="20"/>
+        <image name="icon_more_vertical" width="16" height="16"/>
+        <image name="profileTagAdm" width="36" height="20"/>
         <image name="subCommentLine" width="16" height="16"/>
         <namedColor name="nt-5">
             <color red="0.49019607843137253" green="0.49019607843137253" blue="0.49019607843137253" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

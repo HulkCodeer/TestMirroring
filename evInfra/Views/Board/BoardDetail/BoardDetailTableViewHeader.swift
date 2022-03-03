@@ -18,6 +18,8 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     @IBOutlet var nickNameLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
     
+    @IBOutlet var adminTagImage: UIImageView!
+    @IBOutlet var reportButton: UIButton!
     @IBOutlet var chargeStationButton: UIButton!
     
     @IBOutlet var titleLabel: UILabel!
@@ -40,11 +42,37 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     private var files: [FilesItem] = []
     private var chargerId: String?
     var buttonClickDelegate: ButtonClickDelegate?
+    var adminList: [Admin]?
+    
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        getAdminList { adminList in
+            self.adminList = adminList
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         setUI()
+    }
+    
+    private func getAdminList(completion: @escaping ([Admin]) -> Void) {
+        Server.getAdminList { (isSuccess, data) in
+            guard let data = data as? Data else { return }
+            let decoder = JSONDecoder()
+
+            do {
+                let result = try decoder.decode([Admin].self, from: data)
+                completion(result)
+            } catch {
+                completion([])
+            }
+        }
     }
     
     func setUI() {
@@ -77,6 +105,9 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
         dateLabel.text = "| \(DateUtils.getTimesAgoString(date: document.regdate ?? ""))"
         titleLabel.text = document.title
         contentsLabel.text = document.content
+        
+        reportButton.isHidden = isAdmin(mbId: document.mb_id!)
+        adminTagImage.isHidden = !isAdmin(mbId: document.mb_id!)
         
         // 충전소 정보
         if document.board_id == Board.BOARD_CATEGORY_CHARGER {
@@ -169,13 +200,18 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
         }
     }
     
+    private func isAdmin(mbId: String) -> Bool {
+        guard let adminList = adminList else { return false }
+        return adminList.contains { $0.mb_id.equals(mbId) }
+    }
+    
     @IBAction func likeButtonTapped(_ sender: Any) {
         guard let documentSRL = self.document?.document_srl else { return }
         self.buttonClickDelegate?.likeButtonCliked(isLiked: likeButton.isSelected, isComment: false, srl: documentSRL)
     }
     
     @IBAction func reportButtonTapped(_ sender: Any) {
-        self.buttonClickDelegate?.reportButtonCliked(isHeader: true)
+        self.buttonClickDelegate?.reportButtonCliked(isHeader: true, row: -1)
     }
     
     @IBAction func chargeStationButtonTapped(_ sender: Any) {

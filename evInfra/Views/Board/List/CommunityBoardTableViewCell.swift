@@ -20,6 +20,8 @@ class CommunityBoardTableViewCell: UITableViewCell {
     @IBOutlet var replyCountLabel: UILabel!
     @IBOutlet var replyView: UIView!
     
+    var adminList: [Admin]?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
@@ -48,6 +50,11 @@ class CommunityBoardTableViewCell: UITableViewCell {
         contentsLabel.numberOfLines = 2
     }
     
+    private func isAdmin(mbId: String) -> Bool {
+        guard let adminList = adminList else { return false }
+        return adminList.contains { $0.mb_id.equals(mbId) }
+    }
+    
     func configure(item: BoardListItem?) {
         guard let item = item else { return }
         
@@ -61,9 +68,8 @@ class CommunityBoardTableViewCell: UITableViewCell {
             return
         }
         
-        
         profileImage.sd_setImage(with: URL(string: "\(Const.urlProfileImage)\(item.mb_profile ?? "")"), placeholderImage: UIImage(named: "ic_person_base36"))   
-        
+        adminIconImage.isHidden = !isAdmin(mbId: item.mb_id!)
         userNameLabel.text = item.nick_name
         dateLabel.text = "| \(DateUtils.getTimesAgoString(date: item.regdate ?? ""))"
         

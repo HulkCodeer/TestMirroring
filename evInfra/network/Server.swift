@@ -107,6 +107,16 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 관리자 리스트
+    static func getAdminList(completion: @escaping (Bool, Any) -> Void) {
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/admin_list",
+                          method: .post,
+                          parameters: nil,
+                          encoding: JSONEncoding.default)
+            .validate()
+            .responseJSON { response in responseData(response: response, completion: completion) }
+    }
+    
     // 회원 - 로그인
     static func login(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [

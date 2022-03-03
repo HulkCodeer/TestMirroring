@@ -22,6 +22,8 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var contentsLabel: UILabel!
     
+    @IBOutlet var adminIconImage: UIImageView!
+    
     @IBOutlet var imageStackView: UIStackView!
     @IBOutlet var thumbNailImage1: UIImageView!
     @IBOutlet var thumbNailImage2: UIImageView!
@@ -33,6 +35,7 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
     
     var chargerId: String?
     var chargeStataionButtonTappedCompletion: ((String) -> Void)?
+    var adminList: [Admin]?
     
     private lazy var additionalCountLabel: UILabel = {
        let label = UILabel()
@@ -61,13 +64,18 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
     private func setUI() {
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
         profileImageView.clipsToBounds = true
-        
+        adminIconImage.isHidden = true
         thumbNailImage1.layer.cornerRadius = 12
         thumbNailImage2.layer.cornerRadius = 12
         thumbNailImage3.layer.cornerRadius = 12
         thumbNailImage4.layer.cornerRadius = 12
         
         imageStackView.isHidden = true
+    }
+    
+    private func isAdmin(mbId: String) -> Bool {
+        guard let adminList = adminList else { return false }
+        return adminList.contains { $0.mb_id.equals(mbId) }
     }
 
     func configure(item: BoardListItem?) {
@@ -79,6 +87,8 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
         nickNameLabel.text = item.nick_name
         // 등록 날짜
         dateLabel.text = "| \(DateUtils.getTimesAgoString(date: item.regdate!))"
+        // admin icon
+        adminIconImage.isHidden = !isAdmin(mbId: item.mb_id!)
         
         // 충전소 정보
         let tags = JSON(parseJSON: item.tags!)
