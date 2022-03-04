@@ -26,30 +26,18 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자유롭게 이야기를 나누어요." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2yB-RR-9aC">
-                    <rect key="frame" x="16" y="100" width="135" height="16"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="16" id="30C-h3-VE3"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" red="0.49019607843137253" green="0.49019607843137253" blue="0.49019607843137253" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="2yB-RR-9aC" firstAttribute="top" secondItem="abQ-7z-dhc" secondAttribute="bottom" constant="16" id="1Zi-Ak-1nb"/>
                 <constraint firstItem="abQ-7z-dhc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="9HH-qZ-dvO"/>
                 <constraint firstItem="abQ-7z-dhc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="Exs-AH-ht8"/>
-                <constraint firstItem="2yB-RR-9aC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="HBs-xv-nPL"/>
                 <constraint firstAttribute="trailing" secondItem="abQ-7z-dhc" secondAttribute="trailing" constant="16" id="T30-7W-8Jt"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="bannerCollectionView" destination="abQ-7z-dhc" id="PM1-02-IyN"/>
-                <outlet property="boardSubscriptionLabel" destination="2yB-RR-9aC" id="ZLb-ZY-MQ6"/>
             </connections>
-            <point key="canvasLocation" x="253.62318840579712" y="155.35714285714286"/>
+            <point key="canvasLocation" x="253.62318840579712" y="149.33035714285714"/>
         </view>
     </objects>
     <resources>

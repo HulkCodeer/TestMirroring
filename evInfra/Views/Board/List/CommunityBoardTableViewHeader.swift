@@ -17,10 +17,16 @@ protocol CommunityBoardTableViewHeaderDelegate: AnyObject {
 class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
     
     @IBOutlet var bannerCollectionView: UICollectionView!
-    @IBOutlet var boardSubscriptionLabel: UILabel!
     
     private let pageControl = UIPageControl()
     private lazy var tagCollectionView = TTGTextTagCollectionView()
+    private lazy var boardSubscriptionLabel: UILabel = {
+       let label = UILabel()
+        label.text = "자유롭게 이야기를 나누어요."
+        label.font = .systemFont(ofSize: 12, weight: .regular)
+        label.textColor = UIColor(named: "nt-5")
+        return label
+    }()
     
     weak var delegate: CommunityBoardTableViewHeaderDelegate?
     
@@ -44,8 +50,8 @@ class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
         self.bannerCollectionView.backgroundColor = .clear
         self.tags = ["최신", "인기"]
         
+        setSubscriptionLabel()
         setupTagCollectionView()
-        setupTagCollectionViewLayout()
         setPageControll()
     }
 
@@ -55,21 +61,27 @@ class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
         switch categoryType {
         case Board.CommunityType.FREE.rawValue:
             description = "자유롭게 이야기를 나누어요."
+            setupTagCollectionViewLayout()
             break
         case Board.CommunityType.CHARGER.rawValue:
             description = "충전소 관련 이야기를 모아봐요."
+            setRemakeSubscriptionLabel()
             break
         case Board.CommunityType.CORP_GS.rawValue:
             description = "GS칼텍스 전용 게시판입니다."
+            setRemakeSubscriptionLabel()
             break
         case Board.CommunityType.CORP_JEV.rawValue:
             description = "제주전기차서비스 전용 게시판입니다."
+            setRemakeSubscriptionLabel()
             break
         case Board.CommunityType.CORP_STC.rawValue:
             description = "에스트래픽 전용 게시판입니다."
+            setRemakeSubscriptionLabel()
             break
         case Board.CommunityType.CORP_SBC.rawValue:
             description = "EV Infra에 의견을 전달해 보세요."
+            setRemakeSubscriptionLabel()
             break
         default:
             break
@@ -78,12 +90,24 @@ class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
         boardSubscriptionLabel.text = description
     }
     
+    func setSubscriptionLabel() {
+        self.addSubview(boardSubscriptionLabel)
+        
+        boardSubscriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(bannerCollectionView.snp.bottom).offset(16)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview().offset(-50)
+            $0.height.equalTo(16)
+        }
+    }
+    
     func setPageControll() {
+        self.addSubview(pageControl)
+        
         pageControl.numberOfPages = images.count
         pageControl.currentPageIndicatorTintColor = .lightGray
         pageControl.pageIndicatorTintColor = .white
-        
-        self.addSubview(pageControl)
         
         pageControl.snp.makeConstraints {
             $0.top.equalTo(bannerCollectionView.snp.top).offset(55)
@@ -96,11 +120,20 @@ class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
         self.addSubview(tagCollectionView)
         
         tagCollectionView.snp.makeConstraints {
-            $0.top.equalTo(boardSubscriptionLabel.snp.bottom
-            ).offset(16)
+            $0.top.equalTo(boardSubscriptionLabel.snp.bottom).offset(8)
             $0.left.equalToSuperview().offset(16)
             $0.right.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview().offset(-8)
+            $0.bottom.equalToSuperview()
+        }
+    }
+    
+    func setRemakeSubscriptionLabel() {
+        boardSubscriptionLabel.snp.remakeConstraints {
+            $0.top.equalTo(bannerCollectionView.snp.bottom).offset(16)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview().offset(-16)
+            $0.height.equalTo(16)
         }
     }
     
