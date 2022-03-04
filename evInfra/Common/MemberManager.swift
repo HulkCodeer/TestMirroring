@@ -43,7 +43,8 @@ class MemberManager {
     }
     
     static func getMemberNickname() -> String {
-        return UserDefault().readString(key: UserDefault.Key.MB_NICKNAME)
+        let nickName = UserDefault().readString(key: UserDefault.Key.MB_NICKNAME).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        return nickName ?? ""
     }
     
     static func isPartnershipClient(clientId : Int) -> Bool {

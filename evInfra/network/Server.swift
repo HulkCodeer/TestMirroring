@@ -35,6 +35,15 @@ class Server {
         }
     }
     
+    static func getHeaders() -> HTTPHeaders {
+        let headers: HTTPHeaders = [
+            "mb_id": "\(MemberManager.getMbId())",
+            "nick_name": MemberManager.getMemberNickname(),
+            "profile": "\(MemberManager.getProfileImage())"
+        ]
+        return headers
+    }
+    
     // 사용자 - 디바이스 정보 등록
     static func registerUser(version: String, model: String, uid: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
@@ -345,11 +354,7 @@ class Server {
     // MARK: - Coummunity 개선 - 게시판 조회
     static func fetchBoardList(mid: String, page: String, mode: String, sort: String, searchType: String, searchKeyword: String, completion: @escaping (Bool, Data?) -> Void) {
         
-        let headers = [
-            "mb_id" : "\(MemberManager.getMbId())",
-            "nick_name" : "\(MemberManager.getMemberNickname())",
-            "profile" : "\(MemberManager.getProfileImage())"
-        ]
+        let headers: HTTPHeaders = getHeaders()
         
         let urlString = Const.EV_COMMUNITY_SERVER + "/list/mid/\(mid)/page/\(page)/mode/\(mode)/sort/\(sort)/search_type/\(searchType)/search_keyword/\(searchKeyword)"
         
@@ -366,13 +371,8 @@ class Server {
     
     // MARK: - Community 개선 - 게시글 등록
     static func postBoardData(mid: String, title: String, content: String, charger_id: String, completion: @escaping (Bool, Any) -> Void) {
-        
-        let headers = [
-            "mb_id" : "\(MemberManager.getMbId())",
-            "nick_name" : "\(MemberManager.getMemberNickname())",
-            "profile" : "\(MemberManager.getProfileImage())"
-        ]
-        
+
+        let headers: HTTPHeaders = getHeaders()
         let parameters: Parameters = [
             "title" : title,
             "content" : content,
@@ -383,19 +383,16 @@ class Server {
                           method: .post,
                           parameters: parameters,
                           encoding: JSONEncoding.default,
-                          headers: headers).validate().responseJSON { response in
+                          headers: headers)
+            .validate()
+            .responseJSON { response in
             responseJson(response: response, completion: completion)
         }
     }
     
     // MARK: - Community 개선 - 게시글 수정
     static func updateBoardData(mid: String, documentSRL: String, title: String, content: String, charger_id: String, completion: @escaping (Bool, Any) -> Void) {
-        let headers = [
-            "mb_id" : "\(MemberManager.getMbId())",
-            "nick_name" : "\(MemberManager.getMemberNickname())",
-            "profile" : "\(MemberManager.getProfileImage())"
-        ]
-        
+        let headers: HTTPHeaders = getHeaders()
         let parameters: Parameters = [
             "title" : title,
             "content" : content,
@@ -413,11 +410,7 @@ class Server {
     
     // MARK: - Community 개선 - 게시물 파일 삭제
     static func deleteDocumnetFile(documentSRL: String, fileSRL: String, isCover: String, completion: @escaping (Bool, Any) -> Void) {
-        let headers = [
-            "mb_id" : "\(MemberManager.getMbId())",
-            "nick_name" : "\(MemberManager.getMemberNickname())",
-            "profile" : "\(MemberManager.getProfileImage())"
-        ]
+        let headers: HTTPHeaders = getHeaders()
         
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/file/document_srl/\(documentSRL)/file_srl/\(fileSRL)/cover/\(isCover)",
                           method: .delete,
@@ -430,11 +423,7 @@ class Server {
     
     // MARK: - Community 개선 - 게시글 상세 조회
     static func fetchBoardDetail(mid: String, document_srl: String, completion: @escaping (Any?) -> Void) {
-        let headers = [
-            "mb_id" : "\(MemberManager.getMbId())",
-            "nick_name" : "\(MemberManager.getMemberNickname())",
-            "profile" : "\(MemberManager.getProfileImage())"
-        ]
+        let headers: HTTPHeaders = getHeaders()
         
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/view/mid/\(mid)/document_srl/\(document_srl)",
                           method: .get,
@@ -461,11 +450,7 @@ class Server {
     
     // MARK: - Community 개선 - 게시글 삭제
     static func deleteBoard(document_srl: String, completion: @escaping (Bool, Any) -> Void) {
-        let headers = [
-            "mb_id" : "\(MemberManager.getMbId())",
-            "nick_name" : "\(MemberManager.getMemberNickname())",
-            "profile" : "\(MemberManager.getProfileImage())"
-        ]
+        let headers: HTTPHeaders = getHeaders()
         
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/delete/document_srl/\(document_srl)", method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             responseJson(response: response, completion: completion)
@@ -474,11 +459,7 @@ class Server {
     
     // MARK: - Community 개선 - 게시글 좋아요 기능
     static func setLikeCount(srl: String, isComment: Bool, completion: @escaping (Bool, Any) -> Void) {
-        let headers = [
-            "mb_id" : "\(MemberManager.getMbId())",
-            "nick_name" : "\(MemberManager.getMemberNickname())",
-            "profile" : "\(MemberManager.getProfileImage())"
-        ]
+        let headers: HTTPHeaders = getHeaders()
         
         var url = Const.EV_COMMUNITY_SERVER
         
@@ -500,11 +481,7 @@ class Server {
     
     // MARK: - Community 개선 - 게시글 신고하기 기능
     static func reportBoard(document_srl: String, completion: @escaping (Bool, Any) -> Void) {
-        let headers = [
-            "mb_id" : "\(MemberManager.getMbId())",
-            "nick_name" : "\(MemberManager.getMemberNickname())",
-            "profile" : "\(MemberManager.getProfileImage())"
-        ]
+        let headers: HTTPHeaders = getHeaders()
         
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/report/document_srl/\(document_srl)",
                           method: .get,
@@ -517,11 +494,7 @@ class Server {
     
     // MARK: - Community 개선 - 댓글 신고하기 기능
     static func reportComment(commentSrl: String, completion: @escaping (Bool, Any) -> Void) {
-        let headers = [
-            "mb_id" : "\(MemberManager.getMbId())",
-            "nick_name" : "\(MemberManager.getMemberNickname())",
-            "profile" : "\(MemberManager.getProfileImage())"
-        ]
+        let headers: HTTPHeaders = getHeaders()
         
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/comment_report/comment_srl/\(commentSrl)",
                           method: .get,
@@ -535,12 +508,7 @@ class Server {
     // MARK: - Community 개선 - 댓글 작성
     static func postComment(commentParameter: CommentParameter,
                             completion: @escaping (Bool, Any) -> Void) {
-        let headers = [
-            "mb_id" : "\(MemberManager.getMbId())",
-            "nick_name" : "\(MemberManager.getMemberNickname())",
-            "profile" : "\(MemberManager.getProfileImage())"
-        ]
-        
+        let headers: HTTPHeaders = getHeaders()
         let isRecomment = commentParameter.isRecomment
         
         var parameters: Parameters = [
@@ -567,11 +535,7 @@ class Server {
     
     // MARK: - Community 개선 - 댓글/대댓글 삭제
     static func deleteBoardComment(documentSRL: String, commentSRL: String, completion: @escaping (Bool, Any) -> Void) {
-        let headers = [
-            "mb_id" : "\(MemberManager.getMbId())",
-            "nick_name" : "\(MemberManager.getMemberNickname())",
-            "profile" : "\(MemberManager.getProfileImage())"
-        ]
+        let headers: HTTPHeaders = getHeaders()
         
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/comment_delete/document_srl/\(documentSRL)/comment_srl/\(commentSRL)",
                           method: .delete,
@@ -586,11 +550,7 @@ class Server {
     static func modifyBoardComment(commentParameter: CommentParameter,
                                    completion: @escaping (Bool, Any) -> Void) {
         
-        let headers = [
-            "mb_id" : "\(MemberManager.getMbId())",
-            "nick_name" : "\(MemberManager.getMemberNickname())",
-            "profile" : "\(MemberManager.getProfileImage())"
-        ]
+        let headers: HTTPHeaders = getHeaders()
         
         var parameters: Parameters = [
             "content" : "\(commentParameter.text)",
