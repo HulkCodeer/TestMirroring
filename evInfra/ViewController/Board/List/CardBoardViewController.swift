@@ -30,7 +30,6 @@ class CardBoardViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchFirstBoard(mid: category, sort: sortType)
         prepareActionBar()
         setConfiguration()
     }
@@ -41,6 +40,7 @@ class CardBoardViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        fetchFirstBoard(mid: category, sort: sortType)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

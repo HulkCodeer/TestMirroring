@@ -498,7 +498,7 @@ class Server {
         }
     }
     
-    // MARK: - Community 개선 - 게시글/댓글 신고하기 기능
+    // MARK: - Community 개선 - 게시글 신고하기 기능
     static func reportBoard(document_srl: String, completion: @escaping (Bool, Any) -> Void) {
         let headers = [
             "mb_id" : "\(MemberManager.getMbId())",
@@ -507,6 +507,23 @@ class Server {
         ]
         
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/report/document_srl/\(document_srl)",
+                          method: .get,
+                          parameters: nil,
+                          encoding: JSONEncoding.default,
+                          headers: headers).responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 댓글 신고하기 기능
+    static func reportComment(commentSrl: String, completion: @escaping (Bool, Any) -> Void) {
+        let headers = [
+            "mb_id" : "\(MemberManager.getMbId())",
+            "nick_name" : "\(MemberManager.getMemberNickname())",
+            "profile" : "\(MemberManager.getProfileImage())"
+        ]
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/comment_report/comment_srl/\(commentSrl)",
                           method: .get,
                           parameters: nil,
                           encoding: JSONEncoding.default,

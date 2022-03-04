@@ -10,11 +10,9 @@ import UIKit
 import SDWebImage
 
 protocol ButtonClickDelegate {
-    func reportButtonCliked(isHeader: Bool, row: Int)
+    func threeDotButtonClicked(isHeader: Bool, row: Int)
     func likeButtonCliked(isLiked: Bool, isComment:Bool, srl: String)
     func commentButtonCliked(recomment: Comment, selectedRow: Int)
-    func deleteButtonCliked(documentSRL: String, commentSRL: String)
-    func modifyButtonCliked(comment: Comment, selectedRow: Int)
     func moveToStation(with chargerId: String)
 }
 
@@ -195,7 +193,7 @@ class BoardDetailTableViewCell: UITableViewCell {
     }
     
     @IBAction func reportButtonTapped(_ sender: Any) {
-        self.buttonClickDelegate?.reportButtonCliked(isHeader: false, row: self.row)
+        self.buttonClickDelegate?.threeDotButtonClicked(isHeader: false, row: self.row)
     }
     
     @IBAction func likeButtonClick(_ sender: Any) {
@@ -209,18 +207,6 @@ class BoardDetailTableViewCell: UITableViewCell {
         }
         
         self.buttonClickDelegate?.commentButtonCliked(recomment: comment, selectedRow: row)
-    }
-    
-    @IBAction func deleteButtonTapped(_ sender: Any) {
-        guard let comment = comment else { return }
-        
-        self.buttonClickDelegate?.deleteButtonCliked(documentSRL: comment.document_srl!, commentSRL: comment.comment_srl!)
-    }
-    
-    @IBAction func modifyButtonTapped(_ sender: Any) {
-        guard let comment = comment else { return }
-
-        self.buttonClickDelegate?.modifyButtonCliked(comment: comment, selectedRow: row)
     }
 }
 

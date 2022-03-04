@@ -74,7 +74,7 @@
                                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                                 <state key="normal" image="icon_more_vertical"/>
                                                                 <connections>
-                                                                    <action selector="reportButtonTapped:" destination="isd-XY-kym" eventType="touchUpInside" id="X92-3l-Dmd"/>
+                                                                    <action selector="reportButtonTapped:" destination="isd-XY-kym" eventType="touchUpInside" id="lgB-cW-m1r"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>

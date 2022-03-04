@@ -210,13 +210,12 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
         self.buttonClickDelegate?.likeButtonCliked(isLiked: likeButton.isSelected, isComment: false, srl: documentSRL)
     }
     
-    @IBAction func reportButtonTapped(_ sender: Any) {
-        self.buttonClickDelegate?.reportButtonCliked(isHeader: true, row: -1)
+    @IBAction func threeDotButtonTapped(_ sender: Any) {
+        self.buttonClickDelegate?.threeDotButtonClicked(isHeader: true, row: -1)
     }
     
     @IBAction func chargeStationButtonTapped(_ sender: Any) {
         guard let chargerId = chargerId else { return }
-
         self.buttonClickDelegate?.moveToStation(with: chargerId)
     }
 }

@@ -308,12 +308,127 @@ extension BoardDetailViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - 게시글/댓글 수정+삭제+신고 기능
+extension BoardDetailViewController {
+    private func deleteBoard() {
+        let popup = ConfirmPopupViewController(titleText: "삭제", messageText: "게시글을 삭제 하시겠습니까?")
+        popup.addActionToButton(title: "취소", buttonType: .cancel)
+        popup.addActionToButton(title: "삭제", buttonType: .confirm)
+        popup.confirmDelegate = { isDelete in
+            
+            self.boardDetailViewModel.deleteBoard(document_srl: self.document_srl) { [weak self] isSuccess in
+                guard let self = self else { return }
+                
+                if isSuccess {
+                    self.trasientAlertView.titlemessage = "게시글이 삭제 되었습니다."
+                    self.trasientAlertView.dismissCompletion = {
+                        self.navigationController?.pop()
+                    }
+                } else {
+                    self.trasientAlertView.titlemessage = "오류가 발생했습니다. 다시 시도해 주세요."
+                }
+                DispatchQueue.main.async {
+                    self.presentPanModal(self.trasientAlertView)
+                }
+            }
+        }
+        
+        self.present(popup, animated: true, completion: nil)
+    }
+    
+    private func modifyBoard() {
+        let storyboard = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil)
+        guard let boardWriteViewController = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
+        
+        boardWriteViewController.category = self.category
+        boardWriteViewController.document = self.boardDetailViewModel.getDetailData()?.document
+        boardWriteViewController.uploadedImages = self.boardDetailViewModel.getDetailData()?.files
+        
+        boardWriteViewController.popCompletion = {
+            self.fetchData()
+        }
+        
+        self.navigationController?.push(viewController: boardWriteViewController)
+    }
+    
+    private func reportBoard() {
+        let popup = ConfirmPopupViewController(titleText: "신고", messageText: "게시글을 신고하시겠습니까?")
+        popup.addActionToButton(title: "취소", buttonType: .cancel)
+        popup.addActionToButton(title: "신고하기", buttonType: .confirm)
+        popup.confirmDelegate = { [weak self] isReported in
+            guard let self = self else { return }
+            
+            if isReported {
+                self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { (_, message) in
+                    Snackbar().show(message: message)
+                }
+            }
+        }
+        
+        self.present(popup, animated: true, completion: nil)
+    }
+    
+    private func deleteComment(documentSRL: String, commentSRL: String) {
+        let popup = ConfirmPopupViewController(titleText: "삭제", messageText: "댓글을 삭제하시겠습니까?")
+        popup.addActionToButton(title: "취소", buttonType: .cancel)
+        popup.addActionToButton(title: "삭제", buttonType: .confirm)
+        popup.confirmDelegate = { [weak self] isDeleted in
+            guard let self = self else { return }
+            self.boardDetailViewModel.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { isSuccess in
+                let trasientAlertView = TransientAlertViewController()
+                if isSuccess {
+                    trasientAlertView.titlemessage = "삭제되었습니다."
+                } else {
+                    trasientAlertView.titlemessage = "오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+                }
+                self.presentPanModal(trasientAlertView)
+                self.fetchData()
+            }
+        }
+        
+        self.present(popup, animated: true, completion: nil)
+    }
+    
+    private func modifyComment(comment: Comment, selectedRow: Int) {
+        let popup = ConfirmPopupViewController(titleText: "수정", messageText: "댓글을 수정하시겠습니까?")
+        popup.addActionToButton(title: "취소", buttonType: .cancel)
+        popup.addActionToButton(title: "수정", buttonType: .confirm)
+        popup.confirmDelegate = { [weak self] isDeleted in
+            guard let self = self else { return }
+            
+            let isRecomment = !comment.parent_srl!.equals("0")
+            
+            if isDeleted {
+                self.keyboardInputView?.becomeResponder(comment: comment, isModify: true, isRecomment: isRecomment, selectedRow: selectedRow)
+            }
+        }
+        
+        self.present(popup, animated: true, completion: nil)
+    }
+    
+    private func reportComment(comment: Comment) {
+        let popup = ConfirmPopupViewController(titleText: "신고", messageText: "댓글을 신고하시겠습니까?")
+        popup.addActionToButton(title: "취소", buttonType: .cancel)
+        popup.addActionToButton(title: "신고하기", buttonType: .confirm)
+        popup.confirmDelegate = { [weak self] isReported in
+            guard let self = self else { return }
+            
+            if isReported {
+                self.boardDetailViewModel.reportComment(commentSrl: comment.comment_srl!) { (_, message) in
+                    Snackbar().show(message: message)
+                }
+            }
+        }
+        
+        self.present(popup, animated: true, completion: nil)
+    }
+}
+
 // MARK: - ButtonClickDelegate
 extension BoardDetailViewController: ButtonClickDelegate {
-    func reportButtonCliked(isHeader: Bool, row: Int) {
+    func threeDotButtonClicked(isHeader: Bool, row: Int) {
         guard let detail = detail,
         let document = detail.document else { return }
-        
         let rowVC = GroupViewController()
         
         if isHeader {
@@ -347,45 +462,14 @@ extension BoardDetailViewController: ButtonClickDelegate {
                     self.dismiss(animated: true) {
                         switch index {
                         case 0:
-                            // 수정하기
-                            let storyboard = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil)
-                            guard let boardWriteViewController = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
-                            
-                            boardWriteViewController.category = self.category
-                            boardWriteViewController.document = self.boardDetailViewModel.getDetailData()?.document
-                            boardWriteViewController.uploadedImages = self.boardDetailViewModel.getDetailData()?.files
-                            self.navigationController?.push(viewController: boardWriteViewController)
-                            boardWriteViewController.popCompletion = {
-                                self.fetchData()
-                            }
-                        case 1:
-                            // 삭제하기
-                            let popup = ConfirmPopupViewController(titleText: "삭제", messageText: "게시글을 삭제 하시겠습니까?")
-                            popup.addActionToButton(title: "취소", buttonType: .cancel)
-                            popup.addActionToButton(title: "삭제", buttonType: .confirm)
-                            popup.confirmDelegate = { isDelete in
-                                
-                                self.boardDetailViewModel.deleteBoard(document_srl: self.document_srl) { [weak self] isSuccess in
-                                    guard let self = self else { return }
-                                    
-                                    if isSuccess {
-                                        self.trasientAlertView.titlemessage = "게시글이 삭제 되었습니다."
-                                        self.trasientAlertView.dismissCompletion = {
-                                            self.navigationController?.pop()
-                                        }
-                                    } else {
-                                        self.trasientAlertView.titlemessage = "오류가 발생했습니다. 다시 시도해 주세요."
-                                    }
-                                    DispatchQueue.main.async {
-                                        self.presentPanModal(self.trasientAlertView)
-                                    }
-                                }
-                            }
-                            
-                            self.present(popup, animated: true, completion: nil)
-                        case 2:
                             // 공유하기
                             print("공유하기")
+                        case 1:
+                            // 수정하기
+                            self.modifyBoard()
+                        case 2:
+                            // 삭제하기
+                            self.deleteBoard()
                         default:
                             break
                         }
@@ -405,9 +489,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
                             print("공유하기")
                         case 1:
                             // 신고하기
-                            self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { (_, message) in
-                                Snackbar().show(message: message)
-                            }
+                            self.reportBoard()
                         default:
                             break
                         }
@@ -416,7 +498,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
             }
         } else {
             if !MemberManager().isLogin() {
-                MemberManager().showLoginAlert(vc:self)
+                MemberManager().showLoginAlert(vc: self)
                 return
             }
             
@@ -433,45 +515,14 @@ extension BoardDetailViewController: ButtonClickDelegate {
                     self.dismiss(animated: true) {
                         switch index {
                         case 0:
-                            // 수정하기
-                            let storyboard = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil)
-                            guard let boardWriteViewController = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
-                            
-                            boardWriteViewController.category = self.category
-                            boardWriteViewController.document = self.boardDetailViewModel.getDetailData()?.document
-                            boardWriteViewController.uploadedImages = self.boardDetailViewModel.getDetailData()?.files
-                            self.navigationController?.push(viewController: boardWriteViewController)
-                            boardWriteViewController.popCompletion = {
-                                self.fetchData()
-                            }
-                        case 1:
-                            // 삭제하기
-                            let popup = ConfirmPopupViewController(titleText: "삭제", messageText: "게시글을 삭제 하시겠습니까?")
-                            popup.addActionToButton(title: "취소", buttonType: .cancel)
-                            popup.addActionToButton(title: "삭제", buttonType: .confirm)
-                            popup.confirmDelegate = { isDelete in
-                                
-                                self.boardDetailViewModel.deleteBoard(document_srl: self.document_srl) { [weak self] isSuccess in
-                                    guard let self = self else { return }
-                                    
-                                    if isSuccess {
-                                        self.trasientAlertView.titlemessage = "게시글이 삭제 되었습니다."
-                                        self.trasientAlertView.dismissCompletion = {
-                                            self.navigationController?.pop()
-                                        }
-                                    } else {
-                                        self.trasientAlertView.titlemessage = "오류가 발생했습니다. 다시 시도해 주세요."
-                                    }
-                                    DispatchQueue.main.async {
-                                        self.presentPanModal(self.trasientAlertView)
-                                    }
-                                }
-                            }
-                            
-                            self.present(popup, animated: true, completion: nil)
-                        case 2:
                             // 공유하기
                             print("공유하기")
+                        case 1:
+                            // 댓글 수정하기
+                            self.modifyComment(comment: comment, selectedRow: row)
+                        case 2:
+                            // 댓글 삭제하기
+                            self.deleteComment(documentSRL: comment.document_srl!, commentSRL: comment.comment_srl!)
                         default:
                             break
                         }
@@ -491,9 +542,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
                             print("공유하기")
                         case 1:
                             // 신고하기
-                            self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { (_, message) in
-                                Snackbar().show(message: message)
-                            }
+                            self.reportComment(comment: comment)
                         default:
                             break
                         }
@@ -504,6 +553,11 @@ extension BoardDetailViewController: ButtonClickDelegate {
     }
     
     func likeButtonCliked(isLiked: Bool, isComment: Bool, srl: String) {
+        if !MemberManager().isLogin() {
+            MemberManager().showLoginAlert(vc:self)
+            return
+        }
+        
         var title = "좋아요"
         var message = "좋아요 하시겠습니까?"
         
@@ -539,44 +593,6 @@ extension BoardDetailViewController: ButtonClickDelegate {
                                            isModify: false,
                                            isRecomment: true,
                                            selectedRow: selectedRow)
-    }
-    
-    func deleteButtonCliked(documentSRL: String, commentSRL: String) {
-        let popup = ConfirmPopupViewController(titleText: "삭제", messageText: "댓글을 삭제하시겠습니까?")
-        popup.addActionToButton(title: "취소", buttonType: .cancel)
-        popup.addActionToButton(title: "삭제", buttonType: .confirm)
-        popup.confirmDelegate = { [weak self] isDeleted in
-            guard let self = self else { return }
-            self.boardDetailViewModel.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { isSuccess in
-                let trasientAlertView = TransientAlertViewController()
-                if isSuccess {
-                    trasientAlertView.titlemessage = "삭제되었습니다."
-                } else {
-                    trasientAlertView.titlemessage = "오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-                }
-                self.presentPanModal(trasientAlertView)
-                self.fetchData()
-            }
-        }
-        
-        self.present(popup, animated: true, completion: nil)
-    }
-    
-    func modifyButtonCliked(comment: Comment, selectedRow: Int) {
-        let popup = ConfirmPopupViewController(titleText: "수정", messageText: "댓글을 수정하시겠습니까?")
-        popup.addActionToButton(title: "취소", buttonType: .cancel)
-        popup.addActionToButton(title: "수정", buttonType: .confirm)
-        popup.confirmDelegate = { [weak self] isDeleted in
-            guard let self = self else { return }
-            
-            let isRecomment = !comment.parent_srl!.equals("0")
-            
-            if isDeleted {
-                self.keyboardInputView?.becomeResponder(comment: comment, isModify: true, isRecomment: isRecomment, selectedRow: selectedRow)
-            }
-        }
-        
-        self.present(popup, animated: true, completion: nil)
     }
     
     func moveToStation(with chargerId: String) {

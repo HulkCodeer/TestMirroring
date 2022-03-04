@@ -30,7 +30,6 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     var document: Document?
     var boardWriteViewModel = BoardWriteViewModel()
     var popCompletion: (() -> Void)?
-//    let picker = UIImagePickerController()
     let cropper = UIImageCropper(cropRatio: 100/115)
     let trasientAlertView = TransientAlertViewController()
     
@@ -76,8 +75,6 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                 let contents = contentsTextView.text else { return }
         
         if let document = document {
-            
-            
             let popup = ConfirmPopupViewController(titleText: "수정", messageText: "게시물을 수정 하시겠습니까?")
             popup.addActionToButton(title: "취소", buttonType: .cancel)
             popup.addActionToButton(title: "수정", buttonType: .confirm)
