@@ -52,7 +52,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var priceTableHeight: NSLayoutConstraint!
     
     var charger: ChargerStationInfo?
-    var boardList: Array<BoardItem> = Array<BoardItem>()
+    var boardList: [BoardListItem] = [BoardListItem]()
     
     private var phoneNumber:String? = nil
         
@@ -108,7 +108,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func prepareChargerInfo() {
         setStationInfo()
         setDetailLb()
-        getFirstBoardData()
+        fetchFirstBoard(mid: "station", sort: .LATEST)
         initKakaoMap()
     }
     
@@ -355,6 +355,52 @@ extension DetailViewController {
 }
 
 extension DetailViewController: BoardTableViewDelegate {
+    func fetchFirstBoard(mid: String, sort: Board.SortType) {
+        if let chargerData = charger {
+            Server.fetchBoardList(mid: "station", page: "1", mode: "1", sort: "0", searchType: "station", searchKeyword: chargerData.mChargerId!) { (isSuccess, value) in
+                
+                if isSuccess {
+                    guard let data = value else { return }
+                    let decoder = JSONDecoder()
+                    
+                    do {
+                        let result = try decoder.decode(BoardResponseData.self, from: data)
+                        
+                        if let updateList = result.list {
+                            self.boardList.removeAll()
+                            self.boardList += updateList
+                              
+                            self.boardTableView.communityBoardList = self.boardList
+                            self.boardTableView.isNoneHeader = true
+                            
+                            DispatchQueue.main.async {
+                                self.boardTableView.reloadData()
+                            }
+                        }
+                    } catch {
+                        debugPrint("error")
+                    }
+                } else {
+                    
+                }
+            }
+        }
+    }
+    
+    func fetchNextBoard(mid: String, sort: Board.SortType) {}
+    func didSelectItem(at index: Int) {
+        guard let documentSRL = boardList[index].document_srl,
+        !documentSRL.elementsEqual("-1") else { return }
+
+        let storyboard = UIStoryboard(name: "BoardDetailViewController", bundle: nil)
+        guard let boardDetailTableViewController = storyboard.instantiateViewController(withIdentifier: "BoardDetailViewController") as? BoardDetailViewController else { return }
+
+        boardDetailTableViewController.category = Board.CommunityType.CHARGER.rawValue
+        boardDetailTableViewController.document_srl = documentSRL
+        boardDetailTableViewController.isFromStationDetailView = true
+
+        self.navigationController?.push(viewController: boardDetailTableViewController)
+    }
     
     fileprivate func prepareBoardTableView() {
         self.cidTableView.rowHeight = UITableViewAutomaticDimension
@@ -365,8 +411,7 @@ extension DetailViewController: BoardTableViewDelegate {
         self.boardTableView.rowHeight = UITableViewAutomaticDimension
         self.boardTableView.estimatedRowHeight = UITableViewAutomaticDimension
         self.boardTableView.separatorStyle = .none
-        
-        self.boardTableView.allowsSelection = false
+        self.boardTableView.allowsSelection = true
         
         // Table header 추가
         self.boardTableView.tableHeaderView = detailView
@@ -374,176 +419,12 @@ extension DetailViewController: BoardTableViewDelegate {
         self.boardTableView.estimatedSectionHeaderHeight = 25  // 25
     }
     
-    func getFirstBoardData() {
-        if let chargerData = charger {
-            Server.getChargerBoard(chargerId: chargerData.mChargerId!) { (isSuccess, value) in
-                if isSuccess {
-                    self.boardList.removeAll()
-                    let json = JSON(value)
-                    let boardJson = json["list"]
-                    for json in boardJson.arrayValue {
-                        let boardData = BoardItem(bJson: json)
-                        self.boardList.append(boardData)
-                    }
-                    self.boardTableView.boardList = self.boardList
-                    self.boardTableView.reloadData()
-                }
-            }
-        }
-    }
-    
-    func getNextBoardData() {
-    }
-    
-    func boardEdit(tag: Int) {
-        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-        let editVC:EditViewController = boardStoryboard.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
-        editVC.mode = EditViewController.BOARD_EDIT_MODE
-        editVC.charger = self.charger
-        editVC.originBoardData = self.boardList[tag]
-        editVC.editViewDelegate = self
-
-        self.navigationController?.push(viewController: editVC, subtype: kCATransitionFromTop)
-    }
-    
-    func boardDelete(tag: Int) {
-        let dialogMessage = UIAlertController(title: "Notice", message: "게시글을 삭제하시겠습니까?", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .default, handler: {(ACTION) -> Void in
-            Server.deleteBoard(category: Board.BOARD_CATEGORY_CHARGER, boardId: self.boardList[tag].boardId!) { (isSuccess, value) in
-                if isSuccess {
-                    self.getFirstBoardData()
-                }
-            }
-        })
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler:{ (ACTION) -> Void in
-            print("Cancel button tapped")
-        })
-        dialogMessage.addAction(ok)
-        dialogMessage.addAction(cancel)
-        
-        self.present(dialogMessage, animated: true, completion: nil)
-    }
-    
-    func replyEdit(tag: Int) {
-        let section = tag / 1000
-        let row = tag % 1000
-        let replyValue = self.boardList[section].reply![row]
-        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-        let editVC:EditViewController = boardStoryboard.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
-        editVC.mode = EditViewController.REPLY_EDIT_MODE
-        editVC.originReplyData = replyValue
-        editVC.editViewDelegate = self
-        
-        self.navigationController?.push(viewController: editVC, subtype: kCATransitionFromTop)
-    }
-    
-    func replyDelete(tag: Int) {
-        let dialogMessage = UIAlertController(title: "Notice", message: "댓글을 삭제하시겠습니까?", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .default, handler: {(ACTION) -> Void in
-            let section = tag / 1000
-            let row = tag % 1000
-            let replyValue = self.boardList[section].reply![row]
-            Server.deleteReply(category: Board.BOARD_CATEGORY_CHARGER, boardId: replyValue.replyId!) { (isSuccess, value) in
-                if isSuccess {
-                    self.getFirstBoardData()
-                }
-            }
-        })
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler:{ (ACTION) -> Void in
-            print("Cancel button tapped")
-        })
-        dialogMessage.addAction(ok)
-        dialogMessage.addAction(cancel)
-        
-        self.present(dialogMessage, animated: true, completion: nil)
-    }
-    
-    func makeReply(tag: Int) {
-        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-        let editVC:EditViewController = boardStoryboard.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
-        editVC.mode = EditViewController.REPLY_NEW_MODE
-        editVC.originBoardId = tag
-        editVC.editViewDelegate = self
-        self.navigationController?.push(viewController: editVC, subtype: kCATransitionFromTop)
-    }
-    
-    func goToStation(tag: Int) {}
-    
     func showImageViewer(url: URL) {
         let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
         let imageVC:EIImageViewerViewController = boardStoryboard.instantiateViewController(withIdentifier: "EIImageViewerViewController") as! EIImageViewerViewController
         imageVC.mImageURL = url;
     
         self.navigationController?.push(viewController: imageVC)
-    }
-    
-}
-
-extension DetailViewController: EditViewDelegate {
-    
-    func postBoardData(content: String, hasImage: Int, picture: Data?) {
-        Server.postBoard(category: Board.BOARD_CATEGORY_CHARGER, bmId: -1, chargerId: (self.charger?.mChargerId)!, content: content, hasImage: hasImage) { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                if hasImage == 1 {
-                    let filename =  json["file_name"].stringValue
-                    if let data = picture{
-                        Server.uploadImage(data: data, filename: "\(filename).jpg", kind: Const.CONTENTS_BOARD_IMG, targetId: json["board_id"].stringValue, completion: { (isSuccess, value) in
-                            let json = JSON(value)
-                            if(isSuccess){
-                                self.getFirstBoardData()
-                            }else{
-                                print("upload image Error : \(json)")
-                            }
-                            
-                        })
-                    }
-                } else {
-                    self.getFirstBoardData()
-                }
-            }
-        }
-    }
-    
-    func editBoardData(content: String, boardId: Int, editImage: Int, picture: Data?) {
-        Server.editBoard(category: Board.BOARD_CATEGORY_CHARGER, boardId: boardId, content: content, editImage: editImage) { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                if editImage == 1 {
-                    let filename =  json["file_name"].stringValue
-                    if let data = picture {
-                        Server.uploadImage(data: data, filename: "\(filename).jpg", kind: Const.CONTENTS_BOARD_IMG, targetId: json["board_id"].stringValue, completion: { (isSuccess, value) in
-                            let json = JSON(value)
-                            if isSuccess {
-                                self.getFirstBoardData()
-                            } else {
-                                print("upload image Error : \(json)")
-                            }
-                        })
-                    }
-                } else {
-                    self.getFirstBoardData()
-                }
-            }
-        }
-    }
-    
-    func postReplyData(content: String,  boardId: Int) {
-        Server.postReply(category: Board.BOARD_CATEGORY_CHARGER, boardId: boardId, content: content) { (isSuccess, value) in
-            if isSuccess {
-                self.getFirstBoardData()
-            }
-        }
-    }
-    
-    func editReplyData(content: String, replyId: Int) {
-        Server.editReply(category: Board.BOARD_CATEGORY_CHARGER, replyId: replyId, content: content) { (isSuccess, value) in
-            if isSuccess {
-                self.getFirstBoardData()
-            }
-        }
     }
 }
 
@@ -612,7 +493,7 @@ extension DetailViewController {
         let editVC:EditViewController = boardStoryboard.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
         editVC.mode = EditViewController.BOARD_NEW_MODE
         editVC.charger = self.charger
-        editVC.editViewDelegate = self //EditViewDelegate
+//        editVC.editViewDelegate = self //EditViewDelegate
         self.navigationController?.push(viewController: editVC, subtype: kCATransitionFromTop)
     }
     

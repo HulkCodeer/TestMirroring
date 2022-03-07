@@ -16,24 +16,31 @@ public class Const {
     // Closed Beta Test
     public static let CLOSED_BETA_TEST = false
 
+    #if DEBUG
+    /*
+     * develop
+     */
+    public static let EV_PAY_SERVER = "http://dev.soft-berry.co.kr"
+    public static let EV_COMMUNITY_SERVER = "http://dev.soft-berry.co.kr/community/v2/EiCommunity"
+    public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra/dev"
+    public static let SK_BATTERY_SERVER = "http://mbaas.koreacentral.cloudapp.azure.com/ev-infra/web"
+    // public static let SK_BATTERY_SERVER = "https://mbaas.sk-on.com/ev-infra/web"
+//    public static let EV_PAY_SERVER = "http://khpark.soft-berry.co.kr"
+//    public static let EV_PAY_SERVER = "http://spark.soft-berry.co.kr"
+//    public static let EV_PAY_SERVER = "http://michael.soft-berry.co.kr"
+//    public static let EV_PAY_SERVER = "http://shchoi.soft-berry.co.kr"
+//    public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra/dev"
+//    public static let SK_BATTERY_SERVER = "http://mbaas.koreacentral.cloudapp.azure.com/ev-infra/main"
+    #else
     /*
      * product
      */
     public static let EV_PAY_SERVER = "https://api.soft-berry.co.kr"
-    
+    public static let EV_COMMUNITY_SERVER = "https://comm.ev-infra.com/community/v2/EiCommunity"
     public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra"
     public static let SK_BATTERY_SERVER = "https://mbaas.sk-on.com/ev-infra/web"
-    /*
-     * develop
-     */
-//    public static let EV_PAY_SERVER = "http://dev.soft-berry.co.kr"
-//    public static let EV_PAY_SERVER = "http://spark.soft-berry.co.kr"
-//    public static let EV_PAY_SERVER = "http://michael.soft-berry.co.kr"
-//    public static let EV_PAY_SERVER = "http://shchoi.soft-berry.co.kr"
+    #endif
 
-//    public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra/dev"
-//    public static let SK_BATTERY_SERVER = "http://mbaas.koreacentral.cloudapp.azure.com/ev-infra/web"
-    
     // File Server
     public static let urlProfileImage = EI_FILE_SERVER + "/profile/"
     public static let urlBoardImage = EI_FILE_SERVER + "/board/"
@@ -87,4 +94,10 @@ public class Const {
     public static let CHARGER_STATE_BOOKING          = 6    // 예약중
     public static let CHARGER_STATE_PILOT            = 7    // 시범운영중
     public static let CHARGER_STATE_UNKNOWN          = 9    // 기타(상태미확인)
+    
+    struct BoardConstants {
+        static let titlePlaceHolder = "제목을 입력해주세요."
+        static let contentsPlaceHolder = "내용을 입력해주세요."
+        static let chargerPlaceHolder = "충전소 검색"
+    }
 }

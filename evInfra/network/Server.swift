@@ -8,8 +8,10 @@
 
 import Foundation
 import Alamofire
+import CoreMedia
 
 class Server {
+    
     static let VERSION = 1
     static func responseData(response: DataResponse<Any>, completion: @escaping (Bool, Data?) -> Void) {
         switch response.result {
@@ -31,6 +33,15 @@ class Server {
             print(error)
             completion(false, error)
         }
+    }
+    
+    static func getHeaders() -> HTTPHeaders {
+        let headers: HTTPHeaders = [
+            "mb_id": "\(MemberManager.getMbId())",
+            "nick_name": MemberManager.getMemberNickname(),
+            "profile": "\(MemberManager.getProfileImage())"
+        ]
+        return headers
     }
     
     // 사용자 - 디바이스 정보 등록
@@ -89,6 +100,16 @@ class Server {
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/sign_up",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 관리자 리스트
+    static func getAdminList(completion: @escaping (Bool, Any) -> Void) {
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/admin_list",
+                          method: .post,
+                          parameters: nil,
+                          encoding: JSONEncoding.default)
+            .validate()
+            .responseJSON { response in responseData(response: response, completion: completion) }
     }
     
     // 회원 - 로그인
@@ -344,6 +365,291 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // MARK: - Coummunity 개선 - 게시판 조회
+    static func fetchBoardList(mid: String, page: String, mode: String, sort: String, searchType: String, searchKeyword: String, completion: @escaping (Bool, Data?) -> Void) {
+        
+        let headers: HTTPHeaders = getHeaders()
+        
+        let urlString = Const.EV_COMMUNITY_SERVER + "/list/mid/\(mid)/page/\(page)/mode/\(mode)/sort/\(sort)/search_type/\(searchType)/search_keyword/\(searchKeyword)"
+        
+        if let encodedUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
+            Alamofire.request(encodedUrl,
+                              method: .get,
+                              parameters: nil,
+                              encoding: JSONEncoding.default,
+                              headers: headers).validate().responseJSON { response in
+                responseData(response: response, completion: completion)
+            }
+        }
+    }
+    
+    // MARK: - Community 개선 - 게시글 등록
+    static func postBoardData(mid: String, title: String, content: String, charger_id: String, completion: @escaping (Bool, Any) -> Void) {
+
+        let headers: HTTPHeaders = getHeaders()
+        let parameters: Parameters = [
+            "title" : title,
+            "content" : content,
+            "tags" : "{\"charger_id\" : \"\(charger_id)\"}"
+        ]
+
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/write/mid/\(mid)",
+                          method: .post,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers)
+            .validate()
+            .responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 게시글 수정
+    static func updateBoardData(mid: String, documentSRL: String, title: String, content: String, charger_id: String, completion: @escaping (Bool, Any) -> Void) {
+        let headers: HTTPHeaders = getHeaders()
+        let parameters: Parameters = [
+            "title" : title,
+            "content" : content,
+            "tags" : "{\"charger_id\" : \"\(charger_id)\"}"
+        ]
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/update/mid/\(mid)/document_srl/\(documentSRL)",
+                          method: .post,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers).validate().responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 게시물 파일 삭제
+    static func deleteDocumnetFile(documentSRL: String, fileSRL: String, isCover: String, completion: @escaping (Bool, Any) -> Void) {
+        let headers: HTTPHeaders = getHeaders()
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/file/document_srl/\(documentSRL)/file_srl/\(fileSRL)/cover/\(isCover)",
+                          method: .delete,
+                          parameters: nil,
+                          encoding: JSONEncoding.default,
+                          headers: headers).validate().responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 게시글 상세 조회
+    static func fetchBoardDetail(mid: String, document_srl: String, completion: @escaping (Any?) -> Void) {
+        let headers: HTTPHeaders = getHeaders()
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/view/mid/\(mid)/document_srl/\(document_srl)",
+                          method: .get,
+                          parameters: nil,
+                          encoding: JSONEncoding.default,
+                          headers: headers).validate().responseJSON { response in
+            switch response.result {
+            case .success(_):
+                guard let data = response.data else { return }
+                let decoder = JSONDecoder()
+                
+                do {
+                    let result = try decoder.decode(BoardDetailResponseData.self, from: data)
+                    completion(result)
+                } catch {
+                    debugPrint("error")
+                }
+                
+            case .failure(let error):
+                completion(error)
+            }
+        }
+    }
+    
+    // MARK: - Community 개선 - 게시글 삭제
+    static func deleteBoard(document_srl: String, completion: @escaping (Bool, Any) -> Void) {
+        let headers: HTTPHeaders = getHeaders()
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/delete/document_srl/\(document_srl)", method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 게시글 좋아요 기능
+    static func setLikeCount(srl: String, isComment: Bool, completion: @escaping (Bool, Any) -> Void) {
+        let headers: HTTPHeaders = getHeaders()
+        
+        var url = Const.EV_COMMUNITY_SERVER
+        
+        if isComment {
+            url += "/comment_like/comment_srl/\(srl)"
+        } else {
+            url += "/like/document_srl/\(srl)"
+        }
+        
+        Alamofire.request(url,
+                          method: .get,
+                          parameters: nil,
+                          encoding: JSONEncoding.default,
+                          headers: headers)
+            .responseJSON { response in
+                responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 게시글 신고하기 기능
+    static func reportBoard(document_srl: String, completion: @escaping (Bool, Any) -> Void) {
+        let headers: HTTPHeaders = getHeaders()
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/report/document_srl/\(document_srl)",
+                          method: .get,
+                          parameters: nil,
+                          encoding: JSONEncoding.default,
+                          headers: headers).responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 댓글 신고하기 기능
+    static func reportComment(commentSrl: String, completion: @escaping (Bool, Any) -> Void) {
+        let headers: HTTPHeaders = getHeaders()
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/comment_report/comment_srl/\(commentSrl)",
+                          method: .get,
+                          parameters: nil,
+                          encoding: JSONEncoding.default,
+                          headers: headers).responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 댓글 작성
+    static func postComment(commentParameter: CommentParameter,
+                            completion: @escaping (Bool, Any) -> Void) {
+        let headers: HTTPHeaders = getHeaders()
+        let isRecomment = commentParameter.isRecomment
+        
+        var parameters: Parameters = [
+            "content" : "\(commentParameter.text)"
+        ]
+
+        if let comment = commentParameter.comment,
+            isRecomment {
+            parameters["target_mb_id"] = comment.mb_id
+            parameters["target_nick_name"] = comment.nick_name
+            parameters["parent_srl"] = comment.comment_srl
+            parameters["head"] = comment.head
+            parameters["depth"] = "\(Int(comment.depth ?? "0")! + 1)"
+        }
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/comment_write/mid/\(commentParameter.mid)/document_srl/\(commentParameter.documentSRL)",
+                          method: .post,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers).responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 댓글/대댓글 삭제
+    static func deleteBoardComment(documentSRL: String, commentSRL: String, completion: @escaping (Bool, Any) -> Void) {
+        let headers: HTTPHeaders = getHeaders()
+        
+        Alamofire.request(Const.EV_COMMUNITY_SERVER + "/comment_delete/document_srl/\(documentSRL)/comment_srl/\(commentSRL)",
+                          method: .delete,
+                          parameters: nil,
+                          encoding: JSONEncoding.default,
+                          headers: headers).responseJSON { response in
+            responseJson(response: response, completion: completion)
+        }
+    }
+    
+    // MARK: - Community 개선 - 댓글 수정
+    static func modifyBoardComment(commentParameter: CommentParameter,
+                                   completion: @escaping (Bool, Any) -> Void) {
+        
+        let headers: HTTPHeaders = getHeaders()
+        
+        var parameters: Parameters = [
+            "content" : "\(commentParameter.text)",
+            "document_srl" : "\(commentParameter.documentSRL)",
+            "comment_srl" : "\(commentParameter.comment!.comment_srl ?? "")"
+        ]
+        
+        let isRecomment = commentParameter.isRecomment
+        
+        if let comment = commentParameter.comment,
+            isRecomment {
+            parameters["target_mb_id"] = comment.target_mb_id
+            parameters["target_nick_name"] = comment.target_nick_name
+            parameters["parent_srl"] = comment.parent_srl
+            parameters["head"] = comment.head
+            parameters["depth"] = comment.depth
+        }
+        
+        let urlString = Const.EV_COMMUNITY_SERVER + "/comment_update/mid/\(commentParameter.mid)/document_srl/\(commentParameter.documentSRL)/comment_srl/\(commentParameter.comment!.comment_srl ?? "")"
+        
+        if let encodedUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
+            Alamofire.request(encodedUrl,
+                              method: .post,
+                              parameters: parameters,
+                              encoding: JSONEncoding.default,
+                              headers: headers).validate()
+                .responseJSON { response in
+                responseJson(response: response, completion: completion)
+            }
+        }
+    }
+    
+    // MARK: - Community 개선 - 게시글 이미지 업로드
+    static func boardImageUpload(mid: String, document_srl: String, image: UIImage, seq: String, completion: @escaping (Bool, Any) -> Void) {
+        guard let imageData = UIImageJPEGRepresentation(image, 0.8) else { return }
+        
+        let url = Const.EV_COMMUNITY_SERVER + "/file/mid/\(mid)/document_srl/\(document_srl)/seq/\(seq)"
+        
+        imageUpload(imageData: imageData, url: url) { (isSuccess, response) in
+            if isSuccess {
+                completion(true, response)
+            } else {
+                completion(false, response)
+            }
+        }
+    }
+    
+    // MARK: - Community 개선 - 댓글 이미지 업로드
+    static func commentImageUpload(mid: String, document_srl: String, comment_srl: String, image: UIImage, completion: @escaping(Bool, Any) -> Void) {
+        guard let imageData = UIImageJPEGRepresentation(image, 0.8) else { return }
+        
+        let url = Const.EV_COMMUNITY_SERVER + "/comment_file/mid/\(mid)/document_srl/\(document_srl)/comment_srl/\(comment_srl)"
+        
+        imageUpload(imageData: imageData, url: url) { (isSuccess, response) in
+            if isSuccess {
+                completion(true, response)
+            } else {
+                completion(false, response)
+            }
+        }
+    }
+    
+    // MARK: - Community 개선 - 이미지 업로드 로직 (게시글, 댓글)
+    private static func imageUpload(imageData: Data,
+                            url: String,
+                            completion: @escaping (Bool, Any) -> Void) {
+        
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            multipartFormData.append(imageData ,  withName: "userfile" ,  fileName: "\(DateUtils.currentTimeMillis()).jpg" ,  mimeType:  "image/jpeg" )
+        }, to: url, encodingCompletion: { encodingResult in
+            switch encodingResult {
+            case .success(let upload, _, _):
+                upload.responseJSON {response in  // ← JSON 형식으로받을
+                    if !response.result.isSuccess  {
+                        completion(false, response)
+                    } else  {
+                        completion(true, response)
+                    }
+                }
+            case .failure(let encodingError):
+                completion(false, encodingError)
+            }
+        })
+    }
+    
     // 게시판 - 공지사항 리스트
     static func getNoticeList(completion: @escaping (Bool, Any) -> Void) {
         Alamofire.request(Const.EV_PAY_SERVER + "/board/board_notice/list")
@@ -365,14 +671,14 @@ class Server {
             "page_count": count,
             "mine": mine
         ]
-        
+/*
         if category.elementsEqual(Board.BOARD_CATEGORY_COMPANY) {
             reqParam.updateValue(bmId, forKey: "bm_id")
             reqParam.updateValue(false, forKey: "ad") // 사업자 게시판 광고 포함하지 않음
         } else {
             reqParam.updateValue(true, forKey: "ad") // true: 게시글에 광고 포함. false: 광고 불포함
         }
-
+*/
         Alamofire.request(Const.EV_PAY_SERVER + "/board/board/contents",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
@@ -754,6 +1060,16 @@ class Server {
         Alamofire.request(Const.EV_PAY_SERVER + "/event/coupon/register_coupon",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // MARK: - 게시판 광고 리스트 조회
+    static func getBoardAds(client_id: String, completion: @escaping (Bool, Data?) -> Void) {
+        Alamofire.request(Const.EV_PAY_SERVER + "/ad/ad_board/get_list/client_id/\(client_id)",
+                          method: .get,
+                          parameters: nil,
+                          encoding: JSONEncoding.default)
+            .validate()
+            .responseJSON { response in responseData(response: response, completion: completion) }
     }
     
     // 광고 - large image 정보 요청

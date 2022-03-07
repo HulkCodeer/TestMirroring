@@ -16,6 +16,12 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
+    func toYearMonthDayMillis() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMddHHmmss"
+        return dateFormatter.string(from: self)
+    }
+    
     func toStringToMinute(data: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -28,6 +34,12 @@ extension Date {
         } else {
             return ""
         }
+    }
+    
+    func toYearMonthDay() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.string(from: self)
     }
     
     func toDate(data: String) -> Date? {

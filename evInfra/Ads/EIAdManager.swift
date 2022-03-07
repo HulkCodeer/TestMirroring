@@ -48,4 +48,53 @@ class EIAdManager {
             completion(adInfo)
         }
     }
+    
+    func fetchBoardAdsToBoardListItem(completion: @escaping ([BoardListItem]) -> Void) {
+        let client_id = "0"
+        Server.getBoardAds(client_id: client_id) { (isSuccess, value) in
+            if isSuccess {
+                guard let data = value else { return }
+                let decoder = JSONDecoder()
+                
+                var boardAdsList = [BoardListItem]()
+                
+                do {
+                    let results = try decoder.decode([Ad].self, from: data)
+                    
+                    for adItem in results {
+                        let boardAdItem = BoardListItem(title: adItem.ad_url,
+                                                        content: adItem.ad_description,
+                                                        nick_name: adItem.client_name,
+                                                        module_srl: nil,
+                                                        mb_id: adItem.client_id,
+                                                        document_srl: adItem.ad_id,
+                                                        last_update: nil,
+                                                        regdate: nil,
+                                                        is_notice: nil,
+                                                        title_bold: nil,
+                                                        title_color: nil,
+                                                        readed_count: nil,
+                                                        report_count: nil,
+                                                        like_count: nil,
+                                                        hate_count: nil,
+                                                        comment_count: nil,
+                                                        uploaded_count: nil,
+                                                        tags: nil,
+                                                        cover_filename: adItem.ad_image,
+                                                        mb_profile: adItem.ad_logo,
+                                                        blind: nil,
+                                                        board_id: "ad",
+                                                        files: nil)
+                        boardAdsList.append(boardAdItem)
+                    }
+                    
+                    completion(boardAdsList)
+                } catch {
+                    completion([])
+                }
+            } else {
+                completion([])
+            }
+        }
+    }
 }

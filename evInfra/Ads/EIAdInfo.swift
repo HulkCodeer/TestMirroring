@@ -20,3 +20,14 @@ class EIAdInfo {
     var clientId: Int?
     var clientName: String?
 }
+
+struct Ad: Decodable {
+    var ad_id: String?
+    var ad_url: String?
+    var ad_description: String?
+    var ad_weight: String?
+    var client_id: String?
+    var client_name: String?
+    var ad_logo: String?
+    var ad_image: String?
+}

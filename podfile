@@ -32,6 +32,10 @@ target 'evInfra' do
   pod 'SwiftyGif'
   pod 'DLRadioButton', '~> 1.4'
   pod 'AnyFormatKit'
+  pod 'TTGTagCollectionView'
+  pod 'SnapKit', '~> 5.0.0'
+  pod 'PanModal'
+
 end
 
 post_install do |installer|
