@@ -38,7 +38,8 @@ extension AppTabsController {
     fileprivate func preparePageTabBar() {
         tabBar.isDividerHidden = true
         tabBar.backgroundColor = Color.grey.lighten5
-        tabBar.setLineColor(UIColor(named: "content-primary")!, for: .selected)
+//        tabBar.setLineColor(UIColor(named: "content-primary")!, for: .selected)
+        tabBar.setLineColor(UIColor(named: "gr-5")!, for: .selected)
     }
 }
 

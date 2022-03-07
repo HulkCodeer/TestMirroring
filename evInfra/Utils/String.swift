@@ -49,4 +49,23 @@ extension String {
         numberFormatter.numberStyle = .decimal
         return numberFormatter.string(from: NSNumber(value: doubleValue)) ?? self
     }
+    
+    func htmlToAttributedString() -> NSAttributedString? {
+      
+      guard let data = self.data(using: .utf8) else {
+        return NSAttributedString()
+      }
+        
+      do {
+        return try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding:String.Encoding.utf8.rawValue], documentAttributes: nil)
+      } catch {
+        return NSAttributedString()
+      }
+    }
+    
+    func urlToImage() -> UIImage? {
+        let url = URL(string: self)
+        let data = try? Data(contentsOf: url!)
+        return UIImage(data: data!)
+    }
 }

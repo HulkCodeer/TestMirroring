@@ -14,13 +14,90 @@ public protocol BoardDelegate {
 }
 
 class Board {
+    // Top Menu 타입
+    enum SortType: String, CaseIterable {
+        case LATEST = "0"
+        case FAVORITE = "1"
+        case TOP = "2"
+    }
     
+    // 스크린 타입
+    enum ScreenType: String {
+        case LIST = "1"
+        case FEED = "2"
+        case GALLERY = "3"
+    }
+    
+    // 검색 타입
+    enum SearchType: String, CaseIterable {
+        case TITLE_WITH_CONTENT = "title"
+        case NICK_NAME = "nick_name"
+        case MBID = "mb_id"
+        case STATION = "station"
+        
+        var index: Int {
+            switch self {
+                case .TITLE_WITH_CONTENT: return 0
+                case .NICK_NAME: return 1
+                case .MBID: return 2
+                case .STATION: return 3
+            }
+        }
+        
+        static func getSearchType(index: Int) -> String {
+            var text: String = SearchType.TITLE_WITH_CONTENT.rawValue
+
+            SearchType.allCases.forEach {
+                if $0.index == index {
+                    text = $0.rawValue
+                }
+            }
+
+            return text
+        }
+    }
+    
+    // 게시판 타입
+    enum CommunityType: String, CaseIterable {
+        case CHARGER = "station"
+        case FREE = "free"
+        case NOTICE = "notice"
+        case CORP_GS = "corp_gs"
+        case CORP_JEV = "corp_jev"
+        case CORP_STC = "corp_stc"
+        case CORP_SBC = "corp_sbc"
+        
+        var index: Int {
+            switch self {
+                case .CHARGER: return -1
+                case .FREE: return -1
+                case .NOTICE: return -1
+                case .CORP_GS: return 0
+                case .CORP_JEV: return 1
+                case .CORP_STC: return 2
+                case .CORP_SBC: return 3
+            }
+        }
+
+        static func getCompanyType(index: Int) -> String {
+            var text: String = CommunityType.CORP_GS.rawValue
+
+            CommunityType.allCases.forEach {
+                if $0.index == index {
+                    text = $0.rawValue
+                }
+            }
+
+            return text
+        }
+    }
+
     // 게시판 카테고리
-    public static let BOARD_CATEGORY_CHARGER   = "boardCharger"
-    public static let BOARD_CATEGORY_FREE      = "boardFree"
+    public static let BOARD_CATEGORY_CHARGER   = "station"
+    public static let BOARD_CATEGORY_FREE      = "free"
     public static let BOARD_CATEGORY_NOTICE    = "boardNotice"
-    public static let BOARD_CATEGORY_COMPANY   = "boardCompany"
-    
+//    public static let BOARD_CATEGORY_COMPANY: CompanyType = .CORP_GS
+
     public static let KEY_NOTICE        = 0 // 공지사항
     public static let KEY_FREE_BOARD    = 1 // 자유게시판
     public static let KEY_CHARGER_BOARD = 2 // 충전소게시판

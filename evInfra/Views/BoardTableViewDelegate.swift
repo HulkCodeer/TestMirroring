@@ -10,18 +10,10 @@ import UIKit
 
 protocol BoardTableViewDelegate {
 
-    func getFirstBoardData()
-    func getNextBoardData()
-    
-    func boardEdit(tag: Int)
-    func boardDelete(tag: Int)
-    
-    func makeReply(tag: Int)
-
-    func replyEdit(tag: Int)
-    func replyDelete(tag: Int)
-    
-    func goToStation(tag: Int)
-    
+    // MARK: - 커뮤니티 개선 delegate
+    func fetchFirstBoard(mid: String, sort: Board.SortType)
+    func fetchNextBoard(mid: String, sort: Board.SortType)
+    func didSelectItem(at: Int)
     func showImageViewer(url: URL)
 }
+

@@ -94,6 +94,9 @@ class UserDefault {
         
         // 광고 - 일주일동안 보지 않기 선택한 날짜
         static let AD_KEEP_DATE_FOR_A_WEEK = "ad_keep_date_for_a_week"
+        
+        // 게시글 검색 최근검색어
+        static let RECENT_KEYWORD = "keywords"
     }
 
     func saveString(key:String, value: String) -> Void {
@@ -165,5 +168,18 @@ class UserDefault {
     func removeObjectForKey(key: String) -> Void{
         let defaults = UserDefaults.standard
         defaults.removeObject(forKey: key)
+    }
+    
+    func saveData(key: String, val: Data) -> Void {
+        let defaults = UserDefaults.standard
+        defaults.set(val, forKey: key)
+    }
+    
+    func readData(key: String) -> Data? {
+        if let value = UserDefaults.standard.data(forKey: key) {
+            return value
+        } else {
+            return nil
+        }
     }
 }

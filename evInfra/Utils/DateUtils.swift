@@ -15,6 +15,28 @@ class DateUtils {
         return Int64(since1970 * 1000)
     }
     
+    public static func getTimesAgoString(date: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMddHHmmss"
+    
+        let date = dateFormatter.date(from: date)!
+        
+        let duration = DateUtils.currentTimeMillis() - Int64((date.timeIntervalSince1970) * 1000)
+        let seconds = duration / 1000
+        let minutes = seconds / 60
+        let hours = minutes / 60
+        
+        if seconds < 60 {
+            return "\(seconds)초 전"
+        } else if minutes < 60 {
+            return "\(minutes)분 전"
+        } else if hours < 24 {
+            return "\(hours)시간 전"
+        } else {
+            return date.toYearMonthDay()
+        }
+    }
+    
     public static func getDateStringForDetail(date : String) -> String{
     /*
             Calendar today = Calendar.getInstance();

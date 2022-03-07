@@ -11,12 +11,12 @@ import SwiftyJSON
 
 class MemberManager {
     
-    public static let MB_LEVEL_ADMIN = 1;
-    public static let MB_LEVEL_GUARD = 2;
-    public static let MB_LEVEL_NORMAL = 3;
+    public static let MB_LEVEL_ADMIN = 1
+    public static let MB_LEVEL_GUARD = 2
+    public static let MB_LEVEL_NORMAL = 3
     
-    public static let RENT_CLIENT_SKR = 23;
-    public static let RENT_CLIENT_LOTTE = 24;
+    public static let RENT_CLIENT_SKR = 23
+    public static let RENT_CLIENT_LOTTE = 24
     
     static func getMbId() -> Int {
         return UserDefault().readInt(key: UserDefault.Key.MB_ID)
@@ -36,6 +36,15 @@ class MemberManager {
     
     static func getLoginType() -> Login.LoginType {
         return Login.LoginType(rawValue: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)) ?? .kakao
+    }
+    
+    static func getProfileImage() -> String {
+        return UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME)
+    }
+    
+    static func getMemberNickname() -> String {
+        let nickName = UserDefault().readString(key: UserDefault.Key.MB_NICKNAME).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        return nickName ?? ""
     }
     
     static func isPartnershipClient(clientId : Int) -> Bool {
@@ -141,3 +150,10 @@ class MemberManager {
         UIAlertController.showAlert(title: "로그인 필요", message: "로그인 후 사용가능합니다.\n로그인 하시려면 확인버튼을 누르세요.", actions: actions)
     }
 }
+
+struct Admin: Decodable {
+    let mb_id: String
+    let nick_name: String
+}
+
+
