@@ -51,7 +51,7 @@ class BaseViewController: UIViewController {
             }
         } else if status == .authorized {
             picker.sourceType = .camera
-            self.present(picker, animated: false, completion: nil)
+            self.present(picker, animated: true, completion: nil)
         }
     }
     

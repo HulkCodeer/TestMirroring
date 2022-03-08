@@ -62,10 +62,14 @@ struct BoardWriteViewModel {
                         return
                     }
                     
+                    var completedUpload = 0
                     for (index, image) in images.enumerated() {
                         Server.boardImageUpload(mid: mid, document_srl: documentSRL, image: image, seq: "\(index)") { isSuccess, response in
                             if isSuccess {
-                                completion(true)
+                                completedUpload = completedUpload + 1
+                                if completedUpload == images.count {
+                                    completion(true)
+                                }
                             } else {
                                 completion(false)
                             }
@@ -108,10 +112,14 @@ struct BoardWriteViewModel {
                         }
                     }
                     // image 등록
+                    var completedUpload = 0
                     for (index, image) in selectedImages.enumerated() {
                         Server.boardImageUpload(mid: mid, document_srl: documentSRL, image: image, seq: "\(index)") { isSuccess, response in
                             if isSuccess {
-                                completion(true)
+                                completedUpload = completedUpload + 1
+                                if completedUpload == selectedImages.count {
+                                    completion(true)
+                                }
                             } else {
                                 completion(false)
                             }

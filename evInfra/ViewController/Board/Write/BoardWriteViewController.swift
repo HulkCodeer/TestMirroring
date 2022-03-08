@@ -97,15 +97,14 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                         
                         if isSuccess {
                             self.trasientAlertView.titlemessage = "게시글 수정이 완료되었습니다."
-                            self.trasientAlertView.dismissCompletion = {
-                                self.popCompletion?()
-                                self.navigationController?.pop()
-                            }
+                            self.presentPanModal(self.trasientAlertView)
                         } else {
                             self.trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
-                        }
-                        DispatchQueue.main.async {
                             self.presentPanModal(self.trasientAlertView)
+                        }
+                        self.trasientAlertView.dismissCompletion = {
+                            self.popCompletion?()
+                            self.navigationController?.pop()
                         }
                     }
                 }
@@ -132,14 +131,14 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                         
                         if isSuccess {
                             self.trasientAlertView.titlemessage = "게시글 등록이 완료되었습니다."
-                            self.trasientAlertView.dismissCompletion = {
-                                self.navigationController?.pop()
-                            }
+                            self.presentPanModal(self.trasientAlertView)
                         } else {
                             self.trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
-                        }
-                        DispatchQueue.main.async {
                             self.presentPanModal(self.trasientAlertView)
+                        }
+                        self.trasientAlertView.dismissCompletion = {
+                            self.popCompletion?()
+                            self.navigationController?.pop()
                         }
                     }
                 }
@@ -352,7 +351,12 @@ extension BoardWriteViewController: UITextViewDelegate {
         if let _ = document {
             
         } else {
-            textView.text = nil
+            if titleTextView.text.contains(Const.BoardConstants.titlePlaceHolder) {
+                titleTextView.text = nil
+            }
+            if contentsTextView.text.contains(Const.BoardConstants.contentsPlaceHolder) {
+                contentsTextView.text = nil
+            }
         }
     }
     
@@ -377,7 +381,7 @@ extension BoardWriteViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         switch textView.tag {
         case 0:
-            print("")
+            break
         case 1:
             countOfWordsLabel.text = "\(contentsTextView.text.count) / 1200"
         default:
@@ -398,7 +402,7 @@ extension BoardWriteViewController: UIImageCropperProtocol {
     func didCropImage(originalImage: UIImage?, croppedImage: UIImage?) {
         guard let croppedImage = croppedImage else { return }
         selectedImages.append(croppedImage)
-
+        
         DispatchQueue.main.async {
             self.photoCollectionView.reloadData()
         }

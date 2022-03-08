@@ -599,7 +599,7 @@ class Server {
     
     // MARK: - Community 개선 - 게시글 이미지 업로드
     static func boardImageUpload(mid: String, document_srl: String, image: UIImage, seq: String, completion: @escaping (Bool, Any) -> Void) {
-        guard let imageData = UIImageJPEGRepresentation(image, 0.8) else { return }
+        guard let imageData = UIImageJPEGRepresentation(image, 0.5) else { return }
         
         let url = Const.EV_COMMUNITY_SERVER + "/file/mid/\(mid)/document_srl/\(document_srl)/seq/\(seq)"
         
@@ -633,7 +633,7 @@ class Server {
                             completion: @escaping (Bool, Any) -> Void) {
         
         Alamofire.upload(multipartFormData: { (multipartFormData) in
-            multipartFormData.append(imageData ,  withName: "userfile" ,  fileName: "\(DateUtils.currentTimeMillis()).jpg" ,  mimeType:  "image/jpeg" )
+            multipartFormData.append(imageData ,withName: "userfile" ,fileName: "\(DateUtils.currentTimeMillis()).jpg" ,mimeType:  "image/jpeg" )
         }, to: url, encodingCompletion: { encodingResult in
             switch encodingResult {
             case .success(let upload, _, _):
