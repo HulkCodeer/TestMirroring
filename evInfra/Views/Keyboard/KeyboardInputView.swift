@@ -72,8 +72,10 @@ class KeyboardInputView: UIView {
         placeholderTextField.isHidden = false
         
         // 작성 버튼
-        sendButton.backgroundColor = UIColor(named: "nt-0")
+        sendButton.setBackgroundColor(UIColor(named: "gr-5")!, for: .normal)
+        sendButton.setBackgroundColor(UIColor(named: "nt-0")!, for: .disabled)
         sendButton.layer.cornerRadius = 6
+        sendButton.layer.masksToBounds = true
         sendButton.isEnabled = false
         
         // 이미지 선택 뷰
@@ -84,8 +86,6 @@ class KeyboardInputView: UIView {
         // 이미지 제거 버튼
         trashButton.layer.cornerRadius = trashButton.frame.height / 2
         trashButton.isHidden = true
-        
-//        keyboardInputViewBottomMargin.constant = -34
     }
     
     private func setKeyboardObserver() {
@@ -99,7 +99,8 @@ class KeyboardInputView: UIView {
     }
     
     @IBAction func deleteTextButtonTapped(_ sender: Any) {
-        textView.text = ""
+        textView.text = nil
+        sendButton.isEnabled = false
     }
     
     @IBAction func sendButtonTapped(_ sender: Any) {
@@ -161,12 +162,11 @@ extension KeyboardInputView: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if !textView.text.isEmpty {
-            sendButton.backgroundColor = UIColor(named: "gr-5")
-        } else {
-            sendButton.backgroundColor = UIColor(named: "nt-0")
+            sendButton.isEnabled = true
+        } else if textView.text.isEmpty || textView.text == nil {
+            sendButton.isEnabled = false
         }
-        
-        sendButton.isEnabled = !textView.text.isEmpty
+
         placeholderTextField.isHidden = !textView.text.isEmpty
         inputBorderView.layer.borderWidth = 1
         inputBorderView.borderColor = UIColor(named: "nt-2")
@@ -188,11 +188,10 @@ extension KeyboardInputView: UITextViewDelegate {
         placeholderTextField.isHidden = !textView.text.isEmpty
         
         if !textView.text.isEmpty {
-            sendButton.backgroundColor = UIColor(named: "gr-5")
-        } else {
-            sendButton.backgroundColor = UIColor(named: "nt-0")
+            sendButton.isEnabled = true
+        } else if textView.text.isEmpty || textView.text == nil  {
+            sendButton.isEnabled = false
         }
-        sendButton.isEnabled = !textView.text.isEmpty
         
         textViewConstraint.constant = height
     }
