@@ -23,7 +23,6 @@ class MyWritingViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchFirstBoard(mid: boardCategory, sort: Board.SortType.LATEST)
         prepareTabItem()
         boardTableView.tableViewDelegate = self
         boardTableView.separatorColor = UIColor(rgb: 0xE4E4E4)
@@ -43,6 +42,7 @@ class MyWritingViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Recalculates height
+        fetchFirstBoard(mid: boardCategory, sort: Board.SortType.LATEST)
     }
 }
 
@@ -79,7 +79,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
                               searchType: Board.SearchType.MBID.rawValue,
                               searchKeyword: "\(mbID)") { (isSuccess, value) in
             if isSuccess {
-                guard let data = value as? Data else { return }
+                guard let data = value else { return }
                 let decoder = JSONDecoder()
                 
                 do {
@@ -153,15 +153,9 @@ extension MyWritingViewController: BoardTableViewDelegate {
         self.navigationController?.push(viewController: boardDetailTableViewController)
     }
     
-    func showImageViewer(url: URL) {
-        
-    }
+    func showImageViewer(url: URL) { }
 }
 
 extension MyWritingViewController: AppTabsControllerDelegate {
-    func changeTab() {
-//        if self.boardTableView.scrollValue > 0 {
-//            self.boardTableView.setContentOffset(CGPoint(x: 0, y: self.boardTableView.scrollValue), animated: false)
-//        }
-    }
+    func changeTab() {}
 }
