@@ -1017,7 +1017,6 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
 		00CD36C927900F5A005413A6 /* BerryComponent */ = {
 			isa = PBXGroup;
 			children = (
@@ -1025,7 +1024,8 @@
 				00CD36CA27900F73005413A6 /* BerryComponent.storyboard */,
 			);
 			path = BerryComponent;
-=======
+			sourceTree = "<group>";
+		};
 		523A3AF02797A9B8004C3C23 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -1165,7 +1165,6 @@
 				52C0782627CC982A00DEFEBE /* BoardListViewModel.swift */,
 			);
 			path = Board;
->>>>>>> develop
 			sourceTree = "<group>";
 		};
 		5659BC9F308878047DB36D3E /* Frameworks */ = {
@@ -1390,11 +1389,8 @@
 				CE93308E214F9807006B7EF6 /* ReportChargerList.swift */,
 				CEBE0600214BA5C30047E6F2 /* ReportCharger.swift */,
 				00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */,
-<<<<<<< HEAD
 				00CADC1A278D79C2000AF24A /* MemberOtherInfo.swift */,
-=======
 				52B25949278E5E5C0042B22C /* BoardListItem.swift */,
->>>>>>> develop
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1461,11 +1457,8 @@
 		73EF8B40203BC12F00D04494 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
 				00CD36C927900F5A005413A6 /* BerryComponent */,
-=======
 				523A3AF02797A9B8004C3C23 /* Extension */,
->>>>>>> develop
 				00A7D5C926B7B13F00C5DBCC /* Filter */,
 				00B2E8C926C10895005D017C /* Detail */,
 				00B2E8C626C106A0005D017C /* Login */,
@@ -2112,11 +2105,8 @@
 				73D65D702358498C00F564A2 /* Validators.swift in Sources */,
 				000DAE112747369A00CEC165 /* RepayResultViewController.swift in Sources */,
 				00AB7BD926E870820040CFDE /* GuideAlertDialog.swift in Sources */,
-<<<<<<< HEAD
 				00CADC1B278D79C2000AF24A /* MemberOtherInfo.swift in Sources */,
-=======
 				52B709D7279929CE006C5706 /* BoardDetailTableViewHeader.swift in Sources */,
->>>>>>> develop
 				902A11D7248F56610049EF8E /* StationStatusDto.swift in Sources */,
 				73BFA04C20847A310028B35D /* BoardTableViewCell.swift in Sources */,
 				90517A0C253857FD00FCB1A7 /* DateUtils.swift in Sources */,
@@ -2277,11 +2267,8 @@
 				CE93309921511AD4006B7EF6 /* ReportBoardTableViewCell.swift in Sources */,
 				739171E122C4A209007369F9 /* PaymentQRScanViewController.swift in Sources */,
 				73B752852049284B0077112A /* NoticeViewController.swift in Sources */,
-<<<<<<< HEAD
 				00CD36C827900E04005413A6 /* BottomSheetViewController.swift in Sources */,
-=======
 				52B2594A278E5E5C0042B22C /* BoardListItem.swift in Sources */,
->>>>>>> develop
 				732121C5203AC023000E105C /* evInfra.xcdatamodeld in Sources */,
 				4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */,
 				73450EFA2071EB01008516E9 /* EditViewController.swift in Sources */,
@@ -2427,7 +2414,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 137;
+				CURRENT_PROJECT_VERSION = 138;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2440,7 +2427,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.5.12;
+				MARKETING_VERSION = 3.6.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -2466,7 +2453,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 137;
+				CURRENT_PROJECT_VERSION = 138;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2479,7 +2466,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.5.12;
+				MARKETING_VERSION = 3.6.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
