@@ -40,7 +40,6 @@ class RecentKeywordTableViewCell: UITableViewCell {
     lazy var deleteButton: UIButton = {
        let button = UIButton()
         button.setImage(UIImage(named: "iconDeleteKeyword"), for: .normal)
-        button.addTarget(self, action: #selector(deleteKeyword(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -89,6 +88,7 @@ class RecentKeywordTableViewCell: UITableViewCell {
         dateLabel.setContentHuggingPriority(UILayoutPriority(249), for: .horizontal)
         dateLabel.setContentCompressionResistancePriority(UILayoutPriority(751), for: .horizontal)
         deleteButton.setContentCompressionResistancePriority(UILayoutPriority(751), for: .horizontal)
+        deleteButton.addTarget(self, action: #selector(deleteKeyword(_:)), for: .touchUpInside)
     }
     
     func configure(item: Keyword) {
@@ -100,9 +100,7 @@ class RecentKeywordTableViewCell: UITableViewCell {
     }
     
     @objc func deleteKeyword(_ sender: UIButton) {
-        if let delegate = delegate {
-            delegate.deleteButtonTapped(row: index)
-        }
+        delegate?.deleteButtonTapped(row: index)
     }
 }
 

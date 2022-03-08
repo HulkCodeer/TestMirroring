@@ -157,8 +157,13 @@ extension BoardSearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let keyword = searchBar.text {
-            boardSearchViewModel.setKeyword(keyword)
             searchBar.endEditing(true)
+            
+            boardSearchViewModel.setKeyword(keyword)
+            boardSearchViewModel.fetchKeywords { [weak self] keywords in
+                guard let self = self else { return }
+                self.recentKeywords = keywords
+            }
             
             fetchSearchResultList(page: self.page)
         }
@@ -203,7 +208,8 @@ extension BoardSearchViewController: UITableViewDataSource {
             guard let recentKeywordCell = tableView.dequeueReusableCell(withIdentifier: "RecentKeywordTableViewCell", for: indexPath) as? RecentKeywordTableViewCell else { return UITableViewCell() }
 
             recentKeywordCell.configure(item: recentKeywords[indexPath.row])
-
+            recentKeywordCell.delegate = self
+            
             return recentKeywordCell
         } else {
             if isSearchButtonTapped {
@@ -211,7 +217,6 @@ extension BoardSearchViewController: UITableViewDataSource {
                     switch indexPath.section {
                     case 0:
                         guard let emptyTableViewCell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell", for: indexPath) as? EmptyTableViewCell else { return UITableViewCell() }
-//                        emptyTableViewCell.configure(isSearchViewType: true)
                         emptyTableViewCell.configure(isSearchViewType: .Searching)
                         emptyTableViewCell.selectionStyle = .none
                         return emptyTableViewCell
@@ -219,6 +224,7 @@ extension BoardSearchViewController: UITableViewDataSource {
                         guard let recentKeywordCell = tableView.dequeueReusableCell(withIdentifier: "RecentKeywordTableViewCell", for: indexPath) as? RecentKeywordTableViewCell else { return UITableViewCell() }
 
                         recentKeywordCell.configure(item: recentKeywords[indexPath.row])
+                        recentKeywordCell.delegate = self
 
                         return recentKeywordCell
                     default:
@@ -251,7 +257,6 @@ extension BoardSearchViewController: UITableViewDataSource {
             } else {
                 if recentKeywords.isEmpty {
                     guard let emptyTableViewCell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell", for: indexPath) as? EmptyTableViewCell else { return UITableViewCell() }
-//                    emptyTableViewCell.configure(isSearchViewType: true)
                     emptyTableViewCell.configure(isSearchViewType: .Keyword)
                     emptyTableViewCell.selectionStyle = .none
                     return emptyTableViewCell
@@ -259,7 +264,8 @@ extension BoardSearchViewController: UITableViewDataSource {
                     guard let recentKeywordCell = tableView.dequeueReusableCell(withIdentifier: "RecentKeywordTableViewCell", for: indexPath) as? RecentKeywordTableViewCell else { return UITableViewCell() }
 
                     recentKeywordCell.configure(item: recentKeywords[indexPath.row])
-
+                    recentKeywordCell.delegate = self
+                    
                     return recentKeywordCell
                 }
             }
@@ -284,10 +290,6 @@ extension BoardSearchViewController: RecentKeywordTableViewCellDelegate {
                 self.tableView.reloadData()
             }
         }
-        
-//        DispatchQueue.main.async {
-//            self.tableView.reloadData()
-//        }
     }
 }
 
