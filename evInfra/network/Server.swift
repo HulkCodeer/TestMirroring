@@ -614,7 +614,7 @@ class Server {
     
     // MARK: - Community 개선 - 댓글 이미지 업로드
     static func commentImageUpload(mid: String, document_srl: String, comment_srl: String, image: UIImage, completion: @escaping(Bool, Any) -> Void) {
-        guard let imageData = UIImageJPEGRepresentation(image, 0.8) else { return }
+        guard let imageData = UIImageJPEGRepresentation(image, 0.5) else { return }
         
         let url = Const.EV_COMMUNITY_SERVER + "/comment_file/mid/\(mid)/document_srl/\(document_srl)/comment_srl/\(comment_srl)"
         
