@@ -37,6 +37,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
         super.viewDidLoad()
 
         setUI()
+        prepareActionBar(with: "글쓰기")
         stationCheck()
         
         boardWriteViewModel.subscribe { [weak self] isEnable in
@@ -150,8 +151,9 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     
     private func stationCheck() {
         if category.equals(Board.CommunityType.CHARGER.rawValue) {
-            let stationName = stationSearchButton.titleLabel?.text
-            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, stationName)
+            if let stationName = stationSearchButton.currentTitle {
+                boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, stationName)
+            }
         } else {
             boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, nil)
         }
@@ -159,7 +161,6 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     
     private func setUI() {
         view.addSubview(activityIndicator)
-        self.navigationItem.titleLabel.text = "글쓰기"
         
         self.cropper.picker = picker
         self.cropper.delegate = self

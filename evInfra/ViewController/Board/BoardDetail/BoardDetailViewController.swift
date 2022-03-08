@@ -8,7 +8,6 @@
 
 import UIKit
 import SnapKit
-import Material
 import PanModal
 
 class BoardDetailViewController: BaseViewController, UINavigationControllerDelegate {
@@ -31,7 +30,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
         
         fetchData()
         setConfiguration()
-        prepareActionBar()
+        prepareActionBar(with: "")
         setKeyboardInputView()
         setKeyboardTapGesture()
         setSendButtonCompletion()
@@ -43,17 +42,6 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-    }
-    
-    private func prepareActionBar() {
-        self.navigationController?.isNavigationBarHidden = false
-        
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "nt-9")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
     }
     
     private func fetchData() {
@@ -171,11 +159,6 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
                 }
             }
         }
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
     }
 }
 

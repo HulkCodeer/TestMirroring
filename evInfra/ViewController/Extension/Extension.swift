@@ -9,7 +9,27 @@
 import UIKit
 import PanModal
 import SnapKit
+import Material
 import AVFoundation
+
+extension UIViewController {
+    func prepareActionBar(with title: String) {
+        navigationController?.isNavigationBarHidden = false
+        
+        let backButton = IconButton(image: Icon.cm.arrowBack)
+        backButton.tintColor = UIColor(named: "nt-9")
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        
+        navigationItem.hidesBackButton = true
+        navigationItem.leftViews = [backButton]
+        navigationItem.titleLabel.text = title
+    }
+    
+    @objc
+    func backButtonTapped() {
+        self.navigationController?.pop()
+    }
+}
 
 class BaseViewController: UIViewController {
     let picker = UIImagePickerController()

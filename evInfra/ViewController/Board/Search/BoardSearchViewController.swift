@@ -28,7 +28,7 @@ class BoardSearchViewController: UIViewController {
         super.viewDidLoad()
         
         setUI()
-        setNavigationController()
+        prepareActionBar(with: "게시글 검색")
         
         boardSearchViewModel.fetchKeywords { [weak self] keywords in
             guard let self = self else { return }
@@ -51,10 +51,6 @@ class BoardSearchViewController: UIViewController {
 
 // MARK: - Private Extension
 private extension BoardSearchViewController {
-    func setNavigationController() {
-        navigationItem.titleLabel.text = "게시글 검색"
-    }
-    
     func setUI() {
         view.addSubview(searchBarView)
         view.addSubview(searchTypeSelectView)
@@ -270,6 +266,10 @@ extension BoardSearchViewController: UITableViewDataSource {
                 }
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
     }
 }
 
