@@ -134,9 +134,9 @@ class BoardDetailTableViewCell: UITableViewCell {
             commentCountLabel.isHidden = isRecomment
         }
         
-        // 삭제 댓글 표시
-        let isDeletedComment = comment.status!.equals("-1")
-        if isDeletedComment {
+        // 삭제 댓글 표시 + 신고한 댓글 표시
+        if isDeletedComment(with: comment) ||
+            isReportedCommentByMe(with: comment) {
             setDeletedCommentUI(isOn: true)
             titleLabel.attributedText = comment.content?.htmlToAttributedString()
         } else {
@@ -156,6 +156,14 @@ class BoardDetailTableViewCell: UITableViewCell {
         if comment.liked! >= 1 {
             likeButton.isSelected = true
         }
+    }
+    
+    private func isDeletedComment(with comment: Comment) -> Bool {
+        return comment.status!.equals("-1")
+    }
+    
+    private func isReportedCommentByMe(with comment: Comment) -> Bool {
+        return comment.status!.equals("0")
     }
     
     private func setImage(files: [FilesItem]?) {

@@ -35,12 +35,12 @@ class BoardDetailViewModel {
         }
     }
     
-    func deleteBoardComment(documentSRL: String, commentSRL: String, completion: @escaping (Bool) -> Void) {
+    func deleteBoardComment(documentSRL: String, commentSRL: String, completion: @escaping (Bool, String) -> Void) {
         Server.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { (isSuccess, response) in
             if isSuccess {
-                completion(true)
+                completion(true, "삭제되었습니다.")
             } else {
-                completion(false)
+                completion(false, "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
             }
         }
     }

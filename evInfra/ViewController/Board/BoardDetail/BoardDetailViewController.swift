@@ -360,6 +360,7 @@ extension BoardDetailViewController {
             
             if isReported {
                 self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { (_, message) in
+                    self.fetchData()
                     Snackbar().show(message: message)
                 }
             }
@@ -374,14 +375,9 @@ extension BoardDetailViewController {
         popup.addActionToButton(title: "삭제", buttonType: .confirm)
         popup.confirmDelegate = { [weak self] isDeleted in
             guard let self = self else { return }
-            self.boardDetailViewModel.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { isSuccess in
-                let trasientAlertView = TransientAlertViewController()
-                if isSuccess {
-                    trasientAlertView.titlemessage = "삭제되었습니다."
-                } else {
-                    trasientAlertView.titlemessage = "오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-                }
-                self.presentPanModal(trasientAlertView)
+            self.boardDetailViewModel.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { isSuccess, message in
+                self.trasientAlertView.titlemessage = message
+                self.presentPanModal(self.trasientAlertView)
                 self.fetchData()
             }
         }
@@ -415,7 +411,9 @@ extension BoardDetailViewController {
             
             if isReported {
                 self.boardDetailViewModel.reportComment(commentSrl: comment.comment_srl!) { (_, message) in
-                    Snackbar().show(message: message)
+                    self.trasientAlertView.titlemessage = message
+                    self.presentPanModal(self.trasientAlertView)
+                    self.fetchData()
                 }
             }
         }
