@@ -68,4 +68,12 @@ extension String {
         let data = try? Data(contentsOf: url!)
         return UIImage(data: data!)
     }
+    
+    func isContainsHtmlTag() -> Bool {
+        let pattern = "[<][a-zA-Z]*[>]"
+        
+        guard let range = self.range(of: pattern, options: .regularExpression) else { return false }
+        
+        return true
+    }
 }

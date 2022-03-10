@@ -103,8 +103,20 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
         
         nickNameLabel.text = document.nick_name
         dateLabel.text = "| \(DateUtils.getTimesAgoString(date: document.regdate ?? ""))"
-        titleLabel.text = document.title
-        contentsLabel.text = document.content
+        
+        let isContainsHtmlTagInTitle = document.title!.isContainsHtmlTag()
+        if isContainsHtmlTagInTitle {
+            titleLabel.attributedText = document.title?.htmlToAttributedString()
+        } else {
+            titleLabel.text = document.title
+        }
+        
+        let isContainsHtmlTagInContent = document.content!.isContainsHtmlTag()
+        if isContainsHtmlTagInContent {
+            contentsLabel.attributedText = document.content?.htmlToAttributedString()
+        } else {
+            contentsLabel.text = document.content
+        }
         
         reportButton.isHidden = isAdmin(mbId: document.mb_id!)
         adminTagImage.isHidden = !isAdmin(mbId: document.mb_id!)

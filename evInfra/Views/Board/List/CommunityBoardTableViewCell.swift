@@ -73,6 +73,7 @@ class CommunityBoardTableViewCell: UITableViewCell {
         userNameLabel.text = item.nick_name
         dateLabel.text = "| \(DateUtils.getTimesAgoString(date: item.regdate ?? ""))"
         
+        let isContainsHtmlTags = item.content!.isContainsHtmlTag()
         if let files = item.files {
             if files.count > 0 {
                 let attachment = NSTextAttachment()
@@ -85,10 +86,18 @@ class CommunityBoardTableViewCell: UITableViewCell {
                 contentsLabel.attributedText = attributedString
                 contentsLabel.sizeToFit()
             } else {
-                contentsLabel.text = item.content!
+                if isContainsHtmlTags {
+                    contentsLabel.attributedText = item.content!.htmlToAttributedString()
+                } else {
+                    contentsLabel.text = item.content!
+                }
             }
         } else {
-            contentsLabel.text = item.content!
+            if isContainsHtmlTags {
+                contentsLabel.attributedText = item.content!.htmlToAttributedString()
+            } else {
+                contentsLabel.text = item.content!
+            }
         }
         
         if let comment_count = item.comment_count,
