@@ -30,7 +30,7 @@ class Board {
     
     // 검색 타입
     enum SearchType: String, CaseIterable {
-        case TITLE_WITH_CONTENT = "title"
+        case TITLE_WITH_CONTENT = "title|content"
         case NICK_NAME = "nick_name"
         case MBID = "mb_id"
         case STATION = "station"
