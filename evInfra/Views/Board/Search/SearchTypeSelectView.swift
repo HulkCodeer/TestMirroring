@@ -51,6 +51,7 @@ class SearchTypeSelectView: UIView {
     
     var buttonGroup: [UIButton] = []
     var selectedType: String = Board.SearchType.TITLE_WITH_CONTENT.rawValue
+    var previousSelectedType: String = Board.SearchType.TITLE_WITH_CONTENT.rawValue
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -103,6 +104,8 @@ class SearchTypeSelectView: UIView {
     }
     
     @objc func butttonTapped(_ sender: UIButton) {
+        previousSelectedType = selectedType
+        
         if !sender.isSelected {
             buttonGroup.forEach {
                 $0.isSelected = false

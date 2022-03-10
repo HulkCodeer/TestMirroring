@@ -57,6 +57,7 @@ class SearchBarView: UIView {
 
         if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
             textfield.backgroundColor = UIColor(named: "nt-white")
+            textfield.delegate = self
             textfield.addTarget(self, action: #selector(textfiledDidChange(textField:)), for: .editingChanged)
             textfield.snp.makeConstraints {
                 $0.top.equalToSuperview()
@@ -116,3 +117,14 @@ extension SearchBarView {
     }
 }
 
+extension SearchBarView: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        searchButton.isEnabled = !text.isEmpty
+        if text.isEmpty {
+            searchBar.layer.borderColor = UIColor(named: "nt-2")?.cgColor
+        } else {
+            searchBar.layer.borderColor = UIColor(named: "nt-9")?.cgColor
+        }
+    }
+}
