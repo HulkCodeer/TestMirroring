@@ -24,11 +24,11 @@ class BoardListViewModel {
         fetchBoardAdsToBoardListItem()
     }
     
-    func fetchFirstBoard(mid: String, sort: Board.SortType, currentPage: Int) {
+    func fetchFirstBoard(mid: String, sort: Board.SortType, currentPage: Int, mode: String) {
         
         Server.fetchBoardList(mid: mid,
                               page: "\(currentPage)",
-                              mode: Board.ScreenType.FEED.rawValue,
+                              mode: mode,
                               sort: sort.rawValue,
                               searchType: "",
                               searchKeyword: "") { (isSuccess, value) in
@@ -64,10 +64,10 @@ class BoardListViewModel {
         }
     }
     
-    func fetchNextBoard(mid: String, sort: Board.SortType, currentPage: Int) {
+    func fetchNextBoard(mid: String, sort: Board.SortType, currentPage: Int, mode: String) {
         Server.fetchBoardList(mid: mid,
                               page: "\(currentPage)",
-                              mode: Board.ScreenType.FEED.rawValue,
+                              mode: mode,
                               sort: sort.rawValue,
                               searchType: "",
                               searchKeyword: "") { (isSuccess, value) in

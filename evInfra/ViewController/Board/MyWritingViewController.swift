@@ -19,6 +19,7 @@ class MyWritingViewController: BaseViewController {
     var lastPage: Bool = false
     var communityBoardList: [BoardListItem] = [BoardListItem]()
     var boardCategory = ""
+    var screenType = Board.ScreenType.LIST
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +43,7 @@ class MyWritingViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Recalculates height
-        fetchFirstBoard(mid: boardCategory, sort: Board.SortType.LATEST)
+        fetchFirstBoard(mid: boardCategory, sort: Board.SortType.LATEST, mode: screenType.rawValue)
     }
 }
 
@@ -65,7 +66,7 @@ extension MyWritingViewController {
 }
 
 extension MyWritingViewController: BoardTableViewDelegate {
-    func fetchFirstBoard(mid: String, sort: Board.SortType) {
+    func fetchFirstBoard(mid: String, sort: Board.SortType, mode: String) {
         self.activityIndicator.startAnimating()
         self.currentPage = 1
         self.lastPage = false
@@ -74,7 +75,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
         
         Server.fetchBoardList(mid: mid,
                               page: "\(self.currentPage)",
-                              mode: Board.ScreenType.FEED.rawValue,
+                              mode: mode,
                               sort: sort.rawValue,
                               searchType: Board.SearchType.MBID.rawValue,
                               searchKeyword: "\(mbID)") { (isSuccess, value) in
@@ -104,14 +105,14 @@ extension MyWritingViewController: BoardTableViewDelegate {
         }
     }
     
-    func fetchNextBoard(mid: String, sort: Board.SortType) {
+    func fetchNextBoard(mid: String, sort: Board.SortType, mode: String) {
         self.currentPage += 1
         
         let mbID = MemberManager.getMbId()
         
         Server.fetchBoardList(mid: mid,
                               page: "\(self.currentPage)",
-                              mode: Board.ScreenType.FEED.rawValue,
+                              mode: mode,
                               sort: sort.rawValue,
                               searchType: Board.SearchType.MBID.rawValue,
                               searchKeyword: "\(mbID)") { (isSuccess, value) in

@@ -297,8 +297,10 @@ extension LeftViewController {
                     let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
                     let freeMineVC = boardStoryboard.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
                     freeMineVC.boardCategory = Board.CommunityType.FREE.rawValue
+                    freeMineVC.screenType = .LIST
                     let chargerMineVC = boardStoryboard.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
                     chargerMineVC.boardCategory = Board.CommunityType.CHARGER.rawValue
+                    chargerMineVC.screenType = .FEED
                     
                     myWritingControllers.append(chargerMineVC)
                     myWritingControllers.append(freeMineVC)
@@ -368,6 +370,7 @@ extension LeftViewController {
                 let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
                 let freeBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
                 freeBoardVC.category = Board.CommunityType.FREE.rawValue
+                freeBoardVC.mode = Board.ScreenType.LIST
                 navigationController?.push(viewController: freeBoardVC)
             
             case SUB_MENU_CHARGER_BOARD: // 충전소 게시판
@@ -376,6 +379,7 @@ extension LeftViewController {
                 let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
                 let stationBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
                 stationBoardVC.category = Board.CommunityType.CHARGER.rawValue
+                stationBoardVC.mode = Board.ScreenType.FEED
                 navigationController?.push(viewController: stationBoardVC)
             default:
                 print("out of index")
@@ -391,6 +395,7 @@ extension LeftViewController {
                     companyBoardVC.category = Board.CommunityType.getCompanyType(index: index.row)
                     companyBoardVC.bmId = boardInfo.bmId!
                     companyBoardVC.brdTitle = title
+                    companyBoardVC.mode = Board.ScreenType.LIST
                     navigationController?.push(viewController: companyBoardVC)
                 }
             }

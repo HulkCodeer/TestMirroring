@@ -24,6 +24,7 @@ class CardBoardViewController: BaseViewController {
     var lastPage: Bool = false
     var communityBoardList: [BoardListItem] = [BoardListItem]()
     var sortType: Board.SortType = .LATEST
+    var mode: Board.ScreenType = .LIST
     var boardListViewModel = BoardListViewModel()
     let boardWriteButton = BoardWriteButton()
     
@@ -39,8 +40,8 @@ class CardBoardViewController: BaseViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        fetchFirstBoard(mid: category, sort: sortType)
+        super.viewWillAppear(animated) 
+        fetchFirstBoard(mid: category, sort: sortType, mode: mode.rawValue)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -52,7 +53,7 @@ extension CardBoardViewController {
     
     @objc func pullToRefresh(refresh: UIRefreshControl) {
         refresh.endRefreshing()
-        fetchFirstBoard(mid: category, sort: sortType)
+        fetchFirstBoard(mid: category, sort: sortType, mode: mode.rawValue)
     }
     
     func prepareActionBar() {
@@ -90,6 +91,7 @@ extension CardBoardViewController {
     func setConfiguration() {
         boardTableView.tableViewDelegate = self
         boardTableView.category = self.category
+        boardTableView.screenType = self.mode
 
         boardTableView.refreshControl = UIRefreshControl()
         boardTableView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
@@ -139,11 +141,11 @@ extension CardBoardViewController {
 
 // MARK: - TableView Delegate
 extension CardBoardViewController: BoardTableViewDelegate {
-    func fetchNextBoard(mid: String, sort: Board.SortType) {
+    func fetchNextBoard(mid: String, sort: Board.SortType, mode: String) {
         if lastPage == false {
             self.currentPage = self.currentPage + 1
             
-            boardListViewModel.fetchNextBoard(mid: mid, sort: sort, currentPage: self.currentPage)
+            boardListViewModel.fetchNextBoard(mid: mid, sort: sort, currentPage: self.currentPage, mode: mode)
             boardListViewModel.listener = { [weak self] boardResponseData in
                 guard let self = self,
                       let boardResponseData = boardResponseData,
@@ -161,12 +163,12 @@ extension CardBoardViewController: BoardTableViewDelegate {
     }
     
 
-    func fetchFirstBoard(mid: String, sort: Board.SortType) {
+    func fetchFirstBoard(mid: String, sort: Board.SortType, mode: String) {
         self.currentPage = 1
         self.lastPage = false
         self.sortType = sort
         
-        boardListViewModel.fetchFirstBoard(mid: category, sort: sortType, currentPage: currentPage)
+        boardListViewModel.fetchFirstBoard(mid: category, sort: sortType, currentPage: currentPage, mode: mode)
         boardListViewModel.listener = { [weak self] boardResponseData in
             guard let self = self,
                   let boardResponseData = boardResponseData,

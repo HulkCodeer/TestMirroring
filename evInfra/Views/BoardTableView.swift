@@ -17,6 +17,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
     var currentPage = 0
     var communityBoardList: [BoardListItem] = [BoardListItem]()
     var sortType: Board.SortType = .LATEST
+    var screenType: Board.ScreenType = .LIST
     var isNoneHeader: Bool = false
     var adIndex: Int = -1
     private var adminList: [Admin] = [Admin]()
@@ -153,7 +154,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
             if indexPath.row % 20 == 19 {
-                self.tableViewDelegate?.fetchNextBoard(mid: self.category, sort: self.sortType)
+                self.tableViewDelegate?.fetchNextBoard(mid: self.category, sort: self.sortType, mode: self.screenType.rawValue)
             }
         }
     }
@@ -173,6 +174,6 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
 extension BoardTableView: CommunityBoardTableViewHeaderDelegate {
     func didSelectTag(_ selectedType: Board.SortType) {
         sortType = selectedType
-        self.tableViewDelegate?.fetchFirstBoard(mid: self.category, sort: self.sortType)
+        self.tableViewDelegate?.fetchFirstBoard(mid: self.category, sort: self.sortType, mode: self.screenType.rawValue)
     }
 }

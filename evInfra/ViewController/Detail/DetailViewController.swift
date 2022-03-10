@@ -108,7 +108,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func prepareChargerInfo() {
         setStationInfo()
         setDetailLb()
-        fetchFirstBoard(mid: "station", sort: .LATEST)
+        fetchFirstBoard(mid: "station", sort: .LATEST, mode: Board.ScreenType.LIST.rawValue)
         initKakaoMap()
     }
     
@@ -355,9 +355,9 @@ extension DetailViewController {
 }
 
 extension DetailViewController: BoardTableViewDelegate {
-    func fetchFirstBoard(mid: String, sort: Board.SortType) {
+    func fetchFirstBoard(mid: String, sort: Board.SortType, mode: String) {
         if let chargerData = charger {
-            Server.fetchBoardList(mid: "station", page: "1", mode: "1", sort: "0", searchType: "station", searchKeyword: chargerData.mChargerId!) { (isSuccess, value) in
+            Server.fetchBoardList(mid: "station", page: "1", mode: mode, sort: "0", searchType: "station", searchKeyword: chargerData.mChargerId!) { (isSuccess, value) in
                 
                 if isSuccess {
                     guard let data = value else { return }
@@ -387,7 +387,7 @@ extension DetailViewController: BoardTableViewDelegate {
         }
     }
     
-    func fetchNextBoard(mid: String, sort: Board.SortType) {}
+    func fetchNextBoard(mid: String, sort: Board.SortType, mode: String) {}
     func didSelectItem(at index: Int) {
         guard let documentSRL = boardList[index].document_srl,
         !documentSRL.elementsEqual("-1") else { return }
