@@ -22,13 +22,17 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     @IBOutlet var countOfWordsLabel: UILabel!
     @IBOutlet var completeButton: UIButton!
     @IBOutlet var photoCollectionView: UICollectionView!
-
-    var selectedImages: [UIImage] = []
+    
+    var boardWriteViewModel = BoardWriteViewModel()
+    var selectedImages: [UIImage] = [] {
+        didSet {
+            self.boardWriteViewModel.isModified = true
+        }
+    }
     var uploadedImages: [FilesItem]? = []
     var chargerInfo: [String: String] = [:]
     var category = Board.CommunityType.FREE.rawValue
     var document: Document?
-    var boardWriteViewModel = BoardWriteViewModel()
     var popCompletion: (() -> Void)?
     let cropper = UIImageCropper(cropRatio: 100/115)
     let trasientAlertView = TransientAlertViewController()
@@ -38,7 +42,6 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
 
         setUI()
         prepareActionBar(with: "글쓰기")
-        stationCheck()
         
         boardWriteViewModel.subscribe { [weak self] isEnable in
             guard let self = self else { return }
@@ -146,16 +149,6 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
             }
             
             self.present(popup, animated: true, completion: nil)
-        }
-    }
-    
-    private func stationCheck() {
-        if category.equals(Board.CommunityType.CHARGER.rawValue) {
-            if let stationName = stationSearchButton.currentTitle {
-                boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, stationName)
-            }
-        } else {
-            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, nil)
         }
     }
     
@@ -298,7 +291,7 @@ extension BoardWriteViewController: UICollectionViewDelegate {
                     break
                 }
             }
-
+            
         } else {            
             let popup = ConfirmPopupViewController(titleText: "삭제 안내", messageText: "선택하신 사진을 삭제 하시겠습니까?")
             popup.addActionToButton(title: "취소", buttonType: .cancel)
@@ -346,31 +339,37 @@ extension BoardWriteViewController: UICollectionViewDataSource {
 // MARK: - TextView Delegate
 extension BoardWriteViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        textView.layer.borderColor = UIColor(named: "nt-9")?.cgColor
-        textView.textColor = UIColor(named: "nt-9")
-        
-        if let _ = document {
+        switch textView.tag {
+        case 0:
+            titleTextView.layer.borderColor = UIColor(named: "nt-9")?.cgColor
+            titleTextView.textColor = UIColor(named: "nt-9")
             
-        } else {
             if titleTextView.text.contains(Const.BoardConstants.titlePlaceHolder) {
                 titleTextView.text = nil
             }
+        case 1:
+            contentsView.layer.borderColor = UIColor(named: "nt-9")?.cgColor
+            contentsTextView.textColor = UIColor(named: "nt-9")
+            
             if contentsTextView.text.contains(Const.BoardConstants.contentsPlaceHolder) {
                 contentsTextView.text = nil
             }
+        default:
+            break
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        textView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
-        textView.textColor = UIColor(named: "nt-5")
-        
         switch textView.tag {
         case 0:
+            titleTextView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
+            titleTextView.textColor = UIColor(named: "nt-5")
             if titleTextView.text.isEmpty {
                 titleTextView.text = Const.BoardConstants.titlePlaceHolder
             }
         case 1:
+            contentsView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
+            contentsTextView.textColor = UIColor(named: "nt-5")
             if contentsTextView.text.isEmpty {
                 contentsTextView.text = Const.BoardConstants.contentsPlaceHolder
             }
@@ -391,9 +390,9 @@ extension BoardWriteViewController: UITextViewDelegate {
         
         if category.equals(Board.CommunityType.CHARGER.rawValue) {
             let stationName = stationSearchButton.titleLabel?.text
-            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, stationName)
+            boardWriteViewModel.bindInputText(document, titleTextView.text, contentsTextView.text, stationName)
         } else {
-            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, nil)
+            boardWriteViewModel.bindInputText(document, titleTextView.text, contentsTextView.text, nil)
         }
     }
 }
@@ -406,6 +405,13 @@ extension BoardWriteViewController: UIImageCropperProtocol {
         
         DispatchQueue.main.async {
             self.photoCollectionView.reloadData()
+        }
+        
+        if category.equals(Board.CommunityType.CHARGER.rawValue) {
+            let stationName = stationSearchButton.titleLabel?.text
+            boardWriteViewModel.bindInputText(document, titleTextView.text, contentsTextView.text, stationName)
+        } else {
+            boardWriteViewModel.bindInputText(document, titleTextView.text, contentsTextView.text, nil)
         }
 
         didCancel()

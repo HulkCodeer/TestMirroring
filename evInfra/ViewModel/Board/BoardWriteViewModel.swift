@@ -11,6 +11,7 @@ import Foundation
 struct BoardWriteViewModel {
     
     var listener: ((Bool) -> Void)?
+    var isModified: Bool = false
     var isValid: Bool = false {
         didSet {
             self.listener?(isValid)
@@ -22,32 +23,52 @@ struct BoardWriteViewModel {
         self.listener = listener
     }
     
-    mutating func bindInputText(_ title: String, _ contents: String, _ stationName: String?) {
-        
-        if let stationName = stationName {
-            if title.count <= 100 &&
-                !title.contains(Const.BoardConstants.titlePlaceHolder) &&
-                contents.count <= 1200 &&
-                !contents.contains(Const.BoardConstants.contentsPlaceHolder) &&
-                !stationName.isEmpty && !stationName.contains(Const.BoardConstants.chargerPlaceHolder) {
-                self.isValid = true
+    mutating func bindInputText(_ isModifyStatus: Document?, _ title: String, _ contents: String, _ stationName: String?) {
+        if let _ = isModifyStatus {
+            if let stationName = stationName {
+                if (validationTitleWithContents(title: title, content: contents) &&
+                    validationStation(with: stationName)) ||
+                    isModified {
+                    self.isValid = true
+                } else {
+                    self.isValid = false
+                }
             } else {
-                self.isValid = false
+                if validationTitleWithContents(title: title, content: contents) || isModified {
+                    self.isValid = true
+                } else {
+                    self.isValid = false
+                }
             }
         } else {
-            if title.count <= 100 &&
-                !title.contains(Const.BoardConstants.titlePlaceHolder) &&
-                contents.count <= 1200 &&
-                !contents.contains(Const.BoardConstants.contentsPlaceHolder) {
-                self.isValid = true
+            if let stationName = stationName {
+                if validationTitleWithContents(title: title, content: contents) &&
+                    validationStation(with: stationName) {
+                    self.isValid = true
+                } else {
+                    self.isValid = false
+                }
             } else {
-                self.isValid = false
+                if validationTitleWithContents(title: title, content: contents) {
+                    self.isValid = true
+                } else {
+                    self.isValid = false
+                }
             }
         }
     }
     
-    private func validate() {
-        
+    private func validationTitleWithContents(title str1: String, content str2: String) -> Bool {
+        return str1.count <= 100 &&
+        str1.count != 0 &&
+        !str1.contains(Const.BoardConstants.titlePlaceHolder) &&
+        str2.count <= 1200 &&
+        str2.count != 0 &&
+        !str2.contains(Const.BoardConstants.contentsPlaceHolder)
+    }
+    
+    private func validationStation(with stationName: String) -> Bool {
+        return !stationName.isEmpty && !stationName.contains(Const.BoardConstants.chargerPlaceHolder)
     }
     
     func postBoard(_ mid: String, _ title: String, _ content: String, _ chargerId: String, _ images: [UIImage] , completion: @escaping (Bool) -> Void) {

@@ -103,8 +103,13 @@ private extension BoardSearchViewController {
             guard let self = self else { return }
             
             self.isSearchButtonTapped = true
-            self.boardList += boardList
-                                
+            
+            if type != self.searchTypeSelectView.previousSelectedType {
+                self.boardList = boardList
+            } else {
+                self.boardList += boardList
+            }
+            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -266,10 +271,6 @@ extension BoardSearchViewController: UITableViewDataSource {
                 }
             }
         }
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        
     }
 }
 
