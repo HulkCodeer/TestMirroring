@@ -24,11 +24,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     @IBOutlet var photoCollectionView: UICollectionView!
     
     var boardWriteViewModel = BoardWriteViewModel()
-    var selectedImages: [UIImage] = [] {
-        didSet {
-            self.boardWriteViewModel.isModified = true
-        }
-    }
+    var selectedImages: [UIImage] = [] 
     var uploadedImages: [FilesItem]? = []
     var chargerInfo: [String: String] = [:]
     var category = Board.CommunityType.FREE.rawValue
@@ -254,6 +250,7 @@ extension BoardWriteViewController: ChargerSelectDelegate {
             chargerInfo["chargerId"] = chargerId
             chargerInfo["chargerName"] = chargerStaionInfoDto.mSnm!
             
+            boardWriteViewModel.bindInputText(document, titleTextView.text, contentsTextView.text, chargerStaionInfoDto.mSnm)
             stationSearchButton.setTitle(chargerStaionInfoDto.mSnm, for: .normal)
         }
     }
@@ -402,6 +399,7 @@ extension BoardWriteViewController: UIImageCropperProtocol {
     func didCropImage(originalImage: UIImage?, croppedImage: UIImage?) {
         guard let croppedImage = croppedImage else { return }
         selectedImages.append(croppedImage)
+        self.boardWriteViewModel.isModified = true
         
         DispatchQueue.main.async {
             self.photoCollectionView.reloadData()

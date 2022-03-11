@@ -59,12 +59,14 @@ struct BoardWriteViewModel {
     }
     
     private func validationTitleWithContents(title str1: String, content str2: String) -> Bool {
+        if str1.contains(Const.BoardConstants.titlePlaceHolder) || str2.contains(Const.BoardConstants.contentsPlaceHolder) {
+            return false
+        }
+        
         return str1.count <= 100 &&
-        str1.count != 0 &&
-        !str1.contains(Const.BoardConstants.titlePlaceHolder) &&
+        str1.count > 0 &&
         str2.count <= 1200 &&
-        str2.count != 0 &&
-        !str2.contains(Const.BoardConstants.contentsPlaceHolder)
+        str2.count > 0
     }
     
     private func validationStation(with stationName: String) -> Bool {
