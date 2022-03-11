@@ -19,8 +19,10 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     var detail: BoardDetailResponseData? = nil
     var recomment: Recomment?
     var isFromStationDetailView: Bool = false
+    var isModified: Bool = false
+    var popCompletion: ((Bool) -> Void)?
+    let ReloadData: Notification.Name = Notification.Name("ReloadData")
     lazy var keyboardInputView: KeyboardInputView? = nil
-    
     let boardDetailViewModel = BoardDetailViewModel()
     let trasientAlertView = TransientAlertViewController()
     private var adminList: [Admin] = [Admin]()
@@ -209,6 +211,9 @@ extension BoardDetailViewController: UITableViewDelegate {
         if section == 0 {
             guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "BoardDetailTableViewHeader") as? BoardDetailTableViewHeader else { return UIView() }
             
+            if #available(iOS 14.0, *) {
+                view.backgroundConfiguration?.backgroundColor = UIColor(named: "nt-white")
+            }
             view.configure(item: boardDetailViewModel.getDetailData(), isFromStationDetailView: isFromStationDetailView)
             view.buttonClickDelegate = self
             
@@ -304,14 +309,14 @@ extension BoardDetailViewController {
                 
                 if isSuccess {
                     self.trasientAlertView.titlemessage = "게시글이 삭제 되었습니다."
-                    self.trasientAlertView.dismissCompletion = {
-                        self.navigationController?.pop()
-                    }
+                    self.presentPanModal(self.trasientAlertView)
                 } else {
                     self.trasientAlertView.titlemessage = "오류가 발생했습니다. 다시 시도해 주세요."
-                }
-                DispatchQueue.main.async {
                     self.presentPanModal(self.trasientAlertView)
+                }
+                self.trasientAlertView.dismissCompletion = {
+                    NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                    self.navigationController?.pop()
                 }
             }
         }
@@ -328,6 +333,7 @@ extension BoardDetailViewController {
         boardWriteViewController.uploadedImages = self.boardDetailViewModel.getDetailData()?.files
         
         boardWriteViewController.popCompletion = {
+            NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
             self.fetchData()
         }
         
@@ -414,6 +420,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
         
         if isHeader {
             if !MemberManager().isLogin() {
+                /*
                 rowVC.members = ["공유하기"]
                 presentPanModal(rowVC)
                 
@@ -423,18 +430,23 @@ extension BoardDetailViewController: ButtonClickDelegate {
                     self.dismiss(animated: true) {
                         switch index {
                         case 0:
-                            print("공유하기")
+//                            self.shareForKakao()
                         default:
                             break
                         }
                     }
                 }
-                
+                */
+                MemberManager().showLoginAlert(vc: self, completion: { (result) -> Void in
+                    if !result {
+                        self.navigationController?.pop()
+                    }
+                })
                 return
             }
             
             if boardDetailViewModel.isMyBoard(mb_id: document.mb_id!) {
-                rowVC.members = ["공유하기", "수정하기", "삭제하기"]
+                rowVC.members = ["수정하기", "삭제하기"]
                 presentPanModal(rowVC)
                 
                 rowVC.selectedCompletion = { [weak self] index in
@@ -443,12 +455,9 @@ extension BoardDetailViewController: ButtonClickDelegate {
                     self.dismiss(animated: true) {
                         switch index {
                         case 0:
-                            // 공유하기
-                            print("공유하기")
-                        case 1:
                             // 수정하기
                             self.modifyBoard()
-                        case 2:
+                        case 1:
                             // 삭제하기
                             self.deleteBoard()
                         default:
@@ -457,7 +466,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
                     }
                 }
             } else {
-                rowVC.members = ["공유하기", "신고하기"]
+                rowVC.members = ["신고하기"]
                 presentPanModal(rowVC)
                 
                 rowVC.selectedCompletion = { [weak self] index in
@@ -466,9 +475,6 @@ extension BoardDetailViewController: ButtonClickDelegate {
                     self.dismiss(animated: true) {
                         switch index {
                         case 0:
-                            // 공유하기
-                            print("공유하기")
-                        case 1:
                             // 신고하기
                             self.reportBoard()
                         default:
@@ -487,7 +493,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
             let comment = comments[row]
             
             if boardDetailViewModel.isMyBoard(mb_id: comment.mb_id!) {
-                rowVC.members = ["공유하기","수정하기", "삭제하기"]
+                rowVC.members = ["수정하기", "삭제하기"]
                 presentPanModal(rowVC)
                 
                 rowVC.selectedCompletion = { [weak self] index in
@@ -496,12 +502,9 @@ extension BoardDetailViewController: ButtonClickDelegate {
                     self.dismiss(animated: true) {
                         switch index {
                         case 0:
-                            // 공유하기
-                            print("공유하기")
-                        case 1:
                             // 댓글 수정하기
                             self.modifyComment(comment: comment, selectedRow: row)
-                        case 2:
+                        case 1:
                             // 댓글 삭제하기
                             self.deleteComment(documentSRL: comment.document_srl!, commentSRL: comment.comment_srl!)
                         default:
@@ -510,7 +513,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
                     }
                 }
             } else {
-                rowVC.members = ["공유하기", "신고하기"]
+                rowVC.members = ["신고하기"]
                 presentPanModal(rowVC)
                 
                 rowVC.selectedCompletion = { [weak self] index in
@@ -519,9 +522,6 @@ extension BoardDetailViewController: ButtonClickDelegate {
                     self.dismiss(animated: true) {
                         switch index {
                         case 0:
-                            // 공유하기
-                            print("공유하기")
-                        case 1:
                             // 신고하기
                             self.reportComment(comment: comment)
                         default:

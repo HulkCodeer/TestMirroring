@@ -33,6 +33,8 @@ class CardBoardViewController: BaseViewController {
         
         prepareActionBar()
         setConfiguration()
+        fetchFirstBoard(mid: category, sort: sortType, mode: mode.rawValue)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,7 +43,6 @@ class CardBoardViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated) 
-        fetchFirstBoard(mid: category, sort: sortType, mode: mode.rawValue)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -50,6 +51,10 @@ class CardBoardViewController: BaseViewController {
 }
 
 extension CardBoardViewController {
+    
+    @objc func updateCompletion(_ notification: Notification) {
+        fetchFirstBoard(mid: category, sort: sortType, mode: mode.rawValue)
+    }
     
     @objc func pullToRefresh(refresh: UIRefreshControl) {
         refresh.endRefreshing()
@@ -134,6 +139,10 @@ extension CardBoardViewController {
         guard let boardWriteViewController = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
         
         boardWriteViewController.category = self.category
+        boardWriteViewController.popCompletion = { [weak self] in
+            guard let self = self else { return }
+            self.fetchFirstBoard(mid: self.category, sort: self.sortType, mode: self.mode.rawValue)
+        }
         
         self.navigationController?.push(viewController: boardWriteViewController)
     }
@@ -167,7 +176,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
         self.currentPage = 1
         self.lastPage = false
         self.sortType = sort
-        
+        activityIndicator.startAnimating()
         boardListViewModel.fetchFirstBoard(mid: category, sort: sortType, currentPage: currentPage, mode: mode)
         boardListViewModel.listener = { [weak self] boardResponseData in
             guard let self = self,
@@ -176,6 +185,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
             
             self.communityBoardList = communityBoardList
             self.boardTableView.communityBoardList = self.communityBoardList
+            self.activityIndicator.stopAnimating()
             
             DispatchQueue.main.async {
                 self.boardTableView.reloadData()
@@ -193,6 +203,13 @@ extension CardBoardViewController: BoardTableViewDelegate {
         boardDetailTableViewController.category = category
         boardDetailTableViewController.document_srl = documentSRL
         boardDetailTableViewController.isFromStationDetailView = false
+        
+        boardDetailTableViewController.popCompletion = { [weak self] isModifed in
+            if isModifed {
+                guard let self = self else { return }
+                self.fetchFirstBoard(mid: self.category, sort: self.sortType, mode: self.mode.rawValue)
+            }
+        }
         
         self.navigationController?.push(viewController: boardDetailTableViewController)
     }
