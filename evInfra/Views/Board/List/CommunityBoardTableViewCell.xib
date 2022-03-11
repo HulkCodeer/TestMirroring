@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -123,11 +121,11 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="adminIconImage" destination="YLf-op-gys" id="w1r-4J-abh"/>
-                <outlet property="contentsLabel" destination="dP8-UI-pz6" id="8ek-Qz-NpM"/>
                 <outlet property="dateLabel" destination="Pvv-rk-mrX" id="w8F-zN-U6P"/>
                 <outlet property="profileImage" destination="wRT-sP-eqm" id="BFF-jJ-1e6"/>
                 <outlet property="replyCountLabel" destination="bac-kc-MM3" id="UBs-yp-8Sc"/>
                 <outlet property="replyView" destination="kCO-lh-72P" id="C6x-Cj-7Jg"/>
+                <outlet property="titleLabel" destination="dP8-UI-pz6" id="8ek-Qz-NpM"/>
                 <outlet property="userNameLabel" destination="zOk-do-V4J" id="g4F-gu-yT1"/>
             </connections>
             <point key="canvasLocation" x="-38" y="-30"/>

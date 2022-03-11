@@ -16,7 +16,7 @@ class CommunityBoardTableViewCell: UITableViewCell {
     @IBOutlet var userNameLabel: UILabel!
     @IBOutlet var adminIconImage: UIImageView!
     @IBOutlet var dateLabel: UILabel!
-    @IBOutlet var contentsLabel: UILabel!
+    @IBOutlet var titleLabel: UILabel!
     @IBOutlet var replyCountLabel: UILabel!
     @IBOutlet var replyView: UIView!
     
@@ -46,8 +46,8 @@ class CommunityBoardTableViewCell: UITableViewCell {
         profileImage.layer.cornerRadius = profileImage.frame.height/2
         replyView.layer.cornerRadius = 8
         adminIconImage.isHidden = true
-        contentsLabel.lineBreakMode = .byTruncatingTail
-        contentsLabel.numberOfLines = 2
+        titleLabel.lineBreakMode = .byTruncatingTail
+        titleLabel.numberOfLines = 2
     }
     
     private func isAdmin(mbId: String) -> Bool {
@@ -62,8 +62,8 @@ class CommunityBoardTableViewCell: UITableViewCell {
             profileImage.isHidden = true
             userNameLabel.isHidden = true
             dateLabel.isHidden = true
-            contentsLabel.text = item.title
-            contentsLabel.numberOfLines = 1
+            titleLabel.text = item.title
+            titleLabel.numberOfLines = 1
             replyView.isHidden = true
             return
         }
@@ -80,23 +80,23 @@ class CommunityBoardTableViewCell: UITableViewCell {
                 attachment.image = UIImage(named: "icon_image_xs")?.tint(with: UIColor(named: "nt-5")!)
                 attachment.bounds = CGRect(x: 0, y: 0, width: 16, height: 16)
                 
-                let attributedString = NSMutableAttributedString(string: item.content!)
+                let attributedString = NSMutableAttributedString(string: item.title!)
                 attributedString.append(NSAttributedString(attachment: attachment))
                 
-                contentsLabel.attributedText = attributedString
-                contentsLabel.sizeToFit()
+                titleLabel.attributedText = attributedString
+                titleLabel.sizeToFit()
             } else {
                 if isContainsHtmlTags {
-                    contentsLabel.attributedText = item.content!.htmlToAttributedString()
+                    titleLabel.attributedText = item.title!.htmlToAttributedString()
                 } else {
-                    contentsLabel.text = item.content!
+                    titleLabel.text = item.title!
                 }
             }
         } else {
             if isContainsHtmlTags {
-                contentsLabel.attributedText = item.content!.htmlToAttributedString()
+                titleLabel.attributedText = item.title!.htmlToAttributedString()
             } else {
-                contentsLabel.text = item.content!
+                titleLabel.text = item.title!
             }
         }
         

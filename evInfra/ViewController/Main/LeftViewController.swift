@@ -370,7 +370,7 @@ extension LeftViewController {
                 let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
                 let freeBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
                 freeBoardVC.category = Board.CommunityType.FREE.rawValue
-                freeBoardVC.mode = Board.ScreenType.LIST
+                freeBoardVC.mode = Board.ScreenType.FEED
                 navigationController?.push(viewController: freeBoardVC)
             
             case SUB_MENU_CHARGER_BOARD: // 충전소 게시판
