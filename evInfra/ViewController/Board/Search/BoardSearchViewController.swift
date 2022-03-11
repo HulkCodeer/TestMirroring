@@ -44,6 +44,9 @@ class BoardSearchViewController: UIViewController {
             self.searchBarView.searchBar.endEditing(true)
             
             self.boardSearchViewModel.setKeyword(keyword)
+            self.boardSearchViewModel.fetchKeywords { keywords in
+                self.recentKeywords = keywords
+            }
             self.fetchSearchResultList(page: self.page)
         }
     }
@@ -303,7 +306,9 @@ extension BoardSearchViewController: UITableViewDelegate {
                 case 0:
                     return SearchHeaderView(true, 0)
                 case 1:
-                    return SearchHeaderView(false, self.recentKeywords.count)
+                    let headerView = SearchHeaderView(false, self.recentKeywords.count)
+                    headerView.delegate = self
+                    return headerView
                 default:
                     return SearchHeaderView(true, 0)
                 }
@@ -314,9 +319,9 @@ extension BoardSearchViewController: UITableViewDelegate {
             if recentKeywords.isEmpty {
                 return nil
             } else {
-                let headerVeiw = SearchHeaderView(isSearchButtonTapped, self.boardList.count)
-                headerVeiw.delegate = self
-                return headerVeiw
+                let headerView = SearchHeaderView(isSearchButtonTapped, self.boardList.count)
+                headerView.delegate = self
+                return headerView
             }
         }
     }

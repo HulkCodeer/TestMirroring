@@ -73,7 +73,7 @@ class CommunityBoardTableViewCell: UITableViewCell {
         userNameLabel.text = item.nick_name
         dateLabel.text = "| \(DateUtils.getTimesAgoString(date: item.regdate ?? ""))"
         
-        let isContainsHtmlTags = item.content!.isContainsHtmlTag()
+        let isContainsHtmlTags = item.title!.isContainsHtmlTag()
         if let files = item.files {
             if files.count > 0 {
                 let attachment = NSTextAttachment()
