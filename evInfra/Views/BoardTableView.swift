@@ -104,6 +104,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
             if isAd {
                 guard let adCell = Bundle.main.loadNibNamed("CommunityBoardAdsCell", owner: self, options: nil)?.first as? CommunityBoardAdsCell else { return UITableViewCell() }
                 
+                adCell.selectionStyle = .none
                 adCell.configuration(item: communityBoardList[indexPath.row])
 
                 return adCell
@@ -144,6 +145,9 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
         } else {
             guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "CommunityBoardTableViewHeader") as? CommunityBoardTableViewHeader else { return UIView() }
             
+            if #available(iOS 14.0, *) {
+                headerView.backgroundConfiguration?.backgroundColor = UIColor(named: "nt-white")
+            }
             headerView.setupBannerView(categoryType: category)
             headerView.delegate = self
             
