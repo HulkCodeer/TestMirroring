@@ -83,17 +83,17 @@
                                         <action selector="chargeStationButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="0fa-wI-ZWw"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxj-vK-8nh">
-                                    <rect key="frame" x="0.0" y="64" width="382" height="20"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxj-vK-8nh">
+                                    <rect key="frame" x="0.0" y="64" width="382" height="0.0"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="20" id="NiE-lT-ZuF"/>
+                                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="60" id="T1n-k4-D9S"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                     <color key="textColor" name="nt-9"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJe-fy-nDE">
-                                    <rect key="frame" x="0.0" y="92" width="382" height="276"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJe-fy-nDE">
+                                    <rect key="frame" x="0.0" y="72" width="382" height="296"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" name="nt-7"/>
                                     <nil key="highlightedColor"/>
