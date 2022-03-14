@@ -45,10 +45,8 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
             self.completeButton.isEnabled = isEnable
             
             if isEnable {
-                self.completeButton.tintColor = UIColor(named: "nt-9")
                 self.completeButton.backgroundColor = UIColor(named: "gr-5")
             } else {
-                self.completeButton.tintColor = UIColor(named: "nt-3")
                 self.completeButton.backgroundColor = UIColor(named: "nt-0")
             }
         }
@@ -221,6 +219,10 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
         
         // 작성 완료 버튼
         completeButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        completeButton.setTitleColor(UIColor(named: "nt-9"), for: .normal)
+        completeButton.setTitleColor(UIColor(named: "nt-3"), for: .disabled)
+        completeButton.setBackgroundColor(UIColor(named: "gr-5")!, for: .normal)
+        completeButton.setBackgroundColor(UIColor(named: "nt-0")!, for: .disabled)
         
         let tapGestureReconizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGestureReconizer.cancelsTouchesInView = false
@@ -250,14 +252,12 @@ extension BoardWriteViewController: ChargerSelectDelegate {
             chargerInfo["chargerId"] = chargerId
             chargerInfo["chargerName"] = chargerStaionInfoDto.mSnm!
             
-            boardWriteViewModel.bindInputText(document, titleTextView.text, contentsTextView.text, chargerStaionInfoDto.mSnm)
+            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, chargerStaionInfoDto.mSnm)
             stationSearchButton.setTitle(chargerStaionInfoDto.mSnm, for: .normal)
         }
     }
     
-    func moveToSelectLocation(lat: Double, lon: Double) {
-        
-    }
+    func moveToSelectLocation(lat: Double, lon: Double) {}
 }
 
 // MARK: - UICollectionView Delegate
@@ -266,9 +266,7 @@ extension BoardWriteViewController: UICollectionViewDelegate {
         if indexPath.item == selectedImages.count {
             guard selectedImages.count < 5 else {
                 trasientAlertView.titlemessage = "사진을 최대 5장 등록 가능합니다."
-                DispatchQueue.main.async {
-                    self.presentPanModal(self.trasientAlertView)
-                }
+                self.presentPanModal(self.trasientAlertView)
                 return
             }
             
@@ -302,6 +300,13 @@ extension BoardWriteViewController: UICollectionViewDelegate {
                     DispatchQueue.main.async {
                         self.photoCollectionView.reloadData()
                     }
+                    
+                    if self.category.equals(Board.CommunityType.CHARGER.rawValue) {
+                        let stationName = self.stationSearchButton.titleLabel?.text
+                        self.boardWriteViewModel.bindInputText(self.titleTextView.text, self.contentsTextView.text, stationName)
+                    } else {
+                        self.boardWriteViewModel.bindInputText(self.titleTextView.text, self.contentsTextView.text, nil)
+                    }
                 }
             }
             
@@ -317,7 +322,11 @@ extension BoardWriteViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectedImages.count + 1
+        if selectedImages.count == 5 {
+            return selectedImages.count
+        } else {
+            return selectedImages.count + 1
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -387,9 +396,9 @@ extension BoardWriteViewController: UITextViewDelegate {
         
         if category.equals(Board.CommunityType.CHARGER.rawValue) {
             let stationName = stationSearchButton.titleLabel?.text
-            boardWriteViewModel.bindInputText(document, titleTextView.text, contentsTextView.text, stationName)
+            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, stationName)
         } else {
-            boardWriteViewModel.bindInputText(document, titleTextView.text, contentsTextView.text, nil)
+            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, nil)
         }
     }
 }
@@ -399,7 +408,6 @@ extension BoardWriteViewController: UIImageCropperProtocol {
     func didCropImage(originalImage: UIImage?, croppedImage: UIImage?) {
         guard let croppedImage = croppedImage else { return }
         selectedImages.append(croppedImage)
-        self.boardWriteViewModel.isModified = true
         
         DispatchQueue.main.async {
             self.photoCollectionView.reloadData()
@@ -407,9 +415,9 @@ extension BoardWriteViewController: UIImageCropperProtocol {
         
         if category.equals(Board.CommunityType.CHARGER.rawValue) {
             let stationName = stationSearchButton.titleLabel?.text
-            boardWriteViewModel.bindInputText(document, titleTextView.text, contentsTextView.text, stationName)
+            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, stationName)
         } else {
-            boardWriteViewModel.bindInputText(document, titleTextView.text, contentsTextView.text, nil)
+            boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, nil)
         }
 
         didCancel()

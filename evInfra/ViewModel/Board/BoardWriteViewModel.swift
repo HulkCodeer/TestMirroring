@@ -23,39 +23,48 @@ struct BoardWriteViewModel {
         self.listener = listener
     }
     
-    mutating func bindInputText(_ isModifyStatus: Document?, _ title: String, _ contents: String, _ stationName: String?) {
-        if let _ = isModifyStatus {
-            if let stationName = stationName {
-                if (validationTitleWithContents(title: title, content: contents) &&
-                    validationStation(with: stationName)) ||
-                    isModified {
-                    self.isValid = true
-                } else {
-                    self.isValid = false
-                }
-            } else {
-                if validationTitleWithContents(title: title, content: contents) || isModified {
-                    self.isValid = true
-                } else {
-                    self.isValid = false
-                }
+    mutating func bindInputText(_ title: String, _ contents: String, _ stationName: String?) {
+        // 수정
+        if let stationName = stationName {
+            guard isValidateTitle(with: title) else {
+                isValid = false
+                return
             }
+            guard isValidateContents(with: contents) else {
+                isValid = false
+                return
+            }
+            guard isValidateStation(with: stationName) else {
+                isValid = false
+                return
+            }
+            isValid = true
         } else {
-            if let stationName = stationName {
-                if validationTitleWithContents(title: title, content: contents) &&
-                    validationStation(with: stationName) {
-                    self.isValid = true
-                } else {
-                    self.isValid = false
-                }
-            } else {
-                if validationTitleWithContents(title: title, content: contents) {
-                    self.isValid = true
-                } else {
-                    self.isValid = false
-                }
+            guard isValidateTitle(with: title) else {
+                isValid = false
+                return
             }
+            guard isValidateContents(with: contents) else {
+                isValid = false
+                return
+            }
+            isValid = true
         }
+    }
+    
+    private func isValidateTitle(with str: String) -> Bool {
+        guard !str.contains(Const.BoardConstants.titlePlaceHolder) else { return false }
+        return str.count <= 100 && str.count > 0
+    }
+    
+    private func isValidateContents(with str: String) -> Bool {
+        guard !str.contains(Const.BoardConstants.contentsPlaceHolder) else { return false }
+        return str.count <= 1200 && str.count > 0
+    }
+    
+    private func isValidateStation(with stationName: String) -> Bool {
+        guard !stationName.contains(Const.BoardConstants.chargerPlaceHolder) else { return false }
+        return !stationName.isEmpty
     }
     
     private func validationTitleWithContents(title str1: String, content str2: String) -> Bool {
