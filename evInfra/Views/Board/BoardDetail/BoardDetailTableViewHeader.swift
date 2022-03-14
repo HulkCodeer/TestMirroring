@@ -83,6 +83,7 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
         image4.clipsToBounds = true
         image5.clipsToBounds = true
         chargeStationButton.isHidden = true
+        adminTagImage.isHidden = true
     }       
     
     override func prepareForReuse() {
