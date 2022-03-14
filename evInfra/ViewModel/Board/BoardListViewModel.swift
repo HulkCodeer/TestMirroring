@@ -87,8 +87,8 @@ class BoardListViewModel {
                     }
                     
                     for index in [currentPage, currentPage+1] {
-                        let adIndex = (index-1) % 3
-                        
+                        let adIndex = (index-1) % self.boardAdList.count
+
                         result.list?.insert(self.boardAdList[adIndex], at: boardIndex)
                         boardIndex = boardIndex + 10
                     }
