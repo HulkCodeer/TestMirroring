@@ -395,7 +395,7 @@ extension LeftViewController {
                     companyBoardVC.category = Board.CommunityType.getCompanyType(index: index.row)
                     companyBoardVC.bmId = boardInfo.bmId!
                     companyBoardVC.brdTitle = title
-                    companyBoardVC.mode = Board.ScreenType.LIST
+                    companyBoardVC.mode = Board.ScreenType.FEED
                     navigationController?.push(viewController: companyBoardVC)
                 }
             }

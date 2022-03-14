@@ -349,8 +349,12 @@ extension BoardDetailViewController {
             
             if isReported {
                 self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { (_, message) in
-                    self.fetchData()
-                    Snackbar().show(message: message)
+                    self.trasientAlertView.titlemessage = message
+                    self.presentPanModal(self.trasientAlertView)
+                    self.trasientAlertView.dismissCompletion = {
+                        NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                        self.navigationController?.pop()
+                    }
                 }
             }
         }
