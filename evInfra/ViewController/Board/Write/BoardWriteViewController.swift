@@ -237,6 +237,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     @IBAction func searchButtonClick(_ sender: Any) {
         let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
         guard let searchViewController: SearchViewController = mapStoryboard.instantiateViewController(withIdentifier: "SearchViewController") as? SearchViewController else { return }
+        searchViewController.removeAddressButton = true
         searchViewController.delegate = self
         
         self.present(AppSearchBarController(rootViewController: searchViewController), animated: true, completion: nil)

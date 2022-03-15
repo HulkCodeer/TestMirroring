@@ -67,6 +67,10 @@ class EIPOIItem : HandyJSON {
     public var detailInfoFlag : Int?
     public var desc: String?
     public var distance : String?
+    
+    public func getPOID() -> String? {
+        return self.id
+    }
 
     public func getPOIName() -> String? {
         return self.name

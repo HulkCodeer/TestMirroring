@@ -57,6 +57,8 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var addrRadioBtn: UIButton!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
+    var removeAddressButton: Bool = false
+    
     @IBAction func onClickChargerBtn(_ sender: UIButton) {
         searchType = SearchViewController.TABLE_VIEW_TYPE_CHARGER
         
@@ -92,8 +94,13 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureButton()
         prepareSearchBar()
         prepareTableView()
+    }
+    
+    func configureButton() {
+        addrRadioBtn.isHidden = removeAddressButton
     }
 
     internal func prepareTableView() {
@@ -281,6 +288,7 @@ extension SearchViewController: SearchTableViewViewDelegate {
             return
         }
         
+        delegate?.moveToSelected(chargerId: poi.getPOID()!)
         delegate?.moveToSelectLocation(lat: poi.getPOIPoint().getLatitude() , lon: poi.getPOIPoint().getLongitude() )
         dismiss(animated: true, completion: nil)
     }
