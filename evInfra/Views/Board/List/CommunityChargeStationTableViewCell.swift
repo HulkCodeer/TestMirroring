@@ -30,6 +30,7 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
     @IBOutlet var thumbNailImage3: UIImageView!
     @IBOutlet var thumbNailImage4: UIImageView!
     
+    @IBOutlet var likeReplyStackView: UIStackView!
     @IBOutlet var likedCount: UILabel!
     @IBOutlet var replyCount: UILabel!
     
@@ -80,6 +81,37 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
 
     func configure(item: BoardListItem?) {
         guard let item = item else { return }
+        
+        if isReportedItem(item: item) {
+            profileImageView.isHidden = true
+            nickNameLabel.isHidden = true
+            dateLabel.isHidden = true
+            chargeStationButton.isHidden = true
+            titleLabel.text = item.title
+            titleLabel.font = .systemFont(ofSize: 16, weight: .regular)
+            titleLabel.textColor = UIColor(named: "nt-5")
+            titleLabel.numberOfLines = 1
+            contentsLabel.isHidden = true
+            imageStackView.isHidden = true
+            likeReplyStackView.isHidden = true
+            return
+        }
+        
+        if isMyReportedItem(item: item) {
+            profileImageView.isHidden = true
+            nickNameLabel.isHidden = true
+            dateLabel.isHidden = true
+            chargeStationButton.isHidden = true
+            titleLabel.text = "신고한 글 입니다."
+            titleLabel.font = .systemFont(ofSize: 16, weight: .regular)
+            titleLabel.textColor = UIColor(named: "nt-5")
+            titleLabel.numberOfLines = 1
+            contentsLabel.isHidden = true
+            imageStackView.isHidden = true
+            likeReplyStackView.isHidden = true
+            return
+        }
+        
         // 프로필 이미지
         profileImageView.sd_setImage(with: URL(string: "\(Const.urlProfileImage)\(item.mb_profile!)"), placeholderImage: UIImage(named: "ic_person_base36"))
         
@@ -159,5 +191,15 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
         }
         
         chargeStataionButtonTappedCompletion?(chargerId)
+    }
+    
+    private func isReportedItem(item: BoardListItem) -> Bool {
+        guard let documentSRL = item.document_srl else { return false }
+        return documentSRL.elementsEqual("-1")
+    }
+    
+    private func isMyReportedItem(item: BoardListItem) -> Bool {
+        guard let _ = item.blind else { return false }
+        return true
     }
 }

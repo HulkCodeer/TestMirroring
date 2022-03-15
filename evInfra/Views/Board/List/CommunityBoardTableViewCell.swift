@@ -63,6 +63,18 @@ class CommunityBoardTableViewCell: UITableViewCell {
             userNameLabel.isHidden = true
             dateLabel.isHidden = true
             titleLabel.text = item.title
+            titleLabel.textColor = UIColor(named: "nt-5")
+            titleLabel.numberOfLines = 1
+            replyView.isHidden = true
+            return
+        }
+        
+        if isMyReportedItem(item: item) {
+            profileImage.isHidden = true
+            userNameLabel.isHidden = true
+            dateLabel.isHidden = true
+            titleLabel.text = "신고한 글 입니다."
+            titleLabel.textColor = UIColor(named: "nt-5")
             titleLabel.numberOfLines = 1
             replyView.isHidden = true
             return
@@ -111,8 +123,13 @@ class CommunityBoardTableViewCell: UITableViewCell {
         }
     }
     
-    func isReportedItem(item: BoardListItem) -> Bool {
+    private func isReportedItem(item: BoardListItem) -> Bool {
         guard let documentSRL = item.document_srl else { return false }
         return documentSRL.elementsEqual("-1")
+    }
+    
+    private func isMyReportedItem(item: BoardListItem) -> Bool {
+        guard let _ = item.blind else { return false }
+        return true
     }
 }

@@ -197,6 +197,8 @@ extension CardBoardViewController: BoardTableViewDelegate {
         guard let documentSRL = communityBoardList[index].document_srl,
         !documentSRL.elementsEqual("-1") else { return }
         
+        if communityBoardList[index].blind != nil { return }
+        
         let storyboard = UIStoryboard(name: "BoardDetailViewController", bundle: nil)
         guard let boardDetailTableViewController = storyboard.instantiateViewController(withIdentifier: "BoardDetailViewController") as? BoardDetailViewController else { return }
         
