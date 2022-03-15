@@ -94,9 +94,25 @@ class FilterManager {
         filter.isCanopy = defaults.readBool(key: UserDefault.Key.FILTER_CANOPY)
         
         let companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
-        for company in companyList {
-            if let companyId = company.company_id {
-                filter.companies.updateValue(company.is_visible, forKey: companyId)
+        
+        if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR) {
+            for company in companyList {
+                switch company.company_id {
+                    case "0", "1", "3", "O", "D":
+                        company.is_visible = true
+                        break
+                    default:
+                        company.is_visible = false
+                }
+                if company.company_id != nil {
+                    filter.companies.append(company)
+                }
+            }
+        } else {
+            for company in companyList {
+                if company.company_id != nil {
+                    filter.companies.append(company)
+                }
             }
         }
     }
@@ -192,8 +208,14 @@ class FilterManager {
     func updateCompanyFilter(){
         let companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
         for company in companyList {
-            if let companyId = company.company_id {
-                filter.companies.updateValue(company.is_visible, forKey: companyId)
+            setCompany(companyId: company.company_id!, visible: company.is_visible)
+        }
+    }
+    
+    func setCompany(companyId: String, visible: Bool) {
+        for company in filter.companies {
+            if let id = company.company_id, companyId.equals(id) {
+                company.is_visible = visible
             }
         }
     }

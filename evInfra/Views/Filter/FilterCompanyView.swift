@@ -49,7 +49,9 @@ class FilterCompanyView: UIView {
         var tagList = Array<TagValue>()
         var recommendList = Array<TagValue>()
         var titleIndex = 1
-        companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
+        
+        companyList = FilterManager.sharedInstance.filter.companies
+        
         let wholeList = companyList.sorted { $0.name!.lowercased() < $1.name!.lowercased() }
 
         for company in wholeList {
@@ -115,6 +117,9 @@ class FilterCompanyView: UIView {
     
     func updateTable() {
         updateSwitch()
+        
+        delegate?.onChangedFilter(type: .company) // update change or turnback
+        
         companyTableView.groupList = groupList
         companyTableView.reloadData()
         companyTableView.layoutIfNeeded()
@@ -127,7 +132,7 @@ class FilterCompanyView: UIView {
     @IBAction func onCardFilterChanged(_ sender: Any) {
         cardSetting = switchCard.isOn
         prepareTagList()
-        setUpUI()
+        updateTable()
     }
     
     @IBAction func onSwitchValueChanged(_ sender: Any) {
@@ -138,7 +143,7 @@ class FilterCompanyView: UIView {
         }
         switchCard.isOn = false
         allSelect = switchAll.isOn
-        setUpUI()
+        updateTable()
     }
     
     func updateSwitch() {
@@ -202,19 +207,15 @@ class FilterCompanyView: UIView {
 
 extension FilterCompanyView : CompanyTableDelegate{
     func onClickTag(tagName: String, value: Bool) {
-        var changed = false
         // tag selected
         for list in groupList {
             for tag in list.list {
                 if tag.title == tagName {
                     tag.selected = value
-                    changed = true
                 }
             }
         }
-        if changed {
-            updateTable()
-            delegate?.onChangedFilter(type: .company)
-        }
+        
+        updateTable()
     }
 }

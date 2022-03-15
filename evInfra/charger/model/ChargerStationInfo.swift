@@ -145,11 +145,7 @@ class ChargerStationInfo {
         }
         
         // 운영 기관
-        if let company = filter.companies[(stationInfo.mCompanyId)!] {
-            if !company {
-                return false
-            }
-        } else {
+        if !filter.getCompanySelected(companyId: stationInfo.mCompanyId!) {
             return false
         }
         
