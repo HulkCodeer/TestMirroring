@@ -45,6 +45,7 @@ class BoardDetailTableViewCell: UITableViewCell {
     @IBOutlet var image5: UIImageView!
     
     var buttonClickDelegate: ButtonClickDelegate?
+    var imageTapped: ((URL) -> Void)?
     var comment: Comment?
     var row: Int = 0
     var adminList: [Admin]?
@@ -90,11 +91,11 @@ class BoardDetailTableViewCell: UITableViewCell {
         imageScrollStackView.isHidden = true
         commentStackView.isHidden = false
         
-        image1.layer.cornerRadius = 12
-        image2.layer.cornerRadius = 12
-        image3.layer.cornerRadius = 12
-        image4.layer.cornerRadius = 12
-        image5.layer.cornerRadius = 12
+        [image1, image2, image3, image4, image5].forEach {
+            $0?.layer.cornerRadius = 12
+            $0?.isUserInteractionEnabled = true
+            $0?.addTapGesture(target: self, action: #selector(imageViewTapped(_:)))
+        }
         
         backgroundCell.backgroundColor = UIColor(named: "nt-white")
         backView.backgroundColor = UIColor(named: "nt-white")
@@ -215,6 +216,13 @@ class BoardDetailTableViewCell: UITableViewCell {
         }
         
         self.buttonClickDelegate?.commentButtonCliked(recomment: comment, selectedRow: row)
+    }
+    
+    @objc
+    private func imageViewTapped(_ sender: UIGestureRecognizer) {
+        guard let tappedImageView = sender.view, let imageView = tappedImageView as? UIImageView  else { return }
+        guard let url = imageView.sd_imageURL() else { return }
+        imageTapped?(url)
     }
 }
 

@@ -42,6 +42,7 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     private var files: [FilesItem] = []
     private var chargerId: String?
     var buttonClickDelegate: ButtonClickDelegate?
+    var imageTapped: ((URL) -> Void)?
     var adminList: [Admin]?
     
     override init(reuseIdentifier: String?) {
@@ -76,23 +77,22 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     }
     
     func setUI() {
-        profileImageView.layer.cornerRadius = profileImageView.frame.height/2
-        image1.clipsToBounds = true
-        image2.clipsToBounds = true
-        image3.clipsToBounds = true
-        image4.clipsToBounds = true
-        image5.clipsToBounds = true
+        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
         chargeStationButton.isHidden = true
         adminTagImage.isHidden = true
+        
+        [image1, image2, image3, image4, image5].forEach {
+            $0?.clipsToBounds = true
+            $0?.isUserInteractionEnabled = true
+            $0?.addTapGesture(target: self, action: #selector(imageViewTapped(_:)))
+        }
     }       
     
     override func prepareForReuse() {
         profileImageView.sd_cancelCurrentImageLoad()
-        image1.sd_cancelCurrentImageLoad()
-        image2.sd_cancelCurrentImageLoad()
-        image3.sd_cancelCurrentImageLoad()
-        image4.sd_cancelCurrentImageLoad()
-        image5.sd_cancelCurrentImageLoad()
+        [image1, image2, image3, image4, image5].forEach {
+            $0?.sd_cancelCurrentImageLoad()
+        }
     }
     
     func configure(item: BoardDetailResponseData?, isFromStationDetailView: Bool) {
@@ -216,6 +216,13 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     private func isAdmin(mbId: String) -> Bool {
         guard let adminList = adminList else { return false }
         return adminList.contains { $0.mb_id.equals(mbId) }
+    }
+    
+    @objc
+    private func imageViewTapped(_ sender: UIGestureRecognizer) {
+        guard let tappedImageView = sender.view, let imageView = tappedImageView as? UIImageView  else { return }
+        guard let url = imageView.sd_imageURL() else { return }
+        imageTapped?(url)
     }
     
     @IBAction func likeButtonTapped(_ sender: Any) {

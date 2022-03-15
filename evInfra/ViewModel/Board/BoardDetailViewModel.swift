@@ -53,13 +53,30 @@ class BoardDetailViewModel {
                     let commentSRL = results["comment_srl"] {
                     
                     guard let image = commentParameter.image else {
-                        completion(true)
+                        if let previousFiles = commentParameter.comment?.files,
+                            !previousFiles.isEmpty {
+                            let file = previousFiles[0]
+                            Server.deleteDocumnetFile(documentSRL: commentSRL, fileSRL: file.file_srl!, isCover: file.cover_image!) { isSuccess, response in
+                                if isSuccess {
+                                    if let value = response as? String,
+                                        value.contains("success") {
+                                        completion(true)
+                                    } else {
+                                        completion(false)
+                                    }
+                                } else {
+                                    completion(false)
+                                }
+                            }
+                        } else {
+                            completion(true)
+                        }
                         return
                     }
                     
-                    if let previousFiles = commentParameter.comment?.files {
+                    if let previousFiles = commentParameter.comment?.files,
+                        !previousFiles.isEmpty {
                         let file = previousFiles[0]
-                        // TODO: 첨부파일 삭제
                         Server.deleteDocumnetFile(documentSRL: commentSRL, fileSRL: file.file_srl!, isCover: file.cover_image!) { isSuccess, response in
                             if isSuccess {
                                 if let value = response as? String,
