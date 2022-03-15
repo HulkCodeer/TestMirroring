@@ -162,6 +162,14 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
             }
         }
     }
+    
+    private func showImageViewer(url: URL) {
+        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+        guard let imageVC: EIImageViewerViewController = boardStoryboard.instantiateViewController(withIdentifier: "EIImageViewerViewController") as? EIImageViewerViewController else { return }
+        imageVC.mImageURL = url
+    
+        self.navigationController?.push(viewController: imageVC)
+    }
 }
 
 extension BoardDetailViewController: MediaButtonTappedDelegate {
@@ -216,6 +224,9 @@ extension BoardDetailViewController: UITableViewDelegate {
             }
             view.configure(item: boardDetailViewModel.getDetailData(), isFromStationDetailView: isFromStationDetailView)
             view.buttonClickDelegate = self
+            view.imageTapped = { [weak self] imageUrl in
+                self?.showImageViewer(url: imageUrl)
+            }
             
             return view
         } else {
@@ -287,6 +298,9 @@ extension BoardDetailViewController: UITableViewDataSource {
                 cell.adminList = adminList
                 cell.configureComment(comment: boardDetailViewModel.getComment(at: indexPath.row), row: indexPath.row)
                 cell.buttonClickDelegate = self
+                cell.imageTapped = { [weak self] imageUrl in
+                    self?.showImageViewer(url: imageUrl)
+                }
                 
                 return cell
             }

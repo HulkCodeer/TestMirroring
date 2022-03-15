@@ -17,7 +17,6 @@ class EIImageViewerViewController : UIViewController, UIScrollViewDelegate{
     let TAG = "EIImageViewerViewController"
     
     @IBOutlet weak var mImageViewer: UIImageView!
-    
     @IBOutlet weak var mScrollView: UIScrollView!
     
     var mImageURL : URL?
@@ -25,7 +24,8 @@ class EIImageViewerViewController : UIViewController, UIScrollViewDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        prepareActionBar(with: "")
+        
         mScrollView.minimumZoomScale = 1.0
         mScrollView.maximumZoomScale = 10.0
         mScrollView.delegate = self
