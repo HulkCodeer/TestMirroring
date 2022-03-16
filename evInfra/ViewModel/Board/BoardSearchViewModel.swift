@@ -35,7 +35,7 @@ final class BoardSearchViewModel {
     }
     
     func fetchSearchResultList(mid: String, page: String, searchType: String, keyword: String, completion: @escaping ([BoardListItem]) -> Void) {
-        Server.fetchBoardList(mid: mid, page: page, mode: "1", sort: "0", searchType: searchType, searchKeyword: keyword) { (isSuccess, value) in
+        Server.fetchBoardList(mid: mid, page: page, mode: Board.ScreenType.FEED.rawValue, sort: "0", searchType: searchType, searchKeyword: keyword) { (isSuccess, value) in
             
             if isSuccess {
                 guard let data = value else { return }
@@ -90,8 +90,6 @@ final class BoardSearchViewModel {
             guard let encodedKeyword = try? JSONEncoder().encode([keyword]) else { return }
             userDefault.saveData(key: UserDefault.Key.RECENT_KEYWORD, val: encodedKeyword)
         }
-        
-//        fetchKeywords()
     }
     
     private func isContains(with keyword: Keyword) -> Bool {
@@ -100,11 +98,7 @@ final class BoardSearchViewModel {
     
     func removeAllKeywords() {
         userDefault.removeObjectForKey(key: UserDefault.Key.RECENT_KEYWORD)
-//        fetchKeywords()
         self.recentKeywords = [Keyword]()
-//        fetchKeywords { keywords in
-//            self.recentKeywords = keywords
-//        }
     }
     
     func removeKeyword(at index: Int) {

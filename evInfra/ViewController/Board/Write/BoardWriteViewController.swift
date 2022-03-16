@@ -23,6 +23,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     @IBOutlet var completeButton: UIButton!
     @IBOutlet var photoCollectionView: UICollectionView!
     
+    let ReloadData: Notification.Name = Notification.Name("ReloadData")
     var boardWriteViewModel = BoardWriteViewModel()
     var selectedImages: [UIImage] = [] 
     var uploadedImages: [FilesItem]? = []
@@ -102,6 +103,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                         }
                         self.trasientAlertView.dismissCompletion = {
                             self.popCompletion?()
+                            NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
                             self.navigationController?.pop()
                         }
                     }
@@ -136,6 +138,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                         }
                         self.trasientAlertView.dismissCompletion = {
                             self.popCompletion?()
+                            NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
                             self.navigationController?.pop()
                         }
                     }
@@ -162,7 +165,10 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
         stationSearchButton.layer.borderWidth = 1
         stationSearchButton.layer.borderColor = UIColor(named: "nt-2")?.cgColor
         stationSearchButton.layer.cornerRadius = 4
-        stationSearchButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 4)
+        
+        if !chargerInfo.isEmpty {
+            stationSearchButton.setTitle(chargerInfo["chargerName"], for: .normal)
+        }
         
         if let document = document {
             titleTextView.text = document.title ?? Const.BoardConstants.titlePlaceHolder

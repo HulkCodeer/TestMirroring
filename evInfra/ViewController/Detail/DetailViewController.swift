@@ -58,7 +58,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         
     var mapView:MTMapView?
     var summaryView:SummaryView!
-    var isRouteMode:Bool = false
+    var isRouteMode: Bool = false
+    var currentPage = 0
 
 
     override func viewDidLoad() {
@@ -68,6 +69,8 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         prepareBoardTableView()
         prepareChargerInfo()
         prepareSummaryView()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
     }
     
     override func viewWillLayoutSubviews() {
@@ -81,6 +84,10 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     @objc func mapViewTap(gesture : UIPanGestureRecognizer!) {
         gesture.cancelsTouchesInView = false
+    }
+    
+    @objc func updateCompletion(_ notification: Notification) {
+        fetchFirstBoard(mid: "station", sort: .LATEST, mode: Board.ScreenType.FEED.rawValue)
     }
     
     func handleError(error: Error?) -> Void {
@@ -108,7 +115,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     func prepareChargerInfo() {
         setStationInfo()
         setDetailLb()
-        fetchFirstBoard(mid: "station", sort: .LATEST, mode: Board.ScreenType.LIST.rawValue)
+        fetchFirstBoard(mid: "station", sort: .LATEST, mode: Board.ScreenType.FEED.rawValue)
         initKakaoMap()
     }
     
@@ -357,7 +364,8 @@ extension DetailViewController {
 extension DetailViewController: BoardTableViewDelegate {
     func fetchFirstBoard(mid: String, sort: Board.SortType, mode: String) {
         if let chargerData = charger {
-            Server.fetchBoardList(mid: "station", page: "1", mode: mode, sort: "0", searchType: "station", searchKeyword: chargerData.mChargerId!) { (isSuccess, value) in
+            self.currentPage = 1
+            Server.fetchBoardList(mid: "station", page: "\(self.currentPage)", mode: Board.ScreenType.FEED.rawValue, sort: sort.rawValue, searchType: "station", searchKeyword: chargerData.mChargerId!) { (isSuccess, value) in
                 
                 if isSuccess {
                     guard let data = value else { return }
@@ -370,8 +378,10 @@ extension DetailViewController: BoardTableViewDelegate {
                             self.boardList.removeAll()
                             self.boardList += updateList
                               
+                            self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
                             self.boardTableView.communityBoardList = self.boardList
                             self.boardTableView.isNoneHeader = true
+                            self.boardTableView.isFromDetailView = true
                             
                             DispatchQueue.main.async {
                                 self.boardTableView.reloadData()
@@ -387,7 +397,42 @@ extension DetailViewController: BoardTableViewDelegate {
         }
     }
     
-    func fetchNextBoard(mid: String, sort: Board.SortType, mode: String) {}
+    func fetchNextBoard(mid: String, sort: Board.SortType, mode: String) {
+        if let chargerData = charger {
+            
+            self.currentPage = self.currentPage + 1
+            
+            Server.fetchBoardList(mid: "station", page: "\(self.currentPage)", mode: Board.ScreenType.FEED.rawValue, sort: sort.rawValue, searchType: "station", searchKeyword: chargerData.mChargerId!) { (isSuccess, value) in
+                
+                if isSuccess {
+                    guard let data = value else { return }
+                    let decoder = JSONDecoder()
+                    
+                    do {
+                        let result = try decoder.decode(BoardResponseData.self, from: data)
+                        
+                        if let updateList = result.list {
+                            self.boardList += updateList
+                              
+                            self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
+                            self.boardTableView.communityBoardList = self.boardList
+                            self.boardTableView.isNoneHeader = true
+                            self.boardTableView.isFromDetailView = true
+                            
+                            DispatchQueue.main.async {
+                                self.boardTableView.reloadData()
+                            }
+                        }
+                    } catch {
+                        debugPrint("error")
+                    }
+                } else {
+                    
+                }
+            }
+        }
+    }
+    
     func didSelectItem(at index: Int) {
         guard let documentSRL = boardList[index].document_srl,
         !documentSRL.elementsEqual("-1") else { return }
@@ -419,10 +464,11 @@ extension DetailViewController: BoardTableViewDelegate {
         self.boardTableView.estimatedSectionHeaderHeight = 25  // 25
     }
     
-    func showImageViewer(url: URL) {
+    func showImageViewer(url: URL, isProfileImageMode: Bool) {
         let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-        let imageVC:EIImageViewerViewController = boardStoryboard.instantiateViewController(withIdentifier: "EIImageViewerViewController") as! EIImageViewerViewController
-        imageVC.mImageURL = url;
+        guard let imageVC: EIImageViewerViewController = boardStoryboard.instantiateViewController(withIdentifier: "EIImageViewerViewController") as? EIImageViewerViewController else { return }
+        imageVC.mImageURL = url
+        imageVC.isProfileImageMode = isProfileImageMode
     
         self.navigationController?.push(viewController: imageVC)
     }
@@ -489,12 +535,23 @@ extension DetailViewController {
     
     @objc
     fileprivate func onClickEditBtn() {
-        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-        let editVC:EditViewController = boardStoryboard.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
-        editVC.mode = EditViewController.BOARD_NEW_MODE
-        editVC.charger = self.charger
-//        editVC.editViewDelegate = self //EditViewDelegate
-        self.navigationController?.push(viewController: editVC, subtype: kCATransitionFromTop)
+        let storyboard = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil)
+        guard let boardWriteViewController = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
+        
+        if let chargerData = charger {
+            if let stationDto = chargerData.mStationInfoDto {
+                boardWriteViewController.chargerInfo["chargerId"] = stationDto.mChargerId
+                boardWriteViewController.chargerInfo["chargerName"] = stationDto.mSnm
+            }
+        }
+        
+        boardWriteViewController.category = Board.CommunityType.CHARGER.rawValue
+        boardWriteViewController.popCompletion = { [weak self] in
+            guard let self = self else { return }
+            self.fetchFirstBoard(mid: Board.CommunityType.CHARGER.rawValue, sort: .LATEST, mode: Board.ScreenType.FEED.rawValue)
+        }
+        
+        self.navigationController?.push(viewController: boardWriteViewController)
     }
     
     @objc

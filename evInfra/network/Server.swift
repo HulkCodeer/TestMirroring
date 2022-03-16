@@ -390,7 +390,7 @@ class Server {
         let parameters: Parameters = [
             "title" : title,
             "content" : content,
-            "tags" : "{\"charger_id\" : \"\(charger_id)\"}"
+            "tags" : "{\"charger_id\":\"\(charger_id)\"}"
         ]
 
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/write/mid/\(mid)",
@@ -410,7 +410,7 @@ class Server {
         let parameters: Parameters = [
             "title" : title,
             "content" : content,
-            "tags" : "{\"charger_id\" : \"\(charger_id)\"}"
+            "tags" : "{\"charger_id\":\"\(charger_id)\"}"
         ]
         
         Alamofire.request(Const.EV_COMMUNITY_SERVER + "/update/mid/\(mid)/document_srl/\(documentSRL)",

@@ -178,7 +178,7 @@ class BoardDetailViewModel {
         Server.reportBoard(document_srl: document_srl) { (isSuccess, value) in
             if isSuccess {
                 if let dictionary = value as? Dictionary<String, String> {
-                    completion(true, dictionary["error"] ?? "")
+                    completion(false, dictionary["error"] ?? "")
                 } else {
                     completion(true, "게시글이 신고되었습니다.")
                 }

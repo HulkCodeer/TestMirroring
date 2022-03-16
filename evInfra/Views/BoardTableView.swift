@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
+class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     var tableViewDelegate: BoardTableViewDelegate?
     var category :String = Board.CommunityType.FREE.rawValue
@@ -19,6 +19,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
     var sortType: Board.SortType = .LATEST
     var screenType: Board.ScreenType = .LIST
     var isNoneHeader: Bool = false
+    var isFromDetailView: Bool = false
     var adIndex: Int = -1
     private var adminList: [Admin] = [Admin]()
     
@@ -37,7 +38,6 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
     private func configuration() {
         self.dataSource = self
         self.delegate = self
-        self.prefetchDataSource = self
         self.allowsSelection = true
         self.autoresizingMask = UIViewAutoresizing.flexibleHeight
         self.separatorStyle = .none
@@ -87,6 +87,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
             if isAd {
                 guard let adCell = Bundle.main.loadNibNamed("CommunityBoardAdsCell", owner: self, options: nil)?.first as? CommunityBoardAdsCell else { return UITableViewCell() }
                 
+                adCell.selectionStyle = .none
                 adCell.configuration(item: communityBoardList[indexPath.row])
 
                 return adCell
@@ -96,6 +97,9 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
                 cell.selectionStyle = .none
                 cell.adminList = adminList
                 cell.configure(item: communityBoardList[indexPath.row])
+                cell.imageTapped = { [weak self] imageUrl in
+                    self?.tableViewDelegate?.showImageViewer(url: imageUrl, isProfileImageMode: true)
+                }
                 
                 return cell
             }
@@ -113,7 +117,11 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
                 
                 cell.selectionStyle = .none
                 cell.adminList = adminList
+                cell.isFromDetailView = isFromDetailView
                 cell.configure(item: communityBoardList[indexPath.row])
+                cell.imageTapped = { [weak self] imageUrl in
+                    self?.tableViewDelegate?.showImageViewer(url: imageUrl, isProfileImageMode: true)
+                }
                 
                 return cell
             }
@@ -154,14 +162,6 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
             return headerView
         }
     }
-    
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        for indexPath in indexPaths {
-            if indexPath.row % 20 == 19 {
-                self.tableViewDelegate?.fetchNextBoard(mid: self.category, sort: self.sortType, mode: self.screenType.rawValue)
-            }
-        }
-    }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         // UITableView only moves in one direction, y axis
@@ -169,7 +169,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate, U
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
 
         if maximumOffset - currentOffset <= -20.0 {
-//            self.tableViewDelegate?.fetchNextBoard(mid: category, sort: sortType)
+            self.tableViewDelegate?.fetchNextBoard(mid: self.category, sort: self.sortType, mode: self.screenType.rawValue)
         }
     }
 }

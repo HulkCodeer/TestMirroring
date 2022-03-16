@@ -46,7 +46,8 @@
                                                                 </constraints>
                                                                 <color key="tintColor" red="0.49019607843137253" green="0.49019607843137253" blue="0.49019607843137253" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <state key="normal" title="Button"/>
-                                                                <buttonConfiguration key="configuration" style="plain" image="search" title="충전소 검색" titleAlignment="leading">
+                                                                <buttonConfiguration key="configuration" style="plain" image="search" title="충전소 검색" imagePadding="8" titleAlignment="leading">
+                                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="default"/>
                                                                     <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
                                                                 </buttonConfiguration>
                                                                 <connections>
@@ -54,6 +55,10 @@
                                                                 </connections>
                                                             </button>
                                                         </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="QrB-fg-XJS" firstAttribute="leading" secondItem="E81-wG-FqB" secondAttribute="leading" id="6VF-Et-C8W"/>
+                                                            <constraint firstAttribute="trailing" secondItem="QrB-fg-XJS" secondAttribute="trailing" id="Fwu-PO-ORs"/>
+                                                        </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hTw-ee-euh" userLabel="Title Stack View">
                                                         <rect key="frame" x="0.0" y="92" width="382" height="68"/>
@@ -106,7 +111,7 @@
                                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                         <color key="textColor" red="0.49019607843137253" green="0.49019607843137253" blue="0.49019607843137253" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
                                                                     </textView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 / 1200" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EzN-o3-854">
                                                                         <rect key="frame" x="320" y="230.5" width="46" height="16"/>
