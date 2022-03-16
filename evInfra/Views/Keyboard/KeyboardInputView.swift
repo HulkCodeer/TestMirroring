@@ -113,10 +113,12 @@ class KeyboardInputView: UIView {
         sendButtonCompletionHandler?(text, selectedRow, isModify, isRecomment)
         
         textView.text = nil
-        textView.endEditing(true)
+        textView.resignFirstResponder()
+        placeholderTextField.isHidden = false
         textView.attributedText = nil
         textViewConstraint.constant = minHeight
         isRecomment = false
+        sendButton.isEnabled = false
         isModify = false
         selectedRow = 0
         
