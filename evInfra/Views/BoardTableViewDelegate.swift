@@ -14,6 +14,6 @@ protocol BoardTableViewDelegate {
     func fetchFirstBoard(mid: String, sort: Board.SortType, mode: String)
     func fetchNextBoard(mid: String, sort: Board.SortType, mode: String)
     func didSelectItem(at: Int)
-    func showImageViewer(url: URL)
+    func showImageViewer(url: URL, isProfileImageMode: Bool)
 }
 

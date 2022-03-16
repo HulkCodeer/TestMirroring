@@ -154,7 +154,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
         self.navigationController?.push(viewController: boardDetailTableViewController)
     }
     
-    func showImageViewer(url: URL) { }
+    func showImageViewer(url: URL, isProfileImageMode: Bool) { }
 }
 
 extension MyWritingViewController: AppTabsControllerDelegate {

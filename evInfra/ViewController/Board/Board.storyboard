@@ -384,13 +384,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DzB-3t-5CH">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DzB-3t-5CH">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             </imageView>
                                         </subviews>
                                     </scrollView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1GV-fD-skD" customClass="PPNinePatchButton" customModule="evInfra" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1GV-fD-skD">
                                         <rect key="frame" x="265" y="585" width="80" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <color key="backgroundColor" name="background-positive"/>
@@ -413,6 +413,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <connections>
+                        <outlet property="imageSaveButton" destination="1GV-fD-skD" id="eH8-Io-ceT"/>
                         <outlet property="mImageViewer" destination="DzB-3t-5CH" id="nBU-6R-asE"/>
                         <outlet property="mScrollView" destination="5ST-ef-faF" id="6yg-JP-4Bl"/>
                     </connections>

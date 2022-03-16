@@ -36,7 +36,9 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
     
     var chargerId: String?
     var chargeStataionButtonTappedCompletion: ((String) -> Void)?
+    var imageTapped: ((URL) -> Void)?
     var adminList: [Admin]?
+    var isFromDetailView: Bool = false
     
     private lazy var additionalCountLabel: UILabel = {
        let label = UILabel()
@@ -56,20 +58,21 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
         super.prepareForReuse()
         
         profileImageView.sd_cancelCurrentImageLoad()
-        thumbNailImage1.sd_cancelCurrentImageLoad()
-        thumbNailImage2.sd_cancelCurrentImageLoad()
-        thumbNailImage3.sd_cancelCurrentImageLoad()
-        thumbNailImage4.sd_cancelCurrentImageLoad()
+        [thumbNailImage1, thumbNailImage2, thumbNailImage3, thumbNailImage4].forEach {
+            $0?.sd_cancelCurrentImageLoad()
+        }
     }
     
     private func setUI() {
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
         profileImageView.clipsToBounds = true
+        profileImageView.isUserInteractionEnabled = true
+        profileImageView.addTapGesture(target: self, action: #selector(imageViewTapped(_:)))
         adminIconImage.isHidden = true
-        thumbNailImage1.layer.cornerRadius = 12
-        thumbNailImage2.layer.cornerRadius = 12
-        thumbNailImage3.layer.cornerRadius = 12
-        thumbNailImage4.layer.cornerRadius = 12
+        
+        [thumbNailImage1, thumbNailImage2, thumbNailImage3, thumbNailImage4].forEach {
+            $0?.layer.cornerRadius = 12
+        }
         
         imageStackView.isHidden = true
     }
@@ -131,6 +134,8 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
             chargeStationButton.setTitle(charger.mStationInfoDto?.mSnm, for: .normal)
             chargeStationButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
         }
+        
+        chargeStationButton.isHidden = isFromDetailView
         
         // 이미지 썸네일
         setImage(files: item.files)
@@ -201,5 +206,12 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
     private func isMyReportedItem(item: BoardListItem) -> Bool {
         guard let _ = item.blind else { return false }
         return true
+    }
+    
+    @objc
+    private func imageViewTapped(_ sender: UIGestureRecognizer) {
+        guard let tappedImageView = sender.view, let imageView = tappedImageView as? UIImageView  else { return }
+        guard let url = imageView.sd_imageURL() else { return }
+        imageTapped?(url)
     }
 }

@@ -21,6 +21,7 @@ class CommunityBoardTableViewCell: UITableViewCell {
     @IBOutlet var replyView: UIView!
     
     var adminList: [Admin]?
+    var imageTapped: ((URL) -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -44,6 +45,8 @@ class CommunityBoardTableViewCell: UITableViewCell {
     
     private func initUI() {
         profileImage.layer.cornerRadius = profileImage.frame.height/2
+        profileImage.isUserInteractionEnabled = true
+        profileImage.addTapGesture(target: self, action: #selector(imageViewTapped(_:)))
         replyView.layer.cornerRadius = 8
         adminIconImage.isHidden = true
         titleLabel.lineBreakMode = .byTruncatingTail
@@ -131,5 +134,13 @@ class CommunityBoardTableViewCell: UITableViewCell {
     private func isMyReportedItem(item: BoardListItem) -> Bool {
         guard let _ = item.blind else { return false }
         return true
+    }
+    
+    @objc
+    private func imageViewTapped(_ sender: UIGestureRecognizer) {
+        guard let tappedImageView = sender.view,
+                let imageView = tappedImageView as? UIImageView  else { return }
+        guard let url = imageView.sd_imageURL() else { return }
+        imageTapped?(url)
     }
 }

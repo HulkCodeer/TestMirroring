@@ -145,6 +145,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
                     self.activityIndicator.stopAnimating()
                     if isSuccess {
                         self.fetchData()
+                        NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
                     } else {
                         // show error
                     }
@@ -155,6 +156,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
                     self.activityIndicator.stopAnimating()
                     if isSuccess {
                         self.fetchData()
+                        NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
                     } else {
                         // show error
                     }
@@ -163,10 +165,11 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
         }
     }
     
-    private func showImageViewer(url: URL) {
+    private func showImageViewer(url: URL, isProfileImageMode: Bool) {
         let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
         guard let imageVC: EIImageViewerViewController = boardStoryboard.instantiateViewController(withIdentifier: "EIImageViewerViewController") as? EIImageViewerViewController else { return }
         imageVC.mImageURL = url
+        imageVC.isProfileImageMode = isProfileImageMode
     
         self.navigationController?.push(viewController: imageVC)
     }
@@ -224,8 +227,8 @@ extension BoardDetailViewController: UITableViewDelegate {
             }
             view.configure(item: boardDetailViewModel.getDetailData(), isFromStationDetailView: isFromStationDetailView)
             view.buttonClickDelegate = self
-            view.imageTapped = { [weak self] imageUrl in
-                self?.showImageViewer(url: imageUrl)
+            view.imageTapped = { [weak self] imageUrl, isProfile in
+                self?.showImageViewer(url: imageUrl, isProfileImageMode: isProfile)
             }
             
             return view
@@ -299,7 +302,7 @@ extension BoardDetailViewController: UITableViewDataSource {
                 cell.configureComment(comment: boardDetailViewModel.getComment(at: indexPath.row), row: indexPath.row)
                 cell.buttonClickDelegate = self
                 cell.imageTapped = { [weak self] imageUrl in
-                    self?.showImageViewer(url: imageUrl)
+                    self?.showImageViewer(url: imageUrl, isProfileImageMode: false)
                 }
                 
                 return cell
@@ -362,12 +365,16 @@ extension BoardDetailViewController {
             guard let self = self else { return }
             
             if isReported {
-                self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { (_, message) in
-                    self.trasientAlertView.titlemessage = message
-                    self.presentPanModal(self.trasientAlertView)
-                    self.trasientAlertView.dismissCompletion = {
-                        NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
-                        self.navigationController?.pop()
+                self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { (isSuccess, message) in
+                    if isSuccess {
+                        self.trasientAlertView.titlemessage = message
+                        self.presentPanModal(self.trasientAlertView)
+                        self.trasientAlertView.dismissCompletion = {
+                            if isSuccess {
+                                NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                                self.navigationController?.pop()
+                            }
+                        }
                     }
                 }
             }

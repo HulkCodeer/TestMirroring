@@ -42,7 +42,7 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     private var files: [FilesItem] = []
     private var chargerId: String?
     var buttonClickDelegate: ButtonClickDelegate?
-    var imageTapped: ((URL) -> Void)?
+    var imageTapped: ((URL, Bool) -> Void)?
     var adminList: [Admin]?
     
     override init(reuseIdentifier: String?) {
@@ -78,6 +78,9 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     
     func setUI() {
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+        profileImageView.isUserInteractionEnabled = true
+        profileImageView.addTapGesture(target: self, action: #selector(imageViewTappedProfile(_:)))
+        
         chargeStationButton.isHidden = true
         adminTagImage.isHidden = true
         
@@ -219,10 +222,17 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     }
     
     @objc
+    private func imageViewTappedProfile(_ sender: UIGestureRecognizer) {
+        guard let tappedImageView = sender.view, let imageView = tappedImageView as? UIImageView  else { return }
+        guard let url = imageView.sd_imageURL() else { return }
+        imageTapped?(url, true)
+    }
+    
+    @objc
     private func imageViewTapped(_ sender: UIGestureRecognizer) {
         guard let tappedImageView = sender.view, let imageView = tappedImageView as? UIImageView  else { return }
         guard let url = imageView.sd_imageURL() else { return }
-        imageTapped?(url)
+        imageTapped?(url, false)
     }
     
     @IBAction func likeButtonTapped(_ sender: Any) {

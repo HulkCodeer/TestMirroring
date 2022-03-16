@@ -90,7 +90,7 @@
                                                             <constraint firstAttribute="bottom" secondItem="c4k-eJ-KXz" secondAttribute="bottom" id="xt8-yP-KXb"/>
                                                         </constraints>
                                                     </stackView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="테스트" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1o4-C3-wmY">
+                                                    <label opaque="NO" contentMode="left" text="테스트" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1o4-C3-wmY">
                                                         <rect key="frame" x="0.0" y="24" width="362" height="17"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" name="nt-7"/>

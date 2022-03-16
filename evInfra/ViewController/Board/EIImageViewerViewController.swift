@@ -10,6 +10,8 @@ import Foundation
 import AlamofireImage
 import SwiftyGif
 import SDWebImage
+import SnapKit
+import UIKit
 
 class EIImageViewerViewController : UIViewController, UIScrollViewDelegate{
     
@@ -18,26 +20,52 @@ class EIImageViewerViewController : UIViewController, UIScrollViewDelegate{
     
     @IBOutlet weak var mImageViewer: UIImageView!
     @IBOutlet weak var mScrollView: UIScrollView!
+    @IBOutlet var imageSaveButton: UIButton!
     
     var mImageURL : URL?
-    
+    var isProfileImageMode: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guard let mImageURL = mImageURL else {
+            mImageViewer.image = UIImage(named: "ic_person_base36")
+            return
+        }
         prepareActionBar(with: "")
+        
+        imageSaveButton.layer.cornerRadius = 6
+        imageSaveButton.isHidden = isProfileImageMode
         
         mScrollView.minimumZoomScale = 1.0
         mScrollView.maximumZoomScale = 10.0
         mScrollView.delegate = self
         
-        mImageViewer.image = UIImage(named: "img_default")
-        
-        if (mImageURL == nil){
-            return
+        if isProfileImageMode {
+            mImageViewer.clipsToBounds = true
+            mImageViewer.snp.makeConstraints {
+                $0.width.equalToSuperview()
+                $0.height.equalTo(mImageViewer.snp.width)
+                $0.width.equalTo(mImageViewer.snp.height).multipliedBy(1.0 / 1.0)
+                $0.centerX.equalToSuperview()
+                $0.centerY.equalToSuperview()
+            }
+            mImageViewer.layer.cornerRadius = mImageViewer.frame.width / 2
+            
+            let urlToString = mImageURL.absoluteString
+            
+            if !urlToString.hasSuffix(".png") &&
+                !urlToString.hasSuffix(".jpeg") &&
+                !urlToString.hasSuffix(".jpg") {
+                mImageViewer.image = UIImage(named: "ic_person_base36")
+                return
+            }
+        } else {
+            mImageViewer.contentMode = .scaleAspectFit
         }
         
         let imageURLFromParse = mImageURL
-        let imageData = NSData(contentsOf: imageURLFromParse! as URL)
+        let imageData = NSData(contentsOf: imageURLFromParse as URL)
         
         var isGif : Bool = false
         if (imageData != nil && imageData?.imageFormat != nil){
@@ -47,7 +75,7 @@ class EIImageViewerViewController : UIViewController, UIScrollViewDelegate{
         }
         
         if (isGif){
-            self.mImageViewer.setGifFromURL(mImageURL!)
+            self.mImageViewer.setGifFromURL(mImageURL)
         }else{
             self.mImageViewer.sd_setImage(with: mImageURL, completed: nil)
         }

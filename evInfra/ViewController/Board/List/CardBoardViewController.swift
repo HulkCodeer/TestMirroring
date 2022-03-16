@@ -216,10 +216,11 @@ extension CardBoardViewController: BoardTableViewDelegate {
         self.navigationController?.push(viewController: boardDetailTableViewController)
     }
     
-    func showImageViewer(url: URL) {
+    func showImageViewer(url: URL, isProfileImageMode: Bool) {
         let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-        let imageVC:EIImageViewerViewController = boardStoryboard.instantiateViewController(withIdentifier: "EIImageViewerViewController") as! EIImageViewerViewController
-        imageVC.mImageURL = url;
+        guard let imageVC: EIImageViewerViewController = boardStoryboard.instantiateViewController(withIdentifier: "EIImageViewerViewController") as? EIImageViewerViewController else { return }
+        imageVC.mImageURL = url
+        imageVC.isProfileImageMode = isProfileImageMode
     
         self.navigationController?.push(viewController: imageVC)
     }
