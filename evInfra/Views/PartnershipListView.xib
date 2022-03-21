@@ -81,7 +81,7 @@
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="krc-y6-DiL" userLabel="skr_view">
                                     <rect key="frame" x="16" y="73" width="343" height="201"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sk_card_bg-1" translatesAutoresizingMaskIntoConstraints="NO" id="Sa9-9b-uzd">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sk_card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="Sa9-9b-uzd">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="201"/>
                                             <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
                                         </imageView>
@@ -201,7 +201,7 @@
         <image name="card_evinfra_logo" width="72" height="16"/>
         <image name="lotte_card_bg" width="442.5" height="262.5"/>
         <image name="lotte_logo_white" width="105" height="26.5"/>
-        <image name="sk_card_bg-1" width="437" height="256"/>
+        <image name="sk_card_bg" width="328" height="192"/>
         <namedColor name="content-tertiary">
             <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
