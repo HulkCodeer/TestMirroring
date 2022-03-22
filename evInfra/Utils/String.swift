@@ -13,17 +13,17 @@ extension String {
     func index(from: Int) -> Index {
         return self.index(startIndex, offsetBy: from)
     }
-
+    
     func substring(from: Int) -> String {
         let fromIndex = index(from: from)
         return String(self[fromIndex...])
     }
-
+    
     func substring(to: Int) -> String {
         let toIndex = index(from: to)
         return String(self[..<toIndex])
     }
-
+    
     func substring(with r: Range<Int>) -> String {
         let startIndex = index(from: r.lowerBound)
         let endIndex = index(from: r.upperBound)
@@ -51,16 +51,16 @@ extension String {
     }
     
     func htmlToAttributedString() -> NSAttributedString? {
-      
-      guard let data = self.data(using: .utf8) else {
-        return NSAttributedString()
-      }
         
-      do {
-        return try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding:String.Encoding.utf8.rawValue], documentAttributes: nil)
-      } catch {
-        return NSAttributedString()
-      }
+        guard let data = self.data(using: .utf8) else {
+            return NSAttributedString()
+        }
+        
+        do {
+            return try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding:String.Encoding.utf8.rawValue], documentAttributes: nil)
+        } catch {
+            return NSAttributedString()
+        }
     }
     
     func urlToImage() -> UIImage? {
@@ -75,5 +75,43 @@ extension String {
         guard let range = self.range(of: pattern, options: .regularExpression) else { return false }
         
         return true
+    }
+    
+    func deletingPrefix(_ prefix: String) -> String {
+        guard self.hasPrefix(prefix) else { return self }
+        return String(self.dropFirst(prefix.count))
+    }
+}
+
+extension NSMutableAttributedString {
+    func tagStyle(with nickNameTag: String) -> NSMutableAttributedString {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 16, weight: .bold),
+            .foregroundColor: UIColor(named: "gr-5")!,
+            .baselineOffset: 0
+        ]
+        
+        self.append(NSAttributedString(string: nickNameTag + " ", attributes: attributes))
+        return self
+    }
+    
+    func defaultStyle(with string: String) -> NSMutableAttributedString {
+        let defaultAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 16, weight: .regular),
+            .foregroundColor: UIColor(named: "nt-9")!,
+            .baselineOffset: 0
+        ]
+        
+        self.append(NSAttributedString(string: string, attributes: defaultAttributes))
+        return self
+    }
+    
+    func defaultStyleWithoutTag(targetString: String, fullText: String) -> NSMutableAttributedString {
+        let range = (fullText as NSString).range(of: targetString)
+        let attributedString = NSMutableAttributedString(string: fullText)
+        attributedString.addAttribute(.foregroundColor, value: UIColor(named: "gr-5")!, range: range)
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 16, weight: .bold), range: range)
+        
+        return attributedString
     }
 }

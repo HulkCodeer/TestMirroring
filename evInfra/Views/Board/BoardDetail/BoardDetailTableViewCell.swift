@@ -17,7 +17,7 @@ protocol ButtonClickDelegate {
 }
 
 class BoardDetailTableViewCell: UITableViewCell {
-
+    
     @IBOutlet var backgroundCell: UIView!
     @IBOutlet var backView: UIView!
     @IBOutlet var subCommentImageView: UIImageView!
@@ -148,7 +148,17 @@ class BoardDetailTableViewCell: UITableViewCell {
             dateLabel.text = "| \(DateUtils.getTimesAgoString(date: comment.regdate ?? ""))"
             reportButton.isHidden = isAdmin(mbId: comment.mb_id!)
             adminTagImage.isHidden = !isAdmin(mbId: comment.mb_id!)
-            commentLabel.text = comment.content
+            
+            if isRecomment {
+                let tagNickName = comment.target_nick_name ?? ""
+                let comment = "\(tagNickName) " + comment.content!
+                
+                commentLabel.text = comment
+                commentLabel.tagLabel(target: tagNickName)
+            } else {
+                commentLabel.text = comment.content
+            }
+            
             likedCountLabel.text = comment.like_count
             commentCountLabel.text = comment.comment_count
         }
@@ -172,7 +182,7 @@ class BoardDetailTableViewCell: UITableViewCell {
             imageScrollStackView.isHidden = true
             return
         }
-
+        
         imageScrollStackView.isHidden = false
         
         switch files.count {
