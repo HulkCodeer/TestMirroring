@@ -114,12 +114,18 @@ class ChargesViewController: UIViewController {
 // 조회 설정
 extension ChargesViewController {
     fileprivate func prepareDatePicker() {
+        textFieldStartDate.tintColor = UIColor.clear
+        textFieldEndDate.tintColor = UIColor.clear
+        
         let locale = Locale(identifier: "ko_KO")
         
         self.datePicker.datePickerMode = .date
         self.datePicker.locale = locale
+        if #available(iOS 13.4, *) {
+            self.datePicker.preferredDatePickerStyle = .wheels
+        }
         
-        self.dateFormatter.dateStyle = .short
+        self.dateFormatter.dateStyle = .medium
         self.dateFormatter.timeStyle = .none
         self.dateFormatter.locale = locale
     }
@@ -153,6 +159,7 @@ extension ChargesViewController {
     }
     
     fileprivate func getCharges(isAllDate: Bool, startDate: Date, endDate: Date) {
+        self.dateFormatter.dateFormat = "yyyy-MM-dd"
         self.textFieldStartDate.text = self.dateFormatter.string(from: startDate)
         self.textFieldEndDate.text =  self.dateFormatter.string(from: endDate)
         
@@ -210,6 +217,15 @@ extension ChargesViewController: UITableViewDelegate, UITableViewDataSource, Cha
     func prepareTableView() {
         self.chargesTableView.delegate = self
         self.chargesTableView.dataSource = self
+        
+        let tapGestureReconizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGestureReconizer.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGestureReconizer)
+    }
+    
+    @objc
+    func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

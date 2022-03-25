@@ -562,7 +562,7 @@ extension DetailViewController {
                 let reportChargeVC = reportStoryboard.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
                 reportChargeVC.info.charger_id = chargerInfo.mChargerId
                 
-                self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
+                self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true, completion: nil)
             }
         } else {
             MemberManager().showLoginAlert(vc:self)
