@@ -25,12 +25,12 @@ class FavoriteViewController: UIViewController {
     
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
+        backButton.tintColor = UIColor(named: "nt-9")
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
         
         navigationItem.leftViews = [backButton]
         navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
+        navigationItem.titleLabel.textColor = UIColor(named: "nt-9")
         navigationItem.titleLabel.text = "즐겨찾기"
         self.navigationController?.isNavigationBarHidden = false
     }
@@ -44,6 +44,7 @@ class FavoriteViewController: UIViewController {
 extension FavoriteViewController: ChargerTableViewDelegate {
     
     func prepareTableView() {
+        tableView.isHiddenAlertFavoriteIcon = false
         tableView.chargerTableDelegate = self
         tableView.chargerList = ChargerManager.sharedInstance.getChargerStationInfoList().filter({(charger: ChargerStationInfo) -> Bool in
             return charger.mFavorite

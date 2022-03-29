@@ -52,6 +52,11 @@ class ChargerTableViewCell: UITableViewCell {
         setAddrModeUI(isAddrMode: false)
     }
     
+    func setHidden(isOn: Bool) {
+        btnFavorite.isHidden = isOn
+        btnAlarm.isHidden = isOn
+    }
+    
     func setAddrMode(item: EIPOIItem) {
         stationName.text = item.getPOIName()
         address.text = item.getPOIAddress()

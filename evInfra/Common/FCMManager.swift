@@ -9,6 +9,7 @@
 import Foundation
 import SwiftyJSON
 import UserNotifications
+import UIKit
 
 class FCMManager {
 
@@ -21,17 +22,16 @@ class FCMManager {
     static let TARGET_CHARGING_STATUS = "05"
     static let TARGET_CHARGING_STATUS_FIX = "06"
     static let TARGET_COUPON = "07"
-    static let TARGET_POINT  = "08";
-    static let TARGET_MEMBERSHIP = "09";
-//    static let TARGET_COMMUNITY = "10";
-    static let TARGET_REPAYMENT = "11";
+    static let TARGET_POINT  = "08"
+    static let TARGET_MEMBERSHIP = "09"
+    static let TARGET_COMMUNITY = "10"
+    static let TARGET_REPAYMENT = "11"
     
     static let FCM_REQUEST_PAYMENT_STATUS = "fcm_request_payment_status"
     static let sharedInstance = FCMManager()
     let defaults = UserDefault()
     
-    private init() {
-    }
+    private init() {}
     
     var registerId: String? = nil
     var nfcNoti: UNNotification? = nil
@@ -157,6 +157,11 @@ class FCMManager {
                     
                 case FCMManager.TARGET_REPAYMENT:  // 미수금 정산
                     getRepaymentData(navigationController: navigationController)
+                case FCMManager.TARGET_COMMUNITY: // 커뮤니티 게시판
+                    if let category = notification[AnyHashable("mid")] as? String,
+                    let documentSrl = notification[AnyHashable("document_srl")] as? String {
+                        getCommunityBoardDetailData(navigationController: navigationController, boardId: documentSrl, category: category)
+                    }
                 default:
                     print("alertMessage() default")
                 }
@@ -180,6 +185,26 @@ class FCMManager {
                     MemberManager().showLoginAlert(vc: visableControll)
                 }
             }
+        }
+    }
+    
+    func getCommunityBoardDetailData(navigationController: UINavigationController?, boardId: String, category: String) {
+        guard let navigationController = navigationController else {
+            return
+        }
+        guard let visibleViewController = navigationController.visibleViewController else { return }
+        
+        if visibleViewController.isKind(of: BoardDetailViewController.self) {
+            guard let boardDetailViewController = visibleViewController as? BoardDetailViewController else { return }
+            boardDetailViewController.document_srl = boardId
+            boardDetailViewController.category = category
+            boardDetailViewController.viewDidLoad()
+            return
+        } else {
+            guard let boardDetailViewController = UIStoryboard(name: "BoardDetailViewController", bundle: nil).instantiateViewController(withIdentifier: "BoardDetailViewController") as? BoardDetailViewController else { return }
+            boardDetailViewController.document_srl = boardId
+            boardDetailViewController.category = category
+            navigationController.push(viewController: boardDetailViewController)
         }
     }
 

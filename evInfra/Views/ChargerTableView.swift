@@ -15,8 +15,8 @@ protocol ChargerTableViewDelegate {
 class ChargerTableView: UITableView {
     
     var chargerTableDelegate: ChargerTableViewDelegate?
-    
     var chargerList: [ChargerStationInfo]? = nil
+    var isHiddenAlertFavoriteIcon: Bool = false
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -54,7 +54,9 @@ extension ChargerTableView: UITableViewDataSource {
         guard let charger = chargerList?[indexPath.row] else {
             return cell
         }
+        
         cell.setCharger(item: charger)
+        cell.setHidden(isOn: isHiddenAlertFavoriteIcon)
         
         return cell
     }
