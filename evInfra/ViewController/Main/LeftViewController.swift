@@ -392,7 +392,7 @@ extension LeftViewController {
                     
                     let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
                     let companyBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
-                    companyBoardVC.category = Board.CommunityType.getCompanyType(index: index.row)
+                    companyBoardVC.category = Board.CommunityType.getCompanyType(shardKey: boardInfo.shardKey ?? "")
                     companyBoardVC.bmId = boardInfo.bmId!
                     companyBoardVC.brdTitle = title
                     companyBoardVC.mode = Board.ScreenType.FEED

@@ -67,23 +67,23 @@ class Board {
         case CORP_STC = "corp_stc"
         case CORP_SBC = "corp_sbc"
         
-        var index: Int {
+        var shardKey: String {
             switch self {
-                case .CHARGER: return -1
-                case .FREE: return -1
-                case .NOTICE: return -1
-                case .CORP_GS: return 0
-                case .CORP_JEV: return 1
-                case .CORP_STC: return 2
-                case .CORP_SBC: return 3
+                case .CHARGER: return ""
+                case .FREE: return "free"
+                case .NOTICE: return "notice"
+                case .CORP_GS: return "company_gs"
+                case .CORP_JEV: return "company_jeju"
+                case .CORP_STC: return "company_st"
+                case .CORP_SBC: return "company_ev_infra"
             }
         }
 
-        static func getCompanyType(index: Int) -> String {
+        static func getCompanyType(shardKey: String) -> String {
             var text: String = CommunityType.CORP_GS.rawValue
 
             CommunityType.allCases.forEach {
-                if $0.index == index {
+                if $0.shardKey == shardKey {
                     text = $0.rawValue
                 }
             }
