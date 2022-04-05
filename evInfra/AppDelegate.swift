@@ -13,6 +13,7 @@ import Firebase
 import FirebaseDynamicLinks
 import UserNotifications
 import AuthenticationServices
+import NMapsMap
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -28,12 +29,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         print("application:didFinishLaunchingWithOptions:options")
         FirebaseApp.configure()
+        NMFAuthManager.shared().clientId = Const.NAVER_MAP_KEY
+        
         if #available(iOS 13.0, *) { // SceneDelegate
         } else {
             setupEntryController()
         }
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
-
+        
         return true
     }
     

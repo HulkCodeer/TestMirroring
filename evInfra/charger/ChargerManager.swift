@@ -9,6 +9,11 @@
 import Foundation
 import SwiftyJSON
 
+
+protocol MarkerTouchDelegate {
+    func touchHandler(with charger: ChargerStationInfo)
+}
+
 class ChargerManager {
     
     static let sharedInstance = ChargerManager()
@@ -18,6 +23,8 @@ class ChargerManager {
     private var mIsReady: Bool = false
 
     private var mChargerStationInfoList = [ChargerStationInfo]()
+    
+    var delegate: MarkerTouchDelegate?
     
     public init() {
         if Const.EV_PAY_SERVER.contains("https") == false {
@@ -186,7 +193,12 @@ class ChargerManager {
 
     private func createAllMarker() {
         for chargerStationInfo in self.mChargerStationInfoList {
-            chargerStationInfo.createMarker()
+//            chargerStationInfo.createMarker()
+            chargerStationInfo.createMapMarker()
+//            chargerStationInfo.mapMarker.touchHandler = { [weak self] overlay -> Bool in
+//                    self?.delegate?.touchHandler(with: chargerStationInfo)
+//                    return true
+//            }
         }
         Log.d(tag: Const.TAG, msg: "marker create")
     }

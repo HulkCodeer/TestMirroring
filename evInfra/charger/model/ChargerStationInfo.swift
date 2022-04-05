@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+import NMapsMap
 
 class ChargerStationInfo {
     
@@ -28,7 +29,8 @@ class ChargerStationInfo {
     var mPowerSt: String?
     
     var mLimit: String?
-
+    
+    var mapMarker: NMFMarker!
     var marker: TMapMarkerItem!
     var cidInfo: CidInfo!
     
@@ -49,7 +51,7 @@ class ChargerStationInfo {
     var slowPrice: String = ""
     
     var fastPrice: String = ""
-    
+
     init(_ charger_id : String) {
         self.mChargerId = charger_id
         initChargerStationInfo()
@@ -96,6 +98,28 @@ class ChargerStationInfo {
             marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
         }
     }
+    
+    // Naver
+    func createMapMarker() {
+        if self.mTotalStatus == nil {
+            mTotalStatusName = cidInfo.cstToString(cst: Const.CHARGER_STATE_UNCONNECTED)
+        } else {
+            mTotalStatusName = cidInfo.cstToString(cst: self.mTotalStatus!)
+        }
+        
+        let nmfMarker = NMFMarker(position: NMGLatLng(lat: getChargerPoint().0, lng: getChargerPoint().1))
+        mapMarker = nmfMarker
+        mapMarker.iconImage = NMFOverlayImage.init(image: getMarkerIcon())
+    }
+    
+    func getChargerPoint() -> (Double, Double) {
+        guard let mStationInfoDto = mStationInfoDto else {
+            return (0,0)
+        }
+
+        return (mStationInfoDto.mLatitude ?? 0, mStationInfoDto.mLongitude ?? 0)
+    }
+    //
     
     func getTMapPoint() -> TMapPoint {
         return TMapPoint(lon: (mStationInfoDto?.mLongitude)!, lat: (mStationInfoDto?.mLatitude)!)

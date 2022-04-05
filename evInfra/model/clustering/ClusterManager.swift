@@ -7,12 +7,13 @@
 //
 
 import Foundation
+import NMapsMap
 
 class ClusterManager {
     
-    public static let LEVEL_1_ZOOM = 11;
-    public static let LEVEL_2_ZOOM = 8;
-    public static let LEVEL_3_ZOOM = 6;
+    public static let LEVEL_1_ZOOM = 11
+    public static let LEVEL_2_ZOOM = 8
+    public static let LEVEL_3_ZOOM = 6
     
     let headers = ["charger0", "cluster1", "cluster2", "cluster3", "cluster4"] // 클러스터링 에셋 파일명
     private static let CLUSTER_LEVEL_4 = 4    // 내륙 제주
@@ -30,15 +31,22 @@ class ClusterManager {
     var clusterFilter: ChargerFilter? = nil
     var currentClusterLv = -1
     var tMapView: TMapView?
+    var mapView: NMFMapView?
     var isRouteMode: Bool = false
     
     var clusterGenerator = ClusterGenerator.init()
     
-    init(mapView: TMapView) {
-        self.tMapView = mapView
+    init(mapView: NMFMapView) {
+        self.mapView = mapView
         prepareClusterInfo()
         prepareClusterMarker()
     }
+    
+//    init(mapView: TMapView) {
+//        self.tMapView = mapView
+//        prepareClusterInfo()
+//        prepareClusterMarker()
+//    }
     
     func prepareClusterInfo() {
         for assetFile in headers {
@@ -59,6 +67,47 @@ class ClusterManager {
     }
     
     func prepareMarkers(clusters: [CodableCluster.Cluster]?, markerHeader: String) {
+        guard let clusters = clusters else { return }
+        
+        for cluster in clusters {
+            if cluster.baseImage == nil {
+                cluster.baseImage = self.clusterGenerator.generateBaseImage(area: cluster.name ?? "")
+            }
+            
+            let latLng = NMGLatLng(lat: cluster.lat ?? 0.0, lng: cluster.lng ?? 0.0)
+            let marker = NMFMarker(position: latLng)
+            
+            let clusterImage = self.clusterGenerator.generateClusterImage(value: String(cluster.sum), baseImage: cluster.baseImage!)
+            marker.iconImage = NMFOverlayImage.init(image: clusterImage!)
+            cluster.marker = marker
+//            cluster.marker.mapView = self.mapView
+        }
+        /*
+        DispatchQueue.global(qos: .default).async {
+            
+            for cluster in clusters {
+                if cluster.baseImage == nil {
+                    cluster.baseImage = self.clusterGenerator.generateBaseImage(area: cluster.name ?? "")
+                }
+                
+                let latLng = NMGLatLng(lat: cluster.lat ?? 0.0, lng: cluster.lng ?? 0.0)
+                let marker = NMFMarker(position: latLng)
+                
+                let clusterImage = self.clusterGenerator.generateClusterImage(value: String(cluster.sum), baseImage: cluster.baseImage!)
+                marker.iconImage = NMFOverlayImage.init(image: clusterImage!)
+                cluster.marker = marker
+            }
+            
+            DispatchQueue.main.async {
+                for cluster in clusters {
+                    cluster.marker.mapView = self.mapView
+                }
+            }
+        }
+         */
+    }
+    /*
+    func prepareMarkers(clusters: [CodableCluster.Cluster]?, markerHeader: String) {
         if let clusterList = clusters {
             for cluster in clusterList {
                 let marker = TMapMarkerItem.init()
@@ -72,6 +121,7 @@ class ClusterManager {
             }
         }
     }
+    */
     
     func calClustering(filter: ChargerFilter) {
         if let baseClusters = self.clusters[ClusterManager.CLUSTER_LEVEL_1] {
@@ -106,16 +156,137 @@ class ClusterManager {
         isNeedChangeText = true
     }
     
-    func setClusterText() {
-        for clusters in self.clusters {
-            if let clusterXs = clusters {
-                for cluster in clusterXs {
-                    cluster.marker.setIcon(clusterGenerator.generateClusterImage(value: String(cluster.sum), baseImage: cluster.baseImage!))
-                }
+    // 클러스터에 충전소 갯수 Label 세팅 == setClusterText()
+    func setCountOfStationInCluster() {
+        for cluster in clusters {
+            guard let clusterXs = cluster else {
+                return
+            }
+            
+            for cluster in clusterXs {
+                let clusterImage = clusterGenerator.generateClusterImage(value: String(cluster.sum), baseImage: cluster.baseImage!)
+                cluster.marker.iconImage = NMFOverlayImage.init(image: clusterImage!)
+                cluster.marker.mapView = self.mapView
             }
         }
     }
+//    func setClusterText() {
+//        for clusters in self.clusters {
+//            if let clusterXs = clusters {
+//                for cluster in clusterXs {
+//                    cluster.marker.setIcon(clusterGenerator.generateClusterImage(value: String(cluster.sum), baseImage: cluster.baseImage!))
+//                }
+//            }
+//        }
+//    }
     
+/*
+ 기존 clustering 삭제 및 신규 clustering 생성
+ */
+    func clustering(filter: ChargerFilter, loadedCharger: Bool) {
+        DispatchQueue.global(qos: .default).async {
+            let stations = ChargerManager.sharedInstance.getChargerStationInfoList()
+            if !filter.isSame(filter: self.clusterFilter) {
+                guard stations.count > 1 else { return }
+                self.calClustering(filter: filter)
+            }
+
+            DispatchQueue.main.async {
+                var clusterLevel = ClusterManager.CLUSTER_LEVEL_0
+                
+                if self.isNeedChangeText {
+                    self.isNeedChangeText = false
+                }
+                
+                if self.isClustering {
+                    // zoom level에 따른 클러스터 레벨 세팅
+                    guard let zoomLevelDouble = self.mapView?.zoomLevel as? Double else { return }
+                    let zoomLevel = Int(zoomLevelDouble)
+                    print("zoom Level : \(zoomLevel)")
+                    if zoomLevel < ClusterManager.LEVEL_3_ZOOM {
+                        clusterLevel = ClusterManager.CLUSTER_LEVEL_4
+                    } else if zoomLevel < ClusterManager.LEVEL_2_ZOOM {
+                        clusterLevel = ClusterManager.CLUSTER_LEVEL_3
+                    } else if zoomLevel < ClusterManager.LEVEL_1_ZOOM {
+                        clusterLevel = ClusterManager.CLUSTER_LEVEL_2
+                    }
+                    print("현재 클러스터 레벨 : \(clusterLevel)")
+//                    else if zoomLev < 13 {
+//                        clusterLevel = ClusterManager.CLUSTER_LEVEL_1
+//                    }
+                }
+                
+                // 클러스터 레벨 변경시 마커를 지우는 루틴
+                if (self.currentClusterLv != clusterLevel && self.currentClusterLv != -1) {
+                    if self.currentClusterLv > ClusterManager.CLUSTER_LEVEL_0 {
+                        // 클러스터 마커 지우기
+                        guard let clusters = self.clusters[self.currentClusterLv] else { return }
+                        
+                        for cluster in clusters {
+//                            cluster.marker.hidden = true
+                            cluster.marker.mapView = nil
+                        }
+                    } else if self.currentClusterLv == ClusterManager.CLUSTER_LEVEL_0 {
+                        for station in stations {
+                            // 충전소 마커 지우기
+//                            station.mapMarker.hidden = true
+                            station.mapMarker.mapView = nil
+                        }
+                    }
+                }
+                
+                // 클러스터 변경시 선택된 마커로 그려주는 루틴: 충전소 수가 0으로 변화할 경우 마커를 지우기 위해 필요
+                if clusterLevel == ClusterManager.CLUSTER_LEVEL_0 {
+                    var index = 0
+                    let markerThreshold = self.getMarkerThreshold(filter: filter)
+                    for station in stations {
+                        if index % markerThreshold == 0 {
+                            if station.isAroundPath && station.check(filter: filter) {
+                                // map 안에 들어오면
+                                if self.isContainMap(coord: station.mapMarker.position) {
+                                    // market item from marker id == nil ->
+                                    // marker add
+                                    
+                                    // else
+                                    // marker true
+//                                    station.mapMarker.hidden = false
+                                    station.mapMarker.mapView = self.mapView
+                                }
+                            } else {
+//                                station.mapMarker.hidden = true
+                                station.mapMarker.mapView = nil
+                            }
+                        } else {
+//                            station.mapMarker.hidden = true
+                            station.mapMarker.mapView = nil
+                        }
+                        index += 1
+                    }
+                } else {
+                    guard let clusters = self.clusters[clusterLevel] else { return }
+                    
+                    for cluster in clusters {
+                        if self.isContainMap(coord: cluster.marker.position) {
+                            if cluster.sum > 0 {
+                                // market item from marker id == nil ->
+                                // marker add
+                                
+                                // else
+                                // marker true
+//                                cluster.marker.hidden = false
+                                cluster.marker.mapView = self.mapView
+                            } else {
+//                                cluster.marker.hidden = true
+                                cluster.marker.mapView = nil
+                            }
+                        }
+                    }
+                }
+                self.currentClusterLv = clusterLevel
+            }
+        }
+    }
+    /*
     func clustering(filter: ChargerFilter, loadedCharger: Bool) {
 
         DispatchQueue.global(qos: .background).async {
@@ -131,7 +302,7 @@ class ClusterManager {
             DispatchQueue.main.async {
                 var clusterLv = ClusterManager.CLUSTER_LEVEL_0
                 if self.isNeedChangeText {
-                    self.setClusterText()
+//                    self.setClusterText()
                     self.isNeedChangeText = false
                 }
                 
@@ -149,6 +320,10 @@ class ClusterManager {
 //                        }
                     }
                 }
+                
+//                for station in stationList {
+//                    station.mapMarker.mapView = self.mapView
+//                }
                 
                 // 클러스터 레벨 변경시 마커를 지우는 루틴
                 if (self.currentClusterLv != clusterLv && self.currentClusterLv != -1) {
@@ -168,7 +343,7 @@ class ClusterManager {
                         }
                     }
                 }
-                
+
                 // 클러스터 변경시 선택된 마커로 그려주는 루틴: 충전소 수가 0으로 변화할 경우 마커를 지우기 위해 필요
                 if clusterLv == ClusterManager.CLUSTER_LEVEL_0 {
                     var index = 0
@@ -219,10 +394,37 @@ class ClusterManager {
             }
         }
     }
+    */
     
     // 지도 축소 시 마커를 모두 그리면 메모리 이슈로 앱이 종료됨
     // 한 화면에 일정 갯수 이상의 마커가 있고 줌 레벨이 설정값 이하인 경우,
     // 마커를 모두 그리지 않고 threshold 갯수만큼 건너띄면서 그림
+    
+    func getMarkerThreshold(filter: ChargerFilter) -> Int {
+        var markerThreshold = 1
+        guard !isRouteMode else { return markerThreshold }
+        
+        var markerCount = 0
+        for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
+            if charger.check(filter: filter) {
+                if self.isContainMap(coord: charger.mapMarker.position) {
+                    markerCount += 1
+                }
+            }
+        }
+        
+        if markerCount > 1000 {
+            guard let zoomLevelDouble = self.mapView?.zoomLevel else { return markerThreshold}
+            let zoomLevel = Int(zoomLevelDouble)
+            
+            if zoomLevel < 13 {
+                markerThreshold = (markerCount >> 9)
+            }
+        }
+        
+        return markerThreshold
+    }
+    /*
     func getMarkerThreshold(filter: ChargerFilter) -> Int {
         var markerThreshold = 1
         if !isRouteMode {
@@ -244,7 +446,16 @@ class ClusterManager {
         }
         return markerThreshold
     }
+    */
+    func isContainMap(coord: NMGLatLng) -> Bool {
+        guard let mapView = mapView else {
+            return false
+        }
+
+        return mapView.coveringBounds.hasPoint(coord)
+    }
     
+    /*
     func isContainMap(point: TMapPoint) -> Bool {
         var isContain = false;
         if (tMapView!.getRightBottomPoint().getLatitude() <= point.getLatitude()
@@ -255,7 +466,17 @@ class ClusterManager {
         }
         return isContain
     }
+    */
     
+    func removeChargeForClustering(zoomLevel: Int) {
+        if zoomLevel < 13 {
+            for station in ChargerManager.sharedInstance.getChargerStationInfoList() {
+                station.mapMarker.mapView = nil
+            }
+        }
+    }
+    
+    /*
     func removeChargerForClustering(zoomLevel: Int) {
         if zoomLevel < 13 {
             for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
@@ -265,7 +486,19 @@ class ClusterManager {
             }
         }
     }
+     */
     
+    func removeClusterFromSettings() {
+        guard let clusters = self.clusters[self.currentClusterLv] else {
+            return
+        }
+        
+        for cluster in clusters {
+            cluster.marker.mapView = nil
+        }
+    }
+    
+    /*
     func removeClusterFromSettings() {
         if let clusters = self.clusters[self.currentClusterLv] {
             for cluster in clusters {
@@ -275,4 +508,5 @@ class ClusterManager {
             }
         }
     }
+    */
 }

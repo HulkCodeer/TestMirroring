@@ -35,6 +35,7 @@ target 'evInfra' do
   pod 'TTGTagCollectionView'
   pod 'SnapKit', '~> 5.0.0'
   pod 'PanModal'
+  pod 'NMapsMap'
 
 end
 

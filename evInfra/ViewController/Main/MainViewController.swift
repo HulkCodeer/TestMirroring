@@ -11,6 +11,7 @@ import DropDown
 import Material
 import M13Checkbox
 import SwiftyJSON
+import NMapsMap
 
 class MainViewController: UIViewController {
     
@@ -70,6 +71,12 @@ class MainViewController: UIViewController {
     private var routeEndPoint: TMapPoint? = nil
     private var resultTableView: PoiTableView?
     
+    
+    // Naver Map
+    private var mapManager = MapManager.shared
+    private var naverMapView: NaverMapView!
+    //
+    
     private var selectCharger: ChargerStationInfo? = nil
     
     static var currentLocation: TMapPoint? = nil
@@ -97,7 +104,8 @@ class MainViewController: UIViewController {
         prepareRouteField()
         preparePOIResultView()
         prepareFilterView()
-        prepareMapView()
+        prepareNaverMapView()
+//        prepareMapView()
         
         prepareSummaryView()
         prepareNotificationCenter()
@@ -161,6 +169,32 @@ class MainViewController: UIViewController {
     func prepareRouteView() {
         let findPath = UITapGestureRecognizer(target: self, action:  #selector (self.onClickShowNavi(_:)))
         self.routeDistanceBtn.addGestureRecognizer(findPath)
+    }
+    
+    func prepareNaverMapView() {
+        naverMapView = NaverMapView(frame: rootView.frame)
+        naverMapView.mapView.addCameraDelegate(delegate: self)
+        rootView.insertSubview(naverMapView, at: 0)
+        
+        
+        ChargerManager.sharedInstance.delegate = self
+        
+        myLocationButton.layer.cornerRadius = 20
+        myLocationButton.layer.borderWidth = 1
+        myLocationButton.layer.borderColor = UIColor.init(named: "border-opaque")?.cgColor
+        updateMyLocationButton()
+        
+        reNewButton.layer.cornerRadius = 20
+        reNewButton.layer.borderWidth = 1
+        reNewButton.layer.borderColor = UIColor.init(named: "border-opaque")?.cgColor
+        
+        btn_menu_layer.layer.cornerRadius = 5
+        btn_menu_layer.clipsToBounds = true
+        btn_menu_layer.layer.shadowRadius = 5
+        btn_menu_layer.layer.shadowColor = UIColor.gray.cgColor
+        btn_menu_layer.layer.shadowOpacity = 0.5
+        btn_menu_layer.layer.shadowOffset = CGSize(width: 0.5, height: 2)
+        btn_menu_layer.layer.masksToBounds = false
     }
     
     func prepareMapView() {
@@ -287,18 +321,23 @@ class MainViewController: UIViewController {
     
     // MARK: - Action for button
     @IBAction func onClickMyLocation(_ sender: UIButton) {
-        if let mapView = tMapView {
-            if isLocationEnabled(){
-                if mapView.getIsTracking() {
-                    tMapView?.setCompassMode(true)
-                } else {
-                    tMapView?.setTrackingMode(true)
-                }
-                updateMyLocationButton()
-            } else {
-                askPermission()
-            }
+        if isLocationEnabled() {
+            mapManager.moveToMyLocation()
+        } else {
+            askPermission()
         }
+//        if let mapView = tMapView {
+//            if isLocationEnabled(){
+//                if mapView.getIsTracking() {
+//                    tMapView?.setCompassMode(true)
+//                } else {
+//                    tMapView?.setTrackingMode(true)
+//                }
+//                updateMyLocationButton()
+//            } else {
+//                askPermission()
+//            }
+//        }
     }
     
     @IBAction func onClickRenewBtn(_ sender: UIButton) {
@@ -379,7 +418,45 @@ extension MainViewController: DelegateFilterBarView {
     }
 }
 
+extension MainViewController: NMFMapViewCameraDelegate {
+    func mapView(_ mapView: NMFMapView, cameraDidChangeByReason reason: Int, animated: Bool) {
+        // 카메라 움직임이 끝났을때
+//        print("cameraDidChangeByReason")
+    }
+    
+    func mapView(_ mapView: NMFMapView, cameraIsChangingByReason reason: Int) {
+        // 카메라 움직이고 있을때
+        self.drawMapMarker()
+//        print("cameraIsChangingByReason")
+    }
+    
+    func mapView(_ mapView: NMFMapView, cameraWillChangeByReason reason: Int, animated: Bool) {
+        // 카메라 움직이기 시작할때
+//        print("cameraWillChangeByReason")
+    }
+    
+    func mapViewCameraIdle(_ mapView: NMFMapView) {
+        // 카메라가 움직임이 끝났을때 콜백
+//        print("움직임 끝")
+    }
+}
+
 extension MainViewController {
+    internal func drawMapMarker() {
+        guard ChargerManager.sharedInstance.isReady() else { return }
+        
+        self.clustering?.clustering(filter: FilterManager.sharedInstance.filter, loadedCharger: self.loadedChargers)
+        
+        if !self.loadedChargers {
+            self.loadedChargers = true
+            if self.sharedChargerId != nil {
+                self.selectChargerFromShared()
+            }
+        }
+        
+        
+    }
+    
     internal func drawTMapMarker() {
         if !ChargerManager.sharedInstance.isReady() { return }
         
@@ -744,11 +821,22 @@ extension MainViewController: TMapGpsManagerDelegate {
     }
 }
 
+extension MainViewController: MarkerTouchDelegate {
+    func touchHandler(with charger: ChargerStationInfo) {
+        hideKeyboard()
+        // TODO: cluster 생성
+        
+        selectCharger(chargerId: charger.mStationInfoDto?.mChargerId ?? "")
+    }
+}
+
 extension MainViewController: TMapViewDelegate {
     func onClick(_ TMP: TMapPoint!) {
         hideKeyboard()
         myLocationModeOff()
         setView(view: callOutLayer, hidden: true)
+        // TODO: set selectCharger
+        
         if selectCharger != nil {
             if let markerItem = tMapView!.getMarketItem(fromID: selectCharger!.mChargerId) {
                 markerItem.setIcon(selectCharger!.getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
@@ -777,7 +865,8 @@ extension MainViewController: TMapViewDelegate {
     
     func onDidEndScroll(withZoomLevel zoomLevel: Int, center mapPoint: TMapPoint!) {
         updateMyLocationButton()
-        self.drawTMapMarker()
+        self.drawMapMarker()
+//        self.drawTMapMarker()
     }
 }
 
@@ -933,7 +1022,7 @@ extension MainViewController {
     func requestStationInfo() {
         LoginHelper.shared.delegate = self
         ChargerManager.sharedInstance.getStationInfoFromServer(listener: {
-
+            
             class chargerManagerListener: ChargerManagerListener {
                 func onComplete() {
                     LoginHelper.shared.checkLogin()
@@ -941,7 +1030,8 @@ extension MainViewController {
                     FCMManager.sharedInstance.isReady = true
                     DeepLinkPath.sharedInstance.isReady = true
                     controller?.markerIndicator.startAnimating()
-                    controller?.drawTMapMarker()
+                    controller?.drawMapMarker()
+//                    controller?.drawTMapMarker()
                     controller?.markerIndicator.stopAnimating()
                     
                     // app 실행 시 전면 광고 dialog
@@ -1129,6 +1219,7 @@ extension MainViewController {
             self.selectCharger(chargerId: id)
             self.sharedChargerId = nil
             if let sharedCharger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: id) {
+                mapManager.moveToCenter(with: sharedCharger.getChargerPoint())
                 self.tMapView?.setCenter(sharedCharger.getTMapPoint())
             }
         }
@@ -1238,7 +1329,8 @@ extension MainViewController {
     }
     
     func prepareClustering() {
-        clustering = ClusterManager.init(mapView: tMapView!)
+        clustering = ClusterManager.init(mapView: naverMapView.mapView)
+//        clustering = ClusterManager.init(mapView: tMapView!)
         clustering?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
         //        clustering?.clusterDelegate = self
     }
@@ -1247,11 +1339,12 @@ extension MainViewController {
         if (clustering?.isClustering != defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)) {
             clustering?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
             if (clustering?.isClustering)! {
-                clustering?.removeChargerForClustering(zoomLevel: (tMapView?.getZoomLevel())!)
+                clustering?.removeChargeForClustering(zoomLevel: Int(naverMapView.zoomLevel))
+//                clustering?.removeChargerForClustering(zoomLevel: (tMapView?.getZoomLevel())!)
             } else {
                 clustering?.removeClusterFromSettings()
             }
-            
+
             drawTMapMarker()
         }
     }

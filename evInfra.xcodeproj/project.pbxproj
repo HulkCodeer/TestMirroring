@@ -81,6 +81,8 @@
 		00FDEAF626B3BFB6006617EE /* Coupon.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAF526B3BFB6006617EE /* Coupon.storyboard */; };
 		00FDEAF826B3BFC1006617EE /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAF726B3BFC1006617EE /* Settings.storyboard */; };
 		00FDEAFA26B3BFCF006617EE /* Info.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAF926B3BFCF006617EE /* Info.storyboard */; };
+		193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */; };
+		1945E5F527F4339700EFC21B /* MapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1945E5F427F4339700EFC21B /* MapManager.swift */; };
 		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
 		4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
 		421569D7259B629100D018DC /* BoardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421569D6259B629100D018DC /* BoardInfo.swift */; };
@@ -471,6 +473,8 @@
 		00FDEAF726B3BFC1006617EE /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		00FDEAF926B3BFCF006617EE /* Info.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Info.storyboard; sourceTree = "<group>"; };
 		0BE09DF43E8F5A12E923D6B5 /* Pods-evInfra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra/Pods-evInfra.release.xcconfig"; sourceTree = "<group>"; };
+		193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
+		1945E5F427F4339700EFC21B /* MapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManager.swift; sourceTree = "<group>"; };
 		4212A25325555775001BB124 /* OfferwallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallTableViewCell.swift; sourceTree = "<group>"; };
 		4212A25425555775001BB124 /* OfferwallTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferwallTableViewCell.xib; sourceTree = "<group>"; };
 		421569D6259B629100D018DC /* BoardInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardInfo.swift; sourceTree = "<group>"; };
@@ -906,6 +910,7 @@
 				73F6B53920F873110030D0B3 /* IntroViewController.swift */,
 				732ED1F921EEFA960012C67B /* MainViewController.swift */,
 				736813B3204513D50035FC66 /* Main.storyboard */,
+				193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1205,6 +1210,7 @@
 				CE72D73B219BDA32003979D2 /* KeyChainManager.swift */,
 				7379A45322CDEB0200F4271C /* PaymentStatus.swift */,
 				00EAB7C527228F42004E78D2 /* DeepLinkPath.swift */,
+				1945E5F427F4339700EFC21B /* MapManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1941,6 +1947,7 @@
 				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
 				"${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework",
 				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
+				"${PODS_ROOT}/NMapsMap/framework/NMapsMap.framework",
 				"${BUILT_PRODUCTS_DIR}/PanModal/PanModal.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -1980,6 +1987,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MaterialComponents.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NMapsMap.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PanModal.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -2107,6 +2115,7 @@
 				00AB7BD926E870820040CFDE /* GuideAlertDialog.swift in Sources */,
 				00CADC1B278D79C2000AF24A /* MemberOtherInfo.swift in Sources */,
 				52B709D7279929CE006C5706 /* BoardDetailTableViewHeader.swift in Sources */,
+				193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */,
 				902A11D7248F56610049EF8E /* StationStatusDto.swift in Sources */,
 				73BFA04C20847A310028B35D /* BoardTableViewCell.swift in Sources */,
 				90517A0C253857FD00FCB1A7 /* DateUtils.swift in Sources */,
@@ -2138,6 +2147,7 @@
 				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
 				5208784F279561BA009DD329 /* PhotoRegisterCollectionViewCell.swift in Sources */,
+				1945E5F527F4339700EFC21B /* MapManager.swift in Sources */,
 				7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */,
 				9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */,
 				73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */,
