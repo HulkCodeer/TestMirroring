@@ -51,4 +51,17 @@ extension UILabel {
         label.sizeToFit()
         return label.frame.height
     }
+    
+    func tagLabel(target: String) {
+        let tagAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 14, weight: .regular),
+            .foregroundColor: UIColor(named: "gr-5")!,
+            .baselineOffset: 0
+        ]
+        let fullText = self.text ?? ""
+        let range = (fullText as NSString).range(of: target)
+        let attributedString = NSMutableAttributedString(string: fullText)
+        attributedString.addAttributes(tagAttributes, range: range)
+        self.attributedText = attributedString
+    }
 }

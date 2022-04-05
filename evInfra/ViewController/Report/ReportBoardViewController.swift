@@ -92,7 +92,8 @@ extension ReportBoardViewController: ReportChargeViewDelegate {
         reportChargeVC.delegate = self
         reportChargeVC.info.charger_id = self.reportList[index].charger_id
         
-        self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
+        self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true)
+//        self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
     }
     
     func getReportInfo() {

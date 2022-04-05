@@ -120,6 +120,7 @@
 		529148AF27BE0A000011021F /* SearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529148AE27BE0A000011021F /* SearchHeaderView.swift */; };
 		529148B127BE0A1C0011021F /* RecentKeywordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529148B027BE0A1C0011021F /* RecentKeywordTableViewCell.swift */; };
 		529148B327BE14670011021F /* BoardSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529148B227BE14660011021F /* BoardSearchViewModel.swift */; };
+		529659D227E9AD7200FC1E8B /* LinkShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529659D127E9AD7200FC1E8B /* LinkShareManager.swift */; };
 		52ADE4FF27964A1F00FBBA25 /* BoardWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ADE4FE27964A1F00FBBA25 /* BoardWriteViewModel.swift */; };
 		52ADE50127969ED900FBBA25 /* ConfirmPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ADE50027969ED900FBBA25 /* ConfirmPopupViewController.swift */; };
 		52B2594A278E5E5C0042B22C /* BoardListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B25949278E5E5C0042B22C /* BoardListItem.swift */; };
@@ -511,6 +512,7 @@
 		529148AE27BE0A000011021F /* SearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderView.swift; sourceTree = "<group>"; };
 		529148B027BE0A1C0011021F /* RecentKeywordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentKeywordTableViewCell.swift; sourceTree = "<group>"; };
 		529148B227BE14660011021F /* BoardSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSearchViewModel.swift; sourceTree = "<group>"; };
+		529659D127E9AD7200FC1E8B /* LinkShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkShareManager.swift; sourceTree = "<group>"; };
 		52ADE4FE27964A1F00FBBA25 /* BoardWriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardWriteViewModel.swift; sourceTree = "<group>"; };
 		52ADE50027969ED900FBBA25 /* ConfirmPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPopupViewController.swift; sourceTree = "<group>"; };
 		52B25949278E5E5C0042B22C /* BoardListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListItem.swift; sourceTree = "<group>"; };
@@ -1205,6 +1207,7 @@
 				CE72D73B219BDA32003979D2 /* KeyChainManager.swift */,
 				7379A45322CDEB0200F4271C /* PaymentStatus.swift */,
 				00EAB7C527228F42004E78D2 /* DeepLinkPath.swift */,
+				529659D127E9AD7200FC1E8B /* LinkShareManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2205,6 +2208,7 @@
 				0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */,
 				73C31BFD20A288E3005B6C53 /* ChargerDetailViewController.swift in Sources */,
 				732121BD203AC023000E105C /* AppDelegate.swift in Sources */,
+				529659D227E9AD7200FC1E8B /* LinkShareManager.swift in Sources */,
 				73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */,
 				7376B5C520C6473500A2B7C1 /* MyArticleViewController.swift in Sources */,
 				00C75C46252ED4A000387559 /* LotteRentCertificateViewController.swift in Sources */,

@@ -372,7 +372,7 @@ extension MainViewController: DelegateFilterBarView {
             let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
             let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
             favoriteVC.delegate = self
-            self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
+            self.present(AppNavigationController(rootViewController: favoriteVC), animated: true, completion: nil)
         } else {
             MemberManager().showLoginAlert(vc:self)
         }
