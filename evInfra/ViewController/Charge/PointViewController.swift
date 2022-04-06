@@ -145,12 +145,18 @@ class PointViewController: UIViewController {
 
 extension PointViewController {
     fileprivate func prepareDatePicker() {
+        textFieldStartDate.tintColor = UIColor.clear
+        textFieldEndDate.tintColor = UIColor.clear
+        
         let locale = Locale(identifier: "ko_KO")
         
         self.datePicker.datePickerMode = .date
         self.datePicker.locale = locale
+        if #available(iOS 13.4, *) {
+            self.datePicker.preferredDatePickerStyle = .wheels
+        }
         
-        self.dateFormatter.dateStyle = .short
+        self.dateFormatter.dateStyle = .medium
         self.dateFormatter.timeStyle = .none
         self.dateFormatter.locale = locale
     }
@@ -199,7 +205,7 @@ extension PointViewController {
     
     fileprivate func getPointHistory(isAllDate: Bool, startDate: Date, endDate: Date) {
         evPointList.removeAll()
-        
+        self.dateFormatter.dateFormat = "yyyy-MM-dd"
         self.textFieldStartDate.text = self.dateFormatter.string(from: startDate)
         self.textFieldEndDate.text =  self.dateFormatter.string(from: endDate)
         
