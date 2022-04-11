@@ -30,7 +30,7 @@ class ChargerStationInfo {
     
     var mLimit: String?
     
-    var mapMarker: NMFMarker!
+    var mapMarker: Marker!
     var marker: TMapMarkerItem!
     var cidInfo: CidInfo!
     
@@ -107,9 +107,12 @@ class ChargerStationInfo {
             mTotalStatusName = cidInfo.cstToString(cst: self.mTotalStatus!)
         }
         
-        let nmfMarker = NMFMarker(position: NMGLatLng(lat: getChargerPoint().0, lng: getChargerPoint().1))
-        mapMarker = nmfMarker
-        mapMarker.iconImage = NMFOverlayImage.init(image: getMarkerIcon())
+        let latLng = NMGLatLng(lat: getChargerPoint().0, lng: getChargerPoint().1)
+        let iconImage = NMFOverlayImage(image: getMarkerIcon())
+        
+        let marker = Marker(position: latLng, iconImage: iconImage)
+//        marker.chargerId = mChargerId ?? ""
+        mapMarker = marker
     }
     
     func getChargerPoint() -> (Double, Double) {

@@ -195,10 +195,11 @@ class ChargerManager {
         for chargerStationInfo in self.mChargerStationInfoList {
 //            chargerStationInfo.createMarker()
             chargerStationInfo.createMapMarker()
-//            chargerStationInfo.mapMarker.touchHandler = { [weak self] overlay -> Bool in
-//                    self?.delegate?.touchHandler(with: chargerStationInfo)
-//                    return true
-//            }
+            chargerStationInfo.mapMarker.touchHandler = { [weak self] overlay -> Bool in
+                self?.delegate?.touchHandler(with: chargerStationInfo)
+            
+                return true
+            }
         }
         Log.d(tag: Const.TAG, msg: "marker create")
     }
@@ -426,9 +427,8 @@ class ChargerManager {
     
     // sk open api
     public func findAllPOI(keyword : String, callback : FindAllPOIListenerCallback) {
-        if let currentPosition = MainViewController.currentLocation{
-            findAllPOI(centerLat: currentPosition.getLatitude(), centerLon: currentPosition.getLongitude(), keyword: keyword, callback: callback)
-        }
+        let currentPosition = CLLocationManager().getCurrentCoordinate()
+        findAllPOI(centerLat: currentPosition.latitude, centerLon: currentPosition.longitude, keyword: keyword, callback: callback)
     }
 
     public func findAllPOI(centerLat : Double, centerLon : Double, keyword : String, callback : FindAllPOIListenerCallback) {

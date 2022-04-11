@@ -26,7 +26,7 @@ class NaverMapView: NMFNaverMapView {
     }
     
     func setup() {
-        let coordinate = getCoordinate()
+        let coordinate = locationManager.getCurrentCoordinate()
         let latitude = coordinate.latitude
         let longitude = coordinate.longitude
         
@@ -38,10 +38,5 @@ class NaverMapView: NMFNaverMapView {
         
         let defaultPosition = NMFCameraPosition(nmgLatLng, zoom: zoomLevel, tilt: 0, heading: 0)
         mapView.moveCamera(NMFCameraUpdate(position: defaultPosition))
-    }
-    
-    private func getCoordinate() -> CLLocationCoordinate2D {
-        guard let location = locationManager.location else { return CLLocationCoordinate2D(latitude: 0, longitude: 0) }
-        return location.coordinate
     }
 }

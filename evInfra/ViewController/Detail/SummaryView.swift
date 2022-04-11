@@ -430,14 +430,40 @@ class SummaryView: UIView {
     }
     
     func setDistance(charger: ChargerStationInfo) {
-        if self.distance < 0 { // detail에서 여러번 불리는것 방지
-            if let currentLocation = MainViewController.currentLocation {
-                getDistance(curPos: currentLocation, desPos: charger.marker.getTMapPoint())
-            } else {
+        guard self.distance < 0 else {
+            // detail에서 여러번 불리는것 방지
+            self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
+            return
+        }
+        
+        fetchDistance(destination: (charger.mStationInfoDto?.mLatitude ?? 0.0, charger.mStationInfoDto?.mLongitude ?? 0.0))
+    }
+    
+    internal func fetchDistance(destination: (Double, Double)) {
+        let lat = destination.0
+        let lng = destination.1
+        
+        guard lat != .zero || lng != .zero else {
+            DispatchQueue.main.async {
                 self.navigationBtn.setTitle("계산중", for: .normal)
             }
-        } else {
-            self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
+            return
+        }
+        
+        DispatchQueue.global(qos: .background).async {
+            let distance = CLLocationCoordinate2D()
+                .distance(to: CLLocationCoordinate2D(latitude: lat, longitude: lng))
+            self.distance = round(distance / 1000 * 10) / 10
+            
+            if distance > .zero {
+                DispatchQueue.main.async {
+                    self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.navigationBtn.setTitle("계산중", for: .normal)
+                }
+            }
         }
     }
     

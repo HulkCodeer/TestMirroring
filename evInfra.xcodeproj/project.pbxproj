@@ -81,6 +81,8 @@
 		00FDEAF626B3BFB6006617EE /* Coupon.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAF526B3BFB6006617EE /* Coupon.storyboard */; };
 		00FDEAF826B3BFC1006617EE /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAF726B3BFC1006617EE /* Settings.storyboard */; };
 		00FDEAFA26B3BFCF006617EE /* Info.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAF926B3BFCF006617EE /* Info.storyboard */; };
+		192A338327FE747E00EF1684 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338227FE747E00EF1684 /* Marker.swift */; };
+		192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */; };
 		193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */; };
 		1945E5F527F4339700EFC21B /* MapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1945E5F427F4339700EFC21B /* MapManager.swift */; };
 		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
@@ -473,6 +475,8 @@
 		00FDEAF726B3BFC1006617EE /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		00FDEAF926B3BFCF006617EE /* Info.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Info.storyboard; sourceTree = "<group>"; };
 		0BE09DF43E8F5A12E923D6B5 /* Pods-evInfra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra/Pods-evInfra.release.xcconfig"; sourceTree = "<group>"; };
+		192A338227FE747E00EF1684 /* Marker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
+		192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
 		193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
 		1945E5F427F4339700EFC21B /* MapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManager.swift; sourceTree = "<group>"; };
 		4212A25325555775001BB124 /* OfferwallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallTableViewCell.swift; sourceTree = "<group>"; };
@@ -911,6 +915,7 @@
 				732ED1F921EEFA960012C67B /* MainViewController.swift */,
 				736813B3204513D50035FC66 /* Main.storyboard */,
 				193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */,
+				192A338227FE747E00EF1684 /* Marker.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1534,6 +1539,7 @@
 				CE24840320A59E6400611E24 /* UserDefault.swift */,
 				42541587257E045600A2A7B9 /* UtilNavigation.swift */,
 				73D65D6F2358498B00F564A2 /* Validators.swift */,
+				192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -2153,6 +2159,7 @@
 				73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */,
 				732B929A20EDD0C60090E9FC /* CompanyInfoChecker.swift in Sources */,
 				902A11D1248F4DAC0049EF8E /* CompanyInfoDto.swift in Sources */,
+				192A338327FE747E00EF1684 /* Marker.swift in Sources */,
 				73EF8B3F203ACB8500D04494 /* AppToolbarController.swift in Sources */,
 				52B53D2D27BCC49D00D446A9 /* SearchBarView.swift in Sources */,
 				005643E0252DA18E007BF78D /* MembershipInfoViewController.swift in Sources */,
@@ -2265,6 +2272,7 @@
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				000DAE13274760E300CEC165 /* PaymentTableViewCell.swift in Sources */,
 				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,
+				192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */,
 				CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */,
 				DB5041AE23506A14007336BC /* PointTableViewCell.swift in Sources */,
 				73D65D802362D52E00F564A2 /* MembershipTermView.swift in Sources */,

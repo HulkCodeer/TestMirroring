@@ -192,10 +192,9 @@ extension SearchViewController: SearchBarDelegate {
                     }
                     
                     // 거리
-                    if let currentPosition = MainViewController.currentLocation {
-                        let sql = "ABS(\(currentPosition.getLatitude()) - mLatitude) + ABS(\(currentPosition.getLongitude()) - mLongitude) ASC"
-                        request = request.order(sql: sql)
-                    }
+                    let currentPosition = CLLocationManager().getCurrentCoordinate()
+                    let sql = "ABS(\(currentPosition.latitude) - mLatitude) + ABS(\(currentPosition.longitude) - mLongitude) ASC"
+                    request = request.order(sql: sql)
                     
                     self.tableView.chargerList?.removeAll()
                     let stationList = try request.fetchAll(db)

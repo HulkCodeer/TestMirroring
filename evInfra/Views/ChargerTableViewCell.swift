@@ -44,9 +44,10 @@ class ChargerTableViewCell: UITableViewCell {
         chargerStatus.textColor = charger.cidInfo.getCstColor(cst: status)
         chargerType.text = charger.getTotalChargerType()
         
-        if let currentPosition = MainViewController.currentLocation{
-            chargerDistance.text = StringUtils.convertDistanceString(distance: currentPosition.getDistanceWith(item.getTMapPoint()))
-        }
+        let distance = CLLocationCoordinate2D()
+            .distance(to: CLLocationCoordinate2D(latitude: item.mStationInfoDto?.mLatitude ?? 0.0,
+                                                 longitude: item.mStationInfoDto?.mLongitude ?? 0.0))
+        chargerDistance.text = StringUtils.convertDistanceString(distance: distance)
         
         updateFavoriteImage()
         setAddrModeUI(isAddrMode: false)
@@ -55,9 +56,12 @@ class ChargerTableViewCell: UITableViewCell {
     func setAddrMode(item: EIPOIItem) {
         stationName.text = item.getPOIName()
         address.text = item.getPOIAddress()
-        if let currentPosition = MainViewController.currentLocation{
-            chargerDistance.text = StringUtils.convertDistanceString(distance: currentPosition.getDistanceWith(item.getPOIPoint()))
-        }
+        
+        let distance = CLLocationCoordinate2D()
+            .distance(to: CLLocationCoordinate2D(latitude: item.frontLat ?? 0.0,
+                                                 longitude: item.frontLon ?? 0.0))
+        chargerDistance.text = StringUtils.convertDistanceString(distance: distance)
+
         setAddrModeUI(isAddrMode: true)
     }
     
