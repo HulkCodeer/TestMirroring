@@ -35,6 +35,7 @@ class StationInfoDto : Record{
         mAddressDetailSearchWord = row["mAddressDetailSearchWord"]
         mRoof = row["mRoof"]
         mDel = row["mDel"]
+        mZcode = row["mZcode"]
         super.init(row: row)
     }
     
@@ -72,6 +73,7 @@ class StationInfoDto : Record{
         
         container["mRoof"] = mRoof
         container["mDel"] = mDel
+        container["mZcode"] = mZcode
     }
     
     // 1. 위도
@@ -161,6 +163,9 @@ class StationInfoDto : Record{
     // 23. 삭제 여부
     public var mDel : Bool?
     
+    // 24. 법정동 코드
+    public var mZcode : String?
+    
     public func setStationInfo(json : JSON){
         let latitude = json["x"]
         let longitude = json["y"]
@@ -184,6 +189,7 @@ class StationInfoDto : Record{
         
         let roof = json["r"]
         let del = json["d"]
+        let zcode = json["zc"]
         
         self.mLatitude = latitude.doubleValue
         self.mLongitude = longitude.doubleValue
@@ -207,5 +213,6 @@ class StationInfoDto : Record{
         
         self.mRoof = roof.stringValue
         self.mDel = del.boolValue
+        self.mZcode = zcode.stringValue
     }
 }
