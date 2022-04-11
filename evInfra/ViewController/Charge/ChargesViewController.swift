@@ -122,6 +122,9 @@ extension ChargesViewController {
         self.datePicker.datePickerMode = .date
         self.datePicker.locale = locale
         
+        if #available(iOS 13.4, *) {
+            self.datePicker.preferredDatePickerStyle = .wheels
+        }
         
         self.dateFormatter.dateStyle = .medium
         self.dateFormatter.timeStyle = .none
@@ -146,6 +149,9 @@ extension ChargesViewController {
         toolbar.setItems([btnDone], animated: false)
         
         self.datePicker.date = self.dateFormatter.date(from: self.textFieldDate.text!)!
+        if #available(iOS 13.4, *) {
+            self.datePicker.preferredDatePickerStyle = .wheels
+        }
         
         self.textFieldDate.inputAccessoryView = toolbar
         self.textFieldDate.inputView = self.datePicker
