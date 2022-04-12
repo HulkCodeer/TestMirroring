@@ -365,7 +365,7 @@ extension DetailViewController: BoardTableViewDelegate {
     func fetchFirstBoard(mid: String, sort: Board.SortType, mode: String) {
         if let chargerData = charger {
             self.currentPage = 1
-            Server.fetchBoardList(mid: "station", page: "\(self.currentPage)", mode: Board.ScreenType.FEED.rawValue, sort: sort.rawValue, searchType: "station", searchKeyword: chargerData.mChargerId!) { (isSuccess, value) in
+            Server.fetchBoardList(mid: "station", page: "\(self.currentPage)", mode: mode, sort: sort.rawValue, searchType: "station", searchKeyword: chargerData.mChargerId!) { (isSuccess, value) in
                 
                 if isSuccess {
                     guard let data = value else { return }
@@ -391,7 +391,10 @@ extension DetailViewController: BoardTableViewDelegate {
                         debugPrint("error")
                     }
                 } else {
-                    
+                    self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
+                    self.boardTableView.communityBoardList = self.boardList
+                    self.boardTableView.isNoneHeader = true
+                    self.boardTableView.isFromDetailView = true
                 }
             }
         }
