@@ -74,6 +74,7 @@ class MainViewController: UIViewController {
     
     static var currentLocation: TMapPoint? = nil
     private var searchLocation: TMapPoint? = nil
+    private var searchSelectedId: String?
     var sharedChargerId: String? = nil
     
     private var loadedChargers = false
@@ -421,7 +422,6 @@ extension MainViewController: AppToolbarDelegate {
             let searchVC:SearchViewController = mapStoryboard.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
             searchVC.delegate = self
             self.present(AppSearchBarController(rootViewController: searchVC), animated: true, completion: nil)
-            
         case 2: // 경로 찾기 버튼
             if let isRouteMode = arg {
                 showRouteView(isShow: isRouteMode as! Bool)
@@ -771,7 +771,11 @@ extension MainViewController: TMapViewDelegate {
             }
             self.tMapView?.setCenter(markerItem.getTMapPoint())
         } else {
-            selectCharger(chargerId: markerItem.getID());
+            if markerItem.getID().contains("search") {
+                selectCharger(chargerId: searchSelectedId ?? "")
+            } else {
+                selectCharger(chargerId: markerItem.getID())
+            }
         }
     }
     
@@ -801,10 +805,12 @@ extension MainViewController: ChargerSelectDelegate {
             self.tMapView?.setCenter(charger.getTMapPoint())
             
             searchLocation = TMapPoint(lon: charger.getTMapPoint().getLongitude(), lat: charger.getTMapPoint().getLatitude())
+            searchSelectedId = chargerId
             let poiItem = TMapPOIItem(tMapPoint: searchLocation)
             poiItem!.setIcon(UIImage(named: "marker_search"), anchorPoint: CGPoint(x: 0.5, y: 1.0))
             tMapView?.removeCustomObject("search")
             tMapView?.addCustomObject(poiItem, id: "search")
+            
             DispatchQueue.global(qos: .background).async {
                 // Background Thread
                 DispatchQueue.main.async {
@@ -871,6 +877,7 @@ extension MainViewController: ChargerSelectDelegate {
             
             showCallOut(charger: charger)
         } else {
+            // chargerId : search
             print("Not Found Charger \(ChargerManager.sharedInstance.getChargerStationInfoList().count)")
         }
     }
