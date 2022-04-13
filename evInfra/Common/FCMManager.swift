@@ -62,6 +62,12 @@ class FCMManager {
             let dialogMessage = UIAlertController(title: notification.request.content.title, message: notification.request.content.body, preferredStyle: .alert)
             let ok = UIAlertAction(title: "OK", style: .default, handler: {(ACTION) -> Void in
                 self.alertMessage(navigationController: navigationController, data: notification.request.content.userInfo)//notification.request.content.userInfo
+                
+                if let navigationController = navigationController {
+                    if let viewController = navigationController.visibleViewController {
+                        viewController.dismiss(animated: true)
+                    }
+                }
             })
             
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler:{ (ACTION) -> Void in
