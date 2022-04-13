@@ -631,15 +631,7 @@ extension MainViewController: TextFieldDelegate {
             
             // 경로 요청
             DispatchQueue.global(qos: .background).async { [weak self] in
-//                let pathOverlay = NMFPath()
-//                pathOverlay.color = .red
-//                pathOverlay.path = NMGLineString(points: [
-//                    // 시작 위치
-//                    NMGLatLng(from: startPoint.coordinate),
-//                    // 끝 위치
-//                    NMGLatLng(from: endPoint.coordinate)
-//                ])
-                
+
                 var polyLine: TMapPolyLine?
                 // 시작 위치
                 let startImage = NMFOverlayImage(image: UIImage(named: "ic_route_start")!)
@@ -656,42 +648,32 @@ extension MainViewController: TextFieldDelegate {
                 polyLine = self?.tMapPathData.find(from: startPoint, to: endPoint)
                 // TODO: polyline to array
                 let pathOverlay = NMFPath()
-                var path = pathOverlay.path
                 pathOverlay.color = .red
-//                pathOverlay.path = NMGLineString(points: [
-                    // 시작 위치
-//                    NMGLatLng(from: startPoint.coordinate),
-                    // 끝 위치
-//                    NMGLatLng(from: endPoint.coordinate)
-//                ])
                 
                 let points = polyLine?.points
+                var positions = [NMGLatLng]()
                 
-                for (index, point) in points!.enumerated() {
+                for (_, point) in points!.enumerated() {
                     if let point = point as? TMapPoint {
                         let position = NMGLatLng(lat: point.getLatitude(), lng: point.getLongitude())
-                        path.insertPoint(position, at: UInt(index))
+                        positions.append(position)
                     }
                 }
                 
-                path.insertPoint(NMGLatLng(from: startPoint.coordinate), at: 0)
-                path.insertPoint(NMGLatLng(from: endPoint.coordinate), at: UInt((points?.count)!))
+                positions.insert(NMGLatLng(from: startPoint.coordinate), at: 0)
+                positions.insert(NMGLatLng(from: endPoint.coordinate), at: positions.count)
+                pathOverlay.path = NMGLineString(points: positions)
                 
                 DispatchQueue.main.async {
                     // 경로선 그리기
                     pathOverlay.mapView = self?.naverMapView.mapView
-                    
-                    startMarker.mapView = self?.naverMapView.mapView
                     // TODO: 경유지 추가
-                    endMarker.mapView = self?.naverMapView.mapView
                     
-                    self?.drawPathData(polyLine: path)
+                    self?.drawPathData(polyLine: pathOverlay.path)
                     self?.markerIndicator.stopAnimating()
                 }
             }
-            
-            
-            
+
             // 경로 요청
             /*
             DispatchQueue.global(qos: .background).async {
@@ -746,7 +728,7 @@ extension MainViewController: TextFieldDelegate {
         let points = polyLine.points
         // 두 지점간 거리 표시
         guard let startPoint = points[0] as? NMGLatLng,
-                let endPoint = points[1] as? NMGLatLng else { return }
+              let endPoint = points[points.count-1] as? NMGLatLng else { return }
         
         let start = CLLocationCoordinate2D(latitude: startPoint.lat, longitude: startPoint.lng)
         let end = CLLocationCoordinate2D(latitude: endPoint.lat, longitude: endPoint.lng)
