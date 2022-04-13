@@ -80,8 +80,9 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
             popup.confirmDelegate = { [weak self] canModify in
                 guard let self = self else { return }
                 
-                
                 self.activityIndicator.startAnimating()
+                self.completeButton.isEnabled = false
+                self.completeButton.backgroundColor = UIColor(named: "nt-0")
                 
                 if canModify {
                     self.boardWriteViewModel.updateBoard(self.category,
@@ -120,6 +121,8 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                 guard let self = self else { return }
                 
                 self.activityIndicator.startAnimating()
+                self.completeButton.isEnabled = false
+                self.completeButton.backgroundColor = UIColor(named: "nt-0")
                 
                 if canRegist {
                     self.boardWriteViewModel.postBoard(self.category,
@@ -141,6 +144,15 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                             NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
                             self.navigationController?.pop()
                         }
+                    }
+                } else {
+                    self.trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
+                    self.presentPanModal(self.trasientAlertView)
+                    
+                    self.trasientAlertView.dismissCompletion = {
+                        self.popCompletion?()
+                        NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                        self.navigationController?.pop()
                     }
                 }
             }
