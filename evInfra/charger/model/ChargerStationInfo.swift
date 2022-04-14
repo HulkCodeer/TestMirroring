@@ -95,7 +95,12 @@ class ChargerStationInfo {
         self.mTotalStatus = status
         mTotalStatusName = cidInfo.cstToString(cst: self.mTotalStatus!)
         if markerChange {
-            marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+            let latLng = NMGLatLng(lat: getChargerPoint().0, lng: getChargerPoint().1)
+            let iconImage = NMFOverlayImage(image: getMarkerIcon())
+            
+            let marker = Marker(position: latLng, iconImage: iconImage)
+            mapMarker = marker
+//            marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
         }
     }
     

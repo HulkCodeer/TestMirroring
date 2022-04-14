@@ -402,7 +402,6 @@
                         <outlet property="markerIndicator" destination="Ueo-lF-S8F" id="Lei-Aj-f8J"/>
                         <outlet property="myLocationButton" destination="0Z5-Ng-0pM" id="XEy-OS-WK7"/>
                         <outlet property="reNewButton" destination="SJq-gl-PDQ" id="gHA-ki-9fC"/>
-                        <outlet property="rootView" destination="heY-bS-hgo" id="mxB-59-2M0"/>
                         <outlet property="routeDistanceBtn" destination="xxr-DK-neS" id="wxA-1T-BVd"/>
                         <outlet property="routeDistanceLabel" destination="k0s-5e-MTS" id="yvt-wc-yxu"/>
                         <outlet property="routeDistanceView" destination="SHM-kf-rAr" id="ZEf-45-1CT"/>

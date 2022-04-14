@@ -99,14 +99,13 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.grey.lighten5
-        
+        prepareNaverMapView()
         showGuide()
         
         prepareRouteField()
         preparePOIResultView()
         prepareFilterView()
         prepareTmapAPI()
-        prepareNaverMapView()
         
         prepareSummaryView()
         prepareNotificationCenter()
@@ -173,10 +172,13 @@ class MainViewController: UIViewController {
     }
     
     func prepareNaverMapView() {
-        naverMapView = NaverMapView(frame: rootView.frame)
+        naverMapView = NaverMapView(frame: view.frame)
         naverMapView.mapView.addCameraDelegate(delegate: self)
         naverMapView.mapView.touchDelegate = self
-        rootView.insertSubview(naverMapView, at: 0)
+        naverMapView.mapView.positionMode = .normal
+//        view.insertSubview(naverMapView, at: 0)
+        view.addSubview(naverMapView)
+//        rootView.insertSubview(naverMapView, at: 0)
         
         ChargerManager.sharedInstance.delegate = self
         
@@ -1216,12 +1218,7 @@ extension MainViewController {
                     let id = item["id"].stringValue
                     if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: id){
                         charger.changeStatus(status: item["st"].intValue, markerChange: true)
-                        
-                        if (self.tMapView!.getMarketItem(fromID: charger.mChargerId) != nil) {
-                            if self.tMapView!.getMarketItem(fromID: id).getIcon() != charger.marker.getIcon() {
-                                self.tMapView!.getMarketItem(fromID: id).setIcon(charger.marker.getIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
-                            }
-                        }
+                        charger.mapMarker.mapView = self.naverMapView.mapView
                     }
                 }
             }
@@ -1386,6 +1383,7 @@ extension MainViewController {
     }
     
     internal func updateMyLocationButton() {
+        self.markerIndicator.startAnimating()
         DispatchQueue.global(qos: .background).async { [weak self] in
             DispatchQueue.main.async {
                 let mode = self?.naverMapView.mapView.positionMode
@@ -1394,6 +1392,7 @@ extension MainViewController {
                     self?.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
                     self?.myLocationButton.tintColor = UIColor.init(named: "content-primary")
                     UIApplication.shared.isIdleTimerDisabled = false // 화면 켜짐 유지 끔
+                    self?.markerIndicator.stopAnimating()
                     break
                 case .normal:
                     self?.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
@@ -1401,10 +1400,10 @@ extension MainViewController {
                     UIApplication.shared.isIdleTimerDisabled = true // 화면 켜짐 유지
                     
                     let coordinate = CLLocationManager().getCurrentCoordinate()
-                    let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude))
+                    let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude), zoomTo: 14)
                     cameraUpdate.animation = .easeIn
                     self?.naverMapView.mapView.moveCamera(cameraUpdate)
-                    self?.naverMapView.zoomLevel = 13
+                    self?.markerIndicator.stopAnimating()
                     break
                 case .direction:
                     break
@@ -1412,6 +1411,7 @@ extension MainViewController {
                     self?.myLocationButton.setImage(UIImage(named: "icon_compass_lg"), for: .normal)
                     self?.myLocationButton.tintColor = UIColor.init(named: "content-positive")
                     UIApplication.shared.isIdleTimerDisabled = true // 화면 켜짐 유지
+                    self?.markerIndicator.stopAnimating()
                     break
                 default:
                     break

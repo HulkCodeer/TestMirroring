@@ -161,21 +161,19 @@ class ClusterManager {
                 }
             }
         }
+        
         self.clusterFilter = filter.copy()
         isNeedChangeText = true
     }
     
     // 클러스터에 충전소 갯수 Label 세팅 == setClusterText()
     func setCountOfStationInCluster() {
-        for cluster in clusters {
-            guard let clusterXs = cluster else {
-                return
-            }
-            
-            for cluster in clusterXs {
-                let clusterImage = clusterGenerator.generateClusterImage(value: String(cluster.sum), baseImage: cluster.baseImage!)
-                cluster.marker.iconImage = NMFOverlayImage(image: clusterImage!)
-                cluster.marker.mapView = self.mapView
+        for clusters in self.clusters {
+            if let clusterXs = clusters {
+                for cluster in clusterXs {
+                    let clusterImage = clusterGenerator.generateClusterImage(value: String(cluster.sum), baseImage: cluster.baseImage!)
+                    cluster.marker.iconImage = NMFOverlayImage(image: clusterImage!)
+                }
             }
         }
     }
@@ -195,52 +193,52 @@ class ClusterManager {
     func clustering(filter: ChargerFilter, loadedCharger: Bool) {
         let stations = ChargerManager.sharedInstance.getChargerStationInfoList()
         
-        DispatchQueue.global(qos: .default).async {
+        DispatchQueue.global(qos: .default).async { [weak self] in
+            guard let self = self else { return }
+            
             if !filter.isSame(filter: self.clusterFilter) {
                 guard stations.count > 1 else { return }
                 self.calClustering(filter: filter)
             }
-            
-            var clusterLevel = ClusterManager.CLUSTER_LEVEL_0
-            
-            if self.isNeedChangeText {
-                self.setCountOfStationInCluster()
-                self.isNeedChangeText = false
-            }
-            guard let zoomLevelDouble = self.mapView?.zoomLevel as? Double else { return }
-            let zoomLevel = Int(zoomLevelDouble)
-            
-            if self.isClustering {
-                // zoom level에 따른 클러스터 레벨 세팅
-                print("zoom Level : \(zoomLevel)")
-                if zoomLevel < ClusterManager.LEVEL_3_ZOOM {
-                    clusterLevel = ClusterManager.CLUSTER_LEVEL_4
-                } else if zoomLevel < ClusterManager.LEVEL_2_ZOOM {
-                    clusterLevel = ClusterManager.CLUSTER_LEVEL_3
-                } else if zoomLevel < ClusterManager.LEVEL_1_ZOOM {
-                    clusterLevel = ClusterManager.CLUSTER_LEVEL_2
-                }
-                print("현재 클러스터 레벨 : \(clusterLevel)")
-//                    else if zoomLev < 13 {
-//                        clusterLevel = ClusterManager.CLUSTER_LEVEL_1
-//                    }
-            }
+          
             DispatchQueue.main.async {
+                var clusterLevel = ClusterManager.CLUSTER_LEVEL_0
+                
+                if self.isNeedChangeText {
+                    self.setCountOfStationInCluster()
+                    self.isNeedChangeText = false
+                }
+                
+                guard let zoomLevelDouble = self.mapView?.zoomLevel as? Double else { return }
+                let zoomLevel = Int(zoomLevelDouble)
+                
+                if self.isClustering {
+                    // zoom level에 따른 클러스터 레벨 세팅
+                    print("zoom Level : \(zoomLevel)")
+                    if zoomLevel < ClusterManager.LEVEL_3_ZOOM {
+                        clusterLevel = ClusterManager.CLUSTER_LEVEL_4
+                    } else if zoomLevel < ClusterManager.LEVEL_2_ZOOM {
+                        clusterLevel = ClusterManager.CLUSTER_LEVEL_3
+                    } else if zoomLevel < ClusterManager.LEVEL_1_ZOOM {
+                        clusterLevel = ClusterManager.CLUSTER_LEVEL_2
+                    }
+                    print("현재 클러스터 레벨 : \(clusterLevel)")
+    //                    else if zoomLev < 13 {
+    //                        clusterLevel = ClusterManager.CLUSTER_LEVEL_1
+    //                    }
+                }
                 // 클러스터 레벨 변경시 마커를 지우는 루틴
                 if (self.currentClusterLv != clusterLevel && self.currentClusterLv != -1) {
                     if self.currentClusterLv > ClusterManager.CLUSTER_LEVEL_0 {
                         // 클러스터 마커 지우기
                         guard let clusters = self.clusters[self.currentClusterLv] else { return }
-
                         for cluster in clusters {
                             cluster.marker.mapView = nil
-//                            cluster.marker.hidden = true
                         }
                     } else if self.currentClusterLv == ClusterManager.CLUSTER_LEVEL_0 {
                         for station in stations {
                             // 충전소 마커 지우기
                             station.mapMarker.mapView = nil
-//                            station.mapMarker.hidden = true
                         }
                     }
                 }
@@ -255,10 +253,8 @@ class ClusterManager {
                             if station.isAroundPath && station.check(filter: filter) {
                                 if self.isContainMap(coord: station.mapMarker.position) {
                                     station.mapMarker.mapView = self.mapView
-//                                    station.mapMarker.hidden = false
                                 } else {
                                     station.mapMarker.mapView = nil
-//                                    station.mapMarker.hidden = true
                                 }
                             }
                         }
@@ -270,11 +266,9 @@ class ClusterManager {
                         if self.isContainMap(coord: cluster.marker.position) {
                             if cluster.sum > 0 {
                                 cluster.marker.mapView = self.mapView
-//                                cluster.marker.hidden = false
                             }
                         } else {
                             cluster.marker.mapView = nil
-//                            cluster.marker.hidden = true
                         }
                     }
                 }
