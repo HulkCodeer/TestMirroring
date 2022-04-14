@@ -646,7 +646,9 @@ extension MainViewController: TextFieldDelegate {
                 endMarker.zIndex = 100
                 
                 polyLine = self?.tMapPathData.find(from: startPoint, to: endPoint)
-                // TODO: polyline to array
+                
+                let distance = polyLine?.getDistance() ?? 0.0
+                
                 let pathOverlay = NMFPath()
                 pathOverlay.color = .red
                 
@@ -669,7 +671,7 @@ extension MainViewController: TextFieldDelegate {
                     pathOverlay.mapView = self?.naverMapView.mapView
                     // TODO: 경유지 추가
                     
-                    self?.drawPathData(polyLine: pathOverlay.path)
+                    self?.drawPathData(polyLine: pathOverlay.path, distance: distance)
                     self?.markerIndicator.stopAnimating()
                 }
             }
@@ -717,25 +719,14 @@ extension MainViewController: TextFieldDelegate {
         }
     }
     
-    func drawPathData(polyLine: NMGLineString<AnyObject>) {
-        
+    func drawPathData(polyLine: NMGLineString<AnyObject>, distance: Double) {
         findChargerAroundRoute(polyLine: polyLine)
         self.clustering?.isRouteMode = true
         summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clustering!.isRouteMode)
         
         drawMapMarker()
         
-        let points = polyLine.points
-        // 두 지점간 거리 표시
-        guard let startPoint = points[0] as? NMGLatLng,
-              let endPoint = points[points.count-1] as? NMGLatLng else { return }
-        
-        let start = CLLocationCoordinate2D(latitude: startPoint.lat, longitude: startPoint.lng)
-        let end = CLLocationCoordinate2D(latitude: endPoint.lat, longitude: endPoint.lng)
-        let distance = round(CLLocationCoordinate2D().distance(from: start, to: end))
-        
         var strDistance: NSString = ""
-        
         if distance > 1000 {
             strDistance = NSString(format: "%dKm", Int(distance/1000))
         } else {
