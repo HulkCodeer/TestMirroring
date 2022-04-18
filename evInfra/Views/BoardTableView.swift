@@ -69,6 +69,12 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         return communityBoardList.count
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let isAd = communityBoardList[indexPath.row].board_id?.contains("ad") ?? false
+        if isAd {
+            EIAdManager.sharedInstance.increase(adId: communityBoardList[indexPath.row].document_srl!, action: EIAdManager.ACTION_VIEW)
+        }
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableViewDelegate?.didSelectItem(at: indexPath.row)
     }

@@ -8,19 +8,6 @@
 
 import Foundation
 
-class EIAdInfo {
-    var adId: Int?
-    var adWeight: Int?
-    
-    var adUrl: String?
-    var adDescrption: String?
-    var adLogo: String?
-    var adImage: String?
-    
-    var clientId: Int?
-    var clientName: String?
-}
-
 struct Ad: Decodable {
     var ad_id: String?
     var ad_url: String?
