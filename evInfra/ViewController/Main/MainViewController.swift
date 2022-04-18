@@ -780,8 +780,11 @@ extension MainViewController: TMapViewDelegate {
     }
     
     func onDidEndScroll(withZoomLevel zoomLevel: Int, center mapPoint: TMapPoint!) {
+        if MainViewController.currentLocation?.equal(with: mapPoint) == false {
+            self.drawTMapMarker()
+        }
+        MainViewController.currentLocation = mapPoint
         updateMyLocationButton()
-        self.drawTMapMarker()
     }
 }
 
