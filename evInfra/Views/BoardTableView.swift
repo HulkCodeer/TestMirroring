@@ -76,7 +76,10 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableViewDelegate?.didSelectItem(at: indexPath.row)
+        let isAd = communityBoardList[indexPath.row].board_id?.contains("ad") ?? false
+        if !isAd {
+            tableViewDelegate?.didSelectItem(at: indexPath.row)
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
