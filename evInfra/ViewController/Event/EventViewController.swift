@@ -16,11 +16,15 @@ class EventViewController: UIViewController {
     private let EVENT_SOLD_OUT = 1
     private let EVENT_END = 2
     
+    private let ACTION_VIEW = 0
+    private let ACTION_CLICK = 1
+    
     @IBOutlet weak var emptyView: UILabel!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     
     var list = Array<Event>()
+    var displayedList : Set = Set<Int>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,6 +90,7 @@ extension EventViewController {
     }
     
     func goToEventInfo(index: Int) {
+        Server.countEventAction(eventId: Array<Int>(arrayLiteral: list[index].eventId), action: ACTION_CLICK)
         let infoVC = self.storyboard?.instantiateViewController(withIdentifier: "EventContentsViewController") as! EventContentsViewController
         infoVC.eventId = list[index].eventId
         infoVC.eventTitle = list[index].title
@@ -94,6 +99,12 @@ extension EventViewController {
     
     @objc
     fileprivate func onClickBackBtn() {
+        tableView.indexPathsForVisibleRows?.forEach({ IndexPath in
+            if list[IndexPath.row].state == EVENT_IN_PROGRESS {
+                displayedList.insert(list[IndexPath.row].eventId)
+            }
+        })
+        Server.countEventAction(eventId: Array(displayedList), action: ACTION_VIEW)
         self.navigationController?.pop()
     }
 }
@@ -160,6 +171,14 @@ extension EventViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        tableView.indexPathsForVisibleRows?.forEach({ IndexPath in
+            if list[IndexPath.row].state == EVENT_IN_PROGRESS {
+                displayedList.insert(list[IndexPath.row].eventId)
+            }
+        })
     }
 }
 

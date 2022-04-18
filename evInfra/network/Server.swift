@@ -1038,6 +1038,22 @@ class Server {
             .responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
+    // 이벤트 click event 전송
+    static func countEventAction(eventId: Array<Int>, action: Int) {
+        if (eventId.isEmpty){
+            return
+        }
+        
+        let reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId(),
+            "mb_id": MemberManager.getMbId(),
+            "event_ids": eventId,
+            "action": action
+        ]
+        Alamofire.request(Const.EV_PAY_SERVER + "/event/Event/add_count",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+    }
+    
     // 쿠폰 - 리스트 가져오기
     static func getCouponList(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
@@ -1085,7 +1101,7 @@ class Server {
     }
     
     // 광고 click event 전송
-    static func countAdAction(adId: Int, action: Int) {
+    static func countAdAction(adId: String, action: Int) {
         let reqParam: Parameters = [
             "member_id": MemberManager.getMemberId(),
             "mb_id": MemberManager.getMbId(),

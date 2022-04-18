@@ -17,6 +17,7 @@ class CommunityBoardAdsCell: UITableViewCell {
     @IBOutlet weak var adsImageView: UIImageView!
     
     private var adUrl: String? = ""
+    private var adId: String? = ""
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -45,9 +46,11 @@ class CommunityBoardAdsCell: UITableViewCell {
         adsDescriptionLabel.text = "advertisement"
         adsImageView.sd_setImage(with: URL(string: "\(Const.EI_IMG_SERVER)\(item.cover_filename ?? "")"))
         adUrl = item.title
+        adId = item.document_srl
     }
     
     @objc private func openURL() {
+        EIAdManager.sharedInstance.increase(adId: adId!, action: EIAdManager.ACTION_CLICK)
         guard let adUrl = adUrl else {
             return
         }
