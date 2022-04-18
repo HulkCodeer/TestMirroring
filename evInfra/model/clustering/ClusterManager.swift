@@ -143,10 +143,9 @@ class ClusterManager {
                             clusterLv = ClusterManager.CLUSTER_LEVEL_3
                         } else if zoomLev < ClusterManager.LEVEL_1_ZOOM {
                             clusterLv = ClusterManager.CLUSTER_LEVEL_2
+                        } else if zoomLev < 14 {
+                            clusterLv = ClusterManager.CLUSTER_LEVEL_1
                         }
-//                        else if zoomLev < 13 {
-//                            clusterLv = ClusterManager.CLUSTER_LEVEL_1
-//                        }
                     }
                 }
                 
