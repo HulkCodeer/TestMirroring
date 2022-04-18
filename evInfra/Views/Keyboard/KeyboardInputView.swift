@@ -132,6 +132,7 @@ class KeyboardInputView: UIView {
         selectedImageView.image = nil
         trashButton.isHidden = true
         selectedImageViewHeight.constant = 0
+        textViewDidChange(textView)
     }
 }
 

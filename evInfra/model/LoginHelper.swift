@@ -214,6 +214,7 @@ class LoginHelper: NSObject {
                     self.requestLoginToEvInfra(user: nil)
                     break // The Apple ID credential is valid.
                 case .revoked, .notFound, .transferred:
+                    MemberManager().clearData()
                     print("requestLoginToApple - revoked, notFound, transferred")
                     break
                 default:
