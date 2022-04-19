@@ -176,9 +176,7 @@ class MainViewController: UIViewController {
         naverMapView.mapView.addCameraDelegate(delegate: self)
         naverMapView.mapView.touchDelegate = self
         naverMapView.mapView.positionMode = .normal
-//        view.insertSubview(naverMapView, at: 0)
-        view.addSubview(naverMapView)
-//        rootView.insertSubview(naverMapView, at: 0)
+        view.insertSubview(naverMapView, at: 0)
         
         ChargerManager.sharedInstance.delegate = self
         

@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+import RxCocoa
 
 
 protocol MarkerTouchDelegate {
@@ -295,6 +296,28 @@ class ChargerManager {
                 self.updateStationInfoListFromServer(json: JSON(value!))
                 self.setChargerStationInfoList()
                 self.getStationStatus(listener: listener)
+            }
+        }
+    }
+    
+    // naver map
+    public func getStations() {
+        var updateDate = ""
+        if let dto = try! mDb?.getStationInfoLastUpdate() {
+            updateDate = (dto.mInfoLastUpdateDate)!
+        }
+        
+        Server.getStationInfo(updateDate: updateDate) { (isSuccess, value) in
+            if isSuccess {
+                guard let value = value else {
+                    return
+                }
+                    
+                let json = JSON(value)
+                
+                self.updateCompanyInfoListFromServer(json: json)
+                self.setChargerStationInfoList()
+                
             }
         }
     }

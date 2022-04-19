@@ -22,7 +22,6 @@ class NaverMapView: NMFNaverMapView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setup()
     }
     
     func setup() {
