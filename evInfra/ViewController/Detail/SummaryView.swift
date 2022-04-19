@@ -432,8 +432,15 @@ class SummaryView: UIView {
     
     func setDistance(charger: ChargerStationInfo) {
         if self.distance < 0 { // detail에서 여러번 불리는것 방지
+            let locationManager = CLLocationManager()
+            let coordinate = locationManager.location?.coordinate
+            
+            let currentLat = coordinate?.latitude ?? 0.0
+            let currentLon = coordinate?.longitude ?? 0.0
+            
             if let currentLocation = MainViewController.currentLocation {
-                getDistance(curPos: currentLocation, desPos: charger.marker.getTMapPoint())
+                let point = TMapPoint(lon: currentLon, lat: currentLat)
+                getDistance(curPos: point ?? currentLocation, desPos: charger.marker.getTMapPoint())
             } else {
                 self.navigationBtn.setTitle("계산중", for: .normal)
             }

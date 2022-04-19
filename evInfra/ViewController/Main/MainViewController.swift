@@ -84,6 +84,7 @@ class MainViewController: UIViewController {
     private var canIgnoreJejuPush = true
     
     private var summaryView:SummaryView!
+    private var locationManager: CLLocationManager!
     
     // 지킴이 점겸표 url
     private var checklistUrl: String?
@@ -94,6 +95,7 @@ class MainViewController: UIViewController {
         view.backgroundColor = Color.grey.lighten5
         
         showGuide()
+        requestLocationAuth()
         
         prepareRouteField()
         preparePOIResultView()
@@ -162,6 +164,11 @@ class MainViewController: UIViewController {
     func prepareRouteView() {
         let findPath = UITapGestureRecognizer(target: self, action:  #selector (self.onClickShowNavi(_:)))
         self.routeDistanceBtn.addGestureRecognizer(findPath)
+    }
+    
+    func requestLocationAuth() {
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
     }
     
     func prepareMapView() {
@@ -331,6 +338,34 @@ extension MainViewController: DelegateFilterContainerView {
         filterBarView.updateTitleByType(type: type)
         // refresh marker
         self.drawTMapMarker()
+    }
+}
+
+extension MainViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        var status: CLAuthorizationStatus?
+        if #available(iOS 14.0, *) {
+            status = manager.authorizationStatus
+        } else {
+            // Fallback on earlier versions
+        }
+        guard status != nil else {
+            return
+        }
+        switch status {
+        case .notDetermined, .restricted:
+            break
+        case .denied:
+            break
+        case .authorizedAlways,  .authorizedWhenInUse:
+            let coordinate = manager.location?.coordinate
+            MainViewController.currentLocation = TMapPoint(coordinate: coordinate!)
+            self.tMapView?.setCenter(TMapPoint(coordinate: coordinate!))
+            self.tMapView?.setTrackingMode(true)
+            break
+        default:
+            break
+        }
     }
 }
 
@@ -537,9 +572,16 @@ extension MainViewController: TextFieldDelegate {
     
     func findPath(passList: [TMapPoint]) {
         if routeStartPoint == nil{
+            let locationManager = CLLocationManager()
+            let coordinate = locationManager.location?.coordinate
+            
+            let currentLat = coordinate?.latitude ?? 0.0
+            let currentLon = coordinate?.longitude ?? 0.0
+            
             if let currentPoint = MainViewController.currentLocation {
-                startField.text = tMapPathData.convertGpsToAddress(at: currentPoint)
-                routeStartPoint = currentPoint
+                let point = TMapPoint(lon: currentLon, lat: currentLat)
+                startField.text = tMapPathData.convertGpsToAddress(at: point ?? currentPoint)
+                routeStartPoint = point ?? currentPoint
             }
         }
         

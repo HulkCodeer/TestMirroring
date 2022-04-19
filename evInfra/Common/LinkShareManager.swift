@@ -43,7 +43,8 @@ class LinkShareManager {
         shareList["title"] = document.title ?? ""
         shareList["appstore"] = "https://itunes.apple.com/kr/app/ev-infra/id1206679515?mt=8";
         shareList["market"] = "https://play.google.com/store/apps/details?id=com.client.ev.activities"
-        
+        shareList["scheme"] = "target_id=10&mid=\(document.board_id ?? "")&document_srl=\(document.document_srl ?? "")"
+        shareList["ischeme"] = "target_id=10&mid=\(document.board_id ?? "")&document_srl=\(document.document_srl ?? "")"
         
         KLKTalkLinkCenter.shared().sendCustom(withTemplateId: templateId, templateArgs: shareList) { warningMessage, argumentMessage in
             print("warning message: \(String(describing: warningMessage?.description))")
