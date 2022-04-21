@@ -19,8 +19,12 @@ class EIAdManager {
     static let ACTION_CLICK = 1
     
     static let sharedInstance = EIAdManager()
+    var boardAdList = [BoardListItem]()
     
     private init() {
+        fetchBoardAdsToBoardListItem { [weak self] adList in
+            self?.boardAdList = adList
+        }
     }
     
     // 광고 action 정보 수집

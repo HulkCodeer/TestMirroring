@@ -18,13 +18,13 @@ class BoardListViewModel {
         }
     }
     
-    private var boardAdList: [BoardListItem] = [BoardListItem]()
+    private var indexOfAd: Int = 0
+    private var adManager = EIAdManager.sharedInstance
     
-    init() {
-        fetchBoardAdsToBoardListItem()
-    }
+    init() {}
     
     func fetchFirstBoard(mid: String, sort: Board.SortType, currentPage: Int, mode: String) {
+        let adList = adManager.boardAdList
         
         Server.fetchBoardList(mid: mid,
                               page: "\(currentPage)",
@@ -47,11 +47,16 @@ class BoardListViewModel {
                         return
                     }
                     
-                    for index in [currentPage, currentPage+1] {
-                        let adIndex = (index-1) % 3
-                        
-                        result.list?.insert(self.boardAdList[adIndex], at: boardIndex)
-                        boardIndex = boardIndex + 10
+                    if !adList.isEmpty {
+                        for _ in [currentPage, currentPage+1] {
+                            result.list?.insert(adList[self.indexOfAd], at: boardIndex)
+                            boardIndex = boardIndex + 10
+                            self.indexOfAd += 1
+                            
+                            if self.indexOfAd == adList.count {
+                                self.indexOfAd = 0
+                            }
+                        }
                     }
                     
                     self.boardResponseData = result
@@ -65,6 +70,8 @@ class BoardListViewModel {
     }
     
     func fetchNextBoard(mid: String, sort: Board.SortType, currentPage: Int, mode: String) {
+        let adList = adManager.boardAdList
+        
         Server.fetchBoardList(mid: mid,
                               page: "\(currentPage)",
                               mode: mode,
@@ -86,13 +93,18 @@ class BoardListViewModel {
                         return
                     }
                     
-                    for index in [currentPage, currentPage+1] {
-                        let adIndex = (index-1) % self.boardAdList.count
+                    if !adList.isEmpty {
+                        for _ in [currentPage, currentPage+1] {
+                            result.list?.insert(adList[self.indexOfAd], at: boardIndex)
+                            boardIndex = boardIndex + 10
 
-                        result.list?.insert(self.boardAdList[adIndex], at: boardIndex)
-                        boardIndex = boardIndex + 10
+                            self.indexOfAd += 1
+                            if self.indexOfAd == adList.count {
+                                self.indexOfAd = 0
+                            }
+                        }
                     }
-                    
+
                     self.boardResponseData = result
                 } catch {
                     debugPrint("error")
@@ -100,12 +112,6 @@ class BoardListViewModel {
             } else {
                 
             }
-        }
-    }
-    
-    private func fetchBoardAdsToBoardListItem() {
-        EIAdManager.sharedInstance.fetchBoardAdsToBoardListItem { adList in
-            self.boardAdList = adList
         }
     }
 }
