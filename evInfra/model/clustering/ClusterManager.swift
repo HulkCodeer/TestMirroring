@@ -116,11 +116,8 @@ class ClusterManager {
     }
     
     func clustering(filter: ChargerFilter, loadedCharger: Bool) {
-        
-        NSLog("parkshin start")
 
         DispatchQueue.global(qos: .background).async {
-            NSLog("parkshin start thread")
             
             let stationList = ChargerManager.sharedInstance.getChargerStationInfoList()
             
@@ -149,12 +146,10 @@ class ClusterManager {
                     }
                 }
             }
-            
-            NSLog("parkshin 1")
 
             // 클러스터 레벨 변경시 기존 레벨의 마커를 모두 삭제
             DispatchQueue.main.async {
-                NSLog("parkshin 2")
+
                 if (self.currentClusterLv != clusterLv) {
                     if self.currentClusterLv > ClusterManager.CLUSTER_LEVEL_0 {
                         self.removeAllCluster()
@@ -163,7 +158,7 @@ class ClusterManager {
                     }
                 }
                 self.currentClusterLv = clusterLv
-                NSLog("parkshin 3")
+
                 // add marker
                 if clusterLv == ClusterManager.CLUSTER_LEVEL_0 {
                     var visibleCharger = [ChargerStationInfo]()
@@ -178,7 +173,7 @@ class ClusterManager {
                             }
                         }
                     }
-                    NSLog("parkshin 4")
+
                     // 지도 축소 시 마커를 모두 그리면 메모리 이슈로 앱이 종료됨
                     // 한 화면에 일정 갯수 이상의 마커가 있고 줌 레벨이 설정값 이하인 경우,
                     // 마커를 모두 그리지 않고 threshold 갯수만큼 건너띄면서 그림
@@ -193,7 +188,6 @@ class ClusterManager {
                         }
                     }
 
-                    NSLog("parkshin 5 count: \(visibleCharger.count), thres hold: \(markerThreshold)")
                     var index = 0
                     for charger in visibleCharger {
                         if (index % markerThreshold == 0) {
@@ -205,7 +199,6 @@ class ClusterManager {
                         }
                         index += 1
                     }
-                    NSLog("parkshin 6")
                 } else {
                     if let clusters = self.clusters[clusterLv] {
                         for cluster in clusters{

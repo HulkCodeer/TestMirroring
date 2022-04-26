@@ -825,7 +825,6 @@ extension MainViewController: TMapViewDelegate {
     
     
     func onDidEndScroll(withZoomLevel zoomLevel: Int, center mapPoint: TMapPoint!) {
-        NSLog("parkshin onDidEndScroll")
         perform(after: 0.5) {
             if MainViewController.currentLocation?.equal(with: mapPoint) == false {
                 self.drawTMapMarker()
