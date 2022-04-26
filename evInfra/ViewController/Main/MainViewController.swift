@@ -825,30 +825,12 @@ extension MainViewController: TMapViewDelegate {
     
     
     func onDidEndScroll(withZoomLevel zoomLevel: Int, center mapPoint: TMapPoint!) {
-        perform(after: 0.5) {
-            if MainViewController.currentLocation?.equal(with: mapPoint) == false {
-                self.drawTMapMarker()
-            }
-            
-            MainViewController.currentLocation = mapPoint
-            self.updateMyLocationButton()
+        if MainViewController.currentLocation?.equal(with: mapPoint) == false {
+            self.drawTMapMarker()
         }
-    }
-    
-    // TODO spark - Tmap에서 onDidEndScroll 호출 후 일정 시간안에 재호출 시 이전 event를 cancle함
-    // naver map 변경 시 아래 코드 삭제 후 테스트 필요(안드로이드는 naver map이지만 아래 코드 있음)
-    // 아래 코드 유지가 필요한 경우 work class 분리하면 좋겠음
-    func perform(after: TimeInterval, block: @escaping @convention(block) () -> Void) {
-        // Cancel the current pending item
-        pendingRequestWorkItem?.cancel()
         
-        // Wrap the request in a work item
-        let requestWorkItem = DispatchWorkItem(block: block)
-        
-        pendingRequestWorkItem = requestWorkItem
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + after, execute:
-        requestWorkItem)
+        MainViewController.currentLocation = mapPoint
+        self.updateMyLocationButton()
     }
 }
 
