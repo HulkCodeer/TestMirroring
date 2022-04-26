@@ -38,11 +38,9 @@ class ChargerFilter {
     var destination = true
     
     var companies = [CompanyInfoDto]()
-    var compMap: [String : Bool] = [:]
     
     func copy() -> ChargerFilter {
         let filter = ChargerFilter()
-
         filter.isFree = self.isFree
         filter.isPaid = self.isPaid
         filter.isPublic = self.isPublic
@@ -62,13 +60,16 @@ class ChargerFilter {
         filter.slow = self.slow
         filter.destination = self.destination
         filter.companies = self.companies
-        filter.compMap = self.compMap
-
         return filter
     }
     
     func getCompanySelected(companyId: String) -> Bool {
-        return compMap[companyId] ?? false
+        for company in companies {
+            if let id = company.company_id, id.equals(companyId) {
+                return company.is_visible
+            }
+        }
+        return false
     }
     
     func isSame(filter : ChargerFilter?) -> Bool{
