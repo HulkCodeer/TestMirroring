@@ -104,14 +104,16 @@ class FilterManager {
                     default:
                         company.is_visible = false
                 }
-                if company.company_id != nil {
+                if let companyId = company.company_id {
                     filter.companies.append(company)
+                    filter.compMap[companyId] = company.is_visible
                 }
             }
         } else {
             for company in companyList {
-                if company.company_id != nil {
+                if let companyId = company.company_id {
                     filter.companies.append(company)
+                    filter.compMap[companyId] = company.is_visible
                 }
             }
         }
@@ -205,7 +207,7 @@ class FilterManager {
         }
     }
     
-    func updateCompanyFilter(){
+    func updateCompanyFilter() {
         let companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
         for company in companyList {
             setCompany(companyId: company.company_id!, visible: company.is_visible)
@@ -216,6 +218,7 @@ class FilterManager {
         for company in filter.companies {
             if let id = company.company_id, companyId.equals(id) {
                 company.is_visible = visible
+                filter.compMap[companyId] = visible
             }
         }
     }
