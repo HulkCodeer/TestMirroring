@@ -239,6 +239,7 @@ extension AppDelegate : MessagingDelegate {
     // [START refresh_token]
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         fcmManager.registerId = fcmToken
+        fcmManager.registerUser()
         // TODO: If necessary send token to application server.
         // Note: This callback is fired at each app startup and whenever a new token is generated.
     }

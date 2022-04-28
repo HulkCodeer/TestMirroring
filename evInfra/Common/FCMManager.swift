@@ -375,6 +375,29 @@ class FCMManager {
         }
     }
     
+    func registerUser() {
+        let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
+        let modelName = UIDevice.current.modelName
+        var uid: String? = nil
+        if let dUid = KeyChainManager.get(key: KeyChainManager.KEY_DEVICE_UUID), !dUid.isEmpty {
+            uid = dUid
+        } else {
+            uid = UIDevice.current.identifierForVendor!.uuidString
+            KeyChainManager.set(value: uid!, forKey: KeyChainManager.KEY_DEVICE_UUID)
+        }
+
+        Server.registerUser(version: version, model: modelName, uid: uid!, fcmId: getFCMRegisterId()) { (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                UserDefault().saveString(key: UserDefault.Key.MEMBER_ID, value: json["member_id"].stringValue)
+                UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION, value: json["receive_push"].boolValue)
+                UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION, value: json["receive_jeju_push"].boolValue)
+                UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: json["receive_marketing_push"].boolValue)
+                self.updateFCMInfo()
+            }
+        }
+    }
+    
     func updateFCMInfo() {
         var uid: String? = nil
         if let dUid = KeyChainManager.get(key: KeyChainManager.KEY_DEVICE_UUID), !dUid.isEmpty {

@@ -984,10 +984,13 @@ extension MainViewController {
     */
     func requestStationInfo() {
         LoginHelper.shared.delegate = self
+        markerIndicator.startAnimating()
         ChargerManager.sharedInstance.getStationInfoFromServer(listener: {
 
             class chargerManagerListener: ChargerManagerListener {
                 func onComplete() {
+                    controller?.markerIndicator.stopAnimating()
+                    controller?.showMarketingPopup()
                     LoginHelper.shared.checkLogin()
                     
                     FCMManager.sharedInstance.isReady = true
@@ -1010,6 +1013,7 @@ extension MainViewController {
                 }
                 
                 func onError(errorMsg: String) {
+                    controller?.markerIndicator.stopAnimating()
                     controller?.checkFCM()
                     
                     if Const.CLOSED_BETA_TEST {
@@ -1267,6 +1271,34 @@ extension MainViewController {
                     window.addSubview(EIAdDialog(frame: window.bounds))
                 }
             }
+        }
+    }
+    
+    func showMarketingPopup() {
+        // TODO :: 첫 부팅 시에만 처리할 동작 있으면
+        // chargermanagerlistener oncomplete에서 묶어서 처리 후 APP_FIRST_BOOT 변경
+        if (UserDefault().readBool(key: UserDefault.Key.APP_FIRST_BOOT) == false) { // 첫부팅 시
+            let popup = ConfirmPopupViewController(titleText: "더 나은 충전 생활 안내를 위해 동의가 필요해요.", messageText: "EV Infra는 사용자님을 위해 도움되는 혜택 정보를 보내기 위해 노력합니다. 무분별한 광고 알림을 보내지 않으니 안심하세요!\n마케팅 수신 동의 변경은 설정 > 마케팅 정보 수신 동의에서 철회 가능합니다. ")
+            popup.addActionToButton(title: "다음에", buttonType: .cancel)
+            popup.addActionToButton(title: "동의하기", buttonType: .confirm)
+            popup.cancelDelegate = {[weak self] isLiked in
+                guard self != nil else { return }
+                
+                UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: false)
+                UserDefault().saveBool(key: UserDefault.Key.APP_FIRST_BOOT, value: true)
+                
+                let currDate = DateUtils.getFormattedCurrentDate(format: "yyyy년 MM월 dd일")
+                Snackbar().show(message: "[EV Infra] " + currDate + "마케팅 수신 거부 처리가 완료되었어요. ")
+            }
+            popup.confirmDelegate = {[weak self] isLiked in
+                guard self != nil else { return }
+                UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: true)
+                UserDefault().saveBool(key: UserDefault.Key.APP_FIRST_BOOT, value: true)
+                
+                let currDate = DateUtils.getFormattedCurrentDate(format: "yyyy년 MM월 dd일")
+                Snackbar().show(message: "[EV Infra] " + currDate + "마케팅 수신 동의 처리가 완료되었어요! ☺️ 더 좋은 소식 준비할게요!")
+            }
+            self.present(popup, animated: false, completion: nil)
         }
     }
     

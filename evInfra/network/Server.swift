@@ -45,15 +45,16 @@ class Server {
     }
     
     // 사용자 - 디바이스 정보 등록
-    static func registerUser(version: String, model: String, uid: String, completion: @escaping (Bool, Any) -> Void) {
+    static func registerUser(version: String, model: String, uid: String, fcmId: String?, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "os": "IOS",
             "app_ver": version,
             "model": model,
-            "device_id": uid
+            "device_id": uid,
+            "fcm_id": fcmId
         ]
         
-        Alamofire.request(Const.EV_PAY_SERVER + "/member/user/register",
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/v2/user/register",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -82,7 +83,7 @@ class Server {
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // 사용자 - push message 알림 설정
+    // 사용자 - 제주지역 push message 알림 설정
     static func updateJejuNotificationState(state: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "member_id": MemberManager.getMemberId(),
@@ -90,6 +91,18 @@ class Server {
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/user/setJejuNotification",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // 사용자 - 마케팅 push message 알림 설정
+    static func updateMarketingNotificationState(state: Bool, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.getMemberId(),
+            "receive_push": state
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/user/setMarketingNotification",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }

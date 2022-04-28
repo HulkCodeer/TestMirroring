@@ -15,6 +15,14 @@ class DateUtils {
         return Int64(since1970 * 1000)
     }
     
+    public static func getFormattedCurrentDate(format: String) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        
+        let dateStr = dateFormatter.string(from: Date())
+        return dateStr
+    }
+    
     public static func getTimesAgoString(date: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMddHHmmss"
