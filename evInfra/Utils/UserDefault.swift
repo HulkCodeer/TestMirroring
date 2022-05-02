@@ -84,8 +84,6 @@ class UserDefault {
         static let SETTINGS_ALLOW_NOTIFICATION = "allow_notification"
         static let SETTINGS_ALLOW_JEJU_NOTIFICATION = "allow_jeju_notification"
         static let SETTINGS_ALLOW_MARKETING_NOTIFICATION = "allow_marketing_notification"
-        static let SETTINGS_CLUSTER = "allow_cluster"
-        static let SETTINGS_CLUSTER_ZOOMLEVEL = "user_zoom_lev"
         
         static let APP_INTRO_IMAGE = "app_intro_image"
         static let APP_INTRO_END_DATE = "app_intro_end_date"

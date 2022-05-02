@@ -14,7 +14,6 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var alarmSwitch: UISwitch!
     @IBOutlet weak var alarmLocalSwitch: UISwitch!
     @IBOutlet weak var alarmMarketingSwitch: UISwitch!
-    @IBOutlet weak var clusteringSwitch: UISwitch!
     
     let defaults = UserDefault()
     
@@ -22,7 +21,6 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         
         prepareActionBar()
-        prepareClusteringSettings()
         prepareSwitchs()
     }
 
@@ -39,15 +37,10 @@ class SettingsViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
     }
     
-    func prepareClusteringSettings() {
-        clusteringSwitch.isOn = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
-    }
-    
     func prepareSwitchs() {
         alarmSwitch.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         alarmLocalSwitch.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         alarmMarketingSwitch.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
-        clusteringSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
         changeAllNotifications(isRecieve: defaults.readBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION))
         changeLocalNotifications(isRecieve: defaults.readBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION))
         changeMarketingNotifications(isRecieve: defaults.readBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION))
@@ -63,10 +56,6 @@ class SettingsViewController: UIViewController {
     
     @IBAction func onChangeAlarmMarketingSwitch(_ sender: Any) {
         alarmMarketingSwitchChanged(state: alarmMarketingSwitch.isOn)
-    }
-    
-    @IBAction func onChangeClusteringSwitch(_ sender: UISwitch) {
-        defaults.saveBool(key: UserDefault.Key.SETTINGS_CLUSTER, value: sender.isOn)
     }
     
     @objc fileprivate func handleBackButton() {

@@ -186,10 +186,6 @@ class MainViewController: UIViewController {
         } else {
             mapView.setZoomLevel(15)
         }
-        if defaults.readInt(key: UserDefault.Key.SETTINGS_CLUSTER_ZOOMLEVEL) < 1 {
-            defaults.registerBool(key: UserDefault.Key.SETTINGS_CLUSTER, val: false)
-            defaults.registerInt(key: UserDefault.Key.SETTINGS_CLUSTER_ZOOMLEVEL, val: 11)
-        }
         
         mapView.delegate = self
         mapView.gpsManagersDelegate = self
@@ -1323,21 +1319,11 @@ extension MainViewController {
     
     func prepareClustering() {
         clustering = ClusterManager.init(mapView: tMapView!)
-        clustering?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
-        //        clustering?.clusterDelegate = self
     }
     
     func updateClustering() {
-        if (clustering?.isClustering != defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)) {
-            clustering?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
-            if (clustering?.isClustering)! {
-                clustering?.removeChargerForClustering(zoomLevel: (tMapView?.getZoomLevel())!)
-            } else {
-                clustering?.removeClusterFromSettings()
-            }
-            
-            drawTMapMarker()
-        }
+        clustering?.removeChargerForClustering(zoomLevel: (tMapView?.getZoomLevel())!)
+        drawTMapMarker()
     }
 }
 
