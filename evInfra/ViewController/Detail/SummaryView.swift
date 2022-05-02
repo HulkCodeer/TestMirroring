@@ -307,44 +307,44 @@ class SummaryView: UIView {
         self.filterRoof.setTitle(area, for: .normal)
     }
     
-    func setChargerType(charger:ChargerStationInfo) {
+    func setChargerType(charger: ChargerStationInfo) {
         // "DC차데모"
-        if (charger.mTotalType! & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
+        if (charger.mTotalType ?? Const.CTYPE_DCDEMO & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
             self.typeDcDemo.isHidden = false
         } else {
             self.typeDcDemo.isHidden = true
         }
         
         // "DC콤보"
-        if (charger.mTotalType! & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
+        if (charger.mTotalType ?? Const.CTYPE_DCCOMBO & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
             self.typeDcCombo.isHidden = false
         } else {
             self.typeDcCombo.isHidden = true
         }
         
         // "AC3상"
-        if (charger.mTotalType! & Const.CTYPE_AC) == Const.CTYPE_AC {
+        if (charger.mTotalType ?? Const.CTYPE_AC & Const.CTYPE_AC) == Const.CTYPE_AC {
             self.typeACSam.isHidden = false
         } else {
             self.typeACSam.isHidden = true
         }
 
         // "완속"
-        if (charger.mTotalType! & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
+        if (charger.mTotalType ?? Const.CTYPE_SLOW & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
             self.typeSlow.isHidden = false
         } else {
             self.typeSlow.isHidden = true
         }
         
         // "슈퍼차저"
-        if (charger.mTotalType! & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
+        if (charger.mTotalType ?? Const.CTYPE_SUPER_CHARGER & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
             self.typeSuper.isHidden = false
         } else {
             self.typeSuper.isHidden = true
         }
         
         // "데스티네이션"
-        if (charger.mTotalType! & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
+        if (charger.mTotalType ?? Const.CTYPE_DESTINATION & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
             self.typeDestination.isHidden = false
         } else {
             self.typeDestination.isHidden = true

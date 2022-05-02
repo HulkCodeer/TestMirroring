@@ -181,7 +181,7 @@ class DataBaseHelper {
         }
     }
 
-    func insertOrUpdateStationInfoList(list : [StationInfoDto]) throws{
+    func insertOrUpdateStationInfoList(list : [StationInfoDto]) throws {
         try mDbQueue!.write  { db in
             for stationInfoDto in list{
                 if (!StringUtils.isNullOrEmpty(stationInfoDto.mSnm)) {
