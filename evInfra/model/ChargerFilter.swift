@@ -37,7 +37,7 @@ class ChargerFilter {
     var slow = true
     var destination = true
     
-    var companies = [CompanyInfoDto]()
+    var companyDictionary: [String: CompanyInfoDto] = [:]
     
     func copy() -> ChargerFilter {
         let filter = ChargerFilter()
@@ -59,17 +59,12 @@ class ChargerFilter {
         filter.superCharger = self.superCharger
         filter.slow = self.slow
         filter.destination = self.destination
-        filter.companies = self.companies
+        filter.companyDictionary = self.companyDictionary
         return filter
     }
     
     func getCompanySelected(companyId: String) -> Bool {
-        for company in companies {
-            if let id = company.company_id, id.equals(companyId) {
-                return company.is_visible
-            }
-        }
-        return false
+        return companyDictionary[companyId]?.is_visible ?? false
     }
     
     func isSame(filter : ChargerFilter?) -> Bool{
