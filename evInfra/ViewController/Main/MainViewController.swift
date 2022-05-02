@@ -85,7 +85,6 @@ class MainViewController: UIViewController {
     
     private var summaryView:SummaryView!
     private var locationManager: CLLocationManager!
-    
     // 지킴이 점겸표 url
     private var checklistUrl: String?
     
@@ -985,8 +984,8 @@ extension MainViewController {
 
             class chargerManagerListener: ChargerManagerListener {
                 func onComplete() {
+                    
                     controller?.markerIndicator.stopAnimating()
-                    controller?.showMarketingPopup()
                     LoginHelper.shared.checkLogin()
                     
                     FCMManager.sharedInstance.isReady = true
@@ -1278,29 +1277,53 @@ extension MainViewController {
             popup.addActionToButton(title: "다음에", buttonType: .cancel)
             popup.addActionToButton(title: "동의하기", buttonType: .confirm)
             popup.cancelDelegate = {[weak self] isLiked in
-                guard self != nil else { return }
-                
-                UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: false)
-                UserDefault().saveBool(key: UserDefault.Key.APP_FIRST_BOOT, value: true)
-                
-                let currDate = DateUtils.getFormattedCurrentDate(format: "yyyy년 MM월 dd일")
-                Snackbar().show(message: "[EV Infra] " + currDate + "마케팅 수신 거부 처리가 완료되었어요. ")
+                guard let self = self else { return }
+                self.updateMarketingNotification(noti: false)
             }
             popup.confirmDelegate = {[weak self] isLiked in
-                guard self != nil else { return }
-                UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: true)
-                UserDefault().saveBool(key: UserDefault.Key.APP_FIRST_BOOT, value: true)
-                
-                let currDate = DateUtils.getFormattedCurrentDate(format: "yyyy년 MM월 dd일")
-                Snackbar().show(message: "[EV Infra] " + currDate + "마케팅 수신 동의 처리가 완료되었어요! ☺️ 더 좋은 소식 준비할게요!")
+                guard let self = self else { return }
+                self.updateMarketingNotification(noti: true)
             }
+            
             self.present(popup, animated: false, completion: nil)
         }
     }
     
+    private func updateMarketingNotification(noti: Bool) {
+        Server.updateMarketingNotificationState(state: noti, completion: {(isSuccess, value) in
+            if (isSuccess) {
+                let json = JSON(value)
+                let code = json["code"].stringValue
+                if code.elementsEqual("1000") {
+                    let receive = json["receive"].boolValue
+                    UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: receive)
+                    UserDefault().saveBool(key: UserDefault.Key.APP_FIRST_BOOT, value: true)
+                    let currDate = DateUtils.getFormattedCurrentDate(format: "yyyy년 MM월 dd일")
+                    
+                    var message = ""
+                    if (receive) {
+                        message = "[EV Infra] " + currDate + "마케팅 수신 동의 처리가 완료되었어요! ☺️ 더 좋은 소식 준비할게요!"
+                    } else {
+                        message = "[EV Infra] " + currDate + "마케팅 수신 거부 처리가 완료되었어요."
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        Snackbar().show(message: message)
+                    }
+                }
+            } else {
+                Snackbar().show(message: "서버통신이 원활하지 않습니다")
+            }
+        })
+    }
+    
     private func showGuide() {
         let window = UIApplication.shared.keyWindow!
-        window.addSubview(GuideAlertDialog(frame: window.bounds))
+        let guideView = GuideAlertDialog(frame: window.bounds)
+        guideView.closeDelegate = {[weak self] isLiked in
+            guard let self = self else { return }
+            self.showMarketingPopup()
+        }
+        window.addSubview(guideView)
     }
     
     private func checkFCM() {
