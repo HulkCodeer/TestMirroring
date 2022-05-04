@@ -1,0 +1,64 @@
+//
+//  NaverMapView.swift
+//  evInfra
+//
+//  Created by Kyoon Ho Park on 2022/04/04.
+//  Copyright © 2022 soft-berry. All rights reserved.
+//
+
+import UIKit
+import NMapsMap
+import CoreLocation
+
+class NaverMapView: NMFNaverMapView {
+    
+    var clusterManager: ClusterManager?
+    var startMarker: Marker?
+    var endMarker: Marker?
+    var midMarker: Marker?
+    var searchMarker: Marker?
+    var path: NMFPath?
+    
+    let locationManager = CLLocationManager()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configure()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        configure()
+    }
+    
+    private func configure() {
+        self.showCompass = false
+        self.showZoomControls = true
+    }
+    
+    func moveToCurrentPostiion() {
+        let coordinate = locationManager.getCurrentCoordinate()
+        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude), zoomTo: 14)
+        cameraUpdate.animation = .fly
+        mapView.moveCamera(cameraUpdate)
+    }
+    
+    func moveToCamera(with poistion: NMGLatLng, zoomLevel: Double) {
+        let cameraUpdate = NMFCameraUpdate(scrollTo: poistion, zoomTo: zoomLevel)
+        cameraUpdate.animation = .fly
+        mapView.moveCamera(cameraUpdate)
+    }
+    
+    func isInJeju() -> Bool {
+        let currentCoordinate = NMGLatLng(from: locationManager.getCurrentCoordinate())
+        // 제주 지역
+        let southWestOfJeju = NMGLatLng(lat: 33.11, lng: 126.13)
+        let northEastOfJeju = NMGLatLng(lat: 33.969, lng: 126.99)
+        // 서울 지역
+//        let southWestOfJeju = NMGLatLng(lat: 37.485765, lng: 127.014262)
+//        let northEastOfJeju = NMGLatLng(lat: 37.504895, lng: 127.045919)
+        
+        let boundsOfJeju = NMGLatLngBounds(southWest: southWestOfJeju, northEast: northEastOfJeju)
+        return boundsOfJeju.hasPoint(currentCoordinate)
+    }
+}

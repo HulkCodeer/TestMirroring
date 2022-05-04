@@ -18,9 +18,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WLf-3L-WEo" userLabel="Map Container View">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MjX-0u-Kq9" userLabel="Filter View">
                                 <rect key="frame" x="0.0" y="-84" width="375" height="124"/>
                                 <subviews>
@@ -368,28 +365,33 @@
                             <constraint firstItem="hUZ-Py-Zxk" firstAttribute="leading" secondItem="aV6-BG-3jX" secondAttribute="leading" constant="16" id="0gG-oe-Qo5"/>
                             <constraint firstItem="Ueo-lF-S8F" firstAttribute="centerY" secondItem="heY-bS-hgo" secondAttribute="centerY" id="4p6-hI-itT"/>
                             <constraint firstItem="SHM-kf-rAr" firstAttribute="leading" secondItem="aV6-BG-3jX" secondAttribute="leading" constant="16" id="65j-wd-FWJ"/>
-                            <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="WLf-3L-WEo" secondAttribute="trailing" id="8Mq-4U-TTx"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="bottom" secondItem="hUZ-Py-Zxk" secondAttribute="bottom" constant="8" id="DcU-Cj-Izb"/>
-                            <constraint firstItem="WLf-3L-WEo" firstAttribute="leading" secondItem="aV6-BG-3jX" secondAttribute="leading" id="Jkt-wJ-yhV"/>
-                            <constraint firstItem="XSe-Va-su3" firstAttribute="centerX" secondItem="WLf-3L-WEo" secondAttribute="centerX" id="Jy0-sR-JRA"/>
+                            <constraint firstItem="XSe-Va-su3" firstAttribute="centerX" secondItem="heY-bS-hgo" secondAttribute="centerX" id="Jy0-sR-JRA"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="MjX-0u-Kq9" secondAttribute="trailing" id="Kcc-zq-egO"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="5EV-dN-PRm" secondAttribute="trailing" id="LGN-Bz-By8"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="SJq-gl-PDQ" secondAttribute="trailing" constant="8" id="NN1-nf-sPT"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="0Z5-Ng-0pM" secondAttribute="trailing" constant="8" id="PJg-08-g97"/>
                             <constraint firstItem="5EV-dN-PRm" firstAttribute="leading" secondItem="aV6-BG-3jX" secondAttribute="leading" id="QFx-7u-ZLH"/>
-                            <constraint firstItem="aV6-BG-3jX" firstAttribute="bottom" secondItem="WLf-3L-WEo" secondAttribute="bottom" id="Qs6-8H-JUP"/>
-                            <constraint firstItem="aV6-BG-3jX" firstAttribute="bottom" secondItem="5EV-dN-PRm" secondAttribute="bottom" id="Rh4-UC-nF6"/>
+                            <constraint firstAttribute="bottom" secondItem="5EV-dN-PRm" secondAttribute="bottom" id="Rh4-UC-nF6"/>
+
                             <constraint firstItem="MjX-0u-Kq9" firstAttribute="top" secondItem="heY-bS-hgo" secondAttribute="top" constant="-84" id="Ruc-sK-Uw3"/>
                             <constraint firstItem="hUZ-Py-Zxk" firstAttribute="top" secondItem="XSe-Va-su3" secondAttribute="bottom" constant="16" id="STo-Xw-tUw"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="hUZ-Py-Zxk" secondAttribute="trailing" constant="16" id="V8z-m9-QOU"/>
                             <constraint firstItem="0Z5-Ng-0pM" firstAttribute="top" secondItem="SJq-gl-PDQ" secondAttribute="bottom" constant="8" id="WJx-Fe-0DS"/>
                             <constraint firstItem="SJq-gl-PDQ" firstAttribute="top" secondItem="MjX-0u-Kq9" secondAttribute="bottom" constant="8" id="ZVK-jJ-v0U"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="bottom" secondItem="SHM-kf-rAr" secondAttribute="bottom" constant="18" id="ZeW-S1-s4D"/>
-                            <constraint firstItem="WLf-3L-WEo" firstAttribute="top" secondItem="aV6-BG-3jX" secondAttribute="top" id="dkj-Ny-buP"/>
                             <constraint firstItem="Ueo-lF-S8F" firstAttribute="centerX" secondItem="aV6-BG-3jX" secondAttribute="centerX" id="mmZ-Ia-1N8"/>
                             <constraint firstItem="MjX-0u-Kq9" firstAttribute="leading" secondItem="aV6-BG-3jX" secondAttribute="leading" id="u7g-8d-VLE"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isMotionEnabled" value="NO"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isMotionEnabledForSubviews" value="NO"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isShadowPathAutoSizing" value="NO"/>
+                        </userDefinedRuntimeAttributes>
                     </view>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isMotionEnabled" value="NO"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="btnChargePrice" destination="XSe-Va-su3" id="U16-F0-QGQ"/>
                         <outlet property="btnRoute" destination="nUo-2a-WfK" id="zBL-Qd-ohE"/>
@@ -406,11 +408,9 @@
                         <outlet property="filterHeight" destination="G3d-Ad-3DT" id="aqD-Y6-pHJ"/>
                         <outlet property="filterView" destination="MjX-0u-Kq9" id="X9m-BT-AXY"/>
                         <outlet property="ivMainChargeNew" destination="a8S-mJ-l4p" id="koZ-ke-hm4"/>
-                        <outlet property="mapContainerView" destination="WLf-3L-WEo" id="Ysn-CV-X68"/>
                         <outlet property="markerIndicator" destination="Ueo-lF-S8F" id="Lei-Aj-f8J"/>
                         <outlet property="myLocationButton" destination="0Z5-Ng-0pM" id="XEy-OS-WK7"/>
                         <outlet property="reNewButton" destination="SJq-gl-PDQ" id="gHA-ki-9fC"/>
-                        <outlet property="rootView" destination="heY-bS-hgo" id="mxB-59-2M0"/>
                         <outlet property="routeDistanceBtn" destination="xxr-DK-neS" id="wxA-1T-BVd"/>
                         <outlet property="routeDistanceLabel" destination="k0s-5e-MTS" id="yvt-wc-yxu"/>
                         <outlet property="routeDistanceView" destination="SHM-kf-rAr" id="ZEf-45-1CT"/>
@@ -749,7 +749,11 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
+<<<<<<< evInfra/ViewController/Main/Base.lproj/Main.storyboard
+                        <viewLayoutGuide key="safeArea" id="UIO-SL-V5h"/>
+=======
                         <viewLayoutGuide key="safeArea" id="M4f-QK-BUd"/>
+>>>>>>> evInfra/ViewController/Main/Base.lproj/Main.storyboard
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="XxX-Uk-lEE" firstAttribute="top" secondItem="9Zx-sG-8p7" secondAttribute="bottom" id="6SV-Kj-uou"/>

@@ -938,28 +938,6 @@ class Server {
             .responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // 지킴이 - 대상 충전소 리스트
-    static func getStationListForGuard(completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId()
-        ]
-        
-        Alamofire.request(Const.EV_PAY_SERVER + "/charger/guard/list",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
-    // 지킴이 - 현장점검표 링크 가져오기
-    static func getChecklistLink(completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId()
-        ]
-        
-        Alamofire.request(Const.EV_PAY_SERVER + "/charger/guard/checklist",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
-    }
-    
     // 전기차 정보 - 전기차 리스트 가져오기
     static func getEvList(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [

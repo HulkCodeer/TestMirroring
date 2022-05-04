@@ -187,8 +187,15 @@ PODS:
     - nanopb/encode (= 2.30907.0)
   - nanopb/decode (2.30907.0)
   - nanopb/encode (2.30907.0)
+  - NMapsMap (3.14.1)
   - PanModal (1.2.7)
   - PromisesObjC (1.2.12)
+  - RxCocoa (6.5.0):
+    - RxRelay (= 6.5.0)
+    - RxSwift (= 6.5.0)
+  - RxRelay (6.5.0):
+    - RxSwift (= 6.5.0)
+  - RxSwift (6.5.0)
   - SDWebImage/Core (4.4.8)
   - SDWebImage/GIF (4.4.8):
     - FLAnimatedImage (~> 1.0)
@@ -220,7 +227,10 @@ DEPENDENCIES:
   - Material (~> 2.0)
   - MaterialComponents/BottomSheet
   - MaterialComponents/Snackbar
+  - NMapsMap
   - PanModal
+  - RxCocoa (= 6.5.0)
+  - RxSwift (= 6.5.0)
   - SDWebImage/GIF
   - SnapKit (~> 5.0.0)
   - SwiftyGif
@@ -261,8 +271,12 @@ SPEC REPOS:
     - MDFTextAccessibility
     - Motion
     - nanopb
+    - NMapsMap
     - PanModal
     - PromisesObjC
+    - RxCocoa
+    - RxRelay
+    - RxSwift
     - SDWebImage
     - SnapKit
     - SwiftyGif
@@ -302,8 +316,12 @@ SPEC CHECKSUMS:
   MDFTextAccessibility: f4bb4cc2194286651b59a215fdeaa0e05dc90ba5
   Motion: 153ba49692997888556c7a95207278a8b1f8be95
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
+  NMapsMap: 79bae4e0d7cc5214dd6dabdb95687a1356616556
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
+  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SDWebImage: 783af2c3fa36291a250030c4752ee370a9a51d13
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyGif: 5d4af95df24caf1c570dbbcb32a3b8a0763bc6d7
@@ -311,6 +329,6 @@ SPEC CHECKSUMS:
   TTGTagCollectionView: a2a8668c659b39e7a6ffd6590475ea53a7ae95f7
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
 
-PODFILE CHECKSUM: 2d87c2b16c914b179d05e82bab7c18d4508484dd
+PODFILE CHECKSUM: 72b24ef0c7171991328717587d8a02e72286c363
 
 COCOAPODS: 1.11.3

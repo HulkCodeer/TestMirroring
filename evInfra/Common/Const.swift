@@ -61,6 +61,7 @@ public class Const {
     // KEY
     public static let TMAP_APP_KEY = "7fcc4bac-2c24-41ed-b479-25e6b6c04a7f"
     public static let KAKAO_CLIENT_SECRET = "e8PA7oqSn2vPCGQhy9ri92FGJ79e7kAZ"
+    public static let NAVER_MAP_KEY = "g2f2wjr9hl"
 
     // 충전소 타입: must sync db
     public static let CHARGER_TYPE_DCDEMO            = 1    // DC차데모

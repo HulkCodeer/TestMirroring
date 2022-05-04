@@ -7,12 +7,14 @@
 //
 
 import Foundation
+import NMapsMap
 
 class ClusterManager {
     
-    public static let LEVEL_1_ZOOM = 11;
-    public static let LEVEL_2_ZOOM = 8;
-    public static let LEVEL_3_ZOOM = 6;
+    public static let LEVEL_0_ZOOM = 13
+    public static let LEVEL_1_ZOOM = 11
+    public static let LEVEL_2_ZOOM = 8
+    public static let LEVEL_3_ZOOM = 6
     
     let headers = ["charger0", "cluster1", "cluster2", "cluster3", "cluster4"] // 클러스터링 에셋 파일명
     private static let CLUSTER_LEVEL_4 = 4    // 내륙 제주
@@ -30,16 +32,17 @@ class ClusterManager {
     var clusterFilter: ChargerFilter? = nil
     var currentClusterLv = -1
     var tMapView: TMapView?
+    var mapView: NMFMapView?
     var isRouteMode: Bool = false
     
     var clusterGenerator = ClusterGenerator.init()
     
-    init(mapView: TMapView) {
-        self.tMapView = mapView
+    init(mapView: NMFMapView) {
+        self.mapView = mapView
         prepareClusterInfo()
         prepareClusterMarker()
     }
-    
+        
     func prepareClusterInfo() {
         for assetFile in headers {
             if let asset = NSDataAsset(name: assetFile, bundle: Bundle.main) {
@@ -59,17 +62,19 @@ class ClusterManager {
     }
     
     func prepareMarkers(clusters: [CodableCluster.Cluster]?, markerHeader: String) {
-        if let clusterList = clusters {
-            for cluster in clusterList {
-                let marker = TMapMarkerItem.init()
-                if (cluster.baseImage == nil) {
-                    cluster.baseImage = clusterGenerator.generateBaseImage(area: cluster.name!)
-                }
-                marker.setTMapPoint(TMapPoint.init(lon: cluster.lng!, lat: cluster.lat!))
-                marker.setID("\(markerHeader)_\(cluster.id!)")
-                marker.setIcon(clusterGenerator.generateClusterImage(value: String(cluster.sum), baseImage: cluster.baseImage!))
-                cluster.marker = marker
+        guard let clusters = clusters else { return }
+        
+        for cluster in clusters {
+            if cluster.baseImage == nil {
+                cluster.baseImage = self.clusterGenerator.generateBaseImage(area: cluster.name ?? "")
             }
+            
+            let latLng = NMGLatLng(lat: cluster.lat ?? 0.0, lng: cluster.lng ?? 0.0)
+            let marker = Marker(position: latLng)
+            
+            let clusterImage = self.clusterGenerator.generateClusterImage(value: String(cluster.sum), baseImage: cluster.baseImage!)
+            marker.iconImage = NMFOverlayImage(image: clusterImage!)
+            cluster.marker = marker
         }
     }
     
@@ -102,175 +107,144 @@ class ClusterManager {
                 }
             }
         }
+        
         self.clusterFilter = filter.copy()
         isNeedChangeText = true
     }
     
-    func setClusterText() {
+    // MARK: 클러스터에 충전소 갯수 세팅
+    func setCountOfStationInCluster() {
         for clusters in self.clusters {
             if let clusterXs = clusters {
                 for cluster in clusterXs {
-                    cluster.marker.setIcon(clusterGenerator.generateClusterImage(value: String(cluster.sum), baseImage: cluster.baseImage!))
+                    let clusterImage = clusterGenerator.generateClusterImage(value: String(cluster.sum), baseImage: cluster.baseImage!)
+                    cluster.marker.iconImage = NMFOverlayImage(image: clusterImage!)
                 }
             }
         }
     }
-    
-    func clustering(filter: ChargerFilter, loadedCharger: Bool) {
 
-        DispatchQueue.global(qos: .background).async {
+    // MARK: 클러스터링 생성 로직
+    func clustering(filter: ChargerFilter, loadedCharger: Bool) {
+        guard let zoomLevelDouble = self.mapView?.zoomLevel as? Double else { return }
+        let zoomLevel = Int(zoomLevelDouble)
+        let stations = ChargerManager.sharedInstance.getChargerStationInfoList()
+        
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self = self else { return }
+
+            var clusterLevel = ClusterManager.CLUSTER_LEVEL_0
             
-            let stationList = ChargerManager.sharedInstance.getChargerStationInfoList()
-            
-            if !filter.isSame(filter: self.clusterFilter) {
-                if(stationList.count < 1) {
-                    return
-                }
-                self.calClustering(filter: filter)
+            // zoom level에 따른 클러스터링 레벨 설정
+            if zoomLevel < ClusterManager.LEVEL_3_ZOOM {
+                clusterLevel = ClusterManager.CLUSTER_LEVEL_4
+            } else if zoomLevel < ClusterManager.LEVEL_2_ZOOM {
+                clusterLevel = ClusterManager.CLUSTER_LEVEL_3
+            } else if zoomLevel < ClusterManager.LEVEL_1_ZOOM {
+                clusterLevel = ClusterManager.CLUSTER_LEVEL_2
             }
+            
             DispatchQueue.main.async {
-                var clusterLv = ClusterManager.CLUSTER_LEVEL_0
-                if self.isNeedChangeText {
-                    self.setClusterText()
-                    self.isNeedChangeText = false
-                }
-                
-                if self.isClustering {
-                    if let zoomLev = self.tMapView?.getZoomLevel() {
-                        if zoomLev < ClusterManager.LEVEL_3_ZOOM {
-                            clusterLv = ClusterManager.CLUSTER_LEVEL_4
-                        } else if zoomLev < ClusterManager.LEVEL_2_ZOOM {
-                            clusterLv = ClusterManager.CLUSTER_LEVEL_3
-                        } else if zoomLev < ClusterManager.LEVEL_1_ZOOM {
-                            clusterLv = ClusterManager.CLUSTER_LEVEL_2
-                        } else if zoomLev < 14 {
-                            clusterLv = ClusterManager.CLUSTER_LEVEL_1
-                        }
-                    }
-                }
-                
-                // 클러스터 레벨 변경시 마커를 지우는 루틴
-                if (self.currentClusterLv != clusterLv && self.currentClusterLv != -1) {
+                if (self.currentClusterLv != clusterLevel) {
                     if self.currentClusterLv > ClusterManager.CLUSTER_LEVEL_0 {
-                        if let clusters = self.clusters[self.currentClusterLv] {
-                            for cluster in clusters {
-                                if self.tMapView!.getMarketItem(fromID: cluster.marker.getID()) != nil {
-                                    self.tMapView!.getMarketItem(fromID: cluster.marker.getID()).setVisible(false)
-                                }
-                            }
-                        }
+                        self.removeAllCluster()
                     } else if self.currentClusterLv == ClusterManager.CLUSTER_LEVEL_0 {
-                        for charger in stationList {
-                            if self.tMapView!.getMarketItem(fromID: charger.mChargerId) != nil {
-                                self.tMapView!.getMarketItem(fromID: charger.mChargerId).setVisible(false)
-                            }
-                        }
+                        self.removeAllMarker()
                     }
                 }
-                
-                // 클러스터 변경시 선택된 마커로 그려주는 루틴: 충전소 수가 0으로 변화할 경우 마커를 지우기 위해 필요
-                if clusterLv == ClusterManager.CLUSTER_LEVEL_0 {
-                    var index = 0
-                    let markerThreshold = self.getMarkerThreshold(filter: filter)
-                    for charger in stationList {
-                        if (index % markerThreshold == 0) {
-                            if charger.isAroundPath && charger.check(filter: filter) {
-                                if self.isContainMap(point: charger.marker.getTMapPoint()) {
-                                    if self.tMapView!.getMarketItem(fromID: charger.mChargerId) == nil {
-                                        self.tMapView!.addTMapMarkerItemID(charger.mChargerId, marker: charger.marker, animated: true)
-                                    } else {
-                                        self.tMapView!.getMarketItem(fromID: charger.mChargerId).setVisible(true)
-                                    }
-                                }
-                            } else {
-                                if self.tMapView!.getMarketItem(fromID: charger.mChargerId) != nil {
-                                    self.tMapView!.getMarketItem(fromID: charger.mChargerId).setVisible(false)
-                                }
-                            }
-                        } else {
-                            if self.tMapView!.getMarketItem(fromID: charger.mChargerId) != nil {
-                                self.tMapView!.getMarketItem(fromID: charger.mChargerId).setVisible(false)
-                            }
+                self.currentClusterLv = clusterLevel
+                    
+                // 클러스터링 안할때
+                if clusterLevel == ClusterManager.CLUSTER_LEVEL_0 {
+                    
+                    var visibleCharger = [ChargerStationInfo]()
+                    for station in stations {
+                        if station.isAroundPath && station.check(filter: filter) && self.isContainMap(coord: station.mapMarker.position) {
+                            visibleCharger.append(station)
                         }
-                        index += 1
+                    }
+                    
+                    for charger in visibleCharger {
+                        charger.mapMarker.mapView = self.mapView
                     }
                 } else {
-                    if let clusters = self.clusters[clusterLv] {
-                        for cluster in clusters{
-                            if self.isContainMap(point: cluster.marker.getTMapPoint()) {
+                    // 클러스터링 할때
+                    if (stations.count > 0) {
+                        self.calClustering(filter: filter)
+                        self.setCountOfStationInCluster()
+                    }
+                    
+                    if let clusters = self.clusters[clusterLevel] {
+                        for cluster in clusters {
+                            if self.isContainMap(coord: cluster.marker.position) {
                                 if cluster.sum > 0 {
-                                    if self.tMapView!.getMarketItem(fromID: cluster.marker.getID()) == nil {
-                                        self.tMapView!.addTMapMarkerItemID(cluster.marker.getID(), marker: cluster.marker, animated: true)
-                                    } else {
-                                        self.tMapView!.getMarketItem(fromID: cluster.marker.getID()).setVisible(true)
-                                    }
-                                } else {
-                                    if self.tMapView!.getMarketItem(fromID: cluster.marker.getID()) != nil {
-                                        self.tMapView!.getMarketItem(fromID: cluster.marker.getID()).setVisible(false)
-                                    }
+                                    cluster.marker.mapView = self.mapView
                                 }
+                            } else {
+                                cluster.marker.mapView = nil
                             }
                         }
                     }
                 }
-                
-                self.currentClusterLv = clusterLv
             }
         }
     }
     
+    // MARK: 마커 Threshold 로직
     // 지도 축소 시 마커를 모두 그리면 메모리 이슈로 앱이 종료됨
     // 한 화면에 일정 갯수 이상의 마커가 있고 줌 레벨이 설정값 이하인 경우,
     // 마커를 모두 그리지 않고 threshold 갯수만큼 건너띄면서 그림
     func getMarkerThreshold(filter: ChargerFilter) -> Int {
         var markerThreshold = 1
-        if !isRouteMode {
-            var markerCount = 0
-            for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
-                if charger.check(filter: filter) {
-                    if self.isContainMap(point: charger.marker.getTMapPoint()) {
-                        markerCount += 1
-                    }
-                }
-            }
-            if (markerCount > 1000) {
-                if let zoomLev = self.tMapView?.getZoomLevel() {
-                    if (zoomLev < 13) {
-                        markerThreshold = (markerCount >> 9)
-                    }
+        guard !isRouteMode else { return markerThreshold }
+        
+        var markerCount = 0
+        for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
+            if charger.check(filter: filter) {
+                if self.isContainMap(coord: charger.mapMarker.position) {
+                    markerCount += 1
                 }
             }
         }
+        
+        if markerCount > 1000 {
+            guard let zoomLevelDouble = self.mapView?.zoomLevel else { return markerThreshold }
+            let zoomLevel = Int(zoomLevelDouble)
+            
+            if zoomLevel < 13 {
+                markerThreshold = (markerCount >> 9)
+            }
+        }
+        
         return markerThreshold
     }
-    
-    func isContainMap(point: TMapPoint) -> Bool {
-        var isContain = false;
-        if (tMapView!.getRightBottomPoint().getLatitude() <= point.getLatitude()
-            && point.getLatitude() <= tMapView!.getLeftTopPoint().getLatitude()
-            && point.getLongitude() <= tMapView!.getRightBottomPoint().getLongitude()
-            && tMapView!.getLeftTopPoint().getLongitude() <= point.getLongitude()) {
-            isContain = true;
-        }
-        return isContain
-    }
-    
-    func removeChargerForClustering(zoomLevel: Int) {
-        if zoomLevel < 13 {
-            for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
-                if self.tMapView!.getMarketItem(fromID: charger.mChargerId) != nil {
-                    self.tMapView!.getMarketItem(fromID: charger.mChargerId).setVisible(false)
-                }
-            }
-        }
-    }
-    
+   
     func removeClusterFromSettings() {
+        guard let _ = self.clusters[self.currentClusterLv] else {
+            removeAllMarker()
+            return
+        }
+        removeAllCluster()
+    }
+    
+    private func isContainMap(coord: NMGLatLng) -> Bool {
+        guard let mapView = mapView else {
+            return false
+        }
+        
+        return mapView.contentBounds.hasPoint(coord)
+    }
+    
+    private func removeAllMarker() {
+        for station in ChargerManager.sharedInstance.getChargerStationInfoList() {
+            station.mapMarker.mapView = nil
+        }
+    }
+    
+    private func removeAllCluster() {
         if let clusters = self.clusters[self.currentClusterLv] {
             for cluster in clusters {
-                if (self.tMapView!.getMarketItem(fromID: cluster.marker.getID()) != nil) {
-                    self.tMapView!.getMarketItem(fromID: cluster.marker.getID()).setVisible(false)
-                }
+                cluster.marker.mapView = nil
             }
         }
     }

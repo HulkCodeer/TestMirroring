@@ -50,7 +50,7 @@ class FilterCompanyView: UIView {
         var recommendList = Array<TagValue>()
         var titleIndex = 1
         
-        companyList = FilterManager.sharedInstance.filter.companies
+        companyList = Array(FilterManager.sharedInstance.filter.companyDictionary.values)
         
         let wholeList = companyList.sorted { $0.name!.lowercased() < $1.name!.lowercased() }
 

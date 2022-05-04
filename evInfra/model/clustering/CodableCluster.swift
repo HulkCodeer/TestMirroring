@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import NMapsMap
 
 class CodableCluster: Codable {
     var lists: [Cluster]
@@ -19,7 +20,8 @@ class CodableCluster: Codable {
         var cl1_id: Int?
         var cl2_id: Int?
         var sum: Int = 0
-        var marker: TMapMarkerItem!
+        var marker: NMFMarker!
+//        var marker: TMapMarkerItem!
         var baseImage: UIImage? = nil
         
         enum CodingKeys: String, CodingKey {
@@ -49,8 +51,8 @@ class CodableCluster: Codable {
             self.sum = 0
         }
         
-        func setMarker(marker: TMapMarkerItem) {
-            self.marker = marker
-        }
+//        func setMarker(marker: TMapMarkerItem) {
+//            self.marker = marker
+//        }
     }
 }

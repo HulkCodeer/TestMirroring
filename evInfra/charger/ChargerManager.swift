@@ -8,16 +8,21 @@
 
 import Foundation
 import SwiftyJSON
+import RxCocoa
+
+
+protocol MarkerTouchDelegate: class {
+    func touchHandler(with charger: ChargerStationInfo)
+}
 
 class ChargerManager {
     
     static let sharedInstance = ChargerManager()
     
     private var mDb: DataBaseHelper? = nil
-
     private var mIsReady: Bool = false
-
     private var mChargerStationInfoList = [ChargerStationInfo]()
+    weak var delegate: MarkerTouchDelegate?
     
     public init() {
         if Const.EV_PAY_SERVER.contains("https") == false {
@@ -159,15 +164,14 @@ class ChargerManager {
             Log.d(tag: Const.TAG, msg: "start station info list insert or update")
             
             var stationList = [StationInfoDto]()
-            
             for station in list.arrayValue{
                 let stationInfo = StationInfoDto()
                 stationInfo.setStationInfo(json: station)
                 stationList.append(stationInfo)
             }
             
-            try! mDb?.insertOrUpdateStationInfoList(list: stationList)
-            try! mDb?.insertOrUpdateInfoLastUpdate(info_type: ChargerConst.INFO_TYPE_STATION,lastUpdate: last.stringValue)
+            try! self.mDb?.insertOrUpdateStationInfoList(list: stationList)
+            try! self.mDb?.insertOrUpdateInfoLastUpdate(info_type: ChargerConst.INFO_TYPE_STATION,lastUpdate: last.stringValue)
             Log.d(tag: Const.TAG, msg: "end station info list insert or update")
         }
     }
@@ -186,7 +190,11 @@ class ChargerManager {
 
     private func createAllMarker() {
         for chargerStationInfo in self.mChargerStationInfoList {
-            chargerStationInfo.createMarker()
+            chargerStationInfo.createMapMarker()
+            chargerStationInfo.mapMarker.touchHandler = { [weak self] overlay -> Bool in
+                self?.delegate?.touchHandler(with: chargerStationInfo)
+                return true
+            }
         }
         Log.d(tag: Const.TAG, msg: "marker create")
     }
@@ -200,9 +208,21 @@ class ChargerManager {
             mChargerStationInfoList.append(ChargerStationInfo(stationInfoDto))
         }
     }
-
+    
+    public func setStationList(with filter: ChargerFilter) {
+        self.mChargerStationInfoList = self.mChargerStationInfoList.filter({
+            $0.check(filter: filter)
+        })
+    }
+    
     public func getChargerStationInfoList() -> [ChargerStationInfo] {
         return self.mChargerStationInfoList
+    }
+    
+    public func getFilteredStationList(filter: ChargerFilter) -> [ChargerStationInfo] {
+        return mChargerStationInfoList.filter {
+            $0.check(filter: filter)
+        }
     }
     
     func binarySearch(_ inputArr:Array<ChargerStationInfo>, _ searchItem: ChargerStationInfo) -> Int? {
@@ -266,22 +286,29 @@ class ChargerManager {
             }
         }
     }
-
-    public func getStationInfoFromServer(listener : ChargerManagerListener?) {
+ 
+    // naver map
+    public func getStations(completion: @escaping () -> Void) {
         var updateDate = ""
         if let dto = try! mDb?.getStationInfoLastUpdate() {
             updateDate = (dto.mInfoLastUpdateDate)!
         }
-
-        Server.getStationInfo(updateDate: updateDate) { (isSuccess, value) in
+        
+        Server.getStationInfo(updateDate: updateDate) { [weak self] (isSuccess, value) in
             if isSuccess {
-                /*
-                 var stationInfoTask = StationInfoTask(response, listener)
-                 stationInfoTask.execute()
-                 */
-                self.updateStationInfoListFromServer(json: JSON(value!))
+                guard let self = self else { return }
+                guard let value = value else { return }
+
+                // 4초
+                DispatchQueue.global(qos: .userInitiated).async {
+                    self.updateStationInfoListFromServer(json: JSON(value))
+                }
+                // 12초
+//                self.updateStationInfoListFromServer(json: JSON(value))
                 self.setChargerStationInfoList()
-                self.getStationStatus(listener: listener)
+                self.getStationStatus {
+                    completion()
+                }
             }
         }
     }
@@ -319,6 +346,42 @@ class ChargerManager {
                     if let chargerManagerListener = listener {
                         chargerManagerListener.onComplete()
                     }
+                }
+            }
+        }
+    }
+    
+    // naver
+    private func getStationStatus(completion: @escaping () -> Void) {
+        Server.getStationStatus { [weak self] (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                let code = json["code"]
+                let list = json["list"]
+
+                if (code == 1000 && list.count > 0) {
+                
+                    for status in list.arrayValue {
+                        let chargerId = status["id"].stringValue
+                        let cst = status["st"].intValue
+                        var power = status["p"].intValue
+                        let type_id = status["tp"].intValue
+                        let limit = status["lm"].stringValue
+                        
+                        if let chargerStationInfo = self?.getChargerStationInfoById(charger_id: chargerId) {
+                            if type_id != Const.CTYPE_SLOW && type_id != Const.CTYPE_DESTINATION && power < 50 {
+                                power = 50
+                            }
+                            chargerStationInfo.mTotalStatus = cst
+                            chargerStationInfo.mTotalType = type_id
+                            chargerStationInfo.mPower = power
+                            chargerStationInfo.mLimit = limit
+                        }
+                    }
+
+                    self?.createAllMarker()
+                    self?.mIsReady = true
+                    completion()
                 }
             }
         }
@@ -414,9 +477,8 @@ class ChargerManager {
     
     // sk open api
     public func findAllPOI(keyword : String, callback : FindAllPOIListenerCallback) {
-        if let currentPosition = MainViewController.currentLocation{
-            findAllPOI(centerLat: currentPosition.getLatitude(), centerLon: currentPosition.getLongitude(), keyword: keyword, callback: callback)
-        }
+        let currentPosition = CLLocationManager().getCurrentCoordinate()
+        findAllPOI(centerLat: currentPosition.latitude, centerLon: currentPosition.longitude, keyword: keyword, callback: callback)
     }
 
     public func findAllPOI(centerLat : Double, centerLon : Double, keyword : String, callback : FindAllPOIListenerCallback) {

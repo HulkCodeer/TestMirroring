@@ -307,44 +307,44 @@ class SummaryView: UIView {
         self.filterRoof.setTitle(area, for: .normal)
     }
     
-    func setChargerType(charger:ChargerStationInfo) {
+    func setChargerType(charger: ChargerStationInfo) {
         // "DC차데모"
-        if (charger.mTotalType! & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
+        if (charger.mTotalType ?? Const.CTYPE_DCDEMO & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
             self.typeDcDemo.isHidden = false
         } else {
             self.typeDcDemo.isHidden = true
         }
         
         // "DC콤보"
-        if (charger.mTotalType! & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
+        if (charger.mTotalType ?? Const.CTYPE_DCCOMBO & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
             self.typeDcCombo.isHidden = false
         } else {
             self.typeDcCombo.isHidden = true
         }
         
         // "AC3상"
-        if (charger.mTotalType! & Const.CTYPE_AC) == Const.CTYPE_AC {
+        if (charger.mTotalType ?? Const.CTYPE_AC & Const.CTYPE_AC) == Const.CTYPE_AC {
             self.typeACSam.isHidden = false
         } else {
             self.typeACSam.isHidden = true
         }
 
         // "완속"
-        if (charger.mTotalType! & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
+        if (charger.mTotalType ?? Const.CTYPE_SLOW & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
             self.typeSlow.isHidden = false
         } else {
             self.typeSlow.isHidden = true
         }
         
         // "슈퍼차저"
-        if (charger.mTotalType! & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
+        if (charger.mTotalType ?? Const.CTYPE_SUPER_CHARGER & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
             self.typeSuper.isHidden = false
         } else {
             self.typeSuper.isHidden = true
         }
         
         // "데스티네이션"
-        if (charger.mTotalType! & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
+        if (charger.mTotalType ?? Const.CTYPE_DESTINATION & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
             self.typeDestination.isHidden = false
         } else {
             self.typeDestination.isHidden = true
@@ -431,21 +431,40 @@ class SummaryView: UIView {
     }
     
     func setDistance(charger: ChargerStationInfo) {
-        if self.distance < 0 { // detail에서 여러번 불리는것 방지
-            let locationManager = CLLocationManager()
-            let coordinate = locationManager.location?.coordinate
-            
-            let currentLat = coordinate?.latitude ?? 0.0
-            let currentLon = coordinate?.longitude ?? 0.0
-            
-            if let currentLocation = MainViewController.currentLocation {
-                let point = TMapPoint(lon: currentLon, lat: currentLat)
-                getDistance(curPos: point ?? currentLocation, desPos: charger.marker.getTMapPoint())
-            } else {
+        guard self.distance < 0 else {
+            // detail에서 여러번 불리는것 방지
+            self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
+            return
+        }
+        
+        fetchDistance(destination: (charger.mStationInfoDto?.mLatitude ?? 0.0, charger.mStationInfoDto?.mLongitude ?? 0.0))
+    }
+    
+    internal func fetchDistance(destination: (Double, Double)) {
+        let lat = destination.0
+        let lng = destination.1
+        
+        guard lat != .zero || lng != .zero else {
+            DispatchQueue.main.async {
                 self.navigationBtn.setTitle("계산중", for: .normal)
             }
-        } else {
-            self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
+            return
+        }
+        
+        DispatchQueue.global(qos: .background).async {
+            let distance = CLLocationCoordinate2D()
+                .distance(to: CLLocationCoordinate2D(latitude: lat, longitude: lng))
+            self.distance = round(distance / 1000 * 10) / 10
+            
+            if distance > .zero {
+                DispatchQueue.main.async {
+                    self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.navigationBtn.setTitle("계산중", for: .normal)
+                }
+            }
         }
     }
     

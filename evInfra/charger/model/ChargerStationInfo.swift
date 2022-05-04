@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+import NMapsMap
 
 class ChargerStationInfo {
     
@@ -28,8 +29,9 @@ class ChargerStationInfo {
     var mPowerSt: String?
     
     var mLimit: String?
-
-    var marker: TMapMarkerItem!
+    
+    var mapMarker: Marker!
+    
     var cidInfo: CidInfo!
     
     var mFavorite = false
@@ -49,7 +51,7 @@ class ChargerStationInfo {
     var slowPrice: String = ""
     
     var fastPrice: String = ""
-    
+
     init(_ charger_id : String) {
         self.mChargerId = charger_id
         initChargerStationInfo()
@@ -78,27 +80,41 @@ class ChargerStationInfo {
         self.sortCharger()
     }
     
-    func createMarker() {
+    func changeStatus(status: Int, markerChange: Bool) {
+        self.mTotalStatus = status
+        mTotalStatusName = cidInfo.cstToString(cst: self.mTotalStatus!)
+        if markerChange {
+            let latLng = NMGLatLng(lat: getChargerPoint().0, lng: getChargerPoint().1)
+            let iconImage = NMFOverlayImage(image: getMarkerIcon())
+            
+            let marker = Marker(position: latLng, iconImage: iconImage)
+            mapMarker = marker
+        }
+    }
+    
+    func createMapMarker() {
         if self.mTotalStatus == nil {
             mTotalStatusName = cidInfo.cstToString(cst: Const.CHARGER_STATE_UNCONNECTED)
         } else {
             mTotalStatusName = cidInfo.cstToString(cst: self.mTotalStatus!)
         }
-        marker = TMapMarkerItem.init()
-        marker.setTMapPoint(self.getTMapPoint())
-        marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+        
+        let latLng = NMGLatLng(lat: getChargerPoint().0, lng: getChargerPoint().1)
+        let iconImage = NMFOverlayImage(image: getMarkerIcon())
+        
+        let marker = Marker(position: latLng, iconImage: iconImage)
+        mapMarker = marker
     }
     
-    func changeStatus(status: Int, markerChange: Bool) {
-        self.mTotalStatus = status
-        mTotalStatusName = cidInfo.cstToString(cst: self.mTotalStatus!)
-        if markerChange {
-            marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
+    func getChargerPoint() -> (Double, Double) {
+        guard let mStationInfoDto = mStationInfoDto else {
+            return (0,0)
         }
+        return (mStationInfoDto.mLatitude ?? .zero, mStationInfoDto.mLongitude ?? .zero)
     }
     
     func getTMapPoint() -> TMapPoint {
-        return TMapPoint(lon: (mStationInfoDto?.mLongitude)!, lat: (mStationInfoDto?.mLatitude)!)
+        return TMapPoint(lon: mStationInfoDto?.mLongitude ?? .zero, lat: mStationInfoDto?.mLatitude ?? .zero)
     }
     
     func getTMapPoint(lon : Double, lat : Double) -> TMapPoint {
