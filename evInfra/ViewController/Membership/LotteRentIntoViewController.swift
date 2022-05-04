@@ -21,7 +21,14 @@ class LotteRentInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
-        checkLotteRentInfo()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if MemberManager().isLogin() {
+            checkLotteRentInfo()
+        } else {
+            MemberManager().showLoginAlert(vc: self)
+        }
     }
     
     func checkLotteRentInfo() {

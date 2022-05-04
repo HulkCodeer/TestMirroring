@@ -30,7 +30,14 @@ class PreUsePointViewController: UIViewController {
         prepareActionBar()
         prepareView()
         prepareTextField()
-        getUsePoint()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if MemberManager().isLogin() {
+            getUsePoint()
+        } else {
+            MemberManager().showLoginAlert(vc: self)
+        }
     }
     
     override func viewDidLayoutSubviews() {

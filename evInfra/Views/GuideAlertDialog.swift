@@ -15,6 +15,8 @@ class GuideAlertDialog: UIView, WKUIDelegate, WKNavigationDelegate {
     @IBOutlet var dismissBtn: UIButton!
     @IBOutlet var guideView: UIView!
     
+    var closeDelegate: ((Bool) -> Void)? = nil
+    
     var webView: WKWebView!
     var guideUrl: String = ""
     var newVersion: Int = 0
@@ -58,6 +60,7 @@ class GuideAlertDialog: UIView, WKUIDelegate, WKNavigationDelegate {
                         break;
 
                     default:
+                        self.closeDelegate?(true)
                         self.removeFromSuperview()
                         break;
                 }
@@ -72,12 +75,14 @@ class GuideAlertDialog: UIView, WKUIDelegate, WKNavigationDelegate {
     }
     
     @IBAction func onClickClose(_ sender: Any) {
+        closeDelegate?(true)
         self.removeFromSuperview()
     }
     
     @IBAction func onClickDismiss(_ sender: Any) {
         UserDefault().saveInt(key: UserDefault.Key.GUIDE_VERSION, value: newVersion)
         Snackbar().show(message: "업데이트 안내 다시보지 않기가 설정되었습니다. ")
+        closeDelegate?(true)
         self.removeFromSuperview()
     }
     

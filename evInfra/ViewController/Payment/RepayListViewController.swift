@@ -48,14 +48,12 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
         prepareActionBar()
         prepareView()
         prepareTableView()
-        requestFailedPayList()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         if MemberManager().isLogin() {
-            if let resultJson = payRegisterResult {
+            if let resultJson = payRegisterResult { // 카드 변경 완료
                 let payCode = resultJson["pay_code"].intValue
-                // 카드 변경 완료
                 if payCode == PaymentCard.PAY_REGISTER_SUCCESS {
                     lbCardInfo.text = "\(resultJson["card_co"].stringValue) \(resultJson["card_nm"].stringValue)"
                     lbCardStatus.textColor = UIColor(named: "content-positive")
@@ -77,6 +75,8 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                         self.requestRepay(byPoint: false)
                     }
                 }
+            } else { // login done
+                requestFailedPayList()
             }
             payRegisterResult = nil
         } else {
