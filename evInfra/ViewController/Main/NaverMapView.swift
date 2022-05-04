@@ -34,6 +34,9 @@ class NaverMapView: NMFNaverMapView {
     private func configure() {
         self.showCompass = false
         self.showZoomControls = true
+        mapView.positionMode = .normal
+        mapView.minZoomLevel = 5
+        mapView.maxZoomLevel = 18
     }
     
     func moveToCurrentPostiion() {
@@ -41,6 +44,10 @@ class NaverMapView: NMFNaverMapView {
         let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude), zoomTo: 14)
         cameraUpdate.animation = .fly
         mapView.moveCamera(cameraUpdate)
+        
+        let locationOverlay = mapView.locationOverlay
+        locationOverlay.location = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
+        locationOverlay.hidden = false
     }
     
     func moveToCamera(with poistion: NMGLatLng, zoomLevel: Double) {
