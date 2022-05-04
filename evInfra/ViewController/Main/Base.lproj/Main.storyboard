@@ -329,10 +329,10 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5EV-dN-PRm">
-                                <rect key="frame" x="0.0" y="483" width="375" height="184"/>
+                                <rect key="frame" x="0.0" y="449" width="375" height="218"/>
                                 <color key="backgroundColor" name="nt-white"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="184" id="2IN-77-sXP"/>
+                                    <constraint firstAttribute="height" constant="218" id="2IN-77-sXP"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z5-Ng-0pM" userLabel="My Location Button">
@@ -373,7 +373,6 @@
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="0Z5-Ng-0pM" secondAttribute="trailing" constant="8" id="PJg-08-g97"/>
                             <constraint firstItem="5EV-dN-PRm" firstAttribute="leading" secondItem="aV6-BG-3jX" secondAttribute="leading" id="QFx-7u-ZLH"/>
                             <constraint firstAttribute="bottom" secondItem="5EV-dN-PRm" secondAttribute="bottom" id="Rh4-UC-nF6"/>
-
                             <constraint firstItem="MjX-0u-Kq9" firstAttribute="top" secondItem="heY-bS-hgo" secondAttribute="top" constant="-84" id="Ruc-sK-Uw3"/>
                             <constraint firstItem="hUZ-Py-Zxk" firstAttribute="top" secondItem="XSe-Va-su3" secondAttribute="bottom" constant="16" id="STo-Xw-tUw"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="hUZ-Py-Zxk" secondAttribute="trailing" constant="16" id="V8z-m9-QOU"/>
@@ -749,11 +748,7 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-<<<<<<< evInfra/ViewController/Main/Base.lproj/Main.storyboard
                         <viewLayoutGuide key="safeArea" id="UIO-SL-V5h"/>
-=======
-                        <viewLayoutGuide key="safeArea" id="M4f-QK-BUd"/>
->>>>>>> evInfra/ViewController/Main/Base.lproj/Main.storyboard
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="XxX-Uk-lEE" firstAttribute="top" secondItem="9Zx-sG-8p7" secondAttribute="bottom" id="6SV-Kj-uou"/>
