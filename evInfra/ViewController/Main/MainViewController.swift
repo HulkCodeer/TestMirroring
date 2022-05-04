@@ -95,7 +95,6 @@ class MainViewController: UIViewController {
         configureLocationManager()
         configureLayer()
         showGuide()
-        requestLocationAuth()
         
         prepareRouteField()
         preparePOIResultView()
@@ -118,7 +117,7 @@ class MainViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         chargingStatus()
         menuBadgeAdd()
-//        updateClustering()
+        updateClustering()
         if self.sharedChargerId != nil {
             self.selectChargerFromShared()
         }
@@ -160,15 +159,6 @@ class MainViewController: UIViewController {
         view.insertSubview(naverMapView, at: 0)
         
         ChargerManager.sharedInstance.delegate = self
-    }
-    
-    private func moveToCurrentPosition() {
-        let coordinate = locationManager.location?.coordinate
-        mapView.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinate!.latitude, lng: coordinate!.longitude), zoomTo: 14))
-        
-        let locationOverlay = mapView.locationOverlay
-        locationOverlay.location = NMGLatLng(lat: coordinate!.latitude, lng: coordinate!.longitude)
-        locationOverlay.hidden = false
     }
     
     private func configureLayer() {
@@ -325,7 +315,7 @@ extension MainViewController: CLLocationManagerDelegate {
         case .denied:
             break
         case .authorizedAlways, .authorizedWhenInUse, .authorized:
-            self.moveToCurrentPosition()
+            self.naverMapView.moveToCurrentPostiion()
             break
         }
     }
@@ -350,34 +340,6 @@ extension MainViewController: DelegateFilterContainerView {
         filterBarView.updateTitleByType(type: type)
         // refresh marker
         drawMapMarker()
-    }
-}
-
-extension MainViewController: CLLocationManagerDelegate {
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        var status: CLAuthorizationStatus?
-        if #available(iOS 14.0, *) {
-            status = manager.authorizationStatus
-        } else {
-            // Fallback on earlier versions
-        }
-        guard status != nil else {
-            return
-        }
-        switch status {
-        case .notDetermined, .restricted:
-            break
-        case .denied:
-            break
-        case .authorizedAlways,  .authorizedWhenInUse:
-            let coordinate = manager.location?.coordinate
-            MainViewController.currentLocation = TMapPoint(coordinate: coordinate!)
-            self.tMapView?.setCenter(TMapPoint(coordinate: coordinate!))
-            self.tMapView?.setTrackingMode(true)
-            break
-        default:
-            break
-        }
     }
 }
 
@@ -591,10 +553,10 @@ extension MainViewController: TextFieldDelegate {
             charger.isAroundPath = true
         }
         
+        updateClustering()
+
         self.clusterManager?.isRouteMode = false
         summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clusterManager!.isRouteMode)
-        
-        drawMapMarker()
     }
     
     func findPath(passList: [TMapPoint]) {
@@ -702,7 +664,7 @@ extension MainViewController: TextFieldDelegate {
             guard let point = points[i] as? NMGLatLng else { return }
             
             for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
-                if !charger.isAroundPath {
+                if !charger.isAroundPath && charger.check(filter: FilterManager.sharedInstance.filter) {
                     let chargerPoint = charger.getChargerPoint()
                     let latLng = NMGLatLng(lat: chargerPoint.0, lng: chargerPoint.1)
                     
@@ -1242,7 +1204,11 @@ extension MainViewController {
     
     func prepareClustering() {
         clusterManager = ClusterManager(mapView: mapView)
-        clusterManager?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
+    }
+    
+    func updateClustering() {
+        clusterManager?.removeChargerForClustering(zoomLevel: Int(naverMapView.mapView.zoomLevel))
+        drawMapMarker()
     }
 }
 
