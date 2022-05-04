@@ -14,7 +14,7 @@ class EIAdDialog: UIView {
     
     private var adType = EIAdManager.AD_TYPE_COMMON
     
-    private var adInfo = EIAdInfo()
+    private var adInfo = Ad()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,7 +29,7 @@ class EIAdDialog: UIView {
     private func getAdInfo() {
         EIAdManager.sharedInstance.getPageAd() { (info) in
             self.adInfo = info
-            if self.adInfo.adId != nil {
+            if self.adInfo.ad_id != nil {
                 self.commonInit()
             } else {
                 self.removeFromSuperview()
@@ -38,7 +38,7 @@ class EIAdDialog: UIView {
     }
     
     private func commonInit() {
-        guard let imgUrl = self.adInfo.adImage else {
+        guard let imgUrl = self.adInfo.ad_image else {
             self.removeFromSuperview()
             return
         }
@@ -53,12 +53,12 @@ class EIAdDialog: UIView {
     }
     
     @objc func onClickAdImage(sender: UITapGestureRecognizer) {
-        if let urlString = self.adInfo.adUrl {
+        if let urlString = self.adInfo.ad_url {
             if let url = URL(string: urlString) {
                 UIApplication.shared.open(url, options: [:])
                 
                 // 광고 click event 전송
-                EIAdManager.sharedInstance.increase(ad: self.adInfo, action: EIAdManager.ACTION_CLICK)
+                EIAdManager.sharedInstance.increase(adId: self.adInfo.ad_id!, action: EIAdManager.ACTION_CLICK)
             }
         } else {
             self.removeFromSuperview()

@@ -19,6 +19,7 @@ class ConfirmPopupViewController: UIViewController {
     private var titleText: String?
     private var messageText: String?
     var confirmDelegate: ((Bool) -> Void)? = nil
+    var cancelDelegate: ((Bool) -> Void)? = nil
     
     private lazy var backgroundView: UIView = {
        let view = UIView()
@@ -44,18 +45,22 @@ class ConfirmPopupViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
        let label = UILabel()
         label.text = titleText
+        label.numberOfLines = 0
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 18, weight: .bold)
         label.textColor = UIColor(named: "nt-9")
+        label.translatesAutoresizingMaskIntoConstraints = true
         return label
     }()
     
     private lazy var descriptionLabel: UILabel = {
        let label = UILabel()
         label.text = messageText
+        label.numberOfLines = 0
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14)
         label.textColor = UIColor(named: "nt-9")
+        label.translatesAutoresizingMaskIntoConstraints = true
         return label
     }()
     
@@ -96,20 +101,11 @@ class ConfirmPopupViewController: UIViewController {
             $0.left.equalToSuperview().offset(24)
             $0.right.equalToSuperview().offset(-24)
             $0.centerY.equalToSuperview()
-            $0.height.equalTo(144)
         }
         
         dialogView.snp.makeConstraints {
             $0.top.left.equalToSuperview().offset(16)
             $0.bottom.right.equalToSuperview().offset(-16)
-        }
-        
-        titleLabel.snp.makeConstraints {
-            $0.height.equalTo(24)
-        }
-        
-        descriptionLabel.snp.makeConstraints {
-            $0.height.equalTo(16)
         }
         
         buttonStackView.snp.makeConstraints {
@@ -143,6 +139,7 @@ class ConfirmPopupViewController: UIViewController {
     
     @objc
     func cancelPopup() {
+        cancelDelegate?(true)
         dismissPopup()
     }
     
@@ -154,6 +151,10 @@ class ConfirmPopupViewController: UIViewController {
     
     func confirmCompletion(callback: @escaping (Bool) -> Void) {
         self.confirmDelegate = callback
+    }
+    
+    func cancelCompletion(callback: @escaping (Bool) -> Void) {
+        self.cancelDelegate = callback
     }
     
     private func dismissPopup() {

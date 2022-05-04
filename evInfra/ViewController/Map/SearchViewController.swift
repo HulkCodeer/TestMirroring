@@ -112,6 +112,7 @@ class SearchViewController: UIViewController {
         searchType = SearchViewController.TABLE_VIEW_TYPE_CHARGER
         
         tableView.chargerTableDelegate = self
+        tableView.isHiddenAlertFavoriteIcon = true
         tableView.keyboardDismissMode = .onDrag
         
         addrTableView.searchTableDelegate = self

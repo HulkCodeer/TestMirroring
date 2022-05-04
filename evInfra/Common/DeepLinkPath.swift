@@ -15,6 +15,7 @@ class DeepLinkPath {
     var linkParameter: [URLQueryItem]?
     var isReady: Bool = false
     
+    // Dynamic link -> Deep Link
     private let URL_PATH_MEMBERSHIP = "/membership_card"
     private let URL_PATH_PAYMENT = "/payment"
     private let URL_PATH_POINT = "/point"
@@ -55,7 +56,6 @@ class DeepLinkPath {
         case URL_PATH_FILTER :
             let filterStoryboard = UIStoryboard(name : "Filter", bundle: nil)
             let chargerFilterVC:ChargerFilterViewController = filterStoryboard.instantiateViewController(withIdentifier: "ChargerFilterViewController") as! ChargerFilterViewController
-//            chargerFilterVC.delegate =
             navigationController.push(viewController: chargerFilterVC)
             break
             
@@ -74,7 +74,7 @@ class DeepLinkPath {
                     termsViewControll.tabIndex = .FAQTop
                 } else if (type == URL_PARAM_WEBVIEW_FAQ_DETAIL){
                     termsViewControll.tabIndex = .FAQDetail
-                    if let page = paramItems.first(where: { $0.name == "type"})?.value {
+                    if let page = paramItems.first(where: { $0.name == "page"})?.value {
                         termsViewControll.subURL = "type=" + page
                     }
                 }

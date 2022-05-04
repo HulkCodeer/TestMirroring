@@ -76,6 +76,7 @@ class MainViewController: UIViewController {
     
     static var currentLocation: TMapPoint? = nil
     private var searchLocation: TMapPoint? = nil
+    private var searchSelectedId: String?
     var sharedChargerId: String? = nil
     
     private var loadedChargers = false
@@ -94,6 +95,7 @@ class MainViewController: UIViewController {
         configureLocationManager()
         configureLayer()
         showGuide()
+        requestLocationAuth()
         
         prepareRouteField()
         preparePOIResultView()
@@ -351,6 +353,34 @@ extension MainViewController: DelegateFilterContainerView {
     }
 }
 
+extension MainViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        var status: CLAuthorizationStatus?
+        if #available(iOS 14.0, *) {
+            status = manager.authorizationStatus
+        } else {
+            // Fallback on earlier versions
+        }
+        guard status != nil else {
+            return
+        }
+        switch status {
+        case .notDetermined, .restricted:
+            break
+        case .denied:
+            break
+        case .authorizedAlways,  .authorizedWhenInUse:
+            let coordinate = manager.location?.coordinate
+            MainViewController.currentLocation = TMapPoint(coordinate: coordinate!)
+            self.tMapView?.setCenter(TMapPoint(coordinate: coordinate!))
+            self.tMapView?.setTrackingMode(true)
+            break
+        default:
+            break
+        }
+    }
+}
+
 extension MainViewController: DelegateFilterBarView {
     func showFilterContainer(type: FilterType){
         // change or remove containerview
@@ -390,7 +420,7 @@ extension MainViewController: DelegateFilterBarView {
             let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
             let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
             favoriteVC.delegate = self
-            self.present(AppSearchBarController(rootViewController: favoriteVC), animated: true, completion: nil)
+            self.present(AppNavigationController(rootViewController: favoriteVC), animated: true, completion: nil)
         } else {
             MemberManager().showLoginAlert(vc:self)
         }
@@ -458,7 +488,6 @@ extension MainViewController: AppToolbarDelegate {
             let searchVC:SearchViewController = mapStoryboard.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
             searchVC.delegate = self
             self.present(AppSearchBarController(rootViewController: searchVC), animated: true, completion: nil)
-            
         case 2: // 경로 찾기 버튼
             if let isRouteMode = arg {
                 showRouteView(isShow: isRouteMode as! Bool)
@@ -866,6 +895,7 @@ extension MainViewController: ChargerSelectDelegate {
             selectCharger = charger
             showCallOut(charger: charger)
         } else {
+            // chargerId : search
             print("Not Found Charger \(ChargerManager.sharedInstance.getChargerStationInfoList().count)")
         }
     }
@@ -1139,9 +1169,61 @@ extension MainViewController {
         }
     }
     
+    func showMarketingPopup() {
+        // TODO :: 첫 부팅 시에만 처리할 동작 있으면
+        // chargermanagerlistener oncomplete에서 묶어서 처리 후 APP_FIRST_BOOT 변경
+        if (UserDefault().readBool(key: UserDefault.Key.APP_FIRST_BOOT) == false) { // 첫부팅 시
+            let popup = ConfirmPopupViewController(titleText: "더 나은 충전 생활 안내를 위해 동의가 필요해요.", messageText: "EV Infra는 사용자님을 위해 도움되는 혜택 정보를 보내기 위해 노력합니다. 무분별한 광고 알림을 보내지 않으니 안심하세요!\n마케팅 수신 동의 변경은 설정 > 마케팅 정보 수신 동의에서 철회 가능합니다. ")
+            popup.addActionToButton(title: "다음에", buttonType: .cancel)
+            popup.addActionToButton(title: "동의하기", buttonType: .confirm)
+            popup.cancelDelegate = {[weak self] isLiked in
+                guard let self = self else { return }
+                self.updateMarketingNotification(noti: false)
+            }
+            popup.confirmDelegate = {[weak self] isLiked in
+                guard let self = self else { return }
+                self.updateMarketingNotification(noti: true)
+            }
+            
+            self.present(popup, animated: false, completion: nil)
+        }
+    }
+    
+    private func updateMarketingNotification(noti: Bool) {
+        Server.updateMarketingNotificationState(state: noti, completion: {(isSuccess, value) in
+            if (isSuccess) {
+                let json = JSON(value)
+                let code = json["code"].stringValue
+                if code.elementsEqual("1000") {
+                    let receive = json["receive"].boolValue
+                    UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: receive)
+                    UserDefault().saveBool(key: UserDefault.Key.APP_FIRST_BOOT, value: true)
+                    let currDate = DateUtils.getFormattedCurrentDate(format: "yyyy년 MM월 dd일")
+                    
+                    var message = ""
+                    if (receive) {
+                        message = "[EV Infra] " + currDate + "마케팅 수신 동의 처리가 완료되었어요! ☺️ 더 좋은 소식 준비할게요!"
+                    } else {
+                        message = "[EV Infra] " + currDate + "마케팅 수신 거부 처리가 완료되었어요."
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        Snackbar().show(message: message)
+                    }
+                }
+            } else {
+                Snackbar().show(message: "서버통신이 원활하지 않습니다")
+            }
+        })
+    }
+    
     private func showGuide() {
         let window = UIApplication.shared.keyWindow!
-        window.addSubview(GuideAlertDialog(frame: window.bounds))
+        let guideView = GuideAlertDialog(frame: window.bounds)
+        guideView.closeDelegate = {[weak self] isLiked in
+            guard let self = self else { return }
+            self.showMarketingPopup()
+        }
+        window.addSubview(guideView)
     }
     
     private func checkFCM() {

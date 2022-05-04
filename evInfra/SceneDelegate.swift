@@ -98,7 +98,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         
         }
-        print("url : \(url.absoluteString)")
+        print("url : \(url.absoluteString)") // dynamiclink -> deeplink
+        // evinfra.page.link -> com.soft-berry.ev-infra
         if url.absoluteString.startsWith(DYNAMIC_LINK_PREFIX) { // filter URL by Prefix
             runLinkDirectly(url: url)
         }

@@ -33,7 +33,7 @@ class ReportChargeViewController: UIViewController {
     //tmap container view
     @IBOutlet weak var mapViewContainer: UIView!
 
-    @IBOutlet weak var addressTextView: UITextView!
+    @IBOutlet var fullAddressLabel: UILabel!
     @IBOutlet var addressDetailTextView: UITextField!
     
     @IBOutlet weak var operationLabel: UILabel!
@@ -98,11 +98,6 @@ class ReportChargeViewController: UIViewController {
     }
     
     func prepareCommonView() {
-        addressTextView.layer.borderWidth = 0.5
-        addressTextView.layer.borderColor = UIColor.white.cgColor
-        addressTextView.layer.cornerRadius = 5
-        addressTextView.delegate = self
-        
         operationTextView.layer.borderWidth = 0.5
         operationTextView.layer.borderColor = UIColor.lightGray.cgColor
         operationTextView.layer.cornerRadius = 5
@@ -130,7 +125,7 @@ class ReportChargeViewController: UIViewController {
     
     func prepareChargerView() {
         // 주소
-        addressTextView.text = info.adr
+        fullAddressLabel.text = info.adr
         
         // 상세 주소
         if let adrDetail = info.adr_dtl {
@@ -183,12 +178,7 @@ class ReportChargeViewController: UIViewController {
         }
         
         self.info.adr = fullAddr as? String
-        self.addressTextView.text = fullAddr as? String
-        
-        let width = self.addressTextView.frame.size.width
-        
-        self.addressTextView.sizeToFit()
-        self.addressTextView.frame.size = CGSize(width: width, height: self.addressTextView.frame.size.height)
+        fullAddressLabel.text = fullAddr as? String
     }
     
     func setVisableView(view:UIView, hidden:Bool) {

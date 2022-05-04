@@ -16,7 +16,7 @@ protocol MediaButtonTappedDelegate {
 
 @IBDesignable
 class KeyboardInputView: UIView {
-
+    
     @IBOutlet var inputBorderView: UIView!
     @IBOutlet var sendButton: UIButton!
     @IBOutlet var textView: UITextView!
@@ -37,11 +37,6 @@ class KeyboardInputView: UIView {
     var isModify: Bool = false
     var selectedRow: Int = 0
     var targetNickName: String = ""
-    var attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "")
-    
-    let fontColor = UIColor(named: "gr-5") ?? UIColor.black
-    var range: NSString = ""
-    let font = UIFont.systemFont(ofSize: 16, weight: .bold)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,8 +46,8 @@ class KeyboardInputView: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-//        setUI()
-//        setKeyboardObserver()
+        setUI()
+        setKeyboardObserver()
     }
     
     private func setUI() {
@@ -67,6 +62,7 @@ class KeyboardInputView: UIView {
         inputBorderView.layer.cornerRadius = 4
         
         // 키보드 입력 뷰
+        textView.font = .systemFont(ofSize: 16, weight: .regular)
         textView.textContainerInset = .zero
         textView.delegate = self
         placeholderTextField.isHidden = false
@@ -101,16 +97,18 @@ class KeyboardInputView: UIView {
     @IBAction func deleteTextButtonTapped(_ sender: Any) {
         textView.text = nil
         sendButton.isEnabled = false
+        self.isRecomment = false
     }
     
     @IBAction func sendButtonTapped(_ sender: Any) {
         guard let text = textView.text else { return }
         
-        if attributedString.length > 0 {
-
+        if isRecomment && !targetNickName.isEmpty {
+            let withoutText = text.deletingPrefix(targetNickName)
+            sendButtonCompletionHandler?(withoutText, selectedRow, isModify, isRecomment)
+        } else {
+            sendButtonCompletionHandler?(text, selectedRow, isModify, isRecomment)
         }
-        
-        sendButtonCompletionHandler?(text, selectedRow, isModify, isRecomment)
         
         textView.text = nil
         textView.resignFirstResponder()
@@ -134,6 +132,7 @@ class KeyboardInputView: UIView {
         selectedImageView.image = nil
         trashButton.isHidden = true
         selectedImageViewHeight.constant = 0
+        textViewDidChange(textView)
     }
 }
 
@@ -142,17 +141,26 @@ extension KeyboardInputView: UITextViewDelegate {
         self.isModify = isModify
         self.isRecomment = isRecomment
         self.selectedRow = selectedRow
+        self.targetNickName = comment.nick_name ?? ""
         textView.becomeFirstResponder()
         placeholderTextField.isHidden = true
         
         if isModify {
-            textView.text = comment.content
+            textView.attributedText = NSMutableAttributedString()
+                            .defaultStyle(with: comment.content ?? "")
             if let files = comment.files,
-                !files.isEmpty {
+               !files.isEmpty {
                 selectedImageView.sd_setImage(with: URL(string: files[0].uploaded_filename ?? ""))
                 trashButton.isHidden = false
                 selectedImageView.isHidden = false
                 selectedImageViewHeight.constant = 80
+            }
+        } else {
+            if isRecomment {
+                textView.attributedText = NSMutableAttributedString()
+                    .tagStyle(with: targetNickName)
+            } else {
+                textView.text = comment.content
             }
         }
     }
@@ -168,13 +176,14 @@ extension KeyboardInputView: UITextViewDelegate {
         } else if textView.text.isEmpty || textView.text == nil {
             sendButton.isEnabled = false
         }
-
+        
         placeholderTextField.isHidden = !textView.text.isEmpty
         inputBorderView.layer.borderWidth = 1
         inputBorderView.borderColor = UIColor(named: "nt-2")
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        guard let text = textView.text else { return }
         var height = self.minHeight
         
         if textView.contentSize.height >= self.maxHeight {
@@ -188,6 +197,33 @@ extension KeyboardInputView: UITextViewDelegate {
         inputBorderView.layer.borderWidth = 2
         inputBorderView.borderColor = UIColor(named: "nt-9")
         placeholderTextField.isHidden = !textView.text.isEmpty
+        
+        if isRecomment {
+            let defaultAttributes: [NSAttributedString.Key: Any] = [
+                .font: UIFont.systemFont(ofSize: 16, weight: .regular),
+                .foregroundColor: UIColor(named: "nt-9")!,
+                .baselineOffset: 0
+            ]
+            
+            let attributedString = NSMutableAttributedString(string: text, attributes: defaultAttributes)
+            if text.count > targetNickName.count {
+                if text.hasPrefix(targetNickName) {
+                    let tagAttributes: [NSAttributedString.Key: Any] = [
+                        .font: UIFont.systemFont(ofSize: 16, weight: .bold),
+                        .foregroundColor: UIColor(named: "gr-5")!,
+                        .baselineOffset: 0
+                    ]
+                    
+                    let range = (text as NSString).range(of: targetNickName)
+                    attributedString.addAttributes(tagAttributes, range: range)
+                }
+            } else {
+                self.isRecomment = false
+            }
+            
+            textView.attributedText = attributedString
+        }
+
         
         if !textView.text.isEmpty {
             sendButton.isEnabled = true

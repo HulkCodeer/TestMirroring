@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -201,6 +201,7 @@
                                             <constraint firstItem="wkb-rh-IIq" firstAttribute="leading" secondItem="2Zf-pY-1gI" secondAttribute="trailing" constant="8" id="P0W-gg-oWB"/>
                                             <constraint firstItem="5Gb-fE-DdS" firstAttribute="top" secondItem="O7g-EP-tne" secondAttribute="bottom" constant="8" id="PVQ-o9-l4U"/>
                                             <constraint firstAttribute="trailing" secondItem="sFL-ou-zj4" secondAttribute="trailing" constant="8" id="Tl4-6I-KPh"/>
+                                            <constraint firstAttribute="bottom" secondItem="f14-rN-Dhr" secondAttribute="bottom" constant="8" id="UxB-vk-yt4"/>
                                             <constraint firstItem="5Gb-fE-DdS" firstAttribute="leading" secondItem="Me5-Pt-VVq" secondAttribute="leading" constant="16" id="WHh-Xv-JQ9"/>
                                             <constraint firstAttribute="trailing" secondItem="yaH-LG-EAF" secondAttribute="trailing" constant="16" id="XRt-4B-wkw"/>
                                             <constraint firstItem="2Zf-pY-1gI" firstAttribute="top" secondItem="Sj5-5u-Cio" secondAttribute="bottom" constant="8" id="YRG-RH-bQe"/>
@@ -765,7 +766,7 @@
         <image name="empty_bookmark_img" width="111.5" height="175.5"/>
         <image name="ic_persom_base150" width="150" height="150"/>
         <namedColor name="gr-5">
-            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="nt-white">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

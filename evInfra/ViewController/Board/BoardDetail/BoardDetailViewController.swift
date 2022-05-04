@@ -25,6 +25,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     lazy var keyboardInputView: KeyboardInputView? = nil
     let boardDetailViewModel = BoardDetailViewModel()
     let trasientAlertView = TransientAlertViewController()
+    let linkShareManager = LinkShareManager.shared
     private var adminList: [Admin] = [Admin]()
     
     override func viewDidLoad() {
@@ -315,6 +316,10 @@ extension BoardDetailViewController: UITableViewDataSource {
 
 // MARK: - 게시글/댓글 수정+삭제+신고 기능
 extension BoardDetailViewController {
+    private func prepareSharingForKakao(with document: Document) {
+        linkShareManager.sendToKakaoWithBoard(with: document)
+    }
+    
     private func deleteBoard() {
         let popup = ConfirmPopupViewController(titleText: "삭제", messageText: "게시글을 삭제 하시겠습니까?")
         popup.addActionToButton(title: "취소", buttonType: .cancel)
@@ -444,8 +449,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
         let rowVC = GroupViewController()
         
         if isHeader {
-            if !MemberManager().isLogin() {
-                /*
+            guard MemberManager().isLogin() else {
                 rowVC.members = ["공유하기"]
                 presentPanModal(rowVC)
                 
@@ -455,23 +459,18 @@ extension BoardDetailViewController: ButtonClickDelegate {
                     self.dismiss(animated: true) {
                         switch index {
                         case 0:
-//                            self.shareForKakao()
+                            // 공유하기
+                            self.prepareSharingForKakao(with: document)
                         default:
                             break
                         }
                     }
                 }
-                */
-                MemberManager().showLoginAlert(vc: self, completion: { (result) -> Void in
-                    if !result {
-                        self.navigationController?.pop()
-                    }
-                })
                 return
             }
             
             if boardDetailViewModel.isMyBoard(mb_id: document.mb_id!) {
-                rowVC.members = ["수정하기", "삭제하기"]
+                rowVC.members = ["수정하기", "삭제하기", "공유하기"]
                 presentPanModal(rowVC)
                 
                 rowVC.selectedCompletion = { [weak self] index in
@@ -485,13 +484,16 @@ extension BoardDetailViewController: ButtonClickDelegate {
                         case 1:
                             // 삭제하기
                             self.deleteBoard()
+                        case 2:
+                            // 공유하기
+                            self.prepareSharingForKakao(with: document)
                         default:
                             break
                         }
                     }
                 }
             } else {
-                rowVC.members = ["신고하기"]
+                rowVC.members = ["신고하기", "공유하기"]
                 presentPanModal(rowVC)
                 
                 rowVC.selectedCompletion = { [weak self] index in
@@ -502,6 +504,9 @@ extension BoardDetailViewController: ButtonClickDelegate {
                         case 0:
                             // 신고하기
                             self.reportBoard()
+                        case 1:
+                            // 공유하기
+                            self.prepareSharingForKakao(with: document)
                         default:
                             break
                         }
@@ -509,7 +514,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
                 }
             }
         } else {
-            if !MemberManager().isLogin() {
+            guard MemberManager().isLogin() else {
                 MemberManager().showLoginAlert(vc: self)
                 return
             }
@@ -559,8 +564,8 @@ extension BoardDetailViewController: ButtonClickDelegate {
     }
     
     func likeButtonCliked(isLiked: Bool, isComment: Bool, srl: String) {
-        if !MemberManager().isLogin() {
-            MemberManager().showLoginAlert(vc:self)
+        guard MemberManager().isLogin() else {
+            MemberManager().showLoginAlert(vc: self)
             return
         }
         
