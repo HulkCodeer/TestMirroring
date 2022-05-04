@@ -382,7 +382,15 @@
                             <constraint firstItem="Ueo-lF-S8F" firstAttribute="centerX" secondItem="aV6-BG-3jX" secondAttribute="centerX" id="mmZ-Ia-1N8"/>
                             <constraint firstItem="MjX-0u-Kq9" firstAttribute="leading" secondItem="aV6-BG-3jX" secondAttribute="leading" id="u7g-8d-VLE"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isMotionEnabled" value="NO"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isMotionEnabledForSubviews" value="NO"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isShadowPathAutoSizing" value="NO"/>
+                        </userDefinedRuntimeAttributes>
                     </view>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isMotionEnabled" value="NO"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="btnChargePrice" destination="XSe-Va-su3" id="U16-F0-QGQ"/>
                         <outlet property="btnRoute" destination="nUo-2a-WfK" id="zBL-Qd-ohE"/>

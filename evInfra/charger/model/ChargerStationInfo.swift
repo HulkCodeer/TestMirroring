@@ -31,7 +31,7 @@ class ChargerStationInfo {
     var mLimit: String?
     
     var mapMarker: Marker!
-    var marker: TMapMarkerItem!
+    
     var cidInfo: CidInfo!
     
     var mFavorite = false
@@ -80,17 +80,6 @@ class ChargerStationInfo {
         self.sortCharger()
     }
     
-    func createMarker() {
-        if self.mTotalStatus == nil {
-            mTotalStatusName = cidInfo.cstToString(cst: Const.CHARGER_STATE_UNCONNECTED)
-        } else {
-            mTotalStatusName = cidInfo.cstToString(cst: self.mTotalStatus!)
-        }
-        marker = TMapMarkerItem.init()
-        marker.setTMapPoint(self.getTMapPoint())
-        marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
-    }
-    
     func changeStatus(status: Int, markerChange: Bool) {
         self.mTotalStatus = status
         mTotalStatusName = cidInfo.cstToString(cst: self.mTotalStatus!)
@@ -100,11 +89,9 @@ class ChargerStationInfo {
             
             let marker = Marker(position: latLng, iconImage: iconImage)
             mapMarker = marker
-//            marker.setIcon(getMarkerIcon(), anchorPoint: CGPoint(x: 0.5, y: 1.0))
         }
     }
     
-    // Naver
     func createMapMarker() {
         if self.mTotalStatus == nil {
             mTotalStatusName = cidInfo.cstToString(cst: Const.CHARGER_STATE_UNCONNECTED)
@@ -116,7 +103,6 @@ class ChargerStationInfo {
         let iconImage = NMFOverlayImage(image: getMarkerIcon())
         
         let marker = Marker(position: latLng, iconImage: iconImage)
-//        marker.chargerId = mChargerId ?? ""
         mapMarker = marker
     }
     
@@ -124,13 +110,11 @@ class ChargerStationInfo {
         guard let mStationInfoDto = mStationInfoDto else {
             return (0,0)
         }
-
-        return (mStationInfoDto.mLatitude ?? 0, mStationInfoDto.mLongitude ?? 0)
+        return (mStationInfoDto.mLatitude ?? .zero, mStationInfoDto.mLongitude ?? .zero)
     }
-    //
     
     func getTMapPoint() -> TMapPoint {
-        return TMapPoint(lon: (mStationInfoDto?.mLongitude)!, lat: (mStationInfoDto?.mLatitude)!)
+        return TMapPoint(lon: mStationInfoDto?.mLongitude ?? .zero, lat: mStationInfoDto?.mLatitude ?? .zero)
     }
     
     func getTMapPoint(lon : Double, lat : Double) -> TMapPoint {
