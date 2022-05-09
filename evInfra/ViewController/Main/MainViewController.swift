@@ -190,6 +190,11 @@ class MainViewController: UIViewController {
         btn_menu_layer.layer.masksToBounds = false
     }
     
+    func requestLocationAuth() {
+            locationManager = CLLocationManager()
+            locationManager.delegate = self
+    }
+    
     func prepareTmapAPI() {
         tMapView = TMapView()
         guard let mapView = tMapView else {
@@ -350,34 +355,6 @@ extension MainViewController: DelegateFilterContainerView {
         filterBarView.updateTitleByType(type: type)
         // refresh marker
         drawMapMarker()
-    }
-}
-
-extension MainViewController: CLLocationManagerDelegate {
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        var status: CLAuthorizationStatus?
-        if #available(iOS 14.0, *) {
-            status = manager.authorizationStatus
-        } else {
-            // Fallback on earlier versions
-        }
-        guard status != nil else {
-            return
-        }
-        switch status {
-        case .notDetermined, .restricted:
-            break
-        case .denied:
-            break
-        case .authorizedAlways,  .authorizedWhenInUse:
-            let coordinate = manager.location?.coordinate
-            MainViewController.currentLocation = TMapPoint(coordinate: coordinate!)
-            self.tMapView?.setCenter(TMapPoint(coordinate: coordinate!))
-            self.tMapView?.setTrackingMode(true)
-            break
-        default:
-            break
-        }
     }
 }
 
@@ -1242,7 +1219,6 @@ extension MainViewController {
     
     func prepareClustering() {
         clusterManager = ClusterManager(mapView: mapView)
-        clusterManager?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
     }
 }
 
