@@ -10,9 +10,22 @@ import UIKit
 import Material
 import SwiftyJSON
 
-class LeftViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+internal final class LeftViewController: UIViewController {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    // MARK: UI
+    
+    @IBOutlet weak var myPageBtn: UIButton!
+    @IBOutlet weak var boardBtn: UIButton!
+    @IBOutlet weak var infoBtn: UIButton!
+    @IBOutlet weak var batteryBtn: UIButton!
+    @IBOutlet weak var settingsBtn: UIButton!
+    @IBOutlet weak var btnLogin: UIButton!
+    @IBOutlet weak var sideMenuTab: UIView!
+    @IBOutlet weak var boardCompanyBtn: UIButton!
+            
+    // MARK: VARIABLE
+        
     let cellIdentifier = "sideMenuCell"
     
     // main menu
@@ -35,8 +48,9 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     // PAY
     let SUB_MENU_MY_PAYMENT_INFO     = 0
     let SUB_MENU_MY_EVCARD_INFO      = 1
-    let SUB_MENU_MY_CHARGING_HISTORY = 2
-    let SUB_MENU_MY_POINT            = 3
+    let SUB_MENU_MY_LENTAL_INFO      = 2
+    let SUB_MENU_MY_CHARGING_HISTORY = 3
+    let SUB_MENU_MY_POINT            = 4
 
     // sub menu - 게시판
     let SUB_MENU_CELL_BOARD         = 0
@@ -77,15 +91,6 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     var companyNameArr:Array = Array<String>()
     
     var sideSectionArrays = [["마이페이지", "PAY"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["배터리 진단 정보"], ["설정"]]
-    
-    @IBOutlet weak var btnLogin: UIButton!
-    @IBOutlet weak var sideMenuTab: UIView!
-    @IBOutlet weak var myPageBtn: UIButton!
-    @IBOutlet weak var boardBtn: UIButton!
-    @IBOutlet weak var boardCompanyBtn: UIButton!
-    @IBOutlet weak var infoBtn: UIButton!
-    @IBOutlet weak var batteryBtn: UIButton!
-    @IBOutlet weak var settingsBtn: UIButton!
     
     var menuIndex = 0
     
@@ -136,22 +141,17 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        appDelegate.hideStatusBar()
+        self.navigationDrawerController?.reHideStatusBar()
         newBadgeInMenu()
         updateBatteryMenu()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        appDelegate.showStatusBar()
+        self.navigationDrawerController?.reShowStatusBar()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func appeared() {
+    internal func appeared() {
         // 로그인 버튼
         if MemberManager().isLogin() {
             btnLogin.gone()
@@ -162,9 +162,9 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         newBadgeInMenu()
     }
  
-    func initSideViewArr() {
-        let mypage0Arr = ["개인정보 관리", "내가쓴글 보기", "충전소 제보내역"]
-        let mypage1Arr = ["결제카드 관리", "회원카드 관리", "충전이력 조회", "포인트 조회"]
+    private func initSideViewArr() {
+        let mypage0Arr = ["개인정보 관리", "내가 쓴 글 보기", "충전소 제보내역"]
+        let mypage1Arr = ["결제카드 관리", "회원카드 관리", "렌터카 정보 관리" , "충전이력 조회", "포인트 조회"]
         let mypageArr:[Array<String>] = [mypage0Arr, mypage1Arr]
         
         let commu0Arr = ["EV Infra 공지", "자유 게시판", "충전소 게시판"]
@@ -190,13 +190,45 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.sideMenuArrays = [mypageArr, commuArr, eventArr, evArr, batteryArr, settingArr]
     }
     
+    private func tableViewLoad(index: Int) {
+        menuIndex = index
+        myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+        boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+        boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+        infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+        batteryBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+        settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+
+        myPageBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        boardBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        boardCompanyBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        infoBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        batteryBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        settingsBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        
+        switch index {
+        case MENU_MY_PAGE:
+            myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        case MENU_BOARD:
+            boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        case MENU_EVENT:
+            boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        case MENU_EVINFO:
+            infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        case MENU_BATTERY:
+            batteryBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        case MENU_SETTINGS:
+            settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        default:
+            myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        }
+        self.sideTableView.reloadData()
+    }
+}
+
+extension LeftViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return sideSectionArrays[menuIndex].count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        initSideViewArr()
-        return sideMenuArrays[menuIndex][section].count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -204,6 +236,10 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         let headerValue = sideSectionArrays[menuIndex][section]
         headerView.cellTitle.text = headerValue
         return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sideMenuArrays[menuIndex][section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -243,41 +279,6 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else if menuIndex == MENU_SETTINGS { // 전체 설정
             selectedSettingsMenu(index: indexPath)
         }
-    }
-    
-    func tableViewLoad(index: Int) {
-        menuIndex = index
-        myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        batteryBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-
-        myPageBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        boardBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        boardCompanyBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        infoBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        batteryBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        settingsBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        
-        switch index {
-        case MENU_MY_PAGE:
-            myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_BOARD:
-            boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_EVENT:
-            boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_EVINFO:
-            infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_BATTERY:
-            batteryBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_SETTINGS:
-            settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        default:
-            myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        }
-        self.sideTableView.reloadData()
     }
 }
 
@@ -324,23 +325,29 @@ extension LeftViewController {
                 switch index.row {
                 case SUB_MENU_MY_PAYMENT_INFO:
                     let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-                    let myPayInfoVC = memberStoryboard.instantiateViewController(withIdentifier: "MyPayinfoViewController") as! MyPayinfoViewController
+                    let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
                     navigationController?.push(viewController: myPayInfoVC)
             
                 case SUB_MENU_MY_EVCARD_INFO: // 회원카드 관리
                     let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-                    let mbscdVC = mbsStoryboard.instantiateViewController(withIdentifier: "MembershipCardViewController") as! MembershipCardViewController
+                    let mbscdVC = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
+                    navigationController?.push(viewController: mbscdVC)
+                    break
+                    
+                case SUB_MENU_MY_EVCARD_INFO: // 렌탈정보 관리
+                    let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
+                    let mbscdVC = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
                     navigationController?.push(viewController: mbscdVC)
                     break
 
                 case SUB_MENU_MY_CHARGING_HISTORY: // 충전이력조회
                     let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
-                    let chargesVC = chargeStoryboard.instantiateViewController(withIdentifier: "ChargesViewController") as! ChargesViewController
+                    let chargesVC = chargeStoryboard.instantiateViewController(ofType: ChargesViewController.self)
                     navigationController?.push(viewController: chargesVC)
 
                 case SUB_MENU_MY_POINT: // 포인트 조회
                     let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
-                    let pointVC = chargeStoryboard.instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
+                    let pointVC = chargeStoryboard.instantiateViewController(ofType: PointViewController.self)
                     navigationController?.push(viewController: pointVC)
                     break
 
