@@ -13,7 +13,7 @@ import MaterialComponents.MaterialSnackbar
 import SwiftyJSON
 import UIImageCropper
 
-class MyPageViewController: UIViewController {
+internal final class MyPageViewController: UIViewController {
 
     @IBOutlet weak var nickNameField: TextField!
     @IBOutlet weak var locationSpinnerBtn: UIButton!

@@ -62,8 +62,9 @@ extension AppNavigationDrawerController: NavigationDrawerControllerDelegate {
     
     func navigationDrawerController(navigationDrawerController: NavigationDrawerController, statusBar isHidden: Bool) {
         print("navigationDrawerController statusBar is hidden:", isHidden ? "Yes" : "No")
-        if isHidden {
-            (leftViewController as? LeftViewController)?.appeared()
+        guard isHidden else {
+            return
         }
+        (leftViewController as? LeftViewController)?.appeared()
     }
 }
