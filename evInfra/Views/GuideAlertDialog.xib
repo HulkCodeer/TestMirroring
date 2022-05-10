@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -22,11 +22,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Dp-qz-yxe">
-                    <rect key="frame" x="16" y="101" width="382" height="761"/>
+                    <rect key="frame" x="16" y="100" width="382" height="762"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="업데이트 안내" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5JU-r8-9Ja">
-                    <rect key="frame" x="158" y="67" width="98" height="22"/>
+                    <rect key="frame" x="158" y="66" width="98" height="22"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                     <color key="textColor" name="content-primary"/>
                     <nil key="highlightedColor"/>
@@ -48,27 +48,40 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IBD-d0-Ov4">
-                    <rect key="frame" x="368" y="66" width="24" height="24"/>
+                    <rect key="frame" x="359" y="55" width="44" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="44" id="AnL-g5-ky0"/>
+                        <constraint firstAttribute="height" constant="44" id="wOT-2g-OKz"/>
+                    </constraints>
                     <color key="tintColor" name="content-primary"/>
-                    <state key="normal" image="icon_close_md"/>
                     <connections>
                         <action selector="onClickClose:" destination="-1" eventType="touchUpInside" id="h9I-3A-Tid"/>
                     </connections>
                 </button>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_close_md" translatesAutoresizingMaskIntoConstraints="NO" id="iDE-fa-9fa">
+                    <rect key="frame" x="370" y="66" width="22" height="22"/>
+                    <color key="tintColor" name="content-primary"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="JPE-Id-AyV"/>
+                        <constraint firstAttribute="width" constant="22" id="fHp-Sg-uVM"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="IBD-d0-Ov4" firstAttribute="centerX" secondItem="iDE-fa-9fa" secondAttribute="centerX" id="2E8-Pq-60L"/>
                 <constraint firstItem="8Dp-qz-yxe" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="6T9-vQ-Jaa"/>
                 <constraint firstItem="5JU-r8-9Ja" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="A24-Nx-XdJ"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="IBD-d0-Ov4" secondAttribute="trailing" constant="22" id="IMa-0a-Jbq"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="wR3-xe-0mu" secondAttribute="bottom" constant="30" id="KAV-Tc-zxM"/>
                 <constraint firstItem="wR3-xe-0mu" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="WsV-CE-2Jy"/>
                 <constraint firstItem="8Dp-qz-yxe" firstAttribute="top" secondItem="5JU-r8-9Ja" secondAttribute="bottom" constant="12" id="anA-Kg-cz7"/>
+                <constraint firstItem="IBD-d0-Ov4" firstAttribute="centerY" secondItem="iDE-fa-9fa" secondAttribute="centerY" id="auE-dJ-wcp"/>
+                <constraint firstItem="iDE-fa-9fa" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="22" id="iHL-t2-o44"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="8Dp-qz-yxe" secondAttribute="bottom" id="ieo-5x-ZHw"/>
-                <constraint firstItem="IBD-d0-Ov4" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="22" id="jso-JX-UzY"/>
+                <constraint firstItem="iDE-fa-9fa" firstAttribute="centerY" secondItem="5JU-r8-9Ja" secondAttribute="centerY" id="oqM-e7-Zko"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="8Dp-qz-yxe" secondAttribute="trailing" constant="16" id="qWL-qK-fOT"/>
-                <constraint firstItem="5JU-r8-9Ja" firstAttribute="centerY" secondItem="IBD-d0-Ov4" secondAttribute="centerY" id="wJg-Jy-uV6"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="iDE-fa-9fa" secondAttribute="trailing" constant="22" id="yob-Mj-9xx"/>
             </constraints>
             <point key="canvasLocation" x="132" y="130"/>
         </view>
