@@ -329,12 +329,11 @@ extension LeftViewController {
                     navigationController?.push(viewController: myPayInfoVC)
             
                 case SUB_MENU_MY_EVCARD_INFO: // 회원카드 관리
-                    let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-                    let mbscdVC = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
+                    let mbscdVC = MemberGuideViewController()
                     navigationController?.push(viewController: mbscdVC)
                     break
                     
-                case SUB_MENU_MY_EVCARD_INFO: // 렌탈정보 관리
+                case SUB_MENU_MY_LENTAL_INFO: // 렌탈정보 관리
                     let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
                     let mbscdVC = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
                     navigationController?.push(viewController: mbscdVC)

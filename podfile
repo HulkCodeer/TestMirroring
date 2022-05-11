@@ -33,9 +33,14 @@ target 'evInfra' do
   pod 'DLRadioButton', '~> 1.4'
   pod 'AnyFormatKit'
   pod 'TTGTagCollectionView'
-  pod 'SnapKit', '~> 5.0.0'
   pod 'PanModal'
   pod 'NMapsMap'
+  
+  # UI
+  pod 'Then' # https://github.com/devxoul/Then
+  pod 'SnapKit', '~> 5.0.0'
+  
+  # Rx Extensions
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
 

@@ -229,6 +229,7 @@ PODS:
   - SnapKit (5.0.1)
   - SwiftyGif (5.4.3)
   - SwiftyJSON (5.0.1)
+  - Then (3.0.0)
   - TTGTagCollectionView (2.1.0)
   - UIImageCropper (1.4.0)
 
@@ -261,6 +262,7 @@ DEPENDENCIES:
   - SnapKit (~> 5.0.0)
   - SwiftyGif
   - SwiftyJSON
+  - Then
   - TTGTagCollectionView
   - UIImageCropper
 
@@ -307,6 +309,7 @@ SPEC REPOS:
     - SnapKit
     - SwiftyGif
     - SwiftyJSON
+    - Then
     - TTGTagCollectionView
     - UIImageCropper
 
@@ -352,9 +355,10 @@ SPEC CHECKSUMS:
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
+  Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
   TTGTagCollectionView: a2a8668c659b39e7a6ffd6590475ea53a7ae95f7
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
 
-PODFILE CHECKSUM: 72b24ef0c7171991328717587d8a02e72286c363
+PODFILE CHECKSUM: 987442bd0e42237c40363ec5ccc6ca1fd3905ded
 
 COCOAPODS: 1.11.3
