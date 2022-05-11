@@ -69,9 +69,8 @@ class MemberManager {
         }
     }
     
-    static func hasMembership() -> Bool {
-        let list = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
-        return !list.isEmpty
+    static func hasMembership() -> Bool {        
+        return UserDefault().readBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP)
     }
     
     static func hasPayment() -> Bool {
@@ -83,7 +82,7 @@ class MemberManager {
         if UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0 {
             return true
         } else {
-            return false;
+            return false
         }
     }
     
@@ -94,6 +93,8 @@ class MemberManager {
     }
     
     func setData(data: JSON) {
+        print("PARK TEST \(data.debugDescription)")
+        
         if data["mb_id"].stringValue.elementsEqual("") {
             print("mb id is null");
         } else {
@@ -111,6 +112,7 @@ class MemberManager {
             savePartnershipClientId(data : data["rent_client"].arrayValue)
             userDefault.saveBool(key: UserDefault.Key.MB_PAYMENT, value: data["payment"].boolValue)
             userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value: data["battery_device_id"].stringValue)
+            userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value: data["has_membership"].boolValue)
         }
     }
     
@@ -128,6 +130,7 @@ class MemberManager {
         userDefault.saveBool(key: UserDefault.Key.INTRO_SKR, value: false)
         userDefault.saveBool(key: UserDefault.Key.MB_PAYMENT, value: false)
         userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value:  "")
+        userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  false)
     }
     
     func showLoginAlert(vc: UIViewController, completion: ((Bool) -> ())? = nil) {

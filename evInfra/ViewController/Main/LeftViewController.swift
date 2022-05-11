@@ -329,8 +329,15 @@ extension LeftViewController {
                     navigationController?.push(viewController: myPayInfoVC)
             
                 case SUB_MENU_MY_EVCARD_INFO: // 회원카드 관리
-                    let mbscdVC = MemberGuideViewController()
-                    navigationController?.push(viewController: mbscdVC)
+                    let viewcon: UIViewController
+                    if MemberManager.hasMembership() {
+                        let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
+                        viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
+                    } else {
+                        viewcon = MembershipGuideViewController()
+                    }
+                    
+                    navigationController?.push(viewController: viewcon)
                     break
                     
                 case SUB_MENU_MY_LENTAL_INFO: // 렌탈정보 관리
