@@ -10,15 +10,16 @@ import UIKit
 import Material
 import SwiftyJSON
 
-class MembershipCardViewController: UIViewController,
+internal final class MembershipCardViewController: UIViewController,
     PartnershipJoinViewDelegate, PartnershipListViewDelegate {
 
-    var partnershipJoinView : PartnershipJoinView? = nil
-    var partnershipListView : PartnershipListView? = nil
+    private var partnershipJoinView : PartnershipJoinView? = nil
+    private var partnershipListView : PartnershipListView? = nil
     
-    var payRegistResult: JSON?
-    var partnershipInfoList = [MemberPartnershipInfo]()
-    var viewCnt = 0;
+    private var payRegistResult: JSON?
+    private var partnershipInfoList = [MemberPartnershipInfo]()
+    private var viewCnt = 0;
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()

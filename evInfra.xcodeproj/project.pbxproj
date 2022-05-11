@@ -146,6 +146,7 @@
 		637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */; };
 		637247D3282A5F7900595FCE /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D2282A5F7900595FCE /* UIViewController+Extension.swift */; };
 		637247DA282A6F3B00595FCE /* MembershipGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D9282A6F3B00595FCE /* MembershipGuideViewController.swift */; };
+		63DA74BE282B961700423FED /* PartnershipJoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA74BD282B961700423FED /* PartnershipJoinViewController.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView.swift */; };
 		7312786820BE38C500861B3E /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786720BE38C500861B3E /* FCMManager.swift */; };
@@ -544,6 +545,7 @@
 		637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		637247D2282A5F7900595FCE /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		637247D9282A6F3B00595FCE /* MembershipGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipGuideViewController.swift; sourceTree = "<group>"; };
+		63DA74BD282B961700423FED /* PartnershipJoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnershipJoinViewController.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		7312786720BE38C500861B3E /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
@@ -942,6 +944,7 @@
 			isa = PBXGroup;
 			children = (
 				637247D9282A6F3B00595FCE /* MembershipGuideViewController.swift */,
+				63DA74BD282B961700423FED /* PartnershipJoinViewController.swift */,
 				00C75C4C252EEB5300387559 /* RegisterResultViewController.swift */,
 				0067D598252C631700D97146 /* MembershipIssuanceViewController.swift */,
 				0044A04F25AEEB1500D0BB0A /* LotteRentIntoViewController.swift */,
@@ -2239,6 +2242,7 @@
 				DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */,
 				00EB85D226BA8C6100D1606F /* UILabel.swift in Sources */,
 				52B2594E278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift in Sources */,
+				63DA74BE282B961700423FED /* PartnershipJoinViewController.swift in Sources */,
 				73AD13C8203AC57A00ADD19A /* AppNavigationDrawerController.swift in Sources */,
 				529148B327BE14670011021F /* BoardSearchViewModel.swift in Sources */,
 				006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */,

@@ -32,7 +32,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="mwg-Da-0ep">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="277"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="344.5"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내 카드" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZsI-0Z-A4q">
                                     <rect key="frame" x="16" y="32" width="343" height="29"/>
@@ -40,8 +40,8 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tjU-wT-vwL" userLabel="evinfra_view">
-                                    <rect key="frame" x="16" y="73" width="343" height="227.5"/>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tjU-wT-vwL" userLabel="evinfra_view">
+                                    <rect key="frame" x="16" y="85" width="343" height="227.5"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="gLY-YF-gXL">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="227.5"/>
@@ -79,10 +79,10 @@
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="krc-y6-DiL" userLabel="skr_view">
-                                    <rect key="frame" x="16" y="73" width="343" height="201"/>
+                                    <rect key="frame" x="16" y="312.5" width="343" height="200.5"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sk_card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="Sa9-9b-uzd">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="201"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="200.5"/>
                                             <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
                                         </imageView>
                                     </subviews>
@@ -96,10 +96,10 @@
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="js3-HB-HDS" userLabel="lotte_view">
-                                    <rect key="frame" x="16" y="73" width="343" height="201"/>
+                                    <rect key="frame" x="16" y="312.5" width="343" height="200.5"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lotte_card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="eqs-nc-baD">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="201"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="200.5"/>
                                             <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
                                         </imageView>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lotte_logo_white" translatesAutoresizingMaskIntoConstraints="NO" id="cfE-33-jST">
@@ -116,13 +116,13 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="계약기간" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e31-15-c2C">
-                                            <rect key="frame" x="24" y="155.5" width="62.5" height="21.5"/>
+                                            <rect key="frame" x="24" y="155" width="62.5" height="21.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00.00.00~00.00.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yh7-hF-vBR">
-                                            <rect key="frame" x="94.5" y="155.5" width="155.5" height="21.5"/>
+                                            <rect key="frame" x="94.5" y="155" width="155.5" height="21.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -145,8 +145,8 @@
                                         <constraint firstItem="D9t-oR-ej7" firstAttribute="leading" secondItem="js3-HB-HDS" secondAttribute="leading" constant="24" id="vEI-bC-anf"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Zw-n2-KT2">
-                                    <rect key="frame" x="16" y="85" width="343" height="160"/>
+                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Zw-n2-KT2">
+                                    <rect key="frame" x="16" y="312.5" width="343" height="160"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_add_img" translatesAutoresizingMaskIntoConstraints="NO" id="pDd-rf-hSn">
                                             <rect key="frame" x="41.5" y="0.0" width="260" height="160"/>
