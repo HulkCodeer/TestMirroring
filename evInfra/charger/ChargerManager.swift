@@ -299,12 +299,9 @@ class ChargerManager {
                 guard let self = self else { return }
                 guard let value = value else { return }
 
-                // 4초
                 DispatchQueue.global(qos: .userInitiated).async {
                     self.updateStationInfoListFromServer(json: JSON(value))
                 }
-                // 12초
-//                self.updateStationInfoListFromServer(json: JSON(value))
                 self.setChargerStationInfoList()
                 self.getStationStatus {
                     completion()
@@ -312,46 +309,7 @@ class ChargerManager {
             }
         }
     }
-
-    private func getStationStatus(listener : ChargerManagerListener?) {
-
-        Server.getStationStatus { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                let code = json["code"]
-                let list = json["list"]
-
-                if (code == 1000 && list.count > 0) {
-                
-                    for status in list.arrayValue {
-                        let chargerId = status["id"].stringValue
-                        let cst = status["st"].intValue
-                        var power = status["p"].intValue
-                        let type_id = status["tp"].intValue
-                        let limit = status["lm"].stringValue
-                        
-                        if let chargerStationInfo = self.getChargerStationInfoById(charger_id: chargerId) {
-                            if type_id != Const.CTYPE_SLOW && type_id != Const.CTYPE_DESTINATION && power < 50 {
-                                power = 50
-                            }
-                            chargerStationInfo.mTotalStatus = cst
-                            chargerStationInfo.mTotalType = type_id
-                            chargerStationInfo.mPower = power
-                            chargerStationInfo.mLimit = limit
-                        }
-                    }
-
-                    self.createAllMarker()
-                    self.mIsReady = true
-                    if let chargerManagerListener = listener {
-                        chargerManagerListener.onComplete()
-                    }
-                }
-            }
-        }
-    }
     
-    // naver
     private func getStationStatus(completion: @escaping () -> Void) {
         Server.getStationStatus { [weak self] (isSuccess, value) in
             if isSuccess {
@@ -414,31 +372,6 @@ class ChargerManager {
             }
         }
     }
-
-/*
-    public class StationInfoTask extends AsyncTask<Void, Boolean, Boolean> {
-        ChargerManager.ChargerManagerListener listener
-        String json
-
-        StationInfoTask(String json, ChargerManagerListener listener) {
-            this.json = json
-            this.listener = listener
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            updateStationInfoListFromServer(this.json)
-            setChargerStationInfoList()
-            return true
-        }
-
-        @Override
-        protected void onPostExecute(Boolean b) {
-            super.onPostExecute(b)
-            getStationStatus(this.listener)
-        }
-    }
- */
     
     func getFavoriteCharger() {
         if MemberManager.getMbId() > 0 {
@@ -476,18 +409,16 @@ class ChargerManager {
     }
     
     // sk open api
-    public func findAllPOI(keyword : String, callback : FindAllPOIListenerCallback) {
-        let currentPosition = CLLocationManager().getCurrentCoordinate()
-        findAllPOI(centerLat: currentPosition.latitude, centerLon: currentPosition.longitude, keyword: keyword, callback: callback)
-    }
-
-    public func findAllPOI(centerLat : Double, centerLon : Double, keyword : String, callback : FindAllPOIListenerCallback) {
-        
+    public func findAllPOI(keyword: String, completion: @escaping ([EIPOIItem]?) -> Void) {
         if StringUtils.isNullOrEmpty(keyword) {
-            callback.onFindAllPOI(poiList: nil)
+            completion([])
         }
         
-        Server.getPoiItemList(count: 100, radius: 0, centerLat: centerLat, centerLon: centerLon, keyword: keyword) { (isSuccess, result) in
+        let currentPosition = CLLocationManager().getCurrentCoordinate()
+        let latitude = currentPosition.latitude
+        let longitude = currentPosition.longitude
+        
+        Server.getPoiItemList(count: 100, radius: 0, centerLat: latitude, centerLon: longitude, keyword: keyword) { (isSuccess, result) in
             if  isSuccess {
                 let json = JSON(result)
                 let searchPoiInfo = json["searchPoiInfo"]
@@ -496,23 +427,24 @@ class ChargerManager {
                 _ = searchPoiInfo["page"].intValue
                 let pois = searchPoiInfo["pois"]
                 let poi = pois["poi"]
-                var poiList = [EIPOIItem].deserialize(from: poi.rawString())
+                let poiList = [EIPOIItem].deserialize(from: poi.rawString())
                 
-                if (poiList) != nil {
-                    poiList!.sort(by: { (first, second) -> Bool in
-                        if (first == nil) || (second == nil) {
-                            return false
-                        }
-                        if let currentPosition = MainViewController.currentLocation {
-                            let t1 = currentPosition.getDistanceWith(first!.getPOIPoint())
-                            let t2 = currentPosition.getDistanceWith(second!.getPOIPoint())
+                if let poiList = poiList {
+                    let sortedPoiList = poiList.sorted { (first, second) -> Bool in
+                        guard let first = first else { return false }
+                        guard let second = second else { return false }
+
+                        if let currentPosition = TMapPoint(lon: longitude, lat: latitude) {
+                            let t1 = currentPosition.getDistanceWith(first.getPOIPoint())
+                            let t2 = currentPosition.getDistanceWith(second.getPOIPoint())
                             return t1 < t2
                         }
+
                         return false
-                    })
-                    callback.onFindAllPOI(poiList: (poiList as! [EIPOIItem]))
+                    }
+                    completion(sortedPoiList as? [EIPOIItem])
                 } else {
-                    callback.onFindAllPOI(poiList: nil)
+                    completion([])
                 }
             }
         }
