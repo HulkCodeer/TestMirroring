@@ -93,6 +93,34 @@ extension NSLayoutConstraint {
     @nonobjc static private var equalHeightConstraintsKey = "equalHeightConstraints"
     @nonobjc static private var equalWidthConstraintsKey = "equalWidthConstraints"
     
+    @IBInspectable var IBcornerRadius: CGFloat {
+        get {
+            layer.cornerRadius
+        }
+        set {
+            layer.cornerRadius = newValue
+            layer.masksToBounds = newValue > 0
+        }
+    }
+    
+    @IBInspectable var IBborderWidth: CGFloat {
+        get {
+            layer.borderWidth
+        }
+        set {
+            layer.borderWidth = newValue
+        }
+    }
+    
+    @IBInspectable var IBborderColor: UIColor? {
+        get {
+            UIColor(cgColor: layer.borderColor!)
+        }
+        set {
+            layer.borderColor = newValue?.cgColor
+        }
+    }
+    
     public private(set) var isGone: Bool {
         get {
             return (objc_getAssociatedObject(self, &UIView.isGoneKey) as? Bool) ?? false
