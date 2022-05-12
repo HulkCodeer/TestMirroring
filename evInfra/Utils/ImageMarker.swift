@@ -78,7 +78,6 @@ public class ImageMarker {
     public static func companyImg(company: String) -> UIImage? {
         let eFM = EVFileManager.sharedInstance
         if let companyImage = eFM.getSavedImage(named: "\(company).png") {
-            print("company: \(company) \(companyImage)")
             return companyImage
         }
 

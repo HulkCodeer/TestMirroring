@@ -301,10 +301,10 @@ class ChargerManager {
 
                 DispatchQueue.global(qos: .userInitiated).async {
                     self.updateStationInfoListFromServer(json: JSON(value))
-                }
-                self.setChargerStationInfoList()
-                self.getStationStatus {
-                    completion()
+                    self.setChargerStationInfoList()
+                    self.getStationStatus {
+                        completion()
+                    }
                 }
             }
         }

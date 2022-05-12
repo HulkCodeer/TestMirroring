@@ -71,21 +71,15 @@ class MainViewController: UIViewController {
     var mapView: NMFMapView { naverMapView.mapView }
     private var locationManager = CLLocationManager()
     private var chargerManager = ChargerManager.sharedInstance
-    
     private var selectCharger: ChargerStationInfo? = nil
     
-    static var currentLocation: TMapPoint? = nil
-    private var searchLocation: TMapPoint? = nil
-    private var searchSelectedId: String?
     var sharedChargerId: String? = nil
     
     private var loadedChargers = false
     private var clusterManager: ClusterManager? = nil
-    private var currentClusterLv = 0
-    private var isAllowedCluster = true
     private var canIgnoreJejuPush = true
     
-    private var summaryView:SummaryView!
+    private var summaryView: SummaryView!
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -182,11 +176,7 @@ class MainViewController: UIViewController {
     
     func prepareTmapAPI() {
         tMapView = TMapView()
-        guard let mapView = tMapView else {
-            print("[Main] TMap 생성을 실패했습니다")
-            return
-        }
-        mapView.setSKTMapApiKey(Const.TMAP_APP_KEY)
+        tMapView?.setSKTMapApiKey(Const.TMAP_APP_KEY)
     }
     
     // btnChargePrice radius, color, shadow
@@ -428,7 +418,7 @@ extension MainViewController: NMFMapViewTouchDelegate {
 
 extension MainViewController {
     internal func drawMapMarker() {
-        guard ChargerManager.sharedInstance.isReady() else { return }
+        guard chargerManager.isReady() else { return }
         
         self.clusterManager?.clustering(filter: FilterManager.sharedInstance.filter, loadedCharger: self.loadedChargers)
         
@@ -770,6 +760,10 @@ extension MainViewController: ChargerSelectDelegate {
     func moveToSelectLocation(lat: Double, lon: Double) {
         guard lat == 0, lon == 0 else {
             myLocationModeOff()
+            
+            // 기존에 선택된 마커 지우기
+            naverMapView.searchMarker?.mapView = nil
+            
             // 카메라 이동
             naverMapView.moveToCamera(with: NMGLatLng(lat: lat, lng: lon), zoomLevel: 15)
             
@@ -785,6 +779,9 @@ extension MainViewController: ChargerSelectDelegate {
         guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
         let position = NMGLatLng(lat: charger.mStationInfoDto?.mLatitude ?? 0.0,
                                  lng: charger.mStationInfoDto?.mLongitude ?? 0.0)
+        // 기존에 선택된 마커 지우기
+        naverMapView.searchMarker?.mapView = nil
+        
         // 카메라 이동
         naverMapView.moveToCamera(with: position, zoomLevel: 15)
         
@@ -908,7 +905,7 @@ extension MainViewController {
     
     internal func refreshChargerInfo() {
         self.markerIndicator.startAnimating()
-        
+        clusterManager?.removeClusterFromSettings()
         Server.getStationStatus { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
@@ -916,15 +913,15 @@ extension MainViewController {
 
                 for (_, item):(String, JSON) in list {
                     let id = item["id"].stringValue
-                    if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: id) {
+                    if let charger = self.chargerManager.getChargerStationInfoById(charger_id: id) {
                         charger.changeStatus(status: item["st"].intValue, markerChange: true)
-                        charger.createMapMarker()
                         charger.mapMarker.touchHandler = { [weak self] overlay -> Bool in
                             self?.touchHandler(with: charger)
                             return true
                         }
                     }
                 }
+                self.drawMapMarker()
             }
             self.markerIndicator.stopAnimating()
         }
@@ -969,9 +966,7 @@ extension MainViewController {
     }
     
     @objc func saveLastZoomLevel() {
-        if let tmapview = self.tMapView {
-            UserDefault().saveInt(key: UserDefault.Key.MAP_ZOOM_LEVEL, value: tmapview.getZoomLevel())
-        }
+        UserDefault().saveInt(key: UserDefault.Key.MAP_ZOOM_LEVEL, value: Int(mapView.zoomLevel))
     }
     
     @objc func updateMemberInfo() {
@@ -1041,8 +1036,8 @@ extension MainViewController {
         }
     }
     
-    func isLocationEnabled() ->Bool{
-        var enabled : Bool = false
+    func isLocationEnabled() -> Bool {
+        var enabled: Bool = false
         if CLLocationManager.locationServicesEnabled() {
             switch CLLocationManager.authorizationStatus() {
             case .authorizedAlways, .authorizedWhenInUse:
@@ -1057,7 +1052,6 @@ extension MainViewController {
     
     func askPermission(){
         let alertController = UIAlertController(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 기능을 이용하시려면 모든 권한을 허용해 주십시오.\n[설정] > [EV Infra] 에서 권한을 허용할 수 있습니다.", preferredStyle: UIAlertControllerStyle.alert)
-        
         
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
         alertController.addAction(cancelAction)

@@ -365,6 +365,7 @@ extension DetailViewController: BoardTableViewDelegate {
     func fetchFirstBoard(mid: String, sort: Board.SortType, mode: String) {
         if let chargerData = charger {
             self.currentPage = 1
+            self.boardTableView.isNoneHeader = true
             Server.fetchBoardList(mid: "station", page: "\(self.currentPage)", mode: mode, sort: sort.rawValue, searchType: "station", searchKeyword: chargerData.mChargerId!) { (isSuccess, value) in
                 
                 if isSuccess {
@@ -380,7 +381,6 @@ extension DetailViewController: BoardTableViewDelegate {
                               
                             self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
                             self.boardTableView.communityBoardList = self.boardList
-                            self.boardTableView.isNoneHeader = true
                             self.boardTableView.isFromDetailView = true
                             
                             DispatchQueue.main.async {
@@ -393,7 +393,6 @@ extension DetailViewController: BoardTableViewDelegate {
                 } else {
                     self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
                     self.boardTableView.communityBoardList = self.boardList
-                    self.boardTableView.isNoneHeader = true
                     self.boardTableView.isFromDetailView = true
                 }
             }
@@ -404,7 +403,7 @@ extension DetailViewController: BoardTableViewDelegate {
         if let chargerData = charger {
             
             self.currentPage = self.currentPage + 1
-            
+            self.boardTableView.isNoneHeader = true
             Server.fetchBoardList(mid: "station", page: "\(self.currentPage)", mode: Board.ScreenType.FEED.rawValue, sort: sort.rawValue, searchType: "station", searchKeyword: chargerData.mChargerId!) { (isSuccess, value) in
                 
                 if isSuccess {
@@ -419,7 +418,6 @@ extension DetailViewController: BoardTableViewDelegate {
                               
                             self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
                             self.boardTableView.communityBoardList = self.boardList
-                            self.boardTableView.isNoneHeader = true
                             self.boardTableView.isFromDetailView = true
                             
                             DispatchQueue.main.async {
