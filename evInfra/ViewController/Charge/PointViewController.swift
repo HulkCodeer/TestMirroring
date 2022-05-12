@@ -12,8 +12,11 @@ import UIKit
 import M13Checkbox
 import Material
 import SwiftyJSON
+import RxSwift
 
-class PointViewController: UIViewController {
+internal final class PointViewController: UIViewController {
+    
+    // MARK: UI
     
     @IBOutlet weak var textFieldStartDate: UITextField!
     @IBOutlet weak var textFieldEndDate: UITextField!
@@ -29,24 +32,26 @@ class PointViewController: UIViewController {
     @IBOutlet weak var labelResultMsg: UILabel!
     
     @IBOutlet weak var pointTableView: UITableView!
+    @IBOutlet weak var pointUseGuideBtn: UIButton!
     
     // add..
     
-    var textFieldDate: UITextField!
+    private var textFieldDate: UITextField!
 
-    let datePicker = UIDatePicker()
-    let dateFormatter = DateFormatter()
+    private let datePicker = UIDatePicker()
+    private let dateFormatter = DateFormatter()
     
     // btn click state
-    let FILTER_POINT_ALL = 0
-    let FILTER_POINT_SAVE = 1
-    let FILTER_POINT_USED = 2
+    private let FILTER_POINT_ALL: Int = 0
+    private let FILTER_POINT_SAVE: Int = 1
+    private let FILTER_POINT_USED: Int = 2
     
-    var selectiedFilter: Int = 0
+    private var selectiedFilter: Int = 0
     
-    var evPointList: Array<EvPoint> = Array<EvPoint>()
+    private var evPointList: Array<EvPoint> = Array<EvPoint>()
     
-    var pointHistory = PointHistory()
+    private var pointHistory = PointHistory()
+    private let disposeBag = DisposeBag()
     
     struct PointHistory: Decodable {
         var code: Int?
@@ -65,6 +70,15 @@ class PointViewController: UIViewController {
 
         // 오늘 포인트 이력 가져오기
         btnAllBerry.isSelected = true
+        
+        pointUseGuideBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let viewcon = PointUseGuideViewController()
+                self.navigationController?.push(viewController: viewcon)
+            })
+            .disposed(by: self.disposeBag)
         
     }
     

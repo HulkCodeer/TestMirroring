@@ -17,6 +17,7 @@
                 <outlet property="labelCardNum" destination="cKz-Vd-B2Y" id="ap7-Bd-y6t"/>
                 <outlet property="labelCardStatus" destination="Nh1-Wa-4F4" id="lxn-AG-4r5"/>
                 <outlet property="labelContrDate" destination="yh7-hF-vBR" id="LoV-5u-4pM"/>
+                <outlet property="membershipUseGuideBtn" destination="g3O-QF-PWZ" id="WML-FB-9p1"/>
                 <outlet property="viewAddBtn" destination="9Zw-n2-KT2" id="Iou-hd-GgX"/>
                 <outlet property="viewEvinfraList" destination="tjU-wT-vwL" id="VrK-1j-6BC"/>
                 <outlet property="viewLotteList" destination="js3-HB-HDS" id="V0O-vF-ndu"/>
@@ -32,7 +33,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="mwg-Da-0ep">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="344.5"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="392.5"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내 카드" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZsI-0Z-A4q">
                                     <rect key="frame" x="16" y="32" width="343" height="29"/>
@@ -78,8 +79,39 @@
                                         <constraint firstAttribute="trailing" secondItem="NaH-D8-A2N" secondAttribute="trailing" constant="24" id="woE-zW-OBL"/>
                                     </constraints>
                                 </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zg5-E6-0Wv" userLabel="use_guide_view">
+                                    <rect key="frame" x="16" y="336.5" width="343" height="24"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="회원카드 사용방법이 궁금하신가요?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ogx-de-eol" userLabel="membershipUseGuide">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="24"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" name="nt-5"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g3O-QF-PWZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="24"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="24" id="nFG-7a-qBH"/>
+                                            </constraints>
+                                            <state key="normal" title=""/>
+                                            <buttonConfiguration key="configuration" style="plain"/>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="g3O-QF-PWZ" firstAttribute="leading" secondItem="zg5-E6-0Wv" secondAttribute="leading" id="4p9-Dr-ym2"/>
+                                        <constraint firstAttribute="bottom" secondItem="Ogx-de-eol" secondAttribute="bottom" id="FAT-2c-Wom"/>
+                                        <constraint firstItem="Ogx-de-eol" firstAttribute="leading" secondItem="zg5-E6-0Wv" secondAttribute="leading" id="JMb-zY-d9h"/>
+                                        <constraint firstAttribute="trailing" secondItem="Ogx-de-eol" secondAttribute="trailing" id="JaA-fl-Xo6"/>
+                                        <constraint firstItem="Ogx-de-eol" firstAttribute="top" secondItem="zg5-E6-0Wv" secondAttribute="top" id="aLP-tA-OO4"/>
+                                        <constraint firstAttribute="bottom" secondItem="g3O-QF-PWZ" secondAttribute="bottom" id="aoO-3J-zWs"/>
+                                        <constraint firstAttribute="trailing" secondItem="g3O-QF-PWZ" secondAttribute="trailing" id="fyo-IF-8LF"/>
+                                        <constraint firstAttribute="height" constant="24" id="wmv-gP-87b"/>
+                                    </constraints>
+                                </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="krc-y6-DiL" userLabel="skr_view">
-                                    <rect key="frame" x="16" y="312.5" width="343" height="200.5"/>
+                                    <rect key="frame" x="16" y="360.5" width="343" height="200.5"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sk_card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="Sa9-9b-uzd">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="200.5"/>
@@ -96,7 +128,7 @@
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="js3-HB-HDS" userLabel="lotte_view">
-                                    <rect key="frame" x="16" y="312.5" width="343" height="200.5"/>
+                                    <rect key="frame" x="16" y="360.5" width="343" height="200.5"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lotte_card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="eqs-nc-baD">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="200.5"/>
@@ -146,7 +178,7 @@
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Zw-n2-KT2">
-                                    <rect key="frame" x="16" y="312.5" width="343" height="160"/>
+                                    <rect key="frame" x="16" y="360.5" width="343" height="160"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_add_img" translatesAutoresizingMaskIntoConstraints="NO" id="pDd-rf-hSn">
                                             <rect key="frame" x="41.5" y="0.0" width="260" height="160"/>
@@ -204,6 +236,9 @@
         <image name="sk_card_bg" width="328" height="192"/>
         <namedColor name="content-tertiary">
             <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="nt-5">
+            <color red="0.49019607843137253" green="0.49019607843137253" blue="0.49019607843137253" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

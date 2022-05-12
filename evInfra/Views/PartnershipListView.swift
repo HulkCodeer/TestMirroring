@@ -7,8 +7,18 @@
 //
 
 import UIKit
+import RxSwift
 
-class PartnershipListView : UIView {
+protocol PartnershipListViewDelegate {
+    func addNewPartnership()
+    func showEvinfraMembershipInfo(info : MemberPartnershipInfo)
+    func showLotteRentInfo()
+    func moveMembershipUseGuideView()
+}
+
+internal final class PartnershipListView : UIView {
+    // MARK: UI
+    
     @IBOutlet var viewEvinfraList: UIView!
     @IBOutlet var viewSkrList: UIView!
     @IBOutlet var viewLotteList: UIView!
@@ -18,9 +28,17 @@ class PartnershipListView : UIView {
     @IBOutlet var labelContrDate: UILabel!
     @IBOutlet var viewAddBtn: UIView!
     @IBOutlet var btnAddCard: UIImageView!
+    @IBOutlet var membershipUseGuideBtn: UIButton!
     
-    var delegate: PartnershipListViewDelegate?
-    var evInfraInfo : MemberPartnershipInfo?
+    // MARK: VARIABLE
+    
+    internal var delegate: PartnershipListViewDelegate?
+    
+    private var evInfraInfo : MemberPartnershipInfo?
+    private var disposebag = DisposeBag()
+    
+    // MARK: SYSTEM FUNC
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -32,10 +50,23 @@ class PartnershipListView : UIView {
     }
     
     private func commonInit() {
-        let view = Bundle.main.loadNibNamed("PartnershipListView", owner: self, options: nil)?.first as! UIView
+        let view = loadViewFromNib()
         view.frame = self.bounds
         addSubview(view)
         initView()
+        
+        membershipUseGuideBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.delegate?.moveMembershipUseGuideView()
+            })
+            .disposed(by: self.disposebag)
+    }
+    
+    private func loadViewFromNib() -> UIView {
+        guard let view = Bundle.main.loadNibNamed("PartnershipListView", owner: self, options: nil)?.first as? UIView else { return UIView() }
+        return view
     }
     
     func showInfoView(infoList : [MemberPartnershipInfo]) {
@@ -115,9 +146,3 @@ class PartnershipListView : UIView {
         delegate?.addNewPartnership()
     }
 }
-protocol PartnershipListViewDelegate {
-    func addNewPartnership()
-    func showEvinfraMembershipInfo(info : MemberPartnershipInfo)
-    func showLotteRentInfo()
-}
-

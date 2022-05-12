@@ -118,7 +118,9 @@ internal final class MembershipCardViewController: UIViewController,
             self.viewCnt += 1
         }
     }
-    
+}
+
+extension MembershipCardViewController {
     func showEvinfraMembershipInfo(info : MemberPartnershipInfo) {
         let mbsInfoVC = storyboard?.instantiateViewController(withIdentifier: "MembershipInfoViewController") as! MembershipInfoViewController
         mbsInfoVC.setCardInfo(info : info)
@@ -128,5 +130,10 @@ internal final class MembershipCardViewController: UIViewController,
     func showLotteRentInfo(){
         let lotteInfoVC = storyboard?.instantiateViewController(withIdentifier: "LotteRentInfoViewController") as! LotteRentInfoViewController
         navigationController?.push(viewController: lotteInfoVC)
+    }
+    
+    func moveMembershipUseGuideView() {
+        let viewcon = MembershipUseGuideViewController()
+        navigationController?.push(viewController: viewcon)
     }
 }
