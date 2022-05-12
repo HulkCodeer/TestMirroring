@@ -136,4 +136,9 @@ extension MembershipCardViewController {
         let viewcon = MembershipUseGuideViewController()
         navigationController?.push(viewController: viewcon)
     }
+    
+    func moveReissuanceView() {
+        let viewcon = MembershipReissuanceViewController()
+        navigationController?.push(viewController: viewcon)
+    }
 }

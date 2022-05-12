@@ -93,8 +93,6 @@ class MemberManager {
     }
     
     func setData(data: JSON) {
-        print("PARK TEST \(data.debugDescription)")
-        
         if data["mb_id"].stringValue.elementsEqual("") {
             print("mb id is null");
         } else {

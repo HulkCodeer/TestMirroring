@@ -18,6 +18,7 @@
                 <outlet property="labelCardStatus" destination="Nh1-Wa-4F4" id="lxn-AG-4r5"/>
                 <outlet property="labelContrDate" destination="yh7-hF-vBR" id="LoV-5u-4pM"/>
                 <outlet property="membershipUseGuideBtn" destination="g3O-QF-PWZ" id="WML-FB-9p1"/>
+                <outlet property="reissuanceBtn" destination="HJa-uc-75V" id="CnS-xj-NkG"/>
                 <outlet property="viewAddBtn" destination="9Zw-n2-KT2" id="Iou-hd-GgX"/>
                 <outlet property="viewEvinfraList" destination="tjU-wT-vwL" id="VrK-1j-6BC"/>
                 <outlet property="viewLotteList" destination="js3-HB-HDS" id="V0O-vF-ndu"/>
@@ -61,17 +62,26 @@
                                                         <constraint firstAttribute="width" constant="16" id="Pl3-QZ-MID"/>
                                                     </constraints>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJa-uc-75V">
+                                                    <rect key="frame" x="0.0" y="0.0" width="86" height="24"/>
+                                                    <state key="normal" title=""/>
+                                                    <buttonConfiguration key="configuration" style="plain" title=""/>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" name="nt-0"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="nXI-fJ-hyt" secondAttribute="bottom" constant="4" id="0ET-Fh-nes"/>
+                                                <constraint firstAttribute="trailing" secondItem="HJa-uc-75V" secondAttribute="trailing" id="0hU-sD-Nsu"/>
                                                 <constraint firstItem="K4k-QU-C1y" firstAttribute="leading" secondItem="nXI-fJ-hyt" secondAttribute="trailing" id="9KK-Gh-Jxe"/>
                                                 <constraint firstAttribute="bottom" secondItem="K4k-QU-C1y" secondAttribute="bottom" constant="4" id="Dgm-5o-20g"/>
+                                                <constraint firstItem="HJa-uc-75V" firstAttribute="top" secondItem="lYY-Wl-rab" secondAttribute="top" id="NBT-zW-fM0"/>
+                                                <constraint firstItem="HJa-uc-75V" firstAttribute="leading" secondItem="lYY-Wl-rab" secondAttribute="leading" id="O9p-Sl-bun"/>
                                                 <constraint firstItem="nXI-fJ-hyt" firstAttribute="leading" secondItem="lYY-Wl-rab" secondAttribute="leading" constant="8" id="QEf-FN-sOa"/>
                                                 <constraint firstItem="K4k-QU-C1y" firstAttribute="top" secondItem="lYY-Wl-rab" secondAttribute="top" constant="4" id="WT9-6Q-4V9"/>
                                                 <constraint firstAttribute="trailing" secondItem="K4k-QU-C1y" secondAttribute="trailing" constant="4" id="XQp-uB-zDG"/>
                                                 <constraint firstItem="nXI-fJ-hyt" firstAttribute="top" secondItem="lYY-Wl-rab" secondAttribute="top" constant="4" id="hHZ-B4-vDN"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="86" id="rOB-Uy-VvR"/>
+                                                <constraint firstAttribute="bottom" secondItem="HJa-uc-75V" secondAttribute="bottom" id="vab-IB-76n"/>
                                             </constraints>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="IBcornerRadius">

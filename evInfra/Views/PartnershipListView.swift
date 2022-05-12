@@ -14,6 +14,7 @@ protocol PartnershipListViewDelegate {
     func showEvinfraMembershipInfo(info : MemberPartnershipInfo)
     func showLotteRentInfo()
     func moveMembershipUseGuideView()
+    func moveReissuanceView()
 }
 
 internal final class PartnershipListView : UIView {
@@ -29,6 +30,7 @@ internal final class PartnershipListView : UIView {
     @IBOutlet var viewAddBtn: UIView!
     @IBOutlet var btnAddCard: UIImageView!
     @IBOutlet var membershipUseGuideBtn: UIButton!
+    @IBOutlet var reissuanceBtn: UIButton!
     
     // MARK: VARIABLE
     
@@ -60,6 +62,14 @@ internal final class PartnershipListView : UIView {
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.delegate?.moveMembershipUseGuideView()
+            })
+            .disposed(by: self.disposebag)
+        
+        reissuanceBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.delegate?.moveReissuanceView()
             })
             .disposed(by: self.disposebag)
     }
