@@ -342,7 +342,7 @@ extension LeftViewController {
                     
                 case SUB_MENU_MY_LENTAL_INFO: // 렌탈정보 관리
                     let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-                    let mbscdVC = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
+                    let mbscdVC = mbsStoryboard.instantiateViewController(ofType: PartnershipJoinViewController.self)
                     navigationController?.push(viewController: mbscdVC)
                     break
 
