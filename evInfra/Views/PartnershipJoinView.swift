@@ -8,14 +8,25 @@
 
 import UIKit
 import SwiftyJSON
-class PartnershipJoinView : UIView {
-    @IBOutlet var lbEvTitle: UILabel!
-    @IBOutlet var lbPartnerShipTitle: UILabel!
-    @IBOutlet weak var viewEvinfraJoin: UIView!
+
+protocol PartnershipJoinViewDelegate {
+    func showMembershipIssuanceView()
+    func showSKMemberQRView()
+    func showLotteRentCertificateView()
+}
+
+internal final class PartnershipJoinView : UIView {
+    // MARK: UI
+    
+    @IBOutlet weak var lbPartnerShipTitle: UILabel!
     @IBOutlet weak var viewSkrentJoin: UIView!
     @IBOutlet weak var viewLotteJoin: UIView!
     
-    var delegate: PartnershipJoinViewDelegate?
+    // MARK: VARIABLE
+    
+    internal var delegate: PartnershipJoinViewDelegate?
+    
+    // MARK: SYSTEM FUNC
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,8 +47,6 @@ class PartnershipJoinView : UIView {
     
     private func initView() {
         let ev_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickEvInfra))
-        viewEvinfraJoin.addGestureRecognizer(ev_touch)
-        viewEvinfraJoin.layer.cornerRadius = 10
 
         let skr_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickSKRent))
         viewSkrentJoin.addGestureRecognizer(skr_touch)
@@ -52,10 +61,10 @@ class PartnershipJoinView : UIView {
         var partnershipCnt = 2
         for item in infoList {
             switch item.clientId {
-            case 1 : // evinfra
-                lbEvTitle.isHidden = true
-                viewEvinfraJoin.isHidden = true
-                break
+//            case 1 : // evinfra
+//                lbEvTitle.isHidden = true
+//                viewEvinfraJoin.isHidden = true
+//                break
             case 23 : //sk rent
                 viewSkrentJoin.isHidden = true
                 partnershipCnt -= 1
@@ -84,10 +93,4 @@ class PartnershipJoinView : UIView {
     @objc func onClickLotteRent(sender: UITapGestureRecognizer) {
         self.delegate?.showLotteRentCertificateView()
     }
-}
-
-protocol PartnershipJoinViewDelegate {
-    func showMembershipIssuanceView()
-    func showSKMemberQRView()
-    func showLotteRentCertificateView()
 }

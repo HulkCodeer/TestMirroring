@@ -210,106 +210,12 @@
         <!--Partnership Join View Controller-->
         <scene sceneID="Itr-9q-XsC">
             <objects>
-                <viewController id="sc7-UA-9yx" customClass="PartnershipJoinViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="kNf-WI-RuX">
+                <viewController storyboardIdentifier="PartnershipJoinViewController" id="sc7-UA-9yx" customClass="PartnershipJoinViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kNf-WI-RuX" customClass="PartnershipJoinView" customModule="evInfra" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="Gcg-kI-Dw7">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="419"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="EV Infra" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KvS-9s-7W3">
-                                        <rect key="frame" x="16" y="32" width="343" height="21.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="feC-QA-uUE">
-                                        <rect key="frame" x="16" y="77.5" width="343" height="80"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" EV Infra" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sAP-N6-SAP" userLabel="EV Infra">
-                                                <rect key="frame" x="16" y="30.5" width="61" height="19.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="evinfra_logo" translatesAutoresizingMaskIntoConstraints="NO" id="6KL-c2-Z5l">
-                                                <rect key="frame" x="217" y="24" width="110" height="32"/>
-                                            </imageView>
-                                        </subviews>
-                                        <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="6KL-c2-Z5l" secondAttribute="trailing" constant="16" id="BVd-xk-pmU"/>
-                                            <constraint firstItem="6KL-c2-Z5l" firstAttribute="centerY" secondItem="feC-QA-uUE" secondAttribute="centerY" id="VQf-vu-GWh"/>
-                                            <constraint firstAttribute="height" constant="80" id="XES-Fd-obr"/>
-                                            <constraint firstItem="sAP-N6-SAP" firstAttribute="leading" secondItem="feC-QA-uUE" secondAttribute="leading" constant="16" id="h6o-bx-ZwB"/>
-                                            <constraint firstItem="sAP-N6-SAP" firstAttribute="centerY" secondItem="feC-QA-uUE" secondAttribute="centerY" id="rTL-ij-iMb"/>
-                                        </constraints>
-                                    </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="제휴사" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azR-Z0-NhJ">
-                                        <rect key="frame" x="16" y="181.5" width="343" height="21.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fpu-3c-mNT">
-                                        <rect key="frame" x="16" y="227" width="343" height="80"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SK 렌터카" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xOT-LA-IYT">
-                                                <rect key="frame" x="16" y="30.5" width="66" height="19.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_sk_logo" translatesAutoresizingMaskIntoConstraints="NO" id="2KA-x6-FDd">
-                                                <rect key="frame" x="236" y="22.5" width="91" height="35"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="35" id="EGq-cv-9cE"/>
-                                                </constraints>
-                                            </imageView>
-                                        </subviews>
-                                        <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="80" id="6Cv-Wj-6r9"/>
-                                            <constraint firstItem="xOT-LA-IYT" firstAttribute="leading" secondItem="Fpu-3c-mNT" secondAttribute="leading" constant="16" id="Joc-9U-JCP"/>
-                                            <constraint firstItem="xOT-LA-IYT" firstAttribute="centerY" secondItem="Fpu-3c-mNT" secondAttribute="centerY" id="eM8-HW-2v4"/>
-                                            <constraint firstItem="2KA-x6-FDd" firstAttribute="centerY" secondItem="Fpu-3c-mNT" secondAttribute="centerY" id="pB3-Oi-9tg"/>
-                                            <constraint firstAttribute="trailing" secondItem="2KA-x6-FDd" secondAttribute="trailing" constant="16" id="wh4-zQ-QmS"/>
-                                        </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6p7-Rc-Q4d">
-                                        <rect key="frame" x="16" y="331" width="343" height="80"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="롯데 렌터카" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6eN-EA-agL">
-                                                <rect key="frame" x="16" y="30.5" width="73.5" height="19.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lotte_logo" translatesAutoresizingMaskIntoConstraints="NO" id="nHR-dI-szI">
-                                                <rect key="frame" x="222" y="27" width="105" height="26.5"/>
-                                            </imageView>
-                                        </subviews>
-                                        <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstItem="6eN-EA-agL" firstAttribute="centerY" secondItem="6p7-Rc-Q4d" secondAttribute="centerY" id="6uF-GA-fCy"/>
-                                            <constraint firstAttribute="trailing" secondItem="nHR-dI-szI" secondAttribute="trailing" constant="16" id="Dbg-R1-yrv"/>
-                                            <constraint firstItem="nHR-dI-szI" firstAttribute="centerY" secondItem="6p7-Rc-Q4d" secondAttribute="centerY" id="HtV-jK-3ak"/>
-                                            <constraint firstAttribute="height" constant="80" id="Vs4-Wk-C0F"/>
-                                            <constraint firstItem="6eN-EA-agL" firstAttribute="leading" secondItem="6p7-Rc-Q4d" secondAttribute="leading" constant="16" id="nHW-Xe-FfV"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <edgeInsets key="layoutMargins" top="32" left="16" bottom="8" right="16"/>
-                            </stackView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="KsO-Rk-nBX"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Gcg-kI-Dw7" secondAttribute="trailing" id="St3-pq-7cu"/>
-                            <constraint firstItem="Gcg-kI-Dw7" firstAttribute="top" secondItem="KsO-Rk-nBX" secondAttribute="top" id="o9l-fW-9qu"/>
-                            <constraint firstItem="Gcg-kI-Dw7" firstAttribute="leading" secondItem="KsO-Rk-nBX" secondAttribute="leading" id="y9p-qb-3w5"/>
-                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gqT-lg-48E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1208,10 +1114,7 @@
         <image name="call_btn" width="202.5" height="48"/>
         <image name="card_bg" width="328" height="216"/>
         <image name="card_evinfra_logo" width="72" height="16"/>
-        <image name="evinfra_logo" width="110" height="32"/>
-        <image name="list_sk_logo" width="91" height="42.5"/>
         <image name="lotte_card_bg" width="442.5" height="262.5"/>
-        <image name="lotte_logo" width="105" height="26.5"/>
         <image name="lotte_logo_white" width="105" height="26.5"/>
         <image name="qr_box" width="285" height="284"/>
         <image name="qr_loacation_img" width="181" height="128"/>

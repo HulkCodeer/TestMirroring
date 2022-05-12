@@ -9,5 +9,8 @@
 import Foundation
 
 internal final class PartnershipJoinViewController: UIViewController {
-    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        prepareActionBar(with: "렌터카 정보 관리")
+    }
 }
