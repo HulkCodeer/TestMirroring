@@ -779,14 +779,6 @@
             <point key="canvasLocation" x="-1388" y="25.637181409295355"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="V0k-eg-psY">
-            <size key="intrinsicContentSize" width="32" height="34"/>
-        </designable>
-        <designable name="Vjd-ZG-9S9">
-            <size key="intrinsicContentSize" width="32" height="34"/>
-        </designable>
-    </designables>
     <color key="tintColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
     <resources>
         <image name="botton_new_dot" width="6" height="6"/>
