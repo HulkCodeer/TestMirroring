@@ -1402,4 +1402,16 @@ class Server {
                       method: .get, parameters: nil, encoding: JSONEncoding.default)
         .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
+    
+    // MARK: - 비밀번호 확인
+    static func getCheckPasword(password: String, completion: @escaping (Bool, Any) -> Void) {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.getMbId(),
+            "mb_pw": password
+        ]
+        
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/membership_card/check_password",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
 }

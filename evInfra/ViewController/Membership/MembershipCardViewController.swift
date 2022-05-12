@@ -15,7 +15,6 @@ internal final class MembershipCardViewController: UIViewController,
 
     private var partnershipJoinView : PartnershipJoinView? = nil
     private var partnershipListView : PartnershipListView? = nil
-    
     private var payRegistResult: JSON?
     private var partnershipInfoList = [MemberPartnershipInfo]()
     private var viewCnt = 0;
@@ -139,6 +138,31 @@ extension MembershipCardViewController {
     
     func moveReissuanceView() {
         let viewcon = MembershipReissuanceViewController()
-        navigationController?.push(viewController: viewcon)
+        
+        for item in partnershipInfoList {
+            switch item.clientId {
+            case 1 : // evinfra
+                viewcon.cardNo = item.cardNo ?? ""
+                navigationController?.push(viewController: viewcon)
+                                
+                break
+
+//            case 23 : //sk rent
+//                viewSkrList.isHidden = false
+//                cardCnt -= 1
+//                MemberManager.setSKRentConfig()
+//                isSKR = true
+//                break;
+//
+//            case 24 : //lotte rent
+//                viewLotteList.isHidden = false
+//                labelCarNo.text = item.carNo
+//                labelContrDate.text = item.startDate! + " ~ " + item.endDate!
+//                cardCnt -= 1
+//                break
+            default :
+                print("out of index")
+            }
+        }
     }
 }

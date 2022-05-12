@@ -92,7 +92,7 @@ class MemberManager {
         return mbLevel == MemberManager.MB_LEVEL_GUARD
     }
     
-    func setData(data: JSON) {
+    func setData(data: JSON) {    
         if data["mb_id"].stringValue.elementsEqual("") {
             print("mb id is null");
         } else {

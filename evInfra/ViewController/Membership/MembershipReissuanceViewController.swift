@@ -6,6 +6,9 @@
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 
+import RxSwift
+import SwiftyJSON
+
 internal final class MembershipReissuanceViewController: UIViewController {
     
     // MARK: UI
@@ -37,9 +40,12 @@ internal final class MembershipReissuanceViewController: UIViewController {
     
     private lazy var passwordInputTf = UITextField().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-//        $0.IBcornerRadius = 디자인가이드에 이미지로 되어있어서 알 수가 없음
         $0.keyboardType = .numberPad
+        $0.isSecureTextEntry = true
         $0.delegate = self
+        $0.borderColor = UIColor(named: "nt-2")
+        $0.IBborderWidth = 1
+        $0.IBcornerRadius = 6
     }
     
     private lazy var findPasswordGuideLbl = UILabel().then {
@@ -59,6 +65,12 @@ internal final class MembershipReissuanceViewController: UIViewController {
         $0.setTitle("다음", for: .normal)
         $0.isEnabled = false
     }
+    
+    // MARK: VARIABLE
+    
+    internal var cardNo: String = ""
+    
+    private let disposebag = DisposeBag()
     
     // MARK: SYSTEM FUNC
     
@@ -111,7 +123,31 @@ internal final class MembershipReissuanceViewController: UIViewController {
         passwordInputTf.snp.makeConstraints {
             $0.top.equalTo(passwordTitleLbl.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(48)
         }
+        
+        passwordInputTf.addLeftPadding(padding: 16)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        nextBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                Server.getCheckPasword(password: self.passwordInputTf.text ?? "") { (isSuccess, value) in
+                    if isSuccess {
+                        let json = JSON(value)
+                        if json["code"].intValue == 1000 {
+                            print(json)
+                            
+
+                        }
+                    }
+                }
+            })
+            .disposed(by: self.disposebag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -156,11 +192,9 @@ extension MembershipReissuanceViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let text = textField.text ?? ""
         
-        if string.isEmpty && text.count == 1 {
-            nextBtn.isEnabled = false
-        } else {
-            nextBtn.isEnabled = true
-        }
+        let isEnabled = !(string.isEmpty && text.count == 1)
+        nextBtn.isEnabled = isEnabled
+        passwordInputTf.borderColor = isEnabled ? UIColor(named: "nt-9") : UIColor(named: "nt-2")
         
         return true
     }
@@ -173,5 +207,14 @@ internal final class NextButton: UIButton {
             
             backgroundColor = isEnabled ? UIColor(named: "gr-5") : UIColor(named: "background-disabled")
         }
+    }
+}
+
+
+extension UITextField {
+    func addLeftPadding(padding: CGFloat) {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: self.frame.height))
+        self.leftView = paddingView
+        self.leftViewMode = ViewMode.always
     }
 }
