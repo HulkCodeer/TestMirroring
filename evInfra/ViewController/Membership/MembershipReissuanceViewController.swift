@@ -203,11 +203,7 @@ internal final class MembershipReissuanceViewController: UIViewController {
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.passwordInputTf.text = ""
-                self.passwordInputTf.isEnabled = false
-                self.negativeMessageLbl.isHidden = true
-                self.clearTxtBtn.isHidden = true
-                self.clearTxtImgView.isHidden = true
-                self.nextBtn.isEnabled = false
+                self.setEnableComponent(isEnabled: false)
             })
             .disposed(by: self.disposebag)
         
@@ -216,23 +212,22 @@ internal final class MembershipReissuanceViewController: UIViewController {
             .skip(1)
             .drive(onNext: { [weak self] text in
                 guard let self = self else { return }
-                
-                printLog(out: "PARK TEST \(text)")
+                            
                 let str = text ?? ""
                 let tfStr = self.passwordInputTf.text ?? ""
-                                
                 let isEnabled = str.count + tfStr.count >= 1
-
-                self.nextBtn.isEnabled = isEnabled
-
-                self.passwordInputTf.borderColor = isEnabled ? UIColor(named: "nt-9") : UIColor(named: "nt-2")
-
-                self.clearTxtImgView.isHidden = !isEnabled
-                self.clearTxtBtn.isHidden = self.clearTxtImgView.isHidden
-
-                self.negativeMessageLbl.isHidden = isEnabled
+                
+                self.setEnableComponent(isEnabled: isEnabled)
             })
             .disposed(by: self.disposebag)
+    }
+    
+    private func setEnableComponent(isEnabled: Bool) {
+        self.clearTxtBtn.isHidden = !isEnabled
+        self.clearTxtImgView.isHidden = !isEnabled
+        self.nextBtn.isEnabled = isEnabled
+        self.passwordInputTf.borderColor = isEnabled ? UIColor(named: "nt-9") : UIColor(named: "nt-2")
+        self.negativeMessageLbl.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
