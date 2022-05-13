@@ -54,6 +54,11 @@
                                 <constraint firstAttribute="trailing" secondItem="926-Ix-99F" secondAttribute="trailing" constant="16" id="Rif-eH-56f"/>
                                 <constraint firstItem="SGZ-2Y-kjS" firstAttribute="leading" secondItem="CTz-zd-ol3" secondAttribute="leading" constant="16" id="iz7-45-TRM"/>
                             </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="IBcornerRadius">
+                                    <real key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lk4-Wr-LUf">
                             <rect key="frame" x="16" y="181.5" width="343" height="80"/>
@@ -76,6 +81,11 @@
                                 <constraint firstAttribute="height" constant="80" id="M7B-Ut-1qc"/>
                                 <constraint firstItem="g67-yD-xCZ" firstAttribute="leading" secondItem="Lk4-Wr-LUf" secondAttribute="leading" constant="16" id="tzR-9R-BnH"/>
                             </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="IBcornerRadius">
+                                    <real key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                         </view>
                     </subviews>
                     <edgeInsets key="layoutMargins" top="32" left="16" bottom="8" right="16"/>

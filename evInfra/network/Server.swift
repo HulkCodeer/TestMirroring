@@ -202,13 +202,13 @@ class Server {
         .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
     
-    // 회원 - 회원 제휴 정보 가져오기
-    static func getMemberPartnershipInfo(completion: @escaping (Bool, Any) -> Void) {
+    // 회원 - 렌터카 카드 정보 조회
+    static func getRetnalCarCardInfo(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId()
         ]
         
-        Alamofire.request(Const.EV_PAY_SERVER + "/member/member_partnership/get_member_info",
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/v2/member_partnership/get_member_info",
                       method: .post, parameters: reqParam, encoding: JSONEncoding.default)
         .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }

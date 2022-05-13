@@ -10,17 +10,33 @@ import UIKit
 import Material
 import SwiftyJSON
 
-internal final class MembershipCardViewController: UIViewController,
-    PartnershipJoinViewDelegate, PartnershipListViewDelegate {
+internal final class MembershipCardViewController: UIViewController {
 
-    private var partnershipJoinView : PartnershipJoinView? = nil
-    private var partnershipListView : PartnershipListView? = nil
+    // MARK: UI
+    
+    private lazy var partnershipListView = PartnershipListView(frame: .zero).then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.delegate = self        
+    }
+    
+    // MARK: VARIABLE
+    
     private var payRegistResult: JSON?
-    private var partnershipInfoList = [MemberPartnershipInfo]()
-    private var viewCnt = 0;
+    
+    // MARK: SYSTEM FUNC
+    
+    override func loadView() {
+        super.loadView()
+        
+        view.addSubview(partnershipListView)
+        partnershipListView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         prepareActionBar()
     }
     
@@ -33,34 +49,13 @@ internal final class MembershipCardViewController: UIViewController,
     }
 
     func checkMembershipData() {        
-        Server.getMemberPartnershipInfo { (isSuccess, value) in
+        Server.getInfoMembershipCard { [weak self] (isSuccess, value) in
+            guard let self = self else { return }
             if isSuccess {
                 let json = JSON(value)
-                self.partnershipInfoList.removeAll()
-                
-                let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-                if json["code"].stringValue.elementsEqual("1101") { // MBS_CARD_NOT_ISSUED 발급받은 회원카드가 없음
-                    UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: false)
-                    self.partnershipJoinView = PartnershipJoinView.init(frame: frame)
-                    if let pjView = self.partnershipJoinView {
-                        pjView.delegate = self
-                        pjView.showInfoView(infoList : self.partnershipInfoList)
-                        self.view.addSubview(pjView)
-                        self.viewCnt = 1
-                    }
-                } else {
-                    for jsonRow in json["list"].arrayValue {
-                        let item : MemberPartnershipInfo = MemberPartnershipInfo.init(json : jsonRow)
-                        self.partnershipInfoList.append(item)
-                    }
-                    self.partnershipListView = PartnershipListView.init(frame: frame)
-                    if let plView = self.partnershipListView {
-                        plView.delegate = self
-                        plView.showInfoView(infoList: self.partnershipInfoList)
-                        self.view.addSubview(plView)
-                        self.viewCnt = 1
-                    }
-                }
+                print("JSON DATA : \(json)")
+                let item : MemberPartnershipInfo = MemberPartnershipInfo(json)
+                self.partnershipListView.showInfoView(info: item)
             }
         }
     }
@@ -79,47 +74,14 @@ internal final class MembershipCardViewController: UIViewController,
 
     @objc
     fileprivate func handleBackButton() {
-        if viewCnt > 1 {
-            viewCnt -= 1
-            if let plView = self.partnershipListView {
-                plView.delegate = self
-                plView.showInfoView(infoList: self.partnershipInfoList)
-                self.view.addSubview(plView)
-            }
-        }
-        else {
-            self.view.removeFromSuperview()
-            self.navigationController?.pop()
-        }
-    }
-    
-    func showMembershipIssuanceView() {
-        let mbsIssueVC = storyboard?.instantiateViewController(withIdentifier: "MembershipIssuanceViewController") as! MembershipIssuanceViewController
-        navigationController?.push(viewController: mbsIssueVC)
-    }
-    func showSKMemberQRView() {
-        let mbsQRVC = storyboard?.instantiateViewController(withIdentifier: "MembershipQRViewController") as! MembershipQRViewController
-        navigationController?.push(viewController: mbsQRVC)
-    }
-    
-    func showLotteRentCertificateView() {
-        let lotteVC = storyboard?.instantiateViewController(withIdentifier: "LotteRentCertificateViewController") as! LotteRentCertificateViewController
-        navigationController?.push(viewController: lotteVC)
-    }
-    
-    func addNewPartnership() {
-        let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-        self.partnershipJoinView = PartnershipJoinView.init(frame: frame)
-        if let pjView = self.partnershipJoinView {
-            pjView.delegate = self
-            pjView.showInfoView(infoList : self.partnershipInfoList)
-            self.view.addSubview(pjView)
-            self.viewCnt += 1
-        }
+        self.navigationController?.pop()
     }
 }
 
-extension MembershipCardViewController {
+extension MembershipCardViewController: PartnershipListViewDelegate {
+    func addNewPartnership() {
+    }
+    
     func showEvinfraMembershipInfo(info : MemberPartnershipInfo) {
         let mbsInfoVC = storyboard?.instantiateViewController(withIdentifier: "MembershipInfoViewController") as! MembershipInfoViewController
         mbsInfoVC.setCardInfo(info : info)
@@ -136,33 +98,9 @@ extension MembershipCardViewController {
         navigationController?.push(viewController: viewcon)
     }
     
-    func moveReissuanceView() {
+    func moveReissuanceView(info: MemberPartnershipInfo) {
         let viewcon = MembershipReissuanceViewController()
-        
-        for item in partnershipInfoList {
-            switch item.clientId {
-            case 1 : // evinfra
-                viewcon.cardNo = item.cardNo ?? ""
-                navigationController?.push(viewController: viewcon)
-                                
-                break
-
-//            case 23 : //sk rent
-//                viewSkrList.isHidden = false
-//                cardCnt -= 1
-//                MemberManager.setSKRentConfig()
-//                isSKR = true
-//                break;
-//
-//            case 24 : //lotte rent
-//                viewLotteList.isHidden = false
-//                labelCarNo.text = item.carNo
-//                labelContrDate.text = item.startDate! + " ~ " + item.endDate!
-//                cardCnt -= 1
-//                break
-            default :
-                print("out of index")
-            }
-        }
+        viewcon.cardNo = info.cardNo ?? ""
+        navigationController?.push(viewController: viewcon)
     }
 }

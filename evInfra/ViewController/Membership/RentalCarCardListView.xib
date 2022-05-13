@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RentalCarCardListView" customModule="evInfra" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ejj-YO-Vwx">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="YCA-Ug-bbY">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="583.5"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b2P-zm-n8q">
+                                    <rect key="frame" x="16" y="44" width="382" height="60"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내 카드" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tPL-xb-rm9">
+                                            <rect key="frame" x="0.0" y="24" width="45.5" height="20"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="tPL-xb-rm9" firstAttribute="top" secondItem="b2P-zm-n8q" secondAttribute="top" constant="24" id="0b0-Wb-LgZ"/>
+                                        <constraint firstAttribute="bottom" secondItem="tPL-xb-rm9" secondAttribute="bottom" constant="16" id="5Ef-fc-FQD"/>
+                                        <constraint firstAttribute="height" constant="60" id="KwY-R2-bFm"/>
+                                        <constraint firstItem="tPL-xb-rm9" firstAttribute="leading" secondItem="b2P-zm-n8q" secondAttribute="leading" id="vB2-bm-Eae"/>
+                                    </constraints>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RPM-Wj-nnU" userLabel="skr_view">
+                                    <rect key="frame" x="16" y="104" width="382" height="224"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sk_card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="y1r-hX-L40">
+                                            <rect key="frame" x="0.0" y="0.0" width="382" height="224"/>
+                                            <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="RPM-Wj-nnU" secondAttribute="height" multiplier="437:256" id="0hK-rg-kUm"/>
+                                        <constraint firstAttribute="bottom" secondItem="y1r-hX-L40" secondAttribute="bottom" id="86J-wj-mRn"/>
+                                        <constraint firstAttribute="trailing" secondItem="y1r-hX-L40" secondAttribute="trailing" id="ItP-Pg-cHl"/>
+                                        <constraint firstItem="y1r-hX-L40" firstAttribute="leading" secondItem="RPM-Wj-nnU" secondAttribute="leading" id="ZUf-Q8-4oZ"/>
+                                        <constraint firstItem="y1r-hX-L40" firstAttribute="top" secondItem="RPM-Wj-nnU" secondAttribute="top" id="zkx-n2-jYK"/>
+                                    </constraints>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XbF-2i-hdd" userLabel="lotte_view">
+                                    <rect key="frame" x="16" y="328" width="382" height="223.5"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lotte_card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="6G6-vn-RbV">
+                                            <rect key="frame" x="0.0" y="0.0" width="382" height="223.5"/>
+                                            <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
+                                        </imageView>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lotte_logo_white" translatesAutoresizingMaskIntoConstraints="NO" id="SV5-Cv-jkt">
+                                            <rect key="frame" x="258" y="24" width="100" height="24"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="100" id="G3Y-3E-PHX"/>
+                                                <constraint firstAttribute="height" constant="24" id="Gv3-xB-gV0"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00임0000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EkI-Nz-Z8o">
+                                            <rect key="frame" x="24" y="24" width="72.5" height="19.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="계약기간" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oQy-sw-YVt">
+                                            <rect key="frame" x="24" y="178" width="62.5" height="21.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00.00.00~00.00.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N84-h6-8DB">
+                                            <rect key="frame" x="94.5" y="178" width="155.5" height="21.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="N84-h6-8DB" secondAttribute="bottom" constant="24" id="0dX-iC-LNC"/>
+                                        <constraint firstItem="SV5-Cv-jkt" firstAttribute="top" secondItem="XbF-2i-hdd" secondAttribute="top" constant="24" id="2kV-CO-OE6"/>
+                                        <constraint firstItem="6G6-vn-RbV" firstAttribute="top" secondItem="XbF-2i-hdd" secondAttribute="top" id="9WG-bh-cdL"/>
+                                        <constraint firstItem="EkI-Nz-Z8o" firstAttribute="top" secondItem="XbF-2i-hdd" secondAttribute="top" constant="24" id="DBv-dh-gWE"/>
+                                        <constraint firstAttribute="bottom" secondItem="oQy-sw-YVt" secondAttribute="bottom" constant="24" id="Mxj-Qv-6HO"/>
+                                        <constraint firstItem="6G6-vn-RbV" firstAttribute="height" secondItem="XbF-2i-hdd" secondAttribute="height" id="WNi-G3-mOZ"/>
+                                        <constraint firstItem="EkI-Nz-Z8o" firstAttribute="leading" secondItem="XbF-2i-hdd" secondAttribute="leading" constant="24" id="Xs6-MO-xaU"/>
+                                        <constraint firstItem="6G6-vn-RbV" firstAttribute="width" secondItem="XbF-2i-hdd" secondAttribute="width" id="b45-QP-2rw"/>
+                                        <constraint firstAttribute="width" secondItem="XbF-2i-hdd" secondAttribute="height" multiplier="41:24" id="bWi-Tc-bcg"/>
+                                        <constraint firstItem="N84-h6-8DB" firstAttribute="leading" secondItem="oQy-sw-YVt" secondAttribute="trailing" constant="8" id="i6A-D3-Fol"/>
+                                        <constraint firstItem="oQy-sw-YVt" firstAttribute="leading" secondItem="XbF-2i-hdd" secondAttribute="leading" constant="24" id="iME-Kz-ata"/>
+                                        <constraint firstItem="6G6-vn-RbV" firstAttribute="leading" secondItem="XbF-2i-hdd" secondAttribute="leading" id="oQm-cB-vpC"/>
+                                        <constraint firstAttribute="trailing" secondItem="SV5-Cv-jkt" secondAttribute="trailing" constant="24" id="xtJ-lZ-aGD"/>
+                                    </constraints>
+                                </view>
+                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KvL-kH-kiL">
+                                    <rect key="frame" x="16" y="551.5" width="382" height="160"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_add_img" translatesAutoresizingMaskIntoConstraints="NO" id="J9n-al-gAW">
+                                            <rect key="frame" x="61" y="0.0" width="260" height="160"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="260" id="ci4-6F-GET"/>
+                                                <constraint firstAttribute="height" constant="160" id="ud2-fn-uOI"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전카드 추가하기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OcI-Ac-vmb">
+                                            <rect key="frame" x="140.5" y="127" width="101" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" name="content-tertiary"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="J9n-al-gAW" firstAttribute="centerY" secondItem="KvL-kH-kiL" secondAttribute="centerY" id="XeF-de-Fgx"/>
+                                        <constraint firstItem="OcI-Ac-vmb" firstAttribute="bottom" secondItem="J9n-al-gAW" secondAttribute="bottom" constant="-16" id="a3g-7w-NAh"/>
+                                        <constraint firstItem="OcI-Ac-vmb" firstAttribute="centerX" secondItem="J9n-al-gAW" secondAttribute="centerX" id="dTU-i6-us8"/>
+                                        <constraint firstItem="J9n-al-gAW" firstAttribute="centerX" secondItem="KvL-kH-kiL" secondAttribute="centerX" id="mI0-0q-eAy"/>
+                                        <constraint firstItem="J9n-al-gAW" firstAttribute="top" secondItem="KvL-kH-kiL" secondAttribute="top" id="ooW-IH-KTm"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                            <edgeInsets key="layoutMargins" top="0.0" left="16" bottom="32" right="16"/>
+                        </stackView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="YCA-Ug-bbY" firstAttribute="width" secondItem="ejj-YO-Vwx" secondAttribute="width" id="9ex-iZ-Bz9"/>
+                        <constraint firstAttribute="bottom" secondItem="YCA-Ug-bbY" secondAttribute="bottom" id="Ash-bu-lnN"/>
+                        <constraint firstItem="YCA-Ug-bbY" firstAttribute="leading" secondItem="ejj-YO-Vwx" secondAttribute="leading" id="KVW-Hn-WPh"/>
+                        <constraint firstAttribute="trailing" secondItem="YCA-Ug-bbY" secondAttribute="trailing" id="OYA-Zr-7s3"/>
+                        <constraint firstItem="YCA-Ug-bbY" firstAttribute="top" secondItem="ejj-YO-Vwx" secondAttribute="top" id="xNL-Dj-Cxu"/>
+                    </constraints>
+                </scrollView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="ejj-YO-Vwx" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="EqV-U3-VlW"/>
+                <constraint firstItem="ejj-YO-Vwx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="PLQ-nM-QzS"/>
+                <constraint firstAttribute="trailing" secondItem="ejj-YO-Vwx" secondAttribute="trailing" id="plD-Kv-8Uz"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="ejj-YO-Vwx" secondAttribute="bottom" id="rzB-bG-Ikg"/>
+            </constraints>
+            <point key="canvasLocation" x="132" y="70"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="card_add_img" width="341" height="192"/>
+        <image name="lotte_card_bg" width="442.5" height="262.5"/>
+        <image name="lotte_logo_white" width="105" height="26.5"/>
+        <image name="sk_card_bg" width="328" height="192"/>
+        <namedColor name="content-tertiary">
+            <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

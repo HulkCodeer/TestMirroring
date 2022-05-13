@@ -207,21 +207,6 @@
             </objects>
             <point key="canvasLocation" x="1554" y="-704"/>
         </scene>
-        <!--Partnership Join View Controller-->
-        <scene sceneID="Itr-9q-XsC">
-            <objects>
-                <viewController storyboardIdentifier="PartnershipJoinViewController" id="sc7-UA-9yx" customClass="PartnershipJoinViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="kNf-WI-RuX" customClass="PartnershipJoinView" customModule="evInfra" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="KsO-Rk-nBX"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gqT-lg-48E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2410" y="-705"/>
-        </scene>
         <!--Membership Issuance View Controller-->
         <scene sceneID="HWY-mr-tUr">
             <objects>

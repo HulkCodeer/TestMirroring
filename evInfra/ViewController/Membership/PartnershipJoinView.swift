@@ -46,15 +46,12 @@ internal final class PartnershipJoinView : UIView {
     }
     
     private func initView() {
-        let ev_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickEvInfra))
-
         let skr_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickSKRent))
         viewSkrentJoin.addGestureRecognizer(skr_touch)
-        viewSkrentJoin.layer.cornerRadius = 10
+
         
         let lotte_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickLotteRent))
         viewLotteJoin.addGestureRecognizer(lotte_touch)
-        viewLotteJoin.layer.cornerRadius = 10
     }
     
     func showInfoView(infoList : [MemberPartnershipInfo]) {

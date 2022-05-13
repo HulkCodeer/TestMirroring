@@ -51,7 +51,7 @@ class MembershipInfoViewController: UIViewController {
         btnModify.layer.cornerRadius = 4
         let str = memberInfo?.cardNo!.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-");
         lbCardNo.text = str
-        lbCardStatus.text = getCardStatusToString(status: memberInfo!.status!)
+        lbCardStatus.text = getCardStatusToString(status: memberInfo!.status)
         let tap_touch = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         view.addGestureRecognizer(tap_touch)
         

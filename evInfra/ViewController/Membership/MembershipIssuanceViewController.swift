@@ -241,7 +241,7 @@ class MembershipIssuanceViewController: UIViewController,
     
     func searchZipCode() {
         let mainStoryboard = UIStoryboard(name : "Map", bundle: nil)
-        let saVC = mainStoryboard.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
+        let saVC = mainStoryboard.instantiateViewController(ofType: SearchAddressViewController.self)
         saVC.searchAddressDelegate = self
         
         navigationController?.push(viewController: saVC)

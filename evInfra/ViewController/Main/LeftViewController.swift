@@ -340,10 +340,9 @@ extension LeftViewController {
                     navigationController?.push(viewController: viewcon)
                     break
                     
-                case SUB_MENU_MY_LENTAL_INFO: // 렌탈정보 관리
-                    let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-                    let mbscdVC = mbsStoryboard.instantiateViewController(ofType: PartnershipJoinViewController.self)
-                    navigationController?.push(viewController: mbscdVC)
+                case SUB_MENU_MY_LENTAL_INFO: // 렌탈정보 관리                    
+                    let viewcon = RentalCarCardListViewController()
+                    navigationController?.push(viewController: viewcon)
                     break
 
                 case SUB_MENU_MY_CHARGING_HISTORY: // 충전이력조회

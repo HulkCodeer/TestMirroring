@@ -10,7 +10,7 @@ import Material
 import WebKit
 import SwiftyJSON
 
-class SearchAddressViewController: UIViewController {
+internal final class SearchAddressViewController: UIViewController {
 
     var mWebView: WKWebView!
     var searchAddressDelegate: SearchAddressViewDelegate? = nil
