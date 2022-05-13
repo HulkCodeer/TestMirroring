@@ -48,6 +48,17 @@ internal final class MembershipReissuanceViewController: UIViewController {
         $0.IBcornerRadius = 6
     }
     
+    private lazy var clearTxtImgView = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = UIImage(named: "icon_close_md")
+        $0.tintColor = UIColor(named: "content-primary")
+        $0.isHidden = true
+    }
+    
+    private lazy var clearTxtBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     private lazy var findPasswordGuideLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 12, weight: .bold)
@@ -63,7 +74,14 @@ internal final class MembershipReissuanceViewController: UIViewController {
     private lazy var nextBtn = NextButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("다음", for: .normal)
+        $0.setTitleColor(UIColor(named: "content-primary"), for: .normal)
         $0.isEnabled = false
+    }
+    
+    private lazy var negativeMessageLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textColor = UIColor(named: "content-negative")
+        $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
     }
     
     // MARK: VARIABLE
@@ -126,6 +144,26 @@ internal final class MembershipReissuanceViewController: UIViewController {
             $0.height.equalTo(48)
         }
         
+        totalView.addSubview(clearTxtImgView)
+        clearTxtImgView.snp.makeConstraints {
+            $0.trailing.equalTo(passwordInputTf.snp.trailing).offset(-16)
+            $0.centerY.equalTo(passwordInputTf.snp.centerY)
+            $0.width.height.equalTo(24)
+        }
+        
+        totalView.addSubview(clearTxtBtn)
+        clearTxtBtn.snp.makeConstraints {
+            $0.center.equalTo(clearTxtImgView.snp.center)
+            $0.width.height.equalTo(44)
+        }
+        
+        totalView.addSubview(negativeMessageLbl)
+        negativeMessageLbl.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(passwordInputTf.snp.bottom).offset(4)
+            $0.height.equalTo(16)
+        }
+        
         passwordInputTf.addLeftPadding(padding: 16)
     }
     
@@ -136,16 +174,63 @@ internal final class MembershipReissuanceViewController: UIViewController {
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                Server.getCheckPasword(password: self.passwordInputTf.text ?? "") { (isSuccess, value) in
+                Server.getCheckPassword(password: self.passwordInputTf.text ?? "", cardNo: self.cardNo) { [weak self] (isSuccess, value) in
+                    guard let self = self else { return }
+                    printLog(out: "SERVER SEND \(isSuccess)")
                     if isSuccess {
                         let json = JSON(value)
-                        if json["code"].intValue == 1000 {
-                            print(json)
+                        printLog(out: "JSON getCheckPasword DATA : \(json)")
+                        let code = json["code"].intValue
+                        switch code {
+                        case 1000:
+                            printLog(out: "1000")
+                            break
                             
-
+                        case 1103:
+                            self.negativeMessageLbl.text = json["msg"].stringValue
+                            self.negativeMessageLbl.isHidden = false
+                            self.passwordInputTf.borderColor = UIColor(named: "content-negative")
+                            
+                        default: break
                         }
                     }
                 }
+            })
+            .disposed(by: self.disposebag)
+        
+        clearTxtBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.passwordInputTf.text = ""
+                self.passwordInputTf.isEnabled = false
+                self.negativeMessageLbl.isHidden = true
+                self.clearTxtBtn.isHidden = true
+                self.clearTxtImgView.isHidden = true
+                self.nextBtn.isEnabled = false
+            })
+            .disposed(by: self.disposebag)
+        
+        passwordInputTf.rx.text
+            .asDriver()
+            .skip(1)
+            .drive(onNext: { [weak self] text in
+                guard let self = self else { return }
+                
+                printLog(out: "PARK TEST \(text)")
+                let str = text ?? ""
+                let tfStr = self.passwordInputTf.text ?? ""
+                                
+                let isEnabled = str.count + tfStr.count >= 1
+
+                self.nextBtn.isEnabled = isEnabled
+
+                self.passwordInputTf.borderColor = isEnabled ? UIColor(named: "nt-9") : UIColor(named: "nt-2")
+
+                self.clearTxtImgView.isHidden = !isEnabled
+                self.clearTxtBtn.isHidden = self.clearTxtImgView.isHidden
+
+                self.negativeMessageLbl.isHidden = isEnabled
             })
             .disposed(by: self.disposebag)
     }
@@ -188,17 +273,7 @@ internal final class MembershipReissuanceViewController: UIViewController {
     }
 }
 
-extension MembershipReissuanceViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let text = textField.text ?? ""
-        
-        let isEnabled = !(string.isEmpty && text.count == 1)
-        nextBtn.isEnabled = isEnabled
-        passwordInputTf.borderColor = isEnabled ? UIColor(named: "nt-9") : UIColor(named: "nt-2")
-        
-        return true
-    }
-}
+extension MembershipReissuanceViewController: UITextFieldDelegate {}
 
 internal final class NextButton: UIButton {
     override var isEnabled: Bool {
