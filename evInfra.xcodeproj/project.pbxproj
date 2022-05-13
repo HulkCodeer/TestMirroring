@@ -155,6 +155,7 @@
 		63DA0A05282E337F0021292C /* RentalCarCardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A04282E337F0021292C /* RentalCarCardListView.swift */; };
 		63DA0A07282E35780021292C /* RentalCarCardListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A06282E35780021292C /* RentalCarCardListViewController.swift */; };
 		63DA0A09282E44020021292C /* SC_TRACE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A08282E44020021292C /* SC_TRACE.swift */; };
+		63DA0A0B282E600C0021292C /* MembershipReissuanceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A0A282E600C0021292C /* MembershipReissuanceInfoViewController.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView.swift */; };
 		7312786820BE38C500861B3E /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786720BE38C500861B3E /* FCMManager.swift */; };
@@ -562,6 +563,7 @@
 		63DA0A04282E337F0021292C /* RentalCarCardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalCarCardListView.swift; sourceTree = "<group>"; };
 		63DA0A06282E35780021292C /* RentalCarCardListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalCarCardListViewController.swift; sourceTree = "<group>"; };
 		63DA0A08282E44020021292C /* SC_TRACE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SC_TRACE.swift; sourceTree = "<group>"; };
+		63DA0A0A282E600C0021292C /* MembershipReissuanceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoViewController.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		7312786720BE38C500861B3E /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
@@ -977,6 +979,7 @@
 				005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */,
 				0055D471252AA88B001133DB /* Membership.storyboard */,
 				63DA0A06282E35780021292C /* RentalCarCardListViewController.swift */,
+				63DA0A0A282E600C0021292C /* MembershipReissuanceInfoViewController.swift */,
 			);
 			path = Membership;
 			sourceTree = "<group>";
@@ -2194,6 +2197,7 @@
 				52B87A002799381500562436 /* BoardDetailTableViewCell.swift in Sources */,
 				7357595220916C11008181E9 /* InfoCollectionViewCell.swift in Sources */,
 				73344ABF207B3A9B00A6A9EC /* UIImage.swift in Sources */,
+				63DA0A0B282E600C0021292C /* MembershipReissuanceInfoViewController.swift in Sources */,
 				00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */,
 				00B36C4126D4B33100749FFE /* CompanyTableViewCell.swift in Sources */,
 				73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */,

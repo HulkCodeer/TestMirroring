@@ -183,7 +183,9 @@ internal final class MembershipReissuanceViewController: UIViewController {
                         let code = json["code"].intValue
                         switch code {
                         case 1000:
-                            printLog(out: "1000")
+                            let viewcon = MembershipReissuanceInfoViewController()
+                            self.navigationController?.push(viewController: viewcon)
+                                                        
                             break
                             
                         case 1103:
