@@ -12,14 +12,14 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
     
     // MARK: UI
     
-    private lazy var totalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
     private lazy var totalScrollView = UIScrollView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
+    }
+    
+    private lazy var totalView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private lazy var guideStrTopLbl = UILabel().then {
@@ -101,6 +101,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
         $0.IBborderColor = UIColor(named: "border-opaque")
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 4
+        $0.placeholder = "우편번호"
     }
     
     private lazy var addressTf = UITextField().then {
@@ -110,6 +111,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
         $0.IBborderColor = UIColor(named: "border-opaque")
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 4
+        $0.placeholder = "배송 주소"
     }
     
     private lazy var detailAddressTf = UITextField().then {
@@ -119,12 +121,14 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
         $0.IBborderColor = UIColor(named: "border-opaque")
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 4
+        $0.placeholder = "상세 주소"
     }
     
     private lazy var completeBtn = NextButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("재발급 신청 완료", for: .normal)
         $0.setTitleColor(UIColor(named: "content-primary"), for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.isEnabled = false
     }
     
@@ -134,8 +138,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
     
     override func loadView() {
         super.loadView()
-        
-        prepareActionBar(with: "재발급 신청")
+                
         let screenWidth = UIScreen.main.bounds.width
         let scrollViewWidth = screenWidth - 32
         let halfWidth = (screenWidth / 2) - 32
@@ -151,8 +154,10 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
         
         view.addSubview(totalScrollView)
         totalScrollView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(completeBtn.snp.top).offset(0)
+            $0.leading.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.bottom.equalTo(completeBtn.snp.top)
+            $0.width.equalTo(screenWidth)
         }
         
         totalScrollView.addSubview(totalView)
@@ -231,6 +236,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(addressTf.snp.bottom).offset(8)
             $0.height.equalTo(tfHeight)
+            $0.bottom.equalToSuperview()
         }
         
         nameTf.addLeftPadding(padding: 12)
@@ -240,8 +246,45 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
         detailAddressTf.addLeftPadding(padding: 12)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        prepareActionBar(with: "재발급 신청")
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: .UIKeyboardWillHide, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func keyboardWillShow(_ sender: NSNotification) {
+        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let keyboardHeight = keyboardSize.height
+            view.layoutIfNeeded()
+            completeBtn.snp.updateConstraints {
+                $0.bottom.equalToSuperview().offset(-keyboardHeight)
+            }
+        }
+    }
+    
+    @objc private func keyboardDidHide(_ sender: NSNotification) {
+        view.layoutIfNeeded()
+        completeBtn.snp.updateConstraints {
+            $0.bottom.equalToSuperview().offset(0)
+        }
+    }
+    
     @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
+    override func backButtonTapped() {
+        guard let _navi = navigationController else { return }
+        for vc in _navi.viewControllers {
+            if let _vc = vc as? MembershipCardViewController {
+                _ = navigationController?.popToViewController(_vc, animated: true)
+                return
+            }
+        }
     }
 }

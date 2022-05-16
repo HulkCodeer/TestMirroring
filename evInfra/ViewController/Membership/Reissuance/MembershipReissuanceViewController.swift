@@ -75,6 +75,7 @@ internal final class MembershipReissuanceViewController: BaseViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("다음", for: .normal)
         $0.setTitleColor(UIColor(named: "content-primary"), for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.isEnabled = false
     }
     
@@ -94,8 +95,6 @@ internal final class MembershipReissuanceViewController: BaseViewController {
     
     override func loadView() {
         super.loadView()
-        
-        prepareActionBar(with: "재발급 신청")
         
         view.addSubview(nextBtn)
         nextBtn.snp.makeConstraints {
@@ -235,6 +234,8 @@ internal final class MembershipReissuanceViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        prepareActionBar(with: "재발급 신청")
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: .UIKeyboardWillHide, object: nil)
     }
@@ -249,17 +250,6 @@ internal final class MembershipReissuanceViewController: BaseViewController {
         view.layoutIfNeeded()
         nextBtn.snp.updateConstraints {
             $0.bottom.equalToSuperview().offset(0)
-        }
-    }
-    
-    @objc
-    override func backButtonTapped() {
-        guard let _navi = navigationController else { return }
-        for vc in _navi.viewControllers {
-            if let _vc = vc as? MembershipCardViewController {
-                _ = navigationController?.popToViewController(_vc, animated: true)
-                return
-            }
         }
     }
     

@@ -12,9 +12,12 @@ import Material
 import AVFoundation
 
 internal class BaseViewController: UIViewController {
-    let picker = UIImagePickerController()
     
-    lazy var activityIndicator: UIActivityIndicatorView = {
+    // MARK: VARIABLE
+    
+    internal let picker = UIImagePickerController()
+    
+    internal lazy var activityIndicator: UIActivityIndicatorView = {
        let activitiIndicator = UIActivityIndicatorView()
         activitiIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         activitiIndicator.center = self.view.center
@@ -33,14 +36,22 @@ internal class BaseViewController: UIViewController {
         return activitiIndicator
     }()
     
+    // MARK: SYSTEM FUNC
+    
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
+    // MARK: FUNC
+    
     // 공통
-    func openPhotoLib() {
+    internal func openPhotoLib() {
         picker.sourceType = .photoLibrary
         self.present(picker, animated: false, completion: nil)
     }
     
     // 공통
-    func openCamera() {
+    internal func openCamera() {        
         let status = AVCaptureDevice.authorizationStatus(for: .video)
         if status == .notDetermined || status == .denied {
             // 권한 요청
@@ -76,7 +87,7 @@ internal class BaseViewController: UIViewController {
         UIAlertController.showAlert(title: "카메라 기능이 활성화되지 않았습니다.", message: "사진추가를 위해 카메라 권한이 필요합니다.", actions: actions)
     }
     
-    func prepareActionBar(with title: String) {
+    internal func prepareActionBar(with title: String) {
         navigationController?.isNavigationBarHidden = false
         
         let backButton = IconButton(image: Icon.cm.arrowBack)
@@ -89,7 +100,7 @@ internal class BaseViewController: UIViewController {
     }
     
     @objc
-    func backButtonTapped() {
+    internal func backButtonTapped() {
         self.navigationController?.pop()
     }
 }
