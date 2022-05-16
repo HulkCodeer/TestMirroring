@@ -9,7 +9,7 @@
 import RxSwift
 import SwiftyJSON
 
-internal final class MembershipReissuanceViewController: UIViewController {
+internal final class MembershipReissuanceViewController: BaseViewController {
     
     // MARK: UI
     
@@ -249,6 +249,17 @@ internal final class MembershipReissuanceViewController: UIViewController {
         view.layoutIfNeeded()
         nextBtn.snp.updateConstraints {
             $0.bottom.equalToSuperview().offset(0)
+        }
+    }
+    
+    @objc
+    override func backButtonTapped() {
+        guard let _navi = navigationController else { return }
+        for vc in _navi.viewControllers {
+            if let _vc = vc as? MembershipCardViewController {
+                _ = navigationController?.popToViewController(_vc, animated: true)
+                return
+            }
         }
     }
     

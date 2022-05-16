@@ -37,7 +37,6 @@ target 'evInfra' do
   pod 'NMapsMap'
   
   # UI
-  pod 'Then' # https://github.com/devxoul/Then
   pod 'SnapKit', '~> 5.0.0'
   
   # Rx Extensions

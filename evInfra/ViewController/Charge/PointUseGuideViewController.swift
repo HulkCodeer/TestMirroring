@@ -10,7 +10,7 @@ import WebKit
 import Then
 import RxSwift
 
-internal final class PointUseGuideViewController: UIViewController {
+internal final class PointUseGuideViewController: BaseViewController {
     
     // MARK: UI
     

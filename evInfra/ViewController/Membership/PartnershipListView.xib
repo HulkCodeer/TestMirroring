@@ -16,6 +16,7 @@
                 <outlet property="labelCardNum" destination="cKz-Vd-B2Y" id="ap7-Bd-y6t"/>
                 <outlet property="labelCardStatus" destination="Nh1-Wa-4F4" id="lxn-AG-4r5"/>
                 <outlet property="membershipUseGuideBtn" destination="g3O-QF-PWZ" id="WML-FB-9p1"/>
+                <outlet property="membershipUseGuideLbl" destination="Ogx-de-eol" id="pzZ-bW-VA1"/>
                 <outlet property="reissuanceBtn" destination="HJa-uc-75V" id="CnS-xj-NkG"/>
                 <outlet property="viewAddBtn" destination="9Zw-n2-KT2" id="Iou-hd-GgX"/>
                 <outlet property="viewEvinfraList" destination="tjU-wT-vwL" id="VrK-1j-6BC"/>
@@ -58,26 +59,18 @@
                                                         <constraint firstAttribute="width" constant="16" id="Pl3-QZ-MID"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJa-uc-75V">
-                                                    <rect key="frame" x="0.0" y="0.0" width="86" height="24"/>
-                                                    <state key="normal" title=""/>
-                                                    <buttonConfiguration key="configuration" style="plain" title=""/>
-                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" name="nt-0"/>
+                                            <accessibility key="accessibilityConfiguration" label="재발급신청"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="nXI-fJ-hyt" secondAttribute="bottom" constant="4" id="0ET-Fh-nes"/>
-                                                <constraint firstAttribute="trailing" secondItem="HJa-uc-75V" secondAttribute="trailing" id="0hU-sD-Nsu"/>
                                                 <constraint firstItem="K4k-QU-C1y" firstAttribute="leading" secondItem="nXI-fJ-hyt" secondAttribute="trailing" id="9KK-Gh-Jxe"/>
                                                 <constraint firstAttribute="bottom" secondItem="K4k-QU-C1y" secondAttribute="bottom" constant="4" id="Dgm-5o-20g"/>
-                                                <constraint firstItem="HJa-uc-75V" firstAttribute="top" secondItem="lYY-Wl-rab" secondAttribute="top" id="NBT-zW-fM0"/>
-                                                <constraint firstItem="HJa-uc-75V" firstAttribute="leading" secondItem="lYY-Wl-rab" secondAttribute="leading" id="O9p-Sl-bun"/>
                                                 <constraint firstItem="nXI-fJ-hyt" firstAttribute="leading" secondItem="lYY-Wl-rab" secondAttribute="leading" constant="8" id="QEf-FN-sOa"/>
                                                 <constraint firstItem="K4k-QU-C1y" firstAttribute="top" secondItem="lYY-Wl-rab" secondAttribute="top" constant="4" id="WT9-6Q-4V9"/>
                                                 <constraint firstAttribute="trailing" secondItem="K4k-QU-C1y" secondAttribute="trailing" constant="4" id="XQp-uB-zDG"/>
                                                 <constraint firstItem="nXI-fJ-hyt" firstAttribute="top" secondItem="lYY-Wl-rab" secondAttribute="top" constant="4" id="hHZ-B4-vDN"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="86" id="rOB-Uy-VvR"/>
-                                                <constraint firstAttribute="bottom" secondItem="HJa-uc-75V" secondAttribute="bottom" id="vab-IB-76n"/>
                                             </constraints>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="IBcornerRadius">
@@ -85,15 +78,25 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </view>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJa-uc-75V">
+                                            <rect key="frame" x="257" y="0.0" width="86" height="60"/>
+                                            <accessibility key="accessibilityConfiguration" label="재발급신청버튼"/>
+                                            <state key="normal" title=""/>
+                                            <buttonConfiguration key="configuration" style="plain" title=""/>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
+                                        <constraint firstItem="HJa-uc-75V" firstAttribute="leading" secondItem="lYY-Wl-rab" secondAttribute="leading" id="8BE-4A-hlj"/>
                                         <constraint firstAttribute="trailing" secondItem="lYY-Wl-rab" secondAttribute="trailing" id="ADb-AQ-mTW"/>
                                         <constraint firstItem="lYY-Wl-rab" firstAttribute="top" secondItem="LwA-BG-R93" secondAttribute="top" constant="24" id="Ih8-jr-DwB"/>
                                         <constraint firstAttribute="height" constant="60" id="Jq0-eg-J3G"/>
                                         <constraint firstAttribute="bottom" secondItem="ZsI-0Z-A4q" secondAttribute="bottom" constant="16" id="gDm-A7-KZV"/>
+                                        <constraint firstAttribute="trailing" secondItem="HJa-uc-75V" secondAttribute="trailing" id="gDo-Nx-aUN"/>
                                         <constraint firstAttribute="bottom" secondItem="lYY-Wl-rab" secondAttribute="bottom" constant="12" id="mpz-Np-6bV"/>
                                         <constraint firstItem="ZsI-0Z-A4q" firstAttribute="leading" secondItem="LwA-BG-R93" secondAttribute="leading" id="ozB-q1-Sal"/>
+                                        <constraint firstItem="HJa-uc-75V" firstAttribute="top" secondItem="LwA-BG-R93" secondAttribute="top" id="rXW-M4-27Q"/>
+                                        <constraint firstAttribute="bottom" secondItem="HJa-uc-75V" secondAttribute="bottom" id="u6p-jp-Q0A"/>
                                         <constraint firstItem="ZsI-0Z-A4q" firstAttribute="top" secondItem="LwA-BG-R93" secondAttribute="top" constant="24" id="y3Z-tQ-zbs"/>
                                     </constraints>
                                 </view>
@@ -140,7 +143,7 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="회원카드 사용방법이 궁금하신가요?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ogx-de-eol" userLabel="membershipUseGuide">
                                             <rect key="frame" x="0.0" y="24" width="343" height="24"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <fontDescription key="fontDescription" name=".AppleSDGothicNeoI-Regular" family=".Apple SD Gothic NeoI" pointSize="12"/>
                                             <color key="textColor" name="nt-5"/>
                                             <nil key="highlightedColor"/>
                                         </label>

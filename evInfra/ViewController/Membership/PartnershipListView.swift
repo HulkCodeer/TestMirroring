@@ -30,6 +30,7 @@ internal final class PartnershipListView : UIView {
     @IBOutlet var btnAddCard: UIImageView!
     @IBOutlet var membershipUseGuideBtn: UIButton!
     @IBOutlet var reissuanceBtn: UIButton!
+    @IBOutlet var membershipUseGuideLbl: UILabel!
     
     // MARK: VARIABLE
     
@@ -56,6 +57,9 @@ internal final class PartnershipListView : UIView {
         addSubview(view)
         initView()
         
+        membershipUseGuideLbl.attributedText = NSAttributedString(string: "회원카드 사용방법이 궁금하신가요?", attributes:
+                                                                    [.underlineStyle: NSUnderlineStyle.styleSingle.rawValue])
+        
         membershipUseGuideBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
@@ -81,24 +85,10 @@ internal final class PartnershipListView : UIView {
     func showInfoView(info : MemberPartnershipInfo) {
         evInfraInfo = info
         viewEvinfraList.isHidden = false
-        labelCardStatus.text = getCardStatusToString(status : info.status, issuanceDate: info.displayDate)
+        labelCardStatus.text = info.displayStatusDescription
         
         let modString = info.cardNo!.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
         labelCardNum.text = modString
-    }
-    
-    func getCardStatusToString(status: String, issuanceDate: String) -> String {
-        switch (status) {
-        case "0":
-            return "발급 신청"
-        case "1":
-            return issuanceDate
-//            return "발급 완료"
-        case "2":
-            return "카드 분실"
-        default:
-            return "상태 오류"
-        }
     }
     
     private func initView() {

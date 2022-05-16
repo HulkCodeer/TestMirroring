@@ -9,10 +9,39 @@
 import SwiftyJSON
 
 internal final class MemberPartnershipInfo {
+    enum CardStatusType: String {
+        case readyShip = "0" // 발송 준비중
+        case issuanceCompleted = "1" // 발급 완료
+        case cardLost = "2"// 카드 분실
+        case siipping = "4" // 발송중
+        case error // 상태오류
+        
+        init(_ rawValue: String) {
+            switch rawValue {
+            case "0": self = .readyShip
+            case "1": self = .issuanceCompleted
+            case "2": self = .cardLost
+            case "4": self = .siipping
+            default: self = .error
+            }
+        }
+        
+        func showDisplayType() -> String {
+            switch self {
+            case .readyShip: return "발송 준비중"
+            case .issuanceCompleted: return "발급 완료"
+            case .cardLost: return "카드 분실"
+            case .siipping: return "발송중"
+            case .error: return "상태 오류"
+            }
+        }
+    }
+    
     var mbId: Int?
     var clientId: Int?
     var cardNo: String?
     var status: String
+    var displayStatusDescription: String
     var date: Date
     var displayDate: String
     var carNo: String?
@@ -29,6 +58,8 @@ internal final class MemberPartnershipInfo {
         self.status = json["status"].stringValue
         self.date = json["date"].dateValue
         self.displayDate = self.date.toYearMonthDay()
+        let cardStatusType = CardStatusType(self.status) == .issuanceCompleted ? self.displayDate : CardStatusType(self.status).showDisplayType()
+        self.displayStatusDescription = cardStatusType
         self.carNo = json["car_no"].stringValue
         self.mobileCardNum = json["mobile_card_num"].stringValue
         self.mpCardNum = json["mp_card_num"].stringValue

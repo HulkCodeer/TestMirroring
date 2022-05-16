@@ -7,10 +7,9 @@
 //
 
 import WebKit
-import Then
 import RxSwift
 
-internal final class MembershipUseGuideViewController: UIViewController {
+internal final class MembershipUseGuideViewController: BaseViewController {
     
     // MARK: UI
     
