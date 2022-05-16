@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I0H-Up-SNg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I0H-Up-SNg">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -439,7 +439,7 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rbK-ux-PNU">
-                                <rect key="frame" x="16" y="518" width="343" height="48"/>
+                                <rect key="frame" x="16" y="494" width="343" height="48"/>
                                 <subviews>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wRh-8t-qpM">
                                         <rect key="frame" x="-61.5" y="8" width="466" height="4"/>
@@ -471,13 +471,13 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UtI-Of-tSr">
-                                <rect key="frame" x="116" y="639" width="143" height="20"/>
+                                <rect key="frame" x="116" y="615" width="143" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2017 soft-berry." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Acx-vT-b7N">
-                                <rect key="frame" x="77.5" y="614" width="220" height="20"/>
+                                <rect key="frame" x="77.5" y="590" width="220" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -489,7 +489,7 @@
                             <constraint firstItem="fh4-ME-QqC" firstAttribute="trailing" secondItem="iwT-4m-5Xi" secondAttribute="trailing" id="Njd-dd-bmN"/>
                             <constraint firstItem="iwT-4m-5Xi" firstAttribute="trailing" secondItem="ckE-Av-1h3" secondAttribute="trailing" id="PPD-I3-zai"/>
                             <constraint firstItem="fh4-ME-QqC" firstAttribute="centerY" secondItem="iwT-4m-5Xi" secondAttribute="centerY" id="Pye-xb-MU6"/>
-                            <constraint firstAttribute="bottom" secondItem="UtI-Of-tSr" secondAttribute="bottom" constant="8" id="Qgu-QE-HlF"/>
+                            <constraint firstAttribute="bottom" secondItem="UtI-Of-tSr" secondAttribute="bottom" constant="32" id="Qgu-QE-HlF"/>
                             <constraint firstItem="Acx-vT-b7N" firstAttribute="top" secondItem="rbK-ux-PNU" secondAttribute="bottom" constant="48" id="SIU-6k-JIS"/>
                             <constraint firstItem="rbK-ux-PNU" firstAttribute="centerX" secondItem="iwT-4m-5Xi" secondAttribute="centerX" id="aLd-3P-OfJ"/>
                             <constraint firstItem="UtI-Of-tSr" firstAttribute="centerX" secondItem="iwT-4m-5Xi" secondAttribute="centerX" id="bBC-IJ-2XP"/>
@@ -779,6 +779,14 @@
             <point key="canvasLocation" x="-1388" y="25.637181409295355"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="V0k-eg-psY">
+            <size key="intrinsicContentSize" width="32" height="34"/>
+        </designable>
+        <designable name="Vjd-ZG-9S9">
+            <size key="intrinsicContentSize" width="32" height="34"/>
+        </designable>
+    </designables>
     <color key="tintColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
     <resources>
         <image name="botton_new_dot" width="6" height="6"/>
