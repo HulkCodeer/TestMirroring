@@ -50,13 +50,11 @@ internal final class MembershipCardViewController: UIViewController {
 
     func checkMembershipData() {        
         Server.getInfoMembershipCard { [weak self] (isSuccess, value) in
-            guard let self = self else { return }
-            if isSuccess {
-                let json = JSON(value)
-                print("JSON DATA : \(json)")
-                let item : MemberPartnershipInfo = MemberPartnershipInfo(json)
-                self.partnershipListView.showInfoView(info: item)
-            }
+            guard let self = self, isSuccess else { return }
+            let json = JSON(value)
+            print("JSON DATA : \(json)")
+            let item : MemberPartnershipInfo = MemberPartnershipInfo(json)
+            self.partnershipListView.showInfoView(info: item)
         }
     }
     

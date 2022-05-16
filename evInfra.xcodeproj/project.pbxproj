@@ -977,9 +977,9 @@
 				0056440C252DB2AB007BF78D /* MembershipQRViewController.swift */,
 				73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */,
 				005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */,
-				0055D471252AA88B001133DB /* Membership.storyboard */,
 				63DA0A06282E35780021292C /* RentalCarCardListViewController.swift */,
 				63DA0A0A282E600C0021292C /* MembershipReissuanceInfoViewController.swift */,
+				0055D471252AA88B001133DB /* Membership.storyboard */,
 			);
 			path = Membership;
 			sourceTree = "<group>";
