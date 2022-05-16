@@ -197,14 +197,9 @@ class FCMManager {
                 visableControll.viewDidLoad()
                 return
             } else {
-                if MemberManager().isLogin() {
-                    if let navigation = navigationController {
-                        let vc:ReportBoardViewController =  UIStoryboard(name: "Report", bundle: nil).instantiateViewController(withIdentifier: "ReportBoardViewController") as! ReportBoardViewController
-                        
-                        navigation.push(viewController: vc)
-                    }
-                } else {
-                    MemberManager().showLoginAlert(vc: visableControll)
+                if let navigation = navigationController {
+                    let vc:ReportBoardViewController =  UIStoryboard(name: "Report", bundle: nil).instantiateViewController(withIdentifier: "ReportBoardViewController") as! ReportBoardViewController
+                    navigation.push(viewController: vc)
                 }
             }
         }
