@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -47,9 +47,17 @@
                         <action selector="onClickDismiss:" destination="-1" eventType="touchUpInside" id="C7l-VW-1ui"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IBD-d0-Ov4">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_close_md" translatesAutoresizingMaskIntoConstraints="NO" id="2gK-lv-IDf">
                     <rect key="frame" x="368" y="66" width="24" height="24"/>
                     <color key="tintColor" name="content-primary"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IBD-d0-Ov4">
+                    <rect key="frame" x="358" y="56" width="44" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="S5G-4Q-u7f"/>
+                        <constraint firstAttribute="width" constant="44" id="pF3-eX-ikT"/>
+                    </constraints>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <state key="normal" image="icon_close_md"/>
                     <connections>
                         <action selector="onClickClose:" destination="-1" eventType="touchUpInside" id="h9I-3A-Tid"/>
@@ -60,15 +68,17 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="8Dp-qz-yxe" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="6T9-vQ-Jaa"/>
+                <constraint firstItem="2gK-lv-IDf" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="22" id="8fx-YJ-hdi"/>
                 <constraint firstItem="5JU-r8-9Ja" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="A24-Nx-XdJ"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="IBD-d0-Ov4" secondAttribute="trailing" constant="22" id="IMa-0a-Jbq"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="wR3-xe-0mu" secondAttribute="bottom" constant="30" id="KAV-Tc-zxM"/>
+                <constraint firstItem="2gK-lv-IDf" firstAttribute="centerY" secondItem="5JU-r8-9Ja" secondAttribute="centerY" id="Lbr-tW-CtO"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="2gK-lv-IDf" secondAttribute="trailing" constant="22" id="Pcp-MT-rlK"/>
                 <constraint firstItem="wR3-xe-0mu" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="WsV-CE-2Jy"/>
                 <constraint firstItem="8Dp-qz-yxe" firstAttribute="top" secondItem="5JU-r8-9Ja" secondAttribute="bottom" constant="12" id="anA-Kg-cz7"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="8Dp-qz-yxe" secondAttribute="bottom" id="ieo-5x-ZHw"/>
-                <constraint firstItem="IBD-d0-Ov4" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="22" id="jso-JX-UzY"/>
+                <constraint firstItem="IBD-d0-Ov4" firstAttribute="centerX" secondItem="2gK-lv-IDf" secondAttribute="centerX" id="nqs-Sg-8oV"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="8Dp-qz-yxe" secondAttribute="trailing" constant="16" id="qWL-qK-fOT"/>
-                <constraint firstItem="5JU-r8-9Ja" firstAttribute="centerY" secondItem="IBD-d0-Ov4" secondAttribute="centerY" id="wJg-Jy-uV6"/>
+                <constraint firstItem="IBD-d0-Ov4" firstAttribute="centerY" secondItem="2gK-lv-IDf" secondAttribute="centerY" id="wTt-jB-8PE"/>
             </constraints>
             <point key="canvasLocation" x="132" y="130"/>
         </view>
