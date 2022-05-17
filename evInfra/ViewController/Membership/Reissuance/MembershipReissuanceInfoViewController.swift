@@ -7,6 +7,9 @@
 //
 
 import Material
+import RxSwift
+import RxCocoa
+import SwiftyJSON
 
 internal final class MembershipReissuanceInfoViewController: BaseViewController {
     
@@ -63,10 +66,11 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-tertiary")
-        $0.keyboardType = .namePhonePad
+        $0.keyboardType = .numberPad
         $0.IBborderColor = UIColor(named: "border-opaque")
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 4
+        $0.delegate = self
     }
     
     private lazy var addressTitleLbl = UILabel().then {
@@ -97,11 +101,12 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-tertiary")
-        $0.keyboardType = .phonePad
+        $0.keyboardType = .numberPad
         $0.IBborderColor = UIColor(named: "border-opaque")
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 4
         $0.placeholder = "우편번호"
+        $0.isEnabled = false
     }
     
     private lazy var addressTf = UITextField().then {
@@ -112,6 +117,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 4
         $0.placeholder = "배송 주소"
+        $0.isEnabled = false
     }
     
     private lazy var detailAddressTf = UITextField().then {
@@ -134,6 +140,11 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
     
     // MARK: VARIABLE
     
+    internal var reissuanceModel = ReissuanceModel()
+    internal var membershipCardDelegate: MembershipCardDelegate?
+    
+    private var disposeBag = DisposeBag()
+    
     // MARK: SYSTEM FUNC
     
     override func loadView() {
@@ -143,7 +154,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
         let scrollViewWidth = screenWidth - 32
         let halfWidth = (screenWidth / 2) - 32
         let tfHeight = 40
-        
+                
         view.addSubview(completeBtn)
         completeBtn.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
@@ -223,7 +234,6 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
         addressStackView.addArrangedSubview(zipCodeTf)
         addressStackView.addArrangedSubview(moveSearchAddressBtn)
                 
-
         totalView.addSubview(addressTf)
         addressTf.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
@@ -236,7 +246,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(addressTf.snp.bottom).offset(8)
             $0.height.equalTo(tfHeight)
-            $0.bottom.equalToSuperview()
+            $0.bottom.greaterThanOrEqualTo(0)
         }
         
         nameTf.addLeftPadding(padding: 12)
@@ -244,6 +254,75 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
         zipCodeTf.addLeftPadding(padding: 12)
         addressTf.addLeftPadding(padding: 12)
         detailAddressTf.addLeftPadding(padding: 12)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        moveSearchAddressBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
+                let saVC = mapStoryboard.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
+                saVC.searchAddressDelegate = self
+                self.navigationController?.push(viewController: saVC)
+            })
+            .disposed(by: self.disposeBag)
+        
+        Observable.combineLatest(nameTf.rx.text,
+                         phoneTf.rx.text,
+                         zipCodeTf.rx.text,
+                         addressTf.rx.text,
+                         detailAddressTf.rx.text)
+            .map { [weak self] name, phone, zipCode, address, detailAddress in
+                guard let self = self,
+                      let _nameText = name,
+                      let _phoneText = phone,
+                      let _zipCodeText = zipCode,
+                      let _addressText = address,
+                      let _detailAddressText = detailAddress else { return false }
+                
+                self.reissuanceModel.mbName = _nameText
+                self.reissuanceModel.phoneNo = _phoneText
+                self.reissuanceModel.zipCode = _zipCodeText
+                self.reissuanceModel.addr = _addressText
+                self.reissuanceModel.addrDetail = _detailAddressText
+                                                
+                return !_nameText.isEmpty && !_phoneText.isEmpty && !_zipCodeText.isEmpty && !_addressText.isEmpty && !_detailAddressText.isEmpty
+            }
+            .bind(to: completeBtn.rx.isEnabled)
+            .disposed(by: self.disposeBag)
+            
+        
+        completeBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                Server.postReissueMembershipCard(model: self.reissuanceModel) { (isSuccess, value) in
+                    let json = JSON(value)
+                    printLog(out: "jsonData : \(json)")
+                    if isSuccess {
+                        switch json["code"].intValue {
+                        case 1000:
+                            self.membershipCardDelegate?.reissuanceComplete()
+                            self.backButtonTapped()
+                        default: break
+                        }
+                    }
+                }
+                
+            })
+            .disposed(by: self.disposeBag)
+        
+//        if contactText.count > 9, contactText.count < 12, GlobalFunctionSwift.matches(for: "^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$", in: contactText) != 0 {
+//            self.delegate?.updatePhoneNumber(phoneNumber: contactText)
+//            self.button02Act?()
+//            self.close()
+//        } else {
+//            self.openAlert(alertMessage: "올바르지 않은 연락처입니다.\n다시 확인해 주세요.")
+//        }
+            
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -258,6 +337,10 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+        
+        completeBtn.snp.updateConstraints {
+            $0.bottom.equalToSuperview().offset(0)
+        }
     }
     
     @objc private func keyboardWillShow(_ sender: NSNotification) {
@@ -286,5 +369,24 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
                 return
             }
         }
+    }
+}
+
+extension MembershipReissuanceInfoViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField {
+        case self.phoneTf:
+            let bottomOffset = CGPoint(x: 0, y: totalScrollView.contentSize.height - totalScrollView.bounds.size.height)
+            totalScrollView.setContentOffset(bottomOffset, animated: true)
+            
+        default: break
+        }
+    }
+}
+
+extension MembershipReissuanceInfoViewController: SearchAddressViewDelegate {
+    func recieveAddressInfo(zonecode: String, fullRoadAddr: String) {
+        zipCodeTf.text = zonecode
+        addressTf.text = fullRoadAddr
     }
 }

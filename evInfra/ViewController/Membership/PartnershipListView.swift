@@ -75,6 +75,9 @@ internal final class PartnershipListView : UIView {
                 self.delegate?.moveReissuanceView(info: self.evInfraInfo)
             })
             .disposed(by: self.disposebag)
+        
+        membershipUseGuideBtn.isExclusiveTouch = true
+        reissuanceBtn.isExclusiveTouch = true
     }
     
     private func loadViewFromNib() -> UIView {

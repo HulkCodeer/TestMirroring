@@ -71,6 +71,10 @@ internal final class MembershipReissuanceViewController: BaseViewController {
         $0.attributedText = attributedText
     }
     
+    private lazy var moveFindPasswordBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     private lazy var nextBtn = NextButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("다음", for: .normal)
@@ -88,6 +92,7 @@ internal final class MembershipReissuanceViewController: BaseViewController {
     // MARK: VARIABLE
     
     internal var cardNo: String = ""
+    internal var membershipCardDelegate: MembershipCardDelegate?
     
     private let disposebag = DisposeBag()
     
@@ -102,13 +107,6 @@ internal final class MembershipReissuanceViewController: BaseViewController {
             $0.bottom.equalToSuperview().offset(0)
             let safeAreaBottonInset = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
             $0.height.equalTo(60 + safeAreaBottonInset)
-        }
-        
-        view.addSubview(findPasswordGuideLbl)
-        findPasswordGuideLbl.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview()
-            $0.bottom.equalTo(nextBtn.snp.top).offset(-16)
         }
         
         view.addSubview(totalView)
@@ -163,6 +161,21 @@ internal final class MembershipReissuanceViewController: BaseViewController {
             $0.height.equalTo(16)
         }
         
+        totalView.addSubview(findPasswordGuideLbl)
+        findPasswordGuideLbl.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-16)
+        }
+        
+        totalView.addSubview(moveFindPasswordBtn)
+        moveFindPasswordBtn.snp.makeConstraints {
+            $0.leading.equalTo(findPasswordGuideLbl.snp.leading)
+            $0.trailing.equalTo(findPasswordGuideLbl.snp.trailing)
+            $0.center.equalTo(findPasswordGuideLbl.snp.center)
+            $0.height.equalTo(44)
+        }
+        
         passwordInputTf.addLeftPadding(padding: 16)
     }
     
@@ -172,8 +185,9 @@ internal final class MembershipReissuanceViewController: BaseViewController {
         nextBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                Server.getCheckPassword(password: self.passwordInputTf.text ?? "", cardNo: self.cardNo) { [weak self] (isSuccess, value) in
+                guard let self = self, let _passwordText = self.passwordInputTf.text else { return }
+                self.view.endEditing(true)
+                Server.getCheckPassword(password: _passwordText, cardNo: self.cardNo) { [weak self] (isSuccess, value) in
                     guard let self = self else { return }
                     printLog(out: "SERVER SEND \(isSuccess)")
                     if isSuccess {
@@ -183,9 +197,10 @@ internal final class MembershipReissuanceViewController: BaseViewController {
                         switch code {
                         case 1000:
                             let viewcon = MembershipReissuanceInfoViewController()
+                            viewcon.reissuanceModel.mbPw = _passwordText
+                            viewcon.reissuanceModel.cardNo = self.cardNo
+                            viewcon.membershipCardDelegate = self.membershipCardDelegate
                             self.navigationController?.push(viewController: viewcon)
-                                                        
-                            break
                             
                         case 1103:
                             self.negativeMessageLbl.text = json["msg"].stringValue
@@ -221,6 +236,16 @@ internal final class MembershipReissuanceViewController: BaseViewController {
                 self.setEnableComponent(isEnabled: isEnabled)
             })
             .disposed(by: self.disposebag)
+        
+        moveFindPasswordBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let viewcon = FindPasswordViewController()
+                self.navigationController?.push(viewController: viewcon)
+            })
+            .disposed(by: self.disposebag)
+        
     }
     
     private func setEnableComponent(isEnabled: Bool) {
@@ -271,7 +296,12 @@ internal final class MembershipReissuanceViewController: BaseViewController {
     }
 }
 
-extension MembershipReissuanceViewController: UITextFieldDelegate {}
+extension MembershipReissuanceViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let text = textField.text ?? ""
+        return text.count < 4
+    }
+}
 
 internal final class NextButton: UIButton {
     override var isEnabled: Bool {

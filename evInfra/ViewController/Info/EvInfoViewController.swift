@@ -1,5 +1,5 @@
 //
-//  EVInfoViewController.swift
+//  EvInfoViewController.swift
 //  evInfra
 //
 //  Created by bulacode on 2018. 4. 26..

@@ -10,7 +10,11 @@ import UIKit
 import Material
 import SwiftyJSON
 
-internal final class MembershipCardViewController: UIViewController {
+protocol MembershipCardDelegate {
+    func reissuanceComplete()
+}
+
+internal final class MembershipCardViewController: BaseViewController {
 
     // MARK: UI
     
@@ -36,11 +40,12 @@ internal final class MembershipCardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        prepareActionBar()
+        prepareActionBar(with: "회원카드 관리")
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+                        
         if MemberManager().isLogin() {
             checkMembershipData()
         } else {
@@ -52,27 +57,15 @@ internal final class MembershipCardViewController: UIViewController {
         Server.getInfoMembershipCard { [weak self] (isSuccess, value) in
             guard let self = self, isSuccess else { return }
             let json = JSON(value)
-            print("JSON DATA : \(json)")
             let item : MemberPartnershipInfo = MemberPartnershipInfo(json)
             self.partnershipListView.showInfoView(info: item)
         }
     }
-    
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "회원카드 관리"
-        self.navigationController?.isNavigationBarHidden = false
-    }
+}
 
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
+extension MembershipCardViewController: MembershipCardDelegate {
+    func reissuanceComplete() {
+        Snackbar().show(message: "재발급 신청이 완료되었습니다.")
     }
 }
 
@@ -99,6 +92,7 @@ extension MembershipCardViewController: PartnershipListViewDelegate {
     func moveReissuanceView(info: MemberPartnershipInfo) {
         let viewcon = MembershipReissuanceViewController()
         viewcon.cardNo = info.cardNo ?? ""
+        viewcon.membershipCardDelegate = self
         navigationController?.push(viewController: viewcon)
     }
 }

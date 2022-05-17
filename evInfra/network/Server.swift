@@ -197,7 +197,7 @@ class Server {
             "mb_id": MemberManager.getMbId()
         ]
         
-        Alamofire.request(Const.EV_PAY_SERVER + "/member/membership_card/info",
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/v2/membership_card/info",
                       method: .post, parameters: reqParam, encoding: JSONEncoding.default)
         .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
@@ -1415,6 +1415,14 @@ class Server {
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/membership_card/check_password",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+            .validate().responseJSON { response in responseJson(response: response, completion: completion) }
+    }
+    
+    // MARK: - 카드 재발급
+    static func postReissueMembershipCard(model: ReissuanceModel, completion: @escaping (Bool, Any) -> Void) {
+        printLog(out: "Request JSON : \(model.toParam)")
+        Alamofire.request(Const.EV_PAY_SERVER + "/member/membership_card/reissue_membership",
+                          method: .post, parameters: model.toParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
 }
