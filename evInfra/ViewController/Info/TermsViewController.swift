@@ -201,6 +201,8 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             strUrl = strUrl + "?" + subURL
         }
         
+        printLog(out: "PARK TEST \(strUrl)")
+        
         let url = NSURL(string:strUrl)
         var request = URLRequest(url: url! as URL)
         

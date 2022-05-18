@@ -151,6 +151,9 @@
 		63B23744282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */; };
 		63BEAC5E28338ADA00E797DD /* ReissuanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BEAC5D28338ADA00E797DD /* ReissuanceModel.swift */; };
 		63BEAC602833965A00E797DD /* Observable+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BEAC5F2833965A00E797DD /* Observable+Operators.swift */; };
+		63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */; };
+		63CCE8242834CFD5006B8B9A /* evInfraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE8232834CFD5006B8B9A /* evInfraTests.swift */; };
+		63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */; };
 		63DA015928321BC300705842 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 63DA015828321BC300705842 /* Then */; };
 		63DA015C2832559400705842 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015B2832559400705842 /* BaseViewController.swift */; };
 		63DA015E28325C9300705842 /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015D28325C9200705842 /* FindPasswordViewController.swift */; };
@@ -304,7 +307,6 @@
 		73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */; };
 		73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FB42101B7920016F505 /* BedgeButton.swift */; };
 		73EE8FBB2105B3420016F505 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FBA2105B3420016F505 /* Board.swift */; };
-		73EE8FC72109B0FD0016F505 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FC62109B0FD0016F505 /* URL.swift */; };
 		73EF8B3F203ACB8500D04494 /* AppToolbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EF8B3E203ACB8500D04494 /* AppToolbarController.swift */; };
 		73EF8B43203BC71100D04494 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EF8B42203BC71100D04494 /* UIColor.swift */; };
 		73EF8B45203BD1D400D04494 /* EVIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EF8B44203BD1D400D04494 /* EVIcon.swift */; };
@@ -416,6 +418,16 @@
 		DBF3827B2304475900FAF772 /* CBT.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF3827A2304475900FAF772 /* CBT.swift */; };
 		DBF62AC42575FC8800D7B49C /* intro_skr_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DBF62AC32575FC8800D7B49C /* intro_skr_bg.jpg */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		63CCE8252834CFD5006B8B9A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 732121B1203AC023000E105C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 732121B8203AC023000E105C;
+			remoteInfo = evInfra;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		000DAE102747369A00CEC165 /* RepayResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepayResultViewController.swift; sourceTree = "<group>"; };
@@ -564,6 +576,10 @@
 		63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceViewController.swift; sourceTree = "<group>"; };
 		63BEAC5D28338ADA00E797DD /* ReissuanceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceModel.swift; sourceTree = "<group>"; };
 		63BEAC5F2833965A00E797DD /* Observable+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Operators.swift"; sourceTree = "<group>"; };
+		63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkModel.swift; sourceTree = "<group>"; };
+		63CCE8212834CFD5006B8B9A /* evInfraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = evInfraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		63CCE8232834CFD5006B8B9A /* evInfraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = evInfraTests.swift; sourceTree = "<group>"; };
+		63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		63DA015B2832559400705842 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		63DA015D28325C9200705842 /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		63DA09FE282E2F440021292C /* JSON+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSON+Extension.swift"; sourceTree = "<group>"; };
@@ -720,7 +736,6 @@
 		73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		73EE8FB42101B7920016F505 /* BedgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedgeButton.swift; sourceTree = "<group>"; };
 		73EE8FBA2105B3420016F505 /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
-		73EE8FC62109B0FD0016F505 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		73EF8B3E203ACB8500D04494 /* AppToolbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppToolbarController.swift; sourceTree = "<group>"; };
 		73EF8B42203BC71100D04494 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		73EF8B44203BD1D400D04494 /* EVIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVIcon.swift; sourceTree = "<group>"; };
@@ -855,6 +870,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		63CCE81E2834CFD5006B8B9A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		732121B6203AC023000E105C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1261,6 +1283,7 @@
 				63DA09FE282E2F440021292C /* JSON+Extension.swift */,
 				63DA0A00282E2FD20021292C /* String+Extension.swift */,
 				63BEAC5F2833965A00E797DD /* Observable+Operators.swift */,
+				63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1271,6 +1294,14 @@
 				63BEAC5D28338ADA00E797DD /* ReissuanceModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		63CCE8222834CFD5006B8B9A /* evInfraTests */ = {
+			isa = PBXGroup;
+			children = (
+				63CCE8232834CFD5006B8B9A /* evInfraTests.swift */,
+			);
+			path = evInfraTests;
 			sourceTree = "<group>";
 		};
 		63DA015A28322D5200705842 /* Reissuance */ = {
@@ -1295,6 +1326,7 @@
 				00EAB7C527228F42004E78D2 /* DeepLinkPath.swift */,
 				529659D127E9AD7200FC1E8B /* LinkShareManager.swift */,
 				63DA015B2832559400705842 /* BaseViewController.swift */,
+				63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1303,6 +1335,7 @@
 			isa = PBXGroup;
 			children = (
 				732121BB203AC023000E105C /* evInfra */,
+				63CCE8222834CFD5006B8B9A /* evInfraTests */,
 				732121BA203AC023000E105C /* Products */,
 				F0519D7EF9D227801C35EA9E /* Pods */,
 				5659BC9F308878047DB36D3E /* Frameworks */,
@@ -1313,6 +1346,7 @@
 			isa = PBXGroup;
 			children = (
 				732121B9203AC023000E105C /* evInfra.app */,
+				63CCE8212834CFD5006B8B9A /* evInfraTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1333,6 +1367,7 @@
 				73B75286204928550077112A /* Views */,
 				73EF8B40203BC12F00D04494 /* ViewController */,
 				732121BC203AC023000E105C /* AppDelegate.swift */,
+				00EAB7C327225108004E78D2 /* SceneDelegate.swift */,
 				73EF8B7C203C880A00D04494 /* evInfra-Bridging-Header.h */,
 				732121C6203AC023000E105C /* Assets.xcassets */,
 				732121CB203AC023000E105C /* Info.plist */,
@@ -1340,7 +1375,6 @@
 				73344AC0207B5F8A00A6A9EC /* awsconfiguration.json */,
 				73238C3A20A44B3E00C06A89 /* evInfra.entitlements */,
 				732121C3203AC023000E105C /* evInfra.xcdatamodeld */,
-				00EAB7C327225108004E78D2 /* SceneDelegate.swift */,
 			);
 			path = evInfra;
 			sourceTree = "<group>";
@@ -1611,7 +1645,6 @@
 				73CF041920B2736500BEA9CF /* UIScrollView.swift */,
 				73D65D7123588ACC00F564A2 /* UITextField.swift */,
 				7308559C206350890008497E /* UIView.swift */,
-				73EE8FC62109B0FD0016F505 /* URL.swift */,
 				CE24840320A59E6400611E24 /* UserDefault.swift */,
 				42541587257E045600A2A7B9 /* UtilNavigation.swift */,
 				73D65D6F2358498B00F564A2 /* Validators.swift */,
@@ -1785,6 +1818,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		63CCE8202834CFD5006B8B9A /* evInfraTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 63CCE8272834CFD5006B8B9A /* Build configuration list for PBXNativeTarget "evInfraTests" */;
+			buildPhases = (
+				63CCE81D2834CFD5006B8B9A /* Sources */,
+				63CCE81E2834CFD5006B8B9A /* Frameworks */,
+				63CCE81F2834CFD5006B8B9A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				63CCE8262834CFD5006B8B9A /* PBXTargetDependency */,
+			);
+			name = evInfraTests;
+			productName = evInfraTests;
+			productReference = 63CCE8212834CFD5006B8B9A /* evInfraTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		732121B8203AC023000E105C /* evInfra */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 732121CE203AC023000E105C /* Build configuration list for PBXNativeTarget "evInfra" */;
@@ -1814,10 +1865,14 @@
 		732121B1203AC023000E105C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0920;
+				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "soft-berry";
 				TargetAttributes = {
+					63CCE8202834CFD5006B8B9A = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 732121B8203AC023000E105C;
+					};
 					732121B8203AC023000E105C = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0920;
@@ -1853,11 +1908,19 @@
 			projectRoot = "";
 			targets = (
 				732121B8203AC023000E105C /* evInfra */,
+				63CCE8202834CFD5006B8B9A /* evInfraTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		63CCE81F2834CFD5006B8B9A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		732121B7203AC023000E105C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2141,6 +2204,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		63CCE81D2834CFD5006B8B9A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63CCE8242834CFD5006B8B9A /* evInfraTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		732121B5203AC023000E105C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2286,6 +2357,7 @@
 				DB6EBE31217078750000F442 /* ChargerSelectDelegate.swift in Sources */,
 				73D65D6E2356E57900F564A2 /* MyPayRegisterViewController.swift in Sources */,
 				73EF8B45203BD1D400D04494 /* EVIcon.swift in Sources */,
+				63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */,
 				73AD13C6203AC34400ADD19A /* LeftViewController.swift in Sources */,
 				73C31BFB20A288BB005B6C53 /* ChargerInfoViewController.swift in Sources */,
 				CE93308F214F9807006B7EF6 /* ReportChargerList.swift in Sources */,
@@ -2295,6 +2367,7 @@
 				739171DD22BB4520007369F9 /* UIButton.swift in Sources */,
 				63DA09FF282E2F440021292C /* JSON+Extension.swift in Sources */,
 				902A11DC248F5F550049EF8E /* ChargerConst.swift in Sources */,
+				63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */,
 				73D65D7223588ACC00F564A2 /* UITextField.swift in Sources */,
 				735759552091758C008181E9 /* EvInfoViewController.swift in Sources */,
 				00A3659F26C4E98D00424E40 /* FilterTypeView.swift in Sources */,
@@ -2358,7 +2431,6 @@
 				DBEE9AFA2117DBF000770D04 /* UIAlertController.swift in Sources */,
 				63DA0A05282E337F0021292C /* RentalCarCardListView.swift in Sources */,
 				00A6A16626C3B3DC0023DAE3 /* FilterContainerView.swift in Sources */,
-				73EE8FC72109B0FD0016F505 /* URL.swift in Sources */,
 				00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */,
 				73A7B428204E81A6002E975F /* Const.swift in Sources */,
 				0056440D252DB2AB007BF78D /* MembershipQRViewController.swift in Sources */,
@@ -2402,6 +2474,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		63CCE8262834CFD5006B8B9A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 732121B8203AC023000E105C /* evInfra */;
+			targetProxy = 63CCE8252834CFD5006B8B9A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		736813B3204513D50035FC66 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -2414,6 +2494,53 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		63CCE8282834CFD5006B8B9A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5FA8TZGUDC;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.soft-berry.ev-infra.evInfraTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/evInfra.app/evInfra";
+			};
+			name = Debug;
+		};
+		63CCE8292834CFD5006B8B9A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5FA8TZGUDC;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.soft-berry.ev-infra.evInfraTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/evInfra.app/evInfra";
+			};
+			name = Release;
+		};
 		732121CC203AC023000E105C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2620,6 +2747,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		63CCE8272834CFD5006B8B9A /* Build configuration list for PBXNativeTarget "evInfraTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63CCE8282834CFD5006B8B9A /* Debug */,
+				63CCE8292834CFD5006B8B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		732121B4203AC023000E105C /* Build configuration list for PBXProject "evInfra" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

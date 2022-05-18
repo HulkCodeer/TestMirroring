@@ -77,6 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        printLog(out: "PARK TEST \(url)")
         guard url.scheme != nil else { return true }
                 
         if let shareChargerId = url.valueOf("charger_id") {
@@ -88,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return true
     }
-    
+            
     func applicationDidFinishLaunching(_ application: UIApplication) {
         print("applicationDidFinishLaunching()")
 //        let storyboard = UIStoryboard(name: "Main", bundle: nil)

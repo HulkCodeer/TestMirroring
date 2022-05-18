@@ -677,7 +677,7 @@ class Server {
     
     // 게시판 - 카테고리별 게시판 가져오기
     static func getBoard(category: String, bmId: Int = -1, page: Int = -1, count: Int = -1, mine: Bool = false, ad: Bool = true, completion: @escaping (Bool, Any) -> Void) {
-        var reqParam: Parameters = [
+        let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId(),
             "category": category,
             "page": page,

@@ -9,7 +9,7 @@
 import WebKit
 import RxSwift
 
-internal final class MembershipUseGuideViewController: BaseViewController {
+internal final class MembershipUseGuideViewController: BaseViewController, WKUIDelegate {
     
     // MARK: UI
     
@@ -21,6 +21,8 @@ internal final class MembershipUseGuideViewController: BaseViewController {
     
     private lazy var webView = WKWebView(frame: CGRect.zero, configuration: self.config).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.navigationDelegate = self
+        $0.uiDelegate = self
     }
         
     // MARK: SYSTEM FUNC
@@ -41,4 +43,21 @@ internal final class MembershipUseGuideViewController: BaseViewController {
         let requestUrl = URLRequest(url: _url)
         webView.load(requestUrl)
     }
+    
+     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+         if let url = navigationAction.request.url, url.scheme == "evinfra" {
+             DeepLinkModel.shared.openSchemeURL(navi: navigationController ?? UINavigationController() ,urlstring: url.absoluteString)             
+         }
+         decisionHandler(.allow)
+         
+         return
+     }
+}
+
+extension MembershipUseGuideViewController: UIWebViewDelegate {
+    
+}
+
+extension MembershipUseGuideViewController: WKNavigationDelegate {
+    
 }

@@ -72,7 +72,7 @@ extension String {
     func isContainsHtmlTag() -> Bool {
         let pattern = "[<][a-zA-Z]*[>]"
         
-        guard let range = self.range(of: pattern, options: .regularExpression) else { return false }
+        guard let _ = self.range(of: pattern, options: .regularExpression) else { return false }
         
         return true
     }

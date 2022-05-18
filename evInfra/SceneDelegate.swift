@@ -42,10 +42,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         // kakao auto login
-        if let url = URLContexts.first?.url {
-            if KOSession.isKakaoAccountLoginCallback(url.absoluteURL) {
-                KOSession.handleOpen(url)
-            }
+        guard let _urlContentx = URLContexts.first else { return }
+        let url = _urlContentx.url
+        if KOSession.isKakaoAccountLoginCallback(url.absoluteURL) {
+            KOSession.handleOpen(url)
+        }
+        
+        if url.absoluteString.hasPrefix("evinfra") {
+            
         }
     }
     
@@ -114,5 +118,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             DeepLinkPath.sharedInstance.linkParameter = component.queryItems
         }
         DeepLinkPath.sharedInstance.runDeepLink(navigationController: navigationController!)
-    }
+    }        
 }
