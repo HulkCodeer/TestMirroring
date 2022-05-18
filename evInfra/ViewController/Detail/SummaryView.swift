@@ -308,46 +308,55 @@ class SummaryView: UIView {
     }
     
     func setChargerType(charger: ChargerStationInfo) {
+        guard let chargerType = charger.mTotalType else {
+            typeDcDemo.isHidden = true
+            typeDcCombo.isHidden = true
+            typeACSam.isHidden = true
+            typeSlow.isHidden = true
+            typeSuper.isHidden = true
+            typeDestination.isHidden = true
+            return
+        }
         // "DC차데모"
-        if (charger.mTotalType ?? Const.CTYPE_DCDEMO & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
-            self.typeDcDemo.isHidden = false
+        if (chargerType & Const.CTYPE_DCDEMO) == Const.CTYPE_DCDEMO {
+            typeDcDemo.isHidden = false
         } else {
-            self.typeDcDemo.isHidden = true
+            typeDcDemo.isHidden = true
         }
         
         // "DC콤보"
-        if (charger.mTotalType ?? Const.CTYPE_DCCOMBO & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
-            self.typeDcCombo.isHidden = false
+        if (chargerType & Const.CTYPE_DCCOMBO) == Const.CTYPE_DCCOMBO {
+            typeDcCombo.isHidden = false
         } else {
-            self.typeDcCombo.isHidden = true
+            typeDcCombo.isHidden = true
         }
         
         // "AC3상"
-        if (charger.mTotalType ?? Const.CTYPE_AC & Const.CTYPE_AC) == Const.CTYPE_AC {
-            self.typeACSam.isHidden = false
+        if (chargerType & Const.CTYPE_AC) == Const.CTYPE_AC {
+            typeACSam.isHidden = false
         } else {
-            self.typeACSam.isHidden = true
+            typeACSam.isHidden = true
         }
 
         // "완속"
-        if (charger.mTotalType ?? Const.CTYPE_SLOW & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
-            self.typeSlow.isHidden = false
+        if (chargerType & Const.CTYPE_SLOW) == Const.CTYPE_SLOW {
+            typeSlow.isHidden = false
         } else {
-            self.typeSlow.isHidden = true
+            typeSlow.isHidden = true
         }
         
         // "슈퍼차저"
-        if (charger.mTotalType ?? Const.CTYPE_SUPER_CHARGER & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
-            self.typeSuper.isHidden = false
+        if (chargerType & Const.CTYPE_SUPER_CHARGER) == Const.CTYPE_SUPER_CHARGER {
+            typeSuper.isHidden = false
         } else {
-            self.typeSuper.isHidden = true
+            typeSuper.isHidden = true
         }
         
         // "데스티네이션"
-        if (charger.mTotalType ?? Const.CTYPE_DESTINATION & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
-            self.typeDestination.isHidden = false
+        if (chargerType & Const.CTYPE_DESTINATION) == Const.CTYPE_DESTINATION {
+            typeDestination.isHidden = false
         } else {
-            self.typeDestination.isHidden = true
+            typeDestination.isHidden = true
         }
     }
     
