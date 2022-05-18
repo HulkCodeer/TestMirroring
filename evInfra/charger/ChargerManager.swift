@@ -230,11 +230,15 @@ class ChargerManager {
         guard let chargerId = searchItem.mChargerId else {
             return nil
         }
+        
+        guard !inputArr.isEmpty else {
+            return nil
+        }
 
         let t2 = chargerId
         var lowerIndex = 0
         var upperIndex = inputArr.count - 1
-
+        
         while (true) {
             let currentIndex = (lowerIndex + upperIndex)/2
             let t1 = inputArr[currentIndex].mChargerId!
