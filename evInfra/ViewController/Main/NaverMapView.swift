@@ -17,6 +17,9 @@ class NaverMapView: NMFNaverMapView {
     var endMarker: Marker?
     var midMarker: Marker?
     var searchMarker: Marker?
+    var viaList: [POIObject] = []
+    var start: POIObject?
+    var destination: POIObject?
     var path: NMFPath?
     
     let locationManager = CLLocationManager()
