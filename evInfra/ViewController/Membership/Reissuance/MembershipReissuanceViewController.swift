@@ -299,7 +299,7 @@ internal final class MembershipReissuanceViewController: BaseViewController {
 extension MembershipReissuanceViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let text = textField.text ?? ""
-        return text.count < 4
+        return text.count < 4 && !string.isEmpty
     }
 }
 

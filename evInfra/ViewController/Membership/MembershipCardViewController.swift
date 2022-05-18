@@ -48,17 +48,45 @@ internal final class MembershipCardViewController: BaseViewController {
                         
         if MemberManager().isLogin() {
             checkMembershipData()
+            checkPayStatus()
         } else {
             MemberManager().showLoginAlert(vc: self)
         }
     }
 
-    func checkMembershipData() {        
+    private func checkMembershipData() {
         Server.getInfoMembershipCard { [weak self] (isSuccess, value) in
             guard let self = self, isSuccess else { return }
             let json = JSON(value)
             let item : MemberPartnershipInfo = MemberPartnershipInfo(json)
             self.partnershipListView.showInfoView(info: item)
+        }
+    }
+    
+    private func checkPayStatus() {
+        Server.getPayRegisterStatus { (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                let payCode = json["pay_code"].intValue
+                
+                switch PaymentStatus(rawValue: payCode) {
+                case .PAY_FINE_USER, // 유저체크
+                        .PAY_NO_CARD_USER, // 카드등록 아니된 멤버
+                        .PAY_NO_VERIFY_USER, // 인증 되지 않은 멤버 *헤커 의심
+                        .PAY_DELETE_FAIL_USER, // 비정상적인 삭제 멤버
+                        .PAY_NO_USER :  // 유저체크
+                    Snackbar().show(message: "")
+                case .PAY_DEBTOR_USER: // 돈안낸 유저
+                    Snackbar().show(message: "")
+//                    let paymentVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(withIdentifier: "RepayListViewController") as! RepayListViewController
+//                    navigation.push(viewController: paymentVC)
+                default: break
+                }
+                
+                printLog(out: "json data : \(json)")
+            } else {
+                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
+            }
         }
     }
 }
