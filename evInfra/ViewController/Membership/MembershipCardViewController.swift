@@ -10,10 +10,6 @@ import UIKit
 import Material
 import SwiftyJSON
 
-protocol MembershipCardDelegate {
-    func reissuanceComplete()
-}
-
 internal final class MembershipCardViewController: BaseViewController {
 
     // MARK: UI
@@ -25,7 +21,7 @@ internal final class MembershipCardViewController: BaseViewController {
     
     // MARK: VARIABLE
     
-    private var payRegistResult: JSON?
+    private var paymentStatus: PaymentStatus = .none
     
     // MARK: SYSTEM FUNC
     
@@ -70,8 +66,7 @@ internal final class MembershipCardViewController: BaseViewController {
                 let payCode = json["pay_code"].intValue
                 
                 switch PaymentStatus(rawValue: payCode) {
-                case .PAY_FINE_USER, // 유저체크
-                        .PAY_NO_CARD_USER, // 카드등록 아니된 멤버
+                case .PAY_NO_CARD_USER, // 카드등록 아니된 멤버
                         .PAY_NO_VERIFY_USER, // 인증 되지 않은 멤버 *헤커 의심
                         .PAY_DELETE_FAIL_USER, // 비정상적인 삭제 멤버
                         .PAY_NO_USER :  // 유저체크
@@ -91,7 +86,7 @@ internal final class MembershipCardViewController: BaseViewController {
     }
 }
 
-extension MembershipCardViewController: MembershipCardDelegate {
+extension MembershipCardViewController: MembershipReissuanceInfoDelegate {
     func reissuanceComplete() {
         Snackbar().show(message: "재발급 신청이 완료되었습니다.")
     }
@@ -120,7 +115,11 @@ extension MembershipCardViewController: PartnershipListViewDelegate {
     func moveReissuanceView(info: MemberPartnershipInfo) {
         let viewcon = MembershipReissuanceViewController()
         viewcon.cardNo = info.cardNo ?? ""
-        viewcon.membershipCardDelegate = self
+        viewcon.delegate = self
         navigationController?.push(viewController: viewcon)
+    }
+    
+    func paymentStatusInfo() -> PaymentStatus {
+        self.paymentStatus
     }
 }

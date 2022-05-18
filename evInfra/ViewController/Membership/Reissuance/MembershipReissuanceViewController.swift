@@ -92,7 +92,7 @@ internal final class MembershipReissuanceViewController: BaseViewController {
     // MARK: VARIABLE
     
     internal var cardNo: String = ""
-    internal var membershipCardDelegate: MembershipCardDelegate?
+    internal var delegate: MembershipReissuanceInfoDelegate?
     
     private let disposebag = DisposeBag()
     
@@ -199,7 +199,7 @@ internal final class MembershipReissuanceViewController: BaseViewController {
                             let viewcon = MembershipReissuanceInfoViewController()
                             viewcon.reissuanceModel.mbPw = _passwordText
                             viewcon.reissuanceModel.cardNo = self.cardNo
-                            viewcon.membershipCardDelegate = self.membershipCardDelegate
+                            viewcon.delegate = self.delegate
                             self.navigationController?.push(viewController: viewcon)
                             
                         case 1103:

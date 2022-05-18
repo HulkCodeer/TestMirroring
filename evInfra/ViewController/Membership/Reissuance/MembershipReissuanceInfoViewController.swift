@@ -11,6 +11,10 @@ import RxSwift
 import RxCocoa
 import SwiftyJSON
 
+protocol MembershipReissuanceInfoDelegate {
+    func reissuanceComplete()
+}
+
 internal final class MembershipReissuanceInfoViewController: BaseViewController {
     
     // MARK: UI
@@ -141,7 +145,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
     // MARK: VARIABLE
     
     internal var reissuanceModel = ReissuanceModel()
-    internal var membershipCardDelegate: MembershipCardDelegate?
+    internal var delegate: MembershipReissuanceInfoDelegate?
     
     private var disposeBag = DisposeBag()
     
@@ -305,7 +309,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
                     if isSuccess {
                         switch json["code"].intValue {
                         case 1000:
-                            self.membershipCardDelegate?.reissuanceComplete()
+                            self.delegate?.reissuanceComplete()
                             self.backButtonTapped()
                         default: break
                         }

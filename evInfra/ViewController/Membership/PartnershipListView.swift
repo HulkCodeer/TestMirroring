@@ -16,6 +16,7 @@ protocol PartnershipListViewDelegate {
     func showLotteRentInfo()
     func moveMembershipUseGuideView()
     func moveReissuanceView(info: MemberPartnershipInfo)
+    func paymentStatusInfo() -> PaymentStatus
 }
 
 internal final class PartnershipListView : UIView {

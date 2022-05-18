@@ -105,9 +105,8 @@ internal final class RentalCarCardListViewController: UIViewController {
 }
 
 extension RentalCarCardListViewController: PartnershipListViewDelegate {
-
-    func addNewPartnership() {
-    }
+    func paymentStatusInfo() -> PaymentStatus { return .none }    
+    func addNewPartnership() {}
     
     func showEvinfraMembershipInfo(info : MemberPartnershipInfo) {
         let mbsInfoVC = storyboard?.instantiateViewController(withIdentifier: "MembershipInfoViewController") as! MembershipInfoViewController

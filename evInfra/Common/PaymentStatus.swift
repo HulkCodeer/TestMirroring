@@ -36,5 +36,7 @@ internal enum PaymentStatus: Int {
     case PAY_NO_VERIFY_USER = 8802 // 인증 되지 않은 멤버 *헤커 의심
     case PAY_DELETE_FAIL_USER = 8803 // 비정상적인 삭제 멤버
     case PAY_DEBTOR_USER = 8804 // 돈안낸 유저
-    case PAY_NO_USER = 8844 // 미등록 멤버        
+    case PAY_NO_USER = 8844 // 미등록 멤버
+    
+    case none
 }
