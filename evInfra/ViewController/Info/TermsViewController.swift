@@ -12,7 +12,7 @@ import WebKit
 import JavaScriptCore
 import SwiftyJSON
 
-class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
+internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
     
     enum Request {
         case Contact           // 제휴문의
@@ -201,10 +201,12 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             strUrl = strUrl + "?" + subURL
         }
         
-        printLog(out: "PARK TEST \(strUrl)")
+        guard let _url = NSURL(string:strUrl) else {
+            navigationController?.pop()
+            return
+        }
         
-        let url = NSURL(string:strUrl)
-        var request = URLRequest(url: url! as URL)
+        var request = URLRequest(url: _url as URL)
         
         if !header.isEmpty {
             for (key, value) in header {
