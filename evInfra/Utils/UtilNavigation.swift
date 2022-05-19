@@ -13,7 +13,7 @@ public class UtilNavigation {
         let optionMenu = UIAlertController(title: nil, message: "네비게이션", preferredStyle: .alert)
            
         let kakaoMap = UIAlertAction(title: "카카오맵(KAKAO MAP)", style: .default) { _ in
-            self.openKakaoNavigation(endPoint: endPoint, viaList: viaList)
+            self.openKakaoNavigation(startPoint: startPoint, endPoint: endPoint, viaList: viaList)
         }
         let tMap = UIAlertAction(title: "티맵(T MAP)", style: .default) { _ in
             self.tmapNavigation(startPoint: startPoint, endPoint: endPoint, viaList: viaList)
@@ -27,12 +27,15 @@ public class UtilNavigation {
         vc.present(optionMenu, animated: true, completion: nil)
     }
     
-    private func openKakaoNavigation(endPoint: POIObject, viaList: [POIObject]) {
+    private func openKakaoNavigation(startPoint: POIObject, endPoint: POIObject, viaList: [POIObject]) {
         let destination = KNVLocation(name: endPoint.name, x: endPoint.lng as NSNumber, y: endPoint.lat as NSNumber)
         var via: [KNVLocation] = []
         
         let options = KNVOptions()
         options.coordType = .WGS84
+        options.rpOption = .fast
+        options.startX = startPoint.lng as NSNumber
+        options.startY = startPoint.lat as NSNumber
 
         if !viaList.isEmpty {
             viaList.forEach {
@@ -40,10 +43,12 @@ public class UtilNavigation {
                 via.append(location)
             }
         }
-        let params = KNVParams(destination: destination, options: options, viaList: via)
         
+        let params = KNVParams(destination: destination, options: options, viaList: via)
         if KNVNaviLauncher.shared().canOpenKakaoNavi() {
-            KNVNaviLauncher.shared().navigate(with: params)
+            KNVNaviLauncher.shared().navigate(with: params) { error in
+                print("KAKAO NAVI ERROR: \(error.debugDescription)")
+            }
         } else {
             UIApplication.shared.open(KNVNaviLauncher.appStoreURL, options: [:], completionHandler: nil)
         }

@@ -119,14 +119,6 @@ class MainViewController: UIViewController {
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -211,6 +203,14 @@ class MainViewController: UIViewController {
         
         startField.text = selectCharger.mStationInfoDto?.mSnm
         routeStartPoint = selectCharger.getTMapPoint()
+        naverMapView.start = POIObject(name: selectCharger.mStationInfoDto?.mSnm ?? "",
+                                             lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
+                                             lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero)
+        naverMapView.startMarker = Marker(NMGLatLng(lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
+                                                    lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero), .start)
+        naverMapView.startMarker?.mapView = self.mapView
+        
+        self.setStartPath()
     }
     
     func setEndPoint() {
@@ -222,32 +222,37 @@ class MainViewController: UIViewController {
         
         endField.text = selectCharger.mStationInfoDto?.mSnm
         routeEndPoint = selectCharger.getTMapPoint()
+        naverMapView.destination = POIObject(name: selectCharger.mStationInfoDto?.mSnm ?? "",
+                                             lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
+                                             lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero)
+        naverMapView.endMarker = Marker(NMGLatLng(lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
+                                                    lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero), .end)
+        naverMapView.endMarker?.mapView = self.mapView
         
         self.setStartPath()
     }
     
     func setStartPath() {
-        guard let selectCharger = selectCharger else { return }
+        let passList = naverMapView
+            .viaList
+            .map {
+                TMapPoint(lon: $0.lng, lat: $0.lat)!
+            }
         
-        let passList = [selectCharger.getTMapPoint()]
+        if !passList.isEmpty {
+            let via = naverMapView.viaList.first ?? POIObject(name: "", lat: .zero, lng: .zero)
+            self.naverMapView.midMarker?.mapView = nil
+            self.naverMapView.midMarker = Marker(NMGLatLng(lat: via.lat,
+                                                           lng: via.lng), .mid)
+            self.naverMapView.midMarker?.mapView = self.mapView
+        }
+        
         findPath(passList: passList)
     }
     
     func showNavigation(start: POIObject, destination: POIObject, via: [POIObject]) {
         UtilNavigation().showNavigation(vc: self, startPoint: start, endPoint: destination, viaList: via)
     }
-    
-//    func showNavigation() {
-//        var snm = endField.text ?? ""
-//        var lng = routeEndPoint?.getLongitude() ?? 0.0
-//        var lat = routeEndPoint?.getLatitude() ?? 0.0
-//        if snm.isEmpty, lng == 0.0, lat == 0.0 {
-//            snm = selectCharger?.mStationInfoDto?.mSnm ?? ""
-//            lng = selectCharger?.mStationInfoDto?.mLongitude ?? 0.0
-//            lat = selectCharger?.mStationInfoDto?.mLatitude ?? 0.0
-//        }
-//        UtilNavigation().showNavigation(vc: self, snm: snm, lat: lat, lng: lng)
-//    }
     
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
@@ -288,12 +293,14 @@ class MainViewController: UIViewController {
         if let start = naverMapView.start {
             self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
         } else {
-            let startObject = POIObject(name: startField.text ?? "", lat: routeStartPoint?.getLatitude() ?? .zero, lng: routeStartPoint?.getLongitude() ?? .zero)
-            self.showNavigation(start: startObject, destination: destination, via: naverMapView.viaList)
+            let currentPoint = locationManager.getCurrentCoordinate()
+            let point = TMapPoint(coordinate: currentPoint)
+            
+            let positionName = tMapPathData.convertGpsToAddress(at: point) ?? ""
+            let start = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
+            
+            self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
         }
-        print("출발지: \(naverMapView.start)")
-        print("도착지: \(naverMapView.destination)")
-        print("경유지: \(naverMapView.viaList)")
     }
     
     private func configureLocationManager() {
@@ -573,7 +580,7 @@ extension MainViewController: TextFieldDelegate {
         if routeStartPoint == nil {
             let currentPoint = locationManager.getCurrentCoordinate()
             let point = TMapPoint(coordinate: currentPoint)
-            
+
             startField.text = tMapPathData.convertGpsToAddress(at: point)
             routeStartPoint = point
         }
@@ -636,13 +643,14 @@ extension MainViewController: TextFieldDelegate {
                 DispatchQueue.main.async {
                     // 경로선 초기화
                     self?.naverMapView.path?.mapView = nil
+                    self?.naverMapView.path = nil
                     
                     if self?.naverMapView.startMarker == nil {
                         self?.naverMapView.startMarker = Marker(NMGLatLng(lat: startPoint.getLatitude(),
                                                                           lng: startPoint.getLongitude()), .start)
                         self?.naverMapView.startMarker?.mapView = self?.mapView
                     }
-                    
+
                     if self?.naverMapView.endMarker == nil {
                         self?.naverMapView.endMarker = Marker(NMGLatLng(lat: endPoint.getLatitude(),
                                                                         lng: endPoint.getLongitude()), .end)
@@ -917,8 +925,10 @@ extension MainViewController: ChargerSelectDelegate {
 extension MainViewController {
     func requestStationInfo() {
         LoginHelper.shared.delegate = self
+        
         DispatchQueue.main.async {
             self.markerIndicator.startAnimating()
+            self.appDelegate.appToolbarController.toolbar.isUserInteractionEnabled = false
         }
         ChargerManager.sharedInstance.getStations { [weak self] in
             LoginHelper.shared.checkLogin()
@@ -929,8 +939,8 @@ extension MainViewController {
             
             DispatchQueue.main.async {
                 self?.markerIndicator.stopAnimating()
+                self?.appDelegate.appToolbarController.toolbar.isUserInteractionEnabled = true
             }
-            
             self?.showStartAd()
             self?.checkFCM()
             
@@ -1025,10 +1035,11 @@ extension MainViewController {
     
     @objc func directionStartPoint(_ notification: NSNotification) {
         guard let selectCharger = notification.object as? ChargerStationInfo else { return }
-//        selectCharger = (notification.object as! ChargerStationInfo)
-        naverMapView.start = POIObject(name: selectCharger.mStationInfoDto?.mSnm ?? "",
-                                             lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
-                                             lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero)
+        
+        self.naverMapView.startMarker?.mapView = nil
+        self.naverMapView.startMarker = nil
+        self.naverMapView.midMarker?.mapView = nil
+        
         if navigationDrawerController?.isOpened == true {
             navigationDrawerController?.toggleLeftView()
         }
@@ -1042,11 +1053,9 @@ extension MainViewController {
         let via = POIObject(name: selectCharger.mStationInfoDto?.mSnm ?? "",
                             lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
                             lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero)
-        naverMapView.viaList.append(via)
         
-        self.naverMapView.midMarker = Marker(NMGLatLng(lat: via.lat,
-                                                       lng: via.lng), .mid)
-        self.naverMapView.midMarker?.mapView = self.mapView
+        naverMapView.viaList.removeAll()
+        naverMapView.viaList.append(via)
         
         if navigationDrawerController?.isOpened == true {
             navigationDrawerController?.toggleLeftView()
@@ -1057,9 +1066,11 @@ extension MainViewController {
     
     @objc func directionEnd(_ notification: NSNotification) {
         guard let selectCharger = notification.object as? ChargerStationInfo else { return }
-        naverMapView.destination = POIObject(name: selectCharger.mStationInfoDto?.mSnm ?? "",
-                                             lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
-                                             lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero)
+        
+        self.naverMapView.endMarker?.mapView = nil
+        self.naverMapView.endMarker = nil
+        self.naverMapView.midMarker?.mapView = nil
+        
         if navigationDrawerController?.isOpened == true {
             navigationDrawerController?.toggleLeftView()
         }
@@ -1073,17 +1084,18 @@ extension MainViewController {
                                     lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
                                     lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero)
         
-        if let start = naverMapView.start {
-            self.showNavigation(start: start, destination: destination, via: [])
-        } else {
+        guard let start = naverMapView.start  else {
             let currentPoint = locationManager.getCurrentCoordinate()
             let point = TMapPoint(coordinate: currentPoint)
             
             let positionName = tMapPathData.convertGpsToAddress(at: point) ?? ""
-            let startObject = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
+            let start = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
             
-            self.showNavigation(start: startObject, destination: destination, via: [])
+            self.showNavigation(start: start, destination: destination, via: [])
+            return
         }
+        
+        self.showNavigation(start: start, destination: destination, via: [])
     }
     
     @objc func requestLogIn(_ notification: NSNotification) {
