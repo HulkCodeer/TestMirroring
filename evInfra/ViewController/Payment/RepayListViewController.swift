@@ -112,7 +112,15 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     
     @objc
     fileprivate func handleBackButton() {
-        self.navigationController?.pop()
+        guard let _navi = navigationController else { return }
+        for vc in _navi.viewControllers {
+            if vc is MembershipCardViewController {
+                _navi.popToRootViewController(animated: true)
+                return
+            } else {
+                _navi.pop()
+            }
+        }
         if let del = self.delegate {
             del.onRepayFail()
         }// result code false

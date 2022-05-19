@@ -321,6 +321,7 @@ extension LeftViewController {
                 default:
                     print("out of index")
                 }
+                
             case SUB_MENU_CELL_PAY:
                 switch index.row {
                 case SUB_MENU_MY_PAYMENT_INFO:

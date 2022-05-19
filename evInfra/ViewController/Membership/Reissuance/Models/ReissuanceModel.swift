@@ -13,8 +13,8 @@ internal struct ReissuanceModel {
     var mbName: String = ""
     var phoneNo: String = ""
     var zipCode: String = ""
-    var addr: String = ""
-    var addrDetail: String = ""
+    var address: String = ""
+    var addressDetail: String = ""
     
     var toParam: [String: Any] {
         [
@@ -24,8 +24,8 @@ internal struct ReissuanceModel {
             "mb_name": self.mbName,
             "phone_no": self.phoneNo,
             "zip_code": self.zipCode,
-            "addr": self.addr,
-            "addr_detail": self.addrDetail
+            "addr": self.address,
+            "addr_detail": self.addressDetail
         ]
     }
 }

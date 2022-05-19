@@ -16,7 +16,8 @@ internal final class MembershipCardViewController: BaseViewController {
     
     private lazy var partnershipListView = PartnershipListView(frame: .zero).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.delegate = self        
+        $0.delegate = self
+        $0.navi = self.navigationController ?? UINavigationController()
     }
     
     // MARK: VARIABLE
@@ -37,14 +38,14 @@ internal final class MembershipCardViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar(with: "회원카드 관리")
+        checkPayStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
                         
         if MemberManager().isLogin() {
-            checkMembershipData()
-            checkPayStatus()
+            checkMembershipData()            
         } else {
             MemberManager().showLoginAlert(vc: self)
         }
@@ -63,18 +64,32 @@ internal final class MembershipCardViewController: BaseViewController {
         Server.getPayRegisterStatus { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                let payCode = json["pay_code"].intValue
+                let payCode = json["pay_code"].intValue                
                 
                 switch PaymentStatus(rawValue: payCode) {
                 case .PAY_NO_CARD_USER, // 카드등록 아니된 멤버
                         .PAY_NO_VERIFY_USER, // 인증 되지 않은 멤버 *헤커 의심
                         .PAY_DELETE_FAIL_USER, // 비정상적인 삭제 멤버
                         .PAY_NO_USER :  // 유저체크
-                    Snackbar().show(message: "")
+                    
+                    let confirmPopupViewcon = ConfirmPopupViewController(titleText: "결제카드 오류 안내", messageText: "현재 고객님의 결제 카드에 오류가 발생했어요. 오류 발생 시 원활한 서비스 이용을 할 수 없으니 다른 카드로 변경해주세요.")
+                    confirmPopupViewcon.addActionToButton(title: "결제카드 변경하기", buttonType: .confirm)
+                    confirmPopupViewcon.confirmDelegate = { [weak self] _ in
+                        guard let self = self else { return }
+                        let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
+                        let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
+                        self.navigationController?.push(viewController: myPayInfoVC)
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        self.present(confirmPopupViewcon, animated: false, completion: nil)
+                    })
+                                        
                 case .PAY_DEBTOR_USER: // 돈안낸 유저
-                    Snackbar().show(message: "")
-//                    let paymentVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(withIdentifier: "RepayListViewController") as! RepayListViewController
-//                    navigation.push(viewController: paymentVC)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        let paymentVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
+                        self.navigationController?.push(viewController: paymentVC)
+                    })
+                                        
                 default: break
                 }
                 

@@ -38,5 +38,7 @@ internal enum PaymentStatus: Int {
     case PAY_DEBTOR_USER = 8804 // 돈안낸 유저
     case PAY_NO_USER = 8844 // 미등록 멤버
     
+    case CHARGER_STATE_CHARGING = 8888 // 충전중 상태
+    
     case none
 }

@@ -246,7 +246,15 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     
     @objc
     fileprivate func handleBackButton() {
-        self.navigationController?.pop()
+        guard let _navi = navigationController else { return }
+        for vc in _navi.viewControllers {
+            if vc is MembershipCardViewController {
+                _navi.popToRootViewController(animated: true)
+                return
+            } else {
+                _navi.pop()
+            }
+        }
     }
     
     func showAlertDialog(vc: UIViewController, type: Int, completion: ((Bool) -> ())? = nil) {

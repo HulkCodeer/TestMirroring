@@ -183,7 +183,8 @@ internal final class MembershipReissuanceViewController: BaseViewController {
         super.viewDidLoad()
         
         nextBtn.rx.tap
-            .asDriver()
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] _ in
                 guard let self = self, let _passwordText = self.passwordInputTf.text else { return }
                 self.view.endEditing(true)
@@ -193,13 +194,20 @@ internal final class MembershipReissuanceViewController: BaseViewController {
                     if isSuccess {
                         let json = JSON(value)
                         printLog(out: "JSON getCheckPasword DATA : \(json)")
+                        
                         let code = json["code"].intValue
+                        let zipCode = json["info"]["mb_zip_code"].stringValue
+                        let phoneNo = json["info"]["mb_callnumber"].stringValue
+                        let mbName = json["info"]["mb_name"].stringValue
+                        let addr = json["info"]["mb_addr"].stringValue
+                        let addrDetail = json["info"]["mb_addr_detail"].stringValue
+                        
                         switch code {
                         case 1000:
                             let viewcon = MembershipReissuanceInfoViewController()
-                            viewcon.reissuanceModel.mbPw = _passwordText
-                            viewcon.reissuanceModel.cardNo = self.cardNo
+                            let reissuanceModel = ReissuanceModel(cardNo: self.cardNo, mbPw: _passwordText, mbName: mbName, phoneNo: phoneNo, zipCode: zipCode, address: addr, addressDetail: addrDetail)
                             viewcon.delegate = self.delegate
+                            viewcon.showInfo(model: reissuanceModel)
                             self.navigationController?.push(viewController: viewcon)
                             
                         case 1103:
@@ -238,7 +246,8 @@ internal final class MembershipReissuanceViewController: BaseViewController {
             .disposed(by: self.disposebag)
         
         moveFindPasswordBtn.rx.tap
-            .asDriver()
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 let viewcon = FindPasswordViewController()
@@ -298,8 +307,9 @@ internal final class MembershipReissuanceViewController: BaseViewController {
 
 extension MembershipReissuanceViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard !string.isEmpty else { return true }
         let text = textField.text ?? ""
-        return text.count < 4 && !string.isEmpty
+        return text.count < 4
     }
 }
 

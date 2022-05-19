@@ -143,11 +143,11 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
     }
     
     // MARK: VARIABLE
-    
-    internal var reissuanceModel = ReissuanceModel()
+        
     internal var delegate: MembershipReissuanceInfoDelegate?
     
     private var disposeBag = DisposeBag()
+    private var reissuanceModel = ReissuanceModel()
     
     // MARK: SYSTEM FUNC
     
@@ -155,8 +155,8 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
         super.loadView()
                 
         let screenWidth = UIScreen.main.bounds.width
-        let scrollViewWidth = screenWidth - 32
-        let halfWidth = (screenWidth / 2) - 32
+        let scrollViewWidth = screenWidth - 32 // 스크린 넓이 - 양쪽마진
+        let halfWidth = (screenWidth / 2) - 32 // 스크린 넓이 / 2 - 양쪽마진
         let tfHeight = 40
                 
         view.addSubview(completeBtn)
@@ -290,8 +290,8 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
                 self.reissuanceModel.mbName = _nameText
                 self.reissuanceModel.phoneNo = _phoneText
                 self.reissuanceModel.zipCode = _zipCodeText
-                self.reissuanceModel.addr = _addressText
-                self.reissuanceModel.addrDetail = _detailAddressText
+                self.reissuanceModel.address = _addressText
+                self.reissuanceModel.addressDetail = _detailAddressText
                                                 
                 return !_nameText.isEmpty && !_phoneText.isEmpty && !_zipCodeText.isEmpty && !_addressText.isEmpty && !_detailAddressText.isEmpty
             }
@@ -300,7 +300,8 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
             
         
         completeBtn.rx.tap
-            .asDriver()
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 Server.postReissueMembershipCard(model: self.reissuanceModel) { (isSuccess, value) in
@@ -310,7 +311,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
                         switch json["code"].intValue {
                         case 1000:
                             self.delegate?.reissuanceComplete()
-                            self.backButtonTapped()
+                            self.backButtonTapped() 
                         default: break
                         }
                     }
@@ -373,6 +374,16 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
                 return
             }
         }
+    }
+    
+    internal func showInfo(model: ReissuanceModel) {
+        reissuanceModel = model
+        
+        nameTf.text = reissuanceModel.mbName
+        phoneTf.text = reissuanceModel.phoneNo
+        zipCodeTf.text = reissuanceModel.zipCode
+        addressTf.text = reissuanceModel.address
+        detailAddressTf.text = reissuanceModel.addressDetail                
     }
 }
 

@@ -195,8 +195,7 @@ class Server {
     static func getInfoMembershipCard(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "mb_id": MemberManager.getMbId()
-        ]
-        
+        ]        
         Alamofire.request(Const.EV_PAY_SERVER + "/member/v2/membership_card/info",
                       method: .post, parameters: reqParam, encoding: JSONEncoding.default)
         .validate().responseJSON { response in responseJson(response: response, completion: completion) }
@@ -1120,10 +1119,9 @@ class Server {
     // Payment Regist
     static func getPayRegisterStatus(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
             "mb_id": MemberManager.getMbId()
         ]
-        Alamofire.request(Const.EV_PAY_SERVER + "/pay/evPay/checkRegistration",
+        Alamofire.request(Const.EV_PAY_SERVER + "/pay/v2/evPay/checkRegistration",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     }
