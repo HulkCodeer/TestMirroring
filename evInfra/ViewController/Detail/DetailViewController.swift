@@ -203,29 +203,26 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     func initKakaoMap(){
-        if let chargerData = charger {
-            if let stationDto = chargerData.mStationInfoDto {
-                self.mapView = MTMapView(frame: self.kakaoMapView.bounds)
-                let mapPoint:MTMapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude:  (stationDto.mLatitude)!, longitude: (stationDto.mLongitude)!))
-                
-                if let mapView = mapView {
-                    mapView.delegate = self
-                    mapView.baseMapType = .hybrid
-                    mapView.setMapCenter(mapPoint, zoomLevel: 2, animated: true)
-
-                    let poiItem = MTMapPOIItem()
-                    poiItem.markerType = MTMapPOIItemMarkerType.customImage
-                    poiItem.tag = 1
-                    poiItem.showAnimationType = .dropFromHeaven
-                    poiItem.mapPoint = mapPoint
-                    poiItem.customImage = UIImage(named: "marker_satellite")
-                    mapView.add(poiItem)
-                    
-                    self.kakaoMapView.addSubview(self.mapView!)
-                    let gesture: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(mapViewTap(gesture:)))
-                    self.kakaoMapView.addGestureRecognizer(gesture)
-                }
-            }
+        guard let charger = charger else { return }
+        guard let stationDto = charger.mStationInfoDto else { return }
+        let mapPoint: MTMapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: stationDto.mLatitude ?? .zero, longitude: stationDto.mLongitude ?? .zero))
+        
+        mapView = MTMapView(frame: kakaoMapView.frame)
+        
+        if let mapView = mapView {
+            mapView.delegate = self
+            mapView.baseMapType = .hybrid
+            mapView.setMapCenter(mapPoint, zoomLevel: 4, animated: true)
+            kakaoMapView.addSubview(mapView)
+            
+            let poiItem = MTMapPOIItem()
+            poiItem.markerType = .customImage
+            poiItem.mapPoint = mapPoint
+            poiItem.customImage = UIImage(named: "marker_satellite")
+            mapView.add(poiItem)
+            
+            let gesture: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(mapViewTap(gesture:)))
+            kakaoMapView.addGestureRecognizer(gesture)
         }
     }
     
@@ -357,6 +354,7 @@ extension DetailViewController {
     
     @objc
     fileprivate func handleBackButton() {
+        MTMapView.clearMapTilePersistentCache()
         self.navigationController?.pop(transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
     }
 }
