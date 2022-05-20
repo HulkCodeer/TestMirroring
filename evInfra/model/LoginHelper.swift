@@ -25,7 +25,7 @@ class LoginHelper: NSObject {
     
     // 앱 실행 시 로그인 확인
     func prepareLogin() {
-        switch MemberManager.getLoginType() {
+        switch MemberManager.shared.loginType {
         case .apple:
             // Apple 로그인 상태 확인
             requestLoginToApple()
@@ -45,7 +45,7 @@ class LoginHelper: NSObject {
     
     // 로그인 확인
     func checkLogin() {
-        switch MemberManager.getLoginType() {
+        switch MemberManager.shared.loginType {
         case .apple:
             requestLoginToApple()
             
@@ -66,7 +66,7 @@ class LoginHelper: NSObject {
     
     // 로그아웃
     func logout(completion: @escaping (Bool)->()) {
-        switch MemberManager.getLoginType() {
+        switch MemberManager.shared.loginType {
         case .apple:
             MemberManager().clearData()
             completion(true)

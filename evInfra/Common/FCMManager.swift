@@ -197,7 +197,7 @@ class FCMManager {
                 visableControll.viewDidLoad()
                 return
             } else {
-                if MemberManager().isLogin() {
+                if MemberManager.shared.isLogin {
                     if let navigation = navigationController {
                         let vc:ReportBoardViewController =  UIStoryboard(name: "Report", bundle: nil).instantiateViewController(withIdentifier: "ReportBoardViewController") as! ReportBoardViewController
                         
@@ -256,7 +256,7 @@ class FCMManager {
                 visableControll.viewDidLoad()
                 return
             } else {
-                if MemberManager().isLogin() {
+                if MemberManager.shared.isLogin {
                     if let navigation = navigationController {
                         let vc:MyCouponViewController =  UIStoryboard(name: "Coupon", bundle: nil).instantiateViewController(withIdentifier: "MyCouponViewController") as! MyCouponViewController
                         
@@ -417,7 +417,7 @@ class FCMManager {
     }
     
     func startTagetCharging(navigationController: UINavigationController?, data: [AnyHashable: Any]){
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             var chargingId = defaults.readString(key: UserDefault.Key.CHARGING_ID)
             var cmd = ""
             var cpId = ""

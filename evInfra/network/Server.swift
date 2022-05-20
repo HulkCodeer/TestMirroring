@@ -37,9 +37,9 @@ class Server {
     
     static func getHeaders() -> HTTPHeaders {
         let headers: HTTPHeaders = [
-            "mb_id": "\(MemberManager.getMbId())",
-            "nick_name": MemberManager.getMemberNickname(),
-            "profile": "\(MemberManager.getProfileImage())"
+            "mb_id": "\(MemberManager.shared.mbId)",
+            "nick_name": MemberManager.shared.memberNickName,
+            "profile": "\(MemberManager.shared.profileImage)"
         ]
         return headers
     }
@@ -74,7 +74,7 @@ class Server {
     // 사용자 - push message 알림 설정
     static func updateNotificationState(state: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
+            "member_id": MemberManager.shared.memberId,
             "receive_push": state
         ]
         
@@ -86,7 +86,7 @@ class Server {
     // 사용자 - 제주지역 push message 알림 설정
     static func updateJejuNotificationState(state: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
+            "member_id": MemberManager.shared.memberId,
             "receive_push": state
         ]
         
@@ -98,7 +98,7 @@ class Server {
     // 사용자 - 마케팅 push message 알림 설정
     static func updateMarketingNotificationState(state: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
+            "member_id": MemberManager.shared.memberId,
             "receive_push": state
         ]
         
@@ -132,8 +132,8 @@ class Server {
             reqParam = userInfo.convertToParams()
         } else {
             reqParam = [
-                "member_id": MemberManager.getMemberId(),
-                "user_id": MemberManager.getUserId()
+                "member_id": MemberManager.shared.memberId,
+                "user_id": MemberManager.shared.userId
             ]
         }
         
@@ -145,7 +145,7 @@ class Server {
     // 회원 - 법인 로그인
     static func loginWithID(id: String, pwd: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
+            "member_id": MemberManager.shared.memberId,
             "signing_id": id,
             "mb_pw" : pwd
         ]
@@ -158,7 +158,7 @@ class Server {
     // 회원 - 정보 업데이트
     static func updateMemberInfo(nickName: String, region: String, profile: String, carId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "nickname": nickName,
             "region": region,
             "car_id": carId,
@@ -173,7 +173,7 @@ class Server {
     // 회원 - 정보 가져오기
     static func getMemberinfo(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/member_info",
@@ -184,7 +184,7 @@ class Server {
     // 회원 - sk on jwt 토큰 발급
     static func getBatteryJwt(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "batteryDeviceId": MemberManager.getDeviceId()
+            "batteryDeviceId": MemberManager.shared.deviceId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/get_jwt",
                       method: .post, parameters: reqParam, encoding: JSONEncoding.default)
@@ -194,7 +194,7 @@ class Server {
     // 회원 - 회원카드 정보 가져오기
     static func getInfoMembershipCard(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]        
         Alamofire.request(Const.EV_PAY_SERVER + "/member/v2/membership_card/info",
                       method: .post, parameters: reqParam, encoding: JSONEncoding.default)
@@ -204,7 +204,7 @@ class Server {
     // 회원 - 렌터카 카드 정보 조회
     static func getRetnalCarCardInfo(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/v2/member_partnership/get_member_info",
@@ -215,7 +215,7 @@ class Server {
     // 회원 - 롯데렌터카 회원정보 조회
     static func getLotteRentInfo(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member_partnership/get_lotte_member_info",
@@ -226,7 +226,7 @@ class Server {
     // 회원 - 롯데렌터카 회원인증
     static func certificateLotteRentaCar(carNo : String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "car_no": carNo
         ]
         
@@ -238,7 +238,7 @@ class Server {
     // 회원 - 롯데렌터카 회원인증 완료
     static func activateLotteRentaCar(carNo : String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "car_no": carNo
         ]
         
@@ -250,7 +250,7 @@ class Server {
     // 회원 - SK렌터카 회원등록
     static func registerSKMembershipCard(carNo : String, cardNo : String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "car_no": carNo,
             "card_no": cardNo
         ]
@@ -270,7 +270,7 @@ class Server {
     // 회원 - 회원카드 해지 신청. 서버 구현 해야 함
     static func unregisterMembershipCard(cardNo: String, password: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "mb_pw": password,
             "card_no": cardNo
         ]
@@ -292,7 +292,7 @@ class Server {
     static func getPoint(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/my_point",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
@@ -303,7 +303,7 @@ class Server {
     static func getPointHistory(isAllDate: Bool, sDate: String, eDate: String, completion: @escaping (Bool, Data?) -> Void) {
             var reqParam: Parameters = [
                 "req_ver": 1,
-                "mb_id": MemberManager.getMbId(),
+                "mb_id": MemberManager.shared.mbId,
             ]
             if !isAllDate {
                 reqParam["s_date"] = sDate
@@ -319,7 +319,7 @@ class Server {
     static func getUsePoint(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/member/member/get_use_point",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
@@ -330,7 +330,7 @@ class Server {
     static func setUsePoint(usePoint: Int, useNow: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "use_now": useNow,
             "point": usePoint
         ]
@@ -343,7 +343,7 @@ class Server {
     static func getFavoriteList(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/member/favorite/list",
@@ -354,7 +354,7 @@ class Server {
     // 회원 - 충전소 즐겨찾기 등록, 해제
     static func setFavorite(chargerId: String, mode: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "charger_id": chargerId,
             "mode": mode
         ]
@@ -367,7 +367,7 @@ class Server {
     // 회원 - 즐겨찾기 등록한 충전소 상태변화 알림 on/off
     static func setFavoriteAlarm(chargerId: String, state: Bool, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "charger_id": chargerId,
             "noti": state
         ]
@@ -677,7 +677,7 @@ class Server {
     // 게시판 - 카테고리별 게시판 가져오기
     static func getBoard(category: String, bmId: Int = -1, page: Int = -1, count: Int = -1, mine: Bool = false, ad: Bool = true, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "category": category,
             "page": page,
             "page_count": count,
@@ -699,7 +699,7 @@ class Server {
     // 게시판 - 선택한 충전소 게시판 가져오기
     static func getChargerBoard(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "category": Board.BOARD_CATEGORY_CHARGER,
             "charger_id": chargerId,
             "page": -1,
@@ -715,7 +715,7 @@ class Server {
     // 게시판 - board id 에 해당하는 본문, 댓글 가져오기
     static func getBoardContent(category: String, boardId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "category": category,
             "brd_id": boardId,
             "page": -1,
@@ -731,7 +731,7 @@ class Server {
     // 게시판 - 카테고리별 게시판 본문 작성
     static func postBoard(category: String, bmId: Int, chargerId: String = "", content: String, hasImage: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "category": category,
             "charger_id": chargerId,
             "bm_id": bmId,
@@ -746,7 +746,7 @@ class Server {
     // 게시판 - 본문 수정
     static func editBoard(category: String, boardId: Int, content: String, editImage: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "category": category,
             "brd_id": boardId,
             "content": content,
@@ -761,7 +761,7 @@ class Server {
     // 게시판 - 본문 삭제
     static func deleteBoard(category: String, boardId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "category": category,
             "brd_id": boardId
         ]
@@ -774,7 +774,7 @@ class Server {
     // 게시판 - 댓글 등록
     static func postReply(category: String, boardId: Int, content: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "category": category,
             "brd_id": boardId,
             "content": content
@@ -788,7 +788,7 @@ class Server {
     // 게시판 - 댓글 수정
     static func editReply(category: String, replyId: Int, content: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "category": category,
             "reply_id": replyId,
             "content": content
@@ -802,7 +802,7 @@ class Server {
     // 게시판 - 댓글 삭제
     static func deleteReply(category: String, boardId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "category": category,
             "reply_id": boardId
         ]
@@ -832,7 +832,7 @@ class Server {
     // Station - 충전소 리스트
     static func getStationInfo(updateDate: String, completion: @escaping (Bool, Data?) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
+            "member_id": MemberManager.shared.memberId,
             "last_update" : updateDate,
             "version" : Server.VERSION
         ]
@@ -845,7 +845,7 @@ class Server {
     // Station - 충전소 상태 정보
     static func getStationStatus(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId()
+            "member_id": MemberManager.shared.memberId
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/v1/station/station_status",
@@ -856,7 +856,7 @@ class Server {
     // Station - 충전소 리스트 charger info
     static func getChargerInfo(chargerId : String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
+            "member_id": MemberManager.shared.memberId,
             "charger_id": chargerId
         ]
         
@@ -868,7 +868,7 @@ class Server {
    // Station - 충전소 상태 정보
     static func getChargerStatus(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId()
+            "member_id": MemberManager.shared.memberId
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/v1/station/status",
@@ -879,7 +879,7 @@ class Server {
     // Station - 충전소 상태 정보
     static func getChargerDetail(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
+            "member_id": MemberManager.shared.memberId,
             "charger_id": chargerId
         ]
         
@@ -891,7 +891,7 @@ class Server {
     // Station - 충전소 상세 정보
     static func getStationDetail(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
+            "member_id": MemberManager.shared.memberId,
             "charger_id": chargerId
         ]
         
@@ -903,7 +903,7 @@ class Server {
     // Station - 본인이 등록한 평점 가져오기
     static func getGrade(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "charger_id": chargerId
         ]
         
@@ -915,7 +915,7 @@ class Server {
     // Station - 평점 등록하기
     static func addGrade(chargerId: String, point: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "charger_id": chargerId,
             "sp": point
         ]
@@ -928,7 +928,7 @@ class Server {
     // Station - 평점 삭제하기
     static func deleteGrade(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "charger_id": chargerId
         ]
         
@@ -940,7 +940,7 @@ class Server {
     // 전기차 정보 - 전기차 리스트 가져오기
     static func getEvList(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/ev/ev_models/list",
@@ -951,7 +951,7 @@ class Server {
     // 전기차 정보 - 전기차 모델 및 차량 정보 가져오기
     static func getEvModelList(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/ev/ev_models/info",
@@ -962,7 +962,7 @@ class Server {
     // 제보하기 - 기존에 있는 충전소의 위치정보 수정 요청
     static func modifyReport(info: ReportCharger, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "report_id": info.report_id,
             "type_id": info.type_id!,
             "charger_id": info.charger_id!,
@@ -981,7 +981,7 @@ class Server {
     // 제보하기 - 제보내역 삭제
     static func deleteReport(reportId: Int, typeId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "report_id": reportId,
             "type_id": typeId
             ]
@@ -994,7 +994,7 @@ class Server {
     // 제보하기 - 제보 정보 가져오기
     static func getReportInfo(chargerId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "charger_id": chargerId
             ]
         
@@ -1006,7 +1006,7 @@ class Server {
     // 제보하기 - 나의 제보 내역 리스트 가져오기
     static func getReportList(reportId: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "report_id": reportId
             ]
 
@@ -1019,8 +1019,8 @@ class Server {
     static func getEventList(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId(),
-            "memberId": MemberManager.getMemberId()
+            "mb_id": MemberManager.shared.mbId,
+            "memberId": MemberManager.shared.memberId
             ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/event/Event/getEventList",
@@ -1035,8 +1035,8 @@ class Server {
         }
         
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
-            "mb_id": MemberManager.getMbId(),
+            "member_id": MemberManager.shared.memberId,
+            "mb_id": MemberManager.shared.mbId,
             "event_ids": eventId,
             "action": action
         ]
@@ -1048,7 +1048,7 @@ class Server {
     static func getCouponList(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
             ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/event/coupon/getCouponList",
@@ -1059,7 +1059,7 @@ class Server {
     // 쿠폰 - 쿠폰코드 등록
     static func registerCoupon(couponCode:String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "coupon_code": couponCode
             ]
         
@@ -1081,8 +1081,8 @@ class Server {
     // 광고 - large image 정보 요청
     static func getAdLargeInfo(type: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
-            "mb_id": MemberManager.getMbId(),
+            "member_id": MemberManager.shared.memberId,
+            "mb_id": MemberManager.shared.mbId,
             "type": type
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/ad/ad_large/get_info",
@@ -1093,8 +1093,8 @@ class Server {
     // 광고 click event 전송
     static func countAdAction(adId: String, action: Int) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
-            "mb_id": MemberManager.getMbId(),
+            "member_id": MemberManager.shared.memberId,
+            "mb_id": MemberManager.shared.mbId,
             "ad_id": adId,
             "action": action
         ]
@@ -1119,7 +1119,7 @@ class Server {
     // Payment Regist
     static func getPayRegisterStatus(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/pay/v2/evPay/checkRegistration",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
@@ -1128,8 +1128,8 @@ class Server {
     
     static func getPayRegisterInfo (completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
-            "mb_id": MemberManager.getMbId()
+            "member_id": MemberManager.shared.memberId,
+            "mb_id": MemberManager.shared.mbId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/pay/evPay/registrationInfo",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
@@ -1138,8 +1138,8 @@ class Server {
     
     static func deletePayMember (completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId(),
-            "mb_id": MemberManager.getMbId()
+            "member_id": MemberManager.shared.memberId,
+            "mb_id": MemberManager.shared.mbId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/pay/evPay/deletePayMember",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
@@ -1148,7 +1148,7 @@ class Server {
     
     static func getFailedPayList (completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/pay/v2/evPay/getFailedPayList",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
@@ -1157,7 +1157,7 @@ class Server {
     
     static func repayCharge (usePoint: Int, completion: @escaping (Bool, Data?) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "use_point": usePoint
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/pay/v2/evPay/repay",
@@ -1169,7 +1169,7 @@ class Server {
     static func getChargerInfo(cpId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "cp_id": cpId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/charger_info/info",
@@ -1181,7 +1181,7 @@ class Server {
     static func openCharger(cpId: String, connectorId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "cp_id": cpId,
             "connector_id": connectorId
         ]
@@ -1195,7 +1195,7 @@ class Server {
     static func stopCharging(chargingId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "charging_id": chargingId
         ]
         
@@ -1209,7 +1209,7 @@ class Server {
         
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "charging_id": chargingId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/app_charging/status",
@@ -1221,7 +1221,7 @@ class Server {
     static func getChargingResult(chargingId: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "charging_id": chargingId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/app_charging/result",
@@ -1233,7 +1233,7 @@ class Server {
     static func getCharges(isAllDate: Bool, sDate: String, eDate: String, completion: @escaping (Bool, Data?) -> Void) {
         var reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
         ]
         if !isAllDate {
             reqParam["s_date"] = sDate
@@ -1254,7 +1254,7 @@ class Server {
     // Each Membership 충전 가격 조회
     static func getMembershipCahrgePrice(completion: @escaping (Bool, Any) -> Void){
         let reqParam: Parameters = [
-            "member_id": MemberManager.getMemberId()
+            "member_id": MemberManager.shared.memberId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/charge_price/each_company",
                       method: .post, parameters: reqParam, encoding: JSONEncoding.default)
@@ -1264,7 +1264,7 @@ class Server {
     // 충전 - 포인트 사용
     static func usePoint(point: Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "point": point
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/app_charging/use_point",
@@ -1276,7 +1276,7 @@ class Server {
     static func getChargingId(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/charger/app_charging/getChargingId",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
@@ -1286,7 +1286,7 @@ class Server {
     static func getIntroImage(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/event/intro_event/intro",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
@@ -1297,7 +1297,7 @@ class Server {
     static func getCBTInfo(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
         Alamofire.request(Const.EV_PAY_SERVER + "/event/cbt/info",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
@@ -1345,7 +1345,7 @@ class Server {
     static func postRewardVideo( type : String,  amount : Int, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "type" :type,
             "amount" : amount
         ]
@@ -1358,9 +1358,9 @@ class Server {
     static func getRewardPoint(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
-        Alamofire.request(Const.EV_PAY_SERVER + "/ad/ad_reward/reward_point/mb_id/\(MemberManager.getMbId())" ,
+        Alamofire.request(Const.EV_PAY_SERVER + "/ad/ad_reward/reward_point/mb_id/\(MemberManager.shared.mbId)" ,
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseJSON { response in responseJson(response: response, completion: completion) }
     
@@ -1370,7 +1370,7 @@ class Server {
     static func postCheckRewardVideoAvailable(completion: @escaping (Bool, Any) -> Void){
         let reqParam: Parameters = [
             "req_ver": 1,
-            "mb_id": MemberManager.getMbId()
+            "mb_id": MemberManager.shared.mbId
         ]
         
         Alamofire.request(Const.EV_PAY_SERVER + "/ad/ad_reward/reward_video_available" ,
@@ -1404,7 +1404,7 @@ class Server {
     // MARK: - 비밀번호 확인
     static func getCheckPassword(password: String, cardNo: String, completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
-            "mb_id": MemberManager.getMbId(),
+            "mb_id": MemberManager.shared.mbId,
             "mb_pw": password,
             "card_no": cardNo
         ]

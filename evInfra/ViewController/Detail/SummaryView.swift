@@ -382,7 +382,7 @@ class SummaryView: UIView {
     
     // Favorite
     @IBAction func onClickFavorite(_ sender: UIButton) {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             if self.charger != nil {
                 self.favorite()
             }

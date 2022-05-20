@@ -24,7 +24,7 @@ class LotteRentInfoViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             checkLotteRentInfo()
         } else {
             MemberManager().showLoginAlert(vc: self)

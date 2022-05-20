@@ -43,7 +43,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
         prepareActionBar()
         initInfoView()
         
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             checkRegisterPayment()
         } else {
             MemberManager().showLoginAlert(vc: self)

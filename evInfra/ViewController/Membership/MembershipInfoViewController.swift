@@ -134,7 +134,7 @@ class MembershipInfoViewController: UIViewController {
             chgPwParams["new_pw"] = try tfPwIn.validatedText(validationType: .password)
             _ = try tfPwReIn.validatedText(validationType: .repassword(password: tfPwIn.text ?? "0000"))
             chgPwParams["card_no"] = memberInfo?.cardNo
-            chgPwParams["mb_id"] = MemberManager.getMbId()
+            chgPwParams["mb_id"] = MemberManager.shared.mbId
             showProgress()
             Server.changeMembershipCardPassword(values: chgPwParams, completion: {(isSuccess, value) in
                 self.hideProgress()

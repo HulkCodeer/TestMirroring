@@ -55,7 +55,7 @@ class EventContentsViewController: UIViewController {
     
     func prepareWebView() {
         let url = Const.EV_PAY_SERVER + "/event/event/getDetailEvent"
-        let payload = ["mb_id":"\(MemberManager.getMbId())",  "event_id":"\(eventId)"]
+        let payload = ["mb_id":"\(MemberManager.shared.mbId)",  "event_id":"\(eventId)"]
         makePostRequest(url: url, payload: payload)
     }
     

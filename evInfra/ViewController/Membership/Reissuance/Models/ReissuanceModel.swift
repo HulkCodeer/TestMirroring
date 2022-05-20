@@ -8,7 +8,7 @@
 
 internal struct ReissuanceModel {
     var cardNo: String = ""
-    var mbId: Int = MemberManager.getMbId()
+    var mbId: Int = MemberManager.shared.mbId
     var mbPw: String = ""
     var mbName: String = ""
     var phoneNo: String = ""

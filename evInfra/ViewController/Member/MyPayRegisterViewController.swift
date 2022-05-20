@@ -23,7 +23,7 @@ class MyPayRegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
-        makePostRequest(url: Const.EV_PAY_SERVER + "/pay/evPay/registEvPay", payload: ["mb_id":"\(MemberManager.getMbId())"])
+        makePostRequest(url: Const.EV_PAY_SERVER + "/pay/evPay/registEvPay", payload: ["mb_id":"\(MemberManager.shared.mbId)"])
         // Do any additional setup after loading the view.
     }
     

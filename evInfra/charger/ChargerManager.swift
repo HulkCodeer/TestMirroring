@@ -441,7 +441,7 @@ class ChargerManager {
  */
     
     func getFavoriteCharger() {
-        if MemberManager.getMbId() > 0 {
+        if MemberManager.shared.mbId > 0 {
             Server.getFavoriteList { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
@@ -460,7 +460,7 @@ class ChargerManager {
     }
     
     func setFavoriteCharger(charger: ChargerStationInfo, completion: ((ChargerStationInfo) -> Void)?) {
-        if MemberManager.getMbId() > 0 {
+        if MemberManager.shared.mbId > 0 {
             Server.setFavorite(chargerId: charger.mChargerId!, mode: !charger.mFavorite) { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)

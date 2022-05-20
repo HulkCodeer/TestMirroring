@@ -152,7 +152,7 @@ internal final class LeftViewController: UIViewController {
     
     internal func appeared() {
         // 로그인 버튼
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             btnLogin.gone()
         } else {
             btnLogin.visible()
@@ -283,7 +283,7 @@ extension LeftViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension LeftViewController {
     private func selectedMyPageMenu(index: IndexPath) {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             switch index.section {
             case SUB_MENU_CELL_MYPAGE:
                 switch index.row {
@@ -331,7 +331,7 @@ extension LeftViewController {
             
                 case SUB_MENU_MY_EVCARD_INFO: // 회원카드 관리
                     let viewcon: UIViewController
-                    if MemberManager.hasMembership() {
+                    if MemberManager.shared.hasMembership {
                         let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
                         viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
                     } else {
@@ -426,7 +426,7 @@ extension LeftViewController {
                 self.navigationController?.push(viewController: eventBoardVC)
 
             case SUB_MENU_MY_COUPON: // 내 쿠폰함
-                if MemberManager().isLogin() {
+                if MemberManager.shared.isLogin {
                     let couponStoryboard = UIStoryboard(name : "Coupon", bundle: nil)
                     let coponVC = couponStoryboard.instantiateViewController(ofType: MyCouponViewController.self)
                     self.navigationController?.push(viewController: coponVC)
@@ -551,13 +551,13 @@ extension LeftViewController {
     
     private func updateMyPageTitle(cell: SideMenuTableViewCell, index: IndexPath) {
         if index.row == SUB_MENU_MY_PAYMENT_INFO {
-            if MemberManager.hasPayment() {
+            if MemberManager.shared.hasPayment {
                 cell.menuLabel.text = "결제 정보 관리"
             } else {
                 cell.menuLabel.text = "결제 정보 등록"
             }
         } else if index.row == SUB_MENU_MY_EVCARD_INFO {
-            if MemberManager.hasMembership() {
+            if MemberManager.shared.hasMembership {
                 cell.menuLabel.text = "회원카드 관리"
             } else {
                 cell.menuLabel.text = "회원카드 신청"
@@ -566,7 +566,7 @@ extension LeftViewController {
     }
     
     private func updateBatteryMenu() {
-        if !MemberManager.getDeviceId().isEmpty {
+        if !MemberManager.shared.deviceId.isEmpty {
             batteryBtn.isHidden = false
         } else {
             batteryBtn.isHidden = true

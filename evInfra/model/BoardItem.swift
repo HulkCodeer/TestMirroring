@@ -18,7 +18,7 @@ class BoardItem {
     var chargerType: String?
     
     var mbId: Int?
-    var mbLevel = MemberManager.MB_LEVEL_NORMAL
+    var mbLevel = MemberLevel.normal.rawValue
     var nick: String?
     var profile_img: String?
     
@@ -33,7 +33,7 @@ class BoardItem {
     
     class ReplyData {
         var mbId: Int?
-        var mbLevel = MemberManager.MB_LEVEL_NORMAL
+        var mbLevel = MemberLevel.normal.rawValue
         var nick: String?
         var profile_img: String?
         var replyId: Int?

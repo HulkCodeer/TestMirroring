@@ -56,7 +56,7 @@ class MembershipIssuanceViewController: UIViewController,
             issuanceParam["zip_code"] = try tfZipCode.validatedText(validationType: .zipcode)
             issuanceParam["addr_detail"] = try tfAddressDetail.validatedText(validationType: .address)
             issuanceParam["addr"] = tfAddress.text
-            issuanceParam["mb_id"] = MemberManager.getMbId()
+            issuanceParam["mb_id"] = MemberManager.shared.mbId
             verifyMemgberInfo(params: issuanceParam)
             
             self.btnNext.isEnabled = false

@@ -83,7 +83,7 @@ internal final class PointViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             let currentDate = Date()
             getPointHistory(isAllDate: false, startDate: currentDate, endDate: currentDate)
         } else {

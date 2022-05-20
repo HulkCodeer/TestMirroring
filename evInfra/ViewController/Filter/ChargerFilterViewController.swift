@@ -150,11 +150,11 @@ extension ChargerFilterViewController : DelegateFilterChange {
 
 extension ChargerFilterViewController : DelegateFilterTypeView {
     func checkMemberLogin() -> Bool {
-        if (!MemberManager().isLogin()){
-            MemberManager().showLoginAlert(vc: self)
-            return false
+        guard MemberManager.shared.isLogin else {
+            return true
         }
-        return true
+        MemberManager().showLoginAlert(vc: self)
+        return false                
     }
 }
 

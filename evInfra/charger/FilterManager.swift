@@ -95,7 +95,7 @@ class FilterManager {
         
         let companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
         
-        if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR) {
+        if MemberManager.shared.isPartnershipClient(clientId: RentClientType.skr.rawValue) {
             for company in companyList {
                 switch company.company_id {
                     case "0", "1", "3", "O", "D":

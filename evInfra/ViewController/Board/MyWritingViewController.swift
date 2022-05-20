@@ -71,7 +71,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
         self.currentPage = 1
         self.lastPage = false
         
-        let mbID = MemberManager.getMbId()
+        let mbID = MemberManager.shared.mbId
         
         Server.fetchBoardList(mid: mid,
                               page: "\(self.currentPage)",
@@ -108,7 +108,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
     func fetchNextBoard(mid: String, sort: Board.SortType, mode: String) {
         self.currentPage += 1
         
-        let mbID = MemberManager.getMbId()
+        let mbID = MemberManager.shared.mbId
         
         Server.fetchBoardList(mid: mid,
                               page: "\(self.currentPage)",

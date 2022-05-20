@@ -393,7 +393,7 @@ extension MainViewController: DelegateFilterBarView {
     }
     
     @IBAction func onClickMainFavorite(_ sender: UIButton) {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
             let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
             favoriteVC.delegate = self
@@ -1240,7 +1240,7 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainCharge(_ sender: UIButton) {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             Server.getChargingId { (isSuccess, responseData) in
                 if isSuccess {
                     let json = JSON(responseData)
@@ -1302,7 +1302,7 @@ extension MainViewController {
     }
     
     func chargingStatus() {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             Server.getChargingId { (isSuccess, responseData) in
                 if isSuccess {
                     let json = JSON(responseData)

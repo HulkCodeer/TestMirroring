@@ -507,7 +507,7 @@ extension PaymentStatusViewController {
                 btnStopCharging.isUserInteractionEnabled = false
                 btnStopCharging.backgroundColor = UIColor(named: "background-disabled")
                 btnStopCharging.setTitleColor(UIColor(named: "content-disabled"), for: .normal)
-                if MemberManager.isPartnershipClient(clientId: 23) { // 한전&SK -> 포인트사용 block
+                if MemberManager.shared.isPartnershipClient(clientId: 23) { // 한전&SK -> 포인트사용 block
                     viewUsePoint.isHidden = true
                 }
             }

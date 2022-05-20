@@ -51,7 +51,7 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             if let resultJson = payRegisterResult { // 카드 변경 완료
                 let payCode = resultJson["pay_code"].intValue
                 if payCode == PaymentCard.PAY_REGISTER_SUCCESS {

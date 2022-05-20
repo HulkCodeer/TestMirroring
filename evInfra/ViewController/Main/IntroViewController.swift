@@ -67,7 +67,7 @@ extension FLAnimatedImage {
 
 extension IntroViewController: IntroImageCheckerDelegate {
     func showIntro(){
-        if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR){
+        if MemberManager.shared.isPartnershipClient(clientId: RentClientType.skr.rawValue){
             imgIntroBackground.image = UIImage(named: "intro_skr_bg.jpg")
         } else {
             let checker = IntroImageChecker.init(delegate: self)

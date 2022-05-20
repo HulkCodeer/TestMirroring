@@ -246,7 +246,7 @@ extension MyPageViewController {
 extension MyPageViewController : UIImageCropperProtocol {
     func didCropImage(originalImage: UIImage?, croppedImage: UIImage?) {
         self.profileImgView.image = croppedImage?.resize(withWidth: 600.0)
-        let memberId = MemberManager.getMemberId()
+        let memberId = MemberManager.shared.memberId
         let curTime = Int64(NSDate().timeIntervalSince1970 * 1000)
         self.profileName = memberId + "_" + "\(curTime).jpg"
         self.profileImgView.image?.saveImage(self.profileName)
@@ -438,7 +438,7 @@ extension MyPageViewController {
         if self.oldProfileName != self.profileName {
             if self.profileName.count > 14 {
                 let data: Data = UIImageJPEGRepresentation(self.profileImgView.image!, 1.0)!
-                Server.uploadImage(data: data, filename: self.profileName, kind: Const.CONTENTS_THUMBNAIL, targetId: "\(MemberManager.getMbId())", completion: { (isSuccess, value) in
+                Server.uploadImage(data: data, filename: self.profileName, kind: Const.CONTENTS_THUMBNAIL, targetId: "\(MemberManager.shared.mbId)", completion: { (isSuccess, value) in
                     let json = JSON(value)
                     if(!isSuccess) {
                         print("upload image Error : \(json)")

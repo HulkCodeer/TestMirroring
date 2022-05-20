@@ -117,7 +117,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
             guard let self = self,
                     let detail = self.detail else { return }
             guard let comments = detail.comments else { return }
-            guard MemberManager().isLogin() else {
+            guard MemberManager.shared.isLogin else {
                 MemberManager().showLoginAlert(vc: self, completion: { (result) -> Void in
                     if !result {
                         self.navigationController?.pop()
@@ -457,7 +457,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
         let rowVC = GroupViewController()
         
         if isHeader {
-            guard MemberManager().isLogin() else {
+            guard MemberManager.shared.isLogin else {
                 rowVC.members = ["공유하기"]
                 presentPanModal(rowVC)
                 
@@ -522,7 +522,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
                 }
             }
         } else {
-            guard MemberManager().isLogin() else {
+            guard MemberManager.shared.isLogin else {
                 MemberManager().showLoginAlert(vc: self)
                 return
             }
@@ -572,7 +572,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
     }
     
     func likeButtonCliked(isLiked: Bool, isComment: Bool, srl: String) {
-        guard MemberManager().isLogin() else {
+        guard MemberManager.shared.isLogin else {
             MemberManager().showLoginAlert(vc: self)
             return
         }

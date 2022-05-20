@@ -56,7 +56,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if !MemberManager().isLogin() {
+        if !MemberManager.shared.isLogin {
             MemberManager().showLoginAlert(vc: self, completion: { (result) -> Void in
                 if !result {
                     self.navigationController?.pop()
