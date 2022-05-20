@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import SwiftyJSON
+import EasyTipView
 
 protocol PartnershipListViewDelegate {
     func addNewPartnership()
@@ -59,6 +60,25 @@ internal final class PartnershipListView : UIView {
         addSubview(view)
         initView()
         
+        var preferences = EasyTipView.Preferences()
+        preferences.drawing.backgroundColor = UIColor(named: "content-secondary")!
+        preferences.drawing.foregroundColor = UIColor(named: "background-secondary")!
+        preferences.drawing.textAlignment = NSTextAlignment.center
+        
+        preferences.drawing.arrowPosition = .bottom
+        
+        preferences.animating.dismissTransform = CGAffineTransform(translationX: -30, y: -100)
+        preferences.animating.showInitialTransform = CGAffineTransform(translationX: 30, y: 100)
+        preferences.animating.showInitialAlpha = 0
+        preferences.animating.showDuration = 1
+        preferences.animating.dismissDuration = 1
+        
+        let text = "비개방충전소 : 충전소 설치 건물 거주/이용/관계자 외엔 사용이 불가한 곳"
+        EasyTipView.show(forView: self.labelCardStatus,
+                         withinSuperview: self.viewEvinfraList,
+            text: text,
+            preferences: preferences)
+        
         membershipUseGuideLbl.attributedText = NSAttributedString(string: "회원카드 사용방법이 궁금하신가요?", attributes:
                                                                     [.underlineStyle: NSUnderlineStyle.styleSingle.rawValue])
         
@@ -87,16 +107,20 @@ internal final class PartnershipListView : UIView {
                                 .PAY_DELETE_FAIL_USER, // 비정상적인 삭제 멤버
                                 .PAY_NO_USER :  // 유저체크
                             
-                            let confirmPopupViewcon = ConfirmPopupViewController(titleText: "결제카드 오류 안내", messageText: "현재 고객님의 결제 카드에 오류가 발생했어요. 오류 발생 시 원활한 서비스 이용을 할 수 없으니 다른 카드로 변경해주세요.")
-                            confirmPopupViewcon.addActionToButton(title: "결제카드 변경하기", buttonType: .confirm)
-                            confirmPopupViewcon.confirmDelegate = { [weak self] _ in
+                            let popupModel = PopupModel(title: "결제카드 오류 안내",
+                                                        message: "현재 고객님의 결제 카드에 오류가 발생했어요. 오류 발생 시 원활한 서비스 이용을 할 수 없으니 다른 카드로 변경해주세요.",
+                                                        confirmBtnTitle: "결제카드 변경하기",
+                                                        confirmBtnAction: { [weak self] in
                                 guard let self = self else { return }
                                 let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
                                 let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
                                 self.navi.push(viewController: myPayInfoVC)
-                            }
+                            })
+
+                            let popup = ConfirmPopupViewController(model: popupModel)
+                                                        
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                self.navi.present(confirmPopupViewcon, animated: false, completion: nil)
+                                self.navi.present(popup, animated: false, completion: nil)
                             })
                                                 
                         case .PAY_DEBTOR_USER: // 돈안낸 유저
@@ -109,10 +133,13 @@ internal final class PartnershipListView : UIView {
                             self.delegate?.moveReissuanceView(info: self.evInfraInfo)
                             
                         case .CHARGER_STATE_CHARGING: // 충전중
-                            let confirmPopupViewcon = ConfirmPopupViewController(titleText: "충전중 재발급 신청 불가 안내", messageText: "충전중에는 재발급 신청을 할 수 없어요. 충전이 종료된 뒤 신청을 해주세요. ")
-                            confirmPopupViewcon.addActionToButton(title: "확인", buttonType: .confirm)
+                            let popupModel = PopupModel(title: "충전중 재발급 신청 불가 안내",
+                                                        message: "충전중에는 재발급 신청을 할 수 없어요. 충전이 종료된 뒤 신청을 해주세요.",
+                                                        confirmBtnTitle: "확인")
+                            let popup = ConfirmPopupViewController(model: popupModel)
+                                                                                    
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                self.navi.present(confirmPopupViewcon, animated: false, completion: nil)
+                                self.navi.present(popup, animated: false, completion: nil)
                             })
                                                 
                         default: break

@@ -321,14 +321,13 @@ extension BoardDetailViewController {
     }
     
     private func deleteBoard() {
-        let popup = ConfirmPopupViewController(titleText: "삭제", messageText: "게시글을 삭제 하시겠습니까?")
-        popup.addActionToButton(title: "취소", buttonType: .cancel)
-        popup.addActionToButton(title: "삭제", buttonType: .confirm)
-        popup.confirmDelegate = { isDelete in
-            
+        let popupModel = PopupModel(title: "삭제",
+                                    message:"게시글을 삭제 하시겠습니까?",
+                                    confirmBtnTitle: "삭제",
+                                    cancelBtnTitle: "취소",
+                                    confirmBtnAction: {
             self.boardDetailViewModel.deleteBoard(document_srl: self.document_srl) { [weak self] isSuccess in
                 guard let self = self else { return }
-                
                 if isSuccess {
                     self.trasientAlertView.titlemessage = "게시글이 삭제 되었습니다."
                     self.presentPanModal(self.trasientAlertView)
@@ -341,7 +340,9 @@ extension BoardDetailViewController {
                     self.navigationController?.pop()
                 }
             }
-        }
+        })
+        
+        let popup = ConfirmPopupViewController(model: popupModel)
         
         self.present(popup, animated: true, completion: nil)
     }
@@ -363,80 +364,87 @@ extension BoardDetailViewController {
     }
     
     private func reportBoard() {
-        let popup = ConfirmPopupViewController(titleText: "신고", messageText: "게시글을 신고하시겠습니까?")
-        popup.addActionToButton(title: "취소", buttonType: .cancel)
-        popup.addActionToButton(title: "신고하기", buttonType: .confirm)
-        popup.confirmDelegate = { [weak self] isReported in
-            guard let self = self else { return }
-            
-            if isReported {
-                self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { (isSuccess, message) in
-                    if isSuccess {
-                        self.trasientAlertView.titlemessage = message
-                        self.presentPanModal(self.trasientAlertView)
-                        self.trasientAlertView.dismissCompletion = {
-                            if isSuccess {
-                                NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
-                                self.navigationController?.pop()
-                            }
+        let popupModel = PopupModel(title: "신고",
+                                    message:"게시글을 신고하시겠습니까?",
+                                    confirmBtnTitle: "신고하기",
+                                    cancelBtnTitle: "취소",
+                                    confirmBtnAction: {
+            self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { [weak self] (isSuccess, message) in
+                guard let self = self else { return }
+                if isSuccess {
+                    self.trasientAlertView.titlemessage = message
+                    self.presentPanModal(self.trasientAlertView)
+                    self.trasientAlertView.dismissCompletion = {
+                        if isSuccess {
+                            NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                            self.navigationController?.pop()
                         }
                     }
                 }
             }
-        }
+        })
+        
+        let popup = ConfirmPopupViewController(model: popupModel)
+        
         
         self.present(popup, animated: true, completion: nil)
     }
     
     private func deleteComment(documentSRL: String, commentSRL: String) {
-        let popup = ConfirmPopupViewController(titleText: "삭제", messageText: "댓글을 삭제하시겠습니까?")
-        popup.addActionToButton(title: "취소", buttonType: .cancel)
-        popup.addActionToButton(title: "삭제", buttonType: .confirm)
-        popup.confirmDelegate = { [weak self] isDeleted in
-            guard let self = self else { return }
-            self.boardDetailViewModel.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { isSuccess, message in
-                self.trasientAlertView.titlemessage = message
-                self.presentPanModal(self.trasientAlertView)
-                self.fetchData()
-            }
-        }
         
-        self.present(popup, animated: true, completion: nil)
-    }
-    
-    private func modifyComment(comment: Comment, selectedRow: Int) {
-        let popup = ConfirmPopupViewController(titleText: "수정", messageText: "댓글을 수정하시겠습니까?")
-        popup.addActionToButton(title: "취소", buttonType: .cancel)
-        popup.addActionToButton(title: "수정", buttonType: .confirm)
-        popup.confirmDelegate = { [weak self] isDeleted in
-            guard let self = self else { return }
-            
-            let isRecomment = !comment.parent_srl!.equals("0")
-            
-            if isDeleted {
-                self.keyboardInputView?.becomeResponder(comment: comment, isModify: true, isRecomment: isRecomment, selectedRow: selectedRow)
-            }
-        }
-        
-        self.present(popup, animated: true, completion: nil)
-    }
-    
-    private func reportComment(comment: Comment) {
-        let popup = ConfirmPopupViewController(titleText: "신고", messageText: "댓글을 신고하시겠습니까?")
-        popup.addActionToButton(title: "취소", buttonType: .cancel)
-        popup.addActionToButton(title: "신고하기", buttonType: .confirm)
-        popup.confirmDelegate = { [weak self] isReported in
-            guard let self = self else { return }
-            
-            if isReported {
-                self.boardDetailViewModel.reportComment(commentSrl: comment.comment_srl!) { (_, message) in
+        let popupModel = PopupModel(title: "삭제",
+                                    message:"댓글을 삭제하시겠습니까?",
+                                    confirmBtnTitle: "삭제",
+                                    cancelBtnTitle: "취소",
+                                    confirmBtnAction: {
+            self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { [weak self] (isSuccess, message) in
+                guard let self = self else { return }
+                self.boardDetailViewModel.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { isSuccess, message in
                     self.trasientAlertView.titlemessage = message
                     self.presentPanModal(self.trasientAlertView)
                     self.fetchData()
                 }
             }
-        }
+        })
         
+        let popup = ConfirmPopupViewController(model: popupModel)
+        
+        self.present(popup, animated: true, completion: nil)
+    }
+    
+    private func modifyComment(comment: Comment, selectedRow: Int) {
+        
+        let popupModel = PopupModel(title: "수정",
+                                    message:"댓글을 수정하시겠습니까?",
+                                    confirmBtnTitle: "수정",
+                                    cancelBtnTitle: "취소",
+                                    confirmBtnAction: { [weak self] in
+            guard let self = self, let _parentSrl = comment.parent_srl else { return }
+            let isRecomment = !_parentSrl.equals("0")
+            self.keyboardInputView?.becomeResponder(comment: comment, isModify: true, isRecomment: isRecomment, selectedRow: selectedRow)
+        })
+        
+        let popup = ConfirmPopupViewController(model: popupModel)
+        
+        self.present(popup, animated: true, completion: nil)
+    }
+    
+    private func reportComment(comment: Comment) {
+        let popupModel = PopupModel(title: "신고",
+                                    message:"댓글을 신고하시겠습니까?",
+                                    confirmBtnTitle: "신고하기",
+                                    cancelBtnTitle: "취소",
+                                    confirmBtnAction: { [weak self] in
+            guard let self = self else { return }
+            self.boardDetailViewModel.reportComment(commentSrl: comment.comment_srl!) { (_, message) in
+                self.trasientAlertView.titlemessage = message
+                self.presentPanModal(self.trasientAlertView)
+                self.fetchData()
+            }
+        })
+        
+        let popup = ConfirmPopupViewController(model: popupModel)
+                        
         self.present(popup, animated: true, completion: nil)
     }
 }
@@ -569,20 +577,20 @@ extension BoardDetailViewController: ButtonClickDelegate {
             return
         }
         
-        var title = "좋아요"
-        var message = "좋아요 하시겠습니까?"
+        var title: String = "좋아요"
+        var message: String = "좋아요 하시겠습니까?"
         
         if isLiked {
             title = "좋아요 취소"
             message = "좋아요 취소하시겠습니까?"
         }
         
-        let popup = ConfirmPopupViewController(titleText: title, messageText: message)
-        popup.addActionToButton(title: "취소", buttonType: .cancel)
-        popup.addActionToButton(title: title, buttonType: .confirm)
-        popup.confirmDelegate = { [weak self] isLiked in
+        let popupModel = PopupModel(title: title,
+                                    message:message,
+                                    confirmBtnTitle: title,
+                                    cancelBtnTitle: "취소",
+                                    confirmBtnAction: { [weak self] in
             guard let self = self else { return }
-            
             self.boardDetailViewModel.setLikeCount(srl: srl, isComment: isComment) { (isSuccess, message) in
                 if isSuccess {
                     if let message = message as? String {
@@ -594,7 +602,9 @@ extension BoardDetailViewController: ButtonClickDelegate {
                     }
                 }
             }
-        }
+        })
+        
+        let popup = ConfirmPopupViewController(model: popupModel)
         
         self.present(popup, animated: true, completion: nil)
     }

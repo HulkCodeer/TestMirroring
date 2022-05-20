@@ -1150,17 +1150,18 @@ extension MainViewController {
         // TODO :: 첫 부팅 시에만 처리할 동작 있으면
         // chargermanagerlistener oncomplete에서 묶어서 처리 후 APP_FIRST_BOOT 변경
         if (UserDefault().readBool(key: UserDefault.Key.APP_FIRST_BOOT) == false) { // 첫부팅 시
-            let popup = ConfirmPopupViewController(titleText: "더 나은 충전 생활 안내를 위해 동의가 필요해요.", messageText: "EV Infra는 사용자님을 위해 도움되는 혜택 정보를 보내기 위해 노력합니다. 무분별한 광고 알림을 보내지 않으니 안심하세요!\n마케팅 수신 동의 변경은 설정 > 마케팅 정보 수신 동의에서 철회 가능합니다. ")
-            popup.addActionToButton(title: "다음에", buttonType: .cancel)
-            popup.addActionToButton(title: "동의하기", buttonType: .confirm)
-            popup.cancelDelegate = {[weak self] isLiked in
+            let popupModel = PopupModel(title: "더 나은 충전 생활 안내를 위해 동의가 필요해요.",
+                                        message:"EV Infra는 사용자님을 위해 도움되는 혜택 정보를 보내기 위해 노력합니다. 무분별한 광고 알림을 보내지 않으니 안심하세요!\n마케팅 수신 동의 변경은 설정 > 마케팅 정보 수신 동의에서 철회 가능합니다.",
+                                        confirmBtnTitle: "동의하기",
+                                        cancelBtnTitle: "다음에") { [weak self] in
                 guard let self = self else { return }
                 self.updateMarketingNotification(noti: false)
-            }
-            popup.confirmDelegate = {[weak self] isLiked in
+            } cancelBtnAction: { [weak self] in
                 guard let self = self else { return }
                 self.updateMarketingNotification(noti: true)
             }
+            
+            let popup = ConfirmPopupViewController(model: popupModel)
             
             self.present(popup, animated: false, completion: nil)
         }
