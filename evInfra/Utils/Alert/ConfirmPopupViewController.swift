@@ -131,26 +131,26 @@ internal final class ConfirmPopupViewController: UIViewController {
         self.titleLabel.text = self.popupModel.title
         self.descriptionLabel.text = self.popupModel.message
                         
-        if let _cancelAction = self.popupModel.cancelBtnAction, let _cancelTitle = self.popupModel.cancelBtnTitle {
-            let cancelBtn = createButton(backgroundColor: UIColor(named: "gr-5") ?? .white, buttonTitle: _cancelTitle)
+        if let _cancelTitle = self.popupModel.cancelBtnTitle {
+            let cancelBtn = createButton(backgroundColor: UIColor(named: "nt-1") ?? .white, buttonTitle: _cancelTitle)
             cancelBtn.rx.tap
                 .asDriver()
                 .drive(onNext: { [weak self] _ in
                     guard let self = self else { return }
-                    _cancelAction()
+                    self.popupModel.cancelBtnAction?()
                     self.dismissPopup()
                 })
                 .disposed(by: self.disposebag)
             buttonStackView.addArrangedSubview(cancelBtn)
         }
         
-        if let _confirmAction = self.popupModel.confirmBtnAction, let _confirmTitle = self.popupModel.confirmBtnTitle {
-            let confirmBtn = createButton(backgroundColor: UIColor(named: "nt-1") ?? .white, buttonTitle: _confirmTitle)
+        if let _confirmTitle = self.popupModel.confirmBtnTitle {
+            let confirmBtn = createButton(backgroundColor: UIColor(named: "gr-5") ?? .white, buttonTitle: _confirmTitle)
             confirmBtn.rx.tap
                 .asDriver()
                 .drive(onNext: { [weak self] _ in
                     guard let self = self else { return }
-                    _confirmAction()
+                    self.popupModel.confirmBtnAction?()
                     self.dismissPopup()
                 })
                 .disposed(by: self.disposebag)
@@ -169,6 +169,7 @@ internal final class ConfirmPopupViewController: UIViewController {
             $0.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
             $0.layer.cornerRadius = 6
             $0.setTitle(buttonTitle, for: .normal)
+            $0.backgroundColor = backgroundColor
         }
     }
         

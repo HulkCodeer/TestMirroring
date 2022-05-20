@@ -81,8 +81,7 @@ internal final class PartnershipListView : UIView {
                 Server.getPayRegisterStatus { (isSuccess, value) in
                     if isSuccess {
                         let json = JSON(value)
-//                        let payCode = json["pay_code"].intValue
-                        let payCode = 8801
+                        let payCode = json["pay_code"].intValue                        
                                             
                         switch PaymentStatus(rawValue: payCode) {
                         case .PAY_NO_CARD_USER, // 카드등록 아니된 멤버
