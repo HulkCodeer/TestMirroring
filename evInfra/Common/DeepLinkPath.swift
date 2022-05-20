@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class DeepLinkPath {
+internal final class DeepLinkPath {
     static let sharedInstance = DeepLinkPath()
     var linkPath: String
     var linkParameter: [URLQueryItem]?
@@ -30,46 +30,42 @@ class DeepLinkPath {
         linkPath = ""
     }
     
-    public func runDeepLink(navigationController: UINavigationController) {
+    public func runDeepLink() {
         if !isReady {
             return
         }
+        
+        let storyboard: UIStoryboard
+        var viewcon: UIViewController = UIViewController()
+        
+        guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
+        
         switch linkPath {
         case URL_PATH_MEMBERSHIP:
-            let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-            let mbscdVC = mbsStoryboard.instantiateViewController(withIdentifier: "MembershipCardViewController") as! MembershipCardViewController
-            navigationController.push(viewController: mbscdVC)
-            break
+            storyboard = UIStoryboard(name : "Membership", bundle: nil)
+            viewcon = storyboard.instantiateViewController(ofType: MembershipCardViewController.self)
             
         case URL_PATH_PAYMENT :
-            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-            let myPayInfoVC = memberStoryboard.instantiateViewController(withIdentifier: "MyPayinfoViewController") as! MyPayinfoViewController
-            navigationController.push(viewController: myPayInfoVC)
-            break
+            storyboard = UIStoryboard(name : "Member", bundle: nil)
+            viewcon = storyboard.instantiateViewController(ofType: MyPayinfoViewController.self)
             
         case URL_PATH_POINT :
-            let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
-            let pointVC = chargeStoryboard.instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
-            navigationController.push(viewController: pointVC)
-            break
+            storyboard = UIStoryboard(name : "Charge", bundle: nil)
+            viewcon = storyboard.instantiateViewController(ofType: PointViewController.self)
             
         case URL_PATH_FILTER :
-            let filterStoryboard = UIStoryboard(name : "Filter", bundle: nil)
-            let chargerFilterVC:ChargerFilterViewController = filterStoryboard.instantiateViewController(withIdentifier: "ChargerFilterViewController") as! ChargerFilterViewController
-            navigationController.push(viewController: chargerFilterVC)
-            break
+            storyboard = UIStoryboard(name : "Filter", bundle: nil)
+            viewcon = storyboard.instantiateViewController(ofType: ChargerFilterViewController.self)
             
         case URL_PATH_EVENT :
-            let eventStoryboard = UIStoryboard(name : "Event", bundle: nil)
-            let eventBoardVC = eventStoryboard.instantiateViewController(withIdentifier: "EventViewController") as! EventViewController
-            navigationController.push(viewController: eventBoardVC)
-            break
-            
+            storyboard = UIStoryboard(name : "Event", bundle: nil)
+            viewcon = storyboard.instantiateViewController(ofType: EventViewController.self)
+                        
         case URL_PATH_TERMS :
             guard let paramItems = linkParameter else { return }
             if let type = paramItems.first(where: { $0.name == "type"})?.value {
-                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                storyboard = UIStoryboard(name : "Info", bundle: nil)
+                let termsViewControll = storyboard.instantiateViewController(ofType: TermsViewController.self)
                 if (type == URL_PARAM_WEBVIEW_FAQ_TOP) {
                     termsViewControll.tabIndex = .FAQTop
                 } else if (type == URL_PARAM_WEBVIEW_FAQ_DETAIL){
@@ -78,13 +74,9 @@ class DeepLinkPath {
                         termsViewControll.subURL = "type=" + page
                     }
                 }
-                navigationController.push(viewController: termsViewControll)
             }
-            break
-            
-        default:
-            break
+        default: break
         }
-        
+        _mainNavi.push(viewController: viewcon)
     }
 }

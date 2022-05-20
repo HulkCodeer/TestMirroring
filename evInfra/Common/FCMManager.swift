@@ -11,7 +11,8 @@ import SwiftyJSON
 import UserNotifications
 import UIKit
 
-class FCMManager {
+internal final class FCMManager {
+    static let sharedInstance = FCMManager()
 
     // target id
     static let TARGET_NONE = "00"
@@ -29,7 +30,7 @@ class FCMManager {
     static let TARGET_EVENT = "12"
     
     static let FCM_REQUEST_PAYMENT_STATUS = "fcm_request_payment_status"
-    static let sharedInstance = FCMManager()
+    
     let defaults = UserDefault()
     
     private init() {}
@@ -55,19 +56,17 @@ class FCMManager {
         }
     }
     
-    func alertFCMMessage(navigationController: UINavigationController?) {
-        if let notification = getFCMMessageData() {
+    func alertFCMMessage() {
+        if let notification = getFCMMessageData(), let _mainNavi = GlobalDefine.shared.mainNavi {
             
             let targetId = notification.request.content.userInfo[AnyHashable("target_id")] as! String?
             
             let dialogMessage = UIAlertController(title: notification.request.content.title, message: notification.request.content.body, preferredStyle: .alert)
             let ok = UIAlertAction(title: "OK", style: .default, handler: {(ACTION) -> Void in
-                self.alertMessage(navigationController: navigationController, data: notification.request.content.userInfo)//notification.request.content.userInfo
-                
-                if let navigationController = navigationController {
-                    if let viewController = navigationController.visibleViewController {
-                        viewController.dismiss(animated: true)
-                    }
+                self.alertMessage(data: notification.request.content.userInfo)//notification.request.content.userInfo
+                                
+                if let viewController = _mainNavi.visibleViewController {
+                    viewController.dismiss(animated: true)
                 }
             })
             
@@ -81,7 +80,7 @@ class FCMManager {
                 dialogMessage.addAction(cancel)
             }
             
-            if let navigation = navigationController {
+            if let navigation = GlobalDefine.shared.mainNavi {
                 if let viewController = navigation.visibleViewController {
                     // 여기다가 뷰컨트롤러가 이거일 경우... 저거일 경우... 고고씡
                     if  (targetId != nil) {
@@ -114,7 +113,7 @@ class FCMManager {
         }
     }
     
-    func alertMessage(navigationController: UINavigationController?, data: [AnyHashable: Any]?) {
+    func alertMessage(data: [AnyHashable: Any]?) {
         if !isReady {
             return
         }
@@ -125,15 +124,15 @@ class FCMManager {
                     print("alertMessage() FCMManager.TARGET_NONE")
                     
                 case FCMManager.TARGET_CHARGING: // 충전
-                    startTagetCharging(navigationController: navigationController, data: notification)
+                    startTagetCharging(data: notification)
                     
                 case FCMManager.TARGET_BOARD: // 게시판
                     if let category = notification[AnyHashable("category")] as! String? {
                         if let board_id = Int((notification[AnyHashable("board_id")] as! String)) {
                             if category == "boardNotice" {
-                                getNoticeData(navigationController: navigationController, noticeId: board_id)
+                                getNoticeData(noticeId: board_id)
                             } else {
-                                getBoardData(navigationController: navigationController, boardId: board_id, category: category)
+                                getBoardData(boardId: board_id, category: category)
                             }
                         }
                     }
@@ -145,7 +144,7 @@ class FCMManager {
                     }
                     
                 case FCMManager.TARGET_REPORT: // 제보하기
-                    getBoardReportData(navigationController: navigationController)
+                    getBoardReportData()
                     
                 case FCMManager.TARGET_CHARGING_STATUS: // 충전상태
                     print("alertMessage() FCMManager.TARGET_CHARGING_STATUS")
@@ -154,34 +153,34 @@ class FCMManager {
                     print("alertMessage() FCMManager.TARGET_CHARGING_STATUS_FIX")
                     
                 case FCMManager.TARGET_COUPON:  // 쿠폰 알림
-                    getCouponIssueData(navigationController: navigationController)
+                    getCouponIssueData()
                     
                 case FCMManager.TARGET_POINT:  // 포인트 적립
                     if let cmd = notification[AnyHashable("cmd")] as? String {
-                        getPointCmdData(navigationController: navigationController, cmd: cmd)
+                        getPointCmdData(cmd: cmd)
                     } else {
-                        getPointData(navigationController: navigationController)
+                        getPointData()
                     }
                     
                 case FCMManager.TARGET_MEMBERSHIP:  // 제휴 서비스
                     if let cmd = notification[AnyHashable("cmd")] as? String {
-                        getMembershipData(navigationController: navigationController, cmd: cmd)
+                        getMembershipData(cmd: cmd)
                     }
                     
                 case FCMManager.TARGET_REPAYMENT:  // 미수금 정산
-                    getRepaymentData(navigationController: navigationController)
+                    getRepaymentData()
                     
                 case FCMManager.TARGET_COMMUNITY: // 커뮤니티 게시판
                     if let category = notification[AnyHashable("mid")] as? String,
                     let documentSrl = notification[AnyHashable("document_srl")] as? String {
-                        getCommunityBoardDetailData(navigationController: navigationController, boardId: documentSrl, category: category)
+                        getCommunityBoardDetailData(boardId: documentSrl, category: category)
                     }
                     
                 case FCMManager.TARGET_EVENT: // 이벤트
                     if let eventId = notification[AnyHashable("event_id")] as? String {
-                        getEventDetailData(navigationController: navigationController, eventId: Int(eventId)!)
+                        getEventDetailData(eventId: Int(eventId)!)
                     } else {
-                        getEventData(navigationController: navigationController)
+                        getEventData()
                     }
                     
                 default:
@@ -191,278 +190,227 @@ class FCMManager {
         }
     }
     
-    func getBoardReportData(navigationController: UINavigationController?) {
-        if let visableControll = navigationController?.visibleViewController {
-            if visableControll.isKind(of: ReportBoardViewController.self) {
-                visableControll.viewDidLoad()
-                return
-            } else {
-                if MemberManager.shared.isLogin {
-                    if let navigation = navigationController {
-                        let vc:ReportBoardViewController =  UIStoryboard(name: "Report", bundle: nil).instantiateViewController(withIdentifier: "ReportBoardViewController") as! ReportBoardViewController
-                        
-                        navigation.push(viewController: vc)
-                    }
-                } else {
-                    MemberManager().showLoginAlert(vc: visableControll)
-                }
-            }
-        }
-    }
-    
-    func getCommunityBoardDetailData(navigationController: UINavigationController?, boardId: String, category: String) {
-        guard let navigationController = navigationController else {
-            return
-        }
-        guard let visibleViewController = navigationController.visibleViewController else { return }
-        
-        if visibleViewController.isKind(of: BoardDetailViewController.self) {
-            guard let boardDetailViewController = visibleViewController as? BoardDetailViewController else { return }
-            boardDetailViewController.document_srl = boardId
-            boardDetailViewController.category = category
-            boardDetailViewController.viewDidLoad()
+    func getBoardReportData() {
+        guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
+        if _visibleViewcon.isKind(of: ReportBoardViewController.self) {
+            _visibleViewcon.viewDidLoad()
             return
         } else {
-            guard let boardDetailViewController = UIStoryboard(name: "BoardDetailViewController", bundle: nil).instantiateViewController(withIdentifier: "BoardDetailViewController") as? BoardDetailViewController else { return }
-            boardDetailViewController.document_srl = boardId
-            boardDetailViewController.category = category
-            navigationController.push(viewController: boardDetailViewController)
+            if MemberManager.shared.isLogin {
+                let vc: ReportBoardViewController =  UIStoryboard(name: "Report", bundle: nil).instantiateViewController(ofType: ReportBoardViewController.self)
+                _mainNavi.push(viewController: vc)
+            } else {
+                MemberManager().showLoginAlert()
+            }
         }
     }
     
-    func getBoardData(navigationController: UINavigationController?, boardId: Int, category: String) {
-        if let navigation = navigationController {
-            if let visableControll = navigation.visibleViewController {
-                if visableControll.isKind(of: MyArticleViewController.self) {
-                    let vc:MyArticleViewController = visableControll as! MyArticleViewController
-                    vc.boardId = boardId
-                    vc.category = category
-                    vc.viewDidLoad()
-                    return
-                } else {
-                    let maVC:MyArticleViewController =  UIStoryboard(name: "Board", bundle: nil).instantiateViewController(withIdentifier: "MyArticleViewController") as! MyArticleViewController
-                    maVC.boardId = boardId
-                    maVC.category = category
+    func getCommunityBoardDetailData(boardId: String, category: String) {
+        guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
+        let viewcon = UIStoryboard(name: "BoardDetailViewController", bundle: nil).instantiateViewController(ofType: BoardDetailViewController.self)
+        if _visibleViewcon.isKind(of: BoardDetailViewController.self) {
+            viewcon.document_srl = boardId
+            viewcon.category = category
+            viewcon.viewDidLoad()
+            return
+        } else {
+            viewcon.document_srl = boardId
+            viewcon.category = category
+            _mainNavi.push(viewController: viewcon)
+        }
+    }
+    
+    func getBoardData(boardId: Int, category: String) {
+        guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
+        let maVC: MyArticleViewController =  UIStoryboard(name: "Board", bundle: nil).instantiateViewController(ofType: MyArticleViewController.self)
+        if _visibleViewcon.isKind(of: MyArticleViewController.self) {
+            maVC.boardId = boardId
+            maVC.category = category
+            maVC.viewDidLoad()
+        } else {
+            maVC.boardId = boardId
+            maVC.category = category
+            _mainNavi.push(viewController: maVC)
+        }
+    }
+    
+    func getCouponIssueData() {
+        guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
+        if _visibleViewcon.isKind(of: ReportBoardViewController.self) {
+            _visibleViewcon.viewDidLoad()
+            return
+        } else {
+            if MemberManager.shared.isLogin {
+                let vc:MyCouponViewController =  UIStoryboard(name: "Coupon", bundle: nil).instantiateViewController(ofType: MyCouponViewController.self)
+                _mainNavi.push(viewController: vc)
+            } else {
+                MemberManager().showLoginAlert()
+            }
+        }
+    }
+    
+    func getNoticeData(noticeId: Int) {
+        guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
+        if let visableControll = _mainNavi.visibleViewController {
+            if visableControll.isKind(of: NoticeContentViewController.self) {
+                let vc = visableControll as! NoticeContentViewController
+                vc.boardId = noticeId
+                vc.viewDidLoad()
+            } else {
+                let ndVC = UIStoryboard(name: "Board", bundle: nil).instantiateViewController(ofType: NoticeContentViewController.self)
+                ndVC.boardId = noticeId
+                _mainNavi.push(viewController: ndVC)
+            }
+        }
+    }
+    
+    func getPointData() {
+        guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
+        if _visibleViewcon.isKind(of: PointViewController.self) {
+            _visibleViewcon.viewDidLoad()
+            return
+        } else {
+            let pointVC = UIStoryboard(name: "Charge", bundle: nil).instantiateViewController(ofType: PointViewController.self)
+            _mainNavi.push(viewController: pointVC)
+        }
+    }
+    
+    func getPointCmdData(cmd: String) {
+        guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
+        if (cmd.equals("pre_set_point")) {
+            if _visibleViewcon.isKind(of: PreUsePointViewController.self) {
+                _visibleViewcon.viewDidLoad()
+                return
+            } else {
+                let preUseVC = UIStoryboard(name: "Charge", bundle: nil).instantiateViewController(ofType: PreUsePointViewController.self)
+                _mainNavi.push(viewController: preUseVC)
+            }
+        } else if (cmd.equals("show_point_info")) {
+            let termsVC = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(ofType: TermsViewController.self)
+            if _visibleViewcon.isKind(of: TermsViewController.self) {
+                termsVC.tabIndex = .FAQDetail
+                termsVC.subURL = "type=USE_BERRY"
+                termsVC.viewDidLoad()
+                return
+            } else {
+                termsVC.tabIndex = .FAQDetail
+                termsVC.subURL = "type=USE_BERRY"
+                _mainNavi.push(viewController: termsVC)
+            }
+        }
+    }
+    
+    func getMembershipData(cmd: String) {
+        guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
+        if (cmd.equals("lotte_rent_point")){ // lotte
+            if _visibleViewcon.isKind(of: LotteRentInfoViewController.self) {
+                _visibleViewcon.viewDidLoad()
+                return
+            } else {
+                let membershipVC = UIStoryboard(name: "Membership", bundle: nil).instantiateViewController(ofType: LotteRentInfoViewController.self)
+                _mainNavi.push(viewController: membershipVC)
+            }
+        } else if (cmd.equals("move_to_membership")) {
+            if _visibleViewcon.isKind(of: MembershipCardViewController.self) {
+                _visibleViewcon.viewDidLoad()
+                return
+            } else {
+                let membershipVC = UIStoryboard(name: "Membership", bundle: nil).instantiateViewController(ofType: MembershipCardViewController.self)
+                _mainNavi.push(viewController: membershipVC)
+            }
+        } else if (cmd.equals("show_membership_info")) {
+            let termsVC = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(ofType: TermsViewController.self)
+            if _visibleViewcon.isKind(of: TermsViewController.self) {
+                termsVC.tabIndex = .FAQDetail
+                termsVC.subURL = "type=PAYMENT"
+                _visibleViewcon.viewDidLoad()
+                return
+            } else {
+                termsVC.tabIndex = .FAQDetail
+                termsVC.subURL = "type=PAYMENT"
+                _mainNavi.push(viewController: termsVC)
+            }
+        }
+    }
+    
+    func getEventData() {
+        guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
+        if _visibleViewcon.isKind(of: EventViewController.self) {
+            _visibleViewcon.viewDidLoad()
+            return
+        } else {
+            let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventViewController.self)
+            _mainNavi.push(viewController: viewcon)
+        }
+    }
+    
+    func getEventDetailData(eventId: Int) {
+        guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
+        let eventVC = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
+        if _visibleViewcon.isKind(of: EventContentsViewController.self) {
+            eventVC.eventId = eventId
+            eventVC.viewDidLoad()
+        } else {
+            eventVC.eventId = eventId
+            _mainNavi.push(viewController: eventVC)
+        }
+    }
+    
+    func getRepaymentData() {
+        guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
+        if _visibleViewcon.isKind(of: RepayListViewController.self) {
+            _visibleViewcon.viewDidLoad()            
+        } else {
+            let paymentVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
+            _mainNavi.push(viewController: paymentVC)
+        }
+    }
+    
+    func startTagetCharging(data: [AnyHashable: Any]){
+        guard MemberManager.shared.isLogin else { return }
+        var chargingId = defaults.readString(key: UserDefault.Key.CHARGING_ID)
+        var cmd = ""
+        var cpId = ""
+        var connectorId = ""
+
+        if chargingId.isEmpty {
+            if let notiChargingId =  data[AnyHashable("charging_id")] as! String? {
+                chargingId = notiChargingId
+                defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: chargingId)
+            }
+        }
+        
+        if let notiCmd =  data[AnyHashable("cmd")] as! String? {
+            cmd = notiCmd
+        }
+        if let notiCpId = data[AnyHashable("cp_id")] as! String? {
+            cpId = notiCpId
+        }
+        
+        if let notiConId = data[AnyHashable("connector_id")] as! String? {
+            connectorId = notiConId
+        }
+
+        guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
+        let center = NotificationCenter.default
+        if cmd.elementsEqual("charging_end") {
+            let paymentResultVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentResultViewController.self)
+            paymentResultVC.chargingId = chargingId
+            _mainNavi.push(viewController: paymentResultVC)
+        } else {
+            if let viewController = _mainNavi.visibleViewController {
+                if !String(describing: viewController).contains("PaymentStatusViewController") {
+                    let paymentStatusVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
+                    paymentStatusVC.cpId = cpId
+                    paymentStatusVC.connectorId = connectorId
                     
-                    navigation.push(viewController: maVC)
+                    _mainNavi.push(viewController: paymentStatusVC)
+                } else {
+                    center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: data)
                 }
-            }
-        }
-    }
-    
-    func getCouponIssueData(navigationController: UINavigationController?) {
-        if let visableControll = navigationController?.visibleViewController {
-            if visableControll.isKind(of: ReportBoardViewController.self) {
-                visableControll.viewDidLoad()
-                return
             } else {
-                if MemberManager.shared.isLogin {
-                    if let navigation = navigationController {
-                        let vc:MyCouponViewController =  UIStoryboard(name: "Coupon", bundle: nil).instantiateViewController(withIdentifier: "MyCouponViewController") as! MyCouponViewController
-                        
-                        navigation.push(viewController: vc)
-                    }
-                } else {
-                    MemberManager().showLoginAlert(vc: visableControll)
-                }
-            }
-        }
-    }
-    
-    func getNoticeData(navigationController: UINavigationController?, noticeId: Int) {
-        if let navigation = navigationController {
-            if let visableControll = navigation.visibleViewController {
-                if visableControll.isKind(of: NoticeContentViewController.self) {
-                    let vc = visableControll as! NoticeContentViewController
-                    vc.boardId = noticeId
-                    vc.viewDidLoad()
-                } else {
-                    let ndVC = UIStoryboard(name: "Board", bundle: nil).instantiateViewController(withIdentifier: "NoticeContentViewController") as! NoticeContentViewController
-                    ndVC.boardId = noticeId
-                    navigation.push(viewController: ndVC)
-                }
-            }
-        }
-    }
-    
-    func getPointData(navigationController: UINavigationController?) {
-        if let visableControll = navigationController?.visibleViewController {
-            if visableControll.isKind(of: PointViewController.self) {
-                visableControll.viewDidLoad()
-                return
-            } else {
-                if let navigation = navigationController {
-                    let pointVC = UIStoryboard(name: "Charge", bundle: nil).instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
-                    navigation.push(viewController: pointVC)
-                }
-            }
-        }
-    }
-    
-    func getPointCmdData(navigationController: UINavigationController?, cmd: String) {
-        if let visableControll = navigationController?.visibleViewController {
-            if (cmd.equals("pre_set_point")) {
-                if visableControll.isKind(of: PreUsePointViewController.self) {
-                    visableControll.viewDidLoad()
-                    return
-                } else {
-                    if let navigation = navigationController {
-                        let preUseVC = UIStoryboard(name: "Charge", bundle: nil).instantiateViewController(withIdentifier: "PreUsePointViewController") as! PreUsePointViewController
-                        navigation.push(viewController: preUseVC)
-                    }
-                }
-            } else if (cmd.equals("show_point_info")) {
-                if visableControll.isKind(of: TermsViewController.self) {
-                    let vc = visableControll as! TermsViewController
-                    vc.tabIndex = .FAQDetail
-                    vc.subURL = "type=USE_BERRY"
-                    vc.viewDidLoad()
-                    return
-                } else {
-                    if let navigation = navigationController {
-                        let termsVC = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-                        termsVC.tabIndex = .FAQDetail
-                        termsVC.subURL = "type=USE_BERRY"
-                        navigation.push(viewController: termsVC)
-                    }
-                }
-            }
-
-        }
-    }
-    
-    func getMembershipData(navigationController: UINavigationController?, cmd: String) {
-        if let visableControll = navigationController?.visibleViewController {
-            if (cmd.equals("lotte_rent_point")){ // lotte
-                if visableControll.isKind(of: LotteRentInfoViewController.self) {
-                    visableControll.viewDidLoad()
-                    return
-                } else {
-                    if let navigation = navigationController {
-                        let membershipVC = UIStoryboard(name: "Membership", bundle: nil).instantiateViewController(withIdentifier: "LotteRentInfoViewController") as! LotteRentInfoViewController
-                        navigation.push(viewController: membershipVC)
-                    }
-                }
-            } else if (cmd.equals("move_to_membership")) {
-                if visableControll.isKind(of: MembershipCardViewController.self) {
-                    visableControll.viewDidLoad()
-                    return
-                } else {
-                    if let navigation = navigationController {
-                        let membershipVC = UIStoryboard(name: "Membership", bundle: nil).instantiateViewController(withIdentifier: "MembershipCardViewController") as! MembershipCardViewController
-                        navigation.push(viewController: membershipVC)
-                    }
-                }
-            } else if (cmd.equals("show_membership_info")) {
-                if visableControll.isKind(of: TermsViewController.self) {
-                    let vc = visableControll as! TermsViewController
-                    vc.tabIndex = .FAQDetail
-                    vc.subURL = "type=PAYMENT"
-                    visableControll.viewDidLoad()
-                    return
-                } else {
-                    if let navigation = navigationController {
-                        let termsVC = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-                        termsVC.tabIndex = .FAQDetail
-                        termsVC.subURL = "type=PAYMENT"
-                        navigation.push(viewController: termsVC)
-                    }
-                }
-            }
-        }
-    }
-    
-    func getEventData(navigationController: UINavigationController?) {
-        if let visableControll = navigationController?.visibleViewController {
-            if visableControll.isKind(of: EventViewController.self) {
-                visableControll.viewDidLoad()
-                return
-            } else {
-                if let navigation = navigationController {
-                    let vc:EventViewController =  UIStoryboard(name: "Event", bundle: nil).instantiateViewController(withIdentifier: "EventViewController") as! EventViewController
-                    navigation.push(viewController: vc)
-                }
-            }
-        }
-    }
-    
-    func getEventDetailData(navigationController: UINavigationController?, eventId: Int) {
-        if let navigation = navigationController {
-            if let visableControll = navigation.visibleViewController {
-                if visableControll.isKind(of: EventContentsViewController.self) {
-                    let vc = visableControll as! EventContentsViewController
-                    vc.eventId = eventId
-                    vc.viewDidLoad()
-                } else {
-                    let eventVC = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(withIdentifier: "EventContentsViewController") as! EventContentsViewController
-                    eventVC.eventId = eventId
-                    navigation.push(viewController: eventVC)
-                }
-            }
-        }
-    }
-    
-    func getRepaymentData(navigationController: UINavigationController?) {
-        if let visableControll = navigationController?.visibleViewController {
-            if visableControll.isKind(of: RepayListViewController.self) {
-                visableControll.viewDidLoad()
-                return
-            } else {
-                if let navigation = navigationController {
-                    let paymentVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(withIdentifier: "RepayListViewController") as! RepayListViewController
-                    navigation.push(viewController: paymentVC)
-                }
-            }
-        }
-    }
-    
-    func startTagetCharging(navigationController: UINavigationController?, data: [AnyHashable: Any]){
-        if MemberManager.shared.isLogin {
-            var chargingId = defaults.readString(key: UserDefault.Key.CHARGING_ID)
-            var cmd = ""
-            var cpId = ""
-            var connectorId = ""
-
-            if chargingId.isEmpty {
-                if let notiChargingId =  data[AnyHashable("charging_id")] as! String? {
-                    chargingId = notiChargingId
-                    defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: chargingId)
-                }
-            }
-            
-            if let notiCmd =  data[AnyHashable("cmd")] as! String? {
-                cmd = notiCmd
-            }
-            if let notiCpId = data[AnyHashable("cp_id")] as! String? {
-                cpId = notiCpId
-            }
-            
-            if let notiConId = data[AnyHashable("connector_id")] as! String? {
-                connectorId = notiConId
-            }
-
-            if let navigation = navigationController {
-                 let center = NotificationCenter.default
-                if cmd.elementsEqual("charging_end") {
-                    let paymentResultVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(withIdentifier: "PaymentResultViewController") as! PaymentResultViewController
-                    paymentResultVC.chargingId = chargingId
-                    navigation.push(viewController: paymentResultVC)
-                } else {
-                    if let viewController = navigation.visibleViewController {
-                        if !String(describing: viewController).contains("PaymentStatusViewController") {
-                            let paymentStatusVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
-                            paymentStatusVC.cpId = cpId
-                            paymentStatusVC.connectorId = connectorId
-                            
-                            navigation.push(viewController: paymentStatusVC)
-                        } else {
-                            center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: data)
-                        }
-                    } else {
-                        let paymentStatusVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
-                        navigation.push(viewController: paymentStatusVC)
-                    }
-                }
+                let paymentStatusVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
+                _mainNavi.push(viewController: paymentStatusVC)
             }
         }
     }

@@ -20,8 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var appToolbarController: AppToolbarController!
-    var navigationController: AppNavigationController?
-
+    
     let gcmMessageIDKey = "gcm.message_id"
     let fcmManager = FCMManager.sharedInstance
     var chargingStatusPayload: [AnyHashable: Any]? = nil
@@ -45,8 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
             
         window = UIWindow(frame: Screen.bounds)
-        navigationController = AppNavigationController(rootViewController: introViewController)//
-        navigationController?.navigationBar.isHidden = true
+        let navigationController = AppNavigationController(rootViewController: introViewController)
+        GlobalDefine.shared.mainNavi = navigationController
+        navigationController.navigationBar.isHidden = true
         window!.rootViewController = navigationController
         window!.makeKeyAndVisible()
     }
@@ -209,9 +209,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         completionHandler([])
         
         if #available(iOS 13.0, *) { // SceneDelegate의 navigationController 사용
-            fcmManager.alertFCMMessage(navigationController: (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.navigationController)
+            fcmManager.alertFCMMessage()
         } else {
-            fcmManager.alertFCMMessage(navigationController: navigationController)
+            fcmManager.alertFCMMessage()
         }
     }
     
@@ -229,9 +229,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         // 메인 실행이 완료되지 않으면 실행하지 않고 메인에서 끝날때 호출
         if #available(iOS 13.0, *) { // SceneDelegate의 navigationController 사용
-            fcmManager.alertMessage(navigationController: (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.navigationController, data: response.notification.request.content.userInfo)
+            fcmManager.alertMessage(data: response.notification.request.content.userInfo)
         } else {
-            fcmManager.alertMessage(navigationController: navigationController, data: response.notification.request.content.userInfo)
+            fcmManager.alertMessage(data: response.notification.request.content.userInfo)
         }
         
         completionHandler()

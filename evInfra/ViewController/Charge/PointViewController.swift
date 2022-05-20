@@ -87,7 +87,7 @@ internal final class PointViewController: UIViewController {
             let currentDate = Date()
             getPointHistory(isAllDate: false, startDate: currentDate, endDate: currentDate)
         } else {
-            MemberManager().showLoginAlert(vc: self)
+            MemberManager().showLoginAlert()
         }
     }
     

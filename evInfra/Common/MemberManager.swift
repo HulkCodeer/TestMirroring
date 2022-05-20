@@ -136,10 +136,12 @@ internal final class MemberManager {
         userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  false)
     }
     
-    func showLoginAlert(vc: UIViewController, completion: ((Bool) -> ())? = nil) {
+    func showLoginAlert(completion: ((Bool) -> ())? = nil) {
+        
         let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
-            let loginVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-            vc.navigationController?.push(viewController: loginVC)
+            guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
+            let loginVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(ofType: LoginViewController.self)
+            _mainNavi.push(viewController: loginVC)
             
             if completion != nil {
                 completion!(true)

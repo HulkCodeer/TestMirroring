@@ -139,7 +139,7 @@ class MainViewController: UIViewController {
     }
     
     func showDeepLink() {
-        DeepLinkPath.sharedInstance.runDeepLink(navigationController: navigationController!)
+        DeepLinkPath.sharedInstance.runDeepLink()
     }
     
     // Filter
@@ -399,7 +399,7 @@ extension MainViewController: DelegateFilterBarView {
             favoriteVC.delegate = self
             self.present(AppNavigationController(rootViewController: favoriteVC), animated: true, completion: nil)
         } else {
-            MemberManager().showLoginAlert(vc:self)
+            MemberManager().showLoginAlert()
         }
     }
 }
@@ -1037,7 +1037,7 @@ extension MainViewController {
     }
     
     @objc func requestLogIn(_ notification: NSNotification) {
-        MemberManager().showLoginAlert(vc: self)
+        MemberManager().showLoginAlert()
     }
     
     @objc func isChangeFavorite(_ notification: NSNotification) {
@@ -1206,7 +1206,7 @@ extension MainViewController {
     
     private func checkFCM() {
         if let notification = FCMManager.sharedInstance.fcmNotification {
-            FCMManager.sharedInstance.alertMessage(navigationController: navigationController, data: notification)
+            FCMManager.sharedInstance.alertMessage(data: notification)
         }
     }
     
@@ -1248,7 +1248,7 @@ extension MainViewController {
                 }
             }
         } else {
-            MemberManager().showLoginAlert(vc: self)
+            MemberManager().showLoginAlert()
         }
     }
     

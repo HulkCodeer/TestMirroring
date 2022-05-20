@@ -54,7 +54,7 @@ internal final class RentalCarCardListViewController: UIViewController {
         if MemberManager.shared.isLogin {
             checkMembershipData()
         } else {
-            MemberManager().showLoginAlert(vc: self)
+            MemberManager().showLoginAlert()
         }
     }
 

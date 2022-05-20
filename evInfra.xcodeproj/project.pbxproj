@@ -325,6 +325,7 @@
 		73EF8B7B203C85CC00D04494 /* TopLib_Op.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73EF8B6E203C85CC00D04494 /* TopLib_Op.a */; };
 		73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */; };
 		73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F6B53920F873110030D0B3 /* IntroViewController.swift */; };
+		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		8ABD2A1E6BAAA48912760042 /* Pods_evInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73FD6F0BC57C39B41EE0B7 /* Pods_evInfra.framework */; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
@@ -774,6 +775,7 @@
 		73EF8B7C203C880A00D04494 /* evInfra-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "evInfra-Bridging-Header.h"; sourceTree = "<group>"; };
 		73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterGenerator.swift; sourceTree = "<group>"; };
 		73F6B53920F873110030D0B3 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
+		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
 		9014C12624E55C4800CB6549 /* EIPOIItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIPOIItem.swift; sourceTree = "<group>"; };
 		9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAllPOIListenerCallback.swift; sourceTree = "<group>"; };
 		9028E07724A1B8270062A029 /* eirel */ = {isa = PBXFileReference; lastKnownFileType = file; path = eirel; sourceTree = "<group>"; };
@@ -1327,6 +1329,7 @@
 				529659D127E9AD7200FC1E8B /* LinkShareManager.swift */,
 				63DA015B2832559400705842 /* BaseViewController.swift */,
 				63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */,
+				82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2243,6 +2246,7 @@
 				00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */,
 				4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */,
 				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
+				82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */,
 				63DA0A09282E44020021292C /* SC_TRACE.swift in Sources */,
 				CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */,
 				733662D022F974820049AEFE /* Coupon.swift in Sources */,

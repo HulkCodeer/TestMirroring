@@ -94,7 +94,7 @@ class EditViewController: UIViewController, UITextViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         if !MemberManager.shared.isLogin {
-            MemberManager().showLoginAlert(vc: self, completion: { (result) -> Void in
+            MemberManager().showLoginAlert(completion: { (result) -> Void in
                 if !result {
                     self.navigationController?.pop()
                 }

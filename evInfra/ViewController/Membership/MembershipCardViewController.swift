@@ -47,7 +47,7 @@ internal final class MembershipCardViewController: BaseViewController {
         if MemberManager.shared.isLogin {
             checkMembershipData()            
         } else {
-            MemberManager().showLoginAlert(vc: self)
+            MemberManager().showLoginAlert()
         }
     }
 

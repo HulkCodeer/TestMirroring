@@ -36,7 +36,7 @@ class PreUsePointViewController: UIViewController {
         if MemberManager.shared.isLogin {
             getUsePoint()
         } else {
-            MemberManager().showLoginAlert(vc: self)
+            MemberManager().showLoginAlert()
         }
     }
     

@@ -30,7 +30,7 @@ class CBT {
                 }
             }
         } else {
-            MemberManager().showLoginAlert(vc: vc)
+            MemberManager().showLoginAlert()
         }
     }
     

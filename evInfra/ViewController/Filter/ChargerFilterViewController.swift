@@ -153,7 +153,7 @@ extension ChargerFilterViewController : DelegateFilterTypeView {
         guard MemberManager.shared.isLogin else {
             return true
         }
-        MemberManager().showLoginAlert(vc: self)
+        MemberManager().showLoginAlert()
         return false                
     }
 }

@@ -98,7 +98,7 @@ class GuideAlertDialog: UIView, WKUIDelegate, WKNavigationDelegate {
                         if let component = URLComponents(url: newURL, resolvingAgainstBaseURL: false) {
                             DeepLinkPath.sharedInstance.linkParameter = component.queryItems
                         }
-                        DeepLinkPath.sharedInstance.runDeepLink(navigationController: (sceneDelegate?.navigationController)!)
+                        DeepLinkPath.sharedInstance.runDeepLink()
                     } else {
                         UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
                     }

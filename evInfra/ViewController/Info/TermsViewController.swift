@@ -227,13 +227,12 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
                 let host = newURL.host , !host.hasPrefix(Const.EV_PAY_SERVER + "/docs/info/ev_infra_help") &&
                 UIApplication.shared.canOpenURL(newURL) {
                 if host.hasPrefix("com.soft-berry.ev-infra") { // deeplink
-                    if #available(iOS 13.0, *) {
-                        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+                    if #available(iOS 13.0, *) {                        
                         DeepLinkPath.sharedInstance.linkPath = newURL.path
                         if let component = URLComponents(url: newURL, resolvingAgainstBaseURL: false) {
                             DeepLinkPath.sharedInstance.linkParameter = component.queryItems
                         }
-                        DeepLinkPath.sharedInstance.runDeepLink(navigationController: (sceneDelegate?.navigationController)!)
+                        DeepLinkPath.sharedInstance.runDeepLink()
                     } else {
                         UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
                     }

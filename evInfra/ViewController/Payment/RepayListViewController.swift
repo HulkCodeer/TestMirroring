@@ -80,7 +80,7 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
             }
             payRegisterResult = nil
         } else {
-            MemberManager().showLoginAlert(vc: self)
+            MemberManager().showLoginAlert()
         }
     }
     
