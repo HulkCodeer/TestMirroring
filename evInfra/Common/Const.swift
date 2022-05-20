@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Const {
+internal enum Const {
     
     // common TAG
     public static let TAG = "EV_INFRA"

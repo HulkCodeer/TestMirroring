@@ -130,30 +130,32 @@ internal final class ConfirmPopupViewController: UIViewController {
         
         self.titleLabel.text = self.popupModel.title
         self.descriptionLabel.text = self.popupModel.message
-                
-        let confirmBtn = createButton(backgroundColor: UIColor(named: "nt-1") ?? .white)
-        let cancelBtn = createButton(backgroundColor: UIColor(named: "gr-5") ?? .white)
+                        
+        if let _cancelAction = self.popupModel.cancelBtnAction, let _cancelTitle = self.popupModel.cancelBtnTitle {
+            let cancelBtn = createButton(backgroundColor: UIColor(named: "gr-5") ?? .white, buttonTitle: _cancelTitle)
+            cancelBtn.rx.tap
+                .asDriver()
+                .drive(onNext: { [weak self] _ in
+                    guard let self = self else { return }
+                    _cancelAction()
+                    self.dismissPopup()
+                })
+                .disposed(by: self.disposebag)
+            buttonStackView.addArrangedSubview(cancelBtn)
+        }
         
-        confirmBtn.rx.tap
-            .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.popupModel.confirmBtnAction?()
-                self.dismissPopup()
-            })
-            .disposed(by: self.disposebag)
-        
-        confirmBtn.rx.tap
-            .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.popupModel.cancelBtnAction?()
-                self.dismissPopup()
-            })
-            .disposed(by: self.disposebag)
-        
-        buttonStackView.addArrangedSubview(confirmBtn)
-        buttonStackView.addArrangedSubview(cancelBtn)
+        if let _confirmAction = self.popupModel.confirmBtnAction, let _confirmTitle = self.popupModel.confirmBtnTitle {
+            let confirmBtn = createButton(backgroundColor: UIColor(named: "nt-1") ?? .white, buttonTitle: _confirmTitle)
+            confirmBtn.rx.tap
+                .asDriver()
+                .drive(onNext: { [weak self] _ in
+                    guard let self = self else { return }
+                    _confirmAction()
+                    self.dismissPopup()
+                })
+                .disposed(by: self.disposebag)
+            buttonStackView.addArrangedSubview(confirmBtn)
+        }
     }
     
     override func viewDidLoad() {
@@ -161,15 +163,15 @@ internal final class ConfirmPopupViewController: UIViewController {
                         
     }
     
-    private func createButton(backgroundColor: UIColor) -> UIButton {
+    private func createButton(backgroundColor: UIColor, buttonTitle: String) -> UIButton {
         UIButton().then {
             $0.setTitleColor(UIColor(named: "nt-9"), for: .normal)
             $0.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
             $0.layer.cornerRadius = 6
-            $0.setTitle(title, for: .normal)
+            $0.setTitle(buttonTitle, for: .normal)
         }
     }
-    
+        
     private func dismissPopup() {
         self.dismiss(animated: true, completion: nil)
     }
