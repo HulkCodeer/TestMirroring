@@ -9,10 +9,7 @@
 import Foundation
 
 internal enum Const {
-    
-    // common TAG
-    public static let TAG = "EV_INFRA"
-    
+            
     // Closed Beta Test
     public static let CLOSED_BETA_TEST = false
 

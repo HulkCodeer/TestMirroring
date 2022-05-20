@@ -11,7 +11,6 @@ import GRDB
 
 class DataBaseHelper {
     static let sharedInstance = DataBaseHelper()
-    static let TAG = "DataBaseHelper"
     public static let DEV_DATABASE_NAME = "eidev"
     public static let REL_DATABASE_NAME = "eirel"
     public static var DATABASE_NAME = REL_DATABASE_NAME
@@ -29,8 +28,8 @@ class DataBaseHelper {
                 //configuration.trace = nil //{ Log.d(tag: DataBaseHelper.TAG, msg: $0) }
                 mDbQueue = try DatabaseQueue(path: dbPath, configuration: configuration)
             }
-        }catch{
-            Log.e(tag: DataBaseHelper.TAG, msg: "Error info: \(error.localizedDescription)")
+        }catch{            
+            printLog(out: "Error info: \(error.localizedDescription)")
         }
     }
     

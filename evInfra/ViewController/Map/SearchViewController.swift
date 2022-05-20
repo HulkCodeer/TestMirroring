@@ -209,8 +209,8 @@ extension SearchViewController: SearchBarDelegate {
                             self.tableView.chargerList?.append(chargerStationInfo!)
                         }
                     }
-                }catch{
-                    Log.e(tag: "db", msg: "refreshCursorAdapter Error : \(error.localizedDescription)")
+                }catch{                    
+                    printLog(out: "refreshCursorAdapter Error : \(error.localizedDescription)")
                 }
             }
             DispatchQueue.main.async {

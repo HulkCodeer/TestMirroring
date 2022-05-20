@@ -168,7 +168,7 @@ class StringUtils {
                 String(content[Range($0.range, in: content)!])
             }
         } catch let error {
-            Log.e(tag: "StringUtils", msg: "invalid regex: \(error.localizedDescription)")
+            printLog(out: "invalid regex: \(error.localizedDescription)")
             return []
         }
     }
@@ -213,8 +213,8 @@ class StringUtils {
             return results.map {
                 String(text[Range($0.range, in: text)!])
             }
-        } catch let error {
-            Log.e(tag: "StringUtils", msg: "invalid regex: \(error.localizedDescription)")
+        } catch let error {            
+            printLog(out: "invalid regex: \(error.localizedDescription)")
             return []
         }
     }
