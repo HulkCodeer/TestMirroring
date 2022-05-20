@@ -54,6 +54,10 @@ class EditViewController: UIViewController, UITextViewDelegate {
     let picker = UIImagePickerController()
     let cropper = UIImageCropper(cropRatio: 60/37)
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

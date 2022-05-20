@@ -20,6 +20,10 @@ class MyPayRegisterViewController: UIViewController {
         initWebView()
     }
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()

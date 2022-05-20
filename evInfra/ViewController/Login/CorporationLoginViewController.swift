@@ -18,6 +18,10 @@ class CorporationLoginViewController: UIViewController {
     
     var delegate: CorporationLoginViewControllerDelegate?
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tfCorpId.delegate = self

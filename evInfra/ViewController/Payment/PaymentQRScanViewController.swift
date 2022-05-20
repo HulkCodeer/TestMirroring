@@ -28,6 +28,10 @@ class PaymentQRScanViewController: UIViewController {
     
     var mMyPoint = 0
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()

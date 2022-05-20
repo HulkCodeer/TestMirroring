@@ -18,6 +18,10 @@ class ReportBoardViewController: UIViewController {
     
     var reportList = Array<ReportCharger>()
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

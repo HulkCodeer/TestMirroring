@@ -61,6 +61,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     var isRouteMode: Bool = false
     var currentPage = 0
 
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

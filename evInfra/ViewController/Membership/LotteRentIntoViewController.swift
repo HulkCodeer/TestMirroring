@@ -17,6 +17,10 @@ class LotteRentInfoViewController: UIViewController {
     var activeTextView: Any? = nil
     
     var memberInfo : MemberPartnershipInfo?
+    
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
         
     override func viewDidLoad() {
         super.viewDidLoad()

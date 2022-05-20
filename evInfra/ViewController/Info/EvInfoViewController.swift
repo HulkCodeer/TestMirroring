@@ -15,6 +15,10 @@ class EvInfoViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     var evModels = [EVModel]()
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -20,6 +20,10 @@ class MembershipQRViewController: UIViewController,
     @IBOutlet var scannerViewLayer: UIView!
     @IBOutlet var lbExplainScanner: UILabel!
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()

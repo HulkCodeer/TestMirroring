@@ -88,6 +88,10 @@ internal final class ConfirmPopupViewController: UIViewController {
     
     private let disposebag = DisposeBag()
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     convenience init(model: PopupModel) {
         self.init()
         

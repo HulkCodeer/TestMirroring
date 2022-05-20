@@ -29,6 +29,10 @@ class ChargerDetailViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.prepareActionBar()

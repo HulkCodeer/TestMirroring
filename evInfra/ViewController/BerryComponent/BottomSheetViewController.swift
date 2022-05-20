@@ -22,6 +22,10 @@ class BottomSheetViewController: UIViewController {
     var contentList: Array<String>?
     var delegate: BottomSheetDelegate?
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()

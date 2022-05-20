@@ -24,6 +24,10 @@ class PreUsePointViewController: UIViewController {
     private var preUsePoint: Int = 0
     private var oldUsePoint: Int = 0
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

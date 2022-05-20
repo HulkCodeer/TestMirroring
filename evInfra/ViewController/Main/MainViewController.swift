@@ -87,6 +87,10 @@ class MainViewController: UIViewController {
     
     private var summaryView:SummaryView!
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()

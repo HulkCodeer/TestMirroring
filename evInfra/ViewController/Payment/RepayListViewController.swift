@@ -42,6 +42,10 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     private var totalPoint = 0
     private var totalAmount = 0
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false

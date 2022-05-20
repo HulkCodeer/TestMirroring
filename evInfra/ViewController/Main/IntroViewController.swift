@@ -26,6 +26,10 @@ class IntroViewController: UIViewController {
     var isNewBoardList = Array<Bool>()
     var maxCount = 0
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -150,8 +154,8 @@ extension IntroViewController: BoardDelegate {
     
     internal func finishedServerInit() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let mainViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-        let leftViewController = storyboard.instantiateViewController(withIdentifier: "LeftViewController") as! LeftViewController
+        let mainViewController = storyboard.instantiateViewController(ofType: MainViewController.self)
+        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
         appDelegate.appToolbarController = AppToolbarController(rootViewController: mainViewController)
         appDelegate.appToolbarController.delegate = mainViewController
         let ndController = AppNavigationDrawerController(rootViewController: appDelegate.appToolbarController, leftViewController: leftViewController)

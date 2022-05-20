@@ -17,6 +17,10 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var btnKakaoLogin: KOLoginButton!
     @IBOutlet weak var btnCorpLogin: UIButton!
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()

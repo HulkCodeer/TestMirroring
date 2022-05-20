@@ -38,7 +38,7 @@ internal final class DeepLinkPath {
         let storyboard: UIStoryboard
         var viewcon: UIViewController = UIViewController()
         
-        guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
+        guard let _mainNavi = GlobalDefine.shared.mainNavi, !linkPath.isEmpty else { return }
         
         switch linkPath {
         case URL_PATH_MEMBERSHIP:

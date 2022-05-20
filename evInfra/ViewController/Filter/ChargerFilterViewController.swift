@@ -28,6 +28,10 @@ class ChargerFilterViewController: UIViewController {
     @IBOutlet var companyViewHeight: NSLayoutConstraint!
     var delegate: DelegateChargerFilterView?
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false

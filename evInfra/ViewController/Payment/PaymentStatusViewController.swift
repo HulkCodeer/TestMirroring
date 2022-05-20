@@ -76,6 +76,10 @@ class PaymentStatusViewController: UIViewController {
     
     var timer = Timer()
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

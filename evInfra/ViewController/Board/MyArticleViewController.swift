@@ -21,6 +21,10 @@ class MyArticleViewController: UIViewController {
     var category: String? = nil
     var boardId: Int = 0
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

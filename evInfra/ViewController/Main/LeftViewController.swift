@@ -127,6 +127,10 @@ internal final class LeftViewController: UIViewController {
     
     @IBOutlet weak var sideTableView: UITableView!
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                 

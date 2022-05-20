@@ -34,8 +34,8 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var changeBtn: UIButton!
     
-    override func loadView() {
-        super.loadView()
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
     }
     
     override func viewDidLoad() {

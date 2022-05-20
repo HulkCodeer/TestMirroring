@@ -18,6 +18,9 @@ class EventContentsViewController: UIViewController {
     var eventId = 0
     var eventTitle: String = ""
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
     
     override func loadView() {
         super.loadView()

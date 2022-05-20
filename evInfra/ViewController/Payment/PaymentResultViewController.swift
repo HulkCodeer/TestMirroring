@@ -50,6 +50,10 @@ class PaymentResultViewController: UIViewController {
     let defaults = UserDefault()
     var chargingId = ""
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         ivResultBg.layer.cornerRadius = ivResultBg.frame.height/2
         btnAuthStatus.layer.cornerRadius = 4

@@ -40,6 +40,10 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
     @IBOutlet weak var fixWebView: UIView!
     @IBOutlet weak var termsTitle: UILabel!
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

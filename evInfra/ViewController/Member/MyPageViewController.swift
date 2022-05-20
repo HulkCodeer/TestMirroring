@@ -71,6 +71,10 @@ internal final class MyPageViewController: UIViewController {
         navigationController?.push(viewController: saVC)
     }
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

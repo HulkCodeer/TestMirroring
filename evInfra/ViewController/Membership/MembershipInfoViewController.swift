@@ -31,6 +31,10 @@ class MembershipInfoViewController: UIViewController {
         self.changePassword()
     }
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()

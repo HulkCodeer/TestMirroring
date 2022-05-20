@@ -18,6 +18,10 @@ class MyCouponContentsViewController: UIViewController {
     var couponId = 0
     var couponTitle: String = ""
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func loadView() {
         super.loadView()
         let contentController = WKUserContentController()

@@ -42,6 +42,10 @@ class ChargePriceViewController: UIViewController {
         static let cellHeight: CGFloat = 40
     }
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

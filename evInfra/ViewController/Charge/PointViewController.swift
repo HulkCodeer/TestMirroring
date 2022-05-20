@@ -60,6 +60,10 @@ internal final class PointViewController: UIViewController {
         var list: [EvPoint]?
         var expire_point = "0"
     }
+    
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

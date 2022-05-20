@@ -30,6 +30,10 @@ internal final class RentalCarCardListViewController: UIViewController {
     
     // MARK: SYSTEM FUNC
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func loadView() {
         super.loadView()
         
