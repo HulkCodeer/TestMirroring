@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class UtilNavigation{
+internal class UtilNavigation{
     
     func showNavigation(vc:UIViewController, snm:String, lat:Double, lng:Double){
         

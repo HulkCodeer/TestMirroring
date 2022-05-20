@@ -8,7 +8,7 @@
 
 import UIKit
 
-public extension UIButton {
+extension UIButton {
 
     func alignTextUnderImage(spacing: CGFloat = 6.0) {
         if let image = self.imageView?.image {

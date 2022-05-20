@@ -9,7 +9,7 @@
 import Foundation
 
 internal final class DeepLinkModel: NSObject {
-    static var shared = DeepLinkModel()
+    internal static var shared = DeepLinkModel()
     
     // 앱링크 추가 될때마다 추가
     // true = 비로그인 상태로 진입 가능

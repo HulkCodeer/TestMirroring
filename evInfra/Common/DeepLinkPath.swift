@@ -11,9 +11,12 @@ import UIKit
 
 internal final class DeepLinkPath {
     static let sharedInstance = DeepLinkPath()
-    var linkPath: String
-    var linkParameter: [URLQueryItem]?
-    var isReady: Bool = false
+    
+    // MARK: VARIABLE
+    
+    internal var linkPath: String
+    internal var linkParameter: [URLQueryItem]?
+    internal var isReady: Bool = false
     
     // Dynamic link -> Deep Link
     private let URL_PATH_MEMBERSHIP = "/membership_card"
