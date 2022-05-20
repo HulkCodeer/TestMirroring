@@ -41,6 +41,7 @@ internal final class MemberPartnershipInfo {
     var clientId: Int?
     var cardNo: String?
     var status: String
+    var cardStatusType: CardStatusType
     var displayStatusDescription: String
     var date: Date
     var displayDate: String
@@ -56,10 +57,10 @@ internal final class MemberPartnershipInfo {
         self.clientId = json["client_id"].intValue
         self.cardNo = json["card_no"].stringValue
         self.status = json["status"].stringValue
+        self.cardStatusType = CardStatusType(json["status"].stringValue)
         self.date = json["date"].dateValue
-        self.displayDate = self.date.toYearMonthDay()
-        let cardStatusType = CardStatusType(self.status) == .issuanceCompleted ? self.displayDate : CardStatusType(self.status).showDisplayType()
-        self.displayStatusDescription = cardStatusType
+        self.displayDate = self.date.toYearMonthDay()        
+        self.displayStatusDescription = self.cardStatusType == .issuanceCompleted ? self.displayDate : self.cardStatusType.showDisplayType()
         self.carNo = json["car_no"].stringValue
         self.mobileCardNum = json["mobile_card_num"].stringValue
         self.mpCardNum = json["mp_card_num"].stringValue

@@ -60,30 +60,12 @@ internal final class PartnershipListView : UIView {
         addSubview(view)
         initView()
         
-        var preferences = EasyTipView.Preferences()
-        preferences.drawing.backgroundColor = UIColor(named: "content-secondary")!
-        preferences.drawing.foregroundColor = UIColor(named: "background-secondary")!
-        preferences.drawing.textAlignment = NSTextAlignment.center
-        
-        preferences.drawing.arrowPosition = .bottom
-        
-        preferences.animating.dismissTransform = CGAffineTransform(translationX: -30, y: -100)
-        preferences.animating.showInitialTransform = CGAffineTransform(translationX: 30, y: 100)
-        preferences.animating.showInitialAlpha = 0
-        preferences.animating.showDuration = 1
-        preferences.animating.dismissDuration = 1
-        
-        let text = "비개방충전소 : 충전소 설치 건물 거주/이용/관계자 외엔 사용이 불가한 곳"
-        EasyTipView.show(forView: self.labelCardStatus,
-                         withinSuperview: self.viewEvinfraList,
-            text: text,
-            preferences: preferences)
-        
         membershipUseGuideLbl.attributedText = NSAttributedString(string: "회원카드 사용방법이 궁금하신가요?", attributes:
                                                                     [.underlineStyle: NSUnderlineStyle.styleSingle.rawValue])
         
         membershipUseGuideBtn.rx.tap
-            .asDriver()
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.delegate?.moveMembershipUseGuideView()
@@ -167,6 +149,27 @@ internal final class PartnershipListView : UIView {
         evInfraInfo = info
         viewEvinfraList.isHidden = false
         labelCardStatus.text = info.displayStatusDescription
+        
+        if info.cardStatusType == .issuanceCompleted {
+            var preferences = EasyTipView.Preferences()
+            preferences.drawing.backgroundColor = UIColor(named: "background-always-dark")!
+            preferences.drawing.foregroundColor = UIColor(named: "content-on-color")!
+            preferences.drawing.textAlignment = NSTextAlignment.natural
+            
+            preferences.drawing.arrowPosition = .bottom
+            
+            preferences.animating.dismissTransform = CGAffineTransform(translationX: -30, y: -100)
+            preferences.animating.showInitialTransform = CGAffineTransform(translationX: 30, y: 100)
+            preferences.animating.showInitialAlpha = 0
+            preferences.animating.showDuration = 1
+            preferences.animating.dismissDuration = 1
+            
+            let text = "카드 발송이 완료되었어요.\n우편함을 확인해보세요! 📮✉️"
+            EasyTipView.show(forView: self.labelCardStatus,
+                             withinSuperview: self.viewEvinfraList,
+                text: text,
+                preferences: preferences)
+        }
         
         let modString = info.cardNo!.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
         labelCardNum.text = modString
