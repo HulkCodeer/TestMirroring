@@ -325,6 +325,7 @@
 		73EF8B7B203C85CC00D04494 /* TopLib_Op.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73EF8B6E203C85CC00D04494 /* TopLib_Op.a */; };
 		73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */; };
 		73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F6B53920F873110030D0B3 /* IntroViewController.swift */; };
+		828407D028392FA8002B1214 /* RxAlamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 828407CF28392FA8002B1214 /* RxAlamofire */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		8ABD2A1E6BAAA48912760042 /* Pods_evInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73FD6F0BC57C39B41EE0B7 /* Pods_evInfra.framework */; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
@@ -894,6 +895,7 @@
 				73AD13C1203AC28800ADD19A /* Material.framework in Frameworks */,
 				73AD13C2203AC28800ADD19A /* Motion.framework in Frameworks */,
 				425EE5B02519DA410089E87D /* CoreLocation.framework in Frameworks */,
+				828407D028392FA8002B1214 /* RxAlamofire in Frameworks */,
 				9064133423E2A470008B2BB1 /* AdSupport.framework in Frameworks */,
 				73EF8B7B203C85CC00D04494 /* TopLib_Op.a in Frameworks */,
 				425EE5B22519DA520089E87D /* QuartzCore.framework in Frameworks */,
@@ -1372,7 +1374,7 @@
 				DBABCC4727477B1800E2C7ED /* Ads */,
 				9058A3BF248639A700091823 /* charger */,
 				73B752812048EC8D0077112A /* model */,
-				DB306366221BD59500D1276E /* network */,
+				DB306366221BD59500D1276E /* Network */,
 				73EF8B41203BC53200D04494 /* Utils */,
 				52C4818627BB33B000FBA8E3 /* ViewModel */,
 				73B75286204928550077112A /* Views */,
@@ -1733,12 +1735,12 @@
 			path = charger;
 			sourceTree = "<group>";
 		};
-		DB306366221BD59500D1276E /* network */ = {
+		DB306366221BD59500D1276E /* Network */ = {
 			isa = PBXGroup;
 			children = (
 				DB306367221BD5CD00D1276E /* Server.swift */,
 			);
-			path = network;
+			path = Network;
 			sourceTree = "<group>";
 		};
 		DB3799F521673CEC001D8F69 /* Member */ = {
@@ -1851,6 +1853,7 @@
 			name = evInfra;
 			packageProductDependencies = (
 				63DA015828321BC300705842 /* Then */,
+				828407CF28392FA8002B1214 /* RxAlamofire */,
 			);
 			productName = evInfra;
 			productReference = 732121B9203AC023000E105C /* evInfra.app */;
@@ -1899,6 +1902,7 @@
 			mainGroup = 732121B0203AC023000E105C;
 			packageReferences = (
 				63DA015728321BC300705842 /* XCRemoteSwiftPackageReference "Then" */,
+				828407CE28392FA8002B1214 /* XCRemoteSwiftPackageReference "RxAlamofire" */,
 			);
 			productRefGroup = 732121BA203AC023000E105C /* Products */;
 			projectDirPath = "";
@@ -2781,6 +2785,14 @@
 				kind = branch;
 			};
 		};
+		828407CE28392FA8002B1214 /* XCRemoteSwiftPackageReference "RxAlamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxAlamofire.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2788,6 +2800,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 63DA015728321BC300705842 /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		828407CF28392FA8002B1214 /* RxAlamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 828407CE28392FA8002B1214 /* XCRemoteSwiftPackageReference "RxAlamofire" */;
+			productName = RxAlamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 
