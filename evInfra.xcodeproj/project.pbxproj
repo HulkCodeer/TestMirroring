@@ -326,7 +326,13 @@
 		73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */; };
 		73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F6B53920F873110030D0B3 /* IntroViewController.swift */; };
 		828407D028392FA8002B1214 /* RxAlamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 828407CF28392FA8002B1214 /* RxAlamofire */; };
+		828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407D928393D8F002B1214 /* NetworkWorker.swift */; };
+		828407DC28393DFE002B1214 /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407DB28393DFE002B1214 /* SoftberryAPI.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
+		82D9867D2839BCFB0030F0FC /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 82D9867C2839BCFB0030F0FC /* ReactorKit */; };
+		82D9867F2839BD790030F0FC /* MembershipReissuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */; };
+		82D986812839BE080030F0FC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
+		82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */; };
 		8ABD2A1E6BAAA48912760042 /* Pods_evInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73FD6F0BC57C39B41EE0B7 /* Pods_evInfra.framework */; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
@@ -774,7 +780,12 @@
 		73EF8B7C203C880A00D04494 /* evInfra-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "evInfra-Bridging-Header.h"; sourceTree = "<group>"; };
 		73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterGenerator.swift; sourceTree = "<group>"; };
 		73F6B53920F873110030D0B3 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
+		828407D928393D8F002B1214 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
+		828407DB28393DFE002B1214 /* SoftberryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
+		82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceReactor.swift; sourceTree = "<group>"; };
+		82D986802839BE080030F0FC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoReactor.swift; sourceTree = "<group>"; };
 		9014C12624E55C4800CB6549 /* EIPOIItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIPOIItem.swift; sourceTree = "<group>"; };
 		9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAllPOIListenerCallback.swift; sourceTree = "<group>"; };
 		9028E07724A1B8270062A029 /* eirel */ = {isa = PBXFileReference; lastKnownFileType = file; path = eirel; sourceTree = "<group>"; };
@@ -888,6 +899,7 @@
 				73B787B0210B172400C12801 /* KakaoCommon.framework in Frameworks */,
 				425EE5D82519DF160089E87D /* SystemConfiguration.framework in Frameworks */,
 				73A7B42B204F79DA002E975F /* Alamofire.framework in Frameworks */,
+				82D9867D2839BCFB0030F0FC /* ReactorKit in Frameworks */,
 				DBE591982114A93A00FE913B /* KakaoOpenSDK.framework in Frameworks */,
 				73B787B2210B172400C12801 /* KakaoNavi.framework in Frameworks */,
 				63DA015928321BC300705842 /* Then in Frameworks */,
@@ -1321,7 +1333,9 @@
 			children = (
 				63BEAC5C2833886800E797DD /* Models */,
 				63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */,
+				82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */,
 				63DA0A0A282E600C0021292C /* MembershipReissuanceInfoViewController.swift */,
+				82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */,
 			);
 			path = Reissuance;
 			sourceTree = "<group>";
@@ -1340,6 +1354,7 @@
 				63DA015B2832559400705842 /* BaseViewController.swift */,
 				63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */,
 				82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */,
+				82D986802839BE080030F0FC /* ViewModel.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1739,6 +1754,8 @@
 			isa = PBXGroup;
 			children = (
 				DB306367221BD5CD00D1276E /* Server.swift */,
+				828407D928393D8F002B1214 /* NetworkWorker.swift */,
+				828407DB28393DFE002B1214 /* SoftberryAPI.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1854,6 +1871,7 @@
 			packageProductDependencies = (
 				63DA015828321BC300705842 /* Then */,
 				828407CF28392FA8002B1214 /* RxAlamofire */,
+				82D9867C2839BCFB0030F0FC /* ReactorKit */,
 			);
 			productName = evInfra;
 			productReference = 732121B9203AC023000E105C /* evInfra.app */;
@@ -1903,6 +1921,7 @@
 			packageReferences = (
 				63DA015728321BC300705842 /* XCRemoteSwiftPackageReference "Then" */,
 				828407CE28392FA8002B1214 /* XCRemoteSwiftPackageReference "RxAlamofire" */,
+				82D9867B2839BCFB0030F0FC /* XCRemoteSwiftPackageReference "ReactorKit" */,
 			);
 			productRefGroup = 732121BA203AC023000E105C /* Products */;
 			projectDirPath = "";
@@ -2262,6 +2281,7 @@
 				90CBCC6626EAD64D002B2591 /* EIImageViewerViewController.swift in Sources */,
 				73D65D7E23605D1000F564A2 /* MyPayRegisterViewDelegate.swift in Sources */,
 				63DA0A07282E35780021292C /* RentalCarCardListViewController.swift in Sources */,
+				828407DC28393DFE002B1214 /* SoftberryAPI.swift in Sources */,
 				73D65D7C2360299700F564A2 /* PaymentCard.swift in Sources */,
 				732B92C220EF4D5C0090E9FC /* CompanyInfo.swift in Sources */,
 				CE5242382183076000FF6AB1 /* AddressSearchCell.swift in Sources */,
@@ -2319,6 +2339,7 @@
 				902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */,
 				DB367BF124FE429D00898BED /* Login.swift in Sources */,
 				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
+				82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
 				5208784F279561BA009DD329 /* PhotoRegisterCollectionViewCell.swift in Sources */,
 				7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */,
@@ -2332,6 +2353,7 @@
 				52B53D2D27BCC49D00D446A9 /* SearchBarView.swift in Sources */,
 				005643E0252DA18E007BF78D /* MembershipInfoViewController.swift in Sources */,
 				4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */,
+				82D9867F2839BD790030F0FC /* MembershipReissuanceReactor.swift in Sources */,
 				00CF1775278E6A4F007D8E4E /* CorporationLoginViewController.swift in Sources */,
 				0044A05025AEEB1500D0BB0A /* LotteRentIntoViewController.swift in Sources */,
 				DB3B858920A45CB8005454F5 /* Character+Extension.swift in Sources */,
@@ -2437,6 +2459,7 @@
 				4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */,
 				63DA015E28325C9300705842 /* FindPasswordViewController.swift in Sources */,
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
+				828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */,
 				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,
 				525E3A31278D732700F5C54D /* BoardWriteViewController.swift in Sources */,
 				0012443C25A2E2EF00376CDC /* IntroImageChecker.swift in Sources */,
@@ -2460,6 +2483,7 @@
 				00CF1777278EA644007D8E4E /* AcceptTermsViewController.swift in Sources */,
 				CE33B4BD2191BA1200B6C632 /* EventContentsViewController.swift in Sources */,
 				DB5FA59622C20A8400F1508A /* ChargesViewController.swift in Sources */,
+				82D986812839BE080030F0FC /* ViewModel.swift in Sources */,
 				CE93309921511AD4006B7EF6 /* ReportBoardTableViewCell.swift in Sources */,
 				739171E122C4A209007369F9 /* PaymentQRScanViewController.swift in Sources */,
 				73B752852049284B0077112A /* NoticeViewController.swift in Sources */,
@@ -2793,6 +2817,14 @@
 				kind = branch;
 			};
 		};
+		82D9867B2839BCFB0030F0FC /* XCRemoteSwiftPackageReference "ReactorKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactorKit/ReactorKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2805,6 +2837,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 828407CE28392FA8002B1214 /* XCRemoteSwiftPackageReference "RxAlamofire" */;
 			productName = RxAlamofire;
+		};
+		82D9867C2839BCFB0030F0FC /* ReactorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 82D9867B2839BCFB0030F0FC /* XCRemoteSwiftPackageReference "ReactorKit" */;
+			productName = ReactorKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 

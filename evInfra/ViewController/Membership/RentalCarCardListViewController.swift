@@ -129,16 +129,15 @@ extension RentalCarCardListViewController: PartnershipListViewDelegate {
     }
     
     func moveReissuanceView(info: MemberPartnershipInfo) {
-        let viewcon = MembershipReissuanceViewController()
+        let reactor = MembershipReissuanceReactor(provider: RestApi())
+        let viewcon = MembershipReissuanceViewController(reactor: reactor)
         
         for item in partnershipInfoList {
             switch item.clientId {
             case 1 : // evinfra
-                viewcon.cardNo = item.cardNo ?? ""
+                reactor.cardNo = item.cardNo ?? ""
                 navigationController?.push(viewController: viewcon)
-                                
-                break
-
+                                            
 //            case 23 : //sk rent
 //                viewSkrList.isHidden = false
 //                cardCnt -= 1

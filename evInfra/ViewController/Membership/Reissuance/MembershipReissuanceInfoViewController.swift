@@ -10,12 +10,13 @@ import Material
 import RxSwift
 import RxCocoa
 import SwiftyJSON
+import ReactorKit
 
 protocol MembershipReissuanceInfoDelegate {
     func reissuanceComplete()
 }
 
-internal final class MembershipReissuanceInfoViewController: BaseViewController {
+internal final class MembershipReissuanceInfoViewController: BaseViewController, StoryboardView {
     
     // MARK: UI
     
@@ -145,11 +146,19 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
     // MARK: VARIABLE
         
     internal var delegate: MembershipReissuanceInfoDelegate?
-    
-    private var disposeBag = DisposeBag()
+        
     private var reissuanceModel = ReissuanceModel()
     
     // MARK: SYSTEM FUNC
+    
+    init(reactor: MembershipReissuanceInfoReactor) {
+        super.init()
+        self.reactor = reactor
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
     override func loadView() {
         super.loadView()
@@ -260,6 +269,31 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
         detailAddressTf.addLeftPadding(padding: 12)
     }
     
+    internal func bind(reactor: MembershipReissuanceInfoReactor) {
+        completeBtn.rx.tap
+            .observe(on: MainScheduler.instance)
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .map { Reactor.Action.setReissuance(self.reissuanceModel) }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+            
+        
+        reactor.state.compactMap { $0.completeCode }
+            .asDriver(onErrorJustReturn: 0)
+            .drive(onNext: { [weak self] isComplete in
+                guard let self = self else { return }
+                                                
+                switch isComplete {
+                case 1000:
+                    self.delegate?.reissuanceComplete()
+                    self.backButtonTapped()
+                default: break
+                }
+            })
+            .disposed(by: self.disposeBag)
+                
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -296,38 +330,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController 
                 return !_nameText.isEmpty && !_phoneText.isEmpty && !_zipCodeText.isEmpty && !_addressText.isEmpty && !_detailAddressText.isEmpty
             }
             .bind(to: completeBtn.rx.isEnabled)
-            .disposed(by: self.disposeBag)
-            
-        
-        completeBtn.rx.tap
-            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
-            .asDriver(onErrorJustReturn: ())
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                Server.postReissueMembershipCard(model: self.reissuanceModel) { (isSuccess, value) in
-                    let json = JSON(value)
-                    printLog(out: "jsonData : \(json)")
-                    if isSuccess {
-                        switch json["code"].intValue {
-                        case 1000:
-                            self.delegate?.reissuanceComplete()
-                            self.backButtonTapped() 
-                        default: break
-                        }
-                    }
-                }
-                
-            })
-            .disposed(by: self.disposeBag)
-        
-//        if contactText.count > 9, contactText.count < 12, GlobalFunctionSwift.matches(for: "^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$", in: contactText) != 0 {
-//            self.delegate?.updatePhoneNumber(phoneNumber: contactText)
-//            self.button02Act?()
-//            self.close()
-//        } else {
-//            self.openAlert(alertMessage: "올바르지 않은 연락처입니다.\n다시 확인해 주세요.")
-//        }
-            
+            .disposed(by: self.disposeBag)                        
     }
     
     override func viewWillAppear(_ animated: Bool) {

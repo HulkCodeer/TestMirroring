@@ -10,11 +10,13 @@ import SnapKit
 import Then
 import Material
 import AVFoundation
+import RxSwift
 
 internal class BaseViewController: UIViewController {
     
     // MARK: VARIABLE
     
+    internal var disposeBag = DisposeBag()
     internal let picker = UIImagePickerController()
     
     internal lazy var activityIndicator: UIActivityIndicatorView = {
@@ -40,6 +42,14 @@ internal class BaseViewController: UIViewController {
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
+    }
+    
+    init() {        
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(nibName: nil, bundle: nil)
     }
     
     // MARK: FUNC

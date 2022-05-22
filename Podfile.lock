@@ -233,7 +233,6 @@ PODS:
   - UIImageCropper (1.4.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 4.7)
   - AlamofireImage (~> 3.3)
   - AnyFormatKit
   - DLRadioButton (~> 1.4)
@@ -355,6 +354,6 @@ SPEC CHECKSUMS:
   TTGTagCollectionView: a2a8668c659b39e7a6ffd6590475ea53a7ae95f7
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
 
-PODFILE CHECKSUM: b12fc878c7871a5b36deb429bdfa2516efcafe19
+PODFILE CHECKSUM: 7f6b11b294dd87ee0c13a2700155cc0194c7c751
 
 COCOAPODS: 1.11.2

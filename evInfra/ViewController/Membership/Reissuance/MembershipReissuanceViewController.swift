@@ -8,8 +8,9 @@
 
 import RxSwift
 import SwiftyJSON
+import ReactorKit
 
-internal final class MembershipReissuanceViewController: BaseViewController {
+internal final class MembershipReissuanceViewController: BaseViewController, StoryboardView {
     
     // MARK: UI
     
@@ -90,13 +91,21 @@ internal final class MembershipReissuanceViewController: BaseViewController {
     }
     
     // MARK: VARIABLE
-    
-    internal var cardNo: String = ""
+        
     internal var delegate: MembershipReissuanceInfoDelegate?
     
     private let disposebag = DisposeBag()
     
     // MARK: SYSTEM FUNC
+    
+    init(reactor: MembershipReissuanceReactor) {
+        super.init()
+        self.reactor = reactor
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
     override func loadView() {
         super.loadView()
@@ -182,46 +191,6 @@ internal final class MembershipReissuanceViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        nextBtn.rx.tap
-            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
-            .asDriver(onErrorJustReturn: ())
-            .drive(onNext: { [weak self] _ in
-                guard let self = self, let _passwordText = self.passwordInputTf.text else { return }
-                self.view.endEditing(true)
-                Server.getCheckPassword(password: _passwordText, cardNo: self.cardNo) { [weak self] (isSuccess, value) in
-                    guard let self = self else { return }
-                    printLog(out: "SERVER SEND \(isSuccess)")
-                    if isSuccess {
-                        let json = JSON(value)
-                        printLog(out: "JSON getCheckPasword DATA : \(json)")
-                        
-                        let code = json["code"].intValue
-                        let zipCode = json["info"]["mb_zip_code"].stringValue
-                        let phoneNo = json["info"]["mb_callnumber"].stringValue
-                        let mbName = json["info"]["mb_name"].stringValue
-                        let addr = json["info"]["mb_addr"].stringValue
-                        let addrDetail = json["info"]["mb_addr_detail"].stringValue
-                        
-                        switch code {
-                        case 1000:
-                            let viewcon = MembershipReissuanceInfoViewController()
-                            let reissuanceModel = ReissuanceModel(cardNo: self.cardNo, mbPw: _passwordText, mbName: mbName, phoneNo: phoneNo, zipCode: zipCode, address: addr, addressDetail: addrDetail)
-                            viewcon.delegate = self.delegate
-                            viewcon.showInfo(model: reissuanceModel)
-                            self.navigationController?.push(viewController: viewcon)
-                            
-                        case 1103:
-                            self.negativeMessageLbl.text = json["msg"].stringValue
-                            self.negativeMessageLbl.isHidden = false
-                            self.passwordInputTf.borderColor = UIColor(named: "content-negative")
-                            
-                        default: break
-                        }
-                    }
-                }
-            })
-            .disposed(by: self.disposebag)
-        
         clearTxtBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
@@ -254,7 +223,39 @@ internal final class MembershipReissuanceViewController: BaseViewController {
                 self.navigationController?.push(viewController: viewcon)
             })
             .disposed(by: self.disposebag)
+    }
+    
+    internal func bind(reactor: MembershipReissuanceReactor) {
+        nextBtn.rx.tap.debug()
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .do { _ in self.view.endEditing(true) }
+            .map { _ in Reactor.Action.getCheckPassword(self.passwordInputTf.text ?? "") }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposebag)
         
+        reactor.state.compactMap { $0.addressInfo }
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] addressInfo in
+                guard let self = self else { return }
+                switch addressInfo.code {
+                case 1000:
+                    let reactor = MembershipReissuanceInfoReactor(provider: reactor.provider)
+                    let viewcon = MembershipReissuanceInfoViewController(reactor: reactor)
+                    let reissuanceModel = ReissuanceModel(cardNo: reactor.cardNo, mbPw: self.passwordInputTf.text ?? "", mbName: addressInfo.info.mbName, phoneNo: addressInfo.info.phoneNo, zipCode: addressInfo.info.zipCode, address: addressInfo.info.addr, addressDetail: addressInfo.info.addrDetail)
+                    viewcon.delegate = self.delegate
+                    viewcon.showInfo(model: reissuanceModel)
+                    self.navigationController?.push(viewController: viewcon)
+
+                case 1103:
+                    self.negativeMessageLbl.text = addressInfo.msg
+                    self.negativeMessageLbl.isHidden = false
+                    self.passwordInputTf.borderColor = UIColor(named: "content-negative")
+
+                default: break
+                }
+            }
+            .disposed(by: self.disposebag)
+                
     }
     
     private func setEnableComponent(isEnabled: Bool) {
