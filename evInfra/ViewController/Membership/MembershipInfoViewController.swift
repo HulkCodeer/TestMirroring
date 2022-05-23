@@ -9,7 +9,10 @@
 import SwiftyJSON
 import Material
 import UIKit
-class MembershipInfoViewController: UIViewController {
+
+internal final class MembershipInfoViewController: UIViewController {
+    
+    // MARK: UI
     
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var btnModify: UIButton!
@@ -24,11 +27,15 @@ class MembershipInfoViewController: UIViewController {
     var activeTextView: Any? = nil
     
     @IBOutlet var bottomOfScrollView: NSLayoutConstraint!
-    var memberInfo : MemberPartnershipInfo?
-    
-    @IBAction func onClickModifyBtn(_ sender: Any) {    
+    @IBAction func onClickModifyBtn(_ sender: Any) {
         self.changePassword()
     }
+    
+    // MARK: VARIABLE
+    
+    internal var memberInfo : MemberPartnershipInfo?
+    
+    // MARK: SYSTEM FUNC
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -50,14 +57,15 @@ class MembershipInfoViewController: UIViewController {
     }
     
     func initView() {
+        guard let _memberInfo = self.memberInfo, let _cardNo = _memberInfo.cardNo else { return }
         indicator.isHidden = true
         btnModify.layer.cornerRadius = 4
-        let str = memberInfo?.cardNo!.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-");
+        let str = _cardNo.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-");
         lbCardNo.text = str
-        lbCardStatus.text = getCardStatusToString(status: memberInfo!.status)
+        lbCardStatus.text = _memberInfo.displayStatusDescription
+        
         let tap_touch = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         view.addGestureRecognizer(tap_touch)
-        
     }
     
     func prepareActionBar() {
@@ -79,19 +87,6 @@ class MembershipInfoViewController: UIViewController {
     
     func setCardInfo(info : MemberPartnershipInfo) {
         self.memberInfo = info
-    }
-    
-    func getCardStatusToString(status: String) -> String {
-        switch (status) {
-        case "0":
-            return "발급 신청";
-        case "1":
-            return "발급 완료";
-        case "2":
-            return "카드 분실";
-        default:
-            return "상태 오류";
-        }
     }
     
     // MARK: - KeyBoardHeight

@@ -171,7 +171,8 @@ internal final class PartnershipListView : UIView {
                 preferences: preferences)
         }
         
-        let modString = info.cardNo!.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
+        guard let _cardNo = info.cardNo else { return }        
+        let modString = _cardNo.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
         labelCardNum.text = modString
     }
     

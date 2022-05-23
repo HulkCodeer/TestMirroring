@@ -133,7 +133,8 @@ extension MembershipCardViewController: PartnershipListViewDelegate {
     
     func moveReissuanceView(info: MemberPartnershipInfo) {
         let reactor = MembershipReissuanceReactor(provider: RestApi())
-        let viewcon = MembershipReissuanceViewController(reactor: reactor)
+        let viewcon = MembershipReissuanceViewController()
+        viewcon.bind(reactor: reactor)
         reactor.cardNo = info.cardNo ?? ""
         viewcon.delegate = self
         navigationController?.push(viewController: viewcon)

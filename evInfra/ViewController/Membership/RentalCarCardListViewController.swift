@@ -130,7 +130,8 @@ extension RentalCarCardListViewController: PartnershipListViewDelegate {
     
     func moveReissuanceView(info: MemberPartnershipInfo) {
         let reactor = MembershipReissuanceReactor(provider: RestApi())
-        let viewcon = MembershipReissuanceViewController(reactor: reactor)
+        let viewcon = MembershipReissuanceViewController()
+        viewcon.bind(reactor: reactor)
         
         for item in partnershipInfoList {
             switch item.clientId {

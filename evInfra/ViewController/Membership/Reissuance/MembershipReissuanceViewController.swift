@@ -98,15 +98,6 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     
     // MARK: SYSTEM FUNC
     
-    init(reactor: MembershipReissuanceReactor) {
-        super.init()
-        self.reactor = reactor
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
     override func loadView() {
         super.loadView()
         
@@ -240,7 +231,8 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
                 switch addressInfo.code {
                 case 1000:
                     let reactor = MembershipReissuanceInfoReactor(provider: reactor.provider)
-                    let viewcon = MembershipReissuanceInfoViewController(reactor: reactor)
+                    let viewcon = MembershipReissuanceInfoViewController()
+                    viewcon.bind(reactor: reactor)
                     let reissuanceModel = ReissuanceModel(cardNo: reactor.cardNo, mbPw: self.passwordInputTf.text ?? "", mbName: addressInfo.info.mbName, phoneNo: addressInfo.info.phoneNo, zipCode: addressInfo.info.zipCode, address: addressInfo.info.addr, addressDetail: addressInfo.info.addrDetail)
                     viewcon.delegate = self.delegate
                     viewcon.showInfo(model: reissuanceModel)

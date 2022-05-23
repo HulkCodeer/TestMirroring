@@ -44,14 +44,6 @@ internal class BaseViewController: UIViewController {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
-    init() {        
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(nibName: nil, bundle: nil)
-    }
-    
     // MARK: FUNC
     
     // 공통

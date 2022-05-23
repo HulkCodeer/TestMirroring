@@ -58,6 +58,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         $0.IBborderColor = UIColor(named: "border-opaque")
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 4
+        $0.returnKeyType = .next
     }
     
     private lazy var phoneTitleLbl = UILabel().then {
@@ -72,6 +73,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-tertiary")
         $0.keyboardType = .numberPad
+        $0.returnKeyType = .next
         $0.IBborderColor = UIColor(named: "border-opaque")
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 4
@@ -150,16 +152,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     private var reissuanceModel = ReissuanceModel()
     
     // MARK: SYSTEM FUNC
-    
-    init(reactor: MembershipReissuanceInfoReactor) {
-        super.init()
-        self.reactor = reactor
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
+            
     override func loadView() {
         super.loadView()
                 
