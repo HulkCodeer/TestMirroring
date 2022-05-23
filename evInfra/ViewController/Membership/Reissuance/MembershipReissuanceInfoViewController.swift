@@ -113,7 +113,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 4
         $0.placeholder = "우편번호"
-        $0.isEnabled = false
+        $0.isEnabled = true
     }
     
     private lazy var addressTf = UITextField().then {
@@ -124,7 +124,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 4
         $0.placeholder = "배송 주소"
-        $0.isEnabled = false
+        $0.isEnabled = true
     }
     
     private lazy var detailAddressTf = UITextField().then {
@@ -306,6 +306,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
                          zipCodeTf.rx.text,
                          addressTf.rx.text,
                          detailAddressTf.rx.text)
+            .debug()
             .map { [weak self] name, phone, zipCode, address, detailAddress in
                 guard let self = self,
                       let _nameText = name,
@@ -323,7 +324,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
                 return !_nameText.isEmpty && !_phoneText.isEmpty && !_zipCodeText.isEmpty && !_addressText.isEmpty && !_detailAddressText.isEmpty
             }
             .bind(to: completeBtn.rx.isEnabled)
-            .disposed(by: self.disposeBag)                        
+            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -399,5 +400,8 @@ extension MembershipReissuanceInfoViewController: SearchAddressViewDelegate {
     func recieveAddressInfo(zonecode: String, fullRoadAddr: String) {
         zipCodeTf.text = zonecode
         addressTf.text = fullRoadAddr
+        
+        zipCodeTf.sendActions(for: .valueChanged)
+        addressTf.sendActions(for: .valueChanged)
     }
 }
