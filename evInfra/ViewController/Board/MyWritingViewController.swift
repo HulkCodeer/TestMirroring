@@ -13,13 +13,24 @@ import SwiftyJSON
 
 class MyWritingViewController: BaseViewController {
     
-    @IBOutlet weak var boardTableView: BoardTableView!
+    private lazy var boardTableView = BoardTableView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
     var currentPage = 0
     var lastPage: Bool = false
     var communityBoardList: [BoardListItem] = [BoardListItem]()
     var boardCategory = ""
     var screenType = Board.ScreenType.LIST
+    
+    override func loadView() {
+        super.loadView()
+        
+        view.addSubview(boardTableView)
+        boardTableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }                
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

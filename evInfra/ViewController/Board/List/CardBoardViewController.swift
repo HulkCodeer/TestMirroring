@@ -15,7 +15,9 @@ import CoreMIDI
 
 class CardBoardViewController: BaseViewController {
     
-    @IBOutlet weak var boardTableView: BoardTableView!
+    private lazy var boardTableView = BoardTableView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
     var category = Board.CommunityType.FREE.rawValue // default 자유게시판
     var bmId: Int = -1
@@ -29,6 +31,13 @@ class CardBoardViewController: BaseViewController {
     let boardWriteButton = BoardWriteButton()
     
     override func loadView() {
+        super.loadView()
+        
+        view.addSubview(boardTableView)
+        boardTableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         setConfiguration()
     }
     
@@ -36,7 +45,6 @@ class CardBoardViewController: BaseViewController {
         super.viewDidLoad()
         
         prepareActionBar()
-//        setConfiguration()
         fetchFirstBoard(mid: category, sort: sortType, mode: mode.rawValue)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
     }
