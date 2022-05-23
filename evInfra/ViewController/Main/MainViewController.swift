@@ -1220,10 +1220,10 @@ extension MainViewController {
                                         confirmBtnTitle: "동의하기",
                                         cancelBtnTitle: "다음에") { [weak self] in
                 guard let self = self else { return }
-                self.updateMarketingNotification(noti: false)
+                self.updateMarketingNotification(noti: true)
             } cancelBtnAction: { [weak self] in
                 guard let self = self else { return }
-                self.updateMarketingNotification(noti: true)
+                self.updateMarketingNotification(noti: false)
             }
             
             let popup = ConfirmPopupViewController(model: popupModel)

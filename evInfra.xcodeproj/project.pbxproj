@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -154,7 +154,6 @@
 		63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */; };
 		63CCE8242834CFD5006B8B9A /* evInfraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE8232834CFD5006B8B9A /* evInfraTests.swift */; };
 		63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */; };
-		63DA015928321BC300705842 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 63DA015828321BC300705842 /* Then */; };
 		63DA015C2832559400705842 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015B2832559400705842 /* BaseViewController.swift */; };
 		63DA015E28325C9300705842 /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015D28325C9200705842 /* FindPasswordViewController.swift */; };
 		63DA09FF282E2F440021292C /* JSON+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA09FE282E2F440021292C /* JSON+Extension.swift */; };
@@ -325,11 +324,9 @@
 		73EF8B7B203C85CC00D04494 /* TopLib_Op.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73EF8B6E203C85CC00D04494 /* TopLib_Op.a */; };
 		73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */; };
 		73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F6B53920F873110030D0B3 /* IntroViewController.swift */; };
-		828407D028392FA8002B1214 /* RxAlamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 828407CF28392FA8002B1214 /* RxAlamofire */; };
 		828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407D928393D8F002B1214 /* NetworkWorker.swift */; };
 		828407DC28393DFE002B1214 /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407DB28393DFE002B1214 /* SoftberryAPI.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
-		82D9867D2839BCFB0030F0FC /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 82D9867C2839BCFB0030F0FC /* ReactorKit */; };
 		82D9867F2839BD790030F0FC /* MembershipReissuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */; };
 		82D986812839BE080030F0FC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
 		82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */; };
@@ -899,15 +896,12 @@
 				73B787B0210B172400C12801 /* KakaoCommon.framework in Frameworks */,
 				425EE5D82519DF160089E87D /* SystemConfiguration.framework in Frameworks */,
 				73A7B42B204F79DA002E975F /* Alamofire.framework in Frameworks */,
-				82D9867D2839BCFB0030F0FC /* ReactorKit in Frameworks */,
 				DBE591982114A93A00FE913B /* KakaoOpenSDK.framework in Frameworks */,
 				73B787B2210B172400C12801 /* KakaoNavi.framework in Frameworks */,
-				63DA015928321BC300705842 /* Then in Frameworks */,
 				425EE5B52519DA780089E87D /* libsqlite3.tbd in Frameworks */,
 				73AD13C1203AC28800ADD19A /* Material.framework in Frameworks */,
 				73AD13C2203AC28800ADD19A /* Motion.framework in Frameworks */,
 				425EE5B02519DA410089E87D /* CoreLocation.framework in Frameworks */,
-				828407D028392FA8002B1214 /* RxAlamofire in Frameworks */,
 				9064133423E2A470008B2BB1 /* AdSupport.framework in Frameworks */,
 				73EF8B7B203C85CC00D04494 /* TopLib_Op.a in Frameworks */,
 				425EE5B22519DA520089E87D /* QuartzCore.framework in Frameworks */,
@@ -1868,11 +1862,6 @@
 			dependencies = (
 			);
 			name = evInfra;
-			packageProductDependencies = (
-				63DA015828321BC300705842 /* Then */,
-				828407CF28392FA8002B1214 /* RxAlamofire */,
-				82D9867C2839BCFB0030F0FC /* ReactorKit */,
-			);
 			productName = evInfra;
 			productReference = 732121B9203AC023000E105C /* evInfra.app */;
 			productType = "com.apple.product-type.application";
@@ -1889,6 +1878,7 @@
 				TargetAttributes = {
 					63CCE8202834CFD5006B8B9A = {
 						CreatedOnToolsVersion = 13.2.1;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 732121B8203AC023000E105C;
 					};
 					732121B8203AC023000E105C = {
@@ -1918,11 +1908,6 @@
 				Base,
 			);
 			mainGroup = 732121B0203AC023000E105C;
-			packageReferences = (
-				63DA015728321BC300705842 /* XCRemoteSwiftPackageReference "Then" */,
-				828407CE28392FA8002B1214 /* XCRemoteSwiftPackageReference "RxAlamofire" */,
-				82D9867B2839BCFB0030F0FC /* XCRemoteSwiftPackageReference "ReactorKit" */,
-			);
 			productRefGroup = 732121BA203AC023000E105C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -2140,6 +2125,8 @@
 				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
 				"${BUILT_PRODUCTS_DIR}/PanModal/PanModal.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
+				"${BUILT_PRODUCTS_DIR}/ReactorKit/ReactorKit.framework",
+				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
@@ -2148,7 +2135,9 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/TTGTagCollectionView/TTGTags.framework",
+				"${BUILT_PRODUCTS_DIR}/Then/Then.framework",
 				"${BUILT_PRODUCTS_DIR}/UIImageCropper/UIImageCropper.framework",
+				"${BUILT_PRODUCTS_DIR}/WeakMapTable/WeakMapTable.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/NMapsMap/NMapsMap.framework/NMapsMap",
 			);
@@ -2183,6 +2172,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PanModal.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactorKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
@@ -2191,7 +2182,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyGif.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTGTags.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Then.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImageCropper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WeakMapTable.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NMapsMap.framework",
 			);
@@ -2677,8 +2670,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2704,10 +2696,7 @@
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.6.4;
 				OTHER_LDFLAGS = (
@@ -2746,10 +2735,7 @@
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.6.4;
 				ONLY_ACTIVE_ARCH = NO;
@@ -2799,51 +2785,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		63DA015728321BC300705842 /* XCRemoteSwiftPackageReference "Then" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/devxoul/Then";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		828407CE28392FA8002B1214 /* XCRemoteSwiftPackageReference "RxAlamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RxSwiftCommunity/RxAlamofire.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		82D9867B2839BCFB0030F0FC /* XCRemoteSwiftPackageReference "ReactorKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ReactorKit/ReactorKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		63DA015828321BC300705842 /* Then */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 63DA015728321BC300705842 /* XCRemoteSwiftPackageReference "Then" */;
-			productName = Then;
-		};
-		828407CF28392FA8002B1214 /* RxAlamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 828407CE28392FA8002B1214 /* XCRemoteSwiftPackageReference "RxAlamofire" */;
-			productName = RxAlamofire;
-		};
-		82D9867C2839BCFB0030F0FC /* ReactorKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 82D9867B2839BCFB0030F0FC /* XCRemoteSwiftPackageReference "ReactorKit" */;
-			productName = ReactorKit;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		732121C3203AC023000E105C /* evInfra.xcdatamodeld */ = {

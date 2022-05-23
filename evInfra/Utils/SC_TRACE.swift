@@ -6,6 +6,8 @@
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 
+import Foundation
+
 /// log를 콘솔에 보여준다.
 /// - debug시만 발생
 ///

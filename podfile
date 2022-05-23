@@ -11,7 +11,7 @@ target 'evInfra' do
   pod 'Material', '~> 2.0'
   pod 'MaterialComponents/Snackbar'
   pod 'MaterialComponents/BottomSheet'
-  pod 'AlamofireImage', '~> 3.3'
+  pod 'AlamofireImage', '~> 4.1'
   pod 'SwiftyJSON'
   pod 'HandyJSON'
   pod 'Firebase/Core'                 # For firebase Core
@@ -37,9 +37,12 @@ target 'evInfra' do
   
   # UI
   pod 'SnapKit', '~> 5.0.0'
+  pod 'ReactorKit'
+  pod 'RxAlamofire'
+  pod 'Then'
+  
   
   # Rx Extensions
-  pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
 
 end
