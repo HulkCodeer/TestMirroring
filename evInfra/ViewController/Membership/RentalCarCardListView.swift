@@ -12,6 +12,10 @@ import RxCocoa
 internal final class RentalCarCardListView : UIView {
     // MARK: UI
 
+    @IBOutlet var viewSkrList: UIView!
+    @IBOutlet var viewLotteList: UIView!
+    @IBOutlet var labelCarNo: UILabel!
+    @IBOutlet var labelContrDate: UILabel!
     
     // MARK: VARIABLE
     
@@ -46,44 +50,29 @@ internal final class RentalCarCardListView : UIView {
     }
     
     func showInfoView(infoList : [MemberPartnershipInfo]) {
-//        var cardCnt = 3
-//        var isSKR = false
-//        for item in infoList {
-//            switch item.clientId {
-//            case 1 : // evinfra
-//                evInfraInfo = item
-//                viewEvinfraList.isHidden = false
-//                labelCardStatus.text = getCardStatusToString(status : item.status, issuanceDate: item.displayDate)
-//
-//                let modString = item.cardNo!.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
-//                labelCardNum.text = modString
-//
-//                cardCnt -= 1
-//                break
-//
-//            case 23 : //sk rent
-//                viewSkrList.isHidden = false
-//                cardCnt -= 1
-//                MemberManager.setSKRentConfig()
-//                isSKR = true
-//                break;
-//
-//            case 24 : //lotte rent
-//                viewLotteList.isHidden = false
-//                labelCarNo.text = item.carNo
-//                labelContrDate.text = item.startDate! + " ~ " + item.endDate!
-//                cardCnt -= 1
-//                break
-//            default :
-//                print("out of index")
-//            }
-//        }
-//        if cardCnt <= 0 {
-//            viewAddBtn.isHidden = true
-//        }
-//        if !isSKR {
-//            UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: false)
-//        }
+        
+        var isSKR = false
+        for item in infoList {
+            switch item.clientId {
+        
+            case 23 : //sk rent
+                viewSkrList.isHidden = false
+                MemberManager.shared.setSKRentConfig()
+                isSKR = true
+
+            case 24 : //lotte rent
+                viewLotteList.isHidden = false
+                labelCarNo.text = item.carNo
+                labelContrDate.text = item.startDate! + " ~ " + item.endDate!
+                                
+            default :
+                print("out of index")
+            }
+        }
+        
+        if !isSKR {
+            UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: false)
+        }
     }
     
     func getCardStatusToString(status: String, issuanceDate: String) -> String {
