@@ -44,11 +44,11 @@ internal final class MembershipCardViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
                         
-        if MemberManager.shared.isLogin {
-            checkMembershipData()            
-        } else {
-            MemberManager().showLoginAlert()
+        guard MemberManager.shared.isLogin else {
+            MemberManager.shared.showLoginAlert()
+            return
         }
+        checkMembershipData()
     }
 
     private func checkMembershipData() {

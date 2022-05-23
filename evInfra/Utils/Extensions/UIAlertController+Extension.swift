@@ -26,9 +26,7 @@ extension UIAlertController {
             for action in actions {
                 alert.addAction(action)
             }
-            if let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController, let presenting = navigationController.topViewController {
-                presenting.present(alert, animated: true, completion: nil)
-            }
+            GlobalDefine.shared.mainNavi?.present(alert, animated: true, completion: nil)
         }
     }
 }

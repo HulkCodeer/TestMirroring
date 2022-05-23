@@ -397,7 +397,7 @@ extension MainViewController: DelegateFilterBarView {
             favoriteVC.delegate = self
             self.present(AppNavigationController(rootViewController: favoriteVC), animated: true, completion: nil)
         } else {
-            MemberManager().showLoginAlert()
+            MemberManager.shared.showLoginAlert()
         }
     }
 }
@@ -1103,7 +1103,7 @@ extension MainViewController {
     }
     
     @objc func requestLogIn(_ notification: NSNotification) {
-        MemberManager().showLoginAlert()
+        MemberManager.shared.showLoginAlert()
     }
     
     @objc func isChangeFavorite(_ notification: NSNotification) {
@@ -1318,7 +1318,7 @@ extension MainViewController {
                 }
             }
         } else {
-            MemberManager().showLoginAlert()
+            MemberManager.shared.showLoginAlert()
         }
     }
     

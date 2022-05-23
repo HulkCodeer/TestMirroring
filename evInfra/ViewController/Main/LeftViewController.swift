@@ -368,7 +368,7 @@ extension LeftViewController {
                 print("out of index")
             }
         } else {
-            MemberManager().showLoginAlert()
+            MemberManager.shared.showLoginAlert()
         }
     }
     
@@ -435,7 +435,7 @@ extension LeftViewController {
                     let coponVC = couponStoryboard.instantiateViewController(ofType: MyCouponViewController.self)
                     self.navigationController?.push(viewController: coponVC)
                 }else {
-                    MemberManager().showLoginAlert()
+                    MemberManager.shared.showLoginAlert()
                 }
             default:
                 print("out of index")

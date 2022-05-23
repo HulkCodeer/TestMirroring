@@ -240,7 +240,7 @@ internal final class FCMManager {
                 let vc:MyCouponViewController =  UIStoryboard(name: "Coupon", bundle: nil).instantiateViewController(ofType: MyCouponViewController.self)
                 _mainNavi.push(viewController: vc)
             } else {
-                MemberManager().showLoginAlert()
+                MemberManager.shared.showLoginAlert()
             }
         }
     }

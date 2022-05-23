@@ -29,6 +29,8 @@ enum RentClientType: Int {
 internal final class MemberManager {
     internal static let shared = MemberManager()
     
+    private init() {}
+    
     internal var mbId: Int {
         return UserDefault().readInt(key: UserDefault.Key.MB_ID)
     }
@@ -142,21 +144,15 @@ internal final class MemberManager {
             guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
             let loginVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(ofType: LoginViewController.self)
             _mainNavi.push(viewController: loginVC)
-            
-            if completion != nil {
-                completion!(true)
-            }
+                        
+            completion?(true)
         })
         
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler:{ (ACTION) -> Void in
-            if completion != nil {
-                completion!(false)
-            }
+            completion?(false)
         })
-
-        var actions = Array<UIAlertAction>()
-        actions.append(ok)
-        actions.append(cancel)
-        UIAlertController.showAlert(title: "로그인 필요", message: "로그인 후 사용가능합니다.\n로그인 하시려면 확인버튼을 누르세요.", actions: actions)
+        
+        UIAlertController.showAlert(title: "로그인 필요", message: "로그인 후 사용가능합니다.\n로그인 하시려면 확인버튼을 누르세요.", actions: [ok, cancel])
+        
     }
 }

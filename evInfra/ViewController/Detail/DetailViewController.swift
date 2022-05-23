@@ -567,7 +567,7 @@ extension DetailViewController {
                 self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true, completion: nil)
             }
         } else {
-            MemberManager().showLoginAlert()
+            MemberManager.shared.showLoginAlert()
         }
     }
 }

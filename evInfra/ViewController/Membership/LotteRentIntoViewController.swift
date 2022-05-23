@@ -31,7 +31,7 @@ class LotteRentInfoViewController: UIViewController {
         if MemberManager.shared.isLogin {
             checkLotteRentInfo()
         } else {
-            MemberManager().showLoginAlert()
+            MemberManager.shared.showLoginAlert()
         }
     }
     

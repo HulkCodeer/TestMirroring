@@ -252,7 +252,7 @@ class SignUpViewController: UIViewController {
                         Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
                     } else {
                         Snackbar().show(message: "로그인 성공")
-                        MemberManager().setData(data: json)
+                        MemberManager.shared.setData(data: json)
                         self.navigationController?.pop()
                         if let delegate = self.delegate {
                             delegate.successSignUp()
