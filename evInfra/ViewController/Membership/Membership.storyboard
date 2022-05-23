@@ -839,17 +839,17 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="agM-yy-3Wj">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="ZSa-Yc-5ce">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="789"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ZSa-Yc-5ce">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="715.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내 카드" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YMo-uO-d60">
-                                                <rect key="frame" x="16" y="32" width="343" height="29"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                <rect key="frame" x="16" y="32" width="343" height="19.5"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yif-Ju-7Nc" userLabel="evinfra_view">
-                                                <rect key="frame" x="16" y="85" width="343" height="227.5"/>
+                                                <rect key="frame" x="16" y="67.5" width="343" height="227.5"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="UqG-mX-yEL">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="227.5"/>
@@ -863,7 +863,7 @@
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6S-gQ-ZLE">
                                                         <rect key="frame" x="24" y="203.5" width="0.0" height="0.0"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
@@ -887,20 +887,20 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hRn-Vg-O0D">
-                                                <rect key="frame" x="16" y="336.5" width="343" height="8"/>
+                                                <rect key="frame" x="16" y="311" width="343" height="8"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="8" id="X3X-EY-Xbm"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="결제 정보 변경" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ru-rd-hjW">
-                                                <rect key="frame" x="16" y="368.5" width="343" height="24"/>
+                                                <rect key="frame" x="16" y="335" width="343" height="24"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="o9I-Oj-ge5">
-                                                <rect key="frame" x="16" y="416.5" width="343" height="65.5"/>
+                                                <rect key="frame" x="16" y="375" width="343" height="65.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="현재 비밀번호" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WB4-lQ-cQg">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="19.5"/>
@@ -914,7 +914,7 @@
                                                             <constraint firstAttribute="height" constant="38" id="ohn-nd-hCd"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
                                                                 <color key="value" red="0.85491353270000003" green="0.85488122700000002" blue="0.85490316150000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -930,7 +930,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="N3I-AK-Or3">
-                                                <rect key="frame" x="16" y="506" width="343" height="65.5"/>
+                                                <rect key="frame" x="16" y="456.5" width="343" height="65.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="새 비밀번호" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjW-tA-lq2">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="19.5"/>
@@ -944,7 +944,7 @@
                                                             <constraint firstAttribute="height" constant="38" id="ljc-RR-hbx"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
                                                                 <color key="value" red="0.85491353270000003" green="0.85488122700000002" blue="0.85490316150000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -960,7 +960,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1bR-A2-Y7Z">
-                                                <rect key="frame" x="16" y="595.5" width="343" height="65.5"/>
+                                                <rect key="frame" x="16" y="538" width="343" height="65.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="새 비밀번호 확인" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vuk-hZ-Qsd">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="19.5"/>
@@ -974,7 +974,7 @@
                                                             <constraint firstAttribute="height" constant="38" id="d4s-gc-d0g"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
                                                                 <color key="value" red="0.85491353270000003" green="0.85488122700000002" blue="0.85490316150000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -990,14 +990,14 @@
                                                 </subviews>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5G2-RV-MQs">
-                                                <rect key="frame" x="16" y="685" width="343" height="8"/>
+                                                <rect key="frame" x="16" y="619.5" width="343" height="8"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="8" id="JK7-L5-c8M"/>
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="aty-Fw-sf0">
-                                                <rect key="frame" x="16" y="717" width="343" height="40"/>
+                                                <rect key="frame" x="16" y="643.5" width="343" height="40"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KiH-TM-X9U">
                                                         <rect key="frame" x="111.5" y="0.0" width="120" height="40"/>
@@ -1105,7 +1105,7 @@
         <image name="qr_loacation_img" width="181" height="128"/>
         <image name="result_check_img" width="149" height="138.5"/>
         <namedColor name="content-primary">
-            <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.094117647058823528" green="0.094117647058823528" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="gr-5">
             <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

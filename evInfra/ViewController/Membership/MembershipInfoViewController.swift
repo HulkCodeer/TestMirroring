@@ -26,8 +26,7 @@ class MembershipInfoViewController: UIViewController {
     @IBOutlet var bottomOfScrollView: NSLayoutConstraint!
     var memberInfo : MemberPartnershipInfo?
     
-    @IBAction func onClickModifyBtn(_ sender: Any) {
-        print("click modify")
+    @IBAction func onClickModifyBtn(_ sender: Any) {    
         self.changePassword()
     }
     

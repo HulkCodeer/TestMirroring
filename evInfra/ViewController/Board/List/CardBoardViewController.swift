@@ -28,25 +28,17 @@ class CardBoardViewController: BaseViewController {
     var boardListViewModel = BoardListViewModel()
     let boardWriteButton = BoardWriteButton()
     
+    override func loadView() {
+        setConfiguration()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         prepareActionBar()
-        setConfiguration()
+//        setConfiguration()
         fetchFirstBoard(mid: category, sort: sortType, mode: mode.rawValue)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated) 
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
     }
 }
 
