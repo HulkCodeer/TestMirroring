@@ -179,7 +179,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         let ev1Arr:Array<String> = []
         let evArr:[Array<String>] = [ev0Arr, ev1Arr]
         
-        let battery0Arr = ["배터리 진단 정보"]
+        let battery0Arr = ["내 차 배터리 관리"]
         let battery1Arr:Array<String> = []
         let batteryArr:[Array<String>] = [battery0Arr, battery1Arr]
         
