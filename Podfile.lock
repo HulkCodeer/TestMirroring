@@ -267,6 +267,7 @@ DEPENDENCIES:
   - ReactorKit
   - RxAlamofire
   - RxCocoa (= 6.5.0)
+  - RxSwift (= 6.5.0)
   - SDWebImage/GIF
   - SnapKit (~> 5.0.0)
   - SwiftyGif
@@ -374,6 +375,6 @@ SPEC CHECKSUMS:
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 916cc270b6654b60a06b2c2dd8bbc00fded14ffd
+PODFILE CHECKSUM: e2cf0d99c16f7e086043b55c8317ab8278b83572
 
 COCOAPODS: 1.11.3

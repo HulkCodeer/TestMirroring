@@ -282,16 +282,11 @@ internal final class FCMManager {
                 _mainNavi.push(viewController: preUseVC)
             }
         } else if (cmd.equals("show_point_info")) {
-            let termsVC = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(ofType: TermsViewController.self)
-            if _visibleViewcon.isKind(of: TermsViewController.self) {
-                termsVC.tabIndex = .FAQDetail
-                termsVC.subURL = "type=USE_BERRY"
-                termsVC.viewDidLoad()
-                return
+            let viewcon = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(ofType: PointUseGuideViewController.self)
+            if _visibleViewcon.isKind(of: PointUseGuideViewController.self) {
+                viewcon.viewDidLoad()
             } else {
-                termsVC.tabIndex = .FAQDetail
-                termsVC.subURL = "type=USE_BERRY"
-                _mainNavi.push(viewController: termsVC)
+                _mainNavi.push(viewController: viewcon)
             }
         }
     }
@@ -315,16 +310,12 @@ internal final class FCMManager {
                 _mainNavi.push(viewController: membershipVC)
             }
         } else if (cmd.equals("show_membership_info")) {
-            let termsVC = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(ofType: TermsViewController.self)
-            if _visibleViewcon.isKind(of: TermsViewController.self) {
-                termsVC.tabIndex = .FAQDetail
-                termsVC.subURL = "type=PAYMENT"
+            let viewcon = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(ofType: MembershipUseGuideViewController.self)
+            if _visibleViewcon.isKind(of: MembershipUseGuideViewController.self) {
                 _visibleViewcon.viewDidLoad()
                 return
             } else {
-                termsVC.tabIndex = .FAQDetail
-                termsVC.subURL = "type=PAYMENT"
-                _mainNavi.push(viewController: termsVC)
+                _mainNavi.push(viewController: viewcon)
             }
         }
     }

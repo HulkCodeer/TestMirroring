@@ -84,8 +84,8 @@ internal final class RentalCarCardListViewController: UIViewController {
                     isShowJoinView = false
                 }
 
-                self.partnershipJoinView.isHidden = isShowJoinView
-                self.rentalCarCardList.isHidden = !isShowJoinView
+                self.partnershipJoinView.isHidden = !isShowJoinView
+                self.rentalCarCardList.isHidden = isShowJoinView
             }
         }
     }
