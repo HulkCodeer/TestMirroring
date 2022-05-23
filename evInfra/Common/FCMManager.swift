@@ -196,12 +196,8 @@ internal final class FCMManager {
             _visibleViewcon.viewDidLoad()
             return
         } else {
-            if MemberManager.shared.isLogin {
-                let vc: ReportBoardViewController =  UIStoryboard(name: "Report", bundle: nil).instantiateViewController(ofType: ReportBoardViewController.self)
-                _mainNavi.push(viewController: vc)
-            } else {
-                MemberManager().showLoginAlert()
-            }
+            let vc: ReportBoardViewController =  UIStoryboard(name: "Report", bundle: nil).instantiateViewController(ofType: ReportBoardViewController.self)
+            _mainNavi.push(viewController: vc)            
         }
     }
     

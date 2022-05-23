@@ -27,8 +27,14 @@ class ReportBoardViewController: UIViewController {
         
         prepareActionBar()
         prepareInitView()
-        
-        getReportList(reportId:0)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if MemberManager().isLogin() {
+            getReportList(reportId:0)
+        } else {
+            MemberManager().showLoginAlert(vc: self)
+        }
     }
 
     func prepareActionBar() {

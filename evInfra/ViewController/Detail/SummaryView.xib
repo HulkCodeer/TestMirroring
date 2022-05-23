@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -289,6 +289,7 @@
                                 <constraint firstItem="0Yr-Gb-7SH" firstAttribute="leading" secondItem="c4i-qP-1FT" secondAttribute="leading" id="VYt-6R-RnG"/>
                                 <constraint firstItem="yoU-IJ-eM4" firstAttribute="top" secondItem="c4i-qP-1FT" secondAttribute="top" id="avu-97-VcV"/>
                                 <constraint firstAttribute="bottom" secondItem="yoU-IJ-eM4" secondAttribute="bottom" id="cav-ls-Xch"/>
+                                <constraint firstAttribute="height" constant="24" id="ea3-Vl-FfZ"/>
                                 <constraint firstItem="vlB-Ej-Lh3" firstAttribute="leading" secondItem="yoU-IJ-eM4" secondAttribute="trailing" constant="4" id="jvG-sX-vcX"/>
                                 <constraint firstAttribute="bottom" secondItem="0Yr-Gb-7SH" secondAttribute="bottom" id="rBd-SZ-smw"/>
                                 <constraint firstItem="0Yr-Gb-7SH" firstAttribute="top" secondItem="c4i-qP-1FT" secondAttribute="top" id="sJv-c2-cMV"/>
@@ -418,7 +419,7 @@
                         <constraint firstItem="c4i-qP-1FT" firstAttribute="leading" secondItem="MWa-w9-3ln" secondAttribute="leading" constant="16" id="D2u-RP-Tjx"/>
                         <constraint firstAttribute="trailing" secondItem="8ll-hM-f7D" secondAttribute="trailing" constant="16" id="Hm7-Zr-TKk"/>
                         <constraint firstItem="c4i-qP-1FT" firstAttribute="bottom" secondItem="JNc-uN-pPr" secondAttribute="top" constant="-8" id="JW6-Oi-FT3"/>
-                        <constraint firstAttribute="bottom" secondItem="JNc-uN-pPr" secondAttribute="bottom" constant="16" id="OWW-TF-qp7"/>
+                        <constraint firstAttribute="bottom" secondItem="JNc-uN-pPr" secondAttribute="bottom" priority="750" constant="16" id="OWW-TF-qp7"/>
                         <constraint firstItem="V4i-d0-lhD" firstAttribute="leading" secondItem="MWa-w9-3ln" secondAttribute="leading" constant="16" id="Qeo-0D-whm"/>
                         <constraint firstItem="Emc-zz-VBd" firstAttribute="top" secondItem="5iU-lC-L5a" secondAttribute="bottom" constant="8" id="WkX-sf-dfz"/>
                         <constraint firstItem="8ll-hM-f7D" firstAttribute="bottom" secondItem="JNc-uN-pPr" secondAttribute="top" id="hRt-3G-fRA"/>
@@ -437,7 +438,7 @@
                 <constraint firstAttribute="top" secondItem="MWa-w9-3ln" secondAttribute="top" id="h0q-Xl-AIw"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="11.594202898550726" y="-104.79910714285714"/>
+            <point key="canvasLocation" x="11.594202898550726" y="-93.75"/>
         </view>
     </objects>
     <resources>

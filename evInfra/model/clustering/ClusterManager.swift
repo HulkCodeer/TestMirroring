@@ -248,4 +248,10 @@ class ClusterManager {
             }
         }
     }
+    
+    func removeChargerForClustering(zoomLevel: Int) {
+        if zoomLevel < 13 {
+            removeAllMarker()
+        }
+    }
 }

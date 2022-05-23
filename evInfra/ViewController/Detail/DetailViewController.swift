@@ -206,29 +206,26 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     func initKakaoMap(){
-        if let chargerData = charger {
-            if let stationDto = chargerData.mStationInfoDto {
-                self.mapView = MTMapView(frame: self.kakaoMapView.bounds)
-                let mapPoint:MTMapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude:  (stationDto.mLatitude)!, longitude: (stationDto.mLongitude)!))
-                
-                if let mapView = mapView {
-                    mapView.delegate = self
-                    mapView.baseMapType = .hybrid
-                    mapView.setMapCenter(mapPoint, zoomLevel: 2, animated: true)
-
-                    let poiItem = MTMapPOIItem()
-                    poiItem.markerType = MTMapPOIItemMarkerType.customImage
-                    poiItem.tag = 1
-                    poiItem.showAnimationType = .dropFromHeaven
-                    poiItem.mapPoint = mapPoint
-                    poiItem.customImage = UIImage(named: "marker_satellite")
-                    mapView.add(poiItem)
-                    
-                    self.kakaoMapView.addSubview(self.mapView!)
-                    let gesture: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(mapViewTap(gesture:)))
-                    self.kakaoMapView.addGestureRecognizer(gesture)
-                }
-            }
+        guard let charger = charger else { return }
+        guard let stationDto = charger.mStationInfoDto else { return }
+        let mapPoint: MTMapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: stationDto.mLatitude ?? .zero, longitude: stationDto.mLongitude ?? .zero))
+        
+        mapView = MTMapView(frame: kakaoMapView.frame)
+        
+        if let mapView = mapView {
+            mapView.delegate = self
+            mapView.baseMapType = .hybrid
+            mapView.setMapCenter(mapPoint, zoomLevel: 4, animated: true)
+            kakaoMapView.addSubview(mapView)
+            
+            let poiItem = MTMapPOIItem()
+            poiItem.markerType = .customImage
+            poiItem.mapPoint = mapPoint
+            poiItem.customImage = UIImage(named: "marker_satellite")
+            mapView.add(poiItem)
+            
+            let gesture: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(mapViewTap(gesture:)))
+            kakaoMapView.addGestureRecognizer(gesture)
         }
     }
     
@@ -360,6 +357,7 @@ extension DetailViewController {
     
     @objc
     fileprivate func handleBackButton() {
+        MTMapView.clearMapTilePersistentCache()
         self.navigationController?.pop(transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
     }
 }
@@ -368,6 +366,7 @@ extension DetailViewController: BoardTableViewDelegate {
     func fetchFirstBoard(mid: String, sort: Board.SortType, mode: String) {
         if let chargerData = charger {
             self.currentPage = 1
+            self.boardTableView.isNoneHeader = true
             Server.fetchBoardList(mid: "station", page: "\(self.currentPage)", mode: mode, sort: sort.rawValue, searchType: "station", searchKeyword: chargerData.mChargerId!) { (isSuccess, value) in
                 
                 if isSuccess {
@@ -383,7 +382,6 @@ extension DetailViewController: BoardTableViewDelegate {
                               
                             self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
                             self.boardTableView.communityBoardList = self.boardList
-                            self.boardTableView.isNoneHeader = true
                             self.boardTableView.isFromDetailView = true
                             
                             DispatchQueue.main.async {
@@ -396,7 +394,6 @@ extension DetailViewController: BoardTableViewDelegate {
                 } else {
                     self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
                     self.boardTableView.communityBoardList = self.boardList
-                    self.boardTableView.isNoneHeader = true
                     self.boardTableView.isFromDetailView = true
                 }
             }
@@ -407,7 +404,7 @@ extension DetailViewController: BoardTableViewDelegate {
         if let chargerData = charger {
             
             self.currentPage = self.currentPage + 1
-            
+            self.boardTableView.isNoneHeader = true
             Server.fetchBoardList(mid: "station", page: "\(self.currentPage)", mode: Board.ScreenType.FEED.rawValue, sort: sort.rawValue, searchType: "station", searchKeyword: chargerData.mChargerId!) { (isSuccess, value) in
                 
                 if isSuccess {
@@ -422,7 +419,6 @@ extension DetailViewController: BoardTableViewDelegate {
                               
                             self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
                             self.boardTableView.communityBoardList = self.boardList
-                            self.boardTableView.isNoneHeader = true
                             self.boardTableView.isFromDetailView = true
                             
                             DispatchQueue.main.async {

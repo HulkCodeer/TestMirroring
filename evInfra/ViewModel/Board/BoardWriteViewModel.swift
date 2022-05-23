@@ -122,10 +122,6 @@ struct BoardWriteViewModel {
                 if let results = value as? Dictionary<String, String>,
                    let documentSRL = results["document_srl"] {
                     
-                    guard selectedImages.count != 0 else {
-                        completion(true)
-                        return
-                    }
                     // image 삭제
                     if let files = files {
                         for file in files {
@@ -143,6 +139,12 @@ struct BoardWriteViewModel {
                             }
                         }
                     }
+                    
+                    guard selectedImages.count != 0 else {
+                        completion(true)
+                        return
+                    }
+                    
                     // image 등록
                     var completedUpload = 0
                     for (index, image) in selectedImages.enumerated() {

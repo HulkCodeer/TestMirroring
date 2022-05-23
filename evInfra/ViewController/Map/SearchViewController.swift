@@ -220,58 +220,30 @@ extension SearchViewController: SearchBarDelegate {
         }
     }
 
-    
     func searchBar(searchBar: SearchBar, didChange textField: UITextField, with text: String?) {
-        /*
-        guard let pattern = text?.trimmed, 0 < pattern.utf16.count else {
-            reloadData()
-            return
-        }
-        */
-            // Background Thread
-            if self.searchType != SearchViewController.TABLE_VIEW_TYPE_ADDRESS {
-                // space 제거, 소문자로 변경 후 비교
-                self.mQueryValue = text
-                refreshCursorAdapter()
+        if self.searchType != SearchViewController.TABLE_VIEW_TYPE_ADDRESS {
+            // space 제거, 소문자로 변경 후 비교
+            self.mQueryValue = text
+            refreshCursorAdapter()
+        } else {
+            DispatchQueue.global(qos: .background).async {
+                var searchWord = self.INIT_KEYWORD
+                if !StringUtils.isNullOrEmpty(text) {
+                    searchWord = text!
+                }
                 
-            } else {
-                DispatchQueue.global(qos: .background).async {
+                ChargerManager.sharedInstance.findAllPOI(keyword: searchWord) { [weak self] poiList in
+                    guard let poiList = poiList else {
+                        return
+                    }
                     
-                    var searchWord = self.INIT_KEYWORD
-                    if (StringUtils.isNullOrEmpty(text) == false){
-                        searchWord = text!
+                    self?.addrTableView.poiList = poiList
+                    DispatchQueue.main.async {
+                        self?.reloadData()
                     }
-                        
-                    ChargerManager.sharedInstance.findAllPOI(keyword: searchWord, callback: {
-                    class callback : FindAllPOIListenerCallback {
-                        func onFindAllPOI(poiList : [EIPOIItem]?){
-                            controller?.addrTableView.poiList = poiList
-                            DispatchQueue.main.async {
-                                self.controller?.reloadData()
-                            }
-                        }
-
-                        var controller: SearchViewController?
-                        required init(_ controller : SearchViewController) {
-                            self.controller = controller
-                        }
-                    }
-                    return callback(self)
-                    }())
-                    
-                    /*
-                    if let poiList = self.tMapPathData.requestFindAllPOI(text) {
-                        if poiList.count > 0 {
-                            self.addrTableView.poiList = poiList as? [TMapPOIItem]
-                            DispatchQueue.main.async {
-                                self.reloadData()
-                            }
-                        }
-                    }
-                    */
                 }
             }
-       
+        }
     }
 }
 

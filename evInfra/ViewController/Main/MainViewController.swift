@@ -71,21 +71,16 @@ class MainViewController: UIViewController {
     var mapView: NMFMapView { naverMapView.mapView }
     private var locationManager = CLLocationManager()
     private var chargerManager = ChargerManager.sharedInstance
-    
     private var selectCharger: ChargerStationInfo? = nil
+    private var viaCharger: ChargerStationInfo? = nil
     
-    static var currentLocation: TMapPoint? = nil
-    private var searchLocation: TMapPoint? = nil
-    private var searchSelectedId: String?
     var sharedChargerId: String? = nil
     
     private var loadedChargers = false
     private var clusterManager: ClusterManager? = nil
-    private var currentClusterLv = 0
-    private var isAllowedCluster = true
     private var canIgnoreJejuPush = true
     
-    private var summaryView:SummaryView!
+    private var summaryView: SummaryView!
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -94,12 +89,11 @@ class MainViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureNaverMapView()
         configureLocationManager()
         configureLayer()
         showGuide()
-        requestLocationAuth()
         
         prepareRouteField()
         preparePOIResultView()
@@ -122,19 +116,11 @@ class MainViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         chargingStatus()
         menuBadgeAdd()
-//        updateClustering()
+        updateClustering()
         if self.sharedChargerId != nil {
             self.selectChargerFromShared()
         }
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
     }
     
     override func didReceiveMemoryWarning() {
@@ -166,15 +152,6 @@ class MainViewController: UIViewController {
         ChargerManager.sharedInstance.delegate = self
     }
     
-    private func moveToCurrentPosition() {
-        let coordinate = locationManager.location?.coordinate
-        mapView.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinate!.latitude, lng: coordinate!.longitude), zoomTo: 14))
-        
-        let locationOverlay = mapView.locationOverlay
-        locationOverlay.location = NMGLatLng(lat: coordinate!.latitude, lng: coordinate!.longitude)
-        locationOverlay.hidden = false
-    }
-    
     private func configureLayer() {
         myLocationButton.layer.cornerRadius = 20
         myLocationButton.layer.borderWidth = 1
@@ -194,18 +171,9 @@ class MainViewController: UIViewController {
         btn_menu_layer.layer.masksToBounds = false
     }
     
-    func requestLocationAuth() {
-            locationManager = CLLocationManager()
-            locationManager.delegate = self
-    }
-    
     func prepareTmapAPI() {
         tMapView = TMapView()
-        guard let mapView = tMapView else {
-            print("[Main] TMap 생성을 실패했습니다")
-            return
-        }
-        mapView.setSKTMapApiKey(Const.TMAP_APP_KEY)
+        tMapView?.setSKTMapApiKey(Const.TMAP_APP_KEY)
     }
     
     // btnChargePrice radius, color, shadow
@@ -231,50 +199,63 @@ class MainViewController: UIViewController {
     }
     
     func setStartPoint() {
-        if self.selectCharger != nil {
-            guard let tc = toolbarController else {
-                return
-            }
-            let appTc = tc as! AppToolbarController
-            appTc.enableRouteMode(isRoute: true)
-            
-            startField.text = selectCharger?.mStationInfoDto?.mSnm
-            routeStartPoint = selectCharger?.getTMapPoint()
-        }
+        guard let selectCharger = selectCharger else { return }
+        guard let tc = toolbarController,
+              let appTc = tc as? AppToolbarController else { return }
+
+        appTc.enableRouteMode(isRoute: true)
+        
+        startField.text = selectCharger.mStationInfoDto?.mSnm
+        routeStartPoint = selectCharger.getTMapPoint()
+        naverMapView.start = POIObject(name: selectCharger.mStationInfoDto?.mSnm ?? "",
+                                             lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
+                                             lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero)
+        naverMapView.startMarker = Marker(NMGLatLng(lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
+                                                    lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero), .start)
+        naverMapView.startMarker?.mapView = self.mapView
+        
+        self.setStartPath()
     }
     
     func setEndPoint() {
-        if self.selectCharger != nil {
-            guard let tc = toolbarController else {
-                return
-            }
-            let appTc = tc as! AppToolbarController
-            appTc.enableRouteMode(isRoute: true)
-            
-            endField.text = selectCharger?.mStationInfoDto?.mSnm
-            routeEndPoint = selectCharger?.getTMapPoint()
-            
-            self.setStartPath()
-        }
+        guard let selectCharger = selectCharger else { return }
+        guard let tc = toolbarController,
+              let appTc = tc as? AppToolbarController else { return }
+
+        appTc.enableRouteMode(isRoute: true)
+        
+        endField.text = selectCharger.mStationInfoDto?.mSnm
+        routeEndPoint = selectCharger.getTMapPoint()
+        naverMapView.destination = POIObject(name: selectCharger.mStationInfoDto?.mSnm ?? "",
+                                             lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
+                                             lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero)
+        naverMapView.endMarker = Marker(NMGLatLng(lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
+                                                    lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero), .end)
+        naverMapView.endMarker?.mapView = self.mapView
+        
+        self.setStartPath()
     }
     
     func setStartPath() {
-        if self.selectCharger != nil {
-            let passList = [selectCharger?.getTMapPoint()]
-            findPath(passList: passList as! [TMapPoint])
+        let passList = naverMapView
+            .viaList
+            .map {
+                TMapPoint(lon: $0.lng, lat: $0.lat)!
+            }
+        
+        if !passList.isEmpty {
+            let via = naverMapView.viaList.first ?? POIObject(name: "", lat: .zero, lng: .zero)
+            self.naverMapView.midMarker?.mapView = nil
+            self.naverMapView.midMarker = Marker(NMGLatLng(lat: via.lat,
+                                                           lng: via.lng), .mid)
+            self.naverMapView.midMarker?.mapView = self.mapView
         }
+        
+        findPath(passList: passList)
     }
     
-    func showNavigation() {
-        var snm = endField.text ?? ""
-        var lng = routeEndPoint?.getLongitude() ?? 0.0
-        var lat = routeEndPoint?.getLatitude() ?? 0.0
-        if snm.isEmpty, lng == 0.0, lat == 0.0 {
-            snm = selectCharger?.mStationInfoDto?.mSnm ?? ""
-            lng = selectCharger?.mStationInfoDto?.mLongitude ?? 0.0
-            lat = selectCharger?.mStationInfoDto?.mLatitude ?? 0.0
-        }
-        UtilNavigation().showNavigation(vc: self, snm: snm, lat: lat, lng: lng)
+    func showNavigation(start: POIObject, destination: POIObject, via: [POIObject]) {
+        UtilNavigation().showNavigation(vc: self, startPoint: start, endPoint: destination, viaList: via)
     }
     
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
@@ -309,8 +290,21 @@ class MainViewController: UIViewController {
         }
     }
     
+    // 파란색 길안내 버튼 누를때
     @objc func onClickShowNavi(_ sender: Any) {
-        self.showNavigation()
+        guard let destination = naverMapView.destination else { return }
+        
+        if let start = naverMapView.start {
+            self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
+        } else {
+            let currentPoint = locationManager.getCurrentCoordinate()
+            let point = TMapPoint(coordinate: currentPoint)
+            
+            let positionName = tMapPathData.convertGpsToAddress(at: point) ?? ""
+            let start = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
+            
+            self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
+        }
     }
     
     private func configureLocationManager() {
@@ -334,7 +328,7 @@ extension MainViewController: CLLocationManagerDelegate {
         case .denied:
             break
         case .authorizedAlways, .authorizedWhenInUse, .authorized:
-            self.moveToCurrentPosition()
+            self.naverMapView.moveToCurrentPostiion()
             break
         }
     }
@@ -447,7 +441,7 @@ extension MainViewController: NMFMapViewTouchDelegate {
 
 extension MainViewController {
     internal func drawMapMarker() {
-        guard ChargerManager.sharedInstance.isReady() else { return }
+        guard chargerManager.isReady() else { return }
         
         self.clusterManager?.clustering(filter: FilterManager.sharedInstance.filter, loadedCharger: self.loadedChargers)
         
@@ -564,7 +558,14 @@ extension MainViewController: TextFieldDelegate {
         btnRouteCancel.setTitle("지우기", for: .normal)
         
         naverMapView.startMarker?.mapView = nil
+        naverMapView.midMarker?.mapView = nil
         naverMapView.endMarker?.mapView = nil
+        naverMapView.startMarker = nil
+        naverMapView.midMarker = nil
+        naverMapView.endMarker = nil
+        naverMapView.start = nil
+        naverMapView.destination = nil
+        naverMapView.viaList = []
         naverMapView.path?.mapView = nil
         
         // 경로 주변 충전소 초기화
@@ -572,10 +573,10 @@ extension MainViewController: TextFieldDelegate {
             charger.isAroundPath = true
         }
         
+        updateClustering()
+
         self.clusterManager?.isRouteMode = false
         summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clusterManager!.isRouteMode)
-        
-        drawMapMarker()
     }
     
     func findPath(passList: [TMapPoint]) {
@@ -583,7 +584,7 @@ extension MainViewController: TextFieldDelegate {
         if routeStartPoint == nil {
             let currentPoint = locationManager.getCurrentCoordinate()
             let point = TMapPoint(coordinate: currentPoint)
-            
+
             startField.text = tMapPathData.convertGpsToAddress(at: point)
             routeStartPoint = point
         }
@@ -618,8 +619,12 @@ extension MainViewController: TextFieldDelegate {
             
             // 경로 요청
             DispatchQueue.global(qos: .background).async { [weak self] in
-
-                let polyLine = self?.tMapPathData.find(from: startPoint, to: endPoint)
+                var polyLine: TMapPolyLine? = nil
+                if passList.isEmpty {
+                    polyLine = self?.tMapPathData.find(from: startPoint, to: endPoint)
+                } else {
+                    polyLine = self?.tMapPathData.findMultiPathData(withStart: startPoint, end: endPoint, passPoints: passList, searchOption: 0)
+                }
                 let distance = polyLine?.getDistance() ?? 0.0
                 
                 let pathOverlay = NMFPath()
@@ -634,16 +639,31 @@ extension MainViewController: TextFieldDelegate {
                         positions.append(position)
                     }
                 }
-                
+
                 positions.insert(NMGLatLng(from: startPoint.coordinate), at: 0)
                 positions.insert(NMGLatLng(from: endPoint.coordinate), at: positions.count)
                 pathOverlay.path = NMGLineString(points: positions)
                 
                 DispatchQueue.main.async {
+                    // 경로선 초기화
+                    self?.naverMapView.path?.mapView = nil
+                    self?.naverMapView.path = nil
+                    
+                    if self?.naverMapView.startMarker == nil {
+                        self?.naverMapView.startMarker = Marker(NMGLatLng(lat: startPoint.getLatitude(),
+                                                                          lng: startPoint.getLongitude()), .start)
+                        self?.naverMapView.startMarker?.mapView = self?.mapView
+                    }
+
+                    if self?.naverMapView.endMarker == nil {
+                        self?.naverMapView.endMarker = Marker(NMGLatLng(lat: endPoint.getLatitude(),
+                                                                        lng: endPoint.getLongitude()), .end)
+                        self?.naverMapView.endMarker?.mapView = self?.mapView
+                    }
+                    
                     // 경로선 그리기
                     self?.naverMapView.path = pathOverlay
                     self?.naverMapView.path?.mapView = self?.mapView
-                    // TODO: 경유지 추가
                     
                     self?.drawPathData(polyLine: pathOverlay.path, distance: distance)
                     self?.markerIndicator.stopAnimating()
@@ -683,7 +703,7 @@ extension MainViewController: TextFieldDelegate {
             guard let point = points[i] as? NMGLatLng else { return }
             
             for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
-                if !charger.isAroundPath {
+                if !charger.isAroundPath && charger.check(filter: FilterManager.sharedInstance.filter) {
                     let chargerPoint = charger.getChargerPoint()
                     let latLng = NMGLatLng(lat: chargerPoint.0, lng: chargerPoint.1)
                     
@@ -765,12 +785,14 @@ extension MainViewController: PoiTableViewDelegate {
             
             naverMapView.startMarker = Marker(NMGLatLng(lat: latitude, lng: longitude), .start)
             naverMapView.startMarker?.mapView = self.mapView
+            naverMapView.start = POIObject(name: poiItem.name, lat: latitude, lng: longitude)
         } else {
             endField.text = poiItem.name
             routeEndPoint = poiItem.getPOIPoint()
             
             naverMapView.endMarker = Marker(NMGLatLng(lat: latitude, lng: longitude), .end)
             naverMapView.endMarker?.mapView = self.mapView
+            naverMapView.destination = POIObject(name: poiItem.name, lat: latitude, lng: longitude)
         }
     }
 }
@@ -789,6 +811,10 @@ extension MainViewController: ChargerSelectDelegate {
     func moveToSelectLocation(lat: Double, lon: Double) {
         guard lat == 0, lon == 0 else {
             myLocationModeOff()
+            
+            // 기존에 선택된 마커 지우기
+            naverMapView.searchMarker?.mapView = nil
+            
             // 카메라 이동
             naverMapView.moveToCamera(with: NMGLatLng(lat: lat, lng: lon), zoomLevel: 15)
             
@@ -804,6 +830,9 @@ extension MainViewController: ChargerSelectDelegate {
         guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
         let position = NMGLatLng(lat: charger.mStationInfoDto?.mLatitude ?? 0.0,
                                  lng: charger.mStationInfoDto?.mLongitude ?? 0.0)
+        // 기존에 선택된 마커 지우기
+        naverMapView.searchMarker?.mapView = nil
+        
         // 카메라 이동
         naverMapView.moveToCamera(with: position, zoomLevel: 15)
         
@@ -900,8 +929,10 @@ extension MainViewController: ChargerSelectDelegate {
 extension MainViewController {
     func requestStationInfo() {
         LoginHelper.shared.delegate = self
+        
         DispatchQueue.main.async {
             self.markerIndicator.startAnimating()
+            self.appDelegate.appToolbarController.toolbar.isUserInteractionEnabled = false
         }
         ChargerManager.sharedInstance.getStations { [weak self] in
             LoginHelper.shared.checkLogin()
@@ -912,8 +943,8 @@ extension MainViewController {
             
             DispatchQueue.main.async {
                 self?.markerIndicator.stopAnimating()
+                self?.appDelegate.appToolbarController.toolbar.isUserInteractionEnabled = true
             }
-            
             self?.showStartAd()
             self?.checkFCM()
             
@@ -927,7 +958,7 @@ extension MainViewController {
     
     internal func refreshChargerInfo() {
         self.markerIndicator.startAnimating()
-        
+        clusterManager?.removeClusterFromSettings()
         Server.getStationStatus { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
@@ -935,15 +966,15 @@ extension MainViewController {
 
                 for (_, item):(String, JSON) in list {
                     let id = item["id"].stringValue
-                    if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: id) {
+                    if let charger = self.chargerManager.getChargerStationInfoById(charger_id: id) {
                         charger.changeStatus(status: item["st"].intValue, markerChange: true)
-                        charger.createMapMarker()
                         charger.mapMarker.touchHandler = { [weak self] overlay -> Bool in
                             self?.touchHandler(with: charger)
                             return true
                         }
                     }
                 }
+                self.drawMapMarker()
             }
             self.markerIndicator.stopAnimating()
         }
@@ -988,9 +1019,7 @@ extension MainViewController {
     }
     
     @objc func saveLastZoomLevel() {
-        if let tmapview = self.tMapView {
-            UserDefault().saveInt(key: UserDefault.Key.MAP_ZOOM_LEVEL, value: tmapview.getZoomLevel())
-        }
+        UserDefault().saveInt(key: UserDefault.Key.MAP_ZOOM_LEVEL, value: Int(mapView.zoomLevel))
     }
     
     @objc func updateMemberInfo() {
@@ -1009,16 +1038,29 @@ extension MainViewController {
     }
     
     @objc func directionStartPoint(_ notification: NSNotification) {
-        selectCharger = (notification.object as! ChargerStationInfo)
-        if navigationDrawerController?.isOpened == true{
+        guard let selectCharger = notification.object as? ChargerStationInfo else { return }
+        
+        self.naverMapView.startMarker?.mapView = nil
+        self.naverMapView.startMarker = nil
+        self.naverMapView.midMarker?.mapView = nil
+        
+        if navigationDrawerController?.isOpened == true {
             navigationDrawerController?.toggleLeftView()
         }
         self.navigationController?.popToRootViewController(animated: true)
         self.setStartPoint()
     }
-    
+    // 경유지 추가
     @objc func directionStartPath(_ notification: NSNotification) {
-        selectCharger = (notification.object as! ChargerStationInfo)
+        guard let selectCharger = notification.object as? ChargerStationInfo else { return }
+
+        let via = POIObject(name: selectCharger.mStationInfoDto?.mSnm ?? "",
+                            lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
+                            lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero)
+        
+        naverMapView.viaList.removeAll()
+        naverMapView.viaList.append(via)
+        
         if navigationDrawerController?.isOpened == true {
             navigationDrawerController?.toggleLeftView()
         }
@@ -1027,17 +1069,37 @@ extension MainViewController {
     }
     
     @objc func directionEnd(_ notification: NSNotification) {
-        selectCharger = (notification.object as! ChargerStationInfo)
+        guard let selectCharger = notification.object as? ChargerStationInfo else { return }
+        
+        self.naverMapView.endMarker?.mapView = nil
+        self.naverMapView.endMarker = nil
+        self.naverMapView.midMarker?.mapView = nil
+        
         if navigationDrawerController?.isOpened == true {
             navigationDrawerController?.toggleLeftView()
         }
         self.navigationController?.popToRootViewController(animated: true)
         self.setEndPoint()
     }
-    
+    // 초록색 길안내 시작 버튼 누를때
     @objc func directionNavigation(_ notification: NSNotification) {
-        selectCharger = (notification.object as! ChargerStationInfo)
-        self.showNavigation()
+        guard let selectCharger = notification.object as? ChargerStationInfo else { return }
+        let destination = POIObject(name: selectCharger.mStationInfoDto?.mSnm ?? "",
+                                    lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
+                                    lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero)
+        
+        guard let start = naverMapView.start  else {
+            let currentPoint = locationManager.getCurrentCoordinate()
+            let point = TMapPoint(coordinate: currentPoint)
+            
+            let positionName = tMapPathData.convertGpsToAddress(at: point) ?? ""
+            let start = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
+            
+            self.showNavigation(start: start, destination: destination, via: [])
+            return
+        }
+        
+        self.showNavigation(start: start, destination: destination, via: [])
     }
     
     @objc func requestLogIn(_ notification: NSNotification) {
@@ -1060,8 +1122,8 @@ extension MainViewController {
         }
     }
     
-    func isLocationEnabled() ->Bool{
-        var enabled : Bool = false
+    func isLocationEnabled() -> Bool {
+        var enabled: Bool = false
         if CLLocationManager.locationServicesEnabled() {
             switch CLLocationManager.authorizationStatus() {
             case .authorizedAlways, .authorizedWhenInUse:
@@ -1076,7 +1138,6 @@ extension MainViewController {
     
     func askPermission(){
         let alertController = UIAlertController(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 기능을 이용하시려면 모든 권한을 허용해 주십시오.\n[설정] > [EV Infra] 에서 권한을 허용할 수 있습니다.", preferredStyle: UIAlertControllerStyle.alert)
-        
         
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
         alertController.addAction(cancelAction)
@@ -1224,6 +1285,11 @@ extension MainViewController {
     
     func prepareClustering() {
         clusterManager = ClusterManager(mapView: mapView)
+    }
+    
+    func updateClustering() {
+        clusterManager?.removeChargerForClustering(zoomLevel: Int(naverMapView.mapView.zoomLevel))
+        drawMapMarker()
     }
 }
 
@@ -1377,3 +1443,4 @@ extension MainViewController: LoginHelperDelegate {
     func needSignUp(user: Login) {
     }
 }
+
