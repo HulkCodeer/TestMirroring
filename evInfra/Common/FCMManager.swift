@@ -93,16 +93,7 @@ internal final class FCMManager {
                         viewController.present(dialogMessage, animated: true, completion: nil)
                     }
                 }
-            } else {
-                if viewController.isKind(of: UIAlertController.self) {
-                    if let vc = viewController.presentingViewController {
-                        viewController.dismiss(animated: true, completion: nil)
-                        vc.present(dialogMessage, animated: true, completion: nil)
-                    }
-                } else {
-                    viewController.present(dialogMessage, animated: true, completion: nil)
-                }
-            }
+            } 
         }
     }
     
