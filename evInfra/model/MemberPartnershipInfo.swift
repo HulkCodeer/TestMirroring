@@ -60,7 +60,7 @@ internal final class MemberPartnershipInfo {
         self.cardStatusType = CardStatusType(json["status"].stringValue)
         self.date = json["date"].dateValue
         self.displayDate = self.date.toYearMonthDay()        
-        self.displayStatusDescription = self.cardStatusType == .sipping ? self.displayDate : self.cardStatusType.showDisplayType()
+        self.displayStatusDescription = self.cardStatusType == .issuanceCompleted ? self.displayDate : self.cardStatusType.showDisplayType()
         self.carNo = json["car_no"].stringValue
         self.mobileCardNum = json["mobile_card_num"].stringValue
         self.mpCardNum = json["mp_card_num"].stringValue

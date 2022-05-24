@@ -151,6 +151,10 @@ internal final class PartnershipListView : UIView {
         evInfraInfo = info
         viewEvinfraList.isHidden = false
         labelCardStatus.text = info.displayStatusDescription
+        
+        guard let _cardNo = info.cardNo else { return }
+        let modString = _cardNo.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
+        labelCardNum.text = modString
                         
         if info.cardStatusType == .sipping {
             var preferences = EasyTipView.Preferences()
@@ -172,13 +176,7 @@ internal final class PartnershipListView : UIView {
                              withinSuperview: self.viewEvinfraList,
                 text: text,
                              preferences: preferences, delegate: self)
-            
-            
         }
-        
-        guard let _cardNo = info.cardNo else { return }        
-        let modString = _cardNo.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
-        labelCardNum.text = modString
     }
     
     private func initView() {

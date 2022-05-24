@@ -80,7 +80,7 @@ internal final class MembershipInfoViewController: UIViewController {
         navigationItem.leftViews = [backButton]
         navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "회원카드 관리"
+        navigationItem.titleLabel.text = "회원카드 상세"
         self.navigationController?.isNavigationBarHidden = false
     }
     
