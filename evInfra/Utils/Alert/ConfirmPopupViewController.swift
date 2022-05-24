@@ -18,14 +18,16 @@ struct PopupModel {
     let cancelBtnTitle: String?
     let confirmBtnAction: (() -> Void)?
     let cancelBtnAction: (() -> Void)?
+    var messageTextAlignment: NSTextAlignment = .center
     
-    init(title: String? = nil, message: String = "",  confirmBtnTitle: String? = nil, cancelBtnTitle: String? = nil, confirmBtnAction: (() -> Void)? = nil, cancelBtnAction: (() -> Void)? = nil) {
+    init(title: String? = nil, message: String = "",  confirmBtnTitle: String? = nil, cancelBtnTitle: String? = nil, confirmBtnAction: (() -> Void)? = nil, cancelBtnAction: (() -> Void)? = nil, textAlignment: NSTextAlignment = .center) {
         self.title = title
         self.message = message
         self.confirmBtnTitle = confirmBtnTitle
         self.cancelBtnTitle = cancelBtnTitle
         self.confirmBtnAction = confirmBtnAction
         self.cancelBtnAction = cancelBtnAction
+        self.messageTextAlignment = textAlignment
     }
 }
 
@@ -160,6 +162,8 @@ internal final class ConfirmPopupViewController: UIViewController {
                 .disposed(by: self.disposebag)
             buttonStackView.addArrangedSubview(confirmBtn)
         }
+        
+        descriptionLabel.textAlignment = self.popupModel.messageTextAlignment
     }
     
     override func viewDidLoad() {

@@ -221,7 +221,8 @@ class MembershipIssuanceViewController: UIViewController,
         Server.registerMembershipCard(values: params, completion: {(isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in
+                let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in                    
+                    UserDefault().saveBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP, value: false)
                     self.navigationController?.pop()
                 })
                 var actions = Array<UIAlertAction>()

@@ -262,11 +262,28 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         detailAddressTf.addLeftPadding(padding: 12)
     }
     
-    internal func bind(reactor: MembershipReissuanceInfoReactor) {        
+    internal func bind(reactor: MembershipReissuanceInfoReactor) {
+        
         completeBtn.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
-            .map { Reactor.Action.setReissuance(self.reissuanceModel) }
-            .bind(to: reactor.action)
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let popupModel = PopupModel(title: "카드 배송 정보 확인",
+                                            message: "수령인 : \(self.nameTf.text ?? "")\n주소 : \(self.addressTf.text ?? "") \(self.detailAddressTf.text ?? "")\n\n위 주소로 회원카드를 발급하시겠습니까?",
+                                            confirmBtnTitle: "네", cancelBtnTitle: "아니오",
+                                            confirmBtnAction: { [weak self] in
+                    guard let self = self else { return }
+                    Observable.just(Reactor.Action.setReissuance(self.reissuanceModel))
+                        .bind(to: reactor.action)
+                        .disposed(by: self.disposeBag)
+                }, textAlignment: .left)
+                    
+                let popup = ConfirmPopupViewController(model: popupModel)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
+            })
             .disposed(by: self.disposeBag)
             
         

@@ -166,13 +166,14 @@ internal final class PartnershipListView : UIView {
             preferences.animating.showDuration = 1
             preferences.animating.dismissDuration = 1
                                  
-            printLog(out: "\(UserDefault().readBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP))")
             guard !UserDefault().readBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP) else { return }
-            let text = "카드 발송이 완료되었어요.\n우편함을 확인해보세요! 📮✉️"
+            let text = "영업일 기준 3~5일 뒤에\n우편함을 확인해보세요! 📮✉️"
             EasyTipView.show(forView: self.labelCardStatus,
                              withinSuperview: self.viewEvinfraList,
                 text: text,
                              preferences: preferences, delegate: self)
+            
+            
         }
         
         guard let _cardNo = info.cardNo else { return }        
