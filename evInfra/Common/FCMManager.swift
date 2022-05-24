@@ -57,53 +57,52 @@ internal final class FCMManager {
     }
     
     func alertFCMMessage() {
-        if let notification = getFCMMessageData(), let _mainNavi = GlobalDefine.shared.mainNavi {
+        guard let notification = getFCMMessageData(), let _mainNavi = GlobalDefine.shared.mainNavi else {
+            fcmNotification = nil
+            return
+        }
             
-            let targetId = notification.request.content.userInfo[AnyHashable("target_id")] as! String?
-            
-            let dialogMessage = UIAlertController(title: notification.request.content.title, message: notification.request.content.body, preferredStyle: .alert)
-            let ok = UIAlertAction(title: "OK", style: .default, handler: {(ACTION) -> Void in
-                self.alertMessage(data: notification.request.content.userInfo)//notification.request.content.userInfo
-                                
-                if let viewController = _mainNavi.visibleViewController {
-                    viewController.dismiss(animated: true)
-                }
-            })
-            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            dialogMessage.addAction(ok)
-            dialogMessage.addAction(cancel)
-            
-            if let navigation = GlobalDefine.shared.mainNavi {
-                if let viewController = navigation.visibleViewController {
-                    // 여기다가 뷰컨트롤러가 이거일 경우... 저거일 경우... 고고씡
-                    if  (targetId != nil) {
-                        if targetId == FCMManager.TARGET_CHARGING && String(describing: viewController).contains("PaymentStatusViewController") {
-                            let center = NotificationCenter.default
-                            center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: notification.request.content.userInfo)
-                        } else {
-                            if viewController.isKind(of: UIAlertController.self) {
-                                if let vc = viewController.presentingViewController {
-                                    viewController.dismiss(animated: true, completion: nil)
-                                    vc.present(dialogMessage, animated: true, completion: nil)
-                                }
-                            } else {
-                                viewController.present(dialogMessage, animated: true, completion: nil)
-                            }
+        let targetId = notification.request.content.userInfo[AnyHashable("target_id")] as! String?
+        
+        let dialogMessage = UIAlertController(title: notification.request.content.title, message: notification.request.content.body, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .default, handler: {(ACTION) -> Void in
+            self.alertMessage(data: notification.request.content.userInfo)//notification.request.content.userInfo
+                            
+            if let viewController = _mainNavi.visibleViewController {
+                viewController.dismiss(animated: true)
+            }
+        })
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        dialogMessage.addAction(ok)
+        dialogMessage.addAction(cancel)
+        
+        if let viewController = _mainNavi.visibleViewController {
+            // 여기다가 뷰컨트롤러가 이거일 경우... 저거일 경우... 고고씡
+            if let targetId = targetId {
+                if targetId == FCMManager.TARGET_CHARGING && String(describing: viewController).contains("PaymentStatusViewController") {
+                    let center = NotificationCenter.default
+                    center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: notification.request.content.userInfo)
+                } else {
+                    if viewController.isKind(of: UIAlertController.self) {
+                        if let vc = viewController.presentingViewController {
+                            viewController.dismiss(animated: true, completion: nil)
+                            vc.present(dialogMessage, animated: true, completion: nil)
                         }
                     } else {
-                        if viewController.isKind(of: UIAlertController.self) {
-                            if let vc = viewController.presentingViewController {
-                                viewController.dismiss(animated: true, completion: nil)
-                                vc.present(dialogMessage, animated: true, completion: nil)
-                            }
-                        } else {
-                            viewController.present(dialogMessage, animated: true, completion: nil)
-                        }
+                        viewController.present(dialogMessage, animated: true, completion: nil)
                     }
                 }
+            } else {
+                if viewController.isKind(of: UIAlertController.self) {
+                    if let vc = viewController.presentingViewController {
+                        viewController.dismiss(animated: true, completion: nil)
+                        vc.present(dialogMessage, animated: true, completion: nil)
+                    }
+                } else {
+                    viewController.present(dialogMessage, animated: true, completion: nil)
+                }
             }
-            fcmNotification = nil
         }
     }
     
