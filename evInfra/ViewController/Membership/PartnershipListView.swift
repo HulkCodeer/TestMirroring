@@ -13,8 +13,7 @@ import EasyTipView
 
 protocol PartnershipListViewDelegate {
     func addNewPartnership()
-    func showEvinfraMembershipInfo(info : MemberPartnershipInfo)
-    func showLotteRentInfo()
+    func showEvinfraMembershipInfo(info : MemberPartnershipInfo)    
     func moveMembershipUseGuideView()
     func moveReissuanceView(info: MemberPartnershipInfo)
     func paymentStatusInfo() -> PaymentStatus
@@ -153,7 +152,7 @@ internal final class PartnershipListView : UIView {
         viewEvinfraList.isHidden = false
         labelCardStatus.text = info.displayStatusDescription
                         
-        if info.cardStatusType == .issuanceCompleted {
+        if info.cardStatusType == .sipping {
             var preferences = EasyTipView.Preferences()
             preferences.drawing.backgroundColor = UIColor(named: "background-always-dark")!
             preferences.drawing.foregroundColor = UIColor(named: "content-on-color")!
@@ -191,10 +190,6 @@ internal final class PartnershipListView : UIView {
             
     @objc func onClickEvInfra(sender: UITapGestureRecognizer) {
         delegate?.showEvinfraMembershipInfo(info : self.evInfraInfo)
-    }
-    
-    @objc func onClickLotteRent(sender: UITapGestureRecognizer) {
-        delegate?.showLotteRentInfo()
     }
     
     @objc func onClickAddBtn(sender: UITapGestureRecognizer) {

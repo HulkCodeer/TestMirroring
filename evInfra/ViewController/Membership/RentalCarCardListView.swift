@@ -16,10 +16,10 @@ internal final class RentalCarCardListView : UIView {
     @IBOutlet var viewLotteList: UIView!
     @IBOutlet var labelCarNo: UILabel!
     @IBOutlet var labelContrDate: UILabel!
+    @IBOutlet var moveSkrBtn: UIButton!
+    @IBOutlet var moveLotteBtn: UIButton!
     
     // MARK: VARIABLE
-    
-    internal var delegate: PartnershipListViewDelegate?
     
     private var evInfraInfo : MemberPartnershipInfo?
     private var disposebag = DisposeBag()
@@ -40,8 +40,15 @@ internal final class RentalCarCardListView : UIView {
         let view = loadViewFromNib()
         view.frame = self.bounds
         addSubview(view)
-        initView()
-                
+        
+        moveLotteBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let membershipVC = UIStoryboard(name: "Membership", bundle: nil).instantiateViewController(ofType: LotteRentInfoViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: membershipVC)
+            })
+            .disposed(by: self.disposebag)
     }
     
     private func loadViewFromNib() -> UIView {
@@ -73,42 +80,5 @@ internal final class RentalCarCardListView : UIView {
         if !isSKR {
             UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: false)
         }
-    }
-    
-    func getCardStatusToString(status: String, issuanceDate: String) -> String {
-        switch (status) {
-        case "0":
-            return "발급 신청"
-        case "1":
-            return issuanceDate
-//            return "발급 완료"
-        case "2":
-            return "카드 분실"
-        default:
-            return "상태 오류"
-        }
-    }
-    
-    private func initView() {
-//        let ev_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickEvInfra))
-//        viewEvinfraList.addGestureRecognizer(ev_touch)
-//
-//        let lotte_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickLotteRent))
-//        viewLotteList.addGestureRecognizer(lotte_touch)
-//
-//        let add_touch = UITapGestureRecognizer(target: self, action: #selector(self.onClickAddBtn))
-//        btnAddCard.addGestureRecognizer(add_touch)
-    }
-    
-    @objc func onClickEvInfra(sender: UITapGestureRecognizer) {
-        delegate?.showEvinfraMembershipInfo(info : evInfraInfo!)
-    }
-    
-    @objc func onClickLotteRent(sender: UITapGestureRecognizer) {
-        delegate?.showLotteRentInfo()
-    }
-    
-    @objc func onClickAddBtn(sender: UITapGestureRecognizer) {
-        delegate?.addNewPartnership()
     }
 }

@@ -66,6 +66,10 @@ internal final class MembershipInfoViewController: UIViewController {
         
         let tap_touch = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         view.addGestureRecognizer(tap_touch)
+        
+        tfPwIn.delegate = self
+        tfPwReIn.delegate = self
+        tfCurPwIn.delegate = self
     }
     
     func prepareActionBar() {
@@ -179,5 +183,30 @@ internal final class MembershipInfoViewController: UIViewController {
         indicator.stopAnimating()
         indicator.isHidden = true
         btnModify.isEnabled = true
+    }
+}
+
+extension MembershipInfoViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        switch textField {
+        case tfPwIn:
+            guard !string.isEmpty else { return true }
+            let text = textField.text ?? ""
+            return text.count < 4
+            
+        case tfPwReIn:
+            guard !string.isEmpty else { return true }
+            let text = textField.text ?? ""
+            return text.count < 4
+            
+        case tfCurPwIn:
+            guard !string.isEmpty else { return true }
+            let text = textField.text ?? ""
+            return text.count < 4
+            
+        default: break
+        }
+        return false
     }
 }

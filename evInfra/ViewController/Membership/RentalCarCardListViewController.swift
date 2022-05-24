@@ -20,7 +20,7 @@ internal final class RentalCarCardListViewController: UIViewController {
     }
     
     private lazy var rentalCarCardList = RentalCarCardListView(frame: .zero).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translatesAutoresizingMaskIntoConstraints = false        
         $0.isHidden = true
     }
     
@@ -108,7 +108,7 @@ internal final class RentalCarCardListViewController: UIViewController {
     }
 }
 
-extension RentalCarCardListViewController: PartnershipListViewDelegate {
+extension RentalCarCardListViewController: PartnershipListViewDelegate {    
     func paymentStatusInfo() -> PaymentStatus { return .none }    
     func addNewPartnership() {}
     
@@ -116,11 +116,6 @@ extension RentalCarCardListViewController: PartnershipListViewDelegate {
         let mbsInfoVC = storyboard?.instantiateViewController(withIdentifier: "MembershipInfoViewController") as! MembershipInfoViewController
         mbsInfoVC.setCardInfo(info : info)
         navigationController?.push(viewController: mbsInfoVC)
-    }
-    
-    func showLotteRentInfo(){
-        let lotteInfoVC = storyboard?.instantiateViewController(withIdentifier: "LotteRentInfoViewController") as! LotteRentInfoViewController
-        navigationController?.push(viewController: lotteInfoVC)
     }
     
     func moveMembershipUseGuideView() {

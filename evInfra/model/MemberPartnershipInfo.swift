@@ -13,7 +13,7 @@ internal final class MemberPartnershipInfo {
         case readyShip = "0" // 발송 준비중
         case issuanceCompleted = "1" // 발급 완료
         case cardLost = "2"// 카드 분실
-        case siipping = "4" // 발송중
+        case sipping = "4" // 발송중
         case error // 상태오류
         
         init(_ rawValue: String) {
@@ -21,7 +21,7 @@ internal final class MemberPartnershipInfo {
             case "0": self = .readyShip
             case "1": self = .issuanceCompleted
             case "2": self = .cardLost
-            case "4": self = .siipping
+            case "4": self = .sipping
             default: self = .error
             }
         }
@@ -31,7 +31,7 @@ internal final class MemberPartnershipInfo {
             case .readyShip: return "발송 준비중"
             case .issuanceCompleted: return "발급 완료"
             case .cardLost: return "카드 분실"
-            case .siipping: return "발송중"
+            case .sipping: return "발송중"
             case .error: return "상태 오류"
             }
         }
@@ -60,7 +60,7 @@ internal final class MemberPartnershipInfo {
         self.cardStatusType = CardStatusType(json["status"].stringValue)
         self.date = json["date"].dateValue
         self.displayDate = self.date.toYearMonthDay()        
-        self.displayStatusDescription = self.cardStatusType == .issuanceCompleted ? self.displayDate : self.cardStatusType.showDisplayType()
+        self.displayStatusDescription = self.cardStatusType == .sipping ? self.displayDate : self.cardStatusType.showDisplayType()
         self.carNo = json["car_no"].stringValue
         self.mobileCardNum = json["mobile_card_num"].stringValue
         self.mpCardNum = json["mp_card_num"].stringValue

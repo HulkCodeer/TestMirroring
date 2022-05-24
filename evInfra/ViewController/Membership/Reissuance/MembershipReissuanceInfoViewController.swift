@@ -380,7 +380,9 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         phoneTf.text = reissuanceModel.phoneNo
         zipCodeTf.text = reissuanceModel.zipCode
         addressTf.text = reissuanceModel.address
-        detailAddressTf.text = reissuanceModel.addressDetail                
+        detailAddressTf.text = reissuanceModel.addressDetail
+        
+        completeBtn.isEnabled = !reissuanceModel.mbName.isEmpty && !reissuanceModel.phoneNo.isEmpty && !reissuanceModel.zipCode.isEmpty && !reissuanceModel.address.isEmpty && !reissuanceModel.addressDetail.isEmpty
     }
 }
 
