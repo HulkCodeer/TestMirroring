@@ -39,7 +39,8 @@ typedef enum {
 typedef enum  {
     TMapUserTrackingModeNone              = 0,
     TMapUserTrackingModeFollow            = 1,
-TMapUserTrackingModeFollowWithHeading = 2
+TMapUserTrackingModeFollowWithHeading = 2,
+    TMapUserTrackingModeNoneFix = 3
 } TMapUserTrackingMode;
 
 
