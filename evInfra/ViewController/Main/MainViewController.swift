@@ -269,14 +269,15 @@ class MainViewController: UIViewController {
     @IBAction func onClickMyLocation(_ sender: UIButton) {
         if isLocationEnabled() {
             let mode = mapView.positionMode
-            
-            if mode == .normal {
+            if mode == .disabled {
+                mapView.positionMode = .normal
                 naverMapView.moveToCurrentPostiion()
+            } else if mode == .normal {
                 mapView.positionMode = .direction
             } else if mode == .direction {
                 mapView.positionMode = .compass
             } else if mode == .compass {
-                mapView.positionMode = .normal
+                mapView.positionMode = .direction
             }
             updateMyLocationButton()
         } else {
@@ -1152,7 +1153,7 @@ extension MainViewController {
     }
     
     internal func myLocationModeOff() {
-        mapView.positionMode = .normal
+        mapView.positionMode = .disabled
         updateMyLocationButton()
     }
     
@@ -1163,16 +1164,14 @@ extension MainViewController {
                 let mode = self?.mapView.positionMode
                 switch mode  {
                 case .disabled:
-                    break
-                case .normal:
                     self?.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
                     self?.myLocationButton.tintColor = UIColor.init(named: "content-primary")
                     UIApplication.shared.isIdleTimerDisabled = false // 화면 켜짐 유지 끔
                     break
-                case .direction:
+                case .normal, .direction:
                     self?.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
                     self?.myLocationButton.tintColor = UIColor.init(named: "content-positive")
-                    UIApplication.shared.isIdleTimerDisabled = true // 화면 켜짐 유지
+                    UIApplication.shared.isIdleTimerDisabled = false // 화면 켜짐 유지 끔
                     break
                 case .compass:
                     self?.myLocationButton.setImage(UIImage(named: "icon_compass_lg"), for: .normal)
