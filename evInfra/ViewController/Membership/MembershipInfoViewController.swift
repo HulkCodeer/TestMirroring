@@ -17,9 +17,9 @@ internal final class MembershipInfoViewController: UIViewController {
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var btnModify: UIButton!
     
-    @IBOutlet var tfCurPwIn: HSUnderLineTextField!
-    @IBOutlet var tfPwIn: HSUnderLineTextField!
-    @IBOutlet var tfPwReIn: HSUnderLineTextField!
+    @IBOutlet var tfCurPwIn: UITextField!
+    @IBOutlet var tfPwIn: UITextField!
+    @IBOutlet var tfPwReIn: UITextField!
     @IBOutlet var lbCardStatus: UILabel!
     @IBOutlet var lbCardNo: UILabel!
     
