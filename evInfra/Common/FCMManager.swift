@@ -69,16 +69,10 @@ internal final class FCMManager {
                     viewController.dismiss(animated: true)
                 }
             })
-            
-            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler:{ (ACTION) -> Void in
-                print("Cancel button tapped")
-            })
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
             dialogMessage.addAction(ok)
-            
-            if (targetId == nil){
-                dialogMessage.addAction(cancel)
-            }
+            dialogMessage.addAction(cancel)
             
             if let navigation = GlobalDefine.shared.mainNavi {
                 if let viewController = navigation.visibleViewController {

@@ -116,7 +116,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
             navigationItem.titleLabel.text = "자주묻는 질문"
             
         case .BatteryInfo:
-            navigationItem.titleLabel.text = ""
+            navigationItem.titleLabel.text = "내 차 배터리 관리"
         }
         
         self.navigationController?.isNavigationBarHidden = false
