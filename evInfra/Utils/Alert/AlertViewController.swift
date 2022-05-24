@@ -19,6 +19,10 @@ class AlertViewController: UIViewController, PanModalPresentable {
         alertView.layer.cornerRadius = 10
         return alertView
     }()
+    
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

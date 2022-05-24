@@ -26,6 +26,10 @@ class IntroViewController: UIViewController {
     var isNewBoardList = Array<Bool>()
     var maxCount = 0
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,7 +71,7 @@ extension FLAnimatedImage {
 
 extension IntroViewController: IntroImageCheckerDelegate {
     func showIntro(){
-        if MemberManager.isPartnershipClient(clientId: MemberManager.RENT_CLIENT_SKR){
+        if MemberManager.shared.isPartnershipClient(clientId: RentClientType.skr.rawValue){
             imgIntroBackground.image = UIImage(named: "intro_skr_bg.jpg")
         } else {
             let checker = IntroImageChecker.init(delegate: self)
@@ -150,8 +154,8 @@ extension IntroViewController: BoardDelegate {
     
     internal func finishedServerInit() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let mainViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-        let leftViewController = storyboard.instantiateViewController(withIdentifier: "LeftViewController") as! LeftViewController
+        let mainViewController = storyboard.instantiateViewController(ofType: MainViewController.self)
+        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
         appDelegate.appToolbarController = AppToolbarController(rootViewController: mainViewController)
         appDelegate.appToolbarController.delegate = mainViewController
         let ndController = AppNavigationDrawerController(rootViewController: appDelegate.appToolbarController, leftViewController: leftViewController)

@@ -54,6 +54,10 @@ class EditViewController: UIViewController, UITextViewDelegate {
     let picker = UIImagePickerController()
     let cropper = UIImageCropper(cropRatio: 60/37)
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -93,8 +97,8 @@ class EditViewController: UIViewController, UITextViewDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if !MemberManager().isLogin() {
-            MemberManager().showLoginAlert(vc: self, completion: { (result) -> Void in
+        if !MemberManager.shared.isLogin {
+            MemberManager().showLoginAlert(completion: { (result) -> Void in
                 if !result {
                     self.navigationController?.pop()
                 }

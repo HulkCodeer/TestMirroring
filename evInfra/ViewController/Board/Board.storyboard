@@ -170,24 +170,9 @@
                     <view key="view" contentMode="scaleToFill" id="Wqp-EL-T2S">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Wj8-27-2qf" customClass="BoardTableView" customModule="evInfra" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </tableView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="MNJ-Pf-un5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="Wj8-27-2qf" firstAttribute="leading" secondItem="MNJ-Pf-un5" secondAttribute="leading" id="3o9-ir-Bcs"/>
-                            <constraint firstItem="Wj8-27-2qf" firstAttribute="top" secondItem="MNJ-Pf-un5" secondAttribute="top" id="7PE-3s-EmO"/>
-                            <constraint firstItem="MNJ-Pf-un5" firstAttribute="trailing" secondItem="Wj8-27-2qf" secondAttribute="trailing" id="aXU-MN-RdN"/>
-                            <constraint firstItem="MNJ-Pf-un5" firstAttribute="bottom" secondItem="Wj8-27-2qf" secondAttribute="bottom" id="vOo-55-EKl"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="boardTableView" destination="Wj8-27-2qf" id="LZF-Fs-hCm"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vI0-AQ-qqc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -200,23 +185,9 @@
                     <view key="view" contentMode="scaleToFill" id="sTE-eK-tbI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Pzx-Iz-Etf" customClass="BoardTableView" customModule="evInfra" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            </tableView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="pdO-ve-irS"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="pdO-ve-irS" firstAttribute="trailing" secondItem="Pzx-Iz-Etf" secondAttribute="trailing" id="PBf-ZW-FGV"/>
-                            <constraint firstItem="Pzx-Iz-Etf" firstAttribute="top" secondItem="pdO-ve-irS" secondAttribute="top" id="a1w-nA-502"/>
-                            <constraint firstItem="Pzx-Iz-Etf" firstAttribute="leading" secondItem="pdO-ve-irS" secondAttribute="leading" id="dOb-8F-V8W"/>
-                            <constraint firstItem="pdO-ve-irS" firstAttribute="bottom" secondItem="Pzx-Iz-Etf" secondAttribute="bottom" id="ndB-ji-x5M"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="boardTableView" destination="Pzx-Iz-Etf" id="HPV-OK-tGk"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="06c-SO-y5f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -346,23 +317,9 @@
                     <view key="view" contentMode="scaleToFill" id="PtR-Ey-ypf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rZz-u3-PYh" customClass="BoardTableView" customModule="evInfra" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            </tableView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="O5Q-Zy-wan"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="rZz-u3-PYh" firstAttribute="top" secondItem="O5Q-Zy-wan" secondAttribute="top" id="8aY-Vn-BrB"/>
-                            <constraint firstItem="O5Q-Zy-wan" firstAttribute="trailing" secondItem="rZz-u3-PYh" secondAttribute="trailing" id="QVx-rw-v1r"/>
-                            <constraint firstItem="rZz-u3-PYh" firstAttribute="leading" secondItem="O5Q-Zy-wan" secondAttribute="leading" id="a7J-eZ-TvJ"/>
-                            <constraint firstItem="O5Q-Zy-wan" firstAttribute="bottom" secondItem="rZz-u3-PYh" secondAttribute="bottom" id="bjF-Ws-HeI"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="boardTableView" destination="rZz-u3-PYh" id="qed-ih-upN"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O8u-3z-TA7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

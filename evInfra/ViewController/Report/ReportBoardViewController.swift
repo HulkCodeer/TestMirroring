@@ -18,6 +18,10 @@ class ReportBoardViewController: UIViewController {
     
     var reportList = Array<ReportCharger>()
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,10 +30,10 @@ class ReportBoardViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             getReportList(reportId:0)
-        } else {
-            MemberManager().showLoginAlert(vc: self)
+        } else {            
+            MemberManager.shared.showLoginAlert()
         }
     }
 

@@ -23,6 +23,10 @@ class EvDetailViewController: UIViewController {
     var index: Int
     var model: EVModel?
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     public required init?(coder aDecoder: NSCoder) {
         index = 0
         super.init(coder: aDecoder)

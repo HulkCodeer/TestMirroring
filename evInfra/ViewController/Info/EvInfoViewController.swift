@@ -1,5 +1,5 @@
 //
-//  EVInfoViewController.swift
+//  EvInfoViewController.swift
 //  evInfra
 //
 //  Created by bulacode on 2018. 4. 26..
@@ -14,6 +14,10 @@ class EvInfoViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     var evModels = [EVModel]()
+    
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

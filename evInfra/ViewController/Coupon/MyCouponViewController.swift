@@ -24,6 +24,10 @@ class MyCouponViewController: UIViewController {
     
     var list = Array<Coupon>()
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

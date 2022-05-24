@@ -39,6 +39,7 @@ class UserDefault {
         static let MB_PARTNERSHIP_CLIENT   = "mb_partnership_client"
         static let MB_PAYMENT       = "mb_payment"
         static let MB_DEVICE_ID       = "mb_device_id"
+        static let MB_HAS_MEMBERSHIP = "has_membership"
         
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"

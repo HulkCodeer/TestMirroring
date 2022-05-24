@@ -33,6 +33,10 @@ class ChargesViewController: UIViewController {
     
     var chargesList: Array<ChargingStatus> = Array<ChargingStatus>()
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

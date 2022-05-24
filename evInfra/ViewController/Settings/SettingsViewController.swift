@@ -17,6 +17,10 @@ class SettingsViewController: UIViewController {
     
     let defaults = UserDefault()
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -8,11 +8,17 @@ platform :ios, '10.0'
 use_frameworks!
 target 'evInfra' do
   # Pods for evInfra
+  
+  pod 'SnapKit', '~> 5.0.0'
+  pod 'ReactorKit'
+  pod 'Then'
+  pod 'RxSwift', '6.5.0'
+  pod 'RxCocoa', '6.5.0'
   pod 'Material', '~> 2.0'
   pod 'MaterialComponents/Snackbar'
   pod 'MaterialComponents/BottomSheet'
-  pod 'Alamofire', '~> 4.7'
-  pod 'AlamofireImage', '~> 3.3'
+  pod 'RxAlamofire'
+  pod 'AlamofireImage', '~> 4.1'
   pod 'SwiftyJSON'
   pod 'HandyJSON'
   pod 'Firebase/Core'                 # For firebase Core
@@ -33,11 +39,9 @@ target 'evInfra' do
   pod 'DLRadioButton', '~> 1.4'
   pod 'AnyFormatKit'
   pod 'TTGTagCollectionView'
-  pod 'SnapKit', '~> 5.0.0'
   pod 'PanModal'
   pod 'NMapsMap'
-  pod 'RxSwift', '6.5.0'
-  pod 'RxCocoa', '6.5.0'
+
 
 end
 

@@ -8,18 +8,30 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
-enum ButtonType {
-    case cancel
-    case confirm
+struct PopupModel {
+    let title: String?
+    let message: String
+    let confirmBtnTitle: String?
+    let cancelBtnTitle: String?
+    let confirmBtnAction: (() -> Void)?
+    let cancelBtnAction: (() -> Void)?
+    
+    init(title: String? = nil, message: String = "",  confirmBtnTitle: String? = nil, cancelBtnTitle: String? = nil, confirmBtnAction: (() -> Void)? = nil, cancelBtnAction: (() -> Void)? = nil) {
+        self.title = title
+        self.message = message
+        self.confirmBtnTitle = confirmBtnTitle
+        self.cancelBtnTitle = cancelBtnTitle
+        self.confirmBtnAction = confirmBtnAction
+        self.cancelBtnAction = cancelBtnAction
+    }
 }
 
-class ConfirmPopupViewController: UIViewController {
-    
-    private var titleText: String?
-    private var messageText: String?
-    var confirmDelegate: ((Bool) -> Void)? = nil
-    var cancelDelegate: ((Bool) -> Void)? = nil
+internal final class ConfirmPopupViewController: UIViewController {
+        
+    // MARK: UI
     
     private lazy var backgroundView: UIView = {
        let view = UIView()
@@ -44,7 +56,6 @@ class ConfirmPopupViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
        let label = UILabel()
-        label.text = titleText
         label.numberOfLines = 0
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 18, weight: .bold)
@@ -55,7 +66,6 @@ class ConfirmPopupViewController: UIViewController {
     
     private lazy var descriptionLabel: UILabel = {
        let label = UILabel()
-        label.text = messageText
         label.numberOfLines = 0
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14)
@@ -72,19 +82,28 @@ class ConfirmPopupViewController: UIViewController {
         return view
     }()
     
-    convenience init(titleText: String, messageText: String) {
+    // MARK: VARIABLE
+    
+    internal var popupModel = PopupModel()
+    
+    private let disposebag = DisposeBag()
+    
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
+    convenience init(model: PopupModel) {
         self.init()
         
-        self.titleLabel.text = titleText
-        self.descriptionLabel.text = messageText
+        popupModel = model
         
         modalPresentationStyle = .overFullScreen
         modalTransitionStyle = .crossDissolve
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    override func loadView() {
+        super.loadView()
+                        
         view.addSubview(backgroundView)
         backgroundView.addSubview(containerView)
         containerView.addSubview(dialogView)
@@ -113,50 +132,51 @@ class ConfirmPopupViewController: UIViewController {
             $0.height.equalTo(40)
         }
         
-    }
-    
-    func addActionToButton(title: String?,
-                           buttonType: ButtonType?) {
-        let button = UIButton()
-        button.setTitleColor(UIColor(named: "nt-9"), for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
-        button.layer.cornerRadius = 6
-        button.setTitle(title, for: .normal)
-        
-        switch buttonType {
-        case .cancel:
-            button.backgroundColor = UIColor(named: "nt-1")
-            button.addTarget(self, action: #selector(cancelPopup), for: .touchUpInside)
-        case .confirm:
-            button.backgroundColor = UIColor(named: "gr-5")
-            button.addTarget(self, action: #selector(confirmAction), for: .touchUpInside)
-        case .none:
-            break
+        self.titleLabel.text = self.popupModel.title
+        self.descriptionLabel.text = self.popupModel.message
+                        
+        if let _cancelTitle = self.popupModel.cancelBtnTitle {
+            let cancelBtn = createButton(backgroundColor: UIColor(named: "nt-1") ?? .white, buttonTitle: _cancelTitle)
+            cancelBtn.rx.tap
+                .asDriver()
+                .drive(onNext: { [weak self] _ in
+                    guard let self = self else { return }
+                    self.popupModel.cancelBtnAction?()
+                    self.dismissPopup()
+                })
+                .disposed(by: self.disposebag)
+            buttonStackView.addArrangedSubview(cancelBtn)
         }
-
-        buttonStackView.addArrangedSubview(button)
+        
+        if let _confirmTitle = self.popupModel.confirmBtnTitle {
+            let confirmBtn = createButton(backgroundColor: UIColor(named: "gr-5") ?? .white, buttonTitle: _confirmTitle)
+            confirmBtn.rx.tap
+                .asDriver()
+                .drive(onNext: { [weak self] _ in
+                    guard let self = self else { return }
+                    self.popupModel.confirmBtnAction?()
+                    self.dismissPopup()
+                })
+                .disposed(by: self.disposebag)
+            buttonStackView.addArrangedSubview(confirmBtn)
+        }
     }
     
-    @objc
-    func cancelPopup() {
-        cancelDelegate?(true)
-        dismissPopup()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+                        
     }
     
-    @objc
-    func confirmAction() {
-        confirmDelegate?(true)
-        dismissPopup()
+    private func createButton(backgroundColor: UIColor, buttonTitle: String) -> UIButton {
+        UIButton().then {
+            $0.setTitleColor(UIColor(named: "nt-9"), for: .normal)
+            $0.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
+            $0.layer.cornerRadius = 6
+            $0.setTitle(buttonTitle, for: .normal)
+            $0.backgroundColor = backgroundColor
+        }
     }
-    
-    func confirmCompletion(callback: @escaping (Bool) -> Void) {
-        self.confirmDelegate = callback
-    }
-    
-    func cancelCompletion(callback: @escaping (Bool) -> Void) {
-        self.cancelDelegate = callback
-    }
-    
+        
     private func dismissPopup() {
         self.dismiss(animated: true, completion: nil)
     }

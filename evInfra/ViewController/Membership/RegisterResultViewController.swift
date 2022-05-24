@@ -37,6 +37,10 @@ class RegisterResultViewController : UIViewController {
     var message : String = ""
     var delegate : RegisterResultDelegate?
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()

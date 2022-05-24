@@ -16,6 +16,10 @@ class NoticeContentViewController: UIViewController {
     
     var boardId = -1
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

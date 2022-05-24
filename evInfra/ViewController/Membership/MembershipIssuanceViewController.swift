@@ -56,7 +56,7 @@ class MembershipIssuanceViewController: UIViewController,
             issuanceParam["zip_code"] = try tfZipCode.validatedText(validationType: .zipcode)
             issuanceParam["addr_detail"] = try tfAddressDetail.validatedText(validationType: .address)
             issuanceParam["addr"] = tfAddress.text
-            issuanceParam["mb_id"] = MemberManager.getMbId()
+            issuanceParam["mb_id"] = MemberManager.shared.mbId
             verifyMemgberInfo(params: issuanceParam)
             
             self.btnNext.isEnabled = false
@@ -68,6 +68,10 @@ class MembershipIssuanceViewController: UIViewController,
     var payRegistResult: JSON?
     var memberData: [String: Any]? = nil
     var isConfirmTerm = false
+    
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -241,7 +245,7 @@ class MembershipIssuanceViewController: UIViewController,
     
     func searchZipCode() {
         let mainStoryboard = UIStoryboard(name : "Map", bundle: nil)
-        let saVC = mainStoryboard.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
+        let saVC = mainStoryboard.instantiateViewController(ofType: SearchAddressViewController.self)
         saVC.searchAddressDelegate = self
         
         navigationController?.push(viewController: saVC)

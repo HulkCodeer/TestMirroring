@@ -112,7 +112,7 @@ class BoardDetailTableViewCell: UITableViewCell {
     }
     
     private func isMyComment(mb_id: String) -> Bool {
-        return MemberManager.getMbId().description.equals(mb_id)
+        return MemberManager.shared.mbId.description.compare(mb_id) == .orderedSame        
     }
     
     private func isAdmin(mbId: String) -> Bool {

@@ -13,7 +13,7 @@ import SDWebImage
 import SnapKit
 import UIKit
 
-class EIImageViewerViewController : UIViewController, UIScrollViewDelegate{
+internal final class EIImageViewerViewController : BaseViewController, UIScrollViewDelegate{
     
     
     let TAG = "EIImageViewerViewController"
@@ -93,8 +93,8 @@ class EIImageViewerViewController : UIViewController, UIScrollViewDelegate{
     }
     
     @objc func saveimage(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
-        if let error = error {
-            Log.d(tag: TAG, msg: error.localizedDescription)
+        if let error = error {            
+            printLog(out: "\(error.localizedDescription)")
             Snackbar().show(message: "저장에 실패하였습니다.")
         } else {
             Snackbar().show(message: "갤러리에 저장 되었습니다.")

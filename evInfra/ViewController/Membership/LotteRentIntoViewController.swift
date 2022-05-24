@@ -17,6 +17,10 @@ class LotteRentInfoViewController: UIViewController {
     var activeTextView: Any? = nil
     
     var memberInfo : MemberPartnershipInfo?
+    
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +28,10 @@ class LotteRentInfoViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             checkLotteRentInfo()
         } else {
-            MemberManager().showLoginAlert(vc: self)
+            MemberManager.shared.showLoginAlert()
         }
     }
     

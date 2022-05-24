@@ -24,6 +24,10 @@ class RepayResultViewController: UIViewController {
     var payResult: ChargingStatus?
     var isSuccess: Bool = false
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if let payResult = payResult {

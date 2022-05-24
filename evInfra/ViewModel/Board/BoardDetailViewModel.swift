@@ -139,9 +139,8 @@ class BoardDetailViewModel {
         }
     }
     
-    func isMyBoard(mb_id: String) -> Bool {
-        let memberMB_ID = String(MemberManager.getMbId())
-        return memberMB_ID.elementsEqual(mb_id)
+    func isMyBoard(mb_id: String) -> Bool {        
+        return MemberManager.shared.mbId.description.compare(mb_id) == .orderedSame
     }
     
     func counOfComments() -> Int {

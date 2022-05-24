@@ -18,6 +18,10 @@ class CorporationLoginViewController: UIViewController {
     
     var delegate: CorporationLoginViewControllerDelegate?
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tfCorpId.delegate = self
@@ -51,7 +55,7 @@ class CorporationLoginViewController: UIViewController {
                             Snackbar().show(message: json["msg"].stringValue)
                         } else {
                             Snackbar().show(message: "로그인 성공")
-                            MemberManager().setData(data: json)
+                            MemberManager.shared.setData(data: json)
                             self.navigationController?.pop()
                             if let delegate = self.delegate {
                                 delegate.successSignUp()

@@ -22,6 +22,10 @@ class AddressToLocationController: UIViewController {
     
     var poiList: [TMapPOIItem]? = nil
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

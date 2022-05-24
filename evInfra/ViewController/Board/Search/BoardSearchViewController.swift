@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class BoardSearchViewController: UIViewController {
+class BoardSearchViewController: BaseViewController {
 
     private var searchBarView = SearchBarView()
     private var searchTypeSelectView = SearchTypeSelectView()

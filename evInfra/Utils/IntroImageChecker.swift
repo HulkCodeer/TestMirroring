@@ -55,14 +55,14 @@ class IntroImageChecker {
     
     private func downloadIntroImage(imgName : String, endDate :String) {
         let url = "\(Const.IMG_URL_INTRO)\(imgName)"
-        
-        let destination: DownloadRequest.DownloadFileDestination = { _, _ in
+                
+        let destination: DownloadRequest.Destination = { _, _ in
             var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             documentsURL.appendPathComponent(imgName)
             return (documentsURL, [.removePreviousFile])
         }
         
-        Alamofire.download(url, to:destination)
+        AF.download(url, to:destination)
             .downloadProgress { (progress) in
             }
             .responseData { (data) in

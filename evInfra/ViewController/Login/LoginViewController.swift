@@ -17,15 +17,15 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var btnKakaoLogin: KOLoginButton!
     @IBOutlet weak var btnCorpLogin: UIButton!
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
         prepareLoginButton()
         LoginHelper.shared.delegate = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
     }
     
     func prepareActionBar() {

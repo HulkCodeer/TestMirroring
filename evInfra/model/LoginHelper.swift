@@ -25,7 +25,7 @@ class LoginHelper: NSObject {
     
     // 앱 실행 시 로그인 확인
     func prepareLogin() {
-        switch MemberManager.getLoginType() {
+        switch MemberManager.shared.loginType {
         case .apple:
             // Apple 로그인 상태 확인
             requestLoginToApple()
@@ -45,7 +45,7 @@ class LoginHelper: NSObject {
     
     // 로그인 확인
     func checkLogin() {
-        switch MemberManager.getLoginType() {
+        switch MemberManager.shared.loginType {
         case .apple:
             requestLoginToApple()
             
@@ -53,38 +53,38 @@ class LoginHelper: NSObject {
             if KOSession.shared().isOpen() {
                 requestMeToKakao()
             } else {
-                MemberManager().clearData()
+                MemberManager.shared.clearData()
             }
             
         case .evinfra:
             requestLoginToEvInfra(user: nil)
             
         default:
-            MemberManager().clearData()
+            MemberManager.shared.clearData()
         }
     }
     
     // 로그아웃
     func logout(completion: @escaping (Bool)->()) {
-        switch MemberManager.getLoginType() {
+        switch MemberManager.shared.loginType {
         case .apple:
-            MemberManager().clearData()
+            MemberManager.shared.clearData()
             completion(true)
             
         case .kakao:
             KOSession.shared().logoutAndClose { (success, error) -> Void in
                 if success {
-                    MemberManager().clearData()
+                    MemberManager.shared.clearData()
                     completion(true)
                 } else {
                     completion(false)
                 }
             }
         case .evinfra:
-            MemberManager().clearData()
+            MemberManager.shared.clearData()
             completion(true)
         default:
-            MemberManager().clearData()
+            MemberManager.shared.clearData()
             completion(true)
         }
     }
@@ -117,7 +117,7 @@ class LoginHelper: NSObject {
             // 사용자 정보 요청
             KOSessionTask.userMeTask { (error, me) in
                 if (error as NSError?) != nil {
-                    MemberManager().clearData() // 비회원
+                    MemberManager.shared.clearData() // 비회원
                 } else if let me = me as KOUserMe? {
                     UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: me.id!)
                     if me.hasSignedUp == .true {
@@ -132,7 +132,7 @@ class LoginHelper: NSObject {
     fileprivate func requestMeToKakao() {
         KOSessionTask.userMeTask { [weak self] (error, me) in
             if (error as NSError?) != nil {
-                MemberManager().clearData()
+                MemberManager.shared.clearData()
             } else if let me = me as KOUserMe? {
                 UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: me.id!)
                 if me.hasSignedUp == .false {
@@ -214,7 +214,7 @@ class LoginHelper: NSObject {
                     self.requestLoginToEvInfra(user: nil)
                     break // The Apple ID credential is valid.
                 case .revoked, .notFound, .transferred:
-                    MemberManager().clearData()
+                    MemberManager.shared.clearData()
                     print("requestLoginToApple - revoked, notFound, transferred")
                     break
                 default:
@@ -233,17 +233,17 @@ class LoginHelper: NSObject {
                     if let delegate = self.delegate {
                         delegate.successLogin()
                     }
-                    MemberManager().setData(data: json)
+                    MemberManager.shared.setData(data: json)
                     // 즐겨찾기 목록 가져오기
                     ChargerManager.sharedInstance.getFavoriteCharger()
                 } else {
                     if let delegate = self.delegate, let user = user {
                         delegate.needSignUp(user: user) // ev infra 회원가입
                     }
-                    MemberManager().clearData()
+                    MemberManager.shared.clearData()
                 }
             } else {
-                MemberManager().clearData()
+                MemberManager.shared.clearData()
                 Snackbar().show(message: "오류가 발생했습니다. 다시 시도해 주세요.")
             }
         }

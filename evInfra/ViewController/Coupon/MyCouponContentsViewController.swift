@@ -18,6 +18,10 @@ class MyCouponContentsViewController: UIViewController {
     var couponId = 0
     var couponTitle: String = ""
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func loadView() {
         super.loadView()
         let contentController = WKUserContentController()
@@ -54,7 +58,7 @@ class MyCouponContentsViewController: UIViewController {
     
     func prepareWebView() {
         let url = Const.EV_PAY_SERVER + "/event/coupon/detailPage"
-        let payload = ["mb_id":"\(MemberManager.getMbId())",  "coupon_id":"\(couponId)"]
+        let payload = ["mb_id":"\(MemberManager.shared.mbId)",  "coupon_id":"\(couponId)"]
         makePostRequest(url: url, payload: payload)
     }
     

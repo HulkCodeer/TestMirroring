@@ -42,6 +42,10 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     private var totalPoint = 0
     private var totalAmount = 0
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
@@ -51,7 +55,7 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             if let resultJson = payRegisterResult { // 카드 변경 완료
                 let payCode = resultJson["pay_code"].intValue
                 if payCode == PaymentCard.PAY_REGISTER_SUCCESS {
@@ -80,7 +84,7 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
             }
             payRegisterResult = nil
         } else {
-            MemberManager().showLoginAlert(vc: self)
+            MemberManager.shared.showLoginAlert()
         }
     }
     
@@ -112,7 +116,15 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     
     @objc
     fileprivate func handleBackButton() {
-        self.navigationController?.pop()
+        guard let _navi = navigationController else { return }
+        for vc in _navi.viewControllers {
+            if vc is MembershipCardViewController {
+                _navi.popToRootViewController(animated: true)
+                return
+            } else {
+                _navi.pop()
+            }
+        }
         if let del = self.delegate {
             del.onRepayFail()
         }// result code false

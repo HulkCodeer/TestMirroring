@@ -15,6 +15,10 @@ class NoticeViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
