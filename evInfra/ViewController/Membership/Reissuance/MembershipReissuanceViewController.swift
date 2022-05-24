@@ -230,13 +230,14 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
                 guard let self = self else { return }
                 switch addressInfo.code {
                 case 1000:
-                    let reactor = MembershipReissuanceInfoReactor(provider: reactor.provider)
+                    let infoReactor = MembershipReissuanceInfoReactor(provider: RestApi())
+                    infoReactor.cardNo = reactor.cardNo
                     let viewcon = MembershipReissuanceInfoViewController()
-                    viewcon.bind(reactor: reactor)
+                    viewcon.reactor = infoReactor
                     let reissuanceModel = ReissuanceModel(cardNo: reactor.cardNo, mbPw: self.passwordInputTf.text ?? "", mbName: addressInfo.info.mbName, phoneNo: addressInfo.info.phoneNo, zipCode: addressInfo.info.zipCode, address: addressInfo.info.addr, addressDetail: addressInfo.info.addrDetail)
                     viewcon.delegate = self.delegate
                     viewcon.showInfo(model: reissuanceModel)
-                    self.navigationController?.push(viewController: viewcon)
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
 
                 case 1103:
                     self.negativeMessageLbl.text = addressInfo.msg

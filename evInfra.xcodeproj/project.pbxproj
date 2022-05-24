@@ -163,6 +163,7 @@
 		63DA0A07282E35780021292C /* RentalCarCardListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A06282E35780021292C /* RentalCarCardListViewController.swift */; };
 		63DA0A09282E44020021292C /* SC_TRACE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A08282E44020021292C /* SC_TRACE.swift */; };
 		63DA0A0B282E600C0021292C /* MembershipReissuanceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A0A282E600C0021292C /* MembershipReissuanceInfoViewController.swift */; };
+		63EB0391283CB26500078D28 /* ServerResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EB0390283CB26500078D28 /* ServerResult.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView+Extension.swift */; };
 		7312786820BE38C500861B3E /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786720BE38C500861B3E /* FCMManager.swift */; };
@@ -592,6 +593,7 @@
 		63DA0A06282E35780021292C /* RentalCarCardListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalCarCardListViewController.swift; sourceTree = "<group>"; };
 		63DA0A08282E44020021292C /* SC_TRACE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SC_TRACE.swift; sourceTree = "<group>"; };
 		63DA0A0A282E600C0021292C /* MembershipReissuanceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoViewController.swift; sourceTree = "<group>"; };
+		63EB0390283CB26500078D28 /* ServerResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerResult.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		7312786720BE38C500861B3E /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
@@ -1349,6 +1351,7 @@
 				63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */,
 				82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */,
 				82D986802839BE080030F0FC /* ViewModel.swift */,
+				63EB0390283CB26500078D28 /* ServerResult.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2280,6 +2283,7 @@
 				CE5242382183076000FF6AB1 /* AddressSearchCell.swift in Sources */,
 				73EF8B43203BC71100D04494 /* UIColor+Extension.swift in Sources */,
 				637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */,
+				63EB0391283CB26500078D28 /* ServerResult.swift in Sources */,
 				DB0E4695205FC4D8002DD05D /* ChargerFilter.swift in Sources */,
 				DB4395EE22DC4C380092E0A5 /* Date+Extension.swift in Sources */,
 				522AF73427A25D3D00DBEAD6 /* KeyboardInputView.swift in Sources */,

@@ -266,7 +266,7 @@ internal final class FCMManager {
                 _mainNavi.push(viewController: preUseVC)
             }
         } else if (cmd.equals("show_point_info")) {
-            let viewcon = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(ofType: PointUseGuideViewController.self)
+            let viewcon = PointUseGuideViewController()
             if _visibleViewcon.isKind(of: PointUseGuideViewController.self) {
                 viewcon.viewDidLoad()
             } else {

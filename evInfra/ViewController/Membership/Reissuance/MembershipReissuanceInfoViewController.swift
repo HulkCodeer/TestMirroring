@@ -262,21 +262,20 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         detailAddressTf.addLeftPadding(padding: 12)
     }
     
-    internal func bind(reactor: MembershipReissuanceInfoReactor) {
+    internal func bind(reactor: MembershipReissuanceInfoReactor) {        
         completeBtn.rx.tap
-            .observe(on: MainScheduler.instance)
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .map { Reactor.Action.setReissuance(self.reissuanceModel) }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
             
         
-        reactor.state.compactMap { $0.completeCode }
-            .asDriver(onErrorJustReturn: 0)
-            .drive(onNext: { [weak self] isComplete in
+        reactor.state.compactMap { $0.serverResult }
+            .asDriver(onErrorJustReturn: ServerResult(JSON.null))
+            .drive(onNext: { [weak self] serverResult in
                 guard let self = self else { return }
                                                 
-                switch isComplete {
+                switch serverResult.code {
                 case 1000:
                     self.delegate?.reissuanceComplete()
                     self.backButtonTapped()
