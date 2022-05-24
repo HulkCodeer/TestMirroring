@@ -102,7 +102,7 @@ class UserDefault {
         static let RECENT_KEYWORD = "keywords"
         
         // 배송완료 툴팁 저장
-        static let HAS_DELEVERY_COMPLETE = "delevery"
+        static let IS_DELEVERY_COMPLETE = "isDeleveryComplete"
     }
 
     func saveString(key:String, value: String) -> Void {

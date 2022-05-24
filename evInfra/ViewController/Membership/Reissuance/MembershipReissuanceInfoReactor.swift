@@ -40,7 +40,12 @@ internal final class MembershipReissuanceInfoReactor: ViewModel, Reactor {
             return self.provider.postReissueMembershipCard(model: model)
                 .convertData()
                 .compactMap(convertToDataModel)
-                .map { completeCode in .setCompleteReissuance(completeCode) }
+                .map { completeCode in
+                    if completeCode == 1000 {
+                        UserDefault().saveBool(key: UserDefault.Key.IS_DELEVERY_COMPLETE, value: false)
+                    }
+                    return .setCompleteReissuance(completeCode)
+                }
         }
     }
     

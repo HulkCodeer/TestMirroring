@@ -166,12 +166,13 @@ internal final class PartnershipListView : UIView {
             preferences.animating.showInitialAlpha = 0
             preferences.animating.showDuration = 1
             preferences.animating.dismissDuration = 1
-                        
+                                    
+            guard UserDefault().readBool(key: UserDefault.Key.IS_DELEVERY_COMPLETE) else { return }
             let text = "카드 발송이 완료되었어요.\n우편함을 확인해보세요! 📮✉️"
             EasyTipView.show(forView: self.labelCardStatus,
                              withinSuperview: self.viewEvinfraList,
                 text: text,
-                preferences: preferences)
+                             preferences: preferences, delegate: self)
         }
         
         guard let _cardNo = info.cardNo else { return }        
@@ -197,5 +198,14 @@ internal final class PartnershipListView : UIView {
     
     @objc func onClickAddBtn(sender: UITapGestureRecognizer) {
         delegate?.addNewPartnership()
+    }
+}
+
+extension PartnershipListView: EasyTipViewDelegate {
+    func easyTipViewDidDismiss(_ tipView: EasyTipView) {        
+    }
+    
+    func easyTipViewDidTap(_ tipView: EasyTipView) {
+        UserDefault().saveBool(key: UserDefault.Key.IS_DELEVERY_COMPLETE, value: true)
     }
 }
