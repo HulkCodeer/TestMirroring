@@ -100,6 +100,9 @@ class UserDefault {
         
         // 게시글 검색 최근검색어
         static let RECENT_KEYWORD = "keywords"
+        
+        // 배송완료 툴팁 저장
+        static let HAS_DELEVERY_COMPLETE = "delevery"
     }
 
     func saveString(key:String, value: String) -> Void {

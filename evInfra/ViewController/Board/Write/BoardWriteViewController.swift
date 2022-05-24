@@ -57,7 +57,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
         super.viewWillAppear(animated)
         
         if !MemberManager.shared.isLogin {
-            MemberManager().showLoginAlert(completion: { (result) -> Void in
+            MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
                 if !result {
                     self.navigationController?.pop()
                 }

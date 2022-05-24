@@ -21,6 +21,9 @@ protocol PartnershipListViewDelegate {
 }
 
 internal final class PartnershipListView : UIView {
+    
+    
+    
     // MARK: UI
     
     @IBOutlet var viewEvinfraList: UIView!
@@ -163,7 +166,7 @@ internal final class PartnershipListView : UIView {
             preferences.animating.showInitialAlpha = 0
             preferences.animating.showDuration = 1
             preferences.animating.dismissDuration = 1
-            
+                        
             let text = "카드 발송이 완료되었어요.\n우편함을 확인해보세요! 📮✉️"
             EasyTipView.show(forView: self.labelCardStatus,
                              withinSuperview: self.viewEvinfraList,

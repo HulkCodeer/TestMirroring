@@ -118,7 +118,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
                     let detail = self.detail else { return }
             guard let comments = detail.comments else { return }
             guard MemberManager.shared.isLogin else {
-                MemberManager().showLoginAlert(completion: { (result) -> Void in
+                MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
                     if !result {
                         self.navigationController?.pop()
                     }
@@ -523,7 +523,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
             }
         } else {
             guard MemberManager.shared.isLogin else {
-                MemberManager().showLoginAlert()
+                MemberManager.shared.showLoginAlert()
                 return
             }
             
@@ -573,7 +573,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
     
     func likeButtonCliked(isLiked: Bool, isComment: Bool, srl: String) {
         guard MemberManager.shared.isLogin else {
-            MemberManager().showLoginAlert()
+            MemberManager.shared.showLoginAlert()
             return
         }
         
