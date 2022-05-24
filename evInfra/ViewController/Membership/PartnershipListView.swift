@@ -21,8 +21,6 @@ protocol PartnershipListViewDelegate {
 
 internal final class PartnershipListView : UIView {
     
-    
-    
     // MARK: UI
     
     @IBOutlet var viewEvinfraList: UIView!
@@ -35,6 +33,9 @@ internal final class PartnershipListView : UIView {
     @IBOutlet var membershipUseGuideBtn: UIButton!
     @IBOutlet var reissuanceBtn: UIButton!
     @IBOutlet var membershipUseGuideLbl: UILabel!
+    @IBOutlet var reissuanceView: UIView!
+    @IBOutlet var reissuanceLbl: UILabel!
+    
     
     // MARK: VARIABLE
     
@@ -151,6 +152,9 @@ internal final class PartnershipListView : UIView {
         evInfraInfo = info
         viewEvinfraList.isHidden = false
         labelCardStatus.text = info.displayStatusDescription
+        reissuanceBtn.isEnabled = info.cardStatusType != .sipping
+                
+        reissuanceLbl.textColor = info.cardStatusType != .sipping ? UIColor(named: "nt-9"): UIColor(named: "nt-3")
         
         guard let _cardNo = info.cardNo else { return }
         let modString = _cardNo.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
