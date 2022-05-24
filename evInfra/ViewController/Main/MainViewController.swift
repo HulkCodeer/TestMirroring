@@ -799,9 +799,6 @@ extension MainViewController: PoiTableViewDelegate {
 
 extension MainViewController: MarkerTouchDelegate {
     func touchHandler(with charger: ChargerStationInfo) {
-        let position = charger.mapMarker.position
-        
-        naverMapView.moveToCamera(with: NMGLatLng(lat: position.lat, lng: position.lng), zoomLevel: 14)
         hideKeyboard()
         selectCharger(chargerId: charger.mStationInfoDto?.mChargerId ?? "")
     }
