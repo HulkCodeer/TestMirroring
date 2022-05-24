@@ -70,16 +70,10 @@ class FCMManager {
                     }
                 }
             })
-            
-            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler:{ (ACTION) -> Void in
-                print("Cancel button tapped")
-            })
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
             dialogMessage.addAction(ok)
-            
-            if (targetId == nil){
-                dialogMessage.addAction(cancel)
-            }
+            dialogMessage.addAction(cancel)
             
             if let navigation = navigationController {
                 if let viewController = navigation.visibleViewController {
