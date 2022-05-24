@@ -42,7 +42,7 @@ internal final class MembershipReissuanceInfoReactor: ViewModel, Reactor {
                 .compactMap(convertToDataModel)
                 .map { completeCode in
                     if completeCode == 1000 {
-                        UserDefault().saveBool(key: UserDefault.Key.IS_DELEVERY_COMPLETE, value: false)
+                        UserDefault().saveBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP, value: false)
                     }
                     return .setCompleteReissuance(completeCode)
                 }

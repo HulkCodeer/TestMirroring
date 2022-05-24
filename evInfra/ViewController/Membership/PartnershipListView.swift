@@ -152,7 +152,7 @@ internal final class PartnershipListView : UIView {
         evInfraInfo = info
         viewEvinfraList.isHidden = false
         labelCardStatus.text = info.displayStatusDescription
-        
+                        
         if info.cardStatusType == .issuanceCompleted {
             var preferences = EasyTipView.Preferences()
             preferences.drawing.backgroundColor = UIColor(named: "background-always-dark")!
@@ -166,8 +166,9 @@ internal final class PartnershipListView : UIView {
             preferences.animating.showInitialAlpha = 0
             preferences.animating.showDuration = 1
             preferences.animating.dismissDuration = 1
-                                    
-            guard UserDefault().readBool(key: UserDefault.Key.IS_DELEVERY_COMPLETE) else { return }
+                                 
+            printLog(out: "\(UserDefault().readBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP))")
+            guard !UserDefault().readBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP) else { return }
             let text = "카드 발송이 완료되었어요.\n우편함을 확인해보세요! 📮✉️"
             EasyTipView.show(forView: self.labelCardStatus,
                              withinSuperview: self.viewEvinfraList,
@@ -202,10 +203,10 @@ internal final class PartnershipListView : UIView {
 }
 
 extension PartnershipListView: EasyTipViewDelegate {
-    func easyTipViewDidDismiss(_ tipView: EasyTipView) {        
+    func easyTipViewDidDismiss(_ tipView: EasyTipView) {
     }
     
     func easyTipViewDidTap(_ tipView: EasyTipView) {
-        UserDefault().saveBool(key: UserDefault.Key.IS_DELEVERY_COMPLETE, value: true)
+        UserDefault().saveBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP, value: true)
     }
 }
