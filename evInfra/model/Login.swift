@@ -80,7 +80,7 @@ struct Login {
     
     public func convertToParams() -> Parameters {
         var reqParam: Parameters = [
-            "member_id": MemberManager.shared.mbId,
+            "member_id": MemberManager.shared.memberId,
             "user_id": userId ?? "",
             "nickname": name ?? "",
             "profile": profile_image ?? "",
