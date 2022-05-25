@@ -29,6 +29,7 @@ class Server {
         case .success(let value):
             do {
                 let json = try JSONSerialization.jsonObject(with: value)
+                printLog(out: "Server ResponseJson: \(json)")
                 completion(true, json)
             } catch {
                 print("Error while decoding response: \(error)")

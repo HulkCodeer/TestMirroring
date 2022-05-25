@@ -55,6 +55,7 @@ internal final class MembershipCardViewController: BaseViewController {
         Server.getInfoMembershipCard { [weak self] (isSuccess, value) in
             guard let self = self, isSuccess else { return }
             let json = JSON(value)
+            
             let item : MemberPartnershipInfo = MemberPartnershipInfo(json)
             self.partnershipListView.showInfoView(info: item)
         }
