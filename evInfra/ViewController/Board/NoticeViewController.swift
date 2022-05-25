@@ -9,11 +9,23 @@
 import UIKit
 import Material
 import SwiftyJSON
+import RxSwift
+import SnapKit
+import Then
 
-class NoticeViewController: UIViewController {
+internal class NoticeViewController: UIViewController {
     var boardList: JSON!
     
-    @IBOutlet weak var tableView: UITableView!
+    private lazy var tableView = UITableView().then {
+        $0.delegate = self
+        $0.dataSource = self
+        $0.rowHeight = UITableViewAutomaticDimension
+        $0.estimatedRowHeight = UITableViewAutomaticDimension
+        $0.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        $0.separatorColor = UIColor(rgb: 0xE4E4E4)
+        $0.estimatedRowHeight = 102
+        $0.register(NoticeTableViewCell.self, forCellReuseIdentifier: "noticeCell")
+    }
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -23,20 +35,22 @@ class NoticeViewController: UIViewController {
         super.viewDidLoad()
 
         prepareActionBar()
+        layout()
 
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.estimatedRowHeight = UITableViewAutomaticDimension
-        self.tableView.separatorColor = UIColor(rgb: 0xE4E4E4)
-        self.tableView.estimatedRowHeight = 102
-        
         self.getNoticeData()
     }
 }
 
 extension NoticeViewController {
-    func prepareActionBar() {
+    private func layout() {
+        view.addSubview(tableView)
+        
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    private func prepareActionBar() {
         var backButton: IconButton!
         backButton = IconButton(image: Icon.cm.arrowBack)
         backButton.tintColor = UIColor(named: "content-primary")
@@ -92,8 +106,9 @@ extension NoticeViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "noticeCell", for: indexPath) as! NoticeTableViewCell
         let noticeValue = self.boardList.arrayValue[indexPath.row]
 
-        cell.noticeTitle?.text = noticeValue["title"].stringValue
-        cell.dateTime?.text = Date().toStringToMinute(data: noticeValue["datetime"].stringValue)
+        cell.noticeTitleLbl.text = noticeValue["title"].stringValue
+        cell.dateTimeLbl.text = Date().toStringToMinute(data: noticeValue["datetime"].stringValue)
+
         return cell
     }
     
