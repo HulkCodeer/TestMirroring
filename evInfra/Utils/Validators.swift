@@ -75,6 +75,7 @@ class RePasswordValidator: ValidatorConvertible {
     
     func validated(_ value: String) throws -> String {
         guard !value.isEmpty else {throw ValidationError("비밀번호확인을 입력해주세요.")}
+        guard value.count == 4 else {throw ValidationError("비밀번호는 4자를 입력해주세요.")}
         guard value.elementsEqual(password) else {
             throw ValidationError("비밀번호와 확인번호가 일치하지 않습니다.")
         }
