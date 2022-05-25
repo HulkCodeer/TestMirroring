@@ -152,9 +152,8 @@ internal final class PartnershipListView : UIView {
         evInfraInfo = info
         viewEvinfraList.isHidden = false
         labelCardStatus.text = info.displayStatusDescription
-        let test = MemberPartnershipInfo.CardStatusType.sipping
-        reissuanceBtn.isEnabled = test != .sipping
-        reissuanceLbl.textColor = test != .sipping ? UIColor(named: "nt-9"): UIColor(named: "nt-3")
+        reissuanceBtn.isEnabled = info.cardStatusType != .sipping
+        reissuanceLbl.textColor = info.cardStatusType != .sipping ? UIColor(named: "nt-9"): UIColor(named: "nt-3")
         
         guard let _cardNo = info.cardNo else { return }
         let modString = _cardNo.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
