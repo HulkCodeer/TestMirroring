@@ -13,7 +13,7 @@ import RxSwift
 import SnapKit
 import Then
 
-internal class NoticeViewController: UIViewController {
+internal class NoticeViewController: BaseViewController {
     var boardList: JSON!
     
     private lazy var tableView = UITableView().then {
@@ -34,9 +34,13 @@ internal class NoticeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        prepareActionBar()
+        prepareActionBar(with: "공지사항")
         layout()
 
+        
+        
+        
+        // reactor 파일로 이동
         self.getNoticeData()
     }
 }
@@ -48,24 +52,6 @@ extension NoticeViewController {
         tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-    }
-    
-    private func prepareActionBar() {
-        var backButton: IconButton!
-        backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "공지사항"
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
     }
 
     func getNoticeData() {
