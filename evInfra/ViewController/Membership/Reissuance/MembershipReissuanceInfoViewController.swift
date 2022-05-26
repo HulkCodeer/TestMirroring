@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 import SwiftyJSON
 import ReactorKit
+import UIKit
 
 protocol MembershipReissuanceInfoDelegate {
     func reissuanceComplete()
@@ -95,13 +96,20 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         $0.spacing = 8
     }
     
+    private lazy var totalSearchAddressBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     private lazy var moveSearchAddressBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("우편번호 검색", for: .normal)
+        $0.setTitle("우편번호 검색", for: .disabled)
         $0.setTitleColor(UIColor(named: "content-secondary"), for: .normal)
+        $0.setTitleColor(UIColor(named: "content-secondary"), for: .disabled)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.backgroundColor = UIColor(named: "background-secondary")
         $0.IBcornerRadius = 6
+        $0.isEnabled = false
     }
     
     private lazy var zipCodeTf = UITextField().then {
@@ -113,7 +121,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 4
         $0.placeholder = "우편번호"
-        $0.isEnabled = true
+        $0.isEnabled = false
     }
     
     private lazy var addressTf = UITextField().then {
@@ -124,7 +132,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 4
         $0.placeholder = "배송 주소"
-        $0.isEnabled = true
+        $0.isEnabled = false
     }
     
     private lazy var detailAddressTf = UITextField().then {
@@ -236,9 +244,14 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
             $0.top.equalTo(addressTitleLbl.snp.bottom).offset(8)
             $0.height.equalTo(tfHeight)
         }
-
+        
         addressStackView.addArrangedSubview(zipCodeTf)
         addressStackView.addArrangedSubview(moveSearchAddressBtn)
+        
+        totalView.addSubview(totalSearchAddressBtn)
+        totalSearchAddressBtn.snp.makeConstraints {
+            $0.edges.equalTo(addressStackView)
+        }
                 
         totalView.addSubview(addressTf)
         addressTf.snp.makeConstraints {
@@ -300,13 +313,15 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
                 }
             })
             .disposed(by: self.disposeBag)
-                
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        moveSearchAddressBtn.rx.tap
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
+        self.view.addGestureRecognizer(tap)
+        
+        totalSearchAddressBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -368,11 +383,19 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
             completeBtn.snp.updateConstraints {
                 $0.bottom.equalToSuperview().offset(-keyboardHeight)
             }
+            
+            let contentsInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight / 2, right: 0)
+            totalScrollView.contentInset = contentsInset
+            totalScrollView.scrollIndicatorInsets = contentsInset
         }
     }
     
     @objc private func keyboardDidHide(_ sender: NSNotification) {
         view.layoutIfNeeded()
+        let contentsInset: UIEdgeInsets = .zero
+        totalScrollView.contentInset = contentsInset
+        totalScrollView.scrollIndicatorInsets = contentsInset
+        
         completeBtn.snp.updateConstraints {
             $0.bottom.equalToSuperview().offset(0)
         }
@@ -387,6 +410,11 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
                 return
             }
         }
+    }
+    
+    @objc
+    fileprivate func handleTap(recognizer: UITapGestureRecognizer) {
+        self.view.endEditing(true)
     }
     
     internal func showInfo(model: ReissuanceModel) {
