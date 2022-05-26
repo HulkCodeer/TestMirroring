@@ -107,8 +107,10 @@ internal final class MembershipCardViewController: BaseViewController {
 }
 
 extension MembershipCardViewController: MembershipReissuanceInfoDelegate {
-    func reissuanceComplete() {
-        Snackbar().show(message: "재발급 신청이 완료되었습니다.")
+    func reissuanceComplete() {        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            Snackbar().show(message: "재발급 신청이 완료되었습니다.")
+        })
     }
 }
 
