@@ -81,7 +81,7 @@ internal final class MembershipGuideViewController: BaseViewController {
             $0.width.height.equalTo(32)
         }
         
-        guard let _url = URL(string: "\(Const.EV_PAY_SERVER)/docs/info/membership_info_i") else {
+        guard let _url = URL(string: "\(Const.EV_PAY_SERVER)/docs/info/membership_info?osType=ios") else {
             return
         }
         let requestUrl = URLRequest(url: _url)

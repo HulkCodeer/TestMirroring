@@ -37,9 +37,10 @@ internal final class MembershipUseGuideViewController: BaseViewController, WKUID
             $0.edges.equalToSuperview()
         }
                                         
-        guard let _url = URL(string: "\(Const.EV_PAY_SERVER)/docs/info/membership_card_i") else {
+        guard let _url = URL(string: "\(Const.EV_PAY_SERVER)/docs/info/membership_card?osType=ios") else {
             return
         }
+        printLog(out: "PARK TEST : \(_url.absoluteString)")
         let requestUrl = URLRequest(url: _url)
         webView.load(requestUrl)
     }
