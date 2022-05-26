@@ -151,6 +151,8 @@
 		63B23744282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */; };
 		63BEAC5E28338ADA00E797DD /* ReissuanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BEAC5D28338ADA00E797DD /* ReissuanceModel.swift */; };
 		63BEAC602833965A00E797DD /* Observable+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BEAC5F2833965A00E797DD /* Observable+Operators.swift */; };
+		63C4A4BC283F84C800EA9D6F /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = 63C4A4BB283F84C800EA9D6F /* swiftgen.yml */; };
+		63C4A4BE283F850400EA9D6F /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63C4A4BD283F850400EA9D6F /* Color.xcassets */; };
 		63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */; };
 		63CCE8242834CFD5006B8B9A /* evInfraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE8232834CFD5006B8B9A /* evInfraTests.swift */; };
 		63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */; };
@@ -580,6 +582,8 @@
 		63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceViewController.swift; sourceTree = "<group>"; };
 		63BEAC5D28338ADA00E797DD /* ReissuanceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceModel.swift; sourceTree = "<group>"; };
 		63BEAC5F2833965A00E797DD /* Observable+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Operators.swift"; sourceTree = "<group>"; };
+		63C4A4BB283F84C800EA9D6F /* swiftgen.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
+		63C4A4BD283F850400EA9D6F /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkModel.swift; sourceTree = "<group>"; };
 		63CCE8212834CFD5006B8B9A /* evInfraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = evInfraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63CCE8232834CFD5006B8B9A /* evInfraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = evInfraTests.swift; sourceTree = "<group>"; };
@@ -1379,6 +1383,7 @@
 		732121BB203AC023000E105C /* evInfra */ = {
 			isa = PBXGroup;
 			children = (
+				63C4A4BB283F84C800EA9D6F /* swiftgen.yml */,
 				732B92A120EF1AB40090E9FC /* assets */,
 				732B92C020EF45A70090E9FC /* ExLib */,
 				736813A62043E98F0035FC66 /* Images */,
@@ -1400,6 +1405,7 @@
 				73344AC0207B5F8A00A6A9EC /* awsconfiguration.json */,
 				73238C3A20A44B3E00C06A89 /* evInfra.entitlements */,
 				732121C3203AC023000E105C /* evInfra.xcdatamodeld */,
+				63C4A4BD283F850400EA9D6F /* Color.xcassets */,
 			);
 			path = evInfra;
 			sourceTree = "<group>";
@@ -1858,6 +1864,7 @@
 				732121B6203AC023000E105C /* Frameworks */,
 				732121B7203AC023000E105C /* Resources */,
 				DB43761E21DDD433004A4C4B /* Run Script */,
+				63C4A4BA283F829500EA9D6F /* ShellScript */,
 				8E18FC58ECCC09AA748A19C4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -1976,6 +1983,7 @@
 				73C31C0A20A2BB04005B6C53 /* charger_chademo.jpg in Resources */,
 				52B709D5279929B8006C5706 /* BoardDetailTableViewHeader.xib in Resources */,
 				738C2CEB20A93682006E268D /* type_destination_dim.png in Resources */,
+				63C4A4BC283F84C800EA9D6F /* swiftgen.yml in Resources */,
 				738C2CED20A93682006E268D /* type_super.png in Resources */,
 				73A7B3FF204E3595002E975F /* type_ac_three_dim.png in Resources */,
 				73EF8B71203C85CC00D04494 /* icon_clustering.png in Resources */,
@@ -2066,6 +2074,7 @@
 				00FDEAEA26B3BF1E006617EE /* Member.storyboard in Resources */,
 				42CEB75126C1110D00E37AE4 /* CidInfoTableViewCell.xib in Resources */,
 				DB87607320690B370095394B /* BoardTableViewFooter.xib in Resources */,
+				63C4A4BE283F850400EA9D6F /* Color.xcassets in Resources */,
 				00A6A15F26C3A4930023DAE3 /* FilterPlaceView.xib in Resources */,
 				73C31C0B20A2BB04005B6C53 /* charge_normal.jpg in Resources */,
 			);
@@ -2091,6 +2100,23 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		63C4A4BA283F829500EA9D6F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "swiftgen xcassets ${TARGETNAME}/Assets.xcassets -t swift5 --output \"${TARGETNAME}/Assets+Generated.swift\"\n";
 		};
 		8E18FC58ECCC09AA748A19C4 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
