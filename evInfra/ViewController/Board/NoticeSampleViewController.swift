@@ -78,11 +78,9 @@ enum TestListItem {
 }
 
 struct TestListSectionModel {
-    var title: String
     var TestList: [TestListItem]
     
-    init(title: String, items: [TestListItem]) {
-        self.title = title
+    init(items: [TestListItem]) {
         self.TestList = items
     }
 }

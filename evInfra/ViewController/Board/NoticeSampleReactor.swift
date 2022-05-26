@@ -7,3 +7,46 @@
 //
 
 import Foundation
+import ReactorKit
+import RxCocoa
+import RxSwift
+import SwiftyJSON
+
+internal final class NewAccountListReactor: ViewModel, Reactor {
+    enum Action {
+        case loadData
+    }
+    
+    enum Mutation {
+        case setList([TestListItem])
+    }
+    
+    struct State {
+        var sections = [TestListSectionModel]()
+    }
+        
+    internal var initialState: State
+    
+    init(provider: SoftberryAPI) {
+        self.initialState = State()
+        super.init(provider: provider)
+    }
+    
+    func mutate(action: Action) -> Observable<Mutation> {
+        switch action {
+        case .loadData:
+            return .just(.setList([TestListItem]))
+        }
+    }
+    
+    func reduce(state: State, mutation: Mutation) -> State {
+        var newState = state
+        newState.sections = nil
+        switch mutation {
+        case .setAccount(let items):
+            newState.sections = [TestListSectionModel(items: items)]
+                        
+        }
+        return newState
+    }
+}
