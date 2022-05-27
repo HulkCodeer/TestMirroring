@@ -84,6 +84,8 @@
 		192A338327FE747E00EF1684 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338227FE747E00EF1684 /* Marker.swift */; };
 		192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */; };
 		193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */; };
+		19EBF005283F522400C91CCD /* RouteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19EBF004283F522400C91CCD /* RouteView.xib */; };
+		19EBF007283F5B2500C91CCD /* RouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBF006283F5B2500C91CCD /* RouteView.swift */; };
 		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
 		4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
 		421569D7259B629100D018DC /* BoardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421569D6259B629100D018DC /* BoardInfo.swift */; };
@@ -512,6 +514,8 @@
 		192A338227FE747E00EF1684 /* Marker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
 		193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
+		19EBF004283F522400C91CCD /* RouteView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RouteView.xib; sourceTree = "<group>"; };
+		19EBF006283F5B2500C91CCD /* RouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteView.swift; sourceTree = "<group>"; };
 		4212A25325555775001BB124 /* OfferwallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallTableViewCell.swift; sourceTree = "<group>"; };
 		4212A25425555775001BB124 /* OfferwallTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferwallTableViewCell.xib; sourceTree = "<group>"; };
 		421569D6259B629100D018DC /* BoardInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardInfo.swift; sourceTree = "<group>"; };
@@ -1582,6 +1586,8 @@
 				DB4395F322DD88770092E0A5 /* ReceiptView.xib */,
 				CE93309821511AD4006B7EF6 /* ReportBoardTableViewCell.swift */,
 				CE13858C2178698300E3F869 /* ReportChargerChildCell.swift */,
+				19EBF004283F522400C91CCD /* RouteView.xib */,
+				19EBF006283F5B2500C91CCD /* RouteView.swift */,
 				CE13858E217869B200E3F869 /* ReportChargerChildCell.xib */,
 				CEC43229223A5C9A00B76795 /* SearchTableView.swift */,
 				73B7527F2048E5B30077112A /* SideMenuTableViewCell.swift */,
@@ -2037,6 +2043,7 @@
 				63DA0A03282E335E0021292C /* RentalCarCardListView.xib in Resources */,
 				732ED1CB21ED8ABB0012C67B /* DropDownCheckBoxCell.xib in Resources */,
 				73BFA04D20847A310028B35D /* BoardTableViewCell.xib in Resources */,
+				19EBF005283F522400C91CCD /* RouteView.xib in Resources */,
 				525E3A30278D732700F5C54D /* BoardWriteViewController.storyboard in Resources */,
 				00B36C4326D4B36300749FFE /* CompanyTableViewCell.xib in Resources */,
 				00B2E8C826C106AC005D017C /* Login.storyboard in Resources */,
@@ -2415,6 +2422,7 @@
 				0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */,
 				73C31BFD20A288E3005B6C53 /* ChargerDetailViewController.swift in Sources */,
 				732121BD203AC023000E105C /* AppDelegate.swift in Sources */,
+				19EBF007283F5B2500C91CCD /* RouteView.swift in Sources */,
 				529659D227E9AD7200FC1E8B /* LinkShareManager.swift in Sources */,
 				73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */,
 				7376B5C520C6473500A2B7C1 /* MyArticleViewController.swift in Sources */,
