@@ -335,6 +335,8 @@
 		82E2470B28404F110014E268 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82E2470A28404F110014E268 /* Icons.xcassets */; };
 		82E247132840632D0014E268 /* Icons+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E247112840632D0014E268 /* Icons+Generated.swift */; };
 		82E247142840632D0014E268 /* Colors+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E247122840632D0014E268 /* Colors+Generated.swift */; };
+		82F9E255284437920064A044 /* ArrowBackBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F9E254284437920064A044 /* ArrowBackBtn.swift */; };
+		82F9E257284437D30064A044 /* NavigationCloseBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F9E256284437D30064A044 /* NavigationCloseBtn.swift */; };
 		8ABD2A1E6BAAA48912760042 /* Pods_evInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73FD6F0BC57C39B41EE0B7 /* Pods_evInfra.framework */; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
@@ -793,6 +795,8 @@
 		82E2470A28404F110014E268 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		82E247112840632D0014E268 /* Icons+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Icons+Generated.swift"; sourceTree = "<group>"; };
 		82E247122840632D0014E268 /* Colors+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Colors+Generated.swift"; sourceTree = "<group>"; };
+		82F9E254284437920064A044 /* ArrowBackBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowBackBtn.swift; sourceTree = "<group>"; };
+		82F9E256284437D30064A044 /* NavigationCloseBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCloseBtn.swift; sourceTree = "<group>"; };
 		9014C12624E55C4800CB6549 /* EIPOIItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIPOIItem.swift; sourceTree = "<group>"; };
 		9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAllPOIListenerCallback.swift; sourceTree = "<group>"; };
 		9028E07724A1B8270062A029 /* eirel */ = {isa = PBXFileReference; lastKnownFileType = file; path = eirel; sourceTree = "<group>"; };
@@ -1347,6 +1351,7 @@
 		7312786220B7D81A00861B3E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				82F9E2532844376B0064A044 /* Component */,
 				82E247122840632D0014E268 /* Colors+Generated.swift */,
 				82E247112840632D0014E268 /* Icons+Generated.swift */,
 				73A7B427204E81A6002E975F /* Const.swift */,
@@ -1738,6 +1743,15 @@
 				82E2470A28404F110014E268 /* Icons.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		82F9E2532844376B0064A044 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				82F9E254284437920064A044 /* ArrowBackBtn.swift */,
+				82F9E256284437D30064A044 /* NavigationCloseBtn.swift */,
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 		902A11CF248F4D9D0049EF8E /* model */ = {
@@ -2477,6 +2491,7 @@
 				736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */,
 				902A11DA248F5E440049EF8E /* StringUtils.swift in Sources */,
 				52B5DECF27CEFFBD006F8325 /* CommunityBoardAdsCell.swift in Sources */,
+				82F9E255284437920064A044 /* ArrowBackBtn.swift in Sources */,
 				52B53D2F27BCF30100D446A9 /* SearchTypeSelectView.swift in Sources */,
 				00A6A16826C3C4450023DAE3 /* FilterBarView.swift in Sources */,
 				527165C727B251E20078DF3A /* AlertView.swift in Sources */,
@@ -2521,6 +2536,7 @@
 				DB3B858320A42C81005454F5 /* KoreanTextMatcher.swift in Sources */,
 				DB306368221BD5CD00D1276E /* Server.swift in Sources */,
 				00CF1777278EA644007D8E4E /* AcceptTermsViewController.swift in Sources */,
+				82F9E257284437D30064A044 /* NavigationCloseBtn.swift in Sources */,
 				CE33B4BD2191BA1200B6C632 /* EventContentsViewController.swift in Sources */,
 				DB5FA59622C20A8400F1508A /* ChargesViewController.swift in Sources */,
 				82D986812839BE080030F0FC /* ViewModel.swift in Sources */,
