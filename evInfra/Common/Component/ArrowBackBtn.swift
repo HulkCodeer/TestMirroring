@@ -11,20 +11,22 @@ import UIKit
 internal final class ArrowBackBtn: UIView {
     enum Const {
         enum SizeType {
-            case size12
             case size16
+            case size20
             case size24
+            case size32
             
             var getImage: UIImage {
                 switch self {
-                case .size12: return Icons.iconArrowLeftXs.image
-                case .size16: return Icons.iconArrowLeftSm.image
+                case .size16: return Icons.iconArrowLeftXs.image
+                case .size20: return Icons.iconArrowLeftSm.image
                 case .size24: return Icons.iconArrowLeftMd.image
+                case .size32: return Icons.iconArrowLeftLg.image
                 }
             }
         }
         
-        static let baseColor: UIColor = Colors.rd1.color
+        static let baseColor: UIColor = .white
     }
     
     @IBInspectable var IBimageColor: UIColor? {
@@ -71,8 +73,8 @@ internal final class ArrowBackBtn: UIView {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private var imgViewLeading: CGFloat = 16
-    private var imgViewWidth: CGFloat = 24
+    private var imgViewLeading: CGFloat = 0
+    private var imgViewWidth: CGFloat = 16
     private var imgViewColor: UIColor = Const.baseColor
     
     private var sizeType: Const.SizeType
@@ -82,17 +84,17 @@ internal final class ArrowBackBtn: UIView {
     }
     
     init() {
-        self.sizeType = .size24
+        self.sizeType = .size16
         super.init(frame: .zero)
     }
     
-    init(_ sizeType: Const.SizeType = .size24) {
+    init(_ sizeType: Const.SizeType = .size16) {
         self.sizeType = sizeType
         super.init(frame: .zero)
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        self.sizeType = .size24
+        self.sizeType = .size16
         super.init(coder: aDecoder)
     }
     
