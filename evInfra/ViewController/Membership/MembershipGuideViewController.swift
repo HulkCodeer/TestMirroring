@@ -10,7 +10,7 @@ import WebKit
 import Then
 import RxSwift
 
-internal final class MembershipGuideViewController: BaseViewController {
+internal final class MembershipGuideViewController: BaseViewController, WKUIDelegate {
     
     // MARK: VARIABLE
     
@@ -26,6 +26,8 @@ internal final class MembershipGuideViewController: BaseViewController {
     
     private lazy var webView = WKWebView(frame: CGRect.zero, configuration: self.config).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.navigationDelegate = self
+        $0.uiDelegate = self
     }
     
     private lazy var membershipRegisterBtn = UIButton().then {
@@ -101,4 +103,47 @@ internal final class MembershipGuideViewController: BaseViewController {
             })
             .disposed(by: disposebag)
     }
+    
+    // 추후 딥링크 추가시 필요
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if let url = navigationAction.request.url, url.scheme == "evinfra" {
+            DeepLinkModel.shared.openSchemeURL(urlstring: url.absoluteString)
+        }
+        decisionHandler(.allow)
+        return
+    }
+    
+//    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+//
+//        if navigationAction.navigationType == .linkActivated  {
+//            if let newURL = navigationAction.request.url,
+//                let host = newURL.host, UIApplication.shared.canOpenURL(newURL) {
+//                if host.hasPrefix("com.soft-berry.ev-infra") { // deeplink
+//                    if #available(iOS 13.0, *) {
+//                        DeepLinkPath.sharedInstance.linkPath = newURL.path
+//                        if let component = URLComponents(url: newURL, resolvingAgainstBaseURL: false) {
+//                            DeepLinkPath.sharedInstance.linkParameter = component.queryItems
+//                        }
+//                        DeepLinkPath.sharedInstance.runDeepLink()
+//                    } else {
+//                        UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
+//                    }
+//                } else {
+//                    UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
+//                }
+//                decisionHandler(.cancel)
+//            } else {
+//                decisionHandler(.allow)
+//            }
+//        } else {
+//            decisionHandler(.allow)
+//        }
+//    }
+}
+
+extension MembershipGuideViewController: UIWebViewDelegate {
+}
+
+extension MembershipGuideViewController: WKNavigationDelegate {
+    
 }
