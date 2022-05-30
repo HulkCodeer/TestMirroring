@@ -51,6 +51,7 @@ internal final class MemberPartnershipInfo {
     var level: String?
     var startDate: String?
     var endDate: String?
+    var isReissuance: Bool = false
     
     init(_ json: JSON){
         self.mbId = json["mb_id"].intValue
@@ -66,5 +67,10 @@ internal final class MemberPartnershipInfo {
         self.mpCardNum = json["mp_card_num"].stringValue
         self.startDate = json["start_date"].stringValue
         self.endDate = json["end_date"].stringValue
+        guard let _cardNo = self.cardNo, _cardNo.startsWith("2095") else {
+            self.isReissuance = false
+            return
+        }
+        self.isReissuance = !(self.cardStatusType == .sipping || self.cardStatusType == .readyShip)
     }
 }
