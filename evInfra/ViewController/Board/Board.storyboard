@@ -193,10 +193,10 @@
             </objects>
             <point key="canvasLocation" x="503" y="27"/>
         </scene>
-        <!--Notice View Controller-->
+        <!--View Controller-->
         <scene sceneID="GrL-5Z-qD4">
             <objects>
-                <viewController restorationIdentifier="NoticeViewController" storyboardIdentifier="NoticeViewController" id="jiM-5g-eeI" customClass="NoticeViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="NoticeViewController" storyboardIdentifier="NoticeViewController" id="jiM-5g-eeI" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LXR-AI-FJA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
