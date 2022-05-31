@@ -160,6 +160,8 @@ internal final class PartnershipListView : UIView {
         labelCardNum.text = modString
                         
         if info.cardStatusType == .sipping {
+            _ = viewEvinfraList.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
+                                    
             var preferences = EasyTipView.Preferences()
             preferences.drawing.backgroundColor = UIColor(named: "background-always-dark")!
             preferences.drawing.foregroundColor = UIColor(named: "content-on-color")!
