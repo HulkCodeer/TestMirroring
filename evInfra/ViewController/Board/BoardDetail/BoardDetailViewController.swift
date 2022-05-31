@@ -595,7 +595,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
             guard let self = self else { return }
             self.boardDetailViewModel.setLikeCount(srl: srl, isComment: isComment) { (isSuccess, message) in
                 if isSuccess {
-                    if let message = message as? String {
+                    if let message = message as? String {                        
                         Snackbar().show(message: message)
                     } else {
                         self.fetchData()

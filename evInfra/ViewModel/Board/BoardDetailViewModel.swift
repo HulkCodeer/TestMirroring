@@ -21,6 +21,7 @@ class BoardDetailViewModel {
     func fetchBoardDetail(mid: String, document_srl: String) {
         Server.fetchBoardDetail(mid: mid, document_srl: document_srl) { responseData in
             guard let responseData = responseData as? BoardDetailResponseData else { return }
+            printLog(out: "Server Response Data : \(responseData)")
             self.detailData = responseData
         }
     }
