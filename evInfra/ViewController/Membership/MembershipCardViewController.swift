@@ -104,6 +104,10 @@ internal final class MembershipCardViewController: BaseViewController {
             }
         }
     }
+    
+    override func backButtonTapped() {
+        GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+    }
 }
 
 extension MembershipCardViewController: MembershipReissuanceInfoDelegate {
