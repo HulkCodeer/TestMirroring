@@ -6,19 +6,24 @@
 //  Copyright © 2018년 soft-berry. All rights reserved.
 //
 
-import UIKit
 import Material
+import RxDataSources
+import ReactorKit
 import SwiftyJSON
 import RxSwift
 import SnapKit
 import Then
 
-internal class NoticeViewController: BaseViewController {
-    var boardList: JSON!
+internal final class NoticeViewController: BaseViewController, StoryboardView {
+    
+    typealias NoticeDataSource = RxTableViewSectionedReloadDataSource<NoticeListSectionModel>
+
+// ReusableKit
+//    private enum Reusable {
+//        static let NoticeListCell = ReusableCell<NoticeTableViewCell>(nibName: NoticeTableViewCell.reuseID)
+//    }
     
     private lazy var tableView = UITableView().then {
-        $0.delegate = self
-        $0.dataSource = self
         $0.rowHeight = UITableViewAutomaticDimension
         $0.estimatedRowHeight = UITableViewAutomaticDimension
         $0.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
@@ -26,26 +31,44 @@ internal class NoticeViewController: BaseViewController {
         $0.estimatedRowHeight = 102
         $0.register(NoticeTableViewCell.self, forCellReuseIdentifier: "noticeCell")
     }
-    
+
+    private let dataSource = NoticeDataSource(configureCell: { _, tableView, indexPath, item in
+        let cell = tableView.dequeueReusableCell(withIdentifier: "noticeCell", for: indexPath) as! NoticeTableViewCell
+        cell.noticeTitleLbl.text = item.title
+        cell.dateTimeLbl.text = item.datetime
+        return cell
+    })
+
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        prepareActionBar(with: "공지사항")
         layout()
-
-        
-        
-        
-        // reactor 파일로 이동
-        self.getNoticeData()
     }
-}
-
-extension NoticeViewController {
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        prepareActionBar(with: "공지사항")
+    }
+    
+    internal func bind(reactor: NoticeReactor) {
+        Observable.just(Reactor.Action.loadData)
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.sections }
+            .bind(to: self.tableView.rx.items(dataSource: self.dataSource))
+            .disposed(by: disposeBag)
+        
+        tableView.rx
+            .modelSelected(NoticeListDataModel.Notice.self)
+            .map { $0.id }
+            .bind(to: self.rx.push)
+            .disposed(by: disposeBag)
+    }
+    
     private func layout() {
         view.addSubview(tableView)
         
@@ -53,60 +76,43 @@ extension NoticeViewController {
             $0.edges.equalToSuperview()
         }
     }
+}
 
-    func getNoticeData() {
-        Server.getNoticeList() { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                if let code = json["code"].int {
-                    if code == 1000 {
-                        self.boardList = json["list"]
-                        
-                        // 최신글 id update
-                        if self.boardList.count > 0 {
-                            let id = self.boardList.arrayValue[0]["id"].intValue
-                            UserDefault().saveInt(key: UserDefault.Key.LAST_NOTICE_ID, value: id)
-                        }
-                    }
-                }
-                self.tableView.reloadData()
-            }
+// MARK: Reactive Extension
+extension Reactive where Base: NoticeViewController {
+    var push: Binder<String> {
+        return Binder(base) { base, boardId in
+            let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+            guard let noticeContentViewController = boardStoryboard.instantiateViewController(withIdentifier: "NoticeContentViewController") as? NoticeContentViewController else { return }
+            noticeContentViewController.boardId = Int(boardId) ?? -1
+            base.navigationController?.push(viewController: noticeContentViewController)
         }
     }
 }
 
-extension NoticeViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.boardList == nil {
-            return 0
-        }
+//enum NoticeListItem {
+//    case NoticeListItem(reactor: NoticeTableViewCellReactor)
+//}
 
-        if (self.boardList.arrayValue.count == 0 || self.boardList == JSON.null) {
-            return 0
-        }
-        
-        return self.boardList.arrayValue.count
-    }
+struct NoticeListSectionModel {
+    var noticeList: [Item]
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "noticeCell", for: indexPath) as! NoticeTableViewCell
-        let noticeValue = self.boardList.arrayValue[indexPath.row]
-
-        cell.noticeTitleLbl.text = noticeValue["title"].stringValue
-        cell.dateTimeLbl.text = Date().toStringToMinute(data: noticeValue["datetime"].stringValue)
-
-        return cell
-    }
-    
-    func tableView(_ tableView : UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        let noticeContentVC = self.storyboard?.instantiateViewController(withIdentifier: "NoticeContentViewController") as! NoticeContentViewController
-        noticeContentVC.boardId = self.boardList.arrayValue[indexPath.row]["id"].intValue
-        self.navigationController?.push(viewController: noticeContentVC)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+    init(items: [Item]) {
+        self.noticeList = items
     }
 }
+
+extension NoticeListSectionModel: SectionModelType {
+    typealias Item = NoticeListDataModel.Notice
+    
+    var items: [NoticeListDataModel.Notice] {
+        self.noticeList
+    }
+    
+    init(original: NoticeListSectionModel, items: [NoticeListDataModel.Notice]) {
+        self = original
+        self.noticeList = items
+    }
+}
+
+

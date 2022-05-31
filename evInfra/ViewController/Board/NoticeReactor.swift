@@ -13,16 +13,16 @@ import SwiftyJSON
 
 internal final class NoticeReactor: ViewModel, Reactor {
     enum Action {
-        case none
+        case loadData
     }
     
     enum Mutation {
-        case setNoticeList([Notice])
+        case setNoticeList([NoticeListDataModel.Notice])
         case none
     }
     
     struct State {
-        var noticeList: [Notice]?
+        var sections = [NoticeListSectionModel]()
     }
     
     internal var initialState: State
@@ -32,16 +32,56 @@ internal final class NoticeReactor: ViewModel, Reactor {
         super.init(provider: provider)
     }
     
-    struct NoticeInfo {
-        let code: Int
-        let list: [Notice]
-        
-        init(_ json: JSON) {
-            self.code = json["code"].intValue
-            self.list = [Notice(json["list"])]
+    func mutate(action: Action) -> Observable<Mutation> {
+        switch action {
+        case .loadData:
+            return self.provider
+                .getNoticeList()
+                .convertData()
+                .compactMap(convertToDataModel)
+                .map { noticeInfo in
+                    .setNoticeList(noticeInfo.list) }
         }
     }
     
+    func reduce(state: State, mutation: Mutation) -> State {
+        var newState = state
+        newState.sections = []
+        
+        switch mutation {
+        case .setNoticeList(let noticeList):
+            newState.sections = [NoticeListSectionModel(items: noticeList)]
+        case .none: break
+        }
+        
+        return newState
+    }
+    
+    private func convertToDataModel(with result: ApiResult<Data, ApiErrorMessage>) -> NoticeInfo? {
+        switch result {
+        case .success(let data):
+            let jsonData = JSON(data)
+            return NoticeInfo(jsonData)
+        case .failure(let error):
+            printLog(error.errorMessage)
+            return nil
+        }
+    }
+}
+
+struct NoticeInfo {
+    let code: Int
+    let list: [NoticeListDataModel.Notice]
+    
+    init(_ json: JSON) {
+        self.code = json["code"].intValue
+        self.list = json["list"].arrayValue.map {
+            NoticeListDataModel.Notice($0)
+        }
+    }
+}
+
+struct NoticeListDataModel {
     struct Notice: Codable {
         let id: String
         let title: String
@@ -50,30 +90,9 @@ internal final class NoticeReactor: ViewModel, Reactor {
         init(_ json: JSON) {
             self.id = json["id"].stringValue
             self.title = json["title"].stringValue
-            self.datetime = json["datetime"].stringValue
+            self.datetime = Date().toStringToMinute(data: json["datetime"].stringValue)
         }
-    }
-    
-    /*
-    func mutate(action: Action) -> Observable<Action> {
-        switch action {
-        case .none:
-            printLog("공지사항 데이터 가져오기")
-            return
-        }
-    }
-    */
-    
-    func reduce(state: State, mutation: Mutation) -> State {
-        var newState = state
-        newState.noticeList = nil
-        
-        switch mutation {
-        case .setNoticeList(let noticeList):
-            newState.noticeList = noticeList
-        case .none: break
-        }
-        
-        return newState
     }
 }
+
+
