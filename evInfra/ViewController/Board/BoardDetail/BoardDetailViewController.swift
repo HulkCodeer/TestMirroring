@@ -325,7 +325,8 @@ extension BoardDetailViewController {
                                     message:"게시글을 삭제 하시겠습니까?",
                                     confirmBtnTitle: "삭제",
                                     cancelBtnTitle: "취소",
-                                    confirmBtnAction: {
+                                    confirmBtnAction: { [weak self] in
+            guard let self = self else { return }
             self.boardDetailViewModel.deleteBoard(document_srl: self.document_srl) { [weak self] isSuccess in
                 guard let self = self else { return }
                 if isSuccess {
@@ -368,7 +369,8 @@ extension BoardDetailViewController {
                                     message:"게시글을 신고하시겠습니까?",
                                     confirmBtnTitle: "신고하기",
                                     cancelBtnTitle: "취소",
-                                    confirmBtnAction: {
+                                    confirmBtnAction: { [weak self] in
+            guard let self = self else { return }
             self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { [weak self] (isSuccess, message) in
                 guard let self = self else { return }
                 if isSuccess {
@@ -396,7 +398,8 @@ extension BoardDetailViewController {
                                     message:"댓글을 삭제하시겠습니까?",
                                     confirmBtnTitle: "삭제",
                                     cancelBtnTitle: "취소",
-                                    confirmBtnAction: {
+                                    confirmBtnAction: { [weak self] in
+            guard let self = self else { return }
             self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { [weak self] (isSuccess, message) in
                 guard let self = self else { return }
                 self.boardDetailViewModel.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { isSuccess, message in

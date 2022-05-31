@@ -32,7 +32,7 @@ class Server {
                 printLog(out: "Server ResponseJson: \(json)")
                 completion(true, json)
             } catch {
-                print("Error while decoding response: \(error)")
+                printLog(out: "Error while decoding response: \(String(decoding: value, as: UTF8.self))")
                 completion(false, error)
             }
             
@@ -48,6 +48,7 @@ class Server {
             "nick_name": MemberManager.shared.memberNickName,
             "profile": "\(MemberManager.shared.profileImage)"
         ]
+        printLog(out: "Server getHeaders \(headers.dictionary.description)")
         return headers
     }
     
@@ -483,8 +484,7 @@ class Server {
     
     // MARK: - Community 개선 - 게시글 삭제
     static func deleteBoard(document_srl: String, completion: @escaping (Bool, Any) -> Void) {
-        let headers: HTTPHeaders = getHeaders()
-        
+        let headers: HTTPHeaders = getHeaders()        
         AF.request(Const.EV_COMMUNITY_SERVER + "/delete/document_srl/\(document_srl)", method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseData { response in
             responseJson(response: response, completion: completion)
         }

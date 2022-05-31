@@ -78,7 +78,8 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                                         message: "게시물을 수정 하시겠습니까?",
                                         confirmBtnTitle: "수정",
                                         cancelBtnTitle: "취소",
-                                        confirmBtnAction: {
+                                        confirmBtnAction: { [weak self] in
+                guard let self = self else { return }
                 self.activityIndicator.startAnimating()
                 self.completeButton.isEnabled = false
                 self.completeButton.backgroundColor = UIColor(named: "nt-0")
