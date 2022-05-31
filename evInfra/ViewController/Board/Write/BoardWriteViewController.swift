@@ -93,19 +93,18 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                                                      self.selectedImages) { isSuccess in
                     
                     self.activityIndicator.stopAnimating()
-                    
-                    defer {
-                        self.popCompletion?()
-                        NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
-                        self.navigationController?.pop()
-                    }
-                    
+                                                            
                     var message: String = "게시글 수정이 완료되었습니다."
                     
                     if !isSuccess {
                         message = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
                     }
+                    
                     Snackbar().show(message: message)
+                    
+                    self.popCompletion?()
+                    NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                    self.navigationController?.pop()                    
                 }
             })
 
@@ -130,18 +129,16 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                                                        self.chargerInfo["chargerId"] ?? "",
                                                        self.selectedImages) { isSuccess in
                         self.activityIndicator.stopAnimating()
-                                                
-                        defer {
-                            self.popCompletion?()
-                            NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
-                            self.navigationController?.pop()
-                        }
                         
                         var message: String = "게시글 등록이 완료되었습니다."
                         if !isSuccess {
                             message = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
                         }
                         Snackbar().show(message: message)
+                        
+                        self.popCompletion?()
+                        NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                        self.navigationController?.pop()
                     }
             })
             

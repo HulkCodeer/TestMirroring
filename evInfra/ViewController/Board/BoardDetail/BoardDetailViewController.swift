@@ -403,8 +403,7 @@ extension BoardDetailViewController {
             self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { [weak self] (isSuccess, message) in
                 guard let self = self else { return }
                 self.boardDetailViewModel.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { isSuccess, message in
-                    self.trasientAlertView.titlemessage = message
-                    self.presentPanModal(self.trasientAlertView)
+                    Snackbar().show(message: message)
                     self.fetchData()
                 }
             }
@@ -597,9 +596,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
             self.boardDetailViewModel.setLikeCount(srl: srl, isComment: isComment) { (isSuccess, message) in
                 if isSuccess {
                     if let message = message as? String {
-                        let trasientAlertView = TransientAlertViewController()
-                        trasientAlertView.titlemessage = message
-                        self.presentPanModal(trasientAlertView)
+                        Snackbar().show(message: message)
                     } else {
                         self.fetchData()
                     }

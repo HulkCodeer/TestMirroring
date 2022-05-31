@@ -57,13 +57,8 @@ class BoardDetailViewModel {
                             !previousFiles.isEmpty {
                             let file = previousFiles[0]
                             Server.deleteDocumnetFile(documentSRL: commentSRL, fileSRL: file.file_srl!, isCover: file.cover_image!) { isSuccess, response in
-                                if isSuccess {
-                                    if let value = response as? String,
-                                        value.contains("success") {
-                                        completion(true)
-                                    } else {
-                                        completion(false)
-                                    }
+                                if isSuccess {                                    
+                                    completion(true)
                                 } else {
                                     completion(false)
                                 }
