@@ -5,7 +5,7 @@
 //  Created by 박현진 on 2022/05/26.
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
-
+/*
 import Then
 import RxDataSources
 import ReactorKit
@@ -37,7 +37,7 @@ internal final class TestController: BaseViewController, StoryboardView {
         $0.bounces = false
     }
     
-    private let dataSource = MainDataSource(configureCell: { _, tableView, indexPath, item in
+    private let dataSource = MainDataSource(configureCell: { dataSource, tableView, indexPath, item in
         switch item {
         case .TestListItem(let reactor):
             let cell = tableView.dequeueReusableCell(ofType: TestListCell.self, for: indexPath)
@@ -54,7 +54,6 @@ internal final class TestController: BaseViewController, StoryboardView {
     
     override func loadView() {
         super.loadView()
-        
         self.contentView.addSubview(self.tableView)
         self.tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -66,9 +65,11 @@ internal final class TestController: BaseViewController, StoryboardView {
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
-    reactor.state.map { $0.sections }
+        reactor.state.map { $0.sections }
             .bind(to: self.tableView.rx.items(dataSource: self.dataSource))
             .disposed(by: self.disposeBag)
+        
+        
     }
 }
 
@@ -97,3 +98,5 @@ extension TestListSectionModel: SectionModelType {
         self.TestList = items
     }
 }
+
+*/

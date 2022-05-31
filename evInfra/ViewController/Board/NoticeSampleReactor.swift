@@ -5,7 +5,7 @@
 //  Created by 박현진 on 2022/05/26.
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
-
+/*
 import Foundation
 import ReactorKit
 import RxCocoa
@@ -27,7 +27,7 @@ internal final class NewAccountListReactor: ViewModel, Reactor {
         
     internal var initialState: State
     
-    init(provider: SoftberryAPI) {
+    override init(provider: SoftberryAPI) {
         self.initialState = State()
         super.init(provider: provider)
     }
@@ -50,3 +50,4 @@ internal final class NewAccountListReactor: ViewModel, Reactor {
         return newState
     }
 }
+*/
