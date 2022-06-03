@@ -17,8 +17,7 @@ target 'evInfra' do
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
   pod 'RxDataSources', '~> 5.0'
-  pod 'ReusableKit' # https://github.com/devxoul/ReusableKit
-  pod 'ReusableKit/RxSwift' # https://github.com/devxoul/ReusableKit
+  pod 'ReusableKit', :git => 'https://github.com/devxoul/ReusableKit', :branch => 'master'
   
   # UI
   pod 'Material', '~> 2.0'

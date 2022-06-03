@@ -17,7 +17,7 @@ internal final class NoticeReactor: ViewModel, Reactor {
     }
     
     enum Mutation {
-        case setNoticeList([NoticeListDataModel.Notice])
+        case setNoticeList([NoticeListItem])
         case none
     }
     
@@ -39,8 +39,7 @@ internal final class NoticeReactor: ViewModel, Reactor {
                 .getNoticeList()
                 .convertData()
                 .compactMap(convertToDataModel)
-                .map { noticeInfo in
-                    .setNoticeList(noticeInfo.list) }
+                .map { .setNoticeList(self.convertToItem(models: $0)) }
         }
     }
     
@@ -57,41 +56,48 @@ internal final class NoticeReactor: ViewModel, Reactor {
         return newState
     }
     
-    private func convertToDataModel(with result: ApiResult<Data, ApiErrorMessage>) -> NoticeInfo? {
+    private func convertToDataModel(with result: ApiResult<Data, ApiErrorMessage>) -> [NoticeInfo]? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
-            return NoticeInfo(jsonData)
+            return NoticeListDataModel(jsonData).list
         case .failure(let error):
             printLog(error.errorMessage)
             return nil
         }
     }
-}
-
-struct NoticeInfo {
-    let code: Int
-    let list: [NoticeListDataModel.Notice]
     
-    init(_ json: JSON) {
-        self.code = json["code"].intValue
-        self.list = json["list"].arrayValue.map {
-            NoticeListDataModel.Notice($0)
+    private func convertToItem(models: [NoticeInfo]) -> [NoticeListItem] {
+        var items = [NoticeListItem]()
+        for data in models {
+            let reactor = NoticeCellReactor(model: data)
+            items.append(.noticeListItem(reactor: reactor))
         }
+        return items
     }
 }
 
 struct NoticeListDataModel {
-    struct Notice: Codable {
-        let id: String
-        let title: String
-        let datetime: String
-        
-        init(_ json: JSON) {
-            self.id = json["id"].stringValue
-            self.title = json["title"].stringValue
-            self.datetime = Date().toStringToMinute(data: json["datetime"].stringValue)
+    let code: Int
+    let list: [NoticeInfo]
+    
+    init(_ json: JSON) {
+        self.code = json["code"].intValue
+        self.list = json["list"].arrayValue.map {
+            NoticeInfo($0)
         }
+    }
+}
+
+struct NoticeInfo: Codable, Equatable {
+    let id: String
+    let title: String
+    let datetime: String
+    
+    init(_ json: JSON) {
+        self.id = json["id"].stringValue
+        self.title = json["title"].stringValue
+        self.datetime = Date().toStringToMinute(data: json["datetime"].stringValue)
     }
 }
 

@@ -166,6 +166,8 @@
 		63DA0A07282E35780021292C /* RentalCarCardListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A06282E35780021292C /* RentalCarCardListViewController.swift */; };
 		63DA0A09282E44020021292C /* SC_TRACE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A08282E44020021292C /* SC_TRACE.swift */; };
 		63DA0A0B282E600C0021292C /* MembershipReissuanceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A0A282E600C0021292C /* MembershipReissuanceInfoViewController.swift */; };
+		63E00F492849865500D85629 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E00F482849865500D85629 /* UITableView+Extension.swift */; };
+		63E00F4D284986CB00D85629 /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E00F4C284986CB00D85629 /* NoticeCellReactor.swift */; };
 		63EB0391283CB26500078D28 /* ServerResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EB0390283CB26500078D28 /* ServerResult.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView+Extension.swift */; };
@@ -212,7 +214,7 @@
 		736813B5204513D50035FC66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 736813B3204513D50035FC66 /* Main.storyboard */; };
 		736BCE87205A892E0052C9ED /* intro_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 736BCE86205A892E0052C9ED /* intro_bg.jpg */; };
 		736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C520871B15009535EE /* BoardTableViewDelegate.swift */; };
-		736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C9208993BE009535EE /* NoticeTableViewCell.swift */; };
+		736D37CA208993BE009535EE /* NoticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C9208993BE009535EE /* NoticeCell.swift */; };
 		736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37CE2089CC52009535EE /* NoticeContentViewController.swift */; };
 		736D37D1208D9BFF009535EE /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736D37D0208D9BFF009535EE /* SDWebImage.framework */; };
 		736D37D3208DC9CE009535EE /* BoardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37D2208DC9CE009535EE /* BoardItem.swift */; };
@@ -599,6 +601,8 @@
 		63DA0A06282E35780021292C /* RentalCarCardListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalCarCardListViewController.swift; sourceTree = "<group>"; };
 		63DA0A08282E44020021292C /* SC_TRACE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SC_TRACE.swift; sourceTree = "<group>"; };
 		63DA0A0A282E600C0021292C /* MembershipReissuanceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoViewController.swift; sourceTree = "<group>"; };
+		63E00F482849865500D85629 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		63E00F4C284986CB00D85629 /* NoticeCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCellReactor.swift; sourceTree = "<group>"; };
 		63EB0390283CB26500078D28 /* ServerResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerResult.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -649,7 +653,7 @@
 		736813B4204513D50035FC66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		736BCE86205A892E0052C9ED /* intro_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = intro_bg.jpg; sourceTree = "<group>"; };
 		736D37C520871B15009535EE /* BoardTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewDelegate.swift; sourceTree = "<group>"; };
-		736D37C9208993BE009535EE /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
+		736D37C9208993BE009535EE /* NoticeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCell.swift; sourceTree = "<group>"; };
 		736D37CE2089CC52009535EE /* NoticeContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeContentViewController.swift; sourceTree = "<group>"; };
 		736D37D0208D9BFF009535EE /* SDWebImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		736D37D2208DC9CE009535EE /* BoardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardItem.swift; sourceTree = "<group>"; };
@@ -1310,6 +1314,7 @@
 				73CF041920B2736500BEA9CF /* UIScrollView+Extension.swift */,
 				73D65D7123588ACC00F564A2 /* UITextField+Extension.swift */,
 				7308559C206350890008497E /* UIView+Extension.swift */,
+				63E00F482849865500D85629 /* UITableView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1340,6 +1345,25 @@
 				82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */,
 			);
 			path = Reissuance;
+			sourceTree = "<group>";
+		};
+		63E00F4A2849868500D85629 /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				63E00F4B2849869000D85629 /* Cells */,
+				73B752842049284B0077112A /* NoticeViewController.swift */,
+				19C9DAD1283F0DF200EDAA27 /* NoticeReactor.swift */,
+			);
+			path = Notice;
+			sourceTree = "<group>";
+		};
+		63E00F4B2849869000D85629 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				736D37C9208993BE009535EE /* NoticeCell.swift */,
+				63E00F4C284986CB00D85629 /* NoticeCellReactor.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		7312786220B7D81A00861B3E /* Common */ = {
@@ -1581,7 +1605,6 @@
 				73D65D7F2362D52E00F564A2 /* MembershipTermView.swift */,
 				73D65D812362D54000F564A2 /* MembershipTermView.xib */,
 				CE33B4C42191BFD100B6C632 /* MyCouponTableViewCell.swift */,
-				736D37C9208993BE009535EE /* NoticeTableViewCell.swift */,
 				DB5041AD23506A14007336BC /* PointTableViewCell.swift */,
 				DB3B857F20874788005454F5 /* PoiTableView.swift */,
 				DB4395F122DD88390092E0A5 /* ReceiptView.swift */,
@@ -1779,13 +1802,12 @@
 		DB3799F621673E1E001D8F69 /* Board */ = {
 			isa = PBXGroup;
 			children = (
+				63E00F4A2849868500D85629 /* Notice */,
 				52C0782827CCA6FD00DEFEBE /* Search */,
 				52C0782927CCA70600DEFEBE /* BoardDetail */,
 				52C0782A27CCA71700DEFEBE /* Write */,
 				52C0782B27CCA73B00DEFEBE /* List */,
 				00FDEAF126B3BF97006617EE /* Board.storyboard */,
-				73B752842049284B0077112A /* NoticeViewController.swift */,
-				19C9DAD1283F0DF200EDAA27 /* NoticeReactor.swift */,
 				736D37CE2089CC52009535EE /* NoticeContentViewController.swift */,
 				73268D5121886C3000C00427 /* MyWritingViewController.swift */,
 				73450EF92071EB01008516E9 /* EditViewController.swift */,
@@ -2463,7 +2485,8 @@
 				733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */,
 				733662CC22EFECB80049AEFE /* Event.swift in Sources */,
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
-				736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */,
+				63E00F4D284986CB00D85629 /* NoticeCellReactor.swift in Sources */,
+				736D37CA208993BE009535EE /* NoticeCell.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController+Extension.swift in Sources */,
 				63DA0A05282E337F0021292C /* RentalCarCardListView.swift in Sources */,
 				00A6A16626C3B3DC0023DAE3 /* FilterContainerView.swift in Sources */,
@@ -2472,6 +2495,7 @@
 				0056440D252DB2AB007BF78D /* MembershipQRViewController.swift in Sources */,
 				4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */,
 				63DA015E28325C9300705842 /* FindPasswordViewController.swift in Sources */,
+				63E00F492849865500D85629 /* UITableView+Extension.swift in Sources */,
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
 				828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */,
 				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,

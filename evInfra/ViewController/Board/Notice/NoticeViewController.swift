@@ -13,15 +13,16 @@ import SwiftyJSON
 import RxSwift
 import SnapKit
 import Then
+import ReusableKit
 
 internal final class NoticeViewController: BaseViewController, StoryboardView {
     
     typealias NoticeDataSource = RxTableViewSectionedReloadDataSource<NoticeListSectionModel>
 
-// ReusableKit
-//    private enum Reusable {
-//        static let NoticeListCell = ReusableCell<NoticeTableViewCell>(nibName: NoticeTableViewCell.reuseID)
-//    }
+    // ReusableKit
+    private enum Reusable {
+        static let noticeListCell = ReusableCell<NoticeCell>(nibName: NoticeCell.reuseID)
+    }
     
     private lazy var tableView = UITableView().then {
         $0.rowHeight = UITableViewAutomaticDimension
@@ -29,14 +30,16 @@ internal final class NoticeViewController: BaseViewController, StoryboardView {
         $0.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         $0.separatorColor = UIColor(rgb: 0xE4E4E4)
         $0.estimatedRowHeight = 102
-        $0.register(NoticeTableViewCell.self, forCellReuseIdentifier: "noticeCell")
+        $0.register(Reusable.noticeListCell)
     }
 
     private let dataSource = NoticeDataSource(configureCell: { _, tableView, indexPath, item in
-        let cell = tableView.dequeueReusableCell(withIdentifier: "noticeCell", for: indexPath) as! NoticeTableViewCell
-        cell.noticeTitleLbl.text = item.title
-        cell.dateTimeLbl.text = item.datetime
-        return cell
+        switch item {
+        case .noticeListItem(let reactor):
+            let cell = tableView.dequeue(Reusable.noticeListCell, for: indexPath)
+            cell.reactor = reactor
+            return cell
+        }
     })
 
     deinit {
@@ -61,12 +64,6 @@ internal final class NoticeViewController: BaseViewController, StoryboardView {
         reactor.state.map { $0.sections }
             .bind(to: self.tableView.rx.items(dataSource: self.dataSource))
             .disposed(by: disposeBag)
-        
-        tableView.rx
-            .modelSelected(NoticeListDataModel.Notice.self)
-            .map { $0.id }
-            .bind(to: self.rx.push)
-            .disposed(by: disposeBag)
     }
     
     private func layout() {
@@ -79,37 +76,26 @@ internal final class NoticeViewController: BaseViewController, StoryboardView {
 }
 
 // MARK: Reactive Extension
-extension Reactive where Base: NoticeViewController {
-    var push: Binder<String> {
-        return Binder(base) { base, boardId in
-            let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-            guard let noticeContentViewController = boardStoryboard.instantiateViewController(withIdentifier: "NoticeContentViewController") as? NoticeContentViewController else { return }
-            noticeContentViewController.boardId = Int(boardId) ?? -1
-            base.navigationController?.push(viewController: noticeContentViewController)
-        }
-    }
+enum NoticeListItem {
+    case noticeListItem(reactor: NoticeCellReactor<NoticeInfo>)
 }
 
-//enum NoticeListItem {
-//    case NoticeListItem(reactor: NoticeTableViewCellReactor)
-//}
-
 struct NoticeListSectionModel {
-    var noticeList: [Item]
+    var noticeList: [NoticeListItem]
     
-    init(items: [Item]) {
+    init(items: [NoticeListItem]) {
         self.noticeList = items
     }
 }
 
 extension NoticeListSectionModel: SectionModelType {
-    typealias Item = NoticeListDataModel.Notice
+    typealias Item = NoticeListItem
     
-    var items: [NoticeListDataModel.Notice] {
+    var items: [NoticeListItem] {
         self.noticeList
     }
     
-    init(original: NoticeListSectionModel, items: [NoticeListDataModel.Notice]) {
+    init(original: NoticeListSectionModel, items: [NoticeListItem]) {
         self = original
         self.noticeList = items
     }

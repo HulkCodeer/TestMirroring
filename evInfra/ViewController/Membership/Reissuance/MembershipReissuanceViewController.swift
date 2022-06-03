@@ -225,7 +225,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
             .disposed(by: self.disposebag)
         
         reactor.state.compactMap { $0.addressInfo }
-            .observe(on: MainScheduler.instance)
+            .observeOn(MainScheduler.instance)            
             .bind { [weak self] addressInfo in
                 guard let self = self else { return }
                 switch addressInfo.code {

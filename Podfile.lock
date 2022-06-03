@@ -220,13 +220,9 @@ PODS:
   - ReactorKit (3.2.0):
     - RxSwift (~> 6.0)
     - WeakMapTable (~> 1.1)
-  - ReusableKit (2.1.0):
-    - ReusableKit/Core (= 2.1.0)
-  - ReusableKit/Core (2.1.0)
-  - ReusableKit/RxSwift (2.1.0):
-    - ReusableKit/Core
-    - RxCocoa (>= 4.0.0)
-    - RxSwift (>= 4.0.0)
+  - ReusableKit (3.0.0):
+    - ReusableKit/Core (= 3.0.0)
+  - ReusableKit/Core (3.0.0)
   - RxAlamofire (6.1.1):
     - RxAlamofire/Core (= 6.1.1)
   - RxAlamofire/Core (6.1.1):
@@ -277,8 +273,7 @@ DEPENDENCIES:
   - NMapsMap
   - PanModal
   - ReactorKit
-  - ReusableKit
-  - ReusableKit/RxSwift
+  - ReusableKit (from `https://github.com/devxoul/ReusableKit`, branch `master`)
   - RxAlamofire
   - RxCocoa (= 6.5.0)
   - RxDataSources (~> 5.0)
@@ -329,7 +324,6 @@ SPEC REPOS:
     - PanModal
     - PromisesObjC
     - ReactorKit
-    - ReusableKit
     - RxAlamofire
     - RxCocoa
     - RxDataSources
@@ -343,6 +337,16 @@ SPEC REPOS:
     - TTGTagCollectionView
     - UIImageCropper
     - WeakMapTable
+
+EXTERNAL SOURCES:
+  ReusableKit:
+    :branch: master
+    :git: https://github.com/devxoul/ReusableKit
+
+CHECKOUT OPTIONS:
+  ReusableKit:
+    :commit: 9a5756ba41f7a864ff0738c21876d52b9e67eec7
+    :git: https://github.com/devxoul/ReusableKit
 
 SPEC CHECKSUMS:
   Alamofire: 87bd8c952f9a4454320fce00d9cc3de57bcadaf5
@@ -381,7 +385,7 @@ SPEC CHECKSUMS:
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
   ReactorKit: e8b11d6b9c415405f381669b095c154a05b59eca
-  ReusableKit: d0b040de03b293288b0ca27a78602691d3346d9b
+  ReusableKit: 6995fa5f7fedb456889f72ca3f8913d21759a45d
   RxAlamofire: beb75a1c452d0de225651db4903f5d29d034a620
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
@@ -396,6 +400,6 @@ SPEC CHECKSUMS:
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 2ebac366bfb87a858c5b16dd89f368c1d73dc03d
+PODFILE CHECKSUM: ff767fed71a17aaaf2b0aaaf60d131490b07cbe8
 
 COCOAPODS: 1.11.3
