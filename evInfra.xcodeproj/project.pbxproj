@@ -84,6 +84,7 @@
 		192A338327FE747E00EF1684 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338227FE747E00EF1684 /* Marker.swift */; };
 		192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */; };
 		193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */; };
+		1948FB102849DEAB00C02255 /* NoticeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1948FB0F2849DEAA00C02255 /* NoticeCell.xib */; };
 		19C9DAD2283F0DF200EDAA27 /* NoticeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9DAD1283F0DF200EDAA27 /* NoticeReactor.swift */; };
 		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
 		4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
@@ -152,8 +153,6 @@
 		63B23744282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */; };
 		63BEAC5E28338ADA00E797DD /* ReissuanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BEAC5D28338ADA00E797DD /* ReissuanceModel.swift */; };
 		63BEAC602833965A00E797DD /* Observable+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BEAC5F2833965A00E797DD /* Observable+Operators.swift */; };
-		63C4A4B3283F110D00EA9D6F /* NoticeSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C4A4B2283F110D00EA9D6F /* NoticeSampleViewController.swift */; };
-		63C4A4B5283F118800EA9D6F /* NoticeSampleReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C4A4B4283F118800EA9D6F /* NoticeSampleReactor.swift */; };
 		63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */; };
 		63CCE8242834CFD5006B8B9A /* evInfraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE8232834CFD5006B8B9A /* evInfraTests.swift */; };
 		63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */; };
@@ -517,6 +516,7 @@
 		192A338227FE747E00EF1684 /* Marker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
 		193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
+		1948FB0F2849DEAA00C02255 /* NoticeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeCell.xib; sourceTree = "<group>"; };
 		19C9DAD1283F0DF200EDAA27 /* NoticeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeReactor.swift; sourceTree = "<group>"; };
 		4212A25325555775001BB124 /* OfferwallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallTableViewCell.swift; sourceTree = "<group>"; };
 		4212A25425555775001BB124 /* OfferwallTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferwallTableViewCell.xib; sourceTree = "<group>"; };
@@ -586,8 +586,6 @@
 		63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceViewController.swift; sourceTree = "<group>"; };
 		63BEAC5D28338ADA00E797DD /* ReissuanceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceModel.swift; sourceTree = "<group>"; };
 		63BEAC5F2833965A00E797DD /* Observable+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Operators.swift"; sourceTree = "<group>"; };
-		63C4A4B2283F110D00EA9D6F /* NoticeSampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeSampleViewController.swift; sourceTree = "<group>"; };
-		63C4A4B4283F118800EA9D6F /* NoticeSampleReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeSampleReactor.swift; sourceTree = "<group>"; };
 		63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkModel.swift; sourceTree = "<group>"; };
 		63CCE8212834CFD5006B8B9A /* evInfraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = evInfraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63CCE8232834CFD5006B8B9A /* evInfraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = evInfraTests.swift; sourceTree = "<group>"; };
@@ -1361,6 +1359,7 @@
 			isa = PBXGroup;
 			children = (
 				736D37C9208993BE009535EE /* NoticeCell.swift */,
+				1948FB0F2849DEAA00C02255 /* NoticeCell.xib */,
 				63E00F4C284986CB00D85629 /* NoticeCellReactor.swift */,
 			);
 			path = Cells;
@@ -1814,8 +1813,6 @@
 				73344AC4207F429300A6A9EC /* EditViewDelegate.swift */,
 				7376B5C420C6473500A2B7C1 /* MyArticleViewController.swift */,
 				90CBCC6526EAD64D002B2591 /* EIImageViewerViewController.swift */,
-				63C4A4B2283F110D00EA9D6F /* NoticeSampleViewController.swift */,
-				63C4A4B4283F118800EA9D6F /* NoticeSampleReactor.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -2037,6 +2034,7 @@
 				52B53D2A27BCBFD900D446A9 /* BoardSearchViewController.storyboard in Resources */,
 				73A7B3F1204E3595002E975F /* type_dc_combo_dim.png in Resources */,
 				00A3659B26C4E3A800424E40 /* FilterAccessView.xib in Resources */,
+				1948FB102849DEAB00C02255 /* NoticeCell.xib in Resources */,
 				7357594D20916A68008181E9 /* bolt.jpg in Resources */,
 				7357594320916A37008181E9 /* leaf.jpg in Resources */,
 				00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */,
@@ -2357,7 +2355,6 @@
 				00AE577926CE4864003E6643 /* RangeSeekSlider.swift in Sources */,
 				52B87A002799381500562436 /* BoardDetailTableViewCell.swift in Sources */,
 				7357595220916C11008181E9 /* InfoCollectionViewCell.swift in Sources */,
-				63C4A4B5283F118800EA9D6F /* NoticeSampleReactor.swift in Sources */,
 				73344ABF207B3A9B00A6A9EC /* UIImage+Extension.swift in Sources */,
 				63DA0A0B282E600C0021292C /* MembershipReissuanceInfoViewController.swift in Sources */,
 				00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */,
@@ -2400,7 +2397,6 @@
 				735E87C822D88ED70028F7BD /* ChargingStatus.swift in Sources */,
 				00A6A16226C3A4D30023DAE3 /* FilterPlaceView.swift in Sources */,
 				73344AC5207F429300A6A9EC /* EditViewDelegate.swift in Sources */,
-				63C4A4B3283F110D00EA9D6F /* NoticeSampleViewController.swift in Sources */,
 				CEC4322A223A5C9A00B76795 /* SearchTableView.swift in Sources */,
 				CE93309121509A81006B7EF6 /* ReportBoardViewController.swift in Sources */,
 				73C31BF92099A024005B6C53 /* EVModel.swift in Sources */,
