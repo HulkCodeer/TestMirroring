@@ -2,7 +2,7 @@
 //  NoticeTableViewCell.swift
 //  evInfra
 //
-//  Created by bulacode on 2018. 4. 20..
+//  Created by pkh on 2022/06/03.
 //  Copyright © 2018년 soft-berry. All rights reserved.
 //
 
@@ -14,6 +14,10 @@ import ReactorKit
 internal class NoticeCell: UITableViewCell, ReactorKit.View {
     internal var disposeBag = DisposeBag()
     
+    private lazy var cellButton = UIButton().then {
+        $0.backgroundColor = .clear
+    }
+    
     private lazy var noticeTitleLbl = UILabel().then {
         $0.fontSize = 17
         $0.textColor = UIColor(named: "content-primary")
@@ -24,16 +28,21 @@ internal class NoticeCell: UITableViewCell, ReactorKit.View {
         $0.textColor = UIColor(named: "content-secondary")
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override func awakeFromNib() {
+        super.awakeFromNib()
         selectionStyle = .none
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        makeUI()
     }
     
     private func makeUI() {
+        contentView.addSubview(dateTimeLbl)
+        dateTimeLbl.snp.makeConstraints {
+            $0.leading.lessThanOrEqualToSuperview().inset(320)
+            $0.trailing.equalToSuperview().inset(12)
+            $0.bottom.equalToSuperview().inset(8)
+            $0.height.equalTo(20)
+        }
+        
         contentView.addSubview(noticeTitleLbl)
         noticeTitleLbl.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(12)
@@ -43,16 +52,33 @@ internal class NoticeCell: UITableViewCell, ReactorKit.View {
             $0.height.equalTo(20)
         }
         
-        contentView.addSubview(dateTimeLbl)
-        dateTimeLbl.snp.makeConstraints {
-            $0.leading.lessThanOrEqualToSuperview().inset(320)
-            $0.trailing.equalToSuperview().inset(12)
-            $0.bottom.equalToSuperview().inset(8)
-            $0.height.equalTo(20)
+        contentView.addSubview(cellButton)
+        cellButton.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
-    internal func bind(reactor: NoticeCellReactor<NoticeInfo>) {
+    internal func bind(reactor: NoticeCellReactor<NoticeListDataModel.NoticeInfo>) {
+        
+        reactor.state.compactMap {
+            $0.model.title
+        }.bind(to: noticeTitleLbl.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap {
+            $0.model.datetime
+        }.bind(to: dateTimeLbl.rx.text)
+            .disposed(by: disposeBag)
+        
+        cellButton.rx.tap
+            .asDriver(onErrorDriveWith: .empty())
+            .drive { _ in
+                let storyboard = UIStoryboard(name: "Board", bundle: nil)
+                let noticeContentViewController = storyboard.instantiateViewController(ofType: NoticeContentViewController.self)
+                noticeContentViewController.boardId = Int(reactor.currentState.model.id) ?? -1
+                
+            GlobalDefine.shared.mainNavi?.push(viewController: noticeContentViewController)
+            }.disposed(by: disposeBag)
     }
 }
 

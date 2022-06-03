@@ -2,7 +2,7 @@
 //  NoticeViewController.swift
 //  evInfra
 //
-//  Created by bulacode on 2018. 3. 2..
+//  Created by Kyoon Ho Park on 2022/06/03.
 //  Copyright © 2018년 soft-berry. All rights reserved.
 //
 
@@ -14,6 +14,7 @@ import RxSwift
 import SnapKit
 import Then
 import ReusableKit
+import UIKit
 
 internal final class NoticeViewController: BaseViewController, StoryboardView {
     
@@ -41,14 +42,14 @@ internal final class NoticeViewController: BaseViewController, StoryboardView {
             return cell
         }
     })
-
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        layout()
+    override func loadView() {
+        super.loadView()
+        view.addSubview(tableView)
+        
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,19 +66,11 @@ internal final class NoticeViewController: BaseViewController, StoryboardView {
             .bind(to: self.tableView.rx.items(dataSource: self.dataSource))
             .disposed(by: disposeBag)
     }
-    
-    private func layout() {
-        view.addSubview(tableView)
-        
-        tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-    }
 }
 
 // MARK: Reactive Extension
 enum NoticeListItem {
-    case noticeListItem(reactor: NoticeCellReactor<NoticeInfo>)
+    case noticeListItem(reactor: NoticeCellReactor<NoticeListDataModel.NoticeInfo>)
 }
 
 struct NoticeListSectionModel {

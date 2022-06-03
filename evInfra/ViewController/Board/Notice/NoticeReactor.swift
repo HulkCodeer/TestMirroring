@@ -56,7 +56,7 @@ internal final class NoticeReactor: ViewModel, Reactor {
         return newState
     }
     
-    private func convertToDataModel(with result: ApiResult<Data, ApiErrorMessage>) -> [NoticeInfo]? {
+    private func convertToDataModel(with result: ApiResult<Data, ApiErrorMessage>) -> [NoticeListDataModel.NoticeInfo]? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
@@ -67,7 +67,7 @@ internal final class NoticeReactor: ViewModel, Reactor {
         }
     }
     
-    private func convertToItem(models: [NoticeInfo]) -> [NoticeListItem] {
+    private func convertToItem(models: [NoticeListDataModel.NoticeInfo]) -> [NoticeListItem] {
         var items = [NoticeListItem]()
         for data in models {
             let reactor = NoticeCellReactor(model: data)
@@ -87,17 +87,35 @@ struct NoticeListDataModel {
             NoticeInfo($0)
         }
     }
+    
+    struct NoticeInfo: Codable, Equatable {
+        let id: String
+        let title: String
+        let datetime: String
+        
+        init(_ json: JSON) {
+            self.id = json["id"].stringValue
+            self.title = json["title"].stringValue
+            self.datetime = Date().toStringToMinute(data: json["datetime"].stringValue)
+        }
+    }
 }
 
-struct NoticeInfo: Codable, Equatable {
-    let id: String
+struct NoticeDataModel {
+    let code: Int
     let title: String
-    let datetime: String
+    let content: String
+    
+    init(_ code: Int, _ title: String, _ content: String) {
+        self.code = code
+        self.title = title
+        self.content = content
+    }
     
     init(_ json: JSON) {
-        self.id = json["id"].stringValue
+        self.code = json["code"].intValue
         self.title = json["title"].stringValue
-        self.datetime = Date().toStringToMinute(data: json["datetime"].stringValue)
+        self.content = json["content"].stringValue
     }
 }
 
