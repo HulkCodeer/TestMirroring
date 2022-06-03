@@ -154,14 +154,54 @@
                                     <constraint firstAttribute="height" constant="1" id="Ph6-hz-YKo"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lPu-kB-Rti" userLabel="ClusteringOnOff">
+                                <rect key="frame" x="0.0" y="201" width="375" height="66"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전소 군집 기능" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SIC-Yw-HJH">
+                                        <rect key="frame" x="16" y="24.5" width="274" height="17"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gHE-sV-woO">
+                                        <rect key="frame" x="298" y="16" width="51" height="31"/>
+                                        <color key="tintColor" red="0.75406885150000003" green="0.75408679249999999" blue="0.75407713649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="onTintColor" name="content-positive"/>
+                                        <connections>
+                                            <action selector="onChangeClusteringSwitch:" destination="Oby-9Y-4eb" eventType="valueChanged" id="tp3-nM-ofq"/>
+                                        </connections>
+                                    </switch>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="gHE-sV-woO" secondAttribute="trailing" constant="28" id="EhR-zd-VWo"/>
+                                    <constraint firstItem="gHE-sV-woO" firstAttribute="top" secondItem="lPu-kB-Rti" secondAttribute="top" constant="16" id="cFn-gy-itr"/>
+                                    <constraint firstItem="SIC-Yw-HJH" firstAttribute="centerY" secondItem="lPu-kB-Rti" secondAttribute="centerY" id="cQU-do-uUX"/>
+                                    <constraint firstItem="gHE-sV-woO" firstAttribute="leading" secondItem="SIC-Yw-HJH" secondAttribute="trailing" constant="8" id="clC-30-2aa"/>
+                                    <constraint firstAttribute="height" constant="66" id="eza-I4-NeY"/>
+                                    <constraint firstItem="SIC-Yw-HJH" firstAttribute="leading" secondItem="lPu-kB-Rti" secondAttribute="leading" constant="16" id="ohm-pB-qtc"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4UB-mO-TUk">
+                                <rect key="frame" x="0.0" y="267" width="375" height="1"/>
+                                <color key="backgroundColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="uWy-q1-2l8"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rgc-rl-sg1"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="rgc-rl-sg1" firstAttribute="trailing" secondItem="US9-yr-M6K" secondAttribute="trailing" id="02L-BQ-vYu"/>
+                            <constraint firstItem="4UB-mO-TUk" firstAttribute="top" secondItem="lPu-kB-Rti" secondAttribute="bottom" id="40r-hh-W5f"/>
+                            <constraint firstAttribute="trailing" secondItem="4UB-mO-TUk" secondAttribute="trailing" id="5ag-Tb-u7Y"/>
                             <constraint firstItem="US9-yr-M6K" firstAttribute="leading" secondItem="rgc-rl-sg1" secondAttribute="leading" id="95Y-lJ-cBX"/>
                             <constraint firstItem="x08-Bn-cZH" firstAttribute="top" secondItem="00c-u9-iVh" secondAttribute="bottom" id="9Eo-8d-N98"/>
+                            <constraint firstItem="4UB-mO-TUk" firstAttribute="leading" secondItem="SlJ-vo-4Ae" secondAttribute="leading" id="9xe-NH-7vd"/>
                             <constraint firstItem="0Yf-X4-ULU" firstAttribute="leading" secondItem="rgc-rl-sg1" secondAttribute="leading" id="9yq-7n-ZE6"/>
+                            <constraint firstItem="rgc-rl-sg1" firstAttribute="trailing" secondItem="lPu-kB-Rti" secondAttribute="trailing" id="Dxo-ok-2K3"/>
+                            <constraint firstItem="lPu-kB-Rti" firstAttribute="leading" secondItem="SlJ-vo-4Ae" secondAttribute="leading" id="Gfx-A0-7VH"/>
                             <constraint firstItem="Ujp-k4-yXV" firstAttribute="top" secondItem="VQ7-ha-Gj0" secondAttribute="bottom" id="IP1-U6-dfb"/>
                             <constraint firstItem="rgc-rl-sg1" firstAttribute="trailing" secondItem="0Yf-X4-ULU" secondAttribute="trailing" id="LLE-df-WVC"/>
                             <constraint firstItem="x08-Bn-cZH" firstAttribute="leading" secondItem="rgc-rl-sg1" secondAttribute="leading" id="NhF-k9-R4R"/>
@@ -175,13 +215,15 @@
                             <constraint firstItem="00c-u9-iVh" firstAttribute="leading" secondItem="rgc-rl-sg1" secondAttribute="leading" id="kUj-pl-eBK"/>
                             <constraint firstItem="Ujp-k4-yXV" firstAttribute="leading" secondItem="rgc-rl-sg1" secondAttribute="leading" id="oaY-2j-ocZ"/>
                             <constraint firstItem="rgc-rl-sg1" firstAttribute="trailing" secondItem="Ujp-k4-yXV" secondAttribute="trailing" id="ulM-Xm-nBF"/>
+                            <constraint firstItem="lPu-kB-Rti" firstAttribute="top" secondItem="x08-Bn-cZH" secondAttribute="bottom" id="vCF-hL-7Ec"/>
                             <constraint firstItem="00c-u9-iVh" firstAttribute="top" secondItem="Ujp-k4-yXV" secondAttribute="bottom" id="wZb-o4-Ove"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="alarmLocalSwitch" destination="kjg-vx-B2e" id="yvx-hJ-nFa"/>
-                        <outlet property="alarmMarketingSwitch" destination="omx-nn-Rki" id="yBA-tn-CJX"/>
+                        <outlet property="alarmMarketingSwitch" destination="omx-nn-Rki" id="XcP-z3-WUF"/>
                         <outlet property="alarmSwitch" destination="OCC-g9-wHe" id="ePh-gk-Ipa"/>
+                        <outlet property="clusteringSwitch" destination="gHE-sV-woO" id="xpv-9q-rMX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IO8-bL-QdZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
