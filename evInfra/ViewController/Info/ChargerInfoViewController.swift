@@ -73,6 +73,10 @@ class ChargerInfoViewController: UIViewController {
     ]
     
     var chargerModels = [ChargerModel]()
+    
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

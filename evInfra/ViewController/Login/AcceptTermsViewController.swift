@@ -26,6 +26,10 @@ class AcceptTermsViewController: UIViewController {
     var user: Login?
     var delegate: AcceptTermsViewControllerDelegate?
 
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

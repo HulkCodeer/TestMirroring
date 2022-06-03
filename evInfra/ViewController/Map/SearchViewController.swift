@@ -91,6 +91,10 @@ class SearchViewController: UIViewController {
         }
     }
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -205,8 +209,8 @@ extension SearchViewController: SearchBarDelegate {
                             self.tableView.chargerList?.append(chargerStationInfo!)
                         }
                     }
-                }catch{
-                    Log.e(tag: "db", msg: "refreshCursorAdapter Error : \(error.localizedDescription)")
+                }catch{                    
+                    printLog(out: "refreshCursorAdapter Error : \(error.localizedDescription)")
                 }
             }
             DispatchQueue.main.async {

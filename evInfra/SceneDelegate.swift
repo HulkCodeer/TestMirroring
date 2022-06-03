@@ -17,7 +17,6 @@ import AuthenticationServices
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var navigationController: AppNavigationController?
     
     private let DYNAMIC_LINK_PREFIX = "https://com.soft-berry.ev-infra/"
 
@@ -42,10 +41,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         // kakao auto login
-        if let url = URLContexts.first?.url {
-            if KOSession.isKakaoAccountLoginCallback(url.absoluteURL) {
-                KOSession.handleOpen(url)
-            }
+        guard let _urlContentx = URLContexts.first else { return }
+        let url = _urlContentx.url
+        if KOSession.isKakaoAccountLoginCallback(url.absoluteURL) {
+            KOSession.handleOpen(url)
+        }
+        
+        if url.absoluteString.hasPrefix("evinfra") {
+            
         }
     }
     
@@ -57,15 +60,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else { return }
         if let windowScene = scene as? UIWindowScene {
             window = UIWindow(windowScene: windowScene)
-            navigationController = AppNavigationController(rootViewController: introViewController)//
-            navigationController?.navigationBar.isHidden = true
+            let navigationController = AppNavigationController(rootViewController: introViewController)
+            GlobalDefine.shared.mainNavi = navigationController
+            navigationController.navigationBar.isHidden = true
             
             let appearance = UINavigationBarAppearance()
             appearance.backgroundColor = UIColor(named: "nt-white")
             appearance.shadowColor = nil
-            navigationController?.navigationBar.standardAppearance = appearance
-            navigationController?.navigationBar.compactAppearance = appearance
-            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            navigationController.navigationBar.standardAppearance = appearance
+            navigationController.navigationBar.compactAppearance = appearance
+            navigationController.navigationBar.scrollEdgeAppearance = appearance
             
             window!.rootViewController = navigationController
             window!.makeKeyAndVisible()
@@ -113,6 +117,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let component = URLComponents(url: url, resolvingAgainstBaseURL: false) {
             DeepLinkPath.sharedInstance.linkParameter = component.queryItems
         }
-        DeepLinkPath.sharedInstance.runDeepLink(navigationController: navigationController!)
-    }
+        DeepLinkPath.sharedInstance.runDeepLink()
+    }        
 }

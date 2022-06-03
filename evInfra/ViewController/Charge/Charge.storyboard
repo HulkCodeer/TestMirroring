@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -22,7 +22,7 @@
                                 <rect key="frame" x="16" y="0.0" width="343" height="88"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WiU-bN-Ysq">
-                                        <rect key="frame" x="120.5" y="20" width="102" height="24"/>
+                                        <rect key="frame" x="110.5" y="20" width="122" height="24"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="나의 보유 베리" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jP2-79-bAG">
                                                 <rect key="frame" x="0.0" y="0.0" width="80.5" height="24"/>
@@ -36,16 +36,37 @@
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_question_xs" translatesAutoresizingMaskIntoConstraints="NO" id="xiY-x1-jZa">
+                                                <rect key="frame" x="106" y="4" width="16" height="16"/>
+                                                <color key="tintColor" name="nt-5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="16" id="TyA-7e-0C6"/>
+                                                    <constraint firstAttribute="width" constant="16" id="rBu-LQ-IHf"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lrE-49-KJ9">
+                                                <rect key="frame" x="92" y="-10" width="44" height="44"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="44" id="Pz7-Oc-rVG"/>
+                                                    <constraint firstAttribute="width" constant="44" id="aZY-jM-CMz"/>
+                                                </constraints>
+                                                <state key="normal" title=""/>
+                                                <buttonConfiguration key="configuration" style="plain"/>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="1Ix-Xp-Q1D" firstAttribute="leading" secondItem="jP2-79-bAG" secondAttribute="trailing" constant="8" id="1Oq-0f-HeT"/>
                                             <constraint firstItem="jP2-79-bAG" firstAttribute="centerY" secondItem="1Ix-Xp-Q1D" secondAttribute="centerY" id="AT0-h3-gxb"/>
+                                            <constraint firstItem="lrE-49-KJ9" firstAttribute="centerX" secondItem="xiY-x1-jZa" secondAttribute="centerX" id="B8S-Nn-jUt"/>
                                             <constraint firstItem="jP2-79-bAG" firstAttribute="leading" secondItem="WiU-bN-Ysq" secondAttribute="leading" id="PxZ-1K-56W"/>
+                                            <constraint firstItem="lrE-49-KJ9" firstAttribute="centerY" secondItem="xiY-x1-jZa" secondAttribute="centerY" id="UEQ-7b-4hj"/>
+                                            <constraint firstAttribute="trailing" secondItem="xiY-x1-jZa" secondAttribute="trailing" id="WDi-tS-KoY"/>
                                             <constraint firstAttribute="bottom" secondItem="jP2-79-bAG" secondAttribute="bottom" id="qSK-Jw-Mwu"/>
-                                            <constraint firstAttribute="trailing" secondItem="1Ix-Xp-Q1D" secondAttribute="trailing" id="ubz-a5-Djx"/>
+                                            <constraint firstItem="xiY-x1-jZa" firstAttribute="leading" secondItem="1Ix-Xp-Q1D" secondAttribute="trailing" constant="4" id="uGM-4r-CVO"/>
                                             <constraint firstItem="1Ix-Xp-Q1D" firstAttribute="top" secondItem="WiU-bN-Ysq" secondAttribute="top" id="vry-ZX-Hpl"/>
                                             <constraint firstItem="jP2-79-bAG" firstAttribute="top" secondItem="WiU-bN-Ysq" secondAttribute="top" id="wpE-Cg-g2Z"/>
+                                            <constraint firstItem="xiY-x1-jZa" firstAttribute="centerY" secondItem="1Ix-Xp-Q1D" secondAttribute="centerY" id="zIi-7h-kv2"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12월 소멸예정 베리" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uXm-Su-yfx">
@@ -268,6 +289,7 @@
                         <outlet property="labelResultMsg" destination="TNb-JN-ucY" id="Wwr-Fc-o2u"/>
                         <outlet property="labelTotalPoint" destination="1Ix-Xp-Q1D" id="E25-hc-iRc"/>
                         <outlet property="pointTableView" destination="ZIL-9Q-Rvc" id="hMQ-qP-vct"/>
+                        <outlet property="pointUseGuideBtn" destination="lrE-49-KJ9" id="Oe7-lS-nDT"/>
                         <outlet property="textFieldEndDate" destination="Hi7-X7-XY6" id="rLS-gY-dXf"/>
                         <outlet property="textFieldStartDate" destination="b7q-IG-bHw" id="a2d-px-CIS"/>
                     </connections>
@@ -395,20 +417,20 @@
                                 <color key="textColor" name="content-tertiary"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" - 설정한 베리보다 현재 베리가 더 적은 경우, 현재 베리 값으로 전액 사용 사용됩니다. " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hn9-yz-JR8" userLabel="- 설정한 베리보다 현재 베리가 더 적은 경우, 현재 베리 값으로 전액 사용 사용됩니다.">
-                                <rect key="frame" x="16" y="239.5" width="343" height="33.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- EV Infra와 제휴한 모든 로밍사에서 베리 사용 가능해요." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hn9-yz-JR8" userLabel="- 설정한 베리보다 현재 베리가 더 적은 경우, 현재 베리 값으로 전액 사용 사용됩니다.">
+                                <rect key="frame" x="16" y="239.5" width="343" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" name="content-tertiary"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" - 베리가 사용 가능한 업체에서만 결제 시 함께 사용됩니다. (한전, GS, 에스트레픽) " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AFn-ug-bZg" userLabel="- 베리가 사용 가능한 업체에서만 결제 시 함께 사용됩니다. (한전, GS, 에스트레픽)">
-                                <rect key="frame" x="16" y="289" width="343" height="33.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- 설정한 베리보다 현재 베리가 더 적은 경우, 현재 베리 값으로 전액 사용 사용되어요." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AFn-ug-bZg" userLabel="- 베리가 사용 가능한 업체에서만 결제 시 함께 사용됩니다. (한전, GS, 에스트레픽)">
+                                <rect key="frame" x="16" y="272.5" width="343" height="33.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" name="content-tertiary"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" - 일회성 사용은 일부 충전소에 한 하여 충전시 충전중 화면에서 수정 가능합니다. " textAlignment="natural" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PTt-Cb-oR0">
-                                <rect key="frame" x="16" y="338.5" width="343" height="33.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- 베리는 충전 중 화면에서도 사용할 수 있어요. 단, 베리 설정은 반복 사용이며, 충전 중 베리 사용은 일회성 사용이에요. " textAlignment="natural" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PTt-Cb-oR0">
+                                <rect key="frame" x="16" y="322" width="343" height="33.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" name="content-tertiary"/>
                                 <nil key="highlightedColor"/>
@@ -926,26 +948,30 @@
     </scenes>
     <resources>
         <image name="ic_receipt" width="40" height="40"/>
+        <image name="icon_question_xs" width="16" height="16"/>
         <namedColor name="background-secondary">
-            <color red="0.96100002527236938" green="0.96100002527236938" blue="0.96100002527236938" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.95294117647058818" green="0.95294117647058818" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-positive">
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-primary">
-            <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.094117647058823528" green="0.094117647058823528" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-secondary">
-            <color red="0.29399999976158142" green="0.29399999976158142" blue="0.29399999976158142" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.28627450980392155" green="0.28627450980392155" blue="0.29411764705882354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-tertiary">
-            <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.47450980392156861" green="0.47843137254901963" blue="0.49019607843137253" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="gr-5">
             <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="gr-6">
             <color red="0.17254901960784313" green="0.75294117647058822" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="nt-5">
+            <color red="0.47450980392156861" green="0.47843137254901963" blue="0.49019607843137253" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -13,13 +13,24 @@ import SwiftyJSON
 
 class MyWritingViewController: BaseViewController {
     
-    @IBOutlet weak var boardTableView: BoardTableView!
+    private lazy var boardTableView = BoardTableView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
     var currentPage = 0
     var lastPage: Bool = false
     var communityBoardList: [BoardListItem] = [BoardListItem]()
     var boardCategory = ""
     var screenType = Board.ScreenType.LIST
+    
+    override func loadView() {
+        super.loadView()
+        
+        view.addSubview(boardTableView)
+        boardTableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }                
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +82,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
         self.currentPage = 1
         self.lastPage = false
         
-        let mbID = MemberManager.getMbId()
+        let mbID = MemberManager.shared.mbId
         
         Server.fetchBoardList(mid: mid,
                               page: "\(self.currentPage)",
@@ -108,7 +119,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
     func fetchNextBoard(mid: String, sort: Board.SortType, mode: String) {
         self.currentPage += 1
         
-        let mbID = MemberManager.getMbId()
+        let mbID = MemberManager.shared.mbId
         
         Server.fetchBoardList(mid: mid,
                               page: "\(self.currentPage)",

@@ -26,6 +26,10 @@ class EventViewController: UIViewController {
     var list = Array<Event>()
     var displayedList : Set = Set<Int>()
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

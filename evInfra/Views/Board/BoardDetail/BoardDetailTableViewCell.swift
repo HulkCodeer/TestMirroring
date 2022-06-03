@@ -112,7 +112,7 @@ class BoardDetailTableViewCell: UITableViewCell {
     }
     
     private func isMyComment(mb_id: String) -> Bool {
-        return MemberManager.getMbId().description.equals(mb_id)
+        return MemberManager.shared.mbId.description.compare(mb_id) == .orderedSame        
     }
     
     private func isAdmin(mbId: String) -> Bool {
@@ -166,6 +166,8 @@ class BoardDetailTableViewCell: UITableViewCell {
         // 본인이 좋아요 한 글, 하트 표시
         if comment.liked! >= 1 {
             likeButton.isSelected = true
+        } else {
+            likeButton.isSelected = false
         }
     }
     

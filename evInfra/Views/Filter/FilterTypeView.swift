@@ -47,7 +47,7 @@ class FilterTypeView: UIView {
         
         carSettingView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickCarSetting (_:))))
         
-        if (!MemberManager().isLogin()){
+        if !MemberManager.shared.isLogin{
             switchCarSetting.isUserInteractionEnabled = false
         }
     }

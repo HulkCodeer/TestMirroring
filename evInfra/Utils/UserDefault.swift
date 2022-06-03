@@ -39,6 +39,7 @@ class UserDefault {
         static let MB_PARTNERSHIP_CLIENT   = "mb_partnership_client"
         static let MB_PAYMENT       = "mb_payment"
         static let MB_DEVICE_ID       = "mb_device_id"
+        static let MB_HAS_MEMBERSHIP = "has_membership"
         
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"
@@ -88,8 +89,8 @@ class UserDefault {
         static let APP_INTRO_IMAGE = "app_intro_image"
         static let APP_INTRO_END_DATE = "app_intro_end_date"
         
-        // 앱 첫부팅
-        static let APP_FIRST_BOOT = "app_first_boot" // false : first booting
+        // 마케팅 팝업을 이미 보여줬는지 체크
+        static let DID_SHOW_MARKETING_POPUP = "app_first_boot" // false : first booting
         
         // 충전 결제
         static let CHARGING_ID = "charging_id"
@@ -99,6 +100,9 @@ class UserDefault {
         
         // 게시글 검색 최근검색어
         static let RECENT_KEYWORD = "keywords"
+        
+        // 배송완료 툴팁 저장
+        static let IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP = "isDeleveryComplete"
     }
 
     func saveString(key:String, value: String) -> Void {

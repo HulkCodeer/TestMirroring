@@ -9,91 +9,97 @@
 import Foundation
 import SwiftyJSON
 
-class MemberManager {
+
+struct Admin: Decodable {
+    let mb_id: String
+    let nick_name: String
+}
+
+enum MemberLevel: Int {
+    case admin = 1
+    case keeper = 2
+    case normal = 3
+}
+
+enum RentClientType: Int {
+    case skr = 23
+    case lotte = 24
+}
+
+internal final class MemberManager {
+    internal static let shared = MemberManager()
     
-    public static let MB_LEVEL_ADMIN = 1
-    public static let MB_LEVEL_GUARD = 2
-    public static let MB_LEVEL_NORMAL = 3
+    private init() {}
     
-    public static let RENT_CLIENT_SKR = 23
-    public static let RENT_CLIENT_LOTTE = 24
-    
-    static func getMbId() -> Int {
+    internal var mbId: Int {
         return UserDefault().readInt(key: UserDefault.Key.MB_ID)
     }
     
-    static func getMemberId() -> String {
+    internal var memberId: String {
         return UserDefault().readString(key: UserDefault.Key.MEMBER_ID)
     }
     
-    static func getUserId() -> String {
+    internal var userId: String {
         return UserDefault().readString(key: UserDefault.Key.MB_USER_ID)
     }
     
-    static func getDeviceId() -> String {
+    internal var deviceId: String {
         return UserDefault().readString(key: UserDefault.Key.MB_DEVICE_ID)
     }
     
-    static func getLoginType() -> Login.LoginType {
+    internal var loginType: Login.LoginType {
         return Login.LoginType(rawValue: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)) ?? .none
     }
     
-    static func getProfileImage() -> String {
+    internal var profileImage: String {
         return UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME)
     }
     
-    static func getMemberNickname() -> String {
-        let nickName = UserDefault().readString(key: UserDefault.Key.MB_NICKNAME).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        return nickName ?? ""
+    internal var memberNickName: String {
+        return UserDefault().readString(key: UserDefault.Key.MB_NICKNAME).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
     }
-    
-    static func isPartnershipClient(clientId : Int) -> Bool {
+                    
+    func isPartnershipClient(clientId : Int) -> Bool {
         let list = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
         return list.contains(clientId)
     }
     
-    static func setSKRentConfig(){
+    func setSKRentConfig(){
         let arr = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
-        if !arr.contains(MemberManager.RENT_CLIENT_SKR){
-            UserDefault().addItemToIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT, value: RENT_CLIENT_SKR)
+        if !arr.contains(RentClientType.skr.rawValue){
+            UserDefault().addItemToIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT, value: RentClientType.skr.rawValue)
         }
         UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: true)
     }
     
     func savePartnershipClientId(data :[JSON]){
         UserDefault().saveIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT, value: data)
-        if data.contains(JSON(MemberManager.RENT_CLIENT_SKR)){
+        if data.contains(JSON(RentClientType.skr.rawValue)){
             UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: true)
         } else {
             UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: false)
         }
     }
     
-    static func hasMembership() -> Bool {
-        let list = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
-        return !list.isEmpty
+    internal var hasMembership: Bool {
+        return UserDefault().readBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP)
     }
     
-    static func hasPayment() -> Bool {
+    internal var hasPayment: Bool {
         return UserDefault().readBool(key: UserDefault.Key.MB_PAYMENT)
     }
     
     // 로그인 상태 체크
-    func isLogin() -> Bool {
-        if UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0 {
-            return true
-        } else {
-            return false;
-        }
+    internal var isLogin: Bool {
+        return UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0
     }
     
     // 지킴이 체크
-    func isGuard() -> Bool {
-        let mbLevel = UserDefault().readInt(key: UserDefault.Key.MB_LEVEL)
-        return mbLevel == MemberManager.MB_LEVEL_GUARD
+    internal var isKeeper: Bool {
+        return UserDefault().readInt(key: UserDefault.Key.MB_LEVEL) == MemberLevel.keeper.rawValue
     }
     
-    func setData(data: JSON) {
+    func setData(data: JSON) {    
         if data["mb_id"].stringValue.elementsEqual("") {
             print("mb id is null");
         } else {
@@ -111,13 +117,14 @@ class MemberManager {
             savePartnershipClientId(data : data["rent_client"].arrayValue)
             userDefault.saveBool(key: UserDefault.Key.MB_PAYMENT, value: data["payment"].boolValue)
             userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value: data["battery_device_id"].stringValue)
+            userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value: data["has_membership"].boolValue)
         }
     }
     
     func clearData() {
         let userDefault = UserDefault()
         userDefault.saveInt(key: UserDefault.Key.MB_ID, value: 0)
-        userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: MemberManager.MB_LEVEL_NORMAL)
+        userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: MemberLevel.normal.rawValue)
         userDefault.saveString(key: UserDefault.Key.MB_LOGIN_TYPE, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_USER_ID, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: "")
@@ -128,34 +135,24 @@ class MemberManager {
         userDefault.saveBool(key: UserDefault.Key.INTRO_SKR, value: false)
         userDefault.saveBool(key: UserDefault.Key.MB_PAYMENT, value: false)
         userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value:  "")
+        userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  false)
     }
     
-    func showLoginAlert(vc: UIViewController, completion: ((Bool) -> ())? = nil) {
+    func showLoginAlert(completion: ((Bool) -> ())? = nil) {
+        
         let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
-            let loginVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-            vc.navigationController?.push(viewController: loginVC)
-            
-            if completion != nil {
-                completion!(true)
-            }
+            guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
+            let loginVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(ofType: LoginViewController.self)
+            _mainNavi.push(viewController: loginVC)
+                        
+            completion?(true)
         })
         
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler:{ (ACTION) -> Void in
-            if completion != nil {
-                completion!(false)
-            }
+            completion?(false)
         })
-
-        var actions = Array<UIAlertAction>()
-        actions.append(ok)
-        actions.append(cancel)
-        UIAlertController.showAlert(title: "로그인 필요", message: "로그인 후 사용가능합니다.\n로그인 하시려면 확인버튼을 누르세요.", actions: actions)
+        
+        UIAlertController.showAlert(title: "로그인 필요", message: "로그인 후 사용가능합니다.\n로그인 하시려면 확인버튼을 누르세요.", actions: [ok, cancel])
+        
     }
 }
-
-struct Admin: Decodable {
-    let mb_id: String
-    let nick_name: String
-}
-
-

@@ -21,6 +21,7 @@ class BoardDetailViewModel {
     func fetchBoardDetail(mid: String, document_srl: String) {
         Server.fetchBoardDetail(mid: mid, document_srl: document_srl) { responseData in
             guard let responseData = responseData as? BoardDetailResponseData else { return }
+            printLog(out: "Server Response Data : \(responseData)")
             self.detailData = responseData
         }
     }
@@ -57,13 +58,8 @@ class BoardDetailViewModel {
                             !previousFiles.isEmpty {
                             let file = previousFiles[0]
                             Server.deleteDocumnetFile(documentSRL: commentSRL, fileSRL: file.file_srl!, isCover: file.cover_image!) { isSuccess, response in
-                                if isSuccess {
-                                    if let value = response as? String,
-                                        value.contains("success") {
-                                        completion(true)
-                                    } else {
-                                        completion(false)
-                                    }
+                                if isSuccess {                                    
+                                    completion(true)
                                 } else {
                                     completion(false)
                                 }
@@ -139,9 +135,8 @@ class BoardDetailViewModel {
         }
     }
     
-    func isMyBoard(mb_id: String) -> Bool {
-        let memberMB_ID = String(MemberManager.getMbId())
-        return memberMB_ID.elementsEqual(mb_id)
+    func isMyBoard(mb_id: String) -> Bool {        
+        return MemberManager.shared.mbId.description.compare(mb_id) == .orderedSame
     }
     
     func counOfComments() -> Int {

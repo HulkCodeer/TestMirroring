@@ -28,6 +28,10 @@ class PaymentQRScanViewController: UIViewController {
     
     var mMyPoint = 0
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
@@ -80,24 +84,24 @@ class PaymentQRScanViewController: UIViewController {
                 let json = JSON(value)
                 let payCode = json["pay_code"].intValue
                 
-                switch (payCode) {
-                case PaymentStatus.PAY_FINE_USER :
+                switch PaymentStatus(rawValue: payCode) {
+                case .PAY_FINE_USER :
                     self.captureSession.startRunning()
                     
-                case PaymentStatus.PAY_NO_USER, PaymentStatus.PAY_NO_CARD_USER:
+                case .PAY_NO_USER, .PAY_NO_CARD_USER:
                     self.showRegisterCardDialog()
                     
-                case PaymentStatus.PAY_DEBTOR_USER:
+                case .PAY_DEBTOR_USER:
                     let repayListVC = self.storyboard!.instantiateViewController(withIdentifier: "RepayListViewController") as! RepayListViewController
                     repayListVC.delegate = self
                     self.navigationController?.push(viewController: repayListVC)
                     break;
-                case PaymentStatus.PAY_NO_VERIFY_USER, PaymentStatus.PAY_DELETE_FAIL_USER:
+                case .PAY_NO_VERIFY_USER, .PAY_DELETE_FAIL_USER:
                     let resultMessage = json["ResultMsg"].stringValue
                     let message = resultMessage.replacingOccurrences(of: "\\n", with: "\n")
                     self.showAlertDialogByMessage(message: message)
                     
-                case PaymentStatus.PAY_REGISTER_FAIL_PG:
+                case .PAY_REGISTER_FAIL_PG:
                     self.showAlertDialogByMessage(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
                     
                 default:

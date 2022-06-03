@@ -61,6 +61,9 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     var isRouteMode: Bool = false
     var currentPage = 0
 
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -555,7 +558,7 @@ extension DetailViewController {
     
     @objc
     fileprivate func onClickReportChargeBtn() {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             if let chargerInfo = self.charger {
                 let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
                 let reportChargeVC = reportStoryboard.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
@@ -564,7 +567,7 @@ extension DetailViewController {
                 self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true, completion: nil)
             }
         } else {
-            MemberManager().showLoginAlert(vc:self)
+            MemberManager.shared.showLoginAlert()
         }
     }
 }

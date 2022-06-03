@@ -33,7 +33,7 @@ class CompanyInfoChecker {
         if companyList.count > 0 {
             for company in companyList {
                 if StringUtils.isNullOrEmpty(company.icon_name) == false {
-                    print("company snm: \(company.name!), icon name: \(company.icon_name!)")
+                    printLog(out: "company snm: \(company.name!), icon name: \(company.icon_name!)")
                     if company.isChangeIcon() {
                         downloadArray.append(company)
                     }
@@ -59,18 +59,18 @@ class CompanyInfoChecker {
         var updateCount = 0
         for company in companyList {
             let url = "\(Const.IMG_URL_COMP_MARKER)\(company.icon_name!).png"
-            
-            let destination: DownloadRequest.DownloadFileDestination = { _, _ in
+                                            
+            let destination: DownloadRequest.Destination = { _, _ in
                 var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
                 documentsURL.appendPathComponent("\(company.icon_name!).png")
                 return (documentsURL, [.removePreviousFile])
             }
-            
-            Alamofire.download(url, to:destination)
+                        
+            AF.download(url, to:destination)
                 .downloadProgress { (progress) in
                 }
                 .responseData { (data) in
-                    print("Download Complete \(company.icon_name!)")
+                    printLog(out: "Download Complete \(company.icon_name!)")
                     self.efm.makeMarkerImage(companyIcon: company.icon_name!, companyId: company.company_id!)
 
                     // update UI
@@ -78,7 +78,7 @@ class CompanyInfoChecker {
                     self.companyInfoCheckerDelegate?.processOnDownloadCompanyImage(count: updateCount)
                     
                     if companyList.count <= updateCount {
-                        print("Download finish. list: \(companyList.count), download: \(updateCount)")
+                        printLog(out: "Download finish. list: \(companyList.count), download: \(updateCount)")
                         
                         UserDefault().saveString(key: UserDefault.Key.COMPANY_ICON_UPDATE_DATE, value: Date().toString())
                         self.companyInfoCheckerDelegate?.finishDownloadCompanyImage()

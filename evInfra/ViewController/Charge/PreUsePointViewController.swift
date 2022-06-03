@@ -24,6 +24,10 @@ class PreUsePointViewController: UIViewController {
     private var preUsePoint: Int = 0
     private var oldUsePoint: Int = 0
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,10 +37,10 @@ class PreUsePointViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             getUsePoint()
         } else {
-            MemberManager().showLoginAlert(vc: self)
+            MemberManager.shared.showLoginAlert()
         }
     }
     

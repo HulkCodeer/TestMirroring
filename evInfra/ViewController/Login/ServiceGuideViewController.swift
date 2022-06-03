@@ -24,6 +24,10 @@ class ServiceGuideViewController: UIViewController , UITableViewDelegate, UITabl
     
     var list = ["서비스 이용약관", "개인정보처리방침", "위치기반서비스 이용약관", "회원카드 이용약관", "라이센스", "제휴문의", "사업자정보"]
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

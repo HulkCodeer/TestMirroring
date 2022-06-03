@@ -13,13 +13,29 @@ import SwiftyJSON
 
 class MyArticleViewController: UIViewController {
 
-    @IBOutlet weak var boardTableView: BoardTableView!
+    private lazy var boardTableView = BoardTableView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     var boardList: Array<BoardItem> = Array<BoardItem>()
     
     var scrollIndexPath = IndexPath(row: 0, section: 0)
 
     var category: String? = nil
     var boardId: Int = 0
+    
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
+    override func loadView() {
+        super.loadView()
+        
+        view.addSubview(boardTableView)
+        boardTableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

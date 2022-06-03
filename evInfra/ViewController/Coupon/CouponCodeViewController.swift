@@ -16,6 +16,9 @@ class CouponCodeViewController: UIViewController {
     @IBOutlet var editField: UITextField!
     @IBOutlet var errorLb: UILabel!
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

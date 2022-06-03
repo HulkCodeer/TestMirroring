@@ -56,7 +56,7 @@ class MembershipIssuanceViewController: UIViewController,
             issuanceParam["zip_code"] = try tfZipCode.validatedText(validationType: .zipcode)
             issuanceParam["addr_detail"] = try tfAddressDetail.validatedText(validationType: .address)
             issuanceParam["addr"] = tfAddress.text
-            issuanceParam["mb_id"] = MemberManager.getMbId()
+            issuanceParam["mb_id"] = MemberManager.shared.mbId
             verifyMemgberInfo(params: issuanceParam)
             
             self.btnNext.isEnabled = false
@@ -68,6 +68,10 @@ class MembershipIssuanceViewController: UIViewController,
     var payRegistResult: JSON?
     var memberData: [String: Any]? = nil
     var isConfirmTerm = false
+    
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -217,8 +221,12 @@ class MembershipIssuanceViewController: UIViewController,
         Server.registerMembershipCard(values: params, completion: {(isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in
-                    self.navigationController?.pop()
+                let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in                    
+                    UserDefault().saveBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP, value: false)
+                    UserDefault().saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  true)
+                    let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
+                    let viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 })
                 var actions = Array<UIAlertAction>()
                 actions.append(ok)
@@ -241,7 +249,7 @@ class MembershipIssuanceViewController: UIViewController,
     
     func searchZipCode() {
         let mainStoryboard = UIStoryboard(name : "Map", bundle: nil)
-        let saVC = mainStoryboard.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
+        let saVC = mainStoryboard.instantiateViewController(ofType: SearchAddressViewController.self)
         saVC.searchAddressDelegate = self
         
         navigationController?.push(viewController: saVC)

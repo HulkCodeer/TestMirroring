@@ -12,7 +12,7 @@ import WebKit
 import JavaScriptCore
 import SwiftyJSON
 
-class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
+internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
     
     enum Request {
         case Contact           // 제휴문의
@@ -39,6 +39,10 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
 
     @IBOutlet weak var fixWebView: UIView!
     @IBOutlet weak var termsTitle: UILabel!
+    
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,7 +116,7 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             navigationItem.titleLabel.text = "자주묻는 질문"
             
         case .BatteryInfo:
-            navigationItem.titleLabel.text = ""
+            navigationItem.titleLabel.text = "내 차 배터리 관리"
         }
         
         self.navigationController?.isNavigationBarHidden = false
@@ -201,8 +205,12 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
             strUrl = strUrl + "?" + subURL
         }
         
-        let url = NSURL(string:strUrl)
-        var request = URLRequest(url: url! as URL)
+        guard let _url = NSURL(string:strUrl) else {
+            navigationController?.pop()
+            return
+        }
+        
+        var request = URLRequest(url: _url as URL)
         
         if !header.isEmpty {
             for (key, value) in header {
@@ -223,13 +231,12 @@ class TermsViewController: UIViewController, WKUIDelegate, WKNavigationDelegate 
                 let host = newURL.host , !host.hasPrefix(Const.EV_PAY_SERVER + "/docs/info/ev_infra_help") &&
                 UIApplication.shared.canOpenURL(newURL) {
                 if host.hasPrefix("com.soft-berry.ev-infra") { // deeplink
-                    if #available(iOS 13.0, *) {
-                        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+                    if #available(iOS 13.0, *) {                        
                         DeepLinkPath.sharedInstance.linkPath = newURL.path
                         if let component = URLComponents(url: newURL, resolvingAgainstBaseURL: false) {
                             DeepLinkPath.sharedInstance.linkParameter = component.queryItems
                         }
-                        DeepLinkPath.sharedInstance.runDeepLink(navigationController: (sceneDelegate?.navigationController)!)
+                        DeepLinkPath.sharedInstance.runDeepLink()
                     } else {
                         UIApplication.shared.open(newURL, options: [:], completionHandler: nil)
                     }

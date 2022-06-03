@@ -31,9 +31,9 @@ class ChargerManager {
     
         if !DataBaseHelper.existDB() { // create DB
             if DataBaseHelper.importDatabase() {
-                Log.d(tag: Const.TAG, msg: "im success")
+                printLog(out: "im success")
             } else {
-                Log.d(tag: Const.TAG, msg: "im fail")
+                printLog(out: "im fail")
             }
             mDb = DataBaseHelper.sharedInstance
         } else if DataBaseHelper.isNeedImport() { // exist & version update DB
@@ -41,7 +41,7 @@ class ChargerManager {
             var backUpCompanyList = [CompanyInfoDto]()
             backUpCompanyList = try! db.getCompanyInfoList()!
             if DataBaseHelper.importDatabase() {
-                Log.d(tag: Const.TAG, msg: "im success")
+                printLog(out: "im success")
                 mDb = DataBaseHelper.sharedInstance // recreate db instance
                 for company in backUpCompanyList {
                     if let compId = company.company_id {
@@ -53,7 +53,7 @@ class ChargerManager {
                 }
             } else {
                 mDb = DataBaseHelper.sharedInstance
-                Log.d(tag: Const.TAG, msg: "im fail")
+                printLog(out: "im fail")
             }
         } else { // not import DB
             mDb = DataBaseHelper.sharedInstance
@@ -161,7 +161,7 @@ class ChargerManager {
         let last = json["last"]
         
         if (code == 1000 && list.array!.count > 0) {
-            Log.d(tag: Const.TAG, msg: "start station info list insert or update")
+            printLog(out: "start station info list insert or update")
             
             var stationList = [StationInfoDto]()
             for station in list.arrayValue{
@@ -172,7 +172,7 @@ class ChargerManager {
             
             try! self.mDb?.insertOrUpdateStationInfoList(list: stationList)
             try! self.mDb?.insertOrUpdateInfoLastUpdate(info_type: ChargerConst.INFO_TYPE_STATION,lastUpdate: last.stringValue)
-            Log.d(tag: Const.TAG, msg: "end station info list insert or update")
+            printLog(out: "end station info list insert or update")
         }
     }
 
@@ -196,7 +196,7 @@ class ChargerManager {
                 return true
             }
         }
-        Log.d(tag: Const.TAG, msg: "marker create")
+        printLog(out: "marker create")
     }
 
     // charger station info
@@ -261,8 +261,8 @@ class ChargerManager {
         if let searchIndex = binarySearch(mChargerStationInfoList, chargerStationInfo) {
             if (searchIndex >= 0 && searchIndex < mChargerStationInfoList.count) {
                 return mChargerStationInfoList[searchIndex]
-            } else {
-                Log.e(tag: Const.TAG, msg: "charger list size: \(mChargerStationInfoList.count), charger_id: \(charger_id), index: \(searchIndex)")
+            } else {                
+                printLog(out: "charger list size: \(mChargerStationInfoList.count), charger_id: \(charger_id), index: \(searchIndex)")
             }
         }
         return nil
@@ -378,7 +378,7 @@ class ChargerManager {
     }
     
     func getFavoriteCharger() {
-        if MemberManager.getMbId() > 0 {
+        if MemberManager.shared.mbId > 0 {
             Server.getFavoriteList { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
@@ -397,7 +397,7 @@ class ChargerManager {
     }
     
     func setFavoriteCharger(charger: ChargerStationInfo, completion: ((ChargerStationInfo) -> Void)?) {
-        if MemberManager.getMbId() > 0 {
+        if MemberManager.shared.mbId > 0 {
             Server.setFavorite(chargerId: charger.mChargerId!, mode: !charger.mFavorite) { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)

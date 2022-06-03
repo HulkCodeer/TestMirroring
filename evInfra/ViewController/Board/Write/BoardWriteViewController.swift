@@ -56,8 +56,8 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if !MemberManager().isLogin() {
-            MemberManager().showLoginAlert(vc: self, completion: { (result) -> Void in
+        if !MemberManager.shared.isLogin {
+            MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
                 if !result {
                     self.navigationController?.pop()
                 }
@@ -74,57 +74,55 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                 let contents = contentsTextView.text else { return }
         
         if let document = document {
-            let popup = ConfirmPopupViewController(titleText: "수정", messageText: "게시물을 수정 하시겠습니까?")
-            popup.addActionToButton(title: "취소", buttonType: .cancel)
-            popup.addActionToButton(title: "수정", buttonType: .confirm)
-            popup.confirmDelegate = { [weak self] canModify in
+            let popupModel = PopupModel(title: "수정",
+                                        message: "게시물을 수정 하시겠습니까?",
+                                        confirmBtnTitle: "수정",
+                                        cancelBtnTitle: "취소",
+                                        confirmBtnAction: { [weak self] in
                 guard let self = self else { return }
-                
                 self.activityIndicator.startAnimating()
                 self.completeButton.isEnabled = false
                 self.completeButton.backgroundColor = UIColor(named: "nt-0")
-                
-                if canModify {
-                    self.boardWriteViewModel.updateBoard(self.category,
-                                                         document.document_srl!,
-                                                         title,
-                                                         contents,
-                                                         self.chargerInfo["chargerId"] ?? "",
-                                                         self.uploadedImages,
-                                                         self.selectedImages) { isSuccess in
-                        
-                        self.activityIndicator.stopAnimating()
-                        
-                        if isSuccess {
-                            self.trasientAlertView.titlemessage = "게시글 수정이 완료되었습니다."
-                            self.presentPanModal(self.trasientAlertView)
-                        } else {
-                            self.trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
-                            self.presentPanModal(self.trasientAlertView)
-                        }
-                        self.trasientAlertView.dismissCompletion = {
-                            self.popCompletion?()
-                            NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
-                            self.navigationController?.pop()
-                        }
+                                
+                self.boardWriteViewModel.updateBoard(self.category,
+                                                     document.document_srl!,
+                                                     title,
+                                                     contents,
+                                                     self.chargerInfo["chargerId"] ?? "",
+                                                     self.uploadedImages,
+                                                     self.selectedImages) { isSuccess in
+                    
+                    self.activityIndicator.stopAnimating()
+                                                            
+                    var message: String = "게시글 수정이 완료되었습니다."
+                    
+                    if !isSuccess {
+                        message = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
                     }
+                    
+                    Snackbar().show(message: message)
+                    
+                    self.popCompletion?()
+                    NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                    self.navigationController?.pop()                    
                 }
-            }
+            })
+
+            let popup = ConfirmPopupViewController(model: popupModel)
             
             self.present(popup, animated: true, completion: nil)
         } else {
             // 신규 등록
-            let popup = ConfirmPopupViewController(titleText: "등록", messageText: "게시물을 등록 하시겠습니까?")
-            popup.addActionToButton(title: "취소", buttonType: .cancel)
-            popup.addActionToButton(title: "등록", buttonType: .confirm)
-            popup.confirmDelegate = { [weak self] canRegist in
-                guard let self = self else { return }
-                
-                self.activityIndicator.startAnimating()
-                self.completeButton.isEnabled = false
-                self.completeButton.backgroundColor = UIColor(named: "nt-0")
-                
-                if canRegist {
+            let popupModel = PopupModel(title: "등록",
+                                        message: "게시물을 등록 하시겠습니까?",
+                                        confirmBtnTitle: "등록",
+                                        cancelBtnTitle: "취소", confirmBtnAction: { [weak self] in
+                    guard let self = self else { return }
+                    
+                    self.activityIndicator.startAnimating()
+                    self.completeButton.isEnabled = false
+                    self.completeButton.backgroundColor = UIColor(named: "nt-0")
+                                        
                     self.boardWriteViewModel.postBoard(self.category,
                                                        title,
                                                        contents,
@@ -132,31 +130,20 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                                                        self.selectedImages) { isSuccess in
                         self.activityIndicator.stopAnimating()
                         
-                        if isSuccess {
-                            self.trasientAlertView.titlemessage = "게시글 등록이 완료되었습니다."
-                            self.presentPanModal(self.trasientAlertView)
-                        } else {
-                            self.trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
-                            self.presentPanModal(self.trasientAlertView)
+                        var message: String = "게시글 등록이 완료되었습니다."
+                        if !isSuccess {
+                            message = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
                         }
-                        self.trasientAlertView.dismissCompletion = {
-                            self.popCompletion?()
-                            NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
-                            self.navigationController?.pop()
-                        }
-                    }
-                } else {
-                    self.trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
-                    self.presentPanModal(self.trasientAlertView)
-                    
-                    self.trasientAlertView.dismissCompletion = {
+                        Snackbar().show(message: message)
+                        
                         self.popCompletion?()
                         NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
                         self.navigationController?.pop()
                     }
-                }
-            }
+            })
             
+            let popup = ConfirmPopupViewController(model: popupModel)
+
             self.present(popup, animated: true, completion: nil)
         }
     }
@@ -306,29 +293,29 @@ extension BoardWriteViewController: UICollectionViewDelegate {
                 }
             }
             
-        } else {            
-            let popup = ConfirmPopupViewController(titleText: "삭제 안내", messageText: "선택하신 사진을 삭제 하시겠습니까?")
-            popup.addActionToButton(title: "취소", buttonType: .cancel)
-            popup.addActionToButton(title: "삭제", buttonType: .confirm)
-            popup.confirmDelegate = { [weak self] canDelete in
+        } else {
+            let popupModel = PopupModel(title: "삭제 안내",
+                                        message: "선택하신 사진을 삭제 하시겠습니까?",
+                                        confirmBtnTitle: "삭제",
+                                        cancelBtnTitle: "취소",
+                                        confirmBtnAction: { [weak self] in
                 guard let self = self else { return }
+                self.selectedImages.remove(at: indexPath.row)
                 
-                if canDelete {
-                    self.selectedImages.remove(at: indexPath.row)
-                    
-                    DispatchQueue.main.async {
-                        self.photoCollectionView.reloadData()
-                    }
-                    
-                    if self.category.equals(Board.CommunityType.CHARGER.rawValue) {
-                        let stationName = self.stationSearchButton.titleLabel?.text
-                        self.boardWriteViewModel.bindInputText(self.titleTextView.text, self.contentsTextView.text, stationName)
-                    } else {
-                        self.boardWriteViewModel.bindInputText(self.titleTextView.text, self.contentsTextView.text, nil)
-                    }
+                DispatchQueue.main.async {
+                    self.photoCollectionView.reloadData()
                 }
-            }
-            
+                
+                if self.category.equals(Board.CommunityType.CHARGER.rawValue) {
+                    let stationName = self.stationSearchButton.titleLabel?.text
+                    self.boardWriteViewModel.bindInputText(self.titleTextView.text, self.contentsTextView.text, stationName)
+                } else {
+                    self.boardWriteViewModel.bindInputText(self.titleTextView.text, self.contentsTextView.text, nil)
+                }
+                
+            })
+
+            let popup = ConfirmPopupViewController(model: popupModel)
             self.present(popup, animated: true, completion: nil)
         }
     }

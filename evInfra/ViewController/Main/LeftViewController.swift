@@ -9,10 +9,24 @@
 import UIKit
 import Material
 import SwiftyJSON
+import RxSwift
+import RxCocoa
 
-class LeftViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+internal final class LeftViewController: UIViewController {
+    // MARK: UI
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    @IBOutlet weak var myPageBtn: UIButton!
+    @IBOutlet weak var boardBtn: UIButton!
+    @IBOutlet weak var infoBtn: UIButton!
+    @IBOutlet weak var batteryBtn: UIButton!
+    @IBOutlet weak var settingsBtn: UIButton!
+    @IBOutlet weak var btnLogin: UIButton!
+    @IBOutlet weak var sideMenuTab: UIView!
+    @IBOutlet weak var boardCompanyBtn: UIButton!
+            
+    // MARK: VARIABLE
+    private var disposeBag = DisposeBag()
+        
     let cellIdentifier = "sideMenuCell"
     
     // main menu
@@ -35,8 +49,9 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     // PAY
     let SUB_MENU_MY_PAYMENT_INFO     = 0
     let SUB_MENU_MY_EVCARD_INFO      = 1
-    let SUB_MENU_MY_CHARGING_HISTORY = 2
-    let SUB_MENU_MY_POINT            = 3
+    let SUB_MENU_MY_LENTAL_INFO      = 2
+    let SUB_MENU_MY_CHARGING_HISTORY = 3
+    let SUB_MENU_MY_POINT            = 4
 
     // sub menu - 게시판
     let SUB_MENU_CELL_BOARD         = 0
@@ -78,20 +93,11 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var sideSectionArrays = [["마이페이지", "PAY"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["배터리 진단 정보"], ["설정"]]
     
-    @IBOutlet weak var btnLogin: UIButton!
-    @IBOutlet weak var sideMenuTab: UIView!
-    @IBOutlet weak var myPageBtn: UIButton!
-    @IBOutlet weak var boardBtn: UIButton!
-    @IBOutlet weak var boardCompanyBtn: UIButton!
-    @IBOutlet weak var infoBtn: UIButton!
-    @IBOutlet weak var batteryBtn: UIButton!
-    @IBOutlet weak var settingsBtn: UIButton!
-    
     var menuIndex = 0
     
     @IBAction func clickLogin(_ sender: Any) {
         let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
-        let loginVC = loginStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+        let loginVC = loginStoryboard.instantiateViewController(ofType: LoginViewController.self)
         self.navigationController?.push(viewController: loginVC)
     }
     
@@ -121,39 +127,36 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var sideTableView: UITableView!
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+                
         sideTableView.delegate = self
         sideTableView.dataSource = self
-        
         sideTableView.separatorStyle = UITableViewCellSeparatorStyle.none
         
         initSideViewArr()
-//        sideTableView.estimatedSectionHeaderHeight = 47
         
-        tableViewLoad(index: menuIndex);
+        tableViewLoad(index: menuIndex)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        appDelegate.hideStatusBar()
+        self.navigationDrawerController?.reHideStatusBar()
         newBadgeInMenu()
         updateBatteryMenu()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        appDelegate.showStatusBar()
+        self.navigationDrawerController?.reShowStatusBar()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func appeared() {
+    internal func appeared() {
         // 로그인 버튼
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             btnLogin.gone()
         } else {
             btnLogin.visible()
@@ -162,9 +165,9 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         newBadgeInMenu()
     }
  
-    func initSideViewArr() {
-        let mypage0Arr = ["개인정보 관리", "내가쓴글 보기", "충전소 제보내역"]
-        let mypage1Arr = ["결제카드 관리", "회원카드 관리", "충전이력 조회", "포인트 조회"]
+    private func initSideViewArr() {
+        let mypage0Arr = ["개인정보 관리", "내가 쓴 글 보기", "충전소 제보내역"]
+        let mypage1Arr = ["결제카드 관리", "회원카드 관리", "렌터카 정보 관리" , "충전이력 조회", "포인트 조회"]
         let mypageArr:[Array<String>] = [mypage0Arr, mypage1Arr]
         
         let commu0Arr = ["EV Infra 공지", "자유 게시판", "충전소 게시판"]
@@ -179,7 +182,7 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         let ev1Arr:Array<String> = []
         let evArr:[Array<String>] = [ev0Arr, ev1Arr]
         
-        let battery0Arr = ["배터리 진단 정보"]
+        let battery0Arr = ["내 차 배터리 관리"]
         let battery1Arr:Array<String> = []
         let batteryArr:[Array<String>] = [battery0Arr, battery1Arr]
         
@@ -190,13 +193,45 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.sideMenuArrays = [mypageArr, commuArr, eventArr, evArr, batteryArr, settingArr]
     }
     
+    private func tableViewLoad(index: Int) {
+        menuIndex = index
+        myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+        boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+        boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+        infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+        batteryBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+        settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+
+        myPageBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        boardBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        boardCompanyBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        infoBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        batteryBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        settingsBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+        
+        switch index {
+        case MENU_MY_PAGE:
+            myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        case MENU_BOARD:
+            boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        case MENU_EVENT:
+            boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        case MENU_EVINFO:
+            infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        case MENU_BATTERY:
+            batteryBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        case MENU_SETTINGS:
+            settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        default:
+            myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+        }
+        self.sideTableView.reloadData()
+    }
+}
+
+extension LeftViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return sideSectionArrays[menuIndex].count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        initSideViewArr()
-        return sideMenuArrays[menuIndex][section].count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -204,6 +239,10 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
         let headerValue = sideSectionArrays[menuIndex][section]
         headerView.cellTitle.text = headerValue
         return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sideMenuArrays[menuIndex][section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -244,61 +283,27 @@ class LeftViewController: UIViewController, UITableViewDelegate, UITableViewData
             selectedSettingsMenu(index: indexPath)
         }
     }
-    
-    func tableViewLoad(index: Int) {
-        menuIndex = index
-        myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        batteryBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-
-        myPageBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        boardBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        boardCompanyBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        infoBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        batteryBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        settingsBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        
-        switch index {
-        case MENU_MY_PAGE:
-            myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_BOARD:
-            boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_EVENT:
-            boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_EVINFO:
-            infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_BATTERY:
-            batteryBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_SETTINGS:
-            settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        default:
-            myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        }
-        self.sideTableView.reloadData()
-    }
 }
 
 extension LeftViewController {
     private func selectedMyPageMenu(index: IndexPath) {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             switch index.section {
             case SUB_MENU_CELL_MYPAGE:
                 switch index.row {
                 case SUB_MENU_MY_PERSONAL_INFO: // 개인정보관리
                     let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-                    let mypageVC = memberStoryboard.instantiateViewController(withIdentifier: "MyPageViewController") as! MyPageViewController
+                    let mypageVC = memberStoryboard.instantiateViewController(ofType: MyPageViewController.self)
                     navigationController?.push(viewController: mypageVC)
                 
                 case SUB_MENU_MY_WRITING: // 내가 쓴 글 보기
                     var myWritingControllers = [MyWritingViewController]()
                     let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                    let freeMineVC = boardStoryboard.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
+                    let freeMineVC = boardStoryboard.instantiateViewController(ofType: MyWritingViewController.self)
                     freeMineVC.boardCategory = Board.CommunityType.FREE.rawValue
                     freeMineVC.screenType = .LIST
-                    let chargerMineVC = boardStoryboard.instantiateViewController(withIdentifier: "MyWritingViewController") as! MyWritingViewController
+                                        
+                    let chargerMineVC = boardStoryboard.instantiateViewController(ofType: MyWritingViewController.self)
                     chargerMineVC.boardCategory = Board.CommunityType.CHARGER.rawValue
                     chargerMineVC.screenType = .FEED
                     
@@ -314,33 +319,45 @@ extension LeftViewController {
                 
                 case SUB_MENU_REPORT_STATION: // 충전소 제보 내역
                     let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
-                    let reportVC = reportStoryboard.instantiateViewController(withIdentifier: "ReportBoardViewController") as! ReportBoardViewController
+                    let reportVC = reportStoryboard.instantiateViewController(ofType: ReportBoardViewController.self)
                     navigationController?.push(viewController: reportVC)
 
                 default:
                     print("out of index")
                 }
+                
             case SUB_MENU_CELL_PAY:
                 switch index.row {
                 case SUB_MENU_MY_PAYMENT_INFO:
                     let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-                    let myPayInfoVC = memberStoryboard.instantiateViewController(withIdentifier: "MyPayinfoViewController") as! MyPayinfoViewController
+                    let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
                     navigationController?.push(viewController: myPayInfoVC)
             
                 case SUB_MENU_MY_EVCARD_INFO: // 회원카드 관리
-                    let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-                    let mbscdVC = mbsStoryboard.instantiateViewController(withIdentifier: "MembershipCardViewController") as! MembershipCardViewController
-                    navigationController?.push(viewController: mbscdVC)
+                    let viewcon: UIViewController
+                    if MemberManager.shared.hasMembership {
+                        let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
+                        viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
+                    } else {
+                        viewcon = MembershipGuideViewController()
+                    }
+                    
+                    navigationController?.push(viewController: viewcon)
+                    break
+                    
+                case SUB_MENU_MY_LENTAL_INFO: // 렌탈정보 관리                    
+                    let viewcon = RentalCarCardListViewController()
+                    navigationController?.push(viewController: viewcon)
                     break
 
                 case SUB_MENU_MY_CHARGING_HISTORY: // 충전이력조회
                     let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
-                    let chargesVC = chargeStoryboard.instantiateViewController(withIdentifier: "ChargesViewController") as! ChargesViewController
+                    let chargesVC = chargeStoryboard.instantiateViewController(ofType: ChargesViewController.self)
                     navigationController?.push(viewController: chargesVC)
 
                 case SUB_MENU_MY_POINT: // 포인트 조회
                     let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
-                    let pointVC = chargeStoryboard.instantiateViewController(withIdentifier: "PointViewController") as! PointViewController
+                    let pointVC = chargeStoryboard.instantiateViewController(ofType: PointViewController.self)
                     navigationController?.push(viewController: pointVC)
                     break
 
@@ -351,7 +368,7 @@ extension LeftViewController {
                 print("out of index")
             }
         } else {
-            MemberManager().showLoginAlert(vc: self)
+            MemberManager.shared.showLoginAlert()
         }
     }
     
@@ -361,14 +378,14 @@ extension LeftViewController {
             switch index.row {
             case SUB_MENU_NOTICE: // 공지사항
                 let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                let noticeVC = boardStoryboard.instantiateViewController(withIdentifier: "NoticeViewController") as! NoticeViewController
+                let noticeVC = boardStoryboard.instantiateViewController(ofType: NoticeViewController.self)
                 navigationController?.push(viewController: noticeVC)
             
             case SUB_MENU_FREE_BOARD: // 자유 게시판
                 UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
                 
                 let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                let freeBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
+                let freeBoardVC = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
                 freeBoardVC.category = Board.CommunityType.FREE.rawValue
                 freeBoardVC.mode = Board.ScreenType.FEED
                 navigationController?.push(viewController: freeBoardVC)
@@ -377,7 +394,7 @@ extension LeftViewController {
                 UserDefault().saveInt(key: UserDefault.Key.LAST_CHARGER_ID, value: Board.sharedInstance.chargeBoardId)
                 
                 let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                let stationBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
+                let stationBoardVC = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
                 stationBoardVC.category = Board.CommunityType.CHARGER.rawValue
                 stationBoardVC.mode = Board.ScreenType.FEED
                 navigationController?.push(viewController: stationBoardVC)
@@ -389,9 +406,8 @@ extension LeftViewController {
             if !title.isEmpty {
                 if let boardInfo = Board.sharedInstance.getBoardNewInfo(title: title) {
                     UserDefault().saveInt(key: boardInfo.shardKey!, value: boardInfo.brdId!)
-                    
                     let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                    let companyBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
+                    let companyBoardVC = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
                     companyBoardVC.category = Board.CommunityType.getCompanyType(shardKey: boardInfo.shardKey ?? "")
                     companyBoardVC.bmId = boardInfo.bmId!
                     companyBoardVC.brdTitle = title
@@ -410,16 +426,16 @@ extension LeftViewController {
             switch index.row {
             case SUB_MENU_EVENT: // 이벤트
                 let eventStoryboard = UIStoryboard(name : "Event", bundle: nil)
-                let eventBoardVC = eventStoryboard.instantiateViewController(withIdentifier: "EventViewController") as! EventViewController
+                let eventBoardVC = eventStoryboard.instantiateViewController(ofType: EventViewController.self)
                 self.navigationController?.push(viewController: eventBoardVC)
 
             case SUB_MENU_MY_COUPON: // 내 쿠폰함
-                if MemberManager().isLogin() {
+                if MemberManager.shared.isLogin {
                     let couponStoryboard = UIStoryboard(name : "Coupon", bundle: nil)
-                    let coponVC = couponStoryboard.instantiateViewController(withIdentifier: "MyCouponViewController") as! MyCouponViewController
+                    let coponVC = couponStoryboard.instantiateViewController(ofType: MyCouponViewController.self)
                     self.navigationController?.push(viewController: coponVC)
                 }else {
-                    MemberManager().showLoginAlert(vc: self)
+                    MemberManager.shared.showLoginAlert()
                 }
             default:
                 print("out of index")
@@ -435,30 +451,30 @@ extension LeftViewController {
             switch index.row {
             case SUB_MENU_EVINFO: // 전기차 정보
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let evInfoVC = infoStoryboard.instantiateViewController(withIdentifier: "EVInfoViewController") as! EvInfoViewController
+                let evInfoVC = infoStoryboard.instantiateViewController(ofType: EvInfoViewController.self)
                 self.navigationController?.push(viewController: evInfoVC)
             
             case SUB_MENU_CHARGER_INFO: // 충전기 정보
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let chargerInfoVC = infoStoryboard.instantiateViewController(withIdentifier: "ChargerInfoViewController") as! ChargerInfoViewController
+                let chargerInfoVC = infoStoryboard.instantiateViewController(ofType: ChargerInfoViewController.self)
                 // ChargerInfoViewController 자체 animation 사용
                 self.navigationController?.pushViewController(chargerInfoVC, animated: true)
             
             case SUB_MENU_BOJO: // 보조금 안내
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let bojoInfoVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                let bojoInfoVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
                 bojoInfoVC.tabIndex = .EvBonusGuide
                 self.navigationController?.push(viewController: bojoInfoVC)
             
             case SUB_MENU_BONUS: // 보조금 현황
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let bojoDashVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                let bojoDashVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
                 bojoDashVC.tabIndex = .EvBonusStatus
                 self.navigationController?.push(viewController: bojoDashVC)
                 
             case SUB_MENU_CHARGE_PRICE: // 충전요금 안내
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let priceInfoVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                let priceInfoVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
                 priceInfoVC.tabIndex = .PriceInfo
                 self.navigationController?.push(viewController: priceInfoVC)
                 
@@ -502,7 +518,7 @@ extension LeftViewController {
     
     private func startBatteryWebView(token: String) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let termsVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        let termsVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
         termsVC.tabIndex = .BatteryInfo
         termsVC.setHeader(key: "Authorization", value: "Bearer " + token)
         self.navigationController?.push(viewController: termsVC)
@@ -514,18 +530,18 @@ extension LeftViewController {
             switch index.row {
             case SUB_MENU_ALL_SETTINGS: // 전체 설정
                 let settingsStoryboard = UIStoryboard(name : "Settings", bundle: nil)
-                let settingsVC = settingsStoryboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+                let settingsVC = settingsStoryboard.instantiateViewController(ofType: SettingsViewController.self)
                 self.navigationController?.push(viewController: settingsVC)
                 
             case SUB_MENU_FAQ: // 자주묻는 질문
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let termsVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+                let termsVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
                 termsVC.tabIndex = .FAQTop
                 self.navigationController?.push(viewController: termsVC)
             
             case SUB_MENU_SERVICE_GUIDE:
                 let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
-                let guideVC = loginStoryboard.instantiateViewController(withIdentifier: "ServiceGuideViewController") as! ServiceGuideViewController
+                let guideVC = loginStoryboard.instantiateViewController(ofType: ServiceGuideViewController.self)
                 self.navigationController?.push(viewController: guideVC)
 
             default:
@@ -539,22 +555,22 @@ extension LeftViewController {
     
     private func updateMyPageTitle(cell: SideMenuTableViewCell, index: IndexPath) {
         if index.row == SUB_MENU_MY_PAYMENT_INFO {
-            if MemberManager.hasPayment() {
+            if MemberManager.shared.hasPayment {
                 cell.menuLabel.text = "결제 정보 관리"
             } else {
                 cell.menuLabel.text = "결제 정보 등록"
             }
         } else if index.row == SUB_MENU_MY_EVCARD_INFO {
-            if MemberManager.hasMembership() {
-                cell.menuLabel.text = "충전카드 관리"
+            if MemberManager.shared.hasMembership {
+                cell.menuLabel.text = "회원카드 관리"
             } else {
-                cell.menuLabel.text = "충전카드 신청"
+                cell.menuLabel.text = "회원카드 신청"
             }
         }
     }
     
     private func updateBatteryMenu() {
-        if !MemberManager.getDeviceId().isEmpty {
+        if !MemberManager.shared.deviceId.isEmpty {
             batteryBtn.isHidden = false
         } else {
             batteryBtn.isHidden = true

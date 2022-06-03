@@ -16,6 +16,10 @@ class FavoriteViewController: UIViewController {
     
     var delegate:ChargerSelectDelegate?
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

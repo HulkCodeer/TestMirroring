@@ -28,6 +28,10 @@ class ChargerFilterViewController: UIViewController {
     @IBOutlet var companyViewHeight: NSLayoutConstraint!
     var delegate: DelegateChargerFilterView?
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
@@ -150,11 +154,11 @@ extension ChargerFilterViewController : DelegateFilterChange {
 
 extension ChargerFilterViewController : DelegateFilterTypeView {
     func checkMemberLogin() -> Bool {
-        if (!MemberManager().isLogin()){
-            MemberManager().showLoginAlert(vc: self)
-            return false
+        guard MemberManager.shared.isLogin else {
+            return true
         }
-        return true
+        MemberManager.shared.showLoginAlert()
+        return false                
     }
 }
 

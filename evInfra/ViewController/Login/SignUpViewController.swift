@@ -48,6 +48,10 @@ class SignUpViewController: UIViewController {
     
     private var profileImgName = ""
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
@@ -248,7 +252,7 @@ class SignUpViewController: UIViewController {
                         Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
                     } else {
                         Snackbar().show(message: "로그인 성공")
-                        MemberManager().setData(data: json)
+                        MemberManager.shared.setData(data: json)
                         self.navigationController?.pop()
                         if let delegate = self.delegate {
                             delegate.successSignUp()
@@ -265,7 +269,7 @@ extension SignUpViewController {
     func createProfileImage() {
         if let profileUrl = self.user?.otherInfo?.profile_image {
             // 프로파일 이미지 이름 생성
-            let memberId = MemberManager.getMemberId()
+            let memberId = MemberManager.shared.memberId
             let curTime = Int64(NSDate().timeIntervalSince1970 * 1000)
             profileImgName = memberId + "_" + "\(curTime).jpg"
             
@@ -273,7 +277,7 @@ extension SignUpViewController {
             Server.getData(url: profileUrl) { (isSuccess, responseData) in
                 if isSuccess {
                     if let data = responseData {
-                        Server.uploadImage(data: data, filename: self.profileImgName, kind: Const.CONTENTS_THUMBNAIL, targetId: "\(MemberManager.getMbId())", completion: { (isSuccess, value) in
+                        Server.uploadImage(data: data, filename: self.profileImgName, kind: Const.CONTENTS_THUMBNAIL, targetId: "\(MemberManager.shared.mbId)", completion: { (isSuccess, value) in
                             let json = JSON(value)
                             if !isSuccess {
                                 print("upload image Error : \(json)")

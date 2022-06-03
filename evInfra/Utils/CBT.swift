@@ -12,7 +12,7 @@ import SwiftyJSON
 class CBT {
 
     static func checkCBT(vc: UIViewController) {
-        if MemberManager().isLogin() {
+        if MemberManager.shared.isLogin {
             Server.getCBTInfo() { (isSuccess, response) in
                 if isSuccess {
                     let json = JSON(response)
@@ -30,7 +30,7 @@ class CBT {
                 }
             }
         } else {
-            MemberManager().showLoginAlert(vc: vc)
+            MemberManager.shared.showLoginAlert()
         }
     }
     
