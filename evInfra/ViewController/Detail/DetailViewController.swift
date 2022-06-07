@@ -52,6 +52,7 @@ internal final class DetailViewController: BaseViewController, MTMapViewDelegate
     @IBOutlet weak var priceTableHeight: NSLayoutConstraint!    
     @IBOutlet var reportBtn: UIButton!
     @IBOutlet var writeBtn: UIButton!
+    @IBOutlet var safeAreaBottomViewHeight: NSLayoutConstraint!
     
     internal var charger: ChargerStationInfo?
     internal var isRouteMode: Bool = false
@@ -69,6 +70,8 @@ internal final class DetailViewController: BaseViewController, MTMapViewDelegate
         prepareBoardTableView()
         prepareChargerInfo()
         prepareSummaryView()
+        
+        safeAreaBottomViewHeight.constant = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
                 
         reportBtn.rx.tap
             .asDriver()
