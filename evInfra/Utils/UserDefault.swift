@@ -89,8 +89,8 @@ class UserDefault {
         static let APP_INTRO_IMAGE = "app_intro_image"
         static let APP_INTRO_END_DATE = "app_intro_end_date"
         
-        // 앱 첫부팅
-        static let APP_FIRST_BOOT = "app_first_boot" // false : first booting
+        // 마케팅 팝업을 이미 보여줬는지 체크
+        static let DID_SHOW_MARKETING_POPUP = "app_first_boot" // false : first booting
         
         // 충전 결제
         static let CHARGING_ID = "charging_id"

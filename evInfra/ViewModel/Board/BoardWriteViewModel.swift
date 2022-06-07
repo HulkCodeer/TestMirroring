@@ -126,13 +126,8 @@ struct BoardWriteViewModel {
                     if let files = files {
                         for file in files {
                             Server.deleteDocumnetFile(documentSRL: documentSRL, fileSRL: file.file_srl!, isCover: file.cover_image!) { isSuccess, response in
-                                if isSuccess {
-                                    if let value = response as? String,
-                                        value.contains("success") {
-                                        
-                                    } else {
-                                        completion(false)
-                                    }
+                                if isSuccess {                                    
+                                    completion(true)
                                 } else {
                                     completion(false)
                                 }

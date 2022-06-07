@@ -47,19 +47,19 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전 사업자 선택 시, 지도에 해당하는 충전 사업자만 노출됩니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QL0-0B-caU">
-                                    <rect key="frame" x="16" y="123.5" width="304.5" height="15"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <rect key="frame" x="16" y="119.5" width="353.5" height="17"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" name="content-tertiary"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전체" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3IQ-sz-Wbc">
-                                    <rect key="frame" x="316.5" y="146.5" width="24.5" height="31"/>
+                                    <rect key="frame" x="316.5" y="144.5" width="24.5" height="31"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V2b-uc-mkK">
-                                    <rect key="frame" x="349" y="146.5" width="51" height="31"/>
+                                    <rect key="frame" x="349" y="144.5" width="51" height="31"/>
                                     <color key="onTintColor" name="content-positive"/>
                                     <connections>
                                         <action selector="onSwitchValueChanged:" destination="-1" eventType="valueChanged" id="sKw-XV-01U"/>
@@ -76,7 +76,7 @@
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstItem="xKL-BB-SZw" firstAttribute="leading" secondItem="mqe-GW-FqV" secondAttribute="leading" constant="16" id="0BY-Hu-Z99"/>
-                                <constraint firstItem="QL0-0B-caU" firstAttribute="top" secondItem="6kW-Zv-eyX" secondAttribute="bottom" constant="8" id="0Ed-SK-sT0"/>
+                                <constraint firstItem="QL0-0B-caU" firstAttribute="top" secondItem="6kW-Zv-eyX" secondAttribute="bottom" constant="4" id="0Ed-SK-sT0"/>
                                 <constraint firstItem="3IQ-sz-Wbc" firstAttribute="top" secondItem="QL0-0B-caU" secondAttribute="bottom" constant="8" id="0y2-0B-28g"/>
                                 <constraint firstItem="6kW-Zv-eyX" firstAttribute="top" secondItem="xKL-BB-SZw" secondAttribute="bottom" constant="48" id="2w0-gm-tAl"/>
                                 <constraint firstItem="uzp-mK-Ah3" firstAttribute="top" secondItem="mqe-GW-FqV" secondAttribute="top" constant="10" id="Do7-wD-kRe"/>

@@ -6,16 +6,15 @@ platform :ios, '10.0'
 #target 'evInfra' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
 use_frameworks!
-target 'evInfra' do
-  # Pods for evInfra
-  
+
+def shared_pods
   pod 'SnapKit', '~> 5.0.0'
   pod 'ReactorKit'
   pod 'Then'
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
   pod 'Material', '~> 2.0'
-  pod 'MaterialComponents/Snackbar'
+  pod 'MaterialComponents/Snackbar';
   pod 'MaterialComponents/BottomSheet'
   pod 'RxAlamofire'
   pod 'AlamofireImage', '~> 4.1'
@@ -41,8 +40,14 @@ target 'evInfra' do
   pod 'TTGTagCollectionView'
   pod 'PanModal'
   pod 'NMapsMap'
+end
 
+target 'evInfra' do
+    shared_pods
+end
 
+target 'evInfra_dev' do
+    shared_pods
 end
 
 post_install do |installer|
