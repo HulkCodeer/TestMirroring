@@ -12,7 +12,7 @@ import Motion
 import SwiftyJSON
 import JJFloatingActionButton
 
-class DetailViewController: UIViewController, MTMapViewDelegate {
+internal final class DetailViewController: BaseViewController, MTMapViewDelegate {
 
     @IBOutlet weak var detailView: UIView!
     
@@ -49,22 +49,19 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var priceInfoBtn: UIButton!
     @IBOutlet weak var priceAlertLb: UILabel!
     @IBOutlet weak var priceTableHeader: UIStackView!
-    @IBOutlet weak var priceTableHeight: NSLayoutConstraint!
+    @IBOutlet weak var priceTableHeight: NSLayoutConstraint!    
+    @IBOutlet var reportBtn: UIButton!
+    @IBOutlet var writeBtn: UIButton!
     
-    var charger: ChargerStationInfo?
-    var boardList: [BoardListItem] = [BoardListItem]()
+    internal var charger: ChargerStationInfo?
+    internal var isRouteMode: Bool = false
     
+    private var boardList: [BoardListItem] = [BoardListItem]()
     private var phoneNumber:String? = nil
-        
-    var mapView:MTMapView?
-    var summaryView:SummaryView!
-    var isRouteMode: Bool = false
-    var currentPage = 0
-
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
-
+    private var mapView:MTMapView?
+    private var summaryView:SummaryView!
+    private var currentPage = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -72,6 +69,22 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         prepareBoardTableView()
         prepareChargerInfo()
         prepareSummaryView()
+                
+        reportBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.onClickReportChargeBtn()
+            })
+            .disposed(by: self.disposeBag)
+        
+        writeBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.onClickEditBtn()
+            })
+            .disposed(by: self.disposeBag)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
     }
@@ -279,8 +292,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
         self.cidTableView.reloadData()
         self.adjustHeightOfTableview()
-        
-        self.showMenuBtn()
+                
     }
     
     // DetailView reSize
@@ -477,37 +489,6 @@ extension DetailViewController: BoardTableViewDelegate {
 }
 
 extension DetailViewController {
-    fileprivate func showMenuBtn() {
-        let actionButton = JJFloatingActionButton()
-        actionButton.buttonColor = UIColor.clear
-        actionButton.buttonImage = UIImage(named: "detail_plus")
-        if let image = actionButton.buttonImage {
-            actionButton.buttonImageSize = image.size
-        }
-        
-        let ret = prepareCallItem()
-        if ret {
-            actionButton.addItem(title: "전화하기", image: #imageLiteral(resourceName: "detail_quick_icon")) { item in
-                self.onClickCallBtn()
-            }
-        }
-        actionButton.addItem(title: "제보하기", image: #imageLiteral(resourceName: "detail_quick_icon_report")) { item in
-            self.onClickReportChargeBtn()
-        }
-        
-        actionButton.addItem(title: "글쓰기", image: #imageLiteral(resourceName: "detail_quick_icon_pen")) { item in
-            self.onClickEditBtn()
-        }
-
-        for item in actionButton.items {
-            item.buttonColor = Color.white
-            
-//            item.buttonImageColor = Color.white
-        }
-    
-        actionButton.display(inViewController: self)
-    }
-
     fileprivate func prepareCallItem() -> Bool {
         if let phoneNum = self.phoneNumber {
             if(phoneNum.count > 8) {
