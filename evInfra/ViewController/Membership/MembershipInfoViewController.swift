@@ -73,6 +73,12 @@ internal final class MembershipInfoViewController: UIViewController {
         tfPwIn.delegate = self
         tfPwReIn.delegate = self
         tfCurPwIn.delegate = self
+        
+        btnModify.setBackgroundColor(Colors.backgroundDisabled.color, for: .disabled)
+        btnModify.setBackgroundColor(Colors.gr5.color, for: .normal)
+        
+        btnModify.setTitleColor(Colors.contentDisabled.color, for: .disabled)
+        btnModify.setTitleColor(Colors.contentPrimary.color, for: .normal)
     }
     
     func prepareActionBar() {
