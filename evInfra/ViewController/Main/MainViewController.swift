@@ -260,9 +260,9 @@ class MainViewController: UIViewController {
     
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let priceInfoVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-        priceInfoVC.tabIndex = .PriceInfo
-        self.navigationController?.push(viewController: priceInfoVC)
+        let priceInfoViewController: TermsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
+        priceInfoViewController.tabIndex = .PriceInfo
+        GlobalDefine.shared.mainNavi?.push(viewController: priceInfoViewController)
     }
     
     // MARK: - Action for button
@@ -385,17 +385,17 @@ extension MainViewController: DelegateFilterBarView {
     func startFilterSetting(){
         // chargerFilterViewcontroller
         let filterStoryboard = UIStoryboard(name : "Filter", bundle: nil)
-        let chargerFilterVC:ChargerFilterViewController = filterStoryboard.instantiateViewController(withIdentifier: "ChargerFilterViewController") as! ChargerFilterViewController
-        chargerFilterVC.delegate = self
-        self.navigationController?.push(viewController: chargerFilterVC)
+        let chargerFilterViewController = filterStoryboard.instantiateViewController(ofType: ChargerFilterViewController.self)
+        chargerFilterViewController.delegate = self
+        GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
     }
     
     @IBAction func onClickMainFavorite(_ sender: UIButton) {
         if MemberManager.shared.isLogin {
             let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-            let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
-            favoriteVC.delegate = self
-            self.present(AppNavigationController(rootViewController: favoriteVC), animated: true, completion: nil)
+            let favoriteViewController = memberStoryboard.instantiateViewController(ofType: FavoriteViewController.self)
+            favoriteViewController.delegate = self
+            self.present(AppNavigationController(rootViewController: favoriteViewController), animated: true, completion: nil)
         } else {
             MemberManager.shared.showLoginAlert()
         }
@@ -859,11 +859,11 @@ extension MainViewController: ChargerSelectDelegate {
     
     @objc func onClickCalloutLayer(_ sender:UITapGestureRecognizer) {
         let detailStoryboard = UIStoryboard(name : "Detail", bundle: nil)
-        let detailVC:DetailViewController = detailStoryboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-        detailVC.charger = self.selectCharger
-        detailVC.isRouteMode = self.clusterManager!.isRouteMode
+        let detailViewController = detailStoryboard.instantiateViewController(ofType: DetailViewController.self)
+        detailViewController.charger = self.selectCharger
+        detailViewController.isRouteMode = self.clusterManager?.isRouteMode ?? false
         
-        self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
+        GlobalDefine.shared.mainNavi?.push(viewController: detailViewController, subtype: kCATransitionFromTop)
     }
     
     func prepareSummaryView() {
@@ -1283,10 +1283,12 @@ extension MainViewController {
     
     func prepareClustering() {
         clusterManager = ClusterManager(mapView: mapView)
+        clusterManager?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
     }
     
     func updateClustering() {
         clusterManager?.removeChargerForClustering(zoomLevel: Int(naverMapView.mapView.zoomLevel))
+        clusterManager?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
         drawMapMarker()
     }
 }
@@ -1324,16 +1326,16 @@ extension MainViewController {
         UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
         
         let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-        let freeBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
-        freeBoardVC.category = Board.BOARD_CATEGORY_FREE
-        navigationController?.push(viewController: freeBoardVC)
+        let freeBoardViewController = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
+        freeBoardViewController.category = Board.BOARD_CATEGORY_FREE
+        GlobalDefine.shared.mainNavi?.push(viewController: freeBoardViewController)
     }
     
     @IBAction func onClickMainHelp(_ sender: UIButton) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-        termsViewControll.tabIndex = .FAQTop
-        self.navigationController?.push(viewController: termsViewControll)
+        let termsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
+        termsViewController.tabIndex = .FAQTop
+        GlobalDefine.shared.mainNavi?.push(viewController: termsViewController)
     }
 }
 
@@ -1347,21 +1349,21 @@ extension MainViewController {
         switch (response["code"].intValue) {
         case 1000:
             defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
-            let paymentStatusVC = paymentStoryboard.instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
-            paymentStatusVC.cpId = response["cp_id"].stringValue
-            paymentStatusVC.connectorId = response["connector_id"].stringValue
+            let paymentStatusViewController = paymentStoryboard.instantiateViewController(ofType: PaymentStatusViewController.self)
+
+            paymentStatusViewController.cpId = response["cp_id"].stringValue
+            paymentStatusViewController.connectorId = response["connector_id"].stringValue
             
-            self.navigationController?.push(viewController: paymentStatusVC)
-            
+            GlobalDefine.shared.mainNavi?.push(viewController: paymentStatusViewController)
         case 2002:
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
             if response["pay_code"].stringValue.equals("8804") {
-                let repayListVC = paymentStoryboard.instantiateViewController(withIdentifier: "RepayListViewController") as! RepayListViewController
-                repayListVC.delegate = self
-                self.navigationController?.push(viewController: repayListVC)
+                let repayListViewController = paymentStoryboard.instantiateViewController(ofType: RepayListViewController.self)
+                repayListViewController.delegate = self
+                GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
             } else {
-                let paymentQRScanVC = paymentStoryboard.instantiateViewController(withIdentifier: "PaymentQRScanViewController") as! PaymentQRScanViewController
-                self.navigationController?.push(viewController:paymentQRScanVC)
+                let paymentQRScanViewController = paymentStoryboard.instantiateViewController(ofType: PaymentQRScanViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: paymentQRScanViewController)
             }
             
         default:
@@ -1421,8 +1423,8 @@ extension MainViewController {
 extension MainViewController: RepaymentListDelegate {
     func onRepaySuccess() {
         let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
-        let paymentQRScanVC = paymentStoryboard.instantiateViewController(withIdentifier: "PaymentQRScanViewController") as! PaymentQRScanViewController
-        self.navigationController?.push(viewController:paymentQRScanVC)
+        let paymentQRScanViewController = paymentStoryboard.instantiateViewController(ofType: PaymentQRScanViewController.self)
+        GlobalDefine.shared.mainNavi?.push(viewController: paymentQRScanViewController)
     }
     
     func onRepayFail() {
