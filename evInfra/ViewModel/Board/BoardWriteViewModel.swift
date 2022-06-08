@@ -121,43 +121,68 @@ struct BoardWriteViewModel {
             if isSuccess {
                 if let results = value as? Dictionary<String, String>,
                    let documentSRL = results["document_srl"] {
-                    
                     // image 삭제
-                    if let files = files {
-                        for file in files {
-                            Server.deleteDocumnetFile(documentSRL: documentSRL, fileSRL: file.file_srl!, isCover: file.cover_image!) { isSuccess, response in
-                                if isSuccess {                                    
-                                    completion(true)
+                    guard let _files = files else { return completion(false) }
+                    var deleteDispatchGroup = DispatchGroup()
+                    var deleteSuccessResult:[Bool] = []
+                    var filesIndex = 0
+                    
+                    let workItem = DispatchWorkItem {
+                        for (index, _file) in _files.enumerated() {
+                            deleteDispatchGroup.enter()
+                            guard let _srl = _files[filesIndex].file_srl, let _coverImage = _files[filesIndex].cover_image else { return completion(false)}
+                            Server.deleteDocumnetFile(documentSRL: documentSRL, fileSRL: _srl, isCover: _coverImage) { isSuccess, response in
+                                if isSuccess {
+                                    deleteSuccessResult.append(true)
                                 } else {
-                                    completion(false)
+                                    deleteSuccessResult.append(false)
                                 }
+                                filesIndex += 1
+                                deleteDispatchGroup.leave()
                             }
                         }
                     }
                     
-                    guard selectedImages.count != 0 else {
-                        completion(true)
-                        return
-                    }
                     
-                    // image 등록
-                    var completedUpload = 0
-                    for (index, image) in selectedImages.enumerated() {
-                        Server.boardImageUpload(mid: mid, document_srl: documentSRL, image: image, seq: "\(index)") { isSuccess, response in
-                            if isSuccess {
-                                completedUpload = completedUpload + 1
-                                if completedUpload == selectedImages.count {
-                                    completion(true)
-                                }
-                            } else {
-                                completion(false)
-                            }
-                        }
-                    }
+                        
+                    
+                    
+//                    guard selectedImages.count != 0 else {
+//                        printLog(out: "PARK TEST fail selectedImages.count")
+//                        completion(true)
+//                        return
+//                    }
+//
+//                    // image 등록
+//                    let uploadQueue = DispatchQueue(label: "upload.image", qos: .background)
+//                    var uploadSuccessResult:[Bool] = []
+//                    let uploadDispatchGroup = DispatchGroup()
+//
+//                    uploadQueue.async {
+//                        for (index, image) in selectedImages.enumerated() {
+//                            uploadDispatchGroup.enter()
+//                            Server.boardImageUpload(mid: mid, document_srl: documentSRL, image: image, seq: "\(index)") { isSuccess, response in
+//                                if isSuccess {
+//                                    uploadSuccessResult.append(true)
+//                                } else {
+//                                    uploadSuccessResult.append(false)
+//                                }
+//                                uploadDispatchGroup.leave()
+//                            }
+//                        }
+//                    }
+//
+//                    uploadDispatchGroup.notify(queue: uploadQueue) {
+//                        if uploadSuccessResult.count == selectedImages.count {
+//                            completion(uploadSuccessResult.filter({ $0 == true }).count == selectedImages.count)
+//                        }
+//                    }
                 } else {
+                    printLog(out: "PARK TEST fail else")
                     completion(false)
                 }
             } else {
+                printLog(out: "PARK TEST fail outer else")
                 completion(false)
             }
         }
