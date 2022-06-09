@@ -9,6 +9,17 @@
 import Foundation
 
 extension String {
+    func toDate() -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+        if let date: Date = dateFormatter.date(from: self) {
+            return date
+        } else {
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            return dateFormatter.date(from: self)
+        }
+    }
     
     func toDate(dateFormat: String) -> Date? {
         let dateFormatter = DateFormatter()
