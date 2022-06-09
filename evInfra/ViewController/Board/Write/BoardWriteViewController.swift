@@ -229,6 +229,9 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
         completeButton.setBackgroundColor(UIColor(named: "gr-5")!, for: .normal)
         completeButton.setBackgroundColor(UIColor(named: "nt-0")!, for: .disabled)
         
+        completeButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0, right: 0)
+        
+        
         let tapGestureReconizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGestureReconizer.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGestureReconizer)
