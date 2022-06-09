@@ -108,7 +108,7 @@
 		52087850279561BA009DD329 /* PhotoRegisterCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5208784E279561BA009DD329 /* PhotoRegisterCollectionViewCell.xib */; };
 		522AF73227A2585E00DBEAD6 /* KeyboardInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 522AF73127A2585E00DBEAD6 /* KeyboardInputView.xib */; };
 		522AF73427A25D3D00DBEAD6 /* KeyboardInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522AF73327A25D3D00DBEAD6 /* KeyboardInputView.swift */; };
-		523A3AF22797A9CA004C3C23 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523A3AF12797A9CA004C3C23 /* Extension.swift */; };
+		523A3AF22797A9CA004C3C23 /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523A3AF12797A9CA004C3C23 /* GroupViewController.swift */; };
 		525E3A25278D728100F5C54D /* CommunityBoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A24278D728000F5C54D /* CommunityBoardTableViewCell.swift */; };
 		525E3A27278D728B00F5C54D /* CommunityBoardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */; };
 		525E3A2A278D729600F5C54D /* CommunityBoardTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */; };
@@ -333,7 +333,7 @@
 		63F31448284EC74F001713D2 /* BoardTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB87607020690B360095394B /* BoardTableViewHeader.swift */; };
 		63F31449284EC74F001713D2 /* ChargerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058A3C0248639D000091823 /* ChargerManager.swift */; };
 		63F3144A284EC74F001713D2 /* MembershipCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */; };
-		63F3144B284EC74F001713D2 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523A3AF12797A9CA004C3C23 /* Extension.swift */; };
+		63F3144B284EC74F001713D2 /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523A3AF12797A9CA004C3C23 /* GroupViewController.swift */; };
 		63F3144C284EC74F001713D2 /* ClusterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */; };
 		63F3144D284EC74F001713D2 /* ChargesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB39688C22D5B93E00170F2E /* ChargesTableViewCell.swift */; };
 		63F3144E284EC74F001713D2 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85D126BA8C6100D1606F /* UILabel+Extension.swift */; };
@@ -961,7 +961,7 @@
 		5208784E279561BA009DD329 /* PhotoRegisterCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoRegisterCollectionViewCell.xib; sourceTree = "<group>"; };
 		522AF73127A2585E00DBEAD6 /* KeyboardInputView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KeyboardInputView.xib; sourceTree = "<group>"; };
 		522AF73327A25D3D00DBEAD6 /* KeyboardInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInputView.swift; sourceTree = "<group>"; };
-		523A3AF12797A9CA004C3C23 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		523A3AF12797A9CA004C3C23 /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		525E3A24278D728000F5C54D /* CommunityBoardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityBoardTableViewCell.swift; sourceTree = "<group>"; };
 		525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityBoardTableViewCell.xib; sourceTree = "<group>"; };
 		525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityBoardTableViewHeader.swift; sourceTree = "<group>"; };
@@ -1574,14 +1574,6 @@
 			path = BerryComponent;
 			sourceTree = "<group>";
 		};
-		523A3AF02797A9B8004C3C23 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				523A3AF12797A9CA004C3C23 /* Extension.swift */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
 		527165C127B2514A0078DF3A /* Alert */ = {
 			isa = PBXGroup;
 			children = (
@@ -1825,6 +1817,7 @@
 				82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */,
 				82D986802839BE080030F0FC /* ViewModel.swift */,
 				63EB0390283CB26500078D28 /* ServerResult.swift */,
+				523A3AF12797A9CA004C3C23 /* GroupViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2078,7 +2071,6 @@
 			isa = PBXGroup;
 			children = (
 				00CD36C927900F5A005413A6 /* BerryComponent */,
-				523A3AF02797A9B8004C3C23 /* Extension */,
 				00A7D5C926B7B13F00C5DBCC /* Filter */,
 				00B2E8C926C10895005D017C /* Detail */,
 				00B2E8C626C106A0005D017C /* Login */,
@@ -3248,7 +3240,7 @@
 				63F31448284EC74F001713D2 /* BoardTableViewHeader.swift in Sources */,
 				63F31449284EC74F001713D2 /* ChargerManager.swift in Sources */,
 				63F3144A284EC74F001713D2 /* MembershipCardViewController.swift in Sources */,
-				63F3144B284EC74F001713D2 /* Extension.swift in Sources */,
+				63F3144B284EC74F001713D2 /* GroupViewController.swift in Sources */,
 				63F3144C284EC74F001713D2 /* ClusterGenerator.swift in Sources */,
 				63F3144D284EC74F001713D2 /* ChargesTableViewCell.swift in Sources */,
 				63F3144E284EC74F001713D2 /* UILabel+Extension.swift in Sources */,
@@ -3515,7 +3507,7 @@
 				DB87607520690B370095394B /* BoardTableViewHeader.swift in Sources */,
 				9058A3C1248639D000091823 /* ChargerManager.swift in Sources */,
 				73C6A10B2345F1F800349A86 /* MembershipCardViewController.swift in Sources */,
-				523A3AF22797A9CA004C3C23 /* Extension.swift in Sources */,
+				523A3AF22797A9CA004C3C23 /* GroupViewController.swift in Sources */,
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,
 				DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */,
 				00EB85D226BA8C6100D1606F /* UILabel+Extension.swift in Sources */,

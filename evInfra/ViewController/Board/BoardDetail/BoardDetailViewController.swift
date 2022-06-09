@@ -457,7 +457,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
         guard let detail = detail,
         let document = detail.document else { return }
         let rowVC = GroupViewController()
-        
+                
         if isHeader {
             guard MemberManager.shared.isLogin else {
                 rowVC.members = ["공유하기"]
