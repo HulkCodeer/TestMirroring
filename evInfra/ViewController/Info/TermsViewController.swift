@@ -29,6 +29,9 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case FAQTop            // FAQ (top10)
         case FAQDetail         // FAQ detail page
         case BatteryInfo       // SK Battery
+        case marketing         // 홍보 및 마케팅 목적 개인정보 수집 및 이용 동의
+        case ad                // 광고성 정보 수신 동의
+        case contents          // 콘텐츠 활용 동의
     }
 
     var tabIndex:Request = .UsingTerms
@@ -117,6 +120,15 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
             
         case .BatteryInfo:
             navigationItem.titleLabel.text = "내 차 배터리 관리"
+            
+        case .marketing:
+            navigationItem.titleLabel.text = "홍보 및 마케팅 목적 개인정보 수집 및 이용 동의"
+            
+        case .ad:
+            navigationItem.titleLabel.text = "광고성 정부 수신 동의"
+            
+        case .contents:
+            navigationItem.titleLabel.text = "콘텐츠 활용 동의"
         }
         
         self.navigationController?.isNavigationBarHidden = false
@@ -193,6 +205,16 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
             strUrl = Const.SK_BATTERY_SERVER
             let contentController = webView.configuration.userContentController
             contentController.add(self, name: "BaaSWebHandler")
+            
+        case .marketing:
+            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/marketing"
+            
+        case .ad:
+            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/ad"
+            
+        case .contents:
+            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/content"
+            
         }
 
         loadWebView(webUrl: strUrl)

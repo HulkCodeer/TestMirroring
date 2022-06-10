@@ -1547,9 +1547,9 @@
 				DB48E1F522E08B07003FFA08 /* ServiceGuideViewController.swift */,
 				DBEE9AF72117DB5600770D04 /* LoginViewController.swift */,
 				DBEE9AFB211842ED00770D04 /* SignUpViewController.swift */,
-				00B2E8C726C106AC005D017C /* Login.storyboard */,
 				00CF1774278E6A4F007D8E4E /* CorporationLoginViewController.swift */,
 				00CF1776278EA644007D8E4E /* AcceptTermsViewController.swift */,
+				00B2E8C726C106AC005D017C /* Login.storyboard */,
 			);
 			path = Login;
 			sourceTree = "<group>";
