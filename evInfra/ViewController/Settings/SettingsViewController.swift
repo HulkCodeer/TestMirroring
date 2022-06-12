@@ -10,7 +10,7 @@ import UIKit
 import Material
 import SwiftyJSON
 
-class SettingsViewController: UIViewController {
+internal final class SettingsViewController: UIViewController {
     @IBOutlet weak var alarmSwitch: UISwitch!
     @IBOutlet weak var alarmLocalSwitch: UISwitch!
     @IBOutlet weak var alarmMarketingSwitch: UISwitch!

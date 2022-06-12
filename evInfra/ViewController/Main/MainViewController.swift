@@ -107,7 +107,7 @@ class MainViewController: UIViewController {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-        requestStationInfo()
+//        requestStationInfo()
         
         prepareCalloutLayer()
     }
