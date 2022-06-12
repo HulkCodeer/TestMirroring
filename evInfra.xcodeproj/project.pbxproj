@@ -761,6 +761,11 @@
 		82F3D9AD2855EE2B0030C44B /* ArrowBackBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9AA2855EE2B0030C44B /* ArrowBackBtn.swift */; };
 		82F3D9AE2855EE2B0030C44B /* NavigationCloseBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9AB2855EE2B0030C44B /* NavigationCloseBtn.swift */; };
 		82F3D9AF2855EE2B0030C44B /* NavigationCloseBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9AB2855EE2B0030C44B /* NavigationCloseBtn.swift */; };
+		82F3D9B02855F04C0030C44B /* CommonNaviView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A4A1B02855EAE70001A027 /* CommonNaviView.swift */; };
+		82F3D9B12855F1940030C44B /* SettingsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A4A1AE2855D8420001A027 /* SettingsReactor.swift */; };
+		82F3D9B22855F1980030C44B /* NewSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A4A1AC2855D8340001A027 /* NewSettingsViewController.swift */; };
+		82F3D9B52855F31B0030C44B /* CommonBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9B42855F31B0030C44B /* CommonBaseViewController.swift */; };
+		82F3D9B62855F31B0030C44B /* CommonBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9B42855F31B0030C44B /* CommonBaseViewController.swift */; };
 		8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
@@ -1231,6 +1236,7 @@
 		82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoReactor.swift; sourceTree = "<group>"; };
 		82F3D9AA2855EE2B0030C44B /* ArrowBackBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowBackBtn.swift; sourceTree = "<group>"; };
 		82F3D9AB2855EE2B0030C44B /* NavigationCloseBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationCloseBtn.swift; sourceTree = "<group>"; };
+		82F3D9B42855F31B0030C44B /* CommonBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonBaseViewController.swift; sourceTree = "<group>"; };
 		9014C12624E55C4800CB6549 /* EIPOIItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIPOIItem.swift; sourceTree = "<group>"; };
 		9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAllPOIListenerCallback.swift; sourceTree = "<group>"; };
 		9028E07724A1B8270062A029 /* eirel */ = {isa = PBXFileReference; lastKnownFileType = file; path = eirel; sourceTree = "<group>"; };
@@ -1843,7 +1849,7 @@
 				82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */,
 				82D986802839BE080030F0FC /* ViewModel.swift */,
 				63EB0390283CB26500078D28 /* ServerResult.swift */,
-				82A4A1B02855EAE70001A027 /* CommonNaviView.swift */,
+				82F3D9B42855F31B0030C44B /* CommonBaseViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2219,6 +2225,7 @@
 			children = (
 				82F3D9AA2855EE2B0030C44B /* ArrowBackBtn.swift */,
 				82F3D9AB2855EE2B0030C44B /* NavigationCloseBtn.swift */,
+				82A4A1B02855EAE70001A027 /* CommonNaviView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -2881,6 +2888,7 @@
 				"${BUILT_PRODUCTS_DIR}/PanModal/PanModal.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactorKit/ReactorKit.framework",
+				"${BUILT_PRODUCTS_DIR}/ReusableKit/ReusableKit.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
@@ -2928,6 +2936,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PanModal.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactorKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReusableKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
@@ -3003,6 +3012,7 @@
 				"${BUILT_PRODUCTS_DIR}/PanModal/PanModal.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactorKit/ReactorKit.framework",
+				"${BUILT_PRODUCTS_DIR}/ReusableKit/ReusableKit.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
@@ -3050,6 +3060,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PanModal.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactorKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReusableKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
@@ -3202,6 +3213,7 @@
 				63F313FE284EC74F001713D2 /* CompanyTableViewCell.swift in Sources */,
 				63F313FF284EC74F001713D2 /* BedgeButton.swift in Sources */,
 				63F31400284EC74F001713D2 /* MemberManager.swift in Sources */,
+				82F3D9B02855F04C0030C44B /* CommonNaviView.swift in Sources */,
 				63F31401284EC74F001713D2 /* FilterCompanyView.swift in Sources */,
 				63F31402284EC74F001713D2 /* ReportCharger.swift in Sources */,
 				63F31403284EC74F001713D2 /* MyCouponViewController.swift in Sources */,
@@ -3211,6 +3223,7 @@
 				63F31407284EC74F001713D2 /* Snackbar.swift in Sources */,
 				63F31408284EC74F001713D2 /* ChargerStationInfo.swift in Sources */,
 				63F31409284EC74F001713D2 /* Login.swift in Sources */,
+				82F3D9B62855F31B0030C44B /* CommonBaseViewController.swift in Sources */,
 				63F3140A284EC74F001713D2 /* PointViewController.swift in Sources */,
 				63F3140B284EC74F001713D2 /* MembershipReissuanceInfoReactor.swift in Sources */,
 				63F3140C284EC74F001713D2 /* AppTabsController.swift in Sources */,
@@ -3264,6 +3277,7 @@
 				63F3143C284EC74F001713D2 /* ChargerConst.swift in Sources */,
 				63F3143D284EC74F001713D2 /* DeepLinkModel.swift in Sources */,
 				63F3143E284EC74F001713D2 /* UITextField+Extension.swift in Sources */,
+				82F3D9B22855F1980030C44B /* NewSettingsViewController.swift in Sources */,
 				63F3143F284EC74F001713D2 /* EvInfoViewController.swift in Sources */,
 				63F31440284EC74F001713D2 /* FilterTypeView.swift in Sources */,
 				63F31441284EC74F001713D2 /* DeepLinkPath.swift in Sources */,
@@ -3298,6 +3312,7 @@
 				63F3145E284EC74F001713D2 /* BoardSearchViewController.swift in Sources */,
 				63F3145F284EC74F001713D2 /* SettingsViewController.swift in Sources */,
 				63F31460284EC74F001713D2 /* SignUpViewController.swift in Sources */,
+				82F3D9B12855F1940030C44B /* SettingsReactor.swift in Sources */,
 				63F31461284EC74F001713D2 /* NavCenterButton.swift in Sources */,
 				63F31462284EC74F001713D2 /* PaymentResultViewController.swift in Sources */,
 				63F31463284EC74F001713D2 /* FilterAccessView.swift in Sources */,
@@ -3530,6 +3545,7 @@
 				00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */,
 				00F1AC7727031FAA009847E7 /* PreUsePointViewController.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton+Extension.swift in Sources */,
+				82F3D9B52855F31B0030C44B /* CommonBaseViewController.swift in Sources */,
 				63DA09FF282E2F440021292C /* JSON+Extension.swift in Sources */,
 				902A11DC248F5F550049EF8E /* ChargerConst.swift in Sources */,
 				63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */,

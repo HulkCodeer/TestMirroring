@@ -74,7 +74,7 @@ internal final class ArrowBackBtn: UIView {
     }
     
     private var imgViewLeading: CGFloat = 0
-    private var imgViewWidth: CGFloat = 16
+    private var imgViewWidth: CGFloat = 24
     private var imgViewColor: UIColor = Const.baseColor
     
     private var sizeType: Const.SizeType
@@ -84,7 +84,7 @@ internal final class ArrowBackBtn: UIView {
     }
     
     init() {
-        self.sizeType = .size16
+        self.sizeType = .size24
         super.init(frame: .zero)
     }
     
@@ -94,7 +94,7 @@ internal final class ArrowBackBtn: UIView {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        self.sizeType = .size16
+        self.sizeType = .size24
         super.init(coder: aDecoder)
     }
     

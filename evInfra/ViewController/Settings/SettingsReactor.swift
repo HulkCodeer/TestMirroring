@@ -22,6 +22,8 @@ internal final class SettingsReactor: ViewModel, Reactor {
         var ga360 = ""
     }
     
+    internal var initialState: State
+    
     override init(provider: SoftberryAPI) {
         self.initialState = State()
         super.init(provider: provider)
@@ -30,18 +32,8 @@ internal final class SettingsReactor: ViewModel, Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .loadData:
-            return .concat([
-                self.provider.fetchProductZzimList(productSeq: self.productSeq, data: self.paramModel)
-                    .trackActivity(self.loading)
-                    .trackError(self.error)
-                    .materialize()
-                    .compactMap(self.convertToDataModel)
-                    .map(self.convertToItem)
-                    .map { item in .setItem(item, true) },
-                
-                .just(.sendGA360)
-            ])
+        case .none:
+            return .just(.none)
         }
     }
     
