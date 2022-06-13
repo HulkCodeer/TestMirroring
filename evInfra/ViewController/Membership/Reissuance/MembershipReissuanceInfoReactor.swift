@@ -17,12 +17,12 @@ internal final class MembershipReissuanceInfoReactor: ViewModel, Reactor {
     }
     
     enum Mutation {
-        case setCompleteReissuance(Int)
+        case setCompleteReissuance(ServerResult)
         case none
     }
     
     struct State {
-        var completeCode: Int?
+        var serverResult: ServerResult?
     }
     
     internal var initialState: State
@@ -40,33 +40,41 @@ internal final class MembershipReissuanceInfoReactor: ViewModel, Reactor {
             return self.provider.postReissueMembershipCard(model: model)
                 .convertData()
                 .compactMap(convertToDataModel)
-                .map { completeCode in .setCompleteReissuance(completeCode) }
+                .map { serverResult in
+                    if serverResult.code == 1000 {
+                        UserDefault().saveBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP, value: false)
+                        UserDefault().saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  true)
+                    } else {
+                        Snackbar().show(message: "\(serverResult.msg)")
+                    }
+                    return .setCompleteReissuance(serverResult)
+                }
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        newState.completeCode = nil
+        newState.serverResult = nil
         
         switch mutation {
-        case .setCompleteReissuance(let code):
-            newState.completeCode = code
+        case .setCompleteReissuance(let serverResult):
+            newState.serverResult = serverResult
             
         case .none: break
         }
         return newState
     }
     
-    private func convertToDataModel(with result: ApiResult<Data, ApiErrorMessage> ) -> Int {
+    private func convertToDataModel(with result: ApiResult<Data, ApiErrorMessage> ) -> ServerResult? {
         switch result {
         case .success(let data):
-            let codeData = JSON(data)["code"].intValue
-            printLog(out: "CodeData : \(codeData)")
-            return codeData
+            let jsonData = JSON(data)
+            printLog(out: "Json Data : \(jsonData)")
+            return ServerResult(jsonData)
             
         case .failure(let errorMessage):
             printLog(out: "Error Message : \(errorMessage)")
-            return 0
+            return nil
         }
     }
 }

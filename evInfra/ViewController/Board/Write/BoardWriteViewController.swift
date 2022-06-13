@@ -78,7 +78,8 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                                         message: "게시물을 수정 하시겠습니까?",
                                         confirmBtnTitle: "수정",
                                         cancelBtnTitle: "취소",
-                                        confirmBtnAction: {
+                                        confirmBtnAction: { [weak self] in
+                guard let self = self else { return }
                 self.activityIndicator.startAnimating()
                 self.completeButton.isEnabled = false
                 self.completeButton.backgroundColor = UIColor(named: "nt-0")
@@ -92,21 +93,19 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                                                      self.selectedImages) { isSuccess in
                     
                     self.activityIndicator.stopAnimating()
+                                                            
+                    var message: String = "게시글 수정이 완료되었습니다."
                     
-                    if isSuccess {
-                        self.trasientAlertView.titlemessage = "게시글 수정이 완료되었습니다."
-                        self.presentPanModal(self.trasientAlertView)
-                    } else {
-                        self.trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
-                        self.presentPanModal(self.trasientAlertView)
+                    if !isSuccess {
+                        message = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
                     }
-                    self.trasientAlertView.dismissCompletion = {
-                        self.popCompletion?()
-                        NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
-                        self.navigationController?.pop()
-                    }
+                    
+                    Snackbar().show(message: message)
+                    
+                    self.popCompletion?()
+                    NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                    self.navigationController?.pop()                    
                 }
-                
             })
 
             let popup = ConfirmPopupViewController(model: popupModel)
@@ -131,18 +130,15 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                                                        self.selectedImages) { isSuccess in
                         self.activityIndicator.stopAnimating()
                         
-                        if isSuccess {
-                            self.trasientAlertView.titlemessage = "게시글 등록이 완료되었습니다."
-                            self.presentPanModal(self.trasientAlertView)
-                        } else {
-                            self.trasientAlertView.titlemessage = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
-                            self.presentPanModal(self.trasientAlertView)
+                        var message: String = "게시글 등록이 완료되었습니다."
+                        if !isSuccess {
+                            message = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
                         }
-                        self.trasientAlertView.dismissCompletion = {
-                            self.popCompletion?()
-                            NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
-                            self.navigationController?.pop()
-                        }
+                        Snackbar().show(message: message)
+                        
+                        self.popCompletion?()
+                        NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                        self.navigationController?.pop()
                     }
             })
             

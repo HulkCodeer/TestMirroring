@@ -17,9 +17,9 @@ internal final class MembershipInfoViewController: UIViewController {
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var btnModify: UIButton!
     
-    @IBOutlet var tfCurPwIn: HSUnderLineTextField!
-    @IBOutlet var tfPwIn: HSUnderLineTextField!
-    @IBOutlet var tfPwReIn: HSUnderLineTextField!
+    @IBOutlet var tfCurPwIn: UITextField!
+    @IBOutlet var tfPwIn: UITextField!
+    @IBOutlet var tfPwReIn: UITextField!
     @IBOutlet var lbCardStatus: UILabel!
     @IBOutlet var lbCardNo: UILabel!
     
@@ -30,6 +30,9 @@ internal final class MembershipInfoViewController: UIViewController {
     @IBAction func onClickModifyBtn(_ sender: Any) {
         self.changePassword()
     }
+    @IBOutlet var currentPwErrorLbl: UILabel!
+    @IBOutlet var newPwErrorLbl: UILabel!
+    @IBOutlet var newPwConfirmErrorLbl: UILabel!
     
     // MARK: VARIABLE
     
@@ -66,6 +69,10 @@ internal final class MembershipInfoViewController: UIViewController {
         
         let tap_touch = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         view.addGestureRecognizer(tap_touch)
+        
+        tfPwIn.delegate = self
+        tfPwReIn.delegate = self
+        tfCurPwIn.delegate = self
     }
     
     func prepareActionBar() {
@@ -76,7 +83,7 @@ internal final class MembershipInfoViewController: UIViewController {
         navigationItem.leftViews = [backButton]
         navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "회원카드 관리"
+        navigationItem.titleLabel.text = "회원카드 상세"
         self.navigationController?.isNavigationBarHidden = false
     }
     
@@ -179,5 +186,79 @@ internal final class MembershipInfoViewController: UIViewController {
         indicator.stopAnimating()
         indicator.isHidden = true
         btnModify.isEnabled = true
+    }
+}
+
+extension MembershipInfoViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        switch textField {
+        case tfPwIn:
+            guard !string.isEmpty else { return true }
+            let text = textField.text ?? ""
+            return text.count < 4
+            
+        case tfCurPwIn:
+            guard !string.isEmpty else { return true }
+            let text = textField.text ?? ""
+            return text.count < 4
+            
+        case tfPwReIn:
+            guard !string.isEmpty else { return true }
+            let text = textField.text ?? ""
+            return text.count < 4
+            
+        default: break
+        }
+        return false
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {                        
+        switch textField {
+        case tfCurPwIn:
+            do {
+                _ = try tfCurPwIn.validatedText(validationType: .password)
+            } catch {
+                currentPwErrorLbl.isHidden = false
+                currentPwErrorLbl.text = (error as! ValidationError).message
+            }
+            
+        case tfPwIn:
+            
+            do {
+                _ = try tfPwIn.validatedText(validationType: .password)
+            } catch {
+                newPwErrorLbl.isHidden = false
+                newPwErrorLbl.text = (error as! ValidationError).message
+            }
+            
+        case tfPwReIn:
+            do {
+                _ = try tfPwReIn.validatedText(validationType: .repassword(password: tfPwIn.text ?? "0000"))
+            } catch {
+                newPwConfirmErrorLbl.isHidden = false
+                newPwConfirmErrorLbl.text = (error as! ValidationError).message
+            }
+            
+        default: break
+        }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField {
+        case tfCurPwIn:
+            currentPwErrorLbl.text = ""
+            currentPwErrorLbl.isHidden = true
+            
+        case tfPwIn:
+            newPwErrorLbl.text = ""
+            newPwErrorLbl.isHidden = true
+            
+        case tfPwReIn:            
+            newPwConfirmErrorLbl.text = ""
+            newPwConfirmErrorLbl.isHidden = true
+            
+        default: break
+        }
     }
 }
