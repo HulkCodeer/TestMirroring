@@ -67,7 +67,6 @@ internal final class SettingsViewController: UIViewController {
     
     @IBAction func onChangeClusteringSwitch(_ sender: UISwitch) {
         defaults.saveBool(key: UserDefault.Key.SETTINGS_CLUSTER, value: sender.isOn)
-        printLog(out: "clustering 기능: \(defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER))")
     }
     
     @objc fileprivate func handleBackButton() {
