@@ -8,11 +8,21 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 import AVFoundation
 import SnapKit
 import Then
 
 internal class CommonBaseViewController: UIViewController {
+    // MARK: UI
+    
+    internal lazy var contentView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview($0)
+        $0.snp.makeConstraints {
+            $0.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
+    }
     
     // MARK: VARIABLE
     

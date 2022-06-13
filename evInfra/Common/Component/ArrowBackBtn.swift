@@ -86,16 +86,19 @@ internal final class ArrowBackBtn: UIView {
     init() {
         self.sizeType = .size24
         super.init(frame: .zero)
+        self.makeUI()
     }
     
     init(_ sizeType: Const.SizeType = .size16) {
         self.sizeType = sizeType
         super.init(frame: .zero)
+        self.makeUI()
     }
     
     public required init?(coder aDecoder: NSCoder) {
         self.sizeType = .size24
         super.init(coder: aDecoder)
+        self.makeUI()
     }
     
     func makeUI() {

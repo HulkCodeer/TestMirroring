@@ -26,7 +26,7 @@ internal final class NavigationCloseBtn: UIView {
             }
         }
         
-        static let baseColor: UIColor = .white
+        static let baseColor: UIColor = Colors.contentPrimary.color
     }
     
     @IBInspectable var IBimageColor: UIColor? {
@@ -70,11 +70,11 @@ internal final class NavigationCloseBtn: UIView {
     }
     
     internal lazy var btn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translatesAutoresizingMaskIntoConstraints = false        
     }
     
-    private var imgViewLeading: CGFloat = 0
-    private var imgViewWidth: CGFloat = 16
+    private var imgViewLeading: CGFloat = 16
+    private var imgViewWidth: CGFloat = 24
     private var imgViewColor: UIColor = Const.baseColor
     
     private var sizeType: Const.SizeType
@@ -84,18 +84,21 @@ internal final class NavigationCloseBtn: UIView {
     }
     
     init() {
-        self.sizeType = .size16
+        self.sizeType = .size24
         super.init(frame: .zero)
+        self.makeUI()
     }
     
-    init(_ sizeType: Const.SizeType = .size16) {
+    init(_ sizeType: Const.SizeType = .size24) {
         self.sizeType = sizeType
         super.init(frame: .zero)
+        self.makeUI()
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        self.sizeType = .size16
+        self.sizeType = .size24
         super.init(coder: aDecoder)
+        self.makeUI()
     }
     
     func makeUI() {
