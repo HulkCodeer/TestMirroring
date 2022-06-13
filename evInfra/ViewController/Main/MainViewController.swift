@@ -783,6 +783,7 @@ extension MainViewController: PoiTableViewDelegate {
             startField.text = poiItem.name
             routeStartPoint = poiItem.getPOIPoint()
             
+            naverMapView.startMarker?.mapView = nil
             naverMapView.startMarker = Marker(NMGLatLng(lat: latitude, lng: longitude), .start)
             naverMapView.startMarker?.mapView = self.mapView
             naverMapView.start = POIObject(name: poiItem.name, lat: latitude, lng: longitude)
@@ -790,6 +791,7 @@ extension MainViewController: PoiTableViewDelegate {
             endField.text = poiItem.name
             routeEndPoint = poiItem.getPOIPoint()
             
+            naverMapView.endMarker?.mapView = nil
             naverMapView.endMarker = Marker(NMGLatLng(lat: latitude, lng: longitude), .end)
             naverMapView.endMarker?.mapView = self.mapView
             naverMapView.destination = POIObject(name: poiItem.name, lat: latitude, lng: longitude)
