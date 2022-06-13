@@ -89,10 +89,9 @@ class MainViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        configureLayer()
         configureNaverMapView()
         configureLocationManager()
-        configureLayer()
         showGuide()
         
         prepareRouteField()
@@ -1153,8 +1152,9 @@ extension MainViewController {
     }
     
     internal func myLocationModeOff() {
-        mapView.positionMode = .disabled
-        updateMyLocationButton()
+        mapView.positionMode = .normal
+        myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
+        myLocationButton.tintColor = UIColor.init(named: "content-primary")
     }
     
     internal func updateMyLocationButton() {
@@ -1163,11 +1163,6 @@ extension MainViewController {
             DispatchQueue.main.async {
                 let mode = self?.mapView.positionMode
                 switch mode  {
-                case .disabled:
-                    self?.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
-                    self?.myLocationButton.tintColor = UIColor.init(named: "content-primary")
-                    UIApplication.shared.isIdleTimerDisabled = false // 화면 켜짐 유지 끔
-                    break
                 case .normal, .direction:
                     self?.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
                     self?.myLocationButton.tintColor = UIColor.init(named: "content-positive")
