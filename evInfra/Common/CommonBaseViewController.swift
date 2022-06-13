@@ -105,5 +105,12 @@ internal class CommonBaseViewController: UIViewController {
         actions.append(openAction)
         
         UIAlertController.showAlert(title: "카메라 기능이 활성화되지 않았습니다.", message: "사진추가를 위해 카메라 권한이 필요합니다.", actions: actions)
-    }       
+    }
+    
+    internal func createLineView(color: UIColor? = Colors.borderOpaque.color) -> UIView {
+        return UIView().then {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.backgroundColor = color
+        }
+    }
 }
