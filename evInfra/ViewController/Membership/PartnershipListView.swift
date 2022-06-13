@@ -21,8 +21,6 @@ protocol PartnershipListViewDelegate {
 
 internal final class PartnershipListView : UIView {
     
-    
-    
     // MARK: UI
     
     @IBOutlet var viewEvinfraList: UIView!
@@ -35,6 +33,9 @@ internal final class PartnershipListView : UIView {
     @IBOutlet var membershipUseGuideBtn: UIButton!
     @IBOutlet var reissuanceBtn: UIButton!
     @IBOutlet var membershipUseGuideLbl: UILabel!
+    @IBOutlet var reissuanceView: UIView!
+    @IBOutlet var reissuanceLbl: UILabel!
+    
     
     // MARK: VARIABLE
     
@@ -150,9 +151,17 @@ internal final class PartnershipListView : UIView {
     func showInfoView(info : MemberPartnershipInfo) {
         evInfraInfo = info
         viewEvinfraList.isHidden = false
-        labelCardStatus.text = info.displayStatusDescription
+        labelCardStatus.text = info.displayStatusDescription        
+        reissuanceBtn.isEnabled = info.isReissuance
+        reissuanceLbl.textColor = info.isReissuance ? UIColor(named: "nt-9"): UIColor(named: "nt-3")
+        
+        guard let _cardNo = info.cardNo else { return }
+        let modString = _cardNo.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
+        labelCardNum.text = modString
                         
         if info.cardStatusType == .sipping {
+            _ = viewEvinfraList.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
+                                    
             var preferences = EasyTipView.Preferences()
             preferences.drawing.backgroundColor = UIColor(named: "background-always-dark")!
             preferences.drawing.foregroundColor = UIColor(named: "content-on-color")!
@@ -166,18 +175,13 @@ internal final class PartnershipListView : UIView {
             preferences.animating.showDuration = 1
             preferences.animating.dismissDuration = 1
                                  
-            printLog(out: "\(UserDefault().readBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP))")
             guard !UserDefault().readBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP) else { return }
-            let text = "카드 발송이 완료되었어요.\n우편함을 확인해보세요! 📮✉️"
+            let text = "영업일 기준 3~5일 뒤에\n우편함을 확인해보세요! 📮✉️"
             EasyTipView.show(forView: self.labelCardStatus,
                              withinSuperview: self.viewEvinfraList,
                 text: text,
                              preferences: preferences, delegate: self)
         }
-        
-        guard let _cardNo = info.cardNo else { return }        
-        let modString = _cardNo.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
-        labelCardNum.text = modString
     }
     
     private func initView() {

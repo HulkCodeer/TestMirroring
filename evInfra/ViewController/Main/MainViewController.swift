@@ -1208,9 +1208,7 @@ extension MainViewController {
     }
     
     func showMarketingPopup() {
-        // TODO :: 첫 부팅 시에만 처리할 동작 있으면
-        // chargermanagerlistener oncomplete에서 묶어서 처리 후 APP_FIRST_BOOT 변경
-        if (UserDefault().readBool(key: UserDefault.Key.APP_FIRST_BOOT) == false) { // 첫부팅 시
+        if (UserDefault().readBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP) == false) { // 마케팅 동의받지 않은 회원의 첫 부팅 시
             let popupModel = PopupModel(title: "더 나은 충전 생활 안내를 위해 동의가 필요해요.",
                                         message:"EV Infra는 사용자님을 위해 도움되는 혜택 정보를 보내기 위해 노력합니다. 무분별한 광고 알림을 보내지 않으니 안심하세요!\n마케팅 수신 동의 변경은 설정 > 마케팅 정보 수신 동의에서 철회 가능합니다.",
                                         confirmBtnTitle: "동의하기",
@@ -1236,7 +1234,7 @@ extension MainViewController {
                 if code.elementsEqual("1000") {
                     let receive = json["receive"].boolValue
                     UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: receive)
-                    UserDefault().saveBool(key: UserDefault.Key.APP_FIRST_BOOT, value: true)
+                    UserDefault().saveBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP, value: true)
                     let currDate = DateUtils.getFormattedCurrentDate(format: "yyyy년 MM월 dd일")
                     
                     var message = ""
