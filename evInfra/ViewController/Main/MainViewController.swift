@@ -14,7 +14,7 @@ import SwiftyJSON
 import NMapsMap
 import SnapKit
 
-class MainViewController: UIViewController {
+internal final class MainViewController: UIViewController {
     
     // constant
     let ROUTE_START = 0
@@ -89,10 +89,9 @@ class MainViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        configureLayer()
         configureNaverMapView()
         configureLocationManager()
-        configureLayer()
         showGuide()
         
         prepareRouteField()
@@ -128,17 +127,17 @@ class MainViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func showDeepLink() {
+    private func showDeepLink() {
         DeepLinkPath.sharedInstance.runDeepLink()
     }
     
     // Filter
-    func prepareFilterView() {
+    private func prepareFilterView() {
         filterBarView.delegate = self
         filterContainerView.delegate = self
     }
     
-    func prepareRouteView() {
+    private func prepareRouteView() {
         let findPath = UITapGestureRecognizer(target: self, action:  #selector (self.onClickShowNavi(_:)))
         self.routeDistanceBtn.addGestureRecognizer(findPath)
     }
@@ -171,13 +170,13 @@ class MainViewController: UIViewController {
         btn_menu_layer.layer.masksToBounds = false
     }
     
-    func prepareTmapAPI() {
+    private func prepareTmapAPI() {
         tMapView = TMapView()
         tMapView?.setSKTMapApiKey(Const.TMAP_APP_KEY)
     }
     
     // btnChargePrice radius, color, shadow
-    func prepareChargePrice() {
+    private func prepareChargePrice() {
         btnChargePrice.layer.cornerRadius = 16
         btnChargePrice.layer.shadowRadius = 5
         btnChargePrice.layer.shadowColor = UIColor.black.cgColor
@@ -189,7 +188,7 @@ class MainViewController: UIViewController {
         btnChargePrice.addGestureRecognizer(gesture)
     }
     
-    func handleError(error: Error?) -> Void {
+    private func handleError(error: Error?) -> Void {
         if let error = error as NSError? {
             print(error)
             let alert = UIAlertController(title: self.title!, message: error.localizedFailureReason, preferredStyle: UIAlertControllerStyle.alert)
@@ -254,7 +253,7 @@ class MainViewController: UIViewController {
         findPath(passList: passList)
     }
     
-    func showNavigation(start: POIObject, destination: POIObject, via: [POIObject]) {
+    private func showNavigation(start: POIObject, destination: POIObject, via: [POIObject]) {
         UtilNavigation().showNavigation(vc: self, startPoint: start, endPoint: destination, viaList: via)
     }
     
@@ -267,21 +266,25 @@ class MainViewController: UIViewController {
     
     // MARK: - Action for button
     @IBAction func onClickMyLocation(_ sender: UIButton) {
-        if isLocationEnabled() {
-            let mode = mapView.positionMode
-            
-            if mode == .normal {
-                naverMapView.moveToCurrentPostiion()
-                mapView.positionMode = .direction
-            } else if mode == .direction {
-                mapView.positionMode = .compass
-            } else if mode == .compass {
-                mapView.positionMode = .normal
-            }
-            updateMyLocationButton()
-        } else {
+        guard isLocationEnabled() else {
             askPermission()
+            return
         }
+        
+        switch mapView.positionMode {
+        case .normal:
+            mapView.positionMode = .direction
+            break
+        case .direction:
+            mapView.positionMode = .compass
+            break
+        case .compass:
+            mapView.positionMode = .direction
+            break
+        default: break
+        }
+        
+        updateMyLocationButton()
     }
     
     @IBAction func onClickRenewBtn(_ sender: UIButton) {
@@ -440,7 +443,7 @@ extension MainViewController: NMFMapViewTouchDelegate {
 }
 
 extension MainViewController {
-    internal func drawMapMarker() {
+    private func drawMapMarker() {
         guard chargerManager.isReady() else { return }
         
         self.clusterManager?.clustering(filter: FilterManager.sharedInstance.filter, loadedCharger: self.loadedChargers)
@@ -799,9 +802,6 @@ extension MainViewController: PoiTableViewDelegate {
 
 extension MainViewController: MarkerTouchDelegate {
     func touchHandler(with charger: ChargerStationInfo) {
-        let position = charger.mapMarker.position
-        
-        naverMapView.moveToCamera(with: NMGLatLng(lat: position.lat, lng: position.lng), zoomLevel: 14)
         hideKeyboard()
         selectCharger(chargerId: charger.mStationInfoDto?.mChargerId ?? "")
     }
@@ -956,7 +956,7 @@ extension MainViewController {
         }
     }
     
-    internal func refreshChargerInfo() {
+    private func refreshChargerInfo() {
         self.markerIndicator.startAnimating()
         clusterManager?.removeClusterFromSettings()
         Server.getStationStatus { (isSuccess, value) in
@@ -1111,7 +1111,7 @@ extension MainViewController {
         summaryView.setCallOutFavoriteIcon(favorite: changed)
     }
     
-    func selectChargerFromShared() {
+    private func selectChargerFromShared() {
         if let id = self.sharedChargerId {
             self.selectCharger(chargerId: id)
             self.sharedChargerId = nil
@@ -1122,7 +1122,7 @@ extension MainViewController {
         }
     }
     
-    func isLocationEnabled() -> Bool {
+    private func isLocationEnabled() -> Bool {
         var enabled: Bool = false
         if CLLocationManager.locationServicesEnabled() {
             switch CLLocationManager.authorizationStatus() {
@@ -1136,7 +1136,7 @@ extension MainViewController {
         return enabled
     }
     
-    func askPermission(){
+    private func askPermission(){
         let alertController = UIAlertController(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 기능을 이용하시려면 모든 권한을 허용해 주십시오.\n[설정] > [EV Infra] 에서 권한을 허용할 수 있습니다.", preferredStyle: UIAlertControllerStyle.alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
@@ -1154,28 +1154,21 @@ extension MainViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    internal func myLocationModeOff() {
+    private func myLocationModeOff() {
         mapView.positionMode = .normal
-        updateMyLocationButton()
+        myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
+        myLocationButton.tintColor = UIColor.init(named: "content-primary")
     }
     
-    internal func updateMyLocationButton() {
+    private func updateMyLocationButton() {
         self.markerIndicator.startAnimating()
         DispatchQueue.global(qos: .background).async { [weak self] in
             DispatchQueue.main.async {
-                let mode = self?.mapView.positionMode
-                switch mode  {
-                case .disabled:
-                    break
-                case .normal:
-                    self?.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
-                    self?.myLocationButton.tintColor = UIColor.init(named: "content-primary")
-                    UIApplication.shared.isIdleTimerDisabled = false // 화면 켜짐 유지 끔
-                    break
-                case .direction:
+                switch self?.mapView.positionMode  {
+                case .normal, .direction:
                     self?.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
                     self?.myLocationButton.tintColor = UIColor.init(named: "content-positive")
-                    UIApplication.shared.isIdleTimerDisabled = true // 화면 켜짐 유지
+                    UIApplication.shared.isIdleTimerDisabled = false // 화면 켜짐 유지 끔
                     break
                 case .compass:
                     self?.myLocationButton.setImage(UIImage(named: "icon_compass_lg"), for: .normal)
@@ -1211,7 +1204,7 @@ extension MainViewController {
         }
     }
     
-    func showMarketingPopup() {
+    private func showMarketingPopup() {
         if (UserDefault().readBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP) == false) { // 마케팅 동의받지 않은 회원의 첫 부팅 시
             let popupModel = PopupModel(title: "더 나은 충전 생활 안내를 위해 동의가 필요해요.",
                                         message:"EV Infra는 사용자님을 위해 도움되는 혜택 정보를 보내기 위해 노력합니다. 무분별한 광고 알림을 보내지 않으니 안심하세요!\n마케팅 수신 동의 변경은 설정 > 마케팅 정보 수신 동의에서 철회 가능합니다.",
@@ -1281,19 +1274,18 @@ extension MainViewController {
         }
     }
     
-    func prepareClustering() {
+    private func prepareClustering() {
         clusterManager = ClusterManager(mapView: mapView)
     }
     
-    func updateClustering() {
+    private func updateClustering() {
         clusterManager?.removeChargerForClustering(zoomLevel: Int(naverMapView.mapView.zoomLevel))
         drawMapMarker()
     }
 }
 
 extension MainViewController {
-    
-    func prepareMenuBtnLayer() {
+    private func prepareMenuBtnLayer() {
         btn_main_community.alignTextUnderImage()
         btn_main_community.tintColor = UIColor(named: "gr-8")
         btn_main_community.setImage(UIImage(named: "ic_comment")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -1338,7 +1330,7 @@ extension MainViewController {
 }
 
 extension MainViewController {
-    func responseGetChargingId(response: JSON) {
+    private func responseGetChargingId(response: JSON) {
         if response.isEmpty {
             return
         }
@@ -1369,7 +1361,7 @@ extension MainViewController {
         }
     }
     
-    func chargingStatus() {
+    private func chargingStatus() {
         if MemberManager.shared.isLogin {
             Server.getChargingId { (isSuccess, responseData) in
                 if isSuccess {
@@ -1386,7 +1378,7 @@ extension MainViewController {
         }
     }
     
-    func getChargingStatus(response: JSON) {
+    private func getChargingStatus(response: JSON) {
         if response["pay_code"].stringValue.equals("8804") {
             defaults.saveBool(key: UserDefault.Key.HAS_FAILED_PAYMENT, value: true)
             ivMainChargeNew.isHidden = false
