@@ -384,16 +384,14 @@ extension MainViewController: DelegateFilterBarView {
     
     func startFilterSetting(){
         // chargerFilterViewcontroller
-        let filterStoryboard = UIStoryboard(name : "Filter", bundle: nil)
-        let chargerFilterViewController = filterStoryboard.instantiateViewController(ofType: ChargerFilterViewController.self)
+        let chargerFilterViewController = UIStoryboard(name : "Filter", bundle: nil).instantiateViewController(ofType: ChargerFilterViewController.self)
         chargerFilterViewController.delegate = self
         GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
     }
     
     @IBAction func onClickMainFavorite(_ sender: UIButton) {
         if MemberManager.shared.isLogin {
-            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-            let favoriteViewController = memberStoryboard.instantiateViewController(ofType: FavoriteViewController.self)
+            let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
             favoriteViewController.delegate = self
             self.present(AppNavigationController(rootViewController: favoriteViewController), animated: true, completion: nil)
         } else {
@@ -1278,8 +1276,9 @@ extension MainViewController {
     }
     
     private func updateClustering() {
-        clusterManager?.removeClusterFromSettings()
-        clusterManager?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
+        guard let clusterManager = clusterManager else { return }
+        clusterManager.removeClusterFromSettings()
+        clusterManager.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
         drawMapMarker()
     }
 }
