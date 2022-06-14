@@ -44,21 +44,18 @@ internal final class ClusterManager {
         }
     }
     
-    let headers = ["charger0", "cluster1", "cluster2", "cluster3", "cluster4"] // 클러스터링 에셋 파일명
-    
+    private let headers = ["charger0", "cluster1", "cluster2", "cluster3", "cluster4"] // 클러스터링 에셋 파일명
     private static let MARKER_THRESHOLD_SIZE = 2
     private static let MAX_ZOOM_LEVEL = 9
     
-    var clusters = [[CodableCluster.Cluster]?]()
-    var isClustering: Bool = false
-    var isNeedChangeText: Bool = false
-    var clusterFilter: ChargerFilter? = nil
-    var currentClusterLv: Int = -1
-    var tMapView: TMapView?
-    var mapView: NMFMapView?
-    var isRouteMode: Bool = false
-    
-    var clusterGenerator = ClusterGenerator.init()
+    internal var isClustering: Bool = false
+    internal var mapView: NMFMapView?
+    internal var isRouteMode: Bool = false
+    private var clusters = [[CodableCluster.Cluster]?]()
+    private var isNeedChangeText: Bool = false
+    private var clusterFilter: ChargerFilter? = nil
+    private var currentClusterLv: Int = -1
+    private var clusterGenerator = ClusterGenerator()
     
     init(mapView: NMFMapView) {
         self.mapView = mapView
@@ -232,22 +229,14 @@ internal final class ClusterManager {
     // 한 화면에 일정 갯수 이상의 마커가 있고 줌 레벨이 설정값 이하인 경우,
     // 마커를 모두 그리지 않고 threshold 갯수만큼 건너띄면서 그림
     private func getMarkerThreshold(filter: ChargerFilter, stations: [ChargerStationInfo]) -> Int {
-        var markerThreshold = 1
-        guard !isRouteMode else { return markerThreshold }
+        guard !isRouteMode else { return 1 }
+        guard stations.count > 500 else { return 1 }
+        guard let mapView = mapView else { return 1 }
+        
         let markerCount = stations.count
+        let zoomLevel = Int(mapView.zoomLevel)
 
-        if markerCount > 500 {
-            guard let zoomLevelDouble = self.mapView?.zoomLevel else { return markerThreshold }
-            let zoomLevel = Int(zoomLevelDouble)
-            
-            if zoomLevel <  Level.zoom0.value {
-                markerThreshold = (markerCount >> 9)
-            } else {
-                markerThreshold = (markerCount << 9)
-            }
-        }
-
-        return markerThreshold
+        return zoomLevel < Level.zoom0.value ? (markerCount >> 9) : (markerCount << 9)
     }
    
     internal func removeClusterFromSettings() {
