@@ -1005,6 +1005,7 @@ extension MainViewController {
         center.addObserver(self, selector: #selector(requestLogIn(_:)), name: Notification.Name(summaryView.loginKey), object: nil)
         center.addObserver(self, selector: #selector(isChangeFavorite(_:)), name: Notification.Name(summaryView.favoriteKey), object: nil)
     }
+    
     func removeObserver() {
         let center = NotificationCenter.default
         center.removeObserver(self, name: Notification.Name("updateMemberInfo"), object: nil)
@@ -1282,7 +1283,8 @@ extension MainViewController {
     }
     
     private func updateClustering() {
-        clusterManager?.removeChargerForClustering(zoomLevel: Int(naverMapView.mapView.zoomLevel))
+//        clusterManager?.removeChargerForClustering(zoomLevel: Int(naverMapView.mapView.zoomLevel))
+        clusterManager?.removeClusterFromSettings()
         clusterManager?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
         drawMapMarker()
     }
