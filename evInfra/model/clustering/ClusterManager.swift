@@ -156,7 +156,7 @@ internal final class ClusterManager {
             guard let self = self else { return }
 
             var clusterLevel = Cluster.Level0.value
-            if self.isClustering {
+            if self.isClustering && !self.isRouteMode {
                 // zoom level에 따른 클러스터링 레벨 설정
                 if zoomLevel < Level.zoom3.value {
                     clusterLevel = Cluster.Level4.value
