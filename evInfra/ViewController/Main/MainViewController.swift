@@ -1277,7 +1277,8 @@ extension MainViewController {
         if Board.sharedInstance.hasNew() || UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
             appDelegate.appToolbarController.setMenuIcon(hasBadge: true)
         } else {
-            appDelegate.appToolbarController.setMenuIcon(hasBadge: false)
+            let isHasBadge = Board.sharedInstance.hasNew() || UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT)
+            appDelegate.appToolbarController.setMenuIcon(hasBadge: isHasBadge)
         }
     }
     

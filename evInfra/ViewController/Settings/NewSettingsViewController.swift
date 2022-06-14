@@ -131,7 +131,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
     }
                     
     internal func bind(reactor: SettingsReactor) {        
-                
+        
     }
     
     private func createSettingView(mainTitle: String, subTitle: String, isSwOn: Bool) -> UIView {
