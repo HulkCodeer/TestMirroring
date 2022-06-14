@@ -1263,11 +1263,8 @@ extension MainViewController {
     }
     
     private func menuBadgeAdd() {
-        if Board.sharedInstance.hasNew() || UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
-            appDelegate.appToolbarController.setMenuIcon(hasBadge: true)
-        } else {
-            appDelegate.appToolbarController.setMenuIcon(hasBadge: false)
-        }
+        let hasBadge = Board.sharedInstance.hasNew() || UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT)
+        appDelegate.appToolbarController.setMenuIcon(hasBadge: hasBadge)
     }
     
     private func prepareClustering() {
