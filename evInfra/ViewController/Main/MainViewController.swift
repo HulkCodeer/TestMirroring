@@ -259,9 +259,9 @@ internal final class MainViewController: UIViewController {
     
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let priceInfoVC: TermsViewController = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-        priceInfoVC.tabIndex = .PriceInfo
-        self.navigationController?.push(viewController: priceInfoVC)
+        let priceInfoViewController: TermsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
+        priceInfoViewController.tabIndex = .PriceInfo
+        GlobalDefine.shared.mainNavi?.push(viewController: priceInfoViewController)
     }
     
     // MARK: - Action for button
@@ -274,13 +274,10 @@ internal final class MainViewController: UIViewController {
         switch mapView.positionMode {
         case .normal:
             mapView.positionMode = .direction
-            break
         case .direction:
             mapView.positionMode = .compass
-            break
         case .compass:
             mapView.positionMode = .direction
-            break
         default: break
         }
         
@@ -387,18 +384,16 @@ extension MainViewController: DelegateFilterBarView {
     
     func startFilterSetting(){
         // chargerFilterViewcontroller
-        let filterStoryboard = UIStoryboard(name : "Filter", bundle: nil)
-        let chargerFilterVC:ChargerFilterViewController = filterStoryboard.instantiateViewController(withIdentifier: "ChargerFilterViewController") as! ChargerFilterViewController
-        chargerFilterVC.delegate = self
-        self.navigationController?.push(viewController: chargerFilterVC)
+        let chargerFilterViewController = UIStoryboard(name : "Filter", bundle: nil).instantiateViewController(ofType: ChargerFilterViewController.self)
+        chargerFilterViewController.delegate = self
+        GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
     }
     
     @IBAction func onClickMainFavorite(_ sender: UIButton) {
         if MemberManager.shared.isLogin {
-            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-            let favoriteVC:FavoriteViewController = memberStoryboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
-            favoriteVC.delegate = self
-            self.present(AppNavigationController(rootViewController: favoriteVC), animated: true, completion: nil)
+            let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
+            favoriteViewController.delegate = self
+            self.present(AppNavigationController(rootViewController: favoriteViewController), animated: true, completion: nil)
         } else {
             MemberManager.shared.showLoginAlert()
         }
@@ -786,6 +781,7 @@ extension MainViewController: PoiTableViewDelegate {
             startField.text = poiItem.name
             routeStartPoint = poiItem.getPOIPoint()
             
+            naverMapView.startMarker?.mapView = nil
             naverMapView.startMarker = Marker(NMGLatLng(lat: latitude, lng: longitude), .start)
             naverMapView.startMarker?.mapView = self.mapView
             naverMapView.start = POIObject(name: poiItem.name, lat: latitude, lng: longitude)
@@ -793,6 +789,7 @@ extension MainViewController: PoiTableViewDelegate {
             endField.text = poiItem.name
             routeEndPoint = poiItem.getPOIPoint()
             
+            naverMapView.endMarker?.mapView = nil
             naverMapView.endMarker = Marker(NMGLatLng(lat: latitude, lng: longitude), .end)
             naverMapView.endMarker?.mapView = self.mapView
             naverMapView.destination = POIObject(name: poiItem.name, lat: latitude, lng: longitude)
@@ -859,11 +856,11 @@ extension MainViewController: ChargerSelectDelegate {
     
     @objc func onClickCalloutLayer(_ sender:UITapGestureRecognizer) {
         let detailStoryboard = UIStoryboard(name : "Detail", bundle: nil)
-        let detailVC:DetailViewController = detailStoryboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-        detailVC.charger = self.selectCharger
-        detailVC.isRouteMode = self.clusterManager!.isRouteMode
+        let detailViewController = detailStoryboard.instantiateViewController(ofType: DetailViewController.self)
+        detailViewController.charger = self.selectCharger
+        detailViewController.isRouteMode = self.clusterManager?.isRouteMode ?? false
         
-        self.navigationController?.push(viewController: detailVC, subtype: kCATransitionFromTop)
+        GlobalDefine.shared.mainNavi?.push(viewController: detailViewController, subtype: kCATransitionFromTop)
     }
     
     func prepareSummaryView() {
@@ -1003,6 +1000,7 @@ extension MainViewController {
         center.addObserver(self, selector: #selector(requestLogIn(_:)), name: Notification.Name(summaryView.loginKey), object: nil)
         center.addObserver(self, selector: #selector(isChangeFavorite(_:)), name: Notification.Name(summaryView.favoriteKey), object: nil)
     }
+    
     func removeObserver() {
         let center = NotificationCenter.default
         center.removeObserver(self, name: Notification.Name("updateMemberInfo"), object: nil)
@@ -1169,12 +1167,10 @@ extension MainViewController {
                     self?.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
                     self?.myLocationButton.tintColor = UIColor.init(named: "content-positive")
                     UIApplication.shared.isIdleTimerDisabled = false // 화면 켜짐 유지 끔
-                    break
                 case .compass:
                     self?.myLocationButton.setImage(UIImage(named: "icon_compass_lg"), for: .normal)
                     self?.myLocationButton.tintColor = UIColor.init(named: "content-positive")
                     UIApplication.shared.isIdleTimerDisabled = true // 화면 켜짐 유지
-                    break
                 default:
                     break
                 }
@@ -1267,19 +1263,19 @@ extension MainViewController {
     }
     
     private func menuBadgeAdd() {
-        if Board.sharedInstance.hasNew() || UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
-            appDelegate.appToolbarController.setMenuIcon(hasBadge: true)
-        } else {
-            appDelegate.appToolbarController.setMenuIcon(hasBadge: false)
-        }
+        let hasBadge = Board.sharedInstance.hasNew() || UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT)
+        appDelegate.appToolbarController.setMenuIcon(hasBadge: hasBadge)
     }
     
     private func prepareClustering() {
         clusterManager = ClusterManager(mapView: mapView)
+        clusterManager?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
     }
     
     private func updateClustering() {
-        clusterManager?.removeChargerForClustering(zoomLevel: Int(naverMapView.mapView.zoomLevel))
+        guard let clusterManager = clusterManager else { return }
+        clusterManager.removeClusterFromSettings()
+        clusterManager.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
         drawMapMarker()
     }
 }
@@ -1316,16 +1312,16 @@ extension MainViewController {
         UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
         
         let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-        let freeBoardVC = boardStoryboard.instantiateViewController(withIdentifier: "CardBoardViewController") as! CardBoardViewController
-        freeBoardVC.category = Board.BOARD_CATEGORY_FREE
-        navigationController?.push(viewController: freeBoardVC)
+        let freeBoardViewController = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
+        freeBoardViewController.category = Board.BOARD_CATEGORY_FREE
+        GlobalDefine.shared.mainNavi?.push(viewController: freeBoardViewController)
     }
     
     @IBAction func onClickMainHelp(_ sender: UIButton) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-        termsViewControll.tabIndex = .FAQTop
-        self.navigationController?.push(viewController: termsViewControll)
+        let termsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
+        termsViewController.tabIndex = .FAQTop
+        GlobalDefine.shared.mainNavi?.push(viewController: termsViewController)
     }
 }
 
@@ -1339,21 +1335,21 @@ extension MainViewController {
         switch (response["code"].intValue) {
         case 1000:
             defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
-            let paymentStatusVC = paymentStoryboard.instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
-            paymentStatusVC.cpId = response["cp_id"].stringValue
-            paymentStatusVC.connectorId = response["connector_id"].stringValue
+            let paymentStatusViewController = paymentStoryboard.instantiateViewController(ofType: PaymentStatusViewController.self)
+
+            paymentStatusViewController.cpId = response["cp_id"].stringValue
+            paymentStatusViewController.connectorId = response["connector_id"].stringValue
             
-            self.navigationController?.push(viewController: paymentStatusVC)
-            
+            GlobalDefine.shared.mainNavi?.push(viewController: paymentStatusViewController)
         case 2002:
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
             if response["pay_code"].stringValue.equals("8804") {
-                let repayListVC = paymentStoryboard.instantiateViewController(withIdentifier: "RepayListViewController") as! RepayListViewController
-                repayListVC.delegate = self
-                self.navigationController?.push(viewController: repayListVC)
+                let repayListViewController = paymentStoryboard.instantiateViewController(ofType: RepayListViewController.self)
+                repayListViewController.delegate = self
+                GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
             } else {
-                let paymentQRScanVC = paymentStoryboard.instantiateViewController(withIdentifier: "PaymentQRScanViewController") as! PaymentQRScanViewController
-                self.navigationController?.push(viewController:paymentQRScanVC)
+                let paymentQRScanViewController = paymentStoryboard.instantiateViewController(ofType: PaymentQRScanViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: paymentQRScanViewController)
             }
             
         default:
@@ -1413,8 +1409,8 @@ extension MainViewController {
 extension MainViewController: RepaymentListDelegate {
     func onRepaySuccess() {
         let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
-        let paymentQRScanVC = paymentStoryboard.instantiateViewController(withIdentifier: "PaymentQRScanViewController") as! PaymentQRScanViewController
-        self.navigationController?.push(viewController:paymentQRScanVC)
+        let paymentQRScanViewController = paymentStoryboard.instantiateViewController(ofType: PaymentQRScanViewController.self)
+        GlobalDefine.shared.mainNavi?.push(viewController: paymentQRScanViewController)
     }
     
     func onRepayFail() {
