@@ -413,7 +413,6 @@ extension MainViewController: NMFMapViewCameraDelegate {
 
 extension MainViewController: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        clearSearchResult()
         hideFilter()
         hideKeyboard()
         myLocationModeOff()
