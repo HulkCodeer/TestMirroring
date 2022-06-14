@@ -27,8 +27,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
                 
             case .marketingNoticeAgree:
                 return "포인트, 충전 이벤트 등을 알려드릴게요!"
-                
-            default: return ""
+                            
             }
         }
     }
@@ -81,31 +80,42 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         totalScrollView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.top.equalTo(naviTotalView.snp.bottom)
+            $0.width.equalToSuperview()
         }
-        
-        totalScrollView.addSubview(totalView)
-        totalView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        totalView.addSubview(stackView)
+                        
+        totalScrollView.addSubview(stackView)
         stackView.snp.makeConstraints {
-            $0.leading.top.trailing.equalToSuperview()
+            $0.leading.trailing.top.equalToSuperview()
+            $0.width.equalToSuperview()
+            $0.centerX.equalToSuperview()
         }
         
         for settingType in SettingType.allCases {
-            let settingView = self.createSettingView(mainTitle: settingType.rawValue, subTitle: settingType.subTitle())
+            let isOn: Bool
+            switch settingType {
+            case .basicNotice:
+                isOn = UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION)
+                
+            case .locationNotice:
+                isOn = UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION)
+                
+            case .marketingNoticeAgree:
+                isOn = UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION)
+            }
+                                    
+            let settingView = self.createSettingView(mainTitle: settingType.rawValue, subTitle: settingType.subTitle(), isSwOn: isOn)
             settingView.snp.makeConstraints {
                 $0.height.equalTo(66)
             }
             stackView.addArrangedSubview(settingView)
         }
-        
+
         let quitAccountView = self.createQuitAccountView(mainTitle: "회원탈퇴")
-        totalView.addSubview(quitAccountView)
+        totalScrollView.addSubview(quitAccountView)
         quitAccountView.snp.makeConstraints {
             $0.top.equalTo(stackView.snp.bottom)
             $0.leading.bottom.trailing.equalToSuperview()
+            $0.centerX.equalToSuperview()
             $0.height.equalTo(56)
         }
     }
@@ -124,7 +134,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
                 
     }
     
-    private func createSettingView(mainTitle: String, subTitle: String) -> UIView {
+    private func createSettingView(mainTitle: String, subTitle: String, isSwOn: Bool) -> UIView {
         let view = UIView().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -147,6 +157,8 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         let subTitleLbl = UILabel().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.text = subTitle
+            $0.text = "ㅁ니아러ㅣ만어리ㅏ먼ㅇ리ㅏㅓ미낭러ㅣㅏㅁ넝리ㅏㅓㅁㄴ이;라ㅓㅣㅁ;나어리ㅏ먼이;라ㅓㅁㄴ이;라ㅓ"
+            $0.textAlignment = .natural
             $0.numberOfLines = 2
             $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
             $0.textColor = Colors.contentTertiary.color
@@ -154,15 +166,28 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         
         view.addSubview(subTitleLbl)
         subTitleLbl.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLbl.snp.bottom).offset(-4)
+            $0.top.equalTo(mainTitleLbl.snp.bottom).offset(-1)
             $0.leading.equalToSuperview().offset(16)
-            $0.height.equalTo(16)
+        }
+        
+        let noticeSw = UISwitch().then {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.tintColor = Colors.contentPrimary.color
+            $0.isOn = isSwOn
+            $0.thumbTintColor = .white
+        }
+        
+        view.addSubview(noticeSw)
+        noticeSw.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-28)
+            $0.leading.greaterThanOrEqualTo(subTitleLbl.snp.trailing).offset(30)
         }
         
         let lineView = self.createLineView()
         view.addSubview(lineView)
         lineView.snp.makeConstraints {
-            $0.top.equalTo(subTitleLbl.snp.bottom).offset(15)
+            $0.top.lessThanOrEqualTo(subTitleLbl.snp.bottom).offset(15)
             $0.leading.bottom.trailing.equalToSuperview()
             $0.height.equalTo(1)
         }
@@ -185,8 +210,8 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         
         view.addSubview(mainTitleLbl)
         mainTitleLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(13)
-            $0.leading.equalToSuperview().offset(16)
+            $0.leading.equalTo(16)
+            $0.centerY.equalToSuperview()
             $0.height.equalTo(16)
         }
         
