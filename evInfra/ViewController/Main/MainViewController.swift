@@ -274,13 +274,10 @@ internal final class MainViewController: UIViewController {
         switch mapView.positionMode {
         case .normal:
             mapView.positionMode = .direction
-            break
         case .direction:
             mapView.positionMode = .compass
-            break
         case .compass:
             mapView.positionMode = .direction
-            break
         default: break
         }
         
@@ -1172,12 +1169,10 @@ extension MainViewController {
                     self?.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
                     self?.myLocationButton.tintColor = UIColor.init(named: "content-positive")
                     UIApplication.shared.isIdleTimerDisabled = false // 화면 켜짐 유지 끔
-                    break
                 case .compass:
                     self?.myLocationButton.setImage(UIImage(named: "icon_compass_lg"), for: .normal)
                     self?.myLocationButton.tintColor = UIColor.init(named: "content-positive")
                     UIApplication.shared.isIdleTimerDisabled = true // 화면 켜짐 유지
-                    break
                 default:
                     break
                 }
@@ -1283,7 +1278,6 @@ extension MainViewController {
     }
     
     private func updateClustering() {
-//        clusterManager?.removeChargerForClustering(zoomLevel: Int(naverMapView.mapView.zoomLevel))
         clusterManager?.removeClusterFromSettings()
         clusterManager?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
         drawMapMarker()
