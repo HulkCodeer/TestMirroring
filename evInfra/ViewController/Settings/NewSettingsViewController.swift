@@ -103,7 +103,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
                 isOn = UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION)
             }
                                     
-            let settingView = self.createSettingView(mainTitle: settingType.rawValue, subTitle: settingType.subTitle(), isSwOn: isOn)
+            let settingView = self.createSettingView(mainTitle: settingType.rawValue, subTitle: settingType.subTitle(), isSwOn: isOn, settingType: settingType)
             settingView.snp.makeConstraints {
                 $0.height.equalTo(66)
             }
@@ -134,7 +134,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         
     }
     
-    private func createSettingView(mainTitle: String, subTitle: String, isSwOn: Bool) -> UIView {
+    private func createSettingView(mainTitle: String, subTitle: String, isSwOn: Bool, settingType: SettingType) -> UIView {
         let view = UIView().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -157,7 +157,6 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         let subTitleLbl = UILabel().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.text = subTitle
-            $0.text = "ㅁ니아러ㅣ만어리ㅏ먼ㅇ리ㅏㅓ미낭러ㅣㅏㅁ넝리ㅏㅓㅁㄴ이;라ㅓㅣㅁ;나어리ㅏ먼이;라ㅓㅁㄴ이;라ㅓ"
             $0.textAlignment = .natural
             $0.numberOfLines = 2
             $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
@@ -184,12 +183,45 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             $0.leading.greaterThanOrEqualTo(subTitleLbl.snp.trailing).offset(30)
         }
         
+        noticeSw.rx.isOn
+            .changed
+            .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [weak self] isOn in
+                guard let self = self, let _reactor = self.reactor else { return }
+                Observable.just(SettingsReactor.Action.updateBasicNotification(isOn))
+                    .bind(to: _reactor.action)
+                    .disposed(by: self.disposeBag)
+            })
+            .disposed(by: self.disposeBag)
+                        
         let lineView = self.createLineView()
         view.addSubview(lineView)
         lineView.snp.makeConstraints {
             $0.top.lessThanOrEqualTo(subTitleLbl.snp.bottom).offset(15)
             $0.leading.bottom.trailing.equalToSuperview()
             $0.height.equalTo(1)
+        }
+        
+        guard let _reactor = self.reactor else { return view}
+        
+        switch settingType {
+        case .basicNotice:
+            _reactor.state.compactMap { $0.isBasicNotification }
+            .bind(to: noticeSw.rx.isOn)
+            .disposed(by: self.disposeBag)
+            
+        case .locationNotice:
+            _reactor.state.compactMap { $0.isLocalNotification }
+            .bind(to: noticeSw.rx.isOn)
+            .disposed(by: self.disposeBag)
+            
+        case .marketingNoticeAgree:
+            _reactor.state.compactMap { $0.isMarketingNotification }
+            .bind(to: noticeSw.rx.isOn)
+            .disposed(by: self.disposeBag)
+            
         }
         
         return view
