@@ -182,20 +182,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             $0.trailing.equalToSuperview().offset(-28)
             $0.leading.greaterThanOrEqualTo(subTitleLbl.snp.trailing).offset(30)
         }
-        
-        noticeSw.rx.isOn
-            .changed
-            .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: false)
-            .drive(onNext: { [weak self] isOn in
-                guard let self = self, let _reactor = self.reactor else { return }
-                Observable.just(SettingsReactor.Action.updateBasicNotification(isOn))
-                    .bind(to: _reactor.action)
-                    .disposed(by: self.disposeBag)
-            })
-            .disposed(by: self.disposeBag)
-                        
+                                       
         let lineView = self.createLineView()
         view.addSubview(lineView)
         lineView.snp.makeConstraints {
@@ -208,16 +195,57 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         
         switch settingType {
         case .basicNotice:
+            noticeSw.rx.isOn
+                .changed
+                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+                .distinctUntilChanged()
+                .asDriver(onErrorJustReturn: false)
+                .drive(onNext: { [weak self] isOn in
+                    guard let self = self, let _reactor = self.reactor else { return }
+                    Observable.just(SettingsReactor.Action.updateBasicNotification(isOn))
+                        .bind(to: _reactor.action)
+                        .disposed(by: self.disposeBag)
+                })
+                .disposed(by: self.disposeBag)
+            
+            
             _reactor.state.compactMap { $0.isBasicNotification }
             .bind(to: noticeSw.rx.isOn)
             .disposed(by: self.disposeBag)
             
         case .locationNotice:
+            noticeSw.rx.isOn
+                .changed
+                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+                .distinctUntilChanged()
+                .asDriver(onErrorJustReturn: false)
+                .drive(onNext: { [weak self] isOn in
+                    guard let self = self, let _reactor = self.reactor else { return }
+                    Observable.just(SettingsReactor.Action.updateLocalNotification(isOn))
+                        .bind(to: _reactor.action)
+                        .disposed(by: self.disposeBag)
+                })
+                .disposed(by: self.disposeBag)
+            
             _reactor.state.compactMap { $0.isLocalNotification }
             .bind(to: noticeSw.rx.isOn)
             .disposed(by: self.disposeBag)
             
+            
         case .marketingNoticeAgree:
+            noticeSw.rx.isOn
+                .changed
+                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+                .distinctUntilChanged()
+                .asDriver(onErrorJustReturn: false)
+                .drive(onNext: { [weak self] isOn in
+                    guard let self = self, let _reactor = self.reactor else { return }
+                    Observable.just(SettingsReactor.Action.updateMarketingNotification(isOn))
+                        .bind(to: _reactor.action)
+                        .disposed(by: self.disposeBag)
+                })
+                .disposed(by: self.disposeBag)
+            
             _reactor.state.compactMap { $0.isMarketingNotification }
             .bind(to: noticeSw.rx.isOn)
             .disposed(by: self.disposeBag)

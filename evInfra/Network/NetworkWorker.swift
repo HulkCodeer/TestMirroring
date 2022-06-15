@@ -27,6 +27,7 @@ extension Observable where Element == (HTTPURLResponse, Data){
         return self.map { (httpURLResponse, data) -> ApiResult<Data, ApiErrorMessage> in
             switch httpURLResponse.statusCode{
             case 200 ... 299:
+                printLog(out: "Request URL : \(String(describing: httpURLResponse.url?.description ?? ""))")
                 printLog(out: "Success Data : \(String(decoding: data, as: UTF8.self))")
                 return .success(data)
                                 

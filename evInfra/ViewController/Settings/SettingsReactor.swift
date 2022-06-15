@@ -51,15 +51,16 @@ internal final class SettingsReactor: ViewModel, Reactor {
                 }
             
         case .updateLocalNotification(let isState):
-            return self.provider.updateBasicNotificationState(state: isState)
+            return self.provider.updateLocalNotificationState(state: isState)
                 .convertData()
                 .compactMap(convertToData)
                 .map { isReceivePush in
                     UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION, value: isReceivePush)
                     return .setLocalNotification(isReceivePush)
+                }
                     
         case .updateMarketingNotification(let isState):
-            return self.provider.updateBasicNotificationState(state: isState)
+            return self.provider.updateMarketingNotificationState(state: isState)
                 .convertData()
                 .compactMap(convertToData)
                 .map { isReceivePush in
@@ -68,9 +69,10 @@ internal final class SettingsReactor: ViewModel, Reactor {
                     
                     let message = isReceivePush ? "[EV Infra] \(currDate)마케팅 수신 동의 처리가 완료되었어요! ☺️ 더 좋은 소식 준비할게요!" : "[EV Infra] \(currDate)마케팅 수신 거부 처리가 완료되었어요."
                     
-                    Snackbar().show(message: "[EV Infra] " + currDate + "마케팅 수신 동의 처리가 완료되었어요! ☺️ 더 좋은 소식 준비할게요!")
+                    Snackbar().show(message: message)
                     
                     return .setMarketingNotification(isReceivePush)
+                }
             
         case .none:
             return .just(.none)
@@ -116,9 +118,5 @@ internal final class SettingsReactor: ViewModel, Reactor {
             printLog(out: "Error Message : \(errorMessage)")
             return nil
         }
-    }    
-        case .updateMarketingNotification(_):
-            <#code#>
-        case .none:
-            <#code#>
-        }
+    }
+}

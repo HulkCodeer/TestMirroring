@@ -12,7 +12,10 @@ import Alamofire
 protocol SoftberryAPI: class {
     func getCheckPassword(password: String, cardNo: String) -> Observable<(HTTPURLResponse, Data)>
     func postReissueMembershipCard(model: ReissuanceModel) -> Observable<(HTTPURLResponse, Data)>
+    
     func updateBasicNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)>
+    func updateLocalNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)>
+    func updateMarketingNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -43,5 +46,25 @@ internal final class RestApi: SoftberryAPI {
         ]
         
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/user/setNotification", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - 지역 알림 설정
+    func updateLocalNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.shared.memberId,
+            "receive_push": state
+        ]
+        
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/user/setJejuNotification", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - 마켓팅 알림 설정
+    func updateMarketingNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.shared.memberId,
+            "receive_push": state
+        ]
+        
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/user/setMarketingNotification", httpMethod: .post, parameters: reqParam, headers: nil)
     }
 }
