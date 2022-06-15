@@ -400,12 +400,9 @@ extension BoardDetailViewController {
                                     cancelBtnTitle: "취소",
                                     confirmBtnAction: { [weak self] in
             guard let self = self else { return }
-            self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { [weak self] (isSuccess, message) in
-                guard let self = self else { return }
-                self.boardDetailViewModel.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { isSuccess, message in
-                    Snackbar().show(message: message)
-                    self.fetchData()
-                }
+            self.boardDetailViewModel.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { isSuccess, message in
+                Snackbar().show(message: message)
+                self.fetchData()
             }
         })
         
