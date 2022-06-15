@@ -8,24 +8,74 @@
 
 import UIKit
 
-internal final class ArrowBackBtn: UIView {
+internal final class Arrow: UIView {
     enum Const {
         enum SizeType {
-            case size16
-            case size20
-            case size24
-            case size32
+            case size16(Direction)
+            case size20(Direction)
+            case size24(Direction)
+            case size32(Direction)
             
             var getImage: UIImage {
                 switch self {
-                case .size16: return Icons.iconArrowLeftXs.image
-                case .size20: return Icons.iconArrowLeftSm.image
-                case .size24: return Icons.iconArrowLeftMd.image
-                case .size32: return Icons.iconArrowLeftLg.image
+                case .size16(let direction):
+                    switch direction {
+                    case .left:
+                        return Icons.iconArrowLeftXs.image
+                    case .right:
+                        return Icons.iconArrowRightXs.image
+                    case .up:
+                        return Icons.iconArrowUpXs.image
+                    case .down:
+                        return Icons.iconArrowDownXs.image
+                    }
+                    
+                case .size20(let direction):
+                    switch direction {
+                    case .left:
+                        return Icons.iconArrowLeftSm.image
+                    case .right:
+                        return Icons.iconArrowRightSm.image
+                    case .up:
+                        return Icons.iconArrowUpSm.image
+                    case .down:
+                        return Icons.iconArrowDownSm.image
+                    }
+                    
+                case .size24(let direction):
+                    switch direction {
+                    case .left:
+                        return Icons.iconArrowLeftMd.image
+                    case .right:
+                        return Icons.iconArrowRightMd.image
+                    case .up:
+                        return Icons.iconArrowUpMd.image
+                    case .down:
+                        return Icons.iconArrowDownMd.image
+                    }
+                    
+                case .size32(let direction):
+                    switch direction {
+                    case .left:
+                        return Icons.iconArrowLeftLg.image
+                    case .right:
+                        return Icons.iconArrowRightLg.image
+                    case .up:
+                        return Icons.iconArrowUpLg.image
+                    case .down:
+                        return Icons.iconArrowDownLg.image
+                    }                    
                 }
             }
         }
         
+        enum Direction {
+            case left
+            case right
+            case down
+            case up
+        }
+                        
         static let baseColor: UIColor = .white
     }
     
@@ -84,19 +134,19 @@ internal final class ArrowBackBtn: UIView {
     }
     
     init() {
-        self.sizeType = .size24
+        self.sizeType = .size24(.left)
         super.init(frame: .zero)
         self.makeUI()
     }
     
-    init(_ sizeType: Const.SizeType = .size16) {
+    init(_ sizeType: Const.SizeType = .size24(.left)) {
         self.sizeType = sizeType
         super.init(frame: .zero)
         self.makeUI()
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        self.sizeType = .size24
+        self.sizeType = .size24(.left)
         super.init(coder: aDecoder)
         self.makeUI()
     }

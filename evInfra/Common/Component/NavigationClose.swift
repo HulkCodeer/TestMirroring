@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal final class NavigationCloseBtn: UIView {
+internal final class NavigationClose: UIView {
     enum Const {
         enum SizeType {
             case size16

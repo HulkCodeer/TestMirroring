@@ -14,7 +14,7 @@ internal final class SettingsReactor: ViewModel, Reactor {
         case updateBasicNotification(Bool)
         case updateLocalNotification(Bool)
         case updateMarketingNotification(Bool)
-//        case quitAccount
+        case moveQuitAccountReasonQuestion
         case none
     }
     
@@ -73,6 +73,12 @@ internal final class SettingsReactor: ViewModel, Reactor {
                     
                     return .setMarketingNotification(isReceivePush)
                 }
+            
+        case .moveQuitAccountReasonQuestion:
+            let reactor = QuitAccountReasonQuestionReactor(provider: self.provider)
+            let viewcon = QuitAccountViewController(reactor: reactor)
+            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            return .empty()
             
         case .none:
             return .just(.none)

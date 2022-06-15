@@ -119,20 +119,13 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             $0.height.equalTo(56)
         }
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-                        
-    }
-    
+            
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
                     
-    internal func bind(reactor: SettingsReactor) {        
-        
-    }
+    internal func bind(reactor: SettingsReactor) {}
     
     private func createSettingView(mainTitle: String, subTitle: String, isSwOn: Bool, settingType: SettingType) -> UIView {
         let view = UIView().then {
@@ -281,6 +274,25 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             $0.leading.bottom.trailing.equalToSuperview()
             $0.height.equalTo(1)
         }
+        
+        let quitAccountBtn = UIButton().then {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
+        view.addSubview(quitAccountBtn)
+        quitAccountBtn.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        quitAccountBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self, let _reactor = self.reactor else { return }
+                Observable.just(SettingsReactor.Action.moveQuitAccountReasonQuestion)
+                    .bind(to: _reactor.action)
+                    .disposed(by: self.disposeBag)
+            })
+            .disposed(by: self.disposeBag)
         
         return view
     }

@@ -1,0 +1,164 @@
+//
+//  DeleteAccountViewController.swift
+//  evInfra
+//
+//  Created by 소프트베리 on 2022/06/10.
+//  Copyright © 2022 soft-berry. All rights reserved.
+//
+
+import ReactorKit
+import RxCocoa
+import RxSwift
+
+internal final class QuitAccountViewController: CommonBaseViewController, StoryboardView {
+    // MARK: UI
+    
+    private lazy var naviTotalView = CommonNaviView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.naviTitleLbl.text = "회원탈퇴"
+    }
+    
+    private lazy var mainTitleLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        $0.textColor = Colors.backgroundAlwaysDark.color
+        $0.textAlignment = .natural
+        $0.text = "탈퇴 사유를 선택해주세요."
+        $0.numberOfLines = 1
+    }
+    
+    private lazy var subTitleLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        $0.textColor = Colors.contentTertiary.color
+        $0.textAlignment = .natural
+        $0.text = "고객님의 의견을 바탕으로 더 나은 EV Infra가 되겠습니다."
+        $0.numberOfLines = 1
+    }
+    
+    private lazy var selectBoxTotalView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.IBborderColor = Colors.borderOpaque.color
+        $0.IBborderWidth = 1
+        $0.IBcornerRadius = 6
+    }
+    
+    private lazy var selectBoxTitleLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        $0.textColor = Colors.contentPrimary.color
+        $0.textAlignment = .natural
+        $0.text = "탈퇴사유 선택"
+    }
+    
+    private lazy var selectBoxArrow = ChevronArrow.init(.size24(.down)).then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.tintColor = Colors.contentPrimary.color
+    }
+    
+    private lazy var selectBoxTotalBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private lazy var nextBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setTitle("다음", for: .normal)
+        $0.setTitle("다음", for: .disabled)
+        $0.setBackgroundColor(Colors.backgroundDisabled.color, for: .disabled)
+        $0.setBackgroundColor(Colors.backgroundPositive.color, for: .normal)
+        $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
+        $0.setTitleColor(Colors.contentDisabled.color, for: .disabled)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        $0.isEnabled = false
+        $0.IBcornerRadius = 6
+    }
+    
+    // MARK: SYSTEM FUNC
+    
+    init(reactor: QuitAccountReasonQuestionReactor) {
+        super.init()
+        self.reactor = reactor
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override func loadView() {
+        super.loadView()
+                
+        self.contentView.addSubview(naviTotalView)
+        naviTotalView.snp.makeConstraints {
+            $0.leading.top.trailing.equalToSuperview()
+            $0.height.equalTo(56)
+        }
+                
+        self.contentView.addSubview(mainTitleLbl)
+        mainTitleLbl.snp.makeConstraints {
+            $0.top.equalTo(naviTotalView.snp.bottom).offset(24)
+            $0.leading.equalToSuperview().offset(17)
+            $0.trailing.equalToSuperview()
+        }
+        
+        self.contentView.addSubview(subTitleLbl)
+        subTitleLbl.snp.makeConstraints {
+            $0.top.equalTo(mainTitleLbl.snp.bottom).offset(10)
+            $0.leading.equalToSuperview().offset(17)
+            $0.trailing.equalToSuperview()
+        }
+        
+        self.contentView.addSubview(selectBoxTotalView)
+        selectBoxTotalView.snp.makeConstraints {
+            $0.top.equalTo(subTitleLbl.snp.bottom).offset(24)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.height.equalTo(48)
+        }
+        
+        selectBoxTotalView.addSubview(selectBoxTitleLbl)
+        selectBoxTitleLbl.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerY.equalToSuperview()
+        }
+        
+        selectBoxTotalView.addSubview(selectBoxArrow)
+        selectBoxArrow.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.centerY.equalToSuperview()
+            $0.width.height.equalTo(24)
+        }
+        
+        self.contentView.addSubview(nextBtn)
+        nextBtn.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.height.equalTo(44)
+            $0.bottom.equalToSuperview().offset(-16)
+        }
+        
+        self.contentView.addSubview(selectBoxTotalBtn)
+        selectBoxTotalBtn.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        selectBoxTotalBtn.rx.tap
+            .asDriver()
+            .drive(onNext: {
+                
+            })
+    }
+            
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
+                
+    }
+                    
+    internal func bind(reactor: QuitAccountReasonQuestionReactor) {
+        
+    }
+}
