@@ -13,21 +13,16 @@ class GroupViewController: UITableViewController {
     
     var members: [String] = []
     var selectedCompletion: ((Int) -> Void)?
+    private var isShortFormEnabled = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setupTableView()
-    }
-
-    // MARK: - View Configurations
-    func setupTableView() {
 
         tableView.separatorStyle = .singleLine
         tableView.isScrollEnabled = false
         tableView.backgroundColor = UIColor(named: "nt-white")
         tableView.register(GroupMemeberCell.self, forCellReuseIdentifier: "cell")
-    }
+    }    
     
     // MARK: - UITableViewDataSource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -63,6 +58,18 @@ extension GroupViewController: PanModalPresentable {
     
     var panScrollable: UIScrollView? {
         return tableView
+    }
+    
+    var anchorModalToLongForm: Bool {
+        return false
+    }
+    
+    func willTransition(to state: PanModalPresentationController.PresentationState) {
+        guard isShortFormEnabled, case .longForm = state
+            else { return }
+
+        isShortFormEnabled = false
+        panModalSetNeedsLayoutUpdate()
     }
 }
 

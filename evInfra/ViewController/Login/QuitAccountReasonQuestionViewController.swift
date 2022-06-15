@@ -60,6 +60,46 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
+    private lazy var reasonTotalView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private lazy var reasonMainTitleLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "더 자세하게 말씀해주세요."
+        $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        $0.numberOfLines = 1
+        $0.textColor = Colors.contentPrimary.color
+        $0.textAlignment = .natural
+    }
+    
+    private lazy var reasonTextViewPlaceHolder = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "더 자세한 의견을 말씀해주세요."
+        $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        $0.textColor = Colors.contentTertiary.color
+    }
+            
+    private lazy var reasonTextView = UITextView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.showsVerticalScrollIndicator = false
+        $0.textColor = Colors.nt9.color
+        $0.delegate = self
+        $0.textContainerInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        $0.IBborderWidth = 1
+        $0.IBcornerRadius = 6
+        $0.IBborderColor = Colors.borderOpaque.color
+    }
+    
+    private lazy var reasonTextCountLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        $0.textColor = Colors.contentTertiary.color
+        $0.text = "0  / 1200"
+        $0.textAlignment = .center
+        $0.numberOfLines = 1
+    }
+    
     private lazy var nextBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("다음", for: .normal)
@@ -136,9 +176,37 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
             $0.bottom.equalToSuperview().offset(-16)
         }
         
-        self.contentView.addSubview(selectBoxTotalBtn)
+        selectBoxTotalView.addSubview(selectBoxTotalBtn)
         selectBoxTotalBtn.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        self.contentView.addSubview(reasonTotalView)
+        reasonTotalView.snp.makeConstraints {
+            $0.top.equalTo(selectBoxTotalView.snp.bottom).offset(24)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+        }
+        
+        reasonTotalView.addSubview(reasonMainTitleLbl)
+        reasonMainTitleLbl.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().offset(1)
+            $0.height.equalTo(20)
+        }
+                
+        reasonTotalView.addSubview(reasonTextView)
+        reasonTextView.snp.makeConstraints {
+            $0.top.equalTo(reasonMainTitleLbl.snp.bottom).offset(16)
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(156)
+        }
+                        
+        reasonTextView.addSubview(reasonTextCountLbl)
+        reasonTextCountLbl.snp.makeConstraints {
+            $0.height.equalTo(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview().offset(-16)
         }
     }
     
@@ -147,9 +215,20 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         
         selectBoxTotalBtn.rx.tap
             .asDriver()
-            .drive(onNext: {
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let rowVC = GroupViewController()
+                rowVC.members = ["충전 및 결제가 불편해요.", "커뮤니티가 짜증나요.", "지도와 충전소 정보가 부정확해요.", "각종 내역을 보기 힘들어요.", "기타"]
+                self.presentPanModal(rowVC)
                 
+                rowVC.selectedCompletion = { [weak self] index in
+                    guard let self = self else { return }
+                    self.selectBoxTitleLbl.text = rowVC.members[index]
+                    self.nextBtn.isEnabled = true
+                    self.dismiss(animated: true, completion: nil)
+                }
             })
+            .disposed(by: self.disposeBag)
     }
             
     override func viewWillAppear(_ animated: Bool) {
@@ -160,5 +239,29 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
                     
     internal func bind(reactor: QuitAccountReasonQuestionReactor) {
         
+    }
+}
+
+extension QuitAccountViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        reasonTextView.IBborderColor = Colors.nt9.color
+        reasonTextView.textColor = Colors.nt9.color
+        
+        guard "더 자세한 의견을 말씀해주세요.".equals(reasonTextView.text) else {
+            return
+        }
+        reasonTextView.text = nil
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        reasonTextView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
+        reasonTextView.textColor = UIColor(named: "nt-5")
+        if reasonTextView.text.isEmpty {
+            reasonTextView.text = "더 자세한 의견을 말씀해주세요."
+        }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        reasonTextCountLbl.text = "\(reasonTextView.text.count) / 1200"
     }
 }
