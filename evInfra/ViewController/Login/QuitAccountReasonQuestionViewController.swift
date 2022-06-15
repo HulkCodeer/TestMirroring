@@ -18,6 +18,20 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         $0.naviTitleLbl.text = "회원탈퇴"
     }
     
+    private lazy var totalScrollView = UIScrollView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.showsVerticalScrollIndicator = false
+        $0.showsHorizontalScrollIndicator = false
+    }
+    
+    private lazy var totalView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private lazy var dismissKeyboardBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     private lazy var mainTitleLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -79,16 +93,22 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
     }
+    
+    private lazy var reasonBorderView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.IBborderWidth = 1
+        $0.IBcornerRadius = 6
+        $0.IBborderColor = Colors.borderOpaque.color
+    }
             
     private lazy var reasonTextView = UITextView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.showsVerticalScrollIndicator = false
+        $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = Colors.nt9.color
         $0.delegate = self
         $0.textContainerInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        $0.IBborderWidth = 1
-        $0.IBcornerRadius = 6
-        $0.IBborderColor = Colors.borderOpaque.color
+        
     }
     
     private lazy var reasonTextCountLbl = UILabel().then {
@@ -132,22 +152,50 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
             $0.leading.top.trailing.equalToSuperview()
             $0.height.equalTo(56)
         }
+        
+        self.contentView.addSubview(nextBtn)
+        nextBtn.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.height.equalTo(44)
+            $0.bottom.equalToSuperview().offset(-16)
+        }
+        
+        self.contentView.addSubview(totalScrollView)
+        totalScrollView.snp.makeConstraints {
+            $0.top.equalTo(naviTotalView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(nextBtn.snp.top)
+            $0.width.equalToSuperview()
+            $0.centerX.equalToSuperview()
+        }
+        
+        totalScrollView.addSubview(totalView)
+        totalView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.center.equalToSuperview()
+        }
+        
+        totalView.addSubview(dismissKeyboardBtn)
+        dismissKeyboardBtn.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
                 
-        self.contentView.addSubview(mainTitleLbl)
+        totalView.addSubview(mainTitleLbl)
         mainTitleLbl.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom).offset(24)
             $0.leading.equalToSuperview().offset(17)
             $0.trailing.equalToSuperview()
         }
         
-        self.contentView.addSubview(subTitleLbl)
+        totalView.addSubview(subTitleLbl)
         subTitleLbl.snp.makeConstraints {
             $0.top.equalTo(mainTitleLbl.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(17)
             $0.trailing.equalToSuperview()
         }
         
-        self.contentView.addSubview(selectBoxTotalView)
+        totalView.addSubview(selectBoxTotalView)
         selectBoxTotalView.snp.makeConstraints {
             $0.top.equalTo(subTitleLbl.snp.bottom).offset(24)
             $0.leading.equalToSuperview().offset(16)
@@ -168,20 +216,12 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
             $0.width.height.equalTo(24)
         }
         
-        self.contentView.addSubview(nextBtn)
-        nextBtn.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.height.equalTo(44)
-            $0.bottom.equalToSuperview().offset(-16)
-        }
-        
         selectBoxTotalView.addSubview(selectBoxTotalBtn)
         selectBoxTotalBtn.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
-        self.contentView.addSubview(reasonTotalView)
+        totalView.addSubview(reasonTotalView)
         reasonTotalView.snp.makeConstraints {
             $0.top.equalTo(selectBoxTotalView.snp.bottom).offset(24)
             $0.leading.equalToSuperview().offset(16)
@@ -194,19 +234,26 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
             $0.leading.equalToSuperview().offset(1)
             $0.height.equalTo(20)
         }
-                
-        reasonTotalView.addSubview(reasonTextView)
-        reasonTextView.snp.makeConstraints {
+        
+        reasonTotalView.addSubview(reasonBorderView)
+        reasonBorderView.snp.makeConstraints {
             $0.top.equalTo(reasonMainTitleLbl.snp.bottom).offset(16)
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(156)
         }
-                        
-        reasonTextView.addSubview(reasonTextCountLbl)
+        
+        reasonBorderView.addSubview(reasonTextCountLbl)
         reasonTextCountLbl.snp.makeConstraints {
             $0.height.equalTo(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview().offset(-16)
+        }
+                
+        reasonBorderView.addSubview(reasonTextView)
+        reasonTextView.snp.makeConstraints {
+            $0.top.equalTo(reasonMainTitleLbl.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(reasonTextCountLbl.snp.top).offset(-4)
         }
     }
     
@@ -229,6 +276,14 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
                 }
             })
             .disposed(by: self.disposeBag)
+        
+        dismissKeyboardBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.view.endEditing(true)
+            })
+            .disposed(by: self.disposeBag)
     }
             
     override func viewWillAppear(_ animated: Bool) {
@@ -244,7 +299,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
 
 extension QuitAccountViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        reasonTextView.IBborderColor = Colors.nt9.color
+        reasonBorderView.IBborderColor = Colors.nt9.color
         reasonTextView.textColor = Colors.nt9.color
         
         guard "더 자세한 의견을 말씀해주세요.".equals(reasonTextView.text) else {
@@ -254,8 +309,8 @@ extension QuitAccountViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        reasonTextView.layer.borderColor = UIColor(named: "nt-2")?.cgColor
-        reasonTextView.textColor = UIColor(named: "nt-5")
+        reasonBorderView.IBborderColor = Colors.nt2.color
+        reasonTextView.textColor = Colors.nt5.color
         if reasonTextView.text.isEmpty {
             reasonTextView.text = "더 자세한 의견을 말씀해주세요."
         }
