@@ -255,14 +255,18 @@ internal final class ClusterManager {
     
     private func removeAllMarker() {
         for station in ChargerManager.sharedInstance.getChargerStationInfoList() {
-            station.mapMarker.mapView = nil
+            if let mapMarker = station.mapMarker {
+                mapMarker.mapView = nil
+            }
         }
     }
     
     private func removeAllCluster() {
         if let clusters = self.clusters[self.currentClusterLv] {
             for cluster in clusters {
-                cluster.marker.mapView = nil
+                if let marker = cluster.marker {
+                    marker.mapView = nil
+                }
             }
         }
     }
