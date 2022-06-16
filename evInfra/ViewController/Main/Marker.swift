@@ -14,6 +14,7 @@ enum RoutePosition {
     case mid
     case end
     case search
+    case none
 }
 
 class Marker: NMFMarker {
@@ -25,13 +26,15 @@ class Marker: NMFMarker {
         
         switch route {
         case .start:
-            overlayImage = NMFOverlayImage(image: UIImage(named: "ic_route_start")!)
+            overlayImage = NMFOverlayImage(image: UIImage(named: "icon_start_marker")!)
         case .mid:
-            overlayImage = NMFOverlayImage(image: UIImage(named: "ic_route_add")!)
+            overlayImage = NMFOverlayImage(image: UIImage(named: "icon_via_marker")!)
         case .end:
-            overlayImage = NMFOverlayImage(image: UIImage(named: "ic_route_end")!)
+            overlayImage = NMFOverlayImage(image: UIImage(named: "icon_end_marker")!)
         case .search:
             overlayImage = NMFOverlayImage(image: UIImage(named: "marker_search")!)
+        case .none:
+            break
         }
         
         self.position = position
