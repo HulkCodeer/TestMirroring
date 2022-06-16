@@ -404,17 +404,17 @@ class SummaryView: UIView {
     // [Direction]
     // start
     @IBAction func onClickStartPoint(_ sender: Any) {
-        let start = Notification.Name(rawValue: startKey)
+        let start = Notification.Name(rawValue: "startMarker")
         NotificationCenter.default.post(name: start, object: charger)
     }
     // end
     @IBAction func onClickEndPoint(_ sender: Any) {
-        let end = Notification.Name(rawValue: endKey)
+        let end = Notification.Name(rawValue: "destinationMarker")
         NotificationCenter.default.post(name: end, object: charger)
     }
     // add
     @IBAction func onClickAddPoint(_ sender: Any) {
-        let add = Notification.Name(rawValue: addKey)
+        let add = Notification.Name(rawValue: "viaMarker")
         NotificationCenter.default.post(name: add, object: charger)
     }
     // navigation

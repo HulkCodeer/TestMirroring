@@ -33,21 +33,19 @@ import Material
 import SwiftyJSON
 import GRDB
 
-class SearchViewController: UIViewController {
+internal final class SearchViewController: UIViewController {
     
     public static let TABLE_VIEW_TYPE_CHARGER = 1
     public static let TABLE_VIEW_TYPE_ADDRESS = 2
     
     var searchType:Int?
     var delegate:ChargerSelectDelegate?
-    
-    let koreanTextMatcher = KoreanTextMatcher.init()
-    
+    private let koreanTextMatcher = KoreanTextMatcher.init()
     private var tMapPathData: TMapPathData = TMapPathData.init()
+    private var mQueryValue : String?
+    private let INIT_KEYWORD = "EV충전소"
     
-    var mQueryValue : String?
-    
-    let INIT_KEYWORD = "EV충전소"
+    var routeType: RoutePosition = .none
     
     // View.
     @IBOutlet weak var tableView: ChargerTableView!
@@ -252,6 +250,20 @@ extension SearchViewController: ChargerTableViewDelegate {
         guard let charger = self.tableView.chargerList?[row] else {
             return
         }
+        
+        switch routeType {
+        case .start:
+            let start = Notification.Name(rawValue: "startMarker")
+            NotificationCenter.default.post(name: start, object: charger)
+        case .mid:
+            let via = Notification.Name(rawValue: "viaMarker")
+            NotificationCenter.default.post(name: via, object: charger)
+        case .end:
+            let destination = Notification.Name(rawValue: "destinationMarker")
+            NotificationCenter.default.post(name: destination, object: charger)
+        default:
+            break
+        }
 
         delegate?.moveToSelected(chargerId: charger.mChargerId!)
         dismiss(animated: true, completion: nil)
@@ -264,7 +276,29 @@ extension SearchViewController: SearchTableViewViewDelegate {
             return
         }
         
-        delegate?.moveToSelected(chargerId: poi.getPOID()!)
+        let station = StationInfoDto()
+        station.mSnm = poi.getPOIName()
+        station.mAddress = poi.getPOIAddress()
+        station.mLatitude = poi.getPOIPoint().getLatitude()
+        station.mLongitude = poi.getPOIPoint().getLongitude()
+        
+        let charger = ChargerStationInfo(station)
+        
+        switch routeType {
+        case .start:
+            let start = Notification.Name(rawValue: "startMarker")
+            NotificationCenter.default.post(name: start, object: charger)
+        case .mid:
+            let via = Notification.Name(rawValue: "viaMarker")
+            NotificationCenter.default.post(name: via, object: charger)
+        case .end:
+            let destination = Notification.Name(rawValue: "destinationMarker")
+            NotificationCenter.default.post(name: destination, object: charger)
+        default:
+            break
+        }
+        
+        //        delegate?.moveToSelected(chargerId: poi.getPOID()!)
         delegate?.moveToSelectLocation(lat: poi.getPOIPoint().getLatitude() , lon: poi.getPOIPoint().getLongitude() )
         dismiss(animated: true, completion: nil)
     }
