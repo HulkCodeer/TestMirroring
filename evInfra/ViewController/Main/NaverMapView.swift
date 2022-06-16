@@ -71,4 +71,41 @@ class NaverMapView: NMFNaverMapView {
         let boundsOfJeju = NMGLatLngBounds(southWest: southWestOfJeju, northEast: northEastOfJeju)
         return boundsOfJeju.hasPoint(currentCoordinate)
     }
+    
+    func clearStartMarker() {
+        startMarker?.mapView = nil
+        startMarker = nil
+        start = nil
+    }
+    
+    func clearMidMarker() {
+        midMarker?.mapView = nil
+        midMarker = nil
+        viaList = []
+    }
+    
+    func clearEndMarker() {
+        endMarker?.mapView = nil
+        endMarker = nil
+        destination = nil
+    }
+    
+    func setMarker(lat: Double, lng: Double, stationName: String, type: RoutePosition) {
+        switch type {
+        case .start:
+            clearStartMarker()
+            start = POIObject(name: stationName, lat: lat, lng: lng)
+            startMarker = Marker(NMGLatLng(lat: lat, lng: lng), .start)
+        case .mid:
+            clearMidMarker()
+            let via = POIObject(name: stationName, lat: lat, lng: lng)
+            viaList.append(via)
+            midMarker = Marker(NMGLatLng(lat: lat, lng: lng), .mid)
+        case .end:
+            clearEndMarker()
+            destination = POIObject(name: stationName, lat: lat, lng: lng)
+            endMarker = Marker(NMGLatLng(lat: lat, lng: lng), .end)
+        default: break
+        }
+    }
 }

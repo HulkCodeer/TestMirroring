@@ -90,6 +90,10 @@ struct POIObject {
     var name: String
     var lat: Double
     var lng: Double
+    
+    var tmapPoint: TMapPoint {
+        TMapPoint(lon: self.lng, lat: self.lat)
+    }
 }
 
 
