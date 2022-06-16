@@ -76,7 +76,7 @@ internal final class SettingsReactor: ViewModel, Reactor {
             
         case .moveQuitAccountReasonQuestion:
             let reactor = QuitAccountReasonQuestionReactor(provider: self.provider)
-            let viewcon = QuitAccountViewController(reactor: reactor)
+            let viewcon = QuitAccountReasonQuestionViewController(reactor: reactor)
             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             return .empty()
             

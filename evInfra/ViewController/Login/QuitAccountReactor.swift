@@ -1,21 +1,21 @@
 //
-//  QuitAccountReasonQuestionReactor.swift
+//  QuitAccountReactor.swift
 //  evInfra
 //
-//  Created by 박현진 on 2022/06/15.
+//  Created by 박현진 on 2022/06/16.
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 
 import ReactorKit
 import SwiftyJSON
 
-internal final class QuitAccountReasonQuestionReactor: ViewModel, Reactor {
+internal final class QuitAccountReactor: ViewModel, Reactor {
     enum Action {
-        case getQuitAccountReasonList
+        case none
     }
     
     enum Mutation {
-        case setQuitAccountReasonList([QuitAccountReasonModel])
+        case none
     }
     
     struct State {
@@ -32,13 +32,8 @@ internal final class QuitAccountReasonQuestionReactor: ViewModel, Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .getQuitAccountReasonList:
-            return self.provider.getQuitAccountReasonList()
-                .convertData()
-                .compactMap(convertToData)
-                .map { reasonList in
-                    return .setQuitAccountReasonList(reasonList)
-                }
+        case .none:
+            return .empty()
         }
     }
     
@@ -47,9 +42,9 @@ internal final class QuitAccountReasonQuestionReactor: ViewModel, Reactor {
         
         newState.quitAccountReasonList = nil
         
-        switch mutation {        
-        case .setQuitAccountReasonList(let reasonList):
-            newState.quitAccountReasonList = reasonList
+        switch mutation {
+        case .none:
+            break
                     
         }
         return newState

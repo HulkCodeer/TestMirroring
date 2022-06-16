@@ -10,7 +10,7 @@ import ReactorKit
 import RxCocoa
 import RxSwift
 
-internal final class QuitAccountViewController: CommonBaseViewController, StoryboardView {
+internal final class QuitAccountReasonQuestionViewController: CommonBaseViewController, StoryboardView {
     // MARK: UI
     
     private lazy var naviTotalView = CommonNaviView().then {
@@ -76,6 +76,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     
     private lazy var reasonTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.isHidden = true
     }
     
     private lazy var reasonMainTitleLbl = UILabel().then {
@@ -260,23 +261,6 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        selectBoxTotalBtn.rx.tap
-            .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                let rowVC = GroupViewController()
-                rowVC.members = ["충전 및 결제가 불편해요.", "커뮤니티가 짜증나요.", "지도와 충전소 정보가 부정확해요.", "각종 내역을 보기 힘들어요.", "기타"]
-                self.presentPanModal(rowVC)
-                
-                rowVC.selectedCompletion = { [weak self] index in
-                    guard let self = self else { return }
-                    self.selectBoxTitleLbl.text = rowVC.members[index]
-                    self.nextBtn.isEnabled = true
-                    self.dismiss(animated: true, completion: nil)
-                }
-            })
-            .disposed(by: self.disposeBag)
-        
         dismissKeyboardBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
@@ -293,11 +277,42 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     }
                     
     internal func bind(reactor: QuitAccountReasonQuestionReactor) {
+        Observable.just(QuitAccountReasonQuestionReactor.Action.getQuitAccountReasonList)
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
         
+        selectBoxTotalBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let rowVC = GroupViewController()
+                // MARK: - TEST CODE
+                rowVC.members = ["충전 및 결제가 불편해요.", "커뮤니티가 짜증나요.", "지도와 충전소 정보가 부정확해요.", "각종 내역을 보기 힘들어요.", "기타"]
+//                rowVC.members = reactor.currentState.quitAccountReasonList?.compactMap { $0.reasonMessage } ?? []
+                self.presentPanModal(rowVC)
+                
+                rowVC.selectedCompletion = { [weak self] index in
+                    guard let self = self else { return }
+                    self.selectBoxTitleLbl.text = rowVC.members[index]
+                    self.nextBtn.isEnabled = true
+                    self.reasonTotalView.isHidden = false
+                    self.dismiss(animated: true, completion: nil)
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        nextBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let reactor = QuitAccountReactor(provider: RestApi())
+                let viewcon = QuitAccountViewController(reactor: reactor)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            }).disposed(by: self.disposeBag)
     }
 }
 
-extension QuitAccountViewController: UITextViewDelegate {
+extension QuitAccountReasonQuestionViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         reasonBorderView.IBborderColor = Colors.nt9.color
         reasonTextView.textColor = Colors.nt9.color

@@ -11,8 +11,8 @@ import PanModal
 
 class GroupViewController: UITableViewController {
     
-    var members: [String] = []
-    var selectedCompletion: ((Int) -> Void)?
+    internal var members: [String] = []
+    internal var selectedCompletion: ((Int) -> Void)?
     private var isShortFormEnabled = true
     
     override func viewDidLoad() {

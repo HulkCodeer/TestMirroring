@@ -31,13 +31,14 @@ extension Observable where Element == (HTTPURLResponse, Data){
                 printLog(out: "Success Data : \(String(decoding: data, as: UTF8.self))")
                 return .success(data)
                                 
-            default:                // otherwise try
+            default:
+                printLog(out: "Request URL : \(String(describing: httpURLResponse.url?.description ?? ""))")
                 let apiErrorMessage: ApiErrorMessage
                 do{
                     apiErrorMessage = try JSONDecoder().decode(ApiErrorMessage.self, from: data)
                 } catch _ {
                     apiErrorMessage = ApiErrorMessage(errorMessage: "\(String(decoding: data, as: UTF8.self))")
-                }
+                }                
                 return .failure(apiErrorMessage)
             }
         }

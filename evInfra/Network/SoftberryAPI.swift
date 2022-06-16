@@ -16,6 +16,7 @@ protocol SoftberryAPI: class {
     func updateBasicNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)>
     func updateLocalNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)>
     func updateMarketingNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)>
+    func getQuitAccountReasonList() -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -66,5 +67,10 @@ internal final class RestApi: SoftberryAPI {
         ]
         
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/user/setMarketingNotification", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - 탈퇴 사유
+    func getQuitAccountReasonList() -> Observable<(HTTPURLResponse, Data)> {
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/deregister_type", httpMethod: .get, parameters: nil, headers: nil)
     }
 }
