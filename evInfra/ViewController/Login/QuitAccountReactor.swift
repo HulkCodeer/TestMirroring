@@ -11,46 +11,62 @@ import SwiftyJSON
 
 internal final class QuitAccountReactor: ViewModel, Reactor {
     enum Action {
-        case none
+        case deleteAppleAccount
+        case deleteKakaoAccount
     }
     
     enum Mutation {
-        case none
+        case setComplete(Bool)
     }
     
     struct State {
-        var quitAccountReasonList: [QuitAccountReasonModel]?
+        var isComplete: Bool?
     }
     
     internal var initialState: State
+    internal var reasonID: String = ""
     
     override init(provider: SoftberryAPI) {
         self.initialState = State()
         super.init(provider: provider)
     }
-    
-    
+        
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .none:
-            return .empty()
+        case .deleteAppleAccount:
+            guard !self.reasonID.isEmpty else { return .empty()}
+            return self.provider.deleteAppleAccount(reasonID: self.reasonID)
+                            .convertData()
+                            .compactMap(convertToData)
+                            .map { isComplete in
+                                return .setComplete(isComplete)
+                            }
+            
+        case .deleteKakaoAccount:
+            guard !self.reasonID.isEmpty else { return .empty()}
+            return self.provider.deleteKakaoAccount(reasonID: self.reasonID)
+                .convertData()
+                .compactMap(convertToData)
+                .map { isComplete in
+                    return .setComplete(isComplete)
+                }
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         
-        newState.quitAccountReasonList = nil
+        newState.isComplete = nil
         
         switch mutation {
-        case .none:
-            break
-                    
+        case .setComplete(let isComplete):
+            newState.isComplete = isComplete
+                                                    
         }
         return newState
     }
     
-    private func convertToData(with result: ApiResult<Data, ApiErrorMessage> ) -> [QuitAccountReasonModel]? {
+    private func convertToData(with result: ApiResult<Data, ApiErrorMessage> ) -> Bool? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
@@ -58,18 +74,15 @@ internal final class QuitAccountReactor: ViewModel, Reactor {
             
             let code = jsonData["code"].stringValue
             guard "1000".equals(code) else {
+                Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
                 return nil
             }
             
-            return jsonData["list"].arrayValue.map { QuitAccountReasonModel($0) }
+            return true
             
         case .failure(let errorMessage):
             printLog(out: "Error Message : \(errorMessage)")
-            
-//            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-//                GlobalDefine.shared.mainNavi?.pop()
-//            })
+            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
             return nil
         }
     }

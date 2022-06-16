@@ -287,12 +287,13 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
                 guard let self = self else { return }
                 let rowVC = GroupViewController()
                 // MARK: - TEST CODE
-                rowVC.members = ["충전 및 결제가 불편해요.", "커뮤니티가 짜증나요.", "지도와 충전소 정보가 부정확해요.", "각종 내역을 보기 힘들어요.", "기타"]
-//                rowVC.members = reactor.currentState.quitAccountReasonList?.compactMap { $0.reasonMessage } ?? []
+//                rowVC.members = ["충전 및 결제가 불편해요.", "커뮤니티가 짜증나요.", "지도와 충전소 정보가 부정확해요.", "각종 내역을 보기 힘들어요.", "기타"]
+                rowVC.members = reactor.currentState.quitAccountReasonList?.compactMap { $0.reasonMessage } ?? []
                 self.presentPanModal(rowVC)
                 
                 rowVC.selectedCompletion = { [weak self] index in
                     guard let self = self else { return }
+                    reactor.selectedReasonIndex = index
                     self.selectBoxTitleLbl.text = rowVC.members[index]
                     self.nextBtn.isEnabled = true
                     self.reasonTotalView.isHidden = false
@@ -303,10 +304,10 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         
         nextBtn.rx.tap
             .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                let reactor = QuitAccountReactor(provider: RestApi())
-                let viewcon = QuitAccountViewController(reactor: reactor)
+            .drive(onNext: { _ in
+                var quitReactor = QuitAccountReactor(provider: RestApi())
+                quitReactor.reasonID = reactor.currentState.quitAccountReasonList?[reactor.selectedReasonIndex].reasonId ?? ""
+                let viewcon = QuitAccountViewController(reactor: quitReactor)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             }).disposed(by: self.disposeBag)
     }

@@ -23,6 +23,7 @@ internal final class QuitAccountReasonQuestionReactor: ViewModel, Reactor {
     }
     
     internal var initialState: State
+    internal var selectedReasonIndex: Int = 0
     
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -69,12 +70,8 @@ internal final class QuitAccountReasonQuestionReactor: ViewModel, Reactor {
             return jsonData["list"].arrayValue.map { QuitAccountReasonModel($0) }
             
         case .failure(let errorMessage):
-            printLog(out: "Error Message : \(errorMessage)")
-            
-//            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-//                GlobalDefine.shared.mainNavi?.pop()
-//            })
+            printLog(out: "Error Message : \(errorMessage)")            
+            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
             return nil
         }
     }

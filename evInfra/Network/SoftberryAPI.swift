@@ -17,6 +17,8 @@ protocol SoftberryAPI: class {
     func updateLocalNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)>
     func updateMarketingNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)>
     func getQuitAccountReasonList() -> Observable<(HTTPURLResponse, Data)>
+    func deleteKakaoAccount(reasonID: String) -> Observable<(HTTPURLResponse, Data)>
+    func deleteAppleAccount(reasonID: String) -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -72,5 +74,23 @@ internal final class RestApi: SoftberryAPI {
     // MARK: - 탈퇴 사유
     func getQuitAccountReasonList() -> Observable<(HTTPURLResponse, Data)> {
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/deregister_type", httpMethod: .get, parameters: nil, headers: nil)
+    }
+    
+    // MARK: - 카카오 연결 끊고 탈퇴
+    func deleteKakaoAccount(reasonID: String) -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "user_id": MemberManager.shared.userId,
+            "reason_id": reasonID
+        ]
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/deregister_kakao", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - 회원 탈퇴
+    func deleteAppleAccount(reasonID: String) -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "user_id": MemberManager.shared.userId,
+            "reason_id": reasonID
+        ]        
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/deregister_apple", httpMethod: .post, parameters: reqParam, headers: nil)
     }
 }
