@@ -22,50 +22,10 @@
                                 <rect key="frame" x="0.0" y="-84" width="428" height="124"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="moh-9G-3fn" customClass="RouteView" customModule="evInfra" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="-44" width="428" height="128"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="428" height="84"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="128" id="l4Y-iV-kp7"/>
-                                        </constraints>
-                                    </view>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3RR-82-jR6" userLabel="Route View">
-                                        <rect key="frame" x="0.0" y="0.0" width="428" height="84"/>
-                                        <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vjd-ZG-9S9" customClass="TextField" customModule="Material">
-                                                <rect key="frame" x="8" y="4" width="352" height="34"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V0k-eg-psY" customClass="TextField" customModule="Material">
-                                                <rect key="frame" x="8" y="38" width="352" height="34"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="52" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ai-r8-BQA">
-                                                <rect key="frame" x="368" y="6" width="52" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="52" id="Ar9-dE-ENi"/>
-                                                </constraints>
-                                                <state key="normal" title="지우기"/>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nUo-2a-WfK">
-                                                <rect key="frame" x="368" y="40" width="52" height="30"/>
-                                                <state key="normal" title="경로찾기"/>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="3ai-r8-BQA" firstAttribute="centerY" secondItem="Vjd-ZG-9S9" secondAttribute="centerY" id="2Su-uJ-kqa"/>
-                                            <constraint firstItem="Vjd-ZG-9S9" firstAttribute="top" secondItem="3RR-82-jR6" secondAttribute="top" constant="4" id="4YT-x1-mw8"/>
-                                            <constraint firstAttribute="height" constant="84" id="4wH-5V-wfH"/>
-                                            <constraint firstAttribute="trailing" secondItem="3ai-r8-BQA" secondAttribute="trailing" constant="8" id="9Sq-tF-bPu"/>
-                                            <constraint firstItem="V0k-eg-psY" firstAttribute="trailing" secondItem="Vjd-ZG-9S9" secondAttribute="trailing" id="Eq1-2E-A3s"/>
-                                            <constraint firstItem="nUo-2a-WfK" firstAttribute="trailing" secondItem="3ai-r8-BQA" secondAttribute="trailing" id="Hhi-ng-XcN"/>
-                                            <constraint firstItem="nUo-2a-WfK" firstAttribute="leading" secondItem="3ai-r8-BQA" secondAttribute="leading" id="IaW-F9-JBR"/>
-                                            <constraint firstItem="V0k-eg-psY" firstAttribute="centerY" secondItem="nUo-2a-WfK" secondAttribute="centerY" id="S8z-Oe-PfV"/>
-                                            <constraint firstItem="V0k-eg-psY" firstAttribute="top" secondItem="Vjd-ZG-9S9" secondAttribute="bottom" id="an8-5L-1J8"/>
-                                            <constraint firstItem="3ai-r8-BQA" firstAttribute="leading" secondItem="Vjd-ZG-9S9" secondAttribute="trailing" constant="8" id="g36-vU-cGn"/>
-                                            <constraint firstItem="V0k-eg-psY" firstAttribute="leading" secondItem="Vjd-ZG-9S9" secondAttribute="leading" id="h4x-qO-HR0"/>
-                                            <constraint firstItem="Vjd-ZG-9S9" firstAttribute="leading" secondItem="3RR-82-jR6" secondAttribute="leading" constant="8" id="uqt-6q-aKk"/>
+                                            <constraint firstAttribute="height" constant="84" id="l4Y-iV-kp7"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bp2-BV-hd6" customClass="FilterBarView" customModule="evInfra" customModuleProvider="target">
@@ -83,13 +43,10 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="3RR-82-jR6" secondAttribute="trailing" id="0Qn-ri-3fw"/>
                                     <constraint firstItem="Bp2-BV-hd6" firstAttribute="leading" secondItem="MjX-0u-Kq9" secondAttribute="leading" id="2b9-LC-p4E"/>
-                                    <constraint firstItem="Bp2-BV-hd6" firstAttribute="top" secondItem="3RR-82-jR6" secondAttribute="bottom" id="5Cx-iq-zgA"/>
                                     <constraint firstItem="moh-9G-3fn" firstAttribute="leading" secondItem="MjX-0u-Kq9" secondAttribute="leading" id="FPq-jc-Noy"/>
                                     <constraint firstAttribute="height" constant="124" id="G3d-Ad-3DT"/>
-                                    <constraint firstItem="3RR-82-jR6" firstAttribute="leading" secondItem="MjX-0u-Kq9" secondAttribute="leading" id="M0r-Bq-XtJ"/>
-                                    <constraint firstItem="3RR-82-jR6" firstAttribute="top" secondItem="MjX-0u-Kq9" secondAttribute="top" id="S81-Pc-oaz"/>
+                                    <constraint firstItem="moh-9G-3fn" firstAttribute="top" secondItem="MjX-0u-Kq9" secondAttribute="top" id="RMX-Zh-j9E"/>
                                     <constraint firstAttribute="trailing" secondItem="oUv-17-AnI" secondAttribute="trailing" id="ZQG-cK-oS0"/>
                                     <constraint firstItem="oUv-17-AnI" firstAttribute="leading" secondItem="MjX-0u-Kq9" secondAttribute="leading" id="f1A-Es-2gr"/>
                                     <constraint firstItem="Bp2-BV-hd6" firstAttribute="top" secondItem="moh-9G-3fn" secondAttribute="bottom" id="fee-gS-Zq8"/>
@@ -403,19 +360,17 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="btnChargePrice" destination="XSe-Va-su3" id="U16-F0-QGQ"/>
-                        <outlet property="btnRoute" destination="nUo-2a-WfK" id="zBL-Qd-ohE"/>
-                        <outlet property="btnRouteCancel" destination="3ai-r8-BQA" id="5rO-1o-jry"/>
                         <outlet property="btn_main_charge" destination="rx1-ZB-nqj" id="Sah-ce-kgd"/>
                         <outlet property="btn_main_community" destination="xBg-t6-57T" id="cAy-pV-jdF"/>
                         <outlet property="btn_main_favorite" destination="9yb-v3-RaX" id="vTk-DY-RUP"/>
                         <outlet property="btn_main_help" destination="0Z2-jd-MHp" id="xlV-wl-3LX"/>
                         <outlet property="btn_menu_layer" destination="hUZ-Py-Zxk" id="nnN-qe-zVg"/>
                         <outlet property="callOutLayer" destination="5EV-dN-PRm" id="23s-gK-5Qu"/>
-                        <outlet property="endField" destination="V0k-eg-psY" id="yii-3c-jxj"/>
                         <outlet property="filterBarView" destination="Bp2-BV-hd6" id="c1c-Gf-Wof"/>
                         <outlet property="filterContainerView" destination="oUv-17-AnI" id="6ar-By-MNM"/>
                         <outlet property="filterHeight" destination="G3d-Ad-3DT" id="aqD-Y6-pHJ"/>
                         <outlet property="filterView" destination="MjX-0u-Kq9" id="X9m-BT-AXY"/>
+                        <outlet property="findRouteView" destination="moh-9G-3fn" id="2ZR-hk-1Vm"/>
                         <outlet property="ivMainChargeNew" destination="a8S-mJ-l4p" id="koZ-ke-hm4"/>
                         <outlet property="markerIndicator" destination="Ueo-lF-S8F" id="Lei-Aj-f8J"/>
                         <outlet property="myLocationButton" destination="0Z5-Ng-0pM" id="XEy-OS-WK7"/>
@@ -423,8 +378,6 @@
                         <outlet property="routeDistanceBtn" destination="xxr-DK-neS" id="wxA-1T-BVd"/>
                         <outlet property="routeDistanceLabel" destination="k0s-5e-MTS" id="yvt-wc-yxu"/>
                         <outlet property="routeDistanceView" destination="SHM-kf-rAr" id="ZEf-45-1CT"/>
-                        <outlet property="routeView" destination="3RR-82-jR6" id="tsw-2L-QGV"/>
-                        <outlet property="startField" destination="Vjd-ZG-9S9" id="3Gc-8h-hYu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sL6-Ap-rJh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -789,14 +742,6 @@
             <point key="canvasLocation" x="-1388" y="25.637181409295355"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="V0k-eg-psY">
-            <size key="intrinsicContentSize" width="32" height="34"/>
-        </designable>
-        <designable name="Vjd-ZG-9S9">
-            <size key="intrinsicContentSize" width="32" height="34"/>
-        </designable>
-    </designables>
     <color key="tintColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
     <resources>
         <image name="botton_new_dot" width="6" height="6"/>
