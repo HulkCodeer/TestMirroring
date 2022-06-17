@@ -60,24 +60,45 @@ class FilterTypeView: UIView {
         }
     }
     
+    @IBAction func onSwitchClicked(_ sender: Any) {
+        if (!MemberManager.shared.isLogin) {
+            MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
+                self.switchCarSetting.isOn = false
+            })
+        }
+    }
+    
     @IBAction func onSwitchValueChange(_ sender: Any) {
         if (switchCarSetting.isOn) {
-            setForCarType()
-        } else {
-            update()
+            if (MemberManager.shared.isLogin) {
+                setForCarType()
+            }
+        } else { // 차량필터 해제 시
+            if (!isChanged()) { // 변경사항 없으면 초기값
+                resetFilter()
+            } else  { // 변경사항 있을때 이전 필터값 복원
+                update()
+            }
         }
         
         sendTypeChange()
     }
     
     func setForCarType(){
-        let carType = UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE);
-        if carType != 8 {
-            for item in tagList {
-                item.selected = carType == item.index
-            }
-            tagCollectionView.reloadData()
+        var carType = UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE);
+        switch(carType) {
+            case Const.CHARGER_TYPE_DCCOMBO, Const.CHARGER_TYPE_DCDEMO
+                , Const.CHARGER_TYPE_AC, Const.CHARGER_TYPE_SLOW
+                , Const.CHARGER_TYPE_SUPER_CHARGER, Const.CHARGER_TYPE_DESTINATION:
+                break
+            default:
+                carType = Const.CHARGER_TYPE_DCCOMBO
         }
+        
+        for item in tagList {
+            item.selected = carType == item.index
+        }
+        tagCollectionView.reloadData()
     }
     
     func setSlowTypeOn(slowTypeOn: Bool) {
