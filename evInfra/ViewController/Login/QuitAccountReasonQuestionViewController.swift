@@ -11,6 +11,11 @@ import RxCocoa
 import RxSwift
 
 internal final class QuitAccountReasonQuestionViewController: CommonBaseViewController, StoryboardView {
+    
+    enum Const: String {
+        case textViewPlaceHolder = "더 자세한 의견을 말씀해주세요."
+    }
+    
     // MARK: UI
     
     private lazy var naviTotalView = CommonNaviView().then {
@@ -88,13 +93,6 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         $0.textAlignment = .natural
     }
     
-    private lazy var reasonTextViewPlaceHolder = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "더 자세한 의견을 말씀해주세요."
-        $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        $0.textColor = Colors.contentTertiary.color
-    }
-    
     private lazy var reasonBorderView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.IBborderWidth = 1
@@ -109,7 +107,6 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         $0.textColor = Colors.nt9.color
         $0.delegate = self
         $0.textContainerInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        
     }
     
     private lazy var reasonTextCountLbl = UILabel().then {
@@ -240,7 +237,6 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         reasonBorderView.snp.makeConstraints {
             $0.top.equalTo(reasonMainTitleLbl.snp.bottom).offset(16)
             $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(156)
         }
         
         reasonBorderView.addSubview(reasonTextCountLbl)
@@ -253,6 +249,8 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         reasonBorderView.addSubview(reasonTextView)
         reasonTextView.snp.makeConstraints {
             $0.top.equalTo(reasonMainTitleLbl.snp.bottom).offset(16)
+            $0.height.lessThanOrEqualTo(216)
+            $0.height.greaterThanOrEqualTo(104)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(reasonTextCountLbl.snp.top).offset(-4)
         }
@@ -305,7 +303,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         nextBtn.rx.tap
             .asDriver()
             .drive(onNext: { _ in
-                var quitReactor = QuitAccountReactor(provider: RestApi())
+                let quitReactor = QuitAccountReactor(provider: RestApi())
                 quitReactor.reasonID = reactor.currentState.quitAccountReasonList?[reactor.selectedReasonIndex].reasonId ?? ""
                 let viewcon = QuitAccountViewController(reactor: quitReactor)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
@@ -318,7 +316,7 @@ extension QuitAccountReasonQuestionViewController: UITextViewDelegate {
         reasonBorderView.IBborderColor = Colors.nt9.color
         reasonTextView.textColor = Colors.nt9.color
         
-        guard "더 자세한 의견을 말씀해주세요.".equals(reasonTextView.text) else {
+        guard Const.textViewPlaceHolder.rawValue.equals(reasonTextView.text) else {
             return
         }
         reasonTextView.text = nil
@@ -327,12 +325,16 @@ extension QuitAccountReasonQuestionViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         reasonBorderView.IBborderColor = Colors.nt2.color
         reasonTextView.textColor = Colors.nt5.color
-        if reasonTextView.text.isEmpty {
-            reasonTextView.text = "더 자세한 의견을 말씀해주세요."
-        }
+        
+        guard reasonTextView.text.isEmpty else { return }
+        reasonTextView.text = Const.textViewPlaceHolder.rawValue
     }
     
     func textViewDidChange(_ textView: UITextView) {
         reasonTextCountLbl.text = "\(reasonTextView.text.count) / 1200"
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        printLog(out: "PARK TEST")
     }
 }
