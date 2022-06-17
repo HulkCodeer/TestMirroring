@@ -327,12 +327,61 @@ typedef enum {
 - (bool)zoomEnable;
 
 /*
+ *  setRotationMode:
+ *
+ *  @abstract
+ *      RotationMode 설정
+ */
+- (void)setRotationMode:(BOOL)rotationMode;
+
+/*
  *  setCompassMode:
  *
  *  @abstract
  *      CompassMode 설정
  */
 - (void)setCompassMode:(BOOL)compassMode;
+
+/*
+ *  setContinueCompassMode:
+ *
+ *  @abstract
+ *      CompassMode 항상 표출 설정
+ */
+- (void)setContinueCompassMode:(BOOL)mode;
+
+/*
+ *  setCompassModeFix:
+ *
+ *  @abstract
+ *      CompassModeFix 설정
+ */
+- (void)setCompassModeFix:(BOOL)compassMode;
+
+
+/*
+ *  setSightImage:
+ *
+ *  @abstract
+ *      Compass 시야표출 이미지 설정
+ */
+- (void)setSightImage:(UIImage*)icon;
+
+/*
+ *  setTrackingDotImage:
+ *
+ *  @abstract
+ *      TrackingDot 이미지 설정
+ */
+- (void)setTrackingDotImage:(UIImage*)icon;
+
+/*
+ *  setTrackingDotHaloImage:
+ *
+ *  @abstract
+ *      TrackingDotHalo 이미지 설정
+ */
+- (void)setTrackingDotHaloImage:(UIImage*)icon;
 
 /*
  *  getIsCompass
@@ -939,6 +988,14 @@ typedef enum {
  *      TMapLogo의 위치를 변경한다.
  */
 - (void)setTMapLogoPosition:(TMapLogoPositon)logoPosition;
+
+/*
+ *  isHiddenLogo
+ *
+ *  @abstract
+ *      TMapLogo를 숨기고 보인다.
+ */
+- (void)isHiddenLogo:(BOOL)visible;
 
 /*
  *  zoomToLatSpan: lonSpan:
