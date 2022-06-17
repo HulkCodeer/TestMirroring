@@ -14,6 +14,7 @@ internal final class SettingsViewController: UIViewController {
     @IBOutlet weak var alarmSwitch: UISwitch!
     @IBOutlet weak var alarmLocalSwitch: UISwitch!
     @IBOutlet weak var alarmMarketingSwitch: UISwitch!
+    @IBOutlet var clusteringSwitch: UISwitch!
     
     let defaults = UserDefault()
     
@@ -28,7 +29,7 @@ internal final class SettingsViewController: UIViewController {
         prepareSwitchs()
     }
 
-    func prepareActionBar() {
+    private func prepareActionBar() {
         var backButton: IconButton!
         backButton = IconButton(image: Icon.cm.arrowBack)
         backButton.tintColor = UIColor(named: "content-primary")
@@ -41,13 +42,15 @@ internal final class SettingsViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
     }
     
-    func prepareSwitchs() {
+    private func prepareSwitchs() {
         alarmSwitch.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         alarmLocalSwitch.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         alarmMarketingSwitch.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        clusteringSwitch.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         changeAllNotifications(isRecieve: defaults.readBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION))
         changeLocalNotifications(isRecieve: defaults.readBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION))
         changeMarketingNotifications(isRecieve: defaults.readBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION))
+        clusteringSwitch.isOn = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
     }
     
     @IBAction func onChangeAlarmSwitch(_ sender: Any) {
@@ -62,11 +65,15 @@ internal final class SettingsViewController: UIViewController {
         alarmMarketingSwitchChanged(state: alarmMarketingSwitch.isOn)
     }
     
+    @IBAction func onChangeClusteringSwitch(_ sender: UISwitch) {
+        defaults.saveBool(key: UserDefault.Key.SETTINGS_CLUSTER, value: sender.isOn)
+    }
+    
     @objc fileprivate func handleBackButton() {
         self.navigationController?.pop()
     }
 
-    func alarmSwitchChanged(state: Bool) {
+    private func alarmSwitchChanged(state: Bool) {
         Server.updateNotificationState(state: state) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
@@ -79,7 +86,8 @@ internal final class SettingsViewController: UIViewController {
             }
         }
     }
-    func alarmLocalSwitchChanged(state: Bool) {
+    
+    private func alarmLocalSwitchChanged(state: Bool) {
         Server.updateJejuNotificationState(state: state) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
@@ -93,7 +101,7 @@ internal final class SettingsViewController: UIViewController {
         }
     }
     
-    func alarmMarketingSwitchChanged(state: Bool) {
+    private func alarmMarketingSwitchChanged(state: Bool) {
         Server.updateMarketingNotificationState(state: state) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
@@ -114,27 +122,27 @@ internal final class SettingsViewController: UIViewController {
         }
     }
     
-    func changeAllNotifications(isRecieve: Bool) {
-        if isRecieve {
-            alarmSwitch.setOn(true, animated: false)
-        } else {
+    private func changeAllNotifications(isRecieve: Bool) {
+        guard isRecieve else {
             alarmSwitch.setOn(false, animated: false)
+            return
         }
+        alarmSwitch.setOn(true, animated: false)
     }
     
-    func changeLocalNotifications(isRecieve: Bool) {
-        if isRecieve {
-            alarmLocalSwitch.setOn(true, animated: false)
-        } else {
+    private func changeLocalNotifications(isRecieve: Bool) {
+        guard isRecieve else {
             alarmLocalSwitch.setOn(false, animated: false)
+            return
         }
+        alarmLocalSwitch.setOn(true, animated: false)
     }
     
-    func changeMarketingNotifications(isRecieve: Bool) {
-        if isRecieve {
-            alarmMarketingSwitch.setOn(true, animated: false)
-        } else {
+    private func changeMarketingNotifications(isRecieve: Bool) {
+        guard isRecieve else {
             alarmMarketingSwitch.setOn(false, animated: false)
+            return
         }
+        alarmMarketingSwitch.setOn(true, animated: false)
     }
 }

@@ -171,7 +171,7 @@ typedef enum {
  *  @param point        반경검색에 사용되는 중심 좌표.
  *  @param radius       반경정보. 단위 km 예) 0.44 -> 0.44km = 440m
  */
-- (TMapPOIItem*)requestFindNearestPOI:(TMapPoint*)point radius:(CGFloat)radius;
+//- (TMapPOIItem*)requestFindNearestPOI:(TMapPoint*)point radius:(CGFloat)radius;
 
 # pragma mark - reverseGeoCoding
 /**

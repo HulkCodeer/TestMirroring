@@ -33,10 +33,16 @@
 @interface TMapBaseView : UIView <UserLocationProtectedMethods>
 {
     BOOL    _compassMode;
+    BOOL    _compassMode2;
+    BOOL    _rotationMode;
     // Navi or Normal
     TMapViewPositionType _centerPointType;
     
     UIImage*    _userLocationImage;
+    UIImage*    _sightImage;
+    UIImage*    _trackingDotImage;
+    UIImage*    _trackingDotHaloImage;
+     
 @private
     //TMapBaseViewInternal *_internal;
 }
@@ -93,7 +99,6 @@
 - (void)setFixMode:(CGPoint)fixMode; //2018.06.18 추가
 
 - (void)setTileHttpsMode:(BOOL)mode; //2018.08 추가
-
 
 
 //2018.07.05 끝
