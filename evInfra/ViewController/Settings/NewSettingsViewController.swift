@@ -132,6 +132,20 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
+        let stackView = UIStackView().then {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.axis = .vertical
+            $0.distribution = .equalSpacing
+            $0.alignment = .fill
+            $0.spacing = 0
+        }
+        
+        view.addSubview(stackView)
+        stackView.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerY.equalToSuperview()
+        }
+        
         let mainTitleLbl = UILabel().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.text = mainTitle
@@ -140,10 +154,8 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             $0.textColor = Colors.contentPrimary.color
         }
         
-        view.addSubview(mainTitleLbl)
+        stackView.addArrangedSubview(mainTitleLbl)
         mainTitleLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(13)
-            $0.leading.equalToSuperview().offset(16)
             $0.height.equalTo(22)
         }
         
@@ -156,10 +168,9 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             $0.textColor = Colors.contentTertiary.color
         }
         
-        view.addSubview(subTitleLbl)
+        stackView.addArrangedSubview(subTitleLbl)
         subTitleLbl.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLbl.snp.bottom).offset(-1)
-            $0.leading.equalToSuperview().offset(16)
+            $0.height.equalTo(16)
         }
         
         let noticeSw = UISwitch().then {
@@ -173,13 +184,13 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         noticeSw.snp.makeConstraints {
             $0.top.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-28)
-            $0.leading.greaterThanOrEqualTo(subTitleLbl.snp.trailing).offset(30)
+            $0.leading.greaterThanOrEqualTo(stackView.snp.trailing).offset(30)
         }
                                        
         let lineView = self.createLineView()
         view.addSubview(lineView)
         lineView.snp.makeConstraints {
-            $0.top.lessThanOrEqualTo(subTitleLbl.snp.bottom).offset(15)
+            $0.top.lessThanOrEqualTo(stackView.snp.bottom).offset(15)
             $0.leading.bottom.trailing.equalToSuperview()
             $0.height.equalTo(1)
         }
