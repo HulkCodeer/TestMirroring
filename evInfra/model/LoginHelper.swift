@@ -257,6 +257,7 @@ extension LoginHelper: ASAuthorizationControllerDelegate {
         switch authorization.credential {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
             UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: appleIDCredential.user)
+            printLog(out: "Apple Login Key : \(appleIDCredential.user)")
             self.requestLoginToEvInfra(user: Login.apple(appleIDCredential))
             
         default:

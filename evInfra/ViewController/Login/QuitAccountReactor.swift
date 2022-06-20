@@ -38,7 +38,7 @@ internal final class QuitAccountReactor: ViewModel, Reactor {
             return self.provider.deleteAppleAccount(reasonID: self.reasonID)
                             .convertData()
                             .compactMap(convertToData)
-                            .map { isComplete in
+                            .map { isComplete in                                                                                        
                                 return .setComplete(isComplete)
                             }
             
