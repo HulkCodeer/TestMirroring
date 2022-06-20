@@ -56,20 +56,8 @@ internal final class FilterTypeView: UIView {
         tagCollectionView.delegate = self
         tagCollectionView.dataSource = self
         tagCollectionView.reloadData()
-        
-        carSettingView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickCarSetting (_:))))
-        
-        if !MemberManager.shared.isLogin{
-            switchCarSetting.isUserInteractionEnabled = false
-        }
-    }
-    
-    @objc func onClickCarSetting(_ sender:UITapGestureRecognizer){
-        guard let delegate = checkLoginDelegate else { return }
-        if (delegate.checkMemberLogin()) {
-            switchCarSetting.isUserInteractionEnabled = true
-            checkLoginDelegate = nil // block next click
-        }
+                                
+        switchCarSetting.isUserInteractionEnabled = !MemberManager.shared.isLogin
     }
     
     @IBAction func onSwitchClicked(_ sender: Any) {
