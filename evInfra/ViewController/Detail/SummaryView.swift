@@ -442,7 +442,7 @@ class SummaryView: UIView {
     func setDistance(charger: ChargerStationInfo) {
         guard self.distance < 0 else {
             // detail에서 여러번 불리는것 방지
-            self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
+            self.navigationBtn.setTitle(" \(self.distance)km 안내시작", for: .normal)
             return
         }
         
@@ -467,7 +467,7 @@ class SummaryView: UIView {
             
             if distance > .zero {
                 DispatchQueue.main.async {
-                    self.navigationBtn.setTitle(" \(self.distance) Km 안내 시작", for: .normal)
+                    self.navigationBtn.setTitle(" \(self.distance)km 안내시작", for: .normal)
                 }
             } else {
                 DispatchQueue.main.async {

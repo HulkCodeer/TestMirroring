@@ -37,6 +37,7 @@ class FilterBarView: UIView {
     
     var delegate: DelegateFilterBarView?
     var selected: FilterType = FilterType.none
+    var isShow: Bool = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -163,6 +164,7 @@ class FilterBarView: UIView {
     }
     
     func showFilterView(type: FilterType){
+        isShow = !isShow
         delegate?.showFilterContainer(type: type)
     }
 }

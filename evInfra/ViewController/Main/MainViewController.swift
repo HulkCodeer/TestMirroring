@@ -43,9 +43,7 @@ class MainViewController: UIViewController {
     @IBOutlet var btn_main_favorite: UIButton!
     
     //경로찾기시 거리표시 뷰 (call out)
-    @IBOutlet weak var routeDistanceView: UIView!
-    @IBOutlet weak var routeDistanceLabel: UILabel!
-    @IBOutlet var routeDistanceBtn: UIView!
+    private let routeDistanceView: RouteDistanceView = RouteDistanceView()
     
     @IBOutlet weak var ivMainChargeNew: UIImageView!
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -118,10 +116,16 @@ class MainViewController: UIViewController {
         filterContainerView.delegate = self
     }
     
-    func prepareRouteView() {
-        let findPath = UITapGestureRecognizer(target: self, action:  #selector (self.onClickShowNavi(_:)))
-        routeDistanceBtn.addGestureRecognizer(findPath)
+    private func prepareRouteView() {
         findRouteView.delegate = self
+        routeDistanceView.delegate = self
+        view.addSubview(routeDistanceView)
+        routeDistanceView.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.height.equalTo(60)
+        }
     }
     
     private func configureNaverMapView() {
@@ -311,18 +315,30 @@ extension MainViewController: DelegateFilterBarView {
     }
     
     func hideFilter(){
-        filterBarView.updateView(newSelect: .none)
         filterContainerView.isHidden = true
-        filterHeight.constant = findRouteView.layer.height + filterBarView.layer.height
-        filterView.sizeToFit()
-        filterView.layoutIfNeeded()
+        filterBarView.updateView(newSelect: .none)
+        
+        let routeViewHeight = findRouteView.isShow ? findRouteView.frame.height : 0
+        let filterBarViewHeight = filterBarView.isShow ? filterView.frame.height : 0
+        let totalHeight = routeViewHeight + filterBarViewHeight
+        
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut) {
+            self.myLocationButton.transform = CGAffineTransform(translationX: 0.0, y: totalHeight)
+            self.reNewButton.transform = CGAffineTransform(translationX: 0.0, y: totalHeight)
+        }
     }
     
     func showFilter(){
         filterContainerView.isHidden = false
-        filterHeight.constant = findRouteView.layer.height + filterBarView.layer.height + filterContainerView.layer.height
-        filterView.sizeToFit()
-        filterView.layoutIfNeeded()
+        
+        let routeViewHeight = findRouteView.isShow ? findRouteView.frame.height : 0
+        let filterBarViewHeight = filterBarView.isShow ? filterView.frame.height : filterBarView.frame.height
+        let totalHeight = routeViewHeight + filterBarViewHeight
+        
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut) {
+            self.myLocationButton.transform = CGAffineTransform(translationX: 0.0, y: totalHeight)
+            self.reNewButton.transform = CGAffineTransform(translationX: 0.0, y: totalHeight)
+        }
     }
     
     func startFilterSetting(){
@@ -342,6 +358,32 @@ extension MainViewController: DelegateFilterBarView {
         } else {
             MemberManager.shared.showLoginAlert()
         }
+    }
+}
+
+// MARK: 경로 안내 뷰 Delegate
+extension MainViewController: DelegateRouteDistance {
+    func closeView() {
+        clearSearchResult()
+        hideFilter()
+        myLocationModeOff()
+        setView(view: routeDistanceView, hidden: true)
+    }
+    
+    func showNaviagtionSelectedMenu() {
+        guard let destination = naverMapView.destination else { return }
+        guard let start = naverMapView.start else {
+            let currentPoint = locationManager.getCurrentCoordinate()
+            let point = TMapPoint(coordinate: currentPoint)
+            
+            let positionName = tMapPathData.convertGpsToAddress(at: point) ?? ""
+            let start = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
+            
+            self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
+            return
+        }
+        
+        showNavigation(start: start, destination: destination, via: naverMapView.viaList)
     }
 }
 
@@ -413,25 +455,29 @@ extension MainViewController: AppToolbarDelegate {
     
     func showRouteView(isShow: Bool) {
         guard isShow else {
-            updateView(isShow: false)
-            clearSearchResult()
-
+            let filterBarViewHeight = filterBarView.isShow ? filterView.frame.height : 0
+            let routeViewHeight = filterHeight.constant == 160 ? CGFloat(36) : 0
+            let totalHeight = filterBarViewHeight - routeViewHeight
             UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut) {
                 self.filterView.transform = .identity
-                self.myLocationButton.transform = .identity
-                self.reNewButton.transform = .identity
+                self.myLocationButton.transform = CGAffineTransform(translationX: 0.0, y: totalHeight)
+                self.reNewButton.transform = CGAffineTransform(translationX: 0.0, y: totalHeight)
             }
+            updateView(isShow: false)
+            clearSearchResult()
             return
         }
         
         findRouteView.isShow = isShow
         setStartPosition()
         
-        let routeViewHeight = findRouteView.bounds.height
+        let filterBarViewHeight = filterBarView.isShow ? filterView.frame.height : 0
+        let routeViewHeight = findRouteView.frame.height
+        let totalHeight = filterBarViewHeight + routeViewHeight
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut) {
             self.filterView.transform = CGAffineTransform(translationX: 0.0, y: routeViewHeight)
-            self.myLocationButton.transform = CGAffineTransform(translationX: 0.0, y: routeViewHeight)
-            self.reNewButton.transform = CGAffineTransform(translationX: 0.0, y: routeViewHeight)
+            self.myLocationButton.transform = CGAffineTransform(translationX: 0.0, y: totalHeight)
+            self.reNewButton.transform = CGAffineTransform(translationX: 0.0, y: totalHeight)
         }
     }
     
@@ -639,14 +685,8 @@ extension MainViewController: TextFieldDelegate {
         
         drawMapMarker()
         
-        var strDistance: NSString = ""
-        if distance > 1000 {
-            strDistance = NSString(format: "%dKm", Int(distance/1000))
-        } else {
-            strDistance = NSString(format: "%dm", Int(distance))
-        }
-        routeDistanceLabel.text = strDistance as String
-        
+        let strDistance = distance > 1000 ? NSString(format: "약 %dkm", Int(distance/1000)) : NSString(format: "약 %dm", Int(distance))
+        routeDistanceView.setRouteLabel(with: strDistance)
         setView(view: routeDistanceView, hidden: false)
         summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clusterManager!.isRouteMode)
     }

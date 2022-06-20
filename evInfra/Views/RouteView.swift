@@ -48,8 +48,8 @@ internal class RouteView: UIView {
     
     private enum PlaceHolder: String {
         case startLabel = "출발지"
-        case viaLabel = "경유지"
-        case destinationLabel = "도착지"
+        case viaLabel = "경유지를 입력하세요."
+        case destinationLabel = "도착지를 입력하세요."
     }
     
     override init(frame: CGRect) {
@@ -171,6 +171,7 @@ internal class RouteView: UIView {
                 guard let self = self else { return }
                 self.isContainsViaMode = false
                 self.clearView()
+                self.clearButtonTitle()
                 self.delegate?.updateView(isShow: false)
             }).disposed(by: disposeBag)
     }
