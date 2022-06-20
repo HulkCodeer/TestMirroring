@@ -15,17 +15,24 @@ protocol DelegateFilterTypeView {
 protocol DelegateSlowTypeChange {
     func onChangeSlowType(slowOn: Bool)
 }
-class FilterTypeView: UIView {
-    @IBOutlet var tagCollectionView: UICollectionView!
+
+internal final class FilterTypeView: UIView {
+    // MARK: UI
     
+    @IBOutlet var tagCollectionView: UICollectionView!
     @IBOutlet var carSettingView: UIView!
     @IBOutlet var switchCarSetting: UISwitch!
     
+    // MARK: VARIABLE
+    
     private var tagList = Array<TagValue>()
-    var saveOnChange: Bool = false
-    var delegate: DelegateFilterChange?
-    var checkLoginDelegate: DelegateFilterTypeView?
-    var slowTypeChangeDelegate: DelegateSlowTypeChange?
+    
+    internal var slowTypeChangeDelegate: DelegateSlowTypeChange?
+    internal var saveOnChange: Bool = false
+    internal var delegate: DelegateFilterChange?
+    internal var checkLoginDelegate: DelegateFilterTypeView?
+    
+    // MARK: SYSTEM FUNC
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,7 +50,12 @@ class FilterTypeView: UIView {
         addSubview(view)
         
         prepareTagList()
-        setUpUI()
+                        
+        tagCollectionView.collectionViewLayout = TagFlowLayout()
+        tagCollectionView.register(UINib(nibName: "TagListViewCell", bundle: nil), forCellWithReuseIdentifier: "tagListViewCell")
+        tagCollectionView.delegate = self
+        tagCollectionView.dataSource = self
+        tagCollectionView.reloadData()
         
         carSettingView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickCarSetting (_:))))
         
@@ -61,11 +73,12 @@ class FilterTypeView: UIView {
     }
     
     @IBAction func onSwitchClicked(_ sender: Any) {
-        if (!MemberManager.shared.isLogin) {
-            MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
-                self.switchCarSetting.isOn = false
-            })
+        guard !MemberManager.shared.isLogin else {
+            return
         }
+        MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
+            self.switchCarSetting.isOn = false
+        })
     }
     
     @IBAction func onSwitchValueChange(_ sender: Any) {
@@ -141,15 +154,6 @@ class FilterTypeView: UIView {
         
         selected = FilterManager.sharedInstance.filter.destination
         tagList.append(TagValue(title:"데스티네이션", img:"ic_charger_slow_md", selected:selected, index: Const.CHARGER_TYPE_DESTINATION))
-    }
-
-    func setUpUI(){
-        let layout = TagFlowLayout()
-        tagCollectionView.collectionViewLayout = layout
-        tagCollectionView.register(UINib(nibName: "TagListViewCell", bundle: nil), forCellWithReuseIdentifier: "tagListViewCell")
-        tagCollectionView.delegate = self
-        tagCollectionView.dataSource = self
-        tagCollectionView.reloadData()
     }
     
     func resetFilter() {
