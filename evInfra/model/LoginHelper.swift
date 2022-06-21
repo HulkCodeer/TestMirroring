@@ -209,14 +209,14 @@ class LoginHelper: NSObject {
             let userIdentifier = UserDefault().readString(key: UserDefault.Key.MB_USER_ID)
             let appleIDProvider = ASAuthorizationAppleIDProvider()
             appleIDProvider.getCredentialState(forUserID: userIdentifier) { (credentialState, error) in
+                printLog(out: "CredentialState : \(credentialState)")
                 switch credentialState {
                 case .authorized:
                     self.requestLoginToEvInfra(user: nil)
-                    break // The Apple ID credential is valid.
+                    
                 case .revoked, .notFound, .transferred:
                     MemberManager.shared.clearData()
-                    print("requestLoginToApple - revoked, notFound, transferred")
-                    break
+                                                        
                 default:
                     break
                 }
