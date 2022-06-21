@@ -19,6 +19,7 @@ protocol SoftberryAPI: class {
     func getQuitAccountReasonList() -> Observable<(HTTPURLResponse, Data)>
     func deleteKakaoAccount(reasonID: String) -> Observable<(HTTPURLResponse, Data)>
     func deleteAppleAccount(reasonID: String) -> Observable<(HTTPURLResponse, Data)>
+    func revokeAppleAccount() -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -92,5 +93,20 @@ internal final class RestApi: SoftberryAPI {
             "reason_id": reasonID
         ]        
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/deregister_apple", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - 회원 탈퇴
+    func revokeAppleAccount() -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "client_id": "5FA8TZGUDC",
+            "client_secret": "eyJraWQiOiJZdXlYb1kiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwcGxlaWQuYXBwbGUuY29tIiwiYXVkIjoiY29tLnNvZnQtYmVycnkuZXYtaW5mcmEiLCJleHAiOjE2NTU4ODY5NTUsImlhdCI6MTY1NTgwMDU1NSwic3ViIjoiMDAxMjQ3LmJjNWNjZDlkM2U3YzQ3NjE4YjJkNDI3YWJjMDZmMzFhLjA4MzkiLCJjX2hhc2giOiJlS0ZTQ0JkdGRWVXNjN0ZtWDZESW13IiwiZW1haWwiOiJwYXJraGpAc29mdC1iZXJyeS5jb20iLCJlbWFpbF92ZXJpZmllZCI6InRydWUiLCJhdXRoX3RpbWUiOjE2NTU4MDA1NTUsIm5vbmNlX3N1cHBvcnRlZCI6dHJ1ZX0.JoV5zlp7fph6zxvOiz2QGdQtYDhQGlWH8xFnwjJPvjpCrgJnDaqA4YRLr_OQsPN4V6Tj-YYgDY3PceN_L-w-OjBR1Biz5my-sPh1MADoUxW5w4c9-i15Sv2Km5NFZ1V2Q2bFUO55s6_zzifyLQeL-SmiS13See3s4Iu8PDkUw7anSkBvNFYV9QTtwrFji-Ur5K03Hn0hktz7FQbtZ1gnHflQc9bOnL7TPWbiNw_GqjsQXlNa8OfvpZBRegbmuLlUgzTySaJNwPed9B8NHRm9XLvEPiV74SNZcmbtRT2ULsjD2ajJkgz-tmWi1ROYK6BpOPn2PAfXnf3SkLF6n-fF6A",
+            "token": "001247.bc5ccd9d3e7c47618b2d427abc06f31a.0839",
+            "token_type_hint": "refresh_token"
+        ]
+        
+        let header: HTTPHeaders = [
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+        return NetworkWorker.shared.rxRequest(url: "https://appleid.apple.com/auth/revoke", httpMethod: .post, parameters: reqParam, headers: header)
     }
 }

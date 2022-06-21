@@ -35,12 +35,20 @@ internal final class QuitAccountReactor: ViewModel, Reactor {
         switch action {
         case .deleteAppleAccount:
             guard !self.reasonID.isEmpty else { return .empty()}
-            return self.provider.deleteAppleAccount(reasonID: self.reasonID)
-                            .convertData()
-                            .compactMap(convertToData)
-                            .map { isComplete in                                                                                        
+            
+            return self.provider.revokeAppleAccount()
+                            .convertData()                            
+                            .compactMap(convertToAppleData)
+                            .map { isComplete in
                                 return .setComplete(isComplete)
                             }
+            
+//            return self.provider.deleteAppleAccount(reasonID: self.reasonID)
+//                            .convertData()
+//                            .compactMap(convertToData)
+//                            .map { isComplete in
+//                                return .setComplete(isComplete)
+//                            }
             
         case .deleteKakaoAccount:
             guard !self.reasonID.isEmpty else { return .empty()}
@@ -77,6 +85,21 @@ internal final class QuitAccountReactor: ViewModel, Reactor {
                 Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
                 return nil
             }
+            
+            return true
+            
+        case .failure(let errorMessage):
+            printLog(out: "Error Message : \(errorMessage)")
+            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+            return nil
+        }
+    }
+    
+    private func convertToAppleData(with result: ApiResult<Data, ApiErrorMessage> ) -> Bool? {
+        switch result {
+        case .success(let data):
+            let jsonData = JSON(data)
+            printLog(out: "JsonData : \(jsonData)")
             
             return true
             
