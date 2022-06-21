@@ -11,6 +11,7 @@ import SwiftyJSON
 
 class ChargerTableViewCell: UITableViewCell {
     
+    @IBOutlet var companyImageView: UIImageView!
     @IBOutlet weak var stationName: UILabel!
     @IBOutlet weak var address: UILabel!
     @IBOutlet weak var chargerStatus: UILabel!
@@ -33,6 +34,8 @@ class ChargerTableViewCell: UITableViewCell {
     func setCharger(item: ChargerStationInfo) {
         charger = item
         
+        companyImageView.isHidden = false
+        companyImageView.image = charger.getCompanyIcon() ?? UIImage(named: "icon_building_sm")
         stationName.text = charger.mStationInfoDto?.mSnm
         address.text = charger.mStationInfoDto?.mAddress
         chargerStatus.text = charger.mTotalStatusName
@@ -62,6 +65,7 @@ class ChargerTableViewCell: UITableViewCell {
         stationName.text = item.getPOIName()
         address.text = item.getPOIAddress()
         
+        companyImageView.isHidden = true
         let distance = CLLocationCoordinate2D()
             .distance(to: CLLocationCoordinate2D(latitude: item.frontLat ?? 0.0,
                                                  longitude: item.frontLon ?? 0.0))
