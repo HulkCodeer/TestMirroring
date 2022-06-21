@@ -44,7 +44,7 @@ internal final class SearchViewController: UIViewController {
     private let koreanTextMatcher = KoreanTextMatcher.init()
     private var tMapPathData: TMapPathData = TMapPathData.init()
     private var mQueryValue : String?
-    private var searchType: TableViewType?
+    private var searchType: TableViewType? = .charger
     private let INIT_KEYWORD = "EV충전소"
     private let disposeBag = DisposeBag()
     
@@ -89,11 +89,8 @@ internal final class SearchViewController: UIViewController {
                 guard let self = self else { return }
                 guard !self.chargerRadioBtn.isSelected else { return }
                 
-                defer {
-                    self.searchType = .charger
-                    self.setUnSelectButton(type: self.addrRadioBtn)
-                }
-                
+                self.searchType = .charger
+                self.setUnSelectButton(type: self.addrRadioBtn)
                 self.chargerRadioBtn.isSelected = true
                 self.searbarRefresh()
             }).disposed(by: disposeBag)
@@ -104,13 +101,30 @@ internal final class SearchViewController: UIViewController {
                 guard let self = self else { return }
                 guard !self.addrRadioBtn.isSelected else { return }
                 
-                defer {
-                    self.searchType = .address
-                    self.setUnSelectButton(type: self.chargerRadioBtn)
-                }
-                
+                self.searchType = .address
+                self.setUnSelectButton(type: self.chargerRadioBtn)
                 self.addrRadioBtn.isSelected = true
                 self.searbarRefresh()
+            }).disposed(by: disposeBag)
+        
+        currentLocationButton.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                guard self.searchType == .address else {
+                    self.mQueryValue = ""
+                    self.refreshCursorAdapter()
+                    return
+                }
+                
+                ChargerManager.sharedInstance.findAllPOI(keyword: self.INIT_KEYWORD) { poiList in
+                    guard let poiList = poiList else { return }
+                   
+                    self.addrTableView.poiList = poiList
+                    DispatchQueue.main.async {
+                        self.reloadData()
+                    }
+                }
             }).disposed(by: disposeBag)
     }
     
@@ -162,6 +176,7 @@ internal final class SearchViewController: UIViewController {
     }
 }
 
+// MARK: SearchBar Delegate
 extension SearchViewController: SearchBarDelegate {
     internal func prepareSearchBar() {
         // Access the searchBar.
@@ -179,12 +194,8 @@ extension SearchViewController: SearchBarDelegate {
         }
         self.searchBar(searchBar: searchBar, didChange: searchBar.textField, with: searchBar.textField.text)
     }
-
-    func searchBar(searchBar: SearchBar, didClear textField: UITextField, with text: String?) {
-        reloadData()
-    }
     
-    func refreshCursorAdapter() {
+    private func refreshCursorAdapter() {
         let dbQueue = DataBaseHelper.sharedInstance.getDbQue()
         DispatchQueue.global().async {
             dbQueue?.inDatabase { db in
@@ -252,6 +263,7 @@ extension SearchViewController: SearchBarDelegate {
     }
 }
 
+// MARK: 충전소 검색 Delegate
 extension SearchViewController: ChargerTableViewDelegate {
     func didSelectRow(row: Int) {
         guard let charger = self.tableView.chargerList?[row] else {
@@ -277,6 +289,7 @@ extension SearchViewController: ChargerTableViewDelegate {
     }
 }
 
+// MARK: 주소검색 Delegate
 extension SearchViewController: SearchTableViewViewDelegate {
     func didAddrSelectRow(row: Int) {
         guard let poi = self.addrTableView.poiList?[row] else {
@@ -305,7 +318,6 @@ extension SearchViewController: SearchTableViewViewDelegate {
             break
         }
         
-        //        delegate?.moveToSelected(chargerId: poi.getPOID()!)
         delegate?.moveToSelectLocation(lat: poi.getPOIPoint().getLatitude() , lon: poi.getPOIPoint().getLongitude() )
         dismiss(animated: true, completion: nil)
     }
