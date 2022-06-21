@@ -29,65 +29,36 @@
  */
 
 import UIKit
+import RxSwift
+import RxCocoa
 import Material
 import SwiftyJSON
 import GRDB
 
 internal final class SearchViewController: UIViewController {
+    private enum TableViewType {
+        case charger
+        case address
+    }
     
-    public static let TABLE_VIEW_TYPE_CHARGER = 1
-    public static let TABLE_VIEW_TYPE_ADDRESS = 2
-    
-    var searchType:Int?
-    var delegate:ChargerSelectDelegate?
     private let koreanTextMatcher = KoreanTextMatcher.init()
     private var tMapPathData: TMapPathData = TMapPathData.init()
     private var mQueryValue : String?
+    private var searchType: TableViewType?
     private let INIT_KEYWORD = "EV충전소"
+    private let disposeBag = DisposeBag()
     
-    var routeType: RoutePosition = .none
+    internal var delegate: ChargerSelectDelegate?
+    internal var routeType: RoutePosition = .none
+    internal var removeAddressButton: Bool = false
     
-    // View.
+    // View
     @IBOutlet weak var tableView: ChargerTableView!
     @IBOutlet weak var addrTableView: SearchTableView!
-    
     @IBOutlet weak var chargerRadioBtn: UIButton!
     @IBOutlet weak var addrRadioBtn: UIButton!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
-    
-    var removeAddressButton: Bool = false
-    
-    @IBAction func onClickChargerBtn(_ sender: UIButton) {
-        searchType = SearchViewController.TABLE_VIEW_TYPE_CHARGER
-        
-        if self.addrRadioBtn.isSelected {
-            self.addrRadioBtn.isSelected = false
-            self.addrRadioBtn.setImage(UIImage(named: "ic_radio_unchecked"), for: .normal)
-        }
-
-        if !sender.isSelected {
-            sender.isSelected = true
-            sender.setImage(UIImage(named: "ic_radio_checked"), for: .normal)
-            //self.reloadData()
-            self.searbarRefresh()
-        }
-    }
-    
-    @IBAction func onClickAddressBtn(_ sender: UIButton) {
-        searchType = SearchViewController.TABLE_VIEW_TYPE_ADDRESS
-        
-        if self.chargerRadioBtn.isSelected {
-            self.chargerRadioBtn.isSelected = false
-            self.chargerRadioBtn.setImage(UIImage(named: "ic_radio_unchecked"), for: .normal)
-        }
-
-        if !sender.isSelected {
-            sender.isSelected = true
-            sender.setImage(UIImage(named: "ic_radio_checked"), for: .normal)
-            //self.reloadData()
-            self.searbarRefresh()
-        }
-    }
+    @IBOutlet var currentLocationButton: UIButton!
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -95,23 +66,66 @@ internal final class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         configureButton()
         prepareSearchBar()
         prepareTableView()
+        bind()
     }
     
-    func configureButton() {
+    private func configureButton() {
         addrRadioBtn.isHidden = removeAddressButton
+        
+        chargerRadioBtn.setImage(UIImage(named: "iconRadioUnselected"), for: .normal)
+        chargerRadioBtn.setImage(UIImage(named: "iconRadioSelected"), for: .selected)
+        addrRadioBtn.setImage(UIImage(named: "iconRadioUnselected"), for: .normal)
+        addrRadioBtn.setImage(UIImage(named: "iconRadioSelected"), for: .selected)
+    }
+    
+    private func bind() {
+        chargerRadioBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                guard !self.chargerRadioBtn.isSelected else { return }
+                
+                defer {
+                    self.searchType = .charger
+                    self.setUnSelectButton(type: self.addrRadioBtn)
+                }
+                
+                self.chargerRadioBtn.isSelected = true
+                self.searbarRefresh()
+            }).disposed(by: disposeBag)
+        
+        addrRadioBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                guard !self.addrRadioBtn.isSelected else { return }
+                
+                defer {
+                    self.searchType = .address
+                    self.setUnSelectButton(type: self.chargerRadioBtn)
+                }
+                
+                self.addrRadioBtn.isSelected = true
+                self.searbarRefresh()
+            }).disposed(by: disposeBag)
+    }
+    
+    private func setUnSelectButton(type button: UIButton) {
+        guard button.isSelected else { return }
+        button.isSelected = false
     }
 
-    internal func prepareTableView() {
+    private func prepareTableView() {
         hideProgress()
         
         addrTableView.isHidden = true
         tableView.isHidden = false
-        
-        searchType = SearchViewController.TABLE_VIEW_TYPE_CHARGER
+       
+        searchType = .charger
         
         tableView.chargerTableDelegate = self
         tableView.isHiddenAlertFavoriteIcon = true
@@ -121,34 +135,28 @@ internal final class SearchViewController: UIViewController {
         addrTableView.keyboardDismissMode = .onDrag
 
         tableView.chargerList = [ChargerStationInfo]()
-        
-        onClickChargerBtn(chargerRadioBtn)
+        searbarRefresh()
     }
     
-    internal func reloadData() {
-        if searchType != SearchViewController.TABLE_VIEW_TYPE_ADDRESS {
+    private func reloadData() {
+        guard searchType == .address else {
             tableView.reloadData()
-            
             tableView.isHidden = false
             addrTableView.isHidden = true
-        } else {
-            addrTableView.reloadData()
-            
-            addrTableView.isHidden = false
-            tableView.isHidden = true
+            return
         }
-    }
-    
-    func responseChargerListForPayment(response: JSON){
         
+        addrTableView.reloadData()
+        addrTableView.isHidden = false
+        tableView.isHidden = true
     }
     
-    func showProgress() {
+    private func showProgress() {
         indicator.isHidden = false
         indicator.startAnimating()
     }
     
-    func hideProgress() {
+    private func hideProgress() {
         indicator.isHidden = true
         indicator.stopAnimating()
     }
@@ -219,26 +227,25 @@ extension SearchViewController: SearchBarDelegate {
     }
 
     func searchBar(searchBar: SearchBar, didChange textField: UITextField, with text: String?) {
-        if self.searchType != SearchViewController.TABLE_VIEW_TYPE_ADDRESS {
-            // space 제거, 소문자로 변경 후 비교
+        guard searchType == .address else {
             self.mQueryValue = text
             refreshCursorAdapter()
-        } else {
-            DispatchQueue.global(qos: .background).async {
-                var searchWord = self.INIT_KEYWORD
-                if !StringUtils.isNullOrEmpty(text) {
-                    searchWord = text!
-                }
-                
-                ChargerManager.sharedInstance.findAllPOI(keyword: searchWord) { [weak self] poiList in
-                    guard let poiList = poiList else {
-                        return
-                    }
-                    
-                    self?.addrTableView.poiList = poiList
-                    DispatchQueue.main.async {
-                        self?.reloadData()
-                    }
+            return
+        }
+        
+        DispatchQueue.global(qos: .background).async {
+            var searchWord = self.INIT_KEYWORD
+            if !StringUtils.isNullOrEmpty(text) {
+                searchWord = text!
+            }
+            
+            ChargerManager.sharedInstance.findAllPOI(keyword: searchWord) { [weak self] poiList in
+                guard let self = self,
+                      let poiList = poiList else { return }
+               
+                self.addrTableView.poiList = poiList
+                DispatchQueue.main.async {
+                    self.reloadData()
                 }
             }
         }

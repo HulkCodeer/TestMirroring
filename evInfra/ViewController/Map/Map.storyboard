@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -22,7 +23,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="addrSearchCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="addrSearchCell" rowHeight="53" id="zmT-Xh-99h" userLabel="addrSearchCell" customClass="AddressSearchCell" customModule="evInfra" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.5" width="375" height="53"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="375" height="53"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zmT-Xh-99h" id="1Aq-Ys-Gzw">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="53"/>
@@ -74,43 +75,70 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="HMf-Tp-PRw" userLabel="Search Type Stack View">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hJ0-HQ-cjT">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K40-za-qy5" userLabel="BtnCharger">
-                                        <rect key="frame" x="0.0" y="18" width="184" height="24"/>
-                                        <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="충전소 검색" image="ic_radio_unchecked">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="HMf-Tp-PRw" userLabel="Search Type Stack View">
+                                        <rect key="frame" x="16" y="0.0" width="251" height="56"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K40-za-qy5" userLabel="BtnCharger">
+                                                <rect key="frame" x="0.0" y="0.0" width="98" height="56"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="-4" maxY="0.0"/>
+                                                <state key="normal" title="충전소 검색" image="iconRadioSelected">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1A-58-YMr" userLabel="BtnAddress">
+                                                <rect key="frame" x="114" y="0.0" width="137" height="56"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="주소 검색" image="iconRadioUnselected">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="56" id="9yZ-en-pcb"/>
+                                        </constraints>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ok-aq-jwG">
+                                        <rect key="frame" x="267" y="10" width="92" height="36"/>
+                                        <color key="backgroundColor" name="content-positive"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="2hy-M7-bnj"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="현위치">
+                                            <color key="titleColor" name="content-primary"/>
                                         </state>
-                                        <connections>
-                                            <action selector="onClickChargerBtn:" destination="YLH-0W-Q3R" eventType="touchUpInside" id="Kht-7n-pCW"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1A-58-YMr" userLabel="BtnAddress">
-                                        <rect key="frame" x="191" y="18" width="184" height="24"/>
-                                        <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="주소 검색" image="ic_radio_unchecked">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onClickAddressBtn:" destination="YLH-0W-Q3R" eventType="touchUpInside" id="MJp-Zk-ao3"/>
-                                        </connections>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="IBcornerRadius">
+                                                <real key="value" value="6"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="background-secondary"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="9yZ-en-pcb"/>
+                                    <constraint firstAttribute="trailing" secondItem="HMf-Tp-PRw" secondAttribute="trailing" constant="108" id="0XM-1C-QT6"/>
+                                    <constraint firstAttribute="trailing" secondItem="0Ok-aq-jwG" secondAttribute="trailing" constant="16" id="ChD-Fh-A49"/>
+                                    <constraint firstItem="0Ok-aq-jwG" firstAttribute="top" secondItem="hJ0-HQ-cjT" secondAttribute="top" constant="10" id="N0a-ju-Bq0"/>
+                                    <constraint firstItem="HMf-Tp-PRw" firstAttribute="leading" secondItem="hJ0-HQ-cjT" secondAttribute="leading" constant="16" id="XXH-LJ-aoC"/>
+                                    <constraint firstItem="0Ok-aq-jwG" firstAttribute="leading" secondItem="HMf-Tp-PRw" secondAttribute="trailing" id="dvg-cB-7iv"/>
+                                    <constraint firstAttribute="bottom" secondItem="HMf-Tp-PRw" secondAttribute="bottom" id="hwe-ds-pHU"/>
+                                    <constraint firstAttribute="bottom" secondItem="0Ok-aq-jwG" secondAttribute="bottom" constant="10" id="r1j-3K-fhJ"/>
+                                    <constraint firstItem="HMf-Tp-PRw" firstAttribute="top" secondItem="hJ0-HQ-cjT" secondAttribute="top" id="w1i-mJ-4pV"/>
                                 </constraints>
-                            </stackView>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fBs-Bz-Tdw" customClass="ChargerTableView" customModule="evInfra" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="60" width="375" height="607"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="611"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="t4F-E0-w2Y" userLabel="AddrTableView" customClass="SearchTableView" customModule="evInfra" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="60" width="375" height="607"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="611"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="HsT-tj-RrO">
@@ -125,25 +153,26 @@
                         <viewLayoutGuide key="safeArea" id="NuA-Si-7V5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="hJ0-HQ-cjT" firstAttribute="leading" secondItem="Lna-qF-bMb" secondAttribute="leading" id="8sv-61-V7j"/>
                             <constraint firstItem="NuA-Si-7V5" firstAttribute="trailing" secondItem="fBs-Bz-Tdw" secondAttribute="trailing" id="9Kb-BU-KML"/>
                             <constraint firstItem="fBs-Bz-Tdw" firstAttribute="bottom" secondItem="t4F-E0-w2Y" secondAttribute="bottom" id="AGS-dX-JD3"/>
                             <constraint firstItem="NuA-Si-7V5" firstAttribute="bottom" secondItem="fBs-Bz-Tdw" secondAttribute="bottom" id="BMC-tj-YQO"/>
                             <constraint firstItem="fBs-Bz-Tdw" firstAttribute="top" secondItem="t4F-E0-w2Y" secondAttribute="top" id="Bf8-eQ-tEI"/>
+                            <constraint firstItem="fBs-Bz-Tdw" firstAttribute="top" secondItem="hJ0-HQ-cjT" secondAttribute="bottom" id="C3g-81-JKN"/>
                             <constraint firstItem="fBs-Bz-Tdw" firstAttribute="trailing" secondItem="t4F-E0-w2Y" secondAttribute="trailing" id="E9U-W1-14e"/>
                             <constraint firstItem="fBs-Bz-Tdw" firstAttribute="leading" secondItem="NuA-Si-7V5" secondAttribute="leading" id="FnR-a3-k7L"/>
-                            <constraint firstItem="HMf-Tp-PRw" firstAttribute="top" secondItem="NuA-Si-7V5" secondAttribute="top" id="ORt-I2-1FN"/>
-                            <constraint firstItem="fBs-Bz-Tdw" firstAttribute="top" secondItem="HMf-Tp-PRw" secondAttribute="bottom" id="Pcn-CF-tqG"/>
-                            <constraint firstItem="NuA-Si-7V5" firstAttribute="trailing" secondItem="HMf-Tp-PRw" secondAttribute="trailing" id="RbD-lB-Ht5"/>
+                            <constraint firstAttribute="trailing" secondItem="hJ0-HQ-cjT" secondAttribute="trailing" id="U7h-S2-6Jj"/>
                             <constraint firstItem="fBs-Bz-Tdw" firstAttribute="leading" secondItem="t4F-E0-w2Y" secondAttribute="leading" id="cQq-ow-UuN"/>
                             <constraint firstItem="HsT-tj-RrO" firstAttribute="centerY" secondItem="Lna-qF-bMb" secondAttribute="centerY" id="fW8-jM-vAX"/>
                             <constraint firstItem="HsT-tj-RrO" firstAttribute="centerX" secondItem="NuA-Si-7V5" secondAttribute="centerX" id="gQE-Td-lev"/>
-                            <constraint firstItem="HMf-Tp-PRw" firstAttribute="leading" secondItem="NuA-Si-7V5" secondAttribute="leading" id="hjK-j4-Yin"/>
+                            <constraint firstItem="hJ0-HQ-cjT" firstAttribute="top" secondItem="Lna-qF-bMb" secondAttribute="top" id="tjb-41-BN9"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="addrRadioBtn" destination="y1A-58-YMr" id="kii-r5-MAH"/>
                         <outlet property="addrTableView" destination="t4F-E0-w2Y" id="lbZ-lB-lEh"/>
                         <outlet property="chargerRadioBtn" destination="K40-za-qy5" id="yzX-8U-hg7"/>
+                        <outlet property="currentLocationButton" destination="0Ok-aq-jwG" id="IEJ-pn-l6L"/>
                         <outlet property="indicator" destination="HsT-tj-RrO" id="Mcx-ct-eWH"/>
                         <outlet property="tableView" destination="fBs-Bz-Tdw" id="QQq-4z-lRx"/>
                     </connections>
@@ -169,7 +198,17 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ic_radio_unchecked" width="24" height="24"/>
+        <image name="iconRadioSelected" width="24" height="24"/>
+        <image name="iconRadioUnselected" width="24" height="24"/>
+        <namedColor name="background-secondary">
+            <color red="0.95294117647058818" green="0.95294117647058818" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="content-positive">
+            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="content-primary">
+            <color red="0.094117647058823528" green="0.094117647058823528" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
