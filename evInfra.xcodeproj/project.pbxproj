@@ -747,16 +747,20 @@
 		73EF8B7B203C85CC00D04494 /* TopLib_Op.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73EF8B6E203C85CC00D04494 /* TopLib_Op.a */; };
 		73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */; };
 		73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F6B53920F873110030D0B3 /* IntroViewController.swift */; };
+		821A05E128627F3100EB1A91 /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DD28627F3000EB1A91 /* NavigationClose.swift */; };
+		821A05E228627F3100EB1A91 /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DD28627F3000EB1A91 /* NavigationClose.swift */; };
+		821A05E328627F3100EB1A91 /* Arrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DE28627F3000EB1A91 /* Arrow.swift */; };
+		821A05E428627F3100EB1A91 /* Arrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DE28627F3000EB1A91 /* Arrow.swift */; };
+		821A05E528627F3100EB1A91 /* CommonNaviView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DF28627F3000EB1A91 /* CommonNaviView.swift */; };
+		821A05E628627F3100EB1A91 /* CommonNaviView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DF28627F3000EB1A91 /* CommonNaviView.swift */; };
+		821A05E728627F3100EB1A91 /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05E028627F3000EB1A91 /* ChevronArrow.swift */; };
+		821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05E028627F3000EB1A91 /* ChevronArrow.swift */; };
 		828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407D928393D8F002B1214 /* NetworkWorker.swift */; };
 		828407DC28393DFE002B1214 /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407DB28393DFE002B1214 /* SoftberryAPI.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		82D9867F2839BD790030F0FC /* MembershipReissuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */; };
 		82D986812839BE080030F0FC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
 		82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */; };
-		82F3D9AC2855EE2B0030C44B /* ArrowBackBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9AA2855EE2B0030C44B /* ArrowBackBtn.swift */; };
-		82F3D9AD2855EE2B0030C44B /* ArrowBackBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9AA2855EE2B0030C44B /* ArrowBackBtn.swift */; };
-		82F3D9AE2855EE2B0030C44B /* NavigationCloseBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9AB2855EE2B0030C44B /* NavigationCloseBtn.swift */; };
-		82F3D9AF2855EE2B0030C44B /* NavigationCloseBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9AB2855EE2B0030C44B /* NavigationCloseBtn.swift */; };
 		8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
@@ -1215,14 +1219,16 @@
 		73EF8B7C203C880A00D04494 /* evInfra-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "evInfra-Bridging-Header.h"; sourceTree = "<group>"; };
 		73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterGenerator.swift; sourceTree = "<group>"; };
 		73F6B53920F873110030D0B3 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
+		821A05DD28627F3000EB1A91 /* NavigationClose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationClose.swift; sourceTree = "<group>"; };
+		821A05DE28627F3000EB1A91 /* Arrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arrow.swift; sourceTree = "<group>"; };
+		821A05DF28627F3000EB1A91 /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
+		821A05E028627F3000EB1A91 /* ChevronArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChevronArrow.swift; sourceTree = "<group>"; };
 		828407D928393D8F002B1214 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		828407DB28393DFE002B1214 /* SoftberryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
 		82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceReactor.swift; sourceTree = "<group>"; };
 		82D986802839BE080030F0FC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoReactor.swift; sourceTree = "<group>"; };
-		82F3D9AA2855EE2B0030C44B /* ArrowBackBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowBackBtn.swift; sourceTree = "<group>"; };
-		82F3D9AB2855EE2B0030C44B /* NavigationCloseBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationCloseBtn.swift; sourceTree = "<group>"; };
 		9014C12624E55C4800CB6549 /* EIPOIItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIPOIItem.swift; sourceTree = "<group>"; };
 		9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAllPOIListenerCallback.swift; sourceTree = "<group>"; };
 		9028E07724A1B8270062A029 /* eirel */ = {isa = PBXFileReference; lastKnownFileType = file; path = eirel; sourceTree = "<group>"; };
@@ -2205,8 +2211,10 @@
 		82F3D9A92855EE2B0030C44B /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				82F3D9AA2855EE2B0030C44B /* ArrowBackBtn.swift */,
-				82F3D9AB2855EE2B0030C44B /* NavigationCloseBtn.swift */,
+				821A05DE28627F3000EB1A91 /* Arrow.swift */,
+				821A05E028627F3000EB1A91 /* ChevronArrow.swift */,
+				821A05DF28627F3000EB1A91 /* CommonNaviView.swift */,
+				821A05DD28627F3000EB1A91 /* NavigationClose.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -3169,6 +3177,7 @@
 				63F313EB284EC74F001713D2 /* NaverMapView.swift in Sources */,
 				63F31550284F0809001713D2 /* Icons+Generated.swift in Sources */,
 				63F313EC284EC74F001713D2 /* StationStatusDto.swift in Sources */,
+				821A05E428627F3100EB1A91 /* Arrow.swift in Sources */,
 				63F313ED284EC74F001713D2 /* BoardTableViewCell.swift in Sources */,
 				63F313EE284EC74F001713D2 /* DateUtils.swift in Sources */,
 				63F31552284F0809001713D2 /* Colors+Generated.swift in Sources */,
@@ -3189,6 +3198,7 @@
 				63F313FD284EC74F001713D2 /* HSUnderLineTextField.swift in Sources */,
 				63F313FE284EC74F001713D2 /* CompanyTableViewCell.swift in Sources */,
 				63F313FF284EC74F001713D2 /* BedgeButton.swift in Sources */,
+				821A05E628627F3100EB1A91 /* CommonNaviView.swift in Sources */,
 				63F31400284EC74F001713D2 /* MemberManager.swift in Sources */,
 				63F31401284EC74F001713D2 /* FilterCompanyView.swift in Sources */,
 				63F31402284EC74F001713D2 /* ReportCharger.swift in Sources */,
@@ -3264,6 +3274,7 @@
 				63F31448284EC74F001713D2 /* BoardTableViewHeader.swift in Sources */,
 				63F31449284EC74F001713D2 /* ChargerManager.swift in Sources */,
 				63F3144A284EC74F001713D2 /* MembershipCardViewController.swift in Sources */,
+				821A05E228627F3100EB1A91 /* NavigationClose.swift in Sources */,
 				63F3144B284EC74F001713D2 /* Extension.swift in Sources */,
 				63F3144C284EC74F001713D2 /* ClusterGenerator.swift in Sources */,
 				63F3144D284EC74F001713D2 /* ChargesTableViewCell.swift in Sources */,
@@ -3280,6 +3291,7 @@
 				63F31458284EC74F001713D2 /* ChargerDetailViewController.swift in Sources */,
 				63F31459284EC74F001713D2 /* AppDelegate.swift in Sources */,
 				63F3145A284EC74F001713D2 /* LinkShareManager.swift in Sources */,
+				821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */,
 				63F3145B284EC74F001713D2 /* SearchAddressViewDelegate.swift in Sources */,
 				63F3145C284EC74F001713D2 /* MyArticleViewController.swift in Sources */,
 				63F3145D284EC74F001713D2 /* LotteRentCertificateViewController.swift in Sources */,
@@ -3298,7 +3310,6 @@
 				63F3146A284EC74F001713D2 /* BoardTableViewDelegate.swift in Sources */,
 				63F3146B284EC74F001713D2 /* StringUtils.swift in Sources */,
 				63F3146C284EC74F001713D2 /* CommunityBoardAdsCell.swift in Sources */,
-				82F3D9AD2855EE2B0030C44B /* ArrowBackBtn.swift in Sources */,
 				63F3146D284EC74F001713D2 /* SearchTypeSelectView.swift in Sources */,
 				63F3146E284EC74F001713D2 /* FilterBarView.swift in Sources */,
 				63F3146F284EC74F001713D2 /* AlertView.swift in Sources */,
@@ -3343,7 +3354,6 @@
 				63F31496284EC74F001713D2 /* KoreanTextMatcher.swift in Sources */,
 				63F31497284EC74F001713D2 /* Server.swift in Sources */,
 				63F31498284EC74F001713D2 /* AcceptTermsViewController.swift in Sources */,
-				82F3D9AF2855EE2B0030C44B /* NavigationCloseBtn.swift in Sources */,
 				63F31499284EC74F001713D2 /* EventContentsViewController.swift in Sources */,
 				63F3149A284EC74F001713D2 /* ChargesViewController.swift in Sources */,
 				63F3149B284EC74F001713D2 /* ViewModel.swift in Sources */,
@@ -3438,6 +3448,7 @@
 				193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */,
 				63F3154F284F0809001713D2 /* Icons+Generated.swift in Sources */,
 				902A11D7248F56610049EF8E /* StationStatusDto.swift in Sources */,
+				821A05E328627F3100EB1A91 /* Arrow.swift in Sources */,
 				73BFA04C20847A310028B35D /* BoardTableViewCell.swift in Sources */,
 				90517A0C253857FD00FCB1A7 /* DateUtils.swift in Sources */,
 				63F31551284F0809001713D2 /* Colors+Generated.swift in Sources */,
@@ -3458,6 +3469,7 @@
 				00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */,
 				00B36C4126D4B33100749FFE /* CompanyTableViewCell.swift in Sources */,
 				73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */,
+				821A05E528627F3100EB1A91 /* CommonNaviView.swift in Sources */,
 				DBA18B1D211D7AF400A2CB4F /* MemberManager.swift in Sources */,
 				00A3659726C4E38700424E40 /* FilterCompanyView.swift in Sources */,
 				CEBE0601214BA5C30047E6F2 /* ReportCharger.swift in Sources */,
@@ -3533,6 +3545,7 @@
 				DB87607520690B370095394B /* BoardTableViewHeader.swift in Sources */,
 				9058A3C1248639D000091823 /* ChargerManager.swift in Sources */,
 				73C6A10B2345F1F800349A86 /* MembershipCardViewController.swift in Sources */,
+				821A05E128627F3100EB1A91 /* NavigationClose.swift in Sources */,
 				523A3AF22797A9CA004C3C23 /* Extension.swift in Sources */,
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,
 				DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */,
@@ -3549,6 +3562,7 @@
 				73C31BFD20A288E3005B6C53 /* ChargerDetailViewController.swift in Sources */,
 				732121BD203AC023000E105C /* AppDelegate.swift in Sources */,
 				529659D227E9AD7200FC1E8B /* LinkShareManager.swift in Sources */,
+				821A05E728627F3100EB1A91 /* ChevronArrow.swift in Sources */,
 				73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */,
 				7376B5C520C6473500A2B7C1 /* MyArticleViewController.swift in Sources */,
 				00C75C46252ED4A000387559 /* LotteRentCertificateViewController.swift in Sources */,
@@ -3567,7 +3581,6 @@
 				736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */,
 				902A11DA248F5E440049EF8E /* StringUtils.swift in Sources */,
 				52B5DECF27CEFFBD006F8325 /* CommunityBoardAdsCell.swift in Sources */,
-				82F3D9AC2855EE2B0030C44B /* ArrowBackBtn.swift in Sources */,
 				52B53D2F27BCF30100D446A9 /* SearchTypeSelectView.swift in Sources */,
 				00A6A16826C3C4450023DAE3 /* FilterBarView.swift in Sources */,
 				527165C727B251E20078DF3A /* AlertView.swift in Sources */,
@@ -3612,7 +3625,6 @@
 				DB3B858320A42C81005454F5 /* KoreanTextMatcher.swift in Sources */,
 				DB306368221BD5CD00D1276E /* Server.swift in Sources */,
 				00CF1777278EA644007D8E4E /* AcceptTermsViewController.swift in Sources */,
-				82F3D9AE2855EE2B0030C44B /* NavigationCloseBtn.swift in Sources */,
 				CE33B4BD2191BA1200B6C632 /* EventContentsViewController.swift in Sources */,
 				DB5FA59622C20A8400F1508A /* ChargesViewController.swift in Sources */,
 				82D986812839BE080030F0FC /* ViewModel.swift in Sources */,
