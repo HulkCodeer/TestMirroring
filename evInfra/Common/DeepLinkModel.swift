@@ -39,14 +39,14 @@ internal final class DeepLinkModel: NSObject {
             return DeepLinkType.allCases.contains(where: { $0.rawValue.deepLinkUrl == item.name })
         }) {
             let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-            let termsViewControll = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
+            let termsViewControll = infoStoryboard.instantiateViewController(ofType: NewTermsViewController.self)
                 
             switch _queryItems[0].name {
             case "faq_payment":
-                termsViewControll.tabIndex = .FAQTop
+                termsViewControll.tabIndex = .faqTop
                 
             case "faq_detail":
-                termsViewControll.tabIndex = .FAQDetail
+                termsViewControll.tabIndex = .faqDetail
                 guard let _queryParam = _queryItems["faq_detail"] else { return }
                 termsViewControll.subURL = "type=\(_queryParam)"
                 

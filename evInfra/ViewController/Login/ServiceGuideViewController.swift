@@ -69,34 +69,33 @@ class ServiceGuideViewController: UIViewController , UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        let viewcon = UIStoryboard(name : "Info", bundle: nil).instantiateViewController(ofType: NewTermsViewController.self)
         switch indexPath.row {
         case SUB_MENU_TERM_SERVICE: // 서비스 이용약관
-            termsViewControll.tabIndex = .UsingTerms
+            viewcon.tabIndex = .usingTerms
             
         case SUB_MENU_TERM_PERSONAL: // 개인정보처리방침
-            termsViewControll.tabIndex = .PersonalInfoTerms
+            viewcon.tabIndex = .personalInfoTerms
             
         case SUB_MENU_TERM_LOCATION: // 위치기반서비스 이용약관
-            termsViewControll.tabIndex = .LocationTerms
+            viewcon.tabIndex = .locationTerms
             
         case SUB_MENU_TERM_MEMBERSHIP: // 회원카드 이용약관
-            termsViewControll.tabIndex = .MembershipTerms
+            viewcon.tabIndex = .membershipTerms
             
         case SUB_MENU_LICENCE: // 라이센스
-            termsViewControll.tabIndex = .Licence
+            viewcon.tabIndex = .licence
             
         case SUB_MENU_CONTACT: // 제휴문의
-            termsViewControll.tabIndex = .Contact
+            viewcon.tabIndex = .contact
             
         case SUB_MENU_BUSINESS_INFO:
-            termsViewControll.tabIndex = .BusinessInfo
+            viewcon.tabIndex = .businessInfo
             
         default:
-            termsViewControll.tabIndex = .UsingTerms
+            viewcon.tabIndex = .usingTerms
         }
         
-        self.navigationController?.push(viewController: termsViewControll)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)        
     }
 }

@@ -747,6 +747,8 @@
 		73EF8B7B203C85CC00D04494 /* TopLib_Op.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73EF8B6E203C85CC00D04494 /* TopLib_Op.a */; };
 		73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */; };
 		73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F6B53920F873110030D0B3 /* IntroViewController.swift */; };
+		821A05DB28627DD900EB1A91 /* NewTermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DA28627DD900EB1A91 /* NewTermsViewController.swift */; };
+		821A05DC28627DE100EB1A91 /* NewTermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DA28627DD900EB1A91 /* NewTermsViewController.swift */; };
 		828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407D928393D8F002B1214 /* NetworkWorker.swift */; };
 		828407DC28393DFE002B1214 /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407DB28393DFE002B1214 /* SoftberryAPI.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
@@ -1215,6 +1217,7 @@
 		73EF8B7C203C880A00D04494 /* evInfra-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "evInfra-Bridging-Header.h"; sourceTree = "<group>"; };
 		73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterGenerator.swift; sourceTree = "<group>"; };
 		73F6B53920F873110030D0B3 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
+		821A05DA28627DD900EB1A91 /* NewTermsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTermsViewController.swift; sourceTree = "<group>"; };
 		828407D928393D8F002B1214 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		828407DB28393DFE002B1214 /* SoftberryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
@@ -1526,6 +1529,7 @@
 		00B2E8C426C10498005D017C /* Info */ = {
 			isa = PBXGroup;
 			children = (
+				821A05DA28627DD900EB1A91 /* NewTermsViewController.swift */,
 				CECA90892084A9F50083518B /* TermsViewController.swift */,
 				00FDEAF926B3BFCF006617EE /* Info.storyboard */,
 				4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */,
@@ -3276,6 +3280,7 @@
 				63F31454284EC74F001713D2 /* UIView+Extension.swift in Sources */,
 				63F31455284EC74F001713D2 /* ChargerFilterViewController.swift in Sources */,
 				63F31456284EC74F001713D2 /* FCMManager.swift in Sources */,
+				821A05DC28627DE100EB1A91 /* NewTermsViewController.swift in Sources */,
 				63F31457284EC74F001713D2 /* MembershipIssuanceViewController.swift in Sources */,
 				63F31458284EC74F001713D2 /* ChargerDetailViewController.swift in Sources */,
 				63F31459284EC74F001713D2 /* AppDelegate.swift in Sources */,
@@ -3545,6 +3550,7 @@
 				7308559D206350890008497E /* UIView+Extension.swift in Sources */,
 				00A7D5D226B7DA2100C5DBCC /* ChargerFilterViewController.swift in Sources */,
 				7312786820BE38C500861B3E /* FCMManager.swift in Sources */,
+				821A05DB28627DD900EB1A91 /* NewTermsViewController.swift in Sources */,
 				0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */,
 				73C31BFD20A288E3005B6C53 /* ChargerDetailViewController.swift in Sources */,
 				732121BD203AC023000E105C /* AppDelegate.swift in Sources */,

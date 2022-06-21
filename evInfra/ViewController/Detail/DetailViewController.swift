@@ -332,7 +332,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     
     @IBAction func onClickPriceInfo(_ sender: Any) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        let termsViewControll = infoStoryboard.instantiateViewController(ofType: NewTermsViewController.self)
         termsViewControll.tabIndex = .StationPrice
         termsViewControll.subParams = "company_id=" + (charger?.mStationInfoDto?.mCompanyId)!
         self.navigationController?.push(viewController: termsViewControll)

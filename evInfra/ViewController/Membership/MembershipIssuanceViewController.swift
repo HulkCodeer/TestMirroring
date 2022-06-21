@@ -302,7 +302,7 @@ class MembershipIssuanceViewController: UIViewController,
     fileprivate func handleTermTouch(recognizer: UITapGestureRecognizer) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
         let termsVC = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-        termsVC.tabIndex = .MembershipTerms
+        termsVC.tabIndex = .membershipTerms
         navigationController?.push(viewController: termsVC)
     }
     
