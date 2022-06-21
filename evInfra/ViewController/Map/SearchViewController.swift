@@ -117,14 +117,7 @@ internal final class SearchViewController: UIViewController {
                     return
                 }
                 
-                ChargerManager.sharedInstance.findAllPOI(keyword: self.INIT_KEYWORD) { poiList in
-                    guard let poiList = poiList else { return }
-                   
-                    self.addrTableView.poiList = poiList
-                    DispatchQueue.main.async {
-                        self.reloadData()
-                    }
-                }
+                self.findAllPOI(with: self.INIT_KEYWORD)
             }).disposed(by: disposeBag)
     }
     
@@ -250,14 +243,18 @@ extension SearchViewController: SearchBarDelegate {
                 searchWord = text!
             }
             
-            ChargerManager.sharedInstance.findAllPOI(keyword: searchWord) { [weak self] poiList in
-                guard let self = self,
-                      let poiList = poiList else { return }
-               
-                self.addrTableView.poiList = poiList
-                DispatchQueue.main.async {
-                    self.reloadData()
-                }
+            self.findAllPOI(with: searchWord)
+        }
+    }
+    
+    private func findAllPOI(with keyword: String) {
+        ChargerManager.sharedInstance.findAllPOI(keyword: keyword) { [weak self] poiList in
+            guard let self = self,
+                  let poiList = poiList else { return }
+           
+            self.addrTableView.poiList = poiList
+            DispatchQueue.main.async {
+                self.reloadData()
             }
         }
     }
