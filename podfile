@@ -13,6 +13,7 @@ def shared_pods
   pod 'Then'
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
+  pod 'ReusableKit', :git => 'https://github.com/devxoul/ReusableKit', :branch => 'master'
   pod 'Material', '~> 2.0'
   pod 'MaterialComponents/Snackbar';
   pod 'MaterialComponents/BottomSheet'
