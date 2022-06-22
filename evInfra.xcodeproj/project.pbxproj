@@ -770,6 +770,14 @@
 		828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407D928393D8F002B1214 /* NetworkWorker.swift */; };
 		828407DC28393DFE002B1214 /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407DB28393DFE002B1214 /* SoftberryAPI.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
+		82B4F62D2862E2D900BA1D1A /* NewAcceptTermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4F62C2862E2D900BA1D1A /* NewAcceptTermsViewController.swift */; };
+		82B4F62F2862F13F00BA1D1A /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4F62E2862F13F00BA1D1A /* CheckBox.swift */; };
+		82B4F6322862F48800BA1D1A /* AcceptTermsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4F6312862F48800BA1D1A /* AcceptTermsCell.swift */; };
+		82B4F6342862F49B00BA1D1A /* AcceptTermsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82B4F6332862F49B00BA1D1A /* AcceptTermsCell.xib */; };
+		82B4F6352862F49B00BA1D1A /* AcceptTermsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82B4F6332862F49B00BA1D1A /* AcceptTermsCell.xib */; };
+		82B4F6362862F4AA00BA1D1A /* AcceptTermsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4F6312862F48800BA1D1A /* AcceptTermsCell.swift */; };
+		82B4F6372862FC1900BA1D1A /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4F62E2862F13F00BA1D1A /* CheckBox.swift */; };
+		82B4F6382862FF8400BA1D1A /* NewAcceptTermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4F62C2862E2D900BA1D1A /* NewAcceptTermsViewController.swift */; };
 		82D9867F2839BD790030F0FC /* MembershipReissuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */; };
 		82D986812839BE080030F0FC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
 		82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */; };
@@ -1240,6 +1248,10 @@
 		828407D928393D8F002B1214 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		828407DB28393DFE002B1214 /* SoftberryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
+		82B4F62C2862E2D900BA1D1A /* NewAcceptTermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAcceptTermsViewController.swift; sourceTree = "<group>"; };
+		82B4F62E2862F13F00BA1D1A /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		82B4F6312862F48800BA1D1A /* AcceptTermsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptTermsCell.swift; sourceTree = "<group>"; };
+		82B4F6332862F49B00BA1D1A /* AcceptTermsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AcceptTermsCell.xib; sourceTree = "<group>"; };
 		82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceReactor.swift; sourceTree = "<group>"; };
 		82D986802839BE080030F0FC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoReactor.swift; sourceTree = "<group>"; };
@@ -1571,10 +1583,12 @@
 		00B2E8C626C106A0005D017C /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				82B4F6302862F46500BA1D1A /* Cells */,
 				DB48E1F522E08B07003FFA08 /* ServiceGuideViewController.swift */,
 				DBEE9AF72117DB5600770D04 /* LoginViewController.swift */,
 				DBEE9AFB211842ED00770D04 /* SignUpViewController.swift */,
 				00CF1774278E6A4F007D8E4E /* CorporationLoginViewController.swift */,
+				82B4F62C2862E2D900BA1D1A /* NewAcceptTermsViewController.swift */,
 				00CF1776278EA644007D8E4E /* AcceptTermsViewController.swift */,
 				00B2E8C726C106AC005D017C /* Login.storyboard */,
 			);
@@ -2224,6 +2238,15 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		82B4F6302862F46500BA1D1A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				82B4F6312862F48800BA1D1A /* AcceptTermsCell.swift */,
+				82B4F6332862F49B00BA1D1A /* AcceptTermsCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		82F3D9A92855EE2B0030C44B /* Component */ = {
 			isa = PBXGroup;
 			children = (
@@ -2231,6 +2254,7 @@
 				821A05EC2862906800EB1A91 /* ChevronArrow.swift */,
 				821A05E92862906800EB1A91 /* CommonNaviView.swift */,
 				821A05EB2862906800EB1A91 /* NavigationClose.swift */,
+				82B4F62E2862F13F00BA1D1A /* CheckBox.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -2508,6 +2532,7 @@
 				63F314D7284EC74F001713D2 /* Charge.storyboard in Resources */,
 				63F314D8284EC74F001713D2 /* FilterSpeedView.xib in Resources */,
 				63F314D9284EC74F001713D2 /* reply_count_bg.png in Resources */,
+				82B4F6352862F49B00BA1D1A /* AcceptTermsCell.xib in Resources */,
 				63F314DA284EC74F001713D2 /* CommunityBoardTableViewHeader.xib in Resources */,
 				63F314DB284EC74F001713D2 /* MembershipTermView.xib in Resources */,
 				63F314DC284EC74F001713D2 /* FilterPriceView.xib in Resources */,
@@ -2726,6 +2751,7 @@
 				00A7D5C826B7B0D100C5DBCC /* Filter.storyboard in Resources */,
 				522AF73227A2585E00DBEAD6 /* KeyboardInputView.xib in Resources */,
 				63DA0A03282E335E0021292C /* RentalCarCardListView.xib in Resources */,
+				82B4F6342862F49B00BA1D1A /* AcceptTermsCell.xib in Resources */,
 				732ED1CB21ED8ABB0012C67B /* DropDownCheckBoxCell.xib in Resources */,
 				73BFA04D20847A310028B35D /* BoardTableViewCell.xib in Resources */,
 				525E3A30278D732700F5C54D /* BoardWriteViewController.storyboard in Resources */,
@@ -3234,6 +3260,7 @@
 				63F31409284EC74F001713D2 /* Login.swift in Sources */,
 				63F3140A284EC74F001713D2 /* PointViewController.swift in Sources */,
 				63F3140B284EC74F001713D2 /* MembershipReissuanceInfoReactor.swift in Sources */,
+				82B4F6372862FC1900BA1D1A /* CheckBox.swift in Sources */,
 				63F3140C284EC74F001713D2 /* AppTabsController.swift in Sources */,
 				63F3140D284EC74F001713D2 /* PhotoRegisterCollectionViewCell.swift in Sources */,
 				63F3140E284EC74F001713D2 /* CircularProgressBar.swift in Sources */,
@@ -3292,6 +3319,7 @@
 				63F31443284EC74F001713D2 /* EventTableViewCell.swift in Sources */,
 				63F31444284EC74F001713D2 /* CidTableView.swift in Sources */,
 				63F31445284EC74F001713D2 /* PoiTableView.swift in Sources */,
+				82B4F6362862F4AA00BA1D1A /* AcceptTermsCell.swift in Sources */,
 				63F31446284EC74F001713D2 /* LeftViewTableHeader.swift in Sources */,
 				63F31447284EC74F001713D2 /* AddressToLocationController.swift in Sources */,
 				63F31448284EC74F001713D2 /* BoardTableViewHeader.swift in Sources */,
@@ -3391,6 +3419,7 @@
 				63F314A1284EC74F001713D2 /* evInfra.xcdatamodeld in Sources */,
 				63F314A2284EC74F001713D2 /* ChargePriceTableViewCell.swift in Sources */,
 				63F314A3284EC74F001713D2 /* EditViewController.swift in Sources */,
+				82B4F6382862FF8400BA1D1A /* NewAcceptTermsViewController.swift in Sources */,
 				63F314A4284EC74F001713D2 /* ChargerModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3403,6 +3432,7 @@
 				73268D5221886C3000C00427 /* MyWritingViewController.swift in Sources */,
 				00B4F54726BA2399009A904C /* TagListViewCell.swift in Sources */,
 				637247D3282A5F7900595FCE /* UIViewController+Extension.swift in Sources */,
+				82B4F62D2862E2D900BA1D1A /* NewAcceptTermsViewController.swift in Sources */,
 				00A13AD727910E4D0058C291 /* BottomSheetTableViewCell.swift in Sources */,
 				9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */,
 				73AF8FC121C77E1B003CB2CF /* ClusterManager.swift in Sources */,
@@ -3510,6 +3540,7 @@
 				902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */,
 				DB367BF124FE429D00898BED /* Login.swift in Sources */,
 				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
+				82B4F62F2862F13F00BA1D1A /* CheckBox.swift in Sources */,
 				82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
 				5208784F279561BA009DD329 /* PhotoRegisterCollectionViewCell.swift in Sources */,
@@ -3527,6 +3558,7 @@
 				82D9867F2839BD790030F0FC /* MembershipReissuanceReactor.swift in Sources */,
 				00CF1775278E6A4F007D8E4E /* CorporationLoginViewController.swift in Sources */,
 				0044A05025AEEB1500D0BB0A /* LotteRentIntoViewController.swift in Sources */,
+				82B4F6322862F48800BA1D1A /* AcceptTermsCell.swift in Sources */,
 				DB3B858920A45CB8005454F5 /* Character+Extension.swift in Sources */,
 				DB3B858720A445B6005454F5 /* KoreanChar.swift in Sources */,
 				00A6A15D26C3A0F10023DAE3 /* FilterPriceView.swift in Sources */,

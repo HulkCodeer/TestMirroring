@@ -255,19 +255,19 @@
                                                         <color key="tintColor" name="content-primary"/>
                                                         <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
                                                         <state key="normal" image="icon_chevron_right_md"/>
+                                                        <connections>
+                                                            <action selector="onClickSeeUsingTerms:" destination="EwO-al-H08" eventType="touchUpInside" id="ixk-DP-l4J"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rco-MU-Lbc">
-                                                        <rect key="frame" x="56" y="0.0" width="311" height="56"/>
+                                                        <rect key="frame" x="56" y="0.0" width="271" height="56"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <connections>
-                                                            <action selector="onClickSeeUsingTerms:" destination="EwO-al-H08" eventType="touchUpInside" id="JAp-QJ-DaL"/>
-                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="bottom" secondItem="Rco-MU-Lbc" secondAttribute="bottom" id="6Q7-Fk-Dpb"/>
-                                                    <constraint firstItem="z8V-as-76C" firstAttribute="trailing" secondItem="Rco-MU-Lbc" secondAttribute="trailing" id="WM8-nM-x8V"/>
+                                                    <constraint firstItem="z8V-as-76C" firstAttribute="leading" secondItem="Rco-MU-Lbc" secondAttribute="trailing" id="WM8-nM-x8V"/>
                                                     <constraint firstAttribute="trailing" secondItem="z8V-as-76C" secondAttribute="trailing" constant="8" id="bbY-Sa-2mS"/>
                                                     <constraint firstItem="z8V-as-76C" firstAttribute="centerY" secondItem="rFK-4B-3ja" secondAttribute="centerY" id="dZX-3w-QvZ"/>
                                                     <constraint firstItem="2rs-YL-Oq9" firstAttribute="centerY" secondItem="rFK-4B-3ja" secondAttribute="centerY" id="hv6-mf-ZBI"/>
@@ -311,7 +311,7 @@
                                                         <state key="normal" image="icon_chevron_right_md"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TZ3-ki-Aet">
-                                                        <rect key="frame" x="56" y="0.0" width="311" height="56"/>
+                                                        <rect key="frame" x="56" y="0.0" width="271" height="56"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <connections>
                                                             <action selector="onClickSeePersonalInfoTerms:" destination="EwO-al-H08" eventType="touchUpInside" id="AIH-2P-1hy"/>
@@ -330,7 +330,7 @@
                                                     <constraint firstItem="TZ3-ki-Aet" firstAttribute="leading" secondItem="2SG-l4-GGC" secondAttribute="leading" id="jDB-Vc-4Ob"/>
                                                     <constraint firstItem="klW-cS-6De" firstAttribute="centerY" secondItem="YDL-qa-6ru" secondAttribute="centerY" id="k33-Hb-WQn"/>
                                                     <constraint firstItem="TZ3-ki-Aet" firstAttribute="top" secondItem="YDL-qa-6ru" secondAttribute="top" id="ptp-X5-Eic"/>
-                                                    <constraint firstItem="klW-cS-6De" firstAttribute="trailing" secondItem="TZ3-ki-Aet" secondAttribute="trailing" id="snO-KO-6vz"/>
+                                                    <constraint firstItem="klW-cS-6De" firstAttribute="leading" secondItem="TZ3-ki-Aet" secondAttribute="trailing" id="snO-KO-6vz"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="98z-zX-6u3" userLabel="Location">
@@ -364,7 +364,7 @@
                                                         <state key="normal" image="icon_chevron_right_md"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C3X-bN-rTt">
-                                                        <rect key="frame" x="56" y="0.0" width="311" height="56"/>
+                                                        <rect key="frame" x="56" y="0.0" width="271" height="56"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <connections>
                                                             <action selector="onClickSeeLocationTerms:" destination="EwO-al-H08" eventType="touchUpInside" id="qXw-tu-boo"/>
@@ -377,7 +377,7 @@
                                                     <constraint firstAttribute="height" constant="56" id="IoM-0V-MVh"/>
                                                     <constraint firstItem="8ll-og-olk" firstAttribute="centerY" secondItem="98z-zX-6u3" secondAttribute="centerY" id="K2f-T0-gcp"/>
                                                     <constraint firstItem="d3h-e2-wWf" firstAttribute="centerY" secondItem="98z-zX-6u3" secondAttribute="centerY" id="X37-VG-8CQ"/>
-                                                    <constraint firstItem="Tje-2w-akH" firstAttribute="trailing" secondItem="C3X-bN-rTt" secondAttribute="trailing" id="Yzp-lS-won"/>
+                                                    <constraint firstItem="Tje-2w-akH" firstAttribute="leading" secondItem="C3X-bN-rTt" secondAttribute="trailing" id="Yzp-lS-won"/>
                                                     <constraint firstItem="C3X-bN-rTt" firstAttribute="leading" secondItem="d3h-e2-wWf" secondAttribute="leading" id="dDI-Fy-ayj"/>
                                                     <constraint firstItem="8ll-og-olk" firstAttribute="leading" secondItem="98z-zX-6u3" secondAttribute="leading" constant="16" id="eZN-SX-Z5S"/>
                                                     <constraint firstItem="d3h-e2-wWf" firstAttribute="leading" secondItem="8ll-og-olk" secondAttribute="trailing" constant="20" id="ofV-G9-EM9"/>
@@ -419,7 +419,7 @@
                                                         <state key="normal" image="icon_chevron_right_md"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Br-5B-Hte">
-                                                        <rect key="frame" x="56" y="0.0" width="311" height="56"/>
+                                                        <rect key="frame" x="56" y="0.0" width="271" height="56"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <connections>
                                                             <action selector="onClickSeeMarketingTerms:" destination="EwO-al-H08" eventType="touchUpInside" id="nf7-m6-atr"/>
@@ -436,7 +436,7 @@
                                                     <constraint firstItem="0Br-5B-Hte" firstAttribute="top" secondItem="fbz-fu-pon" secondAttribute="top" id="SRh-aN-6Uy"/>
                                                     <constraint firstItem="eIe-vP-N8c" firstAttribute="leading" secondItem="igh-WT-5dJ" secondAttribute="trailing" constant="20" id="X6S-18-Kkz"/>
                                                     <constraint firstItem="igh-WT-5dJ" firstAttribute="centerY" secondItem="fbz-fu-pon" secondAttribute="centerY" id="cgn-34-30c"/>
-                                                    <constraint firstItem="co8-32-oZF" firstAttribute="trailing" secondItem="0Br-5B-Hte" secondAttribute="trailing" id="dsQ-wW-23u"/>
+                                                    <constraint firstItem="co8-32-oZF" firstAttribute="leading" secondItem="0Br-5B-Hte" secondAttribute="trailing" id="dsQ-wW-23u"/>
                                                     <constraint firstItem="igh-WT-5dJ" firstAttribute="leading" secondItem="fbz-fu-pon" secondAttribute="leading" constant="16" id="iPM-Y2-Gm2"/>
                                                     <constraint firstAttribute="height" constant="56" id="kZc-1I-mn3"/>
                                                 </constraints>
@@ -472,7 +472,7 @@
                                                         <state key="normal" image="icon_chevron_right_md"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7hl-B1-0oL">
-                                                        <rect key="frame" x="56" y="0.0" width="311" height="56"/>
+                                                        <rect key="frame" x="56" y="0.0" width="271" height="56"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <connections>
                                                             <action selector="onClickSeeAdTerms:" destination="EwO-al-H08" eventType="touchUpInside" id="bcq-aA-Rhi"/>
@@ -481,7 +481,7 @@
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstItem="tQQ-bK-OFy" firstAttribute="trailing" secondItem="7hl-B1-0oL" secondAttribute="trailing" id="2GP-N3-PHW"/>
+                                                    <constraint firstItem="tQQ-bK-OFy" firstAttribute="leading" secondItem="7hl-B1-0oL" secondAttribute="trailing" id="2GP-N3-PHW"/>
                                                     <constraint firstItem="gWt-bk-Irj" firstAttribute="leading" secondItem="qcm-Pz-14q" secondAttribute="trailing" constant="20" id="5Up-fa-Lda"/>
                                                     <constraint firstItem="gWt-bk-Irj" firstAttribute="centerY" secondItem="Uws-Jp-81X" secondAttribute="centerY" id="C8F-vK-AZm"/>
                                                     <constraint firstAttribute="bottom" secondItem="7hl-B1-0oL" secondAttribute="bottom" id="KBq-fC-NkK"/>
@@ -525,7 +525,7 @@
                                                         <state key="normal" image="icon_chevron_right_md"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hqd-aN-lc8">
-                                                        <rect key="frame" x="56" y="0.0" width="311" height="56"/>
+                                                        <rect key="frame" x="56" y="0.0" width="271" height="56"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <connections>
                                                             <action selector="onClickSeeContentsTerms:" destination="EwO-al-H08" eventType="touchUpInside" id="Z1Z-qF-nZ6"/>
@@ -539,7 +539,7 @@
                                                     <constraint firstItem="hqd-aN-lc8" firstAttribute="leading" secondItem="2f9-yK-BpZ" secondAttribute="leading" id="5fY-0z-6Xi"/>
                                                     <constraint firstItem="2f9-yK-BpZ" firstAttribute="leading" secondItem="YDb-i6-ffU" secondAttribute="trailing" constant="20" id="6aw-es-jfv"/>
                                                     <constraint firstItem="YDb-i6-ffU" firstAttribute="leading" secondItem="QFx-jV-HRx" secondAttribute="leading" constant="16" id="JJv-NS-fTY"/>
-                                                    <constraint firstItem="0P5-1K-YVS" firstAttribute="trailing" secondItem="hqd-aN-lc8" secondAttribute="trailing" id="O5K-oB-UiG"/>
+                                                    <constraint firstItem="0P5-1K-YVS" firstAttribute="leading" secondItem="hqd-aN-lc8" secondAttribute="trailing" id="O5K-oB-UiG"/>
                                                     <constraint firstItem="YDb-i6-ffU" firstAttribute="centerY" secondItem="QFx-jV-HRx" secondAttribute="centerY" id="Yu7-R0-0yh"/>
                                                     <constraint firstItem="hqd-aN-lc8" firstAttribute="top" secondItem="QFx-jV-HRx" secondAttribute="top" id="lxg-4B-3k6"/>
                                                     <constraint firstAttribute="bottom" secondItem="hqd-aN-lc8" secondAttribute="bottom" id="n5e-lJ-spu"/>
@@ -611,7 +611,11 @@
                         <outlet property="cbPersonalInfo" destination="Pht-0M-U2V" id="Jac-LV-bBQ"/>
                         <outlet property="cbUsingTerm" destination="dSS-8c-hwf" id="BMB-mY-MVL"/>
                         <outlet property="ivNext" destination="QPI-I6-Bb9" id="k7F-Iy-maV"/>
+                        <outlet property="locationTermBtn" destination="C3X-bN-rTt" id="PUL-6J-2sR"/>
+                        <outlet property="marketingTermBtn" destination="0Br-5B-Hte" id="D7r-AB-Zu0"/>
+                        <outlet property="personalTermBtn" destination="TZ3-ki-Aet" id="PFH-z4-VsL"/>
                         <outlet property="policyStackView" destination="Pd2-ab-fvf" id="3IS-q1-LAM"/>
+                        <outlet property="usingTermBtn" destination="Rco-MU-Lbc" id="rnu-Mj-enO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J83-ek-ocB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1248,7 +1252,7 @@
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="border-opaque">
-            <color red="0.77254901960784317" green="0.77647058823529413" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77300000190734863" green="0.77600002288818359" blue="0.78799998760223389" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-disabled">
             <color red="0.67100000381469727" green="0.67500001192092896" blue="0.68599998950958252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

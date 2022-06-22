@@ -30,6 +30,12 @@ internal final class AcceptTermsViewController: BaseViewController {
     @IBOutlet weak var btnNext: UIButton!
     @IBOutlet weak var policyStackView: UIStackView!
     
+    @IBOutlet var usingTermBtn: UIButton!
+    @IBOutlet var personalTermBtn: UIButton!
+    @IBOutlet var locationTermBtn: UIButton!
+    @IBOutlet var marketingTermBtn: UIButton!
+    
+    
     // MARK: VARIABLE
     
     internal var user: Login?

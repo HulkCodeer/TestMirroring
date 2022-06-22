@@ -258,10 +258,9 @@ internal final class MainViewController: UIViewController {
     }
     
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
-        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let priceInfoViewController: TermsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-        priceInfoViewController.tabIndex = .PriceInfo
-        GlobalDefine.shared.mainNavi?.push(viewController: priceInfoViewController)
+        let viewcon = NewTermsViewController()
+        viewcon.tabIndex = .priceInfo
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     // MARK: - Action for button
@@ -1295,16 +1294,18 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainCharge(_ sender: UIButton) {
-        if MemberManager.shared.isLogin {
-            Server.getChargingId { (isSuccess, responseData) in
-                if isSuccess {
-                    let json = JSON(responseData)
-                    self.responseGetChargingId(response: json)
-                }
-            }
-        } else {
-            MemberManager.shared.showLoginAlert()
-        }
+        let acceptTermsVc = NewAcceptTermsViewController()
+        self.navigationController?.push(viewController: acceptTermsVc)
+//        if MemberManager.shared.isLogin {
+//            Server.getChargingId { (isSuccess, responseData) in
+//                if isSuccess {
+//                    let json = JSON(responseData)
+//                    self.responseGetChargingId(response: json)
+//                }
+//            }
+//        } else {
+//            MemberManager.shared.showLoginAlert()
+//        }
     }
     
     @IBAction func onClickCommunityBtn(_ sender: Any) {
