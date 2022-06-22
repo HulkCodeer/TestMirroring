@@ -52,6 +52,18 @@ internal class RouteView: UIView {
         case destinationLabel = "도착지를 입력하세요."
     }
     
+    internal enum Height: CGFloat {
+        case normal
+        case expand
+        
+        var value: CGFloat {
+            switch self {
+            case .normal: return 124
+            case .expand: return 160
+            }
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
