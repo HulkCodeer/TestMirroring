@@ -300,10 +300,9 @@ class MembershipIssuanceViewController: UIViewController,
     
     @objc
     fileprivate func handleTermTouch(recognizer: UITapGestureRecognizer) {
-        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let termsVC = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-        termsVC.tabIndex = .membershipTerms
-        navigationController?.push(viewController: termsVC)
+        let viewcon = NewTermsViewController()
+        viewcon.tabIndex = .membershipTerms
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     // MARK: - KeyBoardHeight

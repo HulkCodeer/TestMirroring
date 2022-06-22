@@ -765,6 +765,8 @@
 		821A05F22862906800EB1A91 /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05EB2862906800EB1A91 /* NavigationClose.swift */; };
 		821A05F32862906800EB1A91 /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05EC2862906800EB1A91 /* ChevronArrow.swift */; };
 		821A05F42862906800EB1A91 /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05EC2862906800EB1A91 /* ChevronArrow.swift */; };
+		821A05F62862920300EB1A91 /* CommonBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05F52862920300EB1A91 /* CommonBaseViewController.swift */; };
+		821A05F72862926500EB1A91 /* CommonBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05F52862920300EB1A91 /* CommonBaseViewController.swift */; };
 		828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407D928393D8F002B1214 /* NetworkWorker.swift */; };
 		828407DC28393DFE002B1214 /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407DB28393DFE002B1214 /* SoftberryAPI.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
@@ -1234,6 +1236,7 @@
 		821A05EA2862906800EB1A91 /* Arrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arrow.swift; sourceTree = "<group>"; };
 		821A05EB2862906800EB1A91 /* NavigationClose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationClose.swift; sourceTree = "<group>"; };
 		821A05EC2862906800EB1A91 /* ChevronArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChevronArrow.swift; sourceTree = "<group>"; };
+		821A05F52862920300EB1A91 /* CommonBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonBaseViewController.swift; sourceTree = "<group>"; };
 		828407D928393D8F002B1214 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		828407DB28393DFE002B1214 /* SoftberryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
@@ -1850,6 +1853,7 @@
 				82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */,
 				82D986802839BE080030F0FC /* ViewModel.swift */,
 				63EB0390283CB26500078D28 /* ServerResult.swift */,
+				821A05F52862920300EB1A91 /* CommonBaseViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -3300,6 +3304,7 @@
 				63F3144E284EC74F001713D2 /* UILabel+Extension.swift in Sources */,
 				63F3144F284EC74F001713D2 /* MembershipReissuanceViewController.swift in Sources */,
 				63F31450284EC74F001713D2 /* CommunityChargeStationTableViewCell.swift in Sources */,
+				821A05F72862926500EB1A91 /* CommonBaseViewController.swift in Sources */,
 				63F31451284EC74F001713D2 /* AppNavigationDrawerController.swift in Sources */,
 				63F31452284EC74F001713D2 /* BoardSearchViewModel.swift in Sources */,
 				63F31453284EC74F001713D2 /* PopUpDialog.swift in Sources */,
@@ -3576,6 +3581,7 @@
 				00EB85D226BA8C6100D1606F /* UILabel+Extension.swift in Sources */,
 				63B23744282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift in Sources */,
 				52B2594E278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift in Sources */,
+				821A05F62862920300EB1A91 /* CommonBaseViewController.swift in Sources */,
 				73AD13C8203AC57A00ADD19A /* AppNavigationDrawerController.swift in Sources */,
 				529148B327BE14670011021F /* BoardSearchViewModel.swift in Sources */,
 				006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */,

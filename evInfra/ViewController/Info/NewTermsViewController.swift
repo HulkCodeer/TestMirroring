@@ -11,21 +11,24 @@ import JavaScriptCore
 import SwiftyJSON
 
 internal final class NewTermsViewController: CommonBaseViewController {
-    enum TermsType: String {
-        case contact = "제휴문의"
-        case usingTerms = "서비스 이용약관"
-        case personalInfoTerms = "개인정보 취급방침"
-        case locationTerms = "위치기반서비스 이용약관"
-        case membershipTerms = "회원카드 이용약관"
-        case licence = "라이센스"
-        case evBonusGuide = "보조금 안내"
-        case priceInfo = "충전요금 안내"
-        case evBonusStatus = "보조금 현황"
-        case businessInfo = "사업자 정보"
-        case stationPrice = "충전소 가격정보"
-        case faqTop            // FAQ (top10)
-        case faqDetail         // FAQ detail page
-        case batteryInfo       // SK Battery
+    enum TermsType {
+        case contact
+        case usingTerms
+        case personalInfoTerms
+        case locationTerms
+        case membershipTerms
+        case licence
+        case evBonusGuide
+        case priceInfo
+        case evBonusStatus
+        case businessInfo
+        case stationPrice
+        case faqTop
+        case faqDetail
+        case skBatteryInfo
+        case marketing
+        case ad
+        case contents          
         
         internal var value: String {
             switch self {
@@ -41,7 +44,10 @@ internal final class NewTermsViewController: CommonBaseViewController {
             case .businessInfo: return "사업자 정보"
             case .stationPrice: return "충전소 가격정보"
             case .faqTop, .faqDetail: return "자주묻는 질문"
-            case .batteryInfo: return "내 차 배터리 관리"
+            case .skBatteryInfo: return "내 차 배터리 관리"
+            case .marketing: return "홍보 및 마케팅 목적 개인정보 수집 및 이용 동의"
+            case .ad: return "광고성 정보 수신 동의"
+            case .contents: return "콘텐츠 활용 동의"
             }
         }
         
@@ -60,7 +66,10 @@ internal final class NewTermsViewController: CommonBaseViewController {
             case .stationPrice: return "\(Const.EV_PAY_SERVER)/docs/info/charge_price_info"
             case .faqTop: return "\(Const.EV_PAY_SERVER)/docs/info/faq_main"
             case .faqDetail: return "\(Const.EV_PAY_SERVER)/docs/info/faq_detail"
-            case .batteryInfo: return "\(Const.SK_BATTERY_SERVER)"
+            case .skBatteryInfo: return "\(Const.SK_BATTERY_SERVER)"            
+            case .marketing: return "\(Const.EV_PAY_SERVER)/terms/term/marketing"
+            case .ad: return "\(Const.EV_PAY_SERVER)/terms/term/ad"
+            case .contents: return "\(Const.EV_PAY_SERVER)/terms/term/content"
             }
         }
     }

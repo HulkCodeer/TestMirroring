@@ -452,38 +452,35 @@ extension LeftViewController {
             case SUB_MENU_EVINFO: // 전기차 정보
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let evInfoVC = infoStoryboard.instantiateViewController(ofType: EvInfoViewController.self)
-                self.navigationController?.push(viewController: evInfoVC)
+                GlobalDefine.shared.mainNavi?.push(viewController: evInfoVC)
             
             case SUB_MENU_CHARGER_INFO: // 충전기 정보
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let chargerInfoVC = infoStoryboard.instantiateViewController(ofType: ChargerInfoViewController.self)
                 // ChargerInfoViewController 자체 animation 사용
-                self.navigationController?.pushViewController(chargerInfoVC, animated: true)
+                GlobalDefine.shared.mainNavi?.pushViewController(chargerInfoVC, animated: true)
             
             case SUB_MENU_BOJO: // 보조금 안내
-                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let bojoInfoVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-                bojoInfoVC.tabIndex = .EvBonusGuide
-                self.navigationController?.push(viewController: bojoInfoVC)
+                let viewcon = NewTermsViewController()
+                viewcon.tabIndex = .evBonusGuide
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             
             case SUB_MENU_BONUS: // 보조금 현황
-                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let bojoDashVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-                bojoDashVC.tabIndex = .EvBonusStatus
-                self.navigationController?.push(viewController: bojoDashVC)
+                let viewcon = NewTermsViewController()
+                viewcon.tabIndex = .evBonusStatus
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
             case SUB_MENU_CHARGE_PRICE: // 충전요금 안내
-                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let priceInfoVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-                priceInfoVC.tabIndex = .PriceInfo
-                self.navigationController?.push(viewController: priceInfoVC)
+                let viewcon = NewTermsViewController()
+                viewcon.tabIndex = .priceInfo
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
             default:
-                print("out of index")
+                printLog(out: "out of index")
             }
         
         default:
-            print("out of index")
+            printLog(out: "out of index")
         }
     }
     
@@ -517,11 +514,10 @@ extension LeftViewController {
     }
     
     private func startBatteryWebView(token: String) {
-        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let termsVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-        termsVC.tabIndex = .BatteryInfo
-        termsVC.setHeader(key: "Authorization", value: "Bearer " + token)
-        self.navigationController?.push(viewController: termsVC)
+        let viewcon = NewTermsViewController()
+        viewcon.tabIndex = .skBatteryInfo
+        viewcon.setHeader(key: "Authorization", value: "Bearer " + token)
+        self.navigationController?.push(viewController: viewcon)
     }
     
     private func selectedSettingsMenu(index: IndexPath) {
@@ -531,18 +527,17 @@ extension LeftViewController {
             case SUB_MENU_ALL_SETTINGS: // 전체 설정
                 let settingsStoryboard = UIStoryboard(name : "Settings", bundle: nil)
                 let settingsVC = settingsStoryboard.instantiateViewController(ofType: SettingsViewController.self)
-                self.navigationController?.push(viewController: settingsVC)
+                GlobalDefine.shared.mainNavi?.push(viewController: settingsVC)
                 
             case SUB_MENU_FAQ: // 자주묻는 질문
-                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let termsVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-                termsVC.tabIndex = .FAQTop
-                self.navigationController?.push(viewController: termsVC)
+                let viewcon = NewTermsViewController()
+                viewcon.tabIndex = .faqTop
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             
             case SUB_MENU_SERVICE_GUIDE:
                 let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
                 let guideVC = loginStoryboard.instantiateViewController(ofType: ServiceGuideViewController.self)
-                self.navigationController?.push(viewController: guideVC)
+                GlobalDefine.shared.mainNavi?.push(viewController: guideVC)
 
             default:
                 print("out of index")

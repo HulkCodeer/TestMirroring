@@ -254,12 +254,11 @@
                                                         </constraints>
                                                         <color key="tintColor" name="content-primary"/>
                                                         <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
-                                                        <state key="normal" title="Button" image="icon_chevron_right_md"/>
+                                                        <state key="normal" image="icon_chevron_right_md"/>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rco-MU-Lbc">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rco-MU-Lbc">
                                                         <rect key="frame" x="56" y="0.0" width="311" height="56"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <buttonConfiguration key="configuration" style="plain"/>
                                                         <connections>
                                                             <action selector="onClickSeeUsingTerms:" destination="EwO-al-H08" eventType="touchUpInside" id="JAp-QJ-DaL"/>
                                                         </connections>
@@ -309,14 +308,12 @@
                                                         </constraints>
                                                         <color key="tintColor" name="content-primary"/>
                                                         <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
-                                                        <state key="normal" title="Button" image="icon_chevron_right_md"/>
+                                                        <state key="normal" image="icon_chevron_right_md"/>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TZ3-ki-Aet">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TZ3-ki-Aet">
                                                         <rect key="frame" x="56" y="0.0" width="311" height="56"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <buttonConfiguration key="configuration" style="plain"/>
                                                         <connections>
-                                                            <action selector="checkAction:" destination="EwO-al-H08" eventType="touchUpInside" id="Jo6-dv-TrK"/>
                                                             <action selector="onClickSeePersonalInfoTerms:" destination="EwO-al-H08" eventType="touchUpInside" id="AIH-2P-1hy"/>
                                                         </connections>
                                                     </button>
@@ -364,14 +361,12 @@
                                                         </constraints>
                                                         <color key="tintColor" name="content-primary"/>
                                                         <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
-                                                        <state key="normal" title="Button" image="icon_chevron_right_md"/>
+                                                        <state key="normal" image="icon_chevron_right_md"/>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C3X-bN-rTt">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C3X-bN-rTt">
                                                         <rect key="frame" x="56" y="0.0" width="311" height="56"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Button"/>
                                                         <connections>
-                                                            <action selector="checkAction:" destination="EwO-al-H08" eventType="touchUpInside" id="43a-A2-Bt0"/>
                                                             <action selector="onClickSeeLocationTerms:" destination="EwO-al-H08" eventType="touchUpInside" id="qXw-tu-boo"/>
                                                         </connections>
                                                     </button>
@@ -406,7 +401,7 @@
                                                         </connections>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIe-vP-N8c">
-                                                        <rect key="frame" x="56" y="11.5" width="311" height="33.5"/>
+                                                        <rect key="frame" x="56" y="11.5" width="242.5" height="33.5"/>
                                                         <string key="text">(선택) 홍보 및 마케팅 목적 개인정보 수집 및
 이용 동의</string>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
@@ -421,10 +416,10 @@
                                                         </constraints>
                                                         <color key="tintColor" name="content-primary"/>
                                                         <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
-                                                        <state key="normal" title="Button" image="icon_chevron_right_md"/>
+                                                        <state key="normal" image="icon_chevron_right_md"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Br-5B-Hte">
-                                                        <rect key="frame" x="337" y="0.0" width="30" height="56"/>
+                                                        <rect key="frame" x="56" y="0.0" width="311" height="56"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <connections>
                                                             <action selector="onClickSeeMarketingTerms:" destination="EwO-al-H08" eventType="touchUpInside" id="nf7-m6-atr"/>
@@ -434,7 +429,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstItem="eIe-vP-N8c" firstAttribute="centerY" secondItem="fbz-fu-pon" secondAttribute="centerY" id="5Ca-kH-NvD"/>
-                                                    <constraint firstItem="0Br-5B-Hte" firstAttribute="trailing" secondItem="eIe-vP-N8c" secondAttribute="trailing" id="62Z-Hr-SNY"/>
+                                                    <constraint firstItem="0Br-5B-Hte" firstAttribute="leading" secondItem="eIe-vP-N8c" secondAttribute="leading" id="62Z-Hr-SNY"/>
                                                     <constraint firstAttribute="bottom" secondItem="0Br-5B-Hte" secondAttribute="bottom" id="CAb-Eq-3cu"/>
                                                     <constraint firstAttribute="trailing" secondItem="co8-32-oZF" secondAttribute="trailing" constant="8" id="N1E-a7-vDq"/>
                                                     <constraint firstItem="co8-32-oZF" firstAttribute="centerY" secondItem="fbz-fu-pon" secondAttribute="centerY" id="Rnj-Sd-elZ"/>
@@ -474,7 +469,7 @@
                                                         </constraints>
                                                         <color key="tintColor" name="content-primary"/>
                                                         <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
-                                                        <state key="normal" title="Button" image="icon_chevron_right_md"/>
+                                                        <state key="normal" image="icon_chevron_right_md"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7hl-B1-0oL">
                                                         <rect key="frame" x="56" y="0.0" width="311" height="56"/>
@@ -527,7 +522,7 @@
                                                         </constraints>
                                                         <color key="tintColor" name="content-primary"/>
                                                         <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
-                                                        <state key="normal" title="Button" image="icon_chevron_right_md"/>
+                                                        <state key="normal" image="icon_chevron_right_md"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hqd-aN-lc8">
                                                         <rect key="frame" x="56" y="0.0" width="311" height="56"/>
@@ -1253,10 +1248,10 @@
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="border-opaque">
-            <color red="0.77300000190734863" green="0.77600002288818359" blue="0.78799998760223389" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77254901960784317" green="0.77647058823529413" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-disabled">
-            <color red="0.6705882352941176" green="0.67450980392156867" blue="0.68627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.67100000381469727" green="0.67500001192092896" blue="0.68599998950958252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-negative">
             <color red="0.93300002813339233" green="0.15299999713897705" blue="0.21600000560283661" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -143,15 +143,15 @@ internal final class AcceptTermsViewController: BaseViewController {
     }
     
     @IBAction func onClickSeeUsingTerms(_ sender: Any) {
-        seeTerms(index: .UsingTerms)
+        seeTerms(index: .usingTerms)
     }
     
     @IBAction func onClickSeePersonalInfoTerms(_ sendeer: Any) {
-        seeTerms(index: .PersonalInfoTerms)
+        seeTerms(index: .personalInfoTerms)
     }
     
     @IBAction func onClickSeeLocationTerms(_ sender: Any) {
-        seeTerms(index: .LocationTerms)
+        seeTerms(index: .locationTerms)
     }
     
     @IBAction func onClickSeeMarketingTerms(_ sender: Any) {
@@ -173,9 +173,9 @@ internal final class AcceptTermsViewController: BaseViewController {
         self.navigationController?.push(viewController: viewcon)
     }
     
-    private func seeTerms(index: TermsViewController.Request) {
-        let viewcon = UIStoryboard(name : "Info", bundle: nil).instantiateViewController(ofType: TermsViewController.self)
-        viewcon.tabIndex = index;
+    private func seeTerms(index: NewTermsViewController.TermsType) {
+        let viewcon = NewTermsViewController()
+        viewcon.tabIndex = index
         self.navigationController?.push(viewController: viewcon)
     }
         

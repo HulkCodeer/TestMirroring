@@ -1317,10 +1317,9 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainHelp(_ sender: UIButton) {
-        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let termsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-        termsViewController.tabIndex = .FAQTop
-        GlobalDefine.shared.mainNavi?.push(viewController: termsViewController)
+        let viewcon = NewTermsViewController()
+        viewcon.tabIndex = .faqTop
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
 }
 
