@@ -722,87 +722,6 @@ extension MainViewController: TextFieldDelegate {
             }
         }
     }
-    
-    func hideKeyboard() {
-        startField.endEditing(true)
-        endField.endEditing(true)
-    }
-    
-    func hideResultView() {
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {() -> Void in
-            self.resultTableView?.isHidden = true
-        }, completion: nil)
-    }
-    
-    func showResultView() {
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {() -> Void in
-            self.resultTableView?.isHidden = false
-        }, completion: nil)
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        // text filed가 선택되었을 때 result view의 종류(start, end) 설정
-        resultTableView?.tag = textField.tag
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        print("textFieldDidEndEditing")
-    }
-    
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        hideResultView()
-        return true
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("textFieldShouldReturn")
-        return true
-    }
-}
-
-extension MainViewController: PoiTableViewDelegate {
-    func preparePOIResultView() {
-        let screenSize: CGRect = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        let screenHeight = screenSize.height
-        let frame = CGRect(x: 0, y: filterView.frame.height, width: screenWidth, height: screenHeight - filterView.frame.height)
-        
-        resultTableView = PoiTableView.init(frame: frame, style: .plain)
-        resultTableView?.poiTableDelegate = self
-        view.addSubview(resultTableView!)
-        resultTableView?.isHidden = true
-        hideResultView()
-    }
-    
-    func didSelectRow(poiItem: TMapPOIItem) {
-        // 선택한 주소로 지도 이동
-        let latitude = poiItem.coordinate.latitude
-        let longitude = poiItem.coordinate.longitude
-        
-        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: latitude, lng: longitude), zoomTo: 15)
-        self.mapView.moveCamera(cameraUpdate)
-        
-        hideResultView()
-        
-        // 출발지, 도착지 설정
-        if resultTableView?.tag == ROUTE_START {
-            startField.text = poiItem.name
-            routeStartPoint = poiItem.getPOIPoint()
-            
-            naverMapView.startMarker?.mapView = nil
-            naverMapView.startMarker = Marker(NMGLatLng(lat: latitude, lng: longitude), .start)
-            naverMapView.startMarker?.mapView = self.mapView
-            naverMapView.start = POIObject(name: poiItem.name, lat: latitude, lng: longitude)
-        } else {
-            endField.text = poiItem.name
-            routeEndPoint = poiItem.getPOIPoint()
-            
-            naverMapView.endMarker?.mapView = nil
-            naverMapView.endMarker = Marker(NMGLatLng(lat: latitude, lng: longitude), .end)
-            naverMapView.endMarker?.mapView = self.mapView
-            naverMapView.destination = POIObject(name: poiItem.name, lat: latitude, lng: longitude)
-        }
-    }
 }
 
 extension MainViewController: MarkerTouchDelegate {
@@ -810,7 +729,6 @@ extension MainViewController: MarkerTouchDelegate {
         let position = charger.mapMarker.position
         
         naverMapView.moveToCamera(with: NMGLatLng(lat: position.lat, lng: position.lng), zoomLevel: 14)
-        hideKeyboard()
         selectCharger(chargerId: charger.mStationInfoDto?.mChargerId ?? "")
     }
 }
