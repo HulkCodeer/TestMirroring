@@ -38,6 +38,9 @@ class NaverMapView: NMFNaverMapView {
         self.showCompass = false
         self.showZoomControls = true
         mapView.positionMode = .normal
+        mapView.logoAlign = .leftBottom
+        mapView.logoMargin = UIEdgeInsets(top: 0, left: 0, bottom: 85, right: 0)
+        mapView.logoInteractionEnabled = false
         mapView.minZoomLevel = 5
         mapView.maxZoomLevel = 18
     }

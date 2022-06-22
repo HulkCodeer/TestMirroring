@@ -35,6 +35,11 @@ internal final class ConfirmPopupViewController: UIViewController {
         
     // MARK: UI
     
+    enum ActionBtnType {
+        case ok
+        case cancel
+    }
+    
     private lazy var backgroundView: UIView = {
        let view = UIView()
         view.backgroundColor = UIColor(named: "nt-black")?.withAlphaComponent(0.3)
@@ -143,8 +148,7 @@ internal final class ConfirmPopupViewController: UIViewController {
                 .asDriver()
                 .drive(onNext: { [weak self] _ in
                     guard let self = self else { return }
-                    self.popupModel.cancelBtnAction?()
-                    self.dismissPopup()
+                    self.dismissPopup(actionBtnType: .cancel)
                 })
                 .disposed(by: self.disposebag)
             buttonStackView.addArrangedSubview(cancelBtn)
@@ -156,8 +160,7 @@ internal final class ConfirmPopupViewController: UIViewController {
                 .asDriver()
                 .drive(onNext: { [weak self] _ in
                     guard let self = self else { return }
-                    self.popupModel.confirmBtnAction?()
-                    self.dismissPopup()
+                    self.dismissPopup(actionBtnType: .ok)
                 })
                 .disposed(by: self.disposebag)
             buttonStackView.addArrangedSubview(confirmBtn)
@@ -181,8 +184,16 @@ internal final class ConfirmPopupViewController: UIViewController {
         }
     }
         
-    private func dismissPopup() {
-        self.dismiss(animated: true, completion: nil)
+    private func dismissPopup(actionBtnType: ActionBtnType) {
+        self.dismiss(animated: true, completion: {
+            
+            switch actionBtnType {
+            case .ok:
+                self.popupModel.confirmBtnAction?()
+            case .cancel:
+                self.popupModel.cancelBtnAction?()
+            }                    
+        })
     }
 }
 

@@ -140,7 +140,7 @@ internal final class LeftViewController: UIViewController {
         
         initSideViewArr()
         
-        tableViewLoad(index: menuIndex);
+        tableViewLoad(index: menuIndex)
     }
     
     override func viewDidAppear(_ animated: Bool) {
