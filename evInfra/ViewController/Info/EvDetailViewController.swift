@@ -7,10 +7,8 @@
 //
 
 import UIKit
-import Motion
-import Material
 
-class EvDetailViewController: UIViewController {
+internal final class EvDetailViewController: BaseViewController {
     
     @IBOutlet weak var carImage: UIImageView!
     @IBOutlet weak var vehicleName: UILabel!
@@ -20,8 +18,8 @@ class EvDetailViewController: UIViewController {
     @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var battery: UILabel!
     
-    var index: Int
-    var model: EVModel?
+    internal var index: Int
+    internal var model: EVModel?
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -39,29 +37,16 @@ class EvDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard let model = model else { return }
+        prepareActionBar(with: "전기차 정보")
         
-        prepareActionBar()
-        
-        carImage.sd_setImage(with: URL(string: "\(Const.IMG_URL_EV_MODEL)\(model!.image!).jpg"), placeholderImage: UIImage(named: "AppIcon"))
-        carImage.motionIdentifier = "\(model!.image!).jpg"
-        
-        vehicleName.text = model!.name
-        company.text = model!.company
-        apes.text = model!.apes
-        maxSpeed.text = model!.speed
-        distance.text = model!.distance
-        battery.text = model!.batt
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-}
-
-extension EvDetailViewController {
-    func prepareActionBar() {
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "전기차 정보"
+        carImage.sd_setImage(with: URL(string: "\(Const.IMG_URL_EV_MODEL)\(model.image ?? "").jpg"), placeholderImage: UIImage(named: "AppIcon"))
+        carImage.motionIdentifier = "\(model.image ?? "").jpg"
+        vehicleName.text = model.name
+        company.text = model.company
+        apes.text = model.apes
+        maxSpeed.text = model.speed
+        distance.text = model.distance
+        battery.text = model.batt
     }
 }
