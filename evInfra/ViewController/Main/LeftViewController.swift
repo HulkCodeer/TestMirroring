@@ -98,7 +98,7 @@ internal final class LeftViewController: UIViewController {
     @IBAction func clickLogin(_ sender: Any) {
         let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
         let loginVC = loginStoryboard.instantiateViewController(ofType: LoginViewController.self)
-        self.navigationController?.push(viewController: loginVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: loginVC)
     }
     
     @IBAction func clickMyPage(_ sender: Any) {
@@ -427,13 +427,12 @@ extension LeftViewController {
             case SUB_MENU_EVENT: // 이벤트
                 let eventStoryboard = UIStoryboard(name : "Event", bundle: nil)
                 let eventBoardVC = eventStoryboard.instantiateViewController(ofType: EventViewController.self)
-                self.navigationController?.push(viewController: eventBoardVC)
-
+                GlobalDefine.shared.mainNavi?.push(viewController: eventBoardVC)
             case SUB_MENU_MY_COUPON: // 내 쿠폰함
                 if MemberManager.shared.isLogin {
                     let couponStoryboard = UIStoryboard(name : "Coupon", bundle: nil)
                     let coponVC = couponStoryboard.instantiateViewController(ofType: MyCouponViewController.self)
-                    self.navigationController?.push(viewController: coponVC)
+                    GlobalDefine.shared.mainNavi?.push(viewController: coponVC)
                 }else {
                     MemberManager.shared.showLoginAlert()
                 }
@@ -452,31 +451,29 @@ extension LeftViewController {
             case SUB_MENU_EVINFO: // 전기차 정보
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let evInfoVC = infoStoryboard.instantiateViewController(ofType: EvInfoViewController.self)
-                self.navigationController?.push(viewController: evInfoVC)
-            
+                GlobalDefine.shared.mainNavi?.push(viewController: evInfoVC)
             case SUB_MENU_CHARGER_INFO: // 충전기 정보
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let chargerInfoVC = infoStoryboard.instantiateViewController(ofType: ChargerInfoViewController.self)
                 // ChargerInfoViewController 자체 animation 사용
-                self.navigationController?.pushViewController(chargerInfoVC, animated: true)
-            
+                GlobalDefine.shared.mainNavi?.push(viewController: chargerInfoVC)
             case SUB_MENU_BOJO: // 보조금 안내
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let bojoInfoVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
                 bojoInfoVC.tabIndex = .EvBonusGuide
-                self.navigationController?.push(viewController: bojoInfoVC)
+                GlobalDefine.shared.mainNavi?.push(viewController: bojoInfoVC)
             
             case SUB_MENU_BONUS: // 보조금 현황
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let bojoDashVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
                 bojoDashVC.tabIndex = .EvBonusStatus
-                self.navigationController?.push(viewController: bojoDashVC)
+                GlobalDefine.shared.mainNavi?.push(viewController: bojoDashVC)
                 
             case SUB_MENU_CHARGE_PRICE: // 충전요금 안내
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let priceInfoVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
                 priceInfoVC.tabIndex = .PriceInfo
-                self.navigationController?.push(viewController: priceInfoVC)
+                GlobalDefine.shared.mainNavi?.push(viewController: priceInfoVC)
                 
             default:
                 print("out of index")
@@ -521,7 +518,7 @@ extension LeftViewController {
         let termsVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
         termsVC.tabIndex = .BatteryInfo
         termsVC.setHeader(key: "Authorization", value: "Bearer " + token)
-        self.navigationController?.push(viewController: termsVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: termsVC)
     }
     
     private func selectedSettingsMenu(index: IndexPath) {
@@ -531,18 +528,18 @@ extension LeftViewController {
             case SUB_MENU_ALL_SETTINGS: // 전체 설정
                 let settingsStoryboard = UIStoryboard(name : "Settings", bundle: nil)
                 let settingsVC = settingsStoryboard.instantiateViewController(ofType: SettingsViewController.self)
-                self.navigationController?.push(viewController: settingsVC)
+                GlobalDefine.shared.mainNavi?.push(viewController: settingsVC)
                 
             case SUB_MENU_FAQ: // 자주묻는 질문
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let termsVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
                 termsVC.tabIndex = .FAQTop
-                self.navigationController?.push(viewController: termsVC)
+                GlobalDefine.shared.mainNavi?.push(viewController: termsVC)
             
             case SUB_MENU_SERVICE_GUIDE:
                 let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
                 let guideVC = loginStoryboard.instantiateViewController(ofType: ServiceGuideViewController.self)
-                self.navigationController?.push(viewController: guideVC)
+                GlobalDefine.shared.mainNavi?.push(viewController: guideVC)
 
             default:
                 print("out of index")
