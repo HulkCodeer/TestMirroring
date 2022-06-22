@@ -319,8 +319,9 @@ extension MainViewController: DelegateFilterBarView {
         filterBarView.updateView(newSelect: .none)
         
         let routeViewHeight = findRouteView.isShow ? findRouteView.frame.height : 0
-        let filterBarViewHeight = filterBarView.isShow ? filterView.frame.height : 0
-        let totalHeight = routeViewHeight + filterBarViewHeight
+        let filterBarViewHeight = filterBarView.isShow ? filterContainerView.frame.height : 0
+        let expanded = filterHeight.constant == RouteView.Height.expand.value ? filterBarView.frame.height : 0
+        let totalHeight = routeViewHeight + filterBarViewHeight - expanded
         
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut) {
             self.myLocationButton.transform = CGAffineTransform(translationX: 0.0, y: totalHeight)
@@ -332,8 +333,9 @@ extension MainViewController: DelegateFilterBarView {
         filterContainerView.isHidden = false
         
         let routeViewHeight = findRouteView.isShow ? findRouteView.frame.height : 0
-        let filterBarViewHeight = filterBarView.isShow ? filterView.frame.height : filterBarView.frame.height
-        let totalHeight = routeViewHeight + filterBarViewHeight
+        let filterBarViewHeight = filterBarView.isShow ? filterContainerView.frame.height : 0
+        let expanded = filterHeight.constant == RouteView.Height.expand.value ? filterBarView.frame.height : 0
+        let totalHeight = routeViewHeight + filterBarViewHeight - expanded
         
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut) {
             self.myLocationButton.transform = CGAffineTransform(translationX: 0.0, y: totalHeight)
@@ -455,9 +457,10 @@ extension MainViewController: AppToolbarDelegate {
     
     func showRouteView(isShow: Bool) {
         guard isShow else {
-            let filterBarViewHeight = filterBarView.isShow ? filterView.frame.height : 0
-            let routeViewHeight = filterHeight.constant == 160 ? CGFloat(36) : 0
+            let filterBarViewHeight = filterBarView.isShow ? filterView.frame.height - filterBarView.frame.height : 0
+            let routeViewHeight = findRouteView.isShow ? findRouteView.frame.height : 0
             let totalHeight = filterBarViewHeight - routeViewHeight
+            
             UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut) {
                 self.filterView.transform = .identity
                 self.myLocationButton.transform = CGAffineTransform(translationX: 0.0, y: totalHeight)
@@ -474,6 +477,7 @@ extension MainViewController: AppToolbarDelegate {
         let filterBarViewHeight = filterBarView.isShow ? filterView.frame.height : 0
         let routeViewHeight = findRouteView.frame.height
         let totalHeight = filterBarViewHeight + routeViewHeight
+        
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut) {
             self.filterView.transform = CGAffineTransform(translationX: 0.0, y: routeViewHeight)
             self.myLocationButton.transform = CGAffineTransform(translationX: 0.0, y: totalHeight)
@@ -492,7 +496,7 @@ extension MainViewController: AppToolbarDelegate {
 // MARK: FindRouteView Delegate
 extension MainViewController: DelegateFindRouteView {
     func updateView(isShow: Bool) {
-        filterHeight.constant = isShow ? 160 : 124
+        filterHeight.constant = isShow ? RouteView.Height.expand.value : RouteView.Height.normal.value
         findRouteView.snp.updateConstraints {
             $0.top.equalTo(self.filterView.snp.top)
         }
