@@ -340,14 +340,15 @@ extension QuitAccountReasonQuestionViewController: UITextViewDelegate {
         let estimatedSize = textView.sizeThatFits(size)
         
         textView.constraints.forEach { (constraint) in
-            printLog(out: "TEST : \(estimatedSize.height)")
+            
             if estimatedSize.height <= 104 {
             
             } else if estimatedSize.height < 216{
                 if constraint.firstAttribute == .height {
-                    printLog(out: "TEST : \(estimatedSize.height)")
                     constraint.constant = estimatedSize.height
                 }
+            } else {
+                reasonTextView.isScrollEnabled = true
             }
         }
     }
