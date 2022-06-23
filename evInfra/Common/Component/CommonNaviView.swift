@@ -67,6 +67,8 @@ internal final class CommonNaviView: UIView {
                
         totalView.addSubview(naviTitleLbl)
         naviTitleLbl.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(48)
+            $0.trailing.equalToSuperview().offset(-48)
             $0.top.bottom.equalToSuperview()
             $0.center.equalToSuperview()
         }
