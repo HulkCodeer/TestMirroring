@@ -756,16 +756,10 @@ extension MainViewController: ChargerSelectDelegate {
         guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
         let position = NMGLatLng(lat: charger.mStationInfoDto?.mLatitude ?? 0.0,
                                  lng: charger.mStationInfoDto?.mLongitude ?? 0.0)
-        // 기존에 선택된 마커 지우기
+        
         naverMapView.searchMarker?.mapView = nil
-        
-        // 카메라 이동
         naverMapView.moveToCamera(with: position, zoomLevel: 15)
-        
-        // 검색한 위치의 마커 찍기
-        naverMapView.searchMarker = Marker(position, .search)
-        naverMapView.searchMarker?.mapView = self.mapView
-        
+
         DispatchQueue.global(qos: .background).async {
             DispatchQueue.main.async {
                 self.selectCharger(chargerId: chargerId)
@@ -807,33 +801,25 @@ extension MainViewController: ChargerSelectDelegate {
     func selectCharger(chargerId: String) {
         myLocationModeOff()
         
-        // 이전에 선택된 충전소 마커를 원래 마커로 원복
-        if selectCharger != nil {
-            selectCharger?.mapMarker.mapView = nil
+        if let selectCharger = selectCharger {
             summaryView.layoutIfNeeded()
             callOutLayer.layoutIfNeeded()
             
-            let iconImage = NMFOverlayImage(image: selectCharger!.getMarkerIcon())
-
-            selectCharger?.mapMarker.iconImage = iconImage
-            selectCharger?.mapMarker.mapView = self.naverMapView.mapView
-
-            selectCharger = nil
+            let markerIcon = NMFOverlayImage(image: selectCharger.getMarkerIcon())
+            guard let previousCharger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: selectCharger.mChargerId ?? "") else { return }
+            previousCharger.mapMarker.iconImage = markerIcon
+            
+            self.selectCharger = nil
         }
         
-        // 선택한 충전소 정보 표시
-        if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
-            // 선택한 마커의 위치 값으로 selectIcon 생성
-            let iconImage = NMFOverlayImage(image: charger.getSelectIcon())
-
-            charger.mapMarker.iconImage = iconImage
-            charger.mapMarker.mapView = self.naverMapView.mapView
-            selectCharger = charger
-            showCallOut(charger: charger)
-        } else {
-            // chargerId : search
-            print("Not Found Charger \(ChargerManager.sharedInstance.getChargerStationInfoList().count)")
-        }
+        guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
+        
+        let selectedIcon = NMFOverlayImage(image: charger.getSelectIcon())
+        selectCharger = charger
+        charger.mapMarker.iconImage = selectedIcon
+        charger.mapMarker.mapView = self.mapView
+        charger.mapMarker.zIndex = 100
+        showCallOut(charger: charger)
     }
     
     func showCallOut(charger: ChargerStationInfo) {
