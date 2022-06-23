@@ -99,6 +99,10 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         $0.IBcornerRadius = 6
         $0.IBborderColor = Colors.borderOpaque.color
     }
+    
+    private lazy var reasonWarringLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
             
     private lazy var reasonTextView = UITextView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -107,6 +111,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         $0.textColor = Colors.nt9.color
         $0.delegate = self
         $0.textContainerInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        $0.isScrollEnabled = false
     }
     
     private lazy var reasonTextCountLbl = UILabel().then {
@@ -249,7 +254,6 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         reasonBorderView.addSubview(reasonTextView)
         reasonTextView.snp.makeConstraints {
             $0.top.equalTo(reasonMainTitleLbl.snp.bottom).offset(16)
-            $0.height.lessThanOrEqualTo(216)
             $0.height.greaterThanOrEqualTo(104)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(reasonTextCountLbl.snp.top).offset(-4)
@@ -332,9 +336,19 @@ extension QuitAccountReasonQuestionViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         reasonTextCountLbl.text = "\(reasonTextView.text.count) / 1200"
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        printLog(out: "PARK TEST")
+        let size = CGSize(width: view.frame.width, height: .infinity)
+        let estimatedSize = textView.sizeThatFits(size)
+        
+        textView.constraints.forEach { (constraint) in
+            printLog(out: "TEST : \(estimatedSize.height)")
+            if estimatedSize.height <= 104 {
+            
+            } else if estimatedSize.height < 216{
+                if constraint.firstAttribute == .height {
+                    printLog(out: "TEST : \(estimatedSize.height)")
+                    constraint.constant = estimatedSize.height
+                }
+            }
+        }
     }
 }
