@@ -73,11 +73,13 @@ internal class NoticeCell: UITableViewCell, ReactorKit.View {
         cellButton.rx.tap
             .asDriver(onErrorDriveWith: .empty())
             .drive { _ in
-                let storyboard = UIStoryboard(name: "Board", bundle: nil)
-                let noticeContentViewController = storyboard.instantiateViewController(ofType: NoticeContentViewController.self)
-                noticeContentViewController.boardId = Int(reactor.currentState.model.id) ?? -1
+                guard let boardId = Int(reactor.currentState.model.id) else { return }
+                let noticeDetailReactor = NoticeDetailReactor(provider: RestApi())
+                noticeDetailReactor.boardId = boardId
+                let noticeDetailViewController = NoticeDetailViewController()
+                noticeDetailViewController.reactor = noticeDetailReactor
                 
-            GlobalDefine.shared.mainNavi?.push(viewController: noticeContentViewController)
+                GlobalDefine.shared.mainNavi?.push(viewController: noticeDetailViewController)
             }.disposed(by: disposeBag)
     }
 }

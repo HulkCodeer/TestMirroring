@@ -13,7 +13,7 @@ protocol SoftberryAPI: class {
     func getCheckPassword(password: String, cardNo: String) -> Observable<(HTTPURLResponse, Data)>
     func postReissueMembershipCard(model: ReissuanceModel) -> Observable<(HTTPURLResponse, Data)>
     func getNoticeList() -> Observable<(HTTPURLResponse, Data)>
-    func getNoticeDetail(with noticeId: String) -> Observable<(HTTPURLResponse, Data)>
+    func getNoticeDetail(with noticeId: Int) -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -42,7 +42,7 @@ internal final class RestApi: SoftberryAPI {
     }
     
     // MARK: - 공지사항 상세
-    func getNoticeDetail(with noticeId: String) -> Observable<(HTTPURLResponse, Data)> {
+    func getNoticeDetail(with noticeId: Int) -> Observable<(HTTPURLResponse, Data)> {
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/board/board_notice/content?id=\(noticeId)", httpMethod: .get, parameters: nil, headers: nil)
     }
 }
