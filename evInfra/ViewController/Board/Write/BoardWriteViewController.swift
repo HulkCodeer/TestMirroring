@@ -10,6 +10,10 @@ import UIKit
 import SDWebImage
 import UIImageCropper
 import SwiftyJSON
+import SnapKit
+import Then
+import RxSwift
+import RxCocoa
 import PanModal
 
 class BoardWriteViewController: BaseViewController, UINavigationControllerDelegate {
@@ -20,8 +24,18 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     @IBOutlet var contentsView: UIView!
     @IBOutlet var contentsTextView: UITextView!
     @IBOutlet var countOfWordsLabel: UILabel!
-    @IBOutlet var completeButton: UIButton!
+    @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var photoCollectionView: UICollectionView!
+    
+    private var completeButton = UIButton().then {
+        $0.isEnabled = false
+        $0.setBackgroundColor(UIColor(named: "background-disabled") ?? .systemGray, for: .disabled)
+        $0.setBackgroundColor(UIColor(named: "background-positive") ?? .systemGray, for: .normal)
+        $0.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        $0.setTitleColor(UIColor(named: "content-disabled"), for: .disabled)
+        $0.setTitleColor(UIColor(named: "content-primary"), for: .normal)
+        $0.setTitle("작성 완료", for: .normal)
+    }
     
     let ReloadData: Notification.Name = Notification.Name("ReloadData")
     var boardWriteViewModel = BoardWriteViewModel()
@@ -38,23 +52,17 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
         super.viewDidLoad()
 
         setUI()
-        prepareActionBar(with: "글쓰기")
-        
+        bind()
         boardWriteViewModel.subscribe { [weak self] isEnable in
             guard let self = self else { return }
-
             self.completeButton.isEnabled = isEnable
-            
-            if isEnable {
-                self.completeButton.backgroundColor = UIColor(named: "gr-5")
-            } else {
-                self.completeButton.backgroundColor = UIColor(named: "nt-0")
-            }
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        prepareActionBar(with: "글쓰기")
         
         if !MemberManager.shared.isLogin {
             MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
@@ -63,89 +71,96 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                 }
             })
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: .UIKeyboardWillHide, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
     
-    @IBAction func completeButtonClick(_ sender: Any) {
-        guard let title = titleTextView.text,
-                let contents = contentsTextView.text else { return }
-        
-        if let document = document {
-            let popupModel = PopupModel(title: "수정",
-                                        message: "게시물을 수정 하시겠습니까?",
-                                        confirmBtnTitle: "수정",
-                                        cancelBtnTitle: "취소",
-                                        confirmBtnAction: { [weak self] in
-                guard let self = self else { return }
-                self.activityIndicator.startAnimating()
-                self.completeButton.isEnabled = false
-                self.completeButton.backgroundColor = UIColor(named: "nt-0")
-                                
-                self.boardWriteViewModel.updateBoard(self.category,
-                                                     document.document_srl!,
-                                                     title,
-                                                     contents,
-                                                     self.chargerInfo["chargerId"] ?? "",
-                                                     self.uploadedImages,
-                                                     self.selectedImages) { isSuccess in
-                    
-                    self.activityIndicator.stopAnimating()
-                                                            
-                    var message: String = "게시글 수정이 완료되었습니다."
-                    
-                    if !isSuccess {
-                        message = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
-                    }
-                    
-                    Snackbar().show(message: message)
-                    
-                    self.popCompletion?()
-                    NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
-                    self.navigationController?.pop()                    
-                }
-            })
+    private func bind() {
+        completeButton.rx.tap
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] _ in
+                guard let self = self,
+                        let title = self.titleTextView.text,
+                        let contents = self.contentsTextView.text else { return }
+                
+                self.view.endEditing(true)
+                
+                if let document = self.document {
+                    let popupModel = PopupModel(title: "수정",
+                                                message: "게시물을 수정 하시겠습니까?",
+                                                confirmBtnTitle: "수정",
+                                                cancelBtnTitle: "취소",
+                                                confirmBtnAction: {
+                        self.activityIndicator.startAnimating()
+                        self.completeButton.isEnabled = false
 
-            let popup = ConfirmPopupViewController(model: popupModel)
-            
-            self.present(popup, animated: true, completion: nil)
-        } else {
-            // 신규 등록
-            let popupModel = PopupModel(title: "등록",
-                                        message: "게시물을 등록 하시겠습니까?",
-                                        confirmBtnTitle: "등록",
-                                        cancelBtnTitle: "취소", confirmBtnAction: { [weak self] in
-                    guard let self = self else { return }
-                    
-                    self.activityIndicator.startAnimating()
-                    self.completeButton.isEnabled = false
-                    self.completeButton.backgroundColor = UIColor(named: "nt-0")
-                                        
-                    self.boardWriteViewModel.postBoard(self.category,
-                                                       title,
-                                                       contents,
-                                                       self.chargerInfo["chargerId"] ?? "",
-                                                       self.selectedImages) { isSuccess in
-                        self.activityIndicator.stopAnimating()
-                        
-                        var message: String = "게시글 등록이 완료되었습니다."
-                        if !isSuccess {
-                            message = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
+                        self.boardWriteViewModel.updateBoard(self.category,
+                                                             document.document_srl!,
+                                                             title,
+                                                             contents,
+                                                             self.chargerInfo["chargerId"] ?? "",
+                                                             self.uploadedImages,
+                                                             self.selectedImages) { isSuccess in
+
+                            self.activityIndicator.stopAnimating()
+
+                            var message: String = "게시글 수정이 완료되었습니다."
+
+                            if !isSuccess {
+                                message = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
+                            }
+
+                            Snackbar().show(message: message)
+
+                            self.popCompletion?()
+                            NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                            self.navigationController?.pop()
                         }
-                        Snackbar().show(message: message)
-                        
-                        self.popCompletion?()
-                        NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
-                        self.navigationController?.pop()
-                    }
-            })
-            
-            let popup = ConfirmPopupViewController(model: popupModel)
+                    })
 
-            self.present(popup, animated: true, completion: nil)
-        }
+                    let popup = ConfirmPopupViewController(model: popupModel)
+
+                    self.present(popup, animated: true, completion: nil)
+                } else {
+                    // 신규 등록
+                    let popupModel = PopupModel(title: "등록",
+                                                message: "게시물을 등록 하시겠습니까?",
+                                                confirmBtnTitle: "등록",
+                                                cancelBtnTitle: "취소",
+                                                confirmBtnAction: {
+                        self.activityIndicator.startAnimating()
+                        self.completeButton.isEnabled = false
+
+                        self.boardWriteViewModel.postBoard(self.category,
+                                                           title,
+                                                           contents,
+                                                           self.chargerInfo["chargerId"] ?? "",
+                                                           self.selectedImages) { isSuccess in
+                            self.activityIndicator.stopAnimating()
+
+                            var message: String = "게시글 등록이 완료되었습니다."
+                            if !isSuccess {
+                                message = "서버와 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요."
+                            }
+                            Snackbar().show(message: message)
+
+                            self.popCompletion?()
+                            NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                            self.navigationController?.pop()
+                        }
+                    })
+
+                    let popup = ConfirmPopupViewController(model: popupModel)
+
+                    self.present(popup, animated: true, completion: nil)
+                }
+            }).disposed(by: disposeBag)
     }
     
     private func setUI() {
@@ -222,16 +237,39 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
             }
         }
         
-        // 작성 완료 버튼
-        completeButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        completeButton.setTitleColor(UIColor(named: "nt-9"), for: .normal)
-        completeButton.setTitleColor(UIColor(named: "nt-3"), for: .disabled)
-        completeButton.setBackgroundColor(UIColor(named: "gr-5")!, for: .normal)
-        completeButton.setBackgroundColor(UIColor(named: "nt-0")!, for: .disabled)
-        
         let tapGestureReconizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGestureReconizer.cancelsTouchesInView = false
-        view.addGestureRecognizer(tapGestureReconizer)
+        scrollView.addGestureRecognizer(tapGestureReconizer)
+        
+        view.addSubview(completeButton)
+        completeButton.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.height.equalTo(64)
+        }
+    }
+    
+    @objc private func keyboardWillShow(_ sender: NSNotification) {
+        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let keyboardHeight = keyboardSize.height
+            let safeAreaInset = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+            completeButton.snp.updateConstraints {
+                $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-keyboardHeight+safeAreaInset)
+            }
+            
+            UIView.animate(withDuration: 0.2, delay: 0) {
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
+    @objc private func keyboardDidHide(_ sender: NSNotification) {
+        completeButton.snp.updateConstraints {
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+        UIView.animate(withDuration: 0.2, delay: 0) {
+            self.view.layoutIfNeeded()
+        }
     }
     
     @objc
