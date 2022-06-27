@@ -241,6 +241,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
 extension AppDelegate : MessagingDelegate {
     // [START refresh_token]
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        printLog(out: "Firebase registration token: \(fcmToken ?? "")")
         fcmManager.registerId = fcmToken
         fcmManager.registerUser()
         // TODO: If necessary send token to application server.
