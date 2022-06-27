@@ -100,8 +100,20 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         $0.IBborderColor = Colors.borderOpaque.color
     }
     
-    private lazy var reasonWarringLbl = UILabel().then {
+    private lazy var reasonNegativeTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+
+    private lazy var reasonNegativeIconImgView = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = Imag
+    }
+    
+    private lazy var reasonNegativeLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        $0.textColor = Colors.contentNegative.color
+        $0.text = "1200자 이상 작성할 수 없습니다."
     }
             
     private lazy var reasonTextView = UITextView().then {
@@ -327,6 +339,7 @@ extension QuitAccountReasonQuestionViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
+        printLog(out: "PARK TEST textViewDidChange")
         reasonBorderView.IBborderColor = Colors.nt2.color
         reasonTextView.textColor = Colors.nt5.color
         
@@ -335,19 +348,23 @@ extension QuitAccountReasonQuestionViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        printLog(out: "PARK TEST textViewDidChange")
+        
+        reasonTextView.IBborderColor = Colors.borderNegative.color
+        
         reasonTextCountLbl.text = "\(reasonTextView.text.count) / 1200"
+        
         let size = CGSize(width: view.frame.width, height: .infinity)
         let estimatedSize = textView.sizeThatFits(size)
-        
         textView.constraints.forEach { (constraint) in
-            
             if estimatedSize.height <= 104 {
             
-            } else if estimatedSize.height < 216{
+            } else if estimatedSize.height <= 216{
                 if constraint.firstAttribute == .height {
                     constraint.constant = estimatedSize.height
                 }
             } else {
+                constraint.constant = 216
                 reasonTextView.isScrollEnabled = true
             }
         }
