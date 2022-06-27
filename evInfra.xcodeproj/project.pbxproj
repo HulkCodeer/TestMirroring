@@ -149,6 +149,22 @@
 		637247DA282A6F3B00595FCE /* MembershipGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D9282A6F3B00595FCE /* MembershipGuideViewController.swift */; };
 		63762F1528699FB200C951BF /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F1428699FB200C951BF /* Info.swift */; };
 		63762F1628699FB200C951BF /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F1428699FB200C951BF /* Info.swift */; };
+		63762F452869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F3F2869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift */; };
+		63762F462869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F3F2869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift */; };
+		63762F472869A8F000C951BF /* QuitAccountReasonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F412869A8F000C951BF /* QuitAccountReasonModel.swift */; };
+		63762F482869A8F000C951BF /* QuitAccountReasonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F412869A8F000C951BF /* QuitAccountReasonModel.swift */; };
+		63762F492869A8F000C951BF /* QuitAccountReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F422869A8F000C951BF /* QuitAccountReactor.swift */; };
+		63762F4A2869A8F000C951BF /* QuitAccountReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F422869A8F000C951BF /* QuitAccountReactor.swift */; };
+		63762F4B2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F432869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift */; };
+		63762F4C2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F432869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift */; };
+		63762F4D2869A8F000C951BF /* QuitAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F442869A8F000C951BF /* QuitAccountViewController.swift */; };
+		63762F4E2869A8F000C951BF /* QuitAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F442869A8F000C951BF /* QuitAccountViewController.swift */; };
+		63762F512869A91900C951BF /* SettingsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F4F2869A91900C951BF /* SettingsReactor.swift */; };
+		63762F522869A91900C951BF /* SettingsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F4F2869A91900C951BF /* SettingsReactor.swift */; };
+		63762F532869A91900C951BF /* NewSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F502869A91900C951BF /* NewSettingsViewController.swift */; };
+		63762F542869A91900C951BF /* NewSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F502869A91900C951BF /* NewSettingsViewController.swift */; };
+		63762F562869A95D00C951BF /* CommonBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F552869A95D00C951BF /* CommonBaseViewController.swift */; };
+		63762F572869A95D00C951BF /* CommonBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F552869A95D00C951BF /* CommonBaseViewController.swift */; };
 		63B2373E282C970900E8A3F8 /* MembershipUseGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B2373D282C970900E8A3F8 /* MembershipUseGuideViewController.swift */; };
 		63B23740282CA4B400E8A3F8 /* PointUseGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B2373F282CA4B400E8A3F8 /* PointUseGuideViewController.swift */; };
 		63B23744282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */; };
@@ -157,11 +173,6 @@
 		63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */; };
 		63CCE8242834CFD5006B8B9A /* evInfraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE8232834CFD5006B8B9A /* evInfraTests.swift */; };
 		63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */; };
-		63D041022859B96D003634DE /* QuitAccountReasonQuestionReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D041012859B96D003634DE /* QuitAccountReasonQuestionReactor.swift */; };
-		63D041032859B96D003634DE /* QuitAccountReasonQuestionReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D041012859B96D003634DE /* QuitAccountReasonQuestionReactor.swift */; };
-		63D041052859C69C003634DE /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D041042859C69C003634DE /* ChevronArrow.swift */; };
-		63D041062859C69C003634DE /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D041042859C69C003634DE /* ChevronArrow.swift */; };
-		63D041072859CBF1003634DE /* QuitAccountReasonQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821E4729285333FF008A6C10 /* QuitAccountReasonQuestionViewController.swift */; };
 		63DA015C2832559400705842 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015B2832559400705842 /* BaseViewController.swift */; };
 		63DA015E28325C9300705842 /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015D28325C9200705842 /* FindPasswordViewController.swift */; };
 		63DA09FF282E2F440021292C /* JSON+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA09FE282E2F440021292C /* JSON+Extension.swift */; };
@@ -593,12 +604,6 @@
 		63F31558284F08E3001713D2 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63F31555284F08E2001713D2 /* Colors.xcassets */; };
 		63F31559284F08E3001713D2 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63F31556284F08E3001713D2 /* Icons.xcassets */; };
 		63F3155A284F08E3001713D2 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63F31556284F08E3001713D2 /* Icons.xcassets */; };
-		63F3FAB2285AE4C700FC9968 /* QuitAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F3FAB1285AE4C700FC9968 /* QuitAccountViewController.swift */; };
-		63F3FAB5285AED0C00FC9968 /* QuitAccountReasonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F3FAB4285AED0C00FC9968 /* QuitAccountReasonModel.swift */; };
-		63F3FAB6285AEE9000FC9968 /* QuitAccountReasonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F3FAB4285AED0C00FC9968 /* QuitAccountReasonModel.swift */; };
-		63F3FAB8285AF5FE00FC9968 /* QuitAccountReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F3FAB7285AF5FE00FC9968 /* QuitAccountReactor.swift */; };
-		63F3FAB9285AF60400FC9968 /* QuitAccountReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F3FAB7285AF5FE00FC9968 /* QuitAccountReactor.swift */; };
-		63F3FABA285AF85000FC9968 /* QuitAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F3FAB1285AE4C700FC9968 /* QuitAccountViewController.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView+Extension.swift */; };
 		7312786820BE38C500861B3E /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786720BE38C500861B3E /* FCMManager.swift */; };
@@ -760,25 +765,20 @@
 		73EF8B7B203C85CC00D04494 /* TopLib_Op.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73EF8B6E203C85CC00D04494 /* TopLib_Op.a */; };
 		73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */; };
 		73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F6B53920F873110030D0B3 /* IntroViewController.swift */; };
-		821E472A285333FF008A6C10 /* QuitAccountReasonQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821E4729285333FF008A6C10 /* QuitAccountReasonQuestionViewController.swift */; };
+		821A05E128627F3100EB1A91 /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DD28627F3000EB1A91 /* NavigationClose.swift */; };
+		821A05E228627F3100EB1A91 /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DD28627F3000EB1A91 /* NavigationClose.swift */; };
+		821A05E328627F3100EB1A91 /* Arrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DE28627F3000EB1A91 /* Arrow.swift */; };
+		821A05E428627F3100EB1A91 /* Arrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DE28627F3000EB1A91 /* Arrow.swift */; };
+		821A05E528627F3100EB1A91 /* CommonNaviView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DF28627F3000EB1A91 /* CommonNaviView.swift */; };
+		821A05E628627F3100EB1A91 /* CommonNaviView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DF28627F3000EB1A91 /* CommonNaviView.swift */; };
+		821A05E728627F3100EB1A91 /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05E028627F3000EB1A91 /* ChevronArrow.swift */; };
+		821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05E028627F3000EB1A91 /* ChevronArrow.swift */; };
 		828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407D928393D8F002B1214 /* NetworkWorker.swift */; };
 		828407DC28393DFE002B1214 /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407DB28393DFE002B1214 /* SoftberryAPI.swift */; };
-		82A4A1AD2855D8340001A027 /* NewSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A4A1AC2855D8340001A027 /* NewSettingsViewController.swift */; };
-		82A4A1AF2855D8420001A027 /* SettingsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A4A1AE2855D8420001A027 /* SettingsReactor.swift */; };
-		82A4A1B12855EAE70001A027 /* CommonNaviView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A4A1B02855EAE70001A027 /* CommonNaviView.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		82D9867F2839BD790030F0FC /* MembershipReissuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */; };
 		82D986812839BE080030F0FC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
 		82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */; };
-		82F3D9AC2855EE2B0030C44B /* Arrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9AA2855EE2B0030C44B /* Arrow.swift */; };
-		82F3D9AD2855EE2B0030C44B /* Arrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9AA2855EE2B0030C44B /* Arrow.swift */; };
-		82F3D9AE2855EE2B0030C44B /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9AB2855EE2B0030C44B /* NavigationClose.swift */; };
-		82F3D9AF2855EE2B0030C44B /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9AB2855EE2B0030C44B /* NavigationClose.swift */; };
-		82F3D9B02855F04C0030C44B /* CommonNaviView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A4A1B02855EAE70001A027 /* CommonNaviView.swift */; };
-		82F3D9B12855F1940030C44B /* SettingsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A4A1AE2855D8420001A027 /* SettingsReactor.swift */; };
-		82F3D9B22855F1980030C44B /* NewSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A4A1AC2855D8340001A027 /* NewSettingsViewController.swift */; };
-		82F3D9B52855F31B0030C44B /* CommonBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9B42855F31B0030C44B /* CommonBaseViewController.swift */; };
-		82F3D9B62855F31B0030C44B /* CommonBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F3D9B42855F31B0030C44B /* CommonBaseViewController.swift */; };
 		8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
@@ -1028,6 +1028,14 @@
 		637247D2282A5F7900595FCE /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		637247D9282A6F3B00595FCE /* MembershipGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipGuideViewController.swift; sourceTree = "<group>"; };
 		63762F1428699FB200C951BF /* Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Info.swift; sourceTree = "<group>"; };
+		63762F3F2869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuitAccountReasonQuestionReactor.swift; sourceTree = "<group>"; };
+		63762F412869A8F000C951BF /* QuitAccountReasonModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuitAccountReasonModel.swift; sourceTree = "<group>"; };
+		63762F422869A8F000C951BF /* QuitAccountReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuitAccountReactor.swift; sourceTree = "<group>"; };
+		63762F432869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuitAccountReasonQuestionViewController.swift; sourceTree = "<group>"; };
+		63762F442869A8F000C951BF /* QuitAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuitAccountViewController.swift; sourceTree = "<group>"; };
+		63762F4F2869A91900C951BF /* SettingsReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsReactor.swift; sourceTree = "<group>"; };
+		63762F502869A91900C951BF /* NewSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSettingsViewController.swift; sourceTree = "<group>"; };
+		63762F552869A95D00C951BF /* CommonBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonBaseViewController.swift; sourceTree = "<group>"; };
 		63B2373D282C970900E8A3F8 /* MembershipUseGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipUseGuideViewController.swift; sourceTree = "<group>"; };
 		63B2373F282CA4B400E8A3F8 /* PointUseGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointUseGuideViewController.swift; sourceTree = "<group>"; };
 		63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceViewController.swift; sourceTree = "<group>"; };
@@ -1037,8 +1045,6 @@
 		63CCE8212834CFD5006B8B9A /* evInfraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = evInfraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63CCE8232834CFD5006B8B9A /* evInfraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = evInfraTests.swift; sourceTree = "<group>"; };
 		63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
-		63D041012859B96D003634DE /* QuitAccountReasonQuestionReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitAccountReasonQuestionReactor.swift; sourceTree = "<group>"; };
-		63D041042859C69C003634DE /* ChevronArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChevronArrow.swift; sourceTree = "<group>"; };
 		63DA015B2832559400705842 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		63DA015D28325C9200705842 /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		63DA09FE282E2F440021292C /* JSON+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSON+Extension.swift"; sourceTree = "<group>"; };
@@ -1055,9 +1061,6 @@
 		63F3154E284F0809001713D2 /* Colors+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Colors+Generated.swift"; sourceTree = "<group>"; };
 		63F31555284F08E2001713D2 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		63F31556284F08E3001713D2 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
-		63F3FAB1285AE4C700FC9968 /* QuitAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitAccountViewController.swift; sourceTree = "<group>"; };
-		63F3FAB4285AED0C00FC9968 /* QuitAccountReasonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitAccountReasonModel.swift; sourceTree = "<group>"; };
-		63F3FAB7285AF5FE00FC9968 /* QuitAccountReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitAccountReactor.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		7312786720BE38C500861B3E /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
@@ -1243,19 +1246,16 @@
 		73EF8B7C203C880A00D04494 /* evInfra-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "evInfra-Bridging-Header.h"; sourceTree = "<group>"; };
 		73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterGenerator.swift; sourceTree = "<group>"; };
 		73F6B53920F873110030D0B3 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
-		821E4729285333FF008A6C10 /* QuitAccountReasonQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitAccountReasonQuestionViewController.swift; sourceTree = "<group>"; };
+		821A05DD28627F3000EB1A91 /* NavigationClose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationClose.swift; sourceTree = "<group>"; };
+		821A05DE28627F3000EB1A91 /* Arrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arrow.swift; sourceTree = "<group>"; };
+		821A05DF28627F3000EB1A91 /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
+		821A05E028627F3000EB1A91 /* ChevronArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChevronArrow.swift; sourceTree = "<group>"; };
 		828407D928393D8F002B1214 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		828407DB28393DFE002B1214 /* SoftberryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
-		82A4A1AC2855D8340001A027 /* NewSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSettingsViewController.swift; sourceTree = "<group>"; };
-		82A4A1AE2855D8420001A027 /* SettingsReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsReactor.swift; sourceTree = "<group>"; };
-		82A4A1B02855EAE70001A027 /* CommonNaviView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
 		82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceReactor.swift; sourceTree = "<group>"; };
 		82D986802839BE080030F0FC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoReactor.swift; sourceTree = "<group>"; };
-		82F3D9AA2855EE2B0030C44B /* Arrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arrow.swift; sourceTree = "<group>"; };
-		82F3D9AB2855EE2B0030C44B /* NavigationClose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationClose.swift; sourceTree = "<group>"; };
-		82F3D9B42855F31B0030C44B /* CommonBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonBaseViewController.swift; sourceTree = "<group>"; };
 		9014C12624E55C4800CB6549 /* EIPOIItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIPOIItem.swift; sourceTree = "<group>"; };
 		9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAllPOIListenerCallback.swift; sourceTree = "<group>"; };
 		9028E07724A1B8270062A029 /* eirel */ = {isa = PBXFileReference; lastKnownFileType = file; path = eirel; sourceTree = "<group>"; };
@@ -1574,9 +1574,9 @@
 		00B2E8C526C104C9005D017C /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				63762F502869A91900C951BF /* NewSettingsViewController.swift */,
+				63762F4F2869A91900C951BF /* SettingsReactor.swift */,
 				73268D4B2188331700C00427 /* SettingsViewController.swift */,
-				82A4A1AC2855D8340001A027 /* NewSettingsViewController.swift */,
-				82A4A1AE2855D8420001A027 /* SettingsReactor.swift */,
 				00FDEAF726B3BFC1006617EE /* Settings.storyboard */,
 			);
 			path = Settings;
@@ -1585,17 +1585,17 @@
 		00B2E8C626C106A0005D017C /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				63F3FAB3285AEC7700FC9968 /* Models */,
+				63762F402869A8F000C951BF /* Models */,
+				63762F422869A8F000C951BF /* QuitAccountReactor.swift */,
+				63762F3F2869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift */,
+				63762F432869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift */,
+				63762F442869A8F000C951BF /* QuitAccountViewController.swift */,
 				DB48E1F522E08B07003FFA08 /* ServiceGuideViewController.swift */,
 				DBEE9AF72117DB5600770D04 /* LoginViewController.swift */,
 				DBEE9AFB211842ED00770D04 /* SignUpViewController.swift */,
+				00B2E8C726C106AC005D017C /* Login.storyboard */,
 				00CF1774278E6A4F007D8E4E /* CorporationLoginViewController.swift */,
 				00CF1776278EA644007D8E4E /* AcceptTermsViewController.swift */,
-				821E4729285333FF008A6C10 /* QuitAccountReasonQuestionViewController.swift */,
-				63D041012859B96D003634DE /* QuitAccountReasonQuestionReactor.swift */,
-				63F3FAB1285AE4C700FC9968 /* QuitAccountViewController.swift */,
-				63F3FAB7285AF5FE00FC9968 /* QuitAccountReactor.swift */,
-				00B2E8C726C106AC005D017C /* Login.storyboard */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1815,6 +1815,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		63762F402869A8F000C951BF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				63762F412869A8F000C951BF /* QuitAccountReasonModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		63BEAC5C2833886800E797DD /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -1853,17 +1861,10 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		63F3FAB3285AEC7700FC9968 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				63F3FAB4285AED0C00FC9968 /* QuitAccountReasonModel.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		7312786220B7D81A00861B3E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				63762F552869A95D00C951BF /* CommonBaseViewController.swift */,
 				82F3D9A92855EE2B0030C44B /* Component */,
 				63F3154E284F0809001713D2 /* Colors+Generated.swift */,
 				63F3154D284F0809001713D2 /* Icons+Generated.swift */,
@@ -1880,7 +1881,6 @@
 				82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */,
 				82D986802839BE080030F0FC /* ViewModel.swift */,
 				63EB0390283CB26500078D28 /* ServerResult.swift */,
-				82F3D9B42855F31B0030C44B /* CommonBaseViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -3177,17 +3177,16 @@
 				63F313BB284EC74F001713D2 /* ChargePriceViewController.swift in Sources */,
 				63F313BC284EC74F001713D2 /* GlobalDefine.swift in Sources */,
 				63F313BD284EC74F001713D2 /* SC_TRACE.swift in Sources */,
-				63F3FAB9285AF60400FC9968 /* QuitAccountReactor.swift in Sources */,
 				63F313BE284EC74F001713D2 /* MyCouponTableViewCell.swift in Sources */,
 				63F313BF284EC74F001713D2 /* Coupon.swift in Sources */,
 				63F313C0284EC74F001713D2 /* NSData+Extension.swift in Sources */,
 				63F313C1284EC74F001713D2 /* PartnershipListView.swift in Sources */,
 				63F313C2284EC74F001713D2 /* AppSearchBarController.swift in Sources */,
-				63D041062859C69C003634DE /* ChevronArrow.swift in Sources */,
 				63F313C3284EC74F001713D2 /* UINavigationController.swift in Sources */,
 				63F313C4284EC74F001713D2 /* BoardWriteButton.swift in Sources */,
 				63F313C5284EC74F001713D2 /* FilterRoadView.swift in Sources */,
 				63F313C6284EC74F001713D2 /* MyPayinfoViewController.swift in Sources */,
+				63762F542869A91900C951BF /* NewSettingsViewController.swift in Sources */,
 				63F313C7284EC74F001713D2 /* DetailViewController.swift in Sources */,
 				63F313C8284EC74F001713D2 /* CommunityBoardTableViewCell.swift in Sources */,
 				63F313C9284EC74F001713D2 /* BoardDetailViewController.swift in Sources */,
@@ -3222,11 +3221,13 @@
 				63F313E6284EC74F001713D2 /* RepayResultViewController.swift in Sources */,
 				63F313E7284EC74F001713D2 /* ReissuanceModel.swift in Sources */,
 				63F313E8284EC74F001713D2 /* GuideAlertDialog.swift in Sources */,
+				63762F572869A95D00C951BF /* CommonBaseViewController.swift in Sources */,
 				63F313E9284EC74F001713D2 /* MemberOtherInfo.swift in Sources */,
 				63F313EA284EC74F001713D2 /* BoardDetailTableViewHeader.swift in Sources */,
 				63F313EB284EC74F001713D2 /* NaverMapView.swift in Sources */,
 				63F31550284F0809001713D2 /* Icons+Generated.swift in Sources */,
 				63F313EC284EC74F001713D2 /* StationStatusDto.swift in Sources */,
+				821A05E428627F3100EB1A91 /* Arrow.swift in Sources */,
 				63F313ED284EC74F001713D2 /* BoardTableViewCell.swift in Sources */,
 				63F313EE284EC74F001713D2 /* DateUtils.swift in Sources */,
 				63F31552284F0809001713D2 /* Colors+Generated.swift in Sources */,
@@ -3239,6 +3240,7 @@
 				63F313F5284EC74F001713D2 /* TransientAlertViewController.swift in Sources */,
 				63F313F6284EC74F001713D2 /* DataBaseHelper.swift in Sources */,
 				63F313F7284EC74F001713D2 /* LoginViewController.swift in Sources */,
+				63762F482869A8F000C951BF /* QuitAccountReasonModel.swift in Sources */,
 				63F313F8284EC74F001713D2 /* RangeSeekSlider.swift in Sources */,
 				63F313F9284EC74F001713D2 /* BoardDetailTableViewCell.swift in Sources */,
 				63F313FA284EC74F001713D2 /* InfoCollectionViewCell.swift in Sources */,
@@ -3247,19 +3249,17 @@
 				63F313FD284EC74F001713D2 /* HSUnderLineTextField.swift in Sources */,
 				63F313FE284EC74F001713D2 /* CompanyTableViewCell.swift in Sources */,
 				63F313FF284EC74F001713D2 /* BedgeButton.swift in Sources */,
+				821A05E628627F3100EB1A91 /* CommonNaviView.swift in Sources */,
 				63F31400284EC74F001713D2 /* MemberManager.swift in Sources */,
-				82F3D9B02855F04C0030C44B /* CommonNaviView.swift in Sources */,
 				63F31401284EC74F001713D2 /* FilterCompanyView.swift in Sources */,
 				63F31402284EC74F001713D2 /* ReportCharger.swift in Sources */,
 				63F31403284EC74F001713D2 /* MyCouponViewController.swift in Sources */,
 				63F31404284EC74F001713D2 /* CBT.swift in Sources */,
 				63F31405284EC74F001713D2 /* UIScrollView+Extension.swift in Sources */,
 				63F31406284EC74F001713D2 /* RegisterResultViewController.swift in Sources */,
-				63F3FABA285AF85000FC9968 /* QuitAccountViewController.swift in Sources */,
 				63F31407284EC74F001713D2 /* Snackbar.swift in Sources */,
 				63F31408284EC74F001713D2 /* ChargerStationInfo.swift in Sources */,
 				63F31409284EC74F001713D2 /* Login.swift in Sources */,
-				82F3D9B62855F31B0030C44B /* CommonBaseViewController.swift in Sources */,
 				63F3140A284EC74F001713D2 /* PointViewController.swift in Sources */,
 				63F3140B284EC74F001713D2 /* MembershipReissuanceInfoReactor.swift in Sources */,
 				63F3140C284EC74F001713D2 /* AppTabsController.swift in Sources */,
@@ -3289,6 +3289,7 @@
 				63762F1628699FB200C951BF /* Info.swift in Sources */,
 				63F31424284EC74F001713D2 /* EditViewDelegate.swift in Sources */,
 				63F31425284EC74F001713D2 /* SearchTableView.swift in Sources */,
+				63762F4E2869A8F000C951BF /* QuitAccountViewController.swift in Sources */,
 				63F31426284EC74F001713D2 /* ReportBoardViewController.swift in Sources */,
 				63F31427284EC74F001713D2 /* EVModel.swift in Sources */,
 				63F31428284EC74F001713D2 /* CarModels.swift in Sources */,
@@ -3314,7 +3315,6 @@
 				63F3143C284EC74F001713D2 /* ChargerConst.swift in Sources */,
 				63F3143D284EC74F001713D2 /* DeepLinkModel.swift in Sources */,
 				63F3143E284EC74F001713D2 /* UITextField+Extension.swift in Sources */,
-				82F3D9B22855F1980030C44B /* NewSettingsViewController.swift in Sources */,
 				63F3143F284EC74F001713D2 /* EvInfoViewController.swift in Sources */,
 				63F31440284EC74F001713D2 /* FilterTypeView.swift in Sources */,
 				63F31441284EC74F001713D2 /* DeepLinkPath.swift in Sources */,
@@ -3327,6 +3327,7 @@
 				63F31448284EC74F001713D2 /* BoardTableViewHeader.swift in Sources */,
 				63F31449284EC74F001713D2 /* ChargerManager.swift in Sources */,
 				63F3144A284EC74F001713D2 /* MembershipCardViewController.swift in Sources */,
+				821A05E228627F3100EB1A91 /* NavigationClose.swift in Sources */,
 				63F3144B284EC74F001713D2 /* Extension.swift in Sources */,
 				63F3144C284EC74F001713D2 /* ClusterGenerator.swift in Sources */,
 				63F3144D284EC74F001713D2 /* ChargesTableViewCell.swift in Sources */,
@@ -3343,19 +3344,18 @@
 				63F31458284EC74F001713D2 /* ChargerDetailViewController.swift in Sources */,
 				63F31459284EC74F001713D2 /* AppDelegate.swift in Sources */,
 				63F3145A284EC74F001713D2 /* LinkShareManager.swift in Sources */,
+				63762F4A2869A8F000C951BF /* QuitAccountReactor.swift in Sources */,
+				821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */,
 				63F3145B284EC74F001713D2 /* SearchAddressViewDelegate.swift in Sources */,
 				63F3145C284EC74F001713D2 /* MyArticleViewController.swift in Sources */,
 				63F3145D284EC74F001713D2 /* LotteRentCertificateViewController.swift in Sources */,
 				63F3145E284EC74F001713D2 /* BoardSearchViewController.swift in Sources */,
 				63F3145F284EC74F001713D2 /* SettingsViewController.swift in Sources */,
 				63F31460284EC74F001713D2 /* SignUpViewController.swift in Sources */,
-				82F3D9B12855F1940030C44B /* SettingsReactor.swift in Sources */,
 				63F31461284EC74F001713D2 /* NavCenterButton.swift in Sources */,
 				63F31462284EC74F001713D2 /* PaymentResultViewController.swift in Sources */,
 				63F31463284EC74F001713D2 /* FilterAccessView.swift in Sources */,
-				63D041032859B96D003634DE /* QuitAccountReasonQuestionReactor.swift in Sources */,
 				63F31464284EC74F001713D2 /* CompanyTableView.swift in Sources */,
-				63F3FAB6285AEE9000FC9968 /* QuitAccountReasonModel.swift in Sources */,
 				63F31465284EC74F001713D2 /* ChargerManagerListener.swift in Sources */,
 				63F31466284EC74F001713D2 /* HangulUtils.swift in Sources */,
 				63F31467284EC74F001713D2 /* PaymentStatus.swift in Sources */,
@@ -3364,7 +3364,6 @@
 				63F3146A284EC74F001713D2 /* BoardTableViewDelegate.swift in Sources */,
 				63F3146B284EC74F001713D2 /* StringUtils.swift in Sources */,
 				63F3146C284EC74F001713D2 /* CommunityBoardAdsCell.swift in Sources */,
-				82F3D9AD2855EE2B0030C44B /* Arrow.swift in Sources */,
 				63F3146D284EC74F001713D2 /* SearchTypeSelectView.swift in Sources */,
 				63F3146E284EC74F001713D2 /* FilterBarView.swift in Sources */,
 				63F3146F284EC74F001713D2 /* AlertView.swift in Sources */,
@@ -3372,7 +3371,7 @@
 				63F31471284EC74F001713D2 /* Connector.swift in Sources */,
 				63F31472284EC74F001713D2 /* KeyChainManager.swift in Sources */,
 				63F31473284EC74F001713D2 /* ServiceGuideViewController.swift in Sources */,
-				63D041072859CBF1003634DE /* QuitAccountReasonQuestionViewController.swift in Sources */,
+				63762F4C2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
 				63F31474284EC74F001713D2 /* EvDetailViewController.swift in Sources */,
 				63F31475284EC74F001713D2 /* CodableCluster.swift in Sources */,
 				63F31476284EC74F001713D2 /* MyCouponContentsViewController.swift in Sources */,
@@ -3397,9 +3396,11 @@
 				63F31489284EC74F001713D2 /* NoticeContentViewController.swift in Sources */,
 				63F3148A284EC74F001713D2 /* EVFileManager.swift in Sources */,
 				63F3148B284EC74F001713D2 /* EIAdInfo.swift in Sources */,
+				63762F522869A91900C951BF /* SettingsReactor.swift in Sources */,
 				63F3148C284EC74F001713D2 /* Regions.swift in Sources */,
 				63F3148D284EC74F001713D2 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				63F3148E284EC74F001713D2 /* PaymentTableViewCell.swift in Sources */,
+				63762F462869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift in Sources */,
 				63F3148F284EC74F001713D2 /* CopyableLabel.swift in Sources */,
 				63F31490284EC74F001713D2 /* CLLocationCoordinate2D.swift in Sources */,
 				63F31491284EC74F001713D2 /* ReportChargeViewController.swift in Sources */,
@@ -3410,7 +3411,6 @@
 				63F31496284EC74F001713D2 /* KoreanTextMatcher.swift in Sources */,
 				63F31497284EC74F001713D2 /* Server.swift in Sources */,
 				63F31498284EC74F001713D2 /* AcceptTermsViewController.swift in Sources */,
-				82F3D9AF2855EE2B0030C44B /* NavigationClose.swift in Sources */,
 				63F31499284EC74F001713D2 /* EventContentsViewController.swift in Sources */,
 				63F3149A284EC74F001713D2 /* ChargesViewController.swift in Sources */,
 				63F3149B284EC74F001713D2 /* ViewModel.swift in Sources */,
@@ -3466,6 +3466,7 @@
 				525E3A33278D739E00F5C54D /* BoardWriteButton.swift in Sources */,
 				00A3659126C4E36200424E40 /* FilterRoadView.swift in Sources */,
 				73C6A0FD2345F1B600349A86 /* MyPayinfoViewController.swift in Sources */,
+				63762F532869A91900C951BF /* NewSettingsViewController.swift in Sources */,
 				73008459213687150001DBFA /* DetailViewController.swift in Sources */,
 				525E3A25278D728100F5C54D /* CommunityBoardTableViewCell.swift in Sources */,
 				52B709D02799287A006C5706 /* BoardDetailViewController.swift in Sources */,
@@ -3500,11 +3501,13 @@
 				000DAE112747369A00CEC165 /* RepayResultViewController.swift in Sources */,
 				63BEAC5E28338ADA00E797DD /* ReissuanceModel.swift in Sources */,
 				00AB7BD926E870820040CFDE /* GuideAlertDialog.swift in Sources */,
+				63762F562869A95D00C951BF /* CommonBaseViewController.swift in Sources */,
 				00CADC1B278D79C2000AF24A /* MemberOtherInfo.swift in Sources */,
 				52B709D7279929CE006C5706 /* BoardDetailTableViewHeader.swift in Sources */,
 				193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */,
 				63F3154F284F0809001713D2 /* Icons+Generated.swift in Sources */,
 				902A11D7248F56610049EF8E /* StationStatusDto.swift in Sources */,
+				821A05E328627F3100EB1A91 /* Arrow.swift in Sources */,
 				73BFA04C20847A310028B35D /* BoardTableViewCell.swift in Sources */,
 				90517A0C253857FD00FCB1A7 /* DateUtils.swift in Sources */,
 				63F31551284F0809001713D2 /* Colors+Generated.swift in Sources */,
@@ -3513,11 +3516,11 @@
 				52D0F66A279E33B80070824E /* BoardDetailViewModel.swift in Sources */,
 				DBABCC4927477BC600E2C7ED /* EIAdManager.swift in Sources */,
 				527165C527B251820078DF3A /* AlertViewController.swift in Sources */,
-				63F3FAB8285AF5FE00FC9968 /* QuitAccountReactor.swift in Sources */,
 				63BEAC602833965A00E797DD /* Observable+Operators.swift in Sources */,
 				527165C327B2516D0078DF3A /* TransientAlertViewController.swift in Sources */,
 				90CA0DE42488B82900904015 /* DataBaseHelper.swift in Sources */,
 				DBEE9AF82117DB5600770D04 /* LoginViewController.swift in Sources */,
+				63762F472869A8F000C951BF /* QuitAccountReasonModel.swift in Sources */,
 				00AE577926CE4864003E6643 /* RangeSeekSlider.swift in Sources */,
 				52B87A002799381500562436 /* BoardDetailTableViewCell.swift in Sources */,
 				7357595220916C11008181E9 /* InfoCollectionViewCell.swift in Sources */,
@@ -3526,6 +3529,7 @@
 				00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */,
 				00B36C4126D4B33100749FFE /* CompanyTableViewCell.swift in Sources */,
 				73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */,
+				821A05E528627F3100EB1A91 /* CommonNaviView.swift in Sources */,
 				DBA18B1D211D7AF400A2CB4F /* MemberManager.swift in Sources */,
 				00A3659726C4E38700424E40 /* FilterCompanyView.swift in Sources */,
 				CEBE0601214BA5C30047E6F2 /* ReportCharger.swift in Sources */,
@@ -3536,7 +3540,6 @@
 				DBE579B521A3E3CA005DD998 /* Snackbar.swift in Sources */,
 				902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */,
 				DB367BF124FE429D00898BED /* Login.swift in Sources */,
-				82A4A1B12855EAE70001A027 /* CommonNaviView.swift in Sources */,
 				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
 				82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
@@ -3566,10 +3569,10 @@
 				63762F1528699FB200C951BF /* Info.swift in Sources */,
 				73344AC5207F429300A6A9EC /* EditViewDelegate.swift in Sources */,
 				CEC4322A223A5C9A00B76795 /* SearchTableView.swift in Sources */,
+				63762F4D2869A8F000C951BF /* QuitAccountViewController.swift in Sources */,
 				CE93309121509A81006B7EF6 /* ReportBoardViewController.swift in Sources */,
 				73C31BF92099A024005B6C53 /* EVModel.swift in Sources */,
 				CE24840220A59E3000611E24 /* CarModels.swift in Sources */,
-				63F3FAB2285AE4C700FC9968 /* QuitAccountViewController.swift in Sources */,
 				63B2373E282C970900E8A3F8 /* MembershipUseGuideViewController.swift in Sources */,
 				529148AF27BE0A000011021F /* SearchHeaderView.swift in Sources */,
 				73A7B430204F8A72002E975F /* CidInfo.swift in Sources */,
@@ -3588,8 +3591,6 @@
 				00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */,
 				00F1AC7727031FAA009847E7 /* PreUsePointViewController.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton+Extension.swift in Sources */,
-				63F3FAB5285AED0C00FC9968 /* QuitAccountReasonModel.swift in Sources */,
-				82F3D9B52855F31B0030C44B /* CommonBaseViewController.swift in Sources */,
 				63DA09FF282E2F440021292C /* JSON+Extension.swift in Sources */,
 				902A11DC248F5F550049EF8E /* ChargerConst.swift in Sources */,
 				63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */,
@@ -3598,7 +3599,6 @@
 				00A3659F26C4E98D00424E40 /* FilterTypeView.swift in Sources */,
 				00EAB7C627228F42004E78D2 /* DeepLinkPath.swift in Sources */,
 				73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */,
-				82A4A1AF2855D8420001A027 /* SettingsReactor.swift in Sources */,
 				CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */,
 				DB0E4693205B6F1F002DD05D /* CidTableView.swift in Sources */,
 				DB3B858020874788005454F5 /* PoiTableView.swift in Sources */,
@@ -3607,6 +3607,7 @@
 				DB87607520690B370095394B /* BoardTableViewHeader.swift in Sources */,
 				9058A3C1248639D000091823 /* ChargerManager.swift in Sources */,
 				73C6A10B2345F1F800349A86 /* MembershipCardViewController.swift in Sources */,
+				821A05E128627F3100EB1A91 /* NavigationClose.swift in Sources */,
 				523A3AF22797A9CA004C3C23 /* Extension.swift in Sources */,
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,
 				DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */,
@@ -3623,9 +3624,10 @@
 				73C31BFD20A288E3005B6C53 /* ChargerDetailViewController.swift in Sources */,
 				732121BD203AC023000E105C /* AppDelegate.swift in Sources */,
 				529659D227E9AD7200FC1E8B /* LinkShareManager.swift in Sources */,
+				63762F492869A8F000C951BF /* QuitAccountReactor.swift in Sources */,
+				821A05E728627F3100EB1A91 /* ChevronArrow.swift in Sources */,
 				73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */,
 				7376B5C520C6473500A2B7C1 /* MyArticleViewController.swift in Sources */,
-				63D041052859C69C003634DE /* ChevronArrow.swift in Sources */,
 				00C75C46252ED4A000387559 /* LotteRentCertificateViewController.swift in Sources */,
 				52B53D2727BCB6F300D446A9 /* BoardSearchViewController.swift in Sources */,
 				73268D4C2188331700C00427 /* SettingsViewController.swift in Sources */,
@@ -3640,18 +3642,16 @@
 				525E3A2A278D729600F5C54D /* CommunityBoardTableViewHeader.swift in Sources */,
 				73B752802048E5B30077112A /* SideMenuTableViewCell.swift in Sources */,
 				736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */,
-				63D041022859B96D003634DE /* QuitAccountReasonQuestionReactor.swift in Sources */,
 				902A11DA248F5E440049EF8E /* StringUtils.swift in Sources */,
 				52B5DECF27CEFFBD006F8325 /* CommunityBoardAdsCell.swift in Sources */,
-				82F3D9AC2855EE2B0030C44B /* Arrow.swift in Sources */,
 				52B53D2F27BCF30100D446A9 /* SearchTypeSelectView.swift in Sources */,
 				00A6A16826C3C4450023DAE3 /* FilterBarView.swift in Sources */,
-				821E472A285333FF008A6C10 /* QuitAccountReasonQuestionViewController.swift in Sources */,
 				527165C727B251E20078DF3A /* AlertView.swift in Sources */,
 				0012443F25A2E92300376CDC /* IntroImageCheckerDelegate.swift in Sources */,
 				7379A45022CB43C600F4271C /* Connector.swift in Sources */,
 				CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */,
 				DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */,
+				63762F4B2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
 				7357595720917C03008181E9 /* EvDetailViewController.swift in Sources */,
 				73AF8FC321C77E1B003CB2CF /* CodableCluster.swift in Sources */,
 				733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */,
@@ -3676,9 +3676,11 @@
 				736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */,
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,
 				DBABCC4B2747943000E2C7ED /* EIAdInfo.swift in Sources */,
+				63762F512869A91900C951BF /* SettingsReactor.swift in Sources */,
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				000DAE13274760E300CEC165 /* PaymentTableViewCell.swift in Sources */,
+				63762F452869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift in Sources */,
 				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,
 				192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */,
 				CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */,
@@ -3689,13 +3691,11 @@
 				DB3B858320A42C81005454F5 /* KoreanTextMatcher.swift in Sources */,
 				DB306368221BD5CD00D1276E /* Server.swift in Sources */,
 				00CF1777278EA644007D8E4E /* AcceptTermsViewController.swift in Sources */,
-				82F3D9AE2855EE2B0030C44B /* NavigationClose.swift in Sources */,
 				CE33B4BD2191BA1200B6C632 /* EventContentsViewController.swift in Sources */,
 				DB5FA59622C20A8400F1508A /* ChargesViewController.swift in Sources */,
 				82D986812839BE080030F0FC /* ViewModel.swift in Sources */,
 				CE93309921511AD4006B7EF6 /* ReportBoardTableViewCell.swift in Sources */,
 				739171E122C4A209007369F9 /* PaymentQRScanViewController.swift in Sources */,
-				82A4A1AD2855D8340001A027 /* NewSettingsViewController.swift in Sources */,
 				73B752852049284B0077112A /* NoticeViewController.swift in Sources */,
 				00CD36C827900E04005413A6 /* BottomSheetViewController.swift in Sources */,
 				52B2594A278E5E5C0042B22C /* BoardListItem.swift in Sources */,

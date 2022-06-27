@@ -19,16 +19,16 @@ internal final class Info: UIView {
             var getImage: UIImage {
                 switch self {
                 case .size16:
-                    return Icons.iconArrowLeftXs.image
+                    return Icons.iconInfoXs.image
                     
                 case .size20:
-                    return Icons.iconArrowLeftXs.image
+                    return Icons.iconInfoSm.image
                     
                 case .size24:
-                    return Icons.iconArrowLeftXs.image
+                    return Icons.iconInfoMd.image
                     
                 case .size32:
-                    return Icons.iconArrowLeftXs.image
+                    return Icons.iconInfoLg.image
                 }
             }
         }

@@ -104,9 +104,9 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    private lazy var reasonNegativeIconImgView = UIImageView().then {
+    private lazy var reasonNegativeIconImgView = Info(.size16).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = Imag
+        $0.tintColor = Colors.contentNegative.color
     }
     
     private lazy var reasonNegativeLbl = UILabel().then {
@@ -253,7 +253,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         reasonTotalView.addSubview(reasonBorderView)
         reasonBorderView.snp.makeConstraints {
             $0.top.equalTo(reasonMainTitleLbl.snp.bottom).offset(16)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
         }
         
         reasonBorderView.addSubview(reasonTextCountLbl)
@@ -269,6 +269,26 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
             $0.height.greaterThanOrEqualTo(104)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(reasonTextCountLbl.snp.top).offset(-4)
+        }
+        
+        reasonTotalView.addSubview(reasonNegativeTotalView)
+        reasonNegativeTotalView.snp.makeConstraints {
+            $0.top.equalTo(reasonBorderView.snp.bottom).offset(8)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(16)
+        }
+        
+        reasonNegativeTotalView.addSubview(reasonNegativeIconImgView)
+        reasonNegativeIconImgView.snp.makeConstraints {
+            $0.leading.top.bottom.equalToSuperview()
+            $0.width.height.equalTo(16)
+        }
+        
+        reasonNegativeTotalView.addSubview(reasonNegativeLbl)
+        reasonNegativeLbl.snp.makeConstraints {
+            $0.leading.equalTo(reasonNegativeIconImgView.snp.trailing).offset(3)
+            $0.top.bottom.trailing.equalToSuperview()
         }
     }
     
