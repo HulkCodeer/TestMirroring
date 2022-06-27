@@ -147,6 +147,8 @@
 		637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */; };
 		637247D3282A5F7900595FCE /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D2282A5F7900595FCE /* UIViewController+Extension.swift */; };
 		637247DA282A6F3B00595FCE /* MembershipGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D9282A6F3B00595FCE /* MembershipGuideViewController.swift */; };
+		63762F1528699FB200C951BF /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F1428699FB200C951BF /* Info.swift */; };
+		63762F1628699FB200C951BF /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F1428699FB200C951BF /* Info.swift */; };
 		63B2373E282C970900E8A3F8 /* MembershipUseGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B2373D282C970900E8A3F8 /* MembershipUseGuideViewController.swift */; };
 		63B23740282CA4B400E8A3F8 /* PointUseGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B2373F282CA4B400E8A3F8 /* PointUseGuideViewController.swift */; };
 		63B23744282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */; };
@@ -1025,6 +1027,7 @@
 		637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		637247D2282A5F7900595FCE /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		637247D9282A6F3B00595FCE /* MembershipGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipGuideViewController.swift; sourceTree = "<group>"; };
+		63762F1428699FB200C951BF /* Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Info.swift; sourceTree = "<group>"; };
 		63B2373D282C970900E8A3F8 /* MembershipUseGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipUseGuideViewController.swift; sourceTree = "<group>"; };
 		63B2373F282CA4B400E8A3F8 /* PointUseGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointUseGuideViewController.swift; sourceTree = "<group>"; };
 		63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceViewController.swift; sourceTree = "<group>"; };
@@ -2251,10 +2254,11 @@
 		82F3D9A92855EE2B0030C44B /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				82F3D9AA2855EE2B0030C44B /* Arrow.swift */,
-				82F3D9AB2855EE2B0030C44B /* NavigationClose.swift */,
-				82A4A1B02855EAE70001A027 /* CommonNaviView.swift */,
-				63D041042859C69C003634DE /* ChevronArrow.swift */,
+				821A05DE28627F3000EB1A91 /* Arrow.swift */,
+				821A05E028627F3000EB1A91 /* ChevronArrow.swift */,
+				821A05DF28627F3000EB1A91 /* CommonNaviView.swift */,
+				821A05DD28627F3000EB1A91 /* NavigationClose.swift */,
+				63762F1428699FB200C951BF /* Info.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -3282,6 +3286,7 @@
 				63F31421284EC74F001713D2 /* UtilNavigation.swift in Sources */,
 				63F31422284EC74F001713D2 /* ChargingStatus.swift in Sources */,
 				63F31423284EC74F001713D2 /* FilterPlaceView.swift in Sources */,
+				63762F1628699FB200C951BF /* Info.swift in Sources */,
 				63F31424284EC74F001713D2 /* EditViewDelegate.swift in Sources */,
 				63F31425284EC74F001713D2 /* SearchTableView.swift in Sources */,
 				63F31426284EC74F001713D2 /* ReportBoardViewController.swift in Sources */,
@@ -3558,6 +3563,7 @@
 				42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */,
 				735E87C822D88ED70028F7BD /* ChargingStatus.swift in Sources */,
 				00A6A16226C3A4D30023DAE3 /* FilterPlaceView.swift in Sources */,
+				63762F1528699FB200C951BF /* Info.swift in Sources */,
 				73344AC5207F429300A6A9EC /* EditViewDelegate.swift in Sources */,
 				CEC4322A223A5C9A00B76795 /* SearchTableView.swift in Sources */,
 				CE93309121509A81006B7EF6 /* ReportBoardViewController.swift in Sources */,
