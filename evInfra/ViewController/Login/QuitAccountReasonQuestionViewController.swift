@@ -107,6 +107,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     private lazy var reasonNegativeIconImgView = Info(.size16).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.tintColor = Colors.contentNegative.color
+        $0.IBimageWidth = 16
     }
     
     private lazy var reasonNegativeLbl = UILabel().then {
@@ -180,7 +181,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         totalScrollView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(nextBtn.snp.top)
+            $0.bottom.equalTo(nextBtn.snp.top).offset(0)
             $0.width.equalToSuperview()
             $0.centerX.equalToSuperview()
         }
@@ -307,7 +308,33 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
-                
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: .UIKeyboardWillHide, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ sender: NSNotification) {
+        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let keyboardHeight = keyboardSize.height
+            view.layoutIfNeeded()
+            totalScrollView.snp.updateConstraints {
+                $0.bottom.equalTo(nextBtn.snp.top).offset(-keyboardHeight)
+            }
+            
+            let contentsInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight / 2, right: 0)
+            totalScrollView.contentInset = contentsInset
+            totalScrollView.scrollIndicatorInsets = contentsInset
+        }
+    }
+    
+    @objc private func keyboardDidHide(_ sender: NSNotification) {
+        view.layoutIfNeeded()
+        let contentsInset: UIEdgeInsets = .zero
+        totalScrollView.contentInset = contentsInset
+        totalScrollView.scrollIndicatorInsets = contentsInset
+        
+        totalView.snp.updateConstraints {
+            $0.bottom.equalToSuperview().offset(0)
+        }
     }
                     
     internal func bind(reactor: QuitAccountReasonQuestionReactor) {
@@ -350,21 +377,21 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
 extension QuitAccountReasonQuestionViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         reasonBorderView.IBborderColor = Colors.nt9.color
-        reasonTextView.textColor = Colors.nt9.color
+        textView.textColor = Colors.nt9.color
         
         guard Const.textViewPlaceHolder.rawValue.equals(reasonTextView.text) else {
             return
         }
-        reasonTextView.text = nil
+        textView.text = nil
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         printLog(out: "PARK TEST textViewDidChange")
         reasonBorderView.IBborderColor = Colors.nt2.color
-        reasonTextView.textColor = Colors.nt5.color
+        textView.textColor = Colors.nt5.color
         
         guard reasonTextView.text.isEmpty else { return }
-        reasonTextView.text = Const.textViewPlaceHolder.rawValue
+        textView.text = Const.textViewPlaceHolder.rawValue
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -385,7 +412,7 @@ extension QuitAccountReasonQuestionViewController: UITextViewDelegate {
                 }
             } else {
                 constraint.constant = 216
-                reasonTextView.isScrollEnabled = true
+                textView.isScrollEnabled = true
             }
         }
     }

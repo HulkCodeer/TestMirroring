@@ -52,6 +52,11 @@ internal final class Info: UIView {
         }
         set {
             self.imgViewWidth = newValue
+            self.imgView.snp.remakeConstraints {
+                $0.leading.equalToSuperview().offset(self.imgViewLeading)
+                $0.width.height.equalTo(self.imgViewWidth)
+                $0.centerY.equalToSuperview()
+            }
         }
     }
     
@@ -101,7 +106,7 @@ internal final class Info: UIView {
         super.init(frame: .zero)
         self.makeUI()
     }
-    
+            
     public required init?(coder aDecoder: NSCoder) {
         self.sizeType = .size24
         super.init(coder: aDecoder)
@@ -109,6 +114,7 @@ internal final class Info: UIView {
     }
     
     func makeUI() {
+        setNeedsDisplay()
         self.addSubview(self.imgView)
         self.imgView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(self.imgViewLeading)
