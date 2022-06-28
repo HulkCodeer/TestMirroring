@@ -227,6 +227,21 @@ internal final class LoginHelper: NSObject {
         }
     }
     
+    struct User: Codable {
+
+        enum CodingKeys: String, CodingKey {
+            case refreshToken = "refresh_token"
+        }
+
+
+        let refreshToken: String
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            refreshToken = try container.decode(String.self, forKey: .refreshToken)
+        }
+    }
+    
     // MARK: - EV Infra 로그인 및 회원가입
     func requestLoginToEvInfra(user: Login?) {
         guard var _user = user, let _appleAuthorizationCode = _user.appleAuthorizationCode else { return }
@@ -234,18 +249,27 @@ internal final class LoginHelper: NSObject {
             .convertData()
             .compactMap { result -> String? in
                 switch result {
-                case .success(let data):                    
-                    let jsonData = JSON(parseJSON: String(data: data, encoding: .utf8) ?? "")
-                    printLog(out: "JsonData : \(jsonData)")
+                case .success(let data):
                     
-                    let refreshToken = jsonData["refresh_token"].stringValue
+                    var jsonData: JSON = JSON(JSON.null)
+                    var jsonString: JSON = JSON(parseJSON: "")
+                    do {
+                        jsonData = try JSON(data: data, options: .allowFragments)
+                        jsonString = JSON(parseJSON: jsonData.rawString() ?? "")                                                                        
+                    } catch let error {
+                        printLog(out: "Json Parse Error \(error.localizedDescription)")
+                    }
+                                    
+                    printLog(out: "JsonData : \(jsonData)")
+
+                    let refreshToken = jsonString["refresh_token"].stringValue
                     guard !refreshToken.isEmpty else {
                         return nil
                     }
-                    
-                    UserDefault().saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value: jsonData["refresh_token"].stringValue)
-                    
-                    return jsonData["refresh_token"].stringValue
+
+                    UserDefault().saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value: refreshToken)
+
+                    return refreshToken
                     
                 case .failure(let errorMessage):
                     printLog(out: "Error Message : \(errorMessage)")
