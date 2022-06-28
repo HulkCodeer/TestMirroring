@@ -47,6 +47,10 @@ internal final class MemberManager {
         return UserDefault().readString(key: UserDefault.Key.MB_DEVICE_ID)
     }
     
+    internal var appleRefreshToken: String {
+        return UserDefault().readString(key: UserDefault.Key.APPLE_REFRESH_TOKEN)
+    }
+    
     internal var loginType: Login.LoginType {
         return Login.LoginType(rawValue: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)) ?? .none
     }

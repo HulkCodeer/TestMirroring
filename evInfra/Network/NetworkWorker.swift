@@ -36,7 +36,7 @@ extension Observable where Element == (HTTPURLResponse, Data){
         return self.map { (httpURLResponse, data) -> ApiResult<Data, ApiErrorMessage> in
             #if DEBUG
                 var strResponse: String?
-                if let str = String(data: data, encoding: .nonLossyASCII) {
+                if let str = String(data: data, encoding: .utf8) {
                     strResponse = str
                 }
                 let debugDesc = """

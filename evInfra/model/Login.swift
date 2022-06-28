@@ -33,6 +33,7 @@ struct Login {
     var phoneNo: String?
     
     var otherInfo: MemberOtherInfo?
+    var appleAuthorizationCode: Data?
     
     init(_ type: LoginType) {
         self.type = type
@@ -45,6 +46,7 @@ struct Login {
         login.name = user.fullName?.givenName
         login.email = user.email
         login.emailVerified = true
+        login.appleAuthorizationCode = user.authorizationCode
 
         return login
     }

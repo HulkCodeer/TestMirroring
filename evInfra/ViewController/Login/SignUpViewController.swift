@@ -12,6 +12,7 @@ import SwiftyJSON
 import AnyFormatKit
 import DLRadioButton
 import MaterialComponents.MaterialBottomSheet
+import RxSwift
 
 protocol SignUpViewControllerDelegate {
     func successSignUp()
@@ -47,6 +48,7 @@ class SignUpViewController: UIViewController {
     var genderSelected: String?
     
     private var profileImgName = ""
+    private let disposebag = DisposeBag()
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -191,9 +193,15 @@ class SignUpViewController: UIViewController {
                 ivNext.isHidden = true
             }
         } else {
-            if checkValidSecondForm() {
+            guard checkValidSecondForm() else { return }
+            switch MemberManager.shared.loginType {
+            case .apple:
+                signUpApple()
+            case .evinfra, .kakao:
                 signUp()
+            default: break
             }
+            
         }
     }
     
@@ -232,9 +240,63 @@ class SignUpViewController: UIViewController {
         return false
     }
     
+    private func signUpApple() {
+        guard var _user = self.user, let _appleAuthorizationCode = _user.appleAuthorizationCode else { return }
+        if !profileImgName.isEmpty{
+            _user.profile_image = profileImgName
+        }
+        
+        _user.name = tfNickname.text
+        _user.email = tfEmail.text
+        _user.phoneNo = tfPhone.text
+        _user.ageRange = ageList[ageIndex]
+        _user.gender = genderSelected
+                    
+        RestApi().postRefreshToken(appleAuthorizationCode: String(data: _appleAuthorizationCode, encoding: .utf8) ?? "" )
+            .convertData()
+            .compactMap { result -> String? in
+                switch result {
+                case .success(let data):
+                    let jsonData = JSON(data)
+                    printLog(out: "JsonData : \(jsonData)")
+                    
+                    let code = jsonData["code"].stringValue
+                    guard "1000".equals(code) else {
+                        return nil
+                    }
+                    
+                    return ""
+                    
+                case .failure(let errorMessage):
+                    printLog(out: "Error Message : \(errorMessage)")
+                    Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                    return nil
+                }
+            }
+            .subscribe(onNext: { refreshToken in
+                printLog(out: "PARK TEST event : \(refreshToken)")                
+                Server.signUp(user: _user) { (isSuccess, value) in
+                    if isSuccess {
+                        let json = JSON(value)
+                        if json["mb_id"].stringValue.isEmpty {
+                            Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
+                        } else {
+                            Snackbar().show(message: "로그인 성공")
+                            MemberManager.shared.setData(data: json)
+                            self.navigationController?.pop()
+                            if let delegate = self.delegate {
+                                delegate.successSignUp()
+                            }
+                        }
+                    }
+                }
+            })
+            .disposed(by: self.disposebag)
+                        
+    }
+    
     func signUp() {
-        if var me = self.user {
-            let userDefault = UserDefault()
+        if var me = self.user {            
             if !profileImgName.isEmpty{
                 me.profile_image = profileImgName
             }
@@ -244,7 +306,7 @@ class SignUpViewController: UIViewController {
             me.phoneNo = tfPhone.text
             me.ageRange = ageList[ageIndex]
             me.gender = genderSelected
-            
+                                                        
             Server.signUp(user: me) { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
@@ -260,6 +322,7 @@ class SignUpViewController: UIViewController {
                     }
                 }
             }
+                        
         }
     }
 }

@@ -20,7 +20,7 @@ protocol SoftberryAPI: class {
     func getQuitAccountReasonList() -> Observable<(HTTPURLResponse, Data)>
     func deleteKakaoAccount(reasonID: String) -> Observable<(HTTPURLResponse, Data)>
     func deleteAppleAccount(reasonID: String) -> Observable<(HTTPURLResponse, Data)>    
-    func postRefreshToken(appleIdentityToken: String) -> Observable<(HTTPURLResponse, Data)>
+    func postRefreshToken(appleAuthorizationCode: String) -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -91,15 +91,16 @@ internal final class RestApi: SoftberryAPI {
     func deleteAppleAccount(reasonID: String) -> Observable<(HTTPURLResponse, Data)> {
         let reqParam: Parameters = [
             "user_id": MemberManager.shared.userId,
-            "reason_id": reasonID
+            "reason_id": reasonID,
+            "refresh_token": MemberManager.shared.appleRefreshToken
         ]        
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/deregister_apple", httpMethod: .post, parameters: reqParam, headers: nil)
     }
     
     // MARK: - 애플 리프레쉬 토큰
-    func postRefreshToken(appleIdentityToken: String) -> Observable<(HTTPURLResponse, Data)> {
+    func postRefreshToken(appleAuthorizationCode: String) -> Observable<(HTTPURLResponse, Data)> {
         let reqParam: Parameters = [
-            "auth_code": appleIdentityToken
+            "auth_code": appleAuthorizationCode
         ]
                 
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/request_apple_token", httpMethod: .post, parameters: reqParam, headers: nil)
