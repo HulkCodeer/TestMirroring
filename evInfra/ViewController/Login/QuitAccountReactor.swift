@@ -34,21 +34,13 @@ internal final class QuitAccountReactor: ViewModel, Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .deleteAppleAccount:
-            guard !self.reasonID.isEmpty else { return .empty()}
-            
-            return self.provider.revokeAppleAccount()
-                            .convertData()                            
-                            .compactMap(convertToAppleData)
+            guard !self.reasonID.isEmpty else { return .empty()}                                    
+            return self.provider.deleteAppleAccount(reasonID: self.reasonID)
+                            .convertData()
+                            .compactMap(convertToData)
                             .map { isComplete in
                                 return .setComplete(isComplete)
                             }
-            
-//            return self.provider.deleteAppleAccount(reasonID: self.reasonID)
-//                            .convertData()
-//                            .compactMap(convertToData)
-//                            .map { isComplete in
-//                                return .setComplete(isComplete)
-//                            }
             
         case .deleteKakaoAccount:
             guard !self.reasonID.isEmpty else { return .empty()}

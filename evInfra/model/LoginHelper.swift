@@ -9,6 +9,7 @@
 import Foundation
 import SwiftyJSON
 import AuthenticationServices // apple login
+import RxSwift
 
 protocol LoginHelperDelegate: class {
     var loginViewController: UIViewController { get }
@@ -17,11 +18,13 @@ protocol LoginHelperDelegate: class {
     func needSignUp(user: Login)
 }
 
-class LoginHelper: NSObject {
+internal final class LoginHelper: NSObject {
 
-    weak var delegate: LoginHelperDelegate?
+    internal weak var delegate: LoginHelperDelegate?
     
     static let shared = LoginHelper()
+    
+    private let disposebag = DisposeBag()
     
     // 앱 실행 시 로그인 확인
     func prepareLogin() {
@@ -236,6 +239,33 @@ class LoginHelper: NSObject {
                     MemberManager.shared.setData(data: json)
                     // 즐겨찾기 목록 가져오기
                     ChargerManager.sharedInstance.getFavoriteCharger()
+                    
+                    RestApi().postRefreshToken(appleIdentityToken: "ㅇㄹㅁㄴㅇ")
+                        .convertData()
+                        .compactMap { result -> String? in
+                            switch result {
+                            case .success(let data):
+                                let jsonData = JSON(data)
+                                printLog(out: "JsonData : \(jsonData)")
+                                
+                                let code = jsonData["code"].stringValue
+                                guard "1000".equals(code) else {
+                                    return nil
+                                }
+                                
+                                return ""
+                                
+                            case .failure(let errorMessage):
+                                printLog(out: "Error Message : \(errorMessage)")
+                                Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                                return nil
+                            }
+                        }
+                        .subscribe(onNext: { refreshToken in
+                            printLog(out: "PARK TEST event : \(refreshToken)")
+                        })
+                        .disposed(by: self.disposebag)
+                    
                 } else {
                     if let delegate = self.delegate, let user = user {
                         delegate.needSignUp(user: user) // ev infra 회원가입
@@ -256,12 +286,7 @@ extension LoginHelper: ASAuthorizationControllerDelegate {
 
         switch authorization.credential {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
-            UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: appleIDCredential.user)
-            printLog(out: "Apple Login Key : \(appleIDCredential.user)")
-            printLog(out: "Apple Login Key : \(String(decoding: appleIDCredential.authorizationCode ?? Data(), as: UTF8.self))")
-            printLog(out: "Apple Login Key : \(String(decoding: appleIDCredential.identityToken ?? Data(), as: UTF8.self))")
-            
-            
+            UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: appleIDCredential.user)                                    
             self.requestLoginToEvInfra(user: Login.apple(appleIDCredential))
             
         default:

@@ -25,7 +25,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     
     private lazy var totalScrollView = UIScrollView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.showsVerticalScrollIndicator = false
+        $0.showsVerticalScrollIndicator = true
         $0.showsHorizontalScrollIndicator = false
     }
     
@@ -68,6 +68,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .natural
         $0.text = "탈퇴사유 선택"
+        $0.numberOfLines = 1
     }
     
     private lazy var selectBoxArrow = ChevronArrow.init(.size24(.down)).then {
@@ -115,6 +116,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         $0.textColor = Colors.contentNegative.color
         $0.text = "1200자 이상 작성할 수 없습니다."
+        $0.numberOfLines = 1
     }
             
     private lazy var reasonTextView = UITextView().then {
@@ -177,40 +179,43 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
             $0.bottom.equalToSuperview().offset(-16)
         }
         
-        self.contentView.addSubview(totalScrollView)
+        self.contentView.addSubview(self.totalScrollView)
         totalScrollView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(nextBtn.snp.top).offset(0)
-            $0.width.equalToSuperview()
-            $0.centerX.equalToSuperview()
         }
         
         totalScrollView.addSubview(totalView)
         totalView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.center.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.width.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
-        
+                
+                        
         totalView.addSubview(dismissKeyboardBtn)
         dismissKeyboardBtn.snp.makeConstraints {
             $0.edges.equalToSuperview()
+            $0.centerX.equalToSuperview()
         }
-                
+
         totalView.addSubview(mainTitleLbl)
         mainTitleLbl.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom).offset(24)
             $0.leading.equalToSuperview().offset(17)
             $0.trailing.equalToSuperview()
         }
-        
+
         totalView.addSubview(subTitleLbl)
         subTitleLbl.snp.makeConstraints {
             $0.top.equalTo(mainTitleLbl.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(17)
             $0.trailing.equalToSuperview()
         }
-        
+
         totalView.addSubview(selectBoxTotalView)
         selectBoxTotalView.snp.makeConstraints {
             $0.top.equalTo(subTitleLbl.snp.bottom).offset(24)
@@ -218,52 +223,53 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
             $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(48)
         }
-        
+
         selectBoxTotalView.addSubview(selectBoxTitleLbl)
         selectBoxTitleLbl.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
             $0.centerY.equalToSuperview()
         }
-        
+
         selectBoxTotalView.addSubview(selectBoxArrow)
         selectBoxArrow.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-16)
             $0.centerY.equalToSuperview()
             $0.width.height.equalTo(24)
         }
-        
+
         selectBoxTotalView.addSubview(selectBoxTotalBtn)
         selectBoxTotalBtn.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
+
         totalView.addSubview(reasonTotalView)
         reasonTotalView.snp.makeConstraints {
             $0.top.equalTo(selectBoxTotalView.snp.bottom).offset(24)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview()
         }
-        
+
         reasonTotalView.addSubview(reasonMainTitleLbl)
         reasonMainTitleLbl.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(1)
             $0.height.equalTo(20)
         }
-        
+
         reasonTotalView.addSubview(reasonBorderView)
         reasonBorderView.snp.makeConstraints {
             $0.top.equalTo(reasonMainTitleLbl.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview()
         }
-        
+
         reasonBorderView.addSubview(reasonTextCountLbl)
         reasonTextCountLbl.snp.makeConstraints {
             $0.height.equalTo(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview().offset(-16)
         }
-                
+
         reasonBorderView.addSubview(reasonTextView)
         reasonTextView.snp.makeConstraints {
             $0.top.equalTo(reasonMainTitleLbl.snp.bottom).offset(16)
@@ -271,21 +277,20 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(reasonTextCountLbl.snp.top).offset(-4)
         }
-        
+
         reasonTotalView.addSubview(reasonNegativeTotalView)
         reasonNegativeTotalView.snp.makeConstraints {
             $0.top.equalTo(reasonBorderView.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
-            $0.height.equalTo(16)
         }
-        
+
         reasonNegativeTotalView.addSubview(reasonNegativeIconImgView)
         reasonNegativeIconImgView.snp.makeConstraints {
             $0.leading.top.bottom.equalToSuperview()
             $0.width.height.equalTo(16)
         }
-        
+
         reasonNegativeTotalView.addSubview(reasonNegativeLbl)
         reasonNegativeLbl.snp.makeConstraints {
             $0.leading.equalTo(reasonNegativeIconImgView.snp.trailing).offset(3)
@@ -308,8 +313,8 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: .UIKeyboardWillHide, object: nil)
     }
     
     @objc private func keyboardWillShow(_ sender: NSNotification) {
@@ -317,7 +322,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
             let keyboardHeight = keyboardSize.height
             view.layoutIfNeeded()
             totalScrollView.snp.updateConstraints {
-                $0.bottom.equalTo(nextBtn.snp.top).offset(-keyboardHeight)
+                $0.bottom.equalTo(nextBtn.snp.top).offset(-keyboardHeight + nextBtn.bounds.size.height)
             }
             
             let contentsInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight / 2, right: 0)
