@@ -227,98 +227,30 @@ internal final class LoginHelper: NSObject {
         }
     }
     
-    struct User: Codable {
-
-        enum CodingKeys: String, CodingKey {
-            case refreshToken = "refresh_token"
-        }
-
-
-        let refreshToken: String
-        
-        init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            refreshToken = try container.decode(String.self, forKey: .refreshToken)
-        }
-    }
-    
     // MARK: - EV Infra 로그인 및 회원가입
     func requestLoginToEvInfra(user: Login?) {
-        guard var _user = user, let _appleAuthorizationCode = _user.appleAuthorizationCode else { return }
-        RestApi().postRefreshToken(appleAuthorizationCode: String(data: _appleAuthorizationCode, encoding: .utf8) ?? "" )
-            .convertData()
-            .compactMap { result -> String? in
-                switch result {
-                case .success(let data):
-                    
-                    var jsonData: JSON = JSON(JSON.null)
-                    var jsonString: JSON = JSON(parseJSON: "")
-                    do {
-                        jsonData = try JSON(data: data, options: .allowFragments)
-                        jsonString = JSON(parseJSON: jsonData.rawString() ?? "")                                                                        
-                    } catch let error {
-                        printLog(out: "Json Parse Error \(error.localizedDescription)")
+        Server.login(user: user) { (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                printLog(out: "Sever Login : \(json)")
+                if json["code"].intValue == 1000 {
+                    if let delegate = self.delegate {
+                        delegate.successLogin()
                     }
-                                    
-                    printLog(out: "JsonData : \(jsonData)")
-
-                    let refreshToken = jsonString["refresh_token"].stringValue
-                    guard !refreshToken.isEmpty else {
-                        return nil
+                    MemberManager.shared.setData(data: json)
+                    // 즐겨찾기 목록 가져오기
+                    ChargerManager.sharedInstance.getFavoriteCharger()                    
+                } else {
+                    if let delegate = self.delegate, let user = user {
+                        delegate.needSignUp(user: user) // ev infra 회원가입
                     }
-
-                    UserDefault().saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value: refreshToken)
-
-                    return refreshToken
-                    
-                case .failure(let errorMessage):
-                    printLog(out: "Error Message : \(errorMessage)")
-                    Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
-                    return nil
+                    MemberManager.shared.clearData()
                 }
+            } else {
+                MemberManager.shared.clearData()
+                Snackbar().show(message: "오류가 발생했습니다. 다시 시도해 주세요.")
             }
-            .subscribe(onNext: { refreshToken in
-                printLog(out: "PARK TEST event : \(refreshToken)")
-//                Server.signUp(user: _user) { (isSuccess, value) in
-//                    if isSuccess {
-//                        let json = JSON(value)
-//                        if json["mb_id"].stringValue.isEmpty {
-//                            Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
-//                        } else {
-//                            Snackbar().show(message: "로그인 성공")
-//                            MemberManager.shared.setData(data: json)
-//                            self.navigationController?.pop()
-//                            if let delegate = self.delegate {
-//                                delegate.successSignUp()
-//                            }
-//                        }
-//                    }
-//                }
-            })
-            .disposed(by: self.disposebag)
-        
-//        Server.login(user: user) { (isSuccess, value) in
-//            if isSuccess {
-//                let json = JSON(value)
-//                printLog(out: "Sever Login : \(json)")
-//                if json["code"].intValue == 1000 {
-//                    if let delegate = self.delegate {
-//                        delegate.successLogin()
-//                    }
-//                    MemberManager.shared.setData(data: json)
-//                    // 즐겨찾기 목록 가져오기
-//                    ChargerManager.sharedInstance.getFavoriteCharger()                    
-//                } else {
-//                    if let delegate = self.delegate, let user = user {
-//                        delegate.needSignUp(user: user) // ev infra 회원가입
-//                    }
-//                    MemberManager.shared.clearData()
-//                }
-//            } else {
-//                MemberManager.shared.clearData()
-//                Snackbar().show(message: "오류가 발생했습니다. 다시 시도해 주세요.")
-//            }
-//        }
+        }
     }
 }
 

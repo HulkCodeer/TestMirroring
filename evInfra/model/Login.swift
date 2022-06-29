@@ -20,7 +20,7 @@ struct Login {
         case none
     }
     
-    var type: LoginType
+    var loginType: LoginType
     
     var userId: String?
     var name: String?
@@ -36,7 +36,7 @@ struct Login {
     var appleAuthorizationCode: Data?
     
     init(_ type: LoginType) {
-        self.type = type
+        self.loginType = type
     }
     
     @available(iOS 13.0, *)
@@ -86,7 +86,7 @@ struct Login {
             "user_id": userId ?? "",
             "nickname": name ?? "",
             "profile": profile_image ?? "",
-            "login_type": type.rawValue,
+            "login_type": loginType.rawValue,
             "email": email ?? "",
             "email_cert": emailVerified,
             "phone_no": phoneNo ?? "",

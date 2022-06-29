@@ -87,7 +87,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         $0.numberOfLines = 1
     }
                     
-    private lazy var nextBtn = UIButton().then {
+    private lazy var quitBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("탈퇴하기", for: .normal)
         $0.setTitle("탈퇴하기", for: .disabled)
@@ -128,27 +128,36 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
             $0.height.equalTo(56)
         }
         
-        self.contentView.addSubview(nextBtn)
-        nextBtn.snp.makeConstraints {
+        self.contentView.addSubview(quitBtn)
+        quitBtn.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(44)
             $0.bottom.equalToSuperview().offset(-16)
         }
         
+        self.contentView.addSubview(guideLbl)
+        guideLbl.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalTo(quitBtn.snp.top).offset(-16)
+            $0.height.equalTo(16)
+        }
+        
         self.contentView.addSubview(totalScrollView)
         totalScrollView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(nextBtn.snp.top)
+            $0.bottom.equalTo(guideLbl.snp.top).offset(-16)
             $0.width.equalToSuperview()
             $0.centerX.equalToSuperview()
         }
         
         totalScrollView.addSubview(totalView)
         totalView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.center.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.width.equalToSuperview()
+            $0.centerX.equalToSuperview()
         }
         
         totalView.addSubview(mainTitleLbl)
@@ -170,16 +179,9 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
             $0.top.equalTo(subTitleLbl.snp.bottom).offset(24)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview()
         }
-        
-        totalView.addSubview(guideLbl)
-        guideLbl.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.equalTo(nextBtn.snp.bottom).offset(-16)
-            $0.height.equalTo(16)
-        }
-        
+                
         for reasonType in ReasonType.allCases {
             totalStackView.addArrangedSubview(self.createReasonView(mainTitle: reasonType.mainTitle, subTitle: reasonType.subTitle))
         }
@@ -198,13 +200,30 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     internal func bind(reactor: QuitAccountReactor) {
         switch MemberManager.shared.loginType {
         case .apple:
-            nextBtn.rx.tap
-                .map{ QuitAccountReactor.Action.deleteAppleAccount }
-                .bind(to: reactor.action)
+            quitBtn.rx.tap
+                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+                .asDriver(onErrorJustReturn: ())
+                .drive(onNext: {
+                    let popupModel = PopupModel(title: "정말 탈퇴하시겠어요?",
+                                                message: "아래 버튼 클릭 시, 즉시 탈퇴가 완료되어 이전으로 돌아갈 수 없어요.",
+                                                confirmBtnTitle: "탈퇴하기", cancelBtnTitle: "취소",
+                                                confirmBtnAction: { [weak self] in
+                        guard let self = self else { return }
+                        Observable.just(QuitAccountReactor.Action.deleteAppleAccount)
+                            .bind(to: reactor.action)
+                            .disposed(by: self.disposeBag)
+                    }, textAlignment: .center)
+                    
+                    let popup = ConfirmPopupViewController(model: popupModel)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                    })
+                })
                 .disposed(by: self.disposeBag)
-            
+                        
         case .kakao:
-            nextBtn.rx.tap
+            quitBtn.rx.tap
+                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
                 .map{ QuitAccountReactor.Action.deleteKakaoAccount }
                 .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
@@ -214,12 +233,11 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         
         reactor.state.compactMap { $0.isComplete }
             .asDriver(onErrorJustReturn: false)
-            .drive(onNext: { [weak self] isComplete in
-                guard let self = self, isComplete else { return }
+            .drive(onNext: { _ in
                 LoginHelper.shared.logout(completion: { success in
                     if success {
-                        Snackbar().show(message: "로그아웃 되었습니다.")                        
-                        GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                        let viewcon = QuitAccountCompleteViewController()
+                        GlobalDefine.shared.mainNavi?.pushViewController(viewcon, animated: true)
                     } else {
                         Snackbar().show(message: "다시 시도해 주세요.")
                     }

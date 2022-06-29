@@ -779,6 +779,8 @@
 		82D9867F2839BD790030F0FC /* MembershipReissuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */; };
 		82D986812839BE080030F0FC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
 		82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */; };
+		82E03191286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
+		82E03192286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
@@ -1256,6 +1258,7 @@
 		82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceReactor.swift; sourceTree = "<group>"; };
 		82D986802839BE080030F0FC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoReactor.swift; sourceTree = "<group>"; };
+		82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitAccountCompleteViewController.swift; sourceTree = "<group>"; };
 		9014C12624E55C4800CB6549 /* EIPOIItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIPOIItem.swift; sourceTree = "<group>"; };
 		9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAllPOIListenerCallback.swift; sourceTree = "<group>"; };
 		9028E07724A1B8270062A029 /* eirel */ = {isa = PBXFileReference; lastKnownFileType = file; path = eirel; sourceTree = "<group>"; };
@@ -1586,10 +1589,11 @@
 			isa = PBXGroup;
 			children = (
 				63762F402869A8F000C951BF /* Models */,
-				63762F422869A8F000C951BF /* QuitAccountReactor.swift */,
-				63762F3F2869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift */,
 				63762F432869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift */,
+				63762F3F2869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift */,
 				63762F442869A8F000C951BF /* QuitAccountViewController.swift */,
+				63762F422869A8F000C951BF /* QuitAccountReactor.swift */,
+				82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */,
 				DB48E1F522E08B07003FFA08 /* ServiceGuideViewController.swift */,
 				DBEE9AF72117DB5600770D04 /* LoginViewController.swift */,
 				DBEE9AFB211842ED00770D04 /* SignUpViewController.swift */,
@@ -3302,6 +3306,7 @@
 				63F3142F284EC74F001713D2 /* FilterManager.swift in Sources */,
 				63F31430284EC74F001713D2 /* ChargerSelectDelegate.swift in Sources */,
 				63F31431284EC74F001713D2 /* MyPayRegisterViewController.swift in Sources */,
+				82E03192286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */,
 				63F31432284EC74F001713D2 /* EVIcon.swift in Sources */,
 				63F31433284EC74F001713D2 /* URL+Extension.swift in Sources */,
 				63F31434284EC74F001713D2 /* LeftViewController.swift in Sources */,
@@ -3582,6 +3587,7 @@
 				0033CBC426C631970084B212 /* FilterManager.swift in Sources */,
 				DB6EBE31217078750000F442 /* ChargerSelectDelegate.swift in Sources */,
 				73D65D6E2356E57900F564A2 /* MyPayRegisterViewController.swift in Sources */,
+				82E03191286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */,
 				73EF8B45203BD1D400D04494 /* EVIcon.swift in Sources */,
 				63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */,
 				73AD13C6203AC34400ADD19A /* LeftViewController.swift in Sources */,

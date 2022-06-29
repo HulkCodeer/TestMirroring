@@ -193,13 +193,14 @@ class SignUpViewController: UIViewController {
                 ivNext.isHidden = true
             }
         } else {
-            guard checkValidSecondForm() else { return }
-            switch MemberManager.shared.loginType {
+            guard checkValidSecondForm(), let _user = user else { return }
+            switch _user.loginType {
             case .apple:
                 signUpApple()
             case .evinfra, .kakao:
                 signUp()
-            default: break
+            default:
+                signUp()
             }
             
         }
@@ -251,21 +252,32 @@ class SignUpViewController: UIViewController {
         _user.phoneNo = tfPhone.text
         _user.ageRange = ageList[ageIndex]
         _user.gender = genderSelected
-                    
+        
         RestApi().postRefreshToken(appleAuthorizationCode: String(data: _appleAuthorizationCode, encoding: .utf8) ?? "" )
             .convertData()
             .compactMap { result -> String? in
                 switch result {
                 case .success(let data):
-                    let jsonData = JSON(data)
-                    printLog(out: "JsonData : \(jsonData)")
                     
-                    let code = jsonData["code"].stringValue
-                    guard "1000".equals(code) else {
+                    var jsonData: JSON = JSON(JSON.null)
+                    var jsonString: JSON = JSON(parseJSON: "")
+                    do {
+                        jsonData = try JSON(data: data, options: .allowFragments)
+                        jsonString = JSON(parseJSON: jsonData.rawString() ?? "")
+                    } catch let error {
+                        printLog(out: "Json Parse Error \(error.localizedDescription)")
+                    }
+                                    
+                    printLog(out: "JsonData : \(jsonData)")
+
+                    let refreshToken = jsonString["refresh_token"].stringValue
+                    guard !refreshToken.isEmpty else {
                         return nil
                     }
-                    
-                    return ""
+
+                    UserDefault().saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value: refreshToken)
+
+                    return refreshToken
                     
                 case .failure(let errorMessage):
                     printLog(out: "Error Message : \(errorMessage)")
@@ -274,7 +286,6 @@ class SignUpViewController: UIViewController {
                 }
             }
             .subscribe(onNext: { refreshToken in
-                printLog(out: "PARK TEST event : \(refreshToken)")                
                 Server.signUp(user: _user) { (isSuccess, value) in
                     if isSuccess {
                         let json = JSON(value)

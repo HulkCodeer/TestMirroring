@@ -9,6 +9,7 @@
 import ReactorKit
 import RxCocoa
 import RxSwift
+import SwiftyJSON
 
 internal final class NewSettingsViewController: CommonBaseViewController, StoryboardView {
     
@@ -109,14 +110,14 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             }
             stackView.addArrangedSubview(settingView)
         }
-
+                
         let quitAccountView = self.createQuitAccountView(mainTitle: "회원탈퇴")
         totalScrollView.addSubview(quitAccountView)
         quitAccountView.snp.makeConstraints {
             $0.top.equalTo(stackView.snp.bottom)
             $0.leading.bottom.trailing.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(56)
+            $0.height.equalTo(MemberManager.shared.isLogin ? 56:0)
         }
     }
             
@@ -262,6 +263,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
     private func createQuitAccountView(mainTitle: String) -> UIView {
         let view = UIView().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.clipsToBounds = true
         }
         
         let mainTitleLbl = UILabel().then {
@@ -299,9 +301,32 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self, let _reactor = self.reactor else { return }
-                Observable.just(SettingsReactor.Action.moveQuitAccountReasonQuestion)
-                    .bind(to: _reactor.action)
-                    .disposed(by: self.disposeBag)
+                
+                Server.getPayRegisterStatus { (isSuccess, value) in
+                    if isSuccess {
+                        let json = JSON(value)
+                        let payCode = json["pay_code"].intValue
+                                            
+                        switch PaymentStatus(rawValue: payCode) {
+                        case .PAY_DEBTOR_USER: // 돈안낸 유저
+                            Snackbar().show(message: "현재 회원님께서는 미수금이 있으므로 회원 탈퇴를 할 수 없습니다.")
+                            
+                        case .CHARGER_STATE_CHARGING: // 충전중
+                            Snackbar().show(message: "현재 회원님께서는 충전중이으므로 회원 탈퇴를 할 수 없습니다.")
+                                                
+                        default:
+                            Observable.just(SettingsReactor.Action.moveQuitAccountReasonQuestion)
+                                .bind(to: _reactor.action)
+                                .disposed(by: self.disposeBag)
+                        }
+                        
+                        printLog(out: "json data : \(json)")
+                    } else {
+                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
+                    }
+                }
+                
+                
             })
             .disposed(by: self.disposeBag)
         
