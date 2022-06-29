@@ -85,9 +85,14 @@
 		192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */; };
 		193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */; };
 		1948FB102849DEAB00C02255 /* NoticeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1948FB0F2849DEAA00C02255 /* NoticeCell.xib */; };
+		19718000286BDCE600DA1FD9 /* ReportHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19717FFF286BDCE600DA1FD9 /* ReportHistoryViewController.swift */; };
 		1972A48728698DBC006AB719 /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972A48628698DBC006AB719 /* NoticeDetailViewController.swift */; };
 		1972A48928699377006AB719 /* NoticeDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972A48828699377006AB719 /* NoticeDetailReactor.swift */; };
 		19C9DAD2283F0DF200EDAA27 /* NoticeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9DAD1283F0DF200EDAA27 /* NoticeReactor.swift */; };
+		19DE1FDF286BDE7100A4756D /* ReportHistoryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE1FDE286BDE7100A4756D /* ReportHistoryReactor.swift */; };
+		19DE1FF0286BE91000A4756D /* ReportHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19DE1FED286BE91000A4756D /* ReportHistoryCell.xib */; };
+		19DE1FF1286BE91000A4756D /* ReportHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE1FEE286BE91000A4756D /* ReportHistoryCell.swift */; };
+		19DE1FF2286BE91000A4756D /* ReportHistroyCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE1FEF286BE91000A4756D /* ReportHistroyCellReactor.swift */; };
 		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
 		4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
 		421569D7259B629100D018DC /* BoardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421569D6259B629100D018DC /* BoardInfo.swift */; };
@@ -519,9 +524,14 @@
 		192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
 		193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
 		1948FB0F2849DEAA00C02255 /* NoticeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeCell.xib; sourceTree = "<group>"; };
+		19717FFF286BDCE600DA1FD9 /* ReportHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportHistoryViewController.swift; sourceTree = "<group>"; };
 		1972A48628698DBC006AB719 /* NoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewController.swift; sourceTree = "<group>"; };
 		1972A48828699377006AB719 /* NoticeDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailReactor.swift; sourceTree = "<group>"; };
 		19C9DAD1283F0DF200EDAA27 /* NoticeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeReactor.swift; sourceTree = "<group>"; };
+		19DE1FDE286BDE7100A4756D /* ReportHistoryReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportHistoryReactor.swift; sourceTree = "<group>"; };
+		19DE1FED286BE91000A4756D /* ReportHistoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportHistoryCell.xib; sourceTree = "<group>"; };
+		19DE1FEE286BE91000A4756D /* ReportHistoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportHistoryCell.swift; sourceTree = "<group>"; };
+		19DE1FEF286BE91000A4756D /* ReportHistroyCellReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportHistroyCellReactor.swift; sourceTree = "<group>"; };
 		4212A25325555775001BB124 /* OfferwallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallTableViewCell.swift; sourceTree = "<group>"; };
 		4212A25425555775001BB124 /* OfferwallTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferwallTableViewCell.xib; sourceTree = "<group>"; };
 		421569D6259B629100D018DC /* BoardInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardInfo.swift; sourceTree = "<group>"; };
@@ -1124,6 +1134,16 @@
 				00CD36CA27900F73005413A6 /* BerryComponent.storyboard */,
 			);
 			path = BerryComponent;
+			sourceTree = "<group>";
+		};
+		195D93F2286BE95F0033967F /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				19DE1FEE286BE91000A4756D /* ReportHistoryCell.swift */,
+				19DE1FED286BE91000A4756D /* ReportHistoryCell.xib */,
+				19DE1FEF286BE91000A4756D /* ReportHistroyCellReactor.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		523A3AF02797A9B8004C3C23 /* Extension */ = {
@@ -1835,9 +1855,12 @@
 		DB5FA59422C20A5100F1508A /* Report */ = {
 			isa = PBXGroup;
 			children = (
+				195D93F2286BE95F0033967F /* Cell */,
 				00FDEAEF26B3BF8C006617EE /* Report.storyboard */,
 				CE93309021509A81006B7EF6 /* ReportBoardViewController.swift */,
 				CE00E811214A330B00020D6E /* ReportChargeViewController.swift */,
+				19717FFF286BDCE600DA1FD9 /* ReportHistoryViewController.swift */,
+				19DE1FDE286BDE7100A4756D /* ReportHistoryReactor.swift */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -2062,6 +2085,7 @@
 				7357594220916A37008181E9 /* ioniq.jpg in Resources */,
 				73A7B3EA204E3595002E975F /* delete_normal.png in Resources */,
 				0055D472252AA88B001133DB /* Membership.storyboard in Resources */,
+				19DE1FF0286BE91000A4756D /* ReportHistoryCell.xib in Resources */,
 				73C31C0D20A4408C005B6C53 /* GoogleService-Info.plist in Resources */,
 				525E3A27278D728B00F5C54D /* CommunityBoardTableViewCell.xib in Resources */,
 				42F9BCE126C64C250028B3D1 /* SummaryView.xib in Resources */,
@@ -2274,6 +2298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73A7B39F204E2A6E002E975F /* ImageMarker.swift in Sources */,
+				19DE1FF2286BE91000A4756D /* ReportHistroyCellReactor.swift in Sources */,
 				73268D5221886C3000C00427 /* MyWritingViewController.swift in Sources */,
 				00B4F54726BA2399009A904C /* TagListViewCell.swift in Sources */,
 				637247D3282A5F7900595FCE /* UIViewController+Extension.swift in Sources */,
@@ -2308,6 +2333,7 @@
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
 				525E3A33278D739E00F5C54D /* BoardWriteButton.swift in Sources */,
+				19718000286BDCE600DA1FD9 /* ReportHistoryViewController.swift in Sources */,
 				00A3659126C4E36200424E40 /* FilterRoadView.swift in Sources */,
 				73C6A0FD2345F1B600349A86 /* MyPayinfoViewController.swift in Sources */,
 				73008459213687150001DBFA /* DetailViewController.swift in Sources */,
@@ -2466,6 +2492,7 @@
 				73268D4C2188331700C00427 /* SettingsViewController.swift in Sources */,
 				DBEE9AFC211842ED00770D04 /* SignUpViewController.swift in Sources */,
 				736813B2204503B70035FC66 /* NavCenterButton.swift in Sources */,
+				19DE1FF1286BE91000A4756D /* ReportHistoryCell.swift in Sources */,
 				7339908022D881D100CF72A8 /* PaymentResultViewController.swift in Sources */,
 				00A3659926C4E3A000424E40 /* FilterAccessView.swift in Sources */,
 				00B36C4526D4B6FE00749FFE /* CompanyTableView.swift in Sources */,
@@ -2493,6 +2520,7 @@
 				736D37CA208993BE009535EE /* NoticeCell.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController+Extension.swift in Sources */,
 				63DA0A05282E337F0021292C /* RentalCarCardListView.swift in Sources */,
+				19DE1FDF286BDE7100A4756D /* ReportHistoryReactor.swift in Sources */,
 				00A6A16626C3B3DC0023DAE3 /* FilterContainerView.swift in Sources */,
 				00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */,
 				73A7B428204E81A6002E975F /* Const.swift in Sources */,

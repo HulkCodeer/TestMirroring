@@ -318,10 +318,16 @@ extension LeftViewController {
                     navigationController?.push(viewController: tabsController)
                 
                 case SUB_MENU_REPORT_STATION: // 충전소 제보 내역
-                    let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
-                    let reportVC = reportStoryboard.instantiateViewController(ofType: ReportBoardViewController.self)
-                    navigationController?.push(viewController: reportVC)
-
+                    guard MemberManager.shared.isLogin else {
+                        MemberManager.shared.showLoginAlert()
+                        return
+                    }
+                    
+                    let reportHistoryReactor = ReportHistoryReactor(provider: RestApi())
+                    let reportHistoryViewController = ReportHistoryViewController()
+                    reportHistoryViewController.bind(reactor: reportHistoryReactor)
+                    
+                    GlobalDefine.shared.mainNavi?.push(viewController: reportHistoryViewController)
                 default:
                     print("out of index")
                 }
