@@ -17,7 +17,10 @@ import RxSwift
 protocol SignUpViewControllerDelegate {
     func successSignUp()
 }
-class SignUpViewController: UIViewController {
+internal final class SignUpViewController: UIViewController {
+    
+    // MARK: UI
+    
     @IBOutlet weak var viewSignUpInfo_1: UIView!
     @IBOutlet weak var viewSignUpInfo_2: UIView!
     
@@ -40,13 +43,16 @@ class SignUpViewController: UIViewController {
     
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var scrollviewBottomConstraints: NSLayoutConstraint!
-    let ageList: Array<String> = ["20대", "30대", "40대", "50대 이상", "선택안함"]
-    var delegate: SignUpViewControllerDelegate?
-    var user: Login?
-    var page = 0
-    var ageIndex = 0
-    var genderSelected: String?
     
+    // MARK: VARIABLE
+    
+    internal var delegate: SignUpViewControllerDelegate?
+    internal var user: Login?
+    
+    private let ageList: Array<String> = ["20대", "30대", "40대", "50대 이상", "선택안함"]
+    private var page = 0
+    private var ageIndex = 0
+    private var genderSelected: String?
     private var profileImgName = ""
     private let disposebag = DisposeBag()
     
@@ -72,7 +78,7 @@ class SignUpViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func prepareView() {
+    private func prepareView() {
         tfNickname.delegate = self
         tfEmail.delegate = self
         tfPhone.delegate = self
@@ -119,7 +125,7 @@ class SignUpViewController: UIViewController {
     }
     
     // MARK: - KeyBoardHeight
-    @objc func keyboardWillShow(_ notification: Notification) {
+    @objc private func keyboardWillShow(_ notification: Notification) {
         var keyboardHeight: CGFloat = 0
         if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
@@ -130,7 +136,7 @@ class SignUpViewController: UIViewController {
         self.scrollView.layoutIfNeeded()
     }
     
-    @objc func keyboardWillHide(_ notification: Notification) {
+    @objc private func keyboardWillHide(_ notification: Notification) {
         self.scrollviewBottomConstraints.constant = 0
         self.scrollView.setNeedsLayout()
         self.scrollView.layoutIfNeeded()
@@ -141,7 +147,7 @@ class SignUpViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-    @IBAction func openBottonSheet(_ sender: UITapGestureRecognizer) {
+    @IBAction private func openBottonSheet(_ sender: UITapGestureRecognizer) {
         let componentStoryboard = UIStoryboard(name : "BerryComponent", bundle: nil)
         let bottomSheetVC = componentStoryboard.instantiateViewController(withIdentifier: "BottomSheetViewController") as! BottomSheetViewController
         
@@ -154,11 +160,11 @@ class SignUpViewController: UIViewController {
         self.navigationController?.present(bottomSheet, animated: true, completion: nil)
     }
     
-    @objc func btnTouch(_ sender:DLRadioButton) {
+    @objc private func btnTouch(_ sender:DLRadioButton) {
         genderSelected = sender.currentTitle!
     }
     
-    func prepareActionBar() {
+    private func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
         backButton.tintColor = UIColor(named: "content-primary")
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
@@ -184,7 +190,7 @@ class SignUpViewController: UIViewController {
     }
     
 
-    @IBAction func onClickSignUp(_ sender: Any) {
+    @IBAction private func onClickSignUp(_ sender: Any) {
         if page == 0 {
             if checkValidFirstForm() {
                 viewSignUpInfo_2.isHidden = false
@@ -206,7 +212,7 @@ class SignUpViewController: UIViewController {
         }
     }
     
-    func checkValidFirstForm() -> Bool {
+    private func checkValidFirstForm() -> Bool {
         if let name = tfNickname.text, !name.isEmpty, name.count > 1, !name.contains(" ") {
             lbWarnNickname.isHidden = true
             if let email = tfEmail.text, StringUtils.isValidEmail(email) {
@@ -226,7 +232,7 @@ class SignUpViewController: UIViewController {
         return false
     }
     
-    func checkValidSecondForm() -> Bool {
+    private func checkValidSecondForm() -> Bool {
         if ageIndex > -1 {
             lbWarnAge.isHidden = true
             if let gender = genderSelected, !gender.isEmpty {
@@ -306,7 +312,7 @@ class SignUpViewController: UIViewController {
                         
     }
     
-    func signUp() {
+    private func signUp() {
         if var me = self.user {            
             if !profileImgName.isEmpty{
                 me.profile_image = profileImgName
@@ -332,14 +338,14 @@ class SignUpViewController: UIViewController {
                         }
                     }
                 }
-            }                        
+            }
         }
     }
 }
 
 extension SignUpViewController {
     
-    func createProfileImage() {
+    private func createProfileImage() {
         if let profileUrl = self.user?.otherInfo?.profile_image {
             // 프로파일 이미지 이름 생성
             let memberId = MemberManager.shared.memberId
@@ -363,7 +369,7 @@ extension SignUpViewController {
     }
 }
 extension SignUpViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    private func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == tfPhone {
             guard let text = textField.text else {
                 return false
@@ -393,7 +399,7 @@ extension SignUpViewController: UITextFieldDelegate {
         return true
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    private func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == tfNickname {
             tfEmail.becomeFirstResponder()
         } else if textField == tfEmail {
@@ -407,7 +413,7 @@ extension SignUpViewController: UITextFieldDelegate {
 }
 
 extension SignUpViewController: BottomSheetDelegate {
-    func onSelected(index: Int) {
+    internal func onSelected(index: Int) {
         if index >= 0 {
             ageIndex = index
             lbAge.text = ageList[index]

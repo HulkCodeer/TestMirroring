@@ -170,6 +170,8 @@
 		63B23744282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */; };
 		63BEAC5E28338ADA00E797DD /* ReissuanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BEAC5D28338ADA00E797DD /* ReissuanceModel.swift */; };
 		63BEAC602833965A00E797DD /* Observable+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BEAC5F2833965A00E797DD /* Observable+Operators.swift */; };
+		63C7C8E0286D6F0B00A357D6 /* NewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */; };
+		63C7C8E1286D7D2C00A357D6 /* NewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */; };
 		63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */; };
 		63CCE8242834CFD5006B8B9A /* evInfraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE8232834CFD5006B8B9A /* evInfraTests.swift */; };
 		63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */; };
@@ -1043,6 +1045,7 @@
 		63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceViewController.swift; sourceTree = "<group>"; };
 		63BEAC5D28338ADA00E797DD /* ReissuanceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceModel.swift; sourceTree = "<group>"; };
 		63BEAC5F2833965A00E797DD /* Observable+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Operators.swift"; sourceTree = "<group>"; };
+		63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBottomSheetViewController.swift; sourceTree = "<group>"; };
 		63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkModel.swift; sourceTree = "<group>"; };
 		63CCE8212834CFD5006B8B9A /* evInfraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = evInfraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63CCE8232834CFD5006B8B9A /* evInfraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = evInfraTests.swift; sourceTree = "<group>"; };
@@ -1885,6 +1888,7 @@
 				82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */,
 				82D986802839BE080030F0FC /* ViewModel.swift */,
 				63EB0390283CB26500078D28 /* ServerResult.swift */,
+				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -3177,6 +3181,7 @@
 				63F313B7284EC74F001713D2 /* UserDefault.swift in Sources */,
 				63F313B8284EC74F001713D2 /* InfoLastUpdateDto.swift in Sources */,
 				63F313B9284EC74F001713D2 /* PartnershipJoinView.swift in Sources */,
+				63C7C8E1286D7D2C00A357D6 /* NewBottomSheetViewController.swift in Sources */,
 				63F313BA284EC74F001713D2 /* OfferwallTableViewCell.swift in Sources */,
 				63F313BB284EC74F001713D2 /* ChargePriceViewController.swift in Sources */,
 				63F313BC284EC74F001713D2 /* GlobalDefine.swift in Sources */,
@@ -3595,6 +3600,7 @@
 				CE93308F214F9807006B7EF6 /* ReportChargerList.swift in Sources */,
 				63B23740282CA4B400E8A3F8 /* PointUseGuideViewController.swift in Sources */,
 				00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */,
+				63C7C8E0286D6F0B00A357D6 /* NewBottomSheetViewController.swift in Sources */,
 				00F1AC7727031FAA009847E7 /* PreUsePointViewController.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton+Extension.swift in Sources */,
 				63DA09FF282E2F440021292C /* JSON+Extension.swift in Sources */,

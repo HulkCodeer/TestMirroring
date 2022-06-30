@@ -9,6 +9,7 @@
 import ReactorKit
 import RxCocoa
 import RxSwift
+import PanModal
 
 internal final class QuitAccountReasonQuestionViewController: CommonBaseViewController, StoryboardView {
     
@@ -352,20 +353,22 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                let rowVC = GroupViewController()
+                let rowVC = NewBottomSheetViewController()
+                rowVC.modalPresentationStyle = .fullScreen
+                                
                 // MARK: - TEST CODE
-//                rowVC.members = ["충전 및 결제가 불편해요.", "커뮤니티가 짜증나요.", "지도와 충전소 정보가 부정확해요.", "각종 내역을 보기 힘들어요.", "기타"]
-                rowVC.members = reactor.currentState.quitAccountReasonList?.compactMap { $0.reasonMessage } ?? []
-                self.presentPanModal(rowVC)
+//                rowVC.members = reactor.currentState.quitAccountReasonList?.compactMap { $0.reasonMessage } ?? []
+                GlobalDefine.shared.mainNavi?.present(rowVC, animated: false)
                 
-                rowVC.selectedCompletion = { [weak self] index in
-                    guard let self = self else { return }
-                    reactor.selectedReasonIndex = index
-                    self.selectBoxTitleLbl.text = rowVC.members[index]
-                    self.nextBtn.isEnabled = true
-                    self.reasonTotalView.isHidden = false
-                    self.dismiss(animated: true, completion: nil)
-                }
+                
+//                rowVC.selectedCompletion = { [weak self] index in
+//                    guard let self = self else { return }
+//                    reactor.selectedReasonIndex = index
+//                    self.selectBoxTitleLbl.text = rowVC.members[index]
+//                    self.nextBtn.isEnabled = true
+//                    self.reasonTotalView.isHidden = false
+//                    self.dismiss(animated: true, completion: nil)
+//                }
             })
             .disposed(by: self.disposeBag)
         
