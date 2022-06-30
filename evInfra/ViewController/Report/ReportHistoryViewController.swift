@@ -13,6 +13,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 import Then
+import UIKit
 
 internal final class ReportHistoryViewController: BaseViewController, StoryboardView {
     
@@ -22,7 +23,7 @@ internal final class ReportHistoryViewController: BaseViewController, Storyboard
         static let reportHistoryListCell = ReusableCell<ReportHistoryCell>(nibName: ReportHistoryCell.reuseID)
     }
     
-    private let tableView = UITableView().then {
+    private lazy var tableView = UITableView().then {
         $0.rowHeight = UITableViewAutomaticDimension
         $0.estimatedRowHeight = UITableViewAutomaticDimension
         $0.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
@@ -31,6 +32,13 @@ internal final class ReportHistoryViewController: BaseViewController, Storyboard
         $0.showsHorizontalScrollIndicator = false
         $0.separatorStyle = .singleLine
         $0.register(Reusable.reportHistoryListCell)
+    }
+    
+    private lazy var emptyTextLabel = UILabel().then {
+        $0.text = "제보한 내역이 없습니다."
+        $0.font = .systemFont(ofSize: 17, weight: .regular)
+        $0.textColor = UIColor(named: "content-primary")
+        $0.isHidden = true
     }
     
     private let dataSource = ReportHistoryDataSource(configureCell: { _, tableView, indexPath, item in
@@ -45,9 +53,14 @@ internal final class ReportHistoryViewController: BaseViewController, Storyboard
     override func loadView() {
         super.loadView()
         view.addSubview(tableView)
-        
         tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        view.addSubview(emptyTextLabel)
+        emptyTextLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
         }
     }
     
@@ -59,6 +72,10 @@ internal final class ReportHistoryViewController: BaseViewController, Storyboard
     internal func bind(reactor: ReportHistoryReactor) {
         Observable.just(Reactor.Action.loadData)
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.isHiddenEmptyLabel }
+            .bind(to: emptyTextLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.sections }

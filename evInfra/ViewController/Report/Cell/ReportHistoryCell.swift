@@ -14,50 +14,50 @@ import Then
 internal final class ReportHistoryCell: UITableViewCell, ReactorKit.View {
     internal var disposeBag = DisposeBag()
     
-    private var cellSelectButton = UIButton().then {
+    private lazy var cellSelectButton = UIButton().then {
         $0.backgroundColor = .clear
     }
     
-    private var containerStackView = UIStackView().then {
+    private lazy var containerStackView = UIStackView().then {
         $0.axis = .vertical
         $0.alignment = .fill
         $0.spacing = 8
         $0.distribution = .fillEqually
     }
 
-    private var titleWithDateStackView = UIStackView().then {
+    private lazy var titleWithDateStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .fill
     }
     
-    private var reportTypeLabel = UILabel().then {
+    private lazy var reportTypeLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 17, weight: .regular)
     }
     
-    private var dateLabel = UILabel().then {
+    private lazy var dateLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 15, weight: .regular)
         $0.textColor = UIColor(named: "nt-5")
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
 
-    private var stateWithChargerNameStackView = UIStackView().then {
+    private lazy var stateWithChargerNameStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .fill
     }
     
-    private var statusLabel = UILabel().then {
+    private lazy var statusLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 15, weight: .regular)
         $0.textColor = UIColor(named: "gr-4")
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
-    private var stationNameLabel = UILabel().then {
+    private lazy var stationNameLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 17, weight: .regular)
         $0.textColor = UIColor(named: "gr-7")
         $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
-    private var adminCommentLabel = UILabel().then {
+    private lazy var adminCommentLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 15, weight: .regular)
         $0.textColor = UIColor(named: "nt-5")
         $0.numberOfLines = 2
@@ -73,7 +73,6 @@ internal final class ReportHistoryCell: UITableViewCell, ReactorKit.View {
     
     private func makeUI() {
         contentView.addSubview(containerStackView)
-        
         containerStackView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(16)
             $0.leading.equalToSuperview().offset(16)

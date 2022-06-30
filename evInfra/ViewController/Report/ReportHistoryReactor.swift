@@ -23,6 +23,7 @@ internal final class ReportHistoryReactor: ViewModel, Reactor {
     
     struct State {
         var sections = [ReportHistoryListSectionModel]()
+        var isHiddenEmptyLabel: Bool = true
     }
     
     internal var initialState: State
@@ -46,9 +47,10 @@ internal final class ReportHistoryReactor: ViewModel, Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         newState.sections = []
-        
+
         switch mutation {
         case .setReportHistoryList(let reportHistoryList):
+            newState.isHiddenEmptyLabel = reportHistoryList.isEmpty ? false : true
             newState.sections = [ReportHistoryListSectionModel(items: reportHistoryList)]
         case .none: break
         }
