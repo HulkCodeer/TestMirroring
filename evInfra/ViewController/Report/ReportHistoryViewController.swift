@@ -48,6 +48,7 @@ internal final class ReportHistoryViewController: BaseViewController, Storyboard
             cell.reactor = reactor
             return cell
         }
+    
     })
     
     override func loadView() {
@@ -62,6 +63,10 @@ internal final class ReportHistoryViewController: BaseViewController, Storyboard
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview()
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,6 +85,18 @@ internal final class ReportHistoryViewController: BaseViewController, Storyboard
         
         reactor.state.map { $0.sections }
             .bind(to: self.tableView.rx.items(dataSource: self.dataSource))
+            .disposed(by: disposeBag)
+        
+        tableView.rx.didEndDragging
+            .filter { _ in
+                let currentOffset = self.tableView.contentOffset.y
+                let maximumOffset = self.tableView.contentSize.height - self.tableView.frame.size.height
+                
+                guard maximumOffset - currentOffset <= self.tableView.frame.size.height else { return false}
+                return true
+            }
+            .map { _ in Reactor.Action.nextLoadData(reactor.initialState.lastId) }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
 }
