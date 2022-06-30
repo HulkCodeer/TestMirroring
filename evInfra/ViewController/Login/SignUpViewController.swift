@@ -332,8 +332,7 @@ class SignUpViewController: UIViewController {
                         }
                     }
                 }
-            }
-                        
+            }                        
         }
     }
 }

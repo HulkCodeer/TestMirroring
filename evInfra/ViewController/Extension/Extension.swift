@@ -9,11 +9,15 @@
 import UIKit
 import PanModal
 
-class GroupViewController: UITableViewController {
+internal final class GroupViewController: UITableViewController {
+    
+    // MARK: VARIABLE
     
     internal var members: [String] = []
     internal var selectedCompletion: ((Int) -> Void)?
     private var isShortFormEnabled = true
+    
+    // MARK: SYSTEM FUNC
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -73,7 +73,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     
     private lazy var selectBoxArrow = ChevronArrow.init(.size24(.down)).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.tintColor = Colors.contentPrimary.color
+        $0.IBimageColor = Colors.contentPrimary.color
     }
     
     private lazy var selectBoxTotalBtn = UIButton().then {
@@ -103,12 +103,13 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     
     private lazy var reasonNegativeTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.isHidden = true
     }
 
     private lazy var reasonNegativeIconImgView = Info(.size16).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.tintColor = Colors.contentNegative.color
         $0.IBimageWidth = 16
+        $0.IBimageColor = Colors.contentNegative.color
     }
     
     private lazy var reasonNegativeLbl = UILabel().then {
@@ -195,27 +196,12 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
             $0.width.equalToSuperview()
             $0.centerX.equalToSuperview()
         }
-        
-//        self.contentView.addSubview(self.totalScrollView)
-//        totalScrollView.snp.makeConstraints {
-//            $0.top.equalTo(naviTotalView.snp.bottom)
-//            $0.leading.trailing.equalToSuperview()
-//            $0.bottom.equalTo(nextBtn.snp.top).offset(0)
-//            $0.width.equalToSuperview()
-//        }
-//        
-//        totalScrollView.addSubview(totalView)
-//        totalView.snp.makeConstraints {
-//            $0.top.bottom.centerX.width.equalToSuperview()
-//        }
-        
-                
-                        
-//        totalView.addSubview(dismissKeyboardBtn)
-//        dismissKeyboardBtn.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
-//            $0.centerX.equalToSuperview()
-//        }
+                                                    
+        totalView.addSubview(dismissKeyboardBtn)
+        dismissKeyboardBtn.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.centerX.equalToSuperview()
+        }
 
         totalView.addSubview(mainTitleLbl)
         mainTitleLbl.snp.makeConstraints {
@@ -223,170 +209,94 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
             $0.leading.equalToSuperview().offset(17)
             $0.trailing.equalToSuperview()
         }
-        
-        var mainTitleLbl2 = UILabel().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-            $0.textColor = Colors.backgroundAlwaysDark.color
-            $0.textAlignment = .natural
-            $0.text = "탈퇴 사유를 선택해주세요."
-            $0.numberOfLines = 0
-        }
-        totalView.addSubview(mainTitleLbl2)
-        mainTitleLbl2.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLbl.snp.bottom).offset(104)
+            
+        totalView.addSubview(subTitleLbl)
+        subTitleLbl.snp.makeConstraints {
+            $0.top.equalTo(mainTitleLbl.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(17)
             $0.trailing.equalToSuperview()
         }
-        
-        var mainTitleLbl3 = UILabel().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-            $0.textColor = Colors.backgroundAlwaysDark.color
-            $0.textAlignment = .natural
-            $0.text = "탈퇴 사유를 선택해주세요."
-            $0.numberOfLines = 0
+
+        totalView.addSubview(selectBoxTotalView)
+        selectBoxTotalView.snp.makeConstraints {
+            $0.top.equalTo(subTitleLbl.snp.bottom).offset(24)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.height.equalTo(48)
         }
-        totalView.addSubview(mainTitleLbl3)
-        mainTitleLbl3.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLbl2.snp.bottom).offset(104)
-            $0.leading.equalToSuperview().offset(17)
-            $0.trailing.equalToSuperview()
+
+        selectBoxTotalView.addSubview(selectBoxTitleLbl)
+        selectBoxTitleLbl.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerY.equalToSuperview()
         }
-        
-        var mainTitleLbl4 = UILabel().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-            $0.textColor = Colors.backgroundAlwaysDark.color
-            $0.textAlignment = .natural
-            $0.text = "탈퇴 사유를 선택해주세요."
-            $0.numberOfLines = 0
+
+        selectBoxTotalView.addSubview(selectBoxArrow)
+        selectBoxArrow.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.centerY.equalToSuperview()
+            $0.width.height.equalTo(24)
         }
-        totalView.addSubview(mainTitleLbl4)
-        mainTitleLbl4.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLbl3.snp.bottom).offset(104)
-            $0.leading.equalToSuperview().offset(17)
-            $0.trailing.equalToSuperview()
+
+        selectBoxTotalView.addSubview(selectBoxTotalBtn)
+        selectBoxTotalBtn.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
-        
-        var mainTitleLbl5 = UILabel().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-            $0.textColor = Colors.backgroundAlwaysDark.color
-            $0.textAlignment = .natural
-            $0.text = "탈퇴 사유를 선택해주세요."
-            $0.numberOfLines = 0
-        }
-        totalView.addSubview(mainTitleLbl5)
-        mainTitleLbl5.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLbl4.snp.bottom).offset(104)
-            $0.leading.equalToSuperview().offset(17)
-            $0.trailing.equalToSuperview()
-        }
-        
-        var mainTitleLbl6 = UILabel().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-            $0.textColor = Colors.backgroundAlwaysDark.color
-            $0.textAlignment = .natural
-            $0.text = "탈퇴 사유를 선택해주세요."
-            $0.numberOfLines = 0
-        }
-        totalView.addSubview(mainTitleLbl6)
-        mainTitleLbl6.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLbl5.snp.bottom).offset(104)
-            $0.leading.equalToSuperview().offset(17)
-            $0.trailing.equalToSuperview()
+
+        totalView.addSubview(reasonTotalView)
+        reasonTotalView.snp.makeConstraints {
+            $0.top.equalTo(selectBoxTotalView.snp.bottom).offset(24)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview()
         }
 
-//        totalView.addSubview(subTitleLbl)
-//        subTitleLbl.snp.makeConstraints {
-//            $0.top.equalTo(mainTitleLbl.snp.bottom).offset(10)
-//            $0.leading.equalToSuperview().offset(17)
-//            $0.trailing.equalToSuperview()
-//        }
-//
-//        totalView.addSubview(selectBoxTotalView)
-//        selectBoxTotalView.snp.makeConstraints {
-//            $0.top.equalTo(subTitleLbl.snp.bottom).offset(24)
-//            $0.leading.equalToSuperview().offset(16)
-//            $0.trailing.equalToSuperview().offset(-16)
-//            $0.height.equalTo(48)
-//        }
-//
-//        selectBoxTotalView.addSubview(selectBoxTitleLbl)
-//        selectBoxTitleLbl.snp.makeConstraints {
-//            $0.leading.equalToSuperview().offset(16)
-//            $0.centerY.equalToSuperview()
-//        }
-//
-//        selectBoxTotalView.addSubview(selectBoxArrow)
-//        selectBoxArrow.snp.makeConstraints {
-//            $0.trailing.equalToSuperview().offset(-16)
-//            $0.centerY.equalToSuperview()
-//            $0.width.height.equalTo(24)
-//        }
-//
-//        selectBoxTotalView.addSubview(selectBoxTotalBtn)
-//        selectBoxTotalBtn.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
-//        }
-//
-//        totalView.addSubview(reasonTotalView)
-//        reasonTotalView.snp.makeConstraints {
-//            $0.top.equalTo(selectBoxTotalView.snp.bottom).offset(24)
-//            $0.leading.equalToSuperview().offset(16)
-//            $0.trailing.equalToSuperview().offset(-16)
-//            $0.bottom.equalToSuperview()
-//        }
-//
-//        reasonTotalView.addSubview(reasonMainTitleLbl)
-//        reasonMainTitleLbl.snp.makeConstraints {
-//            $0.top.equalToSuperview()
-//            $0.leading.equalToSuperview().offset(1)
-//            $0.height.equalTo(20)
-//        }
-//
-//        reasonTotalView.addSubview(reasonBorderView)
-//        reasonBorderView.snp.makeConstraints {
-//            $0.top.equalTo(reasonMainTitleLbl.snp.bottom).offset(16)
-//            $0.leading.trailing.equalToSuperview()
-//        }
-//
-//        reasonBorderView.addSubview(reasonTextCountLbl)
-//        reasonTextCountLbl.snp.makeConstraints {
-//            $0.height.equalTo(16)
-//            $0.trailing.equalToSuperview().offset(-16)
-//            $0.bottom.equalToSuperview().offset(-16)
-//        }
-//
-//        reasonBorderView.addSubview(reasonTextView)
-//        reasonTextView.snp.makeConstraints {
-//            $0.top.equalTo(reasonMainTitleLbl.snp.bottom).offset(16)
-//            $0.height.greaterThanOrEqualTo(104)
-//            $0.leading.trailing.equalToSuperview()
-//            $0.bottom.equalTo(reasonTextCountLbl.snp.top).offset(-4)
-//        }
-//
-//        reasonTotalView.addSubview(reasonNegativeTotalView)
-//        reasonNegativeTotalView.snp.makeConstraints {
-//            $0.top.equalTo(reasonBorderView.snp.bottom).offset(8)
-//            $0.leading.trailing.equalToSuperview()
-//            $0.bottom.equalToSuperview()
-//        }
-//
-//        reasonNegativeTotalView.addSubview(reasonNegativeIconImgView)
-//        reasonNegativeIconImgView.snp.makeConstraints {
-//            $0.leading.top.bottom.equalToSuperview()
-//            $0.width.height.equalTo(16)
-//        }
-//
-//        reasonNegativeTotalView.addSubview(reasonNegativeLbl)
-//        reasonNegativeLbl.snp.makeConstraints {
-//            $0.leading.equalTo(reasonNegativeIconImgView.snp.trailing).offset(3)
-//            $0.top.bottom.trailing.equalToSuperview()
-//        }
+        reasonTotalView.addSubview(reasonMainTitleLbl)
+        reasonMainTitleLbl.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().offset(1)
+            $0.height.equalTo(20)
+        }
+
+        reasonTotalView.addSubview(reasonBorderView)
+        reasonBorderView.snp.makeConstraints {
+            $0.top.equalTo(reasonMainTitleLbl.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview()
+        }
+
+        reasonBorderView.addSubview(reasonTextCountLbl)
+        reasonTextCountLbl.snp.makeConstraints {
+            $0.height.equalTo(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview().offset(-16)
+        }
+
+        reasonBorderView.addSubview(reasonTextView)
+        reasonTextView.snp.makeConstraints {
+            $0.top.equalTo(reasonMainTitleLbl.snp.bottom).offset(16)
+            $0.height.greaterThanOrEqualTo(104)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(reasonTextCountLbl.snp.top).offset(-4)
+        }
+
+        reasonTotalView.addSubview(reasonNegativeTotalView)
+        reasonNegativeTotalView.snp.makeConstraints {
+            $0.top.equalTo(reasonBorderView.snp.bottom).offset(8)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+
+        reasonNegativeTotalView.addSubview(reasonNegativeIconImgView)
+        reasonNegativeIconImgView.snp.makeConstraints {
+            $0.leading.top.bottom.equalToSuperview()
+            $0.width.height.equalTo(16)
+        }
+
+        reasonNegativeTotalView.addSubview(reasonNegativeLbl)
+        reasonNegativeLbl.snp.makeConstraints {
+            $0.leading.equalTo(reasonNegativeIconImgView.snp.trailing).offset(3)
+            $0.top.bottom.trailing.equalToSuperview()
+        }
     }
     
     override func viewDidLoad() {
@@ -413,12 +323,12 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
             let keyboardHeight = keyboardSize.height
             view.layoutIfNeeded()
             totalScrollView.snp.updateConstraints {
-                $0.bottom.equalTo(nextBtn.snp.top).offset(-keyboardHeight + nextBtn.bounds.size.height)
+                $0.bottom.equalTo(nextBtn.snp.top).offset(-keyboardHeight - 60 - self.view.safeAreaInsets.bottom)
             }
             
-            let contentsInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight / 2, right: 0)
-            totalScrollView.contentInset = contentsInset
-            totalScrollView.scrollIndicatorInsets = contentsInset
+//            let contentsInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight / 2, right: 0)
+//            totalScrollView.contentInset = contentsInset
+//            totalScrollView.scrollIndicatorInsets = contentsInset
         }
     }
     
@@ -427,9 +337,9 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         let contentsInset: UIEdgeInsets = .zero
         totalScrollView.contentInset = contentsInset
         totalScrollView.scrollIndicatorInsets = contentsInset
-        
-        totalView.snp.updateConstraints {
-            $0.bottom.equalToSuperview().offset(0)
+                
+        totalScrollView.snp.updateConstraints {
+            $0.bottom.equalTo(nextBtn.snp.top).offset(-16)
         }
     }
                     
@@ -492,10 +402,14 @@ extension QuitAccountReasonQuestionViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         printLog(out: "PARK TEST textViewDidChange")
+                        
+        let textViewStrCount = textView.text.count
+        let isTextCountLimit = textViewStrCount > 1200
+        reasonBorderView.IBborderColor =  isTextCountLimit ? Colors.borderNegative.color : Colors.nt9.color
+        reasonNegativeTotalView.isHidden = !isTextCountLimit
+        textView.text = isTextCountLimit ? String(textView.text.prefix(1200)) : textView.text
         
-        reasonTextView.IBborderColor = Colors.borderNegative.color
-        
-        reasonTextCountLbl.text = "\(reasonTextView.text.count) / 1200"
+        reasonTextCountLbl.text = "\(textView.text.count) / 1200"
         
         let size = CGSize(width: view.frame.width, height: .infinity)
         let estimatedSize = textView.sizeThatFits(size)
