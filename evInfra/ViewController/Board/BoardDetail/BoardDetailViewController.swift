@@ -325,20 +325,17 @@ extension BoardDetailViewController {
                                     message:"게시글을 삭제 하시겠습니까?",
                                     confirmBtnTitle: "삭제",
                                     cancelBtnTitle: "취소",
-                                    confirmBtnAction: {
+                                    confirmBtnAction: { [weak self] in
+            guard let self = self else { return }
             self.boardDetailViewModel.deleteBoard(document_srl: self.document_srl) { [weak self] isSuccess in
                 guard let self = self else { return }
-                if isSuccess {
-                    self.trasientAlertView.titlemessage = "게시글이 삭제 되었습니다."
-                    self.presentPanModal(self.trasientAlertView)
-                } else {
-                    self.trasientAlertView.titlemessage = "오류가 발생했습니다. 다시 시도해 주세요."
-                    self.presentPanModal(self.trasientAlertView)
+                guard isSuccess else {
+                    Snackbar().show(message: "오류가 발생했습니다. 다시 시도해 주세요.")
+                    return
                 }
-                self.trasientAlertView.dismissCompletion = {
-                    NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
-                    self.navigationController?.pop()
-                }
+                Snackbar().show(message: "게시글이 삭제 되었습니다.")
+                NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                GlobalDefine.shared.mainNavi?.pop()
             }
         })
         
@@ -368,25 +365,20 @@ extension BoardDetailViewController {
                                     message:"게시글을 신고하시겠습니까?",
                                     confirmBtnTitle: "신고하기",
                                     cancelBtnTitle: "취소",
-                                    confirmBtnAction: {
+                                    confirmBtnAction: { [weak self] in
+            guard let self = self else { return }
             self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { [weak self] (isSuccess, message) in
                 guard let self = self else { return }
                 if isSuccess {
-                    self.trasientAlertView.titlemessage = message
-                    self.presentPanModal(self.trasientAlertView)
-                    self.trasientAlertView.dismissCompletion = {
-                        if isSuccess {
-                            NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
-                            self.navigationController?.pop()
-                        }
-                    }
+                    Snackbar().show(message: message)
+                    NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                    GlobalDefine.shared.mainNavi?.pop()
                 }
             }
         })
         
         let popup = ConfirmPopupViewController(model: popupModel)
-        
-        
+
         self.present(popup, animated: true, completion: nil)
     }
     
@@ -396,14 +388,11 @@ extension BoardDetailViewController {
                                     message:"댓글을 삭제하시겠습니까?",
                                     confirmBtnTitle: "삭제",
                                     cancelBtnTitle: "취소",
-                                    confirmBtnAction: {
-            self.boardDetailViewModel.reportBoard(document_srl: self.document_srl) { [weak self] (isSuccess, message) in
-                guard let self = self else { return }
-                self.boardDetailViewModel.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { isSuccess, message in
-                    self.trasientAlertView.titlemessage = message
-                    self.presentPanModal(self.trasientAlertView)
-                    self.fetchData()
-                }
+                                    confirmBtnAction: { [weak self] in
+            guard let self = self else { return }
+            self.boardDetailViewModel.deleteBoardComment(documentSRL: documentSRL, commentSRL: commentSRL) { isSuccess, message in
+                Snackbar().show(message: message)
+                self.fetchData()
             }
         })
         
@@ -437,8 +426,7 @@ extension BoardDetailViewController {
                                     confirmBtnAction: { [weak self] in
             guard let self = self else { return }
             self.boardDetailViewModel.reportComment(commentSrl: comment.comment_srl!) { (_, message) in
-                self.trasientAlertView.titlemessage = message
-                self.presentPanModal(self.trasientAlertView)
+                Snackbar().show(message: message)
                 self.fetchData()
             }
         })
@@ -593,10 +581,8 @@ extension BoardDetailViewController: ButtonClickDelegate {
             guard let self = self else { return }
             self.boardDetailViewModel.setLikeCount(srl: srl, isComment: isComment) { (isSuccess, message) in
                 if isSuccess {
-                    if let message = message as? String {
-                        let trasientAlertView = TransientAlertViewController()
-                        trasientAlertView.titlemessage = message
-                        self.presentPanModal(trasientAlertView)
+                    if let message = message as? String {                        
+                        Snackbar().show(message: message)
                     } else {
                         self.fetchData()
                     }

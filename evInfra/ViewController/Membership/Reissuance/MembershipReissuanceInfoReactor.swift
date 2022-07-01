@@ -43,6 +43,7 @@ internal final class MembershipReissuanceInfoReactor: ViewModel, Reactor {
                 .map { serverResult in
                     if serverResult.code == 1000 {
                         UserDefault().saveBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP, value: false)
+                        UserDefault().saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  true)
                     } else {
                         Snackbar().show(message: "\(serverResult.msg)")
                     }

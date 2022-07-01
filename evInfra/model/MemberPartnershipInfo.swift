@@ -43,7 +43,7 @@ internal final class MemberPartnershipInfo {
     var status: String
     var cardStatusType: CardStatusType
     var displayStatusDescription: String
-    var date: Date
+    var date: String
     var displayDate: String
     var carNo: String?
     var mobileCardNum: String?
@@ -51,6 +51,7 @@ internal final class MemberPartnershipInfo {
     var level: String?
     var startDate: String?
     var endDate: String?
+    var isReissuance: Bool = false
     
     init(_ json: JSON){
         self.mbId = json["mb_id"].intValue
@@ -58,13 +59,18 @@ internal final class MemberPartnershipInfo {
         self.cardNo = json["card_no"].stringValue
         self.status = json["status"].stringValue
         self.cardStatusType = CardStatusType(json["status"].stringValue)
-        self.date = json["date"].dateValue
-        self.displayDate = self.date.toYearMonthDay()        
+        self.date = json["date"].stringValue
+        self.displayDate = Date().toDate(data: self.date)?.toYearMonthDay() ?? ""
         self.displayStatusDescription = self.cardStatusType == .issuanceCompleted ? self.displayDate : self.cardStatusType.showDisplayType()
         self.carNo = json["car_no"].stringValue
         self.mobileCardNum = json["mobile_card_num"].stringValue
         self.mpCardNum = json["mp_card_num"].stringValue
         self.startDate = json["start_date"].stringValue
         self.endDate = json["end_date"].stringValue
+        guard let _cardNo = self.cardNo, _cardNo.startsWith("2095") else {
+            self.isReissuance = false
+            return
+        }
+        self.isReissuance = !(self.cardStatusType == .sipping || self.cardStatusType == .readyShip)
     }
 }
