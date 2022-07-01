@@ -166,6 +166,8 @@ class BoardDetailTableViewCell: UITableViewCell {
         // 본인이 좋아요 한 글, 하트 표시
         if comment.liked! >= 1 {
             likeButton.isSelected = true
+        } else {
+            likeButton.isSelected = false
         }
     }
     

@@ -221,8 +221,12 @@ class MembershipIssuanceViewController: UIViewController,
         Server.registerMembershipCard(values: params, completion: {(isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in
-                    self.navigationController?.pop()
+                let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in                    
+                    UserDefault().saveBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP, value: false)
+                    UserDefault().saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  true)
+                    let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
+                    let viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 })
                 var actions = Array<UIAlertAction>()
                 actions.append(ok)

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 internal final class DeepLinkModel: NSObject {
     internal static var shared = DeepLinkModel()
@@ -29,7 +30,7 @@ internal final class DeepLinkModel: NSObject {
         }
     }
     
-    internal func openSchemeURL(navi: UINavigationController, urlstring: String, completionHandler: ((Bool) -> Void)? = nil) {
+    internal func openSchemeURL(urlstring: String, completionHandler: ((Bool) -> Void)? = nil) {
         printLog(out: "deepLink : \(urlstring)")
         guard let urlComponents = URLComponents(string: urlstring),
               let _queryItems = urlComponents.queryItems else { return }
@@ -37,7 +38,6 @@ internal final class DeepLinkModel: NSObject {
         if _queryItems.contains(where: { item in
             return DeepLinkType.allCases.contains(where: { $0.rawValue.deepLinkUrl == item.name })
         }) {
-            
             let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
             let termsViewControll = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
                 
@@ -52,7 +52,7 @@ internal final class DeepLinkModel: NSObject {
                 
             default: break
             }
-            navi.push(viewController: termsViewControll)
+            GlobalDefine.shared.mainNavi?.push(viewController: termsViewControll)
         }
     }
 }

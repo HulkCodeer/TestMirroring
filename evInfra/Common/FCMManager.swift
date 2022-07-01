@@ -266,7 +266,7 @@ internal final class FCMManager {
                 _mainNavi.push(viewController: preUseVC)
             }
         } else if (cmd.equals("show_point_info")) {
-            let viewcon = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(ofType: PointUseGuideViewController.self)
+            let viewcon = PointUseGuideViewController()
             if _visibleViewcon.isKind(of: PointUseGuideViewController.self) {
                 viewcon.viewDidLoad()
             } else {
@@ -403,7 +403,11 @@ internal final class FCMManager {
                 UserDefault().saveString(key: UserDefault.Key.MEMBER_ID, value: json["member_id"].stringValue)
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION, value: json["receive_push"].boolValue)
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION, value: json["receive_jeju_push"].boolValue)
-                UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: json["receive_marketing_push"].boolValue)
+                let marketing = json["receive_marketing_push"].boolValue
+                UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: marketing)
+                if (marketing) {
+                    UserDefault().saveBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP, value: true)
+                }
                 self.updateFCMInfo()
             }
         }

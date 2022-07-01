@@ -14,6 +14,8 @@
             <connections>
                 <outlet property="labelCarNo" destination="EkI-Nz-Z8o" id="8Na-ZQ-lHr"/>
                 <outlet property="labelContrDate" destination="N84-h6-8DB" id="ccD-lC-MSW"/>
+                <outlet property="moveLotteBtn" destination="dyx-L7-bmy" id="fOw-XX-lgf"/>
+                <outlet property="moveSkrBtn" destination="hyj-TX-QQv" id="IYj-ue-Dy0"/>
                 <outlet property="viewLotteList" destination="XbF-2i-hdd" id="22P-hO-Srp"/>
                 <outlet property="viewSkrList" destination="RPM-Wj-nnU" id="Bm5-ys-jxb"/>
             </connections>
@@ -27,7 +29,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="YCA-Ug-bbY">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="136"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="631.5"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b2P-zm-n8q">
                                     <rect key="frame" x="16" y="44" width="382" height="60"/>
@@ -47,9 +49,13 @@
                                         <constraint firstItem="tPL-xb-rm9" firstAttribute="leading" secondItem="b2P-zm-n8q" secondAttribute="leading" id="vB2-bm-Eae"/>
                                     </constraints>
                                 </view>
-                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RPM-Wj-nnU" userLabel="skr_view">
-                                    <rect key="frame" x="16" y="0.0" width="382" height="224"/>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RPM-Wj-nnU" userLabel="skr_view">
+                                    <rect key="frame" x="16" y="128" width="382" height="224"/>
                                     <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hyj-TX-QQv">
+                                            <rect key="frame" x="0.0" y="0.0" width="382" height="224"/>
+                                            <buttonConfiguration key="configuration" style="plain"/>
+                                        </button>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sk_card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="y1r-hX-L40">
                                             <rect key="frame" x="0.0" y="0.0" width="382" height="224"/>
                                             <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
@@ -58,15 +64,23 @@
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="RPM-Wj-nnU" secondAttribute="height" multiplier="437:256" id="0hK-rg-kUm"/>
+                                        <constraint firstAttribute="bottom" secondItem="hyj-TX-QQv" secondAttribute="bottom" id="4qP-pf-Zq8"/>
                                         <constraint firstAttribute="bottom" secondItem="y1r-hX-L40" secondAttribute="bottom" id="86J-wj-mRn"/>
                                         <constraint firstAttribute="trailing" secondItem="y1r-hX-L40" secondAttribute="trailing" id="ItP-Pg-cHl"/>
+                                        <constraint firstItem="hyj-TX-QQv" firstAttribute="top" secondItem="RPM-Wj-nnU" secondAttribute="top" id="VvZ-25-zab"/>
                                         <constraint firstItem="y1r-hX-L40" firstAttribute="leading" secondItem="RPM-Wj-nnU" secondAttribute="leading" id="ZUf-Q8-4oZ"/>
+                                        <constraint firstAttribute="trailing" secondItem="hyj-TX-QQv" secondAttribute="trailing" id="eGW-Lj-JDs"/>
+                                        <constraint firstItem="hyj-TX-QQv" firstAttribute="leading" secondItem="RPM-Wj-nnU" secondAttribute="leading" id="gYU-uq-EGC"/>
                                         <constraint firstItem="y1r-hX-L40" firstAttribute="top" secondItem="RPM-Wj-nnU" secondAttribute="top" id="zkx-n2-jYK"/>
                                     </constraints>
                                 </view>
-                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XbF-2i-hdd" userLabel="lotte_view">
-                                    <rect key="frame" x="16" y="0.0" width="382" height="223.5"/>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XbF-2i-hdd" userLabel="lotte_view">
+                                    <rect key="frame" x="16" y="376" width="382" height="223.5"/>
                                     <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dyx-L7-bmy">
+                                            <rect key="frame" x="0.0" y="0.0" width="382" height="223.5"/>
+                                            <buttonConfiguration key="configuration" style="plain"/>
+                                        </button>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lotte_card_bg" translatesAutoresizingMaskIntoConstraints="NO" id="6G6-vn-RbV">
                                             <rect key="frame" x="0.0" y="0.0" width="382" height="223.5"/>
                                             <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
@@ -104,18 +118,22 @@
                                         <constraint firstItem="6G6-vn-RbV" firstAttribute="top" secondItem="XbF-2i-hdd" secondAttribute="top" id="9WG-bh-cdL"/>
                                         <constraint firstItem="EkI-Nz-Z8o" firstAttribute="top" secondItem="XbF-2i-hdd" secondAttribute="top" constant="24" id="DBv-dh-gWE"/>
                                         <constraint firstAttribute="bottom" secondItem="oQy-sw-YVt" secondAttribute="bottom" constant="24" id="Mxj-Qv-6HO"/>
+                                        <constraint firstAttribute="bottom" secondItem="dyx-L7-bmy" secondAttribute="bottom" id="RUq-rV-csN"/>
+                                        <constraint firstItem="dyx-L7-bmy" firstAttribute="top" secondItem="XbF-2i-hdd" secondAttribute="top" id="TgU-aL-oGi"/>
                                         <constraint firstItem="6G6-vn-RbV" firstAttribute="height" secondItem="XbF-2i-hdd" secondAttribute="height" id="WNi-G3-mOZ"/>
                                         <constraint firstItem="EkI-Nz-Z8o" firstAttribute="leading" secondItem="XbF-2i-hdd" secondAttribute="leading" constant="24" id="Xs6-MO-xaU"/>
                                         <constraint firstItem="6G6-vn-RbV" firstAttribute="width" secondItem="XbF-2i-hdd" secondAttribute="width" id="b45-QP-2rw"/>
                                         <constraint firstAttribute="width" secondItem="XbF-2i-hdd" secondAttribute="height" multiplier="41:24" id="bWi-Tc-bcg"/>
+                                        <constraint firstItem="dyx-L7-bmy" firstAttribute="leading" secondItem="XbF-2i-hdd" secondAttribute="leading" id="foC-DS-0i4"/>
                                         <constraint firstItem="N84-h6-8DB" firstAttribute="leading" secondItem="oQy-sw-YVt" secondAttribute="trailing" constant="8" id="i6A-D3-Fol"/>
                                         <constraint firstItem="oQy-sw-YVt" firstAttribute="leading" secondItem="XbF-2i-hdd" secondAttribute="leading" constant="24" id="iME-Kz-ata"/>
+                                        <constraint firstAttribute="trailing" secondItem="dyx-L7-bmy" secondAttribute="trailing" id="oNY-cs-9bp"/>
                                         <constraint firstItem="6G6-vn-RbV" firstAttribute="leading" secondItem="XbF-2i-hdd" secondAttribute="leading" id="oQm-cB-vpC"/>
                                         <constraint firstAttribute="trailing" secondItem="SV5-Cv-jkt" secondAttribute="trailing" constant="24" id="xtJ-lZ-aGD"/>
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KvL-kH-kiL">
-                                    <rect key="frame" x="16" y="0.0" width="382" height="160"/>
+                                    <rect key="frame" x="16" y="599.5" width="382" height="160"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_add_img" translatesAutoresizingMaskIntoConstraints="NO" id="J9n-al-gAW">
                                             <rect key="frame" x="61" y="0.0" width="260" height="160"/>

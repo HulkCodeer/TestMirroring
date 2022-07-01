@@ -55,6 +55,7 @@ internal final class MembershipCardViewController: BaseViewController {
         Server.getInfoMembershipCard { [weak self] (isSuccess, value) in
             guard let self = self, isSuccess else { return }
             let json = JSON(value)
+            
             let item : MemberPartnershipInfo = MemberPartnershipInfo(json)
             self.partnershipListView.showInfoView(info: item)
         }
@@ -103,11 +104,17 @@ internal final class MembershipCardViewController: BaseViewController {
             }
         }
     }
+    
+    override func backButtonTapped() {
+        GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+    }
 }
 
 extension MembershipCardViewController: MembershipReissuanceInfoDelegate {
-    func reissuanceComplete() {
-        Snackbar().show(message: "재발급 신청이 완료되었습니다.")
+    func reissuanceComplete() {        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            Snackbar().show(message: "재발급 신청이 완료되었습니다.")
+        })
     }
 }
 
@@ -134,7 +141,7 @@ extension MembershipCardViewController: PartnershipListViewDelegate {
     func moveReissuanceView(info: MemberPartnershipInfo) {
         let reactor = MembershipReissuanceReactor(provider: RestApi())
         let viewcon = MembershipReissuanceViewController()
-        viewcon.bind(reactor: reactor)
+        viewcon.reactor = reactor
         reactor.cardNo = info.cardNo ?? ""
         viewcon.delegate = self
         navigationController?.push(viewController: viewcon)
