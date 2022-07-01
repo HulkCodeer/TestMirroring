@@ -10,14 +10,30 @@ import UIKit
 import ReusableKit
 import RxSwift
 
-internal final class NewBottomSheetViewController: UIViewController {
+internal final class NewBottomSheetViewController: CommonBaseViewController {
     
     // MARK: UI
         
     private lazy var dimmedViewBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = Colors.backgroundOverlayDark.color
-//        $0.backgroundColor = .purple
+        $0.backgroundColor = .clear
+    }
+    
+    private lazy var totalStackView = UIStackView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.axis = .vertical
+        $0.alignment = .fill
+        $0.spacing = 0
+        $0.backgroundColor = Colors.backgroundPrimary.color
+        $0.clipsToBounds = true
+    }
+    
+    private lazy var headerTitleLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        $0.textColor = Colors.backgroundAlwaysDark.color
+        $0.backgroundColor = Colors.backgroundPrimary.color
+        $0.textAlignment = .center
     }
     
     private lazy var tableView = UITableView().then {
@@ -27,7 +43,7 @@ internal final class NewBottomSheetViewController: UIViewController {
         $0.separatorStyle = .none
         $0.rowHeight = UITableViewAutomaticDimension
         $0.estimatedRowHeight = 55
-        $0.allowsSelection = false
+        $0.allowsSelection = true
         $0.allowsSelectionDuringEditing = false
         $0.isMultipleTouchEnabled = false
         $0.allowsMultipleSelection = false
@@ -39,7 +55,7 @@ internal final class NewBottomSheetViewController: UIViewController {
     }
     
     // MARK: VARIABLE
-    
+    internal var headerTitleStr: String = ""
     internal var selectedCompletion: ((Int) -> Void)?
     internal var items: [String] = []
     
@@ -49,21 +65,52 @@ internal final class NewBottomSheetViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        self.view.backgroundColor = .clear
-                        
-        self.view.addSubview(dimmedViewBtn)
+        self.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+        self.contentView.backgroundColor = .clear
+                                
+        self.contentView.addSubview(dimmedViewBtn)
         dimmedViewBtn.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        self.contentView.addSubview(totalStackView)
+        totalStackView.snp.makeConstraints {
+            $0.width.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.height.lessThanOrEqualTo(UIScreen.main.bounds.size.height/2)
+        }
+        
+        headerTitleLbl.snp.makeConstraints {
+            $0.height.equalTo(52)
+        }
+        
+        let line = self.createLineView()
+        line.snp.makeConstraints {
+            $0.height.equalTo(1)
+        }
+        
+        tableView.snp.makeConstraints {
+            $0.height.lessThanOrEqualTo(55 * items.count)
+        }
+                        
+        totalStackView.addArrangedSubview(headerTitleLbl)
+        totalStackView.addArrangedSubview(line)
+        totalStackView.addArrangedSubview(tableView)
+        
+        headerTitleLbl.text = self.headerTitleStr
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        printLog(out: "PARK TEST items count : \(items.count)")
+        
         dimmedViewBtn.rx.tap
             .asDriver()
-            .drive(onNext: { _ in
-                GlobalDefine.shared.mainNavi?.dismiss(animated: true)
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.view.removeFromSuperview()
+                self.removeFromParentViewController()
             })
             .disposed(by: self.disposebag)
     }
@@ -76,7 +123,7 @@ extension NewBottomSheetViewController: UITableViewDelegate, UITableViewDataSour
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? GroupMemeberCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? BottomSheetCell
             else { return UITableViewCell() }
 
         cell.configure(with: items[indexPath.row])
@@ -99,8 +146,8 @@ internal final class BottomSheetCell: UITableViewCell {
     private lazy var label = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textAlignment = .left
-        $0.textColor = UIColor(named: "nt-9")
-        $0.font = .systemFont(ofSize: 18, weight: .regular)
+        $0.textColor = Colors.contentSecondary.color
+        $0.font = .systemFont(ofSize: 16, weight: .regular)
     }
     
     private lazy var containerView = UIView().then {
@@ -108,39 +155,53 @@ internal final class BottomSheetCell: UITableViewCell {
     }
     
     // MARK: - Initializers
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.makeUI()
+    }
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.makeUI()
+    }
 
-        isAccessibilityElement = true
-
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = #colorLiteral(red: 0.8196078431, green: 0.8235294118, blue: 0.8274509804, alpha: 1).withAlphaComponent(0.11)
-        selectedBackgroundView = backgroundView
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
         
-        setupConstraints()
-    }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setupConstraints() {
+    private func makeUI() {
         containerView.addSubview(label)
         contentView.addSubview(containerView)
         
         label.snp.makeConstraints {
-            $0.margins.equalToSuperview()
+            $0.leading.equalToSuperview().offset(16)
+            $0.top.equalToSuperview().offset(14)
+            $0.bottom.equalToSuperview().offset(-14)
+            $0.trailing.equalToSuperview()
+        }
+        
+        let line = self.createLineView()
+        containerView.addSubview(line)
+        line.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(1)
         }
         
         containerView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
-            $0.left.equalToSuperview().inset(16)
-            $0.right.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().inset(8)
+            $0.edges.equalToSuperview()
         }
     }
     
-    func configure(with title: String) {
+    internal func configure(with title: String) {
         label.text = title
+    }
+    
+    private func createLineView(color: UIColor? = Colors.borderOpaque.color) -> UIView {
+        UIView().then {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.backgroundColor = color
+        }
     }
 }

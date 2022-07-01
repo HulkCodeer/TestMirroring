@@ -10,6 +10,7 @@ import ReactorKit
 import RxCocoa
 import RxSwift
 import PanModal
+import UIKit
 
 internal final class QuitAccountReasonQuestionViewController: CommonBaseViewController, StoryboardView {
     
@@ -324,7 +325,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
             let keyboardHeight = keyboardSize.height
             view.layoutIfNeeded()
             totalScrollView.snp.updateConstraints {
-                $0.bottom.equalTo(nextBtn.snp.top).offset(-keyboardHeight - 60 - self.view.safeAreaInsets.bottom)
+                $0.bottom.equalTo(nextBtn.snp.top).offset(-keyboardHeight + 60 + self.view.safeAreaInsets.bottom)
             }
             
 //            let contentsInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight / 2, right: 0)
@@ -354,21 +355,21 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 let rowVC = NewBottomSheetViewController()
-                rowVC.modalPresentationStyle = .fullScreen
-                                
-                // MARK: - TEST CODE
-//                rowVC.members = reactor.currentState.quitAccountReasonList?.compactMap { $0.reasonMessage } ?? []
-                GlobalDefine.shared.mainNavi?.present(rowVC, animated: false)
-                
-                
-//                rowVC.selectedCompletion = { [weak self] index in
-//                    guard let self = self else { return }
-//                    reactor.selectedReasonIndex = index
-//                    self.selectBoxTitleLbl.text = rowVC.members[index]
-//                    self.nextBtn.isEnabled = true
-//                    self.reasonTotalView.isHidden = false
-//                    self.dismiss(animated: true, completion: nil)
-//                }
+                rowVC.items = reactor.currentState.quitAccountReasonList?.compactMap { $0.reasonMessage } ?? []
+                rowVC.headerTitleStr = "탈퇴 사유 선택"
+                rowVC.view.frame = GlobalDefine.shared.mainNavi?.view.bounds ?? UIScreen.main.bounds
+                self.addChildViewController(rowVC)
+                self.view.addSubview(rowVC.view)
+                                                                              
+                rowVC.selectedCompletion = { [weak self] index in
+                    guard let self = self else { return }
+                    reactor.selectedReasonIndex = index
+                    self.selectBoxTitleLbl.text = rowVC.items[index]
+                    self.nextBtn.isEnabled = true
+                    self.reasonTotalView.isHidden = false
+                    rowVC.view.removeFromSuperview()
+                    rowVC.removeFromParentViewController()
+                }
             })
             .disposed(by: self.disposeBag)
         
@@ -395,7 +396,6 @@ extension QuitAccountReasonQuestionViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        printLog(out: "PARK TEST textViewDidChange")
         reasonBorderView.IBborderColor = Colors.nt2.color
         textView.textColor = Colors.nt5.color
         
@@ -404,8 +404,6 @@ extension QuitAccountReasonQuestionViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        printLog(out: "PARK TEST textViewDidChange")
-                        
         let textViewStrCount = textView.text.count
         let isTextCountLimit = textViewStrCount > 1200
         reasonBorderView.IBborderColor =  isTextCountLimit ? Colors.borderNegative.color : Colors.nt9.color

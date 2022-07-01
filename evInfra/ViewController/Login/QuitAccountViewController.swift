@@ -32,7 +32,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         var subTitle: String {
             switch self {
             case .deleteVery:
-                return "고객님께서 모은 000베리가 삭제되어요.\n사라진 베리는 재 가입 시 복구되지 않아요."
+                return "고객님께서 모은 {point}베리가 삭제되어요.\n사라진 베리는 재 가입 시 복구되지 않아요."
             case .delteMembership:
                 return "해당 카드로 다시 충전을 할 수 없어요."
             case .reSign:
@@ -181,20 +181,36 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview()
         }
-                
-        for reasonType in ReasonType.allCases {
-            totalStackView.addArrangedSubview(self.createReasonView(mainTitle: reasonType.mainTitle, subTitle: reasonType.subTitle))
-        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let currentDate = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let sDate = formatter.string(from: currentDate) + " 00:00:00"
+        let eDate = formatter.string(from: currentDate) + " 23:59:59"
+        Server.getPointHistory(isAllDate: false, sDate: sDate, eDate: eDate) { [weak self] (isSuccess, responseData) in
+            guard let self = self else { return }
+            if isSuccess {
+                if let data = responseData {
+                    let pointHistory = try! JSONDecoder().decode(PointHistory.self, from: data)
+                    // 나의 잔여 포인트
+                    let displayTotalPoint = pointHistory.total_point.currency() == "0" ? "" : pointHistory.total_point.currency()
+ 
+                    for reasonType in ReasonType.allCases {
+                        let subTitle = reasonType == .deleteVery ? reasonType.subTitle.replacingOccurrences(of: "{point}", with: "\(displayTotalPoint)") : reasonType.subTitle
+                        self.totalStackView.addArrangedSubview(self.createReasonView(mainTitle: reasonType.mainTitle, subTitle: subTitle))
+                    }
+                }
+            }
+        }
     }
             
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
-                
     }
                     
     internal func bind(reactor: QuitAccountReactor) {
