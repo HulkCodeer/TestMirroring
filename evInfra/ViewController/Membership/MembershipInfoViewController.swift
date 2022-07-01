@@ -213,7 +213,7 @@ extension MembershipInfoViewController: UITextFieldDelegate {
         return false
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {                        
         switch textField {
         case tfCurPwIn:
             do {
@@ -224,8 +224,9 @@ extension MembershipInfoViewController: UITextFieldDelegate {
             }
             
         case tfPwIn:
+            
             do {
-                _ = try tfPwIn.validatedText(validationType: .repassword(password: tfCurPwIn.text ?? "0000"))
+                _ = try tfPwIn.validatedText(validationType: .password)
             } catch {
                 newPwErrorLbl.isHidden = false
                 newPwErrorLbl.text = (error as! ValidationError).message

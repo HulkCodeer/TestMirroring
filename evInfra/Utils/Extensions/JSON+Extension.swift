@@ -17,8 +17,8 @@ extension JSON {
             if getString == "" {
                 return Date()
             }
-
-            return getString.toDate(dateFormat: "yyyy-MM-dd HH:mm:ss") ?? Date()
+            
+            return getString.toDate(dateFormat: "yyyy-MM-dd hh:mm:ss.SSSSSS") ?? Date()
         }
         set {}
     }

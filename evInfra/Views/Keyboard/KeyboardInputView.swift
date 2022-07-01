@@ -171,19 +171,22 @@ extension KeyboardInputView: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if !textView.text.isEmpty {
-            sendButton.isEnabled = true
-        } else if textView.text.isEmpty || textView.text == nil {
+        guard let text = textView.text else {
             sendButton.isEnabled = false
+            return
         }
         
-        placeholderTextField.isHidden = !textView.text.isEmpty
+        sendButton.isEnabled = !text.isEmpty ? true : false
+        placeholderTextField.isHidden = !text.isEmpty
         inputBorderView.layer.borderWidth = 1
         inputBorderView.borderColor = UIColor(named: "nt-2")
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        guard let text = textView.text else { return }
+        guard let text = textView.text else {
+            sendButton.isEnabled = false
+            return
+        }
         var height = self.minHeight
         
         if textView.contentSize.height >= self.maxHeight {
@@ -196,16 +199,16 @@ extension KeyboardInputView: UITextViewDelegate {
         
         inputBorderView.layer.borderWidth = 2
         inputBorderView.borderColor = UIColor(named: "nt-9")
-        placeholderTextField.isHidden = !textView.text.isEmpty
+        placeholderTextField.isHidden = !text.isEmpty
+        
+        let defaultAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 16, weight: .regular),
+            .foregroundColor: UIColor(named: "nt-9")!,
+            .baselineOffset: 0
+        ]
+        let attributedString = NSMutableAttributedString(string: text, attributes: defaultAttributes)
         
         if isRecomment {
-            let defaultAttributes: [NSAttributedString.Key: Any] = [
-                .font: UIFont.systemFont(ofSize: 16, weight: .regular),
-                .foregroundColor: UIColor(named: "nt-9")!,
-                .baselineOffset: 0
-            ]
-            
-            let attributedString = NSMutableAttributedString(string: text, attributes: defaultAttributes)
             if text.count > targetNickName.count {
                 if text.hasPrefix(targetNickName) {
                     let tagAttributes: [NSAttributedString.Key: Any] = [
@@ -220,17 +223,10 @@ extension KeyboardInputView: UITextViewDelegate {
             } else {
                 self.isRecomment = false
             }
-            
-            textView.attributedText = attributedString
         }
-
+        textView.attributedText = attributedString
         
-        if !textView.text.isEmpty {
-            sendButton.isEnabled = true
-        } else if textView.text.isEmpty || textView.text == nil  {
-            sendButton.isEnabled = false
-        }
-        
+        sendButton.isEnabled = !text.isEmpty ? true : false
         textViewConstraint.constant = height
     }
 }
