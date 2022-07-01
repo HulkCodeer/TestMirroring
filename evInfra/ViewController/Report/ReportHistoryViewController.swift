@@ -75,7 +75,7 @@ internal final class ReportHistoryViewController: BaseViewController, Storyboard
     }
     
     internal func bind(reactor: ReportHistoryReactor) {
-        Observable.just(Reactor.Action.loadData)
+        Observable.just(Reactor.Action.loadData("0"))
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -88,14 +88,17 @@ internal final class ReportHistoryViewController: BaseViewController, Storyboard
             .disposed(by: disposeBag)
         
         tableView.rx.didEndDragging
-            .filter { _ in
+            .filter { [weak self] isEnd in
+                guard let self = self else { return false }
+                guard reactor.currentState.isPaging else { return false }
+                
                 let currentOffset = self.tableView.contentOffset.y
                 let maximumOffset = self.tableView.contentSize.height - self.tableView.frame.size.height
                 
                 guard maximumOffset - currentOffset <= self.tableView.frame.size.height else { return false}
                 return true
             }
-            .map { _ in Reactor.Action.nextLoadData(reactor.initialState.lastId) }
+            .map { _ in Reactor.Action.loadData(reactor.initialState.lastId) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

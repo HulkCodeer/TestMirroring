@@ -13,8 +13,7 @@ import SwiftyJSON
 
 internal final class ReportHistoryReactor: ViewModel, Reactor {
     enum Action {
-        case loadData
-        case nextLoadData(String)
+        case loadData(String)
     }
     
     enum Mutation {
@@ -25,7 +24,6 @@ internal final class ReportHistoryReactor: ViewModel, Reactor {
     struct State {
         var sections = [ReportHistoryListSectionModel]()
         var isHiddenEmptyLabel: Bool = true
-        var countOfDatas: Int = 0
         var isPaging: Bool = false
         var lastId: String = ""
     }
@@ -39,13 +37,7 @@ internal final class ReportHistoryReactor: ViewModel, Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .loadData:
-            return self.provider
-                .getReportHistoryList(with: 0)
-                .convertData()
-                .compactMap(convertToDataModel)
-                .map { .setReportHistoryList(self.convertToItem(models: $0)) }
-        case .nextLoadData(let lastId):
+        case .loadData(let lastId):
             return self.provider
                 .getReportHistoryList(with: Int(lastId) ?? 0)
                 .convertData()
@@ -61,8 +53,7 @@ internal final class ReportHistoryReactor: ViewModel, Reactor {
         switch mutation {
         case .setReportHistoryList(let reportHistoryList):
             newState.sections.append(contentsOf: [ReportHistoryListSectionModel(items: reportHistoryList)])
-            newState.countOfDatas += reportHistoryList.count
-            newState.isPaging = newState.countOfDatas > 20 ? true : false
+            newState.isPaging = reportHistoryList.count > 20 ? true : false
             
             if !newState.isPaging {
                 newState.isHiddenEmptyLabel = reportHistoryList.isEmpty ? false : true
