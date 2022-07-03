@@ -243,7 +243,7 @@ internal final class LoginHelper: NSObject {
                     
                     guard let _user = user,
                             let _appleAuthorizationCode = _user.appleAuthorizationCode,
-                          !UserDefault().readString(key: UserDefault.Key.APPLE_REFRESH_TOKEN).isEmpty else { return }
+                          UserDefault().readString(key: UserDefault.Key.APPLE_REFRESH_TOKEN).isEmpty else { return }
                     RestApi().postRefreshToken(appleAuthorizationCode: String(data: _appleAuthorizationCode, encoding: .utf8) ?? "" )
                         .observe(on: SerialDispatchQueueScheduler(qos: .background))
                         .convertData()
@@ -276,7 +276,15 @@ internal final class LoginHelper: NSObject {
                             }
                         }
                         .subscribe(onNext: { refreshToken in
-                            UserDefault().saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value: refreshToken)
+                            guard refreshToken.isEmpty else {
+                                UserDefault().saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value: refreshToken)
+                                return
+                            }
+                            LoginHelper.shared.logout(completion: { success in
+                                if success {                                    
+                                    Snackbar().show(message: "로그아웃 되었습니다.")
+                                }
+                            })
                         })
                         .disposed(by: self.disposebag)
                     
