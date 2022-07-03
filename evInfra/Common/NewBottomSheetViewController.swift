@@ -105,8 +105,6 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        printLog(out: "PARK TEST items count : \(items.count)")
-        
         dimmedViewBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
