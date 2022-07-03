@@ -140,6 +140,7 @@ internal final class MemberManager {
         userDefault.saveBool(key: UserDefault.Key.MB_PAYMENT, value: false)
         userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value:  "")
         userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  false)
+        userDefault.saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value:  "")
     }
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {
