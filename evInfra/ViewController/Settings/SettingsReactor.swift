@@ -14,6 +14,7 @@ internal final class SettingsReactor: ViewModel, Reactor {
         case updateBasicNotification(Bool)
         case updateLocalNotification(Bool)
         case updateMarketingNotification(Bool)
+        case updateClustering(Bool)
         case moveQuitAccountReasonQuestion
         case none
     }
@@ -22,13 +23,15 @@ internal final class SettingsReactor: ViewModel, Reactor {
         case setBasicNotification(Bool)
         case setLocalNotification(Bool)
         case setMarketingNotification(Bool)
+        case setClustering(Bool)
         case none
     }
     
     struct State {
-        var isBasicNotification: Bool?
-        var isLocalNotification: Bool?
-        var isMarketingNotification: Bool?
+        var isBasicNotification: Bool? = UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION)
+        var isLocalNotification: Bool? = UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION)
+        var isMarketingNotification: Bool? = UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION)
+        var isClustering: Bool? = UserDefault().readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
     }
     
     internal var initialState: State
@@ -74,6 +77,10 @@ internal final class SettingsReactor: ViewModel, Reactor {
                     return .setMarketingNotification(isReceivePush)
                 }
             
+        case .updateClustering(let isState):
+            UserDefault().saveBool(key: UserDefault.Key.SETTINGS_CLUSTER, value: isState)
+            return .just(.setClustering(isState))
+            
         case .moveQuitAccountReasonQuestion:
             let reactor = QuitAccountReasonQuestionReactor(provider: self.provider)
             let viewcon = QuitAccountReasonQuestionViewController(reactor: reactor)
@@ -91,6 +98,7 @@ internal final class SettingsReactor: ViewModel, Reactor {
         newState.isBasicNotification = nil
         newState.isLocalNotification = nil
         newState.isMarketingNotification = nil
+        newState.isClustering = nil
         
         switch mutation {
         case .setBasicNotification(let isReceivePush):
@@ -101,6 +109,9 @@ internal final class SettingsReactor: ViewModel, Reactor {
             
         case .setMarketingNotification(let isReceivePush):
             newState.isMarketingNotification = isReceivePush
+            
+        case .setClustering(let isClustering):
+            newState.isClustering = isClustering
             
         case .none: break
         }

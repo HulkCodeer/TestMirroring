@@ -26,6 +26,8 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
         $0.spacing = 0
         $0.backgroundColor = Colors.backgroundPrimary.color
         $0.clipsToBounds = true
+        $0.layer.cornerRadius = 16
+        $0.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
     }
     
     private lazy var headerTitleLbl = UILabel().then {
@@ -76,7 +78,7 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
         self.contentView.addSubview(totalStackView)
         totalStackView.snp.makeConstraints {
             $0.width.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(52 + 1 + (55 * items.count))
             $0.height.lessThanOrEqualTo(UIScreen.main.bounds.size.height/2)
         }
         
@@ -113,6 +115,15 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
                 self.removeFromParentViewController()
             })
             .disposed(by: self.disposebag)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        UIView.animate(withDuration: 0.5, delay: 0 , options: .curveEaseOut, animations: {
+            let translationY = self.totalStackView.frame.height
+            self.totalStackView.transform = CGAffineTransform(translationX: 0, y:  translationY * (-1))
+        }, completion: nil)
     }
 }
 

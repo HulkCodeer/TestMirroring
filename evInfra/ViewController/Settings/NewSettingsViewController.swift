@@ -17,6 +17,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         case basicNotice = "기본 알림"
         case locationNotice = "지역 알림"
         case marketingNoticeAgree = "마케팅 알림 수신 동의"
+        case clustering = "충전소 군집 기능"
         
         internal func subTitle() -> String {
             switch self {
@@ -28,6 +29,9 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
                 
             case .marketingNoticeAgree:
                 return "포인트, 충전 이벤트 등을 알려드릴게요!"
+                
+            case .clustering:
+                return ""
                             
             }
         }
@@ -92,19 +96,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         }
         
         for settingType in SettingType.allCases {
-            let isOn: Bool
-            switch settingType {
-            case .basicNotice:
-                isOn = UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION)
-                
-            case .locationNotice:
-                isOn = UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION)
-                
-            case .marketingNoticeAgree:
-                isOn = UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION)
-            }
-                                    
-            let settingView = self.createSettingView(mainTitle: settingType.rawValue, subTitle: settingType.subTitle(), isSwOn: isOn, settingType: settingType)
+            let settingView = self.createSettingView(mainTitle: settingType.rawValue, subTitle: settingType.subTitle(), settingType: settingType)
             settingView.snp.makeConstraints {
                 $0.height.equalTo(66)
             }
@@ -128,7 +120,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
                     
     internal func bind(reactor: SettingsReactor) {}
     
-    private func createSettingView(mainTitle: String, subTitle: String, isSwOn: Bool, settingType: SettingType) -> UIView {
+    private func createSettingView(mainTitle: String, subTitle: String, settingType: SettingType) -> UIView {
         let view = UIView().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -177,7 +169,6 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         let noticeSw = UISwitch().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.tintColor = Colors.contentPrimary.color
-            $0.isOn = isSwOn
             $0.thumbTintColor = .white
         }
         
@@ -198,8 +189,11 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         
         guard let _reactor = self.reactor else { return view}
         
+        let isOn: Bool
         switch settingType {
         case .basicNotice:
+            isOn = _reactor.initialState.isBasicNotification ?? false
+            
             noticeSw.rx.isOn
                 .changed
                 .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
@@ -219,6 +213,8 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             .disposed(by: self.disposeBag)
             
         case .locationNotice:
+            isOn = _reactor.initialState.isLocalNotification ?? false
+            
             noticeSw.rx.isOn
                 .changed
                 .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
@@ -238,6 +234,8 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             
             
         case .marketingNoticeAgree:
+            isOn = _reactor.initialState.isMarketingNotification ?? false
+            
             noticeSw.rx.isOn
                 .changed
                 .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
@@ -255,7 +253,29 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             .bind(to: noticeSw.rx.isOn)
             .disposed(by: self.disposeBag)
             
+        case .clustering:
+            isOn = _reactor.initialState.isClustering ?? false
+            
+            noticeSw.rx.isOn
+                .changed
+                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+                .distinctUntilChanged()
+                .asDriver(onErrorJustReturn: false)
+                .drive(onNext: { [weak self] isOn in
+                    guard let self = self, let _reactor = self.reactor else { return }
+                    Observable.just(SettingsReactor.Action.updateClustering(isOn))
+                        .bind(to: _reactor.action)
+                        .disposed(by: self.disposeBag)
+                })
+                .disposed(by: self.disposeBag)
+            
+            _reactor.state.compactMap { $0.isClustering }
+            .bind(to: noticeSw.rx.isOn)
+            .disposed(by: self.disposeBag)
+            
         }
+        
+        noticeSw.isOn = isOn
         
         return view
     }
