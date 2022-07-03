@@ -161,11 +161,13 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             $0.textColor = Colors.contentTertiary.color
         }
         
-        stackView.addArrangedSubview(subTitleLbl)
-        subTitleLbl.snp.makeConstraints {
-            $0.height.equalTo(16)
+        if !subTitle.isEmpty {
+            stackView.addArrangedSubview(subTitleLbl)
+            subTitleLbl.snp.makeConstraints {
+                $0.height.equalTo(16)
+            }
         }
-        
+                
         let noticeSw = UISwitch().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.tintColor = Colors.contentPrimary.color
