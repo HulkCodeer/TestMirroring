@@ -50,6 +50,11 @@ internal final class LoginHelper: NSObject {
     func checkLogin() {
         switch MemberManager.shared.loginType {
         case .apple:
+            guard !MemberManager.shared.appleRefreshToken.isEmpty else {
+                self.requestLoginToApple()
+                return
+            }
+                        
             RestApi().postValidateRefreshToken()
                 .observe(on: MainScheduler.asyncInstance)
                 .convertData()
@@ -70,6 +75,9 @@ internal final class LoginHelper: NSObject {
 
                         let refreshToken = jsonString["refresh_token"].stringValue
                         guard !refreshToken.isEmpty else {
+                            LoginHelper.shared.logout(completion: { _ in
+                                Snackbar().show(message: "장기간 미접속으로 인해 로그아웃 되었습니다. ")
+                            })
                             return nil
                         }
                         
@@ -83,15 +91,7 @@ internal final class LoginHelper: NSObject {
                 }
                 .subscribe(onNext: { [weak self] refreshToken in
                     guard let self = self else { return }
-                    guard refreshToken.isEmpty else {
-                        self.requestLoginToApple()
-                        return
-                    }
-                    LoginHelper.shared.logout(completion: { success in
-                        if success {
-                            Snackbar().show(message: "로그아웃 되었습니다.")
-                        }
-                    })
+                    self.requestLoginToApple()
                 })
                 .disposed(by: self.disposebag)
             
