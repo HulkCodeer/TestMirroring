@@ -326,11 +326,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
             view.layoutIfNeeded()
             totalScrollView.snp.updateConstraints {
                 $0.bottom.equalTo(nextBtn.snp.top).offset(-keyboardHeight + 60 + self.view.safeAreaInsets.bottom)
-            }
-            
-//            let contentsInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight / 2, right: 0)
-//            totalScrollView.contentInset = contentsInset
-//            totalScrollView.scrollIndicatorInsets = contentsInset
+            }    
         }
     }
     

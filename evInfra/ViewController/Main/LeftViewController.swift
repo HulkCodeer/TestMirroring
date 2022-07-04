@@ -529,8 +529,6 @@ extension LeftViewController {
         case SUB_MENU_CELL_SETTINGS:
             switch index.row {
             case SUB_MENU_ALL_SETTINGS: // 전체 설정
-//                let settingsStoryboard = UIStoryboard(name : "Settings", bundle: nil)
-//                let settingsVC = settingsStoryboard.instantiateViewController(ofType: SettingsViewController.self)
                 let reactor = SettingsReactor(provider: RestApi())
                 let viewcon = NewSettingsViewController(reactor: reactor)                
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
