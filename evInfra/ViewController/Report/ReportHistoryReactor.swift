@@ -53,7 +53,7 @@ internal final class ReportHistoryReactor: ViewModel, Reactor {
         switch mutation {
         case .setReportHistoryList(let reportHistoryList):
             newState.sections.append(contentsOf: [ReportHistoryListSectionModel(items: reportHistoryList)])
-            newState.isPaging = reportHistoryList.count > 20 ? true : false
+            newState.isPaging = reportHistoryList.count == 20 ? true : false
             
             if !newState.isPaging {
                 newState.isHiddenEmptyLabel = reportHistoryList.isEmpty ? false : true

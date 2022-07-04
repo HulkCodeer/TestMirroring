@@ -95,7 +95,7 @@ internal final class ReportHistoryViewController: BaseViewController, Storyboard
                 let currentOffset = self.tableView.contentOffset.y
                 let maximumOffset = self.tableView.contentSize.height - self.tableView.frame.size.height
                 
-                guard maximumOffset - currentOffset <= self.tableView.frame.size.height else { return false}
+                guard maximumOffset - currentOffset <= self.tableView.frame.size.height else { return false }
                 return true
             }
             .map { _ in Reactor.Action.loadData(reactor.initialState.lastId) }

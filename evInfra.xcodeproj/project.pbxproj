@@ -84,7 +84,6 @@
 		192A338327FE747E00EF1684 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338227FE747E00EF1684 /* Marker.swift */; };
 		192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */; };
 		193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */; };
-		2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CC5B658D05400DBBB0E6E63 /* Pods_evInfra.framework */; };
 		1948FB102849DEAB00C02255 /* NoticeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1948FB0F2849DEAA00C02255 /* NoticeCell.xib */; };
 		19718000286BDCE600DA1FD9 /* ReportHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19717FFF286BDCE600DA1FD9 /* ReportHistoryViewController.swift */; };
 		1972A48728698DBC006AB719 /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972A48628698DBC006AB719 /* NoticeDetailViewController.swift */; };
@@ -94,6 +93,7 @@
 		19DE1FF0286BE91000A4756D /* ReportHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19DE1FED286BE91000A4756D /* ReportHistoryCell.xib */; };
 		19DE1FF1286BE91000A4756D /* ReportHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE1FEE286BE91000A4756D /* ReportHistoryCell.swift */; };
 		19DE1FF2286BE91000A4756D /* ReportHistroyCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE1FEF286BE91000A4756D /* ReportHistroyCellReactor.swift */; };
+		2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CC5B658D05400DBBB0E6E63 /* Pods_evInfra.framework */; };
 		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
 		4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
 		421569D7259B629100D018DC /* BoardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421569D6259B629100D018DC /* BoardInfo.swift */; };
@@ -309,7 +309,6 @@
 		63F31423284EC74F001713D2 /* FilterPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A16126C3A4D30023DAE3 /* FilterPlaceView.swift */; };
 		63F31424284EC74F001713D2 /* EditViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73344AC4207F429300A6A9EC /* EditViewDelegate.swift */; };
 		63F31425284EC74F001713D2 /* SearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC43229223A5C9A00B76795 /* SearchTableView.swift */; };
-		63F31426284EC74F001713D2 /* ReportBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93309021509A81006B7EF6 /* ReportBoardViewController.swift */; };
 		63F31427284EC74F001713D2 /* EVModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C31BF82099A023005B6C53 /* EVModel.swift */; };
 		63F31428284EC74F001713D2 /* CarModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE24840120A59E3000611E24 /* CarModels.swift */; };
 		63F31429284EC74F001713D2 /* MembershipUseGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B2373D282C970900E8A3F8 /* MembershipUseGuideViewController.swift */; };
@@ -392,7 +391,7 @@
 		63F31476284EC74F001713D2 /* MyCouponContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662D122FAB6720049AEFE /* MyCouponContentsViewController.swift */; };
 		63F31477284EC74F001713D2 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662CB22EFECB80049AEFE /* Event.swift */; };
 		63F31478284EC74F001713D2 /* BoardTableViewFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB87606F20690B360095394B /* BoardTableViewFooter.swift */; };
-		63F31479284EC74F001713D2 /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C9208993BE009535EE /* NoticeTableViewCell.swift */; };
+		63F31479284EC74F001713D2 /* NoticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C9208993BE009535EE /* NoticeCell.swift */; };
 		63F3147A284EC74F001713D2 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEE9AF92117DBF000770D04 /* UIAlertController+Extension.swift */; };
 		63F3147B284EC74F001713D2 /* RentalCarCardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A04282E337F0021292C /* RentalCarCardListView.swift */; };
 		63F3147C284EC74F001713D2 /* FilterContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A16526C3B3DC0023DAE3 /* FilterContainerView.swift */; };
@@ -812,7 +811,6 @@
 		CE5242382183076000FF6AB1 /* AddressSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5242372183076000FF6AB1 /* AddressSearchCell.swift */; };
 		CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE72D73B219BDA32003979D2 /* KeyChainManager.swift */; };
 		CE93308F214F9807006B7EF6 /* ReportChargerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93308E214F9807006B7EF6 /* ReportChargerList.swift */; };
-		CE93309121509A81006B7EF6 /* ReportBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93309021509A81006B7EF6 /* ReportBoardViewController.swift */; };
 		CE93309921511AD4006B7EF6 /* ReportBoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93309821511AD4006B7EF6 /* ReportBoardTableViewCell.swift */; };
 		CEBE0601214BA5C30047E6F2 /* ReportCharger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE0600214BA5C30047E6F2 /* ReportCharger.swift */; };
 		CEC4322A223A5C9A00B76795 /* SearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC43229223A5C9A00B76795 /* SearchTableView.swift */; };
@@ -957,7 +955,6 @@
 		192A338227FE747E00EF1684 /* Marker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
 		193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
-		3FF4500A7EA0A1061E041BED /* Pods-evInfra_dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.release.xcconfig"; sourceTree = "<group>"; };
 		1948FB0F2849DEAA00C02255 /* NoticeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeCell.xib; sourceTree = "<group>"; };
 		19717FFF286BDCE600DA1FD9 /* ReportHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportHistoryViewController.swift; sourceTree = "<group>"; };
 		1972A48628698DBC006AB719 /* NoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewController.swift; sourceTree = "<group>"; };
@@ -967,6 +964,7 @@
 		19DE1FED286BE91000A4756D /* ReportHistoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportHistoryCell.xib; sourceTree = "<group>"; };
 		19DE1FEE286BE91000A4756D /* ReportHistoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportHistoryCell.swift; sourceTree = "<group>"; };
 		19DE1FEF286BE91000A4756D /* ReportHistroyCellReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportHistroyCellReactor.swift; sourceTree = "<group>"; };
+		3FF4500A7EA0A1061E041BED /* Pods-evInfra_dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.release.xcconfig"; sourceTree = "<group>"; };
 		4212A25325555775001BB124 /* OfferwallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallTableViewCell.swift; sourceTree = "<group>"; };
 		4212A25425555775001BB124 /* OfferwallTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferwallTableViewCell.xib; sourceTree = "<group>"; };
 		421569D6259B629100D018DC /* BoardInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardInfo.swift; sourceTree = "<group>"; };
@@ -1292,7 +1290,6 @@
 		CE5242372183076000FF6AB1 /* AddressSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressSearchCell.swift; sourceTree = "<group>"; };
 		CE72D73B219BDA32003979D2 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 		CE93308E214F9807006B7EF6 /* ReportChargerList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChargerList.swift; sourceTree = "<group>"; };
-		CE93309021509A81006B7EF6 /* ReportBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBoardViewController.swift; sourceTree = "<group>"; };
 		CE93309821511AD4006B7EF6 /* ReportBoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBoardTableViewCell.swift; sourceTree = "<group>"; };
 		CEBE0600214BA5C30047E6F2 /* ReportCharger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCharger.swift; sourceTree = "<group>"; };
 		CEC43229223A5C9A00B76795 /* SearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableView.swift; sourceTree = "<group>"; };
@@ -2360,7 +2357,6 @@
 			children = (
 				195D93F2286BE95F0033967F /* Cell */,
 				00FDEAEF26B3BF8C006617EE /* Report.storyboard */,
-				CE93309021509A81006B7EF6 /* ReportBoardViewController.swift */,
 				CE00E811214A330B00020D6E /* ReportChargeViewController.swift */,
 				19717FFF286BDCE600DA1FD9 /* ReportHistoryViewController.swift */,
 				19DE1FDE286BDE7100A4756D /* ReportHistoryReactor.swift */,
@@ -3309,7 +3305,6 @@
 				63762F1628699FB200C951BF /* Info.swift in Sources */,
 				63F31424284EC74F001713D2 /* EditViewDelegate.swift in Sources */,
 				63F31425284EC74F001713D2 /* SearchTableView.swift in Sources */,
-				63F31426284EC74F001713D2 /* ReportBoardViewController.swift in Sources */,
 				63F31427284EC74F001713D2 /* EVModel.swift in Sources */,
 				63F31428284EC74F001713D2 /* CarModels.swift in Sources */,
 				63F31429284EC74F001713D2 /* MembershipUseGuideViewController.swift in Sources */,
@@ -3394,7 +3389,7 @@
 				63F31476284EC74F001713D2 /* MyCouponContentsViewController.swift in Sources */,
 				63F31477284EC74F001713D2 /* Event.swift in Sources */,
 				63F31478284EC74F001713D2 /* BoardTableViewFooter.swift in Sources */,
-				63F31479284EC74F001713D2 /* NoticeTableViewCell.swift in Sources */,
+				63F31479284EC74F001713D2 /* NoticeCell.swift in Sources */,
 				63F3147A284EC74F001713D2 /* UIAlertController+Extension.swift in Sources */,
 				63F3147B284EC74F001713D2 /* RentalCarCardListView.swift in Sources */,
 				63F3147C284EC74F001713D2 /* FilterContainerView.swift in Sources */,
@@ -3585,7 +3580,6 @@
 				63762F1528699FB200C951BF /* Info.swift in Sources */,
 				73344AC5207F429300A6A9EC /* EditViewDelegate.swift in Sources */,
 				CEC4322A223A5C9A00B76795 /* SearchTableView.swift in Sources */,
-				CE93309121509A81006B7EF6 /* ReportBoardViewController.swift in Sources */,
 				73C31BF92099A024005B6C53 /* EVModel.swift in Sources */,
 				CE24840220A59E3000611E24 /* CarModels.swift in Sources */,
 				63B2373E282C970900E8A3F8 /* MembershipUseGuideViewController.swift in Sources */,
