@@ -9,7 +9,7 @@
 import Foundation
 import EasyTipView
 
-class FilterAccessView: UIView {
+internal final class FilterAccessView: UIView {
     @IBOutlet var btnInfo: UIButton!
     
     @IBOutlet var btnPublic: UIView!
@@ -20,13 +20,14 @@ class FilterAccessView: UIView {
     @IBOutlet var ivNonPublic: UIImageView!
     @IBOutlet var lbNonPublic: UILabel!
     
-    var publicSel = true
-    var nonPublicSel = false
+    private var publicSel: Bool = true
+    private var nonPublicSel: Bool = false
+    private var isOnEasyTipView: Bool = false
     
-    let bgEnColor: UIColor = UIColor(named: "gr-6")!
-    let bgDisColor: UIColor = UIColor(named: "content-tertiary")!
+    private let bgEnColor: UIColor = UIColor(named: "gr-6")!
+    private let bgDisColor: UIColor = UIColor(named: "content-tertiary")!
     
-    var delegate: DelegateFilterChange?
+    internal var delegate: DelegateFilterChange?
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
@@ -37,8 +38,8 @@ class FilterAccessView: UIView {
         initView()
     }
     
-    func initView(){
-        let view = Bundle.main.loadNibNamed("FilterAccessView", owner: self, options: nil)?.first as! UIView
+    private func initView(){
+        guard let view = Bundle.main.loadNibNamed("FilterAccessView", owner: self, options: nil)?.first as? UIView else { return }
         view.frame = bounds
         addSubview(view)
         
@@ -53,9 +54,13 @@ class FilterAccessView: UIView {
     }
     
     @IBAction func onClickInfo(_ sender: Any) {
+        guard !isOnEasyTipView else { return }
+        isOnEasyTipView = !isOnEasyTipView
+        
         var preferences = EasyTipView.Preferences()
-        preferences.drawing.backgroundColor = UIColor(named: "content-secondary")!
-        preferences.drawing.foregroundColor = UIColor(named: "background-secondary")!
+        
+        preferences.drawing.backgroundColor = Colors.contentSecondary.color
+        preferences.drawing.foregroundColor = Colors.backgroundSecondary.color
         preferences.drawing.textAlignment = NSTextAlignment.center
         
         preferences.drawing.arrowPosition = .left
@@ -68,43 +73,46 @@ class FilterAccessView: UIView {
         
         let text = "비개방충전소 : 충전소 설치 건물 거주/이용/관계자 외엔 사용이 불가한 곳"
         EasyTipView.show(forView: self.btnInfo,
-            withinSuperview: self,
-            text: text,
-            preferences: preferences)
+                         withinSuperview: self,
+                         text: text,
+                         preferences: preferences,
+                         delegate: self)
     }
 
-    
-    @objc func onClickPublic(_ sender:UITapGestureRecognizer){
+    @objc func onClickPublic(_ sender: UITapGestureRecognizer) {
         publicSel = !publicSel
         selectItem(index: 0)
     }
-    @objc func onClickNonPublic(_ sender:UITapGestureRecognizer){
+    
+    @objc func onClickNonPublic(_ sender: UITapGestureRecognizer) {
         nonPublicSel = !nonPublicSel
         selectItem(index: 1)
     }
     
-    func selectItem(index: Int){
-        if(index == 0) {
-            if (publicSel){
-                ivPublic.tintColor = bgEnColor
-                lbPublic.textColor = bgEnColor
-            } else {
+    private func selectItem(index: Int) {
+        switch index {
+        case 0:
+            guard publicSel else {
                 ivPublic.tintColor = bgDisColor
                 lbPublic.textColor = bgDisColor
+                return
             }
-        } else if(index == 1) {
-            if (nonPublicSel){
-                ivNonPublic.tintColor = bgEnColor
-                lbNonPublic.textColor = bgEnColor
-            } else {
+            ivPublic.tintColor = bgEnColor
+            lbPublic.textColor = bgEnColor
+        case 1:
+            guard nonPublicSel else {
                 ivNonPublic.tintColor = bgDisColor
                 lbNonPublic.textColor = bgDisColor
+                return
             }
+            ivNonPublic.tintColor = bgEnColor
+            lbNonPublic.textColor = bgEnColor
+        default: break
         }
         delegate?.onChangedFilter(type: .access)
     }
     
-    func resetFilter() {
+    internal func resetFilter() {
         publicSel = true
         nonPublicSel = true
         
@@ -112,17 +120,21 @@ class FilterAccessView: UIView {
         selectItem(index: 1)
     }
     
-    func applyFilter() {
+    internal func applyFilter() {
         FilterManager.sharedInstance.saveAccessFilter(isPublic: publicSel, nonPublic: nonPublicSel)
     }
     
-    func isChanged() -> Bool {
-        var changed = false
-        if (publicSel != FilterManager.sharedInstance.filter.isPublic){
-            changed = true
-        } else if (nonPublicSel != FilterManager.sharedInstance.filter.isNonPublic){
-            changed = true
-        }
-        return changed
+    internal func isChanged() -> Bool {
+        guard publicSel == FilterManager.sharedInstance.filter.isPublic else { return true }
+        guard nonPublicSel == FilterManager.sharedInstance.filter.isNonPublic else { return true }
+        return false
+    }
+}
+
+// MARK: - EasyTipViewDelegate
+extension FilterAccessView: EasyTipViewDelegate {
+    func easyTipViewDidDismiss(_ tipView: EasyTipView) {}
+    func easyTipViewDidTap(_ tipView: EasyTipView) {
+        isOnEasyTipView = false
     }
 }
