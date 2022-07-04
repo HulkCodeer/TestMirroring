@@ -23,9 +23,9 @@ internal final class FilterAccessView: UIView {
     private var publicSel: Bool = true
     private var nonPublicSel: Bool = false
     private var isOnEasyTipView: Bool = false
-    
-    private let bgEnColor: UIColor = UIColor(named: "gr-6")!
-    private let bgDisColor: UIColor = UIColor(named: "content-tertiary")!
+
+    private let bgEnColor: UIColor = Colors.gr6.color
+    private let bgDisColor: UIColor = Colors.contentTertiary.color
     
     internal var delegate: DelegateFilterChange?
     override init(frame: CGRect) {
