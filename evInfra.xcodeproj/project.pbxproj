@@ -83,6 +83,17 @@
 		00FDEAFA26B3BFCF006617EE /* Info.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAF926B3BFCF006617EE /* Info.storyboard */; };
 		192A338327FE747E00EF1684 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338227FE747E00EF1684 /* Marker.swift */; };
 		192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */; };
+		19356C932872C3B30041A4EC /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E00F4C284986CB00D85629 /* NoticeCellReactor.swift */; };
+		19356C942872C3B30041A4EC /* NoticeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9DAD1283F0DF200EDAA27 /* NoticeReactor.swift */; };
+		19356C952872C3B30041A4EC /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972A48628698DBC006AB719 /* NoticeDetailViewController.swift */; };
+		19356C962872C3B30041A4EC /* NoticeDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972A48828699377006AB719 /* NoticeDetailReactor.swift */; };
+		19356C972872C3E00041A4EC /* NoticeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1948FB0F2849DEAA00C02255 /* NoticeCell.xib */; };
+		19356C982872C41D0041A4EC /* ReportHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE1FEE286BE91000A4756D /* ReportHistoryCell.swift */; };
+		19356C992872C41D0041A4EC /* ReportHistroyCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE1FEF286BE91000A4756D /* ReportHistroyCellReactor.swift */; };
+		19356C9A2872C41D0041A4EC /* ReportHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19717FFF286BDCE600DA1FD9 /* ReportHistoryViewController.swift */; };
+		19356C9B2872C41D0041A4EC /* ReportHistoryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE1FDE286BDE7100A4756D /* ReportHistoryReactor.swift */; };
+		19356C9C2872C4380041A4EC /* ReportHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19DE1FED286BE91000A4756D /* ReportHistoryCell.xib */; };
+		19356C9D2872C7640041A4EC /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E00F482849865500D85629 /* UITableView+Extension.swift */; };
 		193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */; };
 		1948FB102849DEAB00C02255 /* NoticeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1948FB0F2849DEAA00C02255 /* NoticeCell.xib */; };
 		19718000286BDCE600DA1FD9 /* ReportHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19717FFF286BDCE600DA1FD9 /* ReportHistoryViewController.swift */; };
@@ -2518,6 +2529,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19356C9C2872C4380041A4EC /* ReportHistoryCell.xib in Resources */,
+				19356C972872C3E00041A4EC /* NoticeCell.xib in Resources */,
 				63F314BB284EC74F001713D2 /* station_sns_board.png in Resources */,
 				63F314BC284EC74F001713D2 /* bubble_info.png in Resources */,
 				63F314BD284EC74F001713D2 /* navi_settings.png in Resources */,
@@ -2990,6 +3003,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReusableKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -3037,6 +3051,7 @@
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/AnyFormatKit/AnyFormatKit.framework",
 				"${BUILT_PRODUCTS_DIR}/DLRadioButton/DLRadioButton.framework",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/EasyTipView/EasyTipView.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpyTableView/ExpyTableView.framework",
@@ -3066,6 +3081,7 @@
 				"${BUILT_PRODUCTS_DIR}/ReusableKit/ReusableKit.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -3085,6 +3101,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AnyFormatKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DLRadioButton.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyTipView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpyTableView.framework",
@@ -3169,6 +3186,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19356C9D2872C7640041A4EC /* UITableView+Extension.swift in Sources */,
+				19356C982872C41D0041A4EC /* ReportHistoryCell.swift in Sources */,
+				19356C992872C41D0041A4EC /* ReportHistroyCellReactor.swift in Sources */,
+				19356C9A2872C41D0041A4EC /* ReportHistoryViewController.swift in Sources */,
+				19356C9B2872C41D0041A4EC /* ReportHistoryReactor.swift in Sources */,
+				19356C932872C3B30041A4EC /* NoticeCellReactor.swift in Sources */,
+				19356C942872C3B30041A4EC /* NoticeReactor.swift in Sources */,
+				19356C952872C3B30041A4EC /* NoticeDetailViewController.swift in Sources */,
+				19356C962872C3B30041A4EC /* NoticeDetailReactor.swift in Sources */,
 				63F313A3284EC74F001713D2 /* ImageMarker.swift in Sources */,
 				63F313A4284EC74F001713D2 /* MyWritingViewController.swift in Sources */,
 				63F313A5284EC74F001713D2 /* TagListViewCell.swift in Sources */,
