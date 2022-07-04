@@ -47,6 +47,10 @@ internal final class MemberManager {
         return UserDefault().readString(key: UserDefault.Key.MB_DEVICE_ID)
     }
     
+    internal var appleRefreshToken: String {
+        return UserDefault().readString(key: UserDefault.Key.APPLE_REFRESH_TOKEN)
+    }
+    
     internal var loginType: Login.LoginType {
         return Login.LoginType(rawValue: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)) ?? .none
     }
@@ -136,6 +140,7 @@ internal final class MemberManager {
         userDefault.saveBool(key: UserDefault.Key.MB_PAYMENT, value: false)
         userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value:  "")
         userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  false)
+        userDefault.saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value:  "")
     }
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {

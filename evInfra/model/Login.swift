@@ -20,7 +20,7 @@ struct Login {
         case none
     }
     
-    var type: LoginType
+    var loginType: LoginType
     
     var userId: String?
     var name: String?
@@ -33,9 +33,10 @@ struct Login {
     var phoneNo: String?
     
     var otherInfo: MemberOtherInfo?
+    var appleAuthorizationCode: Data?
     
     init(_ type: LoginType) {
-        self.type = type
+        self.loginType = type
     }
     
     @available(iOS 13.0, *)
@@ -45,6 +46,7 @@ struct Login {
         login.name = user.fullName?.givenName
         login.email = user.email
         login.emailVerified = true
+        login.appleAuthorizationCode = user.authorizationCode
 
         return login
     }
@@ -84,7 +86,7 @@ struct Login {
             "user_id": userId ?? "",
             "nickname": name ?? "",
             "profile": profile_image ?? "",
-            "login_type": type.rawValue,
+            "login_type": loginType.rawValue,
             "email": email ?? "",
             "email_cert": emailVerified,
             "phone_no": phoneNo ?? "",

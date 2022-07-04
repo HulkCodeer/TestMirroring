@@ -51,7 +51,7 @@ class LoginViewController: UIViewController {
         
         // Apple ID 로그인 버튼
         if #available(iOS 13.0, *) {
-            let btnAppleLogin = ASAuthorizationAppleIDButton()
+            let btnAppleLogin = ASAuthorizationAppleIDButton()            
             btnAppleLogin.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
             self.loginButtonStackView.addArrangedSubview(btnAppleLogin)
         }

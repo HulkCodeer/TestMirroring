@@ -1392,15 +1392,27 @@ extension MainViewController {
             break
             
         case 2002:
+            switch response["status"].stringValue {
+                case "delete":
+                    LoginHelper.shared.logout(completion: { success in
+                        if success {
+                            GlobalDefine.shared.mainNavi?.navigationDrawerController?.toggleLeftView()
+                            Snackbar().show(message: "로그아웃 되었습니다.")                            
+                        } else {
+                            Snackbar().show(message: "다시 시도해 주세요.")
+                        }
+                    })
+                    
+                default: break
+            }
+            
             // 진행중인 충전이 없음
             self.btn_main_charge.alignTextUnderImage()
             self.btn_main_charge.tintColor = UIColor(named: "gr-8")
             self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
             self.btn_main_charge.setTitle("간편 충전", for: .normal)
-            break
             
-        default:
-            break
+        default: break
         }
     }
 }

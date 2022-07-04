@@ -14,6 +14,14 @@ import Material
 import SwiftyJSON
 import RxSwift
 
+struct PointHistory: Decodable {
+    var code: Int?
+    var msg: String?
+    var total_point = "0"
+    var list: [EvPoint]?
+    var expire_point = "0"
+}
+
 internal final class PointViewController: UIViewController {
     
     // MARK: UI
@@ -53,13 +61,7 @@ internal final class PointViewController: UIViewController {
     private var pointHistory = PointHistory()
     private let disposeBag = DisposeBag()
     
-    struct PointHistory: Decodable {
-        var code: Int?
-        var msg: String?
-        var total_point = "0"
-        var list: [EvPoint]?
-        var expire_point = "0"
-    }
+    
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
