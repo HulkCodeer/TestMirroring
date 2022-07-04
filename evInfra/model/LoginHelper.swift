@@ -50,7 +50,51 @@ internal final class LoginHelper: NSObject {
     func checkLogin() {
         switch MemberManager.shared.loginType {
         case .apple:
-            requestLoginToApple()
+            RestApi().postValidateRefreshToken()
+                .observe(on: MainScheduler.asyncInstance)
+                .convertData()
+                .compactMap { result -> String? in
+                    switch result {
+                    case .success(let data):
+                        
+                        var jsonData: JSON = JSON(JSON.null)
+                        var jsonString: JSON = JSON(parseJSON: "")
+                        do {
+                            jsonData = try JSON(data: data, options: .allowFragments)
+                            jsonString = JSON(parseJSON: jsonData.rawString() ?? "")
+                        } catch let error {
+                            printLog(out: "Json Parse Error \(error.localizedDescription)")
+                        }
+                                        
+                        printLog(out: "JsonData : \(jsonData)")
+
+                        let refreshToken = jsonString["refresh_token"].stringValue
+                        guard !refreshToken.isEmpty else {
+                            return nil
+                        }
+                        
+                        return refreshToken
+                        
+                    case .failure(let errorMessage):
+                        printLog(out: "Error Message : \(errorMessage)")
+                        Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                        return nil
+                    }
+                }
+                .subscribe(onNext: { [weak self] refreshToken in
+                    guard let self = self else { return }
+                    guard refreshToken.isEmpty else {
+                        self.requestLoginToApple()
+                        return
+                    }
+                    LoginHelper.shared.logout(completion: { success in
+                        if success {
+                            Snackbar().show(message: "로그아웃 되었습니다.")
+                        }
+                    })
+                })
+                .disposed(by: self.disposebag)
+            
             
         case .kakao:
             if KOSession.shared().isOpen() {
