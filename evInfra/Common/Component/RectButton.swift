@@ -8,13 +8,11 @@
 
 import UIKit
 
-internal final class RectButton: UIButton {
-    
-    
-    override var isSelected: Bool {
-        didSet {
-            self.isSelected ? self.setTitleColor(GlobalFunctionSwift.RGB(225, 108, 45), for: .selected) :
-                self.setTitleColor(Colors.contents05x333333.color, for: .normal)
-        }
-    }
+internal final class RectButton: UIButton {        
+//    override var isSelected: Bool {
+//        didSet {
+//            self.isSelected ? self.setTitleColor(GlobalFunctionSwift.RGB(225, 108, 45), for: .selected) :
+//                self.setTitleColor(Colors.contents05x333333.color, for: .normal)
+//        }
+//    }
 }

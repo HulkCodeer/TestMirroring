@@ -128,8 +128,7 @@ internal final class MemberManager {
     func clearData() {
         let userDefault = UserDefault()
         userDefault.saveInt(key: UserDefault.Key.MB_ID, value: 0)
-        userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: MemberLevel.normal.rawValue)
-        userDefault.saveString(key: UserDefault.Key.MB_LOGIN_TYPE, value: "")
+        userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: MemberLevel.normal.rawValue)        
         userDefault.saveString(key: UserDefault.Key.MB_USER_ID, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_REGION, value: "")

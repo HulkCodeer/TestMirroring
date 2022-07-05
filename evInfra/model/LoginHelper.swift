@@ -10,6 +10,7 @@ import Foundation
 import SwiftyJSON
 import AuthenticationServices // apple login
 import RxSwift
+import Material
 
 protocol LoginHelperDelegate: class {
     var loginViewController: UIViewController { get }
@@ -51,7 +52,9 @@ internal final class LoginHelper: NSObject {
         switch MemberManager.shared.loginType {
         case .apple:
             guard !MemberManager.shared.appleRefreshToken.isEmpty else {
-                self.requestLoginToApple()
+                LoginHelper.shared.logout(completion: {_ in 
+                    Snackbar().show(message: "서비스 내 정책변경으로 로그아웃 되었습니다. 원활한 서비스 이용을 위해 다시 로그인을 해주세요.")
+                })
                 return
             }
                         
