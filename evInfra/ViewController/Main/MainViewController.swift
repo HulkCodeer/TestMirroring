@@ -1397,7 +1397,7 @@ extension MainViewController {
                     LoginHelper.shared.logout(completion: { success in
                         if success {
                             GlobalDefine.shared.mainNavi?.navigationDrawerController?.toggleLeftView()
-                            Snackbar().show(message: "로그아웃 되었습니다.")                            
+                            Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")                            
                         } else {
                             Snackbar().show(message: "다시 시도해 주세요.")
                         }

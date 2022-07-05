@@ -86,7 +86,7 @@ internal final class QuitAccountCompleteViewController: CommonBaseViewController
         completeBtn.rx.tap
             .asDriver()
             .drive(onNext: { _ in
-                GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                GlobalDefine.shared.mainNavi?.popToMain()                
             })
             .disposed(by: self.disposebag)
     }

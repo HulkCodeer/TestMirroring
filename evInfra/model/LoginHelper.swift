@@ -182,6 +182,7 @@ internal final class LoginHelper: NSObject {
     fileprivate func requestMeToKakao() {
         KOSessionTask.userMeTask { [weak self] (error, me) in
             if (error as NSError?) != nil {
+                Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
                 MemberManager.shared.clearData()
             } else if let me = me as KOUserMe? {
                 UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: me.id!)

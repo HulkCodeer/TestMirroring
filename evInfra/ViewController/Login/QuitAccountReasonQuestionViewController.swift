@@ -38,7 +38,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     private lazy var dismissKeyboardBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    
+        
     private lazy var mainTitleLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -320,13 +320,23 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: .UIKeyboardWillHide, object: nil)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     @objc private func keyboardWillShow(_ sender: NSNotification) {
         if let keyboardSize = (sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             view.layoutIfNeeded()
-            totalScrollView.snp.updateConstraints {
-                $0.bottom.equalTo(nextBtn.snp.top).offset(-keyboardHeight + 60 + self.view.safeAreaInsets.bottom)
-            }    
+//            totalScrollView.snp.updateConstraints {
+//                $0.bottom.equalTo(nextBtn.snp.top).offset(-keyboardHeight + 60 + self.view.safeAreaInsets.bottom)
+//            }
+            
+            let bottom = keyboardHeight - (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0) 
+            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: bottom, right: 0.0)
+            self.totalScrollView.contentInset = contentInsets
+            self.totalScrollView.scrollIndicatorInsets = contentInsets
         }
     }
     
@@ -336,9 +346,9 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         totalScrollView.contentInset = contentsInset
         totalScrollView.scrollIndicatorInsets = contentsInset
                 
-        totalScrollView.snp.updateConstraints {
-            $0.bottom.equalTo(nextBtn.snp.top).offset(-16)
-        }
+//        totalScrollView.snp.updateConstraints {
+//            $0.bottom.equalTo(nextBtn.snp.top).offset(-16)
+//        }
     }
                     
     internal func bind(reactor: QuitAccountReasonQuestionReactor) {
@@ -350,6 +360,8 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
+                self.view.endEditing(true)
+                
                 let rowVC = NewBottomSheetViewController()
                 rowVC.items = reactor.currentState.quitAccountReasonList?.compactMap { $0.reasonMessage } ?? []
                 rowVC.headerTitleStr = "탈퇴 사유 선택"
