@@ -154,7 +154,7 @@ internal final class DetailViewController: BaseViewController {
         setStationInfo()
         setDetailLb()
         fetchFirstBoard(mid: "station", sort: .LATEST, mode: Board.ScreenType.FEED.rawValue)
-        initKakaoMap()
+        initKakaoMap()       
     }
     
     func setDetailLb() {
