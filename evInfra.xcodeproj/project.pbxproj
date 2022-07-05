@@ -165,6 +165,8 @@
 		63762F542869A91900C951BF /* NewSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F502869A91900C951BF /* NewSettingsViewController.swift */; };
 		63762F562869A95D00C951BF /* CommonBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F552869A95D00C951BF /* CommonBaseViewController.swift */; };
 		63762F572869A95D00C951BF /* CommonBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F552869A95D00C951BF /* CommonBaseViewController.swift */; };
+		63A4F3712872F88100601018 /* RectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A4F3702872F88100601018 /* RectButton.swift */; };
+		63A4F3722872F88100601018 /* RectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A4F3702872F88100601018 /* RectButton.swift */; };
 		63B2373E282C970900E8A3F8 /* MembershipUseGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B2373D282C970900E8A3F8 /* MembershipUseGuideViewController.swift */; };
 		63B23740282CA4B400E8A3F8 /* PointUseGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B2373F282CA4B400E8A3F8 /* PointUseGuideViewController.swift */; };
 		63B23744282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */; };
@@ -1040,6 +1042,7 @@
 		63762F4F2869A91900C951BF /* SettingsReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsReactor.swift; sourceTree = "<group>"; };
 		63762F502869A91900C951BF /* NewSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSettingsViewController.swift; sourceTree = "<group>"; };
 		63762F552869A95D00C951BF /* CommonBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonBaseViewController.swift; sourceTree = "<group>"; };
+		63A4F3702872F88100601018 /* RectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectButton.swift; sourceTree = "<group>"; };
 		63B2373D282C970900E8A3F8 /* MembershipUseGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipUseGuideViewController.swift; sourceTree = "<group>"; };
 		63B2373F282CA4B400E8A3F8 /* PointUseGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointUseGuideViewController.swift; sourceTree = "<group>"; };
 		63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceViewController.swift; sourceTree = "<group>"; };
@@ -2267,6 +2270,7 @@
 				821A05DF28627F3000EB1A91 /* CommonNaviView.swift */,
 				821A05DD28627F3000EB1A91 /* NavigationClose.swift */,
 				63762F1428699FB200C951BF /* Info.swift */,
+				63A4F3702872F88100601018 /* RectButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -3267,6 +3271,7 @@
 				63F31405284EC74F001713D2 /* UIScrollView+Extension.swift in Sources */,
 				63F31406284EC74F001713D2 /* RegisterResultViewController.swift in Sources */,
 				63F31407284EC74F001713D2 /* Snackbar.swift in Sources */,
+				63A4F3722872F88100601018 /* RectButton.swift in Sources */,
 				63F31408284EC74F001713D2 /* ChargerStationInfo.swift in Sources */,
 				63F31409284EC74F001713D2 /* Login.swift in Sources */,
 				63F3140A284EC74F001713D2 /* PointViewController.swift in Sources */,
@@ -3549,6 +3554,7 @@
 				00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */,
 				DBE579B521A3E3CA005DD998 /* Snackbar.swift in Sources */,
 				902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */,
+				63A4F3712872F88100601018 /* RectButton.swift in Sources */,
 				DB367BF124FE429D00898BED /* Login.swift in Sources */,
 				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
 				82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */,
