@@ -22,7 +22,8 @@ internal final class LoginViewController: UIViewController {
     @IBOutlet weak var btnKakaoLogin: KOLoginButton!
     @IBOutlet weak var btnCorpLogin: UIButton!
     @IBOutlet var kakaoLastLoginGuideLbl: UILabel!
-            
+    @IBOutlet var kakaoGuideTotalView: UIView!
+    
     private lazy var appleGuideTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -83,15 +84,14 @@ internal final class LoginViewController: UIViewController {
         
         switch MemberManager.shared.loginType {
         case .apple, .kakao:
-            kakaoLastLoginGuideLbl.isHidden = false
-            appleLastLoginGuideLbl.isHidden = false
+            kakaoGuideTotalView.isHidden = false
+            appleGuideTotalView.isHidden = false
             kakaoLastLoginGuideLbl.text = MemberManager.shared.loginType == .apple ? LastLoginTypeMessage.new.rawValue : LastLoginTypeMessage.last.rawValue
             appleLastLoginGuideLbl.text = MemberManager.shared.loginType == .apple ? LastLoginTypeMessage.last.rawValue : LastLoginTypeMessage.new.rawValue
             
         default:
-            kakaoLastLoginGuideLbl.isHidden = true
-            appleLastLoginGuideLbl.isHidden = true
-            break
+            kakaoGuideTotalView.isHidden = true
+            appleGuideTotalView.isHidden = true
         }
     }
     
