@@ -542,17 +542,20 @@ extension DetailViewController {
     
     @objc
     fileprivate func onClickReportChargeBtn() {
-        if MemberManager.shared.isLogin {
-            if let chargerInfo = self.charger {
-                let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
-                let reportChargeVC = reportStoryboard.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
-                reportChargeVC.info.charger_id = chargerInfo.mChargerId
-                
-                self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true, completion: nil)
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+                    guard let self = self else { return }
+            if isLogin {
+                if let chargerInfo = self.charger {
+                    let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
+                    let reportChargeVC = reportStoryboard.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
+                    reportChargeVC.info.charger_id = chargerInfo.mChargerId
+                    
+                    self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true, completion: nil)
+                }
+            } else {
+                MemberManager.shared.showLoginAlert()
             }
-        } else {
-            MemberManager.shared.showLoginAlert()
-        }
+        }        
     }
 }
 

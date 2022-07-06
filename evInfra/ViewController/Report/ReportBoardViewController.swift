@@ -30,10 +30,13 @@ class ReportBoardViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if MemberManager.shared.isLogin {
-            getReportList(reportId:0)
-        } else {            
-            MemberManager.shared.showLoginAlert()
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                self.getReportList(reportId:0)
+            } else {
+                MemberManager.shared.showLoginAlert()
+            }
         }
     }
 

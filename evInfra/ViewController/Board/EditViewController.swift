@@ -97,15 +97,18 @@ class EditViewController: UIViewController, UITextViewDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if !MemberManager.shared.isLogin {
-            MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
-                if !result {
-                    self.navigationController?.pop()
-                }
-            })
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if !isLogin {
+                MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
+                    if !result {
+                        self.navigationController?.pop()
+                    }
+                })
+            }
+            self.scrollViewUpdate()
+            self.scrollView.scrollToTop()
         }
-        scrollViewUpdate()
-        self.scrollView.scrollToTop()
     }
 
     override func didReceiveMemoryWarning() {

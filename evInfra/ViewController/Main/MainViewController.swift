@@ -108,7 +108,7 @@ internal final class MainViewController: UIViewController {
         prepareChargePrice()
         requestStationInfo()
         
-        prepareCalloutLayer()
+        prepareCalloutLayer()                
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -390,12 +390,15 @@ extension MainViewController: DelegateFilterBarView {
     }
     
     @IBAction func onClickMainFavorite(_ sender: UIButton) {
-        if MemberManager.shared.isLogin {
-            let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
-            favoriteViewController.delegate = self
-            self.present(AppNavigationController(rootViewController: favoriteViewController), animated: true, completion: nil)
-        } else {
-            MemberManager.shared.showLoginAlert()
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
+                favoriteViewController.delegate = self
+                self.present(AppNavigationController(rootViewController: favoriteViewController), animated: true, completion: nil)
+            } else {
+                MemberManager.shared.showLoginAlert()
+            }
         }
     }
 }
@@ -1295,15 +1298,18 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainCharge(_ sender: UIButton) {
-        if MemberManager.shared.isLogin {
-            Server.getChargingId { (isSuccess, responseData) in
-                if isSuccess {
-                    let json = JSON(responseData)
-                    self.responseGetChargingId(response: json)
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                Server.getChargingId { (isSuccess, responseData) in
+                    if isSuccess {
+                        let json = JSON(responseData)
+                        self.responseGetChargingId(response: json)
+                    }
                 }
+            } else {
+                MemberManager.shared.showLoginAlert()
             }
-        } else {
-            MemberManager.shared.showLoginAlert()
         }
     }
     
@@ -1357,19 +1363,22 @@ extension MainViewController {
     }
     
     private func chargingStatus() {
-        if MemberManager.shared.isLogin {
-            Server.getChargingId { (isSuccess, responseData) in
-                if isSuccess {
-                    let json = JSON(responseData)
-                    self.getChargingStatus(response: json)
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                Server.getChargingId { (isSuccess, responseData) in
+                    if isSuccess {
+                        let json = JSON(responseData)
+                        self.getChargingStatus(response: json)
+                    }
                 }
+            } else {
+                // 진행중인 충전이 없음
+                self.btn_main_charge.alignTextUnderImage()
+                self.btn_main_charge.tintColor = UIColor(named: "gr-8")
+                self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                self.btn_main_charge.setTitle("간편 충전", for: .normal)
             }
-        } else {
-            // 진행중인 충전이 없음
-            self.btn_main_charge.alignTextUnderImage()
-            self.btn_main_charge.tintColor = UIColor(named: "gr-8")
-            self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            self.btn_main_charge.setTitle("간편 충전", for: .normal)
         }
     }
     

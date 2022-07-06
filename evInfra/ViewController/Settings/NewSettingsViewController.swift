@@ -103,13 +103,16 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             stackView.addArrangedSubview(settingView)
         }
                 
-        let quitAccountView = self.createQuitAccountView(mainTitle: "회원탈퇴")
-        totalScrollView.addSubview(quitAccountView)
-        quitAccountView.snp.makeConstraints {
-            $0.top.equalTo(stackView.snp.bottom)
-            $0.leading.bottom.trailing.equalToSuperview()
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(MemberManager.shared.isLogin ? 56:0)
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            let quitAccountView = self.createQuitAccountView(mainTitle: "회원탈퇴")
+            self.totalScrollView.addSubview(quitAccountView)
+            quitAccountView.snp.makeConstraints {
+                $0.top.equalTo(self.stackView.snp.bottom)
+                $0.leading.bottom.trailing.equalToSuperview()
+                $0.centerX.equalToSuperview()
+                $0.height.equalTo(isLogin ? 56:0)
+            }
         }
     }
             

@@ -168,13 +168,19 @@ internal final class MemberManager {
     }
     
     internal func tryToLoginCheck(success: ((Bool) -> Void)? = nil) {
-        KOSessionTask.userMeTask { (error, me) in
-            if (error as NSError?) != nil {
-                Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
-                MemberManager.shared.clearData()
-            } else {
-                success?(UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0)
+        switch self.loginType {
+        case .kakao:
+            KOSessionTask.userMeTask { (error, me) in
+                if (error as NSError?) != nil {
+                    Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
+                    MemberManager.shared.clearData()
+                } else {
+                    success?(UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0)
+                }
             }
+                    
+        default: success?(UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0)
         }
+        
     }
 }
