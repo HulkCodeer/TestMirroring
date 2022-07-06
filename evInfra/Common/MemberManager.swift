@@ -99,22 +99,7 @@ internal final class MemberManager {
     
     // 로그인 상태 체크
     internal var isLogin: Bool {
-        var isLogin: Bool = false
-        let mbId: Int = UserDefault().readInt(key: UserDefault.Key.MB_ID)
-        KOSessionTask.userMeTask { (error, me) in
-            if (error as NSError?) != nil {
-                guard mbId != 0 else {
-                    isLogin = false
-                    return
-                }
-                Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
-                MemberManager.shared.clearData()
-                isLogin = false
-            } else {
-                isLogin = UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0
-            }
-        }
-        return isLogin
+        return UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0                
     }
     
     // 지킴이 체크
@@ -142,7 +127,7 @@ internal final class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value: data["battery_device_id"].stringValue)
             userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value: data["has_membership"].boolValue)
             userDefault.saveString(key: UserDefault.Key.MB_LOGIN_TYPE, value: data["login_type"].stringValue)
-            userDefault.saveString(key: UserDefault.Key.MB_LAST_LOGIN_TYPE, value: data["login_type"].stringValue)
+            userDefault.saveString(key: UserDefault.Key.MB_LAST_LOGIN_TYPE, value: data["last_login_type"].stringValue)
         }
     }
     
@@ -180,5 +165,16 @@ internal final class MemberManager {
         
         UIAlertController.showAlert(title: "로그인 필요", message: "로그인 후 사용가능합니다.\n로그인 하시려면 확인버튼을 누르세요.", actions: [ok, cancel])
         
+    }
+    
+    internal func tryToLoginCheck(success: ((Bool) -> Void)? = nil) {
+        KOSessionTask.userMeTask { (error, me) in
+            if (error as NSError?) != nil {
+                Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
+                MemberManager.shared.clearData()
+            } else {
+                success?(UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0)
+            }
+        }
     }
 }

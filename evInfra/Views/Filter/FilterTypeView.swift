@@ -8,10 +8,6 @@
 
 import Foundation
 
-protocol DelegateFilterTypeView {
-    func checkMemberLogin() -> Bool
-}
-
 protocol DelegateSlowTypeChange {
     func onChangeSlowType(slowOn: Bool)
 }
@@ -29,8 +25,7 @@ internal final class FilterTypeView: UIView {
     
     internal var slowTypeChangeDelegate: DelegateSlowTypeChange?
     internal var saveOnChange: Bool = false
-    internal var delegate: DelegateFilterChange?
-    internal var checkLoginDelegate: DelegateFilterTypeView?
+    internal var delegate: DelegateFilterChange?    
     
     // MARK: SYSTEM FUNC
     
@@ -57,23 +52,28 @@ internal final class FilterTypeView: UIView {
         tagCollectionView.dataSource = self
         tagCollectionView.reloadData()
                                 
-        switchCarSetting.isUserInteractionEnabled = !MemberManager.shared.isLogin
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            self.switchCarSetting.isUserInteractionEnabled = !isLogin
+        }
     }
     
     @IBAction func onSwitchClicked(_ sender: Any) {
-        guard !MemberManager.shared.isLogin else {
-            return
+        MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
+            guard !isLogin, let self = self else { return }
+            MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
+                self.switchCarSetting.isOn = false
+            })
         }
-        MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
-            self.switchCarSetting.isOn = false
-        })
     }
     
     @IBAction func onSwitchValueChange(_ sender: Any) {
         if (switchCarSetting.isOn) {
-            if (MemberManager.shared.isLogin) {
-                setForCarType()
+            MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
+                guard isLogin, let self = self else { return }
+                self.setForCarType()
             }
+            
         } else { // 차량필터 해제 시
             if (!isChanged()) { // 변경사항 없으면 초기값
                 resetFilter()
