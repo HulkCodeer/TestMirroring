@@ -15,17 +15,24 @@ protocol DelegateFilterTypeView {
 protocol DelegateSlowTypeChange {
     func onChangeSlowType(slowOn: Bool)
 }
-class FilterTypeView: UIView {
-    @IBOutlet var tagCollectionView: UICollectionView!
+
+internal final class FilterTypeView: UIView {
+    // MARK: UI
     
+    @IBOutlet var tagCollectionView: UICollectionView!
     @IBOutlet var carSettingView: UIView!
     @IBOutlet var switchCarSetting: UISwitch!
     
+    // MARK: VARIABLE
+    
     private var tagList = Array<TagValue>()
-    var saveOnChange: Bool = false
-    var delegate: DelegateFilterChange?
-    var checkLoginDelegate: DelegateFilterTypeView?
-    var slowTypeChangeDelegate: DelegateSlowTypeChange?
+    
+    internal var slowTypeChangeDelegate: DelegateSlowTypeChange?
+    internal var saveOnChange: Bool = false
+    internal var delegate: DelegateFilterChange?
+    internal var checkLoginDelegate: DelegateFilterTypeView?
+    
+    // MARK: SYSTEM FUNC
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,41 +50,56 @@ class FilterTypeView: UIView {
         addSubview(view)
         
         prepareTagList()
-        setUpUI()
-        
-        carSettingView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickCarSetting (_:))))
-        
-        if !MemberManager.shared.isLogin{
-            switchCarSetting.isUserInteractionEnabled = false
-        }
+                        
+        tagCollectionView.collectionViewLayout = TagFlowLayout()
+        tagCollectionView.register(UINib(nibName: "TagListViewCell", bundle: nil), forCellWithReuseIdentifier: "tagListViewCell")
+        tagCollectionView.delegate = self
+        tagCollectionView.dataSource = self
+        tagCollectionView.reloadData()
+                                
+        switchCarSetting.isUserInteractionEnabled = !MemberManager.shared.isLogin
     }
     
-    @objc func onClickCarSetting(_ sender:UITapGestureRecognizer){
-        guard let delegate = checkLoginDelegate else { return }
-        if (delegate.checkMemberLogin()) {
-            switchCarSetting.isUserInteractionEnabled = true
-            checkLoginDelegate = nil // block next click
+    @IBAction func onSwitchClicked(_ sender: Any) {
+        guard !MemberManager.shared.isLogin else {
+            return
         }
+        MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
+            self.switchCarSetting.isOn = false
+        })
     }
     
     @IBAction func onSwitchValueChange(_ sender: Any) {
         if (switchCarSetting.isOn) {
-            setForCarType()
-        } else {
-            update()
+            if (MemberManager.shared.isLogin) {
+                setForCarType()
+            }
+        } else { // 차량필터 해제 시
+            if (!isChanged()) { // 변경사항 없으면 초기값
+                resetFilter()
+            } else  { // 변경사항 있을때 이전 필터값 복원
+                update()
+            }
         }
         
         sendTypeChange()
     }
     
     func setForCarType(){
-        let carType = UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE);
-        if carType != 8 {
-            for item in tagList {
-                item.selected = carType == item.index
-            }
-            tagCollectionView.reloadData()
+        var carType = UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE);
+        switch(carType) {
+            case Const.CHARGER_TYPE_DCCOMBO, Const.CHARGER_TYPE_DCDEMO
+                , Const.CHARGER_TYPE_AC, Const.CHARGER_TYPE_SLOW
+                , Const.CHARGER_TYPE_SUPER_CHARGER, Const.CHARGER_TYPE_DESTINATION:
+                break
+            default:
+                carType = Const.CHARGER_TYPE_DCCOMBO
         }
+        
+        for item in tagList {
+            item.selected = carType == item.index
+        }
+        tagCollectionView.reloadData()
     }
     
     func setSlowTypeOn(slowTypeOn: Bool) {
@@ -120,15 +142,6 @@ class FilterTypeView: UIView {
         
         selected = FilterManager.sharedInstance.filter.destination
         tagList.append(TagValue(title:"데스티네이션", img:"ic_charger_slow_md", selected:selected, index: Const.CHARGER_TYPE_DESTINATION))
-    }
-
-    func setUpUI(){
-        let layout = TagFlowLayout()
-        tagCollectionView.collectionViewLayout = layout
-        tagCollectionView.register(UINib(nibName: "TagListViewCell", bundle: nil), forCellWithReuseIdentifier: "tagListViewCell")
-        tagCollectionView.delegate = self
-        tagCollectionView.dataSource = self
-        tagCollectionView.reloadData()
     }
     
     func resetFilter() {

@@ -47,6 +47,10 @@ internal final class MemberManager {
         return UserDefault().readString(key: UserDefault.Key.MB_DEVICE_ID)
     }
     
+    internal var appleRefreshToken: String {
+        return UserDefault().readString(key: UserDefault.Key.APPLE_REFRESH_TOKEN)
+    }
+    
     internal var loginType: Login.LoginType {
         return Login.LoginType(rawValue: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)) ?? .none
     }
@@ -124,8 +128,7 @@ internal final class MemberManager {
     func clearData() {
         let userDefault = UserDefault()
         userDefault.saveInt(key: UserDefault.Key.MB_ID, value: 0)
-        userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: MemberLevel.normal.rawValue)
-        userDefault.saveString(key: UserDefault.Key.MB_LOGIN_TYPE, value: "")
+        userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: MemberLevel.normal.rawValue)        
         userDefault.saveString(key: UserDefault.Key.MB_USER_ID, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_REGION, value: "")
@@ -136,6 +139,7 @@ internal final class MemberManager {
         userDefault.saveBool(key: UserDefault.Key.MB_PAYMENT, value: false)
         userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value:  "")
         userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  false)
+        userDefault.saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value:  "")
     }
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {

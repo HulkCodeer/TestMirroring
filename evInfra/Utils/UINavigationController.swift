@@ -21,6 +21,11 @@ public extension UINavigationController {
         self.popViewController(animated: false)
     }
     
+    func popToMain(transitionType type: String = kCATransitionMoveIn, subtype: String = kCATransitionFromLeft, duration: CFTimeInterval = 0.3) {
+        self.addTransition(transitionType: type, subtype: subtype, duration: duration)
+        self.popToRootViewController(animated: true)
+    }
+    
     /**
      Push a new view controller on the view controllers's stack.
      

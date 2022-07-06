@@ -11,16 +11,33 @@ import Material
 import SwiftyJSON
 import AuthenticationServices // apple login
 
-class LoginViewController: UIViewController {
+internal final class LoginViewController: UIViewController {
+    
+    enum LastLoginTypeMessage: String {
+        case last = "마지막으로 이용한 간편 로그인"
+        case new = "새로운 간편 로그인"
+    }
     
     @IBOutlet weak var loginButtonStackView: UIStackView!
     @IBOutlet weak var btnKakaoLogin: KOLoginButton!
     @IBOutlet weak var btnCorpLogin: UIButton!
+    @IBOutlet var kakaoLastLoginGuideLbl: UILabel!
+            
+    private lazy var appleGuideTotalView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
+    private lazy var appleLastLoginGuideLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textAlignment = .natural
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        $0.textColor = Colors.contentTertiary.color
+    }
+            
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
-    
+            
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
@@ -51,9 +68,30 @@ class LoginViewController: UIViewController {
         
         // Apple ID 로그인 버튼
         if #available(iOS 13.0, *) {
-            let btnAppleLogin = ASAuthorizationAppleIDButton()
+            let btnAppleLogin = ASAuthorizationAppleIDButton()            
             btnAppleLogin.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
-            self.loginButtonStackView.addArrangedSubview(btnAppleLogin)
+            
+            loginButtonStackView.addArrangedSubview(appleGuideTotalView)
+            loginButtonStackView.addArrangedSubview(btnAppleLogin)
+            
+            appleGuideTotalView.addSubview(appleLastLoginGuideLbl)
+            appleLastLoginGuideLbl.snp.makeConstraints {
+                $0.leading.bottom.equalToSuperview()
+                $0.height.equalTo(16)
+            }            
+        }
+        
+        switch MemberManager.shared.loginType {
+        case .apple, .kakao:
+            kakaoLastLoginGuideLbl.isHidden = false
+            appleLastLoginGuideLbl.isHidden = false
+            kakaoLastLoginGuideLbl.text = MemberManager.shared.loginType == .apple ? LastLoginTypeMessage.new.rawValue : LastLoginTypeMessage.last.rawValue
+            appleLastLoginGuideLbl.text = MemberManager.shared.loginType == .apple ? LastLoginTypeMessage.last.rawValue : LastLoginTypeMessage.new.rawValue
+            
+        default:
+            kakaoLastLoginGuideLbl.isHidden = true
+            appleLastLoginGuideLbl.isHidden = true
+            break
         }
     }
     

@@ -530,20 +530,20 @@ extension LeftViewController {
         case SUB_MENU_CELL_SETTINGS:
             switch index.row {
             case SUB_MENU_ALL_SETTINGS: // 전체 설정
-                let settingsStoryboard = UIStoryboard(name : "Settings", bundle: nil)
-                let settingsVC = settingsStoryboard.instantiateViewController(ofType: SettingsViewController.self)
-                self.navigationController?.push(viewController: settingsVC)
+                let reactor = SettingsReactor(provider: RestApi())
+                let viewcon = NewSettingsViewController(reactor: reactor)                
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
             case SUB_MENU_FAQ: // 자주묻는 질문
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let termsVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
                 termsVC.tabIndex = .FAQTop
-                self.navigationController?.push(viewController: termsVC)
+                GlobalDefine.shared.mainNavi?.push(viewController: termsVC)
             
             case SUB_MENU_SERVICE_GUIDE:
                 let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
                 let guideVC = loginStoryboard.instantiateViewController(ofType: ServiceGuideViewController.self)
-                self.navigationController?.push(viewController: guideVC)
+                GlobalDefine.shared.mainNavi?.push(viewController: guideVC)
 
             default:
                 print("out of index")

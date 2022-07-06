@@ -9,25 +9,24 @@
 import UIKit
 import PanModal
 
-class GroupViewController: UITableViewController {
+internal final class GroupViewController: UITableViewController {
     
-    var members: [String] = []
-    var selectedCompletion: ((Int) -> Void)?
+    // MARK: VARIABLE
+    
+    internal var members: [String] = []
+    internal var selectedCompletion: ((Int) -> Void)?
+    private var isShortFormEnabled = true
+    
+    // MARK: SYSTEM FUNC
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setupTableView()
-    }
-
-    // MARK: - View Configurations
-    func setupTableView() {
 
         tableView.separatorStyle = .singleLine
         tableView.isScrollEnabled = false
         tableView.backgroundColor = UIColor(named: "nt-white")
         tableView.register(GroupMemeberCell.self, forCellReuseIdentifier: "cell")
-    }
+    }    
     
     // MARK: - UITableViewDataSource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -63,6 +62,18 @@ extension GroupViewController: PanModalPresentable {
     
     var panScrollable: UIScrollView? {
         return tableView
+    }
+    
+    var anchorModalToLongForm: Bool {
+        return false
+    }
+    
+    func willTransition(to state: PanModalPresentationController.PresentationState) {
+        guard isShortFormEnabled, case .longForm = state
+            else { return }
+
+        isShortFormEnabled = false
+        panModalSetNeedsLayoutUpdate()
     }
 }
 

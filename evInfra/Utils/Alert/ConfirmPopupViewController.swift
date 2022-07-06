@@ -176,8 +176,7 @@ internal final class ConfirmPopupViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-                        
+        super.viewDidLoad()                        
     }
     
     private func createButton(backgroundColor: UIColor, buttonTitle: String, titleColor: UIColor) -> UIButton {
