@@ -12,6 +12,8 @@ import Alamofire
 protocol SoftberryAPI: class {
     func getCheckPassword(password: String, cardNo: String) -> Observable<(HTTPURLResponse, Data)>
     func postReissueMembershipCard(model: ReissuanceModel) -> Observable<(HTTPURLResponse, Data)>
+    func getNoticeList() -> Observable<(HTTPURLResponse, Data)>
+    func getNoticeDetail(with noticeId: Int) -> Observable<(HTTPURLResponse, Data)>
     
     func updateBasicNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)>
     func updateLocalNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)>
@@ -44,6 +46,15 @@ internal final class RestApi: SoftberryAPI {
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/membership_card/reissue_membership", httpMethod: .post, parameters: model.toParam, headers: nil)
     }
     
+    // MARK: - 공지사항 리스트
+    func getNoticeList() -> Observable<(HTTPURLResponse, Data)> {
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/board/board_notice/list", httpMethod: .get, parameters: nil, headers: nil)
+    }
+    
+    // MARK: - 공지사항 상세
+    func getNoticeDetail(with noticeId: Int) -> Observable<(HTTPURLResponse, Data)> {
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/board/board_notice/content?id=\(noticeId)", httpMethod: .get, parameters: nil, headers: nil)
+
     // MARK: - 기본 알림 설정
     func updateBasicNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)> {
         let reqParam: Parameters = [

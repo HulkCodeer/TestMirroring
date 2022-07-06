@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -193,10 +193,10 @@
             </objects>
             <point key="canvasLocation" x="503" y="27"/>
         </scene>
-        <!--Notice View Controller-->
+        <!--View Controller-->
         <scene sceneID="GrL-5Z-qD4">
             <objects>
-                <viewController restorationIdentifier="NoticeViewController" storyboardIdentifier="NoticeViewController" id="jiM-5g-eeI" customClass="NoticeViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="NoticeViewController" storyboardIdentifier="NoticeViewController" id="jiM-5g-eeI" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LXR-AI-FJA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -241,10 +241,6 @@
                                                 <constraint firstAttribute="trailing" secondItem="pF8-I4-W4B" secondAttribute="trailing" constant="12" id="nY7-rZ-BuU"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="dateTime" destination="CGj-0D-wsk" id="zl4-5b-9p8"/>
-                                            <outlet property="noticeTitle" destination="pF8-I4-W4B" id="v1L-SO-BMB"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -258,9 +254,6 @@
                             <constraint firstItem="e2g-6W-G5f" firstAttribute="leading" secondItem="Fvf-Q4-Z3w" secondAttribute="leading" constant="2" id="ck9-Sl-8fD"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="tableView" destination="e2g-6W-G5f" id="tQ2-IX-v8M"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dII-xY-ITT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

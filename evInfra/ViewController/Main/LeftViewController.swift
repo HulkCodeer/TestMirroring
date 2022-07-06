@@ -377,9 +377,10 @@ extension LeftViewController {
         case SUB_MENU_CELL_BOARD:
             switch index.row {
             case SUB_MENU_NOTICE: // 공지사항
-                let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                let noticeVC = boardStoryboard.instantiateViewController(ofType: NoticeViewController.self)
-                navigationController?.push(viewController: noticeVC)
+                let noticeReactor = NoticeReactor(provider: RestApi())
+                let noticeViewController = NoticeViewController()
+                noticeViewController.bind(reactor: noticeReactor)
+                navigationController?.push(viewController: noticeViewController)
             
             case SUB_MENU_FREE_BOARD: // 자유 게시판
                 UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
