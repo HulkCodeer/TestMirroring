@@ -86,8 +86,8 @@ internal final class LoginViewController: UIViewController {
         case .apple, .kakao:
             kakaoGuideTotalView.isHidden = false
             appleGuideTotalView.isHidden = false
-            kakaoLastLoginGuideLbl.text = MemberManager.shared.loginType == .apple ? LastLoginTypeMessage.new.rawValue : LastLoginTypeMessage.last.rawValue
-            appleLastLoginGuideLbl.text = MemberManager.shared.loginType == .apple ? LastLoginTypeMessage.last.rawValue : LastLoginTypeMessage.new.rawValue
+            kakaoLastLoginGuideLbl.text = MemberManager.shared.lastLoginType == .apple ? LastLoginTypeMessage.new.rawValue : LastLoginTypeMessage.last.rawValue
+            appleLastLoginGuideLbl.text = MemberManager.shared.lastLoginType == .apple ? LastLoginTypeMessage.last.rawValue : LastLoginTypeMessage.new.rawValue
             
         default:
             kakaoGuideTotalView.isHidden = true

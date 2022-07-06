@@ -55,6 +55,10 @@ internal final class MemberManager {
         return Login.LoginType(rawValue: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)) ?? .none
     }
     
+    internal var lastLoginType: Login.LoginType {
+        return Login.LoginType(rawValue: UserDefault().readString(key: UserDefault.Key.MB_LAST_LOGIN_TYPE)) ?? .none
+    }
+    
     internal var profileImage: String {
         return UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME)
     }
@@ -95,7 +99,22 @@ internal final class MemberManager {
     
     // 로그인 상태 체크
     internal var isLogin: Bool {
-        return UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0
+        var isLogin: Bool = false
+        let mbId: Int = UserDefault().readInt(key: UserDefault.Key.MB_ID)
+        KOSessionTask.userMeTask { (error, me) in
+            if (error as NSError?) != nil {
+                guard mbId != 0 else {
+                    isLogin = false
+                    return
+                }
+                Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
+                MemberManager.shared.clearData()
+                isLogin = false
+            } else {
+                isLogin = UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0
+            }
+        }
+        return isLogin
     }
     
     // 지킴이 체크
@@ -122,6 +141,8 @@ internal final class MemberManager {
             userDefault.saveBool(key: UserDefault.Key.MB_PAYMENT, value: data["payment"].boolValue)
             userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value: data["battery_device_id"].stringValue)
             userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value: data["has_membership"].boolValue)
+            userDefault.saveString(key: UserDefault.Key.MB_LOGIN_TYPE, value: data["login_type"].stringValue)
+            userDefault.saveString(key: UserDefault.Key.MB_LAST_LOGIN_TYPE, value: data["login_type"].stringValue)
         }
     }
     
@@ -140,6 +161,7 @@ internal final class MemberManager {
         userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value:  "")
         userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  false)
         userDefault.saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value:  "")
+        userDefault.saveString(key: UserDefault.Key.MB_LOGIN_TYPE, value:  "")
     }
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {
