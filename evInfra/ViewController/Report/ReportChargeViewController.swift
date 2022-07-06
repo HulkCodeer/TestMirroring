@@ -16,7 +16,7 @@ protocol ReportChargeViewDelegate {
     func getReportInfo()
 }
 
-class ReportChargeViewController: UIViewController {
+class ReportChargeViewController: BaseViewController {
     
     var delegate:ReportChargeViewDelegate? = nil
 
@@ -62,8 +62,6 @@ class ReportChargeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareActionBar()
-        
         prepareMapView()
         prepareChargerView()
         prepareCommonView()
@@ -77,6 +75,7 @@ class ReportChargeViewController: UIViewController {
         super.viewWillAppear(animated)
         
         addObserver()
+        prepareActionBar(with: "충전소 추가/정보 제보")
     }
     
     override func viewDidDisappear(_ animated: Bool) {

@@ -176,13 +176,16 @@ internal final class FCMManager {
     
     func getBoardReportData() {
         guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
-        if _visibleViewcon.isKind(of: ReportBoardViewController.self) {
-            _visibleViewcon.viewDidLoad()
+        guard _visibleViewcon.isKind(of: ReportHistoryViewController.self) else {
+            let reportHistoryReactor = ReportHistoryReactor(provider: RestApi())
+            let reportHistoryViewController = ReportHistoryViewController()
+            reportHistoryViewController.bind(reactor: reportHistoryReactor)
+            
+            _mainNavi.push(viewController: reportHistoryViewController)
             return
-        } else {
-            let vc: ReportBoardViewController =  UIStoryboard(name: "Report", bundle: nil).instantiateViewController(ofType: ReportBoardViewController.self)
-            _mainNavi.push(viewController: vc)            
         }
+        
+        _visibleViewcon.viewDidLoad()
     }
     
     func getCommunityBoardDetailData(boardId: String, category: String) {
@@ -216,17 +219,19 @@ internal final class FCMManager {
     
     func getCouponIssueData() {
         guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
-        if _visibleViewcon.isKind(of: ReportBoardViewController.self) {
-            _visibleViewcon.viewDidLoad()
-            return
-        } else {
-            if MemberManager.shared.isLogin {
-                let vc:MyCouponViewController =  UIStoryboard(name: "Coupon", bundle: nil).instantiateViewController(ofType: MyCouponViewController.self)
-                _mainNavi.push(viewController: vc)
-            } else {
+        guard _visibleViewcon.isKind(of: ReportHistoryViewController.self) else {
+            
+            guard MemberManager.shared.isLogin else {
                 MemberManager.shared.showLoginAlert()
+                return
             }
+            
+            let vc: MyCouponViewController =  UIStoryboard(name: "Coupon", bundle: nil).instantiateViewController(ofType: MyCouponViewController.self)
+            _mainNavi.push(viewController: vc)
+            return
         }
+        
+        _visibleViewcon.viewDidLoad()
     }
     
     func getNoticeData(noticeId: Int) {

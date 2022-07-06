@@ -24,6 +24,7 @@ protocol SoftberryAPI: class {
     func deleteAppleAccount(reasonID: String) -> Observable<(HTTPURLResponse, Data)>    
     func postRefreshToken(appleAuthorizationCode: String) -> Observable<(HTTPURLResponse, Data)>
     func postValidateRefreshToken() -> Observable<(HTTPURLResponse, Data)>
+    func getReportHistoryList(with reportId: Int) -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -54,7 +55,8 @@ internal final class RestApi: SoftberryAPI {
     // MARK: - 공지사항 상세
     func getNoticeDetail(with noticeId: Int) -> Observable<(HTTPURLResponse, Data)> {
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/board/board_notice/content?id=\(noticeId)", httpMethod: .get, parameters: nil, headers: nil)
-
+    }
+    
     // MARK: - 기본 알림 설정
     func updateBasicNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)> {
         let reqParam: Parameters = [
@@ -125,5 +127,14 @@ internal final class RestApi: SoftberryAPI {
         ]
                 
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/refresh_apple_token", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - 나의 제보 내역
+    func getReportHistoryList(with reportId: Int) -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.shared.mbId,
+            "report_id": reportId
+        ]
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/charger/report/my_report", httpMethod: .post, parameters: reqParam, headers: nil)
     }
 }
