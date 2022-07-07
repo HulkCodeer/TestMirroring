@@ -82,7 +82,7 @@ internal final class LoginViewController: UIViewController {
             }            
         }
         
-        switch MemberManager.shared.loginType {
+        switch MemberManager.shared.lastLoginType {
         case .apple, .kakao:
             kakaoGuideTotalView.isHidden = false
             appleGuideTotalView.isHidden = false
