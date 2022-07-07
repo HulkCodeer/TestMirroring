@@ -128,6 +128,13 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 cell.adminList = adminList
                 cell.isFromDetailView = isFromDetailView
                 cell.configure(item: communityBoardList[indexPath.row])
+                cell.chargeStataionButtonTappedCompletion = { chargerId in
+                    guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
+                    
+                    let detailViewController = UIStoryboard(name: "Detail", bundle: nil).instantiateViewController(ofType: DetailViewController.self)
+                    detailViewController.charger = charger
+                    GlobalDefine.shared.mainNavi?.push(viewController: detailViewController, subtype: kCATransitionFromTop)
+                }
                 cell.imageTapped = { [weak self] imageUrl in
                     self?.tableViewDelegate?.showImageViewer(url: imageUrl, isProfileImageMode: true)
                 }
