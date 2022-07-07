@@ -175,6 +175,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.tintColor = Colors.contentPrimary.color
             $0.thumbTintColor = .white
+            $0.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         }
         
         view.addSubview(noticeSw)

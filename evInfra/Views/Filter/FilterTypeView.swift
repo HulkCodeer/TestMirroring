@@ -54,7 +54,7 @@ internal final class FilterTypeView: UIView {
                                 
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self else { return }
-            self.switchCarSetting.isUserInteractionEnabled = !isLogin
+            self.switchCarSetting.isUserInteractionEnabled = isLogin
         }
     }
     
