@@ -146,6 +146,32 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
 }
+
+extension NewAcceptTermsViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return items.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? BottomSheetCell
+            else { return UITableViewCell() }
+
+        cell.configure(with: items[indexPath.row])
+        
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 55.0
+    }
+
+    // MARK: - UITableViewDelegate
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        selectedCompletion?(indexPath.row)
+    }
+}
     
 //    @IBOutlet weak var cbAcceptAll: M13Checkbox!
 //    @IBOutlet weak var cbUsingTerm: M13Checkbox!
