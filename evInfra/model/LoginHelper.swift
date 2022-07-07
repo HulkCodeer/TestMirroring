@@ -76,15 +76,15 @@ internal final class LoginHelper: NSObject {
                                         
                         printLog(out: "JsonData : \(jsonData)")
 
-                        let refreshToken = jsonString["refresh_token"].stringValue
-                        guard !refreshToken.isEmpty else {
+                        let accessToken = jsonString["access_token"].stringValue
+                        guard !accessToken.isEmpty else {
                             LoginHelper.shared.logout(completion: { _ in
-                                Snackbar().show(message: "장기간 미접속으로 인해 로그아웃 되었습니다. ")
+                                Snackbar().show(message: "장기간 미접속으로 인해 로그아웃 되었습니다.")
                             })
                             return nil
                         }
                         
-                        return refreshToken
+                        return accessToken
                         
                     case .failure(let errorMessage):
                         printLog(out: "Error Message : \(errorMessage)")
@@ -247,7 +247,7 @@ internal final class LoginHelper: NSObject {
     func appleLogin() {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.fullName, .email]
+        request.requestedScopes = [.fullName, .email]                
 
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self

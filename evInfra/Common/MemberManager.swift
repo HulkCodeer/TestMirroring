@@ -125,8 +125,7 @@ internal final class MemberManager {
             savePartnershipClientId(data : data["rent_client"].arrayValue)
             userDefault.saveBool(key: UserDefault.Key.MB_PAYMENT, value: data["payment"].boolValue)
             userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value: data["battery_device_id"].stringValue)
-            userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value: data["has_membership"].boolValue)
-            userDefault.saveString(key: UserDefault.Key.MB_LOGIN_TYPE, value: data["login_type"].stringValue)
+            userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value: data["has_membership"].boolValue)            
             userDefault.saveString(key: UserDefault.Key.MB_LAST_LOGIN_TYPE, value: data["last_login_type"].stringValue)
         }
     }

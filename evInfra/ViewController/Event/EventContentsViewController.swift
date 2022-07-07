@@ -11,12 +11,21 @@ import Material
 import SwiftyJSON
 import WebKit
 
-class EventContentsViewController: UIViewController {
+internal final class EventContentsViewController: UIViewController {
 
+    // MARK: UI
+    
     @IBOutlet weak var webViewContainer: UIView!
-    var webView: WKWebView!
-    var eventId = 0
-    var eventTitle: String = ""
+    
+    // MARK: VARIABLE
+    
+    private var webView: WKWebView!
+    
+    internal var eventId = 0
+    internal var eventTitle: String = ""
+    internal var externalEventParam: String = ""
+    
+    // MARK: SYSTEM FUNC
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -58,13 +67,13 @@ class EventContentsViewController: UIViewController {
     
     func prepareWebView() {
         let url = Const.EV_PAY_SERVER + "/event/event/getDetailEvent"
-        let payload = ["mb_id":"\(MemberManager.shared.mbId)",  "event_id":"\(eventId)"]
+        let payload = ["mb_id":"\(MemberManager.shared.mbId)",  "event_id":"\(eventId)", "param":"\(externalEventParam)"]
         makePostRequest(url: url, payload: payload)
     }
     
     @objc
     fileprivate func handleBackButton() {
-        self.navigationController?.pop()
+        GlobalDefine.shared.mainNavi?.pop()
     }
     
     func makePostRequest(url: String, payload: Dictionary<String, Any>) {

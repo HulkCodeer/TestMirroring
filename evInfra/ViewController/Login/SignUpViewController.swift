@@ -43,6 +43,7 @@ internal final class SignUpViewController: UIViewController {
     
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var scrollviewBottomConstraints: NSLayoutConstraint!
+    @IBOutlet var loginInfoGuideLbl: UILabel!
     
     // MARK: VARIABLE
     
@@ -79,6 +80,10 @@ internal final class SignUpViewController: UIViewController {
     }
     
     private func prepareView() {
+        if let _user = self.user {
+            loginInfoGuideLbl.text = "\(_user.loginType.value)에서 제공된 정보이며, 커뮤니티와 고객 센터 안내 등에서 사용됩니다."
+        }
+        
         tfNickname.delegate = self
         tfEmail.delegate = self
         tfPhone.delegate = self

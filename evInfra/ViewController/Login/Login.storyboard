@@ -471,7 +471,7 @@
                                                         <color key="textColor" name="content-primary"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="카카오에서 제공된 정보이며, 커뮤니티와 고객 센터 안내 등에서 사용됩니다. " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVX-my-cKQ">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="카카오에서 제공된 정보이며, 커뮤니티와 고객 센터 안내 등에서 사용됩니다." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVX-my-cKQ">
                                                         <rect key="frame" x="16" y="75" width="343" height="38.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <color key="textColor" name="content-secondary"/>
@@ -940,6 +940,7 @@
                         <outlet property="lbWarnGender" destination="Ftn-Rs-VE7" id="Tvg-Tc-Ruy"/>
                         <outlet property="lbWarnNickname" destination="Lw5-dj-erQ" id="C80-QN-CI6"/>
                         <outlet property="lbWarnPhone" destination="ZZP-oW-kZb" id="0Yq-LR-JQx"/>
+                        <outlet property="loginInfoGuideLbl" destination="LVX-my-cKQ" id="o5i-yN-hES"/>
                         <outlet property="radioFemale" destination="2k1-x6-e1X" id="NGK-Pj-aD8"/>
                         <outlet property="radioMale" destination="Vo4-5U-m40" id="Cpe-nS-6bc"/>
                         <outlet property="radioOther" destination="1Fv-xN-gnQ" id="YwT-kE-WpD"/>

@@ -549,7 +549,7 @@ extension DetailViewController {
                     let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
                     let reportChargeVC = reportStoryboard.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
                     reportChargeVC.info.charger_id = chargerInfo.mChargerId
-                    
+                    reportChargeVC.isFromDetailView = true
                     self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true, completion: nil)
                 }
             } else {
