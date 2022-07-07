@@ -10,6 +10,7 @@ import UIKit
 import Material
 import SwiftyJSON
 import WebKit
+import RxSwift
 
 internal final class EventContentsViewController: UIViewController {
 
@@ -20,10 +21,11 @@ internal final class EventContentsViewController: UIViewController {
     // MARK: VARIABLE
     
     private var webView: WKWebView!
+    private let disposebag = DisposeBag()
     
     internal var eventId = 0
     internal var eventTitle: String = ""
-    internal var externalEventParam: String = ""
+    internal var externalEventParam: String?
     
     // MARK: SYSTEM FUNC
     
@@ -34,6 +36,8 @@ internal final class EventContentsViewController: UIViewController {
     override func loadView() {
         super.loadView()
         let contentController = WKUserContentController()
+        contentController.add(self, name: "openCarmore")
+        contentController.add(self, name: "getBerry")
         let config = WKWebViewConfiguration()
         let frame = CGRect(x: 0, y: 0, width: webViewContainer.frame.width, height: webViewContainer.frame.height)
         
@@ -67,7 +71,12 @@ internal final class EventContentsViewController: UIViewController {
     
     func prepareWebView() {
         let url = Const.EV_PAY_SERVER + "/event/event/getDetailEvent"
-        let payload = ["mb_id":"\(MemberManager.shared.mbId)",  "event_id":"\(eventId)", "param":"\(externalEventParam)"]
+        var payload = ["mb_id":"\(MemberManager.shared.mbId)",  "event_id":"\(eventId)"]
+        
+        if let _externalEventParam = self.externalEventParam {
+            payload["param"] = _externalEventParam
+        }
+        
         makePostRequest(url: url, payload: payload)
     }
     
@@ -135,13 +144,59 @@ extension EventContentsViewController: WKNavigationDelegate{
     }
 }
 
-//extension EventContentsViewController: WKScriptMessageHandler {
-//
-//    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-//        if(message.name == "ClientControl"){
-//
-//        }
-//    }
-//
-//
-//}
+extension EventContentsViewController: WKScriptMessageHandler {
+
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        let jsInterface = message.name
+        
+        switch jsInterface {
+        case "openCarmore":
+            let tmapURL = "carmore://&carmore_deeplink=1&mt=3&evs=165"
+            if let url = URL(string: tmapURL), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: {(success: Bool) in
+                    if success {
+                        print("Launching \(url) was successful")
+                    }
+                })
+            }
+            
+        case "getBerry":
+            printLog(out: "getBerry")
+            
+            RestApi().postGetBerry(eventId: "\(self.eventId)")
+                .observe(on: MainScheduler.asyncInstance)
+                .convertData()
+                .compactMap { result -> String? in
+                    switch result {
+                    case .success(let data):
+                        let jsonData = JSON(data)
+                        
+                        let code = jsonData["code"].stringValue
+                        guard "1000".equals(code) else {
+                            Snackbar().show(message: "\(jsonData["msg"].stringValue)")
+                            return nil
+                        }
+                        
+                        return code
+                        
+                    case .failure(let errorMessage):
+                        printLog(out: "Error Message : \(errorMessage)")
+                        Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                        return nil
+                    }
+                }
+                .subscribe(onNext: { code in
+                    if "1000".equals(code) {
+                        let message = UIAlertController(title: nil, message: "3천베리 지급 완료", preferredStyle: .alert)
+                        let ok = UIAlertAction(title: "확인", style: .default, handler: nil)                        
+                        message.addAction(ok)
+                        
+                        GlobalDefine.shared.mainNavi?.present(message, animated: true, completion: nil)
+                    }
+                })
+                .disposed(by: self.disposebag)
+            
+        default:break            
+        }
+    }
+}

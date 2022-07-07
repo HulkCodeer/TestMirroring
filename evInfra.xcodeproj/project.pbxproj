@@ -219,7 +219,7 @@
 		63F313C0284EC74F001713D2 /* NSData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CBCC6F26EB1E41002B2591 /* NSData+Extension.swift */; };
 		63F313C1284EC74F001713D2 /* PartnershipListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067D595252C492A00D97146 /* PartnershipListView.swift */; };
 		63F313C2284EC74F001713D2 /* AppSearchBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB49A7802071F908002448E6 /* AppSearchBarController.swift */; };
-		63F313C3284EC74F001713D2 /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB198F44212FCE9200708ECD /* UINavigationController.swift */; };
+		63F313C3284EC74F001713D2 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB198F44212FCE9200708ECD /* UINavigationController+Extension.swift */; };
 		63F313C4284EC74F001713D2 /* BoardWriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A32278D739E00F5C54D /* BoardWriteButton.swift */; };
 		63F313C5284EC74F001713D2 /* FilterRoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A3659026C4E36200424E40 /* FilterRoadView.swift */; };
 		63F313C6284EC74F001713D2 /* MyPayinfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A0FC2345F1B500349A86 /* MyPayinfoViewController.swift */; };
@@ -832,7 +832,7 @@
 		DB0E4695205FC4D8002DD05D /* ChargerFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0E4694205FC4D8002DD05D /* ChargerFilter.swift */; };
 		DB18733220A9983400790B77 /* btn_camera.png in Resources */ = {isa = PBXBuildFile; fileRef = DB18733120A9983200790B77 /* btn_camera.png */; };
 		DB18733820AAEC8400790B77 /* navi_kakao.png in Resources */ = {isa = PBXBuildFile; fileRef = DB18733720AAEC8300790B77 /* navi_kakao.png */; };
-		DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB198F44212FCE9200708ECD /* UINavigationController.swift */; };
+		DB198F45212FCE9200708ECD /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB198F44212FCE9200708ECD /* UINavigationController+Extension.swift */; };
 		DB1ECB9922CDD8DB00E3A65E /* ChargingHistoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1ECB9822CDD8DB00E3A65E /* ChargingHistoryList.swift */; };
 		DB306368221BD5CD00D1276E /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB306367221BD5CD00D1276E /* Server.swift */; };
 		DB367BF124FE429D00898BED /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB367BF024FE429D00898BED /* Login.swift */; };
@@ -1312,7 +1312,7 @@
 		DB0E4694205FC4D8002DD05D /* ChargerFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerFilter.swift; sourceTree = "<group>"; };
 		DB18733120A9983200790B77 /* btn_camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_camera.png; sourceTree = "<group>"; };
 		DB18733720AAEC8300790B77 /* navi_kakao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navi_kakao.png; sourceTree = "<group>"; };
-		DB198F44212FCE9200708ECD /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
+		DB198F44212FCE9200708ECD /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		DB1ECB9822CDD8DB00E3A65E /* ChargingHistoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargingHistoryList.swift; sourceTree = "<group>"; };
 		DB306367221BD5CD00D1276E /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		DB367BF024FE429D00898BED /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
@@ -2197,7 +2197,7 @@
 				733662CD22EFF2A40049AEFE /* NavigationDrawerController.swift */,
 				DBE579B421A3E3CA005DD998 /* Snackbar.swift */,
 				902A11D9248F5E440049EF8E /* StringUtils.swift */,
-				DB198F44212FCE9200708ECD /* UINavigationController.swift */,
+				DB198F44212FCE9200708ECD /* UINavigationController+Extension.swift */,
 				CE24840320A59E6400611E24 /* UserDefault.swift */,
 				42541587257E045600A2A7B9 /* UtilNavigation.swift */,
 				73D65D6F2358498B00F564A2 /* Validators.swift */,
@@ -2414,7 +2414,6 @@
 				63F313A2284EC74F001713D2 /* Sources */,
 				63F314A5284EC74F001713D2 /* Frameworks */,
 				63F314BA284EC74F001713D2 /* Resources */,
-				63F3154C284F06AD001713D2 /* Run SwiftGen */,
 				63F31542284EC74F001713D2 /* Run Script */,
 				63F31543284EC74F001713D2 /* ShellScript */,
 				63F31544284EC74F001713D2 /* [CP] Embed Pods Frameworks */,
@@ -3195,7 +3194,7 @@
 				63F313C0284EC74F001713D2 /* NSData+Extension.swift in Sources */,
 				63F313C1284EC74F001713D2 /* PartnershipListView.swift in Sources */,
 				63F313C2284EC74F001713D2 /* AppSearchBarController.swift in Sources */,
-				63F313C3284EC74F001713D2 /* UINavigationController.swift in Sources */,
+				63F313C3284EC74F001713D2 /* UINavigationController+Extension.swift in Sources */,
 				63F313C4284EC74F001713D2 /* BoardWriteButton.swift in Sources */,
 				63F313C5284EC74F001713D2 /* FilterRoadView.swift in Sources */,
 				63F313C6284EC74F001713D2 /* MyPayinfoViewController.swift in Sources */,
@@ -3477,7 +3476,7 @@
 				90CBCC7026EB1E41002B2591 /* NSData+Extension.swift in Sources */,
 				0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
-				DB198F45212FCE9200708ECD /* UINavigationController.swift in Sources */,
+				DB198F45212FCE9200708ECD /* UINavigationController+Extension.swift in Sources */,
 				525E3A33278D739E00F5C54D /* BoardWriteButton.swift in Sources */,
 				00A3659126C4E36200424E40 /* FilterRoadView.swift in Sources */,
 				73C6A0FD2345F1B600349A86 /* MyPayinfoViewController.swift in Sources */,
@@ -3803,7 +3802,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 07071425;
+				CURRENT_PROJECT_VERSION = 07071545;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3844,7 +3843,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 07071425;
+				CURRENT_PROJECT_VERSION = 07071545;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (

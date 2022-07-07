@@ -106,11 +106,6 @@ extension EventViewController {
         let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
         viewcon.eventId = list[index].eventId
         viewcon.eventTitle = list[index].title
-        
-        if let _externalEventParam = self.externalEventParam {
-            viewcon.externalEventParam = _externalEventParam
-        }
-        
         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
@@ -223,7 +218,15 @@ extension EventViewController {
                         item.title = jsonRow["title"].stringValue
                         
                         if self.externalEventID == item.eventId {
-                            
+                            guard let _externalEventParam = self.externalEventParam else {
+                                return
+                            }
+                            Server.countEventAction(eventId: Array<Int>(arrayLiteral: item.eventId), action: self.ACTION_CLICK)
+                            let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
+                            viewcon.eventId = item.eventId
+                            viewcon.eventTitle = item.title
+                            viewcon.externalEventParam = _externalEventParam
+                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                         }
                         
                         if (item.state == 0) {
