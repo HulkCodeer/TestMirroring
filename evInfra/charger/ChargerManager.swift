@@ -22,7 +22,7 @@ class ChargerManager {
     private var mDb: DataBaseHelper? = nil
     private var mIsReady: Bool = false
     private var mChargerStationInfoList = [ChargerStationInfo]()
-    weak var delegate: MarkerTouchDelegate?
+    internal weak var delegate: MarkerTouchDelegate?
     
     public init() {
         if Const.EV_PAY_SERVER.contains("https") == false {

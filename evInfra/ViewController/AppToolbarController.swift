@@ -9,13 +9,13 @@
 import UIKit
 import Material
 
-protocol AppToolbarDelegate {
+protocol AppToolbarDelegate: class {
     func toolBar(didClick iconButton: IconButton, arg: Any?)
 }
 
 class AppToolbarController: ToolbarController {
     
-    var delegate: AppToolbarDelegate?
+    internal weak var delegate: AppToolbarDelegate?
     
     fileprivate var menuButton: IconButton!
     fileprivate var searchButton: IconButton!
