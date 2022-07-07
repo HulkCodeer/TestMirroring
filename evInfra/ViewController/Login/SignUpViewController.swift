@@ -12,11 +12,15 @@ import SwiftyJSON
 import AnyFormatKit
 import DLRadioButton
 import MaterialComponents.MaterialBottomSheet
+import RxSwift
 
 protocol SignUpViewControllerDelegate {
     func successSignUp()
 }
-class SignUpViewController: UIViewController {
+internal final class SignUpViewController: UIViewController {
+    
+    // MARK: UI
+    
     @IBOutlet weak var viewSignUpInfo_1: UIView!
     @IBOutlet weak var viewSignUpInfo_2: UIView!
     
@@ -39,14 +43,20 @@ class SignUpViewController: UIViewController {
     
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var scrollviewBottomConstraints: NSLayoutConstraint!
-    let ageList: Array<String> = ["20대", "30대", "40대", "50대 이상", "선택안함"]
-    var delegate: SignUpViewControllerDelegate?
-    var user: Login?
-    var page = 0
-    var ageIndex = 0
-    var genderSelected: String?
+    @IBOutlet var loginInfoGuideLbl: UILabel!
+    @IBOutlet var step2LoginInfoGuideLbl: UILabel!
     
+    // MARK: VARIABLE
+    
+    internal var delegate: SignUpViewControllerDelegate?
+    internal var user: Login?
+    
+    private let ageList: Array<String> = ["20대", "30대", "40대", "50대 이상", "선택안함"]
+    private var page = 0
+    private var ageIndex = 0
+    private var genderSelected: String?
     private var profileImgName = ""
+    private let disposebag = DisposeBag()
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -70,7 +80,25 @@ class SignUpViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func prepareView() {
+    private func prepareView() {
+        if let _user = self.user, _user.email != nil {
+            loginInfoGuideLbl.text = "\(_user.loginType.value)에서 제공된 정보이며, 커뮤니티와 고객 센터 안내 등에서 사용됩니다."
+        } else {
+            loginInfoGuideLbl.text = "커뮤니티와 고객 센터 안내 등에서 사용됩니다."
+        }
+        
+        if let _user = self.user {
+            switch _user.loginType {
+            case .apple:
+                step2LoginInfoGuideLbl.text = "추후 해당 정보를 기반한 맞춤형 정보를 제공할 예정입니다."
+                
+            case .kakao:
+                step2LoginInfoGuideLbl.text = "카카오에서 제공된 정보이며, 추후 해당 정보를 기반한 맞춤형 정보를 제공할 예정입니다."
+                
+            default: step2LoginInfoGuideLbl.text = "추후 해당 정보를 기반한 맞춤형 정보를 제공할 예정입니다."
+            }
+        }
+        
         tfNickname.delegate = self
         tfEmail.delegate = self
         tfPhone.delegate = self
@@ -117,7 +145,7 @@ class SignUpViewController: UIViewController {
     }
     
     // MARK: - KeyBoardHeight
-    @objc func keyboardWillShow(_ notification: Notification) {
+    @objc private func keyboardWillShow(_ notification: Notification) {
         var keyboardHeight: CGFloat = 0
         if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
@@ -128,7 +156,7 @@ class SignUpViewController: UIViewController {
         self.scrollView.layoutIfNeeded()
     }
     
-    @objc func keyboardWillHide(_ notification: Notification) {
+    @objc private func keyboardWillHide(_ notification: Notification) {
         self.scrollviewBottomConstraints.constant = 0
         self.scrollView.setNeedsLayout()
         self.scrollView.layoutIfNeeded()
@@ -139,7 +167,7 @@ class SignUpViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-    @IBAction func openBottonSheet(_ sender: UITapGestureRecognizer) {
+    @IBAction private func openBottonSheet(_ sender: UITapGestureRecognizer) {
         let componentStoryboard = UIStoryboard(name : "BerryComponent", bundle: nil)
         let bottomSheetVC = componentStoryboard.instantiateViewController(withIdentifier: "BottomSheetViewController") as! BottomSheetViewController
         
@@ -152,11 +180,11 @@ class SignUpViewController: UIViewController {
         self.navigationController?.present(bottomSheet, animated: true, completion: nil)
     }
     
-    @objc func btnTouch(_ sender:DLRadioButton) {
+    @objc private func btnTouch(_ sender:DLRadioButton) {
         genderSelected = sender.currentTitle!
     }
     
-    func prepareActionBar() {
+    private func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
         backButton.tintColor = UIColor(named: "content-primary")
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
@@ -182,7 +210,7 @@ class SignUpViewController: UIViewController {
     }
     
 
-    @IBAction func onClickSignUp(_ sender: Any) {
+    @IBAction private func onClickSignUp(_ sender: Any) {
         if page == 0 {
             if checkValidFirstForm() {
                 viewSignUpInfo_2.isHidden = false
@@ -191,13 +219,20 @@ class SignUpViewController: UIViewController {
                 ivNext.isHidden = true
             }
         } else {
-            if checkValidSecondForm() {
+            guard checkValidSecondForm(), let _user = user else { return }
+            switch _user.loginType {
+            case .apple:
+                signUpApple()
+            case .evinfra, .kakao:
+                signUp()
+            default:
                 signUp()
             }
+            
         }
     }
     
-    func checkValidFirstForm() -> Bool {
+    private func checkValidFirstForm() -> Bool {
         if let name = tfNickname.text, !name.isEmpty, name.count > 1, !name.contains(" ") {
             lbWarnNickname.isHidden = true
             if let email = tfEmail.text, StringUtils.isValidEmail(email) {
@@ -217,7 +252,7 @@ class SignUpViewController: UIViewController {
         return false
     }
     
-    func checkValidSecondForm() -> Bool {
+    private func checkValidSecondForm() -> Bool {
         if ageIndex > -1 {
             lbWarnAge.isHidden = true
             if let gender = genderSelected, !gender.isEmpty {
@@ -232,9 +267,73 @@ class SignUpViewController: UIViewController {
         return false
     }
     
-    func signUp() {
-        if var me = self.user {
-            let userDefault = UserDefault()
+    private func signUpApple() {
+        guard var _user = self.user, let _appleAuthorizationCode = _user.appleAuthorizationCode else { return }
+        if !profileImgName.isEmpty{
+            _user.profile_image = profileImgName
+        }
+        
+        _user.name = tfNickname.text
+        _user.email = tfEmail.text
+        _user.phoneNo = tfPhone.text
+        _user.ageRange = ageList[ageIndex]
+        _user.gender = genderSelected
+        
+        RestApi().postRefreshToken(appleAuthorizationCode: String(data: _appleAuthorizationCode, encoding: .utf8) ?? "" )
+            .convertData()
+            .compactMap { result -> String? in
+                switch result {
+                case .success(let data):
+                    
+                    var jsonData: JSON = JSON(JSON.null)
+                    var jsonString: JSON = JSON(parseJSON: "")
+                    do {
+                        jsonData = try JSON(data: data, options: .allowFragments)
+                        jsonString = JSON(parseJSON: jsonData.rawString() ?? "")
+                    } catch let error {
+                        printLog(out: "Json Parse Error \(error.localizedDescription)")
+                    }
+                                    
+                    printLog(out: "JsonData : \(jsonData)")
+
+                    let refreshToken = jsonString["refresh_token"].stringValue
+                    guard !refreshToken.isEmpty else {
+                        return nil
+                    }
+
+                    UserDefault().saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value: refreshToken)
+
+                    return refreshToken
+                    
+                case .failure(let errorMessage):
+                    printLog(out: "Error Message : \(errorMessage)")
+                    Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                    return nil
+                }
+            }
+            .subscribe(onNext: { refreshToken in
+                Server.signUp(user: _user) { (isSuccess, value) in
+                    if isSuccess {
+                        let json = JSON(value)
+                        if json["mb_id"].stringValue.isEmpty {
+                            Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
+                        } else {
+                            Snackbar().show(message: "로그인 성공")
+                            MemberManager.shared.setData(data: json)
+                            self.navigationController?.pop()
+                            if let delegate = self.delegate {
+                                delegate.successSignUp()
+                            }
+                        }
+                    }
+                }
+            })
+            .disposed(by: self.disposebag)
+                        
+    }
+    
+    private func signUp() {
+        if var me = self.user {            
             if !profileImgName.isEmpty{
                 me.profile_image = profileImgName
             }
@@ -244,7 +343,7 @@ class SignUpViewController: UIViewController {
             me.phoneNo = tfPhone.text
             me.ageRange = ageList[ageIndex]
             me.gender = genderSelected
-            
+                                                        
             Server.signUp(user: me) { (isSuccess, value) in
                 if isSuccess {
                     let json = JSON(value)
@@ -266,7 +365,7 @@ class SignUpViewController: UIViewController {
 
 extension SignUpViewController {
     
-    func createProfileImage() {
+    private func createProfileImage() {
         if let profileUrl = self.user?.otherInfo?.profile_image {
             // 프로파일 이미지 이름 생성
             let memberId = MemberManager.shared.memberId
@@ -290,7 +389,7 @@ extension SignUpViewController {
     }
 }
 extension SignUpViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    private func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == tfPhone {
             guard let text = textField.text else {
                 return false
@@ -320,7 +419,7 @@ extension SignUpViewController: UITextFieldDelegate {
         return true
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    private func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == tfNickname {
             tfEmail.becomeFirstResponder()
         } else if textField == tfEmail {
@@ -334,7 +433,7 @@ extension SignUpViewController: UITextFieldDelegate {
 }
 
 extension SignUpViewController: BottomSheetDelegate {
-    func onSelected(index: Int) {
+    internal func onSelected(index: Int) {
         if index >= 0 {
             ageIndex = index
             lbAge.text = ageList[index]

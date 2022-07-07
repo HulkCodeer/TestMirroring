@@ -93,8 +93,7 @@ class ChargerFilterViewController: UIViewController {
         accessFilter.delegate = self
         companyFilter.delegate = self
         
-        typeFilter.showExpandView()
-        typeFilter.checkLoginDelegate = self
+        typeFilter.showExpandView()        
         typeFilter.slowTypeChangeDelegate = self
         
         speedFilter.slowSpeedChangeDelegate = self
@@ -149,16 +148,6 @@ class ChargerFilterViewController: UIViewController {
 extension ChargerFilterViewController : DelegateFilterChange {
     func onChangedFilter(type: FilterType) {
         setApplyBtnStatus(enabled: checkChange())
-    }
-}
-
-extension ChargerFilterViewController : DelegateFilterTypeView {
-    func checkMemberLogin() -> Bool {
-        guard MemberManager.shared.isLogin else {
-            return true
-        }
-        MemberManager.shared.showLoginAlert()
-        return false                
     }
 }
 

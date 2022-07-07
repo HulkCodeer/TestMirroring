@@ -350,6 +350,7 @@ class FilterManager {
                 filter.destination = true
 
             default:
+                filter.dcDemo = true
                 break
             }
         }
