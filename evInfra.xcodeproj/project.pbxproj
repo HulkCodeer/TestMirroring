@@ -144,6 +144,8 @@
 		52B87A042799388500562436 /* BoardDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52B87A032799388500562436 /* BoardDetailTableViewCell.xib */; };
 		52C0782727CC982A00DEFEBE /* BoardListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0782627CC982A00DEFEBE /* BoardListViewModel.swift */; };
 		52D0F66A279E33B80070824E /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D0F669279E33B80070824E /* BoardDetailViewModel.swift */; };
+		636DB9402876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
+		636DB9412876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
 		637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */; };
 		637247D3282A5F7900595FCE /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D2282A5F7900595FCE /* UIViewController+Extension.swift */; };
 		637247DA282A6F3B00595FCE /* MembershipGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D9282A6F3B00595FCE /* MembershipGuideViewController.swift */; };
@@ -1030,6 +1032,7 @@
 		52C0782627CC982A00DEFEBE /* BoardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListViewModel.swift; sourceTree = "<group>"; };
 		52D0F669279E33B80070824E /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
+		636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTextRectButton.swift; sourceTree = "<group>"; };
 		637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		637247D2282A5F7900595FCE /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		637247D9282A6F3B00595FCE /* MembershipGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipGuideViewController.swift; sourceTree = "<group>"; };
@@ -2271,6 +2274,7 @@
 				821A05DD28627F3000EB1A91 /* NavigationClose.swift */,
 				63762F1428699FB200C951BF /* Info.swift */,
 				63A4F3702872F88100601018 /* RectButton.swift */,
+				636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -3246,6 +3250,7 @@
 				63F31552284F0809001713D2 /* Colors+Generated.swift in Sources */,
 				63F313EF284EC74F001713D2 /* UIDevice+Extension.swift in Sources */,
 				63F313F0284EC74F001713D2 /* TermsViewController.swift in Sources */,
+				636DB9412876ED6A008BB27A /* IconTextRectButton.swift in Sources */,
 				63F313F1284EC74F001713D2 /* BoardDetailViewModel.swift in Sources */,
 				63F313F2284EC74F001713D2 /* EIAdManager.swift in Sources */,
 				63F313F3284EC74F001713D2 /* AlertViewController.swift in Sources */,
@@ -3529,6 +3534,7 @@
 				DB876078206B40FF0095394B /* UIDevice+Extension.swift in Sources */,
 				CECA908A2084A9F50083518B /* TermsViewController.swift in Sources */,
 				52D0F66A279E33B80070824E /* BoardDetailViewModel.swift in Sources */,
+				636DB9402876ED6A008BB27A /* IconTextRectButton.swift in Sources */,
 				DBABCC4927477BC600E2C7ED /* EIAdManager.swift in Sources */,
 				527165C527B251820078DF3A /* AlertViewController.swift in Sources */,
 				63BEAC602833965A00E797DD /* Observable+Operators.swift in Sources */,
