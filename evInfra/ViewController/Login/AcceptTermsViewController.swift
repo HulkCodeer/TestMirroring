@@ -14,24 +14,46 @@ import UIKit
 protocol AcceptTermsViewControllerDelegate {
     func onSignUpDone()
 }
-class AcceptTermsViewController: UIViewController {
+
+internal final class AcceptTermsViewController: BaseViewController {
+    
+    // MARK: UI
+    
     @IBOutlet weak var cbAcceptAll: M13Checkbox!
     @IBOutlet weak var cbUsingTerm: M13Checkbox!
     @IBOutlet weak var cbPersonalInfo: M13Checkbox!
     @IBOutlet weak var cbLocation: M13Checkbox!
     @IBOutlet weak var ivNext: UIImageView!
-    
+    @IBOutlet weak var cbMarketing: M13Checkbox!
+    @IBOutlet weak var cbAd: M13Checkbox!
+    @IBOutlet weak var cbContents: M13Checkbox!
     @IBOutlet weak var btnNext: UIButton!
-
-    var user: Login?
-    var delegate: AcceptTermsViewControllerDelegate?
-
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
+    @IBOutlet weak var policyStackView: UIStackView!
+    
+    @IBOutlet var usingTermBtn: UIButton!
+    @IBOutlet var personalTermBtn: UIButton!
+    @IBOutlet var locationTermBtn: UIButton!
+    @IBOutlet var marketingTermBtn: UIButton!
+    
+    
+    // MARK: VARIABLE
+    
+    internal var user: Login?
+    internal var delegate: AcceptTermsViewControllerDelegate?
+    
+    private var policyCheckboxs: [M13Checkbox] = []
+        
+    // MARK: SYSTEM FUNC
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        policyCheckboxs.append(cbUsingTerm)
+        policyCheckboxs.append(cbPersonalInfo)
+        policyCheckboxs.append(cbLocation)
+        policyCheckboxs.append(cbMarketing)
+        policyCheckboxs.append(cbAd)
+        policyCheckboxs.append(cbContents)
         
         prepareActionBar()
         prepareCheckbox()
@@ -70,17 +92,32 @@ class AcceptTermsViewController: UIViewController {
         cbAcceptAll.boxType = .square
         cbAcceptAll.checkState = .unchecked
         cbAcceptAll.tintColor = checkboxColor
+                
+        cbMarketing.boxType = .square
+        cbMarketing.checkState = .unchecked
+        cbMarketing.tintColor = checkboxColor
+        
+        cbAd.boxType = .square
+        cbAd.checkState = .unchecked
+        cbAd.tintColor = checkboxColor
+        
+        cbContents.boxType = .square
+        cbContents.checkState = .unchecked
+        cbContents.tintColor = checkboxColor
     }
 
     
     @objc
     fileprivate func handleBackButton() {
-        self.navigationController?.pop()
+        GlobalDefine.shared.mainNavi?.pop()
     }
     
     
     @IBAction func onValueChanged(_ sender: M13Checkbox) {
-        if cbUsingTerm.checkState == .checked && cbPersonalInfo.checkState == .checked && cbLocation.checkState == .checked {
+        if cbUsingTerm.checkState == .checked &&
+            cbPersonalInfo.checkState == .checked &&
+            cbLocation.checkState == .checked
+        {
             cbAcceptAll.setCheckState(.checked, animated: true)
         } else {
             cbAcceptAll.setCheckState(.unchecked, animated: true)
@@ -94,63 +131,75 @@ class AcceptTermsViewController: UIViewController {
             cbUsingTerm.setCheckState(.unchecked, animated: true)
             cbPersonalInfo.setCheckState(.unchecked, animated: true)
             cbLocation.setCheckState(.unchecked, animated: true)
-            break
+            cbMarketing.setCheckState(.unchecked, animated: true)
+            cbAd.setCheckState(.unchecked, animated: true)
+            cbContents.setCheckState(.unchecked, animated: true)
+            
         case .checked:
             cbUsingTerm.setCheckState(.checked, animated: true)
             cbPersonalInfo.setCheckState(.checked, animated: true)
             cbLocation.setCheckState(.checked, animated: true)
-            break
-        case .mixed:
-            break
+            cbMarketing.setCheckState(.checked, animated: true)
+            cbAd.setCheckState(.checked, animated: true)
+            cbContents.setCheckState(.checked, animated: true)
+            
+        default: break
         }
         enableSignUpButton()
     }
     
-    
     @IBAction func onClickSeeUsingTerms(_ sender: Any) {
-        seeTerms(index: .UsingTerms)
+        seeTerms(index: .usingTerms)
     }
     
     @IBAction func onClickSeePersonalInfoTerms(_ sendeer: Any) {
-        seeTerms(index: .PersonalInfoTerms)
+        seeTerms(index: .personalInfoTerms)
     }
     
     @IBAction func onClickSeeLocationTerms(_ sender: Any) {
-        seeTerms(index: .LocationTerms)
+        seeTerms(index: .locationTerms)
+    }
+    
+    @IBAction func onClickSeeMarketingTerms(_ sender: Any) {
+        seeTerms(index: .marketing)
+    }
+    
+    @IBAction func onClickSeeAdTerms(_ sender: Any) {
+        seeTerms(index: .ad)
+    }
+    
+    @IBAction func onClickSeeContentsTerms(_ sender: Any) {
+        seeTerms(index: .contents)
     }
     
     @IBAction func onClickNextBtn(_ sender: Any) {
-        let LoginStoryboard = UIStoryboard(name : "Login", bundle: nil)
-        let signUpVc = LoginStoryboard.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
-        signUpVc.delegate = self
-        signUpVc.user = user
-        self.navigationController?.push(viewController: signUpVc)
+        let viewcon = UIStoryboard(name : "Login", bundle: nil).instantiateViewController(ofType: SignUpViewController.self)
+        viewcon.delegate = self
+        viewcon.user = user
+        self.navigationController?.push(viewController: viewcon)
     }
     
-    func seeTerms(index: TermsViewController.Request) {
-        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let termsVc = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
-        termsVc.tabIndex = index;
-        self.navigationController?.push(viewController: termsVc)
+    private func seeTerms(index: NewTermsViewController.TermsType) {
+        let viewcon = NewTermsViewController()
+        viewcon.tabIndex = index
+        self.navigationController?.push(viewController: viewcon)
     }
-    
-    
-    func enableSignUpButton() {
+        
+    private func enableSignUpButton() {
         switch cbAcceptAll.checkState {
         case .unchecked:
             btnNext.isEnabled = false
             btnNext.setBackgroundColor(UIColor(named: "background-disabled")!, for: .normal)
             btnNext.setTitleColor(UIColor(named: "content-disabled"), for: .normal)
             ivNext.tintColor = UIColor(named: "content-disabled")
-            break
+            
         case .checked:
             btnNext.isEnabled = true
             btnNext.setBackgroundColor(UIColor(named: "background-positive")!, for: .normal)
             btnNext.setTitleColor(UIColor(named: "content-primary"), for: .normal)
             ivNext.tintColor = UIColor(named: "content-primary")
-            break
-        case .mixed:
-            break
+            
+        case .mixed: break
         }
     }
 }

@@ -258,10 +258,9 @@ internal final class MainViewController: UIViewController {
     }
     
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
-        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let priceInfoViewController: TermsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-        priceInfoViewController.tabIndex = .PriceInfo
-        GlobalDefine.shared.mainNavi?.push(viewController: priceInfoViewController)
+        let viewcon = NewTermsViewController()
+        viewcon.tabIndex = .priceInfo
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     // MARK: - Action for button
@@ -1323,10 +1322,9 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainHelp(_ sender: UIButton) {
-        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let termsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-        termsViewController.tabIndex = .FAQTop
-        GlobalDefine.shared.mainNavi?.push(viewController: termsViewController)
+        let viewcon = NewTermsViewController()
+        viewcon.tabIndex = .faqTop
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
 }
 

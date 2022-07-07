@@ -101,11 +101,11 @@ internal final class DeepLinkPath {
             guard let paramItems = linkParameter else { return }
             if let type = paramItems.first(where: { $0.name == "type"})?.value {
                 storyboard = UIStoryboard(name : "Info", bundle: nil)
-                let termsViewControll = storyboard.instantiateViewController(ofType: TermsViewController.self)
+                let termsViewControll = storyboard.instantiateViewController(ofType: NewTermsViewController.self)
                 if (type == URL_PARAM_WEBVIEW_FAQ_TOP) {
-                    termsViewControll.tabIndex = .FAQTop
+                    termsViewControll.tabIndex = .faqTop
                 } else if (type == URL_PARAM_WEBVIEW_FAQ_DETAIL){
-                    termsViewControll.tabIndex = .FAQDetail
+                    termsViewControll.tabIndex = .faqDetail
                     if let page = paramItems.first(where: { $0.name == "page"})?.value {
                         termsViewControll.subURL = "type=" + page
                     }
