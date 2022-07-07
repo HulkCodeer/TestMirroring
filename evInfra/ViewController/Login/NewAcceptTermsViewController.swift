@@ -61,10 +61,10 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
     
     private lazy var tableView = UITableView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.register(Reusable.acknowledgeCell)
+        $0.register(Reusable.acceptTermsCell)
         $0.backgroundColor = UIColor.clear
         $0.separatorStyle = .none
-        $0.rowHeight = UITableView.automaticDimension
+        $0.rowHeight = UITableViewAutomaticDimension
         $0.estimatedRowHeight = 56
         $0.allowsSelection = false
         $0.allowsSelectionDuringEditing = false
@@ -145,6 +145,7 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
         super.viewWillAppear(animated)
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
+}
     
 //    @IBOutlet weak var cbAcceptAll: M13Checkbox!
 //    @IBOutlet weak var cbUsingTerm: M13Checkbox!

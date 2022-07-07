@@ -34,7 +34,7 @@ internal final class AcceptTermsCell: UITableViewCell {
     private lazy var arrowImageView = ChevronArrow().then {
         $0.translatesAutoresizingMaskIntoConstraints = false        
         $0.tintColor = Colors.contentPrimary.color
-    }
+    }        
 
     private var disposeBag = DisposeBag()
 

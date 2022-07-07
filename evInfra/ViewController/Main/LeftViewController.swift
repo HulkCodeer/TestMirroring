@@ -472,20 +472,20 @@ extension LeftViewController {
             
             case SUB_MENU_BOJO: // 보조금 안내
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let bojoInfoVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-                bojoInfoVC.tabIndex = .EvBonusGuide
+                let bojoInfoVC = infoStoryboard.instantiateViewController(ofType: NewTermsViewController.self)
+                bojoInfoVC.tabIndex = .evBonusGuide
                 self.navigationController?.push(viewController: bojoInfoVC)
             
             case SUB_MENU_BONUS: // 보조금 현황
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let bojoDashVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-                bojoDashVC.tabIndex = .EvBonusStatus
+                let bojoDashVC = infoStoryboard.instantiateViewController(ofType: NewTermsViewController.self)
+                bojoDashVC.tabIndex = .evBonusStatus
                 self.navigationController?.push(viewController: bojoDashVC)
                 
             case SUB_MENU_CHARGE_PRICE: // 충전요금 안내
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let priceInfoVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-                priceInfoVC.tabIndex = .PriceInfo
+                let priceInfoVC = infoStoryboard.instantiateViewController(ofType: NewTermsViewController.self)
+                priceInfoVC.tabIndex = .priceInfo
                 self.navigationController?.push(viewController: priceInfoVC)
                 
             default:
@@ -528,8 +528,8 @@ extension LeftViewController {
     
     private func startBatteryWebView(token: String) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let termsVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-        termsVC.tabIndex = .BatteryInfo
+        let termsVC = infoStoryboard.instantiateViewController(ofType: NewTermsViewController.self)
+        termsVC.tabIndex = .skBatteryInfo
         termsVC.setHeader(key: "Authorization", value: "Bearer " + token)
         self.navigationController?.push(viewController: termsVC)
     }
@@ -546,7 +546,7 @@ extension LeftViewController {
             case SUB_MENU_FAQ: // 자주묻는 질문
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let termsVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-                termsVC.tabIndex = .FAQTop
+                termsVC.tabIndex = .faqTop
                 GlobalDefine.shared.mainNavi?.push(viewController: termsVC)
             
             case SUB_MENU_SERVICE_GUIDE:
