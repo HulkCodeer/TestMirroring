@@ -10,6 +10,14 @@ import UIKit
 
 internal final class RectButton: UIButton {
     
+    enum Const {
+        enum Level {
+            case primary
+            case secondary
+            case negative
+        }
+    }
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
     }
@@ -18,17 +26,25 @@ internal final class RectButton: UIButton {
         super.init(frame: frame)
     }
     
-    init() {
+    init(level: Const.Level) {
         super.init(frame:CGRect.zero)
         
-        self.setTitleColor(Colors.contentOnColor.color, for: .normal)
-        self.setTitleColor(Colors.contentOnColor.color, for: .disabled)
-        self.setBackgroundColor(Colors.backgroundPositive.color, for: .normal)
-    }
-    
-    override var isEnabled: Bool {
-        didSet {
-            self.isEnabled ? setBackgroundColor(Colors.backgroundPositive.color, for: .disabled) : setBackgroundColor(Colors.nt1.color, for: .disabled)
+        switch level {
+        case .primary: // enable, disable 가능
+            self.setTitleColor(Colors.contentOnColor.color, for: .normal)
+            self.setTitleColor(Colors.contentOnColor.color, for: .disabled)
+            self.setBackgroundColor(Colors.backgroundPositive.color, for: .normal)
+            
+        case .secondary: // enable, disable 가능
+            self.setTitleColor(Colors.contentPrimary.color, for: .normal)
+            self.setTitleColor(Colors.nt2.color, for: .disabled)
+            self.setBackgroundColor(Colors.backgroundPrimary.color, for: .normal)
+            self.IBborderWidth = 1
+            self.IBborderColor = Colors.borderOpaque.color
+            
+        case .negative: // enable만 가능
+            self.setTitleColor(Colors.contentOnColor.color, for: .normal)
+            self.setBackgroundColor(Colors.backgroundNegative.color, for: .normal)
         }
     }
 }

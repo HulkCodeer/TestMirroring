@@ -141,7 +141,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         $0.numberOfLines = 1
     }
     
-    private lazy var nextBtn = RectButton().then {
+    private lazy var nextBtn = RectButton(level: .primary).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("다음", for: .normal)
         $0.setTitle("다음", for: .disabled)                

@@ -87,7 +87,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         $0.numberOfLines = 1
     }
                     
-    private lazy var quitBtn = RectButton().then {
+    private lazy var quitBtn = RectButton(level: .primary).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("탈퇴하기", for: .normal)
         $0.setTitle("탈퇴하기", for: .disabled)        
