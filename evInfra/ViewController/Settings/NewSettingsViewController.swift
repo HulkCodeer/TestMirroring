@@ -105,8 +105,8 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
                 
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self,
-                    MemberManager.shared.loginType == .kakao,
-                    MemberManager.shared.loginType == .apple else { return }
+                    (MemberManager.shared.loginType == .kakao ||
+                    MemberManager.shared.loginType == .apple) else { return }
             let quitAccountView = self.createQuitAccountView(mainTitle: "회원탈퇴")
             self.totalScrollView.addSubview(quitAccountView)
             quitAccountView.snp.makeConstraints {

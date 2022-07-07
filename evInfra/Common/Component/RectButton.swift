@@ -23,6 +23,7 @@ internal final class RectButton: UIButton {
         
         self.setTitleColor(Colors.contentOnColor.color, for: .normal)
         self.setTitleColor(Colors.contentOnColor.color, for: .disabled)
+        self.setBackgroundColor(Colors.backgroundPositive.color, for: .normal)
     }
     
     override var isEnabled: Bool {
