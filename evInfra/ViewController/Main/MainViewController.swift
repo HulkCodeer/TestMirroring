@@ -994,6 +994,7 @@ extension MainViewController {
         center.addObserver(self, selector: #selector(saveLastZoomLevel), name: .UIApplicationDidEnterBackground, object: nil)
         center.addObserver(self, selector: #selector(updateMemberInfo), name: Notification.Name("updateMemberInfo"), object: nil)
         center.addObserver(self, selector: #selector(getSharedChargerId(_:)), name: Notification.Name("kakaoScheme"), object: nil)
+        center.addObserver(self, selector: #selector(showSelectCharger), name: Notification.Name("showSelectCharger"), object: nil)
         // [Summary observer]
         center.addObserver(self, selector: #selector(directionStartPoint(_:)), name: Notification.Name(summaryView.startKey), object: nil)
         center.addObserver(self, selector: #selector(directionStartPath(_:)), name: Notification.Name(summaryView.addKey), object: nil)
@@ -1016,6 +1017,18 @@ extension MainViewController {
         center.removeObserver(self, name: Notification.Name(summaryView.navigationKey), object: nil)
         center.removeObserver(self, name: Notification.Name(summaryView.loginKey), object: nil)
         center.removeObserver(self, name: Notification.Name(summaryView.favoriteKey), object: nil)
+    }
+    
+    @objc func showSelectCharger(_ notification: NSNotification) {
+        defer {
+            navigationDrawerController?.toggleLeftView()
+        }
+        
+        guard let chargerId = notification.object as? String else { return }
+        guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
+
+        selectCharger(chargerId: chargerId)
+        naverMapView.moveToCamera(with: NMGLatLng(from: charger.getTMapPoint().coordinate), zoomLevel: 14)
     }
     
     @objc func saveLastZoomLevel() {

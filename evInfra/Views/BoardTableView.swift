@@ -129,11 +129,8 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 cell.isFromDetailView = isFromDetailView
                 cell.configure(item: communityBoardList[indexPath.row])
                 cell.chargeStataionButtonTappedCompletion = { chargerId in
-                    guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
-                    
-                    let detailViewController = UIStoryboard(name: "Detail", bundle: nil).instantiateViewController(ofType: DetailViewController.self)
-                    detailViewController.charger = charger
-                    GlobalDefine.shared.mainNavi?.push(viewController: detailViewController, subtype: kCATransitionFromTop)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "showSelectCharger"), object: chargerId)
+                    GlobalDefine.shared.mainNavi?.popToMain()
                 }
                 cell.imageTapped = { [weak self] imageUrl in
                     self?.tableViewDelegate?.showImageViewer(url: imageUrl, isProfileImageMode: true)

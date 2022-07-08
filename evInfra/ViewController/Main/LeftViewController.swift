@@ -403,7 +403,7 @@ extension LeftViewController {
                 let stationBoardVC = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
                 stationBoardVC.category = Board.CommunityType.CHARGER.rawValue
                 stationBoardVC.mode = Board.ScreenType.FEED
-                navigationController?.push(viewController: stationBoardVC)
+                GlobalDefine.shared.mainNavi?.push(viewController: stationBoardVC)
             default:
                 print("out of index")
             }
