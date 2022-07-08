@@ -10,6 +10,41 @@ import Foundation
 import ReusableKit
 
 internal final class NewAcceptTermsViewController: CommonBaseViewController {
+    
+    enum TermsType: Int, CaseIterable {
+        case usingTerms = 0
+        case personalInfoTerms = 1
+        case locationTerms = 2
+        case marketing = 3
+        case ad = 4
+        case contents = 5
+        case none
+        
+        init(value: Int) {
+            switch value {
+            case 0: self = .usingTerms
+            case 1: self = .personalInfoTerms
+            case 2: self = .locationTerms
+            case 3: self = .marketing
+            case 4: self = .ad
+            case 5: self = .contents
+            default: self = .none
+            }
+        }
+        
+        internal var title: String {
+            switch self {
+            case .usingTerms: return "서비스 이용약관"
+            case .personalInfoTerms: return "개인정보 취급방침"
+            case .locationTerms: return "위치기반서비스 이용약관"
+            case .marketing: return "홍보 및 마케팅 목적 개인정보 수집 및 이용 동의"
+            case .ad: return "광고성 정보 수신 동의"
+            case .contents: return "콘텐츠 활용 동의"
+            case .none: return ""
+            }
+        }
+    }
+    
     // MARK: UI
     
     private enum Reusable {
@@ -149,27 +184,48 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
 
 extension NewAcceptTermsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return TermsType.allCases.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? BottomSheetCell
-            else { return UITableViewCell() }
-
-        cell.configure(with: items[indexPath.row])
+        let cell = tableView.dequeueReusableCell(ofType: AcceptTermsCell.self, for: indexPath)
+        let index = indexPath.row
+        let termType = TermsType(value: index)
+        let model = AceeptTermsCellViewModel(with: termType.title, index: index)
+        model.tappedObservable
+            .asDriver(onErrorJustReturn: -1)
+            .filter { $0 != -1 }
+            .drive(onNext: { index in
+                let viewcon = NewTermsViewController()
+                
+                switch termType {
+                case .usingTerms:
+                    viewcon.tabIndex = .usingTerms
+                    
+                case .personalInfoTerms:
+                    viewcon.tabIndex = .personalInfoTerms
+                    
+                case .locationTerms:
+                    viewcon.tabIndex = .locationTerms
+                    
+                case .marketing:
+                    viewcon.tabIndex = .marketing
+                    
+                case .ad:
+                    viewcon.tabIndex = .ad
+                    
+                case .contents:
+                    viewcon.tabIndex = .contents
+                    
+                default: break                    
+                }
+                
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            })
+            .disposed(by: self.disposeBag)
+        cell.bind(to: model)
         
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 55.0
-    }
-
-    // MARK: - UITableViewDelegate
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        selectedCompletion?(indexPath.row)
     }
 }
     

@@ -30,7 +30,7 @@ internal final class NewTermsViewController: CommonBaseViewController {
         case ad
         case contents          
         
-        internal var value: String {
+        internal var headerTitle: String {
             switch self {
             case .contact: return "제휴문의"
             case .usingTerms: return "서비스 이용약관"
@@ -128,7 +128,7 @@ internal final class NewTermsViewController: CommonBaseViewController {
             }
         }
         
-        naviTotalView.naviTitleLbl.text = tabIndex.value
+        naviTotalView.naviTitleLbl.text = tabIndex.headerTitle
         loadWebView(webUrl: tabIndex.urlPath)
     }
     
