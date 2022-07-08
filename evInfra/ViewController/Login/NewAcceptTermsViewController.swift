@@ -86,8 +86,9 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 14)
         $0.textAlignment = .natural
-        $0.numberOfLines = 2
+        $0.numberOfLines = 1
         $0.textColor = Colors.contentPrimary.color
+        $0.text = "전체 동의하기"
     }
 
     private lazy var allAcceptTitleBtn = UIButton().then {
@@ -160,7 +161,8 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
         let lineView = self.createLineView()
         self.contentView.addSubview(lineView)
         lineView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.top.equalTo(allAcceptTotalView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(1)
         }
         
@@ -184,7 +186,8 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
 
 extension NewAcceptTermsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return TermsType.allCases.count
+        printLog(out: "\(TermsType.allCases.filter { $0 != .none }.count)")
+        return TermsType.allCases.filter { $0 != .none }.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

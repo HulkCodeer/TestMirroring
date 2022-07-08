@@ -17,6 +17,7 @@ internal final class AcceptTermsCell: UITableViewCell {
     
     private lazy var checkBtn = CheckBox().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.isSelected = false
     }
 
     private lazy var titleLabel = UILabel().then {
@@ -31,10 +32,14 @@ internal final class AcceptTermsCell: UITableViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    private lazy var arrowImageView = ChevronArrow().then {
+    private lazy var arrowImgView = ChevronArrow().then {
         $0.translatesAutoresizingMaskIntoConstraints = false        
         $0.tintColor = Colors.contentPrimary.color
-    }        
+    }
+    
+    private lazy var arrowImgViewBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
 
     private var disposeBag = DisposeBag()
 
@@ -63,7 +68,7 @@ internal final class AcceptTermsCell: UITableViewCell {
             $0.height.equalTo(56)
         }
         
-        self.totalView.addSubview(checkBtn)
+        totalView.addSubview(checkBtn)
         checkBtn.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
             $0.width.height.equalTo(24)
@@ -75,18 +80,24 @@ internal final class AcceptTermsCell: UITableViewCell {
             $0.leading.equalTo(checkBtn.snp.trailing).offset(16)
             $0.top.bottom.equalToSuperview()
         }
+        
+        totalView.addSubview(self.titleBtn)
+        titleBtn.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
 
-        totalView.addSubview(arrowImageView)
-        arrowImageView.snp.makeConstraints {
+        totalView.addSubview(arrowImgView)
+        arrowImgView.snp.makeConstraints {
             $0.leading.equalTo(titleLabel.snp.trailing).offset(24)
             $0.trailing.equalToSuperview().offset(-16)
             $0.centerY.equalToSuperview()
             $0.width.height.equalTo(24)
         }
-
-        totalView.addSubview(self.titleBtn)
-        titleBtn.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        
+        totalView.addSubview(arrowImgViewBtn)
+        arrowImgViewBtn.snp.makeConstraints {
+            $0.center.equalTo(arrowImgView.snp.center)
+            $0.width.height.equalTo(44)
         }
     }
 
@@ -100,6 +111,14 @@ internal final class AcceptTermsCell: UITableViewCell {
             .disposed(by: self.disposeBag)
 
         self.titleBtn.rx.tap
+            .map { [weak self] _ -> Bool in
+                guard let self = self else { return false }
+                return !self.checkBtn.isSelected
+            }
+            .bind(to: checkBtn.rx.isSelected)
+            .disposed(by: self.disposeBag)
+        
+        self.arrowImgViewBtn.rx.tap
             .map { _ in viewModel.index }
             .bind(to: viewModel.tappedObservable)
             .disposed(by: self.disposeBag)

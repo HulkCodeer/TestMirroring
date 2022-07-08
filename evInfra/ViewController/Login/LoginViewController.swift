@@ -133,11 +133,13 @@ extension LoginViewController: LoginHelperDelegate {
     }
     
     func needSignUp(user: Login) {
-        let LoginStoryboard = UIStoryboard(name : "Login", bundle: nil)
-        let acceptTermsVc = LoginStoryboard.instantiateViewController(withIdentifier: "AcceptTermsViewController") as! AcceptTermsViewController
-        acceptTermsVc.user = user
-        acceptTermsVc.delegate = self
-        self.navigationController?.push(viewController: acceptTermsVc)
+//        let LoginStoryboard = UIStoryboard(name : "Login", bundle: nil)
+//        let acceptTermsVc = LoginStoryboard.instantiateViewController(withIdentifier: "AcceptTermsViewController") as! AcceptTermsViewController
+//        acceptTermsVc.user = user
+//        acceptTermsVc.delegate = self
+        
+        let viewcon = NewAcceptTermsViewController()
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     func corpLogin() {
