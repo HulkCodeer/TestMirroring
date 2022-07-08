@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-protocol PartnershipJoinViewDelegate {
+protocol PartnershipJoinViewDelegate: class {
     func showMembershipIssuanceView()
     func showSKMemberQRView()
     func showLotteRentCertificateView()
@@ -24,7 +24,7 @@ internal final class PartnershipJoinView : UIView {
     
     // MARK: VARIABLE
     
-    internal var delegate: PartnershipJoinViewDelegate?
+    internal weak var delegate: PartnershipJoinViewDelegate?
     
     // MARK: SYSTEM FUNC
     
