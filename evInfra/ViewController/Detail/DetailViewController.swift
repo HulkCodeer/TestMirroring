@@ -66,6 +66,7 @@ internal final class DetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initKakaoMap()
         prepareActionBar()
         prepareBoardTableView()
         prepareChargerInfo()
@@ -154,7 +155,6 @@ internal final class DetailViewController: BaseViewController {
         setStationInfo()
         setDetailLb()
         fetchFirstBoard(mid: "station", sort: .LATEST, mode: Board.ScreenType.FEED.rawValue)
-        initKakaoMap()       
     }
     
     func setDetailLb() {
