@@ -57,48 +57,9 @@ internal final class LoginHelper: NSObject {
                 })
                 return
             }
-                        
-            RestApi().postValidateRefreshToken()
-                .observe(on: MainScheduler.asyncInstance)
-                .convertData()
-                .compactMap { result -> String? in
-                    switch result {
-                    case .success(let data):
-                        
-                        var jsonData: JSON = JSON(JSON.null)
-                        var jsonString: JSON = JSON(parseJSON: "")
-                        do {
-                            jsonData = try JSON(data: data, options: .allowFragments)
-                            jsonString = JSON(parseJSON: jsonData.rawString() ?? "")
-                        } catch let error {
-                            printLog(out: "Json Parse Error \(error.localizedDescription)")
-                        }
-                                        
-                        printLog(out: "JsonData : \(jsonData)")
-
-                        let accessToken = jsonString["access_token"].stringValue
-                        guard !accessToken.isEmpty else {
-                            LoginHelper.shared.logout(completion: { _ in
-                                Snackbar().show(message: "장기간 미접속으로 인해 로그아웃 되었습니다.")
-                            })
-                            return nil
-                        }
-                        
-                        return accessToken
-                        
-                    case .failure(let errorMessage):
-                        printLog(out: "Error Message : \(errorMessage)")
-                        Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
-                        return nil
-                    }
-                }
-                .subscribe(onNext: { [weak self] refreshToken in
-                    guard let self = self else { return }
-                    self.requestLoginToApple()
-                })
-                .disposed(by: self.disposebag)
             
-            
+            self.requestLoginToApple()
+                                                                            
         case .kakao:
             if KOSession.shared().isOpen() {
                 requestMeToKakao()
@@ -266,6 +227,7 @@ internal final class LoginHelper: NSObject {
                     self.requestLoginToEvInfra(user: nil)
                     
                 case .revoked, .notFound, .transferred:
+                    Snackbar().show(message: "로그아웃 되었습니다.")
                     MemberManager.shared.clearData()
                                                         
                 default:
@@ -282,17 +244,10 @@ internal final class LoginHelper: NSObject {
                 let json = JSON(value)
                 printLog(out: "Sever Login : \(json)")
                 if json["code"].intValue == 1000 {
-                    if let delegate = self.delegate {
-                        delegate.successLogin()
-                    }
-                    MemberManager.shared.setData(data: json)
-                    // 즐겨찾기 목록 가져오기
-                    ChargerManager.sharedInstance.getFavoriteCharger()
-                    
-                    guard let _user = user,
+                    if let _user = user,
                             let _appleAuthorizationCode = _user.appleAuthorizationCode,
                           !_appleAuthorizationCode.isEmpty,
-                          UserDefault().readString(key: UserDefault.Key.APPLE_REFRESH_TOKEN).isEmpty else { return }
+                          UserDefault().readString(key: UserDefault.Key.APPLE_REFRESH_TOKEN).isEmpty {
                     RestApi().postRefreshToken(appleAuthorizationCode: String(data: _appleAuthorizationCode, encoding: .utf8) ?? "" )
                         .observe(on: SerialDispatchQueueScheduler(qos: .background))
                         .convertData()
@@ -324,8 +279,9 @@ internal final class LoginHelper: NSObject {
                                 return nil
                             }
                         }
-                        .subscribe(onNext: { refreshToken in
+                        .subscribe(onNext: { [weak self] refreshToken in
                             guard refreshToken.isEmpty else {
+                                self?.loginSuccess(json: json)
                                 UserDefault().saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value: refreshToken)
                                 return
                             }
@@ -336,6 +292,49 @@ internal final class LoginHelper: NSObject {
                             })
                         })
                         .disposed(by: self.disposebag)
+                    } else {
+                        RestApi().postValidateRefreshToken()
+                            .observe(on: MainScheduler.asyncInstance)
+                            .convertData()
+                            .compactMap { result -> String? in
+                                switch result {
+                                case .success(let data):
+                                    
+                                    var jsonData: JSON = JSON(JSON.null)
+                                    var jsonString: JSON = JSON(parseJSON: "")
+                                    do {
+                                        jsonData = try JSON(data: data, options: .allowFragments)
+                                        jsonString = JSON(parseJSON: jsonData.rawString() ?? "")
+                                    } catch let error {
+                                        printLog(out: "Json Parse Error \(error.localizedDescription)")
+                                    }
+                                                    
+                                    printLog(out: "JsonData : \(jsonData)")
+
+                                    let accessToken = jsonString["access_token"].stringValue
+                                    guard !accessToken.isEmpty else {
+                                        return nil
+                                    }
+                                    
+                                    return accessToken
+                                    
+                                case .failure(let errorMessage):
+                                    printLog(out: "Error Message : \(errorMessage)")
+                                    Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                                    return nil
+                                }
+                            }
+                            .subscribe(onNext: { [weak self] accessToken in
+                                guard accessToken.isEmpty else {
+                                    self?.loginSuccess(json: json)
+                                    return
+                                }
+                                LoginHelper.shared.logout(completion: { _ in
+                                    Snackbar().show(message: "장기간 미접속으로 인해 로그아웃 되었습니다.")
+                                })
+                            })
+                            .disposed(by: self.disposebag)
+                    }
                     
                 } else {
                     if let delegate = self.delegate, let user = user {
@@ -348,6 +347,15 @@ internal final class LoginHelper: NSObject {
                 Snackbar().show(message: "오류가 발생했습니다. 다시 시도해 주세요.")
             }
         }
+    }
+    
+    private func loginSuccess(json: JSON) {
+        if let delegate = self.delegate {
+            delegate.successLogin()
+        }
+        MemberManager.shared.setData(data: json)
+        // 즐겨찾기 목록 가져오기
+        ChargerManager.sharedInstance.getFavoriteCharger()
     }
 }
 
