@@ -38,6 +38,7 @@ internal final class EventContentsViewController: UIViewController {
         let contentController = WKUserContentController()
         contentController.add(self, name: "openCarmore")
         contentController.add(self, name: "getBerry")
+        contentController.add(self, name: "openMonthlySubscription")
         let config = WKWebViewConfiguration()
         let frame = CGRect(x: 0, y: 0, width: webViewContainer.frame.width, height: webViewContainer.frame.height)
         
@@ -150,19 +151,42 @@ extension EventContentsViewController: WKScriptMessageHandler {
         let jsInterface = message.name
         
         switch jsInterface {
+        case "openMonthlySubscription":
+            if let jsonString = message.body as? String {
+                if let dataFromString = jsonString.data(using: .utf8, allowLossyConversion: false) {
+                    if let json = try? JSON(data: dataFromString) {
+                        if let url = URL(string: json["url"].stringValue), UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: {(success: Bool) in
+                                if success {
+                                    printLog(out: "Launching \(url) was successful")
+                                }
+                            })
+                        }
+                    } else {
+                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
+                    }
+                } else {
+                    Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
+                }
+            } else {
+                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
+            }
+            
         case "openCarmore":
             let tmapURL = "carmore://&carmore_deeplink=1&mt=3&evs=165"
             if let url = URL(string: tmapURL), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: {(success: Bool) in
                     if success {
-                        print("Launching \(url) was successful")
+                        printLog(out: "Launching \(url) was successful")
+                    } else {
+                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
                     }
                 })
+            } else {
+                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
             }
             
         case "getBerry":
-            printLog(out: "getBerry")
-            
             RestApi().postGetBerry(eventId: "\(self.eventId)")
                 .observe(on: MainScheduler.asyncInstance)
                 .convertData()
@@ -181,7 +205,7 @@ extension EventContentsViewController: WKScriptMessageHandler {
                         
                     case .failure(let errorMessage):
                         printLog(out: "Error Message : \(errorMessage)")
-                        Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
                         return nil
                     }
                 }
@@ -192,6 +216,8 @@ extension EventContentsViewController: WKScriptMessageHandler {
                         message.addAction(ok)
                         
                         GlobalDefine.shared.mainNavi?.present(message, animated: true, completion: nil)
+                    } else {
+                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
                     }
                 })
                 .disposed(by: self.disposebag)

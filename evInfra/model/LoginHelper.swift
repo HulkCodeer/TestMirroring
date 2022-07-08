@@ -249,7 +249,7 @@ internal final class LoginHelper: NSObject {
                           !_appleAuthorizationCode.isEmpty,
                           UserDefault().readString(key: UserDefault.Key.APPLE_REFRESH_TOKEN).isEmpty {
                     RestApi().postRefreshToken(appleAuthorizationCode: String(data: _appleAuthorizationCode, encoding: .utf8) ?? "" )
-                        .observe(on: SerialDispatchQueueScheduler(qos: .background))
+                        .observe(on: MainScheduler.asyncInstance)
                         .convertData()
                         .compactMap { result -> String? in
                             switch result {
