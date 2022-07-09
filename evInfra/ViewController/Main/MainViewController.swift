@@ -932,6 +932,7 @@ extension MainViewController {
             self.markerIndicator.startAnimating()
             self.appDelegate.appToolbarController.toolbar.isUserInteractionEnabled = false
         }
+        
         ChargerManager.sharedInstance.getStations { [weak self] in
             LoginHelper.shared.checkLogin()
             

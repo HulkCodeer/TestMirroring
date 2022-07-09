@@ -36,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
         
+        LoginHelper.shared.prepareLogin()
+        
         return true
     }
     
