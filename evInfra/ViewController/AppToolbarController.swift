@@ -64,8 +64,13 @@ extension AppToolbarController {
     fileprivate func prepareToolbar() {
         toolbar.titleLabel.textColor = UIColor(named: "content-primary")
         toolbar.titleLabel.textAlignment = .left
+                
+        #if DEBUG
+        toolbar.title = "EV Infra 테스트"
+        #else
         toolbar.title = "EV Infra"
-        
+        #endif
+    
         toolbar.leftViews = [menuButton]
         toolbar.rightViews = [searchButton, mapButton]
     }

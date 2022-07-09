@@ -187,40 +187,47 @@ extension EventContentsViewController: WKScriptMessageHandler {
             }
             
         case "getBerry":
-            RestApi().postGetBerry(eventId: "\(self.eventId)")
-                .observe(on: MainScheduler.asyncInstance)
-                .convertData()
-                .compactMap { result -> String? in
-                    switch result {
-                    case .success(let data):
-                        let jsonData = JSON(data)
-                        
-                        let code = jsonData["code"].stringValue
-                        guard "1000".equals(code) else {
-                            Snackbar().show(message: "\(jsonData["msg"].stringValue)")
-                            return nil
+            MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+                guard let self = self else { return }
+                if isLogin {
+                    RestApi().postGetBerry(eventId: "\(self.eventId)")
+                        .observe(on: MainScheduler.asyncInstance)
+                        .convertData()
+                        .compactMap { result -> String? in
+                            switch result {
+                            case .success(let data):
+                                let jsonData = JSON(data)
+                                
+                                let code = jsonData["code"].stringValue
+                                guard "1000".equals(code) else {
+                                    Snackbar().show(message: "\(jsonData["msg"].stringValue)")
+                                    return nil
+                                }
+                                
+                                return code
+                                
+                            case .failure(let errorMessage):
+                                printLog(out: "Error Message : \(errorMessage)")
+                                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
+                                return nil
+                            }
                         }
-                        
-                        return code
-                        
-                    case .failure(let errorMessage):
-                        printLog(out: "Error Message : \(errorMessage)")
-                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
-                        return nil
-                    }
+                        .subscribe(onNext: { code in
+                            if "1000".equals(code) {
+                                let message = UIAlertController(title: nil, message: "3천베리 지급 완료", preferredStyle: .alert)
+                                let ok = UIAlertAction(title: "확인", style: .default, handler: nil)
+                                message.addAction(ok)
+                                
+                                GlobalDefine.shared.mainNavi?.present(message, animated: true, completion: nil)
+                            } else {
+                                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
+                            }
+                        })
+                        .disposed(by: self.disposebag)
+                } else {
+                    MemberManager.shared.showLoginAlert()
                 }
-                .subscribe(onNext: { code in
-                    if "1000".equals(code) {
-                        let message = UIAlertController(title: nil, message: "3천베리 지급 완료", preferredStyle: .alert)
-                        let ok = UIAlertAction(title: "확인", style: .default, handler: nil)                        
-                        message.addAction(ok)
-                        
-                        GlobalDefine.shared.mainNavi?.present(message, animated: true, completion: nil)
-                    } else {
-                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
-                    }
-                })
-                .disposed(by: self.disposebag)
+            }
             
         default:break            
         }

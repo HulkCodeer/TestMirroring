@@ -20,34 +20,26 @@ protocol LoginHelperDelegate: class {
 }
 
 internal final class LoginHelper: NSObject {
-
-    internal weak var delegate: LoginHelperDelegate?
-    
     static let shared = LoginHelper()
+    
+    internal weak var delegate: LoginHelperDelegate?
     
     private let disposebag = DisposeBag()
     
-    // 앱 실행 시 로그인 확인
+    // 앱 실행 시 카카오 로그인 세션 정보를 받기 위해 셋팅
     func prepareLogin() {
         switch MemberManager.shared.loginType {
-        case .apple:
-            // Apple 로그인 상태 확인
-            requestLoginToApple()
-            
         case .kakao:
             // 로그인, 로그아웃 상태 변경 받기
             NotificationCenter.default.addObserver(self, selector: #selector(kakaoSessionDidChangeWithNotification), name: NSNotification.Name.KOSessionDidChange, object: nil)
             
             // 클라이언트 시크릿 설정
             KOSession.shared().clientSecret = Const.KAKAO_CLIENT_SECRET
-        case .evinfra:
-            break
-        default:
-            break
+        default: break
         }
     }
     
-    // 로그인 확인
+    // 메인 화면에서 지도의 정보를 불러온 뒤 로그인 체크
     func checkLogin() {
         switch MemberManager.shared.loginType {
         case .apple:
@@ -107,7 +99,6 @@ internal final class LoginHelper: NSObject {
         }
         
         KOSession.shared().open(completionHandler: { (error) -> Void in
-            
             if KOSession.shared().isOpen() {
                 self.requestMeToKakao()
             } else {
@@ -129,11 +120,6 @@ internal final class LoginHelper: NSObject {
             KOSessionTask.userMeTask { (error, me) in
                 if (error as NSError?) != nil {
                     MemberManager.shared.clearData() // 비회원
-                } else if let me = me as KOUserMe? {
-                    UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: me.id!)
-                    if me.hasSignedUp == .true {
-                        self.ifNeedUpdateScope(me: me)
-                    }
                 }
             }
         }
@@ -165,8 +151,7 @@ internal final class LoginHelper: NSObject {
             }
         })
     }
-    
-    
+        
     func ifNeedUpdateScope(me: KOUserMe) {
         if let account = me.account {
             var scopes = [String]()
