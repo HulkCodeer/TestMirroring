@@ -68,7 +68,7 @@ internal final class LoginHelper: NSObject {
             }
             
         case .evinfra:
-            requestLoginToEvInfra(user: nil)
+            requestFromKakaoAndCompanyLoginToEvInfra(user: nil)
             
         default:
             MemberManager.shared.clearData()
@@ -186,7 +186,7 @@ internal final class LoginHelper: NSObject {
                 let ok = UIAlertAction(title: "다음", style: .default, handler: {(ACTION) -> Void in
                     KOSession.shared().updateScopes(scopes, completionHandler: { (error) in
                         guard error == nil else {
-                            self.requestLoginToEvInfra(user: Login.kakao(me))
+                            self.requestFromKakaoAndCompanyLoginToEvInfra(user: Login.kakao(me))
                             return
                         }
                         
@@ -198,7 +198,7 @@ internal final class LoginHelper: NSObject {
                 actions.append(ok)
                 UIAlertController.showAlert(title: "개인정보 동의 안내", message: "더 나은 서비스 운영을 위한 추가적인 개인정보 수집 동의가 필요합니다. 각 수집 사유 및 사용 용도는 다음 화면에서 확인 가능합니다.", actions: actions)
             } else {
-                self.requestLoginToEvInfra(user: Login.kakao(me))
+                self.requestFromKakaoAndCompanyLoginToEvInfra(user: Login.kakao(me))
             }
         }
     }
@@ -224,7 +224,7 @@ internal final class LoginHelper: NSObject {
                 printLog(out: "CredentialState : \(credentialState)")
                 switch credentialState {
                 case .authorized:
-                    self.requestLoginToEvInfra(user: nil)
+                    self.requestFromAppleLoginToEvInfra(user: nil)
                     
                 case .revoked, .notFound, .transferred:
                     Snackbar().show(message: "로그아웃 되었습니다.")
@@ -238,20 +238,13 @@ internal final class LoginHelper: NSObject {
     }
     
     // MARK: - EV Infra 로그인 및 회원가입
-    func requestLoginToEvInfra(user: Login?) {
+    func requestFromAppleLoginToEvInfra(user: Login?) {
         Server.login(user: user) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 printLog(out: "Sever Login : \(json)")
                 if json["code"].intValue == 1000 {
-                    
-                    if let delegate = self.delegate {
-                        delegate.successLogin()
-                    }
-                    MemberManager.shared.setData(data: json)
-                    // 즐겨찾기 목록 가져오기
-                    ChargerManager.sharedInstance.getFavoriteCharger()
-                    
+                                                            
                     if let _user = user,
                             let _appleAuthorizationCode = _user.appleAuthorizationCode,
                           !_appleAuthorizationCode.isEmpty,
@@ -289,6 +282,12 @@ internal final class LoginHelper: NSObject {
                         }
                         .subscribe(onNext: { refreshToken in
                             guard refreshToken.isEmpty else {
+                                if let delegate = self.delegate {
+                                    delegate.successLogin()
+                                }
+                                MemberManager.shared.setData(data: json)
+                                // 즐겨찾기 목록 가져오기
+                                ChargerManager.sharedInstance.getFavoriteCharger()
                                 UserDefault().saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value: refreshToken)
                                 return
                             }
@@ -333,6 +332,12 @@ internal final class LoginHelper: NSObject {
                             }
                             .subscribe(onNext: { accessToken in
                                 guard accessToken.isEmpty else {
+                                    if let delegate = self.delegate {
+                                        delegate.successLogin()
+                                    }
+                                    MemberManager.shared.setData(data: json)
+                                    // 즐겨찾기 목록 가져오기
+                                    ChargerManager.sharedInstance.getFavoriteCharger()
                                     return
                                 }
                                 LoginHelper.shared.logout(completion: { _ in
@@ -354,6 +359,35 @@ internal final class LoginHelper: NSObject {
             }
         }
     }
+    
+    
+    func requestFromKakaoAndCompanyLoginToEvInfra(user: Login?) {
+        Server.login(user: user) { (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                printLog(out: "Sever Login : \(json)")
+                if json["code"].intValue == 1000 {
+                    
+                    if let delegate = self.delegate {
+                        delegate.successLogin()
+                    }
+                    MemberManager.shared.setData(data: json)
+                    // 즐겨찾기 목록 가져오기
+                    ChargerManager.sharedInstance.getFavoriteCharger()
+         
+                } else {
+                    if let delegate = self.delegate, let user = user {
+                        delegate.needSignUp(user: user) // ev infra 회원가입
+                    }
+                    MemberManager.shared.clearData()
+                }
+            } else {
+                MemberManager.shared.clearData()
+                Snackbar().show(message: "오류가 발생했습니다. 다시 시도해 주세요.")
+            }
+        }
+    }
+
 }
 
 @available(iOS 13.0, *)
@@ -365,7 +399,7 @@ extension LoginHelper: ASAuthorizationControllerDelegate {
             UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: appleIDCredential.user)
             printLog(out: "User ID : \(appleIDCredential.user)")
             printLog(out: "AuthorizationCode ID : \( String(describing: String(data: appleIDCredential.authorizationCode ?? Data(), encoding: .utf8)))")
-            self.requestLoginToEvInfra(user: Login.apple(appleIDCredential))
+            self.requestFromAppleLoginToEvInfra(user: Login.apple(appleIDCredential))
             
         default:
             Snackbar().show(message: "오류가 발생했습니다. 다시 시도해 주세요.")
