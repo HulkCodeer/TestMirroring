@@ -80,6 +80,7 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
     
     private lazy var allAcceptCheckBtn = CheckBox().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.isSelected = false
     }
 
     private lazy var allAcceptTitleLabel = UILabel().then {
@@ -112,6 +113,19 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
         $0.delegate = self
         $0.dataSource = self
     }
+    
+    private lazy var nextBtn = NextButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setTitle("다음", for: .normal)
+        $0.setTitleColor(UIColor(named: "content-primary"), for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        $0.isEnabled = false
+    }
+    
+    // MARK: VARIABLE
+    
+    private var cellViewModels = [AceeptTermsCellViewModel].init(repeating: AceeptTermsCellViewModel(with: "", isChecked: false, index: 0), count: 6)
+    private var isCheckedCells = [Bool].init(repeating: false, count: 6)
         
     // MARK: SYSTEM FUNC
     
@@ -158,6 +172,11 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
             $0.centerY.equalToSuperview()
         }
         
+        allAcceptTotalView.addSubview(allAcceptTitleBtn)
+        allAcceptTitleBtn.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         let lineView = self.createLineView()
         self.contentView.addSubview(lineView)
         lineView.snp.makeConstraints {
@@ -169,13 +188,33 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
         self.contentView.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.top.equalTo(lineView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+        }
+        
+        self.contentView.addSubview(nextBtn)
+        nextBtn.snp.makeConstraints {
+            $0.top.equalTo(tableView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(64)
         }
         
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()                
+        super.viewDidLoad()
+        
+        self.allAcceptTitleBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] in
+                guard let self = self else { return }
+                for (index, _) in self.cellViewModels.enumerated() {
+                    self.isCheckedCells[index] = !self.allAcceptCheckBtn.isSelected
+                }
+                self.nextBtn.isEnabled = !self.allAcceptCheckBtn.isSelected
+                self.allAcceptCheckBtn.isSelected = !self.allAcceptCheckBtn.isSelected
+                self.tableView.reloadData()
+            })
+            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -194,8 +233,11 @@ extension NewAcceptTermsViewController: UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(ofType: AcceptTermsCell.self, for: indexPath)
         let index = indexPath.row
         let termType = TermsType(value: index)
-        let model = AceeptTermsCellViewModel(with: termType.title, index: index)
-        model.tappedObservable
+        let model = AceeptTermsCellViewModel(with: termType.title, isChecked: isCheckedCells[index], index: index)
+                
+        cellViewModels[index] = model
+        
+        model.tappedMoveObservable
             .asDriver(onErrorJustReturn: -1)
             .filter { $0 != -1 }
             .drive(onNext: { index in
@@ -226,182 +268,21 @@ extension NewAcceptTermsViewController: UITableViewDelegate, UITableViewDataSour
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)
+        
+        model.tappedCheckedObservable
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [weak self] isChecked in
+                guard let self = self else { return }
+                self.isCheckedCells[index] = isChecked
+                
+                self.nextBtn.isEnabled = self.isCheckedCells[0...2].allSatisfy({ $0 })
+                
+                self.allAcceptCheckBtn.isSelected = self.isCheckedCells.allSatisfy({ $0 })
+            })
+            .disposed(by: self.disposeBag)
+        
         cell.bind(to: model)
         
         return cell
     }
 }
-    
-//    @IBOutlet weak var cbAcceptAll: M13Checkbox!
-//    @IBOutlet weak var cbUsingTerm: M13Checkbox!
-//    @IBOutlet weak var cbPersonalInfo: M13Checkbox!
-//    @IBOutlet weak var cbLocation: M13Checkbox!
-//    @IBOutlet weak var ivNext: UIImageView!
-//    @IBOutlet weak var cbMarketing: M13Checkbox!
-//    @IBOutlet weak var cbAd: M13Checkbox!
-//    @IBOutlet weak var cbContents: M13Checkbox!
-//    @IBOutlet weak var btnNext: UIButton!
-//    @IBOutlet weak var policyStackView: UIStackView!
-//
-//    @IBOutlet var usingTermBtn: UIButton!
-//    @IBOutlet var personalTermBtn: UIButton!
-//    @IBOutlet var locationTermBtn: UIButton!
-//    @IBOutlet var marketingTermBtn: UIButton!
-//
-//
-//    // MARK: VARIABLE
-//
-//    internal var user: Login?
-//    internal var delegate: AcceptTermsViewControllerDelegate?
-//
-//    private var policyCheckboxs: [M13Checkbox] = []
-//
-//    // MARK: SYSTEM FUNC
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        policyCheckboxs.append(cbUsingTerm)
-//        policyCheckboxs.append(cbPersonalInfo)
-//        policyCheckboxs.append(cbLocation)
-//        policyCheckboxs.append(cbMarketing)
-//        policyCheckboxs.append(cbAd)
-//        policyCheckboxs.append(cbContents)
-//
-//        prepareActionBar()
-//        prepareCheckbox()
-//        enableSignUpButton()
-//    }
-//
-//
-//    func prepareCheckbox() {
-//        let checkboxColor = UIColor(named: "content-primary")
-//
-//        cbUsingTerm.boxType = .square
-//        cbUsingTerm.checkState = .unchecked
-//        cbUsingTerm.tintColor = checkboxColor
-//
-//        cbPersonalInfo.boxType = .square
-//        cbPersonalInfo.checkState = .unchecked
-//        cbPersonalInfo.tintColor = checkboxColor
-//
-//        cbLocation.boxType = .square
-//        cbLocation.checkState = .unchecked
-//        cbLocation.tintColor = checkboxColor
-//
-//        cbAcceptAll.boxType = .square
-//        cbAcceptAll.checkState = .unchecked
-//        cbAcceptAll.tintColor = checkboxColor
-//
-//        cbMarketing.boxType = .square
-//        cbMarketing.checkState = .unchecked
-//        cbMarketing.tintColor = checkboxColor
-//
-//        cbAd.boxType = .square
-//        cbAd.checkState = .unchecked
-//        cbAd.tintColor = checkboxColor
-//
-//        cbContents.boxType = .square
-//        cbContents.checkState = .unchecked
-//        cbContents.tintColor = checkboxColor
-//    }
-//
-//
-//    @IBAction func onValueChanged(_ sender: M13Checkbox) {
-//        if cbUsingTerm.checkState == .checked &&
-//            cbPersonalInfo.checkState == .checked &&
-//            cbLocation.checkState == .checked
-//        {
-//            cbAcceptAll.setCheckState(.checked, animated: true)
-//        } else {
-//            cbAcceptAll.setCheckState(.unchecked, animated: true)
-//        }
-//        enableSignUpButton()
-//    }
-//
-//    @IBAction func onValueChangedAcceptAll(_ sender: M13Checkbox) {
-//        switch sender.checkState {
-//        case .unchecked:
-//            cbUsingTerm.setCheckState(.unchecked, animated: true)
-//            cbPersonalInfo.setCheckState(.unchecked, animated: true)
-//            cbLocation.setCheckState(.unchecked, animated: true)
-//            cbMarketing.setCheckState(.unchecked, animated: true)
-//            cbAd.setCheckState(.unchecked, animated: true)
-//            cbContents.setCheckState(.unchecked, animated: true)
-//
-//        case .checked:
-//            cbUsingTerm.setCheckState(.checked, animated: true)
-//            cbPersonalInfo.setCheckState(.checked, animated: true)
-//            cbLocation.setCheckState(.checked, animated: true)
-//            cbMarketing.setCheckState(.checked, animated: true)
-//            cbAd.setCheckState(.checked, animated: true)
-//            cbContents.setCheckState(.checked, animated: true)
-//
-//        default: break
-//        }
-//        enableSignUpButton()
-//    }
-//
-//    @IBAction func onClickSeeUsingTerms(_ sender: Any) {
-//        seeTerms(index: .usingTerms)
-//    }
-//
-//    @IBAction func onClickSeePersonalInfoTerms(_ sendeer: Any) {
-//        seeTerms(index: .personalInfoTerms)
-//    }
-//
-//    @IBAction func onClickSeeLocationTerms(_ sender: Any) {
-//        seeTerms(index: .locationTerms)
-//    }
-//
-//    @IBAction func onClickSeeMarketingTerms(_ sender: Any) {
-//        seeTerms(index: .marketing)
-//    }
-//
-//    @IBAction func onClickSeeAdTerms(_ sender: Any) {
-//        seeTerms(index: .ad)
-//    }
-//
-//    @IBAction func onClickSeeContentsTerms(_ sender: Any) {
-//        seeTerms(index: .contents)
-//    }
-//
-//    @IBAction func onClickNextBtn(_ sender: Any) {
-//        let viewcon = UIStoryboard(name : "Login", bundle: nil).instantiateViewController(ofType: SignUpViewController.self)
-//        viewcon.delegate = self
-//        viewcon.user = user
-//        self.navigationController?.push(viewController: viewcon)
-//    }
-//
-//    private func seeTerms(index: NewTermsViewController.TermsType) {
-//        let viewcon = NewTermsViewController()
-//        viewcon.tabIndex = index
-//        self.navigationController?.push(viewController: viewcon)
-//    }
-//
-//    private func enableSignUpButton() {
-//        switch cbAcceptAll.checkState {
-//        case .unchecked:
-//            btnNext.isEnabled = false
-//            btnNext.setBackgroundColor(UIColor(named: "background-disabled")!, for: .normal)
-//            btnNext.setTitleColor(UIColor(named: "content-disabled"), for: .normal)
-//            ivNext.tintColor = UIColor(named: "content-disabled")
-//
-//        case .checked:
-//            btnNext.isEnabled = true
-//            btnNext.setBackgroundColor(UIColor(named: "background-positive")!, for: .normal)
-//            btnNext.setTitleColor(UIColor(named: "content-primary"), for: .normal)
-//            ivNext.tintColor = UIColor(named: "content-primary")
-//
-//        case .mixed: break
-//        }
-//    }
-//}
-//extension AcceptTermsViewController: SignUpViewControllerDelegate {
-//    func successSignUp() {
-//        self.navigationController?.pop()
-//        if let delegate = self.delegate {
-//            delegate.onSignUpDone()
-//        }
-//    }
-//}

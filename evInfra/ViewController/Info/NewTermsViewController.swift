@@ -28,7 +28,8 @@ internal final class NewTermsViewController: CommonBaseViewController {
         case skBatteryInfo
         case marketing
         case ad
-        case contents          
+        case contents
+        case car
         
         internal var headerTitle: String {
             switch self {
@@ -48,6 +49,7 @@ internal final class NewTermsViewController: CommonBaseViewController {
             case .marketing: return "홍보 및 마케팅 목적 개인정보 수집 및 이용 동의"
             case .ad: return "광고성 정보 수신 동의"
             case .contents: return "콘텐츠 활용 동의"
+            case .car: return "개인정보 수집 및 이용동의(차량정보)"
             }
         }
         
@@ -55,7 +57,7 @@ internal final class NewTermsViewController: CommonBaseViewController {
             switch self {
             case .contact: return "http://www.soft-berry.com/contact/"
             case .usingTerms: return "\(Const.EV_PAY_SERVER)/terms/term/service_use"
-            case .personalInfoTerms: return "\(Const.EV_PAY_SERVER)/terms/term/privacy_policy"
+            case .personalInfoTerms: return "\(Const.EV_PAY_SERVER)/terms/term/privacy_policy_v2"
             case .locationTerms: return "\(Const.EV_PAY_SERVER)/terms/term/service_location"
             case .membershipTerms: return "\(Const.EV_PAY_SERVER)/terms/term/membership"
             case .licence: return  "\(Const.EV_PAY_SERVER)/terms/term/license"
@@ -70,6 +72,7 @@ internal final class NewTermsViewController: CommonBaseViewController {
             case .marketing: return "\(Const.EV_PAY_SERVER)/terms/term/marketing"
             case .ad: return "\(Const.EV_PAY_SERVER)/terms/term/ad"
             case .contents: return "\(Const.EV_PAY_SERVER)/terms/term/content"
+            case .car: return "\(Const.EV_PAY_SERVER)/terms/term/privacy_car"
             }
         }
     }

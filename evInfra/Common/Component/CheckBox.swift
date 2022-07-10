@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal final class CheckBox: UIButton {
+internal final class CheckBox: UIButton {    
     override var isSelected: Bool {
         didSet {
             self.isSelected ? setImage(Icons.iconCheckOn.image, for: .selected): setImage(Icons.iconCheckOff.image, for: .normal)

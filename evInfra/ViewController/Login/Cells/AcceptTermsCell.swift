@@ -32,9 +32,9 @@ internal final class AcceptTermsCell: UITableViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    private lazy var arrowImgView = ChevronArrow().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false        
-        $0.tintColor = Colors.contentPrimary.color
+    private lazy var arrowImgView = ChevronArrow.init(.size24(.right)).then {
+        $0.translatesAutoresizingMaskIntoConstraints = false                
+        $0.IBimageColor = Colors.contentPrimary.color
     }
     
     private lazy var arrowImgViewBtn = UIButton().then {
@@ -106,13 +106,18 @@ internal final class AcceptTermsCell: UITableViewCell {
     }
 
     internal func bind(to viewModel: AceeptTermsCellViewModel) {
-        viewModel.dataDriver
-            .drive(self.titleLabel.rx.text)
+        viewModel.titleDataDriver
+            .drive(titleLabel.rx.text)
+            .disposed(by: self.disposeBag)
+        
+        viewModel.checkDataDriver
+            .drive(checkBtn.rx.isSelected)
             .disposed(by: self.disposeBag)
 
         self.titleBtn.rx.tap
             .map { [weak self] _ -> Bool in
-                guard let self = self else { return false }
+                guard let self = self else { return false }                
+                viewModel.tappedCheckedObservable.onNext(!self.checkBtn.isSelected)
                 return !self.checkBtn.isSelected
             }
             .bind(to: checkBtn.rx.isSelected)
@@ -120,28 +125,38 @@ internal final class AcceptTermsCell: UITableViewCell {
         
         self.arrowImgViewBtn.rx.tap
             .map { _ in viewModel.index }
-            .bind(to: viewModel.tappedObservable)
+            .bind(to: viewModel.tappedMoveObservable)
             .disposed(by: self.disposeBag)
     }
 }
 
 internal final class AceeptTermsCellViewModel: NSObject {
     internal let index: Int
-    internal let dataDriver: Driver<String>
+    internal var titleDataDriver: Driver<String>
+    internal var checkDataDriver: Driver<Bool>
 
-    internal let tappedObservable = PublishSubject<Int>()
+    internal let tappedMoveObservable = PublishSubject<Int>()
+    internal let tappedCheckedObservable = PublishSubject<Bool>()
 
-    init(with title: String, index: Int) {
+    init(with title: String, isChecked: Bool, index: Int) {
         self.index = index
 
-        self.dataDriver = Observable
+        self.titleDataDriver = Observable
             .create { observable -> Disposable in
                 observable.onNext(title)
                 return Disposables.create {}
             }
             .asDriver(onErrorJustReturn: "")
+        
+        self.checkDataDriver = Observable
+            .create{ observable -> Disposable in
+                observable.onNext(isChecked)
+                return Disposables.create {}
+            }
+            .asDriver(onErrorJustReturn: false)
+        
         super.init()
-    }
+    }    
 }
 
 
