@@ -126,7 +126,7 @@ internal final class PointViewController: UIViewController {
         let settingButton = UIButton()
         settingButton.setTitle("설정", for: .normal)
         settingButton.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
-        settingButton.titleLabel?.font = .systemFont(ofSize: 14)
+        settingButton.titleLabel?.font = .systemFont(ofSize: 16)
         settingButton.addTarget(self, action: #selector(handleSettingButton), for: .touchUpInside)
         
         navigationItem.leftViews = [backButton]

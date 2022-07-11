@@ -203,7 +203,7 @@ extension MyPageViewController {
         let logoutButton = UIButton()
         logoutButton.setTitle("로그아웃", for: .normal)
         logoutButton.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
-        logoutButton.titleLabel?.font = .systemFont(ofSize: 14)
+        logoutButton.titleLabel?.font = .systemFont(ofSize: 16)
         logoutButton.addTarget(self, action: #selector(handlelogoutButton), for: .touchUpInside)
         
         navigationItem.hidesBackButton = true
