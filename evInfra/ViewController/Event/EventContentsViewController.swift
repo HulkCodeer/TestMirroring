@@ -151,7 +151,7 @@ extension EventContentsViewController: WKScriptMessageHandler {
         let jsInterface = message.name
         
         switch jsInterface {
-        case "openMonthlySubscription":
+        case "openSafari":
             if let jsonString = message.body as? String {
                 if let dataFromString = jsonString.data(using: .utf8, allowLossyConversion: false) {
                     if let json = try? JSON(data: dataFromString) {
