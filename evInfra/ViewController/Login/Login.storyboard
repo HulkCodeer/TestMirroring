@@ -19,13 +19,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4pP-lB-yij">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="HJl-Na-mLt">
-                                    <rect key="frame" x="0.0" y="110.5" width="375" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ServiceGuideCell" textLabel="iqc-7d-ErJ" style="IBUITableViewCellStyleDefault" id="yAL-bN-hWZ">
                                         <rect key="frame" x="0.0" y="44.5" width="375" height="43.5"/>
@@ -46,14 +41,37 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1wm-iR-iSq">
+                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright Ⓒ 2016 soft-berry. All rights reserved." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HCU-eQ-ZM0">
+                                        <rect key="frame" x="16" y="16" width="275" height="18"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="18" id="nob-UW-33J"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" name="content-tertiary"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="HCU-eQ-ZM0" firstAttribute="centerY" secondItem="1wm-iR-iSq" secondAttribute="centerY" id="EzR-Xv-leM"/>
+                                    <constraint firstItem="HCU-eQ-ZM0" firstAttribute="leading" secondItem="1wm-iR-iSq" secondAttribute="leading" constant="16" id="ZCs-Lv-gvH"/>
+                                    <constraint firstAttribute="height" constant="50" id="a5K-LQ-TmN"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="I7p-1m-Jhh"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="I7p-1m-Jhh" firstAttribute="bottom" secondItem="1wm-iR-iSq" secondAttribute="bottom" id="0GI-Xh-lxb"/>
                             <constraint firstItem="4pP-lB-yij" firstAttribute="leading" secondItem="I7p-1m-Jhh" secondAttribute="leading" id="6tN-V3-VVO"/>
+                            <constraint firstItem="I7p-1m-Jhh" firstAttribute="trailing" secondItem="1wm-iR-iSq" secondAttribute="trailing" id="9vb-uT-k7Y"/>
                             <constraint firstItem="4pP-lB-yij" firstAttribute="trailing" secondItem="I7p-1m-Jhh" secondAttribute="trailing" id="Jur-WQ-heT"/>
                             <constraint firstItem="4pP-lB-yij" firstAttribute="top" secondItem="I7p-1m-Jhh" secondAttribute="top" id="e0S-hf-h66"/>
-                            <constraint firstItem="4pP-lB-yij" firstAttribute="bottom" secondItem="I7p-1m-Jhh" secondAttribute="bottom" id="gQa-Vj-aW0"/>
+                            <constraint firstItem="1wm-iR-iSq" firstAttribute="leading" secondItem="I7p-1m-Jhh" secondAttribute="leading" id="eeZ-jB-IaM"/>
+                            <constraint firstItem="4pP-lB-yij" firstAttribute="bottom" secondItem="1wm-iR-iSq" secondAttribute="top" id="gQa-Vj-aW0"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1084,7 +1102,7 @@
             <color red="0.6705882352941176" green="0.67450980392156867" blue="0.68627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-negative">
-            <color red="0.93333333333333335" green="0.15294117647058825" blue="0.21568627450980393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.93300002813339233" green="0.15299999713897705" blue="0.21600000560283661" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-positive">
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

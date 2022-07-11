@@ -438,7 +438,7 @@
                                     <constraint firstAttribute="width" secondItem="fh4-ME-QqC" secondAttribute="height" multiplier="9:20" id="uqB-ZW-TZZ"/>
                                 </constraints>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rbK-ux-PNU">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rbK-ux-PNU">
                                 <rect key="frame" x="16" y="494" width="343" height="48"/>
                                 <subviews>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wRh-8t-qpM">
@@ -470,18 +470,6 @@
                                     <constraint firstAttribute="height" constant="48" id="x97-yk-pOB"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UtI-Of-tSr">
-                                <rect key="frame" x="116" y="615" width="143" height="20"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2017 soft-berry." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Acx-vT-b7N">
-                                <rect key="frame" x="77.5" y="590" width="220" height="20"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="iwT-4m-5Xi"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -489,16 +477,11 @@
                             <constraint firstItem="fh4-ME-QqC" firstAttribute="trailing" secondItem="iwT-4m-5Xi" secondAttribute="trailing" id="Njd-dd-bmN"/>
                             <constraint firstItem="iwT-4m-5Xi" firstAttribute="trailing" secondItem="ckE-Av-1h3" secondAttribute="trailing" id="PPD-I3-zai"/>
                             <constraint firstItem="fh4-ME-QqC" firstAttribute="centerY" secondItem="iwT-4m-5Xi" secondAttribute="centerY" id="Pye-xb-MU6"/>
-                            <constraint firstAttribute="bottom" secondItem="UtI-Of-tSr" secondAttribute="bottom" constant="32" id="Qgu-QE-HlF"/>
-                            <constraint firstItem="Acx-vT-b7N" firstAttribute="top" secondItem="rbK-ux-PNU" secondAttribute="bottom" constant="48" id="SIU-6k-JIS"/>
                             <constraint firstItem="rbK-ux-PNU" firstAttribute="centerX" secondItem="iwT-4m-5Xi" secondAttribute="centerX" id="aLd-3P-OfJ"/>
-                            <constraint firstItem="UtI-Of-tSr" firstAttribute="centerX" secondItem="iwT-4m-5Xi" secondAttribute="centerX" id="bBC-IJ-2XP"/>
                             <constraint firstItem="ckE-Av-1h3" firstAttribute="leading" secondItem="iwT-4m-5Xi" secondAttribute="leading" id="jA2-ao-aTs"/>
                             <constraint firstItem="iwT-4m-5Xi" firstAttribute="leading" secondItem="fh4-ME-QqC" secondAttribute="leading" id="lpW-qO-yyA"/>
-                            <constraint firstItem="Acx-vT-b7N" firstAttribute="centerX" secondItem="UtI-Of-tSr" secondAttribute="centerX" id="oAC-bw-vUn"/>
                             <constraint firstItem="ckE-Av-1h3" firstAttribute="top" secondItem="iwT-4m-5Xi" secondAttribute="top" id="sKc-ET-dCO"/>
                             <constraint firstItem="iwT-4m-5Xi" firstAttribute="bottom" secondItem="ckE-Av-1h3" secondAttribute="bottom" id="w2F-7s-HTw"/>
-                            <constraint firstItem="UtI-Of-tSr" firstAttribute="top" secondItem="Acx-vT-b7N" secondAttribute="bottom" constant="5" id="wZY-fn-MQc"/>
                         </constraints>
                     </view>
                     <connections>
