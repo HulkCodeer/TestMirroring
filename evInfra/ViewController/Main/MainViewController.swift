@@ -152,15 +152,20 @@ internal final class MainViewController: UIViewController {
     }
     
     private func configureLayer() {
+        // 내위치 현재 위치 버튼
         myLocationButton.layer.cornerRadius = 20
-        myLocationButton.layer.borderWidth = 1
-        myLocationButton.layer.borderColor = UIColor.init(named: "border-opaque")?.cgColor
-        updateMyLocationButton()
+        myLocationButton.layer.shadowRadius = 2.0
+        myLocationButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        myLocationButton.layer.shadowOpacity = 0.3
         
+        // 지도 리프레쉬 버튼
         reNewButton.layer.cornerRadius = 20
-        reNewButton.layer.borderWidth = 1
-        reNewButton.layer.borderColor = UIColor.init(named: "border-opaque")?.cgColor
-        
+        reNewButton.layer.shadowRadius = 2.0
+        reNewButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        reNewButton.layer.shadowOpacity = 0.3
+                
+        updateMyLocationButton()
+                        
         btn_menu_layer.layer.cornerRadius = 5
         btn_menu_layer.clipsToBounds = true
         btn_menu_layer.layer.shadowRadius = 5

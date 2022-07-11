@@ -128,7 +128,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         quitBtn.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
-            $0.height.equalTo(44)
+            $0.height.equalTo(48)
             $0.bottom.equalToSuperview().offset(-16)
         }
         

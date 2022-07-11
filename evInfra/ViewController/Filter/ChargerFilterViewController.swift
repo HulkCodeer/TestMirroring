@@ -69,7 +69,7 @@ class ChargerFilterViewController: UIViewController {
         let resetButton = UIButton()
         resetButton.setTitle("초기화", for: .normal)
         resetButton.setTitleColor(UIColor(named: "content-primary"), for: .normal)
-        resetButton.titleLabel?.font = .systemFont(ofSize: 14)
+        resetButton.titleLabel?.font = .systemFont(ofSize: 16)
         resetButton.addTarget(self, action: #selector(resetFilter), for: .touchUpInside)
         
         navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
