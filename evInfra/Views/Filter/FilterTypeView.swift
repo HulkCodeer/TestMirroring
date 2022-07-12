@@ -8,7 +8,8 @@
 
 import Foundation
 
-protocol DelegateSlowTypeChange {
+
+protocol DelegateSlowTypeChange: class {
     func onChangeSlowType(slowOn: Bool)
 }
 
@@ -23,9 +24,9 @@ internal final class FilterTypeView: UIView {
     
     private var tagList = Array<TagValue>()
     
-    internal var slowTypeChangeDelegate: DelegateSlowTypeChange?
+    internal weak var slowTypeChangeDelegate: DelegateSlowTypeChange?
     internal var saveOnChange: Bool = false
-    internal var delegate: DelegateFilterChange?    
+    internal weak var delegate: DelegateFilterChange?
     
     // MARK: SYSTEM FUNC
     

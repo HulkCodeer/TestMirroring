@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol SearchTableViewViewDelegate {
+protocol SearchTableViewViewDelegate: class {
     func didAddrSelectRow(row: Int)
 }
 
 class SearchTableView: UITableView {
     
-    var searchTableDelegate:SearchTableViewViewDelegate?
+    internal weak var searchTableDelegate:SearchTableViewViewDelegate?
     
     var poiList: [EIPOIItem]? = nil
     

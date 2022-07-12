@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol BoardTableViewDelegate {
+protocol BoardTableViewDelegate: AnyObject {
 
     // MARK: - 커뮤니티 개선 delegate
     func fetchFirstBoard(mid: String, sort: Board.SortType, mode: String)

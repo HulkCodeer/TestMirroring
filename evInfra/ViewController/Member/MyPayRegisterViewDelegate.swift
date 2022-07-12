@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-protocol MyPayRegisterViewDelegate {
+protocol MyPayRegisterViewDelegate: class {
     func finishRegisterResult(json: JSON)
     func onCancelRegister()
 }
