@@ -12,7 +12,7 @@ import Motion
 import SwiftyJSON
 import JJFloatingActionButton
 
-internal final class DetailViewController: BaseViewController, MTMapViewDelegate {
+internal final class DetailViewController: BaseViewController {
 
     @IBOutlet weak var detailView: UIView!
     
@@ -59,13 +59,14 @@ internal final class DetailViewController: BaseViewController, MTMapViewDelegate
     
     private var boardList: [BoardListItem] = [BoardListItem]()
     private var phoneNumber:String? = nil
-    private var mapView:MTMapView?
-    private var summaryView:SummaryView!
+    private var mapView: MTMapView? = nil
+    private var summaryView: SummaryView? = nil
     private var currentPage = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initKakaoMap()
         prepareActionBar()
         prepareBoardTableView()
         prepareChargerInfo()
@@ -90,6 +91,24 @@ internal final class DetailViewController: BaseViewController, MTMapViewDelegate
             .disposed(by: self.disposeBag)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        defer {
+            NotificationCenter.default.removeObserver(self)
+        }
+        guard mapView == nil else {
+            mapView = nil
+            kakaoMapView.removeFromSuperview()
+            MTMapView.clearMapTilePersistentCache()
+            return
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        mapView?.didReceiveMemoryWarning()
     }
     
     override func viewWillLayoutSubviews() {
@@ -122,20 +141,20 @@ internal final class DetailViewController: BaseViewController, MTMapViewDelegate
         let window = UIApplication.shared.keyWindow!
         var frameTest:CGRect = summaryLayout.frame
         frameTest.size.width = window.frame.bounds.width
-        if summaryView == nil {
-            summaryView = SummaryView(frame: frameTest)
+        
+        summaryView = SummaryView(frame: frameTest)
+        if let summaryView = summaryView {
+            summaryLayout.addSubview(summaryView)
+            summaryView.delegate = self
+            summaryView.setLayoutType(charger: charger!, type: SummaryView.SummaryType.DetailSummary)
+            summaryView.layoutAddPathSummary(hiddenAddBtn: !isRouteMode)
         }
-        summaryLayout.addSubview(summaryView)
-        summaryView.delegate = self
-        summaryView.setLayoutType(charger: charger!, type: SummaryView.SummaryType.DetailSummary)
-        summaryView.layoutAddPathSummary(hiddenAddBtn: !isRouteMode)
     }
     
     func prepareChargerInfo() {
         setStationInfo()
         setDetailLb()
         fetchFirstBoard(mid: "station", sort: .LATEST, mode: Board.ScreenType.FEED.rawValue)
-        initKakaoMap()
     }
     
     func setDetailLb() {
@@ -221,15 +240,16 @@ internal final class DetailViewController: BaseViewController, MTMapViewDelegate
         self.checkingView.textColor = UIColor.init(named:color)
     }
     
-    func initKakaoMap(){
+    func initKakaoMap() {
         guard let charger = charger else { return }
         guard let stationDto = charger.mStationInfoDto else { return }
+
         let mapPoint: MTMapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: stationDto.mLatitude ?? .zero, longitude: stationDto.mLongitude ?? .zero))
         
         mapView = MTMapView(frame: kakaoMapView.frame)
+        MTMapView.setMapTilePersistentCacheEnabled(true)
         
         if let mapView = mapView {
-            mapView.delegate = self
             mapView.baseMapType = .hybrid
             mapView.setMapCenter(mapPoint, zoomLevel: 4, animated: true)
             kakaoMapView.addSubview(mapView)
@@ -372,7 +392,6 @@ extension DetailViewController {
     
     @objc
     fileprivate func handleBackButton() {
-        MTMapView.clearMapTilePersistentCache()
         self.navigationController?.pop(transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
     }
 }
@@ -582,7 +601,7 @@ extension DetailViewController {
     }
 }
 
-extension DetailViewController : SummaryDelegate {
+extension DetailViewController: SummaryDelegate {
     func setCidInfoList() {
         self.setStationInfo()
     }

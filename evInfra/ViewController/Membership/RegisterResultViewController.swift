@@ -35,7 +35,7 @@ class RegisterResultViewController : UIViewController {
     var showRetry : Bool = false
     var showCallBtn : Bool = false
     var message : String = ""
-    var delegate : RegisterResultDelegate?
+    internal weak var delegate : RegisterResultDelegate?
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -112,7 +112,7 @@ class RegisterResultViewController : UIViewController {
         UIApplication.shared.open(number)
     }
 }
-protocol RegisterResultDelegate {
+protocol RegisterResultDelegate: class {
     func onConfirmBtnPressed(code : Int)
 }
 

@@ -122,6 +122,11 @@ internal final class MainViewController: UIViewController {
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        removeObserver()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -1011,11 +1016,9 @@ extension MainViewController {
     
     func removeObserver() {
         let center = NotificationCenter.default
+        center.removeObserver(self, name: .UIApplicationDidEnterBackground, object: nil)
         center.removeObserver(self, name: Notification.Name("updateMemberInfo"), object: nil)
-    }
-    
-    func removeSummaryObserver() {
-        let center = NotificationCenter.default
+        center.removeObserver(self, name: Notification.Name("kakaoScheme"), object: nil)
         center.removeObserver(self, name: Notification.Name(summaryView.startKey), object: nil)
         center.removeObserver(self, name: Notification.Name(summaryView.endKey), object: nil)
         center.removeObserver(self, name: Notification.Name(summaryView.addKey), object: nil)

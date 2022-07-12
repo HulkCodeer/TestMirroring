@@ -7,7 +7,7 @@
 //
 
 import Foundation
-protocol DelegateFilterContainerView {
+protocol DelegateFilterContainerView: class {
     func changedFilter(type: FilterType)
     func swipeFilterTo(type: FilterType)
 }
@@ -21,7 +21,7 @@ class FilterContainerView: UIView {
     @IBOutlet var filterRoadView: FilterRoadView!
     @IBOutlet var filterPlaceView: FilterPlaceView!
     
-    var delegate: DelegateFilterContainerView?
+    weak var delegate: DelegateFilterContainerView?
     var currType: FilterType = FilterType.none
     override init(frame: CGRect) {
         super.init(frame: frame)

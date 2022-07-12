@@ -65,9 +65,13 @@ internal final class ClusterManager {
         
     private func prepareClusterInfo() {
         for assetFile in headers {
-            if let asset = NSDataAsset(name: assetFile, bundle: Bundle.main) {
-                let json = try! JSONDecoder().decode(CodableCluster.self, from: asset.data)
-                clusters.append(json.lists)
+            if let asset = NSDataAsset.init(name: assetFile) {
+                do {
+                    let json = try JSONDecoder().decode(CodableCluster.self, from: asset.data)
+                    clusters.append(json.lists)
+                } catch {
+                    printLog(error.localizedDescription)
+                }
             } else {
                 clusters.append(nil)
             }

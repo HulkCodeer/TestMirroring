@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol ChargerTableViewDelegate {
+protocol ChargerTableViewDelegate: class {
     func didSelectRow(row: Int)
 }
 
 class ChargerTableView: UITableView {
     
-    var chargerTableDelegate: ChargerTableViewDelegate?
+    internal weak var chargerTableDelegate: ChargerTableViewDelegate?
     var chargerList: [ChargerStationInfo]? = nil
     var isHiddenAlertFavoriteIcon: Bool = false
     
