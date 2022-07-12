@@ -25,6 +25,7 @@ internal final class QuitAccountReactor: ViewModel, Reactor {
     
     internal var initialState: State
     internal var reasonID: String = ""
+    internal var reasonText: String = ""
     
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -35,7 +36,7 @@ internal final class QuitAccountReactor: ViewModel, Reactor {
         switch action {
         case .deleteAppleAccount:
             guard !self.reasonID.isEmpty else { return .empty()}                                    
-            return self.provider.deleteAppleAccount(reasonID: self.reasonID)
+            return self.provider.deleteAppleAccount(reasonID: self.reasonID, reasonText: self.reasonText)
                             .convertData()
                             .compactMap(convertToData)
                             .map { isComplete in
@@ -44,7 +45,7 @@ internal final class QuitAccountReactor: ViewModel, Reactor {
             
         case .deleteKakaoAccount:
             guard !self.reasonID.isEmpty else { return .empty()}
-            return self.provider.deleteKakaoAccount(reasonID: self.reasonID)
+            return self.provider.deleteKakaoAccount(reasonID: self.reasonID, reasonText: self.reasonText)
                 .convertData()
                 .compactMap(convertToData)
                 .map { isComplete in

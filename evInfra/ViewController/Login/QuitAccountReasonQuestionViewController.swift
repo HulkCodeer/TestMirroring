@@ -379,9 +379,11 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         
         nextBtn.rx.tap
             .asDriver()
-            .drive(onNext: { _ in
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 let quitReactor = QuitAccountReactor(provider: RestApi())
                 quitReactor.reasonID = reactor.currentState.quitAccountReasonList?[reactor.selectedReasonIndex].reasonId ?? ""
+                quitReactor.reasonText = self.reasonTextView.text ?? ""
                 let viewcon = QuitAccountViewController(reactor: quitReactor)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             }).disposed(by: self.disposeBag)

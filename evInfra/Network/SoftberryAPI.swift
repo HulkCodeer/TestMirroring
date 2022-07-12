@@ -18,8 +18,8 @@ protocol SoftberryAPI: class {
     func updateMarketingNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)>
     
     func getQuitAccountReasonList() -> Observable<(HTTPURLResponse, Data)>
-    func deleteKakaoAccount(reasonID: String) -> Observable<(HTTPURLResponse, Data)>
-    func deleteAppleAccount(reasonID: String) -> Observable<(HTTPURLResponse, Data)>    
+    func deleteKakaoAccount(reasonID: String, reasonText: String) -> Observable<(HTTPURLResponse, Data)>
+    func deleteAppleAccount(reasonID: String, reasonText: String) -> Observable<(HTTPURLResponse, Data)>
     func postRefreshToken(appleAuthorizationCode: String) -> Observable<(HTTPURLResponse, Data)>
     func postValidateRefreshToken() -> Observable<(HTTPURLResponse, Data)>
     func postGetBerry(eventId: String) -> Observable<(HTTPURLResponse, Data)>
@@ -81,21 +81,23 @@ internal final class RestApi: SoftberryAPI {
     }
     
     // MARK: - 카카오 연결 끊고 탈퇴
-    func deleteKakaoAccount(reasonID: String) -> Observable<(HTTPURLResponse, Data)> {
+    func deleteKakaoAccount(reasonID: String, reasonText: String) -> Observable<(HTTPURLResponse, Data)> {
         let reqParam: Parameters = [
             "user_id": MemberManager.shared.userId,
-            "reason_id": reasonID
+            "reason_id": reasonID,
+            "reason_descript": reasonText
         ]
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/deregister_kakao", httpMethod: .post, parameters: reqParam, headers: nil)
     }
     
     // MARK: - 회원 탈퇴
-    func deleteAppleAccount(reasonID: String) -> Observable<(HTTPURLResponse, Data)> {
+    func deleteAppleAccount(reasonID: String, reasonText: String) -> Observable<(HTTPURLResponse, Data)> {
         let reqParam: Parameters = [
             "user_id": MemberManager.shared.userId,
             "reason_id": reasonID,
-            "refresh_token": MemberManager.shared.appleRefreshToken
-        ]        
+            "refresh_token": MemberManager.shared.appleRefreshToken,
+            "reason_descript": reasonText
+        ]       
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/deregister_apple", httpMethod: .post, parameters: reqParam, headers: nil)
     }
     
