@@ -438,7 +438,7 @@
                                     <constraint firstAttribute="width" secondItem="fh4-ME-QqC" secondAttribute="height" multiplier="9:20" id="uqB-ZW-TZZ"/>
                                 </constraints>
                             </imageView>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rbK-ux-PNU">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rbK-ux-PNU">
                                 <rect key="frame" x="16" y="494" width="343" height="48"/>
                                 <subviews>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wRh-8t-qpM">
@@ -482,6 +482,7 @@
                             <constraint firstItem="iwT-4m-5Xi" firstAttribute="leading" secondItem="fh4-ME-QqC" secondAttribute="leading" id="lpW-qO-yyA"/>
                             <constraint firstItem="ckE-Av-1h3" firstAttribute="top" secondItem="iwT-4m-5Xi" secondAttribute="top" id="sKc-ET-dCO"/>
                             <constraint firstItem="iwT-4m-5Xi" firstAttribute="bottom" secondItem="ckE-Av-1h3" secondAttribute="bottom" id="w2F-7s-HTw"/>
+                            <constraint firstItem="iwT-4m-5Xi" firstAttribute="bottom" secondItem="rbK-ux-PNU" secondAttribute="bottom" constant="125" id="z08-4G-fEi"/>
                         </constraints>
                     </view>
                     <connections>
