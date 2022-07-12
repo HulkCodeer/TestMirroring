@@ -12,34 +12,40 @@ import ReusableKit
 internal final class NewAcceptTermsViewController: CommonBaseViewController {
     
     enum TermsType: Int, CaseIterable {
-        case usingTerms = 0
-        case personalInfoTerms = 1
-        case locationTerms = 2
-        case marketing = 3
-        case ad = 4
-        case contents = 5
+        case serviceUse = 0
+        case privacyAgree = 1
+        case privacyPolicy = 2
+        case serviceLocation = 3
+        case content = 4
+        case marketing = 5
+        case ad = 6
+        case age = 7
         case none
         
         init(value: Int) {
             switch value {
-            case 0: self = .usingTerms
-            case 1: self = .personalInfoTerms
-            case 2: self = .locationTerms
-            case 3: self = .marketing
-            case 4: self = .ad
-            case 5: self = .contents
+            case 0: self = .serviceUse
+            case 1: self = .privacyAgree
+            case 2: self = .privacyPolicy
+            case 3: self = .serviceLocation
+            case 4: self = .content
+            case 5: self = .marketing
+            case 6: self = .ad
+            case 7: self = .age
             default: self = .none
             }
         }
         
         internal var title: String {
             switch self {
-            case .usingTerms: return "서비스 이용약관"
-            case .personalInfoTerms: return "개인정보 취급방침"
-            case .locationTerms: return "위치기반서비스 이용약관"
+            case .serviceUse: return "서비스 이용약관"
+            case .privacyAgree: return "개인정보 수집 및 이용 동의"
+            case .privacyPolicy: return "개인정보처리방침"
+            case .serviceLocation: return "위치기반서비스 이용약관"
+            case .content: return "콘텐츠 활용 동의"
             case .marketing: return "홍보 및 마케팅 목적 개인정보 수집 및 이용 동의"
             case .ad: return "광고성 정보 수신 동의"
-            case .contents: return "콘텐츠 활용 동의"
+            case .age: return "만 14세 이상입니다."
             case .none: return ""
             }
         }
@@ -243,24 +249,8 @@ extension NewAcceptTermsViewController: UITableViewDelegate, UITableViewDataSour
             .drive(onNext: { index in
                 let viewcon = NewTermsViewController()
                 
-                switch termType {
-                case .usingTerms:
-                    viewcon.tabIndex = .usingTerms
-                    
-                case .personalInfoTerms:
-                    viewcon.tabIndex = .personalInfoTerms
-                    
-                case .locationTerms:
-                    viewcon.tabIndex = .locationTerms
-                    
-                case .marketing:
-                    viewcon.tabIndex = .marketing
-                    
-                case .ad:
-                    viewcon.tabIndex = .ad
-                    
-                case .contents:
-                    viewcon.tabIndex = .contents
+                switch NewAcceptTermsViewController.TermsType.AllCases {
+                
                     
                 default: break                    
                 }
