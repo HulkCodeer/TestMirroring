@@ -25,6 +25,9 @@ protocol SoftberryAPI: class {
     func postRefreshToken(appleAuthorizationCode: String) -> Observable<(HTTPURLResponse, Data)>
     func postValidateRefreshToken() -> Observable<(HTTPURLResponse, Data)>
     func getReportHistoryList(with reportId: Int) -> Observable<(HTTPURLResponse, Data)>
+    func getFavoriteList() -> Observable<(HTTPURLResponse, Data)>
+    func updateFavoriteAlarm(chargerId: String, state: Bool) -> Observable<(HTTPURLResponse, Data)>
+    func updateFavorite(chargerId: String, state: Bool) -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -136,5 +139,34 @@ internal final class RestApi: SoftberryAPI {
             "report_id": reportId
         ]
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/charger/report/my_report", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - 즐겨찾기 목록
+    func getFavoriteList() -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.shared.mbId
+        ]
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/favorite/list", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - 즐겨찾기 > 노티알림 on/off
+    func updateFavoriteAlarm(chargerId: String, state: Bool) -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.shared.mbId,
+            "charger_id": chargerId,
+            "noti": state
+        ]
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/favorite/noti", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - 즐겨찾기 추가/삭제
+    func updateFavorite(chargerId: String, state: Bool) -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.shared.mbId,
+            "charger_id": chargerId,
+            "mode": state
+        ]
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/favorite/update", httpMethod: .post, parameters: reqParam, headers: nil)
     }
 }
