@@ -38,7 +38,7 @@ internal final class EventContentsViewController: UIViewController {
         let contentController = WKUserContentController()
         contentController.add(self, name: "openCarmore")
         contentController.add(self, name: "getBerry")
-        contentController.add(self, name: "openMonthlySubscription")
+        contentController.add(self, name: "openSafari")
         let config = WKWebViewConfiguration()
         let frame = CGRect(x: 0, y: 0, width: webViewContainer.frame.width, height: webViewContainer.frame.height)
         
@@ -183,7 +183,7 @@ extension EventContentsViewController: WKScriptMessageHandler {
                     }
                 })
             } else {
-                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
+                Snackbar().show(message: "카모아 앱이 설치되어 있지 않습니다.")
             }
             
         case "getBerry":
