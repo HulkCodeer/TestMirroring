@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -514,7 +514,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="182.5" height="56"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bdv-lp-bYC">
-                                                        <rect key="frame" x="48.5" y="16" width="86" height="24"/>
+                                                        <rect key="frame" x="46.5" y="16" width="90" height="24"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_loudspeaker_md" translatesAutoresizingMaskIntoConstraints="NO" id="Agg-0a-fUk">
                                                                 <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
@@ -525,7 +525,7 @@
                                                                 </constraints>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="신고/제보" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UxK-1Y-WOG">
-                                                                <rect key="frame" x="26" y="2.5" width="60" height="19.5"/>
+                                                                <rect key="frame" x="30" y="2.5" width="60" height="19.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" name="content-on-color"/>
                                                                 <nil key="highlightedColor"/>
@@ -535,7 +535,7 @@
                                                             <constraint firstItem="Agg-0a-fUk" firstAttribute="centerY" secondItem="bdv-lp-bYC" secondAttribute="centerY" id="Gt3-v1-YKF"/>
                                                             <constraint firstItem="UxK-1Y-WOG" firstAttribute="centerY" secondItem="Agg-0a-fUk" secondAttribute="centerY" id="LLW-9I-rqt"/>
                                                             <constraint firstAttribute="height" constant="24" id="Nlx-tw-2XV"/>
-                                                            <constraint firstItem="UxK-1Y-WOG" firstAttribute="leading" secondItem="Agg-0a-fUk" secondAttribute="trailing" constant="2" id="etd-uj-XDp"/>
+                                                            <constraint firstItem="UxK-1Y-WOG" firstAttribute="leading" secondItem="Agg-0a-fUk" secondAttribute="trailing" constant="6" id="etd-uj-XDp"/>
                                                             <constraint firstItem="Agg-0a-fUk" firstAttribute="leading" secondItem="bdv-lp-bYC" secondAttribute="leading" id="gWL-cs-Rew"/>
                                                             <constraint firstAttribute="trailing" secondItem="UxK-1Y-WOG" secondAttribute="trailing" id="qhL-Me-u2p"/>
                                                         </constraints>
@@ -558,7 +558,7 @@
                                                 <rect key="frame" x="184.5" y="0.0" width="182.5" height="56"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7AQ-NU-goJ">
-                                                        <rect key="frame" x="57.5" y="16" width="68" height="24"/>
+                                                        <rect key="frame" x="55.5" y="16" width="72" height="24"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_edit_md" translatesAutoresizingMaskIntoConstraints="NO" id="AjH-sJ-qZ6">
                                                                 <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
@@ -569,14 +569,14 @@
                                                                 </constraints>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="글쓰기" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HWN-A8-bRp">
-                                                                <rect key="frame" x="26" y="2.5" width="42" height="19.5"/>
+                                                                <rect key="frame" x="30" y="2.5" width="42" height="19.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" name="content-on-color"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstItem="HWN-A8-bRp" firstAttribute="leading" secondItem="AjH-sJ-qZ6" secondAttribute="trailing" constant="2" id="A0S-dA-Z2H"/>
+                                                            <constraint firstItem="HWN-A8-bRp" firstAttribute="leading" secondItem="AjH-sJ-qZ6" secondAttribute="trailing" constant="6" id="A0S-dA-Z2H"/>
                                                             <constraint firstItem="AjH-sJ-qZ6" firstAttribute="centerY" secondItem="7AQ-NU-goJ" secondAttribute="centerY" id="Ftd-Lj-RH0"/>
                                                             <constraint firstItem="AjH-sJ-qZ6" firstAttribute="leading" secondItem="7AQ-NU-goJ" secondAttribute="leading" id="OYF-hy-9hZ"/>
                                                             <constraint firstItem="HWN-A8-bRp" firstAttribute="centerY" secondItem="AjH-sJ-qZ6" secondAttribute="centerY" id="Qs9-2w-MYm"/>
@@ -684,19 +684,19 @@
         <image name="icon_time_sm" width="20" height="20"/>
         <image name="icon_warning_md" width="24" height="24"/>
         <namedColor name="background-positive">
-            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="background-secondary">
             <color red="0.95294117647058818" green="0.95294117647058818" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="background-tertiary">
-            <color red="0.88200002908706665" green="0.88200002908706665" blue="0.88999998569488525" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.88235294117647056" green="0.88235294117647056" blue="0.8901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-disabled">
             <color red="0.6705882352941176" green="0.67450980392156867" blue="0.68627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-negative">
-            <color red="0.93333333333333335" green="0.15294117647058825" blue="0.21568627450980393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.93300002813339233" green="0.15299999713897705" blue="0.21600000560283661" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-on-color">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -705,10 +705,10 @@
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-primary">
-            <color red="0.093999996781349182" green="0.093999996781349182" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.094117647058823528" green="0.094117647058823528" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-tertiary">
-            <color red="0.47499999403953552" green="0.4779999852180481" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.47450980392156861" green="0.47843137254901963" blue="0.49019607843137253" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -18,6 +18,18 @@ struct Login {
         case kakao
         case evinfra
         case none
+        
+        internal var value: String {
+            switch self {
+            case .apple:
+                return "애플"
+                
+            case .kakao:
+                return "카카오"
+                
+            default: return ""
+            }
+        }
     }
     
     var loginType: LoginType
@@ -45,6 +57,10 @@ struct Login {
         login.userId = user.user
         login.name = user.fullName?.givenName
         login.email = user.email
+        
+        printLog(out: "Apple Login Info : \(user.fullName?.givenName)")
+        printLog(out: "Apple Login Info : \(user.email)")
+        
         login.emailVerified = true
         login.appleAuthorizationCode = user.authorizationCode
 

@@ -31,6 +31,7 @@ class UserDefault {
         static let MB_LEVEL         = "mb_level"
         static let MB_USER_ID       = "mb_user_id"  // user id
         static let MB_LOGIN_TYPE    = "mb_login_type" // kakao, apple
+        static let MB_LAST_LOGIN_TYPE = "mb_last_login_type" // kakao, apple
         static let MB_NICKNAME      = "mb_nickname"
         static let MB_REGION        = "mb_region"
         static let MB_PROFILE_NAME  = "mb_profile_image"

@@ -87,14 +87,10 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         $0.numberOfLines = 1
     }
                     
-    private lazy var quitBtn = UIButton().then {
+    private lazy var quitBtn = RectButton(level: .primary).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("탈퇴하기", for: .normal)
-        $0.setTitle("탈퇴하기", for: .disabled)
-        $0.setBackgroundColor(Colors.backgroundDisabled.color, for: .disabled)
-        $0.setBackgroundColor(Colors.backgroundPositive.color, for: .normal)
-        $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
-        $0.setTitleColor(Colors.contentDisabled.color, for: .disabled)
+        $0.setTitle("탈퇴하기", for: .disabled)        
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.isEnabled = true
         $0.IBcornerRadius = 6
@@ -132,7 +128,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         quitBtn.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
-            $0.height.equalTo(44)
+            $0.height.equalTo(48)
             $0.bottom.equalToSuperview().offset(-16)
         }
         
@@ -214,38 +210,38 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     }
                     
     internal func bind(reactor: QuitAccountReactor) {
-        switch MemberManager.shared.loginType {
-        case .apple:
-            quitBtn.rx.tap
-                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
-                .asDriver(onErrorJustReturn: ())
-                .drive(onNext: {
-                    let popupModel = PopupModel(title: "정말 탈퇴하시겠어요?",
-                                                message: "아래 버튼 클릭 시, 즉시 탈퇴가 완료되어 이전으로 돌아갈 수 없어요.",
-                                                confirmBtnTitle: "탈퇴하기", cancelBtnTitle: "취소",
-                                                confirmBtnAction: { [weak self] in
-                        guard let self = self else { return }
+        
+        quitBtn.rx.tap
+            .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: {
+                let popupModel = PopupModel(title: "정말 탈퇴하시겠어요?",
+                                            message: "아래 버튼 클릭 시, 즉시 탈퇴가 완료되어 이전으로 돌아갈 수 없어요.",
+                                            confirmBtnTitle: "탈퇴하기", cancelBtnTitle: "취소",
+                                            confirmBtnAction: { [weak self] in
+                    guard let self = self else { return }
+                    
+                    switch MemberManager.shared.loginType {
+                    case .apple:
                         Observable.just(QuitAccountReactor.Action.deleteAppleAccount)
                             .bind(to: reactor.action)
                             .disposed(by: self.disposeBag)
-                    }, textAlignment: .center)
-                    
-                    let popup = ConfirmPopupViewController(model: popupModel)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                    })
-                })
-                .disposed(by: self.disposeBag)
+                                    
+                    case .kakao:
+                        Observable.just(QuitAccountReactor.Action.deleteKakaoAccount)
+                            .bind(to: reactor.action)
+                            .disposed(by: self.disposeBag)
                         
-        case .kakao:
-            quitBtn.rx.tap
-                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
-                .map{ QuitAccountReactor.Action.deleteKakaoAccount }
-                .bind(to: reactor.action)
-                .disposed(by: self.disposeBag)
-            
-        default: break
-        }
+                    default: break
+                    }
+                }, textAlignment: .center)
+                
+                let popup = ConfirmPopupViewController(model: popupModel)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
+            })
+            .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.isComplete }
             .asDriver(onErrorJustReturn: false)
@@ -253,7 +249,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
                 LoginHelper.shared.logout(completion: { success in
                     if success {
                         let viewcon = QuitAccountCompleteViewController()
-                        GlobalDefine.shared.mainNavi?.pushViewController(viewcon, animated: true)
+                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     } else {
                         Snackbar().show(message: "다시 시도해 주세요.")
                     }

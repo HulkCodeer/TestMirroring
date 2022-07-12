@@ -43,6 +43,8 @@ internal final class SignUpViewController: UIViewController {
     
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var scrollviewBottomConstraints: NSLayoutConstraint!
+    @IBOutlet var loginInfoGuideLbl: UILabel!
+    @IBOutlet var step2LoginInfoGuideLbl: UILabel!
     
     // MARK: VARIABLE
     
@@ -79,6 +81,24 @@ internal final class SignUpViewController: UIViewController {
     }
     
     private func prepareView() {
+        if let _user = self.user, _user.email != nil {
+            loginInfoGuideLbl.text = "\(_user.loginType.value)에서 제공된 정보이며, 커뮤니티와 고객 센터 안내 등에서 사용됩니다."
+        } else {
+            loginInfoGuideLbl.text = "커뮤니티와 고객 센터 안내 등에서 사용됩니다."
+        }
+        
+        if let _user = self.user {
+            switch _user.loginType {
+            case .apple:
+                step2LoginInfoGuideLbl.text = "추후 해당 정보를 기반한 맞춤형 정보를 제공할 예정입니다."
+                
+            case .kakao:
+                step2LoginInfoGuideLbl.text = "카카오에서 제공된 정보이며, 추후 해당 정보를 기반한 맞춤형 정보를 제공할 예정입니다."
+                
+            default: step2LoginInfoGuideLbl.text = "추후 해당 정보를 기반한 맞춤형 정보를 제공할 예정입니다."
+            }
+        }
+        
         tfNickname.delegate = self
         tfEmail.delegate = self
         tfPhone.delegate = self

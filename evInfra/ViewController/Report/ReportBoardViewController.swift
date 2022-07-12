@@ -30,10 +30,13 @@ class ReportBoardViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if MemberManager.shared.isLogin {
-            getReportList(reportId:0)
-        } else {            
-            MemberManager.shared.showLoginAlert()
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                self.getReportList(reportId:0)
+            } else {
+                MemberManager.shared.showLoginAlert()
+            }
         }
     }
 
@@ -100,7 +103,7 @@ extension ReportBoardViewController: ReportChargeViewDelegate {
     func goToReportChargerPage(index:Int) {
         let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
         reportChargeVC.delegate = self
-        reportChargeVC.info.charger_id = self.reportList[index].charger_id
+        reportChargeVC.info.charger_id = self.reportList[index].charger_id        
         
         self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true)
 //        self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
