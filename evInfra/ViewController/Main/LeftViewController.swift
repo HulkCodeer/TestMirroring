@@ -664,11 +664,11 @@ extension LeftViewController {
     // 메인화면 메뉴이미지에 badge
     private func newBadgeInMenu() {
         if Board.sharedInstance.hasNewBoard() {
-            if let image = UIImage(named: "icon_comment_badge") {
+            if let image = UIImage(named: "icon_comment_lg") {
                 boardBtn.setImage(image, for: .normal)
             }
         } else {
-            if let image = UIImage(named: "icon_comment") {
+            if let image = UIImage(named: "icon_comment_lg") {
                 boardBtn.setImage(image, for: .normal)
             }
         }

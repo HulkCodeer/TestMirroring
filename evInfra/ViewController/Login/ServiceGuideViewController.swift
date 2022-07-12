@@ -35,6 +35,8 @@ class ServiceGuideViewController: UIViewController , UITableViewDelegate, UITabl
         
         self.listTableView.delegate = self
         self.listTableView.dataSource = self
+        
+        
     }
     
     func prepareActionBar() {

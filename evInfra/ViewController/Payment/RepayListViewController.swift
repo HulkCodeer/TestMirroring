@@ -11,7 +11,7 @@ import SwiftyJSON
 import Material
 import M13Checkbox
 
-protocol RepaymentListDelegate {
+protocol RepaymentListDelegate: class {
     func onRepaySuccess()
     func onRepayFail()
 }
@@ -35,7 +35,7 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     @IBOutlet weak var btnChangeCard: UIButton!
     
     @IBOutlet weak var viewProcessing: UIView!
-    var delegate: RepaymentListDelegate?
+    weak var delegate: RepaymentListDelegate?
     var paymentList: Array<ChargingStatus> = Array<ChargingStatus>()
     var payRegisterResult: JSON?
     

@@ -26,18 +26,20 @@ internal final class LoginHelper: NSObject {
     
     private let disposebag = DisposeBag()
     
-    // 앱 실행 시 카카오 로그인 세션 정보를 받기 위해 셋팅
-    func prepareLogin() {
-        switch MemberManager.shared.loginType {
-        case .kakao:
-            // 로그인, 로그아웃 상태 변경 받기
-            NotificationCenter.default.addObserver(self, selector: #selector(kakaoSessionDidChangeWithNotification), name: NSNotification.Name.KOSessionDidChange, object: nil)
-            
-            // 클라이언트 시크릿 설정
-            KOSession.shared().clientSecret = Const.KAKAO_CLIENT_SECRET
-        default: break
-        }
-    }
+    // 추후에 다시 넣어서 테스트 해봐야함
+    // KOSession 실행시 사용자 추가 정보 동의 팝업을 열 수 있는지 체크 해야됨
+//    // 앱 실행 시 카카오 로그인 세션 정보를 받기 위해 셋팅
+//    func prepareLogin() {
+//        switch MemberManager.shared.loginType {
+//        case .kakao:
+//            // 로그인, 로그아웃 상태 변경 받기
+//            NotificationCenter.default.addObserver(self, selector: #selector(kakaoSessionDidChangeWithNotification), name: NSNotification.Name.KOSessionDidChange, object: nil)
+//
+//            // 클라이언트 시크릿 설정
+//            KOSession.shared().clientSecret = Const.KAKAO_CLIENT_SECRET
+//        default: break
+//        }
+//    }
     
     // 메인 화면에서 지도의 정보를 불러온 뒤 로그인 체크
     func checkLogin() {

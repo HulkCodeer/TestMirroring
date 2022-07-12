@@ -7,7 +7,7 @@
 //
 
 import UIKit
-protocol CompanyTableCellDelegate {
+protocol CompanyTableCellDelegate: class {
     func onClickTag(tagName: String, value: Bool)
 }
 class CompanyTableViewCell: UITableViewCell {
@@ -15,7 +15,7 @@ class CompanyTableViewCell: UITableViewCell {
     @IBOutlet var groupTitle: UILabel!
     @IBOutlet var tagView: DynamicCollectionView!
     
-    var delegate: CompanyTableCellDelegate?
+    internal weak var delegate: CompanyTableCellDelegate?
     var tagList = Array<TagValue>()
     var totalWidthPerRow = CGFloat(0)
     var rowCounts = 1

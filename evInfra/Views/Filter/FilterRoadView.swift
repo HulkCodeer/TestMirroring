@@ -21,7 +21,7 @@ class FilterRoadView: UIView {
     @IBOutlet var lbHighDown: UILabel!
     
     var saveOnChange: Bool = false
-    var delegate: DelegateFilterChange?
+    internal weak var delegate: DelegateFilterChange?
     private var generalSel = true
     private var highUpSel = true
     private var highDownSel = true

@@ -11,7 +11,7 @@ import RxSwift
 import SwiftyJSON
 import EasyTipView
 
-protocol PartnershipListViewDelegate {
+protocol PartnershipListViewDelegate: class {
     func addNewPartnership()
     func showEvinfraMembershipInfo(info : MemberPartnershipInfo)    
     func moveMembershipUseGuideView()
@@ -39,7 +39,7 @@ internal final class PartnershipListView : UIView {
     
     // MARK: VARIABLE
     
-    internal var delegate: PartnershipListViewDelegate?
+    internal weak var delegate: PartnershipListViewDelegate?
     internal var navi: UINavigationController = UINavigationController()
     
     private var evInfraInfo : MemberPartnershipInfo = MemberPartnershipInfo(JSON.null)
