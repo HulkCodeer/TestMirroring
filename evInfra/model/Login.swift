@@ -56,11 +56,7 @@ struct Login {
         var login = Login(.apple)
         login.userId = user.user
         login.name = user.fullName?.givenName
-        login.email = user.email
-        
-        printLog(out: "Apple Login Info : \(user.fullName?.givenName)")
-        printLog(out: "Apple Login Info : \(user.email)")
-        
+        login.email = user.email                
         login.emailVerified = true
         login.appleAuthorizationCode = user.authorizationCode
 

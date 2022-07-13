@@ -32,7 +32,6 @@ internal final class NewTermsViewController: CommonBaseViewController {
         case privacyAgree
         case privacyPolicy
         case serviceLocation
-        case content
         case marketing
         case ad
         
@@ -58,7 +57,7 @@ internal final class NewTermsViewController: CommonBaseViewController {
             case .serviceUse: return "서비스 이용약관"
             case .privacyAgree: return "개인정보 수집 및 이용 동의"
             case .privacyPolicy: return "개인정보처리방침"
-            case .serviceLocation: "위치기반서비스 이용약관"
+            case .serviceLocation: return "위치기반서비스 이용약관"
             }
         }
         
@@ -85,8 +84,7 @@ internal final class NewTermsViewController: CommonBaseViewController {
             case .serviceUse: return "\(Const.EV_PAY_SERVER)/terms/term/service_use"
             case .privacyAgree: return "\(Const.EV_PAY_SERVER)/terms/term/privacy_agree_v2"
             case .privacyPolicy: return "\(Const.EV_PAY_SERVER)/terms/term/privacy_policy_v2"
-            case .serviceLocation: return "\(Const.EV_PAY_SERVER)/terms/term/service_location"
-            case .content: return "\(Const.EV_PAY_SERVER)/terms/term/content"
+            case .serviceLocation: return "\(Const.EV_PAY_SERVER)/terms/term/service_location"            
             }
         }
     }

@@ -106,12 +106,21 @@ internal final class AcceptTermsCell: UITableViewCell {
     }
 
     internal func bind(to viewModel: AceeptTermsCellViewModel) {
-        viewModel.titleDataDriver
+        viewModel.titleData
             .drive(titleLabel.rx.text)
             .disposed(by: self.disposeBag)
         
-        viewModel.checkDataDriver
+        viewModel.checkData
             .drive(checkBtn.rx.isSelected)
+            .disposed(by: self.disposeBag)
+        
+        viewModel.termsTypeData
+            .drive(onNext: { [weak self] termsType in
+                guard let self = self else { return }                
+                let isHidden = termsType == .age
+                self.arrowImgView.isHidden = isHidden
+                self.arrowImgViewBtn.isHidden = isHidden
+            })
             .disposed(by: self.disposeBag)
 
         self.titleBtn.rx.tap
@@ -132,28 +141,36 @@ internal final class AcceptTermsCell: UITableViewCell {
 
 internal final class AceeptTermsCellViewModel: NSObject {
     internal let index: Int
-    internal var titleDataDriver: Driver<String>
-    internal var checkDataDriver: Driver<Bool>
+    internal let termsTypeData: Driver<NewAcceptTermsViewController.TermsType>
+    internal var titleData: Driver<String>
+    internal var checkData: Driver<Bool>
 
     internal let tappedMoveObservable = PublishSubject<Int>()
     internal let tappedCheckedObservable = PublishSubject<Bool>()
 
-    init(with title: String, isChecked: Bool, index: Int) {
+    init(with termsType: NewAcceptTermsViewController.TermsType, isChecked: Bool, index: Int) {
         self.index = index
 
-        self.titleDataDriver = Observable
+        self.titleData = Observable
             .create { observable -> Disposable in
-                observable.onNext(title)
+                observable.onNext(termsType.title)
                 return Disposables.create {}
             }
             .asDriver(onErrorJustReturn: "")
         
-        self.checkDataDriver = Observable
+        self.checkData = Observable
             .create{ observable -> Disposable in
                 observable.onNext(isChecked)
                 return Disposables.create {}
             }
             .asDriver(onErrorJustReturn: false)
+        
+        self.termsTypeData = Observable
+            .create{ observable -> Disposable in
+                observable.onNext(termsType)
+                return Disposables.create {}
+            }
+            .asDriver(onErrorJustReturn: .none)
         
         super.init()
     }    

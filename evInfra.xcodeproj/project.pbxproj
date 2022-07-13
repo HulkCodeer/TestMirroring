@@ -803,6 +803,14 @@
 		82DC20602877325300CF04D9 /* CommonNaviView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DC20582877325300CF04D9 /* CommonNaviView.swift */; };
 		82DC20622877347A00CF04D9 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DC20612877347A00CF04D9 /* UITableView+Extension.swift */; };
 		82DC20632877347A00CF04D9 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DC20612877347A00CF04D9 /* UITableView+Extension.swift */; };
+		82DD3CDD287E7B1C00C863AF /* AcceptTermsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDC287E7B1C00C863AF /* AcceptTermsReactor.swift */; };
+		82DD3CDE287E7B1C00C863AF /* AcceptTermsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDC287E7B1C00C863AF /* AcceptTermsReactor.swift */; };
+		82DD3CE0287E9F6F00C863AF /* TermsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDF287E9F6F00C863AF /* TermsModel.swift */; };
+		82DD3CE1287E9F6F00C863AF /* TermsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDF287E9F6F00C863AF /* TermsModel.swift */; };
+		82DD3CE4287EA26900C863AF /* NewSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CE3287EA26900C863AF /* NewSignUpViewController.swift */; };
+		82DD3CE5287EA26900C863AF /* NewSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CE3287EA26900C863AF /* NewSignUpViewController.swift */; };
+		82DD3CE7287EEB5100C863AF /* SignUpStepOneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CE6287EEB5100C863AF /* SignUpStepOneViewController.swift */; };
+		82DD3CE8287EEB5100C863AF /* SignUpStepOneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CE6287EEB5100C863AF /* SignUpStepOneViewController.swift */; };
 		82E03191286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		82E03192286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
@@ -1294,6 +1302,10 @@
 		82DC20572877325300CF04D9 /* Arrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arrow.swift; sourceTree = "<group>"; };
 		82DC20582877325300CF04D9 /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
 		82DC20612877347A00CF04D9 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		82DD3CDC287E7B1C00C863AF /* AcceptTermsReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptTermsReactor.swift; sourceTree = "<group>"; };
+		82DD3CDF287E9F6F00C863AF /* TermsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsModel.swift; sourceTree = "<group>"; };
+		82DD3CE3287EA26900C863AF /* NewSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSignUpViewController.swift; sourceTree = "<group>"; };
+		82DD3CE6287EEB5100C863AF /* SignUpStepOneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpStepOneViewController.swift; sourceTree = "<group>"; };
 		82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitAccountCompleteViewController.swift; sourceTree = "<group>"; };
 		9014C12624E55C4800CB6549 /* EIPOIItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIPOIItem.swift; sourceTree = "<group>"; };
 		9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAllPOIListenerCallback.swift; sourceTree = "<group>"; };
@@ -1633,8 +1645,11 @@
 				DB48E1F522E08B07003FFA08 /* ServiceGuideViewController.swift */,
 				DBEE9AF72117DB5600770D04 /* LoginViewController.swift */,
 				DBEE9AFB211842ED00770D04 /* SignUpViewController.swift */,
+				82DD3CE3287EA26900C863AF /* NewSignUpViewController.swift */,
+				82DD3CE6287EEB5100C863AF /* SignUpStepOneViewController.swift */,
 				00CF1774278E6A4F007D8E4E /* CorporationLoginViewController.swift */,
 				82B4F62C2862E2D900BA1D1A /* NewAcceptTermsViewController.swift */,
+				82DD3CDC287E7B1C00C863AF /* AcceptTermsReactor.swift */,
 				00CF1776278EA644007D8E4E /* AcceptTermsViewController.swift */,
 				00B2E8C726C106AC005D017C /* Login.storyboard */,
 			);
@@ -1861,6 +1876,7 @@
 			isa = PBXGroup;
 			children = (
 				63762F412869A8F000C951BF /* QuitAccountReasonModel.swift */,
+				82DD3CDF287E9F6F00C863AF /* TermsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3247,6 +3263,7 @@
 				63F313BC284EC74F001713D2 /* GlobalDefine.swift in Sources */,
 				63F313BD284EC74F001713D2 /* SC_TRACE.swift in Sources */,
 				63F313BE284EC74F001713D2 /* MyCouponTableViewCell.swift in Sources */,
+				82DD3CE5287EA26900C863AF /* NewSignUpViewController.swift in Sources */,
 				63F313BF284EC74F001713D2 /* Coupon.swift in Sources */,
 				63F313C0284EC74F001713D2 /* NSData+Extension.swift in Sources */,
 				63F313C1284EC74F001713D2 /* PartnershipListView.swift in Sources */,
@@ -3292,6 +3309,7 @@
 				63F313E6284EC74F001713D2 /* RepayResultViewController.swift in Sources */,
 				63F313E7284EC74F001713D2 /* ReissuanceModel.swift in Sources */,
 				63F313E8284EC74F001713D2 /* GuideAlertDialog.swift in Sources */,
+				82DD3CE8287EEB5100C863AF /* SignUpStepOneViewController.swift in Sources */,
 				63762F572869A95D00C951BF /* CommonBaseViewController.swift in Sources */,
 				63F313E9284EC74F001713D2 /* MemberOtherInfo.swift in Sources */,
 				63F313EA284EC74F001713D2 /* BoardDetailTableViewHeader.swift in Sources */,
@@ -3317,6 +3335,7 @@
 				63F313FA284EC74F001713D2 /* InfoCollectionViewCell.swift in Sources */,
 				63F313FB284EC74F001713D2 /* UIImage+Extension.swift in Sources */,
 				63F313FC284EC74F001713D2 /* MembershipReissuanceInfoViewController.swift in Sources */,
+				82DD3CE1287E9F6F00C863AF /* TermsModel.swift in Sources */,
 				82DC205A2877325300CF04D9 /* ChevronArrow.swift in Sources */,
 				63F313FD284EC74F001713D2 /* HSUnderLineTextField.swift in Sources */,
 				63F313FE284EC74F001713D2 /* CompanyTableViewCell.swift in Sources */,
@@ -3424,6 +3443,7 @@
 				63762F4A2869A8F000C951BF /* QuitAccountReactor.swift in Sources */,
 				63F3145B284EC74F001713D2 /* SearchAddressViewDelegate.swift in Sources */,
 				63F3145C284EC74F001713D2 /* MyArticleViewController.swift in Sources */,
+				82DD3CDE287E7B1C00C863AF /* AcceptTermsReactor.swift in Sources */,
 				63F3145D284EC74F001713D2 /* LotteRentCertificateViewController.swift in Sources */,
 				63F3145E284EC74F001713D2 /* BoardSearchViewController.swift in Sources */,
 				63F31460284EC74F001713D2 /* SignUpViewController.swift in Sources */,
@@ -3726,6 +3746,7 @@
 				52B53D2727BCB6F300D446A9 /* BoardSearchViewController.swift in Sources */,
 				DBEE9AFC211842ED00770D04 /* SignUpViewController.swift in Sources */,
 				736813B2204503B70035FC66 /* NavCenterButton.swift in Sources */,
+				82DD3CE4287EA26900C863AF /* NewSignUpViewController.swift in Sources */,
 				7339908022D881D100CF72A8 /* PaymentResultViewController.swift in Sources */,
 				00A3659926C4E3A000424E40 /* FilterAccessView.swift in Sources */,
 				00B36C4526D4B6FE00749FFE /* CompanyTableView.swift in Sources */,
@@ -3743,6 +3764,7 @@
 				0012443F25A2E92300376CDC /* IntroImageCheckerDelegate.swift in Sources */,
 				7379A45022CB43C600F4271C /* Connector.swift in Sources */,
 				CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */,
+				82DD3CE7287EEB5100C863AF /* SignUpStepOneViewController.swift in Sources */,
 				DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */,
 				63762F4B2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
 				7357595720917C03008181E9 /* EvDetailViewController.swift in Sources */,
@@ -3771,6 +3793,7 @@
 				DBABCC4B2747943000E2C7ED /* EIAdInfo.swift in Sources */,
 				63762F512869A91900C951BF /* SettingsReactor.swift in Sources */,
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,
+				82DD3CDD287E7B1C00C863AF /* AcceptTermsReactor.swift in Sources */,
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				000DAE13274760E300CEC165 /* PaymentTableViewCell.swift in Sources */,
 				63762F452869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift in Sources */,
@@ -3785,6 +3808,7 @@
 				DB306368221BD5CD00D1276E /* Server.swift in Sources */,
 				00CF1777278EA644007D8E4E /* AcceptTermsViewController.swift in Sources */,
 				CE33B4BD2191BA1200B6C632 /* EventContentsViewController.swift in Sources */,
+				82DD3CE0287E9F6F00C863AF /* TermsModel.swift in Sources */,
 				DB5FA59622C20A8400F1508A /* ChargesViewController.swift in Sources */,
 				82D986812839BE080030F0FC /* ViewModel.swift in Sources */,
 				82DC205B2877325300CF04D9 /* NavigationClose.swift in Sources */,

@@ -8,8 +8,13 @@
 
 import Foundation
 import ReusableKit
+import ReactorKit
 
-internal final class NewAcceptTermsViewController: CommonBaseViewController {
+internal final class NewAcceptTermsViewController: CommonBaseViewController, StoryboardView {
+    
+    enum Const {
+        static let cellTotalCount: Int = 8
+    }
     
     enum TermsType: Int, CaseIterable {
         case serviceUse = 0
@@ -129,11 +134,22 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
     }
     
     // MARK: VARIABLE
-    
-    private var cellViewModels = [AceeptTermsCellViewModel].init(repeating: AceeptTermsCellViewModel(with: "", isChecked: false, index: 0), count: 6)
-    private var isCheckedCells = [Bool].init(repeating: false, count: 6)
+    private var cellViewModels = [AceeptTermsCellViewModel].init(repeating: AceeptTermsCellViewModel(with: .none, isChecked: false, index: 0), count: Const.cellTotalCount)
+    private var isCheckedCells = [Bool].init(repeating: false, count: Const.cellTotalCount)
         
     // MARK: SYSTEM FUNC
+    
+    internal func bind(reactor: AcceptTermsReactor) {
+        nextBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let viewcon = NewSignUpViewController()
+                viewcon.reactor = reactor
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            })
+            .disposed(by: self.disposeBag)
+    }
     
     override func loadView() {
         super.loadView()
@@ -221,6 +237,13 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
                 self.tableView.reloadData()
             })
             .disposed(by: self.disposeBag)
+        
+        self.nextBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { _ in
+                
+            })
+            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -230,17 +253,16 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
 }
 
 extension NewAcceptTermsViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        printLog(out: "\(TermsType.allCases.filter { $0 != .none }.count)")
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {        
         return TermsType.allCases.filter { $0 != .none }.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(ofType: AcceptTermsCell.self, for: indexPath)
         let index = indexPath.row
-        let termType = TermsType(value: index)
-        let model = AceeptTermsCellViewModel(with: termType.title, isChecked: isCheckedCells[index], index: index)
-                
+        let termsType = TermsType(value: index)
+        let model = AceeptTermsCellViewModel(with: termsType, isChecked: isCheckedCells[index], index: index)
+                    
         cellViewModels[index] = model
         
         model.tappedMoveObservable
@@ -284,7 +306,7 @@ extension NewAcceptTermsViewController: UITableViewDelegate, UITableViewDataSour
                 guard let self = self else { return }
                 self.isCheckedCells[index] = isChecked
                 
-                self.nextBtn.isEnabled = self.isCheckedCells[0...2].allSatisfy({ $0 })
+                self.nextBtn.isEnabled = self.isCheckedCells[0...3].allSatisfy({ $0 }) && self.isCheckedCells.last == true
                 
                 self.allAcceptCheckBtn.isSelected = self.isCheckedCells.allSatisfy({ $0 })
             })
