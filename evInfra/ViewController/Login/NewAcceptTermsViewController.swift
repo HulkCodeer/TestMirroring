@@ -16,7 +16,7 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
         case privacyAgree = 1
         case privacyPolicy = 2
         case serviceLocation = 3
-        case content = 4
+        case contents = 4
         case marketing = 5
         case ad = 6
         case age = 7
@@ -28,7 +28,7 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
             case 1: self = .privacyAgree
             case 2: self = .privacyPolicy
             case 3: self = .serviceLocation
-            case 4: self = .content
+            case 4: self = .contents
             case 5: self = .marketing
             case 6: self = .ad
             case 7: self = .age
@@ -42,9 +42,9 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController {
             case .privacyAgree: return "개인정보 수집 및 이용 동의"
             case .privacyPolicy: return "개인정보처리방침"
             case .serviceLocation: return "위치기반서비스 이용약관"
-            case .content: return "콘텐츠 활용 동의"
-            case .marketing: return "홍보 및 마케팅 목적 개인정보 수집 및 이용 동의"
-            case .ad: return "광고성 정보 수신 동의"
+            case .contents: return "(선택) 콘텐츠 활용 동의"
+            case .marketing: return "(선택) 홍보 및 마케팅 목적 개인정보 수집 및 이용 동의"
+            case .ad: return "(선택) 광고성 정보 수신 동의"
             case .age: return "만 14세 이상입니다."
             case .none: return ""
             }
@@ -249,8 +249,27 @@ extension NewAcceptTermsViewController: UITableViewDelegate, UITableViewDataSour
             .drive(onNext: { index in
                 let viewcon = NewTermsViewController()
                 
-                switch NewAcceptTermsViewController.TermsType.AllCases {
+                switch TermsType(value: index) {
+                case .serviceUse:
+                    viewcon.tabIndex = .serviceUse
+                                    
+                case .privacyAgree:
+                    viewcon.tabIndex = .privacyAgree
                 
+                case .privacyPolicy:
+                    viewcon.tabIndex = .privacyAgree
+                
+                case .serviceLocation:
+                    viewcon.tabIndex = .serviceLocation
+                
+                case .contents:
+                    viewcon.tabIndex = .contents
+                
+                case .marketing:
+                    viewcon.tabIndex = .marketing
+                    
+                case .ad:
+                    viewcon.tabIndex = .ad
                     
                 default: break                    
                 }

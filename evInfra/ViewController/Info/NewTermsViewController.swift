@@ -26,10 +26,15 @@ internal final class NewTermsViewController: CommonBaseViewController {
         case faqTop
         case faqDetail
         case skBatteryInfo
-        case marketing
-        case ad
         case contents
         case car
+        case serviceUse
+        case privacyAgree
+        case privacyPolicy
+        case serviceLocation
+        case content
+        case marketing
+        case ad
         
         internal var headerTitle: String {
             switch self {
@@ -50,6 +55,10 @@ internal final class NewTermsViewController: CommonBaseViewController {
             case .ad: return "광고성 정보 수신 동의"
             case .contents: return "콘텐츠 활용 동의"
             case .car: return "개인정보 수집 및 이용동의(차량정보)"
+            case .serviceUse: return "서비스 이용약관"
+            case .privacyAgree: return "개인정보 수집 및 이용 동의"
+            case .privacyPolicy: return "개인정보처리방침"
+            case .serviceLocation: "위치기반서비스 이용약관"
             }
         }
         
@@ -73,6 +82,11 @@ internal final class NewTermsViewController: CommonBaseViewController {
             case .ad: return "\(Const.EV_PAY_SERVER)/terms/term/ad"
             case .contents: return "\(Const.EV_PAY_SERVER)/terms/term/content"
             case .car: return "\(Const.EV_PAY_SERVER)/terms/term/privacy_car"
+            case .serviceUse: return "\(Const.EV_PAY_SERVER)/terms/term/service_use"
+            case .privacyAgree: return "\(Const.EV_PAY_SERVER)/terms/term/privacy_agree_v2"
+            case .privacyPolicy: return "\(Const.EV_PAY_SERVER)/terms/term/privacy_policy_v2"
+            case .serviceLocation: return "\(Const.EV_PAY_SERVER)/terms/term/service_location"
+            case .content: return "\(Const.EV_PAY_SERVER)/terms/term/content"
             }
         }
     }
