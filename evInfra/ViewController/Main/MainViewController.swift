@@ -403,9 +403,15 @@ extension MainViewController: DelegateFilterBarView {
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self else { return }
             if isLogin {
-                let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
-                favoriteViewController.delegate = self
-                self.present(AppNavigationController(rootViewController: favoriteViewController), animated: true, completion: nil)
+                // let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
+                // favoriteViewController.delegate = self
+                // self.present(AppNavigationController(rootViewController: favoriteViewController), animated: true, completion: nil)
+                let favoriteReactor = NewFavoriteReactor(provider: RestApi())
+                let favoriteViewController = NewFavoriteViewController()
+                favoriteReactor.delegate = self
+                favoriteViewController.bind(reactor: favoriteReactor)
+            
+                GlobalDefine.shared.mainNavi?.present(AppNavigationController(rootViewController: favoriteViewController), animated: true)
             } else {
                 MemberManager.shared.showLoginAlert()
             }

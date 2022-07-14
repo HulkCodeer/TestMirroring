@@ -171,7 +171,8 @@ internal final class RestApi: SoftberryAPI {
             "mode": state
         ]
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/favorite/update", httpMethod: .post, parameters: reqParam, headers: nil)
-
+    }
+    
     // MARK: - 3000베리 받기
     func postGetBerry(eventId: String) -> Observable<(HTTPURLResponse, Data)> {
         let reqParam: Parameters = [

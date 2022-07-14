@@ -323,10 +323,10 @@ extension LeftViewController {
                         self.navigationController?.push(viewController: tabsController)
                     
                     case self.SUB_MENU_REPORT_STATION: // 충전소 제보 내역
-                        let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
-                        let reportVC = reportStoryboard.instantiateViewController(ofType: ReportBoardViewController.self)
-                        self.navigationController?.push(viewController: reportVC)
-
+                        let reportHistoryReactor = ReportHistoryReactor(provider: RestApi())
+                        let reportHistoryViewController = ReportHistoryViewController()
+                        reportHistoryViewController.bind(reactor: reportHistoryReactor)
+                        self.navigationController?.push(viewController: reportHistoryViewController)
                     default:
                         print("out of index")
                     }
