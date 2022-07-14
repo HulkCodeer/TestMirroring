@@ -169,6 +169,7 @@
                     <connections>
                         <outlet property="btnCorpLogin" destination="ILk-sC-QDm" id="mTN-lw-7O8"/>
                         <outlet property="btnKakaoLogin" destination="LtZ-iT-6AF" id="b1S-mt-su5"/>
+                        <outlet property="kakaoGuideTotalView" destination="rxa-1Q-kac" id="6dj-ao-s14"/>
                         <outlet property="kakaoLastLoginGuideLbl" destination="p0h-Vu-bPM" id="wct-FK-cUl"/>
                         <outlet property="loginButtonStackView" destination="rg3-ZW-Czs" id="pY3-OM-qx4"/>
                     </connections>
@@ -470,7 +471,7 @@
                                                         <color key="textColor" name="content-primary"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="카카오에서 제공된 정보이며, 커뮤니티와 고객 센터 안내 등에서 사용됩니다. " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVX-my-cKQ">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="카카오에서 제공된 정보이며, 커뮤니티와 고객 센터 안내 등에서 사용됩니다." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVX-my-cKQ">
                                                         <rect key="frame" x="16" y="75" width="343" height="38.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <color key="textColor" name="content-secondary"/>
@@ -939,11 +940,13 @@
                         <outlet property="lbWarnGender" destination="Ftn-Rs-VE7" id="Tvg-Tc-Ruy"/>
                         <outlet property="lbWarnNickname" destination="Lw5-dj-erQ" id="C80-QN-CI6"/>
                         <outlet property="lbWarnPhone" destination="ZZP-oW-kZb" id="0Yq-LR-JQx"/>
+                        <outlet property="loginInfoGuideLbl" destination="LVX-my-cKQ" id="o5i-yN-hES"/>
                         <outlet property="radioFemale" destination="2k1-x6-e1X" id="NGK-Pj-aD8"/>
                         <outlet property="radioMale" destination="Vo4-5U-m40" id="Cpe-nS-6bc"/>
                         <outlet property="radioOther" destination="1Fv-xN-gnQ" id="YwT-kE-WpD"/>
                         <outlet property="scrollView" destination="JYK-qk-G33" id="qb5-uf-gPm"/>
                         <outlet property="scrollviewBottomConstraints" destination="Sdx-4p-yyA" id="r4I-gd-Afg"/>
+                        <outlet property="step2LoginInfoGuideLbl" destination="2XN-bA-4o9" id="eDI-oC-QpL"/>
                         <outlet property="tfEmail" destination="suH-iA-fL7" id="4Cf-ya-WTU"/>
                         <outlet property="tfNickname" destination="VZ3-Mn-DOg" id="p5m-C6-Sah"/>
                         <outlet property="tfPhone" destination="c3x-Pf-7fB" id="cfQ-8g-rs3"/>
@@ -1075,13 +1078,13 @@
             <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="border-opaque">
-            <color red="0.77300000190734863" green="0.77600002288818359" blue="0.78799998760223389" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77254901960784317" green="0.77647058823529413" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-disabled">
             <color red="0.6705882352941176" green="0.67450980392156867" blue="0.68627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-negative">
-            <color red="0.93300002813339233" green="0.15299999713897705" blue="0.21600000560283661" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.93333333333333335" green="0.15294117647058825" blue="0.21568627450980393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-positive">
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

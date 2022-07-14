@@ -108,7 +108,7 @@ internal final class MainViewController: UIViewController {
         prepareChargePrice()
         requestStationInfo()
         
-        prepareCalloutLayer()
+        prepareCalloutLayer()                
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -152,15 +152,20 @@ internal final class MainViewController: UIViewController {
     }
     
     private func configureLayer() {
+        // 내위치 현재 위치 버튼
         myLocationButton.layer.cornerRadius = 20
-        myLocationButton.layer.borderWidth = 1
-        myLocationButton.layer.borderColor = UIColor.init(named: "border-opaque")?.cgColor
-        updateMyLocationButton()
+        myLocationButton.layer.shadowRadius = 2.0
+        myLocationButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        myLocationButton.layer.shadowOpacity = 0.3
         
+        // 지도 리프레쉬 버튼
         reNewButton.layer.cornerRadius = 20
-        reNewButton.layer.borderWidth = 1
-        reNewButton.layer.borderColor = UIColor.init(named: "border-opaque")?.cgColor
-        
+        reNewButton.layer.shadowRadius = 2.0
+        reNewButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        reNewButton.layer.shadowOpacity = 0.3
+                
+        updateMyLocationButton()
+                        
         btn_menu_layer.layer.cornerRadius = 5
         btn_menu_layer.clipsToBounds = true
         btn_menu_layer.layer.shadowRadius = 5
@@ -390,12 +395,15 @@ extension MainViewController: DelegateFilterBarView {
     }
     
     @IBAction func onClickMainFavorite(_ sender: UIButton) {
-        if MemberManager.shared.isLogin {
-            let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
-            favoriteViewController.delegate = self
-            self.present(AppNavigationController(rootViewController: favoriteViewController), animated: true, completion: nil)
-        } else {
-            MemberManager.shared.showLoginAlert()
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
+                favoriteViewController.delegate = self
+                self.present(AppNavigationController(rootViewController: favoriteViewController), animated: true, completion: nil)
+            } else {
+                MemberManager.shared.showLoginAlert()
+            }
         }
     }
 }
@@ -930,6 +938,7 @@ extension MainViewController {
             self.markerIndicator.startAnimating()
             self.appDelegate.appToolbarController.toolbar.isUserInteractionEnabled = false
         }
+        
         ChargerManager.sharedInstance.getStations { [weak self] in
             LoginHelper.shared.checkLogin()
             
@@ -1295,15 +1304,18 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainCharge(_ sender: UIButton) {
-        if MemberManager.shared.isLogin {
-            Server.getChargingId { (isSuccess, responseData) in
-                if isSuccess {
-                    let json = JSON(responseData)
-                    self.responseGetChargingId(response: json)
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                Server.getChargingId { (isSuccess, responseData) in
+                    if isSuccess {
+                        let json = JSON(responseData)
+                        self.responseGetChargingId(response: json)
+                    }
                 }
+            } else {
+                MemberManager.shared.showLoginAlert()
             }
-        } else {
-            MemberManager.shared.showLoginAlert()
         }
     }
     
@@ -1357,19 +1369,22 @@ extension MainViewController {
     }
     
     private func chargingStatus() {
-        if MemberManager.shared.isLogin {
-            Server.getChargingId { (isSuccess, responseData) in
-                if isSuccess {
-                    let json = JSON(responseData)
-                    self.getChargingStatus(response: json)
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                Server.getChargingId { (isSuccess, responseData) in
+                    if isSuccess {
+                        let json = JSON(responseData)
+                        self.getChargingStatus(response: json)
+                    }
                 }
+            } else {
+                // 진행중인 충전이 없음
+                self.btn_main_charge.alignTextUnderImage()
+                self.btn_main_charge.tintColor = UIColor(named: "gr-8")
+                self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                self.btn_main_charge.setTitle("간편 충전", for: .normal)
             }
-        } else {
-            // 진행중인 충전이 없음
-            self.btn_main_charge.alignTextUnderImage()
-            self.btn_main_charge.tintColor = UIColor(named: "gr-8")
-            self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            self.btn_main_charge.setTitle("간편 충전", for: .normal)
         }
     }
     

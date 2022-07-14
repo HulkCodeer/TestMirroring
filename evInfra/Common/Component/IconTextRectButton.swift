@@ -1,14 +1,14 @@
 //
-//  RectButton.swift
+//  IconTextRectButton.swift
 //  evInfra
 //
-//  Created by 박현진 on 2022/07/04.
+//  Created by 박현진 on 2022/07/07.
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 
 import UIKit
 
-internal final class RectButton: UIButton {
+internal final class IconTextRectButton: UIButton {
     
     enum Const {
         enum Level {

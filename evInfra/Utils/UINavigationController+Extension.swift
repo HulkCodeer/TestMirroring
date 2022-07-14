@@ -47,4 +47,14 @@ public extension UINavigationController {
         self.view.layer.add(transition, forKey: nil)
     }
     
+    internal func containsViewController(ofKind kind: AnyClass) -> Bool {
+        self.viewControllers.contains(where: { $0.isKind(of: kind) })
+    }
+                
+    internal func popToViewControllerWithHandler(vc: UIViewController, completion: @escaping ()->()) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        self.popToViewController(vc, animated: true)
+        CATransaction.commit()
+    }
 }

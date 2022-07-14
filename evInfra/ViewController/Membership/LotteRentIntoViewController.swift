@@ -28,10 +28,13 @@ class LotteRentInfoViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if MemberManager.shared.isLogin {
-            checkLotteRentInfo()
-        } else {
-            MemberManager.shared.showLoginAlert()
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                self.checkLotteRentInfo()
+            } else {
+                MemberManager.shared.showLoginAlert()
+            }
         }
     }
     

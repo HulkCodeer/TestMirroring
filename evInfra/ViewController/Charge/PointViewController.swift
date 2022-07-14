@@ -89,11 +89,14 @@ internal final class PointViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if MemberManager.shared.isLogin {
-            let currentDate = Date()
-            getPointHistory(isAllDate: false, startDate: currentDate, endDate: currentDate)
-        } else {
-            MemberManager.shared.showLoginAlert()
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                let currentDate = Date()
+                self.getPointHistory(isAllDate: false, startDate: currentDate, endDate: currentDate)
+            } else {
+                MemberManager.shared.showLoginAlert()
+            }
         }
     }
     
@@ -123,7 +126,7 @@ internal final class PointViewController: UIViewController {
         let settingButton = UIButton()
         settingButton.setTitle("설정", for: .normal)
         settingButton.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
-        settingButton.titleLabel?.font = .systemFont(ofSize: 14)
+        settingButton.titleLabel?.font = .systemFont(ofSize: 16)
         settingButton.addTarget(self, action: #selector(handleSettingButton), for: .touchUpInside)
         
         navigationItem.leftViews = [backButton]

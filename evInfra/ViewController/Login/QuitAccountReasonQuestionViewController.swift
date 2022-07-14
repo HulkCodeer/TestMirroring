@@ -141,14 +141,10 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         $0.numberOfLines = 1
     }
     
-    private lazy var nextBtn = UIButton().then {
+    private lazy var nextBtn = RectButton(level: .primary).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("다음", for: .normal)
-        $0.setTitle("다음", for: .disabled)
-        $0.setBackgroundColor(Colors.backgroundDisabled.color, for: .disabled)
-        $0.setBackgroundColor(Colors.backgroundPositive.color, for: .normal)
-        $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
-        $0.setTitleColor(Colors.contentDisabled.color, for: .disabled)
+        $0.setTitle("다음", for: .disabled)                
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.isEnabled = false
         $0.IBcornerRadius = 6
@@ -178,7 +174,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         self.contentView.addSubview(nextBtn)
         nextBtn.snp.makeConstraints {
             $0.width.equalTo(screenWidth - 32)
-            $0.height.equalTo(44)
+            $0.height.equalTo(48)
             $0.bottom.equalToSuperview().offset(-16)
             $0.centerX.equalToSuperview()
         }

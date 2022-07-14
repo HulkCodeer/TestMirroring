@@ -22,7 +22,8 @@ internal final class LoginViewController: UIViewController {
     @IBOutlet weak var btnKakaoLogin: KOLoginButton!
     @IBOutlet weak var btnCorpLogin: UIButton!
     @IBOutlet var kakaoLastLoginGuideLbl: UILabel!
-            
+    @IBOutlet var kakaoGuideTotalView: UIView!
+    
     private lazy var appleGuideTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -81,23 +82,22 @@ internal final class LoginViewController: UIViewController {
             }            
         }
         
-        switch MemberManager.shared.loginType {
+        switch MemberManager.shared.lastLoginType {
         case .apple, .kakao:
-            kakaoLastLoginGuideLbl.isHidden = false
-            appleLastLoginGuideLbl.isHidden = false
-            kakaoLastLoginGuideLbl.text = MemberManager.shared.loginType == .apple ? LastLoginTypeMessage.new.rawValue : LastLoginTypeMessage.last.rawValue
-            appleLastLoginGuideLbl.text = MemberManager.shared.loginType == .apple ? LastLoginTypeMessage.last.rawValue : LastLoginTypeMessage.new.rawValue
+            kakaoGuideTotalView.isHidden = false
+            appleGuideTotalView.isHidden = false
+            kakaoLastLoginGuideLbl.text = MemberManager.shared.lastLoginType == .apple ? LastLoginTypeMessage.new.rawValue : LastLoginTypeMessage.last.rawValue
+            appleLastLoginGuideLbl.text = MemberManager.shared.lastLoginType == .apple ? LastLoginTypeMessage.last.rawValue : LastLoginTypeMessage.new.rawValue
             
         default:
-            kakaoLastLoginGuideLbl.isHidden = true
-            appleLastLoginGuideLbl.isHidden = true
-            break
+            kakaoGuideTotalView.isHidden = true
+            appleGuideTotalView.isHidden = true
         }
     }
     
     @objc
     fileprivate func handleBackButton() {
-        self.navigationController?.pop()
+        GlobalDefine.shared.mainNavi?.pop()
     }
     
     @objc
@@ -123,13 +123,14 @@ extension LoginViewController: LoginHelperDelegate {
     }
     
     func successLogin() {
-        Snackbar().show(message: "로그인 성공")
-                
         if Const.CLOSED_BETA_TEST {
             CBT.checkCBT(vc: self)
         }
 
-        self.navigationController?.pop()
+        DispatchQueue.main.async {
+            Snackbar().show(message: "로그인 성공")
+            GlobalDefine.shared.mainNavi?.pop()
+        }
     }
     
     func needSignUp(user: Login) {
@@ -137,26 +138,26 @@ extension LoginViewController: LoginHelperDelegate {
         let acceptTermsVc = LoginStoryboard.instantiateViewController(withIdentifier: "AcceptTermsViewController") as! AcceptTermsViewController
         acceptTermsVc.user = user
         acceptTermsVc.delegate = self
-        self.navigationController?.push(viewController: acceptTermsVc)
+        GlobalDefine.shared.mainNavi?.push(viewController: acceptTermsVc)
     }
     
     func corpLogin() {
         let LoginStoryboard = UIStoryboard(name : "Login", bundle: nil)
         let signUpVc = LoginStoryboard.instantiateViewController(withIdentifier: "CorporationLoginViewController") as! CorporationLoginViewController
         signUpVc.delegate = self
-        self.navigationController?.push(viewController: signUpVc)
+        GlobalDefine.shared.mainNavi?.push(viewController: signUpVc)
     }
 }
 
 extension LoginViewController: AcceptTermsViewControllerDelegate {
     func onSignUpDone() {
-        self.navigationController?.pop()
+        GlobalDefine.shared.mainNavi?.pop()
     }
 }
 
 extension LoginViewController: CorporationLoginViewControllerDelegate {
     func successSignUp() {
-        self.navigationController?.pop()
+        GlobalDefine.shared.mainNavi?.pop()
     }
 }
 

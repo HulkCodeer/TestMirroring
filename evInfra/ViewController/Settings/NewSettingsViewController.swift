@@ -103,13 +103,18 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             stackView.addArrangedSubview(settingView)
         }
                 
-        let quitAccountView = self.createQuitAccountView(mainTitle: "회원탈퇴")
-        totalScrollView.addSubview(quitAccountView)
-        quitAccountView.snp.makeConstraints {
-            $0.top.equalTo(stackView.snp.bottom)
-            $0.leading.bottom.trailing.equalToSuperview()
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(MemberManager.shared.isLogin ? 56:0)
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self,
+                    (MemberManager.shared.loginType == .kakao ||
+                    MemberManager.shared.loginType == .apple) else { return }
+            let quitAccountView = self.createQuitAccountView(mainTitle: "회원탈퇴")
+            self.totalScrollView.addSubview(quitAccountView)
+            quitAccountView.snp.makeConstraints {
+                $0.top.equalTo(self.stackView.snp.bottom)
+                $0.leading.bottom.trailing.equalToSuperview()
+                $0.centerX.equalToSuperview()
+                $0.height.equalTo(isLogin ? 56:0)
+            }
         }
     }
             
@@ -172,6 +177,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.tintColor = Colors.contentPrimary.color
             $0.thumbTintColor = .white
+            $0.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         }
         
         view.addSubview(noticeSw)
