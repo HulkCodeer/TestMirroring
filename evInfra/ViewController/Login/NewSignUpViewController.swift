@@ -83,17 +83,13 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         
         self.addChildViewController(signUpFirstStepViewController)
         firstStepScrollView.addSubview(signUpFirstStepViewController.view)
+        printLog(out: "PARK TEST first \(firstStepScrollView.bounds)")
         signUpFirstStepViewController.view.frame = firstStepScrollView.bounds
-        signUpFirstStepViewController.view.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
         
         self.addChildViewController(signUpSecondStepViewController)
         secondStepScrollView.addSubview(signUpSecondStepViewController.view)
+        printLog(out: "PARK TEST second \(secondStepScrollView.bounds)")
         signUpSecondStepViewController.view.frame = secondStepScrollView.bounds
-        signUpSecondStepViewController.view.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
     }
     
     override func viewDidLoad() {

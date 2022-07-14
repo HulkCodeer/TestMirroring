@@ -125,35 +125,35 @@ internal final class SignUpSecondStepViewController: CommonBaseViewController, S
         secondStepTotalView.addSubview(ageGuideLbl)
         ageGuideLbl.snp.makeConstraints {
             $0.top.equalTo(requiredGuideLbl.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(20)
         }
         
-        secondStepTotalView.addSubview(selectBoxTotalView)
-        selectBoxTotalView.snp.makeConstraints {
-            $0.top.equalTo(ageGuideLbl.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.height.equalTo(48)
-        }
-
-        selectBoxTotalView.addSubview(selectBoxTitleLbl)
-        selectBoxTitleLbl.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(16)
-            $0.centerY.equalToSuperview()
-        }
-
-        selectBoxTotalView.addSubview(selectBoxArrow)
-        selectBoxArrow.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.centerY.equalToSuperview()
-            $0.width.height.equalTo(24)
-        }
-
-        selectBoxTotalView.addSubview(selectBoxTotalBtn)
-        selectBoxTotalBtn.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+//        secondStepTotalView.addSubview(selectBoxTotalView)
+//        selectBoxTotalView.snp.makeConstraints {
+//            $0.top.equalTo(ageGuideLbl.snp.bottom).offset(8)
+//            $0.leading.trailing.equalToSuperview()
+//            $0.height.equalTo(48)
+//            $0.bottom.equalToSuperview()
+//        }
+//
+//        selectBoxTotalView.addSubview(selectBoxTitleLbl)
+//        selectBoxTitleLbl.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(16)
+//            $0.centerY.equalToSuperview()
+//        }
+//
+//        selectBoxTotalView.addSubview(selectBoxArrow)
+//        selectBoxArrow.snp.makeConstraints {
+//            $0.trailing.equalToSuperview().offset(-16)
+//            $0.centerY.equalToSuperview()
+//            $0.width.height.equalTo(24)
+//        }
+//
+//        selectBoxTotalView.addSubview(selectBoxTotalBtn)
+//        selectBoxTotalBtn.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
     }
     
     internal func bind(reactor: SignUpReactor) {
