@@ -44,7 +44,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
     // MARK: VARIABLE
     
     private lazy var signUpFirstStepViewController = SignUpFirstStepViewController()
-    private lazy var signUpStepTwoViewController = SignUpSecondStepViewController()
+    private lazy var signUpSecondStepViewController = SignUpSecondStepViewController()
     
     // MARK: SYSTEM FUNC
     
@@ -81,22 +81,11 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         }
         
         self.addChildViewController(signUpFirstStepViewController)
-        secondStepScrollView.addSubview(signUpStepTwoViewController.view)
-        signUpStepTwoViewController.view.frame = secondStepScrollView.bounds
-        signUpStepTwoViewController.view.snp.makeConstraints {
+        secondStepScrollView.addSubview(signUpSecondStepViewController.view)
+        signUpSecondStepViewController.view.frame = secondStepScrollView.bounds
+        signUpSecondStepViewController.view.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        nextBtn.rx.tap
-            .asDriver()
-            .drive(onNext: {
-                
-            })
-            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -135,8 +124,25 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
 //        }
     }
     
-    internal func bind(reactor: AcceptTermsReactor) {
-        
+    internal func bind(reactor: SignUpReactor) {
+        nextBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                
+                let isFirstStepViewHidden = self.signUpFirstStepViewController.view.isHidden
+                
+                guard !isFirstStepViewHidden else {
+                    let viewcon = CarRegistrationViewController()
+                    viewcon.reactor = reactor
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                    return
+                }
+                                
+                self.signUpSecondStepViewController.view.isHidden = isFirstStepViewHidden
+                self.signUpFirstStepViewController.view.isHidden = !isFirstStepViewHidden
+            })
+            .disposed(by: self.disposeBag)
     }
     
     private func createIconRequired() -> UILabel{

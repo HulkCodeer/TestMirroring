@@ -180,6 +180,8 @@
 		63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */; };
 		63D4F8B4287FA7BE0087EE61 /* SignUpSecondStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B3287FA7BE0087EE61 /* SignUpSecondStepViewController.swift */; };
 		63D4F8B5287FA7BE0087EE61 /* SignUpSecondStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B3287FA7BE0087EE61 /* SignUpSecondStepViewController.swift */; };
+		63D4F8B7287FCD760087EE61 /* CarRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */; };
+		63D4F8B8287FCD760087EE61 /* CarRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */; };
 		63DA015C2832559400705842 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015B2832559400705842 /* BaseViewController.swift */; };
 		63DA015E28325C9300705842 /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015D28325C9200705842 /* FindPasswordViewController.swift */; };
 		63DA09FF282E2F440021292C /* JSON+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA09FE282E2F440021292C /* JSON+Extension.swift */; };
@@ -1084,6 +1086,7 @@
 		63CCE8232834CFD5006B8B9A /* evInfraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = evInfraTests.swift; sourceTree = "<group>"; };
 		63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		63D4F8B3287FA7BE0087EE61 /* SignUpSecondStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SignUpSecondStepViewController.swift; path = Models/SignUpSecondStepViewController.swift; sourceTree = "<group>"; };
+		63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRegistrationViewController.swift; sourceTree = "<group>"; };
 		63DA015B2832559400705842 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		63DA015D28325C9200705842 /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		63DA09FE282E2F440021292C /* JSON+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSON+Extension.swift"; sourceTree = "<group>"; };
@@ -1656,6 +1659,7 @@
 				82DD3CDC287E7B1C00C863AF /* AcceptTermsReactor.swift */,
 				00CF1776278EA644007D8E4E /* AcceptTermsViewController.swift */,
 				00B2E8C726C106AC005D017C /* Login.storyboard */,
+				63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -3492,6 +3496,7 @@
 				63F31485284EC74F001713D2 /* BoardWriteViewController.swift in Sources */,
 				63F31486284EC74F001713D2 /* IntroImageChecker.swift in Sources */,
 				63F31487284EC74F001713D2 /* StationInfoDto.swift in Sources */,
+				63D4F8B8287FCD760087EE61 /* CarRegistrationViewController.swift in Sources */,
 				63F31488284EC74F001713D2 /* String+Extension.swift in Sources */,
 				63F31489284EC74F001713D2 /* NoticeContentViewController.swift in Sources */,
 				63F3148A284EC74F001713D2 /* EVFileManager.swift in Sources */,
@@ -3650,6 +3655,7 @@
 				00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */,
 				DBE579B521A3E3CA005DD998 /* Snackbar.swift in Sources */,
 				902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */,
+				63D4F8B7287FCD760087EE61 /* CarRegistrationViewController.swift in Sources */,
 				63A4F3712872F88100601018 /* RectButton.swift in Sources */,
 				DB367BF124FE429D00898BED /* Login.swift in Sources */,
 				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,

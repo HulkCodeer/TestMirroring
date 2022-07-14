@@ -12,15 +12,8 @@ internal final class SignUpSecondStepViewController: CommonBaseViewController, S
 
     // MARK: UI
     
-    private lazy var stepOneTotalView = UIView().then {
+    private lazy var secondStepTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private lazy var stepOneScrollView = UIScrollView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.showsVerticalScrollIndicator = true
-        $0.showsHorizontalScrollIndicator = false
-        $0.isHidden = true
     }
     
     private lazy var mainTitleLbl = UILabel().then {
@@ -56,10 +49,10 @@ internal final class SignUpSecondStepViewController: CommonBaseViewController, S
         $0.numberOfLines = 1
     }
     
-    private lazy var nickNameGuideLbl = UILabel().then {
+    private lazy var ageGuideLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textAlignment = .natural
-        let tempText = "프로필/닉네임*"
+        let tempText = "연령대*"
         let attributeText = NSMutableAttributedString(string: tempText)
         let allRange = NSMakeRange(0, attributeText.length)
         attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentPrimary.color], range: allRange)
@@ -71,89 +64,29 @@ internal final class SignUpSecondStepViewController: CommonBaseViewController, S
         $0.numberOfLines = 1
     }
     
-    private lazy var nickNameTf = UITextField().then {
+    private lazy var selectBoxTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        $0.textColor = Colors.contentTertiary.color
         $0.IBborderColor = Colors.borderOpaque.color
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 6
-        $0.returnKeyType = .next
     }
     
-    private lazy var nickNameWrringLbl = UILabel().then {
+    private lazy var selectBoxTitleLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-        $0.textColor = Colors.contentNegative.color
+        $0.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .natural
-        $0.text = "닉네임은 공백을 포함하지 않은 2글자 이상으로 작성해주세요"
-    }
-    
-    private lazy var emailGuideLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.textAlignment = .natural
-        let tempText = "이메일*"
-        let attributeText = NSMutableAttributedString(string: tempText)
-        let allRange = NSMakeRange(0, attributeText.length)
-        attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentPrimary.color], range: allRange)
-        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular)], range: allRange)
-        var chageRange = (attributeText.string as NSString).range(of: "*")
-        attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPositive.color], range: chageRange)
-        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)], range: chageRange)
-        $0.attributedText = attributeText
+        $0.text = "20대"
         $0.numberOfLines = 1
     }
     
-    private lazy var emailTf = UITextField().then {
+    private lazy var selectBoxArrow = ChevronArrow.init(.size24(.down)).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        $0.textColor = Colors.contentTertiary.color
-        $0.IBborderColor = Colors.borderOpaque.color
-        $0.IBborderWidth = 1
-        $0.IBcornerRadius = 6
-        $0.returnKeyType = .next
+        $0.IBimageColor = Colors.contentPrimary.color
     }
     
-    private lazy var emailWrringLbl = UILabel().then {
+    private lazy var selectBoxTotalBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-        $0.textColor = Colors.contentNegative.color
-        $0.textAlignment = .natural
-        $0.text = "이메일 형식을 확인해주세요"
-    }
-    
-    private lazy var phoneGuideLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.textAlignment = .natural
-        let tempText = "전화번호*"
-        let attributeText = NSMutableAttributedString(string: tempText)
-        let allRange = NSMakeRange(0, attributeText.length)
-        attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentPrimary.color], range: allRange)
-        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular)], range: allRange)
-        var chageRange = (attributeText.string as NSString).range(of: "*")
-        attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPositive.color], range: chageRange)
-        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)], range: chageRange)
-        $0.attributedText = attributeText
-        $0.numberOfLines = 1
-    }
-    
-    private lazy var phoneTf = UITextField().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        $0.textColor = Colors.contentTertiary.color
-        $0.IBborderColor = Colors.borderOpaque.color
-        $0.keyboardType = .numberPad
-        $0.returnKeyType = .next
-        $0.IBborderWidth = 1
-        $0.IBcornerRadius = 6
-    }
-    
-    private lazy var phoneWrringLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-        $0.textColor = Colors.contentNegative.color
-        $0.textAlignment = .natural
-        $0.text = "전화번호를 정확하게 입력해주세요"
     }
     
     // MARK: SYSTEM FUNC
@@ -161,110 +94,92 @@ internal final class SignUpSecondStepViewController: CommonBaseViewController, S
     override func loadView() {
         super.loadView()
         
-        self.contentView.addSubview(stepOneTotalView)
-        stepOneTotalView.snp.makeConstraints {
+        self.contentView.addSubview(secondStepTotalView)
+        secondStepTotalView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview()
         }
         
-        stepOneTotalView.addSubview(mainTitleLbl)
+        secondStepTotalView.addSubview(mainTitleLbl)
         mainTitleLbl.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
             $0.height.equalTo(54)
         }
         
-        stepOneTotalView.addSubview(loginInfoGuideLbl)
+        secondStepTotalView.addSubview(loginInfoGuideLbl)
         loginInfoGuideLbl.snp.makeConstraints {
             $0.top.equalTo(mainTitleLbl.snp.bottom).offset(8)
             $0.leading.equalToSuperview()
             $0.height.equalTo(41)
         }
         
-        stepOneTotalView.addSubview(requiredGuideLbl)
+        secondStepTotalView.addSubview(requiredGuideLbl)
         requiredGuideLbl.snp.makeConstraints {
             $0.top.equalTo(loginInfoGuideLbl.snp.bottom).offset(4)
             $0.leading.equalToSuperview()
             $0.height.equalTo(16)
         }
         
-        stepOneTotalView.addSubview(nickNameGuideLbl)
-        nickNameGuideLbl.snp.makeConstraints {
+        secondStepTotalView.addSubview(ageGuideLbl)
+        ageGuideLbl.snp.makeConstraints {
             $0.top.equalTo(requiredGuideLbl.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(20)
         }
         
-        stepOneTotalView.addSubview(nickNameTf)
-        nickNameTf.snp.makeConstraints {
-            $0.top.equalTo(nickNameGuideLbl.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview()
+        secondStepTotalView.addSubview(selectBoxTotalView)
+        selectBoxTotalView.snp.makeConstraints {
+            $0.top.equalTo(ageGuideLbl.snp.bottom).offset(8)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(48)
         }
-        
-        stepOneTotalView.addSubview(nickNameWrringLbl)
-        nickNameWrringLbl.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(nickNameTf.snp.bottom).offset(2)
+
+        selectBoxTotalView.addSubview(selectBoxTitleLbl)
+        selectBoxTitleLbl.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerY.equalToSuperview()
         }
-        
-        stepOneTotalView.addSubview(emailGuideLbl)
-        emailGuideLbl.snp.makeConstraints {
-            $0.top.equalTo(nickNameTf.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(20)
+
+        selectBoxTotalView.addSubview(selectBoxArrow)
+        selectBoxArrow.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.centerY.equalToSuperview()
+            $0.width.height.equalTo(24)
         }
-        
-        stepOneTotalView.addSubview(emailTf)
-        emailTf.snp.makeConstraints {
-            $0.top.equalTo(emailGuideLbl.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(48)
-        }
-        
-        stepOneTotalView.addSubview(emailWrringLbl)
-        emailWrringLbl.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(emailTf.snp.bottom).offset(2)
-        }
-        
-        stepOneTotalView.addSubview(phoneGuideLbl)
-        phoneGuideLbl.snp.makeConstraints {
-            $0.top.equalTo(emailTf.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(20)
-        }
-        
-        stepOneTotalView.addSubview(phoneTf)
-        phoneTf.snp.makeConstraints {
-            $0.top.equalTo(phoneGuideLbl.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(48)
-        }
-        
-        stepOneTotalView.addSubview(phoneWrringLbl)
-        phoneWrringLbl.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(phoneTf.snp.bottom).offset(2)
-            $0.bottom.equalToSuperview()
+
+        selectBoxTotalView.addSubview(selectBoxTotalBtn)
+        selectBoxTotalBtn.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
-    internal func bind(reactor: AcceptTermsReactor) {
-        reactor.state.compactMap { $0.isValidNickName }
-            .asDriver(onErrorJustReturn: false)
-            .drive(nickNameWrringLbl.rx.isHidden)
-            .disposed(by: self.disposeBag)
-        
-        reactor.state.compactMap { $0.isValidEmail }
-            .asDriver(onErrorJustReturn: false)
-            .drive(emailWrringLbl.rx.isHidden)
-            .disposed(by: self.disposeBag)
-        
-        reactor.state.compactMap { $0.isValidPhone }
-            .asDriver(onErrorJustReturn: false)
-            .drive(phoneWrringLbl.rx.isHidden)
+    internal func bind(reactor: SignUpReactor) {
+        selectBoxTotalBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.view.endEditing(true)
+                
+//                let rowVC = NewBottomSheetViewController()
+//                rowVC.items = reactor.currentState.quitAccountReasonList?.compactMap { $0.reasonMessage } ?? []
+//                rowVC.headerTitleStr = "탈퇴 사유 선택"
+//                rowVC.view.frame = GlobalDefine.shared.mainNavi?.view.bounds ?? UIScreen.main.bounds
+//                self.addChildViewController(rowVC)
+//                self.view.addSubview(rowVC.view)
+//                                                                              
+//                rowVC.selectedCompletion = { [weak self] index in
+//                    guard let self = self else { return }
+//                    reactor.selectedReasonIndex = index
+//                    self.selectBoxTitleLbl.text = rowVC.items[index]
+//                    self.nextBtn.isEnabled = true
+//                    self.reasonTotalView.isHidden = false
+//                    rowVC.view.removeFromSuperview()
+//                    rowVC.removeFromParentViewController()
+//                }
+            })
             .disposed(by: self.disposeBag)
     }
 }

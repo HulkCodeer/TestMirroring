@@ -138,7 +138,7 @@ extension LoginViewController: LoginHelperDelegate {
 //        let acceptTermsVc = LoginStoryboard.instantiateViewController(withIdentifier: "AcceptTermsViewController") as! AcceptTermsViewController
 //        acceptTermsVc.user = user
 //        acceptTermsVc.delegate = self
-        let reactor = AcceptTermsReactor(provider: RestApi())
+        let reactor = SignUpReactor(provider: RestApi())
         let viewcon = NewAcceptTermsViewController()
         viewcon.reactor = reactor
         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)

@@ -9,7 +9,7 @@
 import ReactorKit
 import SwiftyJSON
 
-internal final class AcceptTermsReactor: ViewModel, Reactor {
+internal final class SignUpReactor: ViewModel, Reactor {
     enum Action {
         case validFieldStepOne(String, String, String)
     }

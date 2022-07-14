@@ -12,17 +12,10 @@ internal final class SignUpFirstStepViewController: CommonBaseViewController, St
 
     // MARK: UI
     
-    private lazy var stepOneTotalView = UIView().then {
+    private lazy var firstStepTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    
-    private lazy var stepOneScrollView = UIScrollView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.showsVerticalScrollIndicator = true
-        $0.showsHorizontalScrollIndicator = false
-        $0.isHidden = true
-    }
-    
+            
     private lazy var mainTitleLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -161,89 +154,89 @@ internal final class SignUpFirstStepViewController: CommonBaseViewController, St
     override func loadView() {
         super.loadView()
         
-        self.contentView.addSubview(stepOneTotalView)
-        stepOneTotalView.snp.makeConstraints {
+        self.contentView.addSubview(firstStepTotalView)
+        firstStepTotalView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview()
         }
         
-        stepOneTotalView.addSubview(mainTitleLbl)
+        firstStepTotalView.addSubview(mainTitleLbl)
         mainTitleLbl.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
             $0.height.equalTo(54)
         }
         
-        stepOneTotalView.addSubview(loginInfoGuideLbl)
+        firstStepTotalView.addSubview(loginInfoGuideLbl)
         loginInfoGuideLbl.snp.makeConstraints {
             $0.top.equalTo(mainTitleLbl.snp.bottom).offset(8)
             $0.leading.equalToSuperview()
             $0.height.equalTo(41)
         }
         
-        stepOneTotalView.addSubview(requiredGuideLbl)
+        firstStepTotalView.addSubview(requiredGuideLbl)
         requiredGuideLbl.snp.makeConstraints {
             $0.top.equalTo(loginInfoGuideLbl.snp.bottom).offset(4)
             $0.leading.equalToSuperview()
             $0.height.equalTo(16)
         }
         
-        stepOneTotalView.addSubview(nickNameGuideLbl)
+        firstStepTotalView.addSubview(nickNameGuideLbl)
         nickNameGuideLbl.snp.makeConstraints {
             $0.top.equalTo(requiredGuideLbl.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(20)
         }
         
-        stepOneTotalView.addSubview(nickNameTf)
+        firstStepTotalView.addSubview(nickNameTf)
         nickNameTf.snp.makeConstraints {
             $0.top.equalTo(nickNameGuideLbl.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(48)
         }
         
-        stepOneTotalView.addSubview(nickNameWrringLbl)
+        firstStepTotalView.addSubview(nickNameWrringLbl)
         nickNameWrringLbl.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(nickNameTf.snp.bottom).offset(2)
         }
         
-        stepOneTotalView.addSubview(emailGuideLbl)
+        firstStepTotalView.addSubview(emailGuideLbl)
         emailGuideLbl.snp.makeConstraints {
             $0.top.equalTo(nickNameTf.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(20)
         }
         
-        stepOneTotalView.addSubview(emailTf)
+        firstStepTotalView.addSubview(emailTf)
         emailTf.snp.makeConstraints {
             $0.top.equalTo(emailGuideLbl.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(48)
         }
         
-        stepOneTotalView.addSubview(emailWrringLbl)
+        firstStepTotalView.addSubview(emailWrringLbl)
         emailWrringLbl.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(emailTf.snp.bottom).offset(2)
         }
         
-        stepOneTotalView.addSubview(phoneGuideLbl)
+        firstStepTotalView.addSubview(phoneGuideLbl)
         phoneGuideLbl.snp.makeConstraints {
             $0.top.equalTo(emailTf.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(20)
         }
         
-        stepOneTotalView.addSubview(phoneTf)
+        firstStepTotalView.addSubview(phoneTf)
         phoneTf.snp.makeConstraints {
             $0.top.equalTo(phoneGuideLbl.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(48)
         }
         
-        stepOneTotalView.addSubview(phoneWrringLbl)
+        firstStepTotalView.addSubview(phoneWrringLbl)
         phoneWrringLbl.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(phoneTf.snp.bottom).offset(2)
@@ -251,7 +244,7 @@ internal final class SignUpFirstStepViewController: CommonBaseViewController, St
         }
     }
     
-    internal func bind(reactor: AcceptTermsReactor) {
+    internal func bind(reactor: SignUpReactor) {
         reactor.state.compactMap { $0.isValidNickName }
             .asDriver(onErrorJustReturn: false)
             .drive(nickNameWrringLbl.rx.isHidden)

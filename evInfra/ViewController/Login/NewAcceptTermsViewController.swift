@@ -139,7 +139,7 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController, Sto
         
     // MARK: SYSTEM FUNC
     
-    internal func bind(reactor: AcceptTermsReactor) {
+    internal func bind(reactor: SignUpReactor) {
         nextBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
