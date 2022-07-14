@@ -12,22 +12,28 @@ import RxSwift
 import CoreLocation
 import UIKit
 import SwiftyJSON
+import CloudKit
+import RxCocoa
 
 internal final class NewFavoriteReactor: ViewModel, Reactor {
     enum Action {
         case loadData
+        case cellSelected(String)
     }
     
     enum Mutation {
         case setFavoriteList([FavoriteListItem])
-        case none
+        case cellSelected(String)
     }
     
     struct State {
         var sections = [FavoriteListSectionModel]()
+        var isHiddenEmptyView: Bool = true
+        var isSelectedChargerId: String = ""
     }
     
     internal var initialState: State
+    internal var delegate: ChargerSelectDelegate?
     
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -37,14 +43,6 @@ internal final class NewFavoriteReactor: ViewModel, Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadData:
-//            ChargerManager.sharedInstance.getFavoriteCharger()
-//            let favoriteList: [FavoriteListItem] = ChargerManager.sharedInstance.getChargerStationInfoList().filter {
-//                $0.mFavorite }
-//                .map { FavoriteListInfo($0) }
-//                .compactMap { .favoriteListItem(reactor: NewFavoriteCellReactor(model: $0)) }
-//            return Observable.just(favoriteList).map {
-//                .setFavoriteList($0)
-//            }
             return self.provider.getFavoriteList()
                 .convertData()
                 .compactMap(convertToDataModel)
@@ -53,6 +51,9 @@ internal final class NewFavoriteReactor: ViewModel, Reactor {
                 }.compactMap {
                     .setFavoriteList(self.convertToItem(models: $0))
                 }
+        case .cellSelected(let chargerId):
+            printLog(out: "indexpath : \(chargerId)")
+            return Observable.just(.cellSelected(chargerId))
         }
     }
     
@@ -63,7 +64,9 @@ internal final class NewFavoriteReactor: ViewModel, Reactor {
         switch mutation {
         case .setFavoriteList(let favoriteList):
             newState.sections = [FavoriteListSectionModel(items: favoriteList)]
-        case .none: break
+            newState.isHiddenEmptyView = !favoriteList.isEmpty
+        case .cellSelected(let chargerId):
+            newState.isSelectedChargerId = chargerId
         }
         
         return newState
@@ -96,6 +99,17 @@ internal final class NewFavoriteReactor: ViewModel, Reactor {
         var items = [FavoriteListItem]()
         for data in models {
             let reactor = NewFavoriteCellReactor<FavoriteListInfo>(model: data)
+            reactor.state.compactMap { $0.isSelected }
+                .subscribe(onNext: { [weak self] isSelected in
+                    guard let self = self, isSelected else { return }
+                    
+                    let chargerId = reactor.currentState.model.chargerId
+                    Observable.just(Action.cellSelected(chargerId))
+                        .bind(to: self.action)
+                        .disposed(by: self.disposeBag)
+                    
+                    GlobalDefine.shared.mainNavi?.dismiss(animated: true)
+                }).disposed(by: disposeBag)
             items.append(.favoriteListItem(reactor: reactor))
         }
         

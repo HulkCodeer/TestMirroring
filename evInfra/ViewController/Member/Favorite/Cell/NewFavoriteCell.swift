@@ -12,12 +12,14 @@ import SnapKit
 import Then
 
 internal class NewFavoriteCell: UITableViewCell, ReactorKit.View {
-    internal var disposeBag = DisposeBag()
-    
     private lazy var verticalContainerStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 8
         $0.alignment = .fill
+    }
+    
+    private lazy var cellSelectButton = UIButton().then {
+        $0.backgroundColor = .clear
     }
     
     private lazy var hStackView1 = UIStackView().then {
@@ -85,6 +87,8 @@ internal class NewFavoriteCell: UITableViewCell, ReactorKit.View {
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
+    
+    internal var disposeBag = DisposeBag()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -158,6 +162,13 @@ internal class NewFavoriteCell: UITableViewCell, ReactorKit.View {
             $0.top.trailing.bottom.equalToSuperview()
             $0.leading.equalTo(statusLabel.snp.trailing)
         }
+        
+        contentView.addSubview(cellSelectButton)
+        cellSelectButton.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalTo(alarmButton.snp.leading)
+        }
     }
     
     internal func bind(reactor: NewFavoriteCellReactor<FavoriteListInfo>) {
@@ -210,15 +221,20 @@ internal class NewFavoriteCell: UITableViewCell, ReactorKit.View {
         favoriteButton.rx.tap
             .asDriver()
             .drive(onNext: {
-                if !self.favoriteButton.isSelected {
+                guard self.favoriteButton.isSelected else {
                     Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
-                } else {
-                    Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
+                    return
                 }
+                Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
             }).disposed(by: disposeBag)
         
         alarmButton.rx.tap.map {
             Reactor.Action.alarmButtonTapped(chargerId: reactor.initialState.model.chargerId, isOn: !self.alarmButton.isSelected)
+        }.bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        cellSelectButton.rx.tap.map {
+            Reactor.Action.cellSelected
         }.bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

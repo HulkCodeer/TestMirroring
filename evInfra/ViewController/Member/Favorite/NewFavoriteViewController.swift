@@ -30,6 +30,7 @@ internal final class NewFavoriteViewController: BaseViewController, StoryboardVi
         $0.estimatedRowHeight = 102
         $0.showsHorizontalScrollIndicator = false
         $0.separatorStyle = .singleLine
+        $0.allowsSelection = true
         $0.register(Reusable.favoriteListCell)
     } 
     
@@ -56,6 +57,7 @@ internal final class NewFavoriteViewController: BaseViewController, StoryboardVi
         $0.font = .systemFont(ofSize: 24, weight: .regular)
         $0.textAlignment = .center
         $0.numberOfLines = 1
+        $0.textColor = Colors.contentTertiary.color
         $0.text = "아직 즐겨찾는 충전소가 없으신가요?"
     }
     
@@ -63,6 +65,7 @@ internal final class NewFavoriteViewController: BaseViewController, StoryboardVi
         $0.font = .systemFont(ofSize: 17, weight: .regular)
         $0.textAlignment = .center
         $0.numberOfLines = 2
+        $0.textColor = Colors.contentTertiary.color
         $0.text = """
             자주 방문하시는 충전소의 별모양 버튼을 눌러
             즐겨찾기를 추가해보세요!
@@ -87,12 +90,12 @@ internal final class NewFavoriteViewController: BaseViewController, StoryboardVi
         emptyTitleLabel.snp.makeConstraints {
             $0.top.equalTo(emptyImageView.snp.bottom).offset(56)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(emptySubTitleLabel.snp.bottom)
+            $0.bottom.equalTo(emptySubTitleLabel.snp.top)
         }
         emptySubTitleLabel.snp.makeConstraints {
             $0.top.equalTo(emptyTitleLabel.snp.bottom)
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(emptyView.snp.bottom)
         }
         
         view.addSubview(emptyView)
@@ -114,13 +117,21 @@ internal final class NewFavoriteViewController: BaseViewController, StoryboardVi
         reactor.state.map { $0.sections }
             .bind(to: self.tableView.rx.items(dataSource: self.dataSource))
             .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.isHiddenEmptyView }
+            .bind(to: self.emptyView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.isSelectedChargerId }
+            .subscribe { chargerId in
+                reactor.delegate?.moveToSelected(chargerId: chargerId)
+            }.disposed(by: disposeBag)
     }
     
     override func backButtonTapped() {
         GlobalDefine.shared.mainNavi?.dismiss(animated: true)
     }
 }
-
 
 enum FavoriteListItem {
     case favoriteListItem(reactor: NewFavoriteCellReactor<FavoriteListInfo>)

@@ -13,15 +13,18 @@ internal final class NewFavoriteCellReactor<T: Equatable> : Reactor, Equatable {
     enum Action {
         case alarmButtonTapped(chargerId: String, isOn: Bool)
         case favoriteButtonTapped(chargerId: String, isOn: Bool)
+        case cellSelected
     }
     
     enum Mutation {
         case setAlarm(Bool)
         case setFavorite(Bool)
+        case cellSelected
     }
     
     struct State {
         var model: FavoriteListInfo
+        var isSelected: Bool = false
     }
     
     var initialState: State
@@ -47,6 +50,8 @@ internal final class NewFavoriteCellReactor<T: Equatable> : Reactor, Equatable {
                 .compactMap {
                     $0["mode"].boolValue
                 }.map { .setFavorite($0) }
+        case .cellSelected:
+            return Observable.just(.cellSelected)
         }
     }
     
@@ -66,6 +71,8 @@ internal final class NewFavoriteCellReactor<T: Equatable> : Reactor, Equatable {
             if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: state.model.chargerId) {
                 charger.mFavorite = isOn
             }
+        case .cellSelected:
+            newState.isSelected = true
         }
         
         return newState
@@ -85,4 +92,3 @@ internal final class NewFavoriteCellReactor<T: Equatable> : Reactor, Equatable {
         lhs.initialState.model == rhs.initialState.model
     }
 }
-
