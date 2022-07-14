@@ -17,7 +17,7 @@ class FilterPriceView: UIView {
     @IBOutlet weak var freeView: UIView!
     
     var saveOnChange: Bool = false
-    var delegate: DelegateFilterChange?
+    internal weak var delegate: DelegateFilterChange?
     
     private var isFree: Bool = true
     private var isPaid: Bool = true

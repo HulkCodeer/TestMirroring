@@ -8,7 +8,7 @@
 
 import UIKit
 import Material
-protocol DelegateChargerFilterView {
+protocol DelegateChargerFilterView: class {
     func onApplyFilter()
 }
 
@@ -26,7 +26,7 @@ class ChargerFilterViewController: UIViewController {
     @IBOutlet weak var btnApply: UIButton!
     
     @IBOutlet var companyViewHeight: NSLayoutConstraint!
-    var delegate: DelegateChargerFilterView?
+    internal weak var delegate: DelegateChargerFilterView?
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
