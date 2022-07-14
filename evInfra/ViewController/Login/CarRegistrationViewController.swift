@@ -28,10 +28,18 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private lazy var totalScrollView = UIScrollView().then {
+    private lazy var firstStepScrollView = UIScrollView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.showsVerticalScrollIndicator = true
-        $0.showsHorizontalScrollIndicator = false        
+        $0.showsHorizontalScrollIndicator = false
+        $0.isHidden = false
+    }
+    
+    private lazy var secondStepScrollView = UIScrollView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.showsVerticalScrollIndicator = true
+        $0.showsHorizontalScrollIndicator = false
+        $0.isHidden = false
     }
             
     private lazy var nextBtn = RectButton(level: .primary).then {
@@ -74,24 +82,55 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
             $0.height.equalTo(64)
         }
         
-        self.contentView.addSubview(totalScrollView)
-        totalScrollView.snp.makeConstraints {
+        self.contentView.addSubview(firstStepScrollView)
+        firstStepScrollView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom).offset(24)
             $0.width.equalTo(screenWidth)
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(nextBtn.snp.top)
         }
         
-        self.contentView.addSubview(totalScrollView)
-        totalScrollView.snp.makeConstraints {
+        self.contentView.addSubview(secondStepScrollView)
+        secondStepScrollView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom).offset(24)
             $0.width.equalTo(screenWidth)
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(nextBtn.snp.top)
+        }
+        
+        self.addChildViewController(carRegistrationFirstStepViewController)
+        firstStepScrollView.addSubview(carRegistrationFirstStepViewController.view)
+        carRegistrationFirstStepViewController.view.frame = firstStepScrollView.bounds
+        carRegistrationFirstStepViewController.view.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        self.addChildViewController(carRegistrationSecondStepViewController)
+        secondStepScrollView.addSubview(carRegistrationSecondStepViewController.view)
+        carRegistrationSecondStepViewController.view.frame = secondStepScrollView.bounds
+        carRegistrationSecondStepViewController.view.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
     internal func bind(reactor: SignUpReactor) {
-        
+        nextBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                
+                let isFirstStepViewHidden = self.carRegistrationFirstStepViewController.view.isHidden
+                
+                guard !isFirstStepViewHidden else {
+                    let viewcon = CarRegistrationViewController()
+                    viewcon.reactor = reactor
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                    return
+                }
+                                
+                self.carRegistrationSecondStepViewController.view.isHidden = isFirstStepViewHidden
+                self.carRegistrationFirstStepViewController.view.isHidden = !isFirstStepViewHidden
+            })
+            .disposed(by: self.disposeBag)
     }
 }

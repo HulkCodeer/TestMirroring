@@ -29,7 +29,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.showsVerticalScrollIndicator = true
         $0.showsHorizontalScrollIndicator = false
-        $0.isHidden = false
+        $0.isHidden = true
     }
            
     private lazy var nextBtn = RectButton(level: .primary).then {
@@ -73,6 +73,14 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
             $0.bottom.equalTo(nextBtn.snp.top)
         }
         
+        self.contentView.addSubview(secondStepScrollView)
+        secondStepScrollView.snp.makeConstraints {
+            $0.top.equalTo(naviTotalView.snp.bottom).offset(24)
+            $0.width.equalTo(screenWidth)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(nextBtn.snp.top)
+        }
+        
         self.addChildViewController(signUpFirstStepViewController)
         firstStepScrollView.addSubview(signUpFirstStepViewController.view)
         signUpFirstStepViewController.view.frame = firstStepScrollView.bounds
@@ -80,11 +88,27 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
             $0.edges.equalToSuperview()
         }
         
-        self.addChildViewController(signUpFirstStepViewController)
+        self.addChildViewController(signUpSecondStepViewController)
         secondStepScrollView.addSubview(signUpSecondStepViewController.view)
         signUpSecondStepViewController.view.frame = secondStepScrollView.bounds
         signUpSecondStepViewController.view.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        naviTotalView.backClosure = {
+            let isFirstStepViewHidden = self.firstStepScrollView.isHidden
+            
+            guard isFirstStepViewHidden else {
+                GlobalDefine.shared.mainNavi?.pop()
+                return
+            }
+            
+            self.firstStepScrollView.isHidden = !isFirstStepViewHidden
+            self.secondStepScrollView.isHidden = isFirstStepViewHidden
         }
     }
     
@@ -130,7 +154,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 
-                let isFirstStepViewHidden = self.signUpFirstStepViewController.view.isHidden
+                let isFirstStepViewHidden = self.firstStepScrollView.isHidden
                 
                 guard !isFirstStepViewHidden else {
                     let viewcon = CarRegistrationViewController()
@@ -138,9 +162,9 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     return
                 }
-                                
-                self.signUpSecondStepViewController.view.isHidden = isFirstStepViewHidden
-                self.signUpFirstStepViewController.view.isHidden = !isFirstStepViewHidden
+                
+                self.firstStepScrollView.isHidden = !isFirstStepViewHidden
+                self.secondStepScrollView.isHidden = isFirstStepViewHidden
             })
             .disposed(by: self.disposeBag)
     }
