@@ -182,6 +182,12 @@
 		63D4F8B5287FA7BE0087EE61 /* SignUpSecondStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B3287FA7BE0087EE61 /* SignUpSecondStepViewController.swift */; };
 		63D4F8B7287FCD760087EE61 /* CarRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */; };
 		63D4F8B8287FCD760087EE61 /* CarRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */; };
+		63D4F8BA287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B9287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift */; };
+		63D4F8BB287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B9287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift */; };
+		63D4F8BD287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8BC287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift */; };
+		63D4F8BE287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8BC287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift */; };
+		63D4F8C0287FF0BB0087EE61 /* CarRegistrationReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8BF287FF0BB0087EE61 /* CarRegistrationReactor.swift */; };
+		63D4F8C1287FF0BB0087EE61 /* CarRegistrationReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8BF287FF0BB0087EE61 /* CarRegistrationReactor.swift */; };
 		63DA015C2832559400705842 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015B2832559400705842 /* BaseViewController.swift */; };
 		63DA015E28325C9300705842 /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015D28325C9200705842 /* FindPasswordViewController.swift */; };
 		63DA09FF282E2F440021292C /* JSON+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA09FE282E2F440021292C /* JSON+Extension.swift */; };
@@ -807,8 +813,8 @@
 		82DC20602877325300CF04D9 /* CommonNaviView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DC20582877325300CF04D9 /* CommonNaviView.swift */; };
 		82DC20622877347A00CF04D9 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DC20612877347A00CF04D9 /* UITableView+Extension.swift */; };
 		82DC20632877347A00CF04D9 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DC20612877347A00CF04D9 /* UITableView+Extension.swift */; };
-		82DD3CDD287E7B1C00C863AF /* AcceptTermsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDC287E7B1C00C863AF /* AcceptTermsReactor.swift */; };
-		82DD3CDE287E7B1C00C863AF /* AcceptTermsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDC287E7B1C00C863AF /* AcceptTermsReactor.swift */; };
+		82DD3CDD287E7B1C00C863AF /* SignUpReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDC287E7B1C00C863AF /* SignUpReactor.swift */; };
+		82DD3CDE287E7B1C00C863AF /* SignUpReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDC287E7B1C00C863AF /* SignUpReactor.swift */; };
 		82DD3CE0287E9F6F00C863AF /* TermsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDF287E9F6F00C863AF /* TermsModel.swift */; };
 		82DD3CE1287E9F6F00C863AF /* TermsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDF287E9F6F00C863AF /* TermsModel.swift */; };
 		82DD3CE4287EA26900C863AF /* NewSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CE3287EA26900C863AF /* NewSignUpViewController.swift */; };
@@ -1087,6 +1093,9 @@
 		63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		63D4F8B3287FA7BE0087EE61 /* SignUpSecondStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SignUpSecondStepViewController.swift; path = Models/SignUpSecondStepViewController.swift; sourceTree = "<group>"; };
 		63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRegistrationViewController.swift; sourceTree = "<group>"; };
+		63D4F8B9287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRegistrationFirstStepViewController.swift; sourceTree = "<group>"; };
+		63D4F8BC287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRegistrationSecondStepViewController.swift; sourceTree = "<group>"; };
+		63D4F8BF287FF0BB0087EE61 /* CarRegistrationReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRegistrationReactor.swift; sourceTree = "<group>"; };
 		63DA015B2832559400705842 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		63DA015D28325C9200705842 /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		63DA09FE282E2F440021292C /* JSON+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSON+Extension.swift"; sourceTree = "<group>"; };
@@ -1308,7 +1317,7 @@
 		82DC20572877325300CF04D9 /* Arrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arrow.swift; sourceTree = "<group>"; };
 		82DC20582877325300CF04D9 /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
 		82DC20612877347A00CF04D9 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
-		82DD3CDC287E7B1C00C863AF /* AcceptTermsReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptTermsReactor.swift; sourceTree = "<group>"; };
+		82DD3CDC287E7B1C00C863AF /* SignUpReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpReactor.swift; sourceTree = "<group>"; };
 		82DD3CDF287E9F6F00C863AF /* TermsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsModel.swift; sourceTree = "<group>"; };
 		82DD3CE3287EA26900C863AF /* NewSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSignUpViewController.swift; sourceTree = "<group>"; };
 		82DD3CE6287EEB5100C863AF /* SignUpFirstStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpFirstStepViewController.swift; sourceTree = "<group>"; };
@@ -1656,10 +1665,13 @@
 				63D4F8B3287FA7BE0087EE61 /* SignUpSecondStepViewController.swift */,
 				00CF1774278E6A4F007D8E4E /* CorporationLoginViewController.swift */,
 				82B4F62C2862E2D900BA1D1A /* NewAcceptTermsViewController.swift */,
-				82DD3CDC287E7B1C00C863AF /* AcceptTermsReactor.swift */,
+				82DD3CDC287E7B1C00C863AF /* SignUpReactor.swift */,
 				00CF1776278EA644007D8E4E /* AcceptTermsViewController.swift */,
 				00B2E8C726C106AC005D017C /* Login.storyboard */,
 				63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */,
+				63D4F8B9287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift */,
+				63D4F8BC287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift */,
+				63D4F8BF287FF0BB0087EE61 /* CarRegistrationReactor.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -3331,6 +3343,7 @@
 				63F313F0284EC74F001713D2 /* TermsViewController.swift in Sources */,
 				636DB9412876ED6A008BB27A /* IconTextRectButton.swift in Sources */,
 				63F313F1284EC74F001713D2 /* BoardDetailViewModel.swift in Sources */,
+				63D4F8C1287FF0BB0087EE61 /* CarRegistrationReactor.swift in Sources */,
 				63F313F2284EC74F001713D2 /* EIAdManager.swift in Sources */,
 				63F313F3284EC74F001713D2 /* AlertViewController.swift in Sources */,
 				63F313F4284EC74F001713D2 /* Observable+Operators.swift in Sources */,
@@ -3442,6 +3455,7 @@
 				63F31452284EC74F001713D2 /* BoardSearchViewModel.swift in Sources */,
 				63F31453284EC74F001713D2 /* PopUpDialog.swift in Sources */,
 				63F31454284EC74F001713D2 /* UIView+Extension.swift in Sources */,
+				63D4F8BE287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift in Sources */,
 				63F31455284EC74F001713D2 /* ChargerFilterViewController.swift in Sources */,
 				63F31456284EC74F001713D2 /* FCMManager.swift in Sources */,
 				821A05DC28627DE100EB1A91 /* NewTermsViewController.swift in Sources */,
@@ -3452,7 +3466,7 @@
 				63762F4A2869A8F000C951BF /* QuitAccountReactor.swift in Sources */,
 				63F3145B284EC74F001713D2 /* SearchAddressViewDelegate.swift in Sources */,
 				63F3145C284EC74F001713D2 /* MyArticleViewController.swift in Sources */,
-				82DD3CDE287E7B1C00C863AF /* AcceptTermsReactor.swift in Sources */,
+				82DD3CDE287E7B1C00C863AF /* SignUpReactor.swift in Sources */,
 				63F3145D284EC74F001713D2 /* LotteRentCertificateViewController.swift in Sources */,
 				63F3145E284EC74F001713D2 /* BoardSearchViewController.swift in Sources */,
 				63F31460284EC74F001713D2 /* SignUpViewController.swift in Sources */,
@@ -3476,6 +3490,7 @@
 				63F31472284EC74F001713D2 /* KeyChainManager.swift in Sources */,
 				63F31473284EC74F001713D2 /* ServiceGuideViewController.swift in Sources */,
 				63762F4C2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
+				63D4F8BB287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift in Sources */,
 				63F31474284EC74F001713D2 /* EvDetailViewController.swift in Sources */,
 				63F31475284EC74F001713D2 /* CodableCluster.swift in Sources */,
 				63F31476284EC74F001713D2 /* MyCouponContentsViewController.swift in Sources */,
@@ -3569,6 +3584,7 @@
 				CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */,
 				733662D022F974820049AEFE /* Coupon.swift in Sources */,
 				90CBCC7026EB1E41002B2591 /* NSData+Extension.swift in Sources */,
+				63D4F8C0287FF0BB0087EE61 /* CarRegistrationReactor.swift in Sources */,
 				0067D596252C492A00D97146 /* PartnershipListView.swift in Sources */,
 				DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */,
 				DB198F45212FCE9200708ECD /* UINavigationController+Extension.swift in Sources */,
@@ -3779,6 +3795,7 @@
 				82DD3CE7287EEB5100C863AF /* SignUpFirstStepViewController.swift in Sources */,
 				DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */,
 				63762F4B2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
+				63D4F8BA287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift in Sources */,
 				7357595720917C03008181E9 /* EvDetailViewController.swift in Sources */,
 				73AF8FC321C77E1B003CB2CF /* CodableCluster.swift in Sources */,
 				733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */,
@@ -3805,9 +3822,10 @@
 				DBABCC4B2747943000E2C7ED /* EIAdInfo.swift in Sources */,
 				63762F512869A91900C951BF /* SettingsReactor.swift in Sources */,
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,
-				82DD3CDD287E7B1C00C863AF /* AcceptTermsReactor.swift in Sources */,
+				82DD3CDD287E7B1C00C863AF /* SignUpReactor.swift in Sources */,
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				000DAE13274760E300CEC165 /* PaymentTableViewCell.swift in Sources */,
+				63D4F8BD287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift in Sources */,
 				63762F452869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift in Sources */,
 				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,
 				192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */,
