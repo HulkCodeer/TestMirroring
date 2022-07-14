@@ -1,14 +1,14 @@
 //
-//  SignUpStepOneViewController.swift
+//  SignUpSecondStepViewController.swift
 //  evInfra
 //
-//  Created by 소프트베리 on 2022/07/13.
+//  Created by 박현진 on 2022/07/14.
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 
 import ReactorKit
 
-internal final class SignUpStepOneViewController: CommonBaseViewController, StoryboardView {
+internal final class SignUpSecondStepViewController: CommonBaseViewController, StoryboardView {
 
     // MARK: UI
     

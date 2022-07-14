@@ -18,7 +18,14 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         $0.naviTitleLbl.text = "정보 입력"
     }
             
-    private lazy var stepOneScrollView = UIScrollView().then {
+    private lazy var firstStepScrollView = UIScrollView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.showsVerticalScrollIndicator = true
+        $0.showsHorizontalScrollIndicator = false
+        $0.isHidden = false
+    }
+    
+    private lazy var secondStepScrollView = UIScrollView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.showsVerticalScrollIndicator = true
         $0.showsHorizontalScrollIndicator = false
@@ -36,7 +43,8 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
     
     // MARK: VARIABLE
     
-    private lazy var signUpStepOneViewController = SignUpStepOneViewController()
+    private lazy var signUpFirstStepViewController = SignUpFirstStepViewController()
+    private lazy var signUpStepTwoViewController = SignUpSecondStepViewController()
     
     // MARK: SYSTEM FUNC
     
@@ -57,20 +65,38 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
             $0.height.equalTo(64)
         }
                         
-        self.contentView.addSubview(stepOneScrollView)
-        stepOneScrollView.snp.makeConstraints {
+        self.contentView.addSubview(firstStepScrollView)
+        firstStepScrollView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom).offset(24)
             $0.width.equalTo(screenWidth)
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(nextBtn.snp.top)
         }
         
-        self.addChildViewController(signUpStepOneViewController)
-        stepOneScrollView.addSubview(signUpStepOneViewController.view)
-        signUpStepOneViewController.view.frame = stepOneScrollView.bounds
-        signUpStepOneViewController.view.snp.makeConstraints {
+        self.addChildViewController(signUpFirstStepViewController)
+        firstStepScrollView.addSubview(signUpFirstStepViewController.view)
+        signUpFirstStepViewController.view.frame = firstStepScrollView.bounds
+        signUpFirstStepViewController.view.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        self.addChildViewController(signUpFirstStepViewController)
+        secondStepScrollView.addSubview(signUpStepTwoViewController.view)
+        signUpStepTwoViewController.view.frame = secondStepScrollView.bounds
+        signUpStepTwoViewController.view.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        nextBtn.rx.tap
+            .asDriver()
+            .drive(onNext: {
+                
+            })
+            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
