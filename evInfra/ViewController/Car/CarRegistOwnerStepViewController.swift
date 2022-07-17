@@ -1,5 +1,5 @@
 //
-//  CarRegistrationFirstStepViewController.swift
+//  CarRegistrationSecondStepViewController.swift
 //  evInfra
 //
 //  Created by 박현진 on 2022/07/14.
@@ -8,11 +8,11 @@
 
 import ReactorKit
 
-internal final class CarRegistrationFirstStepViewController: CommonBaseViewController, StoryboardView {
+internal final class CarRegistOwnerStepViewController: CommonBaseViewController, StoryboardView {
 
     // MARK: UI
     
-    private lazy var firstStepTotalView = UIView().then {
+    private lazy var secondStepTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
                  
@@ -49,36 +49,21 @@ internal final class CarRegistrationFirstStepViewController: CommonBaseViewContr
     override func loadView() {
         super.loadView()
         
-        self.contentView.addSubview(firstStepTotalView)
-        firstStepTotalView.snp.makeConstraints {
+        self.contentView.addSubview(secondStepTotalView)
+        secondStepTotalView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview()
         }
         
-        firstStepTotalView.addSubview(mainTitleLbl)
+        secondStepTotalView.addSubview(mainTitleLbl)
         mainTitleLbl.snp.makeConstraints {
-            $0.top.equalTo(firstStepTotalView.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.top.trailing.equalToSuperview()
             $0.height.equalTo(54)
         }
-        
-        firstStepTotalView.addSubview(subTitleLbl)
-        subTitleLbl.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLbl.snp.bottom).offset(8)
-            $0.leading.equalToSuperview()
-            $0.height.equalTo(20)
-        }
-        
-        firstStepTotalView.addSubview(carNumberLookUpTf)
-        carNumberLookUpTf.snp.makeConstraints {
-            $0.leading.equalToSuperview()
-        }
-        
     }
     
-    internal func bind(reactor: CarRegistrationReactor) {
-        
+    internal func bind(reactor: SignUpReactor) {
     }
 }

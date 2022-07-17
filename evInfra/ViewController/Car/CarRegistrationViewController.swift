@@ -53,8 +53,8 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
     
     // MARK: VARIABLE
     
-    private lazy var carRegistrationFirstStepViewController = SignUpFirstStepViewController()
-    private lazy var carRegistrationSecondStepViewController = SignUpSecondStepViewController()
+    private lazy var carRegistStepViewController = CarRegistStepViewController()
+    private lazy var carRegistOwnerStepViewController = CarRegistOwnerStepViewController()
             
     // MARK: SYSTEM FUNC
     
@@ -98,19 +98,13 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
             $0.bottom.equalTo(nextBtn.snp.top)
         }
         
-        self.addChildViewController(carRegistrationFirstStepViewController)
-        firstStepScrollView.addSubview(carRegistrationFirstStepViewController.view)
-        carRegistrationFirstStepViewController.view.frame = firstStepScrollView.bounds
-        carRegistrationFirstStepViewController.view.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        self.addChildViewController(carRegistStepViewController)
+        firstStepScrollView.addSubview(carRegistStepViewController.view)
+        carRegistStepViewController.view.frame = firstStepScrollView.bounds
         
-        self.addChildViewController(carRegistrationSecondStepViewController)
-        secondStepScrollView.addSubview(carRegistrationSecondStepViewController.view)
-        carRegistrationSecondStepViewController.view.frame = secondStepScrollView.bounds
-        carRegistrationSecondStepViewController.view.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        self.addChildViewController(carRegistOwnerStepViewController)
+        secondStepScrollView.addSubview(carRegistOwnerStepViewController.view)
+        carRegistOwnerStepViewController.view.frame = secondStepScrollView.bounds
     }
     
     internal func bind(reactor: SignUpReactor) {
@@ -119,7 +113,7 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 
-                let isFirstStepViewHidden = self.carRegistrationFirstStepViewController.view.isHidden
+                let isFirstStepViewHidden = self.carRegistStepViewController.view.isHidden
                 
                 guard !isFirstStepViewHidden else {
                     let viewcon = CarRegistrationViewController()
@@ -128,8 +122,8 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
                     return
                 }
                                 
-                self.carRegistrationSecondStepViewController.view.isHidden = isFirstStepViewHidden
-                self.carRegistrationFirstStepViewController.view.isHidden = !isFirstStepViewHidden
+                self.carRegistOwnerStepViewController.view.isHidden = isFirstStepViewHidden
+                self.carRegistStepViewController.view.isHidden = !isFirstStepViewHidden
             })
             .disposed(by: self.disposeBag)
     }

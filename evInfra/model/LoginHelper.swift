@@ -173,7 +173,7 @@ internal final class LoginHelper: NSObject {
                 let ok = UIAlertAction(title: "다음", style: .default, handler: {(ACTION) -> Void in
                     KOSession.shared().updateScopes(scopes, completionHandler: { (error) in
                         guard error == nil else {
-                            self.requestFromKakaoAndCompanyLoginToEvInfra(user: Login.kakao(me))
+                            self.requestFromKakaoAndCompanyLoginToEvInfra(user: Login(kakaoUserData: me))
                             return
                         }
                         
@@ -185,7 +185,7 @@ internal final class LoginHelper: NSObject {
                 actions.append(ok)
                 UIAlertController.showAlert(title: "개인정보 동의 안내", message: "더 나은 서비스 운영을 위한 추가적인 개인정보 수집 동의가 필요합니다. 각 수집 사유 및 사용 용도는 다음 화면에서 확인 가능합니다.", actions: actions)
             } else {
-                self.requestFromKakaoAndCompanyLoginToEvInfra(user: Login.kakao(me))
+                self.requestFromKakaoAndCompanyLoginToEvInfra(user: Login(kakaoUserData: me))
             }
         }
     }
@@ -386,7 +386,7 @@ extension LoginHelper: ASAuthorizationControllerDelegate {
             UserDefault().saveString(key: UserDefault.Key.MB_USER_ID, value: appleIDCredential.user)
             printLog(out: "User ID : \(appleIDCredential.user)")
             printLog(out: "AuthorizationCode ID : \( String(describing: String(data: appleIDCredential.authorizationCode ?? Data(), encoding: .utf8)))")
-            self.requestFromAppleLoginToEvInfra(user: Login.apple(appleIDCredential))
+            self.requestFromAppleLoginToEvInfra(user: Login(appleUserData: appleIDCredential))
             
         default:
             Snackbar().show(message: "오류가 발생했습니다. 다시 시도해 주세요.")

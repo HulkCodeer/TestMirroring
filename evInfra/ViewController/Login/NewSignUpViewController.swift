@@ -8,6 +8,7 @@
 
 import ReactorKit
 import UIKit
+import SwiftyJSON
 
 internal final class NewSignUpViewController: CommonBaseViewController, StoryboardView {
     
@@ -18,17 +19,12 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         $0.naviTitleLbl.text = "정보 입력"
     }
             
-    private lazy var firstStepScrollView = UIScrollView().then {
+    private lazy var firstStepTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.showsVerticalScrollIndicator = true
-        $0.showsHorizontalScrollIndicator = false
-        $0.isHidden = false
     }
     
-    private lazy var secondStepScrollView = UIScrollView().then {
+    private lazy var secondStepTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.showsVerticalScrollIndicator = true
-        $0.showsHorizontalScrollIndicator = false
         $0.isHidden = true
     }
            
@@ -43,8 +39,8 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
     
     // MARK: VARIABLE
     
-    private lazy var signUpFirstStepViewController = SignUpFirstStepViewController()
-    private lazy var signUpSecondStepViewController = SignUpSecondStepViewController()
+    private lazy var signUpUserInfoStepViewController = SignUpUserInfoStepViewController()
+    private lazy var signUpUserMoreInfoStepViewController = SignUpUserMoreInfoStepViewController()
     
     // MARK: SYSTEM FUNC
     
@@ -65,46 +61,44 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
             $0.height.equalTo(64)
         }
                         
-        self.contentView.addSubview(firstStepScrollView)
-        firstStepScrollView.snp.makeConstraints {
+        self.contentView.addSubview(firstStepTotalView )
+        firstStepTotalView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom).offset(24)
             $0.width.equalTo(screenWidth)
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(nextBtn.snp.top)
         }
         
-        self.contentView.addSubview(secondStepScrollView)
-        secondStepScrollView.snp.makeConstraints {
+        self.contentView.addSubview(secondStepTotalView)
+        secondStepTotalView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom).offset(24)
             $0.width.equalTo(screenWidth)
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(nextBtn.snp.top)
         }
         
-        self.addChildViewController(signUpFirstStepViewController)
-        firstStepScrollView.addSubview(signUpFirstStepViewController.view)
-        printLog(out: "PARK TEST first \(firstStepScrollView.bounds)")
-        signUpFirstStepViewController.view.frame = firstStepScrollView.bounds
+        self.addChildViewController(signUpUserInfoStepViewController)
+        firstStepTotalView.addSubview(signUpUserInfoStepViewController.view)
+        signUpUserInfoStepViewController.view.frame = firstStepTotalView.bounds
         
-        self.addChildViewController(signUpSecondStepViewController)
-        secondStepScrollView.addSubview(signUpSecondStepViewController.view)
-        printLog(out: "PARK TEST second \(secondStepScrollView.bounds)")
-        signUpSecondStepViewController.view.frame = secondStepScrollView.bounds
+        self.addChildViewController(signUpUserMoreInfoStepViewController)
+        secondStepTotalView.addSubview(signUpUserMoreInfoStepViewController.view)
+        signUpUserMoreInfoStepViewController.view.frame = secondStepTotalView.bounds
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         naviTotalView.backClosure = {
-            let isFirstStepViewHidden = self.firstStepScrollView.isHidden
+            let isFirstStepViewHidden = self.firstStepTotalView.isHidden
             
             guard isFirstStepViewHidden else {
                 GlobalDefine.shared.mainNavi?.pop()
                 return
             }
             
-            self.firstStepScrollView.isHidden = !isFirstStepViewHidden
-            self.secondStepScrollView.isHidden = isFirstStepViewHidden
+            self.firstStepTotalView.isHidden = !isFirstStepViewHidden
+            self.secondStepTotalView.isHidden = isFirstStepViewHidden
         }
     }
     
@@ -145,12 +139,15 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
     }
     
     internal func bind(reactor: SignUpReactor) {
+        self.signUpUserInfoStepViewController.reactor = reactor
+        self.signUpUserMoreInfoStepViewController.reactor = reactor
+        
         nextBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 
-                let isFirstStepViewHidden = self.firstStepScrollView.isHidden
+                let isFirstStepViewHidden = self.firstStepTotalView.isHidden
                 
                 guard !isFirstStepViewHidden else {
                     let viewcon = CarRegistrationViewController()
@@ -159,8 +156,10 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                     return
                 }
                 
-                self.firstStepScrollView.isHidden = !isFirstStepViewHidden
-                self.secondStepScrollView.isHidden = isFirstStepViewHidden
+                Observable.just(.)
+                
+                self.firstStepTotalView.isHidden = !isFirstStepViewHidden
+                self.secondStepTotalView.isHidden = isFirstStepViewHidden
             })
             .disposed(by: self.disposeBag)
     }

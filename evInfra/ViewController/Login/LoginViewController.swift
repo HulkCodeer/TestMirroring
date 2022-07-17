@@ -134,11 +134,7 @@ extension LoginViewController: LoginHelperDelegate {
     }
     
     func needSignUp(user: Login) {
-//        let LoginStoryboard = UIStoryboard(name : "Login", bundle: nil)
-//        let acceptTermsVc = LoginStoryboard.instantiateViewController(withIdentifier: "AcceptTermsViewController") as! AcceptTermsViewController
-//        acceptTermsVc.user = user
-//        acceptTermsVc.delegate = self
-        let reactor = SignUpReactor(provider: RestApi())
+        let reactor = SignUpReactor(provider: RestApi(), signUpUserData: user)        
         let viewcon = NewAcceptTermsViewController()
         viewcon.reactor = reactor
         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
@@ -149,12 +145,6 @@ extension LoginViewController: LoginHelperDelegate {
         let signUpVc = LoginStoryboard.instantiateViewController(withIdentifier: "CorporationLoginViewController") as! CorporationLoginViewController
         signUpVc.delegate = self
         GlobalDefine.shared.mainNavi?.push(viewController: signUpVc)
-    }
-}
-
-extension LoginViewController: AcceptTermsViewControllerDelegate {
-    func onSignUpDone() {
-        GlobalDefine.shared.mainNavi?.pop()
     }
 }
 

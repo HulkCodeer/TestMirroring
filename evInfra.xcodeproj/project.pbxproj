@@ -178,14 +178,14 @@
 		63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */; };
 		63CCE8242834CFD5006B8B9A /* evInfraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE8232834CFD5006B8B9A /* evInfraTests.swift */; };
 		63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */; };
-		63D4F8B4287FA7BE0087EE61 /* SignUpSecondStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B3287FA7BE0087EE61 /* SignUpSecondStepViewController.swift */; };
-		63D4F8B5287FA7BE0087EE61 /* SignUpSecondStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B3287FA7BE0087EE61 /* SignUpSecondStepViewController.swift */; };
+		63D4F8B4287FA7BE0087EE61 /* SignUpUserMoreInfoStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B3287FA7BE0087EE61 /* SignUpUserMoreInfoStepViewController.swift */; };
+		63D4F8B5287FA7BE0087EE61 /* SignUpUserMoreInfoStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B3287FA7BE0087EE61 /* SignUpUserMoreInfoStepViewController.swift */; };
 		63D4F8B7287FCD760087EE61 /* CarRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */; };
 		63D4F8B8287FCD760087EE61 /* CarRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */; };
-		63D4F8BA287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B9287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift */; };
-		63D4F8BB287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B9287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift */; };
-		63D4F8BD287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8BC287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift */; };
-		63D4F8BE287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8BC287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift */; };
+		63D4F8BA287FEFFE0087EE61 /* CarRegistStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B9287FEFFE0087EE61 /* CarRegistStepViewController.swift */; };
+		63D4F8BB287FEFFE0087EE61 /* CarRegistStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8B9287FEFFE0087EE61 /* CarRegistStepViewController.swift */; };
+		63D4F8BD287FF00A0087EE61 /* CarRegistOwnerStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8BC287FF00A0087EE61 /* CarRegistOwnerStepViewController.swift */; };
+		63D4F8BE287FF00A0087EE61 /* CarRegistOwnerStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8BC287FF00A0087EE61 /* CarRegistOwnerStepViewController.swift */; };
 		63D4F8C0287FF0BB0087EE61 /* CarRegistrationReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8BF287FF0BB0087EE61 /* CarRegistrationReactor.swift */; };
 		63D4F8C1287FF0BB0087EE61 /* CarRegistrationReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4F8BF287FF0BB0087EE61 /* CarRegistrationReactor.swift */; };
 		63DA015C2832559400705842 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015B2832559400705842 /* BaseViewController.swift */; };
@@ -800,6 +800,12 @@
 		82B4F6362862F4AA00BA1D1A /* AcceptTermsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4F6312862F48800BA1D1A /* AcceptTermsCell.swift */; };
 		82B4F6372862FC1900BA1D1A /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4F62E2862F13F00BA1D1A /* CheckBox.swift */; };
 		82B4F6382862FF8400BA1D1A /* NewAcceptTermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4F62C2862E2D900BA1D1A /* NewAcceptTermsViewController.swift */; };
+		82CD193128814D8E00EA5024 /* CarRegistrationCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CD193028814D8E00EA5024 /* CarRegistrationCompleteViewController.swift */; };
+		82CD193228814D8E00EA5024 /* CarRegistrationCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CD193028814D8E00EA5024 /* CarRegistrationCompleteViewController.swift */; };
+		82CD193428814EB300EA5024 /* CircularProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CD193328814EB300EA5024 /* CircularProgressBarView.swift */; };
+		82CD193528814EB300EA5024 /* CircularProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CD193328814EB300EA5024 /* CircularProgressBarView.swift */; };
+		82CD193728819BED00EA5024 /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CD193628819BED00EA5024 /* Radio.swift */; };
+		82CD193828819BED00EA5024 /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CD193628819BED00EA5024 /* Radio.swift */; };
 		82D9867F2839BD790030F0FC /* MembershipReissuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */; };
 		82D986812839BE080030F0FC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
 		82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */; };
@@ -819,8 +825,8 @@
 		82DD3CE1287E9F6F00C863AF /* TermsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDF287E9F6F00C863AF /* TermsModel.swift */; };
 		82DD3CE4287EA26900C863AF /* NewSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CE3287EA26900C863AF /* NewSignUpViewController.swift */; };
 		82DD3CE5287EA26900C863AF /* NewSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CE3287EA26900C863AF /* NewSignUpViewController.swift */; };
-		82DD3CE7287EEB5100C863AF /* SignUpFirstStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CE6287EEB5100C863AF /* SignUpFirstStepViewController.swift */; };
-		82DD3CE8287EEB5100C863AF /* SignUpFirstStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CE6287EEB5100C863AF /* SignUpFirstStepViewController.swift */; };
+		82DD3CE7287EEB5100C863AF /* SignUpUserInfoStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CE6287EEB5100C863AF /* SignUpUserInfoStepViewController.swift */; };
+		82DD3CE8287EEB5100C863AF /* SignUpUserInfoStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CE6287EEB5100C863AF /* SignUpUserInfoStepViewController.swift */; };
 		82E03191286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		82E03192286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
@@ -1091,10 +1097,10 @@
 		63CCE8212834CFD5006B8B9A /* evInfraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = evInfraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63CCE8232834CFD5006B8B9A /* evInfraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = evInfraTests.swift; sourceTree = "<group>"; };
 		63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
-		63D4F8B3287FA7BE0087EE61 /* SignUpSecondStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SignUpSecondStepViewController.swift; path = Models/SignUpSecondStepViewController.swift; sourceTree = "<group>"; };
+		63D4F8B3287FA7BE0087EE61 /* SignUpUserMoreInfoStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SignUpUserMoreInfoStepViewController.swift; path = Models/SignUpUserMoreInfoStepViewController.swift; sourceTree = "<group>"; };
 		63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRegistrationViewController.swift; sourceTree = "<group>"; };
-		63D4F8B9287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRegistrationFirstStepViewController.swift; sourceTree = "<group>"; };
-		63D4F8BC287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRegistrationSecondStepViewController.swift; sourceTree = "<group>"; };
+		63D4F8B9287FEFFE0087EE61 /* CarRegistStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRegistStepViewController.swift; sourceTree = "<group>"; };
+		63D4F8BC287FF00A0087EE61 /* CarRegistOwnerStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRegistOwnerStepViewController.swift; sourceTree = "<group>"; };
 		63D4F8BF287FF0BB0087EE61 /* CarRegistrationReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRegistrationReactor.swift; sourceTree = "<group>"; };
 		63DA015B2832559400705842 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		63DA015D28325C9200705842 /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
@@ -1309,6 +1315,9 @@
 		82B4F62E2862F13F00BA1D1A /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		82B4F6312862F48800BA1D1A /* AcceptTermsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptTermsCell.swift; sourceTree = "<group>"; };
 		82B4F6332862F49B00BA1D1A /* AcceptTermsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AcceptTermsCell.xib; sourceTree = "<group>"; };
+		82CD193028814D8E00EA5024 /* CarRegistrationCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRegistrationCompleteViewController.swift; sourceTree = "<group>"; };
+		82CD193328814EB300EA5024 /* CircularProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressBarView.swift; sourceTree = "<group>"; };
+		82CD193628819BED00EA5024 /* Radio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radio.swift; sourceTree = "<group>"; };
 		82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceReactor.swift; sourceTree = "<group>"; };
 		82D986802839BE080030F0FC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoReactor.swift; sourceTree = "<group>"; };
@@ -1320,7 +1329,7 @@
 		82DD3CDC287E7B1C00C863AF /* SignUpReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpReactor.swift; sourceTree = "<group>"; };
 		82DD3CDF287E9F6F00C863AF /* TermsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsModel.swift; sourceTree = "<group>"; };
 		82DD3CE3287EA26900C863AF /* NewSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSignUpViewController.swift; sourceTree = "<group>"; };
-		82DD3CE6287EEB5100C863AF /* SignUpFirstStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpFirstStepViewController.swift; sourceTree = "<group>"; };
+		82DD3CE6287EEB5100C863AF /* SignUpUserInfoStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUserInfoStepViewController.swift; sourceTree = "<group>"; };
 		82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitAccountCompleteViewController.swift; sourceTree = "<group>"; };
 		9014C12624E55C4800CB6549 /* EIPOIItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIPOIItem.swift; sourceTree = "<group>"; };
 		9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAllPOIListenerCallback.swift; sourceTree = "<group>"; };
@@ -1661,17 +1670,13 @@
 				DBEE9AF72117DB5600770D04 /* LoginViewController.swift */,
 				DBEE9AFB211842ED00770D04 /* SignUpViewController.swift */,
 				82DD3CE3287EA26900C863AF /* NewSignUpViewController.swift */,
-				82DD3CE6287EEB5100C863AF /* SignUpFirstStepViewController.swift */,
-				63D4F8B3287FA7BE0087EE61 /* SignUpSecondStepViewController.swift */,
+				82DD3CE6287EEB5100C863AF /* SignUpUserInfoStepViewController.swift */,
+				63D4F8B3287FA7BE0087EE61 /* SignUpUserMoreInfoStepViewController.swift */,
 				00CF1774278E6A4F007D8E4E /* CorporationLoginViewController.swift */,
 				82B4F62C2862E2D900BA1D1A /* NewAcceptTermsViewController.swift */,
 				82DD3CDC287E7B1C00C863AF /* SignUpReactor.swift */,
 				00CF1776278EA644007D8E4E /* AcceptTermsViewController.swift */,
 				00B2E8C726C106AC005D017C /* Login.storyboard */,
-				63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */,
-				63D4F8B9287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift */,
-				63D4F8BC287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift */,
-				63D4F8BF287FF0BB0087EE61 /* CarRegistrationReactor.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -2214,6 +2219,7 @@
 		73EF8B40203BC12F00D04494 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				82CD192F28814D5400EA5024 /* Car */,
 				00CD36C927900F5A005413A6 /* BerryComponent */,
 				523A3AF02797A9B8004C3C23 /* Extension */,
 				00A7D5C926B7B13F00C5DBCC /* Filter */,
@@ -2341,6 +2347,19 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		82CD192F28814D5400EA5024 /* Car */ = {
+			isa = PBXGroup;
+			children = (
+				63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */,
+				63D4F8B9287FEFFE0087EE61 /* CarRegistStepViewController.swift */,
+				63D4F8BC287FF00A0087EE61 /* CarRegistOwnerStepViewController.swift */,
+				63D4F8BF287FF0BB0087EE61 /* CarRegistrationReactor.swift */,
+				82CD193028814D8E00EA5024 /* CarRegistrationCompleteViewController.swift */,
+				82CD193328814EB300EA5024 /* CircularProgressBarView.swift */,
+			);
+			path = Car;
+			sourceTree = "<group>";
+		};
 		82DC20542877322B00CF04D9 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -2363,6 +2382,7 @@
 				63762F1428699FB200C951BF /* Info.swift */,
 				63A4F3702872F88100601018 /* RectButton.swift */,
 				636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */,
+				82CD193628819BED00EA5024 /* Radio.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -3309,6 +3329,7 @@
 				63F313D4284EC74F001713D2 /* UIColor+Extension.swift in Sources */,
 				63F313D5284EC74F001713D2 /* UIStoryboard+Extension.swift in Sources */,
 				63F313D6284EC74F001713D2 /* ServerResult.swift in Sources */,
+				82CD193528814EB300EA5024 /* CircularProgressBarView.swift in Sources */,
 				63F313D7284EC74F001713D2 /* ChargerFilter.swift in Sources */,
 				63F313D8284EC74F001713D2 /* Date+Extension.swift in Sources */,
 				63F313D9284EC74F001713D2 /* KeyboardInputView.swift in Sources */,
@@ -3329,7 +3350,7 @@
 				63F313E6284EC74F001713D2 /* RepayResultViewController.swift in Sources */,
 				63F313E7284EC74F001713D2 /* ReissuanceModel.swift in Sources */,
 				63F313E8284EC74F001713D2 /* GuideAlertDialog.swift in Sources */,
-				82DD3CE8287EEB5100C863AF /* SignUpFirstStepViewController.swift in Sources */,
+				82DD3CE8287EEB5100C863AF /* SignUpUserInfoStepViewController.swift in Sources */,
 				63762F572869A95D00C951BF /* CommonBaseViewController.swift in Sources */,
 				63F313E9284EC74F001713D2 /* MemberOtherInfo.swift in Sources */,
 				63F313EA284EC74F001713D2 /* BoardDetailTableViewHeader.swift in Sources */,
@@ -3377,6 +3398,7 @@
 				82B4F6372862FC1900BA1D1A /* CheckBox.swift in Sources */,
 				63F3140C284EC74F001713D2 /* AppTabsController.swift in Sources */,
 				63F3140D284EC74F001713D2 /* PhotoRegisterCollectionViewCell.swift in Sources */,
+				82CD193228814D8E00EA5024 /* CarRegistrationCompleteViewController.swift in Sources */,
 				63F3140E284EC74F001713D2 /* CircularProgressBar.swift in Sources */,
 				63F3140F284EC74F001713D2 /* BaseViewController.swift in Sources */,
 				63F31410284EC74F001713D2 /* FindAllPOIListenerCallback.swift in Sources */,
@@ -3400,7 +3422,7 @@
 				63F31422284EC74F001713D2 /* ChargingStatus.swift in Sources */,
 				63F31423284EC74F001713D2 /* FilterPlaceView.swift in Sources */,
 				63762F1628699FB200C951BF /* Info.swift in Sources */,
-				63D4F8B5287FA7BE0087EE61 /* SignUpSecondStepViewController.swift in Sources */,
+				63D4F8B5287FA7BE0087EE61 /* SignUpUserMoreInfoStepViewController.swift in Sources */,
 				63F31424284EC74F001713D2 /* EditViewDelegate.swift in Sources */,
 				63F31425284EC74F001713D2 /* SearchTableView.swift in Sources */,
 				63762F4E2869A8F000C951BF /* QuitAccountViewController.swift in Sources */,
@@ -3455,7 +3477,7 @@
 				63F31452284EC74F001713D2 /* BoardSearchViewModel.swift in Sources */,
 				63F31453284EC74F001713D2 /* PopUpDialog.swift in Sources */,
 				63F31454284EC74F001713D2 /* UIView+Extension.swift in Sources */,
-				63D4F8BE287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift in Sources */,
+				63D4F8BE287FF00A0087EE61 /* CarRegistOwnerStepViewController.swift in Sources */,
 				63F31455284EC74F001713D2 /* ChargerFilterViewController.swift in Sources */,
 				63F31456284EC74F001713D2 /* FCMManager.swift in Sources */,
 				821A05DC28627DE100EB1A91 /* NewTermsViewController.swift in Sources */,
@@ -3490,7 +3512,7 @@
 				63F31472284EC74F001713D2 /* KeyChainManager.swift in Sources */,
 				63F31473284EC74F001713D2 /* ServiceGuideViewController.swift in Sources */,
 				63762F4C2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
-				63D4F8BB287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift in Sources */,
+				63D4F8BB287FEFFE0087EE61 /* CarRegistStepViewController.swift in Sources */,
 				63F31474284EC74F001713D2 /* EvDetailViewController.swift in Sources */,
 				63F31475284EC74F001713D2 /* CodableCluster.swift in Sources */,
 				63F31476284EC74F001713D2 /* MyCouponContentsViewController.swift in Sources */,
@@ -3515,6 +3537,7 @@
 				63F31488284EC74F001713D2 /* String+Extension.swift in Sources */,
 				63F31489284EC74F001713D2 /* NoticeContentViewController.swift in Sources */,
 				63F3148A284EC74F001713D2 /* EVFileManager.swift in Sources */,
+				82CD193828819BED00EA5024 /* Radio.swift in Sources */,
 				63F3148B284EC74F001713D2 /* EIAdInfo.swift in Sources */,
 				63762F522869A91900C951BF /* SettingsReactor.swift in Sources */,
 				63F3148C284EC74F001713D2 /* Regions.swift in Sources */,
@@ -3675,6 +3698,7 @@
 				63A4F3712872F88100601018 /* RectButton.swift in Sources */,
 				DB367BF124FE429D00898BED /* Login.swift in Sources */,
 				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
+				82CD193128814D8E00EA5024 /* CarRegistrationCompleteViewController.swift in Sources */,
 				82B4F62F2862F13F00BA1D1A /* CheckBox.swift in Sources */,
 				82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
@@ -3709,7 +3733,7 @@
 				CE93309121509A81006B7EF6 /* ReportBoardViewController.swift in Sources */,
 				73C31BF92099A024005B6C53 /* EVModel.swift in Sources */,
 				CE24840220A59E3000611E24 /* CarModels.swift in Sources */,
-				63D4F8B4287FA7BE0087EE61 /* SignUpSecondStepViewController.swift in Sources */,
+				63D4F8B4287FA7BE0087EE61 /* SignUpUserMoreInfoStepViewController.swift in Sources */,
 				63B2373E282C970900E8A3F8 /* MembershipUseGuideViewController.swift in Sources */,
 				529148AF27BE0A000011021F /* SearchHeaderView.swift in Sources */,
 				73A7B430204F8A72002E975F /* CidInfo.swift in Sources */,
@@ -3792,10 +3816,10 @@
 				0012443F25A2E92300376CDC /* IntroImageCheckerDelegate.swift in Sources */,
 				7379A45022CB43C600F4271C /* Connector.swift in Sources */,
 				CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */,
-				82DD3CE7287EEB5100C863AF /* SignUpFirstStepViewController.swift in Sources */,
+				82DD3CE7287EEB5100C863AF /* SignUpUserInfoStepViewController.swift in Sources */,
 				DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */,
 				63762F4B2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
-				63D4F8BA287FEFFE0087EE61 /* CarRegistrationFirstStepViewController.swift in Sources */,
+				63D4F8BA287FEFFE0087EE61 /* CarRegistStepViewController.swift in Sources */,
 				7357595720917C03008181E9 /* EvDetailViewController.swift in Sources */,
 				73AF8FC321C77E1B003CB2CF /* CodableCluster.swift in Sources */,
 				733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */,
@@ -3803,12 +3827,14 @@
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
 				736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController+Extension.swift in Sources */,
+				82CD193428814EB300EA5024 /* CircularProgressBarView.swift in Sources */,
 				63DA0A05282E337F0021292C /* RentalCarCardListView.swift in Sources */,
 				00A6A16626C3B3DC0023DAE3 /* FilterContainerView.swift in Sources */,
 				00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */,
 				73A7B428204E81A6002E975F /* Const.swift in Sources */,
 				0056440D252DB2AB007BF78D /* MembershipQRViewController.swift in Sources */,
 				4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */,
+				82CD193728819BED00EA5024 /* Radio.swift in Sources */,
 				63DA015E28325C9300705842 /* FindPasswordViewController.swift in Sources */,
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
 				828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */,
@@ -3825,7 +3851,7 @@
 				82DD3CDD287E7B1C00C863AF /* SignUpReactor.swift in Sources */,
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				000DAE13274760E300CEC165 /* PaymentTableViewCell.swift in Sources */,
-				63D4F8BD287FF00A0087EE61 /* CarRegistrationSecondStepViewController.swift in Sources */,
+				63D4F8BD287FF00A0087EE61 /* CarRegistOwnerStepViewController.swift in Sources */,
 				63762F452869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift in Sources */,
 				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,
 				192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */,

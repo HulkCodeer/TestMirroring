@@ -52,10 +52,50 @@ struct MemberOtherInfo: Codable {
             
             has_age_range = userAccount.hasGender == KOOptionalBoolean.true ? true : false
             age_range_needs_agreement = userAccount.needsScopeAgeRange()
-            age_range = Login.getKORange(ageRange: userAccount.ageRange)
+            age_range = self.getKORange(ageRange: userAccount.ageRange)
             
             has_gender = userAccount.hasGender == KOOptionalBoolean.true ? true : false
-            gender = Login.getKOGender(gender: userAccount.gender)
+            gender = self.getKOGender(gender: userAccount.gender)
+        }
+    }
+    
+    private func getKORange(ageRange: KOUserAgeRange) -> String {
+        switch ageRange {
+        case KOUserAgeRange.null:
+            return "N/A"
+        case KOUserAgeRange.type15:
+            return "15~19"
+        case KOUserAgeRange.type20:
+            return "20~29"
+        case KOUserAgeRange.type30:
+            return "30~39"
+        case KOUserAgeRange.type40:
+            return "40~49"
+        case KOUserAgeRange.type50:
+            return "50~59"
+        case KOUserAgeRange.type60:
+            return "60~69"
+        case KOUserAgeRange.type70:
+            return "70~79"
+        case KOUserAgeRange.type80:
+            return "80~89"
+        case KOUserAgeRange.type90:
+            return "90~"
+        default:
+            return "N/A"
+        }
+    }
+    
+    private func getKOGender(gender: KOUserGender) -> String {
+        switch gender {
+        case KOUserGender.null:
+            return "other"
+        case KOUserGender.male:
+            return "male"
+        case KOUserGender.female:
+            return "female"
+        default:
+            return "other"
         }
     }
     

@@ -7,12 +7,21 @@
 //
 
 import ReactorKit
+import AnyFormatKit
+import UIKit
 
-internal final class SignUpFirstStepViewController: CommonBaseViewController, StoryboardView {
+internal final class SignUpUserInfoStepViewController: CommonBaseViewController, StoryboardView {
 
     // MARK: UI
     
-    private lazy var firstStepTotalView = UIView().then {
+    private lazy var totalScrollView = UIScrollView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.showsVerticalScrollIndicator = true
+        $0.showsHorizontalScrollIndicator = false
+        $0.isHidden = false
+    }
+    
+    private lazy var totalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
             
@@ -31,7 +40,7 @@ internal final class SignUpFirstStepViewController: CommonBaseViewController, St
         $0.textColor = Colors.contentSecondary.color
         $0.textAlignment = .natural
         $0.text = ""
-        $0.numberOfLines = 1
+        $0.numberOfLines = 2
     }
             
     private lazy var requiredGuideLbl = UILabel().then {
@@ -66,15 +75,19 @@ internal final class SignUpFirstStepViewController: CommonBaseViewController, St
     
     private lazy var nickNameTf = UITextField().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        $0.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
         $0.IBborderColor = Colors.borderOpaque.color
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 6
-        $0.returnKeyType = .next
+        $0.returnKeyType = .default
+        $0.keyboardType = .default
+        $0.placeholder = "닉네임을 입력해주세요"
+        $0.delegate = self
+        $0.addLeftPadding(padding: 16)
     }
     
-    private lazy var nickNameWrringLbl = UILabel().then {
+    private lazy var nickNameWarningLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         $0.textColor = Colors.contentNegative.color
@@ -99,15 +112,19 @@ internal final class SignUpFirstStepViewController: CommonBaseViewController, St
     
     private lazy var emailTf = UITextField().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        $0.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
         $0.IBborderColor = Colors.borderOpaque.color
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 6
-        $0.returnKeyType = .next
+        $0.returnKeyType = .default
+        $0.keyboardType = .emailAddress
+        $0.placeholder = "이메일을 입력해주세요."
+        $0.delegate = self
+        $0.addLeftPadding(padding: 16)
     }
     
-    private lazy var emailWrringLbl = UILabel().then {
+    private lazy var emailWarningLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         $0.textColor = Colors.contentNegative.color
@@ -132,16 +149,19 @@ internal final class SignUpFirstStepViewController: CommonBaseViewController, St
     
     private lazy var phoneTf = UITextField().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        $0.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
         $0.IBborderColor = Colors.borderOpaque.color
-        $0.keyboardType = .numberPad
-        $0.returnKeyType = .next
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 6
+        $0.keyboardType = .numberPad
+        $0.returnKeyType = .default
+        $0.placeholder = "전화번호를 입력해주세요."
+        $0.delegate = self
+        $0.addLeftPadding(padding: 16)
     }
     
-    private lazy var phoneWrringLbl = UILabel().then {
+    private lazy var phoneWarningLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         $0.textColor = Colors.contentNegative.color
@@ -154,110 +174,186 @@ internal final class SignUpFirstStepViewController: CommonBaseViewController, St
     override func loadView() {
         super.loadView()
         
-        self.contentView.addSubview(firstStepTotalView)
-        firstStepTotalView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview()
+        let screenWidth = UIScreen.main.bounds.width
+        
+        self.contentView.addSubview(totalScrollView)
+        totalScrollView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.width.equalTo(screenWidth)
+            $0.centerX.equalToSuperview()
         }
         
-        firstStepTotalView.addSubview(mainTitleLbl)
+        totalScrollView.addSubview(totalView)
+        totalView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.width.equalTo(screenWidth - 32)
+            $0.centerX.equalToSuperview()
+        }
+        
+        totalView.addSubview(mainTitleLbl)
         mainTitleLbl.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
             $0.height.equalTo(54)
         }
         
-        firstStepTotalView.addSubview(loginInfoGuideLbl)
+        totalView.addSubview(loginInfoGuideLbl)
         loginInfoGuideLbl.snp.makeConstraints {
             $0.top.equalTo(mainTitleLbl.snp.bottom).offset(8)
+            $0.trailing.equalToSuperview()
             $0.leading.equalToSuperview()
             $0.height.equalTo(41)
         }
         
-        firstStepTotalView.addSubview(requiredGuideLbl)
+        totalView.addSubview(requiredGuideLbl)
         requiredGuideLbl.snp.makeConstraints {
             $0.top.equalTo(loginInfoGuideLbl.snp.bottom).offset(4)
             $0.leading.equalToSuperview()
             $0.height.equalTo(16)
         }
         
-        firstStepTotalView.addSubview(nickNameGuideLbl)
+        totalView.addSubview(nickNameGuideLbl)
         nickNameGuideLbl.snp.makeConstraints {
             $0.top.equalTo(requiredGuideLbl.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(20)
         }
         
-        firstStepTotalView.addSubview(nickNameTf)
+        totalView.addSubview(nickNameTf)
         nickNameTf.snp.makeConstraints {
             $0.top.equalTo(nickNameGuideLbl.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(48)
         }
         
-        firstStepTotalView.addSubview(nickNameWrringLbl)
-        nickNameWrringLbl.snp.makeConstraints {
+        totalView.addSubview(nickNameWarningLbl)
+        nickNameWarningLbl.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(nickNameTf.snp.bottom).offset(2)
         }
         
-        firstStepTotalView.addSubview(emailGuideLbl)
+        totalView.addSubview(emailGuideLbl)
         emailGuideLbl.snp.makeConstraints {
             $0.top.equalTo(nickNameTf.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(20)
         }
         
-        firstStepTotalView.addSubview(emailTf)
+        totalView.addSubview(emailTf)
         emailTf.snp.makeConstraints {
             $0.top.equalTo(emailGuideLbl.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(48)
         }
         
-        firstStepTotalView.addSubview(emailWrringLbl)
-        emailWrringLbl.snp.makeConstraints {
+        totalView.addSubview(emailWarningLbl)
+        emailWarningLbl.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(emailTf.snp.bottom).offset(2)
         }
         
-        firstStepTotalView.addSubview(phoneGuideLbl)
+        totalView.addSubview(phoneGuideLbl)
         phoneGuideLbl.snp.makeConstraints {
             $0.top.equalTo(emailTf.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(20)
         }
         
-        firstStepTotalView.addSubview(phoneTf)
+        totalView.addSubview(phoneTf)
         phoneTf.snp.makeConstraints {
             $0.top.equalTo(phoneGuideLbl.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(48)
         }
         
-        firstStepTotalView.addSubview(phoneWrringLbl)
-        phoneWrringLbl.snp.makeConstraints {
+        totalView.addSubview(phoneWarningLbl)
+        phoneWarningLbl.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(phoneTf.snp.bottom).offset(2)
-            $0.bottom.equalToSuperview()
+            $0.height.equalTo(15)
+            $0.bottom.greaterThanOrEqualToSuperview().offset(30)
         }
     }
     
     internal func bind(reactor: SignUpReactor) {
+        reactor.state.compactMap { $0.signUpUserData }
+            .asDriver(onErrorJustReturn: Login(.none))
+            .drive(onNext: { [weak self] userData in
+                guard let self = self else { return }
+                
+                if !userData.email.isEmpty {
+                    self.loginInfoGuideLbl.text = "\(userData.loginType.value)에서 제공된 정보이며, 커뮤니티와 고객 센터 안내 등에서 사용됩니다."
+                } else {
+                    self.loginInfoGuideLbl.text = "커뮤니티와 고객 센터 안내 등에서 사용됩니다."
+                }
+                                
+                self.nickNameTf.text = userData.name
+                self.emailTf.text = userData.email
+                
+                if let _otherInfo = userData.otherInfo {
+                    self.emailTf.isEnabled = !_otherInfo.is_email_verified
+                }
+                                
+                self.phoneTf.text = userData.displayPhoneNumber                                                                               
+            })
+            .disposed(by: self.disposeBag)
+        
         reactor.state.compactMap { $0.isValidNickName }
             .asDriver(onErrorJustReturn: false)
-            .drive(nickNameWrringLbl.rx.isHidden)
+            .drive(nickNameWarningLbl.rx.isHidden)
             .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.isValidEmail }
             .asDriver(onErrorJustReturn: false)
-            .drive(emailWrringLbl.rx.isHidden)
+            .drive(emailWarningLbl.rx.isHidden)
             .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.isValidPhone }
             .asDriver(onErrorJustReturn: false)
-            .drive(phoneWrringLbl.rx.isHidden)
+            .drive(phoneWarningLbl.rx.isHidden)
             .disposed(by: self.disposeBag)
+    }
+}
+
+extension SignUpUserInfoStepViewController: UITextFieldDelegate {
+    private func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == phoneTf {
+            guard let text = textField.text else {
+                return false
+            }
+            let characterSet = CharacterSet(charactersIn: string)
+            if CharacterSet.decimalDigits.isSuperset(of: characterSet) == false {
+                return false
+            }
+
+            let formatter = DefaultTextInputFormatter(textPattern: "###-####-####")
+            let result = formatter.formatInput(currentText: text, range: range, replacementString: string)
+            textField.text = result.formattedText
+            let position = textField.position(from: textField.beginningOfDocument, offset: result.caretBeginOffset)!
+            textField.selectedTextRange = textField.textRange(from: position, to: position)
+            return false
+        } else if textField == nickNameTf {
+            guard let text = textField.text else {
+                return false
+            }
+            
+            let newLength = text.count + string.count - range.length
+            if newLength > 12 {
+                Snackbar().show(message: "닉네임은 최대 12자까지 입력가능합니다")
+                return false
+            }
+        }
+        return true
+    }
+    
+    private func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == nickNameTf {
+            emailTf.becomeFirstResponder()
+        } else if textField == emailTf {
+            phoneTf.becomeFirstResponder()
+        } else {
+            phoneTf.resignFirstResponder()
+            view.endEditing(true)
+        }
+        return true
     }
 }

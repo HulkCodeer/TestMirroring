@@ -12,35 +12,41 @@ import SwiftyJSON
 internal final class SignUpReactor: ViewModel, Reactor {
     enum Action {
         case validFieldStepOne(String, String, String)
+        case setGenderType(Login.Gender)
     }
     
     enum Mutation {
         case setValidNickName(Bool)
         case setValidEmail(Bool)
         case setValidPhone(Bool)
+        case setGenderType(Login.Gender)
     }
     
     struct State {
         var isValidNickName: Bool?
         var isValidEmail: Bool?
         var isValidPhone: Bool?
+        var signUpUserData: Login
+        var genderType: Login.Gender?
     }
     
-    internal var initialState: State
+    internal var initialState: State    
     
-    override init(provider: SoftberryAPI) {
-        self.initialState = State()
+    init(provider: SoftberryAPI, signUpUserData: Login) {
+        self.initialState = State(signUpUserData: signUpUserData)
         super.init(provider: provider)
     }
         
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .validFieldStepOne(let nickName, let email, let phone):
-            return .concat([ .just(.setValidNickName(false)) ,
+            return .concat([ .just(.setValidNickName(nickName.isEmpty)) ,
                              .just(.setValidEmail(StringUtils.isValidEmail(email))),
                              .just(.setValidPhone(StringUtils.isValidPhoneNum(phone)))
             ])
-                
+                  
+        case .setGenderType(let genderType):
+            return .just(.setGenderType(genderType))
         }
     }
     
@@ -50,6 +56,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
         newState.isValidNickName = nil
         newState.isValidEmail = nil
         newState.isValidPhone = nil
+        newState.genderType = nil
         
         switch mutation {
         case .setValidNickName(let isValid):
@@ -60,7 +67,10 @@ internal final class SignUpReactor: ViewModel, Reactor {
         
         case .setValidPhone(let isValid):
             newState.isValidPhone = isValid
-                                                                    
+            
+        case .setGenderType(let genderType):
+            newState.genderType = genderType
+                                                                                        
         }
         return newState
     }

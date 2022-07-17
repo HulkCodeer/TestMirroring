@@ -114,27 +114,27 @@ internal final class SignUpViewController: UIViewController {
                 tfEmail.isEnabled = false
             }
             
-            var phoneNo = user.phoneNo
-            if phoneNo != nil, phoneNo!.starts(with: "+82") {
-                phoneNo = phoneNo?.replaceAll(of: "^[^1]*1", with: "01")
-            }
-            tfPhone.text = phoneNo
+//            var phoneNo = user.phoneNo
+//            if phoneNo != nil, phoneNo!.starts(with: "+82") {
+//                phoneNo = phoneNo?.replaceAll(of: "^[^1]*1", with: "01")
+//            }
+//            tfPhone.text = phoneNo
             
-            if let age = user.ageRange, !age.isEmpty {
-                ageIndex = ageList.index(of: age)!
-                lbAge.text = ageList[ageIndex]
-            }
-            
-            if let gender = user.gender, !gender.isEmpty {
-                if gender.equals("남성") {
-                    radioMale.isSelected = true
-                } else if gender.equals("여성") {
-                    radioFemale.isSelected = true
-                } else {
-                    radioOther.isSelected = true
-                }
-                genderSelected = gender
-            }
+//            if let age = user.ageRange, !age.isEmpty {
+//                ageIndex = ageList.index(of: age)!
+//                lbAge.text = ageList[ageIndex]
+//            }
+//
+//            if let gender = user.gender, !gender.isEmpty {
+//                if gender.equals("남성") {
+//                    radioMale.isSelected = true
+//                } else if gender.equals("여성") {
+//                    radioFemale.isSelected = true
+//                } else {
+//                    radioOther.isSelected = true
+//                }
+//                genderSelected = gender
+//            }
         }
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTap)))
         viewAge.addTapGesture(target: self, action: #selector(openBottonSheet(_:)))
@@ -273,11 +273,11 @@ internal final class SignUpViewController: UIViewController {
             _user.profile_image = profileImgName
         }
         
-        _user.name = tfNickname.text
-        _user.email = tfEmail.text
-        _user.phoneNo = tfPhone.text
-        _user.ageRange = ageList[ageIndex]
-        _user.gender = genderSelected
+//        _user.name = tfNickname.text
+//        _user.email = tfEmail.text
+//        _user.phoneNo = tfPhone.text
+//        _user.ageRange = ageList[ageIndex]
+//        _user.gender = genderSelected ?? <#default value#>
         
         RestApi().postRefreshToken(appleAuthorizationCode: String(data: _appleAuthorizationCode, encoding: .utf8) ?? "" )
             .convertData()
@@ -338,11 +338,11 @@ internal final class SignUpViewController: UIViewController {
                 me.profile_image = profileImgName
             }
             
-            me.name = tfNickname.text
-            me.email = tfEmail.text
-            me.phoneNo = tfPhone.text
-            me.ageRange = ageList[ageIndex]
-            me.gender = genderSelected
+//            me.name = tfNickname.text
+//            me.email = tfEmail.text
+//            me.phoneNo = tfPhone.text
+//            me.ageRange = ageList[ageIndex]
+//            me.gender = genderSelected
                                                         
             Server.signUp(user: me) { (isSuccess, value) in
                 if isSuccess {
