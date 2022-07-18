@@ -10,67 +10,90 @@ import ReactorKit
 import SwiftyJSON
 
 internal final class SignUpReactor: ViewModel, Reactor {
+    typealias UserInfoStepValidation = (isValidNickName: Bool, isValidEmail: Bool, isValidPhoneNo: Bool)
+    
     enum Action {
-        case validFieldStepOne(String, String, String)
+        case validUserInfoStep
         case setGenderType(Login.Gender)
+        case setNickname(String)
+        case setEmail(String)
+        case setPhone(String)
+        case getSignUpUserData
     }
     
     enum Mutation {
-        case setValidNickName(Bool)
-        case setValidEmail(Bool)
-        case setValidPhone(Bool)
+        case setValidUserInfoStep(UserInfoStepValidation)
         case setGenderType(Login.Gender)
+        case setNickname(String)
+        case setEmail(String)
+        case setPhone(String)
+        case setSignUpUserData(Login)
     }
     
     struct State {
-        var isValidNickName: Bool?
-        var isValidEmail: Bool?
-        var isValidPhone: Bool?
+        var isValidUserInfo: UserInfoStepValidation?
+        var genderType: Login.Gender?        
         var signUpUserData: Login
-        var genderType: Login.Gender?
     }
     
-    internal var initialState: State    
+    internal var initialState: State
+    internal var signUpUserData: Login
     
     init(provider: SoftberryAPI, signUpUserData: Login) {
         self.initialState = State(signUpUserData: signUpUserData)
+        self.signUpUserData = signUpUserData
         super.init(provider: provider)
     }
         
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .validFieldStepOne(let nickName, let email, let phone):
-            return .concat([ .just(.setValidNickName(nickName.isEmpty)) ,
-                             .just(.setValidEmail(StringUtils.isValidEmail(email))),
-                             .just(.setValidPhone(StringUtils.isValidPhoneNum(phone)))
-            ])
-                  
+        case .validUserInfoStep:
+            return .just(.setValidUserInfoStep((isValidNickName: !self.currentState.signUpUserData.name.isEmpty,
+                                                isValidEmail: StringUtils.isValidEmail(self.currentState.signUpUserData.email),
+                                                isValidPhoneNo: StringUtils.isValidPhoneNum(self.currentState.signUpUserData.phoneNo))))
+                                          
         case .setGenderType(let genderType):
             return .just(.setGenderType(genderType))
+            
+        case .getSignUpUserData:
+            return .just(.setSignUpUserData(self.signUpUserData))
+            
+        case .setNickname(let nickName):
+            return .just(.setNickname(nickName))
+            
+        case .setEmail(let email):
+            return .just(.setEmail(email))
+            
+        case .setPhone(let phone):            
+            return .just(.setPhone(phone))
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
                 
-        newState.isValidNickName = nil
-        newState.isValidEmail = nil
-        newState.isValidPhone = nil
+        newState.isValidUserInfo = nil
         newState.genderType = nil
         
         switch mutation {
-        case .setValidNickName(let isValid):
-            newState.isValidNickName = isValid
-            
-        case .setValidEmail(let isValid):
-            newState.isValidEmail = isValid
-        
-        case .setValidPhone(let isValid):
-            newState.isValidPhone = isValid
-            
+        case .setValidUserInfoStep(let validResult):
+            newState.isValidUserInfo = validResult
+                    
         case .setGenderType(let genderType):
             newState.genderType = genderType
-                                                                                        
+            
+        case .setSignUpUserData(let signUpUserData):
+            newState.signUpUserData = signUpUserData
+            
+        case .setNickname(let nickName):
+            newState.signUpUserData.name = nickName
+            
+        case .setEmail(let email):
+            newState.signUpUserData.email = email
+            
+        case .setPhone(let phone):
+            newState.signUpUserData.phoneNo = phone
+            
         }
         return newState
     }

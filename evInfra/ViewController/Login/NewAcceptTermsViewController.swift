@@ -145,7 +145,7 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController, Sto
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 let viewcon = NewSignUpViewController()
-                viewcon.reactor = reactor
+                viewcon.reactor = reactor                
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)

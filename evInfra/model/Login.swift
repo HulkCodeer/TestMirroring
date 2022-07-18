@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import AuthenticationServices // apple login
 
-struct Login {
+struct Login: Equatable {
 
     enum LoginType: String {
         case apple
@@ -207,6 +207,10 @@ struct Login {
         default:
             return "선택안함"
         }
+    }
+    
+    static func == (lhs: Login, rhs: Login) -> Bool {
+        lhs.loginType == rhs.loginType
     }
     
 }
