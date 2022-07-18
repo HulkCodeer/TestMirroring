@@ -11,8 +11,8 @@ import SwiftyJSON
 
 internal final class NewFavoriteCellReactor<T: Equatable> : Reactor, Equatable {
     enum Action {
-        case alarmButtonTapped(chargerId: String, isOn: Bool)
-        case favoriteButtonTapped(chargerId: String, isOn: Bool)
+        case alarmButtonTapped(Bool)
+        case favoriteButtonTapped(Bool)
         case cellSelected
     }
     
@@ -25,6 +25,8 @@ internal final class NewFavoriteCellReactor<T: Equatable> : Reactor, Equatable {
     struct State {
         var model: FavoriteListInfo
         var isSelected: Bool = false
+        var isAlarmButtonTapped: Bool = false
+        var isFavoriteButtonTapped: Bool = false
     }
     
     var initialState: State
@@ -36,22 +38,12 @@ internal final class NewFavoriteCellReactor<T: Equatable> : Reactor, Equatable {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .alarmButtonTapped(let chargerId, let isOn):
-            return RestApi().updateFavoriteAlarm(chargerId: chargerId, state: isOn)
-                .convertData()
-                .compactMap(convertToJson)
-                .compactMap {
-                    $0["noti"].boolValue
-                }.map { .setAlarm($0) }
-        case .favoriteButtonTapped(let chargerId, let isOn):
-            return RestApi().updateFavorite(chargerId: chargerId, state: isOn)
-                .convertData()
-                .compactMap(convertToJson)
-                .compactMap {
-                    $0["mode"].boolValue
-                }.map { .setFavorite($0) }
+        case .alarmButtonTapped(let isOn):
+            return .just(.setAlarm(isOn))
+        case .favoriteButtonTapped(let isOn):
+            return .just(.setFavorite(isOn))
         case .cellSelected:
-            return Observable.just(.cellSelected)
+            return .just(.cellSelected)
         }
     }
     
@@ -61,12 +53,14 @@ internal final class NewFavoriteCellReactor<T: Equatable> : Reactor, Equatable {
         switch mutation {
         case .setAlarm(let isOn):
             newState.model.isAlarmOn = isOn
+            newState.isAlarmButtonTapped = true
             // 충전소 리스트 싱글톤으로 구성되어있어, 메인뷰에서도 즐겨찾기 on/off UI 표시
             if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: state.model.chargerId) {
                 charger.mFavoriteNoti = isOn
             }
         case .setFavorite(let isOn):
             newState.model.isFavorite = isOn
+            newState.isFavoriteButtonTapped = true
             // 충전소 리스트 싱글톤으로 구성되어있어, 메인뷰에서도 즐겨찾기 노티 알람 on/off UI 표시
             if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: state.model.chargerId) {
                 charger.mFavorite = isOn
@@ -76,16 +70,6 @@ internal final class NewFavoriteCellReactor<T: Equatable> : Reactor, Equatable {
         }
         
         return newState
-    }
-    
-    private func convertToJson(with result: ApiResult<Data, ApiErrorMessage>) -> JSON? {
-        switch result {
-        case .success(let data):
-            return JSON(data)
-        case .failure(let error):
-            printLog(error.errorMessage)
-            return nil
-        }
     }
     
     static func == (lhs: NewFavoriteCellReactor<T>, rhs: NewFavoriteCellReactor<T>) -> Bool {

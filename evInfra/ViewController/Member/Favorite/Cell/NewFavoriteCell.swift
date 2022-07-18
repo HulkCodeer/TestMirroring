@@ -214,7 +214,7 @@ internal class NewFavoriteCell: UITableViewCell, ReactorKit.View {
             .disposed(by: disposeBag)
         
         favoriteButton.rx.tap.map {
-            Reactor.Action.favoriteButtonTapped(chargerId: reactor.initialState.model.chargerId, isOn: !self.favoriteButton.isSelected)
+            Reactor.Action.favoriteButtonTapped(!self.favoriteButton.isSelected)
         }.bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -222,14 +222,14 @@ internal class NewFavoriteCell: UITableViewCell, ReactorKit.View {
             .asDriver()
             .drive(onNext: {
                 guard self.favoriteButton.isSelected else {
-                    Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
+                    Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
                     return
                 }
-                Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
+                Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
             }).disposed(by: disposeBag)
         
         alarmButton.rx.tap.map {
-            Reactor.Action.alarmButtonTapped(chargerId: reactor.initialState.model.chargerId, isOn: !self.alarmButton.isSelected)
+            Reactor.Action.alarmButtonTapped(!self.alarmButton.isSelected)
         }.bind(to: reactor.action)
             .disposed(by: disposeBag)
         

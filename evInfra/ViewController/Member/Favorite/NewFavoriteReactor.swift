@@ -14,16 +14,21 @@ import UIKit
 import SwiftyJSON
 import CloudKit
 import RxCocoa
+import Differentiator
 
 internal final class NewFavoriteReactor: ViewModel, Reactor {
     enum Action {
         case loadData
         case cellSelected(String)
+        case isAlarmOn(String, Bool)
+        case isFavorite(String, Bool)
     }
     
     enum Mutation {
         case setFavoriteList([FavoriteListItem])
         case cellSelected(String)
+        case isAlarmOn(Bool)
+        case isFavorite(Bool)
     }
     
     struct State {
@@ -52,14 +57,26 @@ internal final class NewFavoriteReactor: ViewModel, Reactor {
                     .setFavoriteList(self.convertToItem(models: $0))
                 }
         case .cellSelected(let chargerId):
-            printLog(out: "indexpath : \(chargerId)")
             return Observable.just(.cellSelected(chargerId))
+        case .isAlarmOn(let chargerId, let isOn):
+            return self.provider.updateFavoriteAlarm(chargerId: chargerId, state: isOn)
+                .convertData()
+                .compactMap(convertToJson)
+                .compactMap {
+                    $0["noti"].boolValue
+                }.map { .isAlarmOn($0) }
+        case .isFavorite(let chargerId, let isOn):
+            return self.provider.updateFavorite(chargerId: chargerId, state: isOn)
+                .convertData()
+                .compactMap(convertToJson)
+                .compactMap {
+                    $0["mode"].boolValue
+                }.map { .isFavorite($0) }
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        newState.sections = []
         
         switch mutation {
         case .setFavoriteList(let favoriteList):
@@ -67,6 +84,8 @@ internal final class NewFavoriteReactor: ViewModel, Reactor {
             newState.isHiddenEmptyView = !favoriteList.isEmpty
         case .cellSelected(let chargerId):
             newState.isSelectedChargerId = chargerId
+        case .isAlarmOn(let isOn): break
+        case .isFavorite(let isOn): break
         }
         
         return newState
@@ -83,11 +102,23 @@ internal final class NewFavoriteReactor: ViewModel, Reactor {
         }
     }
     
+    private func convertToJson(with result: ApiResult<Data, ApiErrorMessage>) -> JSON? {
+        switch result {
+        case .success(let data):
+            return JSON(data)
+        case .failure(let error):
+            printLog(error.errorMessage)
+            return nil
+        }
+    }
+    
     private func convertToFavoriteList(with list: [FavoriteListDataModel.FavoriteModel]) -> [FavoriteListInfo]? {
         var newList = [FavoriteListInfo]()
         list.forEach {
             if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: $0.id) {
                 var favorite = FavoriteListInfo(charger)
+                printLog(out: "== PKH:: ==")
+                printLog(out: "\(favorite)")
                 favorite.isAlarmOn = $0.noti
                 newList.append(favorite)
             }
@@ -99,17 +130,38 @@ internal final class NewFavoriteReactor: ViewModel, Reactor {
         var items = [FavoriteListItem]()
         for data in models {
             let reactor = NewFavoriteCellReactor<FavoriteListInfo>(model: data)
-            reactor.state.compactMap { $0.isSelected }
+            let chargerId = reactor.currentState.model.chargerId
+            
+            reactor.state
+                .compactMap { $0.isSelected }
                 .subscribe(onNext: { [weak self] isSelected in
                     guard let self = self, isSelected else { return }
-                    
-                    let chargerId = reactor.currentState.model.chargerId
-                    Observable.just(Action.cellSelected(chargerId))
+                    Observable.just(NewFavoriteReactor.Action.cellSelected(chargerId))
                         .bind(to: self.action)
                         .disposed(by: self.disposeBag)
                     
                     GlobalDefine.shared.mainNavi?.dismiss(animated: true)
                 }).disposed(by: disposeBag)
+            
+            // reactor ui가 변경됨
+            reactor.state.compactMap { $0.isAlarmButtonTapped }
+                .distinctUntilChanged()
+                .subscribe(onNext: { isSelect in
+                    guard isSelect else { return }
+                    Observable.just(NewFavoriteReactor.Action.isAlarmOn(chargerId, reactor.currentState.model.isAlarmOn))
+                        .bind(to: self.action)
+                        .disposed(by: self.disposeBag)
+                }).disposed(by: disposeBag)
+
+            reactor.state.compactMap { $0.isFavoriteButtonTapped }
+                .distinctUntilChanged()
+                .subscribe(onNext: { isSelect in
+                    guard isSelect else { return }
+                    Observable.just(NewFavoriteReactor.Action.isFavorite(chargerId, reactor.currentState.model.isFavorite))
+                        .bind(to: self.action)
+                        .disposed(by: self.disposeBag)
+                }).disposed(by: disposeBag)
+            
             items.append(.favoriteListItem(reactor: reactor))
         }
         
