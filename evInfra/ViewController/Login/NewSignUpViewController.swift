@@ -590,8 +590,10 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 
                 if !userData.email.isEmpty {
                     self.loginInfoGuideLbl.text = "\(userData.loginType.value)에서 제공된 정보이며, 커뮤니티와 고객 센터 안내 등에서 사용됩니다."
+                    self.moreLoginInfoGuideLbl.text = "\(userData.loginType.value)에서 제공된 정보이며, 커뮤니티와 고객 센터 안내 등에서 사용됩니다."
                 } else {
                     self.loginInfoGuideLbl.text = "커뮤니티와 고객 센터 안내 등에서 사용됩니다."
+                    self.moreLoginInfoGuideLbl.text = "커뮤니티와 고객 센터 안내 등에서 사용됩니다."
                 }
                                 
                 self.nickNameTf.text = userData.name
@@ -602,6 +604,9 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 }
                                 
                 self.phoneTf.text = userData.displayPhoneNumber
+                
+                self.nickNameTf.isEnabled = userData.name.isEmpty
+                self.phoneTf.isEnabled = userData.phoneNo.isEmpty
             })
             .disposed(by: self.disposeBag)
         
@@ -617,6 +622,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 let isFirstStepViewHidden = self.userInfoStepTotalScrollView.isHidden
                 self.userInfoStepTotalScrollView.isHidden = !isFirstStepViewHidden
                 self.userInfoMoreTotalScrollView.isHidden = isFirstStepViewHidden
+                self.view.endEditing(true)
             })
             .disposed(by: self.disposeBag)
                 
@@ -698,16 +704,6 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
             .subscribe(onNext: { [weak self] text in
                 guard let self = self else { return }
                 Observable.just(SignUpReactor.Action.setEmail(self.emailTf.text ?? ""))
-                    .bind(to: reactor.action)
-                    .disposed(by: self.disposeBag)
-            })
-            .disposed(by: self.disposeBag)
-        
-        phoneTf.rx.controlEvent([.editingChanged, .valueChanged])
-            .asObservable()
-            .subscribe(onNext: { [weak self] text in
-                guard let self = self else { return }
-                Observable.just(SignUpReactor.Action.setPhone(self.phoneTf.text ?? ""))
                     .bind(to: reactor.action)
                     .disposed(by: self.disposeBag)
             })
@@ -812,6 +808,13 @@ extension NewSignUpViewController: UITextFieldDelegate {
             textField.text = result.formattedText
             let position = textField.position(from: textField.beginningOfDocument, offset: result.caretBeginOffset)!
             textField.selectedTextRange = textField.textRange(from: position, to: position)
+            
+            
+            guard let _reactor = self.reactor else { return false }
+            Observable.just(SignUpReactor.Action.setPhone(self.phoneTf.text ?? ""))
+                .bind(to: _reactor.action)
+                .disposed(by: self.disposeBag)
+            
             return false
         } else if textField == nickNameTf {
             guard let text = textField.text else {

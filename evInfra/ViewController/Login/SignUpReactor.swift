@@ -19,6 +19,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
         case setEmail(String)
         case setPhone(String)
         case getSignUpUserData
+        case signUp
     }
     
     enum Mutation {
@@ -28,11 +29,14 @@ internal final class SignUpReactor: ViewModel, Reactor {
         case setEmail(String)
         case setPhone(String)
         case setSignUpUserData(Login)
+        case none
     }
     
     struct State {
         var isValidUserInfo: UserInfoStepValidation?
-        var genderType: Login.Gender?        
+        var genderType: Login.Gender?
+        var isSignUpComplete: Bool?
+        
         var signUpUserData: Login
     }
     
@@ -66,6 +70,14 @@ internal final class SignUpReactor: ViewModel, Reactor {
             
         case .setPhone(let phone):            
             return .just(.setPhone(phone))
+            
+        case .signUp:
+            return self.provider.signUp(user: self.currentState.signUpUserData)
+                .convertData()
+                .compactMap(convertToData)
+                .map { mbId in
+                    return .none
+                }
         }
     }
     
@@ -94,49 +106,27 @@ internal final class SignUpReactor: ViewModel, Reactor {
         case .setPhone(let phone):
             newState.signUpUserData.phoneNo = phone
             
+        case .none: break
         }
         return newState
     }
     
-    private func convertToData(with result: ApiResult<Data, ApiErrorMessage> ) -> Bool? {
+    private func convertToData(with result: ApiResult<Data, ApiErrorMessage> ) -> String? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
             printLog(out: "JsonData : \(jsonData)")
-            
-            let code = jsonData["code"].stringValue
-            
-            switch code {
-            case "9000":
-                LoginHelper.shared.logout(completion: { _ in
-                    Snackbar().show(message: "회원 정보가 만료되어 로그아웃 되었습니다. 회원탈퇴를 위해서는 다시 로그인이 필요합니다.")
-                    GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
-                })
-                
+            let mbId = jsonData["mb_id"].stringValue
+                        
+            if mbId.isEmpty {
+                Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
                 return nil
-                
-            case "1000":
-                return true
-                
-            default:
-                Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
-                return nil
+            } else {
+                GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                MemberManager.shared.setData(data: jsonData)
+                Snackbar().show(message: "로그인 성공")
+                return mbId
             }
-                                                             
-        case .failure(let errorMessage):
-            printLog(out: "Error Message : \(errorMessage)")
-            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
-            return nil
-        }
-    }
-    
-    private func convertToAppleData(with result: ApiResult<Data, ApiErrorMessage> ) -> Bool? {
-        switch result {
-        case .success(let data):
-            let jsonData = JSON(data)
-            printLog(out: "JsonData : \(jsonData)")
-            
-            return true
             
         case .failure(let errorMessage):
             printLog(out: "Error Message : \(errorMessage)")
