@@ -715,22 +715,23 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 guard let self = self else { return }
                 self.view.endEditing(true)
                 
-//                let rowVC = NewBottomSheetViewController()
-//                rowVC.items = reactor.currentState.quitAccountReasonList?.compactMap { $0.reasonMessage } ?? []
-//                rowVC.headerTitleStr = "탈퇴 사유 선택"
-//                rowVC.view.frame = GlobalDefine.shared.mainNavi?.view.bounds ?? UIScreen.main.bounds
-//                self.addChildViewController(rowVC)
-//                self.view.addSubview(rowVC.view)
-//
-//                rowVC.selectedCompletion = { [weak self] index in
-//                    guard let self = self else { return }
-//                    reactor.selectedReasonIndex = index
-//                    self.selectBoxTitleLbl.text = rowVC.items[index]
-//                    self.nextBtn.isEnabled = true
-//                    self.reasonTotalView.isHidden = false
-//                    rowVC.view.removeFromSuperview()
-//                    rowVC.removeFromParentViewController()
-//                }
+                let rowVC = NewBottomSheetViewController()
+                rowVC.items = Login.AgeType.allCases.map { $0.value }
+                rowVC.headerTitleStr = "탈퇴 사유 선택"
+                rowVC.view.frame = GlobalDefine.shared.mainNavi?.view.bounds ?? UIScreen.main.bounds
+                self.addChildViewController(rowVC)
+                self.view.addSubview(rowVC.view)
+
+                rowVC.selectedCompletion = { [weak self] index in
+                    guard let self = self else { return }
+                    reactor.selectedReasonIndex = Login.AgeType(value: index)
+                                        
+                    
+                    self.selectBoxTitleLbl.text = rowVC.items[index]
+                    self.nextBtn.isEnabled = true
+                    rowVC.view.removeFromSuperview()
+                    rowVC.removeFromParentViewController()
+                }
             })
             .disposed(by: self.disposeBag)
     }

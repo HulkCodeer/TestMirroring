@@ -32,7 +32,7 @@ struct Login: Equatable {
         }
     }
     
-    enum AgeType: CaseIterable {
+    enum AgeType: Int, CaseIterable {
         case twenty
         case thirty
         case forty
@@ -46,6 +46,17 @@ struct Login: Equatable {
             case "40대": self = .forty
             case "50대 이상": self = .fiftyOver
             case "선택안함": self = .none
+            default: self = .none
+            }
+        }
+        
+        init(value: Int) {
+            switch value {
+            case 0: self = .twenty
+            case 1: self = .thirty
+            case 2: self = .forty
+            case 3: self = .fiftyOver
+            case 4: self = .none
             default: self = .none
             }
         }
@@ -95,7 +106,7 @@ struct Login: Equatable {
     var gender: String = "남성"
     var displayGender: String = ""
     var ageRange: String = "20대"
-    var displayAgeRang: String = ""
+    var displayAgeRang: String = "20대"
     var phoneNo: String = ""
     var displayPhoneNumber: String = ""
     

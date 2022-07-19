@@ -18,6 +18,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
         case setNickname(String)
         case setEmail(String)
         case setPhone(String)
+        case setGender(String)
         case getSignUpUserData
         case signUp
     }
@@ -28,6 +29,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
         case setNickname(String)
         case setEmail(String)
         case setPhone(String)
+        case setGender(String)
         case setSignUpUserData(Login)
         case none
     }
@@ -71,6 +73,9 @@ internal final class SignUpReactor: ViewModel, Reactor {
         case .setPhone(let phone):            
             return .just(.setPhone(phone))
             
+        case .setGender(let gender):
+            return .just(.setGender(gender))
+            
         case .signUp:
             return self.provider.signUp(user: self.currentState.signUpUserData)
                 .convertData()
@@ -105,6 +110,9 @@ internal final class SignUpReactor: ViewModel, Reactor {
             
         case .setPhone(let phone):
             newState.signUpUserData.phoneNo = phone
+            
+        case .setGender(let gender):
+            newState.
             
         case .none: break
         }
