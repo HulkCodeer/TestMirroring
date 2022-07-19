@@ -723,9 +723,10 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 self.view.addSubview(rowVC.view)
 
                 rowVC.selectedCompletion = { [weak self] index in
-                    guard let self = self else { return }
-                    reactor.selectedReasonIndex = Login.AgeType(value: index)
-                                        
+                    guard let self = self else { return }                    
+                    Observable.just(SignUpReactor.Action.setAge(Login.AgeType(value: index).value))
+                        .bind(to: reactor.action)
+                        .disposed(by: self.disposeBag)
                     
                     self.selectBoxTitleLbl.text = rowVC.items[index]
                     self.nextBtn.isEnabled = true
