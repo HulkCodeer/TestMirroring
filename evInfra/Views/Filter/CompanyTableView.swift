@@ -18,14 +18,14 @@ class CompanyGroup {
     }
 }
 
-protocol CompanyTableDelegate {
+protocol CompanyTableDelegate: class {
     func onClickTag(tagName: String, value: Bool)
 }
 
 class CompanyTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     var groupList: Array<CompanyGroup>!
-    var tableDelegate: CompanyTableDelegate?
+    internal weak var tableDelegate: CompanyTableDelegate?
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         

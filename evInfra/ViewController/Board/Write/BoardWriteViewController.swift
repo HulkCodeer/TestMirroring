@@ -62,14 +62,15 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        prepareActionBar(with: "글쓰기")
-        
-        if !MemberManager.shared.isLogin {
-            MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
-                if !result {
-                    self.navigationController?.pop()
-                }
-            })
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if !isLogin {
+                MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
+                    if !result {
+                        self.navigationController?.pop()
+                    }
+                })
+            }
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)

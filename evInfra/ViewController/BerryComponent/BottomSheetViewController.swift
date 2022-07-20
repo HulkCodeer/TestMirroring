@@ -12,6 +12,7 @@ import AVFoundation
 protocol BottomSheetDelegate {
     func onSelected(index: Int)
 }
+
 class BottomSheetViewController: UIViewController {
     
     @IBOutlet var sheetView: UIView!
