@@ -626,7 +626,6 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 self.selectBoxTitleLbl.text = userData.displayAgeRang
                 
                 for genderType in Login.Gender.allCases {
-                    printLog(out: "PARK TEST genderType : \(genderType.value)")
                     let genderView = self.createGenderView(type: genderType, reactor: reactor)
                     genderView.rx.tap
                         .map { SignUpReactor.Action.setGenderType(genderType) }
@@ -667,14 +666,16 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
             .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.isValidUserInforMore }
-            .asObservable()
-            .do(onNext: { [weak self] isValid in
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [weak self] isValid in
                 guard let self = self else { return }
                 self.genderWarningLbl.isHidden = isValid
+                
+                guard isValid else { return }
+                Observable.just(SignUpReactor.Action.signUp)
+                    .bind(to: reactor.action)
+                    .disposed(by: self.disposeBag)
             })
-            .filter { $0 }
-            .map{ _ in SignUpReactor.Action.signUp }
-            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
                         
         nextBtn.rx.tap

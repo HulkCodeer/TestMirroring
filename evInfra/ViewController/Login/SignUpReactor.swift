@@ -59,7 +59,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .validUserMoreInfoStep:
-            return .just(.setValidUserMoreInfoStep(self.currentState.signUpUserData.gender.isEmpty))
+            return .just(.setValidUserMoreInfoStep(!self.currentState.signUpUserData.gender.isEmpty))
             
         case .validUserInfoStep:
             return .just(.setValidUserInfoStep((isValidNickName: !self.currentState.signUpUserData.name.isEmpty,
@@ -87,15 +87,23 @@ internal final class SignUpReactor: ViewModel, Reactor {
         case .setAge(let age):
             return .just(.setAge(age))
             
-        case .signUp:
-            printLog(out: "PARK TEST : \(self.currentState.signUpUserData)")
-            return .empty()
-//            return self.provider.signUp(user: self.currentState.signUpUserData)
-//                .convertData()
-//                .compactMap(convertToData)
-//                .map { mbId in
-//                    return .none
-//                }
+        case .signUp:                        
+            return self.provider.signUp(user: self.currentState.signUpUserData)
+                .convertData()
+                .compactMap(convertToData)
+                .map { jsonData in
+                    let mbId = jsonData["mb_id"].stringValue
+                    guard mbId.isEmpty else {
+                        Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
+                        return .none
+                    }
+                    
+                    GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                    MemberManager.shared.setData(data: jsonData)
+                    Snackbar().show(message: "로그인 성공")
+                                        
+                    return .none
+                }
         }
     }
     
@@ -103,8 +111,9 @@ internal final class SignUpReactor: ViewModel, Reactor {
         var newState = state
                 
         newState.isValidUserInfo = nil
+        newState.isValidUserInforMore = nil
         newState.genderType = nil
-        
+                        
         switch mutation {
         case .setValidUserMoreInfoStep(let isValid):
             newState.isValidUserInforMore = isValid
@@ -114,6 +123,8 @@ internal final class SignUpReactor: ViewModel, Reactor {
                     
         case .setGenderType(let genderType):
             newState.genderType = genderType
+            newState.signUpUserData.gender = genderType.value
+            newState.signUpUserData.displayGender = genderType.value
             
         case .setSignUpUserData(let signUpUserData):
             newState.signUpUserData = signUpUserData
@@ -140,22 +151,12 @@ internal final class SignUpReactor: ViewModel, Reactor {
         return newState
     }
     
-    private func convertToData(with result: ApiResult<Data, ApiErrorMessage> ) -> String? {
+    private func convertToData(with result: ApiResult<Data, ApiErrorMessage> ) -> JSON? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
             printLog(out: "JsonData : \(jsonData)")
-            let mbId = jsonData["mb_id"].stringValue
-                        
-            if mbId.isEmpty {
-                Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
-                return nil
-            } else {
-                GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
-                MemberManager.shared.setData(data: jsonData)
-                Snackbar().show(message: "로그인 성공")
-                return mbId
-            }
+            return jsonData
             
         case .failure(let errorMessage):
             printLog(out: "Error Message : \(errorMessage)")
