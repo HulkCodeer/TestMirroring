@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ChargerSelectDelegate {
+protocol ChargerSelectDelegate: class {
     func moveToSelected(chargerId: String)
     func moveToSelectLocation(lat: Double, lon: Double)
 }

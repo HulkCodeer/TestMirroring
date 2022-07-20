@@ -35,13 +35,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             setupEntryController()
         }
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
-        
+                        
         return true
     }
     
     private func setupEntryController() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
+        let introViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(ofType: IntroViewController.self)
             
         window = UIWindow(frame: Screen.bounds)
         let navigationController = AppNavigationController(rootViewController: introViewController)
@@ -241,6 +240,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
 extension AppDelegate : MessagingDelegate {
     // [START refresh_token]
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        printLog(out: "Firebase registration token: \(fcmToken ?? "")")
         fcmManager.registerId = fcmToken
         fcmManager.registerUser()
         // TODO: If necessary send token to application server.

@@ -38,6 +38,8 @@ class NaverMapView: NMFNaverMapView {
         self.showCompass = false
         self.showZoomControls = true
         mapView.positionMode = .normal
+        mapView.mapType = .basic
+        mapView.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
         mapView.logoAlign = .leftBottom
         mapView.logoMargin = UIEdgeInsets(top: 0, left: 0, bottom: 85, right: 0)
         mapView.logoInteractionEnabled = false

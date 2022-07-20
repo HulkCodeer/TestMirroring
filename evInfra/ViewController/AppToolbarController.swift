@@ -9,13 +9,13 @@
 import UIKit
 import Material
 
-protocol AppToolbarDelegate {
+protocol AppToolbarDelegate: class {
     func toolBar(didClick iconButton: IconButton, arg: Any?)
 }
 
 class AppToolbarController: ToolbarController {
     
-    var delegate: AppToolbarDelegate?
+    internal weak var delegate: AppToolbarDelegate?
     
     fileprivate var menuButton: IconButton!
     fileprivate var searchButton: IconButton!
@@ -41,7 +41,7 @@ extension AppToolbarController {
     }
     
     fileprivate func prepareSearchButton() {
-        searchButton = IconButton(image: Icon.search)
+        searchButton = IconButton(image: UIImage(named: "icon_search_md"))
         searchButton.tintColor = UIColor(named: "content-primary")
         searchButton.addTarget(self, action: #selector(handleSearchButton), for: .touchUpInside)
         searchButton.tag = 1
@@ -63,9 +63,14 @@ extension AppToolbarController {
     
     fileprivate func prepareToolbar() {
         toolbar.titleLabel.textColor = UIColor(named: "content-primary")
-        toolbar.titleLabel.textAlignment = .left
+        toolbar.titleLabel.textAlignment = .center
+                
+        #if DEBUG
+        toolbar.title = "EV Infra 테스트"
+        #else
         toolbar.title = "EV Infra"
-        
+        #endif
+    
         toolbar.leftViews = [menuButton]
         toolbar.rightViews = [searchButton, mapButton]
     }

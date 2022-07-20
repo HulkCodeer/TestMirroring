@@ -16,7 +16,20 @@ protocol ReportChargeViewDelegate {
     func getReportInfo()
 }
 
-class ReportChargeViewController: UIViewController {
+internal final class ReportChargeViewController: UIViewController {
+            
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var serverComIndicator: UIActivityIndicatorView!
+    //tmap container view
+    @IBOutlet weak var mapViewContainer: UIView!
+    @IBOutlet var fullAddressLabel: UILabel!
+    @IBOutlet var addressDetailTextView: UITextField!
+    @IBOutlet weak var operationLabel: UILabel!
+    @IBOutlet weak var operationBtn: UIButton!
+    @IBOutlet weak var operationTextView: UITextField!
+    @IBOutlet weak var applyBtn: UIButton!
+    @IBOutlet weak var deleteBtn: UIButton!
+    
     
     var delegate:ReportChargeViewDelegate? = nil
 
@@ -25,23 +38,7 @@ class ReportChargeViewController: UIViewController {
     
     var charger: ChargerStationInfo? = nil
     var info = ReportCharger()
-    
-    @IBOutlet weak var scrollView: UIScrollView!
-    
-    @IBOutlet weak var serverComIndicator: UIActivityIndicatorView!
-    
-    //tmap container view
-    @IBOutlet weak var mapViewContainer: UIView!
-
-    @IBOutlet var fullAddressLabel: UILabel!
-    @IBOutlet var addressDetailTextView: UITextField!
-    
-    @IBOutlet weak var operationLabel: UILabel!
-    @IBOutlet weak var operationBtn: UIButton!
-    @IBOutlet weak var operationTextView: UITextField!
-    
-    @IBOutlet weak var applyBtn: UIButton!
-    @IBOutlet weak var deleteBtn: UIButton!
+    internal var isFromDetailView = false
     
     @IBAction func onClickApplyBtn(_ sender: Any) {
         sendReportToServer()
@@ -147,12 +144,10 @@ class ReportChargeViewController: UIViewController {
         operationTextView.text = info.snm
         
         // 제보 취소 버튼
-        if (info.type_id == ReportCharger.REPORT_CHARGER_TYPE_USER_MOD
-         && info.status_id != ReportCharger.REPORT_CHARGER_STATUS_FINISH) {
-            deleteBtn.isEnabled = true
-        } else {
-            deleteBtn.isEnabled = false
-        }
+        let isDeleteBtnEnable = info.type_id == ReportCharger.REPORT_CHARGER_TYPE_USER_MOD
+         && info.status_id != ReportCharger.REPORT_CHARGER_STATUS_FINISH && !isFromDetailView
+        deleteBtn.isEnabled = isDeleteBtnEnable
+        deleteBtn.isHidden = !isDeleteBtnEnable
     }
     
     @objc

@@ -32,11 +32,11 @@ open class TagValue {
     }
 }
 
-protocol DelegateTagListViewCell {
+protocol DelegateTagListViewCell: class {
     func tagClicked(index: Int, value: Bool)
 }
 class TagListViewCell : UICollectionViewCell {
-    var delegateTagClick : DelegateTagListViewCell?
+    internal weak var delegateTagClick : DelegateTagListViewCell?
     var position : Int = 0
     var select : Bool = false
     var tagValue : TagValue?

@@ -66,6 +66,6 @@ extension AppTabsController {
     }
 }
 
-protocol AppTabsControllerDelegate {
+protocol AppTabsControllerDelegate: class {
     func changeTab()
 }
