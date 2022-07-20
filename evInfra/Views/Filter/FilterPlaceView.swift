@@ -24,7 +24,7 @@ class FilterPlaceView: UIView {
     @IBOutlet var lbCanopy: UILabel!
     
     var saveOnChange: Bool = false
-    var delegate: DelegateFilterChange?
+    internal weak var delegate: DelegateFilterChange?
     
     private var indoorSel = true
     private var outdoorSel = true

@@ -27,7 +27,11 @@ internal final class FilterAccessView: UIView {
     private let bgEnColor: UIColor = Colors.gr6.color
     private let bgDisColor: UIColor = Colors.contentTertiary.color
     
-    internal var delegate: DelegateFilterChange?
+    let bgEnColor: UIColor = UIColor(named: "gr-6")!
+    let bgDisColor: UIColor = UIColor(named: "content-tertiary")!
+    
+    internal weak var delegate: DelegateFilterChange?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()

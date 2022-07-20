@@ -14,7 +14,7 @@ import SwiftyJSON
 class MyPayRegisterViewController: UIViewController {
 
     var mWebView: WKWebView!
-    var myPayRegisterViewDelegate: MyPayRegisterViewDelegate?
+    internal weak var myPayRegisterViewDelegate: MyPayRegisterViewDelegate?
     override func loadView() {
         super.loadView()
         initWebView()

@@ -11,16 +11,34 @@ import Material
 import SwiftyJSON
 import AuthenticationServices // apple login
 
-class LoginViewController: UIViewController {
+internal final class LoginViewController: UIViewController {
+    
+    enum LastLoginTypeMessage: String {
+        case last = "마지막으로 이용한 간편 로그인"
+        case new = "새로운 간편 로그인"
+    }
     
     @IBOutlet weak var loginButtonStackView: UIStackView!
     @IBOutlet weak var btnKakaoLogin: KOLoginButton!
     @IBOutlet weak var btnCorpLogin: UIButton!
+    @IBOutlet var kakaoLastLoginGuideLbl: UILabel!
+    @IBOutlet var kakaoGuideTotalView: UIView!
     
+    private lazy var appleGuideTotalView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private lazy var appleLastLoginGuideLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textAlignment = .natural
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        $0.textColor = Colors.contentTertiary.color
+    }
+            
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
-    
+            
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareActionBar()
@@ -53,13 +71,33 @@ class LoginViewController: UIViewController {
         if #available(iOS 13.0, *) {
             let btnAppleLogin = ASAuthorizationAppleIDButton()            
             btnAppleLogin.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
-            self.loginButtonStackView.addArrangedSubview(btnAppleLogin)
+            
+            loginButtonStackView.addArrangedSubview(appleGuideTotalView)
+            loginButtonStackView.addArrangedSubview(btnAppleLogin)
+            
+            appleGuideTotalView.addSubview(appleLastLoginGuideLbl)
+            appleLastLoginGuideLbl.snp.makeConstraints {
+                $0.leading.bottom.equalToSuperview()
+                $0.height.equalTo(16)
+            }            
+        }
+        
+        switch MemberManager.shared.lastLoginType {
+        case .apple, .kakao:
+            kakaoGuideTotalView.isHidden = false
+            appleGuideTotalView.isHidden = false
+            kakaoLastLoginGuideLbl.text = MemberManager.shared.lastLoginType == .apple ? LastLoginTypeMessage.new.rawValue : LastLoginTypeMessage.last.rawValue
+            appleLastLoginGuideLbl.text = MemberManager.shared.lastLoginType == .apple ? LastLoginTypeMessage.last.rawValue : LastLoginTypeMessage.new.rawValue
+            
+        default:
+            kakaoGuideTotalView.isHidden = true
+            appleGuideTotalView.isHidden = true
         }
     }
     
     @objc
     fileprivate func handleBackButton() {
-        self.navigationController?.pop()
+        GlobalDefine.shared.mainNavi?.pop()
     }
     
     @objc
@@ -85,13 +123,14 @@ extension LoginViewController: LoginHelperDelegate {
     }
     
     func successLogin() {
-        Snackbar().show(message: "로그인 성공")
-                
         if Const.CLOSED_BETA_TEST {
             CBT.checkCBT(vc: self)
         }
 
-        self.navigationController?.pop()
+        DispatchQueue.main.async {
+            Snackbar().show(message: "로그인 성공")
+            GlobalDefine.shared.mainNavi?.pop()
+        }
     }
     
     func needSignUp(user: Login) {
@@ -99,26 +138,26 @@ extension LoginViewController: LoginHelperDelegate {
         let acceptTermsVc = LoginStoryboard.instantiateViewController(withIdentifier: "AcceptTermsViewController") as! AcceptTermsViewController
         acceptTermsVc.user = user
         acceptTermsVc.delegate = self
-        self.navigationController?.push(viewController: acceptTermsVc)
+        GlobalDefine.shared.mainNavi?.push(viewController: acceptTermsVc)
     }
     
     func corpLogin() {
         let LoginStoryboard = UIStoryboard(name : "Login", bundle: nil)
         let signUpVc = LoginStoryboard.instantiateViewController(withIdentifier: "CorporationLoginViewController") as! CorporationLoginViewController
         signUpVc.delegate = self
-        self.navigationController?.push(viewController: signUpVc)
+        GlobalDefine.shared.mainNavi?.push(viewController: signUpVc)
     }
 }
 
 extension LoginViewController: AcceptTermsViewControllerDelegate {
     func onSignUpDone() {
-        self.navigationController?.pop()
+        GlobalDefine.shared.mainNavi?.pop()
     }
 }
 
 extension LoginViewController: CorporationLoginViewControllerDelegate {
     func successSignUp() {
-        self.navigationController?.pop()
+        GlobalDefine.shared.mainNavi?.pop()
     }
 }
 

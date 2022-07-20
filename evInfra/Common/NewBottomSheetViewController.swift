@@ -56,12 +56,18 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
         $0.dataSource = self
     }
     
+    private lazy var safeAreaBottomView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = Colors.backgroundPrimary.color
+    }
+    
     // MARK: VARIABLE
     internal var headerTitleStr: String = ""
     internal var selectedCompletion: ((Int) -> Void)?
     internal var items: [String] = []
     
     private let disposebag = DisposeBag()
+    private let safeAreaInsetBottomHeight = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
     
     // MARK: SYSTEM FUNC
     
@@ -69,17 +75,19 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
         super.loadView()
         self.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
         self.contentView.backgroundColor = .clear
+        
                                 
-        self.contentView.addSubview(dimmedViewBtn)
+        self.view.addSubview(dimmedViewBtn)
         dimmedViewBtn.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
-        self.contentView.addSubview(totalStackView)
+        self.view.addSubview(totalStackView)
         totalStackView.snp.makeConstraints {
             $0.width.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(52 + 1 + (55 * items.count))
+            $0.centerX.equalToSuperview()
             $0.height.lessThanOrEqualTo(UIScreen.main.bounds.size.height/2)
+            $0.bottom.equalToSuperview().offset(52 + 1 + (55 * items.count) + Int(safeAreaInsetBottomHeight))
         }
         
         headerTitleLbl.snp.makeConstraints {
@@ -94,10 +102,15 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
         tableView.snp.makeConstraints {
             $0.height.lessThanOrEqualTo(55 * items.count)
         }
+        
+        safeAreaBottomView.snp.makeConstraints {
+            $0.height.equalTo(safeAreaInsetBottomHeight)
+        }
                         
         totalStackView.addArrangedSubview(headerTitleLbl)
         totalStackView.addArrangedSubview(line)
         totalStackView.addArrangedSubview(tableView)
+        totalStackView.addArrangedSubview(safeAreaBottomView)
         
         headerTitleLbl.text = self.headerTitleStr
     }
@@ -118,7 +131,8 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        UIView.animate(withDuration: 0.5, delay: 0 , options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0 , options: .curveEaseOut, animations: { [weak self] in
+            guard let self = self else { return }
             let translationY = self.totalStackView.frame.height
             self.totalStackView.transform = CGAffineTransform(translationX: 0, y:  translationY * (-1))
         }, completion: nil)

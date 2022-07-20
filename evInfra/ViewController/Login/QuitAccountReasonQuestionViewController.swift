@@ -38,7 +38,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     private lazy var dismissKeyboardBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    
+        
     private lazy var mainTitleLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -141,14 +141,10 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         $0.numberOfLines = 1
     }
     
-    private lazy var nextBtn = UIButton().then {
+    private lazy var nextBtn = RectButton(level: .primary).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("다음", for: .normal)
-        $0.setTitle("다음", for: .disabled)
-        $0.setBackgroundColor(Colors.backgroundDisabled.color, for: .disabled)
-        $0.setBackgroundColor(Colors.backgroundPositive.color, for: .normal)
-        $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
-        $0.setTitleColor(Colors.contentDisabled.color, for: .disabled)
+        $0.setTitle("다음", for: .disabled)                
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.isEnabled = false
         $0.IBcornerRadius = 6
@@ -178,7 +174,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         self.contentView.addSubview(nextBtn)
         nextBtn.snp.makeConstraints {
             $0.width.equalTo(screenWidth - 32)
-            $0.height.equalTo(44)
+            $0.height.equalTo(48)
             $0.bottom.equalToSuperview().offset(-16)
             $0.centerX.equalToSuperview()
         }
@@ -320,13 +316,23 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: .UIKeyboardWillHide, object: nil)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     @objc private func keyboardWillShow(_ sender: NSNotification) {
         if let keyboardSize = (sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             view.layoutIfNeeded()
-            totalScrollView.snp.updateConstraints {
-                $0.bottom.equalTo(nextBtn.snp.top).offset(-keyboardHeight + 60 + self.view.safeAreaInsets.bottom)
-            }    
+//            totalScrollView.snp.updateConstraints {
+//                $0.bottom.equalTo(nextBtn.snp.top).offset(-keyboardHeight + 60 + self.view.safeAreaInsets.bottom)
+//            }
+            
+            let bottom = keyboardHeight - (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0) 
+            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: bottom, right: 0.0)
+            self.totalScrollView.contentInset = contentInsets
+            self.totalScrollView.scrollIndicatorInsets = contentInsets
         }
     }
     
@@ -336,9 +342,9 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         totalScrollView.contentInset = contentsInset
         totalScrollView.scrollIndicatorInsets = contentsInset
                 
-        totalScrollView.snp.updateConstraints {
-            $0.bottom.equalTo(nextBtn.snp.top).offset(-16)
-        }
+//        totalScrollView.snp.updateConstraints {
+//            $0.bottom.equalTo(nextBtn.snp.top).offset(-16)
+//        }
     }
                     
     internal func bind(reactor: QuitAccountReasonQuestionReactor) {
@@ -350,6 +356,8 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
+                self.view.endEditing(true)
+                
                 let rowVC = NewBottomSheetViewController()
                 rowVC.items = reactor.currentState.quitAccountReasonList?.compactMap { $0.reasonMessage } ?? []
                 rowVC.headerTitleStr = "탈퇴 사유 선택"
@@ -371,9 +379,11 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
         
         nextBtn.rx.tap
             .asDriver()
-            .drive(onNext: { _ in
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 let quitReactor = QuitAccountReactor(provider: RestApi())
                 quitReactor.reasonID = reactor.currentState.quitAccountReasonList?[reactor.selectedReasonIndex].reasonId ?? ""
+                quitReactor.reasonText = self.reasonTextView.text ?? ""
                 let viewcon = QuitAccountViewController(reactor: quitReactor)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             }).disposed(by: self.disposeBag)
