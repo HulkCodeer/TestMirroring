@@ -291,6 +291,15 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         $0.spacing = 26
         $0.backgroundColor = .white
     }
+            
+    private lazy var genderWarningLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        $0.textColor = Colors.contentNegative.color
+        $0.textAlignment = .natural
+        $0.text = "성별을 선택해주세요"
+        $0.isHidden = true
+    }
            
     private lazy var nextBtn = RectButton(level: .primary).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -502,6 +511,12 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
             $0.trailing.lessThanOrEqualToSuperview()
             $0.bottom.greaterThanOrEqualToSuperview().offset(-30)
         }
+                
+        userInfoMoreTotalView.addSubview(genderWarningLbl)
+        genderWarningLbl.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(genderTotalStackView.snp.bottom).offset(8)
+        }
     }
     
     override func viewDidLoad() {
@@ -650,6 +665,17 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 self.view.endEditing(true)
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.isValidUserInforMore }
+            .asObservable()
+            .do(onNext: { [weak self] isValid in
+                guard let self = self else { return }
+                self.genderWarningLbl.isHidden = isValid
+            })
+            .filter { $0 }
+            .map{ _ in SignUpReactor.Action.signUp }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
                         
         nextBtn.rx.tap
             .asDriver()
@@ -658,9 +684,9 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 
                 let isFirstStepViewHidden = self.userInfoStepTotalScrollView.isHidden
                 guard !isFirstStepViewHidden else {
-                    let viewcon = CarRegistrationViewController()
-                    viewcon.reactor = reactor
-                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                    Observable.just(SignUpReactor.Action.validUserMoreInfoStep)
+                        .bind(to: reactor.action)
+                        .disposed(by: self.disposeBag)
                     return
                 }
                 

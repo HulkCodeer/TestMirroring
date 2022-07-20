@@ -13,6 +13,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
     typealias UserInfoStepValidation = (isValidNickName: Bool, isValidEmail: Bool, isValidPhoneNo: Bool)
     
     enum Action {
+        case validUserMoreInfoStep
         case validUserInfoStep
         case setGenderType(Login.Gender)
         case setNickname(String)
@@ -25,6 +26,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
     }
     
     enum Mutation {
+        case setValidUserMoreInfoStep(Bool)
         case setValidUserInfoStep(UserInfoStepValidation)
         case setGenderType(Login.Gender)
         case setNickname(String)
@@ -38,6 +40,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
     
     struct State {
         var isValidUserInfo: UserInfoStepValidation?
+        var isValidUserInforMore: Bool?
         var genderType: Login.Gender?
         var isSignUpComplete: Bool?
         
@@ -55,6 +58,9 @@ internal final class SignUpReactor: ViewModel, Reactor {
         
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .validUserMoreInfoStep:
+            return .just(.setValidUserMoreInfoStep(self.currentState.signUpUserData.gender.isEmpty))
+            
         case .validUserInfoStep:
             return .just(.setValidUserInfoStep((isValidNickName: !self.currentState.signUpUserData.name.isEmpty,
                                                 isValidEmail: StringUtils.isValidEmail(self.currentState.signUpUserData.email),
@@ -82,12 +88,14 @@ internal final class SignUpReactor: ViewModel, Reactor {
             return .just(.setAge(age))
             
         case .signUp:
-            return self.provider.signUp(user: self.currentState.signUpUserData)
-                .convertData()
-                .compactMap(convertToData)
-                .map { mbId in
-                    return .none
-                }
+            printLog(out: "PARK TEST : \(self.currentState.signUpUserData)")
+            return .empty()
+//            return self.provider.signUp(user: self.currentState.signUpUserData)
+//                .convertData()
+//                .compactMap(convertToData)
+//                .map { mbId in
+//                    return .none
+//                }
         }
     }
     
@@ -98,8 +106,11 @@ internal final class SignUpReactor: ViewModel, Reactor {
         newState.genderType = nil
         
         switch mutation {
-        case .setValidUserInfoStep(let validResult):
-            newState.isValidUserInfo = validResult
+        case .setValidUserMoreInfoStep(let isValid):
+            newState.isValidUserInforMore = isValid
+            
+        case .setValidUserInfoStep(let isValid):
+            newState.isValidUserInfo = isValid
                     
         case .setGenderType(let genderType):
             newState.genderType = genderType

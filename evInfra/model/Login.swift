@@ -103,7 +103,7 @@ struct Login: Equatable {
     var emailVerified = false
     var profile_image: String?
     
-    var gender: String = "남성"
+    var gender: String = ""
     var displayGender: String = ""
     var ageRange: String = "20대"
     var displayAgeRang: String = "20대"
