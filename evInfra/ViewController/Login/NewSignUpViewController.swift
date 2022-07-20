@@ -286,6 +286,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
     private lazy var genderTotalStackView = UIStackView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.axis = .horizontal
+        $0.distribution = .fillEqually
         $0.alignment = .fill
         $0.spacing = 26
         $0.backgroundColor = .white
@@ -450,14 +451,14 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
 
         userInfoMoreTotalView.addSubview(moreRequiredGuideLbl)
         moreRequiredGuideLbl.snp.makeConstraints {
-            $0.top.equalTo(loginInfoGuideLbl.snp.bottom).offset(4)
+            $0.top.equalTo(moreLoginInfoGuideLbl.snp.bottom).offset(4)
             $0.leading.equalToSuperview()
             $0.height.equalTo(16)
         }
 
         userInfoMoreTotalView.addSubview(ageGuideLbl)
         ageGuideLbl.snp.makeConstraints {
-            $0.top.equalTo(requiredGuideLbl.snp.bottom).offset(24)
+            $0.top.equalTo(moreRequiredGuideLbl.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(20)
         }
@@ -497,7 +498,8 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         userInfoMoreTotalView.addSubview(genderTotalStackView)
         genderTotalStackView.snp.makeConstraints {
             $0.top.equalTo(genderGuideLbl.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.lessThanOrEqualToSuperview()
             $0.bottom.greaterThanOrEqualToSuperview().offset(-30)
         }
     }
@@ -590,22 +592,45 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 
                 if !userData.email.isEmpty {
                     self.loginInfoGuideLbl.text = "\(userData.loginType.value)에서 제공된 정보이며, 커뮤니티와 고객 센터 안내 등에서 사용됩니다."
-                    self.moreLoginInfoGuideLbl.text = "\(userData.loginType.value)에서 제공된 정보이며, 커뮤니티와 고객 센터 안내 등에서 사용됩니다."
                 } else {
                     self.loginInfoGuideLbl.text = "커뮤니티와 고객 센터 안내 등에서 사용됩니다."
-                    self.moreLoginInfoGuideLbl.text = "커뮤니티와 고객 센터 안내 등에서 사용됩니다."
                 }
-                                
-                self.nickNameTf.text = userData.name
-                self.emailTf.text = userData.email
                 
+                switch userData.loginType {
+                case .apple:
+                    self.moreLoginInfoGuideLbl.text = "추후 해당 정보를 기반한 맞춤형 정보를 제공할 예정입니다."
+                    
+                case .kakao:
+                    self.moreLoginInfoGuideLbl.text = "카카오에서 제공된 정보이며, 추후 해당 정보를 기반한 맞춤형 정보를 제공할 예정입니다."
+                    
+                default:
+                    self.moreLoginInfoGuideLbl.text = "추후 해당 정보를 기반한 맞춤형 정보를 제공할 예정입니다."
+                }
+                
+                                                                         
+                self.selectBoxTitleLbl.text = userData.displayAgeRang
+                
+                for genderType in Login.Gender.allCases {
+                    printLog(out: "PARK TEST genderType : \(genderType.value)")
+                    let genderView = self.createGenderView(type: genderType, reactor: reactor)
+                    genderView.rx.tap
+                        .map { SignUpReactor.Action.setGenderType(genderType) }
+                        .bind(to: reactor.action)
+                        .disposed(by: self.disposeBag)
+                    
+                    self.genderTotalStackView.addArrangedSubview(genderView)
+                }
+                                        
+                self.nickNameTf.text = userData.name
+                self.nickNameTf.isEnabled = userData.name.isEmpty
+                
+                
+                self.emailTf.text = userData.email
                 if let _otherInfo = userData.otherInfo {
                     self.emailTf.isEnabled = !_otherInfo.is_email_verified
                 }
                                 
                 self.phoneTf.text = userData.displayPhoneNumber
-                
-                self.nickNameTf.isEnabled = userData.name.isEmpty
                 self.phoneTf.isEnabled = userData.phoneNo.isEmpty
             })
             .disposed(by: self.disposeBag)
@@ -625,51 +650,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 self.view.endEditing(true)
             })
             .disposed(by: self.disposeBag)
-                
-        reactor.state.compactMap { $0.signUpUserData }
-            .asDriver(onErrorJustReturn: Login(.none))
-            .drive(onNext: { [weak self] userData in
-                guard let self = self else { return }
-                                                                
-                switch userData.loginType {
-                case .apple:
-                    self.loginInfoGuideLbl.text = "추후 해당 정보를 기반한 맞춤형 정보를 제공할 예정입니다."
-                    
-                case .kakao:
-                    self.loginInfoGuideLbl.text = "카카오에서 제공된 정보이며, 추후 해당 정보를 기반한 맞춤형 정보를 제공할 예정입니다."
-                    
-                default:
-                    self.loginInfoGuideLbl.text = "추후 해당 정보를 기반한 맞춤형 정보를 제공할 예정입니다."
-                }
-                                                                         
-                self.selectBoxTitleLbl.text = userData.displayAgeRang
-                
-                for genderType in Login.Gender.allCases {
-                    let genderView = self.createGenderView(type: genderType, reactor: reactor)
-                    
-                    genderView.rx.tap
-                        .map { SignUpReactor.Action.setGenderType(genderType) }
-                        .bind(to: reactor.action)
-                        .disposed(by: self.disposeBag)
-                    
-                    self.genderTotalStackView.addArrangedSubview(genderView)
-                }
-                
-                // 구현해야함
-//                if let gender = user.gender, !gender.isEmpty {
-//                    if gender.equals("남성") {
-//                        radioMale.isSelected = true
-//                    } else if gender.equals("여성") {
-//                        radioFemale.isSelected = true
-//                    } else {
-//                        radioOther.isSelected = true
-//                    }
-//                    genderSelected = gender
-//                }
-                
-            })
-            .disposed(by: self.disposeBag)
-        
+                        
         nextBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
@@ -758,6 +739,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         let genderSelectBtn = Radio().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.isUserInteractionEnabled = false
+            $0.isSelected = false
         }
         
         reactor.state.compactMap { $0.genderType }
