@@ -85,6 +85,9 @@
 		192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */; };
 		193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */; };
 		19DB0409285C17B1008C4786 /* RouteDistanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DB0408285C17B1008C4786 /* RouteDistanceView.swift */; };
+		19E728972887B3960063E4DB /* RouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBF006283F5B2500C91CCD /* RouteView.swift */; };
+		19E728982887B3960063E4DB /* RouteDistanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DB0408285C17B1008C4786 /* RouteDistanceView.swift */; };
+		19E728992887B3A60063E4DB /* RouteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19EBF004283F522400C91CCD /* RouteView.xib */; };
 		19EBF005283F522400C91CCD /* RouteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19EBF004283F522400C91CCD /* RouteView.xib */; };
 		19EBF007283F5B2500C91CCD /* RouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBF006283F5B2500C91CCD /* RouteView.swift */; };
 		2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CC5B658D05400DBBB0E6E63 /* Pods_evInfra.framework */; };
@@ -2474,6 +2477,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19E728992887B3A60063E4DB /* RouteView.xib in Resources */,
 				63F314BB284EC74F001713D2 /* station_sns_board.png in Resources */,
 				63F314BC284EC74F001713D2 /* bubble_info.png in Resources */,
 				63F314BD284EC74F001713D2 /* navi_settings.png in Resources */,
@@ -3120,6 +3124,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19E728972887B3960063E4DB /* RouteView.swift in Sources */,
+				19E728982887B3960063E4DB /* RouteDistanceView.swift in Sources */,
 				63F313A3284EC74F001713D2 /* ImageMarker.swift in Sources */,
 				63F313A4284EC74F001713D2 /* MyWritingViewController.swift in Sources */,
 				63F313A5284EC74F001713D2 /* TagListViewCell.swift in Sources */,
