@@ -10,7 +10,7 @@ import UIKit
 
 class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
-    var tableViewDelegate: BoardTableViewDelegate?
+    weak var tableViewDelegate: BoardTableViewDelegate?
     var category :String = Board.CommunityType.FREE.rawValue
     var isLastPage: Bool = false
     var isRefresh: Bool = false
@@ -128,6 +128,10 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 cell.adminList = adminList
                 cell.isFromDetailView = isFromDetailView
                 cell.configure(item: communityBoardList[indexPath.row])
+                cell.chargeStataionButtonTappedCompletion = { chargerId in
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "showSelectCharger"), object: chargerId)
+                    GlobalDefine.shared.mainNavi?.popToMain()
+                }
                 cell.imageTapped = { [weak self] imageUrl in
                     self?.tableViewDelegate?.showImageViewer(url: imageUrl, isProfileImageMode: true)
                 }

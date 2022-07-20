@@ -44,11 +44,13 @@ internal final class MembershipCardViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
                         
-        guard MemberManager.shared.isLogin else {
-            MemberManager.shared.showLoginAlert()
-            return
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard isLogin, let self = self else {
+                MemberManager.shared.showLoginAlert()
+                return
+            }
+            self.checkMembershipData()
         }
-        checkMembershipData()
     }
 
     private func checkMembershipData() {

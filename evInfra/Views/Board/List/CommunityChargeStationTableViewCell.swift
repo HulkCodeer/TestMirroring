@@ -11,7 +11,7 @@ import SwiftyJSON
 import SDWebImage
 import SnapKit
 
-class CommunityChargeStationTableViewCell: UITableViewCell {
+internal final class CommunityChargeStationTableViewCell: UITableViewCell {
 
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var nickNameLabel: UILabel!
@@ -34,11 +34,11 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
     @IBOutlet var likedCount: UILabel!
     @IBOutlet var replyCount: UILabel!
     
-    var chargerId: String?
-    var chargeStataionButtonTappedCompletion: ((String) -> Void)?
-    var imageTapped: ((URL) -> Void)?
-    var adminList: [Admin]?
-    var isFromDetailView: Bool = false
+    internal var chargerId: String?
+    internal var chargeStataionButtonTappedCompletion: ((String) -> Void)? = nil
+    internal var imageTapped: ((URL) -> Void)?
+    internal var adminList: [Admin]?
+    internal var isFromDetailView: Bool = false
     
     private lazy var additionalCountLabel: UILabel = {
        let label = UILabel()
@@ -82,7 +82,7 @@ class CommunityChargeStationTableViewCell: UITableViewCell {
         return adminList.contains { $0.mb_id.equals(mbId) }
     }
 
-    func configure(item: BoardListItem?) {
+    internal func configure(item: BoardListItem?) {
         guard let item = item else { return }
         
         if isReportedItem(item: item) {

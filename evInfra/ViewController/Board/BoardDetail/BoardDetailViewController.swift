@@ -117,49 +117,53 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
             guard let self = self,
                     let detail = self.detail else { return }
             guard let comments = detail.comments else { return }
-            guard MemberManager.shared.isLogin else {
-                MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
-                    if !result {
-                        self.navigationController?.pop()
-                    }
-                })
-                return
-            }
             
-            let selectedImage = self.keyboardInputView?.selectedImageView.image
-            
-            var commentParamters = CommentParameter(mid: self.category,
-                                                    documentSRL: detail.document!.document_srl!,
-                                                    comment: nil,
-                                                    text: text,
-                                                    image: selectedImage,
-                                                    selectedCommentRow: selectedRow,
-                                                    isRecomment: isRecomment)
-            
-            if !comments.isEmpty {
-                commentParamters.comment = comments[selectedRow]
-            }
-            self.activityIndicator.startAnimating()
-            if isModify {
-                // 댓글/대댓글 수정
-                self.boardDetailViewModel.modifyBoardComment(commentParameter: commentParamters) { isSuccess in
-                    self.activityIndicator.stopAnimating()
-                    if isSuccess {
-                        self.fetchData()
-                        NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
-                    } else {
-                        // show error
-                    }
+            MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+                guard isLogin, let self = self else {
+                    MemberManager.shared.showLoginAlert(completion: { [weak self] (result) -> Void in
+                        guard let self = self else { return }
+                        if !result {
+                            self.navigationController?.pop()
+                        }
+                    })
+                    return
                 }
-            } else {
-                // 댓글/대댓글 신규
-                self.boardDetailViewModel.postComment(commentParameter: commentParamters) { isSuccess in
-                    self.activityIndicator.stopAnimating()
-                    if isSuccess {
-                        self.fetchData()
-                        NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
-                    } else {
-                        // show error
+                
+                let selectedImage = self.keyboardInputView?.selectedImageView.image
+                
+                var commentParamters = CommentParameter(mid: self.category,
+                                                        documentSRL: detail.document!.document_srl!,
+                                                        comment: nil,
+                                                        text: text,
+                                                        image: selectedImage,
+                                                        selectedCommentRow: selectedRow,
+                                                        isRecomment: isRecomment)
+                
+                if !comments.isEmpty {
+                    commentParamters.comment = comments[selectedRow]
+                }
+                self.activityIndicator.startAnimating()
+                if isModify {
+                    // 댓글/대댓글 수정
+                    self.boardDetailViewModel.modifyBoardComment(commentParameter: commentParamters) { isSuccess in
+                        self.activityIndicator.stopAnimating()
+                        if isSuccess {
+                            self.fetchData()
+                            NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                        } else {
+                            // show error
+                        }
+                    }
+                } else {
+                    // 댓글/대댓글 신규
+                    self.boardDetailViewModel.postComment(commentParameter: commentParamters) { isSuccess in
+                        self.activityIndicator.stopAnimating()
+                        if isSuccess {
+                            self.fetchData()
+                            NotificationCenter.default.post(name: self.ReloadData, object: nil, userInfo: nil)
+                        } else {
+                            // show error
+                        }
                     }
                 }
             }
@@ -445,113 +449,119 @@ extension BoardDetailViewController: ButtonClickDelegate {
         let rowVC = GroupViewController()
         
         if isHeader {
-            guard MemberManager.shared.isLogin else {
-                rowVC.members = ["공유하기"]
-                presentPanModal(rowVC)
-                
-                rowVC.selectedCompletion = { [weak self] index in
-                    guard let self = self else { return }
-                    
-                    self.dismiss(animated: true) {
-                        switch index {
-                        case 0:
-                            // 공유하기
-                            self.prepareSharingForKakao(with: document)
-                        default:
-                            break
-                        }
-                    }
-                }
-                return
-            }
             
-            if boardDetailViewModel.isMyBoard(mb_id: document.mb_id!) {
-                rowVC.members = ["수정하기", "삭제하기", "공유하기"]
-                presentPanModal(rowVC)
-                
-                rowVC.selectedCompletion = { [weak self] index in
-                    guard let self = self else { return }
+            MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
+                guard isLogin, let self = self else {
+                    rowVC.members = ["공유하기"]
+                    self?.presentPanModal(rowVC)
                     
-                    self.dismiss(animated: true) {
-                        switch index {
-                        case 0:
-                            // 수정하기
-                            self.modifyBoard()
-                        case 1:
-                            // 삭제하기
-                            self.deleteBoard()
-                        case 2:
-                            // 공유하기
-                            self.prepareSharingForKakao(with: document)
-                        default:
-                            break
+                    rowVC.selectedCompletion = { [weak self] index in
+                        guard let self = self else { return }
+                        
+                        self.dismiss(animated: true) {
+                            switch index {
+                            case 0:
+                                // 공유하기
+                                self.prepareSharingForKakao(with: document)
+                            default:
+                                break
+                            }
                         }
                     }
+                    return
                 }
-            } else {
-                rowVC.members = ["신고하기", "공유하기"]
-                presentPanModal(rowVC)
                 
-                rowVC.selectedCompletion = { [weak self] index in
-                    guard let self = self else { return }
+                if self.boardDetailViewModel.isMyBoard(mb_id: document.mb_id!) {
+                    rowVC.members = ["수정하기", "삭제하기", "공유하기"]
+                    self.presentPanModal(rowVC)
                     
-                    self.dismiss(animated: true) {
-                        switch index {
-                        case 0:
-                            // 신고하기
-                            self.reportBoard()
-                        case 1:
-                            // 공유하기
-                            self.prepareSharingForKakao(with: document)
-                        default:
-                            break
+                    rowVC.selectedCompletion = { [weak self] index in
+                        guard let self = self else { return }
+                        
+                        self.dismiss(animated: true) {
+                            switch index {
+                            case 0:
+                                // 수정하기
+                                self.modifyBoard()
+                            case 1:
+                                // 삭제하기
+                                self.deleteBoard()
+                            case 2:
+                                // 공유하기
+                                self.prepareSharingForKakao(with: document)
+                            default:
+                                break
+                            }
+                        }
+                    }
+                } else {
+                    rowVC.members = ["신고하기", "공유하기"]
+                    self.presentPanModal(rowVC)
+                    
+                    rowVC.selectedCompletion = { [weak self] index in
+                        guard let self = self else { return }
+                        
+                        self.dismiss(animated: true) {
+                            switch index {
+                            case 0:
+                                // 신고하기
+                                self.reportBoard()
+                            case 1:
+                                // 공유하기
+                                self.prepareSharingForKakao(with: document)
+                            default:
+                                break
+                            }
                         }
                     }
                 }
             }
+                                               
         } else {
-            guard MemberManager.shared.isLogin else {
-                MemberManager.shared.showLoginAlert()
-                return
-            }
-            
-            guard let comments = detail.comments else { return }
-            let comment = comments[row]
-            
-            if boardDetailViewModel.isMyBoard(mb_id: comment.mb_id!) {
-                rowVC.members = ["수정하기", "삭제하기"]
-                presentPanModal(rowVC)
+            MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+                guard isLogin, let self = self else {
+                    MemberManager.shared.showLoginAlert()
+                    return
+                }
                 
-                rowVC.selectedCompletion = { [weak self] index in
-                    guard let self = self else { return }
+                guard let comments = detail.comments else { return }
+                let comment = comments[row]
+                
+                if self.boardDetailViewModel.isMyBoard(mb_id: comment.mb_id!) {
+                    rowVC.members = ["수정하기", "삭제하기"]
+                    self.presentPanModal(rowVC)
                     
-                    self.dismiss(animated: true) {
-                        switch index {
-                        case 0:
-                            // 댓글 수정하기
-                            self.modifyComment(comment: comment, selectedRow: row)
-                        case 1:
-                            // 댓글 삭제하기
-                            self.deleteComment(documentSRL: comment.document_srl!, commentSRL: comment.comment_srl!)
-                        default:
-                            break
+                    rowVC.selectedCompletion = { [weak self] index in
+                        guard let self = self else { return }
+                        
+                        self.dismiss(animated: true) {
+                            switch index {
+                            case 0:
+                                // 댓글 수정하기
+                                self.modifyComment(comment: comment, selectedRow: row)
+                            case 1:
+                                // 댓글 삭제하기
+                                self.deleteComment(documentSRL: comment.document_srl!, commentSRL: comment.comment_srl!)
+                            default:
+                                break
+                            }
                         }
                     }
-                }
-            } else {
-                rowVC.members = ["신고하기"]
-                presentPanModal(rowVC)
-                
-                rowVC.selectedCompletion = { [weak self] index in
-                    guard let self = self else { return }
+                } else {
+                    rowVC.members = ["신고하기"]
+                    self.presentPanModal(rowVC)
                     
-                    self.dismiss(animated: true) {
-                        switch index {
-                        case 0:
-                            // 신고하기
-                            self.reportComment(comment: comment)
-                        default:
-                            break
+                    rowVC.selectedCompletion = { [weak self] index in
+                        guard let self = self else { return }
+                        
+                        self.dismiss(animated: true) {
+                            switch index {
+                            case 0:
+                                // 신고하기
+                                self.reportComment(comment: comment)
+                            default:
+                                break
+                            }
                         }
                     }
                 }
@@ -560,39 +570,41 @@ extension BoardDetailViewController: ButtonClickDelegate {
     }
     
     func likeButtonCliked(isLiked: Bool, isComment: Bool, srl: String) {
-        guard MemberManager.shared.isLogin else {
-            MemberManager.shared.showLoginAlert()
-            return
-        }
-        
-        var title: String = "좋아요"
-        var message: String = "좋아요 하시겠습니까?"
-        
-        if isLiked {
-            title = "좋아요 취소"
-            message = "좋아요 취소하시겠습니까?"
-        }
-        
-        let popupModel = PopupModel(title: title,
-                                    message:message,
-                                    confirmBtnTitle: title,
-                                    cancelBtnTitle: "취소",
-                                    confirmBtnAction: { [weak self] in
-            guard let self = self else { return }
-            self.boardDetailViewModel.setLikeCount(srl: srl, isComment: isComment) { (isSuccess, message) in
-                if isSuccess {
-                    if let message = message as? String {                        
-                        Snackbar().show(message: message)
-                    } else {
-                        self.fetchData()
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard isLogin, let self = self else {
+                MemberManager.shared.showLoginAlert()
+                return
+            }
+            
+            var title: String = "좋아요"
+            var message: String = "좋아요 하시겠습니까?"
+            
+            if isLiked {
+                title = "좋아요 취소"
+                message = "좋아요 취소하시겠습니까?"
+            }
+            
+            let popupModel = PopupModel(title: title,
+                                        message:message,
+                                        confirmBtnTitle: title,
+                                        cancelBtnTitle: "취소",
+                                        confirmBtnAction: { [weak self] in
+                guard let self = self else { return }
+                self.boardDetailViewModel.setLikeCount(srl: srl, isComment: isComment) { (isSuccess, message) in
+                    if isSuccess {
+                        if let message = message as? String {
+                            Snackbar().show(message: message)
+                        } else {
+                            self.fetchData()
+                        }
                     }
                 }
-            }
-        })
-        
-        let popup = ConfirmPopupViewController(model: popupModel)
-        
-        self.present(popup, animated: true, completion: nil)
+            })
+            
+            let popup = ConfirmPopupViewController(model: popupModel)
+            
+            self.present(popup, animated: true, completion: nil)
+        }                        
     }
     
     func commentButtonCliked(recomment: Comment, selectedRow: Int) {

@@ -10,8 +10,21 @@ import UIKit
 import Material
 import SwiftyJSON
 
-class EventViewController: UIViewController {
+internal final class EventViewController: UIViewController {
 
+    // MARK: UI
+    
+    @IBOutlet weak var emptyView: UILabel!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
+    @IBOutlet weak var tableView: UITableView!
+    
+    // MARK: VARIABLE
+    
+    var list = Array<Event>()
+    var displayedList : Set = Set<Int>()
+    internal var externalEventID: Int?
+    internal var externalEventParam: String?
+    
     private let EVENT_IN_PROGRESS = 0
     private let EVENT_SOLD_OUT = 1
     private let EVENT_END = 2
@@ -19,12 +32,7 @@ class EventViewController: UIViewController {
     private let ACTION_VIEW = 0
     private let ACTION_CLICK = 1
     
-    @IBOutlet weak var emptyView: UILabel!
-    @IBOutlet weak var indicator: UIActivityIndicatorView!
-    @IBOutlet weak var tableView: UITableView!
-    
-    var list = Array<Event>()
-    var displayedList : Set = Set<Int>()
+    // MARK: SYSTEM FUNC
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -95,10 +103,10 @@ extension EventViewController {
     
     func goToEventInfo(index: Int) {
         Server.countEventAction(eventId: Array<Int>(arrayLiteral: list[index].eventId), action: ACTION_CLICK)
-        let infoVC = self.storyboard?.instantiateViewController(withIdentifier: "EventContentsViewController") as! EventContentsViewController
-        infoVC.eventId = list[index].eventId
-        infoVC.eventTitle = list[index].title
-        self.navigationController?.push(viewController:infoVC)
+        let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
+        viewcon.eventId = list[index].eventId
+        viewcon.eventTitle = list[index].title
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     @objc
@@ -170,9 +178,6 @@ extension EventViewController: UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
@@ -211,6 +216,18 @@ extension EventViewController {
                         item.description = jsonRow["description"].stringValue
                         item.endDate = jsonRow["finish_date"].stringValue
                         item.title = jsonRow["title"].stringValue
+                        
+                        if self.externalEventID == item.eventId {
+                            guard let _externalEventParam = self.externalEventParam else {
+                                return
+                            }
+                            Server.countEventAction(eventId: Array<Int>(arrayLiteral: item.eventId), action: self.ACTION_CLICK)
+                            let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
+                            viewcon.eventId = item.eventId
+                            viewcon.eventTitle = item.title
+                            viewcon.externalEventParam = _externalEventParam
+                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        }
                         
                         if (item.state == 0) {
                             let formatter = DateFormatter()

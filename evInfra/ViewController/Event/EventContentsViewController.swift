@@ -10,13 +10,24 @@ import UIKit
 import Material
 import SwiftyJSON
 import WebKit
+import RxSwift
 
-class EventContentsViewController: UIViewController {
+internal final class EventContentsViewController: UIViewController {
 
+    // MARK: UI
+    
     @IBOutlet weak var webViewContainer: UIView!
-    var webView: WKWebView!
-    var eventId = 0
-    var eventTitle: String = ""
+    
+    // MARK: VARIABLE
+    
+    private var webView: WKWebView!
+    private let disposebag = DisposeBag()
+    
+    internal var eventId = 0
+    internal var eventTitle: String = ""
+    internal var externalEventParam: String?
+    
+    // MARK: SYSTEM FUNC
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -25,6 +36,9 @@ class EventContentsViewController: UIViewController {
     override func loadView() {
         super.loadView()
         let contentController = WKUserContentController()
+        contentController.add(self, name: "openCarmore")
+        contentController.add(self, name: "getBerry")
+        contentController.add(self, name: "openSafari")
         let config = WKWebViewConfiguration()
         let frame = CGRect(x: 0, y: 0, width: webViewContainer.frame.width, height: webViewContainer.frame.height)
         
@@ -58,13 +72,18 @@ class EventContentsViewController: UIViewController {
     
     func prepareWebView() {
         let url = Const.EV_PAY_SERVER + "/event/event/getDetailEvent"
-        let payload = ["mb_id":"\(MemberManager.shared.mbId)",  "event_id":"\(eventId)"]
+        var payload = ["mb_id":"\(MemberManager.shared.mbId)",  "event_id":"\(eventId)"]
+        
+        if let _externalEventParam = self.externalEventParam {
+            payload["param"] = _externalEventParam
+        }
+        
         makePostRequest(url: url, payload: payload)
     }
     
     @objc
     fileprivate func handleBackButton() {
-        self.navigationController?.pop()
+        GlobalDefine.shared.mainNavi?.pop()
     }
     
     func makePostRequest(url: String, payload: Dictionary<String, Any>) {
@@ -126,13 +145,91 @@ extension EventContentsViewController: WKNavigationDelegate{
     }
 }
 
-//extension EventContentsViewController: WKScriptMessageHandler {
-//
-//    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-//        if(message.name == "ClientControl"){
-//
-//        }
-//    }
-//
-//
-//}
+extension EventContentsViewController: WKScriptMessageHandler {
+
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        let jsInterface = message.name
+        
+        switch jsInterface {
+        case "openSafari":
+            if let jsonString = message.body as? String {
+                if let dataFromString = jsonString.data(using: .utf8, allowLossyConversion: false) {
+                    if let json = try? JSON(data: dataFromString) {
+                        if let url = URL(string: json["url"].stringValue), UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: {(success: Bool) in
+                                if success {
+                                    printLog(out: "Launching \(url) was successful")
+                                }
+                            })
+                        }
+                    } else {
+                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
+                    }
+                } else {
+                    Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
+                }
+            } else {
+                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
+            }
+            
+        case "openCarmore":
+            let tmapURL = "carmore://&carmore_deeplink=1&mt=3&evs=165"
+            if let url = URL(string: tmapURL), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: {(success: Bool) in
+                    if success {
+                        printLog(out: "Launching \(url) was successful")
+                    } else {
+                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
+                    }
+                })
+            } else {
+                Snackbar().show(message: "카모아 앱이 설치되어 있지 않습니다.")
+            }
+            
+        case "getBerry":
+            MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+                guard let self = self else { return }
+                if isLogin {
+                    RestApi().postGetBerry(eventId: "\(self.eventId)")
+                        .observe(on: MainScheduler.asyncInstance)
+                        .convertData()
+                        .compactMap { result -> String? in
+                            switch result {
+                            case .success(let data):
+                                let jsonData = JSON(data)
+                                
+                                let code = jsonData["code"].stringValue
+                                guard "1000".equals(code) else {
+                                    Snackbar().show(message: "\(jsonData["msg"].stringValue)")
+                                    return nil
+                                }
+                                
+                                return code
+                                
+                            case .failure(let errorMessage):
+                                printLog(out: "Error Message : \(errorMessage)")
+                                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
+                                return nil
+                            }
+                        }
+                        .subscribe(onNext: { code in
+                            if "1000".equals(code) {
+                                let message = UIAlertController(title: nil, message: "3천베리 지급 완료", preferredStyle: .alert)
+                                let ok = UIAlertAction(title: "확인", style: .default, handler: nil)
+                                message.addAction(ok)
+                                
+                                GlobalDefine.shared.mainNavi?.present(message, animated: true, completion: nil)
+                            } else {
+                                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료후 다시 시도해 주세요.")
+                            }
+                        })
+                        .disposed(by: self.disposebag)
+                } else {
+                    MemberManager.shared.showLoginAlert()
+                }
+            }
+            
+        default:break            
+        }
+    }
+}

@@ -11,7 +11,7 @@ import SwiftyJSON
 import Material
 import M13Checkbox
 
-protocol RepaymentListDelegate {
+protocol RepaymentListDelegate: class {
     func onRepaySuccess()
     func onRepayFail()
 }
@@ -35,7 +35,7 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     @IBOutlet weak var btnChangeCard: UIButton!
     
     @IBOutlet weak var viewProcessing: UIView!
-    var delegate: RepaymentListDelegate?
+    weak var delegate: RepaymentListDelegate?
     var paymentList: Array<ChargingStatus> = Array<ChargingStatus>()
     var payRegisterResult: JSON?
     
@@ -55,36 +55,39 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if MemberManager.shared.isLogin {
-            if let resultJson = payRegisterResult { // 카드 변경 완료
-                let payCode = resultJson["pay_code"].intValue
-                if payCode == PaymentCard.PAY_REGISTER_SUCCESS {
-                    lbCardInfo.text = "\(resultJson["card_co"].stringValue) \(resultJson["card_nm"].stringValue)"
-                    lbCardStatus.textColor = UIColor(named: "content-positive")
-                    lbCardInfo.text = "카드 정상 등록 완료"
-                    if totalPoint > totalAmount {
-                        // dialog
-                        let dialogMessage = UIAlertController(title: "변경된 카드로 결제가 진행됩니다", message: "베리로 미수금 결제를 원하시는 경우, 취소를 누른 뒤 결제 재시도를 눌러주세요.", preferredStyle: .alert)
-                        let ok = UIAlertAction(title: "결제", style: .default, handler: {(ACTION) -> Void in
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                if let resultJson = self.payRegisterResult { // 카드 변경 완료
+                    let payCode = resultJson["pay_code"].intValue
+                    if payCode == PaymentCard.PAY_REGISTER_SUCCESS {
+                        self.lbCardInfo.text = "\(resultJson["card_co"].stringValue) \(resultJson["card_nm"].stringValue)"
+                        self.lbCardStatus.textColor = UIColor(named: "content-positive")
+                        self.lbCardInfo.text = "카드 정상 등록 완료"
+                        if self.totalPoint > self.totalAmount {
+                            // dialog
+                            let dialogMessage = UIAlertController(title: "변경된 카드로 결제가 진행됩니다", message: "베리로 미수금 결제를 원하시는 경우, 취소를 누른 뒤 결제 재시도를 눌러주세요.", preferredStyle: .alert)
+                            let ok = UIAlertAction(title: "결제", style: .default, handler: {(ACTION) -> Void in
+                                self.requestRepay(byPoint: false)
+                            })
+                            let cancel = UIAlertAction(title: "취소", style: .cancel, handler:{ (ACTION) -> Void in
+                                self.dismiss(animated: true, completion: nil)
+                            })
+                            
+                            dialogMessage.addAction(ok)
+                            dialogMessage.addAction(cancel)
+                            self.present(dialogMessage, animated: true, completion: nil)
+                        } else {
                             self.requestRepay(byPoint: false)
-                        })
-                        let cancel = UIAlertAction(title: "취소", style: .cancel, handler:{ (ACTION) -> Void in
-                            self.dismiss(animated: true, completion: nil)
-                        })
-                        
-                        dialogMessage.addAction(ok)
-                        dialogMessage.addAction(cancel)
-                        self.present(dialogMessage, animated: true, completion: nil)
-                    } else {
-                        self.requestRepay(byPoint: false)
+                        }
                     }
+                } else { // login done
+                    self.requestFailedPayList()
                 }
-            } else { // login done
-                requestFailedPayList()
+                self.payRegisterResult = nil
+            } else {
+                MemberManager.shared.showLoginAlert()
             }
-            payRegisterResult = nil
-        } else {
-            MemberManager.shared.showLoginAlert()
         }
     }
     

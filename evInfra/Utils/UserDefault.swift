@@ -31,6 +31,7 @@ class UserDefault {
         static let MB_LEVEL         = "mb_level"
         static let MB_USER_ID       = "mb_user_id"  // user id
         static let MB_LOGIN_TYPE    = "mb_login_type" // kakao, apple
+        static let MB_LAST_LOGIN_TYPE = "mb_last_login_type" // kakao, apple
         static let MB_NICKNAME      = "mb_nickname"
         static let MB_REGION        = "mb_region"
         static let MB_PROFILE_NAME  = "mb_profile_image"
@@ -40,6 +41,7 @@ class UserDefault {
         static let MB_PAYMENT       = "mb_payment"
         static let MB_DEVICE_ID       = "mb_device_id"
         static let MB_HAS_MEMBERSHIP = "has_membership"
+        static let APPLE_REFRESH_TOKEN = "apple_refresh_token"
         
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"
