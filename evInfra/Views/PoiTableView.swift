@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol PoiTableViewDelegate {
+protocol PoiTableViewDelegate: class {
     func didSelectRow(poiItem: TMapPOIItem)
 }
 
 class PoiTableView: UITableView {
     
-    var poiTableDelegate: PoiTableViewDelegate?
+    internal weak var poiTableDelegate: PoiTableViewDelegate?
     
     var poiList: [TMapPOIItem]? = nil
 

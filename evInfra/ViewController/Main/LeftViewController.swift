@@ -156,12 +156,15 @@ internal final class LeftViewController: UIViewController {
     
     internal func appeared() {
         // 로그인 버튼
-        if MemberManager.shared.isLogin {
-            btnLogin.gone()
-        } else {
-            btnLogin.visible()
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                self.btnLogin.gone()
+            } else {
+                self.btnLogin.visible()
+            }
         }
-        
+                
         newBadgeInMenu()
     }
  
@@ -287,88 +290,91 @@ extension LeftViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension LeftViewController {
     private func selectedMyPageMenu(index: IndexPath) {
-        if MemberManager.shared.isLogin {
-            switch index.section {
-            case SUB_MENU_CELL_MYPAGE:
-                switch index.row {
-                case SUB_MENU_MY_PERSONAL_INFO: // 개인정보관리
-                    let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-                    let mypageVC = memberStoryboard.instantiateViewController(ofType: MyPageViewController.self)
-                    navigationController?.push(viewController: mypageVC)
-                
-                case SUB_MENU_MY_WRITING: // 내가 쓴 글 보기
-                    var myWritingControllers = [MyWritingViewController]()
-                    let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                    let freeMineVC = boardStoryboard.instantiateViewController(ofType: MyWritingViewController.self)
-                    freeMineVC.boardCategory = Board.CommunityType.FREE.rawValue
-                    freeMineVC.screenType = .LIST
-                                        
-                    let chargerMineVC = boardStoryboard.instantiateViewController(ofType: MyWritingViewController.self)
-                    chargerMineVC.boardCategory = Board.CommunityType.CHARGER.rawValue
-                    chargerMineVC.screenType = .FEED
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                switch index.section {
+                case self.SUB_MENU_CELL_MYPAGE:
+                    switch index.row {
+                    case self.SUB_MENU_MY_PERSONAL_INFO: // 개인정보관리
+                        let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
+                        let mypageVC = memberStoryboard.instantiateViewController(ofType: MyPageViewController.self)
+                        self.navigationController?.push(viewController: mypageVC)
                     
-                    myWritingControllers.append(chargerMineVC)
-                    myWritingControllers.append(freeMineVC)
+                    case self.SUB_MENU_MY_WRITING: // 내가 쓴 글 보기
+                        var myWritingControllers = [MyWritingViewController]()
+                        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+                        let freeMineVC = boardStoryboard.instantiateViewController(ofType: MyWritingViewController.self)
+                        freeMineVC.boardCategory = Board.CommunityType.FREE.rawValue
+                        freeMineVC.screenType = .LIST
+                                            
+                        let chargerMineVC = boardStoryboard.instantiateViewController(ofType: MyWritingViewController.self)
+                        chargerMineVC.boardCategory = Board.CommunityType.CHARGER.rawValue
+                        chargerMineVC.screenType = .FEED
+                        
+                        myWritingControllers.append(chargerMineVC)
+                        myWritingControllers.append(freeMineVC)
+                        
+                        let tabsController = AppTabsController(viewControllers: myWritingControllers)
+                        tabsController.actionTitle = "내가 쓴 글 보기"
+                        for controller in myWritingControllers {
+                            tabsController.appTabsControllerDelegates.append(controller)
+                        }
+                        self.navigationController?.push(viewController: tabsController)
                     
-                    let tabsController = AppTabsController(viewControllers: myWritingControllers)
-                    tabsController.actionTitle = "내가 쓴 글 보기"
-                    for controller in myWritingControllers {
-                        tabsController.appTabsControllerDelegates.append(controller)
-                    }
-                    navigationController?.push(viewController: tabsController)
-                
-                case SUB_MENU_REPORT_STATION: // 충전소 제보 내역
-                    let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
-                    let reportVC = reportStoryboard.instantiateViewController(ofType: ReportBoardViewController.self)
-                    navigationController?.push(viewController: reportVC)
+                    case self.SUB_MENU_REPORT_STATION: // 충전소 제보 내역
+                        let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
+                        let reportVC = reportStoryboard.instantiateViewController(ofType: ReportBoardViewController.self)
+                        self.navigationController?.push(viewController: reportVC)
 
+                    default:
+                        print("out of index")
+                    }
+                    
+                case self.SUB_MENU_CELL_PAY:
+                    switch index.row {
+                    case self.SUB_MENU_MY_PAYMENT_INFO:
+                        let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
+                        let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
+                        self.navigationController?.push(viewController: myPayInfoVC)
+                
+                    case self.SUB_MENU_MY_EVCARD_INFO: // 회원카드 관리
+                        let viewcon: UIViewController
+                        if MemberManager.shared.hasMembership {
+                            let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
+                            viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
+                        } else {
+                            viewcon = MembershipGuideViewController()
+                        }
+                        
+                        self.navigationController?.push(viewController: viewcon)
+                        break
+                        
+                    case self.SUB_MENU_MY_LENTAL_INFO: // 렌탈정보 관리
+                        let viewcon = RentalCarCardListViewController()
+                        self.navigationController?.push(viewController: viewcon)
+                        break
+
+                    case self.SUB_MENU_MY_CHARGING_HISTORY: // 충전이력조회
+                        let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
+                        let chargesVC = chargeStoryboard.instantiateViewController(ofType: ChargesViewController.self)
+                        self.navigationController?.push(viewController: chargesVC)
+
+                    case self.SUB_MENU_MY_POINT: // 포인트 조회
+                        let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
+                        let pointVC = chargeStoryboard.instantiateViewController(ofType: PointViewController.self)
+                        self.navigationController?.push(viewController: pointVC)
+                        break
+
+                    default:
+                        print("out of index")
+                    }
                 default:
                     print("out of index")
                 }
-                
-            case SUB_MENU_CELL_PAY:
-                switch index.row {
-                case SUB_MENU_MY_PAYMENT_INFO:
-                    let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-                    let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
-                    navigationController?.push(viewController: myPayInfoVC)
-            
-                case SUB_MENU_MY_EVCARD_INFO: // 회원카드 관리
-                    let viewcon: UIViewController
-                    if MemberManager.shared.hasMembership {
-                        let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-                        viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
-                    } else {
-                        viewcon = MembershipGuideViewController()
-                    }
-                    
-                    navigationController?.push(viewController: viewcon)
-                    break
-                    
-                case SUB_MENU_MY_LENTAL_INFO: // 렌탈정보 관리                    
-                    let viewcon = RentalCarCardListViewController()
-                    navigationController?.push(viewController: viewcon)
-                    break
-
-                case SUB_MENU_MY_CHARGING_HISTORY: // 충전이력조회
-                    let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
-                    let chargesVC = chargeStoryboard.instantiateViewController(ofType: ChargesViewController.self)
-                    navigationController?.push(viewController: chargesVC)
-
-                case SUB_MENU_MY_POINT: // 포인트 조회
-                    let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
-                    let pointVC = chargeStoryboard.instantiateViewController(ofType: PointViewController.self)
-                    navigationController?.push(viewController: pointVC)
-                    break
-
-                default:
-                    print("out of index")
-                }
-            default:
-                print("out of index")
+            } else {
+                MemberManager.shared.showLoginAlert()
             }
-        } else {
-            MemberManager.shared.showLoginAlert()
         }
     }
     
@@ -429,13 +435,17 @@ extension LeftViewController {
                 let eventBoardVC = eventStoryboard.instantiateViewController(ofType: EventViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: eventBoardVC)
             case SUB_MENU_MY_COUPON: // 내 쿠폰함
-                if MemberManager.shared.isLogin {
-                    let couponStoryboard = UIStoryboard(name : "Coupon", bundle: nil)
-                    let coponVC = couponStoryboard.instantiateViewController(ofType: MyCouponViewController.self)
-                    GlobalDefine.shared.mainNavi?.push(viewController: coponVC)
-                }else {
-                    MemberManager.shared.showLoginAlert()
+                MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+                    guard let self = self else { return }
+                    if isLogin {
+                        let couponStoryboard = UIStoryboard(name : "Coupon", bundle: nil)
+                        let coponVC = couponStoryboard.instantiateViewController(ofType: MyCouponViewController.self)
+                        self.navigationController?.push(viewController: coponVC)
+                    }else {
+                        MemberManager.shared.showLoginAlert()
+                    }
                 }
+                
             default:
                 print("out of index")
             }
@@ -526,9 +536,9 @@ extension LeftViewController {
         case SUB_MENU_CELL_SETTINGS:
             switch index.row {
             case SUB_MENU_ALL_SETTINGS: // 전체 설정
-                let settingsStoryboard = UIStoryboard(name : "Settings", bundle: nil)
-                let settingsVC = settingsStoryboard.instantiateViewController(ofType: SettingsViewController.self)
-                GlobalDefine.shared.mainNavi?.push(viewController: settingsVC)
+                let reactor = SettingsReactor(provider: RestApi())
+                let viewcon = NewSettingsViewController(reactor: reactor)                
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
             case SUB_MENU_FAQ: // 자주묻는 질문
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
@@ -652,11 +662,11 @@ extension LeftViewController {
     // 메인화면 메뉴이미지에 badge
     private func newBadgeInMenu() {
         if Board.sharedInstance.hasNewBoard() {
-            if let image = UIImage(named: "icon_comment_badge") {
+            if let image = UIImage(named: "icon_comment_lg") {
                 boardBtn.setImage(image, for: .normal)
             }
         } else {
-            if let image = UIImage(named: "icon_comment") {
+            if let image = UIImage(named: "icon_comment_lg") {
                 boardBtn.setImage(image, for: .normal)
             }
         }

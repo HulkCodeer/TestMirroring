@@ -220,11 +220,13 @@ internal final class FCMManager {
             _visibleViewcon.viewDidLoad()
             return
         } else {
-            if MemberManager.shared.isLogin {
-                let vc:MyCouponViewController =  UIStoryboard(name: "Coupon", bundle: nil).instantiateViewController(ofType: MyCouponViewController.self)
-                _mainNavi.push(viewController: vc)
-            } else {
-                MemberManager.shared.showLoginAlert()
+            MemberManager.shared.tryToLoginCheck { isLogin in
+                if isLogin {
+                    let vc:MyCouponViewController =  UIStoryboard(name: "Coupon", bundle: nil).instantiateViewController(ofType: MyCouponViewController.self)
+                    _mainNavi.push(viewController: vc)
+                } else {
+                    MemberManager.shared.showLoginAlert()
+                }
             }
         }
     }
@@ -338,50 +340,52 @@ internal final class FCMManager {
     }
     
     func startTagetCharging(data: [AnyHashable: Any]){
-        guard MemberManager.shared.isLogin else { return }
-        var chargingId = defaults.readString(key: UserDefault.Key.CHARGING_ID)
-        var cmd = ""
-        var cpId = ""
-        var connectorId = ""
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard isLogin, let self = self else { return }
+            var chargingId = self.defaults.readString(key: UserDefault.Key.CHARGING_ID)
+            var cmd = ""
+            var cpId = ""
+            var connectorId = ""
 
-        if chargingId.isEmpty {
-            if let notiChargingId =  data[AnyHashable("charging_id")] as! String? {
-                chargingId = notiChargingId
-                defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: chargingId)
-            }
-        }
-        
-        if let notiCmd =  data[AnyHashable("cmd")] as! String? {
-            cmd = notiCmd
-        }
-        if let notiCpId = data[AnyHashable("cp_id")] as! String? {
-            cpId = notiCpId
-        }
-        
-        if let notiConId = data[AnyHashable("connector_id")] as! String? {
-            connectorId = notiConId
-        }
-
-        guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
-        let center = NotificationCenter.default
-        if cmd.elementsEqual("charging_end") {
-            let paymentResultVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentResultViewController.self)
-            paymentResultVC.chargingId = chargingId
-            _mainNavi.push(viewController: paymentResultVC)
-        } else {
-            if let viewController = _mainNavi.visibleViewController {
-                if !String(describing: viewController).contains("PaymentStatusViewController") {
-                    let paymentStatusVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
-                    paymentStatusVC.cpId = cpId
-                    paymentStatusVC.connectorId = connectorId
-                    
-                    _mainNavi.push(viewController: paymentStatusVC)
-                } else {
-                    center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: data)
+            if chargingId.isEmpty {
+                if let notiChargingId =  data[AnyHashable("charging_id")] as! String? {
+                    chargingId = notiChargingId
+                    self.defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: chargingId)
                 }
+            }
+            
+            if let notiCmd =  data[AnyHashable("cmd")] as! String? {
+                cmd = notiCmd
+            }
+            if let notiCpId = data[AnyHashable("cp_id")] as! String? {
+                cpId = notiCpId
+            }
+            
+            if let notiConId = data[AnyHashable("connector_id")] as! String? {
+                connectorId = notiConId
+            }
+
+            guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
+            let center = NotificationCenter.default
+            if cmd.elementsEqual("charging_end") {
+                let paymentResultVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentResultViewController.self)
+                paymentResultVC.chargingId = chargingId
+                _mainNavi.push(viewController: paymentResultVC)
             } else {
-                let paymentStatusVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
-                _mainNavi.push(viewController: paymentStatusVC)
+                if let viewController = _mainNavi.visibleViewController {
+                    if !String(describing: viewController).contains("PaymentStatusViewController") {
+                        let paymentStatusVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
+                        paymentStatusVC.cpId = cpId
+                        paymentStatusVC.connectorId = connectorId
+                        
+                        _mainNavi.push(viewController: paymentStatusVC)
+                    } else {
+                        center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: data)
+                    }
+                } else {
+                    let paymentStatusVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
+                    _mainNavi.push(viewController: paymentStatusVC)
+                }
             }
         }
     }

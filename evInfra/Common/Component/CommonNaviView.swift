@@ -70,7 +70,7 @@ internal final class CommonNaviView: UIView {
             $0.leading.equalToSuperview().offset(48)
             $0.trailing.equalToSuperview().offset(-48)
             $0.top.bottom.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.center.equalToSuperview()
         }
         
         totalView.addSubview(lineView)
