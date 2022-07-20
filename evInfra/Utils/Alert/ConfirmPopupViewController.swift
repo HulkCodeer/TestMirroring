@@ -65,8 +65,8 @@ internal final class ConfirmPopupViewController: UIViewController {
        let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 18, weight: .bold)
-        label.textColor = UIColor(named: "nt-9")
+        label.font = .systemFont(ofSize: 18, weight: .semibold)
+        label.textColor = Colors.contentPrimary.color
         label.translatesAutoresizingMaskIntoConstraints = true
         return label
     }()
@@ -76,7 +76,7 @@ internal final class ConfirmPopupViewController: UIViewController {
         label.numberOfLines = 0
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14)
-        label.textColor = UIColor(named: "nt-9")
+        label.textColor = Colors.contentSecondary.color
         label.translatesAutoresizingMaskIntoConstraints = true
         return label
     }()
@@ -130,20 +130,25 @@ internal final class ConfirmPopupViewController: UIViewController {
         }
         
         dialogView.snp.makeConstraints {
-            $0.top.left.equalToSuperview().offset(16)
+            $0.top.equalToSuperview().offset(24)
+            $0.left.equalToSuperview().offset(16)
             $0.bottom.right.equalToSuperview().offset(-16)
         }
         
         buttonStackView.snp.makeConstraints {
             $0.width.equalToSuperview()
-            $0.height.equalTo(40)
+            $0.height.equalTo(48)
         }
         
         self.titleLabel.text = self.popupModel.title
         self.descriptionLabel.text = self.popupModel.message
                         
         if let _cancelTitle = self.popupModel.cancelBtnTitle {
-            let cancelBtn = createButton(backgroundColor: UIColor(named: "nt-1") ?? .white, buttonTitle: _cancelTitle)
+            let cancelBtn = createButton(backgroundColor: Colors.backgroundPrimary.color ,
+                                         buttonTitle: _cancelTitle,
+                                         titleColor: Colors.contentPrimary.color)
+            cancelBtn.IBborderWidth = 1
+            cancelBtn.IBborderColor = Colors.borderOpaque.color
             cancelBtn.rx.tap
                 .asDriver()
                 .drive(onNext: { [weak self] _ in
@@ -155,7 +160,9 @@ internal final class ConfirmPopupViewController: UIViewController {
         }
         
         if let _confirmTitle = self.popupModel.confirmBtnTitle {
-            let confirmBtn = createButton(backgroundColor: UIColor(named: "gr-5") ?? .white, buttonTitle: _confirmTitle)
+            let confirmBtn = createButton(backgroundColor: Colors.backgroundPositive.color,
+                                          buttonTitle: _confirmTitle,
+                                          titleColor: Colors.contentOnColor.color)
             confirmBtn.rx.tap
                 .asDriver()
                 .drive(onNext: { [weak self] _ in
@@ -170,14 +177,13 @@ internal final class ConfirmPopupViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-                        
+        super.viewDidLoad()                        
     }
     
-    private func createButton(backgroundColor: UIColor, buttonTitle: String) -> UIButton {
+    private func createButton(backgroundColor: UIColor, buttonTitle: String, titleColor: UIColor) -> UIButton {
         UIButton().then {
-            $0.setTitleColor(UIColor(named: "nt-9"), for: .normal)
-            $0.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
+            $0.setTitleColor(titleColor, for: .normal)
+            $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
             $0.layer.cornerRadius = 6
             $0.setTitle(buttonTitle, for: .normal)
             $0.backgroundColor = backgroundColor

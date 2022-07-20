@@ -39,7 +39,7 @@ class SearchViewController: UIViewController {
     public static let TABLE_VIEW_TYPE_ADDRESS = 2
     
     var searchType:Int?
-    var delegate:ChargerSelectDelegate?
+    internal weak var delegate: ChargerSelectDelegate?
     
     let koreanTextMatcher = KoreanTextMatcher.init()
     

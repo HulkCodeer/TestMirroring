@@ -12,7 +12,7 @@ import Motion
 import SwiftyJSON
 import JJFloatingActionButton
 
-class DetailViewController: UIViewController, MTMapViewDelegate {
+internal final class DetailViewController: BaseViewController {
 
     @IBOutlet weak var detailView: UIView!
     
@@ -49,31 +49,66 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var priceInfoBtn: UIButton!
     @IBOutlet weak var priceAlertLb: UILabel!
     @IBOutlet weak var priceTableHeader: UIStackView!
-    @IBOutlet weak var priceTableHeight: NSLayoutConstraint!
+    @IBOutlet weak var priceTableHeight: NSLayoutConstraint!    
+    @IBOutlet var reportBtn: UIButton!
+    @IBOutlet var writeBtn: UIButton!
+    @IBOutlet var safeAreaBottomViewHeight: NSLayoutConstraint!
     
-    var charger: ChargerStationInfo?
-    var boardList: [BoardListItem] = [BoardListItem]()
+    internal var charger: ChargerStationInfo?
+    internal var isRouteMode: Bool = false
     
+    private var boardList: [BoardListItem] = [BoardListItem]()
     private var phoneNumber:String? = nil
-        
-    var mapView:MTMapView?
-    var summaryView:SummaryView!
-    var isRouteMode: Bool = false
-    var currentPage = 0
-
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
-
+    private var mapView: MTMapView? = nil
+    private var summaryView: SummaryView? = nil
+    private var currentPage = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initKakaoMap()
         prepareActionBar()
         prepareBoardTableView()
         prepareChargerInfo()
         prepareSummaryView()
         
+        safeAreaBottomViewHeight.constant = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+                
+        reportBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.onClickReportChargeBtn()
+            })
+            .disposed(by: self.disposeBag)
+        
+        writeBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.onClickEditBtn()
+            })
+            .disposed(by: self.disposeBag)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        defer {
+            NotificationCenter.default.removeObserver(self)
+        }
+        guard mapView == nil else {
+            mapView = nil
+            kakaoMapView.removeFromSuperview()
+            MTMapView.clearMapTilePersistentCache()
+            return
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        mapView?.didReceiveMemoryWarning()
     }
     
     override func viewWillLayoutSubviews() {
@@ -106,20 +141,20 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         let window = UIApplication.shared.keyWindow!
         var frameTest:CGRect = summaryLayout.frame
         frameTest.size.width = window.frame.bounds.width
-        if summaryView == nil {
-            summaryView = SummaryView(frame: frameTest)
+        
+        summaryView = SummaryView(frame: frameTest)
+        if let summaryView = summaryView {
+            summaryLayout.addSubview(summaryView)
+            summaryView.delegate = self
+            summaryView.setLayoutType(charger: charger!, type: SummaryView.SummaryType.DetailSummary)
+            summaryView.layoutAddPathSummary(hiddenAddBtn: !isRouteMode)
         }
-        summaryLayout.addSubview(summaryView)
-        summaryView.delegate = self
-        summaryView.setLayoutType(charger: charger!, type: SummaryView.SummaryType.DetailSummary)
-        summaryView.layoutAddPathSummary(hiddenAddBtn: !isRouteMode)
     }
     
     func prepareChargerInfo() {
         setStationInfo()
         setDetailLb()
         fetchFirstBoard(mid: "station", sort: .LATEST, mode: Board.ScreenType.FEED.rawValue)
-        initKakaoMap()
     }
     
     func setDetailLb() {
@@ -205,15 +240,16 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         self.checkingView.textColor = UIColor.init(named:color)
     }
     
-    func initKakaoMap(){
+    func initKakaoMap() {
         guard let charger = charger else { return }
         guard let stationDto = charger.mStationInfoDto else { return }
+
         let mapPoint: MTMapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: stationDto.mLatitude ?? .zero, longitude: stationDto.mLongitude ?? .zero))
         
         mapView = MTMapView(frame: kakaoMapView.frame)
+        MTMapView.setMapTilePersistentCacheEnabled(true)
         
         if let mapView = mapView {
-            mapView.delegate = self
             mapView.baseMapType = .hybrid
             mapView.setMapCenter(mapPoint, zoomLevel: 4, animated: true)
             kakaoMapView.addSubview(mapView)
@@ -279,8 +315,7 @@ class DetailViewController: UIViewController, MTMapViewDelegate {
         }
         self.cidTableView.reloadData()
         self.adjustHeightOfTableview()
-        
-        self.showMenuBtn()
+                
     }
     
     // DetailView reSize
@@ -357,7 +392,6 @@ extension DetailViewController {
     
     @objc
     fileprivate func handleBackButton() {
-        MTMapView.clearMapTilePersistentCache()
         self.navigationController?.pop(transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
     }
 }
@@ -477,37 +511,6 @@ extension DetailViewController: BoardTableViewDelegate {
 }
 
 extension DetailViewController {
-    fileprivate func showMenuBtn() {
-        let actionButton = JJFloatingActionButton()
-        actionButton.buttonColor = UIColor.clear
-        actionButton.buttonImage = UIImage(named: "detail_plus")
-        if let image = actionButton.buttonImage {
-            actionButton.buttonImageSize = image.size
-        }
-        
-        let ret = prepareCallItem()
-        if ret {
-            actionButton.addItem(title: "전화하기", image: #imageLiteral(resourceName: "detail_quick_icon")) { item in
-                self.onClickCallBtn()
-            }
-        }
-        actionButton.addItem(title: "제보하기", image: #imageLiteral(resourceName: "detail_quick_icon_report")) { item in
-            self.onClickReportChargeBtn()
-        }
-        
-        actionButton.addItem(title: "글쓰기", image: #imageLiteral(resourceName: "detail_quick_icon_pen")) { item in
-            self.onClickEditBtn()
-        }
-
-        for item in actionButton.items {
-            item.buttonColor = Color.white
-            
-//            item.buttonImageColor = Color.white
-        }
-    
-        actionButton.display(inViewController: self)
-    }
-
     fileprivate func prepareCallItem() -> Bool {
         if let phoneNum = self.phoneNumber {
             if(phoneNum.count > 8) {
@@ -558,17 +561,20 @@ extension DetailViewController {
     
     @objc
     fileprivate func onClickReportChargeBtn() {
-        if MemberManager.shared.isLogin {
-            if let chargerInfo = self.charger {
-                let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
-                let reportChargeVC = reportStoryboard.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
-                reportChargeVC.info.charger_id = chargerInfo.mChargerId
-                
-                self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true, completion: nil)
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+                    guard let self = self else { return }
+            if isLogin {
+                if let chargerInfo = self.charger {
+                    let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
+                    let reportChargeVC = reportStoryboard.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
+                    reportChargeVC.info.charger_id = chargerInfo.mChargerId
+                    reportChargeVC.isFromDetailView = true
+                    self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true, completion: nil)
+                }
+            } else {
+                MemberManager.shared.showLoginAlert()
             }
-        } else {
-            MemberManager.shared.showLoginAlert()
-        }
+        }        
     }
 }
 
@@ -595,7 +601,7 @@ extension DetailViewController {
     }
 }
 
-extension DetailViewController : SummaryDelegate {
+extension DetailViewController: SummaryDelegate {
     func setCidInfoList() {
         self.setStationInfo()
     }

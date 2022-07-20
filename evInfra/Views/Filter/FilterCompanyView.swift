@@ -23,7 +23,7 @@ class FilterCompanyView: UIView {
     var allSelect: Bool = false
     var cardSetting: Bool = false
     
-    var delegate: DelegateFilterChange?
+    internal weak var delegate: DelegateFilterChange?
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()

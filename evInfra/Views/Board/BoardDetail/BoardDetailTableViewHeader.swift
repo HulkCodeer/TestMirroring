@@ -23,7 +23,7 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
     @IBOutlet var chargeStationButton: UIButton!
     
     @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var contentsLabel: UILabel!
+    @IBOutlet var contentsTextView: UITextView!
     @IBOutlet var likedCountLabel: UILabel!
     @IBOutlet var commentsCountLabel: UILabel!
     
@@ -117,9 +117,9 @@ class BoardDetailTableViewHeader: UITableViewHeaderFooterView {
         
         let isContainsHtmlTagInContent = document.content!.isContainsHtmlTag()
         if isContainsHtmlTagInContent {
-            contentsLabel.attributedText = document.content?.htmlToAttributedString()
+            contentsTextView.attributedText = document.content?.htmlToAttributedString()
         } else {
-            contentsLabel.text = document.content
+            contentsTextView.text = document.content
         }
         
         reportButton.isHidden = isAdmin(mbId: document.mb_id!)

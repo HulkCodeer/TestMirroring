@@ -14,7 +14,7 @@ class FavoriteViewController: UIViewController {
     @IBOutlet weak var tableView: ChargerTableView!
     @IBOutlet var emptyView: UIView!
     
-    var delegate:ChargerSelectDelegate?
+    internal weak var delegate: ChargerSelectDelegate?
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
