@@ -130,13 +130,14 @@ internal final class ConfirmPopupViewController: UIViewController {
         }
         
         dialogView.snp.makeConstraints {
-            $0.top.left.equalToSuperview().offset(16)
+            $0.top.equalToSuperview().offset(24)
+            $0.left.equalToSuperview().offset(16)
             $0.bottom.right.equalToSuperview().offset(-16)
         }
         
         buttonStackView.snp.makeConstraints {
             $0.width.equalToSuperview()
-            $0.height.equalTo(40)
+            $0.height.equalTo(48)
         }
         
         self.titleLabel.text = self.popupModel.title
@@ -176,14 +177,13 @@ internal final class ConfirmPopupViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-                        
+        super.viewDidLoad()                        
     }
     
     private func createButton(backgroundColor: UIColor, buttonTitle: String, titleColor: UIColor) -> UIButton {
         UIButton().then {
             $0.setTitleColor(titleColor, for: .normal)
-            $0.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
+            $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
             $0.layer.cornerRadius = 6
             $0.setTitle(buttonTitle, for: .normal)
             $0.backgroundColor = backgroundColor

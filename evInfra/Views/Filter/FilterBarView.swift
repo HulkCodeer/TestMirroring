@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol DelegateFilterBarView {
+protocol DelegateFilterBarView: class {
     func showFilterContainer(type: FilterType)
     func startFilterSetting()
 }
@@ -35,7 +35,7 @@ class FilterBarView: UIView {
     @IBOutlet weak var btnRoad: UIButton!
     @IBOutlet weak var btnType: UIButton!
     
-    var delegate: DelegateFilterBarView?
+    weak var delegate: DelegateFilterBarView?
     var selected: FilterType = FilterType.none
     
     override func awakeFromNib() {

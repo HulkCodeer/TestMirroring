@@ -62,14 +62,15 @@
                                         </constraints>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4z3-sM-KGC">
-                                        <rect key="frame" x="0.0" y="40" width="304" height="16"/>
+                                        <rect key="frame" x="0.0" y="40" width="304" height="20"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="16" id="wYw-7m-ryX"/>
+                                            <constraint firstAttribute="height" constant="20" id="wYw-7m-ryX"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                         <color key="tintColor" name="gr-5"/>
+                                        <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="4" maxY="0.0"/>
-                                        <state key="normal" image="iconChargerSm">
+                                        <state key="normal" title="dfsadfasdf" image="icon_charger_sm">
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="bold"/>
                                         </state>
                                         <connections>
@@ -77,7 +78,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="248" verticalCompressionResistancePriority="249" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGE-kh-gWN">
-                                        <rect key="frame" x="0.0" y="64" width="304" height="26"/>
+                                        <rect key="frame" x="0.0" y="68" width="304" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="6oJ-yZ-RLW"/>
                                         </constraints>
@@ -233,7 +234,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="iconChargerSm" width="20" height="20"/>
+        <image name="icon_charger_sm" width="20" height="20"/>
         <image name="profileTagAdm" width="36" height="20"/>
         <namedColor name="gr-5">
             <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

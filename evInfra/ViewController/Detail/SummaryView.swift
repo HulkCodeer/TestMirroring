@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-protocol SummaryDelegate {
+protocol SummaryDelegate: AnyObject {
     func setCidInfoList()
 }
 
@@ -56,7 +56,7 @@ class SummaryView: UIView {
     var charger:ChargerStationInfo?
     var isAddBtnGone:Bool = false
     var distance: Double = -1.0
-    var delegate:SummaryDelegate?
+    weak var delegate: SummaryDelegate?
     
     let startKey = "summaryView.start"
     let endKey = "summaryView.end"
@@ -391,13 +391,16 @@ class SummaryView: UIView {
     
     // Favorite
     @IBAction func onClickFavorite(_ sender: UIButton) {
-        if MemberManager.shared.isLogin {
-            if self.charger != nil {
-                self.favorite()
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                if self.charger != nil {
+                    self.favorite()
+                }
+            } else {
+                let logIn = Notification.Name(rawValue: self.loginKey)
+                NotificationCenter.default.post(name: logIn, object: nil)
             }
-        } else {
-            let logIn = Notification.Name(rawValue: loginKey)
-            NotificationCenter.default.post(name: logIn, object: nil)
         }
     }
     

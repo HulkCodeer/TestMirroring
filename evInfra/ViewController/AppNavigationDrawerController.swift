@@ -29,39 +29,39 @@ class AppNavigationDrawerController: NavigationDrawerController {
 
 extension AppNavigationDrawerController: NavigationDrawerControllerDelegate {
     func navigationDrawerController(navigationDrawerController: NavigationDrawerController, willOpen position: NavigationDrawerPosition) {
-        printLog(out: "navigationDrawerController willOpen")
+//        printLog(out: "navigationDrawerController willOpen")
     }
     
     func navigationDrawerController(navigationDrawerController: NavigationDrawerController, didOpen position: NavigationDrawerPosition) {
-        printLog(out: "navigationDrawerController didOpen")
+//        printLog(out: "navigationDrawerController didOpen")
     }
     
     func navigationDrawerController(navigationDrawerController: NavigationDrawerController, willClose position: NavigationDrawerPosition) {
-        printLog(out: "navigationDrawerController willClose")
+//        printLog(out: "navigationDrawerController willClose")
     }
     
     func navigationDrawerController(navigationDrawerController: NavigationDrawerController, didClose position: NavigationDrawerPosition) {
-        printLog(out: "navigationDrawerController didClose")
+//        printLog(out: "navigationDrawerController didClose")
     }
     
     func navigationDrawerController(navigationDrawerController: NavigationDrawerController, didBeginPanAt point: CGPoint, position: NavigationDrawerPosition) {
-        printLog(out: "navigationDrawerController didBeginPanAt: ", point, "with position:", .left == position ? "Left" : "Right")
+//        printLog(out: "navigationDrawerController didBeginPanAt: ", point, "with position:", .left == position ? "Left" : "Right")
     }
     
     func navigationDrawerController(navigationDrawerController: NavigationDrawerController, didChangePanAt point: CGPoint, position: NavigationDrawerPosition) {
-        printLog(out: "navigationDrawerController didChangePanAt: ", point, "with position:", .left == position ? "Left" : "Right")
+//        printLog(out: "navigationDrawerController didChangePanAt: ", point, "with position:", .left == position ? "Left" : "Right")
     }
     
     func navigationDrawerController(navigationDrawerController: NavigationDrawerController, didEndPanAt point: CGPoint, position: NavigationDrawerPosition) {
-        printLog(out: "navigationDrawerController didEndPanAt: ", point, "with position:", .left == position ? "Left" : "Right")
+//        printLog(out: "navigationDrawerController didEndPanAt: ", point, "with position:", .left == position ? "Left" : "Right")
     }
     
     func navigationDrawerController(navigationDrawerController: NavigationDrawerController, didTapAt point: CGPoint, position: NavigationDrawerPosition) {
-        printLog(out: "navigationDrawerController didTapAt: ", point, "with position:", .left == position ? "Left" : "Right")
+//        printLog(out: "navigationDrawerController didTapAt: ", point, "with position:", .left == position ? "Left" : "Right")
     }
     
     func navigationDrawerController(navigationDrawerController: NavigationDrawerController, statusBar isHidden: Bool) {
-        printLog(out: "navigationDrawerController statusBar is hidden:", isHidden ? "Yes" : "No")
+//        printLog(out: "navigationDrawerController statusBar is hidden:", isHidden ? "Yes" : "No")
         guard isHidden else {
             return
         }

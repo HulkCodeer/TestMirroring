@@ -49,7 +49,7 @@ extension MyCouponViewController {
         let couponCodeBtn = UIButton()
         couponCodeBtn.setTitle("쿠폰 번호 등록", for: .normal)
         couponCodeBtn.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
-        couponCodeBtn.titleLabel?.font = .systemFont(ofSize: 14)
+        couponCodeBtn.titleLabel?.font = .systemFont(ofSize: 15)
         couponCodeBtn.addTarget(self, action: #selector(handlecouponCodeBtn), for: .touchUpInside)
         
         navigationItem.hidesBackButton = true
