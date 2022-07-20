@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-protocol SummaryDelegate {
+protocol SummaryDelegate: AnyObject {
     func setCidInfoList()
 }
 
@@ -56,7 +56,7 @@ class SummaryView: UIView {
     var charger:ChargerStationInfo?
     var isAddBtnGone:Bool = false
     var distance: Double = -1.0
-    var delegate:SummaryDelegate?
+    weak var delegate: SummaryDelegate?
     
     let startKey = "summaryView.start"
     let endKey = "summaryView.end"

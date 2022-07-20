@@ -10,7 +10,7 @@ import UIKit
 
 class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
-    var tableViewDelegate: BoardTableViewDelegate?
+    weak var tableViewDelegate: BoardTableViewDelegate?
     var category :String = Board.CommunityType.FREE.rawValue
     var isLastPage: Bool = false
     var isRefresh: Bool = false

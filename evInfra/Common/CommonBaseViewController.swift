@@ -18,6 +18,7 @@ internal class CommonBaseViewController: UIViewController {
     
     internal lazy var contentView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = .white
         self.view.addSubview($0)
         $0.snp.makeConstraints {
             $0.edges.equalTo(self.view.safeAreaLayoutGuide)

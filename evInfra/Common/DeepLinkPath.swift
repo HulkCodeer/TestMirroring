@@ -115,15 +115,34 @@ internal final class DeepLinkPath {
             
                     
         case DynamicLinkUrlPathType.event_detail.value:
-            guard let paramItems = linkParameter, let eventID = paramItems.first(where: { $0.name == "event_id"})?.value else { return }
-            storyboard = UIStoryboard(name : "Event", bundle: nil)
-            let viewcon = storyboard.instantiateViewController(ofType: EventViewController.self)
-            viewcon.externalEventParam = paramItems.first(where: { $0.name == "param" })?.value?.description
-            viewcon.externalEventID = Int(eventID)
-            _mainNavi.push(viewController: viewcon)
-            
+            if let _mainNav = GlobalDefine.shared.mainNavi {
+                if _mainNav.containsViewController(ofKind: EventViewController.self) ||
+                    _mainNav.containsViewController(ofKind: EventContentsViewController.self) {
+                    let _viewControllers = _mainNav.viewControllers
+                    for vc in _viewControllers.reversed() {
+                        printLog(out: "PARK TEST : \(vc)")
+                        if let _vc = vc as? AppNavigationDrawerController {
+                            _mainNav.popToViewControllerWithHandler(vc: _vc, completion: { [weak self] in
+                                guard let self = self else { return }
+                                self.moveEventDetailViewController()
+                            })
+                            return
+                        }
+                    }
+                } else {
+                    self.moveEventDetailViewController()
+                }
+            }
+                                                
         default: break
         }
-        
+    }
+    
+    private func moveEventDetailViewController() {
+        guard let paramItems = linkParameter, let eventID = paramItems.first(where: { $0.name == "event_id"})?.value else { return }
+        let viewcon = UIStoryboard(name : "Event", bundle: nil).instantiateViewController(ofType: EventViewController.self)
+        viewcon.externalEventParam = paramItems.first(where: { $0.name == "param" })?.value?.description
+        viewcon.externalEventID = Int(eventID)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
 }

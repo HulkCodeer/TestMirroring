@@ -44,11 +44,9 @@ internal final class QuitAccountCompleteViewController: CommonBaseViewController
         $0.spacing = 16
     }
     
-    private lazy var completeBtn = UIButton().then {
+    private lazy var completeBtn = RectButton(level: .primary).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.setTitle("확인", for: .normal)
-        $0.setBackgroundColor(Colors.backgroundPositive.color, for: .normal)
-        $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
+        $0.setTitle("확인", for: .normal)        
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.isEnabled = true
         $0.IBcornerRadius = 6

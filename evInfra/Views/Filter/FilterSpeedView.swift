@@ -7,7 +7,7 @@
 //
 
 import Foundation
-protocol DelegateSlowSpeedChange {
+protocol DelegateSlowSpeedChange: class {
     func onChangeSlowSpeed(isSlow: Bool)
 }
 class FilterSpeedView: UIView {
@@ -16,8 +16,8 @@ class FilterSpeedView: UIView {
     @IBOutlet var rangeSliderSpeed: RangeSeekSlider!
     
     var saveOnChange: Bool = false
-    var delegate: DelegateFilterChange?
-    var slowSpeedChangeDelegate: DelegateSlowSpeedChange?
+    internal weak var delegate: DelegateFilterChange?
+    internal weak var slowSpeedChangeDelegate: DelegateSlowSpeedChange?
     
     private var minSpeed = 50
     private var maxSpeed = 350

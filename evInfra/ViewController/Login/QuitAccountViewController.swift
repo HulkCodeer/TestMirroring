@@ -87,14 +87,10 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         $0.numberOfLines = 1
     }
                     
-    private lazy var quitBtn = UIButton().then {
+    private lazy var quitBtn = RectButton(level: .primary).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("탈퇴하기", for: .normal)
-        $0.setTitle("탈퇴하기", for: .disabled)
-        $0.setBackgroundColor(Colors.backgroundDisabled.color, for: .disabled)
-        $0.setBackgroundColor(Colors.backgroundPositive.color, for: .normal)
-        $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
-        $0.setTitleColor(Colors.contentDisabled.color, for: .disabled)
+        $0.setTitle("탈퇴하기", for: .disabled)        
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.isEnabled = true
         $0.IBcornerRadius = 6
@@ -132,7 +128,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         quitBtn.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
-            $0.height.equalTo(44)
+            $0.height.equalTo(48)
             $0.bottom.equalToSuperview().offset(-16)
         }
         

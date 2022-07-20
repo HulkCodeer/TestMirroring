@@ -122,6 +122,11 @@ internal final class MainViewController: UIViewController {
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        removeObserver()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -152,15 +157,20 @@ internal final class MainViewController: UIViewController {
     }
     
     private func configureLayer() {
+        // 내위치 현재 위치 버튼
         myLocationButton.layer.cornerRadius = 20
-        myLocationButton.layer.borderWidth = 1
-        myLocationButton.layer.borderColor = UIColor.init(named: "border-opaque")?.cgColor
-        updateMyLocationButton()
+        myLocationButton.layer.shadowRadius = 2.0
+        myLocationButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        myLocationButton.layer.shadowOpacity = 0.3
         
+        // 지도 리프레쉬 버튼
         reNewButton.layer.cornerRadius = 20
-        reNewButton.layer.borderWidth = 1
-        reNewButton.layer.borderColor = UIColor.init(named: "border-opaque")?.cgColor
-        
+        reNewButton.layer.shadowRadius = 2.0
+        reNewButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        reNewButton.layer.shadowOpacity = 0.3
+                
+        updateMyLocationButton()
+                        
         btn_menu_layer.layer.cornerRadius = 5
         btn_menu_layer.clipsToBounds = true
         btn_menu_layer.layer.shadowRadius = 5
@@ -933,6 +943,7 @@ extension MainViewController {
             self.markerIndicator.startAnimating()
             self.appDelegate.appToolbarController.toolbar.isUserInteractionEnabled = false
         }
+        
         ChargerManager.sharedInstance.getStations { [weak self] in
             LoginHelper.shared.checkLogin()
             
@@ -1006,11 +1017,9 @@ extension MainViewController {
     
     func removeObserver() {
         let center = NotificationCenter.default
+        center.removeObserver(self, name: .UIApplicationDidEnterBackground, object: nil)
         center.removeObserver(self, name: Notification.Name("updateMemberInfo"), object: nil)
-    }
-    
-    func removeSummaryObserver() {
-        let center = NotificationCenter.default
+        center.removeObserver(self, name: Notification.Name("kakaoScheme"), object: nil)
         center.removeObserver(self, name: Notification.Name(summaryView.startKey), object: nil)
         center.removeObserver(self, name: Notification.Name(summaryView.endKey), object: nil)
         center.removeObserver(self, name: Notification.Name(summaryView.addKey), object: nil)

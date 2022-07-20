@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             setupEntryController()
         }
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
-        
+                        
         return true
     }
     
