@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -267,7 +267,6 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="cSB-Km-WoQ" firstAttribute="top" secondItem="Nud-g0-owP" secondAttribute="bottom" id="0CK-iq-4dL"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Nud-g0-owP" secondAttribute="trailing" id="0oH-Do-anq"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="cSB-Km-WoQ" secondAttribute="trailing" id="F8s-Lw-fMw"/>
                             <constraint firstAttribute="bottom" secondItem="cSB-Km-WoQ" secondAttribute="bottom" id="O19-tw-drG"/>
@@ -278,11 +277,11 @@
                     </view>
                     <connections>
                         <outlet property="chargeStationStackView" destination="E81-wG-FqB" id="ryg-MW-bOx"/>
-                        <outlet property="completeButton" destination="cSB-Km-WoQ" id="DHc-jK-QrO"/>
                         <outlet property="contentsTextView" destination="e0B-Oi-YuX" id="hHd-NN-tIo"/>
                         <outlet property="contentsView" destination="KP3-bD-f8h" id="Gil-5n-FrJ"/>
                         <outlet property="countOfWordsLabel" destination="EzN-o3-854" id="9Gr-oR-354"/>
                         <outlet property="photoCollectionView" destination="tq5-kB-IpA" id="RsH-23-RVX"/>
+                        <outlet property="scrollView" destination="Nud-g0-owP" id="6th-3k-2ZX"/>
                         <outlet property="stationSearchButton" destination="QrB-fg-XJS" id="tkc-oM-x9J"/>
                         <outlet property="titleTextView" destination="Yiz-2A-p2n" id="Hic-Ht-iEX"/>
                     </connections>

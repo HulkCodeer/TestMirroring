@@ -46,6 +46,7 @@ internal final class MemberPartnershipInfo {
     var date: String
     var displayDate: String
     var carNo: String?
+    var displayCardNo: String?
     var mobileCardNum: String?
     var mpCardNum: String?
     var level: String?
@@ -63,6 +64,7 @@ internal final class MemberPartnershipInfo {
         self.displayDate = Date().toDate(data: self.date)?.toYearMonthDay() ?? ""
         self.displayStatusDescription = self.cardStatusType == .issuanceCompleted ? self.displayDate : self.cardStatusType.showDisplayType()
         self.carNo = json["car_no"].stringValue
+        self.displayCardNo = self.cardNo?.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
         self.mobileCardNum = json["mobile_card_num"].stringValue
         self.mpCardNum = json["mp_card_num"].stringValue
         self.startDate = json["start_date"].stringValue
