@@ -124,7 +124,7 @@ internal final class MainViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        removeObserver()
+        // removeObserver 하면 안됨. addObserver를 viewdidload에서 함        
     }
     
     override func didReceiveMemoryWarning() {
