@@ -140,9 +140,10 @@ struct BoardWriteViewModel {
                     }
                     
                     deleteDispatchGroup.notify(queue: .main, execute: {
-                        if deleteSuccessResult.count == _files.count {
-                            completion(deleteSuccessResult.filter({ $0 == true }).count == _files.count)
+                        guard deleteSuccessResult.count == _files.count else {
+                            return
                         }
+                        completion(deleteSuccessResult.filter({ $0 == true }).count == _files.count)
                     })
                                             
                     guard selectedImages.count != 0 else {
