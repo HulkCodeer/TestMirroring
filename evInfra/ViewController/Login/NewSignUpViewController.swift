@@ -85,7 +85,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         $0.numberOfLines = 1
     }
     
-    private lazy var nickNameTf = UITextField().then {
+    private lazy var nickNameTf = SignUpTextField().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
@@ -123,7 +123,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         $0.numberOfLines = 1
     }
     
-    private lazy var emailTf = UITextField().then {
+    private lazy var emailTf = SignUpTextField().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
@@ -161,7 +161,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         $0.numberOfLines = 1
     }
     
-    private lazy var phoneTf = UITextField().then {
+    private lazy var phoneTf = SignUpTextField().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
@@ -643,6 +643,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 if let _otherInfo = userData.otherInfo {
                     self.emailTf.isEnabled = !_otherInfo.is_email_verified
                 }
+                self.emailTf.isEnabled = userData.email.isEmpty
                                 
                 self.phoneTf.text = userData.displayPhoneNumber
                 self.phoneTf.isEnabled = userData.phoneNo.isEmpty
@@ -673,6 +674,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 
                 guard isValid else { return }
                 Observable.just(SignUpReactor.Action.signUp)
+                    .observe(on: MainScheduler.asyncInstance)
                     .bind(to: reactor.action)
                     .disposed(by: self.disposeBag)
             })
@@ -725,7 +727,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 
                 let rowVC = NewBottomSheetViewController()
                 rowVC.items = Login.AgeType.allCases.map { $0.value }
-                rowVC.headerTitleStr = "탈퇴 사유 선택"
+                rowVC.headerTitleStr = "연령대 선택"
                 rowVC.view.frame = GlobalDefine.shared.mainNavi?.view.bounds ?? UIScreen.main.bounds
                 self.addChildViewController(rowVC)
                 self.view.addSubview(rowVC.view)
@@ -851,5 +853,14 @@ extension NewSignUpViewController: UITextFieldDelegate {
             view.endEditing(true)
         }
         return true
+    }
+}
+
+internal class SignUpTextField: UITextField {
+    override var isEnabled: Bool {
+        didSet {
+            self.backgroundColor = self.isEnabled ? Colors.backgroundPrimary.color : Colors.backgroundDisabled.color
+            self.IBborderColor = self.isEnabled ? Colors.borderOpaque.color : Colors.borderDisabled.color
+        }
     }
 }

@@ -93,14 +93,16 @@ internal final class SignUpReactor: ViewModel, Reactor {
                 .compactMap(convertToData)
                 .map { jsonData in
                     let mbId = jsonData["mb_id"].stringValue
-                    guard mbId.isEmpty else {
+                    guard !mbId.isEmpty else {
                         Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
                         return .none
                     }
-                    
-                    GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                        
+                    let reactor = CarRegistrationReactor(provider: RestApi())
+                    let viewcon = CarRegistrationViewController()
+                    viewcon.reactor = reactor
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)                    
                     MemberManager.shared.setData(data: jsonData)
-                    Snackbar().show(message: "로그인 성공")
                                         
                     return .none
                 }
