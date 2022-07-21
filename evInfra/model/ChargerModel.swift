@@ -14,7 +14,7 @@ class ChargerModel {
     var id: Int?
     var name: String?
     var ampare: String?
-    var image: String?
+    var image: String = ""
     var current: String?
     var voltage: String?
     var vehicles: String?
