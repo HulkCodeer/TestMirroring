@@ -50,9 +50,7 @@ internal final class GroupViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         selectedCompletion?(indexPath.row)
-    }
-    
-    var isShortFormEnabled = true
+    }        
 }
 
 extension GroupViewController: PanModalPresentable {
