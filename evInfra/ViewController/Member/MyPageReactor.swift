@@ -11,11 +11,11 @@ import SwiftyJSON
 
 internal final class MyPageReactor: ViewModel, Reactor {
     enum Action {
-        case validFieldStepOne(String, String, String)
+        case fetchUserInfo
     }
     
     enum Mutation {
-        case setValidNickName(Bool)
+        case setUserInfo(Bool)
         case setValidEmail(Bool)
         case setValidPhone(Bool)
     }

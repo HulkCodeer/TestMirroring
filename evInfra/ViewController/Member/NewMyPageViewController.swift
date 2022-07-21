@@ -25,7 +25,16 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
     
     private lazy var profileImgView = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.IBcornerRadius
+        $0.IBcornerRadius = 16
+    }
+    
+    private lazy var userInfoTotalView = UIStackView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.axis = .vertical
+        $0.distribution = .fillEqually
+        $0.alignment = .fill
+        $0.spacing = 8
+        $0.backgroundColor = .white
     }
     
     private lazy var nickNameLbl = UILabel().then {
@@ -88,13 +97,34 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
         
         self.contentView.addSubview(profileTotalView)
         profileTotalView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+            $0.top.equalTo(naviTotalView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(104)
         }
         
         self.profileTotalView.addSubview(profileImgView)
         profileImgView.snp.makeConstraints {
-            $0.leading.equalTo(<#T##other: ConstraintRelatableTarget##ConstraintRelatableTarget#>)
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerY.equalToSuperview()
+            $0.width.height.equalTo(56)
+        }
+        
+        self.profileTotalView.addSubview(userInfoTotalView)
+        userInfoTotalView.snp.makeConstraints {
+            $0.leading.equalTo(profileImgView.snp.trailing).offset(16)
+            $0.height.equalTo(44)
+            $0.centerY.equalTo(profileImgView.snp.centerY)
+        }
+        
+        userInfoTotalView.addArrangedSubview(nickNameLbl)
+        userInfoTotalView.addArrangedSubview(userMoreInfoLbl)
+        
+        self.profileTotalView.addSubview(modifyUserInfoBtn)
+        modifyUserInfoBtn.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-17)
+            $0.width.equalTo(84)
+            $0.height.equalTo(36)
+            $0.centerY.equalToSuperview()
         }
         
         let line = self.createLineView(color: Colors.backgroundSecondary.color)
