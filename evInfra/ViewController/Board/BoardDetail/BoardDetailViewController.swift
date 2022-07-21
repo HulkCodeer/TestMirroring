@@ -447,7 +447,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
         guard let detail = detail,
         let document = detail.document else { return }
         let rowVC = GroupViewController()
-        
+                
         if isHeader {
             
             MemberManager.shared.tryToLoginCheck { [weak self] isLogin in

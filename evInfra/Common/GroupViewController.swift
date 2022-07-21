@@ -20,8 +20,7 @@ internal final class GroupViewController: UITableViewController {
     // MARK: SYSTEM FUNC
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-
+        super.viewDidLoad()                
         tableView.separatorStyle = .singleLine
         tableView.isScrollEnabled = false
         tableView.backgroundColor = UIColor(named: "nt-white")
@@ -44,7 +43,7 @@ internal final class GroupViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 55.0
+        return 55
     }
 
     // MARK: - UITableViewDelegate
@@ -52,6 +51,8 @@ internal final class GroupViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         selectedCompletion?(indexPath.row)
     }
+    
+    var isShortFormEnabled = true
 }
 
 extension GroupViewController: PanModalPresentable {
@@ -63,7 +64,7 @@ extension GroupViewController: PanModalPresentable {
     var panScrollable: UIScrollView? {
         return tableView
     }
-    
+
     var anchorModalToLongForm: Bool {
         return false
     }

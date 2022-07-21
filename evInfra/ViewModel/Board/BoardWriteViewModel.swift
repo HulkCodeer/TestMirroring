@@ -121,37 +121,55 @@ struct BoardWriteViewModel {
             if isSuccess {
                 if let results = value as? Dictionary<String, String>,
                    let documentSRL = results["document_srl"] {
-                    
                     // image 삭제
-                    if let files = files {
-                        for file in files {
-                            Server.deleteDocumnetFile(documentSRL: documentSRL, fileSRL: file.file_srl!, isCover: file.cover_image!) { isSuccess, response in
-                                if isSuccess {                                    
-                                    completion(true)
-                                } else {
-                                    completion(false)
-                                }
+                    guard let _files = files else { return completion(false) }
+                    let deleteDispatchGroup = DispatchGroup()
+                    var deleteSuccessResult:[Bool] = []
+                                        
+                    for imageFile in _files {
+                        deleteDispatchGroup.enter()
+                        guard let _srl = imageFile.file_srl, let _coverImage = imageFile.cover_image else { return completion(false)}
+                        Server.deleteDocumnetFile(documentSRL: documentSRL, fileSRL: _srl, isCover: _coverImage) { isSuccess, response in
+                            if isSuccess {
+                                deleteSuccessResult.append(true)
+                            } else {
+                                deleteSuccessResult.append(false)
                             }
+                            deleteDispatchGroup.leave()
                         }
                     }
                     
+                    deleteDispatchGroup.notify(queue: .main, execute: {
+                        guard deleteSuccessResult.count == _files.count else {
+                            return
+                        }
+                        completion(deleteSuccessResult.filter({ $0 == true }).count == _files.count)
+                    })
+                                            
                     guard selectedImages.count != 0 else {
                         completion(true)
                         return
                     }
-                    
+
                     // image 등록
-                    var completedUpload = 0
+                    var uploadSuccessResult:[Bool] = []
+                    let uploadDispatchGroup = DispatchGroup()
+                    
                     for (index, image) in selectedImages.enumerated() {
+                        uploadDispatchGroup.enter()
                         Server.boardImageUpload(mid: mid, document_srl: documentSRL, image: image, seq: "\(index)") { isSuccess, response in
                             if isSuccess {
-                                completedUpload = completedUpload + 1
-                                if completedUpload == selectedImages.count {
-                                    completion(true)
-                                }
+                                uploadSuccessResult.append(true)
                             } else {
-                                completion(false)
+                                uploadSuccessResult.append(false)
                             }
+                            uploadDispatchGroup.leave()
+                        }
+                    }
+                    
+                    uploadDispatchGroup.notify(queue: .main) {
+                        if uploadSuccessResult.count == selectedImages.count {
+                            completion(uploadSuccessResult.filter({ $0 == true }).count == selectedImages.count)
                         }
                     }
                 } else {
