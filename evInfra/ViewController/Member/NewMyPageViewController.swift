@@ -25,7 +25,7 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
     
     private lazy var profileImgView = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.IBcornerRadius = 16
+        $0.image = Icons.iconProfileEmpty.image
     }
     
     private lazy var userInfoTotalView = UIStackView().then {
@@ -147,6 +147,8 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
             $0.top.equalTo(myCarGuideLbl.snp.bottom).offset(8)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+        
+        profileImgView.IBcornerRadius = 56 / 2
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -155,6 +157,10 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
     }
     
     func bind(reactor: MyPageReactor) {
+        Observable.just(MyPageReactor.Action.fetchUserInfo)
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
         
     }
 }

@@ -8,6 +8,11 @@
 
 import SwiftyJSON
 
+protocol ServerResultProtocol {
+    var code: Int { get set }
+    var msg: String { get set }
+}
+
 struct ServerResult {
     let code:Int
     let msg: String

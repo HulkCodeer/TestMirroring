@@ -15,15 +15,11 @@ internal final class MyPageReactor: ViewModel, Reactor {
     }
     
     enum Mutation {
-        case setUserInfo(Bool)
-        case setValidEmail(Bool)
-        case setValidPhone(Bool)
+        case setUserInfo(UserInfoModel)
     }
     
     struct State {
-        var isValidNickName: Bool?
-        var isValidEmail: Bool?
-        var isValidPhone: Bool?
+        var userInfoModel: UserInfoModel?
     }
     
     internal var initialState: State
@@ -35,37 +31,30 @@ internal final class MyPageReactor: ViewModel, Reactor {
         
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .validFieldStepOne(let nickName, let email, let phone):
-            return .concat([ .just(.setValidNickName(false)) ,
-                             .just(.setValidEmail(StringUtils.isValidEmail(email))),
-                             .just(.setValidPhone(StringUtils.isValidPhoneNum(phone)))
-            ])
-                
+        case .fetchUserInfo:
+            return self.provider.postMemberInfo()
+                .convertData()
+                .compactMap(convertToData)
+                .map { userInfoModel in
+                    return .setUserInfo(userInfoModel)
+                }
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
                 
-        newState.isValidNickName = nil
-        newState.isValidEmail = nil
-        newState.isValidPhone = nil
+        newState.userInfoModel = nil
         
         switch mutation {
-        case .setValidNickName(let isValid):
-            newState.isValidNickName = isValid
-            
-        case .setValidEmail(let isValid):
-            newState.isValidEmail = isValid
-        
-        case .setValidPhone(let isValid):
-            newState.isValidPhone = isValid
+        case .setUserInfo(let userInfoModel):
+            newState.userInfoModel = userInfoModel
                                                                     
         }
         return newState
     }
     
-    private func convertToData(with result: ApiResult<Data, ApiErrorMessage> ) -> Bool? {
+    private func convertToData(with result: ApiResult<Data, ApiErrorMessage> ) -> UserInfoModel? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
@@ -74,37 +63,13 @@ internal final class MyPageReactor: ViewModel, Reactor {
             let code = jsonData["code"].stringValue
             
             switch code {
-            case "9000":
-                LoginHelper.shared.logout(completion: { _ in
-                    Snackbar().show(message: "회원 정보가 만료되어 로그아웃 되었습니다. 회원탈퇴를 위해서는 다시 로그인이 필요합니다.")
-                    GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
-                })
-                
-                return nil
-                
             case "1000":
-                return true
+                return UserInfoModel(json: jsonData)
                 
             default:
-                Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
                 return nil
             }
                                                              
-        case .failure(let errorMessage):
-            printLog(out: "Error Message : \(errorMessage)")
-            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
-            return nil
-        }
-    }
-    
-    private func convertToAppleData(with result: ApiResult<Data, ApiErrorMessage> ) -> Bool? {
-        switch result {
-        case .success(let data):
-            let jsonData = JSON(data)
-            printLog(out: "JsonData : \(jsonData)")
-            
-            return true
-            
         case .failure(let errorMessage):
             printLog(out: "Error Message : \(errorMessage)")
             Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")

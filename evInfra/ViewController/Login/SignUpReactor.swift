@@ -88,7 +88,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
             return .just(.setAge(age))
             
         case .signUp:                        
-            return self.provider.signUp(user: self.currentState.signUpUserData)
+            return self.provider.postSignUp(user: self.currentState.signUpUserData)
                 .convertData()
                 .compactMap(convertToData)
                 .map { jsonData in
