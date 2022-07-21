@@ -95,12 +95,9 @@ internal final class DetailViewController: BaseViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        defer {
-            NotificationCenter.default.removeObserver(self)
-        }
+        NotificationCenter.default.removeObserver(self)
+
         guard mapView == nil else {
-            mapView = nil
-            kakaoMapView.removeFromSuperview()
             MTMapView.clearMapTilePersistentCache()
             return
         }
