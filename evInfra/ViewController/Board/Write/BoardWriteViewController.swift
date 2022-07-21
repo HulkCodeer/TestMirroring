@@ -29,8 +29,8 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     
     private var completeButton = UIButton().then {
         $0.isEnabled = false
-        $0.setBackgroundColor(UIColor(named: "background-disabled") ?? .systemGray, for: .disabled)
-        $0.setBackgroundColor(UIColor(named: "background-positive") ?? .systemGray, for: .normal)
+        $0.setBackgroundColor(Colors.backgroundDisabled.color, for: .disabled)
+        $0.setBackgroundColor(Colors.backgroundPositive.color, for: .normal)
         $0.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         $0.setTitleColor(UIColor(named: "content-disabled"), for: .disabled)
         $0.setTitleColor(UIColor(named: "content-primary"), for: .normal)
