@@ -36,8 +36,8 @@ internal final class ChargerDetailViewController: BaseViewController {
         guard let model = model else { return }
         prepareActionBar(with: "충전기 정보")
         
-        chargerImageView.image = UIImage(named: model.image ?? "")
-        chargerImageView.motionIdentifier = "\(model.image ?? "")"
+        chargerImageView.image = UIImage(named: model.image)
+        chargerImageView.motionIdentifier = "\(model.image)"
         connectorName.text = model.name ?? ""
         ampare.text = model.ampare ?? ""
         voltage.text = model.voltage ?? ""
