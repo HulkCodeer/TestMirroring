@@ -179,7 +179,9 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
     }
     
     func bind(reactor: MyPageReactor) {
-        Observable.just(getMy)
+        Observable.just(MyPageReactor.Action.getMyCarList)
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
     }
 }
 
