@@ -25,7 +25,9 @@ protocol SoftberryAPI: class {
     func postGetBerry(eventId: String) -> Observable<(HTTPURLResponse, Data)>
     
     func postSignUp(user: Login) -> Observable<(HTTPURLResponse, Data)>
-    func postMemberInfo() -> Observable<(HTTPURLResponse, Data)>
+    func getMyCar() -> Observable<(HTTPURLResponse, Data)>
+    
+//    func postMemberInfo() -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -137,13 +139,23 @@ internal final class RestApi: SoftberryAPI {
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/sign_up", httpMethod: .post, parameters: user.convertToParams(), headers: nil)
     }
     
-    // MARK: - 회원 정보 조회
-    func postMemberInfo() -> Observable<(HTTPURLResponse, Data)> {
-        let reqParam: Parameters = [
-            "mb_id": MemberManager.shared.mbId
-        ]
-                
-        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/member_info", httpMethod: .post, parameters: reqParam, headers: nil)
+//    // MARK: - 회원 정보 조회
+//    func postMemberInfo() -> Observable<(HTTPURLResponse, Data)> {
+//        let reqParam: Parameters = [
+//            "mb_id": MemberManager.shared.mbId
+//        ]
+//
+//        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/member_info", httpMethod: .post, parameters: reqParam, headers: nil)
+//    }
+    
+    // MARK: - 소유 차량 정보 조회
+    func getMyCar() -> Observable<(HTTPURLResponse, Data)> {
+        var reqUrl = "\(Const.EV_APP_AWS_SERVER)/car/\(MemberManager.shared.mbId)"
+        if MemberManager.shared.carId != 0 {
+            reqUrl = "\(reqUrl)?id=\(MemberManager.shared.carId)"
+        }
+        
+        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .get, parameters: nil, headers: nil)
     }
     
 }

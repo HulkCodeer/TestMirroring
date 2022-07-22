@@ -64,7 +64,19 @@ internal final class MemberManager {
     }
     
     internal var memberNickName: String {
-        return UserDefault().readString(key: UserDefault.Key.MB_NICKNAME).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        return UserDefault().readString(key: UserDefault.Key.MB_NICKNAME)
+    }    
+    
+    internal var ageRange: String {
+        return UserDefault().readString(key: UserDefault.Key.MB_AGE_RANGE)
+    }
+    
+    internal var gender: String {
+        return UserDefault().readString(key: UserDefault.Key.MB_GENDER)
+    }
+    
+    internal var carId: Int {
+        return UserDefault().readInt(key: UserDefault.Key.MB_CAR_ID)
     }
                     
     func isPartnershipClient(clientId : Int) -> Bool {
@@ -127,6 +139,9 @@ internal final class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value: data["battery_device_id"].stringValue)
             userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value: data["has_membership"].boolValue)
             userDefault.saveString(key: UserDefault.Key.MB_LAST_LOGIN_TYPE, value: data["login_type"].stringValue)
+            userDefault.saveString(key: UserDefault.Key.MB_GENDER, value: data["gender"].stringValue)
+            userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: data["age_range"].stringValue)
+            
         }
     }
     
@@ -146,6 +161,8 @@ internal final class MemberManager {
         userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  false)
         userDefault.saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value:  "")
         userDefault.saveString(key: UserDefault.Key.MB_LOGIN_TYPE, value:  "")
+        userDefault.saveString(key: UserDefault.Key.MB_GENDER, value: "")
+        userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: "")
     }
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {

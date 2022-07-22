@@ -791,6 +791,12 @@
 		821A05F72862926500EB1A91 /* CommonBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05F52862920300EB1A91 /* CommonBaseViewController.swift */; };
 		828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407D928393D8F002B1214 /* NetworkWorker.swift */; };
 		828407DC28393DFE002B1214 /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407DB28393DFE002B1214 /* SoftberryAPI.swift */; };
+		82B050A0288A1C4E008C7D11 /* MyPageCarEmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0509F288A1C4E008C7D11 /* MyPageCarEmptyCell.swift */; };
+		82B050A1288A1C4E008C7D11 /* MyPageCarEmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0509F288A1C4E008C7D11 /* MyPageCarEmptyCell.swift */; };
+		82B050A3288A1C6F008C7D11 /* MyPageCarEmptyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82B050A2288A1C6F008C7D11 /* MyPageCarEmptyCell.xib */; };
+		82B050A4288A1C6F008C7D11 /* MyPageCarEmptyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82B050A2288A1C6F008C7D11 /* MyPageCarEmptyCell.xib */; };
+		82B050A7288A3F91008C7D11 /* CarInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B050A6288A3F91008C7D11 /* CarInfoModel.swift */; };
+		82B050A8288A3F91008C7D11 /* CarInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B050A6288A3F91008C7D11 /* CarInfoModel.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		82B4F62D2862E2D900BA1D1A /* NewAcceptTermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4F62C2862E2D900BA1D1A /* NewAcceptTermsViewController.swift */; };
 		82B4F62F2862F13F00BA1D1A /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4F62E2862F13F00BA1D1A /* CheckBox.swift */; };
@@ -827,6 +833,14 @@
 		82FC804328880127000617BE /* CommonNaviView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FC803C28880127000617BE /* CommonNaviView.swift */; };
 		82FC804428880127000617BE /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FC803D28880127000617BE /* ChevronArrow.swift */; };
 		82FC804528880127000617BE /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FC803D28880127000617BE /* ChevronArrow.swift */; };
+		82FDA4862889A5F600329085 /* MyPageCarListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FDA4852889A5F600329085 /* MyPageCarListCell.swift */; };
+		82FDA4872889A5F600329085 /* MyPageCarListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FDA4852889A5F600329085 /* MyPageCarListCell.swift */; };
+		82FDA4892889A65500329085 /* CommonBaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FDA4882889A65500329085 /* CommonBaseTableViewCell.swift */; };
+		82FDA48A2889A65500329085 /* CommonBaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FDA4882889A65500329085 /* CommonBaseTableViewCell.swift */; };
+		82FDA48D2889A75900329085 /* MyPageCarListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82FDA48C2889A75900329085 /* MyPageCarListCell.xib */; };
+		82FDA48E2889A75900329085 /* MyPageCarListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82FDA48C2889A75900329085 /* MyPageCarListCell.xib */; };
+		82FDA4902889A85F00329085 /* MyPageCarListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FDA48F2889A85F00329085 /* MyPageCarListReactor.swift */; };
+		82FDA4912889A85F00329085 /* MyPageCarListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FDA48F2889A85F00329085 /* MyPageCarListReactor.swift */; };
 		8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
@@ -1308,6 +1322,9 @@
 		821A05F52862920300EB1A91 /* CommonBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonBaseViewController.swift; sourceTree = "<group>"; };
 		828407D928393D8F002B1214 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		828407DB28393DFE002B1214 /* SoftberryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
+		82B0509F288A1C4E008C7D11 /* MyPageCarEmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCarEmptyCell.swift; sourceTree = "<group>"; };
+		82B050A2288A1C6F008C7D11 /* MyPageCarEmptyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyPageCarEmptyCell.xib; sourceTree = "<group>"; };
+		82B050A6288A3F91008C7D11 /* CarInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarInfoModel.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
 		82B4F62C2862E2D900BA1D1A /* NewAcceptTermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAcceptTermsViewController.swift; sourceTree = "<group>"; };
 		82B4F62E2862F13F00BA1D1A /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
@@ -1328,6 +1345,10 @@
 		82FC803B28880127000617BE /* NavigationClose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationClose.swift; sourceTree = "<group>"; };
 		82FC803C28880127000617BE /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
 		82FC803D28880127000617BE /* ChevronArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChevronArrow.swift; sourceTree = "<group>"; };
+		82FDA4852889A5F600329085 /* MyPageCarListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCarListCell.swift; sourceTree = "<group>"; };
+		82FDA4882889A65500329085 /* CommonBaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonBaseTableViewCell.swift; sourceTree = "<group>"; };
+		82FDA48C2889A75900329085 /* MyPageCarListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyPageCarListCell.xib; sourceTree = "<group>"; };
+		82FDA48F2889A85F00329085 /* MyPageCarListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCarListReactor.swift; sourceTree = "<group>"; };
 		9014C12624E55C4800CB6549 /* EIPOIItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIPOIItem.swift; sourceTree = "<group>"; };
 		9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAllPOIListenerCallback.swift; sourceTree = "<group>"; };
 		9028E07724A1B8270062A029 /* eirel */ = {isa = PBXFileReference; lastKnownFileType = file; path = eirel; sourceTree = "<group>"; };
@@ -1969,6 +1990,7 @@
 				63EB0390283CB26500078D28 /* ServerResult.swift */,
 				821A05F52862920300EB1A91 /* CommonBaseViewController.swift */,
 				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
+				82FDA4882889A65500329085 /* CommonBaseTableViewCell.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2341,6 +2363,14 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		82B050A5288A3EB8008C7D11 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				82B050A6288A3F91008C7D11 /* CarInfoModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		82B4F6302862F46500BA1D1A /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -2388,6 +2418,29 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
+		82FDA4842889A5D700329085 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				82FDA4852889A5F600329085 /* MyPageCarListCell.swift */,
+				82FDA48C2889A75900329085 /* MyPageCarListCell.xib */,
+				82B0509F288A1C4E008C7D11 /* MyPageCarEmptyCell.swift */,
+				82B050A2288A1C6F008C7D11 /* MyPageCarEmptyCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		82FDA48B2889A70A00329085 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				82B050A5288A3EB8008C7D11 /* Models */,
+				82FDA4842889A5D700329085 /* Cells */,
+				63A3CAE62888ED7C00891BE4 /* NewMyPageViewController.swift */,
+				63A3CAE92888EDAB00891BE4 /* MyPageReactor.swift */,
+				82FDA48F2889A85F00329085 /* MyPageCarListReactor.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
 		902A11CF248F4D9D0049EF8E /* model */ = {
 			isa = PBXGroup;
 			children = (
@@ -2428,6 +2481,7 @@
 		DB3799F521673CEC001D8F69 /* Member */ = {
 			isa = PBXGroup;
 			children = (
+				82FDA48B2889A70A00329085 /* MyPage */,
 				63A3CAEC2889699700891BE4 /* Models */,
 				00FDEAE926B3BF1E006617EE /* Member.storyboard */,
 				73C6A0FC2345F1B500349A86 /* MyPayinfoViewController.swift */,
@@ -2435,8 +2489,6 @@
 				73D65D7D23605D0F00F564A2 /* MyPayRegisterViewDelegate.swift */,
 				CE2483FF20A59E2500611E24 /* MyPageViewController.swift */,
 				DB3799F721673FDD001D8F69 /* FavoriteViewController.swift */,
-				63A3CAE62888ED7C00891BE4 /* NewMyPageViewController.swift */,
-				63A3CAE92888EDAB00891BE4 /* MyPageReactor.swift */,
 			);
 			path = Member;
 			sourceTree = "<group>";
@@ -2672,6 +2724,7 @@
 				63F314DE284EC74F001713D2 /* awsconfiguration.json in Resources */,
 				63F314DF284EC74F001713D2 /* reply_icon.png in Resources */,
 				63F314E0284EC74F001713D2 /* mapbg_tlogo@2x.png in Resources */,
+				82FDA48E2889A75900329085 /* MyPageCarListCell.xib in Resources */,
 				63F314E1284EC74F001713D2 /* sm3.jpg in Resources */,
 				63F314E2284EC74F001713D2 /* CommunityChargeStationTableViewCell.xib in Resources */,
 				63F314E3284EC74F001713D2 /* charger_chademo.jpg in Resources */,
@@ -2740,6 +2793,7 @@
 				63F31522284EC74F001713D2 /* BoardTableViewCell.xib in Resources */,
 				63F31523284EC74F001713D2 /* BoardWriteViewController.storyboard in Resources */,
 				63F31524284EC74F001713D2 /* CompanyTableViewCell.xib in Resources */,
+				82B050A4288A1C6F008C7D11 /* MyPageCarEmptyCell.xib in Resources */,
 				63F31525284EC74F001713D2 /* Login.storyboard in Resources */,
 				63F31526284EC74F001713D2 /* Coupon.storyboard in Resources */,
 				63F31527284EC74F001713D2 /* ic_add_circle_outline.png in Resources */,
@@ -2828,6 +2882,7 @@
 				DBA3BE93252C709500E2D94A /* ad_illust.png in Resources */,
 				73A7B3FE204E3595002E975F /* ready_image.png in Resources */,
 				9028E07824A1B8280062A029 /* eirel in Resources */,
+				82B050A3288A1C6F008C7D11 /* MyPageCarEmptyCell.xib in Resources */,
 				00A6A16426C3B3BC0023DAE3 /* FilterContainerView.xib in Resources */,
 				CE13858F217869B200E3F869 /* ReportChargerChildCell.xib in Resources */,
 				00A3659326C4E36D00424E40 /* FilterRoadView.xib in Resources */,
@@ -2875,6 +2930,7 @@
 				0055D472252AA88B001133DB /* Membership.storyboard in Resources */,
 				73C31C0D20A4408C005B6C53 /* GoogleService-Info.plist in Resources */,
 				525E3A27278D728B00F5C54D /* CommunityBoardTableViewCell.xib in Resources */,
+				82FDA48D2889A75900329085 /* MyPageCarListCell.xib in Resources */,
 				42F9BCE126C64C250028B3D1 /* SummaryView.xib in Resources */,
 				DB18733820AAEC8400790B77 /* navi_kakao.png in Resources */,
 				73A7B417204E3595002E975F /* navi_bg.jpg in Resources */,
@@ -3286,6 +3342,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82B050A1288A1C4E008C7D11 /* MyPageCarEmptyCell.swift in Sources */,
 				63F313A3284EC74F001713D2 /* ImageMarker.swift in Sources */,
 				63F313A4284EC74F001713D2 /* MyWritingViewController.swift in Sources */,
 				63F313A5284EC74F001713D2 /* TagListViewCell.swift in Sources */,
@@ -3341,6 +3398,7 @@
 				63F313D4284EC74F001713D2 /* UIColor+Extension.swift in Sources */,
 				63F313D5284EC74F001713D2 /* UIStoryboard+Extension.swift in Sources */,
 				63F313D6284EC74F001713D2 /* ServerResult.swift in Sources */,
+				82FDA4872889A5F600329085 /* MyPageCarListCell.swift in Sources */,
 				82CD193528814EB300EA5024 /* CircularProgressBarView.swift in Sources */,
 				63F313D7284EC74F001713D2 /* ChargerFilter.swift in Sources */,
 				63F313D8284EC74F001713D2 /* Date+Extension.swift in Sources */,
@@ -3374,6 +3432,7 @@
 				63A3CAEB2888EDAB00891BE4 /* MyPageReactor.swift in Sources */,
 				63F313F0284EC74F001713D2 /* TermsViewController.swift in Sources */,
 				636DB9412876ED6A008BB27A /* IconTextRectButton.swift in Sources */,
+				82B050A8288A3F91008C7D11 /* CarInfoModel.swift in Sources */,
 				63F313F1284EC74F001713D2 /* BoardDetailViewModel.swift in Sources */,
 				63D4F8C1287FF0BB0087EE61 /* CarRegistrationReactor.swift in Sources */,
 				63F313F2284EC74F001713D2 /* EIAdManager.swift in Sources */,
@@ -3455,6 +3514,7 @@
 				63F31433284EC74F001713D2 /* URL+Extension.swift in Sources */,
 				63F31434284EC74F001713D2 /* LeftViewController.swift in Sources */,
 				63F31435284EC74F001713D2 /* ChargerInfoViewController.swift in Sources */,
+				82FDA4912889A85F00329085 /* MyPageCarListReactor.swift in Sources */,
 				63F31436284EC74F001713D2 /* ReportChargerList.swift in Sources */,
 				63F31437284EC74F001713D2 /* PointUseGuideViewController.swift in Sources */,
 				63F31438284EC74F001713D2 /* TagFlowLayout.swift in Sources */,
@@ -3539,6 +3599,7 @@
 				63F31480284EC74F001713D2 /* CouponCodeViewController.swift in Sources */,
 				63F31481284EC74F001713D2 /* FindPasswordViewController.swift in Sources */,
 				63F31482284EC74F001713D2 /* PaymentStatusViewController.swift in Sources */,
+				82FDA48A2889A65500329085 /* CommonBaseTableViewCell.swift in Sources */,
 				63F31483284EC74F001713D2 /* NetworkWorker.swift in Sources */,
 				63F31484284EC74F001713D2 /* SearchAddressViewController.swift in Sources */,
 				63F31485284EC74F001713D2 /* BoardWriteViewController.swift in Sources */,
@@ -3597,10 +3658,12 @@
 				73EE8FBB2105B3420016F505 /* Board.swift in Sources */,
 				DB5041B023506DCF007336BC /* EvPoint.swift in Sources */,
 				529148B127BE0A1C0011021F /* RecentKeywordTableViewCell.swift in Sources */,
+				82B050A0288A1C4E008C7D11 /* MyPageCarEmptyCell.swift in Sources */,
 				00AE577B26CE487B003E6643 /* RangeSeekSliderDelegate.swift in Sources */,
 				73A37CA22085DB5400FD3D0A /* CardBoardViewController.swift in Sources */,
 				DB4395F222DD88390092E0A5 /* ReceiptView.swift in Sources */,
 				CE24840020A59E2500611E24 /* MyPageViewController.swift in Sources */,
+				82FDA4862889A5F600329085 /* MyPageCarListCell.swift in Sources */,
 				52ADE50127969ED900FBBA25 /* ConfirmPopupViewController.swift in Sources */,
 				526A913727C5EFEC00A6F763 /* EmptyTableViewCell.swift in Sources */,
 				82FC803E28880127000617BE /* Arrow.swift in Sources */,
@@ -3611,6 +3674,7 @@
 				CE24840420A59E6400611E24 /* UserDefault.swift in Sources */,
 				821A05F32862906800EB1A91 /* ChevronArrow.swift in Sources */,
 				902A11D3248F52B80049EF8E /* InfoLastUpdateDto.swift in Sources */,
+				82FDA4902889A85F00329085 /* MyPageCarListReactor.swift in Sources */,
 				00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */,
 				4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */,
 				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
@@ -3667,6 +3731,7 @@
 				52B709D7279929CE006C5706 /* BoardDetailTableViewHeader.swift in Sources */,
 				193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */,
 				821A05ED2862906800EB1A91 /* CommonNaviView.swift in Sources */,
+				82B050A7288A3F91008C7D11 /* CarInfoModel.swift in Sources */,
 				63F3154F284F0809001713D2 /* Icons+Generated.swift in Sources */,
 				902A11D7248F56610049EF8E /* StationStatusDto.swift in Sources */,
 				821A05E328627F3100EB1A91 /* (null) in Sources */,
@@ -3793,6 +3858,7 @@
 				529148B327BE14670011021F /* BoardSearchViewModel.swift in Sources */,
 				006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */,
 				7308559D206350890008497E /* UIView+Extension.swift in Sources */,
+				82FDA4892889A65500329085 /* CommonBaseTableViewCell.swift in Sources */,
 				00A7D5D226B7DA2100C5DBCC /* ChargerFilterViewController.swift in Sources */,
 				821A05EF2862906800EB1A91 /* Arrow.swift in Sources */,
 				7312786820BE38C500861B3E /* FCMManager.swift in Sources */,

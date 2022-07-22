@@ -11,11 +11,11 @@ import SwiftyJSON
 
 internal final class MyPageReactor: ViewModel, Reactor {
     enum Action {
-        case fetchUserInfo
+        case getMyCarList
     }
     
     enum Mutation {
-        case setUserInfo(UserInfoModel)
+        case setMyCarList(UserInfoModel)
     }
     
     struct State {
@@ -64,7 +64,7 @@ internal final class MyPageReactor: ViewModel, Reactor {
             
             switch code {
             case "1000":
-                return UserInfoModel(json: jsonData)
+                return UserInfoModel(jsonData)
                 
             default:
                 return nil

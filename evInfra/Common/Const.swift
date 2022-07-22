@@ -21,13 +21,7 @@ internal enum Const {
     public static let EV_COMMUNITY_SERVER = "http://dev.soft-berry.co.kr/community/v2/EiCommunity"
     public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra/dev"
     public static let SK_BATTERY_SERVER = "http://mbaas.koreacentral.cloudapp.azure.com/ev-infra/web"
-    // public static let SK_BATTERY_SERVER = "https://mbaas.sk-on.com/ev-infra/web"
-//    public static let EV_PAY_SERVER = "http://khpark.soft-berry.co.kr"
-//    public static let EV_PAY_SERVER = "http://spark.soft-berry.co.kr"
-//    public static let EV_PAY_SERVER = "http://michael.soft-berry.co.kr"
-//    public static let EV_PAY_SERVER = "http://shchoi.soft-berry.co.kr"
-//    public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra/dev"
-//    public static let SK_BATTERY_SERVER = "http://mbaas.koreacentral.cloudapp.azure.com/ev-infra/main"
+    public static let EV_APP_AWS_SERVER = "https://app.ev-infra.com/v1/stg/"
     #else
     /*
      * product
@@ -36,6 +30,7 @@ internal enum Const {
     public static let EV_COMMUNITY_SERVER = "https://comm.ev-infra.com/community/v2/EiCommunity"
     public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra"
     public static let SK_BATTERY_SERVER = "https://mbaas.sk-on.com/ev-infra/web"
+    public static let EV_APP_AWS_SERVER = "https://app.ev-infra.com/v1/"
     #endif
 
     // File Server

@@ -7,10 +7,16 @@
 //
 
 import ReactorKit
+import ReusableKit
 import RxDataSources
+import SwiftyJSON
 
 internal final class NewMyPageViewController: CommonBaseViewController, StoryboardView {
-    typealias MainDataSource = RxTableViewSectionedReloadDataSource<MyCarSectionModel>
+    typealias MainDataSource = RxTableViewSectionedReloadDataSource<MyCarListSectionModel>
+    
+    private enum Reusable {
+        static let myPageCarListCell = ReusableCell<MyPageCarListCell>(nibName: MyPageCarListCell.reuseID)
+    }
     
     // MARK: UI
     
@@ -25,7 +31,7 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
     
     private lazy var profileImgView = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = Icons.iconProfileEmpty.image
+        $0.image = Icons.iconProfileEmpty.image        
     }
     
     private lazy var userInfoTotalView = UIStackView().then {
@@ -62,15 +68,16 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = Colors.contentPrimary.color
+        $0.text = "내 차량"
     }
     
     private lazy var tableView = UITableView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.register(BottomSheetCell.self, forCellReuseIdentifier: "cell")
+        $0.register(Reusable.myPageCarListCell)
         $0.backgroundColor = UIColor.clear
         $0.separatorStyle = .none
         $0.rowHeight = UITableViewAutomaticDimension
-        $0.estimatedRowHeight = 55
+        $0.estimatedRowHeight = 72
         $0.allowsSelection = true
         $0.allowsSelectionDuringEditing = false
         $0.isMultipleTouchEnabled = false
@@ -78,11 +85,23 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
         $0.allowsMultipleSelectionDuringEditing = false
         $0.contentInset = .zero
         $0.bounces = false
-//        $0.delegate = self
-//        $0.dataSource = self
     }
     
     // MARK: VARIABLE
+    
+    private let dataSource = MainDataSource(configureCell: { _, tableView, indexPath, item in
+        switch item {
+        case .myCarItem:
+            let cell = tableView.dequeue(Reusable.myPageCarListCell, for: indexPath)
+//            cell.reactor = reactor
+            return cell
+            
+//        case .emptyItem(let reactor):
+//            let cell = tableView.dequeue(Reusable.emptyCell, for: indexPath)
+//            cell.reactor = reactor
+//            return cell
+        }
+    })
     
     // MARK: SYSTEM FUNC
     
@@ -149,6 +168,9 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
         }
         
         profileImgView.IBcornerRadius = 56 / 2
+        profileImgView.sd_setImage(with: URL(string: "\(Const.EI_IMG_SERVER)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
+        nickNameLbl.text = MemberManager.shared.memberNickName
+        userMoreInfoLbl.text = "\(MemberManager.shared.ageRange), \(MemberManager.shared.gender)"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -157,34 +179,30 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
     }
     
     func bind(reactor: MyPageReactor) {
-        Observable.just(MyPageReactor.Action.fetchUserInfo)
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
-        
-        
+        Observable.just(getMy)
     }
 }
 
-enum MyCarItem {
-    case myCarItem
+enum MyCarListItem {
+    case myCarItem(reactor: MyPageCarListReactor)
 }
 
-struct MyCarSectionModel {
-    var myCarList: [MyCarItem]
+struct MyCarListSectionModel {
+    var myCarList: [MyCarListItem]
     
-    init(items: [MyCarItem]) {
+    init(items: [MyCarListItem]) {
         self.myCarList = items
     }
 }
 
-extension MyCarSectionModel: SectionModelType {
-    typealias Item = MyCarItem
+extension MyCarListSectionModel: SectionModelType {
+    typealias Item = MyCarListItem
     
-    var items: [MyCarItem] {
+    var items: [MyCarListItem] {
         self.myCarList
     }
     
-    init(original: MyCarSectionModel, items: [Item]) {
+    init(original: MyCarListSectionModel, items: [Item]) {
         self = original
         self.myCarList = items
     }

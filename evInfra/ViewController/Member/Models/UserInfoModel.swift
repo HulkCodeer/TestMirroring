@@ -18,8 +18,8 @@ internal struct UserInfoModel: ServerResultProtocol {
     var mbCarNo: String = ""
     var mbNickname: String = ""
     
-    init(json: JSON){
-        self.code = json["code"].stringValue
+    init(_ json: JSON){
+        self.code = json["code"].intValue
         self.msg = json["msg"].stringValue
         self.mbZipCode = json["mb_zip_code"].stringValue
         self.mbAddr = json["mb_addr"].stringValue
