@@ -238,16 +238,6 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
             }
         }
         
-        // 작성 완료 버튼
-        completeButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        completeButton.setTitleColor(UIColor(named: "nt-9"), for: .normal)
-        completeButton.setTitleColor(UIColor(named: "nt-3"), for: .disabled)
-        completeButton.setBackgroundColor(UIColor(named: "gr-5")!, for: .normal)
-        completeButton.setBackgroundColor(UIColor(named: "nt-0")!, for: .disabled)
-        
-        completeButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0, right: 0)
-        
-        
         let tapGestureReconizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGestureReconizer.cancelsTouchesInView = false
         scrollView.addGestureRecognizer(tapGestureReconizer)
