@@ -89,7 +89,9 @@ internal final class DetailViewController: BaseViewController {
                 self.onClickEditBtn()
             })
             .disposed(by: self.disposeBag)
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
     }
     
