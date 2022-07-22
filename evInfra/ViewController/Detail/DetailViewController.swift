@@ -89,18 +89,17 @@ internal final class DetailViewController: BaseViewController {
                 self.onClickEditBtn()
             })
             .disposed(by: self.disposeBag)
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        defer {
-            NotificationCenter.default.removeObserver(self)
-        }
+        NotificationCenter.default.removeObserver(self)
+
         guard mapView == nil else {
-            mapView = nil
-            kakaoMapView.removeFromSuperview()
             MTMapView.clearMapTilePersistentCache()
             return
         }
