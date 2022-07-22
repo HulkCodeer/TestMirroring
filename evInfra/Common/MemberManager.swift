@@ -66,12 +66,16 @@ internal final class MemberManager {
     internal var memberNickName: String {
         return UserDefault().readString(key: UserDefault.Key.MB_NICKNAME).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
     }
+    
+    internal var isCarRepresented: Bool {
+        return UserDefault().readBool(key: UserDefault.Key.MB_HAS_REPRESENTED)
+    }
                     
     func isPartnershipClient(clientId : Int) -> Bool {
         let list = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
         return list.contains(clientId)
     }
-    
+            
     func setSKRentConfig(){
         let arr = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
         if !arr.contains(RentClientType.skr.rawValue){
@@ -127,6 +131,7 @@ internal final class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value: data["battery_device_id"].stringValue)
             userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value: data["has_membership"].boolValue)
             userDefault.saveString(key: UserDefault.Key.MB_LAST_LOGIN_TYPE, value: data["login_type"].stringValue)
+            userDefault.saveBool(key: UserDefault.Key.MB_HAS_REPRESENTED, value: false)
         }
     }
     
@@ -146,6 +151,7 @@ internal final class MemberManager {
         userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  false)
         userDefault.saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value:  "")
         userDefault.saveString(key: UserDefault.Key.MB_LOGIN_TYPE, value:  "")
+        userDefault.saveBool(key: UserDefault.Key.MB_HAS_REPRESENTED, value: false)  
     }
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {
