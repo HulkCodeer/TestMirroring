@@ -10,6 +10,9 @@ import UIKit
 import CoreData
 import Material
 import Firebase
+import FirebaseCore
+import FirebaseCrashlytics
+import FirebaseMessaging
 import FirebaseDynamicLinks
 import UserNotifications
 import AuthenticationServices
