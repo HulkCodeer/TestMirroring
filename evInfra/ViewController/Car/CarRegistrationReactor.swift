@@ -10,20 +10,35 @@ import ReactorKit
 import SwiftyJSON
 
 internal final class CarRegistrationReactor: ViewModel, Reactor {
+    enum ViewType {
+        case carRegister
+        case owner
+        case carInquery
+        case none
+        
+        func hasNextViewType() -> ViewType {
+            switch self {
+            case .carRegister:
+                return .owner
+                
+            case .owner:
+                return .carInquery
+                                                                        
+            default: return .none
+            }
+        }
+    }
+    
     enum Action {
-        case validFieldStepOne(String, String, String)
+        case moveNextView
     }
     
     enum Mutation {
-        case setValidNickName(Bool)
-        case setValidEmail(Bool)
-        case setValidPhone(Bool)
+        case setMoveNextView
     }
     
     struct State {
-        var isValidNickName: Bool?
-        var isValidEmail: Bool?
-        var isValidPhone: Bool?
+        var nextViewType: ViewType = .carRegister
     }
     
     internal var initialState: State
@@ -35,32 +50,19 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
         
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .validFieldStepOne(let nickName, let email, let phone):
-            return .concat([ .just(.setValidNickName(false)) ,
-                             .just(.setValidEmail(StringUtils.isValidEmail(email))),
-                             .just(.setValidPhone(StringUtils.isValidPhoneNum(phone)))
-            ])
+        case .moveNextView:
+            return .just(.setMoveNextView)
                 
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-                
-        newState.isValidNickName = nil
-        newState.isValidEmail = nil
-        newState.isValidPhone = nil
-        
+                                
         switch mutation {
-        case .setValidNickName(let isValid):
-            newState.isValidNickName = isValid
-            
-        case .setValidEmail(let isValid):
-            newState.isValidEmail = isValid
-        
-        case .setValidPhone(let isValid):
-            newState.isValidPhone = isValid
-                                                                    
+        case .setMoveNextView:
+            newState.nextViewType = currentState.nextViewType.hasNextViewType()
+                                                                                
         }
         return newState
     }

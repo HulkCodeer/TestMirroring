@@ -74,6 +74,10 @@ internal final class MyPageCarEmptyCell: CommonBaseTableViewCell, ReactorKit.Vie
     }
         
     internal func bind(reactor: MyPageCarListReactor) {
-        
+        moveAddCarBtn.rx.tap
+            .throttle(.milliseconds(300), scheduler: MainScheduler.instance)
+            .map { MyPageCarListReactor.Action.moveCarRegisterView }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
     }
 }

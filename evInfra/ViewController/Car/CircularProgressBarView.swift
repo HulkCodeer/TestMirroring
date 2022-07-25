@@ -24,10 +24,12 @@ internal final class CircularProgressBarView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.createCircularPath()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        self.createCircularPath()
     }
     
     func createCircularPath() {

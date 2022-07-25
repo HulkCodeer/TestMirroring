@@ -11,15 +11,16 @@ import SwiftyJSON
 
 internal final class MyPageCarListReactor: Reactor {
     enum Action {
-        case loadData
+        case moveCarRegisterView
     }
     
-    enum Mutation {
-        case none
+    enum Mutation {        
+        case setMoveCarRegisterView
     }
     
     struct State {
         var carInfoModel: CarInfoListModel.CarInfoModel = CarInfoListModel.CarInfoModel(JSON.null)
+        var isMove: Bool?
     }
         
     internal var initialState: State
@@ -30,13 +31,20 @@ internal final class MyPageCarListReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .loadData:
-            return .just(.none)
+        case .moveCarRegisterView:
+            return .just(.setMoveCarRegisterView)
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
+        
+        newState.isMove = nil
+        
+        switch mutation {
+        case .setMoveCarRegisterView:
+            newState.isMove = true
+        }
         
         return newState
     }
