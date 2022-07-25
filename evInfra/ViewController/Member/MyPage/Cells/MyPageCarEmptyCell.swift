@@ -11,7 +11,6 @@ import ReactorKit
 internal final class MyPageCarEmptyCell: CommonBaseTableViewCell, ReactorKit.View {
     private lazy var emptyTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.addDotLineBorder(radius: 10)
         $0.IBborderColor = Colors.contentTertiary.color
         $0.IBborderWidth = 1
     }
@@ -19,6 +18,7 @@ internal final class MyPageCarEmptyCell: CommonBaseTableViewCell, ReactorKit.Vie
     private lazy var emptyImgView = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = Icons.iconCarEmpty.image
+        $0.contentMode = .scaleAspectFill
     }
     
     private lazy var emptyGuideLbl = UILabel().then {
@@ -27,6 +27,10 @@ internal final class MyPageCarEmptyCell: CommonBaseTableViewCell, ReactorKit.Vie
         $0.textColor = Colors.contentSecondary.color
         $0.font = .systemFont(ofSize: 16, weight: .regular)
         $0.text = "내 전기차 등록해보세요!"
+    }
+    
+    private lazy var moveAddCarBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     internal var disposeBag = DisposeBag()
@@ -41,22 +45,31 @@ internal final class MyPageCarEmptyCell: CommonBaseTableViewCell, ReactorKit.Vie
         // add shadow on cell
         self.contentView.addSubview(emptyTotalView)
         emptyTotalView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.height.equalTo(72)
         }
                         
         emptyTotalView.addSubview(emptyImgView)
         emptyImgView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
             $0.centerY.equalToSuperview()
-            $0.height.equalTo(72)
+            $0.width.equalTo(88)
+            $0.height.equalTo(48)
         }
         
         emptyTotalView.addSubview(emptyGuideLbl)
         emptyGuideLbl.snp.makeConstraints {
-            $0.leading.equalTo(emptyTotalView)
+            $0.leading.equalTo(emptyImgView.snp.trailing).offset(16)
             $0.trailing.equalToSuperview()
             $0.centerY.equalToSuperview()
             $0.height.equalTo(20)
+        }
+        
+        emptyTotalView.addSubview(moveAddCarBtn)
+        moveAddCarBtn.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
         

@@ -68,13 +68,17 @@ internal final class MyPageReactor: ViewModel, Reactor {
                 return nil
             }
                                                              
-        case .failure(let errorMessage):
+        case .failure(let errorMessage):            
+            let serverResult = ServerResult(JSON(parseJSON: errorMessage.errorMessage))
+            switch serverResult.code {
+            case 404:
+                return CarInfoListModel(JSON.null)
             
-            
-            
-            printLog(out: "Error Message : \(errorMessage)")
-            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
-            return nil
+            default:
+                printLog(out: "Error Message : \(errorMessage)")
+                Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                return nil
+            }
         }
     }
     
