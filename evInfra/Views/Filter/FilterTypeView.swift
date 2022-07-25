@@ -224,16 +224,18 @@ extension FilterTypeView : DelegateTagListViewCell{
             FilterManager.sharedInstance.saveTypeFilter(index: tagList[index].index, val: value)
         }
         
-        var isSwitchCarSetting: Bool = true
-        for tempTag in tagList {
-            if tempTag.index != UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE) && tempTag.selected {
-                isSwitchCarSetting = false
-                break
+        
+        if UserDefault().readBool(key: UserDefault.Key.MB_HAS_REPRESENTED) {
+            var isSwitchCarSetting: Bool = true
+            for tempTag in tagList {
+                if tempTag.index != UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE) && tempTag.selected {
+                    isSwitchCarSetting = false
+                    break
+                }
             }
+            switchCarSetting.isOn = isSwitchCarSetting
         }
-        
-        switchCarSetting.isOn = isSwitchCarSetting
-        
+                                        
         if index == 3 || index == 5 {
             sendTypeChange()
         } else {
