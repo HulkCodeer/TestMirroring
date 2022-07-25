@@ -7,8 +7,9 @@
 //
 
 import ReactorKit
+import SwiftyJSON
 
-internal final class MyPageCarListReactor: ViewModel, Reactor {
+internal final class MyPageCarListReactor: Reactor {
     enum Action {
         case loadData
     }
@@ -18,14 +19,13 @@ internal final class MyPageCarListReactor: ViewModel, Reactor {
     }
     
     struct State {
-        var sections = [MyCarListSectionModel]()
+        var carInfoModel: CarInfoListModel.CarInfoModel = CarInfoListModel.CarInfoModel(JSON.null)
     }
         
     internal var initialState: State
             
-    override init(provider: SoftberryAPI) {
-        self.initialState = State()
-        super.init(provider: provider)
+    init(model: CarInfoListModel.CarInfoModel) {
+        self.initialState = State(carInfoModel: model)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {

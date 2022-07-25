@@ -12,7 +12,7 @@ internal struct CarInfoListModel: ServerResultProtocol {
     var code: Int
     var msg: String
     var membId: String
-    var body: CarInfoModel
+    var body: [CarInfoModel]
         
     init(_ json: JSON){
         self.code = json["code"].intValue
@@ -43,6 +43,8 @@ internal struct CarInfoListModel: ServerResultProtocol {
             self.carOwner = json["carOwner"].stringValue
             self.appRegDate = json["appRegDate"].dateValue
             self.dpYes = DpYes(json["dpYes"])
+            
+            self.dk = json["dk"].stringValue
         }
         
         struct DpYes {
@@ -51,91 +53,56 @@ internal struct CarInfoListModel: ServerResultProtocol {
             var btryCpcty: String
             var mdRep: String
             var mdSep: String
-            var regDate: String
+            var regDate: Date
             
             init(_ json: JSON){
                 self.carSep = json["carSep"].stringValue
                 self.img = json["img"].stringValue
-                self.btryCpcty = json["btryCpcty"].boolValue
-                self.mdRep = json["mdRep"].intValue
+                self.btryCpcty = json["btryCpcty"].stringValue
+                self.mdRep = json["mdRep"].stringValue
                 self.mdSep = json["mdSep"].stringValue
                 self.regDate = json["regDate"].dateValue
+            }
+        }
+        
+        struct DpNo {
+            var chrgFst: String
+            var chrgSlw: String
+            var btrSep: String
+            var voltg: String
+            var amphr: String
+            var drvCpcty: String
+            
+            init(_ json: JSON){
+                self.chrgFst = json["chrgFst"].stringValue
+                self.chrgSlw = json["chrgSlw"].stringValue
+                self.btrSep = json["btrSep"].stringValue
+                self.voltg = json["voltg"].stringValue
+                self.amphr = json["amphr"].stringValue
+                self.drvCpcty = json["drvCpcty"].stringValue
+            }
+        }
+        
+        struct Series {
+            var s1: SerieItem
+            var s2: SerieItem
+            var s3: SerieItem
+            
+            init(_ json: JSON){
+                self.s1 = SerieItem(json["s1"])
+                self.s2 = SerieItem(json["s2"])
+                self.s3 = SerieItem(json["s3"])
+            }
+            
+            struct SerieItem {
+                var name: String
+                var num: String
                 
+                init(_ json: JSON){
+                    self.name = json["name"].stringValue
+                    self.num = json["num"].stringValue
+                }
             }
         }
     }
 }
-
-//   "body":{
-//      "memId":"103721",
-//      "cars":[
-//         {
-
-//            "dpYes":{
-//               "carSep":"SUV",
-//               "img":"https://code2.car2b.com/data/_NewCarDB/FrontImage//20180725/5b57c692d0fe4_0.png",
-//               "btryCpcty":"64",
-//               "mdRep":"니로",
-//               "mdSep":"니로 EV",
-//               "regDate":"2018-09-06",
-//               "pwrMax":"150",
-//               "cpcty":"5.3",
-//               "cmpy":"기아",
-//               "brthY":"2019"
-//            },
-//            "dpNo":{
-//               "chrgFst":"54분",
-//               "chrgSlw":"",
-//               "btrSep":"리튬이온",
-//               "voltg":"356",
-//               "amphr":"180",
-//               "drvCpcty":"385"
-//            },
-//            "series":{
-//               "s3":{
-//                  "name":"",
-//                  "num":"36559"
-//               },
-//               "s1":{
-//                  "name":"노블레스",
-//                  "num":"40634"
-//               },
-//               "s2":{
-//                  "name":"노블레스",
-//                  "num":"18008"
-//               }
-//            },
-//            "dk":"95db8033-9933-47bd-9e30-5c5fc4735917"
-//         },
-//         {
-//            "carNum":"TBD",
-//            "evType":null,
-//            "mainCar":false,
-//            "carType":4,
-//            "carOwner":null,
-//            "appRegDate":"2022-06-14 21:12:17",
-//            "dpYes":{
-//               "carSep":null,
-//               "img":"https://soft-berry.s3.ap-northeast-2.amazonaws.com/carImage/temporary_car_img.png",
-//               "btryCpcty":"32.6",
-//               "mdRep":"쿠퍼 SE",
-//               "mdSep":"쿠퍼 SE",
-//               "regDate":null,
-//               "pwrMax":"135",
-//               "cpcty":null,
-//               "cmpy":"미니",
-//               "brthY":null
-//            },
-//            "dpNo":{
-//               "chrgFst":"",
-//               "chrgSlw":"",
-//               "btrSep":"리튬이온",
-//               "voltg":"",
-//               "amphr":""
-//            },
-//            "series":null,
-//            "dk":"0102ed62-f935-4240-bde0-76225e195f31"
-//         }
-//      ]
-//   }
-//}

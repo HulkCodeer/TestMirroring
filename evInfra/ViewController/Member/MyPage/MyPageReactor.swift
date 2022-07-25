@@ -15,11 +15,11 @@ internal final class MyPageReactor: ViewModel, Reactor {
     }
     
     enum Mutation {
-        case setMyCarList(UserInfoModel)
+        case setMyCarList([MyCarListItem])
     }
     
     struct State {
-        var userInfoModel: UserInfoModel?
+        var sections = [MyCarListSectionModel]()
     }
     
     internal var initialState: State
@@ -31,49 +31,66 @@ internal final class MyPageReactor: ViewModel, Reactor {
         
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .fetchUserInfo:
-            return self.provider.postMemberInfo()
+        case .getMyCarList:
+            return self.provider.getMyCarList()
                 .convertData()
                 .compactMap(convertToData)
-                .map { userInfoModel in
-                    return .setUserInfo(userInfoModel)
+                .map(convertCarInfoItem)
+                .map { carInfoModelList in
+                    return .setMyCarList(carInfoModelList)
                 }
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-                
-        newState.userInfoModel = nil
-        
+                                
         switch mutation {
-        case .setUserInfo(let userInfoModel):
-            newState.userInfoModel = userInfoModel
-                                                                    
+        case .setMyCarList(let items):
+            newState.sections = [MyCarListSectionModel(items: items)]
+                                                                                        
         }
         return newState
     }
     
-    private func convertToData(with result: ApiResult<Data, ApiErrorMessage> ) -> UserInfoModel? {
+    private func convertToData(with result: ApiResult<Data, ApiErrorMessage> ) -> CarInfoListModel? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
             printLog(out: "JsonData : \(jsonData)")
+            let carInfoListModel = CarInfoListModel(jsonData)
             
-            let code = jsonData["code"].stringValue
-            
-            switch code {
-            case "1000":
-                return UserInfoModel(jsonData)
-                
+            switch carInfoListModel.code {
+            case 200: // 응답 성공
+                return carInfoListModel
+                                            
             default:
                 return nil
             }
                                                              
         case .failure(let errorMessage):
+            
+            
+            
             printLog(out: "Error Message : \(errorMessage)")
             Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
             return nil
         }
+    }
+    
+    private func convertCarInfoItem(with model: CarInfoListModel) -> [MyCarListItem] {
+        var items = [MyCarListItem]()
+                
+        guard !model.body.isEmpty else {
+            let reactor = MyPageCarListReactor(model: CarInfoListModel.CarInfoModel(JSON.null))
+            items.append(.myCarEmptyItem(reactor: reactor))
+            return items
+        }
+        for carInfoModel in model.body {
+            let reactor = MyPageCarListReactor(model: carInfoModel)
+            items.append(.myCarInfoItem(reactor: reactor))
+        }
+                        
+        return items
     }
 }

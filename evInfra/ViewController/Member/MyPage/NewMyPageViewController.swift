@@ -16,6 +16,7 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
     
     private enum Reusable {
         static let myPageCarListCell = ReusableCell<MyPageCarListCell>(nibName: MyPageCarListCell.reuseID)
+        static let myPageCarEmptyCell = ReusableCell<MyPageCarEmptyCell>(nibName: MyPageCarEmptyCell.reuseID)
     }
     
     // MARK: UI
@@ -74,6 +75,7 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
     private lazy var tableView = UITableView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.register(Reusable.myPageCarListCell)
+        $0.register(Reusable.myPageCarEmptyCell)
         $0.backgroundColor = UIColor.clear
         $0.separatorStyle = .none
         $0.rowHeight = UITableViewAutomaticDimension
@@ -91,15 +93,15 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
     
     private let dataSource = MainDataSource(configureCell: { _, tableView, indexPath, item in
         switch item {
-        case .myCarItem:
+        case .myCarInfoItem(let reactor):
             let cell = tableView.dequeue(Reusable.myPageCarListCell, for: indexPath)
-//            cell.reactor = reactor
+            cell.reactor = reactor
             return cell
             
-//        case .emptyItem(let reactor):
-//            let cell = tableView.dequeue(Reusable.emptyCell, for: indexPath)
-//            cell.reactor = reactor
-//            return cell
+        case .myCarEmptyItem(let reactor):
+            let cell = tableView.dequeue(Reusable.myPageCarEmptyCell, for: indexPath)
+            cell.reactor = reactor
+            return cell
         }
     })
     
@@ -170,6 +172,7 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
         profileImgView.IBcornerRadius = 56 / 2
         profileImgView.sd_setImage(with: URL(string: "\(Const.EI_IMG_SERVER)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
         nickNameLbl.text = MemberManager.shared.memberNickName
+        guard !MemberManager.shared.ageRange.isEmpty, !MemberManager.shared.gender.isEmpty else { return }
         userMoreInfoLbl.text = "\(MemberManager.shared.ageRange), \(MemberManager.shared.gender)"
     }
     
@@ -186,7 +189,8 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
 }
 
 enum MyCarListItem {
-    case myCarItem(reactor: MyPageCarListReactor)
+    case myCarInfoItem(reactor: MyPageCarListReactor)
+    case myCarEmptyItem(reactor: MyPageCarListReactor)
 }
 
 struct MyCarListSectionModel {

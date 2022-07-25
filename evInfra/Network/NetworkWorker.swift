@@ -83,5 +83,5 @@ enum ApiResult<Data, Error>{
 }
 
 struct ApiErrorMessage: Codable{
-    var errorMessage: String
+    var errorMessage: String    
 }

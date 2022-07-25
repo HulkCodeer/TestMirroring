@@ -25,7 +25,7 @@ protocol SoftberryAPI: class {
     func postGetBerry(eventId: String) -> Observable<(HTTPURLResponse, Data)>
     
     func postSignUp(user: Login) -> Observable<(HTTPURLResponse, Data)>
-    func getMyCar() -> Observable<(HTTPURLResponse, Data)>
+    func getMyCarList() -> Observable<(HTTPURLResponse, Data)>
     
 //    func postMemberInfo() -> Observable<(HTTPURLResponse, Data)>
 }
@@ -149,12 +149,8 @@ internal final class RestApi: SoftberryAPI {
 //    }
     
     // MARK: - 소유 차량 정보 조회
-    func getMyCar() -> Observable<(HTTPURLResponse, Data)> {
-        var reqUrl = "\(Const.EV_APP_AWS_SERVER)/car/\(MemberManager.shared.mbId)"
-        if MemberManager.shared.carId != 0 {
-            reqUrl = "\(reqUrl)?id=\(MemberManager.shared.carId)"
-        }
-        
+    func getMyCarList() -> Observable<(HTTPURLResponse, Data)> {
+        let reqUrl = "\(Const.EV_APP_AWS_SERVER)/car/\(MemberManager.shared.memberId)?id=all"        
         return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .get, parameters: nil, headers: nil)
     }
     
