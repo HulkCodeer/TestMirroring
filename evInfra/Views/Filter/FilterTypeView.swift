@@ -40,7 +40,7 @@ internal final class FilterTypeView: UIView {
         initView()
     }
     
-    private func initView(){
+    func initView(){
         let view = Bundle.main.loadNibNamed("FilterTypeView", owner: self, options: nil)?.first as! UIView
         view.frame = bounds
         addSubview(view)
@@ -57,8 +57,6 @@ internal final class FilterTypeView: UIView {
             guard let self = self else { return }
             self.switchCarSetting.isUserInteractionEnabled = isLogin
         }
-        
-        switchCarSetting.isOn = MemberManager.shared.isCarRepresented
     }
     
     @IBAction func onSwitchClicked(_ sender: Any) {
@@ -71,7 +69,6 @@ internal final class FilterTypeView: UIView {
     }
     
     @IBAction func onSwitchValueChange(_ sender: Any) {
-        UserDefault().saveBool(key: UserDefault.Key.MB_HAS_REPRESENTED, value: switchCarSetting.isOn)
         if (switchCarSetting.isOn) {
             MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
                 guard isLogin, let self = self else { return }
@@ -223,19 +220,6 @@ extension FilterTypeView : DelegateTagListViewCell{
         if (saveOnChange) {
             FilterManager.sharedInstance.saveTypeFilter(index: tagList[index].index, val: value)
         }
-        
-        
-        if UserDefault().readBool(key: UserDefault.Key.MB_HAS_REPRESENTED) {
-            var isSwitchCarSetting: Bool = true
-            for tempTag in tagList {
-                if tempTag.index != UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE) && tempTag.selected {
-                    isSwitchCarSetting = false
-                    break
-                }
-            }
-            switchCarSetting.isOn = isSwitchCarSetting
-        }
-                                        
         if index == 3 || index == 5 {
             sendTypeChange()
         } else {

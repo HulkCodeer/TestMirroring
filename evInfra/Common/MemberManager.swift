@@ -66,16 +66,12 @@ internal final class MemberManager {
     internal var memberNickName: String {
         return UserDefault().readString(key: UserDefault.Key.MB_NICKNAME).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
     }
-    
-    internal var isCarRepresented: Bool {
-        return UserDefault().readBool(key: UserDefault.Key.MB_HAS_REPRESENTED)
-    }
                     
     func isPartnershipClient(clientId : Int) -> Bool {
         let list = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
         return list.contains(clientId)
     }
-            
+    
     func setSKRentConfig(){
         let arr = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
         if !arr.contains(RentClientType.skr.rawValue){
@@ -103,7 +99,7 @@ internal final class MemberManager {
     
     // 로그인 상태 체크
     internal var isLogin: Bool {
-        return UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0                
+        return UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0
     }
     
     // 지킴이 체크
@@ -111,7 +107,7 @@ internal final class MemberManager {
         return UserDefault().readInt(key: UserDefault.Key.MB_LEVEL) == MemberLevel.keeper.rawValue
     }
     
-    func setData(data: JSON) {    
+    func setData(data: JSON) {
         if data["mb_id"].stringValue.elementsEqual("") {
             print("mb id is null");
         } else {
@@ -131,14 +127,13 @@ internal final class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value: data["battery_device_id"].stringValue)
             userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value: data["has_membership"].boolValue)
             userDefault.saveString(key: UserDefault.Key.MB_LAST_LOGIN_TYPE, value: data["login_type"].stringValue)
-            userDefault.saveBool(key: UserDefault.Key.MB_HAS_REPRESENTED, value: false)
         }
     }
     
     func clearData() {
         let userDefault = UserDefault()
         userDefault.saveInt(key: UserDefault.Key.MB_ID, value: 0)
-        userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: MemberLevel.normal.rawValue)        
+        userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: MemberLevel.normal.rawValue)
         userDefault.saveString(key: UserDefault.Key.MB_USER_ID, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_REGION, value: "")
@@ -151,7 +146,6 @@ internal final class MemberManager {
         userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  false)
         userDefault.saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value:  "")
         userDefault.saveString(key: UserDefault.Key.MB_LOGIN_TYPE, value:  "")
-        userDefault.saveBool(key: UserDefault.Key.MB_HAS_REPRESENTED, value: false)  
     }
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {
