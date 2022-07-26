@@ -7,12 +7,19 @@
 //
 
 import ReactorKit
+import UIKit
 
 internal final class MyPageCarEmptyCell: CommonBaseTableViewCell, ReactorKit.View {
     private lazy var emptyTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.IBborderColor = Colors.contentTertiary.color
         $0.IBborderWidth = 1
+    }
+    
+    private lazy var emptyBorderImgView = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = Icons.carEmptyBorder.image
+        $0.tintColor = Colors.contentTertiary.color
     }
     
     private lazy var emptyImgView = UIImageView().then {
@@ -49,6 +56,11 @@ internal final class MyPageCarEmptyCell: CommonBaseTableViewCell, ReactorKit.Vie
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(72)
+        }
+        
+        emptyTotalView.addSubview(emptyBorderImgView)
+        emptyBorderImgView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
                         
         emptyTotalView.addSubview(emptyImgView)

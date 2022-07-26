@@ -13,12 +13,8 @@ internal final class CircularProgressBarView: UIView {
     // MARK: UI
     
     private var circleLayer = CAShapeLayer()
-    private var progressLayer = CAShapeLayer()
     
-    // MARK: VARIABLE
-    
-    private var startPoint = CGFloat(-Double.pi / 2)
-    private var endPoint = CGFloat(3 * Double.pi / 2)
+    // MARK: VARIABLE        
         
     // MARK: SYSTEM FUNC
     
@@ -33,38 +29,31 @@ internal final class CircularProgressBarView: UIView {
     }
     
     func createCircularPath() {
-        // created circularPath for circleLayer and progressLayer
-        let circularPath = UIBezierPath(arcCenter: CGPoint(x: frame.size.width / 2.0, y: frame.size.height / 2.0), radius: 80, startAngle: startPoint, endAngle: endPoint, clockwise: true)
-        // circleLayer path defined to circularPath
-        circleLayer.path = circularPath.cgPath
-        // ui edits
+        let center = CGPoint(x: frame.width/2, y: frame.height/2)
+        let path = UIBezierPath(arcCenter: center,
+                                radius: frame.width/2,
+                                startAngle: -CGFloat.pi/2,
+                                endAngle: 2*CGFloat.pi-CGFloat.pi/2,
+                                clockwise: true)
+                                    
+        circleLayer.frame = bounds
+        circleLayer.path = path.cgPath
         circleLayer.fillColor = UIColor.clear.cgColor
         circleLayer.lineCap = "round"
-        circleLayer.lineWidth = 20.0
-        circleLayer.strokeEnd = 1.0
-        circleLayer.strokeColor = UIColor.white.cgColor
-        // added circleLayer to layer
-        layer.addSublayer(circleLayer)
-        // progressLayer path defined to circularPath
-        progressLayer.path = circularPath.cgPath
-        // ui edits
-        progressLayer.fillColor = UIColor.clear.cgColor
-        progressLayer.lineCap = "round"
-        progressLayer.lineWidth = 10.0
-        progressLayer.strokeEnd = 0
-        progressLayer.strokeColor = UIColor.green.cgColor
-        // added progressLayer to layer
-        layer.addSublayer(progressLayer)
+        circleLayer.strokeColor = Colors.backgroundPositive.color.cgColor
+        circleLayer.lineWidth = 3
+        self.layer.addSublayer(circleLayer)
+        
     }
     
     func progressAnimation(duration: TimeInterval) {
-        // created circularProgressAnimation with keyPath
-        let circularProgressAnimation = CABasicAnimation(keyPath: "strokeEnd")
-        // set the end time
-        circularProgressAnimation.duration = duration
-        circularProgressAnimation.toValue = 1.0
-        circularProgressAnimation.fillMode = "forwards"
-        circularProgressAnimation.isRemovedOnCompletion = false
-        progressLayer.add(circularProgressAnimation, forKey: "progressAnim")
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.duration = 5
+        animation.fillMode = "forwards"
+        animation.repeatCount = .infinity
+        animation.isRemovedOnCompletion = false
+        circleLayer.add(animation, forKey: "circle")
     }
 }

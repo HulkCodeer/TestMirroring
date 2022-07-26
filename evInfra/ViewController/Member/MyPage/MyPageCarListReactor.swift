@@ -19,13 +19,13 @@ internal final class MyPageCarListReactor: Reactor {
     }
     
     struct State {
-        var carInfoModel: CarInfoListModel.CarInfoModel = CarInfoListModel.CarInfoModel(JSON.null)
+        var carInfoModel: CarInfoModel = CarInfoModel(JSON.null)
         var isMove: Bool?
     }
         
     internal var initialState: State
             
-    init(model: CarInfoListModel.CarInfoModel) {
+    init(model: CarInfoModel) {
         self.initialState = State(carInfoModel: model)
     }
     

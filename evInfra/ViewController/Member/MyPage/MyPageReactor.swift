@@ -98,7 +98,7 @@ internal final class MyPageReactor: ViewModel, Reactor {
     }
     
     private func createMyCarEmptyItem() -> MyCarListItem {
-        let reactor = MyPageCarListReactor(model: CarInfoListModel.CarInfoModel(JSON.null))
+        let reactor = MyPageCarListReactor(model: CarInfoModel(JSON.null))
         
         reactor.state.compactMap { $0.isMove }
             .asDriver(onErrorJustReturn: true)

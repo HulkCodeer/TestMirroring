@@ -189,6 +189,13 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
         reactor.state.map { $0.sections}
             .bind(to: self.tableView.rx.items(dataSource: self.dataSource))
             .disposed(by: self.disposeBag)
+        
+        modifyUserInfoBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+            })
+            .disposed(by: self.disposeBag)
     }
 }
 

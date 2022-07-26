@@ -34,9 +34,15 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         $0.showsVerticalScrollIndicator = true
         $0.showsHorizontalScrollIndicator = false
         $0.isHidden = false
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        $0.addGestureRecognizer(tapGesture)
     }
     
     private lazy var carRegisterStepTotalView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private lazy var carRegisterDismissKeyboardBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
                  
@@ -90,9 +96,15 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         $0.showsVerticalScrollIndicator = true
         $0.showsHorizontalScrollIndicator = false
         $0.isHidden = false
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        $0.addGestureRecognizer(tapGesture)
     }
     
     private lazy var carOwnerRegisterStepTotalView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private lazy var carOwnerRegisterDismissKeyboardBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -138,9 +150,9 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private lazy var circleProgressBarView: CircularProgressBarView = CircularProgressBarView(frame: .zero)
+    private lazy var circleProgressBarView: CircularProgressBarView = CircularProgressBarView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
     
-    private lazy var lodingMainGuideLbl = UILabel().then {
+    private lazy var loadingMainGuideLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = Colors.contentPrimary.color
         $0.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
@@ -148,7 +160,15 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         $0.textAlignment = .center
     }
     
-    private lazy var lodingSubGuideLbl = UILabel().then {
+    private lazy var loadingCompleteMainGuideLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textColor = Colors.contentPrimary.color
+        $0.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
+        $0.text = "거의 다되었어요!"
+        $0.textAlignment = .center
+    }
+    
+    private lazy var loadingSubGuideLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = Colors.contentTertiary.color
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
@@ -258,7 +278,7 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         for noticeInfo in noticeInfoArray {
             noticeTotalStackView.addArrangedSubview(self.createNoticeView(noticeDesc: noticeInfo))
         }
-                      
+                                                      
         // 차량 소유자 등록 화면
         self.contentView.addSubview(carOwnerRegisterStepScrollView)
         carOwnerRegisterStepScrollView.snp.makeConstraints {
@@ -308,34 +328,41 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         
         self.contentView.addSubview(carInqueryProgressBarTotalView)
         carInqueryProgressBarTotalView.snp.makeConstraints {
-            $0.top.equalTo(naviTotalView.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.top.equalTo(naviTotalView.snp.bottom).offset(24)
+            $0.width.equalTo(screenWidth)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(nextBtn.snp.top)
         }
-                        
-        carInqueryProgressBarTotalView.addSubview(lodingMainGuideLbl)
-        lodingMainGuideLbl.snp.makeConstraints {
+
+        carInqueryProgressBarTotalView.addSubview(loadingMainGuideLbl)
+        loadingMainGuideLbl.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.height.equalTo(32)
         }
-        
-        carInqueryProgressBarTotalView.addSubview(lodingSubGuideLbl)
-        lodingSubGuideLbl.snp.makeConstraints {
-            $0.top.equalTo(lodingMainGuideLbl.snp.bottom).offset(8)
+
+        carInqueryProgressBarTotalView.addSubview(loadingSubGuideLbl)
+        loadingSubGuideLbl.snp.makeConstraints {
+            $0.top.equalTo(loadingMainGuideLbl.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.greaterThanOrEqualToSuperview().offset(-30)
             $0.height.equalTo(24)
         }
         
-//        carInqueryProgressBarTotalView.addSubview(circleProgressBarView)
-//        circleProgressBarView.snp.makeConstraints {
-//            $0.bottom.equalTo(lodingMainGuideLbl.snp.top).offset(80)
-//            $0.width.height.equalTo(40)
-//        }
+        carInqueryProgressBarTotalView.addSubview(loadingCompleteMainGuideLbl)
+        loadingCompleteMainGuideLbl.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.height.equalTo(32)
+        }
+
+        carInqueryProgressBarTotalView.addSubview(circleProgressBarView)
+        circleProgressBarView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(loadingMainGuideLbl.snp.top).offset(-80)
+            $0.width.height.equalTo(40)
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.mainTitleLbl.text = "반가워요! \(MemberManager.shared.memberNickName)님 😊\n차량에 맞는 전기차 충전소를 찾아드릴게요."
     }
     
@@ -356,11 +383,33 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
                 guard let self = self else { return }
                 
                 self.carRegisterStepScrollView.isHidden = viewType != .carRegister
-                self.carOwnerRegisterStepScrollView.isHidden = viewType != .owner
-                self.carInqueryProgressBarTotalView.isHidden = viewType != .carInquery
+                self.carOwnerRegisterStepScrollView.isHidden = viewType != .carOwner
+                self.carInqueryProgressBarTotalView.isHidden = viewType == .carRegister || viewType == .carOwner
+                                  
+                self.loadingMainGuideLbl.isHidden = viewType != .carInquery
+                self.loadingSubGuideLbl.isHidden = viewType != .carInquery
                 
-                if viewType == .carInquery {
+                self.loadingCompleteMainGuideLbl.isHidden = viewType != .carInqueryComplete
+                
+                self.nextBtn.isHidden = viewType == .carInquery || viewType == .carInqueryComplete
+                
+                switch viewType {
+                case .carInquery:
                     self.circleProgressBarView.progressAnimation(duration: self.circleViewDuration)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        Observable.just(CarRegistrationReactor.Action.moveNextView)
+                            .bind(to: reactor.action)
+                            .disposed(by: self.disposeBag)
+                    }
+                    
+                case .carInqueryComplete:
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        Observable.just(CarRegistrationReactor.Action.registerCarInfo)
+                            .bind(to: reactor.action)
+                            .disposed(by: self.disposeBag)
+                    }
+                                                                            
+                default: break
                 }
             })
             .disposed(by: self.disposeBag)
@@ -374,5 +423,9 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
             $0.textColor = Colors.contentTertiary.color
             $0.numberOfLines = 2
         }
+    }
+    
+    @objc private func hideKeyboard() {
+        self.view.endEditing(true)
     }
 }

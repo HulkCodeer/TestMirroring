@@ -26,6 +26,7 @@ protocol SoftberryAPI: class {
     
     func postSignUp(user: Login) -> Observable<(HTTPURLResponse, Data)>
     func getMyCarList() -> Observable<(HTTPURLResponse, Data)>
+    func postRegisterCar(model: CarRegistrationReactor.RegisterCarParamModel) -> Observable<(HTTPURLResponse, Data)>
     
 //    func postMemberInfo() -> Observable<(HTTPURLResponse, Data)>
 }
@@ -154,4 +155,8 @@ internal final class RestApi: SoftberryAPI {
         return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .get, parameters: nil, headers: nil)
     }
     
+    func postRegisterCar(model: CarRegistrationReactor.RegisterCarParamModel) -> Observable<(HTTPURLResponse, Data)> {
+        let reqUrl = "\(Const.EV_APP_AWS_SERVER)/car"
+        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .post, parameters: model.toDict(), headers: nil)
+    }
 }
