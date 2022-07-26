@@ -32,6 +32,10 @@ class AddressToLocationController: UIViewController {
         prepareSearchBar()
         prepareTableView()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 }
 
 extension AddressToLocationController {

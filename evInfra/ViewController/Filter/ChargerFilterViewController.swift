@@ -40,6 +40,10 @@ class ChargerFilterViewController: UIViewController {
         companyViewHeight.constant = companyFilter.getHeight()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }

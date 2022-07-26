@@ -29,6 +29,10 @@ class ReportBoardViewController: UIViewController {
         prepareInitView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self else { return }

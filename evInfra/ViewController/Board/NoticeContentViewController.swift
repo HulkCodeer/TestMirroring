@@ -33,6 +33,10 @@ class NoticeContentViewController: UIViewController {
         getNoticeContent()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     func prepareActionBar() {
         var backButton: IconButton!
         backButton = IconButton(image: Icon.cm.arrowBack)

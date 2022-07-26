@@ -50,6 +50,10 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         prepareActionBar()
         loadFromUrl()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

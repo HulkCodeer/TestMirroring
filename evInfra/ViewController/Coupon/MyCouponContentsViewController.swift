@@ -44,6 +44,10 @@ class MyCouponContentsViewController: UIViewController {
         prepareWebView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
         backButton.tintColor = UIColor(named: "content-primary")

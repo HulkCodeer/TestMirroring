@@ -35,8 +35,10 @@ class ServiceGuideViewController: UIViewController , UITableViewDelegate, UITabl
         
         self.listTableView.delegate = self
         self.listTableView.dataSource = self
-        
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     func prepareActionBar() {

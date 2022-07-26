@@ -91,6 +91,10 @@ internal final class MyPageViewController: UIViewController {
         getMemberInfo()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     @objc func endEditing() {
         nickNameField.resignFirstResponder()
         carNoField.resignFirstResponder()

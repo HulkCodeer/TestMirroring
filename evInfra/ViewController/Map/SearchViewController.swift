@@ -103,6 +103,10 @@ class SearchViewController: UIViewController {
         prepareTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     func configureButton() {
         addrRadioBtn.isHidden = removeAddressButton
     }

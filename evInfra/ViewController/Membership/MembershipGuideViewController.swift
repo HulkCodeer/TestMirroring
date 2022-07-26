@@ -104,6 +104,10 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
             .disposed(by: disposebag)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     // 추후 딥링크 추가시 필요
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let url = navigationAction.request.url, url.scheme == "evinfra" {

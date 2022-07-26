@@ -42,4 +42,8 @@ internal final class PointUseGuideViewController: BaseViewController {
         let requestUrl = URLRequest(url: _url)
         webView.load(requestUrl)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 }

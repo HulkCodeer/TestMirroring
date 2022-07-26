@@ -52,6 +52,10 @@ class EvDetailViewController: UIViewController {
         distance.text = model!.distance
         battery.text = model!.batt
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

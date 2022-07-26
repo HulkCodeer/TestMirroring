@@ -81,6 +81,10 @@ internal final class EIImageViewerViewController : BaseViewController, UIScrollV
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return self.mImageViewer
     }

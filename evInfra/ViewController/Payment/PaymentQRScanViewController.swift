@@ -44,6 +44,10 @@ class PaymentQRScanViewController: UIViewController {
         //테스트 하거나 UI 확인시 아래 주석을 풀어주시기 바랍니다.
 //        self.onResultScan(scanInfo: "{ \"cp_id\": \"GS00002101\", \"connector_id\": \"1\" }")
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)

@@ -85,7 +85,10 @@ internal final class PointViewController: UIViewController {
                 self.navigationController?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {

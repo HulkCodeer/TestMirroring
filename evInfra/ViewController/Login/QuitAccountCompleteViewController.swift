@@ -88,4 +88,8 @@ internal final class QuitAccountCompleteViewController: CommonBaseViewController
             })
             .disposed(by: self.disposebag)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 }

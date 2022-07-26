@@ -43,6 +43,10 @@ class RepayResultViewController: UIViewController {
         prepareView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     override func viewDidLayoutSubviews() {
         viewFailMsg.layer.cornerRadius = 8
         btnConfirm.layer.cornerRadius = 6

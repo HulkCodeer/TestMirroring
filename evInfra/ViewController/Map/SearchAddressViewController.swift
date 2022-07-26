@@ -33,6 +33,10 @@ internal final class SearchAddressViewController: UIViewController {
             mWebView.load(URLRequest(url: url))
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 
     func initWebView() {
         let webViewConfig = WKWebViewConfiguration()

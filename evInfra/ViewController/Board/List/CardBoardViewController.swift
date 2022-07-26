@@ -48,6 +48,10 @@ class CardBoardViewController: BaseViewController {
         fetchFirstBoard(mid: category, sort: sortType, mode: mode.rawValue)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 }
 
 extension CardBoardViewController {

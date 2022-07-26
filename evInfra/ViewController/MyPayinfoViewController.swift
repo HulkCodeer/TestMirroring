@@ -52,6 +52,10 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
             }
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

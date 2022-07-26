@@ -57,6 +57,10 @@ class ChargePriceViewController: UIViewController {
        
         initView()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 
     // TableView Border, BGcolor, Management cell, Resize Height
     override func viewDidLayoutSubviews() {

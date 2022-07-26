@@ -27,6 +27,12 @@ class FavoriteViewController: UIViewController {
         prepareTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let favoriteChargers = ChargerManager.sharedInstance.getChargerStationInfoList()
+        AmplitudeManager.shared.setUserProperty(with: favoriteChargers)
+    }
+    
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
         backButton.tintColor = UIColor(named: "nt-9")

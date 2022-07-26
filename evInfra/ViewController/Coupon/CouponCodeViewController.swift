@@ -25,6 +25,10 @@ class CouponCodeViewController: UIViewController {
         prepareActionBar()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     override func viewWillLayoutSubviews() {
         registerCouponBtn.layer.cornerRadius = 4
     }
