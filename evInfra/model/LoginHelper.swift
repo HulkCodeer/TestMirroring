@@ -25,6 +25,8 @@ internal final class LoginHelper: NSObject {
     internal weak var delegate: LoginHelperDelegate?
     
     private let disposebag = DisposeBag()
+    private let amplitudeManager = AmplitudeManager.shared
+    
     
     // 추후에 다시 넣어서 테스트 해봐야함
     // KOSession 실행시 사용자 추가 정보 동의 팝업을 열 수 있는지 체크 해야됨
@@ -272,7 +274,11 @@ internal final class LoginHelper: NSObject {
                                 if let delegate = self.delegate {
                                     delegate.successLogin()
                                 }
+                                
                                 MemberManager.shared.setData(data: json)
+                                self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
+                                self.amplitudeManager.setUserProperty(user: _user)
+                                
                                 // 즐겨찾기 목록 가져오기
                                 ChargerManager.sharedInstance.getFavoriteCharger()
                                 UserDefault().saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value: refreshToken)
@@ -323,6 +329,9 @@ internal final class LoginHelper: NSObject {
                                         delegate.successLogin()
                                     }
                                     MemberManager.shared.setData(data: json)
+                                    self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
+                                    self.amplitudeManager.setUserProperty(user: nil)
+
                                     // 즐겨찾기 목록 가져오기
                                     ChargerManager.sharedInstance.getFavoriteCharger()
                                     return
@@ -358,7 +367,11 @@ internal final class LoginHelper: NSObject {
                     if let delegate = self.delegate {
                         delegate.successLogin()
                     }
+                    
                     MemberManager.shared.setData(data: json)
+                    self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
+                    self.amplitudeManager.setUserProperty(user: user)
+
                     // 즐겨찾기 목록 가져오기
                     ChargerManager.sharedInstance.getFavoriteCharger()
          

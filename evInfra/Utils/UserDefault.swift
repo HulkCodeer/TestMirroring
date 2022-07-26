@@ -42,6 +42,8 @@ class UserDefault {
         static let MB_DEVICE_ID       = "mb_device_id"
         static let MB_HAS_MEMBERSHIP = "has_membership"
         static let APPLE_REFRESH_TOKEN = "apple_refresh_token"
+        static let REG_DATE         = "reg_date"
+        static let POINT            = "point"
         
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"
