@@ -192,8 +192,11 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
         
         modifyUserInfoBtn.rx.tap
             .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
+            .drive(onNext: { _ in
+                let reactor = SignUpReactor(provider: reactor.provider)
+                let viewcon = ModifyMyPageViewController()
+                viewcon.reactor = reactor
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)
     }

@@ -11,9 +11,7 @@ import UIKit
 
 internal final class MyPageCarEmptyCell: CommonBaseTableViewCell, ReactorKit.View {
     private lazy var emptyTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.IBborderColor = Colors.contentTertiary.color
-        $0.IBborderWidth = 1
+        $0.translatesAutoresizingMaskIntoConstraints = false        
     }
     
     private lazy var emptyBorderImgView = UIImageView().then {

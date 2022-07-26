@@ -55,6 +55,12 @@ internal final class SignUpReactor: ViewModel, Reactor {
         self.signUpUserData = signUpUserData
         super.init(provider: provider)
     }
+    
+    override init(provider: SoftberryAPI) {
+        self.initialState = State(signUpUserData: Login(.none))
+        self.signUpUserData = Login(.none)
+        super.init(provider: provider)
+    }
         
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
