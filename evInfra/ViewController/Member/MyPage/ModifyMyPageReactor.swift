@@ -8,6 +8,7 @@
 
 import ReactorKit
 import SwiftyJSON
+import UIKit
 
 internal final class ModifyMyPageReactor: ViewModel, Reactor {
     typealias CheckChangeMemberInfo = (nickname: Bool, gender: Bool, ageRange: Bool)
@@ -18,6 +19,7 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
         case setNickname(String)
         case setGender(String)
         case setAge(String)
+        case setProfileImg(Data)        
     }
     
     enum Mutation {
@@ -49,7 +51,7 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
             case nickname
             case ageRange = "age_range"
             case gender
-            case profileName
+            case profileName = "profile"
         }
         
         func encode(to encoder: Encoder) throws {
@@ -75,6 +77,7 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
     }
             
     internal var initialState: State
+    private var profileImgData: Data = Data()
     
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -95,6 +98,21 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
                     
                     Snackbar().show(message: "수정사항이 저장되었습니다.")
                     
+                    DispatchQueue.global(qos: .background).async { [weak self] in
+                        guard let self = self else { return }
+                        
+                        let memberId = MemberManager.shared.memberId
+                        let curTime = Int64(NSDate().timeIntervalSince1970 * 1000)
+                        let profileName = memberId + "_" + "\(curTime).jpg"
+                        
+                        Server.uploadImage(data: self.profileImgData, filename: profileName, kind: Const.CONTENTS_THUMBNAIL, targetId: "\(MemberManager.shared.mbId)", completion: { (isSuccess, value) in
+                            let json = JSON(value)
+                            if isSuccess {
+                                MemberManager.shared.profileImage = profileName
+                            }
+                        })
+                    }
+                    
                     GlobalDefine.shared.mainNavi?.pop()
                     
                     return .none
@@ -114,7 +132,10 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
             
         case .setAge(let age):
             return .just(.setAge(age))
-                            
+            
+        case .setProfileImg(let profileImgData):
+            self.profileImgData = profileImgData
+            return .empty()
         }
     }
     

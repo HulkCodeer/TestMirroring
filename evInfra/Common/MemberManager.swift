@@ -60,7 +60,12 @@ internal final class MemberManager {
     }
     
     internal var profileImage: String {
-        return UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME)
+        set {
+            UserDefault().saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: newValue)
+        }
+        get {
+            return UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME)
+        }
     }
     
     internal var memberNickName: String {

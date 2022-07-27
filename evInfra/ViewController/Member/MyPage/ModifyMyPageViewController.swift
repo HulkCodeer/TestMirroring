@@ -10,6 +10,8 @@ import ReactorKit
 import UIKit
 import AnyFormatKit
 import SwiftyJSON
+import UIImageCropper
+import DropDown
 
 internal final class ModifyMyPageViewController: CommonBaseViewController, StoryboardView {
     
@@ -268,6 +270,9 @@ internal final class ModifyMyPageViewController: CommonBaseViewController, Story
             
     
     // MARK: VARIABLE
+        
+    private let cropper = UIImageCropper(cropRatio: 1/1)
+    private let dropDwonProfileImg = DropDown()
     
     // MARK: SYSTEM FUNC
     
@@ -444,6 +449,24 @@ internal final class ModifyMyPageViewController: CommonBaseViewController, Story
         emailTf.text = MemberManager.shared.email
         phoneTf.text = MemberManager.shared.phone
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        cropper.picker = picker
+        cropper.delegate = self
+        
+        self.dropDwonProfileImg.anchorView = self.profileEditBtn
+        self.dropDwonProfileImg.width = 57;//profileImgBtn.frame.width
+        self.dropDwonProfileImg.dataSource = ["카메라", "갤러리"]
+        self.dropDwonProfileImg.selectionAction = { [unowned self] (index:Int, item:String) in
+            if index == 0 {
+                self.openCamera()
+            } else {
+                self.openPhotoLib()
+            }
+        }
+    }
                 
     func bind(reactor: ModifyMyPageReactor) {                        
         reactor.state.compactMap { $0.isModify }
@@ -456,6 +479,7 @@ internal final class ModifyMyPageViewController: CommonBaseViewController, Story
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
+                self.dropDwonProfileImg.show()
             })
             .disposed(by: self.disposeBag)
         
@@ -582,7 +606,7 @@ internal final class ModifyMyPageViewController: CommonBaseViewController, Story
         }
                                         
         return view
-    }
+    }  
 }
 
 extension ModifyMyPageViewController: UITextFieldDelegate {
@@ -607,5 +631,21 @@ extension ModifyMyPageViewController: UITextFieldDelegate {
             return false
         }                
         return true
+    }
+}
+
+extension ModifyMyPageViewController : UIImageCropperProtocol {
+    func didCropImage(originalImage: UIImage?, croppedImage: UIImage?) {
+        self.profileImgView.image = croppedImage?.resize(withWidth: 600.0)
+        guard let _reactor = self.reactor,
+                let _img = croppedImage,
+                let _imgData = UIImageJPEGRepresentation(_img, 1.0) else { return }
+        Observable.just(ModifyMyPageReactor.Action.setProfileImg(_imgData))
+            .bind(to: _reactor.action)
+            .disposed(by: self.disposeBag)
+    }
+    
+    func didCancel() {
+        picker.dismiss(animated: true, completion: nil)
     }
 }
