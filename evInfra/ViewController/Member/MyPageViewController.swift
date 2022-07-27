@@ -242,6 +242,7 @@ extension MyPageViewController {
         LoginHelper.shared.logout(completion: { success in
             self.indicator.stopAnimating()
             if success {
+                AmplitudeManager.shared.clearUserProperty()
                 Snackbar().show(message: "로그아웃 되었습니다.")
                 self.navigationController?.pop()
             } else {
