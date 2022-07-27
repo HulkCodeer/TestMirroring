@@ -22,7 +22,7 @@ extension UIViewController {
     
     @objc public func viewEnterEventInViewWillAppear() {
         let title = self.title ?? String(describing: type(of: self))
-        let property = ["type" : title]
+        let property: [String: Any] = ["type" : title]
         
         AmplitudeManager.shared.logEvent(type: .enter(.viewEnter), property: property)
     }

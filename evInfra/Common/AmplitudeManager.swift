@@ -28,10 +28,6 @@ internal final class AmplitudeManager {
         Amplitude.instance().setUserId(nil)
     }
     
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
-    
     // MARK: - Event Function
     
     internal func setUser(with id: String?) {
@@ -50,17 +46,8 @@ internal final class AmplitudeManager {
         identify.set("gender", value: NSString(string: user?.otherInfo?.gender ?? "기타"))
         identify.set("age range", value: NSString(string: user?.otherInfo?.age_range ?? "기타"))
         
-        // 나이, 성별 없을경우 기타
-        
         DispatchQueue.global(qos: .background).async {
             Amplitude.instance().identify(self.identify)
-        }
-    }
-    
-    // MARK: - Clear UserProperty
-    internal func clearUserProperty() {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().clearUserProperties()
         }
     }
     
