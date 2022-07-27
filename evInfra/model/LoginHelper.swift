@@ -281,7 +281,7 @@ internal final class LoginHelper: NSObject {
                                 self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
                                 self.amplitudeManager.setUserProperty(user: _user)
                                 
-                                let property: [String: Any] = ["type": String(Login.LoginType.apple.value)]
+                                let property: [String: Any] = ["type": String(Login.LoginType.apple.description)]
                                 self.amplitudeManager.logEvent(type: .login(.clickLoginButton), property: property)
                                 self.amplitudeManager.logEvent(type: .login(.complteLogin), property: property)
 
@@ -338,7 +338,7 @@ internal final class LoginHelper: NSObject {
                                     self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
                                     self.amplitudeManager.setUserProperty(user: nil)
                                     
-                                    let property: [String: Any] = ["type" : String(Login.LoginType.apple.value)]
+                                    let property: [String: Any] = ["type" : String(Login.LoginType.apple.description)]
                                     self.amplitudeManager.logEvent(type: .login(.clickLoginButton), property: property)
                                     self.amplitudeManager.logEvent(type: .login(.complteLogin), property: property)
 
@@ -355,7 +355,7 @@ internal final class LoginHelper: NSObject {
                     
                 } else {
                     if let delegate = self.delegate, let user = user {
-                        let property: [String: Any] = ["type": String(user.loginType.value)]
+                        let property: [String: Any] = ["type": String(user.loginType.description)]
                         AmplitudeManager.shared.logEvent(type: .signup(.clickSignUpButton), property: property)
                         delegate.needSignUp(user: user) // ev infra 회원가입
                     }
@@ -387,7 +387,7 @@ internal final class LoginHelper: NSObject {
                     
                     var property = [String: Any]()
                     if let user = user {
-                        property["type"] = user.loginType.value
+                        property["type"] = user.loginType.description
                     } else {
                         property["type"] = UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)
                     }
@@ -400,7 +400,7 @@ internal final class LoginHelper: NSObject {
          
                 } else {
                     if let delegate = self.delegate, let user = user {
-                        let property: [String: Any] = ["type": String(user.loginType.value)]
+                        let property: [String: Any] = ["type": String(user.loginType.description)]
                         AmplitudeManager.shared.logEvent(type: .signup(.clickSignUpButton), property: property)
                         delegate.needSignUp(user: user) // ev infra 회원가입
                     }

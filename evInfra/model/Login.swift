@@ -27,9 +27,18 @@ struct Login {
             case .kakao:
                 return "카카오"
                 
+            default: return ""
+            }
+        }
+        
+        internal var description: String {
+            switch self {
+            case .apple:
+                return "apple"
+            case .kakao:
+                return "kakao"
             case .evinfra:
                 return "corporate"
-                
             default: return ""
             }
         }
