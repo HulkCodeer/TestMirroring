@@ -47,12 +47,9 @@ internal final class AmplitudeManager {
         identify.set("signup date", value: NSString(string: UserDefault().readString(key: UserDefault.Key.REG_DATE)))
         identify.set("berry owned", value: NSString(string: UserDefault().readString(key: UserDefault.Key.POINT)))
         identify.set("favorite station count", value: NSString(string: ""))
-
-        if let user = user,
-            let otherInfo = user.otherInfo {
-            identify.set("gender", value: NSString(string: otherInfo.gender))
-            identify.set("age range", value: NSString(string: otherInfo.age_range))
-        }
+        identify.set("gender", value: NSString(string: user?.otherInfo?.gender ?? "기타"))
+        identify.set("age range", value: NSString(string: user?.otherInfo?.age_range ?? "기타"))
+        
         // 나이, 성별 없을경우 기타
         
         DispatchQueue.global(qos: .background).async {
@@ -65,16 +62,6 @@ internal final class AmplitudeManager {
         DispatchQueue.global(qos: .background).async {
             Amplitude.instance().clearUserProperties()
         }
-    }
-    
-    // MARK: - View Enter Event Log
-    internal func prepareViewEnterEvent(with viewController: UIViewController) {
-        let viewConName = String(describing: type(of: viewController))
-        let description = ViewControllerDescription.allCases
-            .first { $0.rawValue.equals(viewConName) }
-            .map { $0.description } ?? "\(viewConName)"
-        
-        logEvent(type: .enter(.viewEnter), property: ["page" : description])
     }
     
     // MARK: - UserProperty: 즐겨찾기 충전소 개수 세팅

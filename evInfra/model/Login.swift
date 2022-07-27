@@ -27,6 +27,9 @@ struct Login {
             case .kakao:
                 return "카카오"
                 
+            case .evinfra:
+                return "corporate"
+                
             default: return ""
             }
         }

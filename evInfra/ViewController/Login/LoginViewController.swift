@@ -118,7 +118,13 @@ internal final class LoginViewController: UIViewController {
     
     @objc
     fileprivate func handleCorpButtonPress() {
+        logEvent()
         corpLogin()
+    }
+    
+    private func logEvent() {
+        let property: [String: Any] = ["type": Login.LoginType.evinfra.value]
+        AmplitudeManager.shared.logEvent(type: .login(.clickLoginButton), property: property)
     }
 }
 

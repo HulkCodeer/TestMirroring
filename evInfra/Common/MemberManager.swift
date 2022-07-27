@@ -126,7 +126,7 @@ internal final class MemberManager {
             userDefault.saveBool(key: UserDefault.Key.MB_PAYMENT, value: data["payment"].boolValue)
             userDefault.saveString(key: UserDefault.Key.MB_DEVICE_ID, value: data["battery_device_id"].stringValue)
             userDefault.saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value: data["has_membership"].boolValue)
-            userDefault.saveString(key: UserDefault.Key.MB_LAST_LOGIN_TYPE, value: data["login_type"].stringValue)
+            userDefault.saveString(key: UserDefault.Key.MB_LOGIN_TYPE, value: data["login_type"].stringValue)
             userDefault.saveString(key: UserDefault.Key.REG_DATE, value: data["reg_date"].stringValue)
             userDefault.saveString(key: UserDefault.Key.POINT, value: data["point"].stringValue)
         }
