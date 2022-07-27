@@ -210,7 +210,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         $0.textColor = Colors.contentSecondary.color
         $0.textAlignment = .natural
         $0.text = ""
-        $0.numberOfLines = 1
+        $0.numberOfLines = 2
     }
             
     private lazy var moreRequiredGuideLbl = UILabel().then {
@@ -454,7 +454,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         userInfoMoreTotalView.addSubview(moreLoginInfoGuideLbl)
         moreLoginInfoGuideLbl.snp.makeConstraints {
             $0.top.equalTo(moreMainTitleLbl.snp.bottom).offset(8)
-            $0.leading.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(41)
         }
 
@@ -637,8 +637,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                                         
                 self.nickNameTf.text = userData.name
                 self.nickNameTf.isEnabled = userData.name.isEmpty
-                
-                
+                                
                 self.emailTf.text = userData.email
                 if let _otherInfo = userData.otherInfo {
                     self.emailTf.isEnabled = !_otherInfo.is_email_verified
@@ -768,7 +767,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         let genderSelectBtn = Radio().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.isUserInteractionEnabled = false
-            $0.isSelected = false
+            $0.isSelected = type.value == reactor.currentState.signUpUserData.displayGender
         }
         
         reactor.state.compactMap { $0.genderType }

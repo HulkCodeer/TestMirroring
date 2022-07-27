@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-internal struct UserInfoModel: ServerResultProtocol {
+internal struct MemberInfoModel: ServerResultProtocol {
     var code: Int
     var msg: String
     var mbZipCode: String = ""

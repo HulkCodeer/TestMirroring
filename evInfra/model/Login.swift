@@ -101,7 +101,8 @@ struct Login: Equatable {
     var name: String = ""
     var email: String = ""
     var emailVerified = false
-    var profile_image: String?
+    var profile_image: String = ""
+    var profile_image_url: URL?
     
     var gender: String = ""
     var displayGender: String = ""
@@ -155,6 +156,14 @@ struct Login: Equatable {
                 self.displayGender = Gender(value: self.gender).value
             }
             
+            if let _profileImgURL = kakaoUserData.profileImageURL {
+                // 프로파일 이미지 이름 생성
+                let memberId = MemberManager.shared.memberId
+                let curTime = Int64(NSDate().timeIntervalSince1970 * 1000)
+                self.profile_image = memberId + "_" + "\(curTime).jpg"
+                self.profile_image_url = _profileImgURL
+            }
+            
             self.otherInfo = MemberOtherInfo(me: kakaoUserData)
         }
     }
@@ -164,7 +173,7 @@ struct Login: Equatable {
             "member_id": MemberManager.shared.memberId,
             "user_id": userId,
             "nickname": name,
-            "profile": profile_image ?? "",
+            "profile": profile_image,
             "login_type": loginType.rawValue,
             "email": email,
             "email_cert": emailVerified,

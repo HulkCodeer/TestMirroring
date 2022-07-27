@@ -63,7 +63,7 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         $0.numberOfLines = 1
     }
     
-    private lazy var carNumberLookUpTf = UITextField().then {
+    private lazy var carNumberLookUpTf = SignUpTextField().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
@@ -117,7 +117,7 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         $0.text = "이제, 차량 소유자만 입력하면\n등록이 완료돼요!"
     }
     
-    private lazy var ownerTf = UITextField().then {
+    private lazy var ownerTf = SignUpTextField().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
@@ -127,7 +127,7 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         $0.keyboardType = .default
         $0.returnKeyType = .default
         $0.addLeftPadding(padding: 16)
-        $0.placeholder = "소유자명"
+        $0.placeholder = "소유자명"        
     }
     
     private lazy var ownerRegisterNoticeLbl = UILabel().then {
@@ -364,6 +364,17 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
     override func viewDidLoad() {
         super.viewDidLoad()
         self.mainTitleLbl.text = "반가워요! \(MemberManager.shared.memberNickName)님 😊\n차량에 맞는 전기차 충전소를 찾아드릴게요."
+        
+        skipBtn.rx.tap
+            .asDriver()
+            .drive(onNext: {
+                GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+            })
+            .disposed(by: self.disposeBag)
+        
+        naviTotalView.backClosure = {
+            GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+        }
     }
     
     internal func bind(reactor: CarRegistrationReactor) {

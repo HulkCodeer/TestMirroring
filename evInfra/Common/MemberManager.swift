@@ -64,19 +64,42 @@ internal final class MemberManager {
     }
     
     internal var memberNickName: String {
-        return UserDefault().readString(key: UserDefault.Key.MB_NICKNAME)
+        set {
+            UserDefault().saveString(key: UserDefault.Key.MB_NICKNAME, value: newValue)
+        }
+        get {
+            return UserDefault().readString(key: UserDefault.Key.MB_NICKNAME)
+        }
     }    
     
     internal var ageRange: String {
-        return UserDefault().readString(key: UserDefault.Key.MB_AGE_RANGE)
+        set {
+            UserDefault().saveString(key: UserDefault.Key.MB_AGE_RANGE, value: newValue)
+        }
+        get {
+            return UserDefault().readString(key: UserDefault.Key.MB_AGE_RANGE)
+        }
     }
     
     internal var gender: String {
-        return UserDefault().readString(key: UserDefault.Key.MB_GENDER)
+        set {
+            UserDefault().saveString(key: UserDefault.Key.MB_GENDER, value: newValue)
+        }
+        get {
+            return UserDefault().readString(key: UserDefault.Key.MB_GENDER)
+        }
     }
     
     internal var carId: Int {
         return UserDefault().readInt(key: UserDefault.Key.MB_CAR_ID)
+    }
+    
+    internal var email: String {        
+        return UserDefault().readString(key: UserDefault.Key.MB_EMAIL)
+    }
+    
+    internal var phone: String {
+        return UserDefault().readString(key: UserDefault.Key.MB_PHONE)
     }
                     
     func isPartnershipClient(clientId : Int) -> Bool {
@@ -141,7 +164,8 @@ internal final class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_LAST_LOGIN_TYPE, value: data["login_type"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_GENDER, value: data["gender"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: data["age_range"].stringValue)
-            
+            userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: data["email"].stringValue)
+            userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: data["phone"].stringValue)
         }
     }
     
@@ -163,6 +187,8 @@ internal final class MemberManager {
         userDefault.saveString(key: UserDefault.Key.MB_LOGIN_TYPE, value:  "")
         userDefault.saveString(key: UserDefault.Key.MB_GENDER, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: "")
+        userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: "")
+        userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: "")
     }
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {

@@ -43,7 +43,9 @@ class UserDefault {
         static let MB_HAS_MEMBERSHIP = "has_membership"
         static let APPLE_REFRESH_TOKEN = "apple_refresh_token"
         static let MB_AGE_RANGE = "mb_age_range"
-        static let MB_GENDER = "mb_gender"        
+        static let MB_GENDER = "mb_gender"
+        static let MB_EMAIL = "mb_email"
+        static let MB_PHONE = "mb_phone"
         
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"

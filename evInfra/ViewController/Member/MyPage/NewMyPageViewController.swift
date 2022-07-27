@@ -170,7 +170,7 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
         }
         
         profileImgView.IBcornerRadius = 56 / 2
-        profileImgView.sd_setImage(with: URL(string: "\(Const.EI_IMG_SERVER)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
+        profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME))"), placeholderImage: Icons.iconProfileEmpty.image)
         nickNameLbl.text = MemberManager.shared.memberNickName
         guard !MemberManager.shared.ageRange.isEmpty, !MemberManager.shared.gender.isEmpty else { return }
         userMoreInfoLbl.text = "\(MemberManager.shared.ageRange), \(MemberManager.shared.gender)"
@@ -193,7 +193,7 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
         modifyUserInfoBtn.rx.tap
             .asDriver()
             .drive(onNext: { _ in
-                let reactor = SignUpReactor(provider: reactor.provider)
+                let reactor = ModifyMyPageReactor(provider: reactor.provider)
                 let viewcon = ModifyMyPageViewController()
                 viewcon.reactor = reactor
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)

@@ -31,6 +31,15 @@ class PaddingLabel: UILabel {
 
 
 extension UILabel {
+    func setUnderline() {
+        guard let _text = self.text else { return }
+        let attributedString = NSMutableAttributedString(string: _text)
+        attributedString.addAttribute(.underlineStyle,
+                                      value: NSUnderlineStyle.styleSingle.rawValue,
+                                      range: NSRange(location: 0, length: _text.count)
+        )
+        self.attributedText = attributedString
+    }
     
     func textSize(font: UIFont, text: String) -> CGRect {
         let myText = text as NSString

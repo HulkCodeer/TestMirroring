@@ -34,7 +34,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
         case setPhone(String)
         case setGender(String)
         case setAge(String)
-        case setSignUpUserData(Login)
+        case setSignUpUserData
         case none
     }
     
@@ -42,41 +42,39 @@ internal final class SignUpReactor: ViewModel, Reactor {
         var isValidUserInfo: UserInfoStepValidation?
         var isValidUserInforMore: Bool?
         var genderType: Login.Gender?
-        var isSignUpComplete: Bool?
+        var isSignUpComplete: Bool?        
         
         var signUpUserData: Login
     }
     
     internal var initialState: State
-    internal var signUpUserData: Login
     
     init(provider: SoftberryAPI, signUpUserData: Login) {
         self.initialState = State(signUpUserData: signUpUserData)
-        self.signUpUserData = signUpUserData
         super.init(provider: provider)
     }
     
     override init(provider: SoftberryAPI) {
         self.initialState = State(signUpUserData: Login(.none))
-        self.signUpUserData = Login(.none)
         super.init(provider: provider)
     }
         
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+            
         case .validUserMoreInfoStep:
             return .just(.setValidUserMoreInfoStep(!self.currentState.signUpUserData.gender.isEmpty))
             
         case .validUserInfoStep:
             return .just(.setValidUserInfoStep((isValidNickName: !self.currentState.signUpUserData.name.isEmpty,
                                                 isValidEmail: StringUtils.isValidEmail(self.currentState.signUpUserData.email),
-                                                isValidPhoneNo: StringUtils.isValidPhoneNum(self.currentState.signUpUserData.phoneNo))))
+                                                isValidPhoneNo: StringUtils.isValidPhoneNum(self.currentState.signUpUserData.displayPhoneNumber))))
                                           
         case .setGenderType(let genderType):
             return .just(.setGenderType(genderType))
             
         case .getSignUpUserData:
-            return .just(.setSignUpUserData(self.signUpUserData))
+            return .just(.setSignUpUserData)
             
         case .setNickname(let nickName):
             return .just(.setNickname(nickName))
@@ -103,7 +101,25 @@ internal final class SignUpReactor: ViewModel, Reactor {
                         Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
                         return .none
                     }
-                        
+                                        
+                    if let _profileImgURL = self.currentState.signUpUserData.profile_image_url {
+                        // 카카오 프로파일 이미지 다운로드                        
+                        DispatchQueue.global(qos: .background).async {
+                            Server.getData(url: _profileImgURL) { (isSuccess, responseData) in
+                                if isSuccess {
+                                    if let data = responseData {
+                                        Server.uploadImage(data: data, filename: self.currentState.signUpUserData.profile_image, kind: Const.CONTENTS_THUMBNAIL, targetId: "\(MemberManager.shared.mbId)", completion: { (isSuccess, value) in
+                                            let json = JSON(value)
+                                            if !isSuccess {
+                                                printLog(out: "upload image Error : \(json)")
+                                            }
+                                        })
+                                    }
+                                }
+                            }
+                        }
+                    }
+                                                
                     let reactor = CarRegistrationReactor(provider: RestApi())
                     let viewcon = CarRegistrationViewController()
                     viewcon.reactor = reactor
@@ -120,7 +136,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
                 
         newState.isValidUserInfo = nil
         newState.isValidUserInforMore = nil
-        newState.genderType = nil
+        newState.genderType = nil        
                         
         switch mutation {
         case .setValidUserMoreInfoStep(let isValid):
@@ -134,8 +150,8 @@ internal final class SignUpReactor: ViewModel, Reactor {
             newState.signUpUserData.gender = genderType.value
             newState.signUpUserData.displayGender = genderType.value
             
-        case .setSignUpUserData(let signUpUserData):
-            newState.signUpUserData = signUpUserData
+        case .setSignUpUserData:
+            newState.signUpUserData = initialState.signUpUserData
             
         case .setNickname(let nickName):
             newState.signUpUserData.name = nickName
@@ -171,5 +187,5 @@ internal final class SignUpReactor: ViewModel, Reactor {
             Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
             return nil
         }
-    }
+    }        
 }
