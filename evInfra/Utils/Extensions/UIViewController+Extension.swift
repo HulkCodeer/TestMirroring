@@ -21,9 +21,11 @@ extension UIViewController {
     }
     
     @objc public func viewEnterEventInViewWillAppear() {
-        printLog(out: " ========== pkh method swizzling ========")
-        printLog(out: " \(type(of: self)) : appear!!!")
-        AmplitudeManager.shared.setViewEnterEvent(with: self)
+        printLog(out: " ////////////// pkh //////////////")
+        let title = self.title ?? String(describing: type(of: self))
+        let property = ["type" : title]
+        printLog(out: " ////////////// \(self.title) //////////////")
+        AmplitudeManager.shared.logEvent(type: .enter(.viewEnter), property: property)
     }
 }
 

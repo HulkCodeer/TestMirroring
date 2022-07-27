@@ -73,6 +73,8 @@ internal final class LoginHelper: NSObject {
     
     // 로그아웃
     func logout(completion: @escaping (Bool)->()) {
+        self.amplitudeManager.setUser(with: nil)
+        
         switch MemberManager.shared.loginType {
         case .apple:
             MemberManager.shared.clearData()
@@ -278,8 +280,11 @@ internal final class LoginHelper: NSObject {
                                 MemberManager.shared.setData(data: json)
                                 self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
                                 self.amplitudeManager.setUserProperty(user: _user)
-                                self.amplitudeManager.setClickLoginButtonEvent(with: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE))
-                                self.amplitudeManager.setCompleteLoginEvent(with: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE))
+                                
+                                let property = ["type" : UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)]
+                                self.amplitudeManager.logEvent(type: .login(.clickLoginButton), property: property)
+                                self.amplitudeManager.logEvent(type: .login(.complteLogin), property: property)
+
                                 // 즐겨찾기 목록 가져오기
                                 ChargerManager.sharedInstance.getFavoriteCharger()
                                 UserDefault().saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value: refreshToken)
@@ -332,8 +337,11 @@ internal final class LoginHelper: NSObject {
                                     MemberManager.shared.setData(data: json)
                                     self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
                                     self.amplitudeManager.setUserProperty(user: nil)
-                                    self.amplitudeManager.setClickLoginButtonEvent(with: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE))
-                                    self.amplitudeManager.setCompleteLoginEvent(with: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE))
+                                    
+                                    let property = ["type" : UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)]
+                                    self.amplitudeManager.logEvent(type: .login(.clickLoginButton), property: property)
+                                    self.amplitudeManager.logEvent(type: .login(.complteLogin), property: property)
+
                                     // 즐겨찾기 목록 가져오기
                                     ChargerManager.sharedInstance.getFavoriteCharger()
                                     return
@@ -347,13 +355,15 @@ internal final class LoginHelper: NSObject {
                     
                 } else {
                     if let delegate = self.delegate, let user = user {
-                        AmplitudeManager.shared.setClickSignUpButtonEvent(with: String(user.loginType.value))
+                        let property = ["type" : String(user.loginType.value)]
+                        AmplitudeManager.shared.logEvent(type: .signup(.clickSignUpButton), property: property)
                         delegate.needSignUp(user: user) // ev infra 회원가입
                     }
                     MemberManager.shared.clearData()
                 }
             } else {
                 MemberManager.shared.clearData()
+                self.amplitudeManager.setUser(with: nil)
                 Snackbar().show(message: "오류가 발생했습니다. 다시 시도해 주세요.")
             }
         }
@@ -374,21 +384,25 @@ internal final class LoginHelper: NSObject {
                     MemberManager.shared.setData(data: json)
                     self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
                     self.amplitudeManager.setUserProperty(user: user)
-                    //
-                    self.amplitudeManager.setCompleteLoginEvent(with: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE))
-                    self.amplitudeManager.setClickLoginButtonEvent(with: UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE))
+                    
+                    let property = ["type" : UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)]
+                    self.amplitudeManager.logEvent(type: .login(.complteLogin), property: property)
+                    self.amplitudeManager.logEvent(type: .login(.clickLoginButton), property: property)
+
                     // 즐겨찾기 목록 가져오기
                     ChargerManager.sharedInstance.getFavoriteCharger()
          
                 } else {
                     if let delegate = self.delegate, let user = user {
-                        AmplitudeManager.shared.setClickSignUpButtonEvent(with: String(user.loginType.value))
+                        let property = ["type" : String(user.loginType.value)]
+                        AmplitudeManager.shared.logEvent(type: .signup(.clickSignUpButton), property: property)
                         delegate.needSignUp(user: user) // ev infra 회원가입
                     }
                     MemberManager.shared.clearData()
                 }
             } else {
                 MemberManager.shared.clearData()
+                self.amplitudeManager.setUser(with: nil)
                 Snackbar().show(message: "오류가 발생했습니다. 다시 시도해 주세요.")
             }
         }
