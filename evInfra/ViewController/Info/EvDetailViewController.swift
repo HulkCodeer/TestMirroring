@@ -39,7 +39,7 @@ class EvDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "전기차 정보 상세 화면"
         prepareActionBar()
         
         carImage.sd_setImage(with: URL(string: "\(Const.IMG_URL_EV_MODEL)\(model!.image!).jpg"), placeholderImage: UIImage(named: "AppIcon"))

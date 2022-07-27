@@ -30,7 +30,7 @@ class MyCouponViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "보유 쿠폰 리스트 화면"
         prepareActionBar()
         prepareTableView()
         

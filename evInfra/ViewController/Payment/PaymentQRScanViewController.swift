@@ -34,6 +34,7 @@ class PaymentQRScanViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "QR Scan 화면"
         prepareActionBar()
         prepareView()
         

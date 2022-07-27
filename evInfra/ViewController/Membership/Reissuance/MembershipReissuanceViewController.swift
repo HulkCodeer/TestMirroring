@@ -181,7 +181,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "재발급 신청 화면"
         clearTxtBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in

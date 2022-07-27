@@ -80,6 +80,7 @@ class ChargerInfoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "충전기 정보 리스트 화면"
         self.prepareActionBar()
         self.getchargerModels()
         // Do any additional setup after loading the view.

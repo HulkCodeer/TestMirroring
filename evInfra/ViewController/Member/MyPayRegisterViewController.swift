@@ -26,6 +26,7 @@ class MyPayRegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "결제 정보 등록 화면"
         prepareActionBar()
         makePostRequest(url: Const.EV_PAY_SERVER + "/pay/evPay/registEvPay", payload: ["mb_id":"\(MemberManager.shared.mbId)"])
         // Do any additional setup after loading the view.

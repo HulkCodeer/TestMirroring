@@ -30,6 +30,7 @@ class ServiceGuideViewController: UIViewController , UITableViewDelegate, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "이용안내 화면"
         
         prepareActionBar()
         

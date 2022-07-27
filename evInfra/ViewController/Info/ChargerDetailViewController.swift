@@ -35,6 +35,7 @@ class ChargerDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "충전기 정보 상세 화면"
         self.prepareActionBar()
         self.chargerImageView.image = UIImage(named: model!.image!)
         self.chargerImageView.motionIdentifier = "\(model!.image!)"

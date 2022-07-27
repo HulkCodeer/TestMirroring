@@ -21,7 +21,7 @@ class EvInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "전기차 정보 리스트 화면"
         self.prepareActionBar()
         self.getEvModels()
     }

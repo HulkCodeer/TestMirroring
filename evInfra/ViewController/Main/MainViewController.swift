@@ -89,6 +89,7 @@ internal final class MainViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "메인(지도)화면"
         configureLayer()
         configureNaverMapView()
         configureLocationManager()
@@ -109,6 +110,10 @@ internal final class MainViewController: UIViewController {
         requestStationInfo()
         
         prepareCalloutLayer()                
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {

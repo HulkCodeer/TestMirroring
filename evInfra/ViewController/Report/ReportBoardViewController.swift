@@ -24,7 +24,7 @@ class ReportBoardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "나의 제보 내역 화면"
         prepareActionBar()
         prepareInitView()
     }

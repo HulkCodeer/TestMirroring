@@ -36,7 +36,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.title = "게시판 글 작성 화면"
         setUI()
         prepareActionBar(with: "글쓰기")
         

@@ -39,7 +39,7 @@ class MyCouponContentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "보유 쿠폰 상세 화면"
         prepareActionBar()
         prepareWebView()
     }

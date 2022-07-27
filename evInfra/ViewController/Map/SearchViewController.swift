@@ -97,7 +97,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "충전소 검색 화면"
         configureButton()
         prepareSearchBar()
         prepareTableView()

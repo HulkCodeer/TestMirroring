@@ -43,6 +43,11 @@ internal final class PointUseGuideViewController: BaseViewController {
         webView.load(requestUrl)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "베리 사용 안내 화면"
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }

@@ -40,7 +40,7 @@ internal final class EventViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "이벤트 리스트 화면"
         prepareActionBar()
         prepareTableView()
         

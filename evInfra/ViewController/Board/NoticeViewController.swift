@@ -21,7 +21,7 @@ class NoticeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.title = "공지사항 화면"
         prepareActionBar()
 
         self.tableView.delegate = self

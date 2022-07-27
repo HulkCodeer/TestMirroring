@@ -32,7 +32,7 @@ class AcceptTermsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "회원 가입 이용약관 동의 화면"
         prepareActionBar()
         prepareCheckbox()
         enableSignUpButton()

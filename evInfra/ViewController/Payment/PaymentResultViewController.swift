@@ -65,6 +65,7 @@ class PaymentResultViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "충전 완료 화면"
         prepareActionBar()
         prepareView()
         showProgress()
