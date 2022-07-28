@@ -73,6 +73,7 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         $0.keyboardType = .default
         $0.returnKeyType = .default
         $0.addLeftPadding(padding: 16)
+        $0.delegate = self
     }
     
     private lazy var registerNoticeLbl = UILabel().then {
@@ -127,7 +128,8 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         $0.keyboardType = .default
         $0.returnKeyType = .default
         $0.addLeftPadding(padding: 16)
-        $0.placeholder = "소유자명"        
+        $0.placeholder = "소유자명"
+        $0.delegate = self
     }
     
     private lazy var ownerRegisterNoticeLbl = UILabel().then {
@@ -382,6 +384,7 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
+                self.view.endEditing(true)
                 Observable.just(CarRegistrationReactor.Action.moveNextView)
                     .bind(to: reactor.action)
                     .disposed(by: self.disposeBag)
@@ -438,5 +441,31 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
     
     @objc private func hideKeyboard() {
         self.view.endEditing(true)
+    }
+}
+
+extension CarRegistrationViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.IBborderColor = Colors.borderSelected.color
+        textField.textColor = Colors.contentPrimary.color
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.IBborderColor = Colors.borderOpaque.color
+        textField.textColor = Colors.contentDisabled.color
+        guard let _reactor = self.reactor, let _textFieldStr = textField.text else { return }
+        switch textField {
+        case carNumberLookUpTf:
+            Observable.just(CarRegistrationReactor.Action.setCarNumber(_textFieldStr))
+                .bind(to: _reactor.action)
+                .disposed(by: self.disposeBag)
+            
+        case ownerTf:
+            Observable.just(CarRegistrationReactor.Action.setCarOwnerName(_textFieldStr))
+                .bind(to: _reactor.action)
+                .disposed(by: self.disposeBag)
+                        
+        default: break
+        }
     }
 }

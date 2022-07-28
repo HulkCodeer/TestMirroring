@@ -40,6 +40,8 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
         case moveNextView
         case registerCarInfo
         case setMoveNextView(ViewType)
+        case setCarNumber(String)
+        case setCarOwnerName(String)
     }
     
     enum Mutation {
@@ -95,6 +97,14 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
                 
         case .setMoveNextView(let viewType):
             return .just(.setMoveNextView(viewType))
+            
+        case .setCarNumber(let carNumber):
+            self.paramModel.carNum = carNumber
+            return .empty()
+            
+        case .setCarOwnerName(let carOwnerName):
+            self.paramModel.carOwner = carOwnerName
+            return .empty()
         }
     }
     
