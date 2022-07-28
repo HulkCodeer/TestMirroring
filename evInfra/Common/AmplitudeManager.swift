@@ -37,14 +37,14 @@ internal final class AmplitudeManager {
     }
     
     // MARK: - UserProperty
-    internal func setUserProperty(user: Login?) {
+    internal func setUserProperty() {
         identify.set("membership card", value: MemberManager.shared.hasMembership as NSObject)
         identify.set("signup", value: (MemberManager.shared.mbId > 0 ? true : false) as NSObject)
-        identify.set("signup date", value: NSString(string: UserDefault().readString(key: UserDefault.Key.REG_DATE)))
-        identify.set("berry owned", value: NSString(string: UserDefault().readString(key: UserDefault.Key.POINT)))
+        identify.set("signup", value: MemberManager.shared.regDate as NSObject)
+        identify.set("berry owned", value: MemberManager.shared.berryPoint as NSObject)
         identify.set("favorite station count", value: NSString(string: ""))
-        identify.set("gender", value: NSString(string: user?.otherInfo?.gender ?? "기타"))
-        identify.set("age range", value: NSString(string: user?.otherInfo?.age_range ?? "기타"))
+        identify.set("gender", value: MemberManager.shared.gender as NSObject)
+        identify.set("age range", value: MemberManager.shared.ageRange as NSObject)
         
         DispatchQueue.global(qos: .background).async {
             Amplitude.instance().identify(self.identify)

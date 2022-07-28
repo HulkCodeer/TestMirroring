@@ -279,7 +279,7 @@ internal final class LoginHelper: NSObject {
                                 
                                 MemberManager.shared.setData(data: json)
                                 self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
-                                self.amplitudeManager.setUserProperty(user: _user)
+                                self.amplitudeManager.setUserProperty()
                                 
                                 let property: [String: Any] = ["type": String(Login.LoginType.apple.description)]
                                 self.amplitudeManager.logEvent(type: .login(.clickLoginButton), property: property)
@@ -336,7 +336,7 @@ internal final class LoginHelper: NSObject {
                                     }
                                     MemberManager.shared.setData(data: json)
                                     self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
-                                    self.amplitudeManager.setUserProperty(user: nil)
+                                    self.amplitudeManager.setUserProperty()
                                     
                                     let property: [String: Any] = ["type" : String(Login.LoginType.apple.description)]
                                     self.amplitudeManager.logEvent(type: .login(.clickLoginButton), property: property)
@@ -383,7 +383,7 @@ internal final class LoginHelper: NSObject {
                     
                     MemberManager.shared.setData(data: json)
                     self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
-                    self.amplitudeManager.setUserProperty(user: user)
+                    self.amplitudeManager.setUserProperty()
                     
                     var property = [String: Any]()
                     if let user = user {
