@@ -15,7 +15,7 @@ internal final class AmplitudeManager {
     #if DEBUG
     private let apiKey: String = "57bdb148be2db2b5ef49ae6b576fbd15"
     #else
-    private let apiKey: String = ""
+    private let apiKey: String = "f22b183357026eaed8bbe215e0bbf0a1"
     #endif
     
     private let identify = AMPIdentify()
