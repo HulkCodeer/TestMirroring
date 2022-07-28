@@ -217,7 +217,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     }
     
     internal func bind(reactor: MembershipReissuanceReactor) {
-        nextBtn.rx.tap.debug()
+        nextBtn.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .do { _ in self.view.endEditing(true) }
             .map { _ in Reactor.Action.getCheckPassword(self.passwordInputTf.text ?? "") }

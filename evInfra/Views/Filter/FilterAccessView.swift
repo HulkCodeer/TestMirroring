@@ -8,8 +8,10 @@
 
 import Foundation
 import EasyTipView
+import UIKit
+import AVFAudio
 
-class FilterAccessView: UIView {
+internal final class FilterAccessView: UIView {
     @IBOutlet var btnInfo: UIButton!
     
     @IBOutlet var btnPublic: UIView!
@@ -20,13 +22,15 @@ class FilterAccessView: UIView {
     @IBOutlet var ivNonPublic: UIImageView!
     @IBOutlet var lbNonPublic: UILabel!
     
-    var publicSel = true
-    var nonPublicSel = false
+    @IBOutlet var publicButton: UIButton!
+    @IBOutlet var nonPublicButton: UIButton!
     
-    let bgEnColor: UIColor = UIColor(named: "gr-6")!
-    let bgDisColor: UIColor = UIColor(named: "content-tertiary")!
+    private var isOnEasyTipView: Bool = false
+    private let bgEnColor: UIColor = Colors.gr6.color
+    private let bgDisColor: UIColor = Colors.contentTertiary.color
     
     internal weak var delegate: DelegateFilterChange?
+   
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
@@ -37,25 +41,25 @@ class FilterAccessView: UIView {
         initView()
     }
     
-    func initView(){
-        let view = Bundle.main.loadNibNamed("FilterAccessView", owner: self, options: nil)?.first as! UIView
+    private func initView(){
+        guard let view = Bundle.main.loadNibNamed("FilterAccessView", owner: self, options: nil)?.first as? UIView else { return }
         view.frame = bounds
         addSubview(view)
-        
-        btnPublic.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickPublic (_:))))
-        btnNonPublic.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector (self.onClickNonPublic (_:))))
-        
-        publicSel = FilterManager.sharedInstance.filter.isPublic
-        nonPublicSel = FilterManager.sharedInstance.filter.isNonPublic
-        
-        selectItem(index: 0)
-        selectItem(index: 1)
+       
+        publicButton.isSelected = FilterManager.sharedInstance.filter.isPublic
+        nonPublicButton.isSelected = FilterManager.sharedInstance.filter.isNonPublic
+        setPublicButtonState()
+        setNonPublicButtonState()
     }
     
     @IBAction func onClickInfo(_ sender: Any) {
+        guard !isOnEasyTipView else { return }
+        isOnEasyTipView = !isOnEasyTipView
+        
         var preferences = EasyTipView.Preferences()
-        preferences.drawing.backgroundColor = UIColor(named: "content-secondary")!
-        preferences.drawing.foregroundColor = UIColor(named: "background-secondary")!
+        
+        preferences.drawing.backgroundColor = Colors.contentSecondary.color
+        preferences.drawing.foregroundColor = Colors.backgroundSecondary.color
         preferences.drawing.textAlignment = NSTextAlignment.center
         
         preferences.drawing.arrowPosition = .left
@@ -68,61 +72,66 @@ class FilterAccessView: UIView {
         
         let text = "비개방충전소 : 충전소 설치 건물 거주/이용/관계자 외엔 사용이 불가한 곳"
         EasyTipView.show(forView: self.btnInfo,
-            withinSuperview: self,
-            text: text,
-            preferences: preferences)
-    }
-
-    
-    @objc func onClickPublic(_ sender:UITapGestureRecognizer){
-        publicSel = !publicSel
-        selectItem(index: 0)
-    }
-    @objc func onClickNonPublic(_ sender:UITapGestureRecognizer){
-        nonPublicSel = !nonPublicSel
-        selectItem(index: 1)
+                         withinSuperview: self,
+                         text: text,
+                         preferences: preferences,
+                         delegate: self)
     }
     
-    func selectItem(index: Int){
-        if(index == 0) {
-            if (publicSel){
-                ivPublic.tintColor = bgEnColor
-                lbPublic.textColor = bgEnColor
-            } else {
-                ivPublic.tintColor = bgDisColor
-                lbPublic.textColor = bgDisColor
-            }
-        } else if(index == 1) {
-            if (nonPublicSel){
-                ivNonPublic.tintColor = bgEnColor
-                lbNonPublic.textColor = bgEnColor
-            } else {
-                ivNonPublic.tintColor = bgDisColor
-                lbNonPublic.textColor = bgDisColor
-            }
+    @IBAction func publicButtonTapped(_ sender: Any) {
+        publicButton.isSelected = !publicButton.isSelected
+        setPublicButtonState()
+    }
+    
+    @IBAction func nonPublicButtonTapped(_ sender: Any) {
+        nonPublicButton.isSelected = !nonPublicButton.isSelected
+        setNonPublicButtonState()
+    }
+    
+    private func setPublicButtonState() {
+        if publicButton.isSelected {
+            ivPublic.tintColor = bgEnColor
+            lbPublic.textColor = bgEnColor
+        } else {
+            ivPublic.tintColor = bgDisColor
+            lbPublic.textColor = bgDisColor
         }
         delegate?.onChangedFilter(type: .access)
     }
     
-    func resetFilter() {
-        publicSel = true
-        nonPublicSel = true
-        
-        selectItem(index: 0)
-        selectItem(index: 1)
-    }
-    
-    func applyFilter() {
-        FilterManager.sharedInstance.saveAccessFilter(isPublic: publicSel, nonPublic: nonPublicSel)
-    }
-    
-    func isChanged() -> Bool {
-        var changed = false
-        if (publicSel != FilterManager.sharedInstance.filter.isPublic){
-            changed = true
-        } else if (nonPublicSel != FilterManager.sharedInstance.filter.isNonPublic){
-            changed = true
+    private func setNonPublicButtonState() {
+        if nonPublicButton.isSelected {
+            ivNonPublic.tintColor = bgEnColor
+            lbNonPublic.textColor = bgEnColor
+        } else {
+            ivNonPublic.tintColor = bgDisColor
+            lbNonPublic.textColor = bgDisColor
         }
-        return changed
+        delegate?.onChangedFilter(type: .access)
+    }
+    
+    internal func resetFilter() {
+        publicButton.isSelected = true
+        nonPublicButton.isSelected = true
+        setPublicButtonState()
+        setNonPublicButtonState()
+    }
+    
+    internal func applyFilter() {
+        FilterManager.sharedInstance.saveAccessFilter(isPublic: publicButton.isSelected, nonPublic: nonPublicButton.isSelected)
+    }
+    
+    internal func isChanged() -> Bool {
+        guard publicButton.isSelected == FilterManager.sharedInstance.filter.isPublic else { return true }
+        guard nonPublicButton.isSelected == FilterManager.sharedInstance.filter.isNonPublic else { return true }
+        return false
+    }
+}
+
+// MARK: - EasyTipViewDelegate
+extension FilterAccessView: EasyTipViewDelegate {
+    func easyTipViewDidDismiss(_ tipView: EasyTipView) {}
+    func easyTipViewDidTap(_ tipView: EasyTipView) {
+        isOnEasyTipView = false
     }
 }

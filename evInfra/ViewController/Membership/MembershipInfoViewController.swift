@@ -9,8 +9,10 @@
 import SwiftyJSON
 import Material
 import UIKit
+import RxSwift
+import RxCocoa
 
-internal final class MembershipInfoViewController: UIViewController {
+internal final class MembershipInfoViewController: BaseViewController {
     
     // MARK: UI
     
@@ -40,15 +42,24 @@ internal final class MembershipInfoViewController: UIViewController {
     
     // MARK: SYSTEM FUNC
     
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "회원카드 상세 화면"
         prepareActionBar()
         initView()
+        
+        Observable.combineLatest(tfPwIn.rx.text,
+                         tfCurPwIn.rx.text,
+                         tfPwReIn.rx.text)
+            .map { tfPwIn, tfCurPwIn, tfPwReIn in
+                guard let _tfPwIn = tfPwIn,
+                      let _tfCurPwIn = tfCurPwIn,
+                      let _tfPwReIn = tfPwReIn else { return false }
+                                                                                
+                return !_tfPwIn.isEmpty && !_tfCurPwIn.isEmpty && !_tfPwReIn.isEmpty
+            }
+            .bind(to: btnModify.rx.isEnabled)
+            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,19 +72,23 @@ internal final class MembershipInfoViewController: UIViewController {
     }
     
     func initView() {
-        guard let _memberInfo = self.memberInfo, let _cardNo = _memberInfo.cardNo else { return }
+        guard let _memberInfo = self.memberInfo else { return }
         indicator.isHidden = true
         btnModify.layer.cornerRadius = 4
-        let str = _cardNo.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-");
-        lbCardNo.text = str
+        
+        lbCardNo.text = _memberInfo.displayCardNo
         lbCardStatus.text = _memberInfo.displayStatusDescription
         
         let tap_touch = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
-        view.addGestureRecognizer(tap_touch)
+        view.addGestureRecognizer(tap_touch)        
         
-        tfPwIn.delegate = self
-        tfPwReIn.delegate = self
-        tfCurPwIn.delegate = self
+        btnModify.setBackgroundColor(Colors.backgroundDisabled.color, for: .disabled)
+        btnModify.setBackgroundColor(Colors.gr5.color, for: .normal)
+        
+        btnModify.setTitleColor(Colors.contentDisabled.color, for: .disabled)
+        btnModify.setTitleColor(Colors.contentPrimary.color, for: .normal)
+        
+        btnModify.isEnabled = false
     }
     
     func prepareActionBar() {
@@ -191,8 +206,7 @@ internal final class MembershipInfoViewController: UIViewController {
 }
 
 extension MembershipInfoViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {                        
         switch textField {
         case tfPwIn:
             guard !string.isEmpty else { return true }
@@ -211,6 +225,7 @@ extension MembershipInfoViewController: UITextFieldDelegate {
             
         default: break
         }
+        
         return false
     }
     

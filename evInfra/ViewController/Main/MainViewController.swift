@@ -129,7 +129,7 @@ internal final class MainViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        removeObserver()
+        // removeObserver 하면 안됨. addObserver를 viewdidload에서 함        
     }
     
     override func didReceiveMemoryWarning() {
@@ -1010,6 +1010,7 @@ extension MainViewController {
         center.addObserver(self, selector: #selector(saveLastZoomLevel), name: .UIApplicationDidEnterBackground, object: nil)
         center.addObserver(self, selector: #selector(updateMemberInfo), name: Notification.Name("updateMemberInfo"), object: nil)
         center.addObserver(self, selector: #selector(getSharedChargerId(_:)), name: Notification.Name("kakaoScheme"), object: nil)
+        center.addObserver(self, selector: #selector(showSelectCharger), name: Notification.Name("showSelectCharger"), object: nil)
         // [Summary observer]
         center.addObserver(self, selector: #selector(directionStartPoint(_:)), name: Notification.Name(summaryView.startKey), object: nil)
         center.addObserver(self, selector: #selector(directionStartPath(_:)), name: Notification.Name(summaryView.addKey), object: nil)
@@ -1030,6 +1031,18 @@ extension MainViewController {
         center.removeObserver(self, name: Notification.Name(summaryView.navigationKey), object: nil)
         center.removeObserver(self, name: Notification.Name(summaryView.loginKey), object: nil)
         center.removeObserver(self, name: Notification.Name(summaryView.favoriteKey), object: nil)
+    }
+    
+    @objc func showSelectCharger(_ notification: NSNotification) {
+        defer {
+            navigationDrawerController?.toggleLeftView()
+        }
+        
+        guard let chargerId = notification.object as? String else { return }
+        guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
+
+        selectCharger(chargerId: chargerId)
+        naverMapView.moveToCamera(with: NMGLatLng(from: charger.getTMapPoint().coordinate), zoomLevel: 14)
     }
     
     @objc func saveLastZoomLevel() {
@@ -1419,7 +1432,7 @@ extension MainViewController {
                 case "delete":
                     LoginHelper.shared.logout(completion: { success in
                         if success {
-                            GlobalDefine.shared.mainNavi?.navigationDrawerController?.toggleLeftView()
+                            self.navigationDrawerController?.toggleLeftView()
                             Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")                            
                         } else {
                             Snackbar().show(message: "다시 시도해 주세요.")

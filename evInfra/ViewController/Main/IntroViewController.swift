@@ -164,6 +164,6 @@ extension IntroViewController: BoardDelegate {
         appDelegate.appToolbarController = AppToolbarController(rootViewController: mainViewController)
         appDelegate.appToolbarController.delegate = mainViewController
         let ndController = AppNavigationDrawerController(rootViewController: appDelegate.appToolbarController, leftViewController: leftViewController)
-        self.navigationController?.setViewControllers([ndController], animated: true)
+        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)        
     }
 }

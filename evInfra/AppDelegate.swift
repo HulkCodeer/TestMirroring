@@ -10,6 +10,9 @@ import UIKit
 import CoreData
 import Material
 import Firebase
+import FirebaseCore
+import FirebaseCrashlytics
+import FirebaseMessaging
 import FirebaseDynamicLinks
 import UserNotifications
 import AuthenticationServices
@@ -41,8 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func setupEntryController() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
+        let introViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(ofType: IntroViewController.self)
             
         window = UIWindow(frame: Screen.bounds)
         let navigationController = AppNavigationController(rootViewController: introViewController)
