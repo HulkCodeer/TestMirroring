@@ -392,8 +392,8 @@ internal final class LoginHelper: NSObject {
                         property["type"] = UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)
                     }
                     
-                    self.amplitudeManager.logEvent(type: .login(.complteLogin), property: property)
                     self.amplitudeManager.logEvent(type: .login(.clickLoginButton), property: property)
+                    self.amplitudeManager.logEvent(type: .login(.complteLogin), property: property)
 
                     // 즐겨찾기 목록 가져오기
                     ChargerManager.sharedInstance.getFavoriteCharger()
