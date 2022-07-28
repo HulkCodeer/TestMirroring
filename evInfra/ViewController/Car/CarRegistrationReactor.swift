@@ -147,6 +147,22 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
                 Snackbar().show(message: "\(carInfoModel.msg)")
                 return nil
                 
+            case 403:
+                Observable.just(CarRegistrationReactor.Action.setMoveNextView(.carOwner))
+                    .bind(to: self.action)
+                    .disposed(by: self.disposeBag)
+                
+                let popupModel = PopupModel(title: "이미 등록된 차량이에요.",
+                                            message: "중복 차량은 추가 등록할 수 없어요.",
+                                            confirmBtnTitle: "다시 입력")
+
+                let popup = ConfirmPopupViewController(model: popupModel)
+                                            
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
+                return nil
+                
             case 405:
                 Observable.just(CarRegistrationReactor.Action.setMoveNextView(.carOwner))
                     .bind(to: self.action)
