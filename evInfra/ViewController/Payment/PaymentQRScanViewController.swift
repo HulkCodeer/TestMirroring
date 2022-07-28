@@ -34,6 +34,7 @@ class PaymentQRScanViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "QR Scan 화면"
         prepareActionBar()
         prepareView()
         
@@ -43,6 +44,10 @@ class PaymentQRScanViewController: UIViewController {
         preparePaymentCardStatus()
         //테스트 하거나 UI 확인시 아래 주석을 풀어주시기 바랍니다.
 //        self.onResultScan(scanInfo: "{ \"cp_id\": \"GS00002101\", \"connector_id\": \"1\" }")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
 
     override func viewWillDisappear(_ animated: Bool) {

@@ -33,6 +33,7 @@ internal final class ChargerDetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "충전기 정보 상세 화면"
         guard let model = model else { return }
         prepareActionBar(with: "충전기 정보")
         

@@ -24,6 +24,7 @@ class LotteRentInfoViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "롯데렌터카 내카드 정보"
         prepareActionBar()
     }
     

@@ -30,7 +30,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "게시판 상세 화면"
         fetchData()
         setConfiguration()
         prepareActionBar(with: "")

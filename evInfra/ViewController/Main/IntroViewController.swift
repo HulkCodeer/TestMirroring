@@ -56,6 +56,11 @@ class IntroViewController: UIViewController {
             return chargerManagerListener(self)
         } ())
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.title = "인트로 화면"
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

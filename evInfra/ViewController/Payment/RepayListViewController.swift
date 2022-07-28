@@ -48,6 +48,7 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "미수금 결제 내역 화면"
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         prepareActionBar()
         prepareView()
