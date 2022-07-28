@@ -44,6 +44,15 @@ internal final class MembershipUseGuideViewController: BaseViewController, WKUID
         webView.load(requestUrl)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "회원카드 사용 안내 화면"
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     // 추후 딥링크 추가시 필요
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let url = navigationAction.request.url, url.scheme == "evinfra" {

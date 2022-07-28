@@ -38,7 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             setupEntryController()
         }
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
-                        
+        UIViewController.swizzleMethod()
+        
         return true
     }
     

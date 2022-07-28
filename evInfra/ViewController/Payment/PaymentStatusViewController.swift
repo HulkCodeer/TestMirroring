@@ -82,7 +82,7 @@ class PaymentStatusViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "충전 진행 상태 화면"
         prepareActionBar()
         prepareView()
         prepareTextField()

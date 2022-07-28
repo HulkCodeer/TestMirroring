@@ -22,9 +22,15 @@ class FavoriteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "즐겨찾기 화면"
         prepareActionBar()
         prepareTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let favoriteChargers = ChargerManager.sharedInstance.getChargerStationInfoList()
+        AmplitudeManager.shared.setUserProperty(with: favoriteChargers)
     }
     
     func prepareActionBar() {

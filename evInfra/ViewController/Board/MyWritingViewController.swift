@@ -54,6 +54,7 @@ class MyWritingViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Recalculates height
+        self.title = "내가 쓴 글 화면"
         fetchFirstBoard(mid: boardCategory, sort: Board.SortType.LATEST, mode: screenType.rawValue)
     }
 }

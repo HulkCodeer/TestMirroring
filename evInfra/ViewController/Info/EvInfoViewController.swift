@@ -20,7 +20,7 @@ internal final class EvInfoViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "전기차 정보 리스트 화면"
         prepareActionBar(with: "전기차 정보")
         getEvModels()
     }

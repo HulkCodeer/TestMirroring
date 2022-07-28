@@ -26,7 +26,7 @@ class BoardSearchViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "게시판 검색 화면"
         setUI()
         prepareActionBar(with: "게시글 검색")
         
@@ -49,6 +49,10 @@ class BoardSearchViewController: BaseViewController {
             }
             self.fetchSearchResultList(page: self.page)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
 }
 

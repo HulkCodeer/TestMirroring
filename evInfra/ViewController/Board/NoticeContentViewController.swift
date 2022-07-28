@@ -22,7 +22,7 @@ class NoticeContentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "공지사항 상세 화면"
         prepareActionBar()
         
         content.textContainerInset = UIEdgeInsetsMake(16, 16, 16, 16)
@@ -31,6 +31,10 @@ class NoticeContentViewController: UIViewController {
         content.sizeToFit()
         
         getNoticeContent()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     func prepareActionBar() {

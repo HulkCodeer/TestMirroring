@@ -77,7 +77,7 @@ internal final class MyPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.title = "개인정보관리 화면"
         nickNameField.delegate = self
         carNoField.delegate = self
         addrInfoDetailField.delegate = self
@@ -89,6 +89,10 @@ internal final class MyPageViewController: UIViewController {
         prepareView()
         
         getMemberInfo()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     @objc func endEditing() {

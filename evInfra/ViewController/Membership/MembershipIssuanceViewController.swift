@@ -75,6 +75,7 @@ class MembershipIssuanceViewController: UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "회원카드 신청 화면"
         prepareActionBar()
         initView()
     }
