@@ -42,6 +42,7 @@ def shared_pods
   pod 'TTGTagCollectionView'
   pod 'PanModal'
   pod 'NMapsMap'
+  pod 'RxViewController' # https://github.com/devxoul/RxViewController
 end
 
 target 'evInfra' do

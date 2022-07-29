@@ -10,6 +10,11 @@ import ReactorKit
 import SwiftyJSON
 
 internal final class CarRegistrationReactor: ViewModel, Reactor {
+    enum FromViewType {
+        case mypage
+        case signup
+    }
+    
     enum ViewType {
         case carRegister
         case carOwner
@@ -46,7 +51,7 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
     
     enum Mutation {
         case setMoveNextView(ViewType)
-        case setRegisterCarResult(CarInfoModel)
+        case none
     }
     
     struct State {
@@ -76,6 +81,7 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
     
     internal var initialState: State
     internal var paramModel = RegisterCarParamModel()
+    internal var fromViewType: FromViewType = .signup
     
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -91,8 +97,13 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
             return self.provider.postRegisterCar(model: paramModel)
                 .convertData()
                 .compactMap(convertToData)
-                .map { carInfoModel in
-                    return .setRegisterCarResult(carInfoModel)
+                .map { [weak self] carInfoModel in
+                    guard let self = self else { return .none}
+                    let viewcon = CarRegistrationCompleteViewController()
+                    viewcon.reactor = self
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                    
+                    return .none
                 }
                 
         case .setMoveNextView(let viewType):
@@ -117,10 +128,8 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
         switch mutation {
         case .setMoveNextView(let viewType):
             newState.nextViewType = viewType
-                   
-        case .setRegisterCarResult(let carInfoModel):
-            newState.carInfoModel = carInfoModel
-            newState.isRegisterCarComplete = carInfoModel.carNum.isEmpty
+            
+        case .none: break
                     
         }
         return newState
@@ -135,6 +144,8 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
             
             let code = carInfoModel.code
             
+            let popupBtnText = fromViewType == .signup ? "건너뛰고 가입하기":"개인정보 관리로 이동"
+                
             switch code {
             case 200:
                 return carInfoModel
@@ -144,7 +155,15 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
                     .bind(to: self.action)
                     .disposed(by: self.disposeBag)
                 
-                Snackbar().show(message: "\(carInfoModel.msg)")
+                let popupModel = PopupModel(title: "해당하는 정보가 없어요.",
+                                            message: "번호 : \(self.paramModel.carNum)), 소유주 : \(self.paramModel.carOwner)\n입력하신 차량 번호, 소유주에 해당하는 차량이 조회되지 않아요. 다시 한번 정보를 확인해 본 뒤 등록해주세요.",
+                                            confirmBtnTitle: "다시 입력")
+
+                let popup = ConfirmPopupViewController(model: popupModel)
+                                            
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
                 return nil
                 
             case 403:
@@ -168,11 +187,31 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
                     .bind(to: self.action)
                     .disposed(by: self.disposeBag)
                 
-                Snackbar().show(message: "\(carInfoModel.msg)")
+                let popupModel = PopupModel(title: "전기차만 등록할 수 있어요!",
+                                            message: "아쉽지만, EV Infra는 전기차만 등록 가능해요. 다른 차량은 등록할 수 없어요.",
+                                            confirmBtnTitle: "\(popupBtnText)")
+
+                let popup = ConfirmPopupViewController(model: popupModel)
+                                            
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
                 return nil
                             
             default:
-                Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                Observable.just(CarRegistrationReactor.Action.setMoveNextView(.carOwner))
+                    .bind(to: self.action)
+                    .disposed(by: self.disposeBag)
+                
+                let popupModel = PopupModel(title: "차량 등록 서버 오류",
+                                            message: "현재 차량 등록에 대한 정보 서버가 오류 났어요. 죄송하지만, 내일 중으로 다시 시도하면 잘 등록될거에요!",
+                                            confirmBtnTitle: "\(popupBtnText)")
+
+                let popup = ConfirmPopupViewController(model: popupModel)
+                                            
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
                 return nil
             }
                                                              

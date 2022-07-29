@@ -678,6 +678,12 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                     .disposed(by: self.disposeBag)
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.isSignUpComplete }
+            .filter({ $0 })
+            .map { _ in SignUpReactor.Action.updateTerms }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
                         
         nextBtn.rx.tap
             .asDriver()

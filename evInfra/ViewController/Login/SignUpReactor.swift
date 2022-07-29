@@ -23,6 +23,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
         case setAge(String)
         case getSignUpUserData
         case signUp
+        case updateTerms
     }
     
     enum Mutation {
@@ -35,6 +36,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
         case setGender(String)
         case setAge(String)
         case setSignUpUserData
+        case setSignUpComplete(Bool)
         case none
     }
     
@@ -47,7 +49,36 @@ internal final class SignUpReactor: ViewModel, Reactor {
         var signUpUserData: Login
     }
     
+    struct UpdateTermsInfoParamModel: Encodable {
+        var mbId: Int = MemberManager.shared.mbId
+        var list: [TermsInfo] = [TermsInfo].init(repeating: TermsInfo(termsId: "", agree: false), count: 8)
+        
+        enum CodingKeys: String, CodingKey {
+            case mbId = "mb_id"
+            case list
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.mbId, forKey: .mbId)
+            try container.encode(self.list, forKey: .list)
+        }
+        
+        internal func toDict() -> [String: Any] {
+            if let paramData = try? JSONEncoder().encode(self) {
+                if let json = try? JSONSerialization.jsonObject(with: paramData, options: []) as? [String: Any] {
+                    return json ?? [:]
+                } else {
+                    return [:]
+                }
+            } else {
+                return [:]
+            }
+        }
+    }
+    
     internal var initialState: State
+    internal var terms: UpdateTermsInfoParamModel = UpdateTermsInfoParamModel()
     
     init(provider: SoftberryAPI, signUpUserData: Login) {
         self.initialState = State(signUpUserData: signUpUserData)
@@ -119,15 +150,27 @@ internal final class SignUpReactor: ViewModel, Reactor {
                             }
                         }
                     }
-                                                
+                    
+                    MemberManager.shared.setData(data: jsonData)
+                    return .setSignUpComplete(true)
+                }
+            
+        case .updateTerms:
+            return self.provider.postTermsInfo(terms: self.terms)
+                .convertData()
+                .compactMap(convertToData)
+                .map { jsonData in
+                    
                     let reactor = CarRegistrationReactor(provider: RestApi())
+                    reactor.fromViewType = .signup
                     let viewcon = CarRegistrationViewController()
                     viewcon.reactor = reactor
-                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)                    
-                    MemberManager.shared.setData(data: jsonData)
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                                         
                     return .none
                 }
+            
+            
         }
     }
     
@@ -136,7 +179,8 @@ internal final class SignUpReactor: ViewModel, Reactor {
                 
         newState.isValidUserInfo = nil
         newState.isValidUserInforMore = nil
-        newState.genderType = nil        
+        newState.genderType = nil
+        newState.isSignUpComplete = nil
                         
         switch mutation {
         case .setValidUserMoreInfoStep(let isValid):
@@ -161,6 +205,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
             
         case .setPhone(let phone):
             newState.signUpUserData.phoneNo = phone
+            newState.signUpUserData.displayPhoneNumber = phone
             
         case .setGender(let gender):
             newState.signUpUserData.gender = gender
@@ -169,6 +214,9 @@ internal final class SignUpReactor: ViewModel, Reactor {
         case .setAge(let age):
             newState.signUpUserData.ageRange = age
             newState.signUpUserData.displayAgeRang = age
+            
+        case .setSignUpComplete(let isSignUpComplete):
+            newState.isSignUpComplete = isSignUpComplete
             
         case .none: break
         }

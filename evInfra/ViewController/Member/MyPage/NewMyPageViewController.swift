@@ -10,6 +10,8 @@ import ReactorKit
 import ReusableKit
 import RxDataSources
 import SwiftyJSON
+import RxViewController
+
 
 internal final class NewMyPageViewController: CommonBaseViewController, StoryboardView {
     typealias MainDataSource = RxTableViewSectionedReloadDataSource<MyCarListSectionModel>
@@ -17,6 +19,7 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
     private enum Reusable {
         static let myPageCarListCell = ReusableCell<MyPageCarListCell>(nibName: MyPageCarListCell.reuseID)
         static let myPageCarEmptyCell = ReusableCell<MyPageCarEmptyCell>(nibName: MyPageCarEmptyCell.reuseID)
+        static let myPageCarAddCell = ReusableCell<MyPageCarAddCell>(nibName: MyPageCarAddCell.reuseID)
     }
     
     // MARK: UI
@@ -32,7 +35,8 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
     
     private lazy var profileImgView = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = Icons.iconProfileEmpty.image        
+        $0.image = Icons.iconProfileEmpty.image
+        $0.contentMode = .scaleAspectFill
     }
     
     private lazy var userInfoTotalView = UIStackView().then {
@@ -76,11 +80,12 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.register(Reusable.myPageCarListCell)
         $0.register(Reusable.myPageCarEmptyCell)
+        $0.register(Reusable.myPageCarAddCell)
         $0.backgroundColor = UIColor.clear
         $0.separatorStyle = .none
         $0.rowHeight = UITableViewAutomaticDimension
         $0.estimatedRowHeight = 72
-        $0.allowsSelection = true
+        $0.allowsSelection = false
         $0.allowsSelectionDuringEditing = false
         $0.isMultipleTouchEnabled = false
         $0.allowsMultipleSelection = false
@@ -100,6 +105,11 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
             
         case .myCarEmptyItem(let reactor):
             let cell = tableView.dequeue(Reusable.myPageCarEmptyCell, for: indexPath)
+            cell.reactor = reactor
+            return cell
+            
+        case .addMyCarItem(let reactor):
+            let cell = tableView.dequeue(Reusable.myPageCarAddCell, for: indexPath)
             cell.reactor = reactor
             return cell
         }
@@ -182,8 +192,15 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
     }
     
     func bind(reactor: MyPageReactor) {
-        Observable.just(MyPageReactor.Action.getMyCarList)
-            .bind(to: reactor.action)
+        self.rx.viewWillAppear
+            .mapToVoid()
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                Observable.just(MyPageReactor.Action.getMyCarList)
+                    .bind(to: reactor.action)
+                    .disposed(by: self.disposeBag)
+            })
             .disposed(by: self.disposeBag)
         
         reactor.state.map { $0.sections}
@@ -205,6 +222,7 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
 enum MyCarListItem {
     case myCarInfoItem(reactor: MyPageCarListReactor)
     case myCarEmptyItem(reactor: MyPageCarListReactor)
+    case addMyCarItem(reactor: MyPageCarListReactor)
 }
 
 struct MyCarListSectionModel {

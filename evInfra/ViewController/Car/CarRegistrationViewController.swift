@@ -195,7 +195,7 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
     ]
     
     private let ownerNoticeInfoArray: [String] = [
-        "∙ 공동명의 차량인 경우\n  대표 소유자명으로 입력해주세요.",
+        "∙ 공동명의 차량인 경우\n   대표 소유자명으로 입력해주세요.",
         "∙ 전기차가 아닌 차량은 등록할 수 없어요. ",
         "∙ 법인/리스 차량은 등록이 어려워요.",
         "∙ 차량 출고 및 등록 당일은 정보 조회가 안될 수 있어요."
@@ -221,6 +221,13 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
             $0.trailing.equalToSuperview().offset(-16)
             $0.centerY.equalTo(naviTotalView.snp.centerY)
             $0.height.equalTo(20)
+        }
+        
+        self.contentView.addSubview(skipBtn)
+        skipBtn.snp.makeConstraints {
+            $0.center.equalTo(skipTitleLbl.snp.center)
+            $0.width.equalTo(skipTitleLbl.snp.width)
+            $0.height.equalTo(44)
         }
         
         self.contentView.addSubview(nextBtn)
@@ -380,6 +387,9 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
     }
     
     internal func bind(reactor: CarRegistrationReactor) {
+        skipTitleLbl.isHidden = reactor.fromViewType == .signup
+        skipBtn.isHidden = reactor.fromViewType == .signup
+        
         nextBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
@@ -426,7 +436,7 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
                 default: break
                 }
             })
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.disposeBag)                
     }
     
     private func createNoticeView(noticeDesc: String) -> UILabel {

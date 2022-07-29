@@ -825,12 +825,12 @@
 		82DC20632877347A00CF04D9 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DC20612877347A00CF04D9 /* UITableView+Extension.swift */; };
 		82DD3CDD287E7B1C00C863AF /* SignUpReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDC287E7B1C00C863AF /* SignUpReactor.swift */; };
 		82DD3CDE287E7B1C00C863AF /* SignUpReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDC287E7B1C00C863AF /* SignUpReactor.swift */; };
-		82DD3CE0287E9F6F00C863AF /* TermsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDF287E9F6F00C863AF /* TermsModel.swift */; };
-		82DD3CE1287E9F6F00C863AF /* TermsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CDF287E9F6F00C863AF /* TermsModel.swift */; };
 		82DD3CE4287EA26900C863AF /* NewSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CE3287EA26900C863AF /* NewSignUpViewController.swift */; };
 		82DD3CE5287EA26900C863AF /* NewSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD3CE3287EA26900C863AF /* NewSignUpViewController.swift */; };
 		82E03191286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		82E03192286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
+		82F04D4F2893A5F9003479B9 /* TermsInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F04D4E2893A5F9003479B9 /* TermsInfoModel.swift */; };
+		82F04D502893A5F9003479B9 /* TermsInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F04D4E2893A5F9003479B9 /* TermsInfoModel.swift */; };
 		82FB2BD32890B6FA001E4A43 /* ModifyMyPageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FB2BD22890B6FA001E4A43 /* ModifyMyPageReactor.swift */; };
 		82FB2BD42890B6FA001E4A43 /* ModifyMyPageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FB2BD22890B6FA001E4A43 /* ModifyMyPageReactor.swift */; };
 		82FC803E28880127000617BE /* Arrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FC803A28880127000617BE /* Arrow.swift */; };
@@ -1349,9 +1349,9 @@
 		82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoReactor.swift; sourceTree = "<group>"; };
 		82DC20612877347A00CF04D9 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		82DD3CDC287E7B1C00C863AF /* SignUpReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpReactor.swift; sourceTree = "<group>"; };
-		82DD3CDF287E9F6F00C863AF /* TermsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsModel.swift; sourceTree = "<group>"; };
 		82DD3CE3287EA26900C863AF /* NewSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSignUpViewController.swift; sourceTree = "<group>"; };
 		82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitAccountCompleteViewController.swift; sourceTree = "<group>"; };
+		82F04D4E2893A5F9003479B9 /* TermsInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsInfoModel.swift; sourceTree = "<group>"; };
 		82FB2BD22890B6FA001E4A43 /* ModifyMyPageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyMyPageReactor.swift; sourceTree = "<group>"; };
 		82FC803A28880127000617BE /* Arrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arrow.swift; sourceTree = "<group>"; };
 		82FC803B28880127000617BE /* NavigationClose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationClose.swift; sourceTree = "<group>"; };
@@ -1929,7 +1929,7 @@
 			isa = PBXGroup;
 			children = (
 				63762F412869A8F000C951BF /* QuitAccountReasonModel.swift */,
-				82DD3CDF287E9F6F00C863AF /* TermsModel.swift */,
+				82F04D4E2893A5F9003479B9 /* TermsInfoModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3140,6 +3140,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxViewController/RxViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework",
@@ -3190,6 +3191,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyGif.framework",
@@ -3250,6 +3252,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxViewController/RxViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework",
@@ -3300,6 +3303,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyGif.framework",
@@ -3457,7 +3461,6 @@
 				63F313FA284EC74F001713D2 /* InfoCollectionViewCell.swift in Sources */,
 				63F313FB284EC74F001713D2 /* UIImage+Extension.swift in Sources */,
 				63F313FC284EC74F001713D2 /* MembershipReissuanceInfoViewController.swift in Sources */,
-				82DD3CE1287E9F6F00C863AF /* TermsModel.swift in Sources */,
 				63F313FD284EC74F001713D2 /* HSUnderLineTextField.swift in Sources */,
 				63F313FE284EC74F001713D2 /* CompanyTableViewCell.swift in Sources */,
 				63F313FF284EC74F001713D2 /* BedgeButton.swift in Sources */,
@@ -3521,6 +3524,7 @@
 				82E03192286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */,
 				82FC804528880127000617BE /* ChevronArrow.swift in Sources */,
 				63F31432284EC74F001713D2 /* EVIcon.swift in Sources */,
+				82F04D502893A5F9003479B9 /* TermsInfoModel.swift in Sources */,
 				63A3CAEF288969AA00891BE4 /* UserInfoModel.swift in Sources */,
 				63F31433284EC74F001713D2 /* URL+Extension.swift in Sources */,
 				63F31434284EC74F001713D2 /* LeftViewController.swift in Sources */,
@@ -3746,6 +3750,7 @@
 				52B709D7279929CE006C5706 /* BoardDetailTableViewHeader.swift in Sources */,
 				193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */,
 				821A05ED2862906800EB1A91 /* CommonNaviView.swift in Sources */,
+				82F04D4F2893A5F9003479B9 /* TermsInfoModel.swift in Sources */,
 				82B050A7288A3F91008C7D11 /* CarInfoModel.swift in Sources */,
 				63F3154F284F0809001713D2 /* Icons+Generated.swift in Sources */,
 				902A11D7248F56610049EF8E /* StationStatusDto.swift in Sources */,
@@ -3956,7 +3961,6 @@
 				DB306368221BD5CD00D1276E /* Server.swift in Sources */,
 				00CF1777278EA644007D8E4E /* AcceptTermsViewController.swift in Sources */,
 				CE33B4BD2191BA1200B6C632 /* EventContentsViewController.swift in Sources */,
-				82DD3CE0287E9F6F00C863AF /* TermsModel.swift in Sources */,
 				DB5FA59622C20A8400F1508A /* ChargesViewController.swift in Sources */,
 				82D986812839BE080030F0FC /* ViewModel.swift in Sources */,
 				82FC804028880127000617BE /* NavigationClose.swift in Sources */,

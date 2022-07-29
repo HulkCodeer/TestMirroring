@@ -93,8 +93,27 @@ internal final class MyPageReactor: ViewModel, Reactor {
             let reactor = MyPageCarListReactor(model: carInfoModel)
             items.append(.myCarInfoItem(reactor: reactor))
         }
+                
+        items.append(self.createAddMyCarItem())
                         
         return items
+    }
+    
+    private func createAddMyCarItem() -> MyCarListItem {
+        let reactor = MyPageCarListReactor(model: CarInfoModel(JSON.null))
+        
+        reactor.state.compactMap { $0.isMove }
+            .asDriver(onErrorJustReturn: true)
+            .drive(onNext: { _ in
+                let reactor = CarRegistrationReactor(provider: RestApi())
+                reactor.fromViewType = .mypage
+                let viewcon = CarRegistrationViewController()
+                viewcon.reactor = reactor
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            })
+            .disposed(by: self.disposeBag)
+        
+        return .addMyCarItem(reactor: reactor)
     }
     
     private func createMyCarEmptyItem() -> MyCarListItem {
@@ -104,6 +123,7 @@ internal final class MyPageReactor: ViewModel, Reactor {
             .asDriver(onErrorJustReturn: true)
             .drive(onNext: { _ in                
                 let reactor = CarRegistrationReactor(provider: RestApi())
+                reactor.fromViewType = .mypage
                 let viewcon = CarRegistrationViewController()
                 viewcon.reactor = reactor
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)

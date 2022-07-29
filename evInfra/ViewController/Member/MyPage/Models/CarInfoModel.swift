@@ -63,6 +63,7 @@ struct CarInfoModel: ServerResultProtocol {
         var mdRep: String
         var mdSep: String
         var regDate: Date
+        var cmpy: String
         
         init(_ json: JSON){
             self.carSep = json["carSep"].stringValue
@@ -71,6 +72,7 @@ struct CarInfoModel: ServerResultProtocol {
             self.mdRep = json["mdRep"].stringValue
             self.mdSep = json["mdSep"].stringValue
             self.regDate = json["regDate"].dateValue
+            self.cmpy = json["cmpy"].stringValue
         }
     }
     

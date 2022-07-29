@@ -54,6 +54,20 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController, Sto
             case .none: return ""
             }
         }
+        
+        internal var key: String {
+            switch self {
+            case .serviceUse: return "service_use"
+            case .privacyAgree: return "privacy_agree_v2"
+            case .privacyPolicy: return "privacy_policy_v2"
+            case .serviceLocation: return "service_location"
+            case .contents: return "content"
+            case .marketing: return "maketing"
+            case .ad: return "ad"
+            case .age: return "14"
+            case .none: return ""
+            }
+        }
     }
     
     // MARK: UI
@@ -142,10 +156,9 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController, Sto
     internal func bind(reactor: SignUpReactor) {
         nextBtn.rx.tap
             .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
+            .drive(onNext: { _ in
                 let viewcon = NewSignUpViewController()
-                viewcon.reactor = reactor                
+                viewcon.reactor = reactor
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)
@@ -228,9 +241,10 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController, Sto
         self.allAcceptTitleBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] in
-                guard let self = self else { return }
+                guard let self = self, let _reactor = self.reactor else { return }
                 for (index, _) in self.cellViewModels.enumerated() {
                     self.isCheckedCells[index] = !self.allAcceptCheckBtn.isSelected
+                    _reactor.terms.list[index].agree = !self.allAcceptCheckBtn.isSelected
                 }
                 self.nextBtn.isEnabled = !self.allAcceptCheckBtn.isSelected
                 self.allAcceptCheckBtn.isSelected = !self.allAcceptCheckBtn.isSelected
@@ -262,8 +276,12 @@ extension NewAcceptTermsViewController: UITableViewDelegate, UITableViewDataSour
         let index = indexPath.row
         let termsType = TermsType(value: index)
         let model = AceeptTermsCellViewModel(with: termsType, isChecked: isCheckedCells[index], index: index)
-                    
         cellViewModels[index] = model
+        
+        if let _reactor = self.reactor {
+            _reactor.terms.list[index].termsId = termsType.key
+            _reactor.terms.list[index].agree = isCheckedCells[index]
+        }
         
         model.tappedMoveObservable
             .asDriver(onErrorJustReturn: -1)
@@ -305,9 +323,10 @@ extension NewAcceptTermsViewController: UITableViewDelegate, UITableViewDataSour
             .drive(onNext: { [weak self] isChecked in
                 guard let self = self else { return }
                 self.isCheckedCells[index] = isChecked
-                
+                if let _reactor = self.reactor {                    
+                    _reactor.terms.list[index].agree = isChecked
+                }
                 self.nextBtn.isEnabled = self.isCheckedCells[0...3].allSatisfy({ $0 }) && self.isCheckedCells.last == true
-                
                 self.allAcceptCheckBtn.isSelected = self.isCheckedCells.allSatisfy({ $0 })
             })
             .disposed(by: self.disposeBag)

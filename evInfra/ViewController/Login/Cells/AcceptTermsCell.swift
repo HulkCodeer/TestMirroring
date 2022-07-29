@@ -139,6 +139,7 @@ internal final class AcceptTermsCell: UITableViewCell {
     }
 }
 
+// 리팩토링 대상
 internal final class AceeptTermsCellViewModel: NSObject {
     internal let index: Int
     internal let termsTypeData: Driver<NewAcceptTermsViewController.TermsType>
