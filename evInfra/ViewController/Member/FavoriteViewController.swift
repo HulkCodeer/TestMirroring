@@ -9,7 +9,7 @@
 import UIKit
 import Material
 
-class FavoriteViewController: UIViewController {
+class FavoriteViewController: BaseViewController {
 
     @IBOutlet weak var tableView: ChargerTableView!
     @IBOutlet var emptyView: UIView!
@@ -23,7 +23,7 @@ class FavoriteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "즐겨찾기 화면"
-        prepareActionBar()
+        prepareActionBar(with: "즐겨찾기")
         prepareTableView()
     }
     

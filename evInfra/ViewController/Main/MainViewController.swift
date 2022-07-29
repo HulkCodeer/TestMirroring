@@ -410,7 +410,7 @@ extension MainViewController: DelegateFilterBarView {
             if isLogin {
                 let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
                 favoriteViewController.delegate = self
-                self.present(AppNavigationController(rootViewController: favoriteViewController), animated: true, completion: nil)
+                GlobalDefine.shared.mainNavi?.push(viewController: favoriteViewController, subtype: kCATransitionFromTop)
             } else {
                 MemberManager.shared.showLoginAlert()
             }
