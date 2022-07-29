@@ -55,6 +55,7 @@ class LotteRentCertificateViewController : UIViewController,
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if let result = payRegistResult {
             updateAfterPayRegist(json: result)
         } else {

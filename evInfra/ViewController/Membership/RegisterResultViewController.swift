@@ -49,6 +49,7 @@ class RegisterResultViewController : UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         print("img : " + imgType)
         switch imgType {
         case "SUCCESS" :
