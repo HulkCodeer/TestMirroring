@@ -278,11 +278,11 @@ internal final class LoginHelper: NSObject {
                                 }
                                 
                                 MemberManager.shared.setData(data: json)
-                                self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
-                                self.amplitudeManager.setUserProperty()
                                 
                                 let property: [String: Any] = ["type": String(Login.LoginType.apple.description)]
                                 self.amplitudeManager.logEvent(type: .login(.clickLoginButton), property: property)
+                                self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
+                                self.amplitudeManager.setUserProperty()
                                 self.amplitudeManager.logEvent(type: .login(.complteLogin), property: property)
 
                                 // 즐겨찾기 목록 가져오기
@@ -335,11 +335,11 @@ internal final class LoginHelper: NSObject {
                                         delegate.successLogin()
                                     }
                                     MemberManager.shared.setData(data: json)
-                                    self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
-                                    self.amplitudeManager.setUserProperty()
                                     
                                     let property: [String: Any] = ["type" : String(Login.LoginType.apple.description)]
                                     self.amplitudeManager.logEvent(type: .login(.clickLoginButton), property: property)
+                                    self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
+                                    self.amplitudeManager.setUserProperty()
                                     self.amplitudeManager.logEvent(type: .login(.complteLogin), property: property)
 
                                     // 즐겨찾기 목록 가져오기
@@ -382,8 +382,6 @@ internal final class LoginHelper: NSObject {
                     }
                     
                     MemberManager.shared.setData(data: json)
-                    self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
-                    self.amplitudeManager.setUserProperty()
                     
                     var property = [String: Any]()
                     if let user = user {
@@ -393,6 +391,8 @@ internal final class LoginHelper: NSObject {
                     }
                     
                     self.amplitudeManager.logEvent(type: .login(.clickLoginButton), property: property)
+                    self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
+                    self.amplitudeManager.setUserProperty()
                     self.amplitudeManager.logEvent(type: .login(.complteLogin), property: property)
 
                     // 즐겨찾기 목록 가져오기
