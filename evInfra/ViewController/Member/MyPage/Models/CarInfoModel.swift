@@ -28,14 +28,14 @@ struct CarInfoModel: ServerResultProtocol {
     var msg: String
     var carNum: String
     var evType: String
-    var mainCar: Bool
+    var mainCar: Bool // 대표 차량일 경우 여부
     var carType: Int
     
     var carOwner: String
     var appRegDate: Date
     
-    var dpYes: DpYes
-    var dpNo: DpNo
+    var dpYes: DpYes // 화면에 보여질 내용
+    var dpNo: DpNo // 앱 내부에서 처리할 내용
     var series: Series
     
     var dk: String
@@ -57,13 +57,15 @@ struct CarInfoModel: ServerResultProtocol {
     }
     
     struct DpYes {
-        var carSep: String
+        var carSep: String // 차종
         var img: String
         var btryCpcty: String
         var mdRep: String
         var mdSep: String
         var regDate: Date
         var cmpy: String
+        var pwrMax: String // 최대 출력
+        var brthY: String // 연식
         
         init(_ json: JSON){
             self.carSep = json["carSep"].stringValue
@@ -73,6 +75,7 @@ struct CarInfoModel: ServerResultProtocol {
             self.mdSep = json["mdSep"].stringValue
             self.regDate = json["regDate"].dateValue
             self.cmpy = json["cmpy"].stringValue
+            self.pwrMax = json["pwrMax"].stringValue
         }
     }
     

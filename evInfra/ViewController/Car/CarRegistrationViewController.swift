@@ -387,8 +387,8 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
     }
     
     internal func bind(reactor: CarRegistrationReactor) {
-        skipTitleLbl.isHidden = reactor.fromViewType == .signup
-        skipBtn.isHidden = reactor.fromViewType == .signup
+        skipTitleLbl.isHidden = reactor.fromViewType == .mypage
+        skipBtn.isHidden = reactor.fromViewType == .mypage
         
         nextBtn.rx.tap
             .asDriver()

@@ -8,8 +8,7 @@
 
 struct TermsInfo: Encodable {
     var termsId: String
-    var agree: Bool
-    var termsType = NewAcceptTermsViewController.TermsType.none
+    var agree: Bool    
     
     enum CodingKeys: String, CodingKey {
         case termsId = "terms_id"

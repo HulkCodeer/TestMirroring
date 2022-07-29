@@ -23,7 +23,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
         case setAge(String)
         case getSignUpUserData
         case signUp
-        case updateTerms
+        case updateTerms(String)
     }
     
     enum Mutation {
@@ -36,7 +36,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
         case setGender(String)
         case setAge(String)
         case setSignUpUserData
-        case setSignUpComplete(Bool)
+        case setSignUpComplete(String)
         case none
     }
     
@@ -44,7 +44,7 @@ internal final class SignUpReactor: ViewModel, Reactor {
         var isValidUserInfo: UserInfoStepValidation?
         var isValidUserInforMore: Bool?
         var genderType: Login.Gender?
-        var isSignUpComplete: Bool?        
+        var isSignUpComplete: String?        
         
         var signUpUserData: Login
     }
@@ -152,10 +152,11 @@ internal final class SignUpReactor: ViewModel, Reactor {
                     }
                     
                     MemberManager.shared.setData(data: jsonData)
-                    return .setSignUpComplete(true)
+                    return .setSignUpComplete(mbId)
                 }
             
-        case .updateTerms:
+        case .updateTerms(let mbId):
+            self.terms.mbId = Int(mbId) ?? 0
             return self.provider.postTermsInfo(terms: self.terms)
                 .convertData()
                 .compactMap(convertToData)

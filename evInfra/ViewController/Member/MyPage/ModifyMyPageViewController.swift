@@ -441,10 +441,7 @@ internal final class ModifyMyPageViewController: CommonBaseViewController, Story
             $0.trailing.lessThanOrEqualToSuperview()
             $0.bottom.greaterThanOrEqualToSuperview().offset(-30)
         }
-                                
-        printLog(out: "image name : \(UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME))")
-        profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME))"), placeholderImage: Icons.iconProfileEmpty.image)
-        
+                                                
         nickNameTf.text = MemberManager.shared.memberNickName
         emailTf.text = MemberManager.shared.email
         phoneTf.text = MemberManager.shared.phone
@@ -467,12 +464,23 @@ internal final class ModifyMyPageViewController: CommonBaseViewController, Story
             }
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        printLog(out: "image name : \(UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME))")
+        profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
+    }
                 
     func bind(reactor: ModifyMyPageReactor) {                        
         reactor.state.compactMap { $0.isModify }
-            .map { $0.nickname && $0.ageRange && $0.gender }
             .asDriver(onErrorJustReturn: false)
             .drive(saveBtn.rx.isEnabled)
+            .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.profileImg }
+            .asDriver(onErrorJustReturn: UIImage())
+            .drive(profileImgView.rx.image)
             .disposed(by: self.disposeBag)
         
         profileEditBtn.rx.tap
@@ -483,7 +491,7 @@ internal final class ModifyMyPageViewController: CommonBaseViewController, Story
             })
             .disposed(by: self.disposeBag)
         
-        emailTf.rx.text
+        nickNameTf.rx.text
             .asDriver(onErrorJustReturn: "")
             .drive(onNext: { text in
                 Observable.just(ModifyMyPageReactor.Action.setNickname(text ?? ""))
@@ -640,7 +648,11 @@ extension ModifyMyPageViewController : UIImageCropperProtocol {
         guard let _reactor = self.reactor,
                 let _img = croppedImage,
                 let _imgData = UIImageJPEGRepresentation(_img, 1.0) else { return }
-        Observable.just(ModifyMyPageReactor.Action.setProfileImg(_imgData))
+        Observable.just(ModifyMyPageReactor.Action.setProfileImgData(_imgData))
+            .bind(to: _reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        Observable.just(ModifyMyPageReactor.Action.setProfileImg(_img))
             .bind(to: _reactor.action)
             .disposed(by: self.disposeBag)
     }

@@ -180,7 +180,6 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
         }
         
         profileImgView.IBcornerRadius = 56 / 2
-        profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME))"), placeholderImage: Icons.iconProfileEmpty.image)
         nickNameLbl.text = MemberManager.shared.memberNickName
         guard !MemberManager.shared.ageRange.isEmpty, !MemberManager.shared.gender.isEmpty else { return }
         userMoreInfoLbl.text = "\(MemberManager.shared.ageRange), \(MemberManager.shared.gender)"
@@ -189,6 +188,8 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
+        printLog(out: "PARK TEST image : \(Const.urlProfileImage)\(MemberManager.shared.profileImage)")
+        profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
     }
     
     func bind(reactor: MyPageReactor) {
@@ -209,10 +210,16 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
         
         modifyUserInfoBtn.rx.tap
             .asDriver()
-            .drive(onNext: { _ in
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 let reactor = ModifyMyPageReactor(provider: reactor.provider)
                 let viewcon = ModifyMyPageViewController()
                 viewcon.reactor = reactor
+                
+                reactor.state.compactMap { $0.profileImg }
+                    .bind(to: self.profileImgView.rx.image)
+                    .disposed(by: self.disposeBag)
+                
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)

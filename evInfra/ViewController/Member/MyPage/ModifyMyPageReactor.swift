@@ -11,15 +11,14 @@ import SwiftyJSON
 import UIKit
 
 internal final class ModifyMyPageReactor: ViewModel, Reactor {
-    typealias CheckChangeMemberInfo = (nickname: Bool, gender: Bool, ageRange: Bool)
-    
     enum Action {
         case updateMemberInfo
         case setGenderType(Login.Gender)
         case setNickname(String)
         case setGender(String)
         case setAge(String)
-        case setProfileImg(Data)        
+        case setProfileImgData(Data)
+        case setProfileImg(UIImage)
     }
     
     enum Mutation {
@@ -27,57 +26,41 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
         case setNickname(String)
         case setGender(String)
         case setAge(String)
-        case setCheckChangeMemberInfo(CheckChangeMemberInfo)
+        case setCheckChangeMemberInfo(Bool)
+        case setProfileName(String)
+        case setProfileImgData(Data)
+        case setProfileImg(UIImage)
         case none
     }
     
     struct State {
         var genderType: Login.Gender?
-        var isModify: CheckChangeMemberInfo?
+        var isModify: Bool?
+        var profileImgData: Data?
+        var profileImg: UIImage?
         
-        var checkChangeMemberInfo: CheckChangeMemberInfo = (false, false, false)        
         var memberInfo: UpdateMemberInfoParamModel = UpdateMemberInfoParamModel()
     }
     
-    struct UpdateMemberInfoParamModel: Encodable {
-        var memId: Int = MemberManager.shared.mbId
+    struct UpdateMemberInfoParamModel {
+        var mbId: Int = MemberManager.shared.mbId
         var nickname: String = MemberManager.shared.memberNickName
         var ageRange: String = MemberManager.shared.ageRange
         var gender: String = MemberManager.shared.gender
         var profileName: String = MemberManager.shared.profileImage
         
-        enum CodingKeys: String, CodingKey {
-            case memId = "mb_id"
-            case nickname
-            case ageRange = "age_range"
-            case gender
-            case profileName = "profile"
-        }
-        
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.memId, forKey: .memId)
-            try container.encode(self.nickname, forKey: .nickname)
-            try container.encode(self.ageRange, forKey: .ageRange)
-            try container.encode(self.gender, forKey: .gender)
-            try container.encode(self.profileName, forKey: .profileName)
-        }
-        
         internal func toDict() -> [String: Any] {
-            if let paramData = try? JSONEncoder().encode(self) {
-                if let json = try? JSONSerialization.jsonObject(with: paramData, options: []) as? [String: Any] {
-                    return json ?? [:]
-                } else {
-                    return [:]
-                }
-            } else {
-                return [:]
-            }
+            var dict = [String: Any]()
+            dict["mb_id"] = self.mbId
+            dict["nickname"] = self.nickname
+            dict["age_range"] = self.ageRange
+            dict["gender"] = self.gender
+            dict["profile"] = self.profileName
+            return dict
         }
     }
             
     internal var initialState: State
-    private var profileImgData: Data = Data()
     
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -100,15 +83,11 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
                     
                     DispatchQueue.global(qos: .background).async { [weak self] in
                         guard let self = self else { return }
-                        
-                        let memberId = MemberManager.shared.memberId
-                        let curTime = Int64(NSDate().timeIntervalSince1970 * 1000)
-                        let profileName = memberId + "_" + "\(curTime).jpg"
-                        
-                        Server.uploadImage(data: self.profileImgData, filename: profileName, kind: Const.CONTENTS_THUMBNAIL, targetId: "\(MemberManager.shared.mbId)", completion: { (isSuccess, value) in
-                            let json = JSON(value)
+                        printLog(out: "\(self.currentState.memberInfo.profileName)")
+                        Server.uploadImage(data: self.currentState.profileImgData ?? Data(), filename: self.currentState.memberInfo.profileName, kind: Const.CONTENTS_THUMBNAIL, targetId: "\(MemberManager.shared.mbId)", completion: { (isSuccess, value) in
+                            printLog(out: "PARK TEST : \(JSON(value))")
                             if isSuccess {
-                                MemberManager.shared.profileImage = profileName
+                                MemberManager.shared.profileImage = self.currentState.memberInfo.profileName
                             }
                         })
                     }
@@ -119,23 +98,30 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
                 }
             
         case .setGenderType(let genderType):
-            return .just(.setGenderType(genderType))
+            return .concat([.just(.setGenderType(genderType)),
+                            .just(.setCheckChangeMemberInfo(true))])
                                 
         case .setNickname(let nickName):
             return .concat([.just(.setNickname(nickName)),
-                            .just(.setCheckChangeMemberInfo((nickname: initialState.memberInfo.nickname == nickName,
-                                                             gender: currentState.checkChangeMemberInfo.gender,
-                                                             ageRange: currentState.checkChangeMemberInfo.ageRange)))])
+                            .just(.setCheckChangeMemberInfo(true))])
                                 
         case .setGender(let gender):
             return .just(.setGender(gender))
             
         case .setAge(let age):
-            return .just(.setAge(age))
+            return .concat([.just(.setAge(age)),
+                            .just(.setCheckChangeMemberInfo(true))])
             
-        case .setProfileImg(let profileImgData):
-            self.profileImgData = profileImgData
-            return .empty()
+        case .setProfileImgData(let profileImgData):
+            let memberId = MemberManager.shared.memberId
+            let curTime = Int64(NSDate().timeIntervalSince1970 * 1000)
+            let profileName = memberId + "_" + "\(curTime).jpg"
+            return .concat([.just(.setProfileImgData(profileImgData)),
+                            .just(.setProfileName(profileName)),
+                            .just(.setCheckChangeMemberInfo(true))])
+            
+        case .setProfileImg(let profileImg):
+            return .just(.setProfileImg(profileImg))
         }
     }
     
@@ -160,9 +146,17 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
             
         case .setCheckChangeMemberInfo(let isModify):
             newState.isModify = isModify
+            
+        case .setProfileName(let profileName):
+            newState.memberInfo.profileName = profileName
+            
+        case .setProfileImg(let profileImg):
+            newState.profileImg = profileImg
+            
+        case .setProfileImgData(let profileImgData):
+            newState.profileImgData = profileImgData
                                 
         case .none: break
-        
         }
         return newState
     }

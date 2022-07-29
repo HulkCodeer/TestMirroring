@@ -680,8 +680,8 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
             .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.isSignUpComplete }
-            .filter({ $0 })
-            .map { _ in SignUpReactor.Action.updateTerms }
+            .filter({ !$0.isEmpty })
+            .map { mbId in SignUpReactor.Action.updateTerms(mbId) }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
                         

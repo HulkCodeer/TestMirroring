@@ -11,6 +11,57 @@ import UIKit
 
 internal final class CarRegistrationCompleteViewController: CommonBaseViewController, StoryboardView {
 
+    enum CarInfoType: CaseIterable {
+        case cpcty // 공인 전비
+        case btrycpcty // 배터리 용량
+        case drvcpcty // 주행거리
+        
+        internal var typeDesc: String {
+            switch self {
+            case .cpcty: return "공인 전비"
+            case .btrycpcty: return "배터리용량"
+            case .drvcpcty: return "주행거리"
+            }
+        }
+        
+        internal var typeUnit: String {
+            switch self {
+            case .cpcty: return "km/kWh"
+            case .btrycpcty: return "kW"
+            case .drvcpcty: return "km"
+            }
+        }
+    }
+    
+    enum CarBasicInfoType: CaseIterable {
+        case pwrMax // 최대출력
+        case carSep // 차종
+        case brthY // 연식
+        
+        internal var typeDesc: String {
+            switch self {
+            case .pwrMax: return "최대출력"
+            case .carSep: return "차종"
+            case .brthY: return "연식"
+            }
+        }
+        
+        internal var typeUnit: String {
+            switch self {
+            case .pwrMax: return "kW"
+            default: return ""
+            }
+        }
+        
+        internal var icon: UIImage {
+            switch self {
+            case .pwrMax: return Icons.iconElectricSm.image
+            case .carSep: return Icons.iconEvSm.image
+            case .brthY: return Icons.iconCalendarSm.image
+            }
+        }
+    }
+    
     // MARK: UI
             
     private lazy var naviTotalView = CommonNaviView().then {
@@ -34,7 +85,7 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
     private lazy var welcomeGuideLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = Colors.contentPrimary.color
-        $0.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.text = "짠! 차량을 등록 완료했어요!️"
     }
     
@@ -83,7 +134,30 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
     private lazy var carMakeCompanyLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = Colors.contentPrimary.color
-        $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        $0.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        $0.text = ""
+    }
+    
+    private lazy var carInfoTotalStackView = UIStackView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.axis = .horizontal
+        $0.distribution = .fillEqually
+        $0.alignment = .fill
+        $0.spacing = 8
+        $0.backgroundColor = .white
+    }
+    
+    private lazy var basicInfo = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textColor = Colors.contentDisabled.color
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        $0.text = "내 차 기본 제원"
+    }
+    
+    private lazy var maximumLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textColor = Colors.contentDisabled.color
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         $0.text = ""
     }
     
@@ -185,6 +259,27 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
             $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(20)
         }
+        
+        totalView.addSubview(carInfoTotalStackView)
+        carInfoTotalStackView.snp.makeConstraints {
+            $0.top.equalTo(carMakeCompanyTitleLbl).offset(12)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.height.equalTo(64)
+        }
+                        
+        for carInfoType in CarInfoType.allCases {
+            let carInfoView = self.createCarInfoTypeView(type: carInfoType)
+            self.carInfoTotalStackView.addArrangedSubview(carInfoView)
+        }
+        
+        let lineView = self.createLineView()
+        totalView.addSubview(lineView)
+        lineView.snp.makeConstraints {
+            $0.top.equalTo(carInfoTotalStackView.snp.bottom).offset(24)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(6)
+        }
     }
     
     internal func bind(reactor: CarRegistrationReactor) {
@@ -193,5 +288,95 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
     
     @objc private func hideKeyboard() {
         self.view.endEditing(true)
+    }
+    
+    private func createCarInfoTypeView(type: CarInfoType) -> UIView {
+        let view = UIView().then {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.backgroundColor = Colors.backgroundSecondary.color
+            $0.IBcornerRadius = 10
+        }
+                                  
+        let topTitleLbl = UILabel().then {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.textAlignment = .natural
+            $0.numberOfLines = 1
+            $0.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+            $0.textColor = Colors.contentPrimary.color
+        }
+        
+        view.addSubview(topTitleLbl)
+        topTitleLbl.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(12)
+            $0.leading.equalToSuperview().offset(12)
+            $0.trailing.equalToSuperview().offset(-12)
+            $0.height.equalTo(20)
+        }
+        
+        let bottomTitleLbl = UILabel().then {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.textAlignment = .natural
+            $0.numberOfLines = 1
+            $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+            $0.textColor = Colors.contentTertiary.color
+        }
+        
+        view.addSubview(bottomTitleLbl)
+        bottomTitleLbl.snp.makeConstraints {
+            $0.top.equalTo(topTitleLbl.snp.bottom).offset(4)
+            $0.leading.equalToSuperview().offset(12)
+            $0.trailing.equalToSuperview().offset(-12)
+            $0.height.equalTo(16)
+            $0.bottom.equalToSuperview().offset(-12)
+        }
+                                        
+        return view
+    }
+    
+    private func createCarBasicInfoTypeView(type: CarBasicInfoType) -> UIView {
+        let view = UIView().then {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.backgroundColor = Colors.backgroundSecondary.color
+            $0.IBcornerRadius = 10
+        }
+        
+        let imgView = UIImageView().then {
+            $0.image =
+        }
+                                  
+        let topTitleLbl = UILabel().then {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.textAlignment = .natural
+            $0.numberOfLines = 1
+            $0.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+            $0.textColor = Colors.contentPrimary.color
+        }
+        
+        view.addSubview(topTitleLbl)
+        topTitleLbl.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(12)
+            $0.leading.equalToSuperview().offset(12)
+            $0.trailing.equalToSuperview().offset(-12)
+            $0.height.equalTo(20)
+        }
+        
+        let bottomTitleLbl = UILabel().then {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.textAlignment = .natural
+            $0.numberOfLines = 1
+            $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+            $0.textColor = Colors.contentTertiary.color
+        }
+        
+        view.addSubview(bottomTitleLbl)
+        bottomTitleLbl.snp.makeConstraints {
+            $0.top.equalTo(topTitleLbl.snp.bottom).offset(4)
+            $0.leading.equalToSuperview().offset(12)
+            $0.trailing.equalToSuperview().offset(-12)
+            $0.height.equalTo(16)
+            $0.bottom.equalToSuperview().offset(-12)
+        }
+                                        
+        return view
     }
 }

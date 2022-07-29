@@ -246,6 +246,9 @@ internal final class NewAcceptTermsViewController: CommonBaseViewController, Sto
                     self.isCheckedCells[index] = !self.allAcceptCheckBtn.isSelected
                     _reactor.terms.list[index].agree = !self.allAcceptCheckBtn.isSelected
                 }
+                
+                _reactor.terms.list[7].termsId = TermsType.age.key
+                
                 self.nextBtn.isEnabled = !self.allAcceptCheckBtn.isSelected
                 self.allAcceptCheckBtn.isSelected = !self.allAcceptCheckBtn.isSelected
                 self.tableView.reloadData()
