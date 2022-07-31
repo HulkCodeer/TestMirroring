@@ -90,7 +90,7 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
             return .just(.setMoveNextView(currentState.nextViewType.hasNextViewType()))
             
         case .registerCarInfo:
-            return self.provider.postRegisterCar(model: paramModel)
+            return .concat([ self.provider.postRegisterCar(model: paramModel)
                 .retry(1)
                 .convertData()
                 .compactMap(convertToData)
@@ -103,7 +103,7 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     
                     return .none
-                }
+                } , .just(.setMoveNextView(self.currentState.nextViewType.hasNextViewType()))])
                 
         case .setMoveNextView(let viewType):
             return .just(.setMoveNextView(viewType))

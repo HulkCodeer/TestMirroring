@@ -25,6 +25,8 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         $0.showsVerticalScrollIndicator = true
         $0.showsHorizontalScrollIndicator = false
         $0.isHidden = false
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        $0.addGestureRecognizer(tapGesture)
     }
     
     private lazy var userInfoStepTotalView = UIView().then {
@@ -189,6 +191,8 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         $0.showsVerticalScrollIndicator = true
         $0.showsHorizontalScrollIndicator = false
         $0.isHidden = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        $0.addGestureRecognizer(tapGesture)
     }
     
     private lazy var userInfoMoreTotalView = UIView().then {
@@ -574,6 +578,10 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         }
     }
     
+    @objc private func hideKeyboard() {
+        self.view.endEditing(true)
+    }
+    
     @objc private func keyboardDidHide(_ sender: NSNotification) {
         view.layoutIfNeeded()
         let contentsInset: UIEdgeInsets = .zero
@@ -858,6 +866,32 @@ extension NewSignUpViewController: UITextFieldDelegate {
             view.endEditing(true)
         }
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        let point = textField.frame.origin
+        switch textField {
+        case emailTf:
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
+                guard let self = self else { return }
+                self.userInfoStepTotalScrollView.setContentOffset(point, animated: true)
+            })
+                        
+        case phoneTf:
+            if userInfoStepTotalScrollView.contentOffset.y < point.y {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
+                    guard let self = self else { return }
+                    self.userInfoStepTotalScrollView.scrollToBottom()
+                })
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
+                    guard let self = self else { return }
+                    self.userInfoStepTotalScrollView.setContentOffset(point, animated: true)
+                })
+            }
+            
+        default: break
+        }
     }
 }
 
