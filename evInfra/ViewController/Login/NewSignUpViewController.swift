@@ -10,6 +10,7 @@ import ReactorKit
 import UIKit
 import SwiftyJSON
 import AnyFormatKit
+import RxSwift
 
 internal final class NewSignUpViewController: CommonBaseViewController, StoryboardView {
     
@@ -316,6 +317,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
     // MARK: VARIABLE
         
     private var genderRadioArr: [Radio] = []
+    private var disposebag = DisposeBag()
     
     // MARK: SYSTEM FUNC
     
@@ -680,10 +682,14 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 self.genderWarningLbl.isHidden = isValid
                 
                 guard isValid else { return }
-                Observable.just(SignUpReactor.Action.signUp)
-                    .observe(on: MainScheduler.asyncInstance)
-                    .bind(to: reactor.action)
-                    .disposed(by: self.disposeBag)
+                switch reactor.currentState.signUpUserData.loginType {
+                case .apple:
+                    self.signUpApple(reactor: reactor)
+                case .evinfra, .kakao:
+                    self.signUp(reactor: reactor)
+                default:
+                    self.signUp(reactor: reactor)
+                }
             })
             .disposed(by: self.disposeBag)
         
@@ -815,6 +821,57 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
         }
                                         
         return view
+    }
+    
+    private func signUpApple(reactor: SignUpReactor) {
+        guard let _appleAuthorizationCode = reactor.currentState.signUpUserData.appleAuthorizationCode else { return }
+        RestApi().postRefreshToken(appleAuthorizationCode: String(data: _appleAuthorizationCode, encoding: .utf8) ?? "" )
+            .convertData()
+            .compactMap { result -> String? in
+                switch result {
+                case .success(let data):
+                    
+                    var jsonData: JSON = JSON(JSON.null)
+                    var jsonString: JSON = JSON(parseJSON: "")
+                    do {
+                        jsonData = try JSON(data: data, options: .allowFragments)
+                        jsonString = JSON(parseJSON: jsonData.rawString() ?? "")
+                    } catch let error {
+                        printLog(out: "Json Parse Error \(error.localizedDescription)")
+                    }
+                                    
+                    printLog(out: "JsonData : \(jsonData)")
+
+                    let refreshToken = jsonString["refresh_token"].stringValue
+                    guard !refreshToken.isEmpty else {
+                        return nil
+                    }
+
+                    UserDefault().saveString(key: UserDefault.Key.APPLE_REFRESH_TOKEN, value: refreshToken)
+
+                    return refreshToken
+                    
+                case .failure(let errorMessage):
+                    printLog(out: "Error Message : \(errorMessage)")
+                    Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                    return nil
+                }
+            }
+            .subscribe(onNext: { refreshToken in
+                Observable.just(SignUpReactor.Action.signUp)
+                    .observe(on: MainScheduler.asyncInstance)
+                    .bind(to: reactor.action)
+                    .disposed(by: self.disposeBag)
+            })
+            .disposed(by: self.disposebag)
+                        
+    }
+    
+    private func signUp(reactor: SignUpReactor) {
+        Observable.just(SignUpReactor.Action.signUp)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
     }
 }
 
