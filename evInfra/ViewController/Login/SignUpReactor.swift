@@ -49,31 +49,15 @@ internal final class SignUpReactor: ViewModel, Reactor {
         var signUpUserData: Login
     }
     
-    struct UpdateTermsInfoParamModel: Encodable {
+    struct UpdateTermsInfoParamModel {
         var mbId: Int = MemberManager.shared.mbId
         var list: [TermsInfo] = [TermsInfo].init(repeating: TermsInfo(termsId: "", agree: false), count: 8)
         
-        enum CodingKeys: String, CodingKey {
-            case mbId = "mb_id"
-            case list
-        }
-        
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.mbId, forKey: .mbId)
-            try container.encode(self.list, forKey: .list)
-        }
-        
         internal func toDict() -> [String: Any] {
-            if let paramData = try? JSONEncoder().encode(self) {
-                if let json = try? JSONSerialization.jsonObject(with: paramData, options: []) as? [String: Any] {
-                    return json ?? [:]
-                } else {
-                    return [:]
-                }
-            } else {
-                return [:]
-            }
+            var dict = [String: Any]()
+            dict["mb_id"] = self.mbId
+            dict["list"] = self.list.map { $0.toParam }
+            return dict
         }
     }
     

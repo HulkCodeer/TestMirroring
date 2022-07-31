@@ -30,6 +30,8 @@ protocol SoftberryAPI: class {
     func getMyCarList() -> Observable<(HTTPURLResponse, Data)>
     func postRegisterCar(model: CarRegistrationReactor.RegisterCarParamModel) -> Observable<(HTTPURLResponse, Data)>
     func postUpdateMemberInfo(model: ModifyMyPageReactor.UpdateMemberInfoParamModel) -> Observable<(HTTPURLResponse, Data)>
+    func postDeleteCarInfo(carNum: String) -> Observable<(HTTPURLResponse, Data)>
+    func patchChangeMainCar(mainCarInfo: MyPageReactor.ChangeMainCarInfoParamModel) -> Observable<(HTTPURLResponse, Data)>
     
 //    func postMemberInfo() -> Observable<(HTTPURLResponse, Data)>
 }
@@ -166,12 +168,24 @@ internal final class RestApi: SoftberryAPI {
     // MARK: - 차량 등록
     func postRegisterCar(model: CarRegistrationReactor.RegisterCarParamModel) -> Observable<(HTTPURLResponse, Data)> {
         let reqUrl = "\(Const.EV_APP_AWS_SERVER)/car"
-        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .post, parameters: model.toDict(), headers: nil)
+        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .post, parameters: model.toParam, headers: nil)
     }
     
     // MARK: - 회원정보 업데이트
     func postUpdateMemberInfo(model: ModifyMyPageReactor.UpdateMemberInfoParamModel) -> Observable<(HTTPURLResponse, Data)> {
         let reqUrl = "\(Const.EV_PAY_SERVER)/member/v2/member/update_info"
         return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .post, parameters: model.toDict(), headers: nil)
+    }
+    
+    // MARK: - 차량 정보 삭제
+    func postDeleteCarInfo(carNum: String) -> Observable<(HTTPURLResponse, Data)> {
+        let reqUrl = "\(Const.EV_APP_AWS_SERVER)/car/\(MemberManager.shared.mbId)"
+        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .delete, parameters: nil, headers: ["carNum":"\(carNum)","apiKey":""])
+    }
+    
+    // MARK: - 메인 차량 변경
+    func patchChangeMainCar(mainCarInfo: MyPageReactor.ChangeMainCarInfoParamModel) -> Observable<(HTTPURLResponse, Data)> {
+        let reqUrl = "\(Const.EV_APP_AWS_SERVER)/car"
+        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .patch, parameters: mainCarInfo.toDict(), headers: nil)
     }
 }

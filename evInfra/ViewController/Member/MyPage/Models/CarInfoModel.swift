@@ -59,10 +59,11 @@ struct CarInfoModel: ServerResultProtocol {
     struct DpYes {
         var carSep: String // 차종
         var img: String
+        var cpcty: String
         var btryCpcty: String
         var mdRep: String
         var mdSep: String
-        var regDate: Date
+        var regDate: String
         var cmpy: String
         var pwrMax: String // 최대 출력
         var brthY: String // 연식
@@ -70,12 +71,14 @@ struct CarInfoModel: ServerResultProtocol {
         init(_ json: JSON){
             self.carSep = json["carSep"].stringValue
             self.img = json["img"].stringValue
+            self.cpcty = json["cpcty"].stringValue
             self.btryCpcty = json["btryCpcty"].stringValue
             self.mdRep = json["mdRep"].stringValue
             self.mdSep = json["mdSep"].stringValue
-            self.regDate = json["regDate"].dateValue
+            self.regDate = json["regDate"].stringValue
             self.cmpy = json["cmpy"].stringValue
             self.pwrMax = json["pwrMax"].stringValue
+            self.brthY = json["brthY"].stringValue
         }
     }
     

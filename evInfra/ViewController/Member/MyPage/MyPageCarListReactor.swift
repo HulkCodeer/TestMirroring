@@ -12,18 +12,24 @@ import SwiftyJSON
 internal final class MyPageCarListReactor: Reactor {
     enum Action {
         case moveCarRegisterView
+        case moveCarInfoView
+        case setChangeMainCar
     }
     
-    enum Mutation {        
-        case setMoveCarRegisterView
+    enum Mutation {
+        case setChangeMainCar
+        case none
     }
     
     struct State {
         var carInfoModel: CarInfoModel = CarInfoModel(JSON.null)
-        var isMove: Bool?
+        
+        var isChangeMainCar: Bool?
     }
         
     internal var initialState: State
+    
+    
             
     init(model: CarInfoModel) {
         self.initialState = State(carInfoModel: model)
@@ -31,19 +37,39 @@ internal final class MyPageCarListReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .moveCarRegisterView:
-            return .just(.setMoveCarRegisterView)
+        case .moveCarRegisterView:            
+            let reactor = CarRegistrationReactor(provider: RestApi())
+            reactor.fromViewType = .mypage
+            let viewcon = CarRegistrationViewController()
+            viewcon.reactor = reactor
+            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            
+            return .empty()
+            
+        case .moveCarInfoView:
+            let reactor = CarRegistrationCompleteReactor(model: currentState.carInfoModel)
+            reactor.fromViewType = .mypage
+            let viewcon = CarRegistrationCompleteViewController()
+            viewcon.reactor = reactor
+            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            
+            return .empty()
+            
+        case .setChangeMainCar:
+            return .just(.setChangeMainCar)
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         
-        newState.isMove = nil
-        
+        newState.isChangeMainCar = nil
+                        
         switch mutation {
-        case .setMoveCarRegisterView:
-            newState.isMove = true
+        case .setChangeMainCar:
+            newState.isChangeMainCar = true
+            
+        case .none: break
         }
         
         return newState

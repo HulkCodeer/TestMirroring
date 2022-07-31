@@ -380,9 +380,17 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
                 GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
             })
             .disposed(by: self.disposeBag)
-        
+                        
         naviTotalView.backClosure = {
-            GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+            let isFirstStepViewHidden = self.carRegisterStepScrollView.isHidden
+            
+            guard isFirstStepViewHidden else {
+                GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                return
+            }
+            
+            self.carRegisterStepScrollView.isHidden = !isFirstStepViewHidden
+            self.carOwnerRegisterStepScrollView.isHidden = isFirstStepViewHidden
         }
     }
     

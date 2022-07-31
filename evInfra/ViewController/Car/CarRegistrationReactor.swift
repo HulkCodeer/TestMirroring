@@ -9,12 +9,12 @@
 import ReactorKit
 import SwiftyJSON
 
+enum FromViewType {
+    case mypage
+    case signup
+}
+
 internal final class CarRegistrationReactor: ViewModel, Reactor {
-    enum FromViewType {
-        case mypage
-        case signup
-    }
-    
     enum ViewType {
         case carRegister
         case carOwner
@@ -66,16 +66,12 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
         var carOwner: String = ""
         var carNum: String = ""
         
-        internal func toDict() -> [String: Any] {
-            if let paramData = try? JSONEncoder().encode(self) {
-                if let json = try? JSONSerialization.jsonObject(with: paramData, options: []) as? [String: Any] {
-                    return json ?? [:]
-                } else {
-                    return [:]
-                }
-            } else {
-                return [:]
-            }
+        var toParam: [String: Any] {
+            [
+                "memId": self.memId,
+                "carOwner": self.carOwner,
+                "carNum": self.carNum
+            ]
         }
     }
     
@@ -98,9 +94,11 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
                 .convertData()
                 .compactMap(convertToData)
                 .map { [weak self] carInfoModel in
-                    guard let self = self else { return .none}
+                    guard let self = self else { return .none }
+                    let reactor = CarRegistrationCompleteReactor(model: carInfoModel)
+                    reactor.fromViewType = self.fromViewType
                     let viewcon = CarRegistrationCompleteViewController()
-                    viewcon.reactor = self
+                    viewcon.reactor = reactor
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     
                     return .none
@@ -156,7 +154,7 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
                     .disposed(by: self.disposeBag)
                 
                 let popupModel = PopupModel(title: "해당하는 정보가 없어요.",
-                                            message: "번호 : \(self.paramModel.carNum)), 소유주 : \(self.paramModel.carOwner)\n입력하신 차량 번호, 소유주에 해당하는 차량이 조회되지 않아요. 다시 한번 정보를 확인해 본 뒤 등록해주세요.",
+                                            message: "번호 : \(self.paramModel.carNum), 소유주 : \(self.paramModel.carOwner)\n입력하신 차량 번호, 소유주에 해당하는 차량이 조회되지 않아요. 다시 한번 정보를 확인해 본 뒤 등록해주세요.",
                                             confirmBtnTitle: "다시 입력")
 
                 let popup = ConfirmPopupViewController(model: popupModel)

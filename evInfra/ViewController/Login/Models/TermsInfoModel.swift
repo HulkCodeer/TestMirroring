@@ -6,30 +6,14 @@
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 
-struct TermsInfo: Encodable {
+struct TermsInfo {
     var termsId: String
-    var agree: Bool    
+    var agree: Bool
     
-    enum CodingKeys: String, CodingKey {
-        case termsId = "terms_id"
-        case agree
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.termsId, forKey: .termsId)
-        try container.encode(self.agree, forKey: .agree)
-    }
-    
-    internal func toDict() -> [String: Any] {
-        if let paramData = try? JSONEncoder().encode(self) {
-            if let json = try? JSONSerialization.jsonObject(with: paramData, options: []) as? [String: Any] {
-                return json ?? [:]
-            } else {
-                return [:]
-            }
-        } else {
-            return [:]
-        }
+    var toParam: [String: Any] {
+        [
+            "term_id": self.termsId,
+            "agree": self.agree
+        ]
     }
 }

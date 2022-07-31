@@ -791,6 +791,8 @@
 		821A05F32862906800EB1A91 /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05EC2862906800EB1A91 /* ChevronArrow.swift */; };
 		821A05F62862920300EB1A91 /* CommonBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05F52862920300EB1A91 /* CommonBaseViewController.swift */; };
 		821A05F72862926500EB1A91 /* CommonBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05F52862920300EB1A91 /* CommonBaseViewController.swift */; };
+		82636A9128957E9B0007241B /* CarRegistrationCompleteReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82636A9028957E9B0007241B /* CarRegistrationCompleteReactor.swift */; };
+		82636A9228957E9B0007241B /* CarRegistrationCompleteReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82636A9028957E9B0007241B /* CarRegistrationCompleteReactor.swift */; };
 		828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407D928393D8F002B1214 /* NetworkWorker.swift */; };
 		828407DC28393DFE002B1214 /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407DB28393DFE002B1214 /* SoftberryAPI.swift */; };
 		829D575C2891657700CE1247 /* MyPageCarAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829D575B2891657700CE1247 /* MyPageCarAddCell.swift */; };
@@ -1329,6 +1331,7 @@
 		821A05EB2862906800EB1A91 /* NavigationClose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationClose.swift; sourceTree = "<group>"; };
 		821A05EC2862906800EB1A91 /* ChevronArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChevronArrow.swift; sourceTree = "<group>"; };
 		821A05F52862920300EB1A91 /* CommonBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonBaseViewController.swift; sourceTree = "<group>"; };
+		82636A9028957E9B0007241B /* CarRegistrationCompleteReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRegistrationCompleteReactor.swift; sourceTree = "<group>"; };
 		828407D928393D8F002B1214 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		828407DB28393DFE002B1214 /* SoftberryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
 		829D575B2891657700CE1247 /* MyPageCarAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCarAddCell.swift; sourceTree = "<group>"; };
@@ -2391,6 +2394,7 @@
 				63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */,
 				63D4F8BF287FF0BB0087EE61 /* CarRegistrationReactor.swift */,
 				82CD193028814D8E00EA5024 /* CarRegistrationCompleteViewController.swift */,
+				82636A9028957E9B0007241B /* CarRegistrationCompleteReactor.swift */,
 				82CD193328814EB300EA5024 /* CircularProgressBarView.swift */,
 			);
 			path = Car;
@@ -3429,6 +3433,7 @@
 				63F313E2284EC74F001713D2 /* DropDownCheckBoxCell.swift in Sources */,
 				63F313E3284EC74F001713D2 /* CidInfoTableViewCell.swift in Sources */,
 				63F313E4284EC74F001713D2 /* ReportChargerChildCell.swift in Sources */,
+				82636A9228957E9B0007241B /* CarRegistrationCompleteReactor.swift in Sources */,
 				63F313E5284EC74F001713D2 /* Validators.swift in Sources */,
 				63F313E6284EC74F001713D2 /* RepayResultViewController.swift in Sources */,
 				63F313E7284EC74F001713D2 /* ReissuanceModel.swift in Sources */,
@@ -3961,6 +3966,7 @@
 				DB306368221BD5CD00D1276E /* Server.swift in Sources */,
 				00CF1777278EA644007D8E4E /* AcceptTermsViewController.swift in Sources */,
 				CE33B4BD2191BA1200B6C632 /* EventContentsViewController.swift in Sources */,
+				82636A9128957E9B0007241B /* CarRegistrationCompleteReactor.swift in Sources */,
 				DB5FA59622C20A8400F1508A /* ChargesViewController.swift in Sources */,
 				82D986812839BE080030F0FC /* ViewModel.swift in Sources */,
 				82FC804028880127000617BE /* NavigationClose.swift in Sources */,

@@ -71,16 +71,9 @@ internal final class MyPageCarListCell: CommonBaseTableViewCell, ReactorKit.View
             $0.bottom.equalToSuperview().offset(-8)
         }
         
-        backgroundTotalView.addSubview(mainCarBtn)
-        mainCarBtn.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(16)
-            $0.width.height.equalTo(20)
-            $0.centerY.equalToSuperview()
-        }
-        
         backgroundTotalView.addSubview(carImgView)
         carImgView.snp.makeConstraints {
-            $0.leading.equalTo(mainCarBtn.snp.trailing).offset(16)
+            $0.leading.equalToSuperview().offset(52)
             $0.height.equalTo(48)
             $0.width.equalTo(80)
             $0.centerY.equalToSuperview()
@@ -98,7 +91,19 @@ internal final class MyPageCarListCell: CommonBaseTableViewCell, ReactorKit.View
             $0.leading.equalTo(carImgView.snp.trailing).offset(16)
             $0.top.equalTo(carNumberLbl.snp.bottom).offset(4)
             $0.height.equalTo(16)
-        }                
+        }
+        
+        backgroundTotalView.addSubview(moveCarInfoBtn)
+        moveCarInfoBtn.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        backgroundTotalView.addSubview(mainCarBtn)
+        mainCarBtn.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.width.height.equalTo(20)
+            $0.centerY.equalToSuperview()
+        }
     }
         
     internal func bind(reactor: MyPageCarListReactor) {
@@ -108,6 +113,8 @@ internal final class MyPageCarListCell: CommonBaseTableViewCell, ReactorKit.View
                 guard let self = self else { return }
                 self.carImgView.sd_setImage(with: URL(string: carInfoModel.dpYes.img))
                 
+                self.mainCarBtn.isSelected = carInfoModel.mainCar
+                
                 if carInfoModel.carNum == "TBD" {
                     self.carModelLbl.text = carInfoModel.dpYes.cmpy
                     self.carNumberLbl.text = carInfoModel.dpYes.mdRep
@@ -116,6 +123,33 @@ internal final class MyPageCarListCell: CommonBaseTableViewCell, ReactorKit.View
                     self.carNumberLbl.text = carInfoModel.carNum
                 }
                 
+            })
+            .disposed(by: self.disposeBag)
+        
+        moveCarInfoBtn.rx.tap
+            .map { _ in MyPageCarListReactor.Action.moveCarInfoView }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        mainCarBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                guard !reactor.currentState.carInfoModel.mainCar else { return }
+                
+                let popupModel = PopupModel(title: "현재 등록한 차량을\n대표 차량으로 등록하시겠어요?",
+                                            message: "대표 차량 등록 시, 필터 등 차량에 맞게 설정됩니다.",
+                                            confirmBtnTitle: "대표 차량 설정", cancelBtnTitle: "취소", confirmBtnAction: {
+                    Observable.just(MyPageCarListReactor.Action.setChangeMainCar)
+                        .bind(to: reactor.action)
+                        .disposed(by: self.disposeBag)
+                })
+
+                let popup = ConfirmPopupViewController(model: popupModel)
+                                            
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
             })
             .disposed(by: self.disposeBag)
     }
