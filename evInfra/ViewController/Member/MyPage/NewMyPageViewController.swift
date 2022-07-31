@@ -181,15 +181,14 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
         
         profileImgView.IBcornerRadius = 56 / 2
         nickNameLbl.text = MemberManager.shared.memberNickName
+        profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
         guard !MemberManager.shared.ageRange.isEmpty, !MemberManager.shared.gender.isEmpty else { return }
         userMoreInfoLbl.text = "\(MemberManager.shared.ageRange), \(MemberManager.shared.gender)"
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
-        printLog(out: "PARK TEST image : \(Const.urlProfileImage)\(MemberManager.shared.profileImage)")
-        profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true                
     }
     
     func bind(reactor: MyPageReactor) {
@@ -216,8 +215,15 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
                 let viewcon = ModifyMyPageViewController()
                 viewcon.reactor = reactor
                 
-                reactor.state.compactMap { $0.profileImg }
-                    .bind(to: self.profileImgView.rx.image)
+                reactor.state.compactMap { $0.myPageInfo }
+                    .asDriver(onErrorJustReturn: ModifyMyPageReactor.UpdateMemberInfoParamModel())
+                    .drive(onNext: { [weak self] myPageInfo in
+                        guard let self = self else { return }                        
+                        self.nickNameLbl.text = myPageInfo.nickname
+                        self.userMoreInfoLbl.text = "\(myPageInfo.ageRange), \(myPageInfo.gender)"
+                        guard let _img = myPageInfo.profileImg else { return }
+                        self.profileImgView.image = _img
+                    })
                     .disposed(by: self.disposeBag)
                 
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)

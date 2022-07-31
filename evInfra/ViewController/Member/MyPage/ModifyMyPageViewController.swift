@@ -30,6 +30,7 @@ internal final class ModifyMyPageViewController: CommonBaseViewController, Story
         $0.setTitle("저장", for: .disabled)
         $0.setTitleColor(Colors.contentDisabled.color, for: .disabled)
         $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
+        $0.isEnabled = false
     }
 
     private lazy var totalScrollView = UIScrollView().then {
@@ -463,13 +464,13 @@ internal final class ModifyMyPageViewController: CommonBaseViewController, Story
                 self.openPhotoLib()
             }
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
         printLog(out: "image name : \(UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME))")
         profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)                
     }
                 
     func bind(reactor: ModifyMyPageReactor) {                        
@@ -478,10 +479,29 @@ internal final class ModifyMyPageViewController: CommonBaseViewController, Story
             .drive(saveBtn.rx.isEnabled)
             .disposed(by: self.disposeBag)
         
-        reactor.state.compactMap { $0.profileImg }
+        reactor.state.compactMap { $0.memberInfo.profileImg }
             .asDriver(onErrorJustReturn: UIImage())
-            .drive(profileImgView.rx.image)
+            .drive(onNext: { [weak self] profileImg in
+                guard let self = self else { return }
+                self.profileImgView.image = profileImg
+            })
             .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.memberInfo.ageRange }
+            .asDriver(onErrorJustReturn: "20대")
+            .drive(self.selectBoxTitleLbl.rx.text)
+            .disposed(by: self.disposeBag)
+        
+        for genderType in Login.Gender.allCases {
+            let genderView = self.createGenderView(type: genderType, reactor: reactor)
+            genderView.rx.tap
+                .debug()
+                .map { ModifyMyPageReactor.Action.setGenderType(genderType) }
+                .bind(to: reactor.action)
+                .disposed(by: self.disposeBag)
+            
+            self.genderTotalStackView.addArrangedSubview(genderView)
+        }
         
         profileEditBtn.rx.tap
             .asDriver()
@@ -493,6 +513,7 @@ internal final class ModifyMyPageViewController: CommonBaseViewController, Story
         
         nickNameTf.rx.text
             .asDriver(onErrorJustReturn: "")
+            .skip(1)
             .drive(onNext: { text in
                 Observable.just(ModifyMyPageReactor.Action.setNickname(text ?? ""))
                     .bind(to: reactor.action)
@@ -525,6 +546,7 @@ internal final class ModifyMyPageViewController: CommonBaseViewController, Story
                         .disposed(by: self.disposeBag)
                     
                     self.selectBoxTitleLbl.text = rowVC.items[index]
+                    
                     rowVC.view.removeFromSuperview()
                     rowVC.removeFromParentViewController()
                 }
@@ -555,16 +577,6 @@ internal final class ModifyMyPageViewController: CommonBaseViewController, Story
                 })
             })
             .disposed(by: self.disposeBag)
-        
-        for genderType in Login.Gender.allCases {
-            let genderView = self.createGenderView(type: genderType, reactor: reactor)
-            genderView.rx.tap
-                .map { ModifyMyPageReactor.Action.setGenderType(genderType) }
-                .bind(to: reactor.action)
-                .disposed(by: self.disposeBag)
-            
-            self.genderTotalStackView.addArrangedSubview(genderView)
-        }
     }
     
     @objc private func dismissKeyboard(recognizer: UITapGestureRecognizer) {
@@ -583,10 +595,10 @@ internal final class ModifyMyPageViewController: CommonBaseViewController, Story
             $0.isSelected = MemberManager.shared.gender == type.value
         }
         
-        reactor.state.compactMap { $0.genderType }
-            .asDriver(onErrorJustReturn: .man)
-            .drive(onNext: { genderType in
-                genderSelectBtn.isSelected = type == genderType
+        reactor.state.compactMap { $0.memberInfo.gender }
+            .asDriver(onErrorJustReturn: "남성")
+            .drive(onNext: { gender in
+                genderSelectBtn.isSelected = type.value == gender
             })
             .disposed(by: self.disposeBag)
                                         
@@ -647,12 +659,8 @@ extension ModifyMyPageViewController : UIImageCropperProtocol {
         self.profileImgView.image = croppedImage?.resize(withWidth: 600.0)
         guard let _reactor = self.reactor,
                 let _img = croppedImage,
-                let _imgData = UIImageJPEGRepresentation(_img, 1.0) else { return }
-        Observable.just(ModifyMyPageReactor.Action.setProfileImgData(_imgData))
-            .bind(to: _reactor.action)
-            .disposed(by: self.disposeBag)
-        
-        Observable.just(ModifyMyPageReactor.Action.setProfileImg(_img))
+                let _imgData = UIImageJPEGRepresentation(_img, 0.5) else { return }
+        Observable.just(ModifyMyPageReactor.Action.setProfileImgData(_imgData, _img))
             .bind(to: _reactor.action)
             .disposed(by: self.disposeBag)
     }

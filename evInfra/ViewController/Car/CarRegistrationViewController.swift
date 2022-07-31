@@ -382,15 +382,18 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
             .disposed(by: self.disposeBag)
                         
         naviTotalView.backClosure = {
+            guard let _reactor = self.reactor else { return }
             let isFirstStepViewHidden = self.carRegisterStepScrollView.isHidden
-            
-            guard isFirstStepViewHidden else {
-                GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
-                return
+            if isFirstStepViewHidden {
+                self.carRegisterStepScrollView.isHidden = !isFirstStepViewHidden
+                self.carOwnerRegisterStepScrollView.isHidden = isFirstStepViewHidden
+            } else {
+                if _reactor.fromViewType == .signup {
+                    GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                } else {
+                    GlobalDefine.shared.mainNavi?.pop()
+                }                
             }
-            
-            self.carRegisterStepScrollView.isHidden = !isFirstStepViewHidden
-            self.carOwnerRegisterStepScrollView.isHidden = isFirstStepViewHidden
         }
     }
     
@@ -465,16 +468,20 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
 extension CarRegistrationViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.IBborderColor = Colors.borderSelected.color
+        textField.IBborderWidth = 2
         textField.textColor = Colors.contentPrimary.color
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.IBborderColor = Colors.borderOpaque.color
+        textField.IBborderWidth = 1
         textField.textColor = Colors.contentDisabled.color
         guard let _reactor = self.reactor, let _textFieldStr = textField.text else { return }
         switch textField {
         case carNumberLookUpTf:
-            Observable.just(CarRegistrationReactor.Action.setCarNumber(_textFieldStr))
+            let trimmText = _textFieldStr.trimmingCharacters(in: .whitespacesAndNewlines)
+            textField.text = trimmText
+            Observable.just(CarRegistrationReactor.Action.setCarNumber(trimmText))
                 .bind(to: _reactor.action)
                 .disposed(by: self.disposeBag)
             

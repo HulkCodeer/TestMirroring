@@ -91,6 +91,7 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
             
         case .registerCarInfo:
             return self.provider.postRegisterCar(model: paramModel)
+                .retry(1)
                 .convertData()
                 .compactMap(convertToData)
                 .map { [weak self] carInfoModel in

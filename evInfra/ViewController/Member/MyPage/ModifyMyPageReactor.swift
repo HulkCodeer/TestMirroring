@@ -17,8 +17,7 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
         case setNickname(String)
         case setGender(String)
         case setAge(String)
-        case setProfileImgData(Data)
-        case setProfileImg(UIImage)
+        case setProfileImgData(Data, UIImage)
     }
     
     enum Mutation {
@@ -28,17 +27,15 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
         case setAge(String)
         case setCheckChangeMemberInfo(Bool)
         case setProfileName(String)
-        case setProfileImgData(Data)
-        case setProfileImg(UIImage)
+        case setProfileImgData(Data, UIImage)
+        case setChangeMyPageInfo(UpdateMemberInfoParamModel)
         case none
     }
     
     struct State {
-        var genderType: Login.Gender?
-        var isModify: Bool?
-        var profileImgData: Data?
-        var profileImg: UIImage?
+        var myPageInfo: UpdateMemberInfoParamModel?
         
+        var isModify: Bool = false
         var memberInfo: UpdateMemberInfoParamModel = UpdateMemberInfoParamModel()
     }
     
@@ -48,6 +45,8 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
         var ageRange: String = MemberManager.shared.ageRange
         var gender: String = MemberManager.shared.gender
         var profileName: String = MemberManager.shared.profileImage
+        var profileImgData: Data?
+        var profileImg: UIImage?
         
         internal func toDict() -> [String: Any] {
             var dict = [String: Any]()
@@ -82,19 +81,17 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
                     Snackbar().show(message: "수정사항이 저장되었습니다.")
                     
                     DispatchQueue.global(qos: .background).async { [weak self] in
-                        guard let self = self else { return }
-                        printLog(out: "\(self.currentState.memberInfo.profileName)")
-                        Server.uploadImage(data: self.currentState.profileImgData ?? Data(), filename: self.currentState.memberInfo.profileName, kind: Const.CONTENTS_THUMBNAIL, targetId: "\(MemberManager.shared.mbId)", completion: { (isSuccess, value) in
-                            printLog(out: "PARK TEST : \(JSON(value))")
+                        guard let self = self, let _profileImgData = self.currentState.memberInfo.profileImgData else { return }
+                        Server.uploadImage(data: _profileImgData, filename: self.currentState.memberInfo.profileName, kind: Const.CONTENTS_THUMBNAIL, targetId: "\(MemberManager.shared.mbId)", completion: { (isSuccess, value) in
                             if isSuccess {
                                 MemberManager.shared.profileImage = self.currentState.memberInfo.profileName
                             }
                         })
                     }
-                    
+                                                            
                     GlobalDefine.shared.mainNavi?.pop()
                     
-                    return .none
+                    return .setChangeMyPageInfo(self.currentState.memberInfo)
                 }
             
         case .setGenderType(let genderType):
@@ -112,28 +109,22 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
             return .concat([.just(.setAge(age)),
                             .just(.setCheckChangeMemberInfo(true))])
             
-        case .setProfileImgData(let profileImgData):
+        case .setProfileImgData(let profileImgData, let profileImg):
             let memberId = MemberManager.shared.memberId
             let curTime = Int64(NSDate().timeIntervalSince1970 * 1000)
             let profileName = memberId + "_" + "\(curTime).jpg"
-            return .concat([.just(.setProfileImgData(profileImgData)),
+            return .concat([.just(.setProfileImgData(profileImgData, profileImg)),
                             .just(.setProfileName(profileName)),
                             .just(.setCheckChangeMemberInfo(true))])
-            
-        case .setProfileImg(let profileImg):
-            return .just(.setProfileImg(profileImg))
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-                                
-        newState.genderType = nil
-        newState.isModify = nil
-                        
+                                        
         switch mutation {
         case .setGenderType(let genderType):
-            newState.genderType = genderType
+            newState.memberInfo.gender = genderType.value
             
         case .setNickname(let nickName):
             newState.memberInfo.nickname = nickName
@@ -149,13 +140,14 @@ internal final class ModifyMyPageReactor: ViewModel, Reactor {
             
         case .setProfileName(let profileName):
             newState.memberInfo.profileName = profileName
-            
-        case .setProfileImg(let profileImg):
-            newState.profileImg = profileImg
-            
-        case .setProfileImgData(let profileImgData):
-            newState.profileImgData = profileImgData
                                 
+        case .setProfileImgData(let profileImgData, let profileImg):
+            newState.memberInfo.profileImgData = profileImgData
+            newState.memberInfo.profileImg = profileImg
+                                
+        case .setChangeMyPageInfo(let myPageInfo):
+            newState.myPageInfo = myPageInfo
+            
         case .none: break
         }
         return newState
