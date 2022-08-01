@@ -351,6 +351,35 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        naviTotalView.backClosure = {
+            guard let _reactor = self.reactor else { return }
+            
+            switch _reactor.fromViewType {
+            case .mypage:
+                if let _mainNav = GlobalDefine.shared.mainNavi {
+                    let _viewControllers = _mainNav.viewControllers
+                    for vc in _viewControllers.reversed() {
+                        if let _vc = vc as? NewMyPageViewController {
+                            _ = _mainNav.popToViewController(_vc, animated: false)
+                            return
+                        }
+                    }
+                }
+                
+            case .signup:
+                GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                
+            }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
+    }
+    
     internal func bind(reactor: CarRegistrationCompleteReactor) {
         nextBtn.isHidden = reactor.fromViewType == .mypage
         deleteCarInfoLbl.isHidden = reactor.fromViewType == .signup
@@ -366,9 +395,12 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
                 let calendar = Calendar.current
                 let dateGap = calendar.dateComponents([.year , .month , .day], from: startDate , to: endDate)
 
-                if case let (y? , m? , d?) = (dateGap.year , dateGap.month , dateGap.day)
-                {
-                    self.regDateMainTitleLbl.text = "\(carInfoModel.dpYes.mdSep)와 함께 한지 ⚡\(y)년 \(m)개월 \(d)일째⚡️에요!"
+                if case let (y? , m? , d?) = (dateGap.year , dateGap.month , dateGap.day) {
+                    let yearStr = y == 0 ? "":"\(y)년"
+                    let monthStr = m == 0 ? "":"\(m)개월"
+                    let dayStr = d == 0 ? "":"\(d)일째"
+                    let strJoin = "\(yearStr) \(monthStr) \(dayStr)"
+                    self.regDateMainTitleLbl.text = "\(carInfoModel.dpYes.mdSep)와 함께 한지 ⚡\(strJoin)⚡️에요!"
                 }
                                 
                 self.registerDateTitleLbl.text = "최초등록일 \(carInfoModel.dpYes.regDate)"

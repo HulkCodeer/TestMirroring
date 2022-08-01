@@ -28,6 +28,8 @@ protocol SoftberryAPI: class {
     func postTermsInfo(terms: SignUpReactor.UpdateTermsInfoParamModel) -> Observable<(HTTPURLResponse, Data)>
     func postMemberInfo() -> Observable<(HTTPURLResponse, Data)>
     func getMyCarList() -> Observable<(HTTPURLResponse, Data)>
+    func getOldCarWithMyCarList(oldCarId: Int) -> Observable<(HTTPURLResponse, Data)>
+    func deleteOldCarInfo() -> Observable<(HTTPURLResponse, Data)>
     func postRegisterCar(model: CarRegistrationReactor.RegisterCarParamModel) -> Observable<(HTTPURLResponse, Data)>
     func postUpdateMemberInfo(model: ModifyMyPageReactor.UpdateMemberInfoParamModel) -> Observable<(HTTPURLResponse, Data)>
     func postDeleteCarInfo(carNum: String) -> Observable<(HTTPURLResponse, Data)>
@@ -37,7 +39,6 @@ protocol SoftberryAPI: class {
 }
 
 internal final class RestApi: SoftberryAPI {
-
     init() {}
     
     // MARK: - 비밀번호 확인
@@ -158,11 +159,26 @@ internal final class RestApi: SoftberryAPI {
 
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/member_info", httpMethod: .post, parameters: reqParam, headers: nil)
     }
-    
+            
     // MARK: - 소유 차량 정보 조회
     func getMyCarList() -> Observable<(HTTPURLResponse, Data)> {
-        let reqUrl = "\(Const.EV_APP_AWS_SERVER)/car/\(MemberManager.shared.mbId)?id=all"        
+        let reqUrl = "\(Const.EV_APP_AWS_SERVER)/car/\(MemberManager.shared.mbId)?id=all"
         return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .get, parameters: nil, headers: nil)
+    }
+    
+    //MARK: - 이전차량이 있을 경우 차량 정보 조회
+    func getOldCarWithMyCarList(oldCarId: Int) -> Observable<(HTTPURLResponse, Data)> {
+        let reqUrl = "\(Const.EV_APP_AWS_SERVER)/car/\(MemberManager.shared.mbId)?id=\(oldCarId)"
+        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .get, parameters: nil, headers: nil)
+    }
+    
+    //MARK: - 이전차량 삭제
+    func deleteOldCarInfo() -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.shared.mbId
+        ]
+        let reqUrl = "\(Const.EV_PAY_SERVER)/member/member/delete_car"
+        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .get, parameters: reqParam, headers: nil)
     }
     
     // MARK: - 차량 등록
@@ -180,12 +196,12 @@ internal final class RestApi: SoftberryAPI {
     // MARK: - 차량 정보 삭제
     func postDeleteCarInfo(carNum: String) -> Observable<(HTTPURLResponse, Data)> {
         let reqUrl = "\(Const.EV_APP_AWS_SERVER)/car/\(MemberManager.shared.mbId)"
-        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .delete, parameters: nil, headers: ["carNum":"\(carNum)","apiKey":""])
+        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .delete, parameters: nil, headers: ["carNum":"\(carNum.urlEncodedUTF8)","apiKey":""])
     }
     
     // MARK: - 메인 차량 변경
     func patchChangeMainCar(mainCarInfo: MyPageReactor.ChangeMainCarInfoParamModel) -> Observable<(HTTPURLResponse, Data)> {
         let reqUrl = "\(Const.EV_APP_AWS_SERVER)/car"
-        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .patch, parameters: mainCarInfo.toDict(), headers: nil)
+        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .patch, parameters: mainCarInfo.toParam, headers: nil)
     }
 }

@@ -12,12 +12,14 @@ import SwiftyJSON
 internal final class MyPageReactor: ViewModel, Reactor {
     enum Action {
         case getMyCarList
+        case getOldCarWithMyCarList
         case changeMainCar(String)
     }
     
     enum Mutation {
         case setMyCarList([MyCarListItem])
         case setChangeMainCarComplete(Bool)
+        case none
     }
     
     struct State {
@@ -26,7 +28,7 @@ internal final class MyPageReactor: ViewModel, Reactor {
         var isChangeMainCar: Bool?
     }
     
-    struct ChangeMainCarInfoParamModel: Codable {
+    struct ChangeMainCarInfoParamModel {
         var memId = MemberManager.shared.mbId
         var carNum = ""
         var mainCar: Bool = false
@@ -35,17 +37,13 @@ internal final class MyPageReactor: ViewModel, Reactor {
             self.carNum = carNum
             self.mainCar = mainCar
         }
-        
-        internal func toDict() -> [String: Any] {
-            if let paramData = try? JSONEncoder().encode(self) {
-                if let json = try? JSONSerialization.jsonObject(with: paramData, options: []) as? [String: Any] {
-                    return json ?? [:]
-                } else {
-                    return [:]
-                }
-            } else {
-                return [:]
-            }
+                        
+        var toParam: [String: Any] {
+            [
+                "memId": String(MemberManager.shared.mbId),
+                "carNum": self.carNum,
+                "mainCar": self.mainCar
+            ]
         }
     }
     
@@ -58,6 +56,25 @@ internal final class MyPageReactor: ViewModel, Reactor {
         
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .getOldCarWithMyCarList:
+            return .concat([
+                self.provider.getOldCarWithMyCarList(oldCarId: MemberManager.shared.carId)
+                    .convertData()
+                    .compactMap(convertToData)
+                    .map(convertCarInfoItem)
+                    .map { carInfoModelList in
+                        return .setMyCarList(carInfoModelList)
+                    },
+                
+                self.provider.deleteOldCarInfo()
+                    .convertData()
+                    .compactMap(convertToData)
+                    .map(convertCarInfoItem)
+                    .map { isDelete in
+                        return .none
+                    },
+            ])
+            
         case .getMyCarList:
             return self.provider.getMyCarList()
                 .convertData()
@@ -68,7 +85,6 @@ internal final class MyPageReactor: ViewModel, Reactor {
                 }
             
         case .changeMainCar(let carNum):
-            
             return self.provider.patchChangeMainCar(mainCarInfo: ChangeMainCarInfoParamModel(carNum: carNum, mainCar: true))
                 .convertData()
                 .compactMap(convertToChangeMainCar)
@@ -89,7 +105,8 @@ internal final class MyPageReactor: ViewModel, Reactor {
             
         case .setChangeMainCarComplete(let isChangeMainCar):
             newState.isChangeMainCar = isChangeMainCar
-                                                                                        
+                                                     
+        case .none: break
         }
         return newState
     }
@@ -124,6 +141,27 @@ internal final class MyPageReactor: ViewModel, Reactor {
     }
     
     private func convertToChangeMainCar(with result: ApiResult<Data, ApiErrorMessage> ) -> Bool? {
+        switch result {
+        case .success(let data):
+            let jsonData = JSON(data)
+            printLog(out: "JsonData : \(jsonData)")
+            
+            switch jsonData["code"] {
+            case 1000: // 응답 성공
+                return true
+                                            
+            default:
+                return nil
+            }
+                                                             
+        case .failure(let errorMessage):
+            printLog(out: "Error Message : \(errorMessage)")
+            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+            return nil
+        }
+    }
+    
+    private func convertToDelete(with result: ApiResult<Data, ApiErrorMessage> ) -> Bool? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)

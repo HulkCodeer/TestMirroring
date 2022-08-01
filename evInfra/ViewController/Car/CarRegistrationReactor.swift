@@ -61,7 +61,7 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
         var isRegisterCarComplete: Bool?
     }
     
-    struct RegisterCarParamModel: Codable {
+    struct RegisterCarParamModel {
         var memId: String = String(MemberManager.shared.mbId)
         var carOwner: String = ""
         var carNum: String = ""
@@ -97,7 +97,7 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
                 .map { [weak self] carInfoModel in
                     guard let self = self else { return .none }
                     let reactor = CarRegistrationCompleteReactor(model: carInfoModel)
-                    reactor.fromViewType = self.fromViewType
+                    reactor.fromViewType = self.fromViewType                    
                     let viewcon = CarRegistrationCompleteViewController()
                     viewcon.reactor = reactor
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)

@@ -10,6 +10,10 @@ import Foundation
 
 extension String {
     
+    var urlEncodedUTF8: String {
+        self.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) ?? self
+    }
+    
     func toDate(dateFormat: String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat

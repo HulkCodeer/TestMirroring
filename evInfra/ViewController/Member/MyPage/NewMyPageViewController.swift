@@ -197,10 +197,21 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                Observable.just(MyPageReactor.Action.getMyCarList)
-                    .bind(to: reactor.action)
-                    .disposed(by: self.disposeBag)
+                if MemberManager.shared.carId == 0 {
+                    Observable.just(MyPageReactor.Action.getMyCarList)
+                        .bind(to: reactor.action)
+                        .disposed(by: self.disposeBag)
+                } else {
+                    Observable.just(MyPageReactor.Action.getMyCarList)
+                        .bind(to: reactor.action)
+                        .disposed(by: self.disposeBag)
+                }
             })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.isChangeMainCar }
+            .map { _ in MyPageReactor.Action.getMyCarList }
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
         reactor.state.map { $0.sections}

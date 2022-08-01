@@ -19,8 +19,7 @@ internal final class CarRegistrationCompleteReactor: ViewModel, Reactor {
     }
     
     struct State {
-        var carInfoModel: CarInfoModel
-        
+        var carInfoModel: CarInfoModel        
         var isDeleteComplete: Bool?
     }
         
@@ -38,7 +37,10 @@ internal final class CarRegistrationCompleteReactor: ViewModel, Reactor {
             return self.provider.postDeleteCarInfo(carNum: currentState.carInfoModel.carNum)
                 .convertData()
                 .compactMap(convertToData)
-                .map { .setDeleteCarComplete($0) }
+                .map {
+                    GlobalDefine.shared.mainNavi?.pop()
+                    return .setDeleteCarComplete($0)
+                }
                    
         }
     }
