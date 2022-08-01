@@ -24,10 +24,12 @@ class LotteRentInfoViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "롯데렌터카 내카드 정보"
         prepareActionBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self else { return }
             if isLogin {

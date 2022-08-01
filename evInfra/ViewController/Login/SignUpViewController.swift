@@ -64,6 +64,7 @@ internal final class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "회원가입 화면"
         prepareActionBar()
         prepareView()
         createProfileImage()
@@ -76,6 +77,7 @@ internal final class SignUpViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -320,6 +322,10 @@ internal final class SignUpViewController: UIViewController {
                         } else {
                             Snackbar().show(message: "로그인 성공")
                             MemberManager.shared.setData(data: json)
+                            
+                            let property = ["type" : UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)]
+                            AmplitudeManager.shared.logEvent(type: .signup(.completeSignUp), property: property)
+
                             self.navigationController?.pop()
                             if let delegate = self.delegate {
                                 delegate.successSignUp()
@@ -352,6 +358,10 @@ internal final class SignUpViewController: UIViewController {
                     } else {
                         Snackbar().show(message: "로그인 성공")
                         MemberManager.shared.setData(data: json)
+                        
+                        let property = ["type" : UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)]
+                        AmplitudeManager.shared.logEvent(type: .signup(.completeSignUp), property: property)
+
                         self.navigationController?.pop()
                         if let delegate = self.delegate {
                             delegate.successSignUp()

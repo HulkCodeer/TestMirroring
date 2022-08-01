@@ -26,6 +26,7 @@ class MembershipQRViewController: UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "SK렌터카 카드 QR scan 화면"
         prepareActionBar()
         prepareView()
         
@@ -42,6 +43,7 @@ class MembershipQRViewController: UIViewController,
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if (captureSession?.isRunning == false) {
             captureSession.startRunning()
         }

@@ -56,6 +56,11 @@ class IntroViewController: UIViewController {
             return chargerManagerListener(self)
         } ())
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.title = "인트로 화면"
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -159,6 +164,6 @@ extension IntroViewController: BoardDelegate {
         appDelegate.appToolbarController = AppToolbarController(rootViewController: mainViewController)
         appDelegate.appToolbarController.delegate = mainViewController
         let ndController = AppNavigationDrawerController(rootViewController: appDelegate.appToolbarController, leftViewController: leftViewController)
-        self.navigationController?.setViewControllers([ndController], animated: true)
+        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)        
     }
 }

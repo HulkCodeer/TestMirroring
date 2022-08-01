@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,6 +18,8 @@
                 <outlet property="ivPublic" destination="9mL-7x-RXg" id="Wx1-aw-oOO"/>
                 <outlet property="lbNonPublic" destination="rdV-Fy-2Ms" id="jac-rE-WSd"/>
                 <outlet property="lbPublic" destination="KW1-2J-FSg" id="330-ZT-gxD"/>
+                <outlet property="nonPublicButton" destination="bjk-d4-CMh" id="EVU-Kz-Sqb"/>
+                <outlet property="publicButton" destination="qcE-jT-20t" id="i6r-5T-SNw"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -47,12 +49,25 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qcE-jT-20t">
+                                            <rect key="frame" x="0.0" y="0.0" width="191" height="52"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                            <connections>
+                                                <action selector="publicButtonTapped:" destination="-1" eventType="touchUpInside" id="xCf-xf-hvZ"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="qcE-jT-20t" secondAttribute="trailing" id="8N6-8L-psC"/>
                                         <constraint firstAttribute="bottom" secondItem="KW1-2J-FSg" secondAttribute="bottom" id="C9q-Ji-Ug0"/>
                                         <constraint firstItem="KW1-2J-FSg" firstAttribute="top" secondItem="9mL-7x-RXg" secondAttribute="bottom" constant="4" id="ZKk-YC-1qy"/>
+                                        <constraint firstItem="KW1-2J-FSg" firstAttribute="top" secondItem="qcE-jT-20t" secondAttribute="bottom" id="dT3-xA-A8z"/>
+                                        <constraint firstItem="qcE-jT-20t" firstAttribute="leading" secondItem="fMt-0u-KLY" secondAttribute="leading" id="mlq-Hj-5jr"/>
                                         <constraint firstItem="9mL-7x-RXg" firstAttribute="top" secondItem="fMt-0u-KLY" secondAttribute="top" id="ty2-Ct-vgh"/>
+                                        <constraint firstItem="qcE-jT-20t" firstAttribute="top" secondItem="fMt-0u-KLY" secondAttribute="top" id="uG0-z0-Q6j"/>
                                         <constraint firstItem="KW1-2J-FSg" firstAttribute="centerX" secondItem="fMt-0u-KLY" secondAttribute="centerX" id="x7Q-wx-4lS"/>
                                         <constraint firstItem="9mL-7x-RXg" firstAttribute="centerX" secondItem="fMt-0u-KLY" secondAttribute="centerX" id="yia-uA-nqd"/>
                                     </constraints>
@@ -73,12 +88,25 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjk-d4-CMh">
+                                            <rect key="frame" x="0.0" y="0.0" width="191" height="52"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                            <connections>
+                                                <action selector="nonPublicButtonTapped:" destination="-1" eventType="touchUpInside" id="gwu-DK-4rI"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="bjk-d4-CMh" secondAttribute="trailing" id="C4c-qv-XtU"/>
                                         <constraint firstAttribute="bottom" secondItem="rdV-Fy-2Ms" secondAttribute="bottom" id="G23-Nb-tla"/>
+                                        <constraint firstItem="bjk-d4-CMh" firstAttribute="top" secondItem="ivm-bv-ZOy" secondAttribute="top" id="JFd-lX-PLl"/>
+                                        <constraint firstItem="rdV-Fy-2Ms" firstAttribute="top" secondItem="bjk-d4-CMh" secondAttribute="bottom" id="gGh-02-xm0"/>
                                         <constraint firstItem="rdV-Fy-2Ms" firstAttribute="top" secondItem="HXL-66-FEq" secondAttribute="bottom" constant="4" id="gfD-gt-OKN"/>
                                         <constraint firstItem="rdV-Fy-2Ms" firstAttribute="centerX" secondItem="ivm-bv-ZOy" secondAttribute="centerX" id="jqP-of-464"/>
+                                        <constraint firstItem="bjk-d4-CMh" firstAttribute="leading" secondItem="ivm-bv-ZOy" secondAttribute="leading" id="qUP-Ot-Zjw"/>
                                         <constraint firstItem="HXL-66-FEq" firstAttribute="centerX" secondItem="ivm-bv-ZOy" secondAttribute="centerX" id="yIM-yo-reF"/>
                                         <constraint firstItem="HXL-66-FEq" firstAttribute="top" secondItem="ivm-bv-ZOy" secondAttribute="top" id="zXY-m2-Ibc"/>
                                     </constraints>
@@ -131,7 +159,7 @@
         <image name="ic_access_public" width="48" height="48"/>
         <image name="icon_info_sm" width="20" height="20"/>
         <namedColor name="content-tertiary">
-            <color red="0.49000000953674316" green="0.49000000953674316" blue="0.49000000953674316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.47450980392156861" green="0.47843137254901963" blue="0.49019607843137253" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

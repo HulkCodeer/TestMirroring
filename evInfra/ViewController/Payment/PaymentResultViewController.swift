@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 import Material
 
-class PaymentResultViewController: UIViewController {
+internal final class PaymentResultViewController: UIViewController {
     @IBOutlet weak var ivResultBg: UIView!
     @IBOutlet weak var ivResultIcon: UIImageView!
     @IBOutlet weak var lbResultStatus: UILabel!
@@ -46,15 +46,23 @@ class PaymentResultViewController: UIViewController {
     @IBOutlet weak var viewFailMsg: UIView!
     @IBOutlet var heightViewStatus: NSLayoutConstraint!
     @IBOutlet var heightViewDiscount: NSLayoutConstraint!
-    var chargingStatus = ChargingStatus()
-    let defaults = UserDefault()
-    var chargingId = ""
+    
+    // MARK: VARIABLE
+    
+    internal var chargingId = ""
+    
+    private var chargingStatus = ChargingStatus()
+    private let defaults = UserDefault()
+    
+    
+    // MARK: SYSTEM FUNC
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         ivResultBg.layer.cornerRadius = ivResultBg.frame.height/2
         btnAuthStatus.layer.cornerRadius = 4
         btnAuthStatus.layer.borderWidth = 1
@@ -65,6 +73,7 @@ class PaymentResultViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "충전 완료 화면"
         prepareActionBar()
         prepareView()
         showProgress()
@@ -81,6 +90,8 @@ class PaymentResultViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: FUNC
 
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)
@@ -164,9 +175,8 @@ class PaymentResultViewController: UIViewController {
             self.lbQuantity.text = " - "
         }
         
-        if let startTime = chargingStatus.startDate, let endTime = chargingStatus.endDate{
-            let sDate = Date().toDate(data: startTime)!
-            let eDate = Date().toDate(data: endTime)!
+        if let startTime = chargingStatus.startDate, let endTime = chargingStatus.endDate,
+            let sDate = startTime.toDate(), let eDate = endTime.toDate() {
             let dayHourMinuteSecond: Set<Calendar.Component> = [.hour, .minute, .second]
             let difference = NSCalendar.current.dateComponents(dayHourMinuteSecond, from: sDate, to: eDate)
             if let hour = difference.hour, let minute = difference.minute, let second = difference.second {

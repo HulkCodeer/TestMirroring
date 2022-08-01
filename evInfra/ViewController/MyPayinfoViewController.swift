@@ -40,6 +40,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "결제정보관리 화면"
         prepareActionBar()
         initInfoView()
         
@@ -51,6 +52,10 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                 MemberManager.shared.showLoginAlert()
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
 
     override func didReceiveMemoryWarning() {

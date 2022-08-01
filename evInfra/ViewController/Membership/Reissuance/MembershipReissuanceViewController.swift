@@ -181,7 +181,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "재발급 신청 화면"
         clearTxtBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
@@ -217,7 +217,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     }
     
     internal func bind(reactor: MembershipReissuanceReactor) {
-        nextBtn.rx.tap.debug()
+        nextBtn.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .do { _ in self.view.endEditing(true) }
             .map { _ in Reactor.Action.getCheckPassword(self.passwordInputTf.text ?? "") }

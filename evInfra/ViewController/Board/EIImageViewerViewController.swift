@@ -27,7 +27,7 @@ internal final class EIImageViewerViewController : BaseViewController, UIScrollV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "이미지 상세보기 화면"
         guard let mImageURL = mImageURL else {
             mImageViewer.image = UIImage(named: "ic_person_base36")
             return
@@ -79,6 +79,10 @@ internal final class EIImageViewerViewController : BaseViewController, UIScrollV
         }else{
             self.mImageViewer.sd_setImage(with: mImageURL, completed: nil)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {

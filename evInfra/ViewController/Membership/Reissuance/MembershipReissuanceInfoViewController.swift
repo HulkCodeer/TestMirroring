@@ -317,7 +317,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "재발급 신청 상세 화면"
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
         self.view.addGestureRecognizer(tap)
         
@@ -336,8 +336,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
                          phoneTf.rx.text,
                          zipCodeTf.rx.text,
                          addressTf.rx.text,
-                         detailAddressTf.rx.text)
-            .debug()
+                         detailAddressTf.rx.text)            
             .map { [weak self] name, phone, zipCode, address, detailAddress in
                 guard let self = self,
                       let _nameText = name,

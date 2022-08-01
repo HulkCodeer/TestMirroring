@@ -92,7 +92,7 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "회원카드 안내 화면"
         membershipRegisterBtn.rx.tap
             .asDriver()
             .drive(onNext: {[weak self] _ in
@@ -102,6 +102,10 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
                 self.navigationController?.push(viewController: mbsIssueVC)
             })
             .disposed(by: disposebag)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     // 추후 딥링크 추가시 필요

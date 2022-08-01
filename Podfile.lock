@@ -2,6 +2,9 @@ PODS:
   - Alamofire (5.6.1)
   - AlamofireImage (4.2.0):
     - Alamofire (~> 5.4)
+  - Amplitude (8.8.0):
+    - AnalyticsConnector (~> 1.0.0)
+  - AnalyticsConnector (1.0.0)
   - AnyFormatKit (2.5.2)
   - DLRadioButton (1.4.12)
   - DropDown (2.3.13)
@@ -247,6 +250,7 @@ PODS:
 
 DEPENDENCIES:
   - AlamofireImage (~> 4.1)
+  - Amplitude (~> 8.8.0)
   - AnyFormatKit
   - DLRadioButton (~> 1.4)
   - DropDown
@@ -284,6 +288,8 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
     - AlamofireImage
+    - Amplitude
+    - AnalyticsConnector
     - AnyFormatKit
     - DLRadioButton
     - DropDown
@@ -343,6 +349,8 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 87bd8c952f9a4454320fce00d9cc3de57bcadaf5
   AlamofireImage: 34a2d90b0e5fe6a5605f85ae4b7b01e784c60192
+  Amplitude: 710116f3539c225e86fb70a8abdcd20015683132
+  AnalyticsConnector: 4c386d5972ac9da86e22d668564dbbac97558754
   AnyFormatKit: b0dbb2a5f2fe7a0fc97f401f8a219a47ee63a335
   DLRadioButton: d7c4e225ed0e8013cef7be61455230c7557ad7c1
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
@@ -390,6 +398,6 @@ SPEC CHECKSUMS:
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: bdf8a2f7e4363c2a223840e9145663bacb45c3f9
+PODFILE CHECKSUM: cb9f9b7712660d82f52fe7f80f23ae2f2d4f1404
 
 COCOAPODS: 1.11.3
