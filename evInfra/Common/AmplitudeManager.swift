@@ -13,9 +13,10 @@ internal final class AmplitudeManager {
     
     internal static var shared = AmplitudeManager()
     #if DEBUG
-    private let apiKey: String = "57bdb148be2db2b5ef49ae6b576fbd15"
+    private let apiKey: String = "57bdb148be2db2b5ef49ae6b576fbd15" // Dev Key
+//    private let apiKey: String = "5b0c10b3154cb361b516ea64682d2f8b" // Staing Key
     #else
-    private let apiKey: String = "f22b183357026eaed8bbe215e0bbf0a1"
+    private let apiKey: String = "f22b183357026eaed8bbe215e0bbf0a1" // Release Key
     #endif
     
     private let identify = AMPIdentify()
