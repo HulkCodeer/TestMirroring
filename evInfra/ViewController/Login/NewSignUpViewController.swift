@@ -620,6 +620,23 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 } else {
                     self.loginInfoGuideLbl.text = "커뮤니티와 고객 센터 안내 등에서 사용됩니다."
                 }
+                        
+                self.emailTf.text = userData.email
+                if let _otherInfo = userData.otherInfo {
+                    self.emailTf.isEnabled = !_otherInfo.is_email_verified
+                }
+                
+                if userData.name.count < 13 {
+                    self.nickNameTf.text = userData.name
+                } else {
+                    self.nickNameTf.text = userData.name.prefix(12).description
+                }
+                                
+                self.phoneTf.text = userData.displayPhoneNumber
+                self.selectBoxTitleLbl.text = userData.displayAgeRang
+                
+                self.emailTf.isEnabled = userData.email.isEmpty
+                self.phoneTf.isEnabled = userData.phoneNo.isEmpty
                 
                 switch userData.loginType {
                 case .apple:
@@ -631,10 +648,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 default:
                     self.moreLoginInfoGuideLbl.text = "추후 해당 정보를 기반한 맞춤형 정보를 제공할 예정입니다."
                 }
-                
-                                                                         
-                self.selectBoxTitleLbl.text = userData.displayAgeRang
-                
+                                                                                                         
                 for genderType in Login.Gender.allCases {
                     let genderView = self.createGenderView(type: genderType, reactor: reactor)
                     genderView.rx.tap
@@ -644,18 +658,6 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                     
                     self.genderTotalStackView.addArrangedSubview(genderView)
                 }
-                                        
-                self.nickNameTf.text = userData.name
-                self.nickNameTf.isEnabled = userData.name.isEmpty
-                                
-                self.emailTf.text = userData.email
-                if let _otherInfo = userData.otherInfo {
-                    self.emailTf.isEnabled = !_otherInfo.is_email_verified
-                }
-                self.emailTf.isEnabled = userData.email.isEmpty
-                                
-                self.phoneTf.text = userData.displayPhoneNumber
-                self.phoneTf.isEnabled = userData.phoneNo.isEmpty
             })
             .disposed(by: self.disposeBag)
         
@@ -924,8 +926,17 @@ extension NewSignUpViewController: UITextFieldDelegate {
         }
         return true
     }
+        
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.IBborderColor = Colors.borderOpaque.color
+        textField.IBborderWidth = 1
+        textField.textColor = Colors.contentDisabled.color
+    }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.IBborderColor = Colors.borderSelected.color
+        textField.IBborderWidth = 2
+        textField.textColor = Colors.contentPrimary.color
         let point = textField.frame.origin
         switch textField {
         case emailTf:
