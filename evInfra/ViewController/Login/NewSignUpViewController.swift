@@ -629,6 +629,7 @@ internal final class NewSignUpViewController: CommonBaseViewController, Storyboa
                 if userData.name.count < 13 {
                     self.nickNameTf.text = userData.name
                 } else {
+                    Snackbar().show(message: "내부 닉네임 정책으로 카카오톡 닉네임 12자리까지만 입력되었습니다.")
                     self.nickNameTf.text = userData.name.prefix(12).description
                 }
                                 
