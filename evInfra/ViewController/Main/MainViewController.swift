@@ -1210,20 +1210,21 @@ extension MainViewController {
     
     // 더 이상 보지 않기 한 광고가 정해진 기간을 넘겼는지 체크 및 광고 노출
     private func showStartAd() {
-        if let window = UIApplication.shared.keyWindow {
-            let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
-            if keepDateStr.isEmpty {
-                window.addSubview(EIAdDialog(frame: window.bounds))
-            } else {
-                if let keepDate = Date().toDate(data: keepDateStr) {
-                    let difference = NSCalendar.current.dateComponents([.day], from: keepDate, to: Date());
-                    if let day = difference.day {
-                        if day > 3 {
-                            window.addSubview(EIAdDialog(frame: window.bounds))
-                        }
-                    }
-                } else {
-                    window.addSubview(EIAdDialog(frame: window.bounds))
+        guard let window = UIApplication.shared.keyWindow else { return }
+        let adsReactor = AdsReactor(provider: RestApi())
+        let adsViewController = AdsViewController(reactor: adsReactor)
+        
+        let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
+        
+        if keepDateStr.isEmpty {
+            window.rootViewController?.addChildViewController(adsViewController)
+            window.addSubview(adsViewController.view)
+        } else {
+            if let keepDate = Date().toDate(data: keepDateStr) {
+                let difference = NSCalendar.current.dateComponents([.day], from: keepDate, to: Date())
+                if let day = difference.day, day > 7 {
+                    window.rootViewController?.addChildViewController(adsViewController)
+                    window.addSubview(adsViewController.view)
                 }
             }
         }
