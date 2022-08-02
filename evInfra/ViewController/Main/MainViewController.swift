@@ -94,6 +94,7 @@ internal final class MainViewController: UIViewController {
         configureNaverMapView()
         configureLocationManager()
         showGuide()
+        showStartAd()
         
         prepareRouteField()
         preparePOIResultView()
@@ -960,7 +961,7 @@ extension MainViewController {
                 self?.markerIndicator.stopAnimating()
                 self?.appDelegate.appToolbarController.toolbar.isUserInteractionEnabled = true
             }
-            self?.showStartAd()
+
             self?.checkFCM()
             
             if Const.CLOSED_BETA_TEST {
@@ -1213,18 +1214,19 @@ extension MainViewController {
         guard let window = UIApplication.shared.keyWindow else { return }
         let adsReactor = AdsReactor(provider: RestApi())
         let adsViewController = AdsViewController(reactor: adsReactor)
-        
         let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
         
-        if keepDateStr.isEmpty {
-            window.rootViewController?.addChildViewController(adsViewController)
-            window.addSubview(adsViewController.view)
-        } else {
-            if let keepDate = Date().toDate(data: keepDateStr) {
-                let difference = NSCalendar.current.dateComponents([.day], from: keepDate, to: Date())
-                if let day = difference.day, day > 7 {
-                    window.rootViewController?.addChildViewController(adsViewController)
-                    window.addSubview(adsViewController.view)
+        DispatchQueue.main.async {
+            if keepDateStr.isEmpty {
+                window.rootViewController?.addChildViewController(adsViewController)
+                window.addSubview(adsViewController.view)
+            } else {
+                if let keepDate = Date().toDate(data: keepDateStr) {
+                    let difference = NSCalendar.current.dateComponents([.day], from: keepDate, to: Date())
+                    if let day = difference.day, day > 7 {
+                        window.rootViewController?.addChildViewController(adsViewController)
+                        window.addSubview(adsViewController.view)
+                    }
                 }
             }
         }
