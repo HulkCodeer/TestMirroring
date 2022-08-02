@@ -62,6 +62,7 @@ internal enum Icons {
   internal static let iconStarMd = ImageAsset(name: "icon_star_md")
   internal static let iconStarSm = ImageAsset(name: "icon_star_sm")
   internal static let iconStarXs = ImageAsset(name: "icon_star_xs")
+  internal static let carAddEmptyBorder = ImageAsset(name: "car_add_empty_border")
   internal static let carEmptyBorder = ImageAsset(name: "car_empty_border")
   internal static let iconArrowDownLg = ImageAsset(name: "icon_arrow_down_lg")
   internal static let iconArrowDownMd = ImageAsset(name: "icon_arrow_down_md")

@@ -15,7 +15,7 @@ internal final class MyPageCarAddCell: CommonBaseTableViewCell, ReactorKit.View 
     
     private lazy var addBorderImgView = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = Icons.carEmptyBorder.image
+        $0.image = Icons.carAddEmptyBorder.image
         $0.tintColor = Colors.contentTertiary.color
     }
             
