@@ -181,6 +181,8 @@
 		63BEAC602833965A00E797DD /* Observable+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BEAC5F2833965A00E797DD /* Observable+Operators.swift */; };
 		63C13456288FC444007754C3 /* ModifyMyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C13455288FC444007754C3 /* ModifyMyPageViewController.swift */; };
 		63C13457288FC444007754C3 /* ModifyMyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C13455288FC444007754C3 /* ModifyMyPageViewController.swift */; };
+		63C65ED02898A4AA00F86C01 /* CommonEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C65ECF2898A4AA00F86C01 /* CommonEnum.swift */; };
+		63C65ED12898A4AA00F86C01 /* CommonEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C65ECF2898A4AA00F86C01 /* CommonEnum.swift */; };
 		63C7C8E0286D6F0B00A357D6 /* NewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */; };
 		63C7C8E1286D7D2C00A357D6 /* NewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */; };
 		63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */; };
@@ -1118,6 +1120,7 @@
 		63BEAC5D28338ADA00E797DD /* ReissuanceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceModel.swift; sourceTree = "<group>"; };
 		63BEAC5F2833965A00E797DD /* Observable+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Operators.swift"; sourceTree = "<group>"; };
 		63C13455288FC444007754C3 /* ModifyMyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyMyPageViewController.swift; sourceTree = "<group>"; };
+		63C65ECF2898A4AA00F86C01 /* CommonEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonEnum.swift; sourceTree = "<group>"; };
 		63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBottomSheetViewController.swift; sourceTree = "<group>"; };
 		63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkModel.swift; sourceTree = "<group>"; };
 		63CCE8212834CFD5006B8B9A /* evInfraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = evInfraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1998,6 +2001,7 @@
 				821A05F52862920300EB1A91 /* CommonBaseViewController.swift */,
 				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
 				82FDA4882889A65500329085 /* CommonBaseTableViewCell.swift */,
+				63C65ECF2898A4AA00F86C01 /* CommonEnum.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -3598,6 +3602,7 @@
 				63F3146D284EC74F001713D2 /* SearchTypeSelectView.swift in Sources */,
 				63F3146E284EC74F001713D2 /* FilterBarView.swift in Sources */,
 				82FC804328880127000617BE /* CommonNaviView.swift in Sources */,
+				63C65ED12898A4AA00F86C01 /* CommonEnum.swift in Sources */,
 				63F3146F284EC74F001713D2 /* AlertView.swift in Sources */,
 				63F31470284EC74F001713D2 /* IntroImageCheckerDelegate.swift in Sources */,
 				63F31471284EC74F001713D2 /* Connector.swift in Sources */,
@@ -3852,6 +3857,7 @@
 				63B23740282CA4B400E8A3F8 /* PointUseGuideViewController.swift in Sources */,
 				63A3CAEE288969AA00891BE4 /* UserInfoModel.swift in Sources */,
 				00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */,
+				63C65ED02898A4AA00F86C01 /* CommonEnum.swift in Sources */,
 				63C7C8E0286D6F0B00A357D6 /* NewBottomSheetViewController.swift in Sources */,
 				00F1AC7727031FAA009847E7 /* PreUsePointViewController.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton+Extension.swift in Sources */,

@@ -300,7 +300,7 @@ extension NewAcceptTermsViewController: UITableViewDelegate, UITableViewDataSour
                     viewcon.tabIndex = .privacyAgree
                 
                 case .privacyPolicy:
-                    viewcon.tabIndex = .privacyAgree
+                    viewcon.tabIndex = .privacyPolicy
                 
                 case .serviceLocation:
                     viewcon.tabIndex = .serviceLocation

@@ -186,6 +186,19 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         $0.isEnabled = true
     }
     
+    private lazy var termsAgreeGudieLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textColor = Colors.contentTertiary.color
+        $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        $0.text = "버튼을 누를 시, 개인정보 수집 및 이용 동의에 동의하게 됩니다."
+        $0.setUnderline(underLineText: "개인정보 수집 및 이용 동의")
+        $0.textAlignment = .center
+    }
+    
+    private lazy var termsAgreeBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     // MARK: VARIABLE
         
     private let noticeInfoArray: [String] = [
@@ -368,6 +381,20 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
             $0.bottom.equalTo(loadingMainGuideLbl.snp.top).offset(-80)
             $0.width.height.equalTo(40)
         }
+        
+        self.contentView.addSubview(termsAgreeGudieLbl)
+        termsAgreeGudieLbl.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(16)
+            $0.bottom.equalTo(nextBtn.snp.top).offset(-16)
+        }
+        
+        self.contentView.addSubview(termsAgreeBtn)
+        termsAgreeBtn.snp.makeConstraints {
+            $0.center.equalTo(termsAgreeGudieLbl)
+            $0.height.equalTo(20)
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -400,6 +427,19 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
     internal func bind(reactor: CarRegistrationReactor) {
         skipTitleLbl.isHidden = reactor.fromViewType == .mypage
         skipBtn.isHidden = reactor.fromViewType == .mypage
+        
+        Observable.just(CarRegistrationReactor.Action.getTermsAgreeList)
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        termsAgreeBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { _ in
+                let viewcon = NewTermsViewController()
+                viewcon.tabIndex = .privacyAgree
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            })
+            .disposed(by: self.disposeBag)
         
         nextBtn.rx.tap
             .asDriver()

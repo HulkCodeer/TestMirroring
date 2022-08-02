@@ -9,17 +9,12 @@
 import ReactorKit
 import SwiftyJSON
 
-enum FromViewType {
-    case mypage
-    case signup
-}
-
 internal final class CarRegistrationReactor: ViewModel, Reactor {
     enum ViewType {
         case carRegister
         case carOwner
         case carInquery
-        case carInqueryComplete
+        case carInqueryComplete        
         case none
         
         func hasNextViewType() -> ViewType {
@@ -47,10 +42,12 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
         case setMoveNextView(ViewType)
         case setCarNumber(String)
         case setCarOwnerName(String)
+        case getTermsAgreeList
     }
     
     enum Mutation {
         case setMoveNextView(ViewType)
+        case setTermsAgree(Bool)
         case none
     }
     
@@ -59,6 +56,7 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
         var carInfoModel: CarInfoModel?
         
         var isRegisterCarComplete: Bool?
+        var isTermsAgree: Bool?
     }
     
     struct RegisterCarParamModel {
@@ -115,6 +113,23 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
         case .setCarOwnerName(let carOwnerName):
             self.paramModel.carOwner = carOwnerName
             return .empty()
+            
+        case .getTermsAgreeList:
+            return self.provider.postGetTermsAgreeList()
+                .retry(1)
+                .convertData()
+                .compactMap(convertToData)
+                .map { [weak self] carInfoModel in
+                    guard let self = self else { return .none }
+                    let reactor = CarRegistrationCompleteReactor(model: carInfoModel)
+                    reactor.fromViewType = self.fromViewType
+                    let viewcon = CarRegistrationCompleteViewController()
+                    viewcon.reactor = reactor
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                    
+                    return .setMoveNextView(.none)
+                }
+        
         }
     }
     
@@ -123,10 +138,14 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
         
         newState.carInfoModel = nil
         newState.isRegisterCarComplete = nil
+        newState.isTermsAgree = nil
                                 
         switch mutation {
         case .setMoveNextView(let viewType):
             newState.nextViewType = viewType
+            
+        case .setTermsAgree(let isTermsAgree):
+            newState.isTermsAgree = isTermsAgree
             
         case .none: break
                     
@@ -214,7 +233,7 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
                 return nil
             }
                                                              
-        case .failure(let errorMessage):
+        case .failure(let errorMessage):            
             printLog(out: "Error Message : \(errorMessage)")
             Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
             return nil

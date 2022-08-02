@@ -34,6 +34,7 @@ protocol SoftberryAPI: class {
     func postUpdateMemberInfo(model: ModifyMyPageReactor.UpdateMemberInfoParamModel) -> Observable<(HTTPURLResponse, Data)>
     func postDeleteCarInfo(carNum: String) -> Observable<(HTTPURLResponse, Data)>
     func patchChangeMainCar(mainCarInfo: MyPageReactor.ChangeMainCarInfoParamModel) -> Observable<(HTTPURLResponse, Data)>
+    func postGetTermsAgreeList() -> Observable<(HTTPURLResponse, Data)>
     
 //    func postMemberInfo() -> Observable<(HTTPURLResponse, Data)>
 }
@@ -156,7 +157,6 @@ internal final class RestApi: SoftberryAPI {
         let reqParam: Parameters = [
             "mb_id": MemberManager.shared.mbId
         ]
-
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/member_info", httpMethod: .post, parameters: reqParam, headers: nil)
     }
             
@@ -203,5 +203,14 @@ internal final class RestApi: SoftberryAPI {
     func patchChangeMainCar(mainCarInfo: MyPageReactor.ChangeMainCarInfoParamModel) -> Observable<(HTTPURLResponse, Data)> {
         let reqUrl = "\(Const.EV_APP_AWS_SERVER)/car"
         return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .patch, parameters: mainCarInfo.toParam, headers: nil)
+    }
+    
+    // MARK: - 약관 동의 여부
+    func postGetTermsAgreeList() -> Observable<(HTTPURLResponse, Data)> {
+        let reqUrl = "\(Const.EV_PAY_SERVER)/terms/term/get_agree_status"
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.shared.mbId
+        ]                        
+        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .patch, parameters: reqParam, headers: nil)
     }
 }
