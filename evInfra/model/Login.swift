@@ -30,6 +30,18 @@ struct Login: Equatable {
             default: return ""
             }
         }
+        
+        internal var description: String {
+            switch self {
+            case .apple:
+                return "apple"
+            case .kakao:
+                return "kakao"
+            case .evinfra:
+                return "corporate"
+            default: return ""
+            }
+        }
     }
     
     enum AgeType: Int, CaseIterable {

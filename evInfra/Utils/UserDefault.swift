@@ -46,6 +46,9 @@ class UserDefault {
         static let MB_GENDER = "mb_gender"
         static let MB_EMAIL = "mb_email"
         static let MB_PHONE = "mb_phone"
+        static let MB_REG_DATE = "reg_date"
+        static let MB_POINT = "point"
+        static let MB_HAS_REPRESENTED = "mb_has_represented"
         
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"

@@ -34,10 +34,15 @@ class ChargerFilterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "필터 설정 화면"
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         prepareActionBar()
         initView()
         companyViewHeight.constant = companyFilter.getHeight()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewDidLayoutSubviews() {

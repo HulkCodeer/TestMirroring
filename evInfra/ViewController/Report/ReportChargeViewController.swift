@@ -58,7 +58,7 @@ internal final class ReportChargeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "충전소 제보 화면"
         prepareActionBar()
         
         prepareMapView()
@@ -72,7 +72,6 @@ internal final class ReportChargeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         addObserver()
     }
     

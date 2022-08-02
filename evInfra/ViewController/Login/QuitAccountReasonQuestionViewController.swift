@@ -299,7 +299,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "회원탈퇴 사유 선택화면"
         dismissKeyboardBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in

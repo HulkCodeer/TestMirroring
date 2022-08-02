@@ -75,7 +75,7 @@ internal final class MemberManager {
         get {
             return UserDefault().readString(key: UserDefault.Key.MB_NICKNAME)
         }
-    }    
+    }
     
     internal var ageRange: String {
         set {
@@ -105,6 +105,24 @@ internal final class MemberManager {
     
     internal var phone: String {
         return UserDefault().readString(key: UserDefault.Key.MB_PHONE)
+    }
+    
+    internal var regDate: String {
+        set {
+            UserDefault().saveString(key: UserDefault.Key.MB_REG_DATE, value: newValue)
+        }
+        get {
+            return UserDefault().readString(key: UserDefault.Key.MB_REG_DATE)
+        }
+    }
+    
+    internal var berryPoint: String {
+        set {
+            UserDefault().saveString(key: UserDefault.Key.MB_POINT, value: newValue)
+        }
+        get {
+            return UserDefault().readString(key: UserDefault.Key.MB_POINT)
+        }
     }
                     
     func isPartnershipClient(clientId : Int) -> Bool {
@@ -139,7 +157,7 @@ internal final class MemberManager {
     
     // 로그인 상태 체크
     internal var isLogin: Bool {
-        return UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0                
+        return UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0
     }
     
     // 지킴이 체크
@@ -147,7 +165,7 @@ internal final class MemberManager {
         return UserDefault().readInt(key: UserDefault.Key.MB_LEVEL) == MemberLevel.keeper.rawValue
     }
     
-    func setData(data: JSON) {    
+    func setData(data: JSON) {
         if data["mb_id"].stringValue.elementsEqual("") {
             print("mb id is null");
         } else {
@@ -171,13 +189,15 @@ internal final class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: data["age_range"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: data["email"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: data["phone"].stringValue)
+            userDefault.saveString(key: UserDefault.Key.MB_REG_DATE, value: data["reg_date"].stringValue)
+            userDefault.saveString(key: UserDefault.Key.MB_POINT, value: data["point"].stringValue)
         }
     }
     
     func clearData() {
         let userDefault = UserDefault()
         userDefault.saveInt(key: UserDefault.Key.MB_ID, value: 0)
-        userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: MemberLevel.normal.rawValue)        
+        userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: MemberLevel.normal.rawValue)
         userDefault.saveString(key: UserDefault.Key.MB_USER_ID, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_REGION, value: "")

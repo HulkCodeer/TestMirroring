@@ -49,11 +49,13 @@ class LotteRentCertificateViewController : UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "롯데렌터카 등록 화면"
         prepareActionBar()
         initView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if let result = payRegistResult {
             updateAfterPayRegist(json: result)
         } else {

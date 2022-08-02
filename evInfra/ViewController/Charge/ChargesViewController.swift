@@ -39,7 +39,7 @@ class ChargesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "충전이력 조회 화면"
         prepareActionBar()
         prepareDatePicker()
         prepareCheckBox()
@@ -48,6 +48,10 @@ class ChargesViewController: UIViewController {
         // 오늘 날짜
         let currentDate = Date()
         self.getCharges(isAllDate: false, startDate: currentDate, endDate: currentDate)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     func prepareActionBar() {

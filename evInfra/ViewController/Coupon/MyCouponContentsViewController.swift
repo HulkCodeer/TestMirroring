@@ -39,9 +39,13 @@ class MyCouponContentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "보유 쿠폰 상세 화면"
         prepareActionBar()
         prepareWebView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     func prepareActionBar() {

@@ -22,7 +22,12 @@ class CouponCodeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "쿠폰번호 등록 화면"
         prepareActionBar()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewWillLayoutSubviews() {

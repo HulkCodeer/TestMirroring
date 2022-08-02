@@ -21,7 +21,7 @@ class NoticeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.title = "공지사항 화면"
         prepareActionBar()
 
         self.tableView.delegate = self
@@ -32,6 +32,10 @@ class NoticeViewController: UIViewController {
         self.tableView.estimatedRowHeight = 102
         
         self.getNoticeData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
 }
 

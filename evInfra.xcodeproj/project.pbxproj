@@ -83,6 +83,8 @@
 		192A338327FE747E00EF1684 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338227FE747E00EF1684 /* Marker.swift */; };
 		192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */; };
 		193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */; };
+		196C3A272887F4720056E2FD /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A3D3252887F13400AE8280 /* AmplitudeManager.swift */; };
+		19A3D3262887F13400AE8280 /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A3D3252887F13400AE8280 /* AmplitudeManager.swift */; };
 		2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CC5B658D05400DBBB0E6E63 /* Pods_evInfra.framework */; };
 		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
 		4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
@@ -107,7 +109,7 @@
 		52087850279561BA009DD329 /* PhotoRegisterCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5208784E279561BA009DD329 /* PhotoRegisterCollectionViewCell.xib */; };
 		522AF73227A2585E00DBEAD6 /* KeyboardInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 522AF73127A2585E00DBEAD6 /* KeyboardInputView.xib */; };
 		522AF73427A25D3D00DBEAD6 /* KeyboardInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522AF73327A25D3D00DBEAD6 /* KeyboardInputView.swift */; };
-		523A3AF22797A9CA004C3C23 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523A3AF12797A9CA004C3C23 /* Extension.swift */; };
+		523A3AF22797A9CA004C3C23 /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523A3AF12797A9CA004C3C23 /* GroupViewController.swift */; };
 		525E3A25278D728100F5C54D /* CommunityBoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A24278D728000F5C54D /* CommunityBoardTableViewCell.swift */; };
 		525E3A27278D728B00F5C54D /* CommunityBoardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */; };
 		525E3A2A278D729600F5C54D /* CommunityBoardTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */; };
@@ -372,7 +374,7 @@
 		63F31448284EC74F001713D2 /* BoardTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB87607020690B360095394B /* BoardTableViewHeader.swift */; };
 		63F31449284EC74F001713D2 /* ChargerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058A3C0248639D000091823 /* ChargerManager.swift */; };
 		63F3144A284EC74F001713D2 /* MembershipCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */; };
-		63F3144B284EC74F001713D2 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523A3AF12797A9CA004C3C23 /* Extension.swift */; };
+		63F3144B284EC74F001713D2 /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523A3AF12797A9CA004C3C23 /* GroupViewController.swift */; };
 		63F3144C284EC74F001713D2 /* ClusterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */; };
 		63F3144D284EC74F001713D2 /* ChargesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB39688C22D5B93E00170F2E /* ChargesTableViewCell.swift */; };
 		63F3144E284EC74F001713D2 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85D126BA8C6100D1606F /* UILabel+Extension.swift */; };
@@ -854,8 +856,8 @@
 		82FDA48D2889A75900329085 /* MyPageCarListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82FDA48C2889A75900329085 /* MyPageCarListCell.xib */; };
 		82FDA48E2889A75900329085 /* MyPageCarListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82FDA48C2889A75900329085 /* MyPageCarListCell.xib */; };
 		82FDA4902889A85F00329085 /* MyPageCarListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FDA48F2889A85F00329085 /* MyPageCarListReactor.swift */; };
-		82FDA4912889A85F00329085 /* MyPageCarListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FDA48F2889A85F00329085 /* MyPageCarListReactor.swift */; };
-		8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		82FDA4912889A85F00329085 /* MyPageCarListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FDA48F2889A85F00329085 /* MyPageCarListReactor.swift */; };		
+		8ABD2A1E6BAAA48912760042 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
 		9028E07824A1B8280062A029 /* eirel in Resources */ = {isa = PBXBuildFile; fileRef = 9028E07724A1B8270062A029 /* eirel */; };
@@ -1037,6 +1039,7 @@
 		192A338227FE747E00EF1684 /* Marker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
 		193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
+		19A3D3252887F13400AE8280 /* AmplitudeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeManager.swift; sourceTree = "<group>"; };
 		3FF4500A7EA0A1061E041BED /* Pods-evInfra_dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.release.xcconfig"; sourceTree = "<group>"; };
 		4212A25325555775001BB124 /* OfferwallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallTableViewCell.swift; sourceTree = "<group>"; };
 		4212A25425555775001BB124 /* OfferwallTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferwallTableViewCell.xib; sourceTree = "<group>"; };
@@ -1062,7 +1065,7 @@
 		5208784E279561BA009DD329 /* PhotoRegisterCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoRegisterCollectionViewCell.xib; sourceTree = "<group>"; };
 		522AF73127A2585E00DBEAD6 /* KeyboardInputView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KeyboardInputView.xib; sourceTree = "<group>"; };
 		522AF73327A25D3D00DBEAD6 /* KeyboardInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInputView.swift; sourceTree = "<group>"; };
-		523A3AF12797A9CA004C3C23 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		523A3AF12797A9CA004C3C23 /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		525E3A24278D728000F5C54D /* CommunityBoardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityBoardTableViewCell.swift; sourceTree = "<group>"; };
 		525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityBoardTableViewCell.xib; sourceTree = "<group>"; };
 		525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityBoardTableViewHeader.swift; sourceTree = "<group>"; };
@@ -1521,7 +1524,7 @@
 				425EE5B22519DA520089E87D /* QuartzCore.framework in Frameworks */,
 				73B787B1210B172400C12801 /* KakaoLink.framework in Frameworks */,
 				425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */,
-				8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */,
+				8ABD2A1E6BAAA48912760042 /* BuildFile in Frameworks */,
 				2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1736,14 +1739,6 @@
 				00CD36CA27900F73005413A6 /* BerryComponent.storyboard */,
 			);
 			path = BerryComponent;
-			sourceTree = "<group>";
-		};
-		523A3AF02797A9B8004C3C23 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				523A3AF12797A9CA004C3C23 /* Extension.swift */,
-			);
-			path = Extension;
 			sourceTree = "<group>";
 		};
 		527165C127B2514A0078DF3A /* Alert */ = {
@@ -2010,9 +2005,10 @@
 				82D986802839BE080030F0FC /* ViewModel.swift */,
 				63EB0390283CB26500078D28 /* ServerResult.swift */,
 				821A05F52862920300EB1A91 /* CommonBaseViewController.swift */,
-				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
-				82FDA4882889A65500329085 /* CommonBaseTableViewCell.swift */,
+				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,				
 				63C65ECF2898A4AA00F86C01 /* CommonEnum.swift */,
+				523A3AF12797A9CA004C3C23 /* GroupViewController.swift */,			
+				19A3D3252887F13400AE8280 /* AmplitudeManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2268,7 +2264,6 @@
 			children = (
 				82CD192F28814D5400EA5024 /* Car */,
 				00CD36C927900F5A005413A6 /* BerryComponent */,
-				523A3AF02797A9B8004C3C23 /* Extension */,
 				00A7D5C926B7B13F00C5DBCC /* Filter */,
 				00B2E8C926C10895005D017C /* Detail */,
 				00B2E8C626C106A0005D017C /* Login */,
@@ -2613,7 +2608,6 @@
 				63F31542284EC74F001713D2 /* Run Script */,
 				63F31543284EC74F001713D2 /* ShellScript */,
 				63F31544284EC74F001713D2 /* [CP] Embed Pods Frameworks */,
-				636DB93E2876EA61008BB27A /* Run SwiftGen */,
 			);
 			buildRules = (
 			);
@@ -3025,24 +3019,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		636DB93E2876EA61008BB27A /* Run SwiftGen */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Run SwiftGen";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswiftgen run xcassets --param enumName=Colors evInfra/Resources/Colors.xcassets -t swift5 --output \"evInfra/Common/Colors+Generated.swift\"\nswiftgen run xcassets --param enumName=Icons evInfra/Resources/Icons.xcassets -t swift5 --output \"evInfra/Common/Icons+Generated.swift\"\n";
-		};
 		63C4A4B9283F5FF300EA9D6F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3125,6 +3101,8 @@
 				"${PODS_ROOT}/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
+				"${BUILT_PRODUCTS_DIR}/Amplitude/Amplitude.framework",
+				"${BUILT_PRODUCTS_DIR}/AnalyticsConnector/AnalyticsConnector.framework",
 				"${BUILT_PRODUCTS_DIR}/AnyFormatKit/AnyFormatKit.framework",
 				"${BUILT_PRODUCTS_DIR}/DLRadioButton/DLRadioButton.framework",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
@@ -3176,6 +3154,8 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Amplitude.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AnalyticsConnector.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AnyFormatKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DLRadioButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
@@ -3237,6 +3217,8 @@
 				"${PODS_ROOT}/Target Support Files/Pods-evInfra/Pods-evInfra-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
+				"${BUILT_PRODUCTS_DIR}/Amplitude/Amplitude.framework",
+				"${BUILT_PRODUCTS_DIR}/AnalyticsConnector/AnalyticsConnector.framework",
 				"${BUILT_PRODUCTS_DIR}/AnyFormatKit/AnyFormatKit.framework",
 				"${BUILT_PRODUCTS_DIR}/DLRadioButton/DLRadioButton.framework",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
@@ -3288,6 +3270,8 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Amplitude.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AnalyticsConnector.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AnyFormatKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DLRadioButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
@@ -3351,6 +3335,7 @@
 				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
 				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
 			name = "Run Script";
 			outputFileListPaths = (
@@ -3377,6 +3362,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82B050A1288A1C4E008C7D11 /* MyPageCarEmptyCell.swift in Sources */,
+				196C3A272887F4720056E2FD /* AmplitudeManager.swift in Sources */,
 				63F313A3284EC74F001713D2 /* ImageMarker.swift in Sources */,
 				63F313A4284EC74F001713D2 /* MyWritingViewController.swift in Sources */,
 				63F313A5284EC74F001713D2 /* TagListViewCell.swift in Sources */,
@@ -3576,6 +3562,8 @@
 				63F31449284EC74F001713D2 /* ChargerManager.swift in Sources */,
 				63F3144A284EC74F001713D2 /* MembershipCardViewController.swift in Sources */,
 				63F3144B284EC74F001713D2 /* Extension.swift in Sources */,
+				63F3144B284EC74F001713D2 /* GroupViewController.swift in Sources */,
+				821A05E228627F3100EB1A91 /* NavigationClose.swift in Sources */,				
 				63F3144C284EC74F001713D2 /* ClusterGenerator.swift in Sources */,
 				63F3144D284EC74F001713D2 /* ChargesTableViewCell.swift in Sources */,
 				63F3144E284EC74F001713D2 /* UILabel+Extension.swift in Sources */,
@@ -3891,8 +3879,10 @@
 				DB87607520690B370095394B /* BoardTableViewHeader.swift in Sources */,
 				9058A3C1248639D000091823 /* ChargerManager.swift in Sources */,
 				73C6A10B2345F1F800349A86 /* MembershipCardViewController.swift in Sources */,
-				821A05E128627F3100EB1A91 /* (null) in Sources */,
 				523A3AF22797A9CA004C3C23 /* Extension.swift in Sources */,
+				523A3AF22797A9CA004C3C23 /* GroupViewController.swift in Sources */,
+				821A05E128627F3100EB1A91 /* NavigationClose.swift in Sources */,
+				19A3D3262887F13400AE8280 /* AmplitudeManager.swift in Sources */,				
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,
 				DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */,
 				00EB85D226BA8C6100D1606F /* UILabel+Extension.swift in Sources */,
@@ -4081,7 +4071,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 07081744;
+				CURRENT_PROJECT_VERSION = 07291334;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4094,7 +4084,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.6.7;
+				MARKETING_VERSION = 3.6.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -4122,7 +4112,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 07081744;
+				CURRENT_PROJECT_VERSION = 07291334;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4135,7 +4125,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.6.7;
+				MARKETING_VERSION = 3.6.9;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -4281,7 +4271,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 148;
+				CURRENT_PROJECT_VERSION = 149;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4294,7 +4284,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.6.7;
+				MARKETING_VERSION = 3.6.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -4322,7 +4312,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 148;
+				CURRENT_PROJECT_VERSION = 149;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4335,7 +4325,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.6.7;
+				MARKETING_VERSION = 3.6.9;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

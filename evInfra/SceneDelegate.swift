@@ -54,8 +54,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func setupEntryController(_ scene: UIScene) {
         // init initial view controller
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
+        let introViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(ofType: IntroViewController.self)
         
         guard let _ = (scene as? UIWindowScene) else { return }
         if let windowScene = scene as? UIWindowScene {

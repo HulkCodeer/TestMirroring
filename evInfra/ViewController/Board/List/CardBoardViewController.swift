@@ -43,10 +43,14 @@ class CardBoardViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "게시판 리스트 화면"
         prepareActionBar()
         fetchFirstBoard(mid: category, sort: sortType, mode: mode.rawValue)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
 }
 

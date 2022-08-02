@@ -34,7 +34,7 @@ class MyWritingViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "내가 쓴 글 화면"
         prepareTabItem()
         boardTableView.tableViewDelegate = self
         boardTableView.separatorColor = UIColor(rgb: 0xE4E4E4)

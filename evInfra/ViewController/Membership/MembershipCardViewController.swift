@@ -37,6 +37,7 @@ internal final class MembershipCardViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "회원카드 관리 화면"
         prepareActionBar(with: "회원카드 관리")
         checkPayStatus()
     }
