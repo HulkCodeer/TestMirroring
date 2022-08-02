@@ -6,9 +6,21 @@
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 
+import SwiftyJSON
+
 struct TermsInfo {
     var termsId: String
     var agree: Bool
+    
+    init(_ json: JSON){
+        self.termsId = json["term_id"].stringValue
+        self.agree = json["agree"].boolValue
+    }
+    
+    init(termsId: String, agree: Bool) {
+        self.termsId = termsId
+        self.agree = agree
+    }
     
     var toParam: [String: Any] {
         [

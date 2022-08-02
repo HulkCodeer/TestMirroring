@@ -18,7 +18,7 @@ struct PointHistory: Decodable {
     var code: Int?
     var msg: String?
     var total_point = "0"
-    var list: [EvPoint]?
+    var list: [EvPoint] = []
     var expire_point = "0"
 }
 
@@ -266,22 +266,22 @@ extension PointViewController {
     
     // save + used
     func getAllPointList() -> [EvPoint] {
-        var pointList: [EvPoint] = []
-        if let list = self.pointHistory.list {
-            pointList = list
+        guard !self.pointHistory.list.isEmpty else {
+            return []
         }
-        return pointList
+        return self.pointHistory.list
     }
     
     // used
     func getUsedPointList() -> [EvPoint] {
         var evFilteredList:[EvPoint] = []
 
-        if let list = self.pointHistory.list {
-            for item in list {
-                if item.action == "used" {
-                    evFilteredList.append(item)
-                }
+        guard !self.pointHistory.list.isEmpty else {
+            return []
+        }
+        for item in self.pointHistory.list {
+            if item.action == "used" {
+                evFilteredList.append(item)
             }
         }
         return evFilteredList
@@ -290,11 +290,13 @@ extension PointViewController {
     // save
     func getSavePointList() -> [EvPoint] {
         var evFilteredList:[EvPoint] = []
-        if let list = self.pointHistory.list {
-            for item in list {
-                if item.action == "save" {
-                    evFilteredList.append(item)
-                }
+        guard !self.pointHistory.list.isEmpty else {
+            return []
+        }
+        
+        for item in self.pointHistory.list {
+            if item.action == "save" {
+                evFilteredList.append(item)
             }
         }
         return evFilteredList

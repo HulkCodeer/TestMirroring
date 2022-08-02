@@ -185,6 +185,8 @@
 		63C65ED12898A4AA00F86C01 /* CommonEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C65ECF2898A4AA00F86C01 /* CommonEnum.swift */; };
 		63C7C8E0286D6F0B00A357D6 /* NewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */; };
 		63C7C8E1286D7D2C00A357D6 /* NewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */; };
+		63CAA29128992CAB00A21043 /* TermsAgreeListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CAA29028992CAB00A21043 /* TermsAgreeListModel.swift */; };
+		63CAA29228992CAB00A21043 /* TermsAgreeListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CAA29028992CAB00A21043 /* TermsAgreeListModel.swift */; };
 		63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */; };
 		63CCE8242834CFD5006B8B9A /* evInfraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE8232834CFD5006B8B9A /* evInfraTests.swift */; };
 		63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */; };
@@ -1122,6 +1124,7 @@
 		63C13455288FC444007754C3 /* ModifyMyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyMyPageViewController.swift; sourceTree = "<group>"; };
 		63C65ECF2898A4AA00F86C01 /* CommonEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonEnum.swift; sourceTree = "<group>"; };
 		63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBottomSheetViewController.swift; sourceTree = "<group>"; };
+		63CAA29028992CAB00A21043 /* TermsAgreeListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreeListModel.swift; sourceTree = "<group>"; };
 		63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkModel.swift; sourceTree = "<group>"; };
 		63CCE8212834CFD5006B8B9A /* evInfraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = evInfraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63CCE8232834CFD5006B8B9A /* evInfraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = evInfraTests.swift; sourceTree = "<group>"; };
@@ -1948,6 +1951,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		63CAA29328992CC200A21043 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				63CAA29028992CAB00A21043 /* TermsAgreeListModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		63CCE8222834CFD5006B8B9A /* evInfraTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -2395,6 +2406,7 @@
 		82CD192F28814D5400EA5024 /* Car */ = {
 			isa = PBXGroup;
 			children = (
+				63CAA29328992CC200A21043 /* Models */,
 				63D4F8B6287FCD760087EE61 /* CarRegistrationViewController.swift */,
 				63D4F8BF287FF0BB0087EE61 /* CarRegistrationReactor.swift */,
 				82CD193028814D8E00EA5024 /* CarRegistrationCompleteViewController.swift */,
@@ -3556,6 +3568,7 @@
 				63F31444284EC74F001713D2 /* CidTableView.swift in Sources */,
 				82DC20632877347A00CF04D9 /* UITableView+Extension.swift in Sources */,
 				63F31445284EC74F001713D2 /* PoiTableView.swift in Sources */,
+				63CAA29228992CAB00A21043 /* TermsAgreeListModel.swift in Sources */,
 				82B4F6362862F4AA00BA1D1A /* AcceptTermsCell.swift in Sources */,
 				63F31446284EC74F001713D2 /* LeftViewTableHeader.swift in Sources */,
 				63F31447284EC74F001713D2 /* AddressToLocationController.swift in Sources */,
@@ -3954,6 +3967,7 @@
 				63DA0A01282E2FD20021292C /* String+Extension.swift in Sources */,
 				736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */,
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,
+				63CAA29128992CAB00A21043 /* TermsAgreeListModel.swift in Sources */,
 				DBABCC4B2747943000E2C7ED /* EIAdInfo.swift in Sources */,
 				63762F512869A91900C951BF /* SettingsReactor.swift in Sources */,
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,

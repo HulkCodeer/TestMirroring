@@ -190,11 +190,19 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         Server.getPointHistory(isAllDate: false, sDate: sDate, eDate: eDate) { [weak self] (isSuccess, responseData) in
             guard let self = self else { return }
             if isSuccess {
-                if let data = responseData {
-                    let pointHistory = try! JSONDecoder().decode(PointHistory.self, from: data)
+                if let data = responseData {                                                            
+                    var strResponse: String?
+                    if let str = String(data: data, encoding: .utf8) {
+                        strResponse = str
+                    }
+                    printLog(out: "\(strResponse ?? String(decoding: data, as: UTF8.self))")
+                                        
+                    guard let pointHistory = try? JSONDecoder().decode(PointHistory.self, from: data) else {
+                        return
+                    }
+                    
                     // 나의 잔여 포인트
                     let displayTotalPoint = pointHistory.total_point.currency() == "0" ? "" : pointHistory.total_point.currency()
- 
                     for reasonType in ReasonType.allCases {
                         let subTitle = reasonType == .deleteVery ? reasonType.subTitle.replacingOccurrences(of: "{point}", with: "\(displayTotalPoint)") : reasonType.subTitle
                         self.totalStackView.addArrangedSubview(self.createReasonView(mainTitle: reasonType.mainTitle, subTitle: subTitle))

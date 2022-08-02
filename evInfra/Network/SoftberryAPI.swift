@@ -211,6 +211,6 @@ internal final class RestApi: SoftberryAPI {
         let reqParam: Parameters = [
             "mb_id": MemberManager.shared.mbId
         ]                        
-        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .patch, parameters: reqParam, headers: nil)
+        return NetworkWorker.shared.rxRequest(url: reqUrl, httpMethod: .post, parameters: reqParam, headers: nil)
     }
 }

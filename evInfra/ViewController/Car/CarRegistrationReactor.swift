@@ -47,16 +47,16 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
     
     enum Mutation {
         case setMoveNextView(ViewType)
-        case setTermsAgree(Bool)
+        case setPrivacyAgree(Bool)
         case none
     }
     
     struct State {
         var nextViewType: ViewType = .carRegister
-        var carInfoModel: CarInfoModel?
         
+        var carInfoModel: CarInfoModel?
         var isRegisterCarComplete: Bool?
-        var isTermsAgree: Bool?
+        var isPrivacyAgree: Bool?
     }
     
     struct RegisterCarParamModel {
@@ -115,19 +115,11 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
             return .empty()
             
         case .getTermsAgreeList:
-            return self.provider.postGetTermsAgreeList()
-                .retry(1)
+            return self.provider.postGetTermsAgreeList()                
                 .convertData()
-                .compactMap(convertToData)
-                .map { [weak self] carInfoModel in
-                    guard let self = self else { return .none }
-                    let reactor = CarRegistrationCompleteReactor(model: carInfoModel)
-                    reactor.fromViewType = self.fromViewType
-                    let viewcon = CarRegistrationCompleteViewController()
-                    viewcon.reactor = reactor
-                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                    
-                    return .setMoveNextView(.none)
+                .compactMap(convertToTermsAgreeListData)
+                .map { isPrivacyAgree in
+                    return .setPrivacyAgree(isPrivacyAgree)
                 }
         
         }
@@ -138,14 +130,14 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
         
         newState.carInfoModel = nil
         newState.isRegisterCarComplete = nil
-        newState.isTermsAgree = nil
+        newState.isPrivacyAgree = nil
                                 
         switch mutation {
         case .setMoveNextView(let viewType):
             newState.nextViewType = viewType
             
-        case .setTermsAgree(let isTermsAgree):
-            newState.isTermsAgree = isTermsAgree
+        case .setPrivacyAgree(let isPrivacyAgree):
+            newState.isPrivacyAgree = isPrivacyAgree
             
         case .none: break
                     
@@ -238,5 +230,29 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
             Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
             return nil
         }
-    }        
+    }
+    
+    private func convertToTermsAgreeListData(with result: ApiResult<Data, ApiErrorMessage> ) -> Bool? {
+        switch result {
+        case .success(let data):
+            let jsonData = JSON(data)
+            printLog(out: "JsonData : \(jsonData)")
+            
+            let termsAgreeList = TermsAgreeListModel(jsonData)
+                                                    
+            switch termsAgreeList.code {
+            case 1000:
+                return termsAgreeList.list.filter { "privacy_agree_v2".equals($0.termsId) && $0.agree }.count == 1
+                
+            default:
+                Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                return nil
+            }
+                                                             
+        case .failure(let errorMessage):
+            printLog(out: "Error Message : \(errorMessage)")
+            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+            return nil
+        }
+    }
 }

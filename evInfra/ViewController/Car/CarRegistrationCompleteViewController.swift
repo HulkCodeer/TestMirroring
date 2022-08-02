@@ -404,7 +404,7 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
                 }
                                 
                 self.registerDateTitleLbl.text = "최초등록일 \(carInfoModel.dpYes.regDate)"
-                self.carNumberLbl.text = "\(carInfoModel.carNum)"
+                self.carNumberLbl.text = carInfoModel.carNum
                 self.carImgView.sd_setImage(with: URL(string: "\(carInfoModel.dpYes.img)"), placeholderImage: Icons.iconMypageCarEmpty.image)
                 self.carMakeCompanyTitleLbl.text = carInfoModel.dpYes.cmpy
                 self.carMakeCompanyLbl.text = "\(carInfoModel.dpYes.mdSep) \(carInfoModel.series.s1.name)"

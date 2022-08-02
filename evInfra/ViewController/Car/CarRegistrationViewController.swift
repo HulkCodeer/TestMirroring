@@ -432,26 +432,6 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
-        termsAgreeBtn.rx.tap
-            .asDriver()
-            .drive(onNext: { _ in
-                let viewcon = NewTermsViewController()
-                viewcon.tabIndex = .privacyAgree
-                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-            })
-            .disposed(by: self.disposeBag)
-        
-        nextBtn.rx.tap
-            .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.view.endEditing(true)
-                Observable.just(CarRegistrationReactor.Action.moveNextView)
-                    .bind(to: reactor.action)
-                    .disposed(by: self.disposeBag)
-            })
-            .disposed(by: self.disposeBag)
-        
         reactor.state.map { $0.nextViewType }
             .asDriver(onErrorJustReturn: .none)
             .drive(onNext: { [weak self] viewType in
@@ -487,7 +467,36 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
                 default: break
                 }
             })
-            .disposed(by: self.disposeBag)                
+            .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.isPrivacyAgree }
+            .asDriver(onErrorJustReturn: true)
+            .drive(onNext: { [weak self] isPrivacyAgree in
+                guard let self = self else { return }
+                self.termsAgreeBtn.isHidden = isPrivacyAgree
+                self.termsAgreeGudieLbl.isHidden = isPrivacyAgree
+            })
+            .disposed(by: self.disposeBag)
+        
+        termsAgreeBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { _ in
+                let viewcon = NewTermsViewController()
+                viewcon.tabIndex = .privacyAgree
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            })
+            .disposed(by: self.disposeBag)
+        
+        nextBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.view.endEditing(true)
+                Observable.just(CarRegistrationReactor.Action.moveNextView)
+                    .bind(to: reactor.action)
+                    .disposed(by: self.disposeBag)
+            })
+            .disposed(by: self.disposeBag)
     }
     
     private func createNoticeView(noticeDesc: String) -> UILabel {
@@ -511,7 +520,7 @@ extension CarRegistrationViewController: UITextFieldDelegate {
         textField.IBborderWidth = 2
         textField.textColor = Colors.contentPrimary.color
     }
-    
+            
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.IBborderColor = Colors.borderOpaque.color
         textField.IBborderWidth = 1
