@@ -16,50 +16,58 @@ class PointTableViewCell: UITableViewCell {
     @IBOutlet weak var labelTitle: UILabel! //desc
     @IBOutlet weak var labelTime: UILabel! //time
     @IBOutlet weak var labelCategory: UILabel! //type
-    
-    
-    func reloadData(pointList: Array<EvPoint>, position: Int) {
-        
-        let evPoint = pointList[position]
 
-        let dateArr = evPoint.date?.components(separatedBy: " ")
-        var date = dateArr?[0]
-        let time = dateArr?[1]
+    func reloadData(point: EvPoint, beforeDate: String?, isFirst: Bool) {
+        var (date, time) = sliceDate(date: point.date)
         
-        // 이 전 항목의 날짜와 동일하다면 날짜, divider 숨김
-        if position > 0 {
-            let preDateArr = pointList[position - 1].date?.components(separatedBy: " ")
-            let preDate = preDateArr?[0]
-            if preDate!.elementsEqual(date!) {
-                self.labelDate.isHidden = true
-            } else {
-                self.labelDate.isHidden = false
-            }
-        } else {
-            self.labelDate.isHidden = false
-        }
+        setDate(currentDate: date, beforeDate: beforeDate, isFirst: isFirst)
         
         //remove year
         date = String(date?.dropFirst(5) ?? "")
             
         self.labelDate.text = date
         self.labelTime.text = time
-        self.labelTitle.text = evPoint.desc
+        self.labelTitle.text = point.desc
         
-        if evPoint.action?.elementsEqual("save") ?? false {
+        if point.action?.elementsEqual("save") ?? false {
             self.labelAction.text = "적립"
-            self.labelAmount.text = "+" + (evPoint.point?.currency() ?? "") + " B"
+            self.labelAmount.text = "+" + (point.point?.currency() ?? "") + " B"
             self.labelAmount.textColor = UIColor(named: "gr-5")
-        } else if evPoint.action?.elementsEqual("used") ?? false {
+        } else if point.action?.elementsEqual("used") ?? false {
             self.labelAction.text = "사용"
-            self.labelAmount.text = "-" + (evPoint.point?.currency() ?? "") + " B"
+            self.labelAmount.text = "-" + (point.point?.currency() ?? "") + " B"
             self.labelAmount.textColor = UIColor(named: "content-primary")
         } else {
             self.labelAction.text = "기타"
         }
         
-        let pointType = PointType(evPoint.type)
+        let pointType = PointType(point.type)
         self.labelCategory.text = pointType.category
+    }
+    
+    // MARK: Action
+    
+    private func setDate(currentDate: String?, beforeDate: String?, isFirst: Bool) {
+        let (preDate, _) = sliceDate(date: beforeDate)
+        
+        self.labelDate.isHidden = !isFirst
+        
+        if let date = currentDate,
+           let preDate = preDate,
+           preDate.elementsEqual(date) {
+            self.labelDate.isHidden = true
+        } else {
+            self.labelDate.isHidden = false
+        }
+    }
+    
+    private func sliceDate(date: String?) -> (date: String?, time: String?) {
+        let separate = " "
+        let dateArr = date?.components(separatedBy: separate)
+        let date = dateArr?[0]
+        let time = dateArr?[1]
+        
+        return (date, time)
     }
     
     // MARK: Object
