@@ -50,18 +50,7 @@ extension EvPoint {
 extension EvPoint {
     
     func loadPointType() -> PointType {
-        switch type {
-        case 0:
-            return .none
-        case 1:
-            return .charging
-        case 2:
-            return .event
-        case 3:
-            return .reward
-        default:
-            return .unknown
-        }
+        return PointType(self.type)
     }
     
     enum PointType {

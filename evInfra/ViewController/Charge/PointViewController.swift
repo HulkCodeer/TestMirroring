@@ -358,7 +358,15 @@ extension PointViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PointTableViewCell", for: indexPath) as! PointTableViewCell
-        cell.reloadData(pointList: evPointList, position: indexPath.row)
+        
+        let row = indexPath.row
+        let currentEvPoint = evPointList[row]
+        
+        let haveBeforPoint = row > 0
+        let beforeEvPoint = haveBeforPoint ? evPointList[row - 1] : nil
+        let beforeDate = beforeEvPoint?.date
+        
+        cell.configure(point:currentEvPoint, beforeDate: beforeDate, isFirst: row > 0)
         cell.selectionStyle = .none
         return cell
     }

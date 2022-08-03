@@ -8,27 +8,25 @@
 
 import Foundation
 
-class PointTableViewCell: UITableViewCell {
-
+internal final class PointTableViewCell: UITableViewCell {
+    
     @IBOutlet weak var labelDate: UILabel! //date
     @IBOutlet weak var labelAction: UILabel! //action
     @IBOutlet weak var labelAmount: UILabel! //berry
     @IBOutlet weak var labelTitle: UILabel! //desc
     @IBOutlet weak var labelTime: UILabel! //time
     @IBOutlet weak var labelCategory: UILabel! //type
+    
+    func configure(point: EvPoint, beforeDate: String?, isFirst: Bool) {
 
-    func reloadData(point: EvPoint, beforeDate: String?, isFirst: Bool) {
-        var (date, time) = sliceDate(date: point.date)
-        
-        setDate(currentDate: date, beforeDate: beforeDate, isFirst: isFirst)
-        
-        //remove year
-        date = String(date?.dropFirst(5) ?? "")
-            
+        let (date, time) = sliceDate(date: point.date)
+
         self.labelDate.text = date
         self.labelTime.text = time
         self.labelTitle.text = point.desc
         
+        setDate(currentDate: date, beforeDate: beforeDate, isFirst: isFirst)
+        setCategory(type: point.loadPointType())
         setAmountView(actionType: point.loadActionType(), point: point.point)
     }
     
@@ -48,15 +46,6 @@ class PointTableViewCell: UITableViewCell {
         }
     }
     
-    private func sliceDate(date: String?) -> (date: String?, time: String?) {
-        let separate = " "
-        let dateArr = date?.components(separatedBy: separate)
-        let date = dateArr?[0]
-        let time = dateArr?[1]
-        
-        return (date, time)
-    }
-  
     private func setCategory(type pointType: EvPoint.PointType) {
         var category: String?
         
@@ -96,4 +85,15 @@ class PointTableViewCell: UITableViewCell {
         
     }
     
+    private func sliceDate(date: String?) -> (date: String?, time: String?) {
+        let dateStr = date?.dropFirst(5)
+        
+        let separate = " "
+        let dateArr = dateStr?.components(separatedBy: separate)
+        let date = dateArr?[0]
+        let time = dateArr?[1]
+        
+        return (date, time)
+    }
+  
 }
