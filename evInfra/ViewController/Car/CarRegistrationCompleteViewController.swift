@@ -96,6 +96,11 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
         $0.backgroundColor = Colors.backgroundSecondary.color
     }
     
+    private lazy regDateTotalViewTriangleImgView = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        
+    }
+    
     private lazy var regDateMainTitleLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = Colors.contentPrimary.color
@@ -373,6 +378,13 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
                 
             }
         }
+        
+        nextBtn.rx.tap
+            .asDriver()
+            .drive(onNext: {
+                GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+            })
+            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -383,8 +395,8 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
     internal func bind(reactor: CarRegistrationCompleteReactor) {
         nextBtn.isHidden = reactor.fromViewType == .mypage
         deleteCarInfoLbl.isHidden = reactor.fromViewType == .signup
-        deleteCarInfoBtn.isHidden = reactor.fromViewType == .signup        
-        
+        deleteCarInfoBtn.isHidden = reactor.fromViewType == .signup
+                        
         reactor.state.compactMap { $0.carInfoModel }
             .asDriver(onErrorJustReturn: CarInfoModel(JSON.null))
             .drive(onNext: { [weak self] carInfoModel in

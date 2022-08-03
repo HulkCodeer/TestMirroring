@@ -86,7 +86,7 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
     private lazy var noticeTotalStackView = UIStackView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.axis = .vertical
-        $0.distribution = .fillEqually
+        $0.distribution = .equalSpacing
         $0.alignment = .fill
         $0.spacing = 0
         $0.backgroundColor = .white

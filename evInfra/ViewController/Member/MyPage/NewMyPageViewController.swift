@@ -202,11 +202,17 @@ internal final class NewMyPageViewController: CommonBaseViewController, Storyboa
                         .bind(to: reactor.action)
                         .disposed(by: self.disposeBag)
                 } else {
-                    Observable.just(MyPageReactor.Action.getMyCarList)
+                    Observable.just(MyPageReactor.Action.getOldCarWithMyCarList)
                         .bind(to: reactor.action)
                         .disposed(by: self.disposeBag)
                 }
             })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.isOldCarListComplete }
+            .filter { $0 }
+            .map { _ in MyPageReactor.Action.setDeleteOldCar }
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.isChangeMainCar }

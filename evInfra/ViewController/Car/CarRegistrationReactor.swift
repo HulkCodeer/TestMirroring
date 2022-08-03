@@ -150,9 +150,8 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
         case .success(let data):
             let jsonData = JSON(data)
             printLog(out: "JsonData : \(jsonData)")
-            let carInfoModel = CarInfoModel(jsonData)
-            
-            let code = carInfoModel.code
+            let carInfoModel = CarInfoModel(jsonData["body"])
+            let code = jsonData["code"].intValue
             
             let popupBtnText = fromViewType == .signup ? "건너뛰고 가입하기":"개인정보 관리로 이동"
                 
@@ -237,6 +236,8 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
         case .success(let data):
             let jsonData = JSON(data)
             printLog(out: "JsonData : \(jsonData)")
+            
+            
             
             let termsAgreeList = TermsAgreeListModel(jsonData)
                                                     

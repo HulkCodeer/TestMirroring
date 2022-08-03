@@ -14,10 +14,12 @@ internal final class MyPageReactor: ViewModel, Reactor {
         case getMyCarList
         case getOldCarWithMyCarList
         case changeMainCar(String)
+        case setDeleteOldCar
     }
     
     enum Mutation {
         case setMyCarList([MyCarListItem])
+        case setMyCarWithOldCarList([MyCarListItem])
         case setChangeMainCarComplete(Bool)
         case none
     }
@@ -26,6 +28,7 @@ internal final class MyPageReactor: ViewModel, Reactor {
         var sections = [MyCarListSectionModel]()
         
         var isChangeMainCar: Bool?
+        var isOldCarListComplete: Bool?
     }
     
     struct ChangeMainCarInfoParamModel {
@@ -57,23 +60,13 @@ internal final class MyPageReactor: ViewModel, Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .getOldCarWithMyCarList:
-            return .concat([
-                self.provider.getOldCarWithMyCarList(oldCarId: MemberManager.shared.carId)
+            return self.provider.getOldCarWithMyCarList(oldCarId: MemberManager.shared.carId)
                     .convertData()
                     .compactMap(convertToData)
                     .map(convertCarInfoItem)
                     .map { carInfoModelList in
                         return .setMyCarList(carInfoModelList)
-                    },
-                
-                self.provider.deleteOldCarInfo()
-                    .convertData()
-                    .compactMap(convertToData)
-                    .map(convertCarInfoItem)
-                    .map { isDelete in
-                        return .none
-                    },
-            ])
+                    }
             
         case .getMyCarList:
             return self.provider.getMyCarList()
@@ -91,6 +84,15 @@ internal final class MyPageReactor: ViewModel, Reactor {
                 .map { isChangeMainCar in
                     return .setChangeMainCarComplete(isChangeMainCar)
                 }
+            
+        case .setDeleteOldCar:
+            return self.provider.deleteOldCarInfo()
+                .convertData()
+                .compactMap(convertToData)
+                .map(convertCarInfoItem)
+                .map { isDelete in
+                    return .none
+                }
         }
     }
     
@@ -98,6 +100,7 @@ internal final class MyPageReactor: ViewModel, Reactor {
         var newState = state
         
         newState.isChangeMainCar = nil
+        newState.isOldCarListComplete = nil
                                 
         switch mutation {
         case .setMyCarList(let items):
@@ -105,6 +108,10 @@ internal final class MyPageReactor: ViewModel, Reactor {
             
         case .setChangeMainCarComplete(let isChangeMainCar):
             newState.isChangeMainCar = isChangeMainCar
+            
+        case .setMyCarWithOldCarList(let items):
+            newState.sections = [MyCarListSectionModel(items: items)]
+            newState.isOldCarListComplete = true
                                                      
         case .none: break
         }
