@@ -17,10 +17,6 @@ class PointTableViewCell: UITableViewCell {
     @IBOutlet weak var labelTime: UILabel! //time
     @IBOutlet weak var labelCategory: UILabel! //type
     
-    let POINT_TYPE_NONE:Int = 0 // default value
-    let POINT_TYPE_CHARGING:Int = 1; // 충전
-    let POINT_TYPE_EVENT:Int = 2; // event
-    let POINT_TYPE_REWARD:Int = 3; // 보상형 광고 적립
     
     func reloadData(pointList: Array<EvPoint>, position: Int) {
         
@@ -62,21 +58,46 @@ class PointTableViewCell: UITableViewCell {
             self.labelAction.text = "기타"
         }
         
-        switch evPoint.type {
-        case self.POINT_TYPE_CHARGING:
-            self.labelCategory.text = "충전"
-            
-        case self.POINT_TYPE_EVENT:
-            self.labelCategory.text = "이벤트"
-            
-        case self.POINT_TYPE_REWARD:
-            self.labelCategory.text = "광고참여"
-            
-        case self.POINT_TYPE_NONE:
-            break
-            
-        default:
-            break
+        let pointType = PointType(evPoint.type)
+        self.labelCategory.text = pointType.category
+    }
+    
+    // MARK: Object
+    
+    enum PointType {
+        case none        // default value
+        case charging   // 충전
+        case event      // event
+        case reward    // 보상형 광고
+        
+        case unkown     // EvPoint type Optional 관련
+        
+        init(_ type: Int?) {
+            switch type {
+            case 0:
+                self = .none
+            case 1:
+                self = .charging
+            case 2:
+                self = .event
+            case 3:
+                self = .reward
+            default:
+                self = .unkown
+            }
+        }
+        
+        var category: String? {
+            switch self {
+            case .charging:
+                return "충전"
+            case .event:
+                return  "이벤트"
+            case .reward:
+                return "광고참여"
+            case .none, .unkown:
+                return nil
+            }
         }
     }
 }
