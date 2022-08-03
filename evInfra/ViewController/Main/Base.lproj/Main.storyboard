@@ -544,6 +544,7 @@
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_my_info" translatesAutoresizingMaskIntoConstraints="NO" id="PZA-pr-4oB">
                                                         <rect key="frame" x="11" y="2" width="48" height="48"/>
+                                                        <color key="tintColor" name="background-always-dark"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="48" id="BMF-o1-yBR"/>
                                                             <constraint firstAttribute="width" constant="48" id="j2v-SR-sWF"/>
@@ -595,6 +596,7 @@
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_comment_lg" translatesAutoresizingMaskIntoConstraints="NO" id="3qW-mu-4xk">
                                                         <rect key="frame" x="11" y="2" width="48" height="48"/>
+                                                        <color key="tintColor" name="background-always-dark"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="48" id="ESK-rW-nkQ"/>
                                                             <constraint firstAttribute="width" constant="48" id="v6t-uy-kWo"/>
@@ -652,6 +654,7 @@
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_gift_lg" translatesAutoresizingMaskIntoConstraints="NO" id="EN4-aq-uaG">
                                                         <rect key="frame" x="11" y="2" width="48" height="48"/>
+                                                        <color key="tintColor" name="background-always-dark"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="48" id="Z5I-PU-YwR"/>
                                                             <constraint firstAttribute="width" constant="48" id="hbr-G3-4aZ"/>
@@ -709,6 +712,7 @@
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_ev" translatesAutoresizingMaskIntoConstraints="NO" id="u9p-5O-ybR">
                                                         <rect key="frame" x="11" y="2" width="48" height="48"/>
+                                                        <color key="tintColor" name="background-always-dark"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="48" id="9Bz-f2-tTe"/>
                                                             <constraint firstAttribute="height" constant="48" id="aV2-4M-byb"/>
@@ -766,6 +770,7 @@
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_setting_lg" translatesAutoresizingMaskIntoConstraints="NO" id="byC-q1-7bn">
                                                         <rect key="frame" x="11" y="2" width="48" height="48"/>
+                                                        <color key="tintColor" name="background-always-dark"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="48" id="Fdz-Hh-cnh"/>
                                                             <constraint firstAttribute="height" constant="48" id="nrY-ad-smg"/>
