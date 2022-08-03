@@ -537,142 +537,294 @@
                                 <rect key="frame" x="0.0" y="226.5" width="70" height="440.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="yja-kZ-hlj">
-                                        <rect key="frame" x="0.0" y="0.0" width="70" height="420"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="350"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kU-vs-cgu">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qH7-cM-BbE">
                                                 <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_my_info" translatesAutoresizingMaskIntoConstraints="NO" id="PZA-pr-4oB">
+                                                        <rect key="frame" x="11" y="2" width="48" height="48"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="48" id="BMF-o1-yBR"/>
+                                                            <constraint firstAttribute="width" constant="48" id="j2v-SR-sWF"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="마이페이지" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yzr-79-3uN">
+                                                        <rect key="frame" x="17.5" y="45" width="35" height="16"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="16" id="eft-NJ-PXC"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kU-vs-cgu">
+                                                        <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="70" id="tsP-ga-PrU"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="tintColor" name="background-always-dark"/>
+                                                        <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                                                        <inset key="titleEdgeInsets" minX="-48" minY="36" maxX="0.0" maxY="0.0"/>
+                                                        <inset key="imageEdgeInsets" minX="6" minY="-16" maxX="0.0" maxY="0.0"/>
+                                                        <state key="normal">
+                                                            <color key="titleColor" name="content-primary"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="clickMyPage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u33-da-tXn"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="70" id="tsP-ga-PrU"/>
+                                                    <constraint firstAttribute="height" constant="70" id="0Hz-B1-dSx"/>
+                                                    <constraint firstItem="7kU-vs-cgu" firstAttribute="top" secondItem="qH7-cM-BbE" secondAttribute="top" id="36a-uq-f59"/>
+                                                    <constraint firstAttribute="bottom" secondItem="7kU-vs-cgu" secondAttribute="bottom" id="FGe-f0-Swj"/>
+                                                    <constraint firstItem="PZA-pr-4oB" firstAttribute="top" secondItem="qH7-cM-BbE" secondAttribute="top" constant="2" id="O98-52-vkq"/>
+                                                    <constraint firstItem="yzr-79-3uN" firstAttribute="centerX" secondItem="qH7-cM-BbE" secondAttribute="centerX" id="Oqr-xM-zAr"/>
+                                                    <constraint firstItem="yzr-79-3uN" firstAttribute="top" secondItem="PZA-pr-4oB" secondAttribute="bottom" constant="-5" id="cab-Dn-m1u"/>
+                                                    <constraint firstAttribute="trailing" secondItem="7kU-vs-cgu" secondAttribute="trailing" id="jsU-Z0-8u5"/>
+                                                    <constraint firstItem="7kU-vs-cgu" firstAttribute="leading" secondItem="qH7-cM-BbE" secondAttribute="leading" id="tRA-41-G0J"/>
+                                                    <constraint firstAttribute="width" constant="70" id="ucR-om-pnN"/>
+                                                    <constraint firstItem="PZA-pr-4oB" firstAttribute="centerX" secondItem="qH7-cM-BbE" secondAttribute="centerX" id="ulW-cb-j0K"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="tintColor" name="background-always-dark"/>
-                                                <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
-                                                <inset key="titleEdgeInsets" minX="-48" minY="36" maxX="0.0" maxY="0.0"/>
-                                                <inset key="imageEdgeInsets" minX="6" minY="-16" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="마이페이지" image="icon_user">
-                                                    <color key="titleColor" name="content-primary"/>
-                                                </state>
-                                                <state key="selected" image="menu_my_info"/>
-                                                <connections>
-                                                    <action selector="clickMyPage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u33-da-tXn"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hrw-SH-9sV">
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fwA-06-gUZ">
                                                 <rect key="frame" x="0.0" y="70" width="70" height="70"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_comment_lg" translatesAutoresizingMaskIntoConstraints="NO" id="3qW-mu-4xk">
+                                                        <rect key="frame" x="11" y="2" width="48" height="48"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="48" id="ESK-rW-nkQ"/>
+                                                            <constraint firstAttribute="width" constant="48" id="v6t-uy-kWo"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="커뮤니티" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oJp-e3-TD1">
+                                                        <rect key="frame" x="14" y="45" width="42" height="16"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="16" id="Fe5-hP-eSN"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hrw-SH-9sV">
+                                                        <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="70" id="5Yg-YR-Us0"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="tintColor" name="background-always-dark"/>
+                                                        <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                                                        <inset key="titleEdgeInsets" minX="-34" minY="36" maxX="0.0" maxY="0.0"/>
+                                                        <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
+                                                        <state key="normal">
+                                                            <color key="titleColor" name="background-always-dark"/>
+                                                        </state>
+                                                        <state key="selected">
+                                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <state key="highlighted">
+                                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="clickBoard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="men-RG-p7R"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="70" id="5Yg-YR-Us0"/>
+                                                    <constraint firstItem="3qW-mu-4xk" firstAttribute="top" secondItem="fwA-06-gUZ" secondAttribute="top" constant="2" id="0F4-Xu-vWC"/>
+                                                    <constraint firstAttribute="width" constant="70" id="7rC-NQ-gT7"/>
+                                                    <constraint firstItem="hrw-SH-9sV" firstAttribute="leading" secondItem="fwA-06-gUZ" secondAttribute="leading" id="8Wc-LV-uYP"/>
+                                                    <constraint firstAttribute="trailing" secondItem="hrw-SH-9sV" secondAttribute="trailing" id="RDb-xe-NKL"/>
+                                                    <constraint firstItem="oJp-e3-TD1" firstAttribute="top" secondItem="3qW-mu-4xk" secondAttribute="bottom" constant="-5" id="TXh-60-HRm"/>
+                                                    <constraint firstItem="hrw-SH-9sV" firstAttribute="top" secondItem="fwA-06-gUZ" secondAttribute="top" id="Tdg-IJ-EpH"/>
+                                                    <constraint firstAttribute="bottom" secondItem="hrw-SH-9sV" secondAttribute="bottom" id="UwL-7Z-mgi"/>
+                                                    <constraint firstItem="3qW-mu-4xk" firstAttribute="centerX" secondItem="fwA-06-gUZ" secondAttribute="centerX" id="heV-iQ-aER"/>
+                                                    <constraint firstAttribute="height" constant="70" id="lgk-Hz-vK0"/>
+                                                    <constraint firstItem="oJp-e3-TD1" firstAttribute="centerX" secondItem="fwA-06-gUZ" secondAttribute="centerX" id="r8X-OM-Cb1"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="tintColor" name="background-always-dark"/>
-                                                <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
-                                                <inset key="titleEdgeInsets" minX="-34" minY="36" maxX="0.0" maxY="0.0"/>
-                                                <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="커뮤니티" image="icon_comment_lg">
-                                                    <color key="titleColor" name="background-always-dark"/>
-                                                </state>
-                                                <state key="selected">
-                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="clickBoard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="men-RG-p7R"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yLE-sk-Lp8">
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Qn-EN-3LK">
                                                 <rect key="frame" x="0.0" y="140" width="70" height="70"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_gift_lg" translatesAutoresizingMaskIntoConstraints="NO" id="EN4-aq-uaG">
+                                                        <rect key="frame" x="11" y="2" width="48" height="48"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="48" id="Z5I-PU-YwR"/>
+                                                            <constraint firstAttribute="width" constant="48" id="hbr-G3-4aZ"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이벤트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGd-XW-2pa">
+                                                        <rect key="frame" x="19.5" y="45" width="31.5" height="16"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="16" id="fsw-eF-Ehb"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yLE-sk-Lp8">
+                                                        <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="70" id="BPa-xC-xdD"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="tintColor" name="background-always-dark"/>
+                                                        <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                                                        <inset key="titleEdgeInsets" minX="-34" minY="36" maxX="0.0" maxY="0.0"/>
+                                                        <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
+                                                        <state key="normal">
+                                                            <color key="titleColor" name="background-always-dark"/>
+                                                        </state>
+                                                        <state key="selected">
+                                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <state key="highlighted">
+                                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="clickEvent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ISW-HY-eTC"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="70" id="BPa-xC-xdD"/>
+                                                    <constraint firstAttribute="height" constant="70" id="4KJ-Zm-Q7S"/>
+                                                    <constraint firstItem="yGd-XW-2pa" firstAttribute="centerX" secondItem="2Qn-EN-3LK" secondAttribute="centerX" id="8UZ-Uz-jtt"/>
+                                                    <constraint firstAttribute="trailing" secondItem="yLE-sk-Lp8" secondAttribute="trailing" id="8rV-86-dVq"/>
+                                                    <constraint firstItem="yLE-sk-Lp8" firstAttribute="leading" secondItem="2Qn-EN-3LK" secondAttribute="leading" id="G5y-fb-3vh"/>
+                                                    <constraint firstItem="EN4-aq-uaG" firstAttribute="centerX" secondItem="2Qn-EN-3LK" secondAttribute="centerX" id="O77-wT-k7s"/>
+                                                    <constraint firstItem="yLE-sk-Lp8" firstAttribute="top" secondItem="2Qn-EN-3LK" secondAttribute="top" id="OkZ-oR-0CJ"/>
+                                                    <constraint firstAttribute="width" constant="70" id="Voj-kJ-jqd"/>
+                                                    <constraint firstItem="EN4-aq-uaG" firstAttribute="top" secondItem="2Qn-EN-3LK" secondAttribute="top" constant="2" id="aCt-l7-bQc"/>
+                                                    <constraint firstItem="yGd-XW-2pa" firstAttribute="top" secondItem="EN4-aq-uaG" secondAttribute="bottom" constant="-5" id="kJw-aC-gZs"/>
+                                                    <constraint firstAttribute="bottom" secondItem="yLE-sk-Lp8" secondAttribute="bottom" id="zwR-uB-h13"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="tintColor" name="background-always-dark"/>
-                                                <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
-                                                <inset key="titleEdgeInsets" minX="-34" minY="36" maxX="0.0" maxY="0.0"/>
-                                                <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="이벤트" image="icon_gift_lg">
-                                                    <color key="titleColor" name="background-always-dark"/>
-                                                </state>
-                                                <state key="selected">
-                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="clickEvent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ISW-HY-eTC"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="enQ-s8-Z8p">
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EYF-dM-wlM">
                                                 <rect key="frame" x="0.0" y="210" width="70" height="70"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_ev" translatesAutoresizingMaskIntoConstraints="NO" id="u9p-5O-ybR">
+                                                        <rect key="frame" x="11" y="2" width="48" height="48"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="48" id="9Bz-f2-tTe"/>
+                                                            <constraint firstAttribute="height" constant="48" id="aV2-4M-byb"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전기차정보" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6A5-zp-Iyj">
+                                                        <rect key="frame" x="9" y="45" width="52" height="16"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="16" id="nq1-Rp-1rN"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="enQ-s8-Z8p">
+                                                        <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="70" id="dbc-Sf-nx1"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="tintColor" name="background-always-dark"/>
+                                                        <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                                                        <inset key="titleEdgeInsets" minX="-33" minY="36" maxX="0.0" maxY="0.0"/>
+                                                        <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
+                                                        <state key="normal">
+                                                            <color key="titleColor" name="background-always-dark"/>
+                                                        </state>
+                                                        <state key="selected">
+                                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <state key="highlighted">
+                                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="clickInfo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ANv-tp-sxu"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="70" id="dbc-Sf-nx1"/>
+                                                    <constraint firstAttribute="trailing" secondItem="enQ-s8-Z8p" secondAttribute="trailing" id="3bq-hG-pUb"/>
+                                                    <constraint firstItem="enQ-s8-Z8p" firstAttribute="top" secondItem="EYF-dM-wlM" secondAttribute="top" id="9P9-zV-VKZ"/>
+                                                    <constraint firstItem="enQ-s8-Z8p" firstAttribute="leading" secondItem="EYF-dM-wlM" secondAttribute="leading" id="AoK-YP-Z8v"/>
+                                                    <constraint firstAttribute="width" constant="70" id="BNW-ZJ-Vv5"/>
+                                                    <constraint firstItem="u9p-5O-ybR" firstAttribute="centerX" secondItem="EYF-dM-wlM" secondAttribute="centerX" id="QwQ-Dl-9no"/>
+                                                    <constraint firstItem="6A5-zp-Iyj" firstAttribute="centerX" secondItem="EYF-dM-wlM" secondAttribute="centerX" id="fRf-B3-JIW"/>
+                                                    <constraint firstAttribute="bottom" secondItem="enQ-s8-Z8p" secondAttribute="bottom" id="iNx-jT-5Uv"/>
+                                                    <constraint firstItem="6A5-zp-Iyj" firstAttribute="top" secondItem="u9p-5O-ybR" secondAttribute="bottom" constant="-5" id="iWL-Y8-dWU"/>
+                                                    <constraint firstAttribute="height" constant="70" id="sFz-kf-Vl0"/>
+                                                    <constraint firstItem="u9p-5O-ybR" firstAttribute="top" secondItem="EYF-dM-wlM" secondAttribute="top" constant="2" id="xbw-xM-gXZ"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="tintColor" name="background-always-dark"/>
-                                                <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
-                                                <inset key="titleEdgeInsets" minX="-33" minY="36" maxX="0.0" maxY="0.0"/>
-                                                <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="전기차정보" image="icon_ev">
-                                                    <color key="titleColor" name="background-always-dark"/>
-                                                </state>
-                                                <state key="selected">
-                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="clickInfo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ANv-tp-sxu"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pa0-OH-1Uq">
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xR9-U6-hUG">
                                                 <rect key="frame" x="0.0" y="280" width="70" height="70"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_setting_lg" translatesAutoresizingMaskIntoConstraints="NO" id="byC-q1-7bn">
+                                                        <rect key="frame" x="11" y="2" width="48" height="48"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="48" id="Fdz-Hh-cnh"/>
+                                                            <constraint firstAttribute="height" constant="48" id="nrY-ad-smg"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="설정" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jev-cr-7o8">
+                                                        <rect key="frame" x="24.5" y="45" width="21" height="16"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="16" id="rFE-L6-lsr"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-jt-d4I" userLabel="Settings Btn">
+                                                        <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="70" id="1IY-fJ-IPh"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="tintColor" name="background-always-dark"/>
+                                                        <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                                                        <inset key="titleEdgeInsets" minX="-34" minY="36" maxX="0.0" maxY="0.0"/>
+                                                        <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
+                                                        <state key="normal">
+                                                            <color key="titleColor" name="background-always-dark"/>
+                                                        </state>
+                                                        <state key="selected">
+                                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <state key="highlighted">
+                                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="clickSettings:" destination="BYZ-38-t0r" eventType="touchUpInside" id="68g-T0-E57"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="70" id="JOR-HG-Y6y"/>
+                                                    <constraint firstAttribute="width" constant="70" id="14e-n1-mHs"/>
+                                                    <constraint firstItem="3c0-jt-d4I" firstAttribute="top" secondItem="xR9-U6-hUG" secondAttribute="top" id="49b-vG-nIU"/>
+                                                    <constraint firstItem="byC-q1-7bn" firstAttribute="centerX" secondItem="xR9-U6-hUG" secondAttribute="centerX" id="GOf-5Y-9rC"/>
+                                                    <constraint firstAttribute="trailing" secondItem="3c0-jt-d4I" secondAttribute="trailing" id="Pur-bl-9oG"/>
+                                                    <constraint firstItem="Jev-cr-7o8" firstAttribute="top" secondItem="byC-q1-7bn" secondAttribute="bottom" constant="-5" id="RXY-ab-amh"/>
+                                                    <constraint firstItem="3c0-jt-d4I" firstAttribute="leading" secondItem="xR9-U6-hUG" secondAttribute="leading" id="WoZ-kg-qQl"/>
+                                                    <constraint firstItem="byC-q1-7bn" firstAttribute="top" secondItem="xR9-U6-hUG" secondAttribute="top" constant="2" id="cqH-ms-vXc"/>
+                                                    <constraint firstItem="Jev-cr-7o8" firstAttribute="centerX" secondItem="xR9-U6-hUG" secondAttribute="centerX" id="qTu-eR-CkF"/>
+                                                    <constraint firstAttribute="height" constant="70" id="unc-ma-EUH"/>
+                                                    <constraint firstAttribute="bottom" secondItem="3c0-jt-d4I" secondAttribute="bottom" id="z2V-Bd-Zmk"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="tintColor" name="background-always-dark"/>
-                                                <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
-                                                <inset key="titleEdgeInsets" minX="-33" minY="36" maxX="0.0" maxY="0.0"/>
-                                                <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="배터리 정보" image="icon_battery">
-                                                    <color key="titleColor" name="background-always-dark"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="clickBattery:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fS4-Pf-LHV"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-jt-d4I" userLabel="Settings Btn">
-                                                <rect key="frame" x="0.0" y="350" width="70" height="70"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="70" id="1IY-fJ-IPh"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="tintColor" name="background-always-dark"/>
-                                                <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
-                                                <inset key="titleEdgeInsets" minX="-34" minY="36" maxX="0.0" maxY="0.0"/>
-                                                <inset key="imageEdgeInsets" minX="14" minY="-16" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="설정" image="icon_setting_lg">
-                                                    <color key="titleColor" name="background-always-dark"/>
-                                                </state>
-                                                <state key="selected">
-                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="clickSettings:" destination="BYZ-38-t0r" eventType="touchUpInside" id="68g-T0-E57"/>
-                                                </connections>
-                                            </button>
+                                            </view>
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="FRQ-Cn-C76"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" name="background-tertiary"/>
+                                <color key="backgroundColor" name="background-secondary"/>
                                 <constraints>
                                     <constraint firstItem="yja-kZ-hlj" firstAttribute="leading" secondItem="XxX-Uk-lEE" secondAttribute="leading" id="Qaz-1L-1uJ"/>
                                     <constraint firstAttribute="trailing" secondItem="yja-kZ-hlj" secondAttribute="trailing" id="Yvx-U5-q2f"/>
@@ -748,7 +900,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="batteryBtn" destination="Pa0-OH-1Uq" id="lIU-iU-Mtj"/>
                         <outlet property="boardBtn" destination="hrw-SH-9sV" id="pXf-5M-SER"/>
                         <outlet property="boardCompanyBtn" destination="yLE-sk-Lp8" id="xqI-Q0-rIk"/>
                         <outlet property="btnLogin" destination="6Vg-Ft-cDd" id="Vny-Ml-j52"/>
@@ -780,7 +931,6 @@
         <image name="ic_line_favorite" width="32" height="24"/>
         <image name="ic_line_payment" width="32" height="24"/>
         <image name="ic_newbadge" width="20" height="20"/>
-        <image name="icon_battery" width="32" height="32"/>
         <image name="icon_comment_lg" width="32" height="32"/>
         <image name="icon_current_location_md" width="24" height="24"/>
         <image name="icon_ev" width="32" height="32"/>
@@ -788,7 +938,6 @@
         <image name="icon_main_faq" width="32" height="24"/>
         <image name="icon_refresh_md" width="24" height="24"/>
         <image name="icon_setting_lg" width="32" height="32"/>
-        <image name="icon_user" width="48" height="48"/>
         <image name="intro_bg.jpg" width="1440" height="3200"/>
         <image name="menu_my_info" width="30" height="30"/>
         <image name="menu_top_bg" width="960" height="580"/>
@@ -798,8 +947,8 @@
         <namedColor name="background-negative">
             <color red="0.93300002813339233" green="0.15299999713897705" blue="0.21600000560283661" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="background-tertiary">
-            <color red="0.88235294117647056" green="0.88235294117647056" blue="0.8901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="background-secondary">
+            <color red="0.95294117647058818" green="0.95294117647058818" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-positive">
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
