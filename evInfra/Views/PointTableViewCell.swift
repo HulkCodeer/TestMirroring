@@ -69,43 +69,22 @@ class PointTableViewCell: UITableViewCell {
         
         return (date, time)
     }
-    
-    // MARK: Object
-    
-    enum PointType {
-        case none        // default value
-        case charging   // 충전
-        case event      // event
-        case reward    // 보상형 광고
+  
+    private func setCategory(type pointType: EvPoint.PointType) {
+        var category: String?
         
-        case unkown     // EvPoint type Optional 관련
-        
-        init(_ type: Int?) {
-            switch type {
-            case 0:
-                self = .none
-            case 1:
-                self = .charging
-            case 2:
-                self = .event
-            case 3:
-                self = .reward
-            default:
-                self = .unkown
-            }
+        switch pointType {
+        case .charging:
+            category = "충전"
+        case .event:
+            category = "이벤트"
+        case .reward:
+            category = "광고참여"
+        case .none, .unknown:
+            break
         }
         
-        var category: String? {
-            switch self {
-            case .charging:
-                return "충전"
-            case .event:
-                return  "이벤트"
-            case .reward:
-                return "광고참여"
-            case .none, .unkown:
-                return nil
-            }
-        }
+        self.labelCategory.text = category
     }
+    
 }
