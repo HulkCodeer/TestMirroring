@@ -82,6 +82,7 @@ internal final class MyPageReactor: ViewModel, Reactor {
                 .convertData()
                 .compactMap(convertToChangeMainCar)
                 .map { isChangeMainCar in
+                    Snackbar().show(message: "대표차량이 변경되었습니다.")
                     return .setChangeMainCarComplete(isChangeMainCar)
                 }
             
@@ -154,7 +155,7 @@ internal final class MyPageReactor: ViewModel, Reactor {
             printLog(out: "JsonData : \(jsonData)")
             
             switch jsonData["code"] {
-            case 1000: // 응답 성공
+            case 200: // 응답 성공
                 return true
                                             
             default:

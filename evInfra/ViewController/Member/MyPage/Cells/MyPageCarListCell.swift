@@ -21,6 +21,7 @@ internal final class MyPageCarListCell: CommonBaseTableViewCell, ReactorKit.View
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setImage(Icons.iconStarFillSm.image, for: .selected)
         $0.setImage(Icons.iconStarSm.image, for: .normal)
+        $0.contentEdgeInsets = UIEdgeInsets(top: .zero, left: 16, bottom: .zero, right: .zero)
         $0.isSelected = false
     }
             
@@ -100,8 +101,9 @@ internal final class MyPageCarListCell: CommonBaseTableViewCell, ReactorKit.View
         
         backgroundTotalView.addSubview(mainCarBtn)
         mainCarBtn.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(16)
-            $0.width.height.equalTo(20)
+            $0.leading.equalToSuperview()
+            $0.width.equalTo(36)
+            $0.height.equalTo(20)
             $0.centerY.equalToSuperview()
         }
     }

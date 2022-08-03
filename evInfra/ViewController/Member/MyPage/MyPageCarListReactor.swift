@@ -39,7 +39,7 @@ internal final class MyPageCarListReactor: Reactor {
         switch action {
         case .moveCarRegisterView:            
             let reactor = CarRegistrationReactor(provider: RestApi())
-            reactor.fromViewType = .mypage
+            reactor.fromViewType = .mypageAdd
             let viewcon = CarRegistrationViewController()
             viewcon.reactor = reactor
             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
@@ -48,7 +48,7 @@ internal final class MyPageCarListReactor: Reactor {
             
         case .moveCarInfoView:
             let reactor = CarRegistrationCompleteReactor(model: currentState.carInfoModel)
-            reactor.fromViewType = .mypage
+            reactor.fromViewType = .mypageInfo
             let viewcon = CarRegistrationCompleteViewController()
             viewcon.reactor = reactor
             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)

@@ -7,6 +7,7 @@
 //
 
 enum FromViewType {
-    case mypage
+    case mypageInfo
     case signup
+    case mypageAdd
 }

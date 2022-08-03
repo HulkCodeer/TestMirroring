@@ -425,8 +425,8 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
     }
     
     internal func bind(reactor: CarRegistrationReactor) {
-        skipTitleLbl.isHidden = reactor.fromViewType == .mypage
-        skipBtn.isHidden = reactor.fromViewType == .mypage
+        skipTitleLbl.isHidden = reactor.fromViewType != .signup
+        skipBtn.isHidden = reactor.fromViewType != .signup
         
         Observable.just(CarRegistrationReactor.Action.getTermsAgreeList)
             .bind(to: reactor.action)

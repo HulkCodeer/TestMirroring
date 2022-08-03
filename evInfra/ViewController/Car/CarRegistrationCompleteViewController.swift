@@ -111,9 +111,25 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
     
     private lazy var registerDateTitleLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.textColor = Colors.contentPrimary.color
-        $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        $0.textColor = Colors.contentTertiary.color
+        $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         $0.textAlignment = .center
+    }
+    
+    private lazy var carUpdateTotalView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private lazy var carUpdateLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textColor = Colors.contentPositive.color
+        $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        $0.textAlignment = .center
+        $0.text = "차량정보 업데이트하기"
+    }
+    
+    private lazy var moveCarUpdateBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private lazy var carNumberTotalView = UIView().then {
@@ -279,7 +295,7 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
             $0.top.equalToSuperview().offset(12)
             $0.leading.equalToSuperview().offset(4)
             $0.trailing.equalToSuperview().offset(-4)
-            $0.height.equalTo(16)
+            $0.height.greaterThanOrEqualTo(16)
         }
         
         regDateTotalView.addSubview(registerDateTitleLbl)
@@ -288,10 +304,27 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
             $0.leading.equalToSuperview().offset(4)
             $0.trailing.equalToSuperview().offset(-4)
             $0.height.equalTo(16)
+        }
+        
+        regDateTotalView.addSubview(carUpdateTotalView)
+        carUpdateTotalView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(registerDateTitleLbl.snp.bottom).offset(8)
+            $0.height.equalTo(16)
             $0.bottom.equalToSuperview().offset(-12)
         }
         
+        carUpdateTotalView.addSubview(carUpdateLbl)
+        carUpdateLbl.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
+        carUpdateTotalView.addSubview(moveCarUpdateBtn)
+        moveCarUpdateBtn.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+                
         totalView.addSubview(carNumberTotalView)
         carNumberTotalView.snp.makeConstraints {
             $0.top.equalTo(regDateTotalViewTriangleImgView.snp.bottom).offset(16)
@@ -370,7 +403,7 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
             guard let _reactor = self.reactor else { return }
             
             switch _reactor.fromViewType {
-            case .mypage:
+            case .mypageInfo, .mypageAdd:
                 if let _mainNav = GlobalDefine.shared.mainNavi {
                     let _viewControllers = _mainNav.viewControllers
                     for vc in _viewControllers.reversed() {
@@ -401,35 +434,52 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
     }
     
     internal func bind(reactor: CarRegistrationCompleteReactor) {
-        nextBtn.isHidden = reactor.fromViewType == .mypage
+        nextBtn.isHidden = reactor.fromViewType == .mypageAdd
         deleteCarInfoLbl.isHidden = reactor.fromViewType == .signup
         deleteCarInfoBtn.isHidden = reactor.fromViewType == .signup
+        
+        let nextBtnTitle: String = reactor.fromViewType == .mypageInfo ? "확인":"EV Infra 시작하기"
+        nextBtn.setTitle(nextBtnTitle, for: .normal)
                         
         reactor.state.compactMap { $0.carInfoModel }
             .asDriver(onErrorJustReturn: CarInfoModel(JSON.null))
             .drive(onNext: { [weak self] carInfoModel in
                 guard let self = self else { return }
-                
-                let startDate = carInfoModel.dpYes.regDate.toDate(dateFormat: "yyyy-MM-dd") ?? Date()
-                let endDate = Date()
-                let calendar = Calendar.current
-                let dateGap = calendar.dateComponents([.year , .month , .day], from: startDate , to: endDate)
+                let isOldCar = carInfoModel.carNum.isEmpty
+                if !isOldCar { // 현재 API로 등록한 차량
+                    let startDate = carInfoModel.dpYes.regDate.toDate(dateFormat: "yyyy-MM-dd") ?? Date()
+                    let endDate = Date()
+                    let calendar = Calendar.current
+                    let dateGap = calendar.dateComponents([.year , .month , .day], from: startDate , to: endDate)
 
-                if case let (y? , m? , d?) = (dateGap.year , dateGap.month , dateGap.day) {
-                    let yearStr = y == 0 ? "":"\(y)년"
-                    let monthStr = m == 0 ? "":"\(m)개월"
-                    let dayStr = d == 0 ? "":"\(d)일째"
-                    let strJoin = "\(yearStr) \(monthStr) \(dayStr)"
-                    self.regDateMainTitleLbl.text = "\(carInfoModel.dpYes.mdSep)와 함께 한지 ⚡\(strJoin)⚡️에요!"
+                    if case let (y? , m? , d?) = (dateGap.year , dateGap.month , dateGap.day) {
+                        let yearStr = y == 0 ? "":"\(y)년"
+                        let monthStr = m == 0 ? "":"\(m)개월"
+                        let dayStr = d == 0 ? "":"\(d)일째"
+                        let strJoin = "\(yearStr) \(monthStr) \(dayStr)"
+                        self.regDateMainTitleLbl.text = "\(carInfoModel.dpYes.mdSep)와 함께 한지 ⚡\(strJoin)⚡️에요!"
+                    }
+                    self.registerDateTitleLbl.text = "최초등록일 \(carInfoModel.dpYes.regDate)"
+                    self.carNumberLbl.text = carInfoModel.carNum
+                } else { // 구버전에서 등록한 차량의 경우 차량 정보가 없어서 처리 필요
+                    self.regDateMainTitleLbl.text = "나와 내 차는 함께한지 얼마나 됐을까? 🤔"
+                    self.registerDateTitleLbl.text = "차량 번호를 등록하면 더 정확한 정보를 불러올 수 있어요"
+                    self.carNumberLbl.text = "00임 0000"
                 }
-                                
-                self.registerDateTitleLbl.text = "최초등록일 \(carInfoModel.dpYes.regDate)"
-                self.carNumberLbl.text = carInfoModel.carNum
+                
+                self.registerDateTitleLbl.snp.updateConstraints {
+                    $0.top.equalTo(self.regDateMainTitleLbl.snp.bottom).offset(isOldCar ? 0:8)
+                }
+                
+                self.carUpdateTotalView.snp.updateConstraints {
+                    $0.height.equalTo(isOldCar ? 16:0)
+                }
+                   
+                self.carUpdateTotalView.isHidden = !isOldCar
                 self.carImgView.sd_setImage(with: URL(string: "\(carInfoModel.dpYes.img)"), placeholderImage: Icons.iconMypageCarEmpty.image)
                 self.carMakeCompanyTitleLbl.text = carInfoModel.dpYes.cmpy
                 self.carMakeCompanyLbl.text = "\(carInfoModel.dpYes.mdSep) \(carInfoModel.series.s1.name)"
                                 
-                
                 for carInfoType in CarInfoType.allCases {
                     let carInfoView: UIView
                     switch carInfoType {
