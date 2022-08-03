@@ -23,6 +23,7 @@ internal enum Icons {
   internal static let iconCalendarMd = ImageAsset(name: "icon_calendar_md")
   internal static let iconCalendarSm = ImageAsset(name: "icon_calendar_sm")
   internal static let iconCalendarXs = ImageAsset(name: "icon_calendar_xs")
+  internal static let iconBallonTriangle = ImageAsset(name: "icon_ballon_triangle")
   internal static let iconCarEmpty = ImageAsset(name: "icon_car_empty")
   internal static let iconMypageCarEmpty = ImageAsset(name: "icon_mypage_car_empty")
   internal static let iconCheckOff = ImageAsset(name: "icon_check_off")

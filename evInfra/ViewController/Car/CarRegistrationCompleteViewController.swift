@@ -96,9 +96,9 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
         $0.backgroundColor = Colors.backgroundSecondary.color
     }
     
-    private lazy regDateTotalViewTriangleImgView = UIImageView().then {
+    private lazy var regDateTotalViewTriangleImgView = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        
+        $0.image = Icons.iconBallonTriangle.image
     }
     
     private lazy var regDateMainTitleLbl = UILabel().then {
@@ -263,7 +263,15 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
             $0.top.equalTo(welcomeGuideLbl.snp.bottom).offset(24)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(302)
-            $0.height.equalTo(79)
+            $0.height.greaterThanOrEqualTo(64)
+        }
+        
+        totalView.addSubview(regDateTotalViewTriangleImgView)
+        regDateTotalViewTriangleImgView.snp.makeConstraints {
+            $0.top.equalTo(regDateTotalView.snp.bottom).offset(-1)
+            $0.width.equalTo(22)
+            $0.height.equalTo(15)
+            $0.centerX.equalToSuperview()
         }
         
         regDateTotalView.addSubview(regDateMainTitleLbl)
@@ -280,13 +288,13 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
             $0.leading.equalToSuperview().offset(4)
             $0.trailing.equalToSuperview().offset(-4)
             $0.height.equalTo(16)
-            $0.bottom.equalToSuperview().offset(-27)
+            $0.bottom.equalToSuperview().offset(-12)
         }
         
         
         totalView.addSubview(carNumberTotalView)
         carNumberTotalView.snp.makeConstraints {
-            $0.top.equalTo(regDateTotalView.snp.bottom).offset(9)
+            $0.top.equalTo(regDateTotalViewTriangleImgView.snp.bottom).offset(16)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(28)
         }

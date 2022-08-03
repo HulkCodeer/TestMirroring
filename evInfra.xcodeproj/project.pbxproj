@@ -2606,6 +2606,7 @@
 				63F31542284EC74F001713D2 /* Run Script */,
 				63F31543284EC74F001713D2 /* ShellScript */,
 				1C98F56D3D15AB0346BA5008 /* [CP] Embed Pods Frameworks */,
+				829D99E4289A3EA1002F5CF9 /* Run SwiftGen */,
 			);
 			buildRules = (
 			);
@@ -3169,6 +3170,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "${PODS_ROOT}/FirebaseCrashlytics/upload-symbols -gsp ${PROJECT_DIR}/evInfra/GoogleService-Info.plist -p ios ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\n";
+		};
+		829D99E4289A3EA1002F5CF9 /* Run SwiftGen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftGen";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswiftgen run xcassets --param enumName=Colors evInfra/Resources/Colors.xcassets -t swift5 --output \"evInfra/Common/Colors+Generated.swift\"\nswiftgen run xcassets --param enumName=Icons evInfra/Resources/Icons.xcassets -t swift5 --output \"evInfra/Common/Icons+Generated.swift\"\n";
 		};
 		D9E566A1D95AABDA3587F199 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
