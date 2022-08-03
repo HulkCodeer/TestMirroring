@@ -29,20 +29,7 @@ class PointTableViewCell: UITableViewCell {
         self.labelTime.text = time
         self.labelTitle.text = point.desc
         
-        if point.action?.elementsEqual("save") ?? false {
-            self.labelAction.text = "적립"
-            self.labelAmount.text = "+" + (point.point?.currency() ?? "") + " B"
-            self.labelAmount.textColor = UIColor(named: "gr-5")
-        } else if point.action?.elementsEqual("used") ?? false {
-            self.labelAction.text = "사용"
-            self.labelAmount.text = "-" + (point.point?.currency() ?? "") + " B"
-            self.labelAmount.textColor = UIColor(named: "content-primary")
-        } else {
-            self.labelAction.text = "기타"
-        }
-        
-        let pointType = PointType(point.type)
-        self.labelCategory.text = pointType.category
+        setAmountView(actionType: point.loadActionType(), point: point.point)
     }
     
     // MARK: Action
@@ -85,6 +72,28 @@ class PointTableViewCell: UITableViewCell {
         }
         
         self.labelCategory.text = category
+    }
+    
+    private func setAmountView(actionType: EvPoint.ActionType, point: String?) {
+        switch actionType {
+        case .unknown:
+            labelAction.text = "기타"
+        case .savePoint, .usePoint:
+            setAmountLabel(isSave: actionType == .savePoint, point: point)
+        }
+    }
+    
+    private func setAmountLabel(isSave: Bool?, point: String?) {
+        guard let isSave = isSave else { return }
+        let flag = isSave ? "+" : "-"
+        let color: UIColor = isSave ? Colors.gr5.color : Colors.contentPrimary.color
+        let currencyPoint = point?.currency() ?? String()
+        
+        labelAction.text = isSave ? "적립" : "사용"
+        
+        labelAmount.text = flag + currencyPoint + "B"
+        labelAmount.textColor = color
+        
     }
     
 }
