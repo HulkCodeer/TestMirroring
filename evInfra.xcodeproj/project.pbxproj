@@ -177,6 +177,8 @@
 		63BEAC602833965A00E797DD /* Observable+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BEAC5F2833965A00E797DD /* Observable+Operators.swift */; };
 		63C7C8E0286D6F0B00A357D6 /* NewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */; };
 		63C7C8E1286D7D2C00A357D6 /* NewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */; };
+		63CAC180289BAE3E00ADA809 /* CommonBaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CAC17F289BAE3E00ADA809 /* CommonBaseTableViewCell.swift */; };
+		63CAC181289BAE3E00ADA809 /* CommonBaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CAC17F289BAE3E00ADA809 /* CommonBaseTableViewCell.swift */; };
 		63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */; };
 		63CCE8242834CFD5006B8B9A /* evInfraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE8232834CFD5006B8B9A /* evInfraTests.swift */; };
 		63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */; };
@@ -1050,6 +1052,7 @@
 		63BEAC5D28338ADA00E797DD /* ReissuanceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceModel.swift; sourceTree = "<group>"; };
 		63BEAC5F2833965A00E797DD /* Observable+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Operators.swift"; sourceTree = "<group>"; };
 		63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBottomSheetViewController.swift; sourceTree = "<group>"; };
+		63CAC17F289BAE3E00ADA809 /* CommonBaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonBaseTableViewCell.swift; sourceTree = "<group>"; };
 		63CCE81B2834CB9E006B8B9A /* DeepLinkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkModel.swift; sourceTree = "<group>"; };
 		63CCE8212834CFD5006B8B9A /* evInfraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = evInfraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63CCE8232834CFD5006B8B9A /* evInfraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = evInfraTests.swift; sourceTree = "<group>"; };
@@ -1884,6 +1887,7 @@
 				523A3AF12797A9CA004C3C23 /* GroupViewController.swift */,
 				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
 				19A3D3252887F13400AE8280 /* AmplitudeManager.swift */,
+				63CAC17F289BAE3E00ADA809 /* CommonBaseTableViewCell.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -3206,6 +3210,7 @@
 				63F313DD284EC74F001713D2 /* LoginHelper.swift in Sources */,
 				63F313DE284EC74F001713D2 /* BoardTableView.swift in Sources */,
 				63F313DF284EC74F001713D2 /* FilterSpeedView.swift in Sources */,
+				63CAC181289BAE3E00ADA809 /* CommonBaseTableViewCell.swift in Sources */,
 				63F313E0284EC74F001713D2 /* BoardItem.swift in Sources */,
 				63F313E1284EC74F001713D2 /* TapticEngine.swift in Sources */,
 				63F313E2284EC74F001713D2 /* DropDownCheckBoxCell.swift in Sources */,
@@ -3491,6 +3496,7 @@
 				00A3658F26C4E35900424E40 /* FilterSpeedView.swift in Sources */,
 				736D37D3208DC9CE009535EE /* BoardItem.swift in Sources */,
 				00AE577D26CE4891003E6643 /* TapticEngine.swift in Sources */,
+				63CAC180289BAE3E00ADA809 /* CommonBaseTableViewCell.swift in Sources */,
 				732ED1CA21ED8ABB0012C67B /* DropDownCheckBoxCell.swift in Sources */,
 				42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */,
 				CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */,
