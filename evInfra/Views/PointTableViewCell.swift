@@ -7,47 +7,164 @@
 //
 
 import Foundation
+import UIKit
 
+import Then
+import SnapKit
+import Material
+
+//CommonBaseTableViewCell 적용!!!
 internal final class PointTableViewCell: UITableViewCell {
+    static let cellIdentifier = "PointTableViewCell"
+//    @IBOutlet weak var labelDate: UILabel! //date
+//    @IBOutlet weak var labelAction: UILabel! //action
+//    @IBOutlet weak var labelAmount: UILabel! //berry
+//    @IBOutlet weak var labelTitle: UILabel! //desc
+//    @IBOutlet weak var labelTime: UILabel! //time
+//    @IBOutlet weak var labelCategory: UILabel! //type
     
-    @IBOutlet weak var labelDate: UILabel! //date
-    @IBOutlet weak var labelAction: UILabel! //action
-    @IBOutlet weak var labelAmount: UILabel! //berry
-    @IBOutlet weak var labelTitle: UILabel! //desc
-    @IBOutlet weak var labelTime: UILabel! //time
-    @IBOutlet weak var labelCategory: UILabel! //type
+    private let contentStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.alignment = .fill
+        $0.distribution = .equalSpacing
+    }
+    
+    private let dateStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.alignment = .fill
+        $0.distribution = .equalSpacing
+    }
+    private let yearLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 12, weight: .medium)
+        $0.textColor = Colors.contentTertiary.color
+    }
+    private let dateLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 14, weight: .medium)
+        $0.textColor = Colors.contentPrimary.color
+    }
+
+    private let chargeInfoStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.alignment = .fill
+        $0.distribution = .equalSpacing
+    }
+    private let titleLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 14, weight: .medium)
+        $0.textColor = Colors.contentPrimary.color
+    }
+    private let timeCategoryLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 12, weight: .medium)
+        $0.textColor = Colors.contentPrimary.color
+    }
+    
+    private let amountStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.alignment = .fill
+        $0.distribution = .equalSpacing
+    }
+    private let amountLabel = UILabel().then {
+        $0.textColor = Colors.contentPrimary.color
+    }
+    private let actionLabel = UILabel().then { // 적립, 사용 등
+        $0.font = .systemFont(ofSize: 12, weight: .medium)
+        $0.textColor = Colors.contentTertiary.color
+    }
+    
+    private let dividerView = UIView().then {
+        $0.backgroundColor = Colors.nt2.color
+    }
+    
+    // 선도 추가할까?
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        setUI()
+        setConstraints()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    private func setUI() {
+        self.selectionStyle = .none
+        
+        contentView.addSubview(contentStackView)
+        
+        contentStackView.addArrangedSubview(dateStackView)
+        contentStackView.addArrangedSubview(chargeInfoStackView)
+        contentStackView.addArrangedSubview(amountStackView)
+        self.addSubview(dividerView)
+
+        dateStackView.addArrangedSubview(dateLabel)
+        dateStackView.addArrangedSubview(yearLabel)
+
+        chargeInfoStackView.addArrangedSubview(titleLabel)
+        chargeInfoStackView.addArrangedSubview(timeCategoryLabel)
+
+        amountStackView.addArrangedSubview(amountLabel)
+        amountStackView.addArrangedSubview(actionLabel)
+    }
+    
+    private func setConstraints() {
+        let contentMargin: CGFloat = 5
+        
+        let dividerHeight: CGFloat = 1
+        
+        contentStackView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalToSuperview().offset(contentMargin)
+            $0.bottom.equalToSuperview().inset(contentMargin)
+        }
+        
+        // dateView
+        
+        // chargeInfoView
+        
+        // amountView
+        
+        dividerView.snp.makeConstraints {
+            $0.height.equalTo(dividerHeight)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+        
+    // MARK: Action
     
     func configure(point: EvPoint, beforeDate: String?, isFirst: Bool) {
-
-        let (date, time) = sliceDate(date: point.date)
-
-        self.labelDate.text = date
-        self.labelTime.text = time
-        self.labelTitle.text = point.desc
+        let (year, date, time) = sliceDate(date: point.date)
+        
+        titleLabel.text = point.desc
+        
+        yearLabel.text = year
+        dateLabel.text = date
         
         setDate(currentDate: date, beforeDate: beforeDate, isFirst: isFirst)
-        setCategory(type: point.loadPointType())
+        setTimeCategory(type: point.loadPointType(), time: time)
         setAmountView(actionType: point.loadActionType(), point: point.point)
     }
     
-    // MARK: Action
+    // MARK: private Action
     
     private func setDate(currentDate: String?, beforeDate: String?, isFirst: Bool) {
-        let (preDate, _) = sliceDate(date: beforeDate)
+        let (_, preDate, _) = sliceDate(date: beforeDate)
         
-        self.labelDate.isHidden = !isFirst
+        self.dateStackView.isHidden = !isFirst
         
         if let date = currentDate,
            let preDate = preDate,
            preDate.elementsEqual(date) {
-            self.labelDate.isHidden = true
+            self.dateStackView.isHidden = true
         } else {
-            self.labelDate.isHidden = false
+            self.dateStackView.isHidden = false
         }
     }
     
-    private func setCategory(type pointType: EvPoint.PointType) {
-        var category: String?
+    private func setTimeCategory(type pointType: EvPoint.PointType, time: String?) {
+        let time = time ?? String()
+        var category = String()
         
         switch pointType {
         case .charging:
@@ -60,13 +177,13 @@ internal final class PointTableViewCell: UITableViewCell {
             break
         }
         
-        self.labelCategory.text = category
+        timeCategoryLabel.text = time + " | " + category
     }
     
     private func setAmountView(actionType: EvPoint.ActionType, point: String?) {
         switch actionType {
         case .unknown:
-            labelAction.text = "기타"
+            actionLabel.text = "기타"
         case .savePoint, .usePoint:
             setAmountLabel(isSave: actionType == .savePoint, point: point)
         }
@@ -78,22 +195,25 @@ internal final class PointTableViewCell: UITableViewCell {
         let color: UIColor = isSave ? Colors.gr5.color : Colors.contentPrimary.color
         let currencyPoint = point?.currency() ?? String()
         
-        labelAction.text = isSave ? "적립" : "사용"
+        actionLabel.text = isSave ? "적립" : "사용"
         
-        labelAmount.text = flag + currencyPoint + "B"
-        labelAmount.textColor = color
+        amountLabel.text = flag + currencyPoint + "B"
+        amountLabel.textColor = color
         
     }
     
-    private func sliceDate(date: String?) -> (date: String?, time: String?) {
-        let dateStr = date?.dropFirst(5)
+    // yyyy.MM.dd HH:mm
+    private func sliceDate(date dateStr: String?) -> (year: String?, date: String?, time: String?) {
+        guard let date = dateStr?.toDate(dateFormat: "yyyy.MM.dd HH:mm")
+        else { return (nil, nil, nil) }
         
-        let separate = " "
-        let dateArr = dateStr?.components(separatedBy: separate)
-        let date = dateArr?[0]
-        let time = dateArr?[1]
+        print("!!! sliceDate, format 'yyyy.MM.dd HH:mm' date", date)
         
-        return (date, time)
+        let year = date.toYear()
+        let monDay = date.toMonthDay()
+        let time = date.toTime()
+        
+        return (year, monDay, time)
     }
   
 }
