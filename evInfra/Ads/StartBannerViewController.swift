@@ -12,8 +12,9 @@ import Then
 import RxSwift
 import RxCocoa
 import ReactorKit
+import SDWebImage
 
-internal final class AdsViewController: CommonBaseViewController, StoryboardView {
+internal final class StartBannerViewController: CommonBaseViewController, StoryboardView {
     
     private lazy var dimmedViewBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +29,8 @@ internal final class AdsViewController: CommonBaseViewController, StoryboardView
     }
     
     private lazy var eventImageView = UIImageView().then {
-        $0.backgroundColor = Colors.backgroundPositive.color
+        $0.backgroundColor = Colors.backgroundPrimary.color
+        $0.contentMode = .scaleToFill
     }
     
     private lazy var eventImageButton = UIButton().then {
@@ -59,7 +61,7 @@ internal final class AdsViewController: CommonBaseViewController, StoryboardView
     
     private let safeAreaInsetBottomHeight = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
     
-    init(reactor: AdsReactor) {
+    init(reactor: GlobalAdsReactor) {
         super.init()
         self.reactor = reactor
     }
@@ -132,7 +134,7 @@ internal final class AdsViewController: CommonBaseViewController, StoryboardView
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.closeAdsViewController()
+                self.closeStartBannerViewController()
             })
             .disposed(by: disposeBag)
         
@@ -140,8 +142,8 @@ internal final class AdsViewController: CommonBaseViewController, StoryboardView
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
-//                UserDefault().saveString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK, value: Date().toString())
-                self.closeAdsViewController()
+                UserDefault().saveString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK, value: Date().toString())
+                self.closeStartBannerViewController()
             })
             .disposed(by: disposeBag)
         
@@ -149,7 +151,7 @@ internal final class AdsViewController: CommonBaseViewController, StoryboardView
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.closeAdsViewController()
+                self.closeStartBannerViewController()
             })
             .disposed(by: disposeBag)
         
@@ -161,8 +163,19 @@ internal final class AdsViewController: CommonBaseViewController, StoryboardView
             }).disposed(by: disposeBag)
     }
     
-    internal func bind(reactor: AdsReactor) {
+    internal func bind(reactor: GlobalAdsReactor) {
         // TODO: - Make Global Ads Reactor
+        Observable.just(GlobalAdsReactor.Action.loadStartBanner(.start, .top))
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.startBanner }
+            .subscribe(on: MainScheduler.instance)
+            .compactMap { URL(string: "\(Const.EI_IMG_SERVER)\(String(describing: $0.img))") }
+            .subscribe(onNext: {
+                self.eventImageView.sd_setImage(with: $0 )
+            })
+            .disposed(by: disposeBag)
     }
     
     // 앰플리튜드 view_enter 로깅을 위해 필요함
@@ -170,7 +183,7 @@ internal final class AdsViewController: CommonBaseViewController, StoryboardView
 //        super.viewWillAppear(animated)
 //    }
     
-    private func closeAdsViewController() {
+    private func closeStartBannerViewController() {
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
