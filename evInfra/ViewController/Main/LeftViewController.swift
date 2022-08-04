@@ -15,85 +15,124 @@ import RxCocoa
 internal final class LeftViewController: UIViewController {
     // MARK: UI
     
+    @IBOutlet var userImgView: UIImageView!
+    @IBOutlet var communityImgView: UIImageView!
+    @IBOutlet var eventImgView: UIImageView!
+    @IBOutlet var evInfoImgView: UIImageView!
+    @IBOutlet var settingsImgView: UIImageView!
+    
+    @IBOutlet var userTotalView: UIView!
+    @IBOutlet var communityTotalView: UIView!
+    @IBOutlet var eventTotalView: UIView!
+    @IBOutlet var evInfoTotalView: UIView!
+    @IBOutlet var settingsTotalView: UIView!
+    
     @IBOutlet weak var myPageBtn: UIButton!
     @IBOutlet weak var boardBtn: UIButton!
     @IBOutlet weak var infoBtn: UIButton!
-    @IBOutlet weak var batteryBtn: UIButton!
     @IBOutlet weak var settingsBtn: UIButton!
     @IBOutlet weak var btnLogin: UIButton!
     @IBOutlet weak var sideMenuTab: UIView!
     @IBOutlet weak var boardCompanyBtn: UIButton!
+    @IBOutlet weak var sideTableView: UITableView!
             
-    // MARK: VARIABLE
+    // MARK: - VARIABLE
+    
     private var disposeBag = DisposeBag()
-        
-    let cellIdentifier = "sideMenuCell"
+            
     
     // main menu
-    let MENU_MY_PAGE    = 0
-    let MENU_BOARD      = 1
-    let MENU_EVENT      = 2
-    let MENU_EVINFO     = 3
-    let MENU_BATTERY    = 4
-    let MENU_SETTINGS   = 5
+    private let MENU_MY_PAGE    = 0
+    private let MENU_BOARD      = 1
+    private let MENU_EVENT      = 2
+    private let MENU_EVINFO     = 3
+    private let MENU_BATTERY    = 4
+    private let MENU_SETTINGS   = 5
     
     // sub menu - 마이페이지
-    let SUB_MENU_CELL_MYPAGE = 0
-    let SUB_MENU_CELL_PAY    = 1
+    private let SUB_MENU_CELL_MYPAGE = 0
+    private let SUB_MENU_CELL_PAY    = 1
     
     // 마이페이지
-    let SUB_MENU_MY_PERSONAL_INFO   = 0
-    let SUB_MENU_MY_WRITING         = 1
-    let SUB_MENU_REPORT_STATION     = 2
+    private let SUB_MENU_MY_PERSONAL_INFO   = 0
+    private let SUB_MENU_MY_WRITING         = 1
+    private let SUB_MENU_REPORT_STATION     = 2
     
     // PAY
-    let SUB_MENU_MY_PAYMENT_INFO     = 0
-    let SUB_MENU_MY_EVCARD_INFO      = 1
-    let SUB_MENU_MY_LENTAL_INFO      = 2
-    let SUB_MENU_MY_CHARGING_HISTORY = 3
-    let SUB_MENU_MY_POINT            = 4
+    private let SUB_MENU_MY_PAYMENT_INFO     = 0
+    private let SUB_MENU_MY_EVCARD_INFO      = 1
+    private let SUB_MENU_MY_LENTAL_INFO      = 2
+    private let SUB_MENU_MY_CHARGING_HISTORY = 3
+    private let SUB_MENU_MY_POINT            = 4
 
     // sub menu - 게시판
-    let SUB_MENU_CELL_BOARD         = 0
-    let SUB_MENU_CELL_COMPANY_BOARD = 1
+    private let SUB_MENU_CELL_BOARD         = 0
+    private let SUB_MENU_CELL_COMPANY_BOARD = 1
     
     // 게시판
-    let SUB_MENU_NOTICE        = 0 // 공지사항
-    let SUB_MENU_FREE_BOARD    = 1 // 자유게시판
-    let SUB_MENU_CHARGER_BOARD = 2 // 충전소게시판
+    private let SUB_MENU_NOTICE        = 0 // 공지사항
+    private let SUB_MENU_FREE_BOARD    = 1 // 자유게시판
+    private let SUB_MENU_CHARGER_BOARD = 2 // 충전소게시판
     
     // sub menu - 이벤트
-    let SUB_MENU_CELL_EVENT = 0
-    let SUB_MENU_EVENT      = 0 // 이벤트
-    let SUB_MENU_MY_COUPON  = 1 // 내 쿠폰함
+    private let SUB_MENU_CELL_EVENT = 0
+    private let SUB_MENU_EVENT      = 0 // 이벤트
+    private let SUB_MENU_MY_COUPON  = 1 // 내 쿠폰함
 
     // sub menu - 전기차정보
-    let SUB_MENU_CELL_EV_INFO = 0
+    private let SUB_MENU_CELL_EV_INFO = 0
     
-    let SUB_MENU_EVINFO       = 0
-    let SUB_MENU_CHARGER_INFO = 1
-    let SUB_MENU_BOJO         = 2
-    let SUB_MENU_BONUS        = 3
-    let SUB_MENU_CHARGE_PRICE = 4
+    private let SUB_MENU_EVINFO       = 0
+    private let SUB_MENU_CHARGER_INFO = 1
+    private let SUB_MENU_BOJO         = 2
+    private let SUB_MENU_BONUS        = 3
+    private let SUB_MENU_CHARGE_PRICE = 4
     
     // sub menu - 배터리 저보
-    let SUB_MENU_CELL_BATTERY = 0
+    private let SUB_MENU_CELL_BATTERY = 0
     
     // sub menu - 설정
-    let SUB_MENU_CELL_SETTINGS = 0
+    private let SUB_MENU_CELL_SETTINGS = 0
     
-    let SUB_MENU_ALL_SETTINGS  = 0
-    let SUB_MENU_FAQ  = 1
-    let SUB_MENU_SERVICE_GUIDE = 2
-    let SUB_MENU_VERSION       = 3
+    private let SUB_MENU_ALL_SETTINGS  = 0
+    private let SUB_MENU_FAQ  = 1
+    private let SUB_MENU_SERVICE_GUIDE = 2
+    private let SUB_MENU_VERSION       = 3
     
-    var sideMenuArrays:[[Array<String>]] = [[]]
+    private var sideMenuArrays:[[Array<String>]] = [[]]
     // Company id Arr (get each row's company id)
-    var companyNameArr:Array = Array<String>()
+    private var companyNameArr:Array = Array<String>()
     
-    var sideSectionArrays = [["마이페이지", "PAY"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["배터리 진단 정보"], ["설정"]]
+    private var sideSectionArrays = [["마이페이지", "PAY"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["배터리 진단 정보"], ["설정"]]
     
-    var menuIndex = 0
+    private var menuIndex = 0
+    
+    // MARK: - SYSTEM FUNC
+    
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+                
+        sideTableView.delegate = self
+        sideTableView.dataSource = self
+        sideTableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        
+        initSideViewArr()
+        
+        tableViewLoad(index: menuIndex)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.navigationDrawerController?.reHideStatusBar()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.navigationDrawerController?.reShowStatusBar()
+    }
     
     @IBAction func clickLogin(_ sender: Any) {
         let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
@@ -117,43 +156,10 @@ internal final class LeftViewController: UIViewController {
         tableViewLoad(index: MENU_EVINFO)
     }
     
-    @IBAction func clickBattery(_ sender: Any) {
-        tableViewLoad(index: MENU_BATTERY)
-    }
-    
     @IBAction func clickSettings(_ sender: UIButton) {
         tableViewLoad(index: MENU_SETTINGS)
     }
-    
-    @IBOutlet weak var sideTableView: UITableView!
-    
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-                
-        sideTableView.delegate = self
-        sideTableView.dataSource = self
-        sideTableView.separatorStyle = UITableViewCellSeparatorStyle.none
         
-        initSideViewArr()
-        
-        tableViewLoad(index: menuIndex)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        self.navigationDrawerController?.reHideStatusBar()
-        newBadgeInMenu()
-        updateBatteryMenu()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.navigationDrawerController?.reShowStatusBar()
-    }
-    
     internal func appeared() {
         // 로그인 버튼
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
@@ -198,36 +204,34 @@ internal final class LeftViewController: UIViewController {
     
     private func tableViewLoad(index: Int) {
         menuIndex = index
-        myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        batteryBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-        settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-
-        myPageBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        boardBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        boardCompanyBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        infoBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        batteryBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-        settingsBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+//        myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+//        boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+//        boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+//        infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+//        batteryBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+//        settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
+//
+//        myPageBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+//        boardBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+//        boardCompanyBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+//        infoBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+//        batteryBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+//        settingsBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
         
-        switch index {
-        case MENU_MY_PAGE:
-            myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_BOARD:
-            boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_EVENT:
-            boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_EVINFO:
-            infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_BATTERY:
-            batteryBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        case MENU_SETTINGS:
-            settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        default:
-            myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-        }
+//        switch index {
+//        case MENU_MY_PAGE:
+//            myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+//        case MENU_BOARD:
+//            boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+//        case MENU_EVENT:
+//            boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+//        case MENU_EVINFO:
+//            infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+//        case MENU_SETTINGS:
+//            settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+//        default:
+//            myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
+//        }
         self.sideTableView.reloadData()
     }
 }
@@ -575,15 +579,7 @@ extension LeftViewController {
             }
         }
     }
-    
-    private func updateBatteryMenu() {
-        if !MemberManager.shared.deviceId.isEmpty {
-            batteryBtn.isHidden = false
-        } else {
-            batteryBtn.isHidden = true
-        }
-    }
-    
+        
     // 각 게시판에 badge
     private func setNewBadge(cell: SideMenuTableViewCell, index: IndexPath) {
         cell.newBadge.isHidden = true
@@ -661,25 +657,25 @@ extension LeftViewController {
     
     // 메인화면 메뉴이미지에 badge
     private func newBadgeInMenu() {
-        if Board.sharedInstance.hasNewBoard() {
-            if let image = UIImage(named: "icon_comment_lg") {
-                boardBtn.setImage(image, for: .normal)
-            }
-        } else {
-            if let image = UIImage(named: "icon_comment_lg") {
-                boardBtn.setImage(image, for: .normal)
-            }
-        }
-        
-        if UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
-            if let image = UIImage(named: "icon_user_badge") {
-                myPageBtn.setImage(image, for: .normal)
-            }
-        } else {
-            if let image = UIImage(named: "icon_user") {
-                myPageBtn.setImage(image, for: .normal)
-            }
-        }
+//        if Board.sharedInstance.hasNewBoard() {
+//            if let image = UIImage(named: "icon_comment_lg") {
+//                boardBtn.setImage(image, for: .normal)
+//            }
+//        } else {
+//            if let image = UIImage(named: "icon_comment_lg") {
+//                boardBtn.setImage(image, for: .normal)
+//            }
+//        }
+//
+//        if UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
+//            if let image = UIImage(named: "icon_user_badge") {
+//                myPageBtn.setImage(image, for: .normal)
+//            }
+//        } else {
+//            if let image = UIImage(named: "icon_user") {
+//                myPageBtn.setImage(image, for: .normal)
+//            }
+//        }
         // refresh new badge in sub menu
         sideTableView.reloadData()
     }

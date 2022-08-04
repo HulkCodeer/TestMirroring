@@ -124,8 +124,8 @@ extension ChargerInfoViewController: UICollectionViewDataSource {
     internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InfoCollectionViewCellReusable", for: indexPath) as? InfoCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.cellImage.image = UIImage(named: chargerModels[indexPath.item].image ?? "")
-        cell.cellImage.motionIdentifier = "\(chargerModels[indexPath.item].image ?? "")"
+        cell.cellImage.image = UIImage(named: chargerModels[indexPath.item].image )
+        cell.cellImage.motionIdentifier = "\(chargerModels[indexPath.item].image )"
         cell.cellTitle.text = chargerModels[indexPath.item].name
         cell.transition(.fadeOut, .scale(0.75))
         
