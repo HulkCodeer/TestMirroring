@@ -26,6 +26,7 @@ internal final class LeftViewController: UIViewController {
     @IBOutlet var eventTotalView: UIView!
     @IBOutlet var evInfoTotalView: UIView!
     @IBOutlet var settingsTotalView: UIView!
+    @IBOutlet var batteryTotalView: UIView!
     
     @IBOutlet weak var myPageBtn: UIButton!
     @IBOutlet weak var boardBtn: UIButton!
@@ -39,8 +40,7 @@ internal final class LeftViewController: UIViewController {
     // MARK: - VARIABLE
     
     private var disposeBag = DisposeBag()
-            
-    
+                
     // main menu
     private let MENU_MY_PAGE    = 0
     private let MENU_BOARD      = 1
@@ -106,6 +106,20 @@ internal final class LeftViewController: UIViewController {
     private var sideSectionArrays = [["마이페이지", "PAY"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["배터리 진단 정보"], ["설정"]]
     
     private var menuIndex = 0
+    
+    enum LargeCategoryType {
+        case mypage
+        case community
+        case event
+        case evinfo
+        case settings
+    }
+    
+    enum MediumCategoryType {
+        case mypage
+        case pay
+    }
+    
         
     // MARK: - SYSTEM FUNC
     
