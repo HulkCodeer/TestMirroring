@@ -106,7 +106,7 @@ internal final class LeftViewController: UIViewController {
     private var sideSectionArrays = [["마이페이지", "PAY"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["배터리 진단 정보"], ["설정"]]
     
     private var menuIndex = 0
-    
+        
     // MARK: - SYSTEM FUNC
     
     deinit {
@@ -204,34 +204,29 @@ internal final class LeftViewController: UIViewController {
     
     private func tableViewLoad(index: Int) {
         menuIndex = index
-//        myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-//        boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-//        boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-//        infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-//        batteryBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-//        settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF, alpha: 0x00)
-//
-//        myPageBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-//        boardBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-//        boardCompanyBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-//        infoBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-//        batteryBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
-//        settingsBtn.setTitleColor(UIColor(hex: "#333333"), for: .normal)
+
+        userTotalView.backgroundColor = .clear
+        communityTotalView.backgroundColor = .clear
+        eventTotalView.backgroundColor = .clear
+        evInfoTotalView.backgroundColor = .clear
+        settingsTotalView.backgroundColor = .clear
         
-//        switch index {
-//        case MENU_MY_PAGE:
-//            myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-//        case MENU_BOARD:
-//            boardBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-//        case MENU_EVENT:
-//            boardCompanyBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-//        case MENU_EVINFO:
-//            infoBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-//        case MENU_SETTINGS:
-//            settingsBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-//        default:
-//            myPageBtn.backgroundColor = UIColor(rgb: 0xFFFFFF)
-//        }
+        let backGroundColor = Colors.backgroundPrimary.color
+        switch index {
+        case MENU_MY_PAGE:
+            userTotalView.backgroundColor = backGroundColor
+        case MENU_BOARD:
+            communityTotalView.backgroundColor = backGroundColor
+        case MENU_EVENT:
+            eventTotalView.backgroundColor = backGroundColor
+        case MENU_EVINFO:
+            evInfoTotalView.backgroundColor = backGroundColor
+        case MENU_SETTINGS:
+            settingsTotalView.backgroundColor = backGroundColor
+        default:
+            userTotalView.backgroundColor = backGroundColor
+        }
+        
         self.sideTableView.reloadData()
     }
 }
