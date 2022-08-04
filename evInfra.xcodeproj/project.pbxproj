@@ -787,7 +787,7 @@
 		82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */; };
 		82E03191286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		82E03192286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
-		8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		8ABD2A1E6BAAA48912760042 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
 		9028E07824A1B8280062A029 /* eirel in Resources */ = {isa = PBXBuildFile; fileRef = 9028E07724A1B8270062A029 /* eirel */; };
@@ -1419,7 +1419,7 @@
 				425EE5B22519DA520089E87D /* QuartzCore.framework in Frameworks */,
 				73B787B1210B172400C12801 /* KakaoLink.framework in Frameworks */,
 				425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */,
-				8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */,
+				8ABD2A1E6BAAA48912760042 /* BuildFile in Frameworks */,
 				2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
