@@ -20,6 +20,7 @@ internal final class LeftViewController: UIViewController {
     @IBOutlet var eventImgView: UIImageView!
     @IBOutlet var evInfoImgView: UIImageView!
     @IBOutlet var settingsImgView: UIImageView!
+    @IBOutlet var batteryImgView: UIImageView!
     
     @IBOutlet var userTotalView: UIView!
     @IBOutlet var communityTotalView: UIView!
@@ -108,16 +109,33 @@ internal final class LeftViewController: UIViewController {
     private var menuIndex = 0
     
     enum LargeCategoryType {
-        case mypage
-        case community
-        case event
-        case evinfo
-        case settings
+        case mypage(MyPageCategoryType)
+        case community(CommunityCategoryType)
+        case event(EventCategoryType)
+        case evinfo(EvInfoCategoryType)
+        case settings(SettingsCategoryType)
     }
     
-    enum MediumCategoryType {
+    enum MyPageCategoryType {
         case mypage
         case pay
+    }
+    
+    enum CommunityCategoryType {
+        case generalCommunity
+        case partnershipCoummunity
+    }
+    
+    enum EventCategoryType {
+        case event
+    }
+    
+    enum EvInfoCategoryType {
+        case evInfo
+    }
+    
+    enum SettingsCategoryType {
+        case settings
     }
     
         
@@ -168,6 +186,10 @@ internal final class LeftViewController: UIViewController {
     
     @IBAction func clickInfo(_ sender: Any) {
         tableViewLoad(index: MENU_EVINFO)
+    }
+    
+    @IBAction func clickBattery(_ sender: Any) {
+        tableViewLoad(index: MENU_BATTERY)
     }
     
     @IBAction func clickSettings(_ sender: UIButton) {
@@ -229,14 +251,22 @@ internal final class LeftViewController: UIViewController {
         switch index {
         case MENU_MY_PAGE:
             userTotalView.backgroundColor = backGroundColor
+            
         case MENU_BOARD:
             communityTotalView.backgroundColor = backGroundColor
+            
         case MENU_EVENT:
             eventTotalView.backgroundColor = backGroundColor
+            
         case MENU_EVINFO:
             evInfoTotalView.backgroundColor = backGroundColor
+            
+        case MENU_BATTERY:
+            batteryTotalView.backgroundColor = backGroundColor
+            
         case MENU_SETTINGS:
             settingsTotalView.backgroundColor = backGroundColor
+            
         default:
             userTotalView.backgroundColor = backGroundColor
         }

@@ -827,8 +827,8 @@
                                                             <constraint firstAttribute="width" constant="32" id="hyc-M7-2bX"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전기차정보" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4my-4J-V9q">
-                                                        <rect key="frame" x="9" y="45" width="52" height="16"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="배터리 정보" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4my-4J-V9q">
+                                                        <rect key="frame" x="7.5" y="45" width="55.5" height="16"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="16" id="7rQ-uK-iHK"/>
                                                         </constraints>
@@ -856,6 +856,7 @@
                                                             <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
+                                                            <action selector="clickBattery:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MXI-99-jyA"/>
                                                             <action selector="clickInfo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="j7O-Hi-GFx"/>
                                                         </connections>
                                                     </button>
@@ -1018,6 +1019,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="batteryImgView" destination="L8M-qO-pdJ" id="dEn-kU-NKh"/>
                         <outlet property="batteryTotalView" destination="uz8-qz-G7y" id="bgl-mX-hfD"/>
                         <outlet property="boardBtn" destination="Kyr-dO-3cq" id="qPF-03-NDf"/>
                         <outlet property="boardCompanyBtn" destination="yLE-sk-Lp8" id="xqI-Q0-rIk"/>
