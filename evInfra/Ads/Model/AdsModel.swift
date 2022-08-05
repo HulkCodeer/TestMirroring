@@ -24,6 +24,7 @@ internal struct AdsListDataModel {
 }
 
 internal struct AdsInfo {
+    var evtId: String = ""
     var img: String = ""
     var logo: String = ""
     var url: String = ""
@@ -39,6 +40,7 @@ internal struct AdsInfo {
     init() {}
     
     init(_ json: JSON) {
+        self.evtId = json["evtId"].stringValue
         self.img = json["img"].stringValue
         self.logo = json["logo"].stringValue
         self.url = json["url"].stringValue
