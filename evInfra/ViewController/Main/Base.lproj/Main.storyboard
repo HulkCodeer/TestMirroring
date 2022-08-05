@@ -508,7 +508,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Zx-sG-8p7" userLabel="Top View">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="226.5"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B20-Mc-15S" userLabel="profileImgView">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_profile_empty" translatesAutoresizingMaskIntoConstraints="NO" id="B20-Mc-15S" userLabel="profileImgView">
                                         <rect key="frame" x="16" y="114.5" width="40" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="BVD-tx-IrZ"/>
@@ -561,16 +561,29 @@
                                                 <color key="textColor" name="content-disabled"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m0L-fw-e65">
+                                                <rect key="frame" x="0.0" y="0.0" width="340" height="40"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                            </button>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" name="background-disabled"/>
                                         <constraints>
                                             <constraint firstItem="oRl-d4-WO0" firstAttribute="leading" secondItem="xKM-ku-EHN" secondAttribute="leading" constant="12" id="4gY-x4-aNv"/>
                                             <constraint firstAttribute="height" constant="40" id="4vb-Pf-aCx"/>
+                                            <constraint firstAttribute="trailing" secondItem="m0L-fw-e65" secondAttribute="trailing" id="Hql-5U-kUX"/>
                                             <constraint firstItem="oRl-d4-WO0" firstAttribute="centerY" secondItem="xKM-ku-EHN" secondAttribute="centerY" id="JjS-jW-haR"/>
                                             <constraint firstItem="p1e-6K-x6u" firstAttribute="centerY" secondItem="xKM-ku-EHN" secondAttribute="centerY" id="Jyn-3T-nsJ"/>
+                                            <constraint firstAttribute="bottom" secondItem="m0L-fw-e65" secondAttribute="bottom" id="P5Q-tO-4WO"/>
+                                            <constraint firstItem="m0L-fw-e65" firstAttribute="leading" secondItem="xKM-ku-EHN" secondAttribute="leading" id="R7L-hh-SHM"/>
+                                            <constraint firstItem="m0L-fw-e65" firstAttribute="top" secondItem="xKM-ku-EHN" secondAttribute="top" id="dKl-4o-QmC"/>
                                             <constraint firstAttribute="trailing" secondItem="p1e-6K-x6u" secondAttribute="trailing" constant="12" id="eN8-F7-aQi"/>
                                             <constraint firstAttribute="bottom" secondItem="p1e-6K-x6u" secondAttribute="bottom" constant="8" id="uMU-2y-Kxr"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="IBcornerRadius">
+                                                <real key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3NL-LD-wVZ">
                                         <rect key="frame" x="0.0" y="225.5" width="375" height="1"/>
@@ -592,10 +605,10 @@
                                     <constraint firstAttribute="trailing" secondItem="3NL-LD-wVZ" secondAttribute="trailing" id="eTg-2q-Y3i"/>
                                     <constraint firstItem="0Bi-Fu-ZjB" firstAttribute="trailing" secondItem="fVX-H0-U0Z" secondAttribute="trailing" id="gr6-eA-dJ4"/>
                                     <constraint firstItem="fVX-H0-U0Z" firstAttribute="centerY" secondItem="6Vg-Ft-cDd" secondAttribute="centerY" id="jBo-vB-fYJ"/>
+                                    <constraint firstAttribute="width" secondItem="9Zx-sG-8p7" secondAttribute="height" multiplier="96:58" id="mJi-5A-VdB"/>
                                     <constraint firstItem="0Bi-Fu-ZjB" firstAttribute="centerY" secondItem="B20-Mc-15S" secondAttribute="centerY" id="oMh-lV-t8k"/>
                                     <constraint firstItem="0Bi-Fu-ZjB" firstAttribute="leading" secondItem="6Vg-Ft-cDd" secondAttribute="leading" id="qG8-RW-dVH"/>
                                     <constraint firstItem="6Vg-Ft-cDd" firstAttribute="centerY" secondItem="B20-Mc-15S" secondAttribute="centerY" id="qwt-iR-YLI"/>
-                                    <constraint firstAttribute="width" secondItem="9Zx-sG-8p7" secondAttribute="height" multiplier="96:58" id="rbP-96-vHb"/>
                                     <constraint firstItem="6Vg-Ft-cDd" firstAttribute="leading" secondItem="B20-Mc-15S" secondAttribute="trailing" constant="16" id="toO-qi-ssM"/>
                                     <constraint firstItem="B20-Mc-15S" firstAttribute="bottom" secondItem="xKM-ku-EHN" secondAttribute="top" constant="-16" id="zEA-eO-oCn"/>
                                 </constraints>
@@ -1032,6 +1045,7 @@
                         <outlet property="eventTotalView" destination="2Qn-EN-3LK" id="Opt-zD-TUg"/>
                         <outlet property="infoBtn" destination="enQ-s8-Z8p" id="Pgy-vf-u3i"/>
                         <outlet property="myPageBtn" destination="7kU-vs-cgu" id="hpt-5l-upM"/>
+                        <outlet property="profileImgView" destination="B20-Mc-15S" id="LQ9-jd-BID"/>
                         <outlet property="settingsBtn" destination="3c0-jt-d4I" id="vSx-ob-zwC"/>
                         <outlet property="settingsImgView" destination="byC-q1-7bn" id="J6S-Jv-wRw"/>
                         <outlet property="settingsTotalView" destination="xR9-U6-hUG" id="M83-Yq-qkX"/>
@@ -1069,12 +1083,16 @@
         <image name="icon_ev" width="32" height="32"/>
         <image name="icon_gift_lg" width="32" height="32"/>
         <image name="icon_main_faq" width="32" height="24"/>
+        <image name="icon_profile_empty" width="112" height="112"/>
         <image name="icon_refresh_md" width="24" height="24"/>
         <image name="icon_setting_lg" width="32" height="32"/>
         <image name="icon_user_lg" width="32" height="32"/>
         <image name="intro_bg.jpg" width="1440" height="3200"/>
         <namedColor name="background-always-dark">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="background-disabled">
+            <color red="0.95294117647058818" green="0.95294117647058818" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="background-negative">
             <color red="0.93300002813339233" green="0.15299999713897705" blue="0.21600000560283661" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1086,7 +1104,7 @@
             <color red="0.95294117647058818" green="0.95294117647058818" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="border-opaque">
-            <color red="0.77300000190734863" green="0.77600002288818359" blue="0.78799998760223389" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77254901960784317" green="0.77647058823529413" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-disabled">
             <color red="0.6705882352941176" green="0.67450980392156867" blue="0.68627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

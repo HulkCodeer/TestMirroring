@@ -15,6 +15,8 @@ import RxCocoa
 internal final class LeftViewController: UIViewController {
     // MARK: UI
     
+    @IBOutlet var profileImgView: UIImageView!
+    
     @IBOutlet var userImgView: UIImageView!
     @IBOutlet var communityImgView: UIImageView!
     @IBOutlet var eventImgView: UIImageView!
@@ -147,6 +149,9 @@ internal final class LeftViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        profileImgView.IBcornerRadius = 40/2
+        profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
                 
         sideTableView.delegate = self
         sideTableView.dataSource = self
