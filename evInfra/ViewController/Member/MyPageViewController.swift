@@ -294,7 +294,7 @@ extension MyPageViewController {
         Server.getEvList { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                
+                printLog(out: "PARK TEST json : \(json)")
                 // 차량 모델 리스트
                 self.carModelList.setData(json: json)
                 var carList = self.carModelList.getNameList()

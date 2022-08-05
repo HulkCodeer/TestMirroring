@@ -72,8 +72,23 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         $0.IBcornerRadius = 6
         $0.keyboardType = .default
         $0.returnKeyType = .default
+        $0.placeholder = "00임 0000"
         $0.addLeftPadding(padding: 16)
         $0.delegate = self
+    }
+    
+    private lazy var carNumberClearBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setImage(Icons.iconCloseMd.image, for: .normal)
+        $0.tintColor = Colors.contentPrimary.color        
+    }
+    
+    private lazy var carNumberWarringLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        $0.textColor = Colors.contentNegative.color
+        $0.text = "이미 등록된 차량은 추가 등록할 수 없어요."
+        $0.textAlignment = .natural
     }
     
     private lazy var registerNoticeLbl = UILabel().then {
@@ -284,9 +299,23 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
             $0.height.equalTo(48)
         }
         
+        carRegisterStepTotalView.addSubview(carNumberClearBtn)
+        carNumberClearBtn.snp.makeConstraints {
+            $0.centerY.equalTo(carNumberLookUpTf.snp.centerY)
+            $0.trailing.equalTo(-16)
+            $0.width.height.equalTo(24)
+        }
+        
+        carRegisterStepTotalView.addSubview(carNumberWarringLbl)
+        carNumberWarringLbl.snp.makeConstraints {
+            $0.top.equalTo(carNumberLookUpTf.snp.bottom).offset(4)
+            $0.height.equalTo(0)
+            $0.leading.equalTo(carNumberLookUpTf.snp.leading)
+        }
+        
         carRegisterStepTotalView.addSubview(registerNoticeLbl)
         registerNoticeLbl.snp.makeConstraints {
-            $0.top.equalTo(carNumberLookUpTf.snp.bottom).offset(16)
+            $0.top.equalTo(carNumberWarringLbl.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview()
         }
         
@@ -399,7 +428,6 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.mainTitleLbl.text = "반가워요! \(MemberManager.shared.memberNickName)님 😊\n차량에 맞는 전기차 충전소를 찾아드릴게요."
         
         skipBtn.rx.tap
             .asDriver()
@@ -422,11 +450,33 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
                 }                
             }
         }
+        
+        carNumberClearBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.carNumberLookUpTf.text = ""
+            })
+            .disposed(by: self.disposeBag)
     }
     
     internal func bind(reactor: CarRegistrationReactor) {
         skipTitleLbl.isHidden = reactor.fromViewType != .signup
         skipBtn.isHidden = reactor.fromViewType != .signup
+                
+        let welcomeGuideText: String
+        switch reactor.fromViewType {
+        case .signup:
+            welcomeGuideText = "반가워요! \(MemberManager.shared.memberNickName)님 😊\n차량에 맞는 전기차 충전소를 찾아드릴게요."
+            
+        default:
+            welcomeGuideText = "\(MemberManager.shared.memberNickName)님! 차량을 등록하면\n차량에 맞는 전기차 충전소를 찾아드릴게요. "
+        }
+                
+        let attributedString = NSMutableAttributedString(string: welcomeGuideText)
+        attributedString.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPositive.color,
+                                        NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)], range: (attributedString.string as NSString).range(of: "차량에 맞는 전기차 충전소"))
+        self.mainTitleLbl.attributedText = attributedString
         
         Observable.just(CarRegistrationReactor.Action.getTermsAgreeList)
             .bind(to: reactor.action)
@@ -450,6 +500,7 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
                 
                 switch viewType {
                 case .carInquery:
+                    self.naviTotalView.naviBackBtn.isHidden = true
                     self.circleProgressBarView.progressAnimation(duration: self.circleViewDuration)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         Observable.just(CarRegistrationReactor.Action.moveNextView)
@@ -458,13 +509,16 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
                     }
                     
                 case .carInqueryComplete:
+                    self.naviTotalView.naviBackBtn.isHidden = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         Observable.just(CarRegistrationReactor.Action.registerCarInfo)
                             .bind(to: reactor.action)
                             .disposed(by: self.disposeBag)
                     }
                                                                             
-                default: break
+                default:
+                    self.naviTotalView.naviBackBtn.isHidden = false
+                    break
                 }
             })
             .disposed(by: self.disposeBag)
@@ -489,6 +543,16 @@ internal final class CarRegistrationViewController: CommonBaseViewController, St
         
         nextBtn.rx.tap
             .asDriver()
+            .filter { [weak self] _ in
+                guard let self = self else { return false }
+                let isValid = reactor.registerCarArray.filter { $0.equals(self.carNumberLookUpTf.text ?? "") }.count == 0
+                self.carNumberWarringLbl.snp.updateConstraints {
+                    $0.height.equalTo(isValid ? 0 : 16)
+                }
+                self.carNumberLookUpTf.IBborderColor = Colors.contentNegative.color
+                self.carNumberLookUpTf.IBborderWidth = 2
+                return isValid
+            }
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.view.endEditing(true)

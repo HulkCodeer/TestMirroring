@@ -19,7 +19,7 @@ internal final class CommonNaviView: UIView {
         $0.backgroundColor = .clear
     }
     
-    private lazy var naviBackBtn = NavigationClose().then {
+    internal lazy var naviBackBtn = NavigationClose().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     

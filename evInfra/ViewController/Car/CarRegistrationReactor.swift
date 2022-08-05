@@ -76,6 +76,7 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
     internal var initialState: State
     internal var paramModel = RegisterCarParamModel()
     internal var fromViewType: FromViewType = .signup
+    internal var registerCarArray: [String] = []
     
     override init(provider: SoftberryAPI) {
         self.initialState = State()

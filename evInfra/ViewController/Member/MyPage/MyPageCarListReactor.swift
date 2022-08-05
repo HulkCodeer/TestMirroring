@@ -24,12 +24,11 @@ internal final class MyPageCarListReactor: Reactor {
     struct State {
         var carInfoModel: CarInfoModel = CarInfoModel(JSON.null)
         
-        var isChangeMainCar: Bool?
+        var isChangeMainCar: Bool?    
     }
         
     internal var initialState: State
-    
-    
+    internal var registerCarArray: [String] = []
             
     init(model: CarInfoModel) {
         self.initialState = State(carInfoModel: model)
@@ -40,6 +39,7 @@ internal final class MyPageCarListReactor: Reactor {
         case .moveCarRegisterView:            
             let reactor = CarRegistrationReactor(provider: RestApi())
             reactor.fromViewType = .mypageAdd
+            reactor.registerCarArray = registerCarArray
             let viewcon = CarRegistrationViewController()
             viewcon.reactor = reactor
             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)

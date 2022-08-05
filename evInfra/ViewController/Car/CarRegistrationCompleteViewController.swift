@@ -419,13 +419,6 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
                 
             }
         }
-        
-        nextBtn.rx.tap
-            .asDriver()
-            .drive(onNext: {
-                GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
-            })
-            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -434,11 +427,11 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
     }
     
     internal func bind(reactor: CarRegistrationCompleteReactor) {
-        nextBtn.isHidden = reactor.fromViewType == .mypageAdd
+        nextBtn.isHidden = reactor.fromViewType != .mypageAdd
         deleteCarInfoLbl.isHidden = reactor.fromViewType == .signup
         deleteCarInfoBtn.isHidden = reactor.fromViewType == .signup
         
-        let nextBtnTitle: String = reactor.fromViewType == .mypageInfo ? "확인":"EV Infra 시작하기"
+        let nextBtnTitle: String = reactor.fromViewType == .mypageInfo || reactor.fromViewType == .mypageAdd ? "확인":"EV Infra 시작하기"
         nextBtn.setTitle(nextBtnTitle, for: .normal)
                         
         reactor.state.compactMap { $0.carInfoModel }
@@ -532,6 +525,25 @@ internal final class CarRegistrationCompleteViewController: CommonBaseViewContro
                 })
             })
             .disposed(by: self.disposeBag)
+        
+        nextBtn.rx.tap
+            .asDriver()
+            .drive(onNext: {
+                switch reactor.fromViewType {
+                case .mypageAdd:
+                    GlobalDefine.shared.mainNavi?.pop()
+                    
+                default:
+                    GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        welcomeGuideLbl.snp.updateConstraints {
+            let isSignUp = reactor.fromViewType == .signup
+            $0.top.equalToSuperview().offset(isSignUp ? 24 : 0)
+            $0.height.equalTo(isSignUp ? 24 : 0)
+        }
     }
     
     @objc private func hideKeyboard() {

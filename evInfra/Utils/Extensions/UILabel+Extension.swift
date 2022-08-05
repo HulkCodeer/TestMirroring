@@ -30,7 +30,7 @@ class PaddingLabel: UILabel {
 }
 
 
-extension UILabel {
+extension UILabel {        
     func setUnderline(underLineText: String) {
         guard let _text = self.text else { return }
         let attributedString = NSMutableAttributedString(string: _text)

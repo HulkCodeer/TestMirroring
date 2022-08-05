@@ -36,7 +36,7 @@ class UserDefault {
         static let MB_REGION        = "mb_region"
         static let MB_PROFILE_NAME  = "mb_profile_image"
         static let MB_CAR_ID        = "mb_car_id"
-        static let MB_CAR_TYPE      = "mb_car_type"
+        static let MB_CAR_TYPE      = "mb_car_type"        
         static let MB_PARTNERSHIP_CLIENT   = "mb_partnership_client"
         static let MB_PAYMENT       = "mb_payment"
         static let MB_DEVICE_ID       = "mb_device_id"
