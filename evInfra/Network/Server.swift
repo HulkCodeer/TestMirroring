@@ -45,7 +45,7 @@ class Server {
     static func getHeaders() -> HTTPHeaders {
         let headers: HTTPHeaders = [
             "mb_id": "\(MemberManager.shared.mbId)",
-            "nick_name": MemberManager.shared.memberNickName,
+            "nick_name": MemberManager.shared.memberNickName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "",
             "profile": "\(MemberManager.shared.profileImage)"
         ]
         printLog(out: "Server getHeaders \(headers.dictionary.description)")
