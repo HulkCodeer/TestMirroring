@@ -114,6 +114,21 @@ internal final class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        guard GlobalDefine.shared.isChangeMainCar else { return }        
+        let popupModel = PopupModel(title: "차량 정보로 필터를 설정했어요!",
+                                    message: "차량 커넥타입에 맞는 정보로 설정해드렸어요! ",
+                                    confirmBtnTitle: "필터보기", cancelBtnTitle: "확인",
+                                    confirmBtnAction: { [weak self] in
+            guard let self = self else { return }            
+            self.startFilterSetting()
+                                    
+        }, textAlignment: .center)
+        
+        let popup = ConfirmPopupViewController(model: popupModel)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+        })
     }
     
     override func viewDidAppear(_ animated: Bool) {

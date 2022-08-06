@@ -56,6 +56,9 @@ internal final class FilterTypeView: UIView {
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self else { return }
             self.switchCarSetting.isUserInteractionEnabled = isLogin
+            guard isLogin && GlobalDefine.shared.isChangeMainCar else { return }
+            GlobalDefine.shared.isChangeMainCar = false
+            self.setForCarType()
         }
     }
     
@@ -69,7 +72,7 @@ internal final class FilterTypeView: UIView {
     }
     
     @IBAction func onSwitchValueChange(_ sender: Any) {
-        if (switchCarSetting.isOn) {
+        if switchCarSetting.isOn {
             MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
                 guard isLogin, let self = self else { return }
                 self.setForCarType()
@@ -87,8 +90,9 @@ internal final class FilterTypeView: UIView {
     }
     
     func setForCarType(){
-        var carType = UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE);
-        switch(carType) {
+        var carType = UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE)
+        switchCarSetting.setOn(carType != Const.CHARGER_TYPE_ETC, animated: true)
+        switch carType {
             case Const.CHARGER_TYPE_DCCOMBO, Const.CHARGER_TYPE_DCDEMO
                 , Const.CHARGER_TYPE_AC, Const.CHARGER_TYPE_SLOW
                 , Const.CHARGER_TYPE_SUPER_CHARGER, Const.CHARGER_TYPE_DESTINATION:

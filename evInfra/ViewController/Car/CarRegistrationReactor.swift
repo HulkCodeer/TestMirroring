@@ -95,6 +95,11 @@ internal final class CarRegistrationReactor: ViewModel, Reactor {
                 .compactMap(convertToData)
                 .map { [weak self] carInfoModel in
                     guard let self = self else { return .none }
+                    
+                    let isManiCar = carInfoModel.mainCar
+                    MemberManager.shared.carType =  isManiCar ? carInfoModel.carType : MemberManager.shared.carType
+                    GlobalDefine.shared.isChangeMainCar = isManiCar
+                                        
                     let reactor = CarRegistrationCompleteReactor(model: carInfoModel)
                     reactor.fromViewType = self.fromViewType                    
                     let viewcon = CarRegistrationCompleteViewController()

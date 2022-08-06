@@ -297,10 +297,10 @@ extension LeftViewController {
                 case self.SUB_MENU_CELL_MYPAGE:
                     switch index.row {
                     case self.SUB_MENU_MY_PERSONAL_INFO: // 개인정보관리
-//                        let reactor = MyPageReactor(provider: RestApi())
-//                        let viewcon = NewMyPageViewController()
-//                        viewcon.reactor = reactor
-                        let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPageViewController.self)
+                        let reactor = MyPageReactor(provider: RestApi())
+                        let viewcon = NewMyPageViewController()
+                        viewcon.reactor = reactor
+//                        let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPageViewController.self)
                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     
                     case self.SUB_MENU_MY_WRITING: // 내가 쓴 글 보기

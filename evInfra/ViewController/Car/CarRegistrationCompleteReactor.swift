@@ -38,6 +38,7 @@ internal final class CarRegistrationCompleteReactor: ViewModel, Reactor {
                 .convertData()
                 .compactMap(convertToData)
                 .map {
+                    GlobalDefine.shared.isChangeMainCar = true
                     GlobalDefine.shared.mainNavi?.pop()
                     return .setDeleteCarComplete($0)
                 }

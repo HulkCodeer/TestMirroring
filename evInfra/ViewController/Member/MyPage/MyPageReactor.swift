@@ -13,7 +13,7 @@ internal final class MyPageReactor: ViewModel, Reactor {
     enum Action {
         case getMyCarList
         case getOldCarWithMyCarList
-        case changeMainCar(String)
+        case changeMainCar(String, Int)
         case setDeleteOldCar
     }
     
@@ -77,11 +77,15 @@ internal final class MyPageReactor: ViewModel, Reactor {
                     return .setMyCarList(carInfoModelList)
                 }
             
-        case .changeMainCar(let carNum):
+        case .changeMainCar(let carNum, let carType):
             return self.provider.patchChangeMainCar(mainCarInfo: ChangeMainCarInfoParamModel(carNum: carNum, mainCar: true))
                 .convertData()
                 .compactMap(convertToChangeMainCar)
                 .map { isChangeMainCar in
+                    MemberManager.shared.carType =  isChangeMainCar ? carType : MemberManager.shared.carType
+                    GlobalDefine.shared.isChangeMainCar = true
+                    
+                    GlobalDefine.shared.isChangeMainCar = true
                     Snackbar().show(message: "대표차량이 변경되었습니다.")
                     return .setChangeMainCarComplete(isChangeMainCar)
                 }
@@ -217,7 +221,7 @@ internal final class MyPageReactor: ViewModel, Reactor {
         let reactor = MyPageCarListReactor(model: model)
 
         reactor.state.compactMap { $0.isChangeMainCar }
-            .map { _ in MyPageReactor.Action.changeMainCar(model.carNum) }
+            .map { _ in MyPageReactor.Action.changeMainCar(model.carNum, model.carType) }
             .bind(to: self.action)
             .disposed(by: self.disposeBag)
         

@@ -10,6 +10,8 @@ internal final class GlobalDefine: NSObject {
     internal static var shared = GlobalDefine()
     
     internal weak var mainNavi: AppNavigationController?
+    
+    internal var isChangeMainCar: Bool = false
 }
 
 

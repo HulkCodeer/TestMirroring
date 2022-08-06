@@ -98,6 +98,15 @@ internal final class MemberManager {
     internal var carId: Int {
         return UserDefault().readInt(key: UserDefault.Key.MB_CAR_ID)
     }
+    
+    internal var carType: Int {
+        set {
+            UserDefault().saveInt(key: UserDefault.Key.MB_CAR_TYPE, value: newValue)
+        }
+        get {
+            return UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE)
+        }
+    }
             
     internal var email: String {        
         return UserDefault().readString(key: UserDefault.Key.MB_EMAIL)
@@ -214,7 +223,6 @@ internal final class MemberManager {
         userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: "")     
         userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: "")
-        userDefault.saveBool(key: UserDefault.Key.MB_CAR, value: false)
     }
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {
