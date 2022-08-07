@@ -12,6 +12,27 @@ import SwiftyJSON
 import RxSwift
 import RxCocoa
 
+protocol MoveSmallCategoryView {
+    var mediumCategory: MediumCategoryType { get set }
+    func moveViewController()
+}
+
+enum MediumCategoryType: String {
+    case mypage = "마이페이지"
+    case pay = "PAY"
+    
+    case generalCommunity = "커뮤니티"
+    case partnershipCoummunity = "제휴 커뮤니티"
+    
+    case event = "이벤트/쿠폰"
+    
+    case evInfo = "전기차 정보"
+    
+    case batteryInfo = "배터리 진단 정보"
+    
+    case settings = "설정"
+}
+
 internal final class LeftViewController: UIViewController {
     // MARK: UI
     
@@ -43,15 +64,7 @@ internal final class LeftViewController: UIViewController {
     // MARK: - VARIABLE
     
     private var disposeBag = DisposeBag()
-                
-    // main menu
-    private let MENU_MY_PAGE    = 0
-    private let MENU_BOARD      = 1
-    private let MENU_EVENT      = 2
-    private let MENU_EVINFO     = 3
-    private let MENU_BATTERY    = 4
-    private let MENU_SETTINGS   = 5
-    
+                    
     // sub menu - 마이페이지
     private let SUB_MENU_CELL_MYPAGE = 0
     private let SUB_MENU_CELL_PAY    = 1
@@ -101,46 +114,86 @@ internal final class LeftViewController: UIViewController {
     private let SUB_MENU_FAQ  = 1
     private let SUB_MENU_SERVICE_GUIDE = 2
     private let SUB_MENU_VERSION       = 3
+    private var currentMenuCategoryType: MenuCategoryType = .mypage
     
-    private var sideMenuArrays:[[Array<String>]] = [[]]
-    // Company id Arr (get each row's company id)
-    private var companyNameArr:Array = Array<String>()
-    
-    private var sideSectionArrays = [["마이페이지", "PAY"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["배터리 진단 정보"], ["설정"]]
-    
-    private var menuIndex = 0
-    
-    enum LargeCategoryType {
-        case mypage(MyPageCategoryType)
-        case community(CommunityCategoryType)
-        case event(EventCategoryType)
-        case evinfo(EvInfoCategoryType)
-        case settings(SettingsCategoryType)
-    }
-    
-    enum MyPageCategoryType {
-        case mypage
-        case pay
-    }
-    
-    enum CommunityCategoryType {
-        case generalCommunity
-        case partnershipCoummunity
-    }
-    
-    enum EventCategoryType {
-        case event
-    }
-    
-    enum EvInfoCategoryType {
-        case evInfo
-    }
-    
-    enum SettingsCategoryType {
-        case settings
-    }
-    
+    enum MenuCategoryType: Int, CaseIterable {
+        typealias MediumCategory = (category: MediumCategoryType, subCategory: [String])
         
+        case mypage = 0
+        case community = 1
+        case event = 2
+        case evinfo = 3
+        case battery = 4
+        case settings = 5
+        
+        init(menuIndex: Int) {
+            switch menuIndex {
+            case 0: self = .mypage
+            case 1: self = .community
+            case 2: self = .event
+            case 3: self = .evinfo
+            case 4: self = .battery
+            case 5: self = .settings
+            default: self = .mypage
+            }
+        }
+        
+        internal var menuTitle: String {
+            switch self {
+            case .mypage: return "마이페이지"
+            case .community: return "커뮤니티"
+            case .event: return "이벤트"
+            case .evinfo: return "전기차 정보"
+            case .battery: return "배터리 정보"
+            case .settings: return "설정"
+            }
+        }
+                
+        internal var meidumCategory: [MediumCategory] {
+            switch self {
+            case .mypage:
+                return [(category: MediumCategoryType.mypage, subCategory: ["개인정보 관리", "내가 쓴 글 보기", "충전소 제보내역"]),
+                        (category: MediumCategoryType.pay, subCategory: ["결제카드 관리", "회원카드 관리", "렌터카 정보 관리" , "충전이력 조회", "포인트 조회"])
+                        ]
+                
+            case .community:
+                return [(category: MediumCategoryType.generalCommunity, subCategory: ["EV Infra 공지", "자유 게시판", "충전소 게시판"]),
+                        (category: MediumCategoryType.partnershipCoummunity, subCategory: Board.sharedInstance.getBoardTitleList())
+                        ]
+                
+            case .event:
+                return [(category: MediumCategoryType.event, subCategory: ["이벤트", "내 쿠폰함"])]
+                
+            case .evinfo:
+                return [(category: MediumCategoryType.generalCommunity, subCategory: ["전기차 정보", "충전기 정보", "보조금 안내", "보조금 현황", "충전요금 안내"])]
+                
+            case .battery:
+                return [(category: MediumCategoryType.generalCommunity, subCategory: ["내 차 배터리 관리"])]
+                
+            case .settings:
+                return [(category: MediumCategoryType.generalCommunity, subCategory: ["전체 설정", "자주묻는 질문", "이용 안내", "버전 정보"])]
+                
+            }
+        }
+    }
+        
+    
+    
+    struct MyPage: MoveSmallCategoryView {
+        let mediumCategory: MediumCategoryType
+        let smallMenuList: [String] = ["개인정보 관리", "내가 쓴 글 보기", "충전소 제보내역"]
+        
+        func moveViewController() {
+            
+        }
+    }
+    
+    struct Pay: MoveSmallCategoryView {
+        let mediumCategory: MediumCategoryType
+        let smallMenuList: [String] = ["결제카드 관리", "회원카드 관리", "렌터카 정보 관리" , "충전이력 조회", "포인트 조회"]
+    }
+
+            
     // MARK: - SYSTEM FUNC
     
     deinit {
@@ -156,9 +209,7 @@ internal final class LeftViewController: UIViewController {
         sideTableView.delegate = self
         sideTableView.dataSource = self
         sideTableView.separatorStyle = UITableViewCellSeparatorStyle.none
-        
-        initSideViewArr()
-        
+                
         tableViewLoad(index: menuIndex)
     }
     
@@ -205,44 +256,12 @@ internal final class LeftViewController: UIViewController {
         // 로그인 버튼
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self else { return }
-            if isLogin {
-                self.btnLogin.gone()
-            } else {
-                self.btnLogin.visible()
-            }
+            self.btnLogin.isHidden = isLogin
         }
                 
         newBadgeInMenu()
     }
- 
-    private func initSideViewArr() {
-        let mypage0Arr = ["개인정보 관리", "내가 쓴 글 보기", "충전소 제보내역"]
-        let mypage1Arr = ["결제카드 관리", "회원카드 관리", "렌터카 정보 관리" , "충전이력 조회", "포인트 조회"]
-        let mypageArr:[Array<String>] = [mypage0Arr, mypage1Arr]
-        
-        let commu0Arr = ["EV Infra 공지", "자유 게시판", "충전소 게시판"]
-        companyNameArr = Board.sharedInstance.getBoardTitleList()
-        let commuArr:[Array<String>] = [commu0Arr, companyNameArr]
-        
-        let event0Arr = ["이벤트", "내 쿠폰함"]
-        let event1Arr:Array<String> = []
-        let eventArr:[Array<String>] = [event0Arr, event1Arr]
-        
-        let ev0Arr = ["전기차 정보", "충전기 정보", "보조금 안내", "보조금 현황", "충전요금 안내"]
-        let ev1Arr:Array<String> = []
-        let evArr:[Array<String>] = [ev0Arr, ev1Arr]
-        
-        let battery0Arr = ["내 차 배터리 관리"]
-        let battery1Arr:Array<String> = []
-        let batteryArr:[Array<String>] = [battery0Arr, battery1Arr]
-        
-        let setting0Arr = ["전체 설정", "자주묻는 질문", "이용 안내", "버전 정보"]
-        let setting1Arr:Array<String> = []
-        let settingArr:[Array<String>] = [setting0Arr, setting1Arr]
-        
-        self.sideMenuArrays = [mypageArr, commuArr, eventArr, evArr, batteryArr, settingArr]
-    }
-    
+         
     private func tableViewLoad(index: Int) {
         menuIndex = index
 
@@ -282,33 +301,35 @@ internal final class LeftViewController: UIViewController {
 
 extension LeftViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sideSectionArrays[menuIndex].count
+        return currentMenuCategoryType.meidumCategory.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = Bundle.main.loadNibNamed("LeftViewTableHeader", owner: self, options: nil)?.first as! LeftViewTableHeader
-        let headerValue = sideSectionArrays[menuIndex][section]
+        let headerValue = currentMenuCategoryType.meidumCategory[section].category.rawValue
         headerView.cellTitle.text = headerValue
         return headerView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sideMenuArrays[menuIndex][section].count
+        return currentMenuCategoryType.meidumCategory.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = sideTableView.dequeueReusableCell(withIdentifier: "sideMenuCell", for: indexPath) as! SideMenuTableViewCell
-        cell.menuLabel.text = sideMenuArrays[menuIndex][indexPath.section][indexPath.row]
+        cell.menuLabel.text = currentMenuCategoryType.meidumCategory[indexPath.section].subCategory[indexPath.row]  
         
         // 게시판, 이벤트 등에 새글 표시
         setNewBadge(cell: cell, index: indexPath)
         
-        if menuIndex == MENU_MY_PAGE && indexPath.section == SUB_MENU_CELL_PAY {
+        if currentMenuCategoryType == .mypage &&
+            currentMenuCategoryType.meidumCategory[indexPath.section].category == .pay {
             updateMyPageTitle(cell: cell, index: indexPath)
         }
         
         // 설정 - 버전정보 표시
-        if menuIndex == MENU_SETTINGS && indexPath.row == SUB_MENU_VERSION {
+        if currentMenuCategoryType == .settings &&
+            "버전정보".equals(currentMenuCategoryType.meidumCategory[indexPath.section].subCategory[indexPath.row]) {
             cell.menuContent.isHidden = false
             cell.menuContent.text = (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)
         } else {
@@ -319,18 +340,19 @@ extension LeftViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView : UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-
-        if menuIndex == MENU_MY_PAGE { // 마이페이지
+        
+        switch currentMenuCategoryType {
+        case .mypage:
             selectedMyPageMenu(index: indexPath)
-        } else if menuIndex == MENU_BOARD { // 게시판
+        case .community:
             selectedBoardMenu(index: indexPath)
-        } else if menuIndex == MENU_EVENT { // 이벤트 게시판
+        case .event:
             selectedEvnetCouponMenu(index: indexPath)
-        } else if menuIndex == MENU_EVINFO { // 전기차 정보
+        case .evinfo:
             selectedEvInfoMenu(index: indexPath)
-        } else if menuIndex == MENU_BATTERY { // 배터리 정보
+        case .battery:
             selectedBatteryMenu(index: indexPath)
-        } else if menuIndex == MENU_SETTINGS { // 전체 설정
+        case .settings:
             selectedSettingsMenu(index: indexPath)
         }
     }
