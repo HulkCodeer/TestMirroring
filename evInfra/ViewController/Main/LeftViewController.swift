@@ -12,27 +12,6 @@ import SwiftyJSON
 import RxSwift
 import RxCocoa
 
-protocol MoveSmallCategoryView {
-    var mediumCategory: MediumCategoryType { get set }
-    var smallMenuList: [String] { get set }
-    func moveViewController(index: IndexPath)
-}
-
-enum MediumCategoryType: String {
-    case mypage = "마이페이지"
-    case pay = "PAY"
-    
-    case generalCommunity = "커뮤니티"
-    case partnershipCoummunity = "제휴 커뮤니티"
-    
-    case event = "이벤트/쿠폰"
-    
-    case evInfo = "전기차 정보"
-    
-    case batteryInfo = "배터리 진단 정보"
-    
-    case settings = "설정"
-}
 
 internal final class LeftViewController: UIViewController {
     // MARK: UI
