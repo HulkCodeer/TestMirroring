@@ -160,10 +160,13 @@ extension IntroViewController: BoardDelegate {
     internal func finishedServerInit() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let mainViewController = storyboard.instantiateViewController(ofType: MainViewController.self)
-        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
+//        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
+        let reactor = LeftViewReactor(provider: RestApi())
+        let viewcon = NewLeftViewController()
+        viewcon.reactor = reactor
         appDelegate.appToolbarController = AppToolbarController(rootViewController: mainViewController)
         appDelegate.appToolbarController.delegate = mainViewController
-        let ndController = AppNavigationDrawerController(rootViewController: appDelegate.appToolbarController, leftViewController: leftViewController)
+        let ndController = AppNavigationDrawerController(rootViewController: appDelegate.appToolbarController, leftViewController: viewcon)
         GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)        
     }
 }
