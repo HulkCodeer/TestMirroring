@@ -61,6 +61,7 @@ internal enum Icons {
   internal static let iconCloseMd = ImageAsset(name: "icon_close_md")
   internal static let iconCloseSm = ImageAsset(name: "icon_close_sm")
   internal static let iconCloseXs = ImageAsset(name: "icon_close_xs")
+    internal static let iconQuestionXs = ImageAsset(name: "icon_question_xs")
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
 
