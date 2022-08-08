@@ -72,7 +72,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let isAd = communityBoardList[indexPath.row].board_id?.contains("ad") ?? false
         if isAd {
-            EIAdManager.sharedInstance.increase(adId: communityBoardList[indexPath.row].document_srl!, action: EIAdManager.ACTION_VIEW)
+            EIAdManager.sharedInstance.increase(adId: communityBoardList[indexPath.row].document_srl!, action: EIAdManager.EventAction.view.rawValue)
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -132,6 +132,6 @@ internal final class RestApi: SoftberryAPI {
     
     // MARK: - 광고/이벤트 조회
     func getAds(page: Int, layer: Int) -> Observable<(HTTPURLResponse, Data)> {
-        return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/event?memeberId=\(Int(MemberManager.shared.memberId) ?? 0)&page=\(page)&layer=\(layer)", httpMethod: .get, parameters: nil, headers: nil)
+        return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/event?memberId=\(Int(MemberManager.shared.memberId) ?? 0)&page=\(page)&layer=\(layer)", httpMethod: .get, parameters: nil, headers: nil)
     }
 }

@@ -56,6 +56,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
     }
     
     private lazy var safeAreaBottomView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = Colors.backgroundPrimary.color
     }
     
@@ -65,13 +66,9 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         super.init()
         self.reactor = reactor
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-    }
-    
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
     }
     
     override func loadView() {
@@ -79,23 +76,30 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         self.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
         self.contentView.backgroundColor = .clear
         
-        self.contentView.addSubview(dimmedViewBtn)
+        self.view.addSubview(dimmedViewBtn)
         dimmedViewBtn.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
-        self.contentView.addSubview(containerView)
+        self.view.addSubview(containerView)
         containerView.snp.makeConstraints {
             $0.width.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(334 + safeAreaInsetBottomHeight)
+            $0.height.equalTo(334)
             $0.bottom.equalTo(self.contentView.snp.bottom)
+        }
+        
+        self.view.addSubview(safeAreaBottomView)
+        safeAreaBottomView.snp.makeConstraints {
+            $0.top.equalTo(containerView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(safeAreaInsetBottomHeight)
         }
         
         self.containerView.addSubview(buttonContainerView)
         buttonContainerView.snp.makeConstraints {
             $0.leading.bottom.trailing.equalToSuperview()
-            $0.height.equalTo(54+safeAreaInsetBottomHeight)
+            $0.height.equalTo(54)
         }
         
         self.containerView.addSubview(eventImageView)
@@ -159,13 +163,18 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                printLog(out: "이벤트 페이지 이동")
+                let eventUrl = self.reactor?.currentState.startBanner?.url ?? ""
+                let newEventDetailViewController = NewEventDetailViewController()
+                newEventDetailViewController.eventUrl = eventUrl
+                GlobalDefine.shared.mainNavi?.push(viewController: newEventDetailViewController)
+                
+                self.closeStartBannerViewController()
             }).disposed(by: disposeBag)
     }
     
     internal func bind(reactor: GlobalAdsReactor) {
         // TODO: - Make Global Ads Reactor
-        Observable.just(GlobalAdsReactor.Action.loadStartBanner(.start, .top))
+        Observable.just(GlobalAdsReactor.Action.loadStartBanner(EIAdManager.Page.start, EIAdManager.Layer.top))
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         

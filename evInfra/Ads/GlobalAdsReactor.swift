@@ -11,7 +11,7 @@ import SwiftyJSON
 
 internal final class GlobalAdsReactor: ViewModel, Reactor {
     enum Action {
-        case loadStartBanner(Page, Layer)
+        case loadStartBanner(EIAdManager.Page, EIAdManager.Layer)
         case addEventClickCount(String)
         case addEventViewCount(String)
     }
@@ -27,33 +27,11 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
     
     internal var initialState: State
     
-    enum Page: Int {
-        case start = 1
-        case end = 3
-        case notice = 51
-        case free = 52
-        case charging = 53
-        case gsc = 61
-        case est = 62
-    }
-    
-    enum Layer: Int {
-        case top = 1
-        case mid = 2
-        case bottom = 3
-        case popup = 4
-    }
-
     enum AdsType: String, CaseIterable {
         case ad = "1"
         case event = "2"
     }
-    
-    enum EventAction: Int {
-        case view = 0
-        case click = 1
-    }
-    
+
     override init(provider: SoftberryAPI) {
         self.initialState = State()
         super.init(provider: provider)

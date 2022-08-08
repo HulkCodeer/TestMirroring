@@ -12,7 +12,7 @@ class EIAdDialog: UIView {
     
     @IBOutlet weak var imageAd: UIImageView!
     
-    private var adType = EIAdManager.AD_TYPE_COMMON
+//    private var adType = EIAdManager.AD_TYPE_COMMON
     
     private var adInfo = Ad()
     
@@ -58,7 +58,7 @@ class EIAdDialog: UIView {
                 UIApplication.shared.open(url, options: [:])
                 
                 // 광고 click event 전송
-                EIAdManager.sharedInstance.increase(adId: self.adInfo.ad_id!, action: EIAdManager.ACTION_CLICK)
+                EIAdManager.sharedInstance.increase(adId: self.adInfo.ad_id!, action: EIAdManager.EventAction.click.rawValue)
             }
         } else {
             self.removeFromSuperview()

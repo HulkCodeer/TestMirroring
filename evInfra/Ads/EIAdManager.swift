@@ -9,36 +9,61 @@
 import Foundation
 import SwiftyJSON
 
-class EIAdManager {
+internal final class EIAdManager {
     
-    static let AD_TYPE_END = 0
-    static let AD_TYPE_START = 1
-    static let AD_TYPE_COMMON = 2
+//    static let AD_TYPE_END = 0
+//    static let AD_TYPE_START = 1
+//    static let AD_TYPE_COMMON = 2
     
-    static let ACTION_VIEW = 0
-    static let ACTION_CLICK = 1
+//    static let ACTION_VIEW = 0
+//    static let ACTION_CLICK = 1
+    enum Page: Int {
+        case start = 1
+        case end = 3
+        case notice = 51
+        case free = 52
+        case charging = 53
+        case gsc = 61
+        case est = 62
+    }
+    
+    enum Layer: Int {
+        case top = 1
+        case mid = 2
+        case bottom = 3
+        case popup = 4
+    }
+    
+    enum EventAction: Int {
+        case view = 0
+        case click = 1
+    }
     
     static let sharedInstance = EIAdManager()
-    var boardAdList = [BoardListItem]()
+    internal var boardAdList = [BoardListItem]()
+    internal var topBannerList = [Ad]()
     
     private init() {
-        fetchBoardAdsToBoardListItem { [weak self] adList in
+        getBoardAdsToBoardListItem { [weak self] adList in
             self?.boardAdList = adList
         }
     }
     
+    deinit {
+        printLog(out: "\(type(of: self)): Deinited")
+    }
+    
     // 광고 action 정보 수집
-    func increase(adId: String, action: Int) {
-        if !adId.isEmpty {
-            Server.countAdAction(adId: adId, action: action)
-        }
+    internal func increase(adId: String, action: Int) {
+        guard !adId.isEmpty else { return }
+        Server.countAdAction(adId: adId, action: action)
     }
     
     // 전면 광고 정보
-    func getPageAd(completion: @escaping (Ad) -> Void) {
+    internal func getPageAd(completion: @escaping (Ad) -> Void) {
         var adInfo = Ad()
         
-        Server.getAdLargeInfo(type: EIAdManager.AD_TYPE_START) { (isSuccess, value) in
+        Server.getAdLargeInfo(type: EIAdManager.Page.start.rawValue) { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 let code = json["code"].stringValue
@@ -48,59 +73,34 @@ class EIAdManager {
                     adInfo.ad_image = json["ad_img"].stringValue
                     
                     // logging view count
-                    self.increase(adId: adInfo.ad_id!, action: EIAdManager.ACTION_VIEW)
+                    self.increase(adId: adInfo.ad_id!, action: EIAdManager.EventAction.view.rawValue)
                 }
             }
             completion(adInfo)
         }
     }
     
-    func fetchBoardAdsToBoardListItem(completion: @escaping ([BoardListItem]) -> Void) {
+    // 커뮤니티 중간 광고
+    private func getBoardAdsToBoardListItem(completion: @escaping ([BoardListItem]) -> Void) {
         let client_id = "0"
         Server.getBoardAds(client_id: client_id) { (isSuccess, value) in
-            if isSuccess {
-                guard let data = value else { return }
-                let decoder = JSONDecoder()
-                
-                var boardAdsList = [BoardListItem]()
-                
-                do {
-                    let results = try decoder.decode([Ad].self, from: data)
-                    
-                    for adItem in results {
-                        let boardAdItem = BoardListItem(title: adItem.ad_url,
-                                                        content: adItem.ad_description,
-                                                        nick_name: adItem.client_name,
-                                                        module_srl: nil,
-                                                        mb_id: adItem.client_id,
-                                                        document_srl: adItem.ad_id,
-                                                        last_update: nil,
-                                                        regdate: nil,
-                                                        is_notice: nil,
-                                                        title_bold: nil,
-                                                        title_color: nil,
-                                                        readed_count: nil,
-                                                        report_count: nil,
-                                                        like_count: nil,
-                                                        hate_count: nil,
-                                                        comment_count: nil,
-                                                        uploaded_count: nil,
-                                                        tags: nil,
-                                                        cover_filename: adItem.ad_image,
-                                                        mb_profile: adItem.ad_logo,
-                                                        blind: nil,
-                                                        board_id: "ad",
-                                                        files: nil)
-                        boardAdsList.append(boardAdItem)
-                    }
-                    
-                    completion(boardAdsList)
-                } catch {
-                    completion([])
-                }
-            } else {
+            guard let data = value else { return }
+            guard isSuccess else {
                 completion([])
+                return
             }
+            
+            let adList = JSON(data).arrayValue.map { Ad($0) }
+            adList.forEach {
+                self.boardAdList.append(BoardListItem($0))
+            }
+            
+            completion(self.boardAdList)
         }
+    }
+    
+    // 커뮤니티 상단 광고
+    internal func getTopBannerInBoardList() {
+        
     }
 }

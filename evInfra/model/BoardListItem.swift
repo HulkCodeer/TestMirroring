@@ -42,6 +42,17 @@ struct BoardListItem: Decodable {
     var blind: String?
     var board_id: String?
     var files: [FilesItem]?
+    
+    init(_ adInfo: Ad) {
+        self.title = adInfo.ad_url
+        self.content = adInfo.ad_description
+        self.nick_name = adInfo.client_name
+        self.mb_id = adInfo.client_id
+        self.document_srl = adInfo.ad_id
+        self.cover_filename = adInfo.ad_image
+        self.mb_profile = adInfo.ad_logo
+        self.board_id = "ad"
+    }
 }
 
 struct FilesItem: Decodable {
