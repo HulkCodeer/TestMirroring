@@ -128,4 +128,15 @@ internal final class RestApi: SoftberryAPI {
                 
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/event/event/attendEvent", httpMethod: .post, parameters: reqParam, headers: nil)
     }
+    
+    // MARK: - 잔여 포인트 조회
+    
+    static func postMyBerryPoint() -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.shared.mbId
+        ]
+        
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/my_point", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
 }

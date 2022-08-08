@@ -64,55 +64,6 @@ internal final class LeftViewController: UIViewController {
     // MARK: - VARIABLE
     
     private var disposeBag = DisposeBag()
-                    
-    // sub menu - 마이페이지
-    private let SUB_MENU_CELL_PAY    = 1
-    
-    // 마이페이지
-    private let SUB_MENU_MY_PERSONAL_INFO   = 0
-    private let SUB_MENU_MY_WRITING         = 1
-    private let SUB_MENU_REPORT_STATION     = 2
-    
-    // PAY
-    private let SUB_MENU_MY_PAYMENT_INFO     = 0
-    private let SUB_MENU_MY_EVCARD_INFO      = 1
-    private let SUB_MENU_MY_LENTAL_INFO      = 2
-    private let SUB_MENU_MY_CHARGING_HISTORY = 3
-    private let SUB_MENU_MY_POINT            = 4
-
-    // sub menu - 게시판
-    private let SUB_MENU_CELL_BOARD         = 0
-    private let SUB_MENU_CELL_COMPANY_BOARD = 1
-    
-    // 게시판
-    private let SUB_MENU_NOTICE        = 0 // 공지사항
-    private let SUB_MENU_FREE_BOARD    = 1 // 자유게시판
-    private let SUB_MENU_CHARGER_BOARD = 2 // 충전소게시판
-    
-    // sub menu - 이벤트
-    private let SUB_MENU_CELL_EVENT = 0
-    private let SUB_MENU_EVENT      = 0 // 이벤트
-    private let SUB_MENU_MY_COUPON  = 1 // 내 쿠폰함
-
-    // sub menu - 전기차정보
-    private let SUB_MENU_CELL_EV_INFO = 0
-    
-    private let SUB_MENU_EVINFO       = 0
-    private let SUB_MENU_CHARGER_INFO = 1
-    private let SUB_MENU_BOJO         = 2
-    private let SUB_MENU_BONUS        = 3
-    private let SUB_MENU_CHARGE_PRICE = 4
-    
-    // sub menu - 배터리 저보
-    private let SUB_MENU_CELL_BATTERY = 0
-    
-    // sub menu - 설정
-    private let SUB_MENU_CELL_SETTINGS = 0
-    
-    private let SUB_MENU_ALL_SETTINGS  = 0
-    private let SUB_MENU_FAQ  = 1
-    private let SUB_MENU_SERVICE_GUIDE = 2
-    private let SUB_MENU_VERSION       = 3
     private var currentMenuCategoryType: MenuCategoryType = .mypage
     
     enum MenuCategoryType: Int, CaseIterable {
@@ -403,7 +354,7 @@ internal final class LeftViewController: UIViewController {
             MemberManager.shared.tryToLoginCheck { isLogin in
                 if isLogin {
                     switch index.row {
-                    case 0:
+                    case 0: // 개인정보 관리
                         let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
                         let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
                         GlobalDefine.shared.mainNavi?.push(viewController: myPayInfoVC)
@@ -594,13 +545,13 @@ extension LeftViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension LeftViewController {
     private func updateMyPageTitle(cell: SideMenuTableViewCell, index: IndexPath) {
-        if index.row == SUB_MENU_MY_PAYMENT_INFO {
+        if index.row == 0 {
             if MemberManager.shared.hasPayment {
                 cell.menuLabel.text = "결제 정보 관리"
             } else {
                 cell.menuLabel.text = "결제 정보 등록"
             }
-        } else if index.row == SUB_MENU_MY_EVCARD_INFO {
+        } else if index.row == 1 {
             if MemberManager.shared.hasMembership {
                 cell.menuLabel.text = "회원카드 관리"
             } else {
@@ -616,8 +567,8 @@ extension LeftViewController {
         
         switch currentMenuCategoryType {
         case .mypage:
-            if index.section == SUB_MENU_CELL_PAY {
-                if index.row == SUB_MENU_MY_PAYMENT_INFO { // 미수금 표시
+            if index.section == 1 {
+                if index.row == 0 { // 미수금 표시
                     if UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
                         cell.newBadge.isHidden = false
                     }
@@ -625,9 +576,9 @@ extension LeftViewController {
             }
             
         case .community:
-            if index.section == SUB_MENU_CELL_BOARD {
+            if index.section == 0 {
                 switch index.row {
-                case SUB_MENU_NOTICE:
+                case 0:
                     if let latestNoticeId = latestIds[Board.KEY_NOTICE] {
                         let noticeId = UserDefault().readInt(key: UserDefault.Key.LAST_NOTICE_ID)
                         if noticeId < latestNoticeId {
@@ -635,7 +586,7 @@ extension LeftViewController {
                         }
                     }
                     
-                case SUB_MENU_FREE_BOARD:
+                case 1:
                     if let latestFreeBoardId = latestIds[Board.KEY_FREE_BOARD] {
                         let freeId = UserDefault().readInt(key: UserDefault.Key.LAST_FREE_ID)
                         if freeId < latestFreeBoardId {
@@ -643,7 +594,7 @@ extension LeftViewController {
                         }
                     }
                     
-                case SUB_MENU_CHARGER_BOARD:
+                case 2:
                     if let latestChargerBoardId = latestIds[Board.KEY_CHARGER_BOARD] {
                         let chargerId = UserDefault().readInt(key: UserDefault.Key.LAST_CHARGER_ID)
                         if chargerId < latestChargerBoardId {
@@ -656,7 +607,7 @@ extension LeftViewController {
                 }
             }
             
-            if index.section == SUB_MENU_CELL_COMPANY_BOARD {
+            if index.section == 1 {
                 let title: String = currentMenuCategoryType.menuList[index.section].smallMenuList[index.row]
                 if let boardInfo = Board.sharedInstance.getBoardNewInfo(title: title) {
                     let companyId = UserDefault().readInt(key: boardInfo.shardKey!)
@@ -667,9 +618,9 @@ extension LeftViewController {
             }
             
         case .event:
-            if index.section == SUB_MENU_CELL_EVENT {
+            if index.section == 0 {
                 switch index.row {
-                case SUB_MENU_EVENT:
+                case 0:
                     if let latestEventId = latestIds[Board.KEY_EVENT] {
                         let eventId = UserDefault().readInt(key: UserDefault.Key.LAST_EVENT_ID)
                         if eventId < latestEventId {
