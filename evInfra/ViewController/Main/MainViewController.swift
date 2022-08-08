@@ -1219,14 +1219,14 @@ extension MainViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             if keepDateStr.isEmpty {
-                window.rootViewController?.addChildViewController(startBannerViewController)
                 window.addSubview(startBannerViewController.view)
+                window.rootViewController?.addChildViewController(startBannerViewController)
             } else {
                 if let keepDate = Date().toDate(data: keepDateStr) {
                     let difference = NSCalendar.current.dateComponents([.day], from: keepDate, to: Date())
                     if let day = difference.day, day > 7 {
-                        window.rootViewController?.addChildViewController(startBannerViewController)
                         window.addSubview(startBannerViewController.view)
+                        window.rootViewController?.addChildViewController(startBannerViewController)
                     }
                 }
             }
