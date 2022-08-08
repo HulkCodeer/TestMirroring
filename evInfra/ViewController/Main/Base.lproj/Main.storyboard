@@ -870,7 +870,6 @@
                                                         </state>
                                                         <connections>
                                                             <action selector="clickBattery:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MXI-99-jyA"/>
-                                                            <action selector="clickInfo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="j7O-Hi-GFx"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -1045,13 +1044,13 @@
                         <outlet property="eventTotalView" destination="2Qn-EN-3LK" id="Opt-zD-TUg"/>
                         <outlet property="infoBtn" destination="enQ-s8-Z8p" id="Pgy-vf-u3i"/>
                         <outlet property="myPageBtn" destination="7kU-vs-cgu" id="hpt-5l-upM"/>
+                        <outlet property="myPageImgView" destination="PZA-pr-4oB" id="2eE-2E-qNC"/>
+                        <outlet property="mypageTotalView" destination="qH7-cM-BbE" id="Yw8-la-7Vk"/>
                         <outlet property="profileImgView" destination="B20-Mc-15S" id="LQ9-jd-BID"/>
                         <outlet property="settingsBtn" destination="3c0-jt-d4I" id="vSx-ob-zwC"/>
                         <outlet property="settingsImgView" destination="byC-q1-7bn" id="J6S-Jv-wRw"/>
                         <outlet property="settingsTotalView" destination="xR9-U6-hUG" id="M83-Yq-qkX"/>
                         <outlet property="sideTableView" destination="pAd-B7-N1u" id="dBk-MI-3yV"/>
-                        <outlet property="userImgView" destination="PZA-pr-4oB" id="hc6-bC-KCx"/>
-                        <outlet property="userTotalView" destination="qH7-cM-BbE" id="ghG-X4-NPx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
