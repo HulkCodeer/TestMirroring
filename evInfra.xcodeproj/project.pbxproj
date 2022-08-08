@@ -147,8 +147,6 @@
 		52D0F66A279E33B80070824E /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D0F669279E33B80070824E /* BoardDetailViewModel.swift */; };
 		5941383228A0FC010057B7E5 /* PointHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383028A0FC000057B7E5 /* PointHistoryViewController.swift */; };
 		5941383328A0FC010057B7E5 /* PointHistoryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383128A0FC000057B7E5 /* PointHistoryReactor.swift */; };
-		5941383528A0FC1E0057B7E5 /* PointHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383428A0FC1E0057B7E5 /* PointHistoryTableViewCell.swift */; };
-		5941383628A0FDCC0057B7E5 /* PointHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383428A0FC1E0057B7E5 /* PointHistoryTableViewCell.swift */; };
 		5941383728A0FDD40057B7E5 /* PointHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383028A0FC000057B7E5 /* PointHistoryViewController.swift */; };
 		5941383828A0FDD70057B7E5 /* PointHistoryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383128A0FC000057B7E5 /* PointHistoryReactor.swift */; };
 		636DB9402876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
@@ -1039,7 +1037,6 @@
 		52D0F669279E33B80070824E /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
 		5941383028A0FC000057B7E5 /* PointHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointHistoryViewController.swift; sourceTree = "<group>"; };
 		5941383128A0FC000057B7E5 /* PointHistoryReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointHistoryReactor.swift; sourceTree = "<group>"; };
-		5941383428A0FC1E0057B7E5 /* PointHistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
 		636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTextRectButton.swift; sourceTree = "<group>"; };
 		637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
@@ -2096,7 +2093,6 @@
 		73B75286204928550077112A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5941383428A0FC1E0057B7E5 /* PointHistoryTableViewCell.swift */,
 				52C4818527BB331B00FBA8E3 /* Keyboard */,
 				52B2594B278EBAB90042B22C /* Board */,
 				00A6A16026C3A4B20023DAE3 /* Filter */,
@@ -3191,7 +3187,6 @@
 				63F313BF284EC74F001713D2 /* Coupon.swift in Sources */,
 				63F313C0284EC74F001713D2 /* NSData+Extension.swift in Sources */,
 				63F313C1284EC74F001713D2 /* PartnershipListView.swift in Sources */,
-				5941383628A0FDCC0057B7E5 /* PointHistoryTableViewCell.swift in Sources */,
 				63F313C2284EC74F001713D2 /* AppSearchBarController.swift in Sources */,
 				63F313C3284EC74F001713D2 /* UINavigationController+Extension.swift in Sources */,
 				63F313C4284EC74F001713D2 /* BoardWriteButton.swift in Sources */,
@@ -3676,7 +3671,6 @@
 				CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */,
 				DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */,
 				63762F4B2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
-				5941383528A0FC1E0057B7E5 /* PointHistoryTableViewCell.swift in Sources */,
 				7357595720917C03008181E9 /* EvDetailViewController.swift in Sources */,
 				73AF8FC321C77E1B003CB2CF /* CodableCluster.swift in Sources */,
 				733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */,
