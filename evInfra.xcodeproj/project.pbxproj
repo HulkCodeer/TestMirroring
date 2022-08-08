@@ -148,6 +148,9 @@
 		5941383228A0FC010057B7E5 /* PointHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383028A0FC000057B7E5 /* PointHistoryViewController.swift */; };
 		5941383328A0FC010057B7E5 /* PointHistoryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383128A0FC000057B7E5 /* PointHistoryReactor.swift */; };
 		5941383528A0FC1E0057B7E5 /* PointHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383428A0FC1E0057B7E5 /* PointHistoryTableViewCell.swift */; };
+		5941383628A0FDCC0057B7E5 /* PointHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383428A0FC1E0057B7E5 /* PointHistoryTableViewCell.swift */; };
+		5941383728A0FDD40057B7E5 /* PointHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383028A0FC000057B7E5 /* PointHistoryViewController.swift */; };
+		5941383828A0FDD70057B7E5 /* PointHistoryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383128A0FC000057B7E5 /* PointHistoryReactor.swift */; };
 		636DB9402876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
 		636DB9412876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
 		637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */; };
@@ -3188,6 +3191,7 @@
 				63F313BF284EC74F001713D2 /* Coupon.swift in Sources */,
 				63F313C0284EC74F001713D2 /* NSData+Extension.swift in Sources */,
 				63F313C1284EC74F001713D2 /* PartnershipListView.swift in Sources */,
+				5941383628A0FDCC0057B7E5 /* PointHistoryTableViewCell.swift in Sources */,
 				63F313C2284EC74F001713D2 /* AppSearchBarController.swift in Sources */,
 				63F313C3284EC74F001713D2 /* UINavigationController+Extension.swift in Sources */,
 				63F313C4284EC74F001713D2 /* BoardWriteButton.swift in Sources */,
@@ -3356,6 +3360,7 @@
 				63F31458284EC74F001713D2 /* ChargerDetailViewController.swift in Sources */,
 				63F31459284EC74F001713D2 /* AppDelegate.swift in Sources */,
 				63F3145A284EC74F001713D2 /* LinkShareManager.swift in Sources */,
+				5941383828A0FDD70057B7E5 /* PointHistoryReactor.swift in Sources */,
 				63762F4A2869A8F000C951BF /* QuitAccountReactor.swift in Sources */,
 				821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */,
 				63F3145B284EC74F001713D2 /* SearchAddressViewDelegate.swift in Sources */,
@@ -3404,6 +3409,7 @@
 				63F31486284EC74F001713D2 /* IntroImageChecker.swift in Sources */,
 				63F31487284EC74F001713D2 /* StationInfoDto.swift in Sources */,
 				63F31488284EC74F001713D2 /* String+Extension.swift in Sources */,
+				5941383728A0FDD40057B7E5 /* PointHistoryViewController.swift in Sources */,
 				63F31489284EC74F001713D2 /* NoticeContentViewController.swift in Sources */,
 				63F3148A284EC74F001713D2 /* EVFileManager.swift in Sources */,
 				63F3148B284EC74F001713D2 /* EIAdInfo.swift in Sources */,
