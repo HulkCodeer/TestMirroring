@@ -37,6 +37,7 @@ enum MediumCategoryType: String {
 internal final class LeftViewController: UIViewController {
     // MARK: UI
     
+    @IBOutlet var useAllBerrySw: UISwitch!
     @IBOutlet var profileImgView: UIImageView!
     
     @IBOutlet var myPageImgView: UIImageView!
@@ -403,6 +404,8 @@ internal final class LeftViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        useAllBerrySw.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        
         profileImgView.IBcornerRadius = 40/2
         profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
                 
@@ -511,7 +514,7 @@ extension LeftViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentMenuCategoryType.menuList.count
+        return currentMenuCategoryType.menuList[section].smallMenuList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
