@@ -153,6 +153,8 @@
 		5941383C28A101B10057B7E5 /* PointHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383928A101B10057B7E5 /* PointHistoryTableViewCell.swift */; };
 		5941383D28A101B10057B7E5 /* PointHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5941383A28A101B10057B7E5 /* PointHistoryTableViewCell.xib */; };
 		5941383E28A101B10057B7E5 /* PointHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5941383A28A101B10057B7E5 /* PointHistoryTableViewCell.xib */; };
+		5941384028A1F2650057B7E5 /* PointCategoryButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383F28A1F2640057B7E5 /* PointCategoryButtonsView.swift */; };
+		5941384128A1F2650057B7E5 /* PointCategoryButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383F28A1F2640057B7E5 /* PointCategoryButtonsView.swift */; };
 		636DB9402876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
 		636DB9412876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
 		637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */; };
@@ -1043,6 +1045,7 @@
 		5941383128A0FC000057B7E5 /* PointHistoryReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointHistoryReactor.swift; sourceTree = "<group>"; };
 		5941383928A101B10057B7E5 /* PointHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		5941383A28A101B10057B7E5 /* PointHistoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PointHistoryTableViewCell.xib; sourceTree = "<group>"; };
+		5941383F28A1F2640057B7E5 /* PointCategoryButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCategoryButtonsView.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
 		636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTextRectButton.swift; sourceTree = "<group>"; };
 		637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
@@ -2149,6 +2152,7 @@
 				00A13AD627910E4D0058C291 /* BottomSheetTableViewCell.swift */,
 				5941383928A101B10057B7E5 /* PointHistoryTableViewCell.swift */,
 				5941383A28A101B10057B7E5 /* PointHistoryTableViewCell.xib */,
+				5941383F28A1F2640057B7E5 /* PointCategoryButtonsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3409,6 +3413,7 @@
 				63F31480284EC74F001713D2 /* CouponCodeViewController.swift in Sources */,
 				63F31481284EC74F001713D2 /* FindPasswordViewController.swift in Sources */,
 				63F31482284EC74F001713D2 /* PaymentStatusViewController.swift in Sources */,
+				5941384128A1F2650057B7E5 /* PointCategoryButtonsView.swift in Sources */,
 				63F31483284EC74F001713D2 /* NetworkWorker.swift in Sources */,
 				63F31484284EC74F001713D2 /* SearchAddressViewController.swift in Sources */,
 				63F31485284EC74F001713D2 /* BoardWriteViewController.swift in Sources */,
@@ -3698,6 +3703,7 @@
 				0056440D252DB2AB007BF78D /* MembershipQRViewController.swift in Sources */,
 				4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */,
 				63DA015E28325C9300705842 /* FindPasswordViewController.swift in Sources */,
+				5941384028A1F2650057B7E5 /* PointCategoryButtonsView.swift in Sources */,
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
 				828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */,
 				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,
