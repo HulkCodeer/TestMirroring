@@ -40,15 +40,11 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private lazy var userInfoAndBerrytotalView = UIView().then {
+    private lazy var loginTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private lazy var profileTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private lazy var loginInduceTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -131,6 +127,59 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         $0.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
     }
     
+    private lazy var nonLoginTotalView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private lazy var nonLoginProfileImgView = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = Icons.iconProfileEmpty.image
+    }
+    
+    private lazy var loginInduceLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "로그인을 해주세요"
+        $0.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        $0.textColor = Colors.contentPrimary.color
+        $0.textAlignment = .natural
+        $0.numberOfLines = 1
+    }
+    
+    private lazy var loginInduceArrow = ChevronArrow.init(.size20(.right)).then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.IBimageColor = Colors.contentPrimary.color
+    }
+    
+    private lazy var moveLoginBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private lazy var nonLoginUserBerryInfoTotalView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = Colors.backgroundDisabled.color
+        $0.IBcornerRadius = 8
+    }
+    
+    private lazy var nonLoginMyBerryGuideLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "MY 베리"
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        $0.textColor = Colors.gr6.color
+        $0.textAlignment = .natural
+        $0.numberOfLines = 1
+    }
+        
+    
+    private lazy var nonLoginMyBerryLbl = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "-"
+        $0.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        $0.textColor = Colors.gr6.color
+        $0.textAlignment = .right
+        $0.numberOfLines = 1
+    }
+    
+    
     private lazy var menuListTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -166,29 +215,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         $0.delegate = self
         $0.dataSource = self
     }
-                
-    //@IBOutlet var communityImgView: UIImageView!
-    //@IBOutlet var eventImgView: UIImageView!
-    //@IBOutlet var evInfoImgView: UIImageView!
-    //@IBOutlet var settingsImgView: UIImageView!
-    //@IBOutlet var batteryImgView: UIImageView!
-    //
-    //@IBOutlet var mypageTotalView: UIView!
-    //@IBOutlet var communityTotalView: UIView!
-    //@IBOutlet var eventTotalView: UIView!
-    //@IBOutlet var evInfoTotalView: UIView!
-    //@IBOutlet var settingsTotalView: UIView!
-    //@IBOutlet var batteryTotalView: UIView!
-    //
-    //@IBOutlet weak var myPageBtn: UIButton!
-    //@IBOutlet weak var boardBtn: UIButton!
-    //@IBOutlet weak var infoBtn: UIButton!
-    //@IBOutlet weak var settingsBtn: UIButton!
-    //@IBOutlet weak var btnLogin: UIButton!
-    //@IBOutlet weak var boardCompanyBtn: UIButton!
-    //@IBOutlet weak var sideTableView: UITableView!
-    //
-    
+                        
     // MARK: VARIABLE
     
     private var currentMenuCategoryType: MenuCategoryType = .mypage
@@ -201,6 +228,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         self.contentView.addSubview(userInfoTotalView)
         userInfoTotalView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
+            $0.height.equalTo(164)
         }
         
         self.contentView.addSubview(menuListTotalView)
@@ -216,47 +244,43 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             $0.height.equalTo(1)
         }
         
-        userInfoTotalView.addSubview(userInfoAndBerrytotalView)
-        userInfoAndBerrytotalView.snp.makeConstraints {
+        // 로그인 되었을때 뷰
+        userInfoTotalView.addSubview(loginTotalView)
+        loginTotalView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalTo(line.snp.top)
         }
         
-        userInfoAndBerrytotalView.addSubview(profileTotalView)
+        loginTotalView.addSubview(profileTotalView)
         profileTotalView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(16)
             $0.leading.trailing.equalToSuperview()
-        }
-        
-        profileTotalView.addSubview(loginInduceTotalView)
-        loginInduceTotalView.snp.makeConstraints {
-            $0.leading.top.trailing.bottom.equalToSuperview()
             $0.height.equalTo(32)
         }
-        
-        loginInduceTotalView.addSubview(profileImgView)
+                        
+        profileTotalView.addSubview(profileImgView)
         profileImgView.snp.makeConstraints {
             $0.leading.top.bottom.equalToSuperview()
             $0.width.height.equalTo(32)
         }
         
-        loginInduceTotalView.addSubview(nicknameLbl)
+        profileTotalView.addSubview(nicknameLbl)
         nicknameLbl.snp.makeConstraints {
             $0.leading.equalTo(profileImgView.snp.trailing).offset(16)
             $0.top.trailing.bottom.equalToSuperview()
             $0.height.equalTo(24)
         }
         
-        loginInduceTotalView.addSubview(moveMyInfoBtn)
+        profileTotalView.addSubview(moveMyInfoBtn)
         moveMyInfoBtn.snp.makeConstraints {
-            $0.leading.equalTo(loginInduceGuideLbl.snp.leading)
-            $0.trailing.equalTo(loginInduceGuideLbl.snp.trailing)
-            $0.height.equalTo(loginInduceGuideLbl.snp.height)
+            $0.leading.equalTo(nicknameLbl.snp.leading)
+            $0.trailing.equalTo(nicknameLbl.snp.trailing)
+            $0.height.equalTo(nicknameLbl.snp.height)
         }
         
-        userInfoAndBerrytotalView.addSubview(loginUserBerryInfoTotalView)
+        loginTotalView.addSubview(loginUserBerryInfoTotalView)
         loginUserBerryInfoTotalView.snp.makeConstraints {
             $0.top.equalTo(profileTotalView.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview()
@@ -296,7 +320,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             $0.height.equalTo(26)
         }
         
-        userInfoAndBerrytotalView.addSubview(useMyBerrySettingTotalView)
+        loginTotalView.addSubview(useMyBerrySettingTotalView)
         useMyBerrySettingTotalView.snp.makeConstraints {
             $0.top.equalTo(loginUserBerryInfoTotalView.snp.bottom).offset(4)
             $0.leading.trailing.equalToSuperview()
@@ -322,6 +346,64 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             $0.leading.top.equalToSuperview()
             $0.width.equalTo(70)
         }
+                
+        // 로그인 안되었을때 뷰
+        userInfoTotalView.addSubview(nonLoginTotalView)
+        nonLoginTotalView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalTo(line.snp.top).offset(-16)
+        }
+                        
+        nonLoginTotalView.addSubview(nonLoginProfileImgView)
+        nonLoginProfileImgView.snp.makeConstraints {
+            $0.leading.top.equalToSuperview()
+            $0.width.height.equalTo(32)
+        }
+        
+        nonLoginTotalView.addSubview(loginInduceLbl)
+        loginInduceLbl.snp.makeConstraints {
+            $0.leading.equalTo(nonLoginProfileImgView.snp.trailing).offset(16)
+            $0.centerY.equalTo(nonLoginProfileImgView.snp.centerY)
+            $0.height.equalTo(24)
+        }
+        
+        nonLoginTotalView.addSubview(loginInduceArrow)
+        loginInduceArrow.snp.makeConstraints {
+            $0.leading.equalTo(loginInduceLbl.snp.trailing)
+            $0.centerY.equalTo(loginInduceLbl.snp.centerY)
+            $0.width.height.equalTo(20)
+        }
+                
+        nonLoginTotalView.addSubview(moveLoginBtn)
+        moveLoginBtn.snp.makeConstraints {
+            $0.leading.equalTo(loginInduceLbl.snp.leading)
+            $0.trailing.equalTo(loginInduceArrow.snp.trailing)
+            $0.height.equalTo(loginInduceLbl.snp.height)
+        }
+        
+        nonLoginTotalView.addSubview(nonLoginUserBerryInfoTotalView)
+        nonLoginUserBerryInfoTotalView.snp.makeConstraints {
+            $0.top.equalTo(nonLoginProfileImgView.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(40)
+        }
+        
+        nonLoginUserBerryInfoTotalView.addSubview(nonLoginMyBerryGuideLbl)
+        nonLoginMyBerryGuideLbl.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerY.equalToSuperview()
+            $0.height.equalTo(22)
+        }
+    
+        nonLoginUserBerryInfoTotalView.addSubview(nonLoginMyBerryLbl)
+        nonLoginMyBerryLbl.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-12)
+            $0.width.height.equalTo(20)
+        }
         
         menuListTotalView.addSubview(tableView)
         tableView.snp.makeConstraints {
@@ -344,6 +426,16 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
+            guard let self = self else { return }
+            self.nonLoginTotalView.isHidden = isLogin
+            self.loginTotalView.isHidden = !isLogin
+                                              
+            self.userInfoTotalView.snp.updateConstraints {
+                $0.height.equalTo(isLogin ? 164 : 128)
+            }
+        }
+        
         moveMyInfoBtn.rx.tap
             .asDriver()
             .drive(onNext: {
@@ -352,9 +444,38 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 GlobalDefine.shared.mainNavi?.push(viewController: mypageVC)
             })
             .disposed(by: self.disposeBag)
-                
-            
         
+        moveLoginBtn.rx.tap
+            .asDriver()
+            .drive(onNext: {
+                let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
+                let loginVC = loginStoryboard.instantiateViewController(ofType: LoginViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: loginVC)
+            })
+            .disposed(by: self.disposeBag)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
+            guard let self = self else { return }
+            self.nonLoginTotalView.isHidden = isLogin
+            self.loginTotalView.isHidden = !isLogin
+            
+            self.userInfoTotalView.snp.updateConstraints {
+                $0.height.equalTo(isLogin ? 164 : 96)
+            }
+        }
+        
+        newBadgeInMenu()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.navigationDrawerController?.reHideStatusBar()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.navigationDrawerController?.reShowStatusBar()
     }
     
     func bind(reactor: LeftViewReactor) {
@@ -377,7 +498,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.text = menuCategoryType.menuTitle
             $0.numberOfLines = 1
-            $0.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+            $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
             $0.textColor = Colors.backgroundAlwaysDark.color
             $0.textAlignment = .center
         }
@@ -869,6 +990,26 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             }
         }
     }
+    
+    // 메인화면 메뉴이미지에 badge
+    private func newBadgeInMenu() {
+    //        if Board.sharedInstance.hasNewBoard() {
+    //            if let image = UIImage(named: "icon_comment_lg") {
+    //                communityImgView.setImage(image, for: .normal)
+    //            }
+    //        } else {
+    //            if let image = UIImage(named: "icon_comment_lg") {
+    //                communityImgView.setImage(image, for: .normal)
+    //            }
+    //        }
+    
+        let _image: UIImage = UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) ? UIImage(named: "icon_user_badge") ?? UIImage() : UIImage(named: "icon_user") ?? UIImage()
+    
+        profileImgView.image = _image
+    
+        // refresh new badge in sub menu
+        tableView.reloadData()
+    }
 }
 
 
@@ -920,32 +1061,8 @@ extension NewLeftViewController: UITableViewDelegate, UITableViewDataSource {
 
 
 
-//// MARK: - VARIABLE
-//
-//private var disposeBag = DisposeBag()
 
 
-//override func viewDidLoad() {
-//    super.viewDidLoad()
-//
-//    useAllBerrySw.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
-
-//
-//    sideTableView.delegate = self
-//    sideTableView.dataSource = self
-//    sideTableView.separatorStyle = UITableViewCellSeparatorStyle.none
-//
-//    tableViewLoad(menuCategoryType: currentMenuCategoryType)
-//}
-//
-//override func viewDidAppear(_ animated: Bool) {
-//    self.navigationDrawerController?.reHideStatusBar()
-//}
-//
-//override func viewDidDisappear(_ animated: Bool) {
-//    super.viewDidDisappear(animated)
-//    self.navigationDrawerController?.reShowStatusBar()
-//}
 //
 //
 //@IBAction func clickMyPage(_ sender: Any) {
@@ -1022,23 +1139,5 @@ extension NewLeftViewController: UITableViewDelegate, UITableViewDataSource {
 
 //
 
-//// 메인화면 메뉴이미지에 badge
-//private func newBadgeInMenu() {
-////        if Board.sharedInstance.hasNewBoard() {
-////            if let image = UIImage(named: "icon_comment_lg") {
-////                communityImgView.setImage(image, for: .normal)
-////            }
-////        } else {
-////            if let image = UIImage(named: "icon_comment_lg") {
-////                communityImgView.setImage(image, for: .normal)
-////            }
-////        }
-//
-//    let _image: UIImage = UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) ? UIImage(named: "icon_user_badge") ?? UIImage() : UIImage(named: "icon_user") ?? UIImage()
-//
-//    myPageImgView.image = _image
-//
-//    // refresh new badge in sub menu
-//    sideTableView.reloadData()
-//}
+
 //}

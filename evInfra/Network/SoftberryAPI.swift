@@ -23,6 +23,7 @@ protocol SoftberryAPI: class {
     func postRefreshToken(appleAuthorizationCode: String) -> Observable<(HTTPURLResponse, Data)>
     func postValidateRefreshToken() -> Observable<(HTTPURLResponse, Data)>
     func postGetBerry(eventId: String) -> Observable<(HTTPURLResponse, Data)>
+    func postMyBerryPoint() -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -129,9 +130,9 @@ internal final class RestApi: SoftberryAPI {
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/event/event/attendEvent", httpMethod: .post, parameters: reqParam, headers: nil)
     }
     
-    // MARK: - 잔여 포인트 조회
+    // MARK: - MyBerry 포인트 조회
     
-    static func postMyBerryPoint() -> Observable<(HTTPURLResponse, Data)> {
+    func postMyBerryPoint() -> Observable<(HTTPURLResponse, Data)> {
         let reqParam: Parameters = [
             "req_ver": 1,
             "mb_id": MemberManager.shared.mbId
