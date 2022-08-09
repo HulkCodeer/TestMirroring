@@ -534,4 +534,37 @@ extension UIView {
             leadingContraint,
             trailingContraint])
     }
+    
+    func roundCorners(
+        cornerType type: CornerRadiusType,
+        radius: CGFloat,
+        borderColor: CGColor,
+        orderWidth: CGFloat
+    ) {
+        self.layer.borderColor = borderColor
+        self.layer.borderWidth = 1
+        
+        self.layer.cornerRadius = radius
+        self.layer.maskedCorners = type.mask
+    }
+    
+    enum CornerRadiusType {
+        case top
+        case bottom
+        case left
+        case right
+        
+        var mask: CACornerMask {
+            switch self {
+            case .top:
+                return [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            case .bottom:
+                return [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+            case .left:
+                return [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+            case .right:
+                return [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+            }
+        }
+    }
 }
