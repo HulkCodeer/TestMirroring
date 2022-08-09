@@ -109,11 +109,11 @@ internal final class PointViewController: UIViewController {
     
     func btnState() {
         // radius border
-        btnAllBerry.roundCorners([.topLeft, .bottomLeft], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
-        
-        btnUseBerry.roundCorners(.allCorners, radius: 0, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
-
-        btnSaveBerry.roundCorners([.topRight, .bottomRight], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
+//        btnAllBerry.roundCorners([.topLeft, .bottomLeft], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
+//        
+//        btnUseBerry.roundCorners(.allCorners, radius: 0, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
+//
+//        btnSaveBerry.roundCorners([.topRight, .bottomRight], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
 
         // Bg color change
         btnAllBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
