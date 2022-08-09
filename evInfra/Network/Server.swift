@@ -1093,14 +1093,21 @@ class Server {
     
     // 광고 click event 전송
     static func countAdAction(adId: String, action: Int) {
+//        let reqParam: Parameters = [
+//            "member_id": MemberManager.shared.memberId,
+//            "mb_id": MemberManager.shared.mbId,
+//            "ad_id": adId,
+//            "action": action
+//        ]
+//        AF.request(Const.EV_PAY_SERVER + "/ad/ad_analysis/add_count",
+//                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
         let reqParam: Parameters = [
-            "member_id": MemberManager.shared.memberId,
-            "mb_id": MemberManager.shared.mbId,
-            "ad_id": adId,
-            "action": action
+            "mb_Id": "\(MemberManager.shared.mbId)",
+            "action": "\(action)",
+            "ad_id": "\(adId)",
+            "member_id": MemberManager.shared.memberId
         ]
-        AF.request(Const.EV_PAY_SERVER + "/ad/ad_analysis/add_count",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        AF.request("\(Const.AWS_SERVER)/event/log", method: .post, parameters: reqParam, encoding: JSONEncoding.default)
     }
 
     static func getUpdateGuide(guide_version: Int, app_version: String, completion: @escaping (Bool, Any) -> Void) {

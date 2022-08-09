@@ -185,6 +185,16 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
                 self.eventImageView.sd_setImage(with: $0 )
             })
             .disposed(by: disposeBag)
+        
+        eventImageButton.rx.tap
+            .map { GlobalAdsReactor.Action.addEventClickCount(reactor.currentState.startBanner?.evtId ?? "") }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        eventImageButton.rx.tap
+            .map { GlobalAdsReactor.Action.addEventViewCount(reactor.currentState.startBanner?.evtId ?? "") }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     // 앰플리튜드 view_enter 로깅을 위해 필요함

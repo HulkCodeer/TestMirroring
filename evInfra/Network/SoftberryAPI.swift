@@ -24,6 +24,7 @@ protocol SoftberryAPI: class {
     func postValidateRefreshToken() -> Observable<(HTTPURLResponse, Data)>
     func postGetBerry(eventId: String) -> Observable<(HTTPURLResponse, Data)>
     func getAds(page: Int, layer: Int) -> Observable<(HTTPURLResponse, Data)>
+    func logAds(adId: String, action: Int) -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -133,5 +134,16 @@ internal final class RestApi: SoftberryAPI {
     // MARK: - 광고/이벤트 조회
     func getAds(page: Int, layer: Int) -> Observable<(HTTPURLResponse, Data)> {
         return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/event?memberId=\(Int(MemberManager.shared.memberId) ?? 0)&page=\(page)&layer=\(layer)", httpMethod: .get, parameters: nil, headers: nil)
+    }
+    
+    // MARK: - 광고/이벤트 로깅
+    func logAds(adId: String, action: Int) -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "mb_Id": "\(MemberManager.shared.mbId)",
+            "action": "\(action)",
+            "ad_id": adId,
+            "member_id": MemberManager.shared.memberId
+        ]
+        return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/event/log", httpMethod: .post, parameters: reqParam, headers: nil)
     }
 }

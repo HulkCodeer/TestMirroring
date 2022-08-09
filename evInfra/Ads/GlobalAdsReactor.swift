@@ -46,8 +46,14 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
                 .compactMap(convertToModel)
                 .compactMap { .setAds($0) }
         case .addEventClickCount(let eventId):
+            _ = self.provider.logAds(adId: eventId, action: EIAdManager.EventAction.click.rawValue)
+                .convertData()
+                .compactMap(convertToDataModel)
             return .empty()
         case .addEventViewCount(let eventId):
+            _ = self.provider.logAds(adId: eventId, action: EIAdManager.EventAction.view.rawValue)
+                .convertData()
+                .compactMap(convertToDataModel)
             return .empty()
         }
     }
