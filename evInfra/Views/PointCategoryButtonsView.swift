@@ -15,35 +15,38 @@ internal final class PointCategoryButtonsView: UIView {
         $0.axis = .horizontal
         $0.alignment = .fill
         $0.distribution = .fillEqually
+        $0.spacing = -1
     }
-    private let allTypeButton = UIButton().then {
+    
+    let allTypeButton = UIButton().then {
         let color = UIColor(hex: "#CECECE")
+        
         $0.roundCorners(
-            [.topLeft, .bottomLeft],
+            cornerType: .left,
             radius: 8,
-            borderColor: color,
-            borderWidth: 2)
+            borderColor: color.cgColor,
+            orderWidth: 1)
         $0.setTitle("전체", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = color
     }
-    private let useTypeButton = UIButton().then {
+    let useTypeButton = UIButton().then {
         let color = UIColor(hex: "#CECECE")
         
         $0.layer.borderColor = color.cgColor
-        $0.layer.borderWidth = 2
+        $0.layer.borderWidth = 1
         $0.setTitle("사용", for: .normal)
         $0.setTitleColor(color, for: .normal)
         $0.backgroundColor = Colors.backgroundPrimary.color
     }
-    private let saveTypeButton = UIButton().then {
+    let saveTypeButton = UIButton().then {
         let color = UIColor(hex: "#CECECE")
-        
+
         $0.roundCorners(
-            [.topRight, .bottomRight],
+            cornerType: .right,
             radius: 8,
-            borderColor: color,
-            borderWidth: 2)
+            borderColor: color.cgColor,
+            orderWidth: 1)
         $0.setTitle("적립", for: .normal)
         $0.setTitleColor(color, for: .normal)
         $0.backgroundColor = Colors.backgroundPrimary.color
@@ -63,6 +66,10 @@ internal final class PointCategoryButtonsView: UIView {
     // MARK: UI
     
     private func setUI() {
+        allTypeButton.addTarget(self, action: #selector(didTapAllTypButton(_:)), for: .touchUpInside)
+        useTypeButton.addTarget(self, action: #selector(didTapUseTypeButton(_:)), for: .touchUpInside)
+        saveTypeButton.addTarget(self, action: #selector(didTapSaveTypeButton(_:)), for: .touchUpInside)
+        
         self.addSubview(contentsStackView)
         
         contentsStackView.addArrangedSubview(allTypeButton)
@@ -71,7 +78,48 @@ internal final class PointCategoryButtonsView: UIView {
     }
     
     private func setConstraints() {
+        contentsStackView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    // MARK: Action
+    
+    @objc private func didTapAllTypButton(_ sender: UIButton) {
+        setSelectedButton(button: allTypeButton)
         
+        setUnselectedButton(useTypeButton)
+        setUnselectedButton(saveTypeButton)
+    }
+    
+    @objc private func didTapUseTypeButton(_ sender: UIButton) {
+        setSelectedButton(button: useTypeButton)
+        
+        setUnselectedButton(allTypeButton)
+        setUnselectedButton(saveTypeButton)
+    }
+    
+    @objc private func didTapSaveTypeButton(_ sender: UIButton) {
+        setSelectedButton(button: saveTypeButton)
+        
+        setUnselectedButton(allTypeButton)
+        setUnselectedButton(useTypeButton)
+    }
+    
+    // MARK: privateAction
+    
+    private func setSelectedButton(button: UIButton) {
+        let color = UIColor(hex: "#CECECE")
+        
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = color
+    }
+    
+    private func setUnselectedButton(_ button: UIButton) {
+        let color = UIColor(hex: "#CECECE")
+        
+        button.setTitleColor(color, for: .normal)
+        button.backgroundColor = Colors.backgroundPrimary.color
     }
     
 }

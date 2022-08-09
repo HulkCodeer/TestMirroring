@@ -69,38 +69,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         $0.text = "~"
     }
     
-    private let allPointLoadButton = UIButton().then {
-        let color = UIColor(hex: "#CECECE")
-        $0.roundCorners(
-            [.topLeft, .bottomLeft],
-            radius: 8,
-            borderColor: color,
-            borderWidth: 2)
-        $0.setTitle("전체", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = color
-    }
-    private let usePointLoadButton = UIButton().then {
-        let color = UIColor(hex: "#CECECE")
-
-        $0.layer.borderColor = color.cgColor
-        $0.layer.borderWidth = 2
-        $0.setTitle("사용", for: .normal)
-        $0.setTitleColor(color, for: .normal)
-        $0.backgroundColor = Colors.backgroundPrimary.color
-    }
-    private let savePointLoadButton = UIButton().then {
-        let color = UIColor(hex: "#CECECE")
-
-        $0.roundCorners(
-            [.topRight, .bottomRight],
-            radius: 8,
-            borderColor: color,
-            borderWidth: 2)
-        $0.setTitle("적립", for: .normal)
-        $0.setTitleColor(color, for: .normal)
-        $0.backgroundColor = Colors.backgroundPrimary.color
-    }
+    private let historyButtonsView = PointCategoryButtonsView()
     
     private let resultMsgLabel = UILabel()
     private let datePicker = UIDatePicker()
@@ -141,17 +110,17 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     }
     
     private func bindAction(reactor: PointHistoryReactor) {
-        allPointLoadButton.rx.tap
+        historyButtonsView.allTypeButton.rx.tap
             .map{ _ in Reactor.Action.loadPointHistory(.all) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        usePointLoadButton.rx.tap
+        historyButtonsView.useTypeButton.rx.tap
             .map { _ in Reactor.Action.loadPointHistory(.use) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        savePointLoadButton.rx.tap
+        historyButtonsView.saveTypeButton.rx.tap
             .map{ _ in Reactor.Action.loadPointHistory(.save) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -166,31 +135,6 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .bind(with: self) { owner, _  in
                 owner.showPointGuide()
             }
-            .disposed(by: disposeBag)
-        
-        allPointLoadButton.rx.tap
-            .asDriver()
-            .drive(
-                with: self,
-                onNext: { owner, _  in
-                    owner.setSelectedButton(.all)
-                })
-            .disposed(by: disposeBag)
-        usePointLoadButton.rx.tap
-            .asDriver()
-            .drive(
-                with: self,
-                onNext: { owner, _  in
-                    owner.setSelectedButton(.use)
-                })
-            .disposed(by: disposeBag)
-        savePointLoadButton.rx.tap
-            .asDriver()
-            .drive(
-                with: self,
-                onNext: { owner, _  in
-                    owner.setSelectedButton(.save)
-                })
             .disposed(by: disposeBag)
     }
     
@@ -214,83 +158,46 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
 
         impendPointStackView.addArrangedSubview(impendPointMarkLbael)
         impendPointStackView.addArrangedSubview(impendPointLabel)
+        pointInfoView.addSubview(historyButtonsView)
 
         historyContentView.addSubview(startDateButton)
         historyContentView.addSubview(endDateButton)
         historyContentView.addSubview(dateDividerLabel)
         
-        historyContentView.addSubview(allPointLoadButton)
-        historyContentView.addSubview(usePointLoadButton)
-        historyContentView.addSubview(savePointLoadButton)
-        
     }
     
     private func setConstraints() {
+        let historyButtonsViewVerticalMargin: CGFloat = 20
+        let historyButtonsViewBottomMargin: CGFloat = 16
+        
         let pointContractionHeight: CGFloat = 88
-        let historyContentHeight: CGFloat = 32
+        let historyContentHeight: CGFloat = 52
         let pointInfoHeight: CGFloat = pointContractionHeight + historyContentHeight
-
+        let historyButtonsViewHeight: CGFloat = 30
+        
         pointInfoView.snp.makeConstraints {
-            $0.top.equalTo(contentView.snp.bottom)
+            $0.top.equalTo(contentView.snp.top)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(pointInfoHeight)
         }
         
-        pointContractionView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(pointContractionHeight)
-        }
-        historyContentView.snp.makeConstraints {
-            $0.bottom.leading.trailing.equalToSuperview()
-            $0.height.equalTo(historyContentHeight)
+        pointTableView.snp.makeConstraints {
+            $0.top.equalTo(pointInfoView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
         
-        myPointStackView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(pointContractionView.snp.centerY)
+        historyButtonsView.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(historyButtonsViewBottomMargin)
+            $0.leading.equalToSuperview().inset(historyButtonsViewVerticalMargin)
+            $0.trailing.equalToSuperview().inset(historyButtonsViewVerticalMargin)
+            $0.height.equalTo(historyButtonsViewHeight)
         }
-        impendPointStackView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(pointContractionView.snp.centerY)
-        }
-        
     }
     
     // MARK: Action
     
     private func pointFontColor() {
         
-    }
-    
-    private func setSelectedButton(_ type: PointType) {
-        var (button, unSelectedButtons): (UIButton, [UIButton]) = {
-            switch type {
-            case .all:
-                return (allPointLoadButton, [savePointLoadButton, usePointLoadButton])
-            case .use:
-                return (usePointLoadButton, [allPointLoadButton, savePointLoadButton])
-            case .save:
-                return (savePointLoadButton, [allPointLoadButton, usePointLoadButton])
-            }
-        }()
-        
-        
-        let color = UIColor(hex: "#CECECE")
-        
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = color
-        
-        unSelectedButtons
-            .forEach { [weak self] button in
-                self?.setUnselectedButton(button)
-            }
-    }
-    
-    private func setUnselectedButton(_ button: UIButton) {
-        let color = UIColor(hex: "#CECECE")
-        
-        button.setTitleColor(color, for: .normal)
-        button.backgroundColor = Colors.backgroundPrimary.color
     }
     
     private func showPointGuide() {
