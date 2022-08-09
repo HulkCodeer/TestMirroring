@@ -8,6 +8,7 @@
 
 import ReactorKit
 import SwiftyJSON
+import UIKit
 
 protocol MoveSmallCategoryView {
     var mediumCategory: MediumCategoryType { get set }
@@ -56,16 +57,16 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         $0.image = Icons.iconProfileEmpty.image
     }
     
-    private lazy var loginInduceGuideLbl = UILabel().then {
+    private lazy var nicknameLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "로그인을 해주세요"
+        $0.text = MemberManager.shared.memberNickName
         $0.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .natural
         $0.numberOfLines = 1
     }
     
-    private lazy var moveLoginBtn = UIButton().then {
+    private lazy var moveMyInfoBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -137,6 +138,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     private lazy var menuCategoryTypeStackView = UIStackView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.axis = .vertical
+        $0.distribution = .fillEqually
         $0.alignment = .fill
         $0.spacing = 0
         $0.backgroundColor = Colors.backgroundPrimary.color
@@ -148,10 +150,12 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     private lazy var tableView = UITableView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.register(UINib(nibName: "LeftViewMenuItem", bundle: nil), forCellReuseIdentifier: "LeftViewMenuItem")
+        $0.register(UINib(nibName: "LeftViewTableHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "LeftViewTableHeader")                
         $0.backgroundColor = UIColor.clear
         $0.separatorStyle = .none
         $0.rowHeight = UITableViewAutomaticDimension
-        $0.estimatedRowHeight = 55
+        $0.estimatedRowHeight = 48
         $0.allowsSelection = true
         $0.allowsSelectionDuringEditing = false
         $0.isMultipleTouchEnabled = false
@@ -159,12 +163,10 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         $0.allowsMultipleSelectionDuringEditing = false
         $0.contentInset = .zero
         $0.bounces = false
+        $0.delegate = self
+        $0.dataSource = self
     }
-    
-    //@IBOutlet var useAllBerrySw: UISwitch!
-    //@IBOutlet var profileImgView: UIImageView!
-    //
-    //@IBOutlet var myPageImgView: UIImageView!
+                
     //@IBOutlet var communityImgView: UIImageView!
     //@IBOutlet var eventImgView: UIImageView!
     //@IBOutlet var evInfoImgView: UIImageView!
@@ -240,15 +242,15 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             $0.width.height.equalTo(32)
         }
         
-        loginInduceTotalView.addSubview(loginInduceGuideLbl)
-        loginInduceGuideLbl.snp.makeConstraints {
+        loginInduceTotalView.addSubview(nicknameLbl)
+        nicknameLbl.snp.makeConstraints {
             $0.leading.equalTo(profileImgView.snp.trailing).offset(16)
             $0.top.trailing.bottom.equalToSuperview()
             $0.height.equalTo(24)
         }
         
-        loginInduceTotalView.addSubview(moveLoginBtn)
-        moveLoginBtn.snp.makeConstraints {
+        loginInduceTotalView.addSubview(moveMyInfoBtn)
+        moveMyInfoBtn.snp.makeConstraints {
             $0.leading.equalTo(loginInduceGuideLbl.snp.leading)
             $0.trailing.equalTo(loginInduceGuideLbl.snp.trailing)
             $0.height.equalTo(loginInduceGuideLbl.snp.height)
@@ -317,12 +319,22 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
         menuListTotalView.addSubview(menuCategoryTypeStackView)
         menuCategoryTypeStackView.snp.makeConstraints {
-            $0.leading.top.bottom.equalToSuperview()
+            $0.leading.top.equalToSuperview()
             $0.width.equalTo(70)
         }
         
-        for menuCategoryType in MenuCategoryType {
-            menuCategoryTypeStackView.addArrangedSubview(self.createMenuTypeView(menuCategoryType: menuCategoryType))
+        menuListTotalView.addSubview(tableView)
+        tableView.snp.makeConstraints {
+            $0.leading.equalTo(menuCategoryTypeStackView.snp.trailing)
+            $0.top.trailing.bottom.equalToSuperview()
+        }
+        
+        for menuCategoryType in MenuCategoryType.allCases {
+            let menuTypeView = self.createMenuTypeView(menuCategoryType: menuCategoryType)
+            menuTypeView.snp.makeConstraints {
+                $0.width.height.equalTo(70)
+            }
+            menuCategoryTypeStackView.addArrangedSubview(menuTypeView)
         }
         
         profileImgView.IBcornerRadius = 32/2
@@ -332,12 +344,12 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        moveLoginBtn.rx.tap
+        moveMyInfoBtn.rx.tap
             .asDriver()
             .drive(onNext: {
-                let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
-                let loginVC = loginStoryboard.instantiateViewController(ofType: LoginViewController.self)
-                GlobalDefine.shared.mainNavi?.push(viewController: loginVC)
+                let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
+                let mypageVC = memberStoryboard.instantiateViewController(ofType: MyPageViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: mypageVC)
             })
             .disposed(by: self.disposeBag)
                 
@@ -355,66 +367,74 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             $0.clipsToBounds = true
         }
         
-        let mainTitleLbl = UILabel().then {
+        let menuImgView = UIImageView().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.text = mainTitle
+            $0.image = menuCategoryType.menuImgView
+            $0.tintColor = Colors.backgroundAlwaysDark.color
+        }
+        
+        let menuTitleLbl = UILabel().then {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.text = menuCategoryType.menuTitle
             $0.numberOfLines = 1
-            $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-            $0.textColor = Colors.contentTertiary.color
+            $0.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+            $0.textColor = Colors.backgroundAlwaysDark.color
+            $0.textAlignment = .center
         }
         
-        view.addSubview(mainTitleLbl)
-        mainTitleLbl.snp.makeConstraints {
-            $0.leading.equalTo(16)
-            $0.centerY.equalToSuperview()
+        view.addSubview(menuImgView)
+        menuImgView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(8)
+            $0.centerX.equalToSuperview()
+            $0.width.height.equalTo(32)
+        }
+        
+        view.addSubview(menuTitleLbl)
+        menuTitleLbl.snp.makeConstraints {
+            $0.top.equalTo(menuImgView.snp.bottom).offset(3)
+            $0.centerX.equalToSuperview()
             $0.height.equalTo(16)
+            $0.bottom.equalToSuperview().offset(-9)
         }
         
-        let lineView = self.createLineView()
-        view.addSubview(lineView)
-        lineView.snp.makeConstraints {
-            $0.leading.bottom.trailing.equalToSuperview()
-            $0.height.equalTo(1)
-        }
+//        let quitAccountBtn = UIButton().then {
+//            $0.translatesAutoresizingMaskIntoConstraints = false
+//        }
+//
+//        view.addSubview(quitAccountBtn)
+//        quitAccountBtn.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
         
-        let quitAccountBtn = UIButton().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
-        view.addSubview(quitAccountBtn)
-        quitAccountBtn.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        quitAccountBtn.rx.tap
-            .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self, let _reactor = self.reactor else { return }
-                
-                Server.getPayRegisterStatus { (isSuccess, value) in
-                    if isSuccess {
-                        let json = JSON(value)
-                        let payCode = json["pay_code"].intValue
-                                            
-                        switch PaymentStatus(rawValue: payCode) {
-                        case .PAY_DEBTOR_USER: // 돈안낸 유저
-                            Snackbar().show(message: "현재 회원님께서는 미수금이 있으므로 회원 탈퇴를 할 수 없습니다.")
-                            
-                        case .CHARGER_STATE_CHARGING: // 충전중
-                            Snackbar().show(message: "현재 회원님께서는 충전중이으므로 회원 탈퇴를 할 수 없습니다.")
-                                                
-                        default: break
-                        }
-                        
-                        printLog(out: "json data : \(json)")
-                    } else {
-                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
-                    }
-                }
-                
-                
-            })
-            .disposed(by: self.disposeBag)
+//        quitAccountBtn.rx.tap
+//            .asDriver()
+//            .drive(onNext: { [weak self] _ in
+//                guard let self = self, let _reactor = self.reactor else { return }
+//
+//                Server.getPayRegisterStatus { (isSuccess, value) in
+//                    if isSuccess {
+//                        let json = JSON(value)
+//                        let payCode = json["pay_code"].intValue
+//
+//                        switch PaymentStatus(rawValue: payCode) {
+//                        case .PAY_DEBTOR_USER: // 돈안낸 유저
+//                            Snackbar().show(message: "현재 회원님께서는 미수금이 있으므로 회원 탈퇴를 할 수 없습니다.")
+//
+//                        case .CHARGER_STATE_CHARGING: // 충전중
+//                            Snackbar().show(message: "현재 회원님께서는 충전중이으므로 회원 탈퇴를 할 수 없습니다.")
+//
+//                        default: break
+//                        }
+//
+//                        printLog(out: "json data : \(json)")
+//                    } else {
+//                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
+//                    }
+//                }
+//
+//
+//            })
+//            .disposed(by: self.disposeBag)
         
         return view
     }
@@ -439,6 +459,17 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             case 4: self = .battery
             case 5: self = .settings
             default: self = .mypage
+            }
+        }
+        
+        internal var menuImgView: UIImage {
+            switch self {
+            case .mypage: return Icons.iconUserLg.image
+            case .community: return Icons.iconCommentLg.image
+            case .event: return Icons.iconGiftLg.image
+            case .evinfo: return Icons.iconEvLg.image
+            case .battery: return Icons.iconBattery.image
+            case .settings: return Icons.iconSettingLg.image
             }
         }
     
@@ -746,53 +777,145 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             }
         }
     }
+    
+    // 각 게시판에 badge
+    private func setNewBadge(cell: LeftViewMenuItem, index: IndexPath) {
+        cell.newBadge.isHidden = true
+        let latestIds = Board.sharedInstance.latestBoardIds
+
+        switch currentMenuCategoryType {
+        case .mypage:
+            if index.section == 1 {
+                if index.row == 0 { // 미수금 표시
+                    if UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
+                        cell.newBadge.isHidden = false
+                    }
+                }
+            }
+
+        case .community:
+            if index.section == 0 {
+                switch index.row {
+                case 0:
+                    if let latestNoticeId = latestIds[Board.KEY_NOTICE] {
+                        let noticeId = UserDefault().readInt(key: UserDefault.Key.LAST_NOTICE_ID)
+                        if noticeId < latestNoticeId {
+                            cell.newBadge.isHidden = false
+                        }
+                    }
+
+                case 1:
+                    if let latestFreeBoardId = latestIds[Board.KEY_FREE_BOARD] {
+                        let freeId = UserDefault().readInt(key: UserDefault.Key.LAST_FREE_ID)
+                        if freeId < latestFreeBoardId {
+                            cell.newBadge.isHidden = false
+                        }
+                    }
+
+                case 2:
+                    if let latestChargerBoardId = latestIds[Board.KEY_CHARGER_BOARD] {
+                        let chargerId = UserDefault().readInt(key: UserDefault.Key.LAST_CHARGER_ID)
+                        if chargerId < latestChargerBoardId {
+                            cell.newBadge.isHidden = false
+                        }
+                    }
+
+                default:
+                    cell.newBadge.isHidden = true
+                }
+            }
+
+            if index.section == 1 {
+                let title: String = currentMenuCategoryType.menuList[index.section].smallMenuList[index.row]
+                if let boardInfo = Board.sharedInstance.getBoardNewInfo(title: title) {
+                    let companyId = UserDefault().readInt(key: boardInfo.shardKey!)
+                    if companyId < boardInfo.brdId! {
+                        cell.newBadge.isHidden = false
+                    }
+                }
+            }
+
+        case .event:
+            if index.section == 0 {
+                switch index.row {
+                case 0:
+                    if let latestEventId = latestIds[Board.KEY_EVENT] {
+                        let eventId = UserDefault().readInt(key: UserDefault.Key.LAST_EVENT_ID)
+                        if eventId < latestEventId {
+                            cell.newBadge.isHidden = false
+                        }
+                    }
+                default:
+                    cell.newBadge.isHidden = true
+                }
+            }
+        default:
+            cell.newBadge.isHidden = true
+        }
+    }
+
+    private func updateMyPageTitle(cell: LeftViewMenuItem, index: IndexPath) {
+        if index.row == 0 {
+            if MemberManager.shared.hasPayment {
+                cell.menuLabel.text = "결제 정보 관리"
+            } else {
+                cell.menuLabel.text = "결제 정보 등록"
+            }
+        } else if index.row == 1 {
+            if MemberManager.shared.hasMembership {
+                cell.menuLabel.text = "회원카드 관리"
+            } else {
+                cell.menuLabel.text = "회원카드 신청"
+            }
+        }
+    }
 }
 
 
-//extension NewLeftViewController: UITableViewDelegate, UITableViewDataSource {
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return currentMenuCategoryType.menuList.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let headerView = Bundle.main.loadNibNamed("LeftViewTableHeader", owner: self, options: nil)?.first as! LeftViewTableHeader
-//        let headerValue = currentMenuCategoryType.menuList[section].mediumCategory.rawValue
-//        headerView.cellTitle.text = headerValue
-//        return headerView
-//    }
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return currentMenuCategoryType.menuList[section].smallMenuList.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = sideTableView.dequeueReusableCell(withIdentifier: "sideMenuCell", for: indexPath) as! SideMenuTableViewCell
-//        cell.menuLabel.text = currentMenuCategoryType.menuList[indexPath.section].smallMenuList[indexPath.row]
-//
-//        // 게시판, 이벤트 등에 새글 표시
-//        setNewBadge(cell: cell, index: indexPath)
-//
-//        if currentMenuCategoryType == .mypage &&
-//            currentMenuCategoryType.menuList[indexPath.section].mediumCategory == .pay {
-//            updateMyPageTitle(cell: cell, index: indexPath)
-//        }
-//
-//        // 설정 - 버전정보 표시
-//        if currentMenuCategoryType == .settings &&
-//            "버전정보".equals(currentMenuCategoryType.menuList[indexPath.section].smallMenuList[indexPath.row]) {
-//            cell.menuContent.isHidden = false
-//            cell.menuContent.text = (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)
-//        } else {
-//            cell.menuContent.isHidden = true
-//        }
-//        return cell
-//    }
-//
-//    func tableView(_ tableView : UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: false)
-//        currentMenuCategoryType.menuList[indexPath.section].moveViewController(index: indexPath)
-//    }
-//}
+extension NewLeftViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return currentMenuCategoryType.menuList.count
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = Bundle.main.loadNibNamed("LeftViewTableHeader", owner: self, options: nil)?.first as! LeftViewTableHeader
+        let headerValue = currentMenuCategoryType.menuList[section].mediumCategory.rawValue
+        headerView.cellTitle.text = headerValue
+        return headerView
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return currentMenuCategoryType.menuList[section].smallMenuList.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LeftViewMenuItem", for: indexPath) as! LeftViewMenuItem
+        cell.menuLabel.text = currentMenuCategoryType.menuList[indexPath.section].smallMenuList[indexPath.row]
+        
+        // 게시판, 이벤트 등에 새글 표시
+        setNewBadge(cell: cell, index: indexPath)
+
+        if currentMenuCategoryType == .mypage &&
+            currentMenuCategoryType.menuList[indexPath.section].mediumCategory == .pay {
+            updateMyPageTitle(cell: cell, index: indexPath)
+        }
+
+        // 설정 - 버전정보 표시
+        if currentMenuCategoryType == .settings &&
+            "버전정보".equals(currentMenuCategoryType.menuList[indexPath.section].smallMenuList[indexPath.row]) {
+            cell.menuContent.isHidden = false
+            cell.menuContent.text = (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)
+        } else {
+            cell.menuContent.isHidden = true
+        }
+        return cell
+    }
+
+    func tableView(_ tableView : UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        currentMenuCategoryType.menuList[indexPath.section].moveViewController(index: indexPath)
+    }
+}
 
 
 
@@ -896,98 +1019,9 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
 //}
 
 //extension LeftViewController {
-//private func updateMyPageTitle(cell: SideMenuTableViewCell, index: IndexPath) {
-//    if index.row == 0 {
-//        if MemberManager.shared.hasPayment {
-//            cell.menuLabel.text = "결제 정보 관리"
-//        } else {
-//            cell.menuLabel.text = "결제 정보 등록"
-//        }
-//    } else if index.row == 1 {
-//        if MemberManager.shared.hasMembership {
-//            cell.menuLabel.text = "회원카드 관리"
-//        } else {
-//            cell.menuLabel.text = "회원카드 신청"
-//        }
-//    }
-//}
+
 //
-//// 각 게시판에 badge
-//private func setNewBadge(cell: SideMenuTableViewCell, index: IndexPath) {
-//    cell.newBadge.isHidden = true
-//    let latestIds = Board.sharedInstance.latestBoardIds
-//
-//    switch currentMenuCategoryType {
-//    case .mypage:
-//        if index.section == 1 {
-//            if index.row == 0 { // 미수금 표시
-//                if UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
-//                    cell.newBadge.isHidden = false
-//                }
-//            }
-//        }
-//
-//    case .community:
-//        if index.section == 0 {
-//            switch index.row {
-//            case 0:
-//                if let latestNoticeId = latestIds[Board.KEY_NOTICE] {
-//                    let noticeId = UserDefault().readInt(key: UserDefault.Key.LAST_NOTICE_ID)
-//                    if noticeId < latestNoticeId {
-//                        cell.newBadge.isHidden = false
-//                    }
-//                }
-//
-//            case 1:
-//                if let latestFreeBoardId = latestIds[Board.KEY_FREE_BOARD] {
-//                    let freeId = UserDefault().readInt(key: UserDefault.Key.LAST_FREE_ID)
-//                    if freeId < latestFreeBoardId {
-//                        cell.newBadge.isHidden = false
-//                    }
-//                }
-//
-//            case 2:
-//                if let latestChargerBoardId = latestIds[Board.KEY_CHARGER_BOARD] {
-//                    let chargerId = UserDefault().readInt(key: UserDefault.Key.LAST_CHARGER_ID)
-//                    if chargerId < latestChargerBoardId {
-//                        cell.newBadge.isHidden = false
-//                    }
-//                }
-//
-//            default:
-//                cell.newBadge.isHidden = true
-//            }
-//        }
-//
-//        if index.section == 1 {
-//            let title: String = currentMenuCategoryType.menuList[index.section].smallMenuList[index.row]
-//            if let boardInfo = Board.sharedInstance.getBoardNewInfo(title: title) {
-//                let companyId = UserDefault().readInt(key: boardInfo.shardKey!)
-//                if companyId < boardInfo.brdId! {
-//                    cell.newBadge.isHidden = false
-//                }
-//            }
-//        }
-//
-//    case .event:
-//        if index.section == 0 {
-//            switch index.row {
-//            case 0:
-//                if let latestEventId = latestIds[Board.KEY_EVENT] {
-//                    let eventId = UserDefault().readInt(key: UserDefault.Key.LAST_EVENT_ID)
-//                    if eventId < latestEventId {
-//                        cell.newBadge.isHidden = false
-//                    }
-//                }
-//            default:
-//                cell.newBadge.isHidden = true
-//            }
-//        }
-//    default:
-//        cell.newBadge.isHidden = true
-//    }
-//}
-//
+
 //// 메인화면 메뉴이미지에 badge
 //private func newBadgeInMenu() {
 ////        if Board.sharedInstance.hasNewBoard() {

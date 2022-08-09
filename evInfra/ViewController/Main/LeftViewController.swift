@@ -388,9 +388,9 @@ internal final class LeftViewController: UIViewController {
         profileImgView.IBcornerRadius = 40/2
         profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
                 
-        sideTableView.delegate = self
-        sideTableView.dataSource = self
-        sideTableView.separatorStyle = UITableViewCellSeparatorStyle.none
+//        sideTableView.delegate = self
+//        sideTableView.dataSource = self
+//        sideTableView.separatorStyle = UITableViewCellSeparatorStyle.none
                 
         tableViewLoad(menuCategoryType: currentMenuCategoryType)
     }
@@ -480,143 +480,143 @@ internal final class LeftViewController: UIViewController {
     }
 }
 
-extension LeftViewController: UITableViewDelegate, UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return currentMenuCategoryType.menuList.count
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = Bundle.main.loadNibNamed("LeftViewTableHeader", owner: self, options: nil)?.first as! LeftViewTableHeader
-        let headerValue = currentMenuCategoryType.menuList[section].mediumCategory.rawValue
-        headerView.cellTitle.text = headerValue
-        return headerView
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentMenuCategoryType.menuList[section].smallMenuList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = sideTableView.dequeueReusableCell(withIdentifier: "sideMenuCell", for: indexPath) as! SideMenuTableViewCell
-        cell.menuLabel.text = currentMenuCategoryType.menuList[indexPath.section].smallMenuList[indexPath.row]
-        
-        // 게시판, 이벤트 등에 새글 표시
-        setNewBadge(cell: cell, index: indexPath)
-        
-        if currentMenuCategoryType == .mypage &&
-            currentMenuCategoryType.menuList[indexPath.section].mediumCategory == .pay {
-            updateMyPageTitle(cell: cell, index: indexPath)
-        }
-        
-        // 설정 - 버전정보 표시
-        if currentMenuCategoryType == .settings &&
-            "버전정보".equals(currentMenuCategoryType.menuList[indexPath.section].smallMenuList[indexPath.row]) {
-            cell.menuContent.isHidden = false
-            cell.menuContent.text = (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)
-        } else {
-            cell.menuContent.isHidden = true
-        }
-        return cell
-    }
-    
-    func tableView(_ tableView : UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
-        currentMenuCategoryType.menuList[indexPath.section].moveViewController(index: indexPath)
-    }
-}
+//extension LeftViewController: UITableViewDelegate, UITableViewDataSource {
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return currentMenuCategoryType.menuList.count
+//    }
+//
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let headerView = Bundle.main.loadNibNamed("LeftViewTableHeader", owner: self, options: nil)?.first as! LeftViewTableHeader
+//        let headerValue = currentMenuCategoryType.menuList[section].mediumCategory.rawValue
+//        headerView.cellTitle.text = headerValue
+//        return headerView
+//    }
+//
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return currentMenuCategoryType.menuList[section].smallMenuList.count
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = sideTableView.dequeueReusableCell(withIdentifier: "sideMenuCell", for: indexPath) as! SideMenuTableViewCell
+//        cell.menuLabel.text = currentMenuCategoryType.menuList[indexPath.section].smallMenuList[indexPath.row]
+//
+//        // 게시판, 이벤트 등에 새글 표시
+//        setNewBadge(cell: cell, index: indexPath)
+//
+//        if currentMenuCategoryType == .mypage &&
+//            currentMenuCategoryType.menuList[indexPath.section].mediumCategory == .pay {
+//            updateMyPageTitle(cell: cell, index: indexPath)
+//        }
+//
+//        // 설정 - 버전정보 표시
+//        if currentMenuCategoryType == .settings &&
+//            "버전정보".equals(currentMenuCategoryType.menuList[indexPath.section].smallMenuList[indexPath.row]) {
+//            cell.menuContent.isHidden = false
+//            cell.menuContent.text = (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)
+//        } else {
+//            cell.menuContent.isHidden = true
+//        }
+//        return cell
+//    }
+//
+//    func tableView(_ tableView : UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: false)
+//        currentMenuCategoryType.menuList[indexPath.section].moveViewController(index: indexPath)
+//    }
+//}
 
 extension LeftViewController {
-    private func updateMyPageTitle(cell: SideMenuTableViewCell, index: IndexPath) {
-        if index.row == 0 {
-            if MemberManager.shared.hasPayment {
-                cell.menuLabel.text = "결제 정보 관리"
-            } else {
-                cell.menuLabel.text = "결제 정보 등록"
-            }
-        } else if index.row == 1 {
-            if MemberManager.shared.hasMembership {
-                cell.menuLabel.text = "회원카드 관리"
-            } else {
-                cell.menuLabel.text = "회원카드 신청"
-            }
-        }
-    }
-        
-    // 각 게시판에 badge
-    private func setNewBadge(cell: SideMenuTableViewCell, index: IndexPath) {
-        cell.newBadge.isHidden = true
-        let latestIds = Board.sharedInstance.latestBoardIds
-        
-        switch currentMenuCategoryType {
-        case .mypage:
-            if index.section == 1 {
-                if index.row == 0 { // 미수금 표시
-                    if UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
-                        cell.newBadge.isHidden = false
-                    }
-                }
-            }
-            
-        case .community:
-            if index.section == 0 {
-                switch index.row {
-                case 0:
-                    if let latestNoticeId = latestIds[Board.KEY_NOTICE] {
-                        let noticeId = UserDefault().readInt(key: UserDefault.Key.LAST_NOTICE_ID)
-                        if noticeId < latestNoticeId {
-                            cell.newBadge.isHidden = false
-                        }
-                    }
-                    
-                case 1:
-                    if let latestFreeBoardId = latestIds[Board.KEY_FREE_BOARD] {
-                        let freeId = UserDefault().readInt(key: UserDefault.Key.LAST_FREE_ID)
-                        if freeId < latestFreeBoardId {
-                            cell.newBadge.isHidden = false
-                        }
-                    }
-                    
-                case 2:
-                    if let latestChargerBoardId = latestIds[Board.KEY_CHARGER_BOARD] {
-                        let chargerId = UserDefault().readInt(key: UserDefault.Key.LAST_CHARGER_ID)
-                        if chargerId < latestChargerBoardId {
-                            cell.newBadge.isHidden = false
-                        }
-                    }
-                    
-                default:
-                    cell.newBadge.isHidden = true
-                }
-            }
-            
-            if index.section == 1 {
-                let title: String = currentMenuCategoryType.menuList[index.section].smallMenuList[index.row]
-                if let boardInfo = Board.sharedInstance.getBoardNewInfo(title: title) {
-                    let companyId = UserDefault().readInt(key: boardInfo.shardKey!)
-                    if companyId < boardInfo.brdId! {
-                        cell.newBadge.isHidden = false
-                    }
-                }
-            }
-            
-        case .event:
-            if index.section == 0 {
-                switch index.row {
-                case 0:
-                    if let latestEventId = latestIds[Board.KEY_EVENT] {
-                        let eventId = UserDefault().readInt(key: UserDefault.Key.LAST_EVENT_ID)
-                        if eventId < latestEventId {
-                            cell.newBadge.isHidden = false
-                        }
-                    }
-                default:
-                    cell.newBadge.isHidden = true
-                }
-            }
-        default:
-            cell.newBadge.isHidden = true
-        }
-    }
+//    private func updateMyPageTitle(cell: SideMenuTableViewCell, index: IndexPath) {
+//        if index.row == 0 {
+//            if MemberManager.shared.hasPayment {
+//                cell.menuLabel.text = "결제 정보 관리"
+//            } else {
+//                cell.menuLabel.text = "결제 정보 등록"
+//            }
+//        } else if index.row == 1 {
+//            if MemberManager.shared.hasMembership {
+//                cell.menuLabel.text = "회원카드 관리"
+//            } else {
+//                cell.menuLabel.text = "회원카드 신청"
+//            }
+//        }
+//    }
+//
+//    // 각 게시판에 badge
+//    private func setNewBadge(cell: SideMenuTableViewCell, index: IndexPath) {
+//        cell.newBadge.isHidden = true
+//        let latestIds = Board.sharedInstance.latestBoardIds
+//
+//        switch currentMenuCategoryType {
+//        case .mypage:
+//            if index.section == 1 {
+//                if index.row == 0 { // 미수금 표시
+//                    if UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
+//                        cell.newBadge.isHidden = false
+//                    }
+//                }
+//            }
+//
+//        case .community:
+//            if index.section == 0 {
+//                switch index.row {
+//                case 0:
+//                    if let latestNoticeId = latestIds[Board.KEY_NOTICE] {
+//                        let noticeId = UserDefault().readInt(key: UserDefault.Key.LAST_NOTICE_ID)
+//                        if noticeId < latestNoticeId {
+//                            cell.newBadge.isHidden = false
+//                        }
+//                    }
+//
+//                case 1:
+//                    if let latestFreeBoardId = latestIds[Board.KEY_FREE_BOARD] {
+//                        let freeId = UserDefault().readInt(key: UserDefault.Key.LAST_FREE_ID)
+//                        if freeId < latestFreeBoardId {
+//                            cell.newBadge.isHidden = false
+//                        }
+//                    }
+//
+//                case 2:
+//                    if let latestChargerBoardId = latestIds[Board.KEY_CHARGER_BOARD] {
+//                        let chargerId = UserDefault().readInt(key: UserDefault.Key.LAST_CHARGER_ID)
+//                        if chargerId < latestChargerBoardId {
+//                            cell.newBadge.isHidden = false
+//                        }
+//                    }
+//
+//                default:
+//                    cell.newBadge.isHidden = true
+//                }
+//            }
+//
+//            if index.section == 1 {
+//                let title: String = currentMenuCategoryType.menuList[index.section].smallMenuList[index.row]
+//                if let boardInfo = Board.sharedInstance.getBoardNewInfo(title: title) {
+//                    let companyId = UserDefault().readInt(key: boardInfo.shardKey!)
+//                    if companyId < boardInfo.brdId! {
+//                        cell.newBadge.isHidden = false
+//                    }
+//                }
+//            }
+//
+//        case .event:
+//            if index.section == 0 {
+//                switch index.row {
+//                case 0:
+//                    if let latestEventId = latestIds[Board.KEY_EVENT] {
+//                        let eventId = UserDefault().readInt(key: UserDefault.Key.LAST_EVENT_ID)
+//                        if eventId < latestEventId {
+//                            cell.newBadge.isHidden = false
+//                        }
+//                    }
+//                default:
+//                    cell.newBadge.isHidden = true
+//                }
+//            }
+//        default:
+//            cell.newBadge.isHidden = true
+//        }
+//    }
     
     // 메인화면 메뉴이미지에 badge
     private func newBadgeInMenu() {
