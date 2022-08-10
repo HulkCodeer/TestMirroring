@@ -70,7 +70,7 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
         return newState
     }
     
-    private func convertToDataModel(with result: ApiResult<Data, ApiErrorMessage>) -> JSON? {
+    private func convertToDataModel(with result: ApiResult<Data, ApiError>) -> JSON? {
         switch result {
         case .success(let data):
             return JSON(data)
