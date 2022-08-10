@@ -22,8 +22,11 @@ protocol SoftberryAPI: class {
     func deleteAppleAccount(reasonID: String, reasonText: String) -> Observable<(HTTPURLResponse, Data)>
     func postRefreshToken(appleAuthorizationCode: String) -> Observable<(HTTPURLResponse, Data)>
     func postValidateRefreshToken() -> Observable<(HTTPURLResponse, Data)>
+    
     func postGetBerry(eventId: String) -> Observable<(HTTPURLResponse, Data)>
     func postMyBerryPoint() -> Observable<(HTTPURLResponse, Data)>
+    func postUseAllBerry(isAll: Bool) -> Observable<(HTTPURLResponse, Data)>
+    func postGetIsAllBerry() -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -131,7 +134,6 @@ internal final class RestApi: SoftberryAPI {
     }
     
     // MARK: - MyBerry 포인트 조회
-    
     func postMyBerryPoint() -> Observable<(HTTPURLResponse, Data)> {
         let reqParam: Parameters = [
             "req_ver": 1,
@@ -139,5 +141,27 @@ internal final class RestApi: SoftberryAPI {
         ]
         
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/my_point", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+        
+    // MARK: - MyBerry 전액 사용 체크
+    func postUseAllBerry(isAll: Bool) -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.shared.mbId,
+            "use_now": true,
+            "point": isAll ? -1 : 0
+        ]
+        
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/set_use_point", httpMethod: .post, parameters: reqParam, headers: nil)            
+    }
+    
+    // MARK: - MyBerry 전액 사용 여부 조회
+    func postGetIsAllBerry() -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.shared.mbId
+        ]
+        
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/member/get_use_point", httpMethod: .post, parameters: reqParam, headers: nil)        
     }
 }
