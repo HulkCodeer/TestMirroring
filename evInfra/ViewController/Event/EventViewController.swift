@@ -106,7 +106,7 @@ extension EventViewController {
     }
     
     func goToEventInfo(index: Int) {
-        Server.countEventAction(eventId: Array<Int>(arrayLiteral: list[index].eventId), action: ACTION_CLICK)
+        Server.countEventAction(eventId: [String(list[index].eventId)], action: EIAdManager.EventAction.click.rawValue)
         let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
         viewcon.eventId = list[index].eventId
         viewcon.eventTitle = list[index].title
@@ -120,7 +120,8 @@ extension EventViewController {
                 displayedList.insert(list[IndexPath.row].eventId)
             }
         })
-        Server.countEventAction(eventId: Array(displayedList), action: ACTION_VIEW)
+        let displatedList = displayedList.map { String($0) }
+        Server.countEventAction(eventId: displatedList, action: EIAdManager.EventAction.view.rawValue)
         self.navigationController?.pop()
     }
 }
@@ -225,7 +226,7 @@ extension EventViewController {
                             guard let _externalEventParam = self.externalEventParam else {
                                 return
                             }
-                            Server.countEventAction(eventId: Array<Int>(arrayLiteral: item.eventId), action: self.ACTION_CLICK)
+                            Server.countEventAction(eventId: [String(item.eventId)], action: EIAdManager.EventAction.click.rawValue)
                             let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
                             viewcon.eventId = item.eventId
                             viewcon.eventTitle = item.title

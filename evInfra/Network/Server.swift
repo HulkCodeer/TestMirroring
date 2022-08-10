@@ -1030,10 +1030,8 @@ class Server {
     }
     
     // 이벤트 click event 전송
-    static func countEventAction(eventId: Array<Int>, action: Int) {
-        if (eventId.isEmpty){
-            return
-        }
+    static func countEventAction(eventId: [String], action: Int) {
+        guard !eventId.isEmpty else { return }
         
         let reqParam: Parameters = [
             "member_id": MemberManager.shared.memberId,
@@ -1041,8 +1039,9 @@ class Server {
             "event_ids": eventId,
             "action": action
         ]
-        AF.request(Const.EV_PAY_SERVER + "/event/Event/add_count",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        _ = AF.request("\(Const.AWS_SERVER)/promotion/log", method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+//        AF.request(Const.EV_PAY_SERVER + "/event/Event/add_count",
+//                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
     }
     
     // 쿠폰 - 리스트 가져오기
@@ -1075,6 +1074,13 @@ class Server {
                           method: .get,
                           parameters: nil,
                           encoding: JSONEncoding.default)
+            .validate()
+            .responseData { response in responseData(response: response, completion: completion) }
+    }
+    
+    // MARK: - AWS 광고 리스트 조회
+    static func getAdsList(page: Int, layer: Int, completion: @escaping (Bool, Data?) -> Void) {
+        AF.request("\(Const.AWS_SERVER)/promotion?memberId=\(Int(MemberManager.shared.memberId) ?? 0)&page=\(page)&layer=\(layer)", method: .get, parameters: nil, encoding: JSONEncoding.default)
             .validate()
             .responseData { response in responseData(response: response, completion: completion) }
     }

@@ -174,7 +174,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
     
     internal func bind(reactor: GlobalAdsReactor) {
         // TODO: - Make Global Ads Reactor
-        Observable.just(GlobalAdsReactor.Action.loadStartBanner(EIAdManager.Page.start, EIAdManager.Layer.top))
+        Observable.just(GlobalAdsReactor.Action.loadStartBanner(EIAdManager.Page.start, EIAdManager.Layer.popup))
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         

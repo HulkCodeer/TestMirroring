@@ -65,6 +65,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return communityBoardList.count
     }
@@ -72,7 +73,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let isAd = communityBoardList[indexPath.row].board_id?.contains("ad") ?? false
         if isAd {
-            EIAdManager.sharedInstance.increase(adId: communityBoardList[indexPath.row].document_srl!, action: EIAdManager.EventAction.view.rawValue)
+            EIAdManager.sharedInstance.logEvent(adIds: [communityBoardList[indexPath.row].document_srl ?? ""], action: EIAdManager.EventAction.view.rawValue)
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -169,7 +170,9 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             if #available(iOS 14.0, *) {
                 headerView.backgroundConfiguration?.backgroundColor = UIColor(named: "nt-white")
             }
+            
             headerView.setupBannerView(categoryType: category)
+            headerView.fetchAds(categoryType: category)
             headerView.delegate = self
             
             return headerView
