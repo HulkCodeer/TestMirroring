@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BoardListViewModel {
+internal final class BoardListViewModel {
     
     var listener: ((BoardResponseData?) -> Void)?
     
@@ -19,21 +19,28 @@ class BoardListViewModel {
     }
     
     private var indexOfAd: Int = 0
-    private var adManager = EIAdManager.sharedInstance
+    private var adList: [BoardListItem] = [BoardListItem]()
     
-    init() {}
+    internal init() {}
     
     func fetchFirstBoard(mid: String, sort: Board.SortType, currentPage: Int, mode: String) {
-        let adList = adManager.boardAdList
+        let fetchAdListGroup = DispatchGroup()
+        fetchAdListGroup.enter()
+        EIAdManager.sharedInstance.getBoardAdsToBoardListItem { adList in
+            self.adList = adList
+            fetchAdListGroup.leave()
+        }
         
-        Server.fetchBoardList(mid: mid,
-                              page: "\(currentPage)",
-                              mode: mode,
-                              sort: sort.rawValue,
-                              searchType: "",
-                              searchKeyword: "") { (isSuccess, value) in
-            if isSuccess {
+        fetchAdListGroup.notify(queue: .global()) {
+            Server.fetchBoardList(mid: mid,
+                                  page: "\(currentPage)",
+                                  mode: mode,
+                                  sort: sort.rawValue,
+                                  searchType: "",
+                                  searchKeyword: "") { (isSuccess, value) in
+                guard isSuccess else { return }
                 guard let data = value else { return }
+                
                 let decoder = JSONDecoder()
                 
                 do {
@@ -47,13 +54,13 @@ class BoardListViewModel {
                         return
                     }
                     
-                    if !adList.isEmpty {
+                    if !self.adList.isEmpty {
                         for _ in [currentPage, currentPage+1] {
-                            result.list?.insert(adList[self.indexOfAd], at: boardIndex)
+                            result.list?.insert(self.adList[self.indexOfAd], at: boardIndex)
                             boardIndex = boardIndex + 10
                             self.indexOfAd += 1
                             
-                            if self.indexOfAd == adList.count {
+                            if self.indexOfAd == self.adList.count {
                                 self.indexOfAd = 0
                             }
                         }
@@ -63,23 +70,28 @@ class BoardListViewModel {
                 } catch {
                     debugPrint("error")
                 }
-            } else {
-                
             }
         }
     }
     
     func fetchNextBoard(mid: String, sort: Board.SortType, currentPage: Int, mode: String) {
-        let adList = adManager.boardAdList
+        let fetchAdListGroup = DispatchGroup()
+        fetchAdListGroup.enter()
+        EIAdManager.sharedInstance.getBoardAdsToBoardListItem { adList in
+            self.adList = adList
+            fetchAdListGroup.leave()
+        }
         
-        Server.fetchBoardList(mid: mid,
-                              page: "\(currentPage)",
-                              mode: mode,
-                              sort: sort.rawValue,
-                              searchType: "",
-                              searchKeyword: "") { (isSuccess, value) in
-            if isSuccess {
+        fetchAdListGroup.notify(queue: .global()) {
+            Server.fetchBoardList(mid: mid,
+                                  page: "\(currentPage)",
+                                  mode: mode,
+                                  sort: sort.rawValue,
+                                  searchType: "",
+                                  searchKeyword: "") { (isSuccess, value) in
+                guard isSuccess else { return }
                 guard let data = value else { return }
+                
                 let decoder = JSONDecoder()
                 
                 do {
@@ -93,13 +105,13 @@ class BoardListViewModel {
                         return
                     }
                     
-                    if !adList.isEmpty {
+                    if !self.adList.isEmpty {
                         for _ in [currentPage, currentPage+1] {
-                            result.list?.insert(adList[self.indexOfAd], at: boardIndex)
+                            result.list?.insert(self.adList[self.indexOfAd], at: boardIndex)
                             boardIndex = boardIndex + 10
 
                             self.indexOfAd += 1
-                            if self.indexOfAd == adList.count {
+                            if self.indexOfAd == self.adList.count {
                                 self.indexOfAd = 0
                             }
                         }
@@ -109,8 +121,6 @@ class BoardListViewModel {
                 } catch {
                     debugPrint("error")
                 }
-            } else {
-                
             }
         }
     }
