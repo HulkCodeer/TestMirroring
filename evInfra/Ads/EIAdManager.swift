@@ -40,14 +40,8 @@ internal final class EIAdManager {
     }
     
     static let sharedInstance = EIAdManager()
-    internal var boardAdList = [BoardListItem]()
-    internal var topBannerList = [Ad]()
     
-    private init() {
-        getBoardAdsToBoardListItem { [weak self] adList in
-            self?.boardAdList = adList
-        }
-    }
+    private init() {}
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -57,6 +51,11 @@ internal final class EIAdManager {
     internal func increase(adId: String, action: Int) {
         guard !adId.isEmpty else { return }
         Server.countAdAction(adId: adId, action: action)
+    }
+    
+    internal func logEvent(adIds: [String], action: Int) {
+        guard !adIds.isEmpty else { return }
+        Server.countEventAction(eventId: adIds, action: action)
     }
     
     // 전면 광고 정보
@@ -80,8 +79,8 @@ internal final class EIAdManager {
         }
     }
     
-    // 커뮤니티 중간 광고
-    private func getBoardAdsToBoardListItem(completion: @escaping ([BoardListItem]) -> Void) {
+    // MARK: - 커뮤니티 중간 광고
+    internal func getBoardAdsToBoardListItem(completion: @escaping ([BoardListItem]) -> Void) {
         let client_id = "0"
         Server.getBoardAds(client_id: client_id) { (isSuccess, value) in
             guard let data = value else { return }
@@ -91,16 +90,30 @@ internal final class EIAdManager {
             }
             
             let adList = JSON(data).arrayValue.map { Ad($0) }
+            var boardAdList = [BoardListItem]()
             adList.forEach {
-                self.boardAdList.append(BoardListItem($0))
+                boardAdList.append(BoardListItem($0))
             }
             
-            completion(self.boardAdList)
+            completion(boardAdList)
         }
     }
     
-    // 커뮤니티 상단 광고
-    internal func getTopBannerInBoardList() {
-        
+    // MARK: - 커뮤니티 상단 광고
+    internal func getTopBannerInBoardList(page: Int, layer: Int, completion: @escaping ([AdsInfo]) -> Void) {
+        Server.getAdsList(page: EIAdManager.Page.start.rawValue, layer: EIAdManager.Layer.top.rawValue) { isSuccess, value in
+            guard let data = value else { return }
+            guard isSuccess else {
+                completion([])
+                return
+            }
+            
+            let json = JSON(data)
+            let adList = AdsListDataModel(json).data
+            printLog(out: ":: PKH TEST ::")
+            printLog(out: "광고갯수: \(adList.count)")
+            printLog(out: "광고: \(adList)")
+            completion(adList)
+        }
     }
 }
