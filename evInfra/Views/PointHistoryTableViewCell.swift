@@ -14,6 +14,7 @@ import SnapKit
 import Material
 
 internal final class PointHistoryTableViewCell: UITableViewCell {
+    static let identfier = "PointHistoryTableViewCell"
     
     private let contentStackView = UIStackView().then {
         $0.axis = .horizontal

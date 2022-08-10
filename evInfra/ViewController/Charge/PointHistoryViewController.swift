@@ -18,18 +18,19 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     private let pointInfoView = UIView().then {
         $0.backgroundColor = Colors.backgroundPrimary.color
     }
-    
-    private let pointContractionView = UIView()
-    private let historyContentView = UIView()
+    private let pointTableView = UITableView().then {
+        $0.register(PointHistoryTableViewCell.self, forCellReuseIdentifier: PointHistoryTableViewCell.identfier)
+    }
     
     private let myPointStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.alignment = .center
         $0.distribution = .equalSpacing
+        $0.spacing = 6
     }
     private let myPointMarkLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 14)
-        $0.textColor = UIColor.init(hex: "#7B7B7B96")
+        $0.textColor = UIColor.init(hex: "#7B7B7B")
+        $0.text = "나의 보유 베리"
     }
     private let myPointLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 20, weight: .bold)
@@ -38,43 +39,54 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     private let pointGuideButton = UIButton().then {
         let image = Icons.iconQuestionXs.image
         $0.setImage(image, for: .normal)
+        $0.tintColor = Colors.contentPrimary.color
         $0.contentMode = .scaleAspectFill
     }
     
     private let impendPointStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.alignment = .center
         $0.distribution = .equalSpacing
+        $0.spacing = 4
     }
     private let impendPointMarkLbael = UILabel().then {
         $0.font = .systemFont(ofSize: 14)
-        $0.textColor = UIColor.init(hex: "#7B7B7B96")
+        $0.textColor = UIColor.init(hex: "#7B7B7B")
+        var month = Date().toMonth()
+        $0.text = month + "월 소멸예정 베리"
     }
     private let impendPointLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 14)
         $0.textColor = UIColor.init(hex: "#292929")
     }
 
+    private let dateStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.distribution = .fillProportionally
+        $0.spacing = 4
+    }
     private let startDateButton = UIButton().then {
         $0.titleLabel?.font = .systemFont(ofSize: 17)
+        $0.contentHorizontalAlignment = .right
         $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
+        $0.backgroundColor = .clear
     }
     private let endDateButton = UIButton().then {
         $0.titleLabel?.font = .systemFont(ofSize: 17)
+        $0.contentHorizontalAlignment = .left
         $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
+        $0.backgroundColor = .clear
     }
     private let dateDividerLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 17)
         $0.textColor = Colors.contentPrimary.color
         $0.text = "~"
+        $0.textAlignment = .center
     }
     
     private let historyButtonsView = PointCategoryButtonsView()
     
-    private let resultMsgLabel = UILabel()
-    private let datePicker = UIDatePicker()
-    
-    private let pointTableView = UITableView()
+    private let dateView = DatePickerView()
+//    private let resultMsgLabel = UILabel()
     
     private let pointTypeRelay = ReplayRelay<PointType>.create(bufferSize: 1)
     
@@ -141,38 +153,39 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     // MARK: set ui
     
     private func setUI() {
+        view.addSubview(pointTableView)
+        
         contentView.addSubview(pointInfoView)
-        contentView.addSubview(pointTableView)
-        contentView.addSubview(resultMsgLabel)
-        contentView.addSubview(datePicker)
+        contentView.addSubview(dateView)
 
-        pointInfoView.addSubview(pointContractionView)
-        pointInfoView.addSubview(historyContentView)
-        
-        pointContractionView.addSubview(myPointStackView)
-        pointContractionView.addSubview(impendPointStackView)
-        
+        pointInfoView.addSubview(myPointStackView)
+        pointInfoView.addSubview(impendPointStackView)
+        pointInfoView.addSubview(dateStackView)
+        pointInfoView.addSubview(historyButtonsView)
+
         myPointStackView.addArrangedSubview(myPointMarkLabel)
         myPointStackView.addArrangedSubview(myPointLabel)
         myPointStackView.addArrangedSubview(pointGuideButton)
-
+        
         impendPointStackView.addArrangedSubview(impendPointMarkLbael)
         impendPointStackView.addArrangedSubview(impendPointLabel)
-        pointInfoView.addSubview(historyButtonsView)
 
-        historyContentView.addSubview(startDateButton)
-        historyContentView.addSubview(endDateButton)
-        historyContentView.addSubview(dateDividerLabel)
+        dateStackView.addArrangedSubview(startDateButton)
+        dateStackView.addArrangedSubview(dateDividerLabel)
+        dateStackView.addArrangedSubview(endDateButton)
+
         
     }
     
     private func setConstraints() {
-        let historyButtonsViewVerticalMargin: CGFloat = 20
-        let historyButtonsViewBottomMargin: CGFloat = 16
+        let HorizontalMargin: CGFloat = 20
+        let myPointViewTopPadding: CGFloat = 20
+        let impendPointViewTopPadding: CGFloat = 20
+        let dateViewTopPadding: CGFloat = 20
+        let historyButtonsViewBottomPadding: CGFloat = 16
         
-        let pointContractionHeight: CGFloat = 88
-        let historyContentHeight: CGFloat = 52
-        let pointInfoHeight: CGFloat = pointContractionHeight + historyContentHeight
+        let pointInfoHeight: CGFloat = 172
+        let guideButtonSize: CGFloat = 16
         let historyButtonsViewHeight: CGFloat = 30
         
         pointInfoView.snp.makeConstraints {
@@ -180,24 +193,55 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(pointInfoHeight)
         }
-        
         pointTableView.snp.makeConstraints {
             $0.top.equalTo(pointInfoView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+        dateView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+
+        myPointStackView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(myPointViewTopPadding)
+            $0.centerX.equalToSuperview()
+        }
+        pointGuideButton.snp.makeConstraints {
+            $0.size.equalTo(guideButtonSize)
+        }
         
+        impendPointStackView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(myPointStackView.snp.bottom).offset(impendPointViewTopPadding)
+        }
+
+        dateStackView.snp.makeConstraints {
+            $0.top.equalTo(impendPointStackView.snp.bottom).offset(dateViewTopPadding)
+            $0.leading.equalToSuperview().inset(HorizontalMargin)
+            $0.trailing.equalToSuperview().inset(HorizontalMargin)
+        }
         historyButtonsView.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(historyButtonsViewBottomMargin)
-            $0.leading.equalToSuperview().inset(historyButtonsViewVerticalMargin)
-            $0.trailing.equalToSuperview().inset(historyButtonsViewVerticalMargin)
+            $0.bottom.equalToSuperview().inset(historyButtonsViewBottomPadding)
+            $0.leading.equalToSuperview().inset(HorizontalMargin)
+            $0.trailing.equalToSuperview().inset(HorizontalMargin)
             $0.height.equalTo(historyButtonsViewHeight)
         }
     }
     
     // MARK: Action
     
-    private func pointFontColor() {
+    private func pointFontColor(text: String, pointText: String) -> NSMutableAttributedString {
+        let font: UIFont = .systemFont(ofSize: 14)
+        let entireNSString = text as NSString
+        let attributeString = NSMutableAttributedString(
+            string: text,
+            attributes: [.font: font]
+        )
         
+        attributeString.addAttribute(
+            .foregroundColor,
+            value: UIColor.init(hex: "#7B7B7B"),
+            range: entireNSString.range(of: pointText))
+        return attributeString
     }
     
     private func showPointGuide() {
@@ -206,6 +250,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     }
     
     // MARK: Object
+    
     enum PointType {
         case all
         case use

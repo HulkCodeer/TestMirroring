@@ -26,18 +26,22 @@ internal final class PointCategoryButtonsView: UIView {
             radius: 8,
             borderColor: color.cgColor,
             orderWidth: 1)
+        $0.backgroundColor = color
+
         $0.setTitle("전체", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = color
+        $0.titleLabel?.font = .systemFont(ofSize: 14)
     }
     let useTypeButton = UIButton().then {
         let color = UIColor(hex: "#CECECE")
         
         $0.layer.borderColor = color.cgColor
         $0.layer.borderWidth = 1
+        $0.backgroundColor = Colors.backgroundPrimary.color
+
         $0.setTitle("사용", for: .normal)
         $0.setTitleColor(color, for: .normal)
-        $0.backgroundColor = Colors.backgroundPrimary.color
+        $0.titleLabel?.font = .systemFont(ofSize: 14)
     }
     let saveTypeButton = UIButton().then {
         let color = UIColor(hex: "#CECECE")
@@ -47,9 +51,11 @@ internal final class PointCategoryButtonsView: UIView {
             radius: 8,
             borderColor: color.cgColor,
             orderWidth: 1)
+        $0.backgroundColor = Colors.backgroundPrimary.color
+
         $0.setTitle("적립", for: .normal)
         $0.setTitleColor(color, for: .normal)
-        $0.backgroundColor = Colors.backgroundPrimary.color
+        $0.titleLabel?.font = .systemFont(ofSize: 14)
     }
     
     init() {

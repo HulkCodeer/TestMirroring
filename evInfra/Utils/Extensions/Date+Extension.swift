@@ -48,6 +48,18 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
+    func toMonth() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM"
+        
+        var month = dateFormatter.string(from: self)
+        if month.first == "0" {
+            month.removeFirst()
+        }
+        
+        return month
+    }
+    
     func toMonthDay() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM.dd"
