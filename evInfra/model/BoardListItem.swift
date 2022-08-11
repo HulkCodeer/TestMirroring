@@ -53,6 +53,16 @@ struct BoardListItem: Decodable {
         self.mb_profile = adInfo.ad_logo
         self.board_id = "ad"
     }
+    
+    init(_ adsInfo: AdsInfo) {
+        self.title = adsInfo.evtTitle
+        self.content = adsInfo.evtDesc
+        self.nick_name = adsInfo.clientName
+        self.document_srl = adsInfo.evtId
+        self.cover_filename = adsInfo.img
+        self.mb_profile = adsInfo.logo
+        self.board_id = "ad"
+    }
 }
 
 struct FilesItem: Decodable {
