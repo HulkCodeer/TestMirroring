@@ -69,6 +69,10 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         $0.IBimageColor = Colors.gr3.color
     }
     
+    private lazy var moveMyPointBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     private lazy var myBerryRefreshTotalView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.IBcornerRadius = 20/2
@@ -286,6 +290,14 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             $0.width.height.equalTo(20)
         }
         
+        loginUserBerryInfoTotalView.addSubview(moveMyPointBtn)
+        moveMyPointBtn.snp.makeConstraints {
+            $0.leading.equalTo(loginUserBerryInfoTotalView.snp.leading)
+            $0.trailing.equalTo(myBerryGuideArrow.snp.trailing)
+            $0.height.equalToSuperview()
+            $0.centerY.equalToSuperview()
+        }
+        
         loginUserBerryInfoTotalView.addSubview(myBerryRefreshTotalView)
         myBerryRefreshTotalView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
@@ -426,6 +438,14 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 GlobalDefine.shared.mainNavi?.push(viewController: loginVC)
             })
             .disposed(by: self.disposeBag)
+        
+        moveMyPointBtn.rx.tap
+            .asDriver()
+            .drive(onNext: {
+                let viewcon = UIStoryboard(name : "Charge", bundle: nil).instantiateViewController(ofType: PointViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            })
+            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -486,7 +506,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .disposed(by: self.disposeBag)
         
         myBerryRefreshBtn.rx.tap
-            .map { LeftViewReactor.Action.getMyBerryPoint }
+            .map { LeftViewReactor.Action.refreshBerryPoint }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
