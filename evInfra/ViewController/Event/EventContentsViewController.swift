@@ -23,7 +23,7 @@ internal final class EventContentsViewController: UIViewController {
     private var webView: WKWebView!
     private let disposebag = DisposeBag()
     
-    internal var eventId = 0
+    internal var eventId: String = ""
     internal var eventTitle: String = ""
     internal var externalEventParam: String?
     
@@ -193,8 +193,9 @@ extension EventContentsViewController: WKScriptMessageHandler {
         case "getBerry":
             MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
                 guard let self = self else { return }
+                let carmoreEventId: String = "16"
                 if isLogin {
-                    RestApi().postGetBerry(eventId: "\(self.eventId)")
+                    RestApi().postGetBerry(eventId: carmoreEventId)
                         .observe(on: MainScheduler.asyncInstance)
                         .convertData()
                         .compactMap { result -> String? in
