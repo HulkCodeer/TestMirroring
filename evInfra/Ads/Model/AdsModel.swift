@@ -27,15 +27,15 @@ internal struct AdsInfo {
     var evtId: String = ""
     var img: String = ""
     var logo: String = ""
-    var url: String = ""
-    var detail: [Any] = [Any]()
-    var extra: Any? = nil
+    var extUrl: String = ""
+    var evtDesc: String = ""
     var evtTitle: String = ""
-    var evtWeight: String = ""
+    var evtWeight: Int = 0
     var clientName: String = ""
     var evtType: String = ""
     var dpStart: String = ""
     var dpEnd: String = ""
+    var dpState: Int = 0
     
     init() {}
     
@@ -43,15 +43,15 @@ internal struct AdsInfo {
         self.evtId = json["evtId"].stringValue
         self.img = json["img"].stringValue
         self.logo = json["logo"].stringValue
-        self.url = json["url"].stringValue
-        self.detail = json["detail"].arrayValue
-        self.extra = json["extra"].object
+        self.extUrl = json["url"].stringValue
+        self.evtDesc = json["evtDesc"].stringValue
         self.evtTitle = json["evtTitle"].stringValue
-        self.evtWeight = json["evtWeight"].stringValue
+        self.evtWeight = json["evtWeight"].intValue
         self.clientName = json["clientName"].stringValue
         self.evtType = json["evtType"].stringValue
         self.dpStart = json["dpStart"].stringValue
         self.dpEnd = json["dpEnd"].stringValue
+        self.dpState = json["dpState"].intValue
     }
 }
 
