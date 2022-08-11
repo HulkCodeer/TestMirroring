@@ -43,14 +43,13 @@ struct BoardListItem: Decodable {
     var board_id: String?
     var files: [FilesItem]?
     
-    init(_ adInfo: Ad) {
-        self.title = adInfo.ad_url
-        self.content = adInfo.ad_description
-        self.nick_name = adInfo.client_name
-        self.mb_id = adInfo.client_id
-        self.document_srl = adInfo.ad_id
-        self.cover_filename = adInfo.ad_image
-        self.mb_profile = adInfo.ad_logo
+    init(_ adsInfo: AdsInfo) {
+        self.title = adsInfo.evtTitle
+        self.content = adsInfo.evtDesc
+        self.nick_name = adsInfo.clientName
+        self.document_srl = adsInfo.evtId
+        self.cover_filename = adsInfo.img
+        self.mb_profile = adsInfo.logo
         self.board_id = "ad"
     }
 }

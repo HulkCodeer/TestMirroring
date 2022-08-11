@@ -109,9 +109,7 @@ extension EventViewController {
     }
     
     func goToEventInfo(index: Int) {
-        RestApi().countEventAction(eventId: [String(list[index].eventId)], action: EIAdManager.EventAction.click.rawValue)
-            .disposed(by: self.disposebag)
-
+        EIAdManager.sharedInstance.logEvent(eventId: [String(list[index].eventId)], action: Promotion.Action.click)
         let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
         viewcon.eventId = list[index].eventId
         viewcon.eventTitle = list[index].title
@@ -126,9 +124,8 @@ extension EventViewController {
             }
         })
 
-        let displatedList = displayedList.map { String($0) }        
-        RestApi().countEventAction(eventId: displatedList, action: EIAdManager.EventAction.view.rawValue)
-            .disposed(by: self.disposebag)
+        let displatedList = displayedList.map { String($0) }
+        EIAdManager.sharedInstance.logEvent(eventId: displatedList, action: Promotion.Action.view)
         self.navigationController?.pop()
     }
 }
@@ -232,9 +229,8 @@ extension EventViewController {
                         if self.externalEventID == item.eventId {
                             guard let _externalEventParam = self.externalEventParam else {
                                 return
-                            }                            
-                            RestApi().countEventAction(eventId: [String(item.eventId)], action: EIAdManager.EventAction.click.rawValue)
-                                .disposed(by: self.disposebag)
+
+                            EIAdManager.sharedInstance.logEvent(eventId: [String(item.eventId)], action: Promotion.Action.click)
                             let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
                             viewcon.eventId = item.eventId
                             viewcon.eventTitle = item.title

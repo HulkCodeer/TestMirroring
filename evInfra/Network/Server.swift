@@ -1029,7 +1029,7 @@ class Server {
             .responseData { response in responseJson(response: response, completion: completion) }
     }
     
-    // MARK: - 프로모션/이벤트
+    // MARK: - AWS 프로모션(광고/이벤트) click/view event 전송
     static func countEventAction(eventId: [String], action: Promotion.Action, page: Promotion.Page, layer: Promotion.Layer) {
         guard !eventId.isEmpty else { return }
         
@@ -1042,8 +1042,6 @@ class Server {
             "layer": layer.rawValue
         ]
         _ = AF.request("\(Const.AWS_SERVER)/promotion/log", method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-//        AF.request(Const.EV_PAY_SERVER + "/event/Event/add_count",
-//                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
     }
     
     // 쿠폰 - 리스트 가져오기
@@ -1099,23 +1097,16 @@ class Server {
             .validate().responseData { response in responseJson(response: response, completion: completion) }
     }
     
-    // 광고 click event 전송
-    static func countAdAction(adId: String, action: Int) {
-//        let reqParam: Parameters = [
-//            "member_id": MemberManager.shared.memberId,
-//            "mb_id": MemberManager.shared.mbId,
-//            "ad_id": adId,
-//            "action": action
-//        ]
-//        AF.request(Const.EV_PAY_SERVER + "/ad/ad_analysis/add_count",
-//                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+    // MARK: - 기존 서버 프로모션(광고/이벤트) click/view event 전송
+    static func countAdAction(eventId: [String], action: Int) {
         let reqParam: Parameters = [
-            "mb_Id": "\(MemberManager.shared.mbId)",
-            "action": "\(action)",
-            "ad_id": "\(adId)",
-            "member_id": MemberManager.shared.memberId
+            "member_id": MemberManager.shared.memberId,
+            "mb_id": MemberManager.shared.mbId,
+            "event_ids": eventId,
+            "action": action
         ]
-        AF.request("\(Const.AWS_SERVER)/event/log", method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        AF.request(Const.EV_PAY_SERVER + "/event/Event/add_count",
+                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
     }
 
     static func getUpdateGuide(guide_version: Int, app_version: String, completion: @escaping (Bool, Any) -> Void) {

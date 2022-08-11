@@ -118,5 +118,14 @@ internal final class EIAdManager {
                     completion(adList)
                 })
                 .disposed(by: self.disposebag)
+
+    // MARK: - 광고(배너, 이벤트) 뷰,클릭 로깅
+    /**
+    Description: 이벤트 데이터 AWS 마이그레이션 완료 시, 삭제 예정
+    */
+    internal func logEvent(eventId: [String], action: Promotion.Action) {
+        DispatchQueue.global(qos: .background).async {
+            Server.countAdAction(eventId: eventId, action: action.rawValue)
+        }
     }
 }
