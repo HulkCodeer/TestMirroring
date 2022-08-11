@@ -18,24 +18,24 @@ class EIAdDialog: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        getAdInfo()
+//        getAdInfo()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        getAdInfo()
+//        getAdInfo()
     }
     
-    private func getAdInfo() {
-        EIAdManager.sharedInstance.getPageAd() { (info) in
-            self.adInfo = info
-            if self.adInfo.ad_id != nil {
-                self.commonInit()
-            } else {
-                self.removeFromSuperview()
-            }
-        }
-    }
+//    private func getAdInfo() {
+//        EIAdManager.sharedInstance.getPageAd() { (info) in
+//            self.adInfo = info
+//            if self.adInfo.ad_id != nil {
+//                self.commonInit()
+//            } else {
+//                self.removeFromSuperview()
+//            }
+//        }
+//    }
     
     private func commonInit() {
         guard let imgUrl = self.adInfo.ad_image else {
@@ -58,7 +58,7 @@ class EIAdDialog: UIView {
                 UIApplication.shared.open(url, options: [:])
                 
                 // 광고 click event 전송
-                EIAdManager.sharedInstance.increase(adId: self.adInfo.ad_id!, action: EIAdManager.EventAction.click.rawValue)
+                EIAdManager.sharedInstance.logEvent(adIds: [self.adInfo.ad_id ?? ""], action: Promotion.Action.click, page: Promotion.Page.event, layer: Promotion.Layer.popup)
             }
         } else {
             self.removeFromSuperview()
