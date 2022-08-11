@@ -50,7 +50,7 @@ class CommunityBoardAdsCell: UITableViewCell {
     }
     
     @objc private func openURL() {
-        EIAdManager.sharedInstance.logEvent(adIds: [adId ?? ""], action: EIAdManager.EventAction.click.rawValue)
+        EIAdManager.sharedInstance.logEvent(adIds: [adId ?? ""], action: Promotion.Action.click, page: Promotion.Page.event, layer: Promotion.Layer.list)
         guard let adUrl = adUrl else {
             return
         }

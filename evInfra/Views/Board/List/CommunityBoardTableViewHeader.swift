@@ -62,7 +62,7 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
     }
     
     internal func fetchAds(categoryType: String) {
-        var promotionPageType: EIAdManager.Page = .free
+        var promotionPageType: Promotion.Page = .free
         switch categoryType {
         case Board.CommunityType.CHARGER.rawValue:
             promotionPageType = .charging
@@ -74,7 +74,7 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
             promotionPageType = .free
         }
         
-        adManager.getTopBannerInBoardList(page: promotionPageType.rawValue, layer: EIAdManager.Layer.top.rawValue) { topBanners in
+        adManager.getAdsList(page: promotionPageType, layer: Promotion.Layer.top) { topBanners in
             self.topBanners = topBanners
             
             DispatchQueue.main.async {
@@ -184,7 +184,7 @@ extension CommunityBoardTableViewHeader: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BannerCollectionViewCell", for: indexPath) as? BannerCollectionViewCell else { return UICollectionViewCell.init() }
-        cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.EI_IMG_SERVER)\(String(describing: topBanners[indexPath.row].img))"))
+        cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(String(describing: topBanners[indexPath.row].img))"))
         return cell
     }
     
@@ -195,9 +195,9 @@ extension CommunityBoardTableViewHeader: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let banner = topBanners[indexPath.row]
         // 배너 클릭 로깅
-        adManager.logEvent(adIds: [banner.evtId], action: EIAdManager.EventAction.click.rawValue)
+        adManager.logEvent(adIds: [banner.evtId], action: Promotion.Action.click, page: Promotion.Page.free, layer: Promotion.Layer.top)
         // open url
-        let adUrl = banner.url
+        let adUrl = banner.extUrl
         guard let url = URL(string: adUrl), UIApplication.shared.canOpenURL(url) else { return }
         UIApplication.shared.open(url)
     }

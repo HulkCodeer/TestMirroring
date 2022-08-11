@@ -11,7 +11,7 @@ import SwiftyJSON
 
 internal final class GlobalAdsReactor: ViewModel, Reactor {
     enum Action {
-        case loadStartBanner(EIAdManager.Page, EIAdManager.Layer)
+        case loadStartBanner(Promotion.Page, Promotion.Layer)
         case addEventClickCount(String)
         case addEventViewCount(String)
     }
@@ -46,12 +46,12 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
                 .compactMap(convertToModel)
                 .compactMap { .setAds($0) }
         case .addEventClickCount(let eventId):
-            _ = self.provider.logAds(adId: [eventId], action: EIAdManager.EventAction.click.rawValue)
+            _ = self.provider.logAds(adId: [eventId], action: Promotion.Action.click.rawValue)
                 .convertData()
                 .compactMap(convertToDataModel)
             return .empty()
         case .addEventViewCount(let eventId):
-            _ = self.provider.logAds(adId: [eventId], action: EIAdManager.EventAction.view.rawValue)
+            _ = self.provider.logAds(adId: [eventId], action: Promotion.Action.view.rawValue)
                 .convertData()
                 .compactMap(convertToDataModel)
             return .empty()

@@ -20,14 +20,27 @@ internal final class BoardListViewModel {
     
     private var indexOfAd: Int = 0
     private var adList: [BoardListItem] = [BoardListItem]()
+    private var adsList: [AdsInfo] = [AdsInfo]()
     
     internal init() {}
     
     func fetchFirstBoard(mid: String, sort: Board.SortType, currentPage: Int, mode: String) {
+        var adType: Promotion.Page = .free
+        switch mid {
+        case Board.CommunityType.CHARGER.rawValue:
+            adType = .charging
+        case Board.CommunityType.CORP_GS.rawValue:
+            adType = .gsc
+        case Board.CommunityType.CORP_STC.rawValue:
+            adType = .est
+        default:
+            adType = .free
+        }
+        
         let fetchAdListGroup = DispatchGroup()
         fetchAdListGroup.enter()
-        EIAdManager.sharedInstance.getBoardAdsToBoardListItem { adList in
-            self.adList = adList
+        EIAdManager.sharedInstance.getAdsList(page: adType, layer: Promotion.Layer.list) { adsList in
+            self.adList = adsList.map { BoardListItem($0) }
             fetchAdListGroup.leave()
         }
         
@@ -75,10 +88,22 @@ internal final class BoardListViewModel {
     }
     
     func fetchNextBoard(mid: String, sort: Board.SortType, currentPage: Int, mode: String) {
+        var adType: Promotion.Page = .free
+        switch mid {
+        case Board.CommunityType.CHARGER.rawValue:
+            adType = .charging
+        case Board.CommunityType.CORP_GS.rawValue:
+            adType = .gsc
+        case Board.CommunityType.CORP_STC.rawValue:
+            adType = .est
+        default:
+            adType = .free
+        }
+        
         let fetchAdListGroup = DispatchGroup()
         fetchAdListGroup.enter()
-        EIAdManager.sharedInstance.getBoardAdsToBoardListItem { adList in
-            self.adList = adList
+        EIAdManager.sharedInstance.getAdsList(page: adType, layer: Promotion.Layer.list) { adsList in
+            self.adList = adsList.map { BoardListItem($0) }
             fetchAdListGroup.leave()
         }
         

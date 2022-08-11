@@ -163,7 +163,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                let eventUrl = self.reactor?.currentState.startBanner?.url ?? ""
+                let eventUrl = self.reactor?.currentState.startBanner?.extUrl ?? ""
                 let newEventDetailViewController = NewEventDetailViewController()
                 newEventDetailViewController.eventUrl = eventUrl
                 GlobalDefine.shared.mainNavi?.push(viewController: newEventDetailViewController)
@@ -174,13 +174,13 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
     
     internal func bind(reactor: GlobalAdsReactor) {
         // TODO: - Make Global Ads Reactor
-        Observable.just(GlobalAdsReactor.Action.loadStartBanner(EIAdManager.Page.start, EIAdManager.Layer.popup))
+        Observable.just(GlobalAdsReactor.Action.loadStartBanner(Promotion.Page.start, Promotion.Layer.popup))
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         reactor.state.compactMap { $0.startBanner }
             .subscribe(on: MainScheduler.instance)
-            .compactMap { URL(string: "\(Const.EI_IMG_SERVER)\(String(describing: $0.img))") }
+            .compactMap { URL(string: "\(Const.AWS_SERVER)/image/\(String(describing: $0.img))") }
             .subscribe(onNext: {
                 self.eventImageView.sd_setImage(with: $0 )
             })

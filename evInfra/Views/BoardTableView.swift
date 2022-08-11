@@ -73,7 +73,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let isAd = communityBoardList[indexPath.row].board_id?.contains("ad") ?? false
         if isAd {
-            EIAdManager.sharedInstance.logEvent(adIds: [communityBoardList[indexPath.row].document_srl ?? ""], action: EIAdManager.EventAction.view.rawValue)
+            EIAdManager.sharedInstance.logEvent(adIds: [communityBoardList[indexPath.row].document_srl ?? ""], action: Promotion.Action.view, page: Promotion.Page.free, layer: Promotion.Layer.list)
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
