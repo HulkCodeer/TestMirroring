@@ -61,16 +61,27 @@ internal final class EIAdManager {
     // MARK: - 광고(배너) 뷰,클릭 로깅
     internal func logEvent(adIds: [String], action: Promotion.Action, page: Promotion.Page, layer: Promotion.Layer?) {
         guard !adIds.isEmpty else { return }
-        Server.countEventAction(eventId: adIds, action: action, page: page, layer: layer ?? .none)
+        DispatchQueue.global(qos: .background).async {
+            Server.countEventAction(eventId: adIds, action: action, page: page, layer: layer ?? .none)
+        }
     }
     
     // MARK: - 광고(배너)/이벤트 조회
     internal func getAdsList(page: Promotion.Page, layer: Promotion.Layer, completion: @escaping ([AdsInfo]) -> Void) {
-        Server.getAdsList(page: page, layer: layer) { isSuccess, value in
-            guard let data = value else { return }
-            guard isSuccess else {
-                completion([])
-                return
+        DispatchQueue.global(qos: .background).async {
+            Server.getAdsList(page: page, layer: layer) { isSuccess, value in
+                guard let data = value else { return }
+                guard isSuccess else {
+                    completion([])
+                    return
+                }
+                
+                let json = JSON(data)
+                let adList = AdsListDataModel(json).data
+                printLog(out: ":: PKH TEST ::")
+                printLog(out: "광고갯수: \(adList.count)")
+                printLog(out: "광고: \(adList)")
+                completion(adList)
             }
             
             let adList = JSON(data).arrayValue.map { Ad($0) }
