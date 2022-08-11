@@ -29,6 +29,25 @@ internal final class NetworkWorker {
                                    encoding: JSONEncoding.default,
                                    headers: headers).responseData()
     }
+    
+    func rxRequest(url: String, httpMethod: Alamofire.HTTPMethod, parameters: [String: Any]?, headers: HTTPHeaders?) -> Disposable {
+        
+        #if DEBUG
+            let debugDesc = """
+            <URL: \(httpMethod.rawValue)> \(url)
+            parameter: \(parameters ?? [:])
+            """
+            printLog(out: debugDesc)
+        #endif
+        
+        
+        _ = RxAlamofire.request(httpMethod, url,
+                                   parameters: parameters,
+                                   encoding: JSONEncoding.default,
+                                   headers: headers)
+        
+        return Disposables.create {}
+    }
 }
 
 extension Observable where Element == (HTTPURLResponse, Data){
@@ -100,7 +119,7 @@ struct ApiError {
     init(_ json: JSON) {
         self.errorMessage = json["errorMessage"].stringValue
         self.message = json["message"].stringValue
-        self.body = ApiErrorBody(json["body"])
+        self.body = ApiErrorBody(json)
     }
 }
 

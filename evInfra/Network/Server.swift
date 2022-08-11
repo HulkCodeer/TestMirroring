@@ -1028,22 +1028,7 @@ class Server {
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .responseData { response in responseJson(response: response, completion: completion) }
     }
-    
-    // 이벤트 click event 전송
-    static func countEventAction(eventId: [String], action: Int) {
-        guard !eventId.isEmpty else { return }
-        
-        let reqParam: Parameters = [
-            "member_id": MemberManager.shared.memberId,
-            "mb_id": MemberManager.shared.mbId,
-            "event_ids": eventId,
-            "action": action
-        ]
-        _ = AF.request("\(Const.AWS_SERVER)/promotion/log", method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-//        AF.request(Const.EV_PAY_SERVER + "/event/Event/add_count",
-//                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-    }
-    
+            
     // 쿠폰 - 리스트 가져오기
     static func getCouponList(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [

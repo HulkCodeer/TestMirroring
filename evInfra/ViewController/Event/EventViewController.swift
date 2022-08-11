@@ -9,6 +9,7 @@
 import UIKit
 import Material
 import SwiftyJSON
+import RxSwift
 
 internal final class EventViewController: UIViewController {
 
@@ -31,6 +32,8 @@ internal final class EventViewController: UIViewController {
     
     private let ACTION_VIEW = 0
     private let ACTION_CLICK = 1
+    
+    private let disposebag = DisposeBag()
     
     // MARK: SYSTEM FUNC
     
@@ -106,7 +109,8 @@ extension EventViewController {
     }
     
     func goToEventInfo(index: Int) {
-        Server.countEventAction(eventId: [String(list[index].eventId)], action: EIAdManager.EventAction.click.rawValue)
+        RestApi().countEventAction(eventId: [String(list[index].eventId)], action: EIAdManager.EventAction.click.rawValue)
+            .disposed(by: self.disposebag)
         let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
         viewcon.eventId = list[index].eventId
         viewcon.eventTitle = list[index].title
@@ -120,8 +124,9 @@ extension EventViewController {
                 displayedList.insert(list[IndexPath.row].eventId)
             }
         })
-        let displatedList = displayedList.map { String($0) }
-        Server.countEventAction(eventId: displatedList, action: EIAdManager.EventAction.view.rawValue)
+        let displatedList = displayedList.map { String($0) }        
+        RestApi().countEventAction(eventId: displatedList, action: EIAdManager.EventAction.view.rawValue)
+            .disposed(by: self.disposebag)
         self.navigationController?.pop()
     }
 }
@@ -225,8 +230,9 @@ extension EventViewController {
                         if self.externalEventID == item.eventId {
                             guard let _externalEventParam = self.externalEventParam else {
                                 return
-                            }
-                            Server.countEventAction(eventId: [String(item.eventId)], action: EIAdManager.EventAction.click.rawValue)
+                            }                            
+                            RestApi().countEventAction(eventId: [String(item.eventId)], action: EIAdManager.EventAction.click.rawValue)
+                                .disposed(by: self.disposebag)
                             let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
                             viewcon.eventId = item.eventId
                             viewcon.eventTitle = item.title

@@ -57,8 +57,9 @@ internal final class EIAdManager {
     }
     
     internal func logEvent(adIds: [String], action: Int) {
-        guard !adIds.isEmpty else { return }
-        Server.countEventAction(eventId: adIds, action: action)
+        guard !adIds.isEmpty else { return }        
+        RestApi().countEventAction(eventId: adIds, action: action)
+            .disposed(by: self.disposebag)
     }
     
     // 전면 광고 정보
