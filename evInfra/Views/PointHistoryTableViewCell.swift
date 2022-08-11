@@ -199,14 +199,12 @@ internal final class PointHistoryTableViewCell: UITableViewCell {
     
     // yyyy.MM.dd HH:mm
     private func sliceDate(date dateStr: String?) -> (year: String?, date: String?, time: String?) {
-        guard let date = dateStr?.toDate(dateFormat: "yyyy.MM.dd HH:mm")
+        guard let date = dateStr?.toDate(dateFormat: Constant.date.longDateShortTime)
         else { return (nil, nil, nil) }
-        
-        print("!!! sliceDate, format 'yyyy.MM.dd HH:mm' date", date)
-        
-        let year = date.toYear()
-        let monDay = date.toMonthDay()
-        let time = date.toTime()
+                
+        let year = date.toString(dateFormat: Constant.date.year)
+        let monDay = date.toString(dateFormat: Constant.date.monthDayDot)
+        let time = date.toString(dateFormat: Constant.date.time)
         
         return (year, monDay, time)
     }

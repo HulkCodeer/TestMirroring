@@ -16,6 +16,14 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
+    /// Constant.date.~~
+    func toString(dateFormat: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = dateFormat
+        return dateFormatter.string(from: self)
+    }
+    
+    
     func toYearMonthDayMillis() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMddHHmmss"
@@ -41,37 +49,7 @@ extension Date {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         return dateFormatter.string(from: self)
     }
-    
-    func toYear() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy"
-        return dateFormatter.string(from: self)
-    }
-    
-    func toMonth() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM"
         
-        var month = dateFormatter.string(from: self)
-        if month.first == "0" {
-            month.removeFirst()
-        }
-        
-        return month
-    }
-    
-    func toMonthDay() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM.dd"
-        return dateFormatter.string(from: self)
-    }
-    
-    func toTime() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        return dateFormatter.string(from: self)
-    }
-    
     func toDate(data: String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_KR")

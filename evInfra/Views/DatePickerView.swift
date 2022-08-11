@@ -33,7 +33,7 @@ internal class DatePickerView: UIStackView {
     private let formatter = DateFormatter().then {
         let locale = Locale(identifier: "ko_KO")
         
-        $0.dateFormat = "yyyy년 MM월 dd일"
+        $0.dateFormat = Constant.date.yearMonthDayHangul
         $0.dateStyle = .long
         $0.timeStyle = .none
         $0.locale = locale
