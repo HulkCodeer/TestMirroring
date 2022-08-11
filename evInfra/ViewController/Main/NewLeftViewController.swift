@@ -212,14 +212,15 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     override func loadView() {
         super.loadView()
-        
-        self.contentView.addSubview(userInfoTotalView)
-        userInfoTotalView.snp.makeConstraints {
-            $0.leading.top.trailing.equalToSuperview()
+                
+        self.view.addSubview(userInfoTotalView)
+        userInfoTotalView.snp.makeConstraints {            
+            $0.top.equalToSuperview().offset(UIScreen.main.bounds.height > 667 ? 45 : 18)
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(ViewHeightConst.loginViewHeight)
         }
         
-        self.contentView.addSubview(menuListTotalView)
+        self.view.addSubview(menuListTotalView)
         menuListTotalView.snp.makeConstraints {
             $0.top.equalTo(userInfoTotalView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
