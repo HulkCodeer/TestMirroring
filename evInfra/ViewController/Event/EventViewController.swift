@@ -21,15 +21,17 @@ internal final class EventViewController: UIViewController {
     
     // MARK: VARIABLE
     
-    var list: [AdsInfo] = [AdsInfo]()
-    var displayedList: Set = Set<String>()
-    internal var externalEventID: String?
+    var list = Array<Event>()
+    var displayedList : Set = Set<Int>()
+    internal var externalEventID: Int?
     internal var externalEventParam: String?
     
-    enum EventStatus: Int {
-        case end = 0
-        case inprogress = 1
-    }
+    private let EVENT_IN_PROGRESS = 0
+    private let EVENT_SOLD_OUT = 1
+    private let EVENT_END = 2
+    
+    private let ACTION_VIEW = 0
+    private let ACTION_CLICK = 1
     
     private let disposebag = DisposeBag()
     
@@ -45,7 +47,7 @@ internal final class EventViewController: UIViewController {
         prepareActionBar()
         prepareTableView()
         
-        getEvents()
+        getEventList()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,7 +101,7 @@ extension EventViewController {
             self.tableView.isHidden = false
             self.tableView.reloadData()
 
-            UserDefault().saveString(key: UserDefault.Key.LAST_EVENT_ID, value: list[0].evtId)
+            UserDefault().saveInt(key: UserDefault.Key.LAST_EVENT_ID, value: list[0].eventId)
         } else {
             self.emptyView.isHidden = false
             self.tableView.isHidden = true
@@ -111,19 +113,19 @@ extension EventViewController {
             .disposed(by: self.disposebag)
 
         let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
-        viewcon.eventId = list[index].evtId
-        viewcon.eventTitle = list[index].evtTitle
+        viewcon.eventId = list[index].eventId
+        viewcon.eventTitle = list[index].title
         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     @objc
     fileprivate func onClickBackBtn() {
         tableView.indexPathsForVisibleRows?.forEach({ IndexPath in
-            if list[IndexPath.row].dpState == EventStatus.inprogress.rawValue {
-                displayedList.insert(list[IndexPath.row].evtId)
+            if list[IndexPath.row].state == EVENT_IN_PROGRESS {
+                displayedList.insert(list[IndexPath.row].eventId)
             }
         })
-        
+
         let displatedList = displayedList.map { String($0) }        
         RestApi().countEventAction(eventId: displatedList, action: EIAdManager.EventAction.view.rawValue)
             .disposed(by: self.disposebag)
@@ -145,28 +147,32 @@ extension EventViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EventTableViewCell", for: indexPath) as? EventTableViewCell else { return UITableViewCell() }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EventTableViewCell", for: indexPath) as! EventTableViewCell
         let item = self.list[indexPath.row]
-        let imageUrl: String = "\(Const.AWS_SERVER)/image/\(item.img)"
-        if !imageUrl.isEmpty {
-            cell.eventImageView.sd_setImage(with: URL(string: imageUrl), placeholderImage: UIImage(named: "AppIcon"))
+        let imgurl: String = "\(Const.EV_PAY_SERVER)/assets/images/event/events/adapters/\(item.imagePath)"
+        if !imgurl.isEmpty {
+            cell.eventImageView.sd_setImage(with: URL(string: imgurl), placeholderImage: UIImage(named: "AppIcon"))
         } else {
             cell.eventImageView.image = UIImage(named: "AppIcon")
             cell.eventImageView.contentMode = .scaleAspectFit
         }
         
-        cell.eventCommentLabel.text = item.evtDesc
-        cell.eventEndDateLabel.text = "행사종료 : \(item.dpEnd)"
-        
-        if item.dpState == EventStatus.end.rawValue {
+        cell.eventCommentLabel.text = item.description
+        cell.eventEndDateLabel.text = "행사종료 : \(item.endDate)"
+
+        if item.state > EVENT_IN_PROGRESS {
+            if item.state == EVENT_SOLD_OUT {
+                cell.eventStatusImageView.image = UIImage(named: "ic_event_soldout")
+            } else {
+                cell.eventStatusImageView.image = UIImage(named: "ic_event_end")
+            }
             cell.isUserInteractionEnabled = false
             cell.eventStatusView.isHidden = false
             cell.eventStatusImageView.isHidden = false
-            cell.eventStatusImageView.image = UIImage(named: "ic_event_end")
         } else {
             let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            if let finishDate = formatter.date(from: item.dpEnd) {
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            if let finishDate = formatter.date(from: item.endDate) {
                 let currentDate = Date()
                 if finishDate > currentDate {
                     cell.isUserInteractionEnabled = true
@@ -190,8 +196,8 @@ extension EventViewController: UITableViewDataSource {
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         tableView.indexPathsForVisibleRows?.forEach({ IndexPath in
-            if list[IndexPath.row].dpState == EventStatus.inprogress.rawValue {
-                displayedList.insert(list[IndexPath.row].evtId)
+            if list[IndexPath.row].state == EVENT_IN_PROGRESS {
+                displayedList.insert(list[IndexPath.row].eventId)
             }
         })
     }
@@ -199,47 +205,6 @@ extension EventViewController: UITableViewDataSource {
 
 extension EventViewController {
     
-    private func getEvents() {
-        indicatorControll(isStart: true)
-        
-        EIAdManager.sharedInstance.getAdsList(page: Promotion.Page.event, layer: Promotion.Layer.list) { adsList in
-            defer {
-                self.updateTableView()
-                self.indicatorControll(isStart: false)
-            }
-            
-            adsList.forEach {
-                var _ad: AdsInfo = $0
-                
-                if self.externalEventID == _ad.evtId {
-                    guard let _externalEventParam = self.externalEventParam else {
-                        return
-                    }
-                    EIAdManager.sharedInstance.logEvent(adIds: [_ad.evtId], action: Promotion.Action.click, page: Promotion.Page.event, layer: nil)
-                    
-                    let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
-                    viewcon.eventId = _ad.evtId
-                    viewcon.eventTitle = _ad.evtTitle
-                    viewcon.externalEventParam = _externalEventParam
-                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                }
-                
-                if _ad.dpState == 0 {
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "yyyy-MM-dd"
-                    if let finishDate = formatter.date(from: _ad.dpEnd) {
-                        let currentDate = Date()
-                        if finishDate <= currentDate {
-                            _ad.dpState = EventStatus.end.rawValue
-                        }
-                    }
-                }
-                self.list.append(_ad)
-            }
-            self.list = self.list.sorted(by: {$0.dpState < $1.dpState})
-        }
-    }
-    /*
     func getEventList() {
         indicatorControll(isStart: true)
         
@@ -301,5 +266,4 @@ extension EventViewController {
             }
         }
     }
-     */
 }
