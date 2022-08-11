@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+import RxSwift
 
 internal final class EIAdManager {
     
@@ -40,6 +41,8 @@ internal final class EIAdManager {
     }
     
     static let sharedInstance = EIAdManager()
+    
+    private let disposebag = DisposeBag()
     
     private init() {}
     
@@ -101,19 +104,27 @@ internal final class EIAdManager {
     
     // MARK: - 커뮤니티 상단 광고
     internal func getTopBannerInBoardList(page: Int, layer: Int, completion: @escaping ([AdsInfo]) -> Void) {
-        Server.getAdsList(page: EIAdManager.Page.start.rawValue, layer: EIAdManager.Layer.top.rawValue) { isSuccess, value in
-            guard let data = value else { return }
-            guard isSuccess else {
-                completion([])
-                return
-            }
-            
-            let json = JSON(data)
-            let adList = AdsListDataModel(json).data
-            printLog(out: ":: PKH TEST ::")
-            printLog(out: "광고갯수: \(adList.count)")
-            printLog(out: "광고: \(adList)")
-            completion(adList)
-        }
+        RestApi().getAdsList(page: EIAdManager.Page.start.rawValue, layer: EIAdManager.Layer.top.rawValue)
+                .convertData()
+                .compactMap { result -> [AdsInfo]? in
+                    switch result {
+                    case .success(let data):
+                        let json = JSON(data)
+                        let adList = json["data"].arrayValue.map { AdsInfo($0) }
+                        printLog(out: ":: PKH TEST ::")
+                        printLog(out: "광고갯수: \(adList.count)")
+                        printLog(out: "광고: \(adList)")
+                        return adList
+                        
+                    case .failure(let errorMessage):
+                        printLog(out: "Error Message : \(errorMessage)")
+                        Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                        return []
+                    }
+                }
+                .subscribe(onNext: { adList in
+                    completion(adList)
+                })
+                .disposed(by: self.disposebag)
     }
 }

@@ -133,7 +133,7 @@ internal final class RestApi: SoftberryAPI {
     
     // MARK: - 광고/이벤트 조회
     func getAds(page: Int, layer: Int) -> Observable<(HTTPURLResponse, Data)> {
-        return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/promotion?memberId=\(Int(MemberManager.shared.memberId) ?? 0)&page=\(page)&layer=\(layer)", httpMethod: .get, parameters: nil, headers: nil)
+        return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/promotion?memberId=48&page=81&layer=10", httpMethod: .get, parameters: nil, headers: nil)
     }
     
     // MARK: - 광고/이벤트 로깅
@@ -145,5 +145,10 @@ internal final class RestApi: SoftberryAPI {
             "member_id": MemberManager.shared.memberId
         ]
         return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/promotion/log", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - AWS 광고 리스트 조회
+    func getAdsList(page: Int, layer: Int) -> Observable<(HTTPURLResponse, Data)> {
+        return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/promotion?memberId=\(Int(MemberManager.shared.memberId) ?? 0)&page=\(page)&layer=\(layer)", httpMethod: .get, parameters: nil, headers: nil)
     }
 }
