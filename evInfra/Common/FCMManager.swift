@@ -162,7 +162,7 @@ internal final class FCMManager {
                     
                 case FCMManager.TARGET_EVENT: // 이벤트
                     if let eventId = notification[AnyHashable("event_id")] as? String {
-                        getEventDetailData(eventId: eventId)
+                        getEventDetailData(eventId: Int(eventId)!)
                     } else {
                         getEventData()
                     }
@@ -317,7 +317,7 @@ internal final class FCMManager {
         }
     }
     
-    func getEventDetailData(eventId: String) {
+    func getEventDetailData(eventId: Int) {
         guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
         let eventVC = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
         if _visibleViewcon.isKind(of: EventContentsViewController.self) {

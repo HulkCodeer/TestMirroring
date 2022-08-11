@@ -142,7 +142,7 @@ internal final class DeepLinkPath {
         guard let paramItems = linkParameter, let eventID = paramItems.first(where: { $0.name == "event_id"})?.value else { return }
         let viewcon = UIStoryboard(name : "Event", bundle: nil).instantiateViewController(ofType: EventViewController.self)
         viewcon.externalEventParam = paramItems.first(where: { $0.name == "param" })?.value?.description
-        viewcon.externalEventID = eventID
+        viewcon.externalEventID = Int(eventID)
         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
 }
