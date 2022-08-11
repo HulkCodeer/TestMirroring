@@ -37,7 +37,7 @@ internal enum Const {
     public static let EV_COMMUNITY_SERVER = "https://comm.ev-infra.com/community/v2/EiCommunity"
     public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra"
     public static let SK_BATTERY_SERVER = "https://mbaas.sk-on.com/ev-infra/web"
-    public static let AWS_SERVER = "https://app.ev-infra.com/v1/stg"
+    public static let AWS_SERVER = "https://app.ev-infra.com/v1"
     #endif
 
     // File Server
