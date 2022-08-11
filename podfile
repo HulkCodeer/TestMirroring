@@ -15,6 +15,7 @@ def shared_pods
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'  
   pod 'ReusableKit', :git => 'https://github.com/devxoul/ReusableKit', :branch => 'master'
+  pod 'RxDataSources', '~> 5.0'
   pod 'Material', '~> 2.0'
   pod 'MaterialComponents/Snackbar';
   pod 'MaterialComponents/BottomSheet'
@@ -42,6 +43,7 @@ def shared_pods
   pod 'TTGTagCollectionView'
   pod 'PanModal'
   pod 'NMapsMap'
+  pod 'RxViewController' # https://github.com/devxoul/RxViewController
 end
 
 target 'evInfra' do
