@@ -27,7 +27,7 @@ class CardBoardViewController: BaseViewController {
     var communityBoardList: [BoardListItem] = [BoardListItem]()
     var sortType: Board.SortType = .LATEST
     var mode: Board.ScreenType = .LIST
-    var boardListViewModel = BoardListViewModel()
+    var boardListViewModel: BoardListViewModel?
     let boardWriteButton = BoardWriteButton()
     
     override func loadView() {
@@ -44,6 +44,7 @@ class CardBoardViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "게시판 리스트 화면"
+        boardListViewModel = BoardListViewModel(category)
         prepareActionBar()
         fetchFirstBoard(mid: category, sort: sortType, mode: mode.rawValue)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
@@ -158,8 +159,8 @@ extension CardBoardViewController: BoardTableViewDelegate {
         if lastPage == false {
             self.currentPage = self.currentPage + 1
             
-            boardListViewModel.fetchNextBoard(mid: mid, sort: sort, currentPage: self.currentPage, mode: mode)
-            boardListViewModel.listener = { [weak self] boardResponseData in
+            boardListViewModel?.fetchNextBoard(mid: mid, sort: sort, currentPage: self.currentPage, mode: mode)
+            boardListViewModel?.listener = { [weak self] boardResponseData in
                 guard let self = self,
                       let boardResponseData = boardResponseData,
                         let communityBoardList = boardResponseData.list else { return }
@@ -181,8 +182,8 @@ extension CardBoardViewController: BoardTableViewDelegate {
         self.lastPage = false
         self.sortType = sort
         activityIndicator.startAnimating()
-        boardListViewModel.fetchFirstBoard(mid: category, sort: sortType, currentPage: currentPage, mode: mode)
-        boardListViewModel.listener = { [weak self] boardResponseData in
+        boardListViewModel?.fetchFirstBoard(mid: category, sort: sortType, currentPage: currentPage, mode: mode)
+        boardListViewModel?.listener = { [weak self] boardResponseData in
             guard let self = self,
                   let boardResponseData = boardResponseData,
                     let communityBoardList = boardResponseData.list else { return }

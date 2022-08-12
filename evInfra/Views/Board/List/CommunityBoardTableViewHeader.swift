@@ -70,6 +70,10 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
             promotionPageType = .gsc
         case Board.CommunityType.CORP_STC.rawValue:
             promotionPageType = .est
+        case Board.CommunityType.CORP_SBC.rawValue:
+            promotionPageType = .evinra
+        case Board.CommunityType.CORP_JEV.rawValue:
+            promotionPageType = .jeju
         default:
             promotionPageType = .free
         }
@@ -184,7 +188,12 @@ extension CommunityBoardTableViewHeader: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BannerCollectionViewCell", for: indexPath) as? BannerCollectionViewCell else { return UICollectionViewCell.init() }
+        let banner = topBanners[indexPath.row]
+        
         cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(String(describing: topBanners[indexPath.row].img))"))
+        cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(String(describing: topBanners[indexPath.row].img))")) { (_, _, _, _) in
+            self.adManager.logEvent(adIds: [banner.evtId], action: .view, page: .free, layer: .top)
+        }
         return cell
     }
     
@@ -195,7 +204,7 @@ extension CommunityBoardTableViewHeader: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let banner = topBanners[indexPath.row]
         // 배너 클릭 로깅
-        adManager.logEvent(adIds: [banner.evtId], action: Promotion.Action.click, page: Promotion.Page.free, layer: Promotion.Layer.top)
+        adManager.logEvent(adIds: [banner.evtId], action: .click, page: .free, layer: .top)
         // open url
         let adUrl = banner.extUrl
         guard let url = URL(string: adUrl), UIApplication.shared.canOpenURL(url) else { return }
