@@ -19,6 +19,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
     enum Action {
         case changeMenuCategoryType(MenuCategoryType)
         case getMyBerryPoint
+        case refreshBerryPoint
         case setIsAllBerry(Bool)
         case none
     }
@@ -65,6 +66,15 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                          return .setIsAllBerry(isAll)
                      }
             ])
+            
+        case .refreshBerryPoint:
+            return self.provider.postMyBerryPoint()
+                .observe(on: self.backgroundScheduler)
+                .convertData()
+                .compactMap(convertToData)
+                .map { pointModel in
+                    return .setMyBerryPoint(pointModel.point)
+                }
             
         case .setIsAllBerry(let isAll):
             return self.provider.postUseAllBerry(isAll: isAll)
@@ -146,7 +156,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 return nil
             }
             
-            return true
+            return jsonData["use_point"].intValue == -1
             
         case .failure(let errorMessage):
             printLog(out: "Error Message : \(errorMessage)")
