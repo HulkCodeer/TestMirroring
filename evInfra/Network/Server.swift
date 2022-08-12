@@ -1077,13 +1077,6 @@ class Server {
             .validate()
             .responseData { response in responseData(response: response, completion: completion) }
     }
-
-    // MARK: - AWS 광고 리스트 조회
-    // static func getAdsList(page: Promotion.Page, layer: Promotion.Layer, completion: @escaping (Bool, Data?) -> Void) {
-    //     AF.request("\(Const.AWS_SERVER)/promotion?memberId=\(Int(MemberManager.shared.memberId) ?? 0)&page=\(page.rawValue)&layer=\(layer.rawValue)", method: .get, parameters: nil, encoding: JSONEncoding.default)
-    //         .validate()
-    //         .responseData { response in responseData(response: response, completion: completion) }
-    // }
     
     // 광고 - large image 정보 요청
     static func getAdLargeInfo(type: Int, completion: @escaping (Bool, Any) -> Void) {

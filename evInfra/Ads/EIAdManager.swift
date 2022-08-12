@@ -58,7 +58,7 @@ internal final class EIAdManager {
         printLog(out: "\(type(of: self)): Deinited")
     }
 
-    // MARK: - 광고(배너) 뷰,클릭 로깅
+    // MARK: - AWS 프로모션(광고/이벤트) click/view event 전송
     internal func logEvent(adIds: [String], action: Promotion.Action, page: Promotion.Page, layer: Promotion.Layer?) {
         guard !adIds.isEmpty else { return }
         DispatchQueue.global(qos: .background).async {
@@ -68,35 +68,7 @@ internal final class EIAdManager {
     
     // MARK: - 광고(배너)/이벤트 조회
     internal func getAdsList(page: Promotion.Page, layer: Promotion.Layer, completion: @escaping ([AdsInfo]) -> Void) {
-        DispatchQueue.global(qos: .background).async {
-            Server.getAdsList(page: page, layer: layer) { isSuccess, value in
-                guard let data = value else { return }
-                guard isSuccess else {
-                    completion([])
-                    return
-                }
-                
-                let json = JSON(data)
-                let adList = AdsListDataModel(json).data
-                printLog(out: ":: PKH TEST ::")
-                printLog(out: "광고갯수: \(adList.count)")
-                printLog(out: "광고: \(adList)")
-                completion(adList)
-            }
-            
-            let adList = JSON(data).arrayValue.map { Ad($0) }
-            var boardAdList = [BoardListItem]()
-            adList.forEach {
-                boardAdList.append(BoardListItem($0))
-            }
-            
-            completion(boardAdList)
-        }
-    }
-    
-    // MARK: - 커뮤니티 상단 광고
-    internal func getTopBannerInBoardList(page: Int, layer: Int, completion: @escaping ([AdsInfo]) -> Void) {
-        RestApi().getAdsList(page: EIAdManager.Page.start.rawValue, layer: EIAdManager.Layer.top.rawValue)
+        RestApi().getAdsList(page: page.rawValue, layer: layer.rawValue)
                 .convertData()
                 .compactMap { result -> [AdsInfo]? in
                     switch result {
@@ -118,8 +90,9 @@ internal final class EIAdManager {
                     completion(adList)
                 })
                 .disposed(by: self.disposebag)
-
-    // MARK: - 광고(배너, 이벤트) 뷰,클릭 로깅
+    }
+    
+    // MARK: - 기존 서버 프로모션(광고/이벤트) click/view event 전송
     /**
     Description: 이벤트 데이터 AWS 마이그레이션 완료 시, 삭제 예정
     */

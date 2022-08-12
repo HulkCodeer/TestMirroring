@@ -81,9 +81,7 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
     }
     
     private func convertToModel(with json: JSON) -> [AdsInfo]? {
-        let adsList = AdsListDataModel(json).data
-        var adsModels = [AdsInfo]()
-        adsList.forEach { adsModels.append($0) }
+        let adsList = json["data"].arrayValue.map { AdsInfo($0) }
         return adsList
     }
 }

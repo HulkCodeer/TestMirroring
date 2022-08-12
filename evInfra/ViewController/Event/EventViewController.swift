@@ -229,7 +229,7 @@ extension EventViewController {
                         if self.externalEventID == item.eventId {
                             guard let _externalEventParam = self.externalEventParam else {
                                 return
-
+                            }
                             EIAdManager.sharedInstance.logEvent(eventId: [String(item.eventId)], action: Promotion.Action.click)
                             let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
                             viewcon.eventId = item.eventId
@@ -253,6 +253,7 @@ extension EventViewController {
                     self.list = self.list.sorted(by: {$0.state < $1.state})
                 }
                 
+                
                 self.updateTableView()
                 self.indicatorControll(isStart: false)
             } else {
@@ -261,5 +262,6 @@ extension EventViewController {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 이벤트 페이지 종료 후 재시도 바랍니다.")
             }
         }
-    }
+    }    
 }
+
