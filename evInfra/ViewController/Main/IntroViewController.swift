@@ -11,6 +11,8 @@ import Material
 import SwiftyJSON
 import Motion
 import FLAnimatedImage
+import RxSwift
+import RxCocoa
 
 class IntroViewController: UIViewController {
 
@@ -25,6 +27,8 @@ class IntroViewController: UIViewController {
     
     var isNewBoardList = Array<Bool>()
     var maxCount = 0
+    
+    private let disposeBag = DisposeBag()
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -158,6 +162,10 @@ extension IntroViewController: BoardDelegate {
     }
     
     internal func finishedServerInit() {
+        Observable.just(GlobalAdsReactor.Action.loadStartBanner)
+            .bind(to: GlobalAdsReactor.sharedInstance.action)
+            .disposed(by: disposeBag)
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let mainViewController = storyboard.instantiateViewController(ofType: MainViewController.self)
         let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
