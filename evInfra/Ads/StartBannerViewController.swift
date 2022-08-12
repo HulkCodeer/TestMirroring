@@ -169,7 +169,6 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
             .subscribe(on: MainScheduler.instance)
             .compactMap { URL(string: "\(Const.AWS_SERVER)/image/\(String(describing: $0.img))") }
             .subscribe(onNext: {
-                reactor.hasBanner = true
                 self.eventImageView.sd_setImage(with: $0 )
             })
             .disposed(by: disposeBag)
