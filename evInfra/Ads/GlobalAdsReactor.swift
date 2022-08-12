@@ -11,7 +11,7 @@ import SwiftyJSON
 
 internal final class GlobalAdsReactor: ViewModel, Reactor {
     enum Action {
-        case loadStartBanner(Promotion.Page, Promotion.Layer)
+        case loadStartBanner
         case addEventClickCount(String)
         case addEventViewCount(String)
     }
@@ -21,11 +21,11 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
     }
     
     struct State {
-        var startBanner: AdsInfo? = nil
-        var ads = [AdsInfo]()
+        var startBanner: AdsInfo?
     }
     
     internal var initialState: State
+    static let sharedInstance: GlobalAdsReactor = GlobalAdsReactor(provider: RestApi())
     
     enum AdsType: String, CaseIterable {
         case ad = "1"
@@ -39,8 +39,8 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .loadStartBanner(let page, let layer):
-            return self.provider.getAds(page: page.rawValue, layer: layer.rawValue)
+        case .loadStartBanner:
+            return self.provider.getAdsList(page: .start, layer: .popup)
                 .convertData()
                 .compactMap(convertToDataModel)
                 .compactMap(convertToModel)
@@ -60,11 +60,12 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        newState.ads = []
+        newState.startBanner = nil
         
         switch mutation {
         case .setAds(let ads):
-            newState.startBanner = ads.first ?? AdsInfo()
+            guard let randomBanner = ads.randomElement() else { return newState }
+            newState.startBanner = randomBanner
         }
         
         return newState

@@ -44,7 +44,7 @@ struct BoardListItem: Decodable {
     var files: [FilesItem]?
     
     init(_ adsInfo: AdsInfo) {
-        self.title = adsInfo.evtTitle
+        self.title = adsInfo.extUrl
         self.content = adsInfo.evtDesc
         self.nick_name = adsInfo.clientName
         self.document_srl = adsInfo.evtId

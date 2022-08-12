@@ -41,16 +41,17 @@ class CommunityBoardAdsCell: UITableViewCell {
     }
     
     func configuration(item: BoardListItem) {
-        adsProfileImageView.sd_setImage(with: URL(string: "\(Const.EI_IMG_SERVER)\(item.mb_profile ?? "")"))
+        adsProfileImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(item.mb_profile ?? "")"))
         adsTitleLabel.text = item.nick_name
         adsDescriptionLabel.text = "advertisement"
-        adsImageView.sd_setImage(with: URL(string: "\(Const.EI_IMG_SERVER)\(item.cover_filename ?? "")"))
+        adsImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(item.cover_filename ?? "")")) { (_, _, _, _) in
+            EIAdManager.sharedInstance.logEvent(adIds: [item.document_srl ?? ""], action: .view, page: .free, layer: .mid)
+        }
         adUrl = item.title
         adId = item.document_srl
     }
     
     @objc private func openURL() {
-        EIAdManager.sharedInstance.logEvent(adIds: [adId ?? ""], action: Promotion.Action.click, page: Promotion.Page.event, layer: Promotion.Layer.list)
         guard let adUrl = adUrl else {
             return
         }
@@ -58,6 +59,7 @@ class CommunityBoardAdsCell: UITableViewCell {
         if let url = URL(string: adUrl) {
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                EIAdManager.sharedInstance.logEvent(adIds: [adId ?? ""], action: Promotion.Action.click, page: Promotion.Page.event, layer: Promotion.Layer.mid)
             }
         }
     }

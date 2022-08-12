@@ -37,13 +37,13 @@ internal struct AdsInfo {
     var dpEnd: String = ""
     var dpState: Int = 0
     
-    init() {}
+//    init() {}
     
     init(_ json: JSON) {
         self.evtId = json["evtId"].stringValue
         self.img = json["img"].stringValue
         self.logo = json["logo"].stringValue
-        self.extUrl = json["url"].stringValue
+        self.extUrl = json["extUrl"].stringValue
         self.evtDesc = json["evtDesc"].stringValue
         self.evtTitle = json["evtTitle"].stringValue
         self.evtWeight = json["evtWeight"].intValue

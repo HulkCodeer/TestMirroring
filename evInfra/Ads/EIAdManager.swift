@@ -61,14 +61,13 @@ internal final class EIAdManager {
     // MARK: - AWS 프로모션(광고/이벤트) click/view event 전송
     internal func logEvent(adIds: [String], action: Promotion.Action, page: Promotion.Page, layer: Promotion.Layer?) {
         guard !adIds.isEmpty else { return }
-        DispatchQueue.global(qos: .background).async {
-            Server.countEventAction(eventId: adIds, action: action, page: page, layer: layer ?? .none)
-        }
+        RestApi().countEventAction(eventId: adIds, action: action)
+            .disposed(by: disposebag)
     }
     
     // MARK: - 광고(배너)/이벤트 조회
     internal func getAdsList(page: Promotion.Page, layer: Promotion.Layer, completion: @escaping ([AdsInfo]) -> Void) {
-        RestApi().getAdsList(page: page.rawValue, layer: layer.rawValue)
+        RestApi().getAdsList(page: page, layer: layer)
                 .convertData()
                 .compactMap { result -> [AdsInfo]? in
                     switch result {
