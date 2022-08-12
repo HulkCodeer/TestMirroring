@@ -18,7 +18,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
     
     private lazy var dimmedViewBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .clear
+        $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
     }
     
     private lazy var containerView = UIView().then {
@@ -65,6 +65,8 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
     init(reactor: GlobalAdsReactor) {
         super.init()
         self.reactor = reactor
+        modalPresentationStyle = .overFullScreen
+        modalTransitionStyle = .coverVertical
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -73,7 +75,6 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
     
     override func loadView() {
         super.loadView()
-        self.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
         self.contentView.backgroundColor = .clear
         
         self.view.addSubview(dimmedViewBtn)
@@ -134,27 +135,18 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dimmedViewBtn.rx.tap
-            .asDriver()
+        Observable.merge(dimmedViewBtn.rx.tap.asObservable(), closeButton.rx.tap.asObservable())
+            .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.closeStartBannerViewController()
-            })
-            .disposed(by: disposeBag)
-        
+            }).disposed(by: disposeBag)
+            
         closeWithDurationButton.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 UserDefault().saveString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK, value: Date().toString())
-                self.closeStartBannerViewController()
-            })
-            .disposed(by: disposeBag)
-        
-        closeButton.rx.tap
-            .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
                 self.closeStartBannerViewController()
             })
             .disposed(by: disposeBag)
@@ -173,15 +165,11 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
     }
     
     internal func bind(reactor: GlobalAdsReactor) {
-        // TODO: - Make Global Ads Reactor
-        Observable.just(GlobalAdsReactor.Action.loadStartBanner(Promotion.Page.start, Promotion.Layer.popup))
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         reactor.state.compactMap { $0.startBanner }
             .subscribe(on: MainScheduler.instance)
             .compactMap { URL(string: "\(Const.AWS_SERVER)/image/\(String(describing: $0.img))") }
             .subscribe(onNext: {
+                reactor.hasBanner = true
                 self.eventImageView.sd_setImage(with: $0 )
             })
             .disposed(by: disposeBag)
@@ -203,7 +191,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
 //    }
     
     private func closeStartBannerViewController() {
-        self.view.removeFromSuperview()
-        self.removeFromParentViewController()
+        self.dimmedViewBtn.backgroundColor = .clear
+        GlobalDefine.shared.mainNavi?.dismiss(animated: true)
     }
 }

@@ -13,6 +13,8 @@ import M13Checkbox
 import SwiftyJSON
 import NMapsMap
 import SnapKit
+import RxSwift
+import RxCocoa
 
 internal final class MainViewController: UIViewController {
     
@@ -94,7 +96,6 @@ internal final class MainViewController: UIViewController {
         configureNaverMapView()
         configureLocationManager()
 //        showGuide()
-        showStartAd()
         
         prepareRouteField()
         preparePOIResultView()
@@ -115,6 +116,8 @@ internal final class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        showStartAd()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -1210,23 +1213,18 @@ extension MainViewController {
     }
     
     // 더 이상 보지 않기 한 광고가 정해진 기간을 넘겼는지 체크 및 광고 노출
-    private func showStartAd() {
-        guard let window = UIApplication.shared.keyWindow else { return }
-        let adsReactor = GlobalAdsReactor(provider: RestApi())
-        let startBannerViewController = StartBannerViewController(reactor: adsReactor)
-        startBannerViewController.view.frame = window.bounds
-        let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
+    private func showStartAd() {    
+        let startBannerViewController = StartBannerViewController(reactor: GlobalAdsReactor.sharedInstance)
         
+        let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             if keepDateStr.isEmpty {
-                window.addSubview(startBannerViewController.view)
-                window.rootViewController?.addChildViewController(startBannerViewController)
+                GlobalDefine.shared.mainNavi?.present(startBannerViewController, animated: false, completion: nil)
             } else {
                 if let keepDate = Date().toDate(data: keepDateStr) {
                     let difference = NSCalendar.current.dateComponents([.day], from: keepDate, to: Date())
                     if let day = difference.day, day > 7 {
-                        window.addSubview(startBannerViewController.view)
-                        window.rootViewController?.addChildViewController(startBannerViewController)
+                        GlobalDefine.shared.mainNavi?.present(startBannerViewController, animated: false, completion: nil)
                     }
                 }
             }
