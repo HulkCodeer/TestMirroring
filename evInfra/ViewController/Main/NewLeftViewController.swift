@@ -38,7 +38,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     private lazy var nicknameLbl = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = MemberManager.shared.memberNickName
         $0.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .natural
@@ -369,7 +368,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 
         nonLoginTotalView.addSubview(moveLoginBtn)
         moveLoginBtn.snp.makeConstraints {
-            $0.leading.equalTo(loginInduceLbl.snp.leading)
+            $0.leading.equalTo(nonLoginProfileImgView.snp.leading)
             $0.trailing.equalTo(loginInduceArrow.snp.trailing)
             $0.height.equalTo(loginInduceLbl.snp.height)
         }
@@ -408,6 +407,9 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let displayNickname = MemberManager.shared.memberNickName
+        nicknameLbl.text = displayNickname.count > 10 ? "\(displayNickname.index(displayNickname.startIndex, offsetBy: 10))..." : displayNickname
         
         moveMyInfoBtn.rx.tap
             .asDriver()

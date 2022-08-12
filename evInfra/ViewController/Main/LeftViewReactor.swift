@@ -393,7 +393,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
         
     struct GeneralCommunity: MoveSmallCategoryView {
         var mediumCategory: MediumCategoryType = MediumCategoryType.generalCommunity
-        var smallMenuList: [String] = ["EV Infra 공지", "자유 게시판", "충전소 게시판"]
+        var smallMenuList: [String] = ["공지사항", "자유게시판", "충전소 게시판"]
         
         func moveViewController(index: IndexPath) {
             switch index.row {
@@ -427,18 +427,13 @@ internal final class LeftViewReactor: ViewModel, Reactor {
     
     struct MyPage: MoveSmallCategoryView {
         var mediumCategory: MediumCategoryType = MediumCategoryType.mypage
-        var smallMenuList: [String] = ["개인정보 관리", "내가 쓴 글 보기", "충전소 제보내역"]
+        var smallMenuList: [String] = ["내가 쓴 글 보기", "충전소 제보내역"]
         
         func moveViewController(index: IndexPath) {
             MemberManager.shared.tryToLoginCheck { isLogin in
                 if isLogin {
                     switch index.row {
-                    case 0: // 개인정보관리
-                        let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-                        let mypageVC = memberStoryboard.instantiateViewController(ofType: MyPageViewController.self)
-                        GlobalDefine.shared.mainNavi?.push(viewController: mypageVC)
-                    
-                    case 1: // 내가 쓴 글 보기
+                    case 0: // 내가 쓴 글 보기
                         var myWritingControllers = [MyWritingViewController]()
                         let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
                         let freeMineVC = boardStoryboard.instantiateViewController(ofType: MyWritingViewController.self)
@@ -459,7 +454,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                         }
                         GlobalDefine.shared.mainNavi?.push(viewController: tabsController)
                     
-                    case 2: // 충전소 제보 내역
+                    case 1: // 충전소 제보 내역
                         let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
                         let reportVC = reportStoryboard.instantiateViewController(ofType: ReportBoardViewController.self)
                         GlobalDefine.shared.mainNavi?.push(viewController: reportVC)
