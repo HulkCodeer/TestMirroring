@@ -155,6 +155,41 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
                 owner.showPointGuide()
             }
             .disposed(by: disposeBag)
+        
+        startDateButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.startDateView.isHidden = false
+            }
+            .disposed(by: disposeBag)
+        
+        endDateButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.endDateView.isHidden = false
+            }
+            .disposed(by: disposeBag)
+        
+        startDateView.dateObservable
+            .bind(to: startDateRelay)
+            .disposed(by: disposeBag)
+        
+        endDateView.dateObservable
+            .bind(to: endDateRelay)
+            .disposed(by: disposeBag)
+        
+        startDateRelay
+            .bind(with: self) { owner, date in
+                let dateTitle = date.toYearMonthDay()
+                owner.startDateButton.setTitle(dateTitle, for: .normal)
+                owner.endDateView.minimumDate(date: date)
+            }
+            .disposed(by: disposeBag)
+        
+        endDateRelay
+            .bind(with: self) { owner, date in
+                let dateTitle = date.toYearMonthDay()
+                owner.endDateButton.setTitle(dateTitle, for: .normal)
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: set ui
