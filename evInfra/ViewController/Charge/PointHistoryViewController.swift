@@ -12,6 +12,7 @@ import SwiftyJSON
 import ReactorKit
 import RxCocoa
 import RxSwift
+import RxDataSources
 
 internal final class PointHistoryViewController: CommonBaseViewController, StoryboardView {
     
@@ -19,6 +20,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         $0.backgroundColor = Colors.backgroundPrimary.color
     }
     private let pointTableView = UITableView().then {
+        $0.rowHeight = 72
+        $0.separatorStyle = .none
         $0.register(PointHistoryTableViewCell.self, forCellReuseIdentifier: PointHistoryTableViewCell.identfier)
     }
     
@@ -92,6 +95,13 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         $0.isHidden = true
     }
     
+    private let pointEmptyLabel = UILabel().then {
+        $0.isHidden = true
+        $0.font = .systemFont(ofSize: 14)
+        $0.textColor = UIColor.init(hex: "#7B7B7B")
+        
+        $0.text = "포인트 내역이 없습니다."
+    }
     
     private let pointTypeRelay = ReplayRelay<PointType>.create(bufferSize: 1)
     private let startDateRelay = BehaviorRelay(value: Date())
@@ -219,7 +229,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         dateStackView.addArrangedSubview(dateDividerLabel)
         dateStackView.addArrangedSubview(endDateButton)
 
-        
+        pointTableView.addSubview(pointEmptyLabel)
     }
     
     private func setConstraints() {
@@ -271,13 +281,29 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         }
         historyButtonsView.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(historyButtonsViewBottomPadding)
-            $0.leading.equalToSuperview().inset(horizontalMargin)
-            $0.trailing.equalToSuperview().inset(horizontalMargin)
+            $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
             $0.height.equalTo(historyButtonsViewHeight)
+        }
+        
+        pointEmptyLabel.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
         }
     }
     
     // MARK: Action
+    
+    private func showPointGuide() {
+        let pointGuideVC = PointUseGuideViewController()
+        GlobalDefine.shared.mainNavi?.push(viewController: pointGuideVC)
+    }
+    
+    private func setImpendPoint(point: String) {
+        let berryFlagText = "베리"
+        let impendText = point + berryFlagText
+        
+        impendPointLabel.text = impendText
+        impendPointLabel.attributedText = pointFontColor(text: impendText, pointText: berryFlagText)
+    }
     
     private func pointFontColor(text: String, pointText: String) -> NSMutableAttributedString {
         let font: UIFont = .systemFont(ofSize: 14)
@@ -292,11 +318,6 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             value: UIColor.init(hex: "#7B7B7B"),
             range: entireNSString.range(of: pointText))
         return attributeString
-    }
-    
-    private func showPointGuide() {
-        let pointGuideVC = PointUseGuideViewController()
-        GlobalDefine.shared.mainNavi?.push(viewController: pointGuideVC)
     }
     
     // MARK: Object
