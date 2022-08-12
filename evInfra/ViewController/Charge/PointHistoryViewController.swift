@@ -85,10 +85,17 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     
     private let historyButtonsView = PointCategoryButtonsView()
     
-    private let dateView = DatePickerView()
-//    private let resultMsgLabel = UILabel()
+    private let startDateView = DatePickerView().then {
+        $0.isHidden = true
+    }
+    private let endDateView = DatePickerView().then {
+        $0.isHidden = true
+    }
+    
     
     private let pointTypeRelay = ReplayRelay<PointType>.create(bufferSize: 1)
+    private let startDateRelay = BehaviorRelay(value: Date())
+    private let endDateRelay = BehaviorRelay(value: Date())
     
     init(reactor: PointHistoryReactor) {
         super.init()
@@ -153,10 +160,13 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     // MARK: set ui
     
     private func setUI() {
-        view.addSubview(pointTableView)
+        startDateView.configure(Date())
+        endDateView.configure(Date())
         
         contentView.addSubview(pointInfoView)
-        contentView.addSubview(dateView)
+        contentView.addSubview(pointTableView)
+        contentView.addSubview(startDateView)
+        contentView.addSubview(endDateView)
 
         pointInfoView.addSubview(myPointStackView)
         pointInfoView.addSubview(impendPointStackView)
@@ -178,7 +188,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     }
     
     private func setConstraints() {
-        let HorizontalMargin: CGFloat = 20
+        let horizontalMargin: CGFloat = 20
         let myPointViewTopPadding: CGFloat = 20
         let impendPointViewTopPadding: CGFloat = 20
         let dateViewTopPadding: CGFloat = 20
@@ -195,10 +205,15 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         }
         pointTableView.snp.makeConstraints {
             $0.top.equalTo(pointInfoView.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
+            $0.bottom.equalTo(view)
         }
-        dateView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
+        startDateView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view)
+        }
+        endDateView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalTo(startDateView)
         }
 
         myPointStackView.snp.makeConstraints {
@@ -216,13 +231,13 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
 
         dateStackView.snp.makeConstraints {
             $0.top.equalTo(impendPointStackView.snp.bottom).offset(dateViewTopPadding)
-            $0.leading.equalToSuperview().inset(HorizontalMargin)
-            $0.trailing.equalToSuperview().inset(HorizontalMargin)
+            $0.leading.equalToSuperview().inset(horizontalMargin)
+            $0.trailing.equalToSuperview().inset(horizontalMargin)
         }
         historyButtonsView.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(historyButtonsViewBottomPadding)
-            $0.leading.equalToSuperview().inset(HorizontalMargin)
-            $0.trailing.equalToSuperview().inset(HorizontalMargin)
+            $0.leading.equalToSuperview().inset(horizontalMargin)
+            $0.trailing.equalToSuperview().inset(horizontalMargin)
             $0.height.equalTo(historyButtonsViewHeight)
         }
     }

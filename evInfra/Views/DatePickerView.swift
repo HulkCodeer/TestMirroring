@@ -12,14 +12,21 @@ import SnapKit
 import RxCocoa
 import RxSwift
 
-internal class DatePickerView: UIStackView {
+internal class DatePickerView: UIView {
     private let disposeBag = DisposeBag()
     
-    private let toolbar = UIToolbar()
-    private let doneButton = UIBarButtonItem().then {
-        $0.title = "Done"
-        $0.style = .plain
+    private let line = UIView().then {
+        $0.backgroundColor = Colors.nt2.color
     }
+    private let customToolbar = UIView().then {
+        $0.backgroundColor = Colors.backgroundDisabled.color
+    }
+    private let doneButton = UIButton().then {
+        $0.setTitle("Done", for: .normal)
+        $0.setTitleColor(Colors.contentPositive.color, for: .normal)
+        $0.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
+    }
+    
     private let datePicker = UIDatePicker().then {
         if #available(iOS 13.4, *) {
             $0.preferredDatePickerStyle = .wheels
@@ -27,7 +34,6 @@ internal class DatePickerView: UIStackView {
         
         $0.locale = Locale(identifier: "ko_KO")
         $0.datePickerMode = .date
-        $0.maximumDate = Date()
     }
 
     private let formatter = DateFormatter().then {
@@ -39,7 +45,7 @@ internal class DatePickerView: UIStackView {
         $0.locale = locale
     }
 
-    lazy var dateRelay = doneButton.rx.tap
+    lazy var dateObservable = doneButton.rx.tap
         .compactMap { [weak self] in
             return self?.datePicker.date
         }
@@ -48,6 +54,7 @@ internal class DatePickerView: UIStackView {
         super.init(frame: .zero)
 
         setUI()
+        setConstraints()
         subscribeUI()
     }
     
@@ -56,36 +63,74 @@ internal class DatePickerView: UIStackView {
     }
     
     private func setUI() {
-        toolbar.setItems([doneButton], animated: false)
         
-        self.axis = .vertical
-        self.alignment = .fill
-        self.distribution = .fillProportionally
+        self.frame.size = .init(width: UIScreen.main.bounds.width, height: 140)
+        self.addSubview(line)
+        self.addSubview(customToolbar)
+        self.addSubview(datePicker)
         
-        self.addArrangedSubview(toolbar)
-        self.addArrangedSubview(datePicker)
+        customToolbar.addSubview(doneButton)
+    }
+    
+    private func setConstraints() {
+        let lineHeight: CGFloat = 0.5
+        let toolbarHeight: CGFloat = 40
+        let buttonWidth: CGFloat = 50
+        
+        let buttonPadding: CGFloat = 20
+        
+        line.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(lineHeight)
+        }
+        
+        customToolbar.snp.makeConstraints {
+            $0.top.equalTo(line.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(toolbarHeight)
+        }
+        doneButton.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(buttonPadding)
+            $0.width.equalTo(buttonWidth)
+        }
+        
+        datePicker.snp.makeConstraints {
+            $0.top.equalTo(customToolbar.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     private func subscribeUI() {
         doneButton.rx.tap
             .asDriver()
-            .drive(onNext: { [weak self] in
-                self?.isHidden = true
+            .drive(with: self, onNext: { owner, _ in
+                owner.configure(owner.datePicker.date)
+                owner.isHidden = true
             })
             .disposed(by: disposeBag)
     }
 
     // MARK: Action
 
-    func configure(_ date: Date) {
+    func configure(_ date: Date, maximumDate: Date? = Date()) {
         let dateStr = date.toString()
         guard let convertDate = formatter.date(from: dateStr) else { return }
-        datePicker.date = convertDate  //date //formatter.string(from: date)
+        
+        datePicker.date = convertDate
+        datePicker.maximumDate = maximumDate
     }
     
-    func configure(_ dateStr: String) {
+    func configure(_ dateStr: String, maximumDate: Date? = Date()) {
         guard let convertDate = formatter.date(from: dateStr) else { return }
+        
         datePicker.date = convertDate
+        datePicker.maximumDate = maximumDate
+    }
+    
+    func minimumDate(date: Date?) {
+        guard let date = date else { return }
+        datePicker.minimumDate = date
     }
     
 }
