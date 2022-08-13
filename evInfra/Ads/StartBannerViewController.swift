@@ -158,13 +158,13 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
                 let eventUrl = self.reactor?.currentState.startBanner?.extUrl ?? ""
                 let newEventDetailViewController = NewEventDetailViewController()
                 newEventDetailViewController.eventUrl = eventUrl
-                GlobalDefine.shared.mainNavi?.push(viewController: newEventDetailViewController)
-                
                 self.closeStartBannerViewController()
+                self.logClickEvent()
+                GlobalDefine.shared.mainNavi?.push(viewController: newEventDetailViewController)
             }).disposed(by: disposeBag)
     }
     
-    internal func bind(reactor: GlobalAdsReactor) {
+    internal func bind(reactor: GlobalAdsReactor) {        
         reactor.state.compactMap { $0.startBanner }
             .subscribe(on: MainScheduler.instance)
             .compactMap { URL(string: "\(Const.AWS_SERVER)/image/\(String(describing: $0.img))") }
@@ -172,25 +172,30 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
                 self.eventImageView.sd_setImage(with: $0 )
             })
             .disposed(by: disposeBag)
-        
-        eventImageButton.rx.tap
-            .map { GlobalAdsReactor.Action.addEventClickCount(reactor.currentState.startBanner?.evtId ?? "") }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        eventImageButton.rx.tap
-            .map { GlobalAdsReactor.Action.addEventViewCount(reactor.currentState.startBanner?.evtId ?? "") }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
     }
     
     // 앰플리튜드 view_enter 로깅을 위해 필요함
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.title = "시작배너 화면"
+        
+        logViewEvent()
+    }
     
     private func closeStartBannerViewController() {
         self.dimmedViewBtn.backgroundColor = .clear
         GlobalDefine.shared.mainNavi?.dismiss(animated: true)
+    }
+    
+    private func logClickEvent() {
+        Observable.just(GlobalAdsReactor.Action.addEventClickCount(self.reactor?.currentState.startBanner?.evtId ?? "") )
+            .bind(to: GlobalAdsReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func logViewEvent() {
+        Observable.just(GlobalAdsReactor.Action.addEventViewCount(self.reactor?.currentState.startBanner?.evtId ?? "") )
+            .bind(to: GlobalAdsReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
     }
 }
