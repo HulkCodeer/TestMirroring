@@ -32,7 +32,7 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
         case event = "2"
     }
 
-    override init(provider: SoftberryAPI) {
+    override private init(provider: SoftberryAPI) {
         self.initialState = State()
         super.init(provider: provider)
     }
@@ -83,6 +83,8 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
     
     private func convertToModel(with json: JSON) -> [AdsInfo]? {
         let adsList = json["data"].arrayValue.map { AdsInfo($0) }
+        let hasBanner = adsList.count > 0 ? true : false
+        GlobalDefine.shared.hasBanner.onNext(hasBanner)
         return adsList
     }
 }

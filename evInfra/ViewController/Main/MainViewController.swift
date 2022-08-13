@@ -83,6 +83,7 @@ internal final class MainViewController: UIViewController {
     private var canIgnoreJejuPush = true
     
     private var summaryView: SummaryView!
+    private var disposable: Disposable?
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -96,6 +97,7 @@ internal final class MainViewController: UIViewController {
         configureNaverMapView()
         configureLocationManager()
 //        showGuide()
+        showStartAd()
         
         prepareRouteField()
         preparePOIResultView()
@@ -116,8 +118,6 @@ internal final class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        showStartAd()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -133,6 +133,8 @@ internal final class MainViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
+        guard let disposable = disposable else { return }
+        disposable.dispose()
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함        
     }
     
@@ -1212,23 +1214,31 @@ extension MainViewController {
         }
     }
     
-    // 더 이상 보지 않기 한 광고가 정해진 기간을 넘겼는지 체크 및 광고 노출
+    // MARK: - 시작광고배너 보여주기
     private func showStartAd() {    
         let startBannerViewController = StartBannerViewController(reactor: GlobalAdsReactor.sharedInstance)
-        
-        let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            if keepDateStr.isEmpty {
-                GlobalDefine.shared.mainNavi?.present(startBannerViewController, animated: false, completion: nil)
-            } else {
-                if let keepDate = Date().toDate(data: keepDateStr) {
-                    let difference = NSCalendar.current.dateComponents([.day], from: keepDate, to: Date())
-                    if let day = difference.day, day > 7 {
+        startBannerViewController.bind(reactor: GlobalAdsReactor.sharedInstance)
+
+        disposable = GlobalDefine.shared.hasBanner
+            .asObservable()
+            .subscribe(onNext: { hasBanner in
+                guard hasBanner else { return }
+                let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    if keepDateStr.isEmpty {
                         GlobalDefine.shared.mainNavi?.present(startBannerViewController, animated: false, completion: nil)
+                    } else {
+                        if let keepDate = Date().toDate(data: keepDateStr) {
+                            let difference = NSCalendar.current.dateComponents([.day], from: keepDate, to: Date())
+                            if let day = difference.day, day > 7 {
+                                GlobalDefine.shared.mainNavi?.present(startBannerViewController, animated: false, completion: nil)
+                            }
+                        }
                     }
                 }
-            }
-        }
+            },onError: { error in
+                Snackbar().show(message: "오류가 발생하였습니다.")
+            })
     }
     
     private func showMarketingPopup() {
