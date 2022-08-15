@@ -34,6 +34,8 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var changeBtn: UIButton!
     
+    internal var backBtnClosure: (() -> Void)?
+    
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
@@ -255,6 +257,9 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     @objc
     fileprivate func handleBackButton() {
         guard let _navi = navigationController else { return }
+        
+        self.backBtnClosure?()
+        
         for vc in _navi.viewControllers {
             if vc is MembershipCardViewController {
                 _navi.popToRootViewController(animated: true)

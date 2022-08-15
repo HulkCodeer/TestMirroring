@@ -14,7 +14,7 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     
     // MARK: VARIABLE
     
-    private let disposebag = DisposeBag()
+    private let disposebag = DisposeBag()    
     
     // MARK: UI
     

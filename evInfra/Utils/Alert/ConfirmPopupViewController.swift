@@ -19,8 +19,9 @@ struct PopupModel {
     let confirmBtnAction: (() -> Void)?
     let cancelBtnAction: (() -> Void)?
     var messageTextAlignment: NSTextAlignment = .center
+    var autoDismissPopup: Bool?
     
-    init(title: String? = nil, message: String = "",  confirmBtnTitle: String? = nil, cancelBtnTitle: String? = nil, confirmBtnAction: (() -> Void)? = nil, cancelBtnAction: (() -> Void)? = nil, textAlignment: NSTextAlignment = .center) {
+    init(title: String? = nil, message: String = "",  confirmBtnTitle: String? = nil, cancelBtnTitle: String? = nil, confirmBtnAction: (() -> Void)? = nil, cancelBtnAction: (() -> Void)? = nil, textAlignment: NSTextAlignment = .center, autoDismissPopup: Bool? = true) {
         self.title = title
         self.message = message
         self.confirmBtnTitle = confirmBtnTitle
@@ -28,6 +29,7 @@ struct PopupModel {
         self.confirmBtnAction = confirmBtnAction
         self.cancelBtnAction = cancelBtnAction
         self.messageTextAlignment = textAlignment
+        self.autoDismissPopup = autoDismissPopup
     }
 }
 
@@ -192,7 +194,6 @@ internal final class ConfirmPopupViewController: UIViewController {
         
     private func dismissPopup(actionBtnType: ActionBtnType) {
         self.dismiss(animated: true, completion: {
-            
             switch actionBtnType {
             case .ok:
                 self.popupModel.confirmBtnAction?()

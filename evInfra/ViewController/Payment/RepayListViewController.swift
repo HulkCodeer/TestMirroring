@@ -42,6 +42,8 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     private var totalPoint = 0
     private var totalAmount = 0
     
+    internal var backBtnClosure: (() -> Void)?
+    
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
@@ -122,6 +124,9 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     @objc
     fileprivate func handleBackButton() {
         guard let _navi = navigationController else { return }
+        
+        self.backBtnClosure?()
+        
         for vc in _navi.viewControllers {
             if vc is MembershipCardViewController {
                 _navi.popToRootViewController(animated: true)

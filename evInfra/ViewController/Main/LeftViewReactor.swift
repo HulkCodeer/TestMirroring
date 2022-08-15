@@ -480,7 +480,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
     
     struct Pay: MoveSmallCategoryView {
         var mediumCategory: MediumCategoryType = MediumCategoryType.pay
-        var smallMenuList: [String] = ["결제카드 관리", "회원카드 관리", "렌터카 정보 관리" , "충전이력 조회", "포인트 조회"]
+        var smallMenuList: [String] = ["결제카드 관리", "회원카드 관리", "렌터카 정보 관리" , "충전이력 조회"]
         
         func moveViewController(index: IndexPath) {
             MemberManager.shared.tryToLoginCheck { isLogin in
@@ -510,11 +510,6 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                         let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
                         let chargesVC = chargeStoryboard.instantiateViewController(ofType: ChargesViewController.self)
                         GlobalDefine.shared.mainNavi?.push(viewController: chargesVC)
-
-                    case 4: // 포인트 조회
-                        let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
-                        let pointVC = chargeStoryboard.instantiateViewController(ofType: PointViewController.self)
-                        GlobalDefine.shared.mainNavi?.push(viewController: pointVC)
 
                     default: break
                     }

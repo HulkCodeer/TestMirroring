@@ -115,7 +115,10 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         $0.tintColor = Colors.contentPrimary.color
         $0.thumbTintColor = .white
         $0.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
-        $0.isOn = false
+    }
+    
+    private lazy var useAllMyBerryBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private lazy var nonLoginTotalView = UIView().then {
@@ -264,7 +267,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
         profileTotalView.addSubview(moveMyInfoBtn)
         moveMyInfoBtn.snp.makeConstraints {
-            $0.leading.equalTo(nicknameLbl.snp.leading)
+            $0.leading.equalTo(profileImgView.snp.leading)
             $0.trailing.equalTo(nicknameLbl.snp.trailing)
             $0.height.equalTo(nicknameLbl.snp.height)
         }
@@ -342,6 +345,12 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         useAllMyBerrySw.snp.makeConstraints {
             $0.trailing.equalToSuperview()
             $0.centerY.equalTo(useAllMyBerryGuideLbl)
+        }
+        
+        useMyBerrySettingTotalView.addSubview(useAllMyBerryBtn)
+        useAllMyBerryBtn.snp.makeConstraints {
+            $0.center.equalTo(useAllMyBerrySw)
+            $0.width.height.equalTo(useAllMyBerrySw)
         }
         
         menuListTotalView.addSubview(menuCategoryTypeStackView)
@@ -422,7 +431,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         super.viewDidLoad()
         
         let displayNickname = MemberManager.shared.memberNickName
-        nicknameLbl.text = displayNickname.count > 10 ? "\(displayNickname.index(displayNickname.startIndex, offsetBy: 10))..." : displayNickname
+        nicknameLbl.text = displayNickname.count > 10 ? "\(displayNickname.substring(to: 10))..." : displayNickname
         
         moveMyInfoBtn.rx.tap
             .asDriver()
@@ -467,10 +476,11 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 .disposed(by: self.disposeBag)                        
         }
         
-        newBadgeInMenu()
+        tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.navigationDrawerController?.reHideStatusBar()
     }
     
@@ -488,6 +498,10 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         }
                 
         for menuCategoryType in LeftViewReactor.MenuCategoryType.allCases {
+            if menuCategoryType == .battery && MemberManager.shared.deviceId.isEmpty {
+                continue
+            }
+            
             let menuTypeView = self.createMenuTypeView(menuCategoryType: menuCategoryType, reactor: reactor)
             menuTypeView.snp.makeConstraints {
                 $0.width.height.equalTo(70)
@@ -499,27 +513,150 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .asDriver(onErrorJustReturn: "")
             .drive(onNext: { [weak self] point in
                 guard let self = self else { return }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.myBerryRefreshImgView.layer.removeAnimation(forKey: "transform.rotation.z")
+                }
                 self.myBerryLbl.text = point
             })
             .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.isAllBerry }
             .asDriver(onErrorJustReturn: false)
-            .drive(useAllMyBerrySw.rx.isOn)
+            .drive(onNext: { [weak self] isOn in
+                guard let self = self else { return }
+                self.useAllMyBerrySw.isOn = isOn
+                guard isOn else { return }
+                let message = "0".equals(reactor.currentState.myBerryPoint ?? "") ? "베리가 적립되면 다음 충전 시 베리가 자동으로 전액 사용됩니다." : "다음 충전 후 결제 시 베리가 전액 사용됩니다."
+                Snackbar().show(message: "\(message)")
+            })
             .disposed(by: self.disposeBag)
         
         myBerryRefreshBtn.rx.tap
-            .map { LeftViewReactor.Action.refreshBerryPoint }
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
-        
-        useAllMyBerrySw.rx.isOn
-            .asDriver()
-            .drive(onNext: { isOn in
-                Observable.just(LeftViewReactor.Action.setIsAllBerry(isOn))
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                
+                let animation = CABasicAnimation(keyPath: "transform.rotation.z")
+                let direction = 1.0
+                animation.toValue = NSNumber(value: .pi * 2 * direction)
+                animation.duration = 1
+                animation.isCumulative = true
+                animation.repeatCount = .infinity
+                self.myBerryRefreshImgView.layer.add(animation, forKey: "transform.rotation.z")
+                
+                Observable.just(LeftViewReactor.Action.refreshBerryPoint)
                     .bind(to: reactor.action)
                     .disposed(by: self.disposeBag)
             })
+            .disposed(by: self.disposeBag)
+                        
+        useAllMyBerryBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                // MARK: - TEST CODE
+//                switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
+                switch (MemberManager.shared.hasPayment, true) {
+                case (false, false):
+                    guard !self.useAllMyBerrySw.isOn else { return }
+                    let popupModel = PopupModel(title: "회원카드를 발급하시겠어요?",
+                                                message: "베리는 회원카드 발급 후\n충전 시 할인 받을 수 있어요.",
+                                                confirmBtnTitle: "네 발급할게요.", cancelBtnTitle: "다음에 할게요.",
+                                                confirmBtnAction: {
+                        let viewcon = MembershipGuideViewController()
+                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                    }, textAlignment: .center)
+                        
+                    let popup = VerticalConfirmPopupViewController(model: popupModel)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                    })
+                    
+                case (false, true):
+                    guard !self.useAllMyBerrySw.isOn else { return }
+                    let popupModel = PopupModel(title: "결제 카드를 확인해주세요",
+                                                message: "현재 회원님의 결제정보에 오류가 있어\n다음 충전 시 베리를 사용할 수 없어요.",
+                                                confirmBtnTitle: "결제정보 확인하러가기", cancelBtnTitle: "다음에 할게요.",
+                                                confirmBtnAction: {
+                        
+                        Server.getPayRegisterStatus { (isSuccess, value) in
+                            if isSuccess {
+                                let json = JSON(value)
+                                let payCode = json["pay_code"].intValue
+                                                    
+                                switch PaymentStatus(rawValue: payCode) {
+                                case .PAY_NO_CARD_USER, .PAY_NO_USER: // 카드등록 아니된 멤버
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                        let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
+                                        
+                                        viewcon.backBtnClosure = {
+                                            let popup = VerticalConfirmPopupViewController(model: popupModel)
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                                            })
+                                        }
+                                        
+                                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                                    })
+                                                        
+                                case .PAY_DEBTOR_USER: // 돈안낸 유저
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                        let paymentVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
+                                        
+                                        viewcon.backBtnClosure = {
+                                            let popup = VerticalConfirmPopupViewController(model: popupModel)
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                                            })
+                                        }
+                                        
+                                        GlobalDefine.shared.mainNavi?.push(viewController: paymentVC)
+                                    })
+                                    
+                                default: self.dismiss(animated: true)
+                                }
+                            } else {
+                                self.dismiss(animated: true)
+                                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
+                            }
+                        }
+                        
+                    }, cancelBtnAction: {
+                        self.dismiss(animated: true)
+                    }, textAlignment: .center, autoDismissPopup: false)
+                                            
+                    let popup = VerticalConfirmPopupViewController(model: popupModel)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                    })
+                    
+                case (true, false):
+                    guard !self.useAllMyBerrySw.isOn else { return }
+                    let popupModel = PopupModel(title: "더 많은 충전소에서\n베리를 적립해보세요!",
+                                                message: "회원카드 발급 시 환경부, 한국전력 등\n더 많은 충전소에서 적립할 수 있어요.",
+                                                confirmBtnTitle: "회원카드 안내 보러가기", cancelBtnTitle: "다음에 할게요.",
+                                                confirmBtnAction: {
+                        let viewcon = MembershipGuideViewController()
+                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                    }, textAlignment: .center)
+                        
+                    let popup = VerticalConfirmPopupViewController(model: popupModel)
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                    
+                case (true, true):
+                    Observable.just(LeftViewReactor.Action.setIsAllBerry(!self.useAllMyBerrySw.isOn))
+                        .bind(to: reactor.action)
+                        .disposed(by: self.disposeBag)
+                                
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        GlobalDefine.shared.isUseAllBerry
+            .filter { $0 }
+            .map { isUseAllBerry in  LeftViewReactor.Action.setIsAllBerry(isUseAllBerry) }
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
     }
     
@@ -644,21 +781,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                     }
                 }
             }
-
-        case .event:
-            if index.section == 0 {
-                switch index.row {
-                case 0:
-                    if let latestEventId = latestIds[Board.KEY_EVENT] {
-                        let eventId = UserDefault().readInt(key: UserDefault.Key.LAST_EVENT_ID)
-                        if eventId < latestEventId {
-                            cell.newBadge.isHidden = false
-                        }
-                    }
-                default:
-                    cell.newBadge.isHidden = true
-                }
-            }
+       
         default:
             cell.newBadge.isHidden = true
         }
@@ -679,18 +802,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             }
         }
     }
-    
-    // 메인화면 메뉴이미지에 badge
-    private func newBadgeInMenu() {
-        let _image: UIImage = UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) ? UIImage(named: "icon_user_badge") ?? UIImage() : UIImage(named: "icon_user") ?? UIImage()
-    
-        profileImgView.image = _image
-    
-        // refresh new badge in sub menu
-        tableView.reloadData()
-    }
 }
-
 
 extension NewLeftViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -726,7 +838,7 @@ extension NewLeftViewController: UITableViewDelegate, UITableViewDataSource {
 
         // 설정 - 버전정보 표시
         if _reactor.currentState.menuCategoryType == .settings &&
-            "버전정보".equals(_reactor.currentState.menuCategoryType.menuList[indexPath.section].smallMenuList[indexPath.row]) {
+            "버전 정보".equals(_reactor.currentState.menuCategoryType.menuList[indexPath.section].smallMenuList[indexPath.row]) {
             cell.menuContent.isHidden = false
             cell.menuContent.text = (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)
         } else {

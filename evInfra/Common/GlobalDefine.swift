@@ -6,10 +6,13 @@
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 
+import RxSwift
+
 internal final class GlobalDefine: NSObject {
     internal static var shared = GlobalDefine()
     
     internal weak var mainNavi: AppNavigationController?
+    internal var isUseAllBerry = PublishSubject<Bool>()
 }
 
 
