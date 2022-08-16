@@ -371,8 +371,8 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
                     self.selectBoxTitleLbl.text = rowVC.items[index]
                     self.nextBtn.isEnabled = true
                     self.reasonTotalView.isHidden = false
-                    rowVC.view.removeFromSuperview()
-                    rowVC.removeFromParentViewController()
+                    
+                    rowVC.removeBottomSheet()
                 }
             })
             .disposed(by: self.disposeBag)

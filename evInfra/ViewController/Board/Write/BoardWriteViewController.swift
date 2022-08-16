@@ -315,12 +315,15 @@ extension BoardWriteViewController: UICollectionViewDelegate {
                 return
             }
             
-            let rowVC = GroupViewController()
-            rowVC.members = ["갤러리 이동", "사진 촬영"]
-            presentPanModal(rowVC)
-            
-            rowVC.selectedCompletion = { index in
-                self.dismiss(animated: true, completion: nil)
+            let rowVC = NewBottomSheetViewController()
+            rowVC.items = ["갤러리 이동", "사진 촬영"]
+            rowVC.view.frame = GlobalDefine.shared.mainNavi?.view.bounds ?? UIScreen.main.bounds
+            GlobalDefine.shared.mainNavi?.addChildViewController(rowVC)
+            GlobalDefine.shared.mainNavi?.view.addSubview(rowVC.view)
+                                                                          
+            rowVC.selectedCompletion = { [weak self] index in
+                guard let self = self else { return }
+                rowVC.removeBottomSheet()
                 
                 switch index {
                 case 0:
@@ -331,7 +334,6 @@ extension BoardWriteViewController: UICollectionViewDelegate {
                     break
                 }
             }
-            
         } else {
             let popupModel = PopupModel(title: "삭제 안내",
                                         message: "선택하신 사진을 삭제 하시겠습니까?",

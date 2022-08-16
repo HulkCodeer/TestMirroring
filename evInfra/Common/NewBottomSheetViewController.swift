@@ -56,63 +56,62 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
         $0.dataSource = self
     }
     
-    private lazy var safeAreaBottomView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = Colors.backgroundPrimary.color
-    }
-    
     // MARK: VARIABLE
     internal var headerTitleStr: String = ""
     internal var selectedCompletion: ((Int) -> Void)?
     internal var items: [String] = []
     
     private let disposebag = DisposeBag()
-    private let safeAreaInsetBottomHeight = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+    private var headerTitleHeight = 0
+    private var totalStackViewHeight = 0
+    private var tableViewHeight = 0
     
     // MARK: SYSTEM FUNC
     
     override func loadView() {
         super.loadView()
-        self.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
-        self.contentView.backgroundColor = .clear
         
+        tableViewHeight = 55 * items.count
+        headerTitleHeight = headerTitleStr.isEmpty ? 0 : (52 + 1)
+        totalStackViewHeight = headerTitleHeight + (55 * items.count)
+        
+        self.contentView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+        self.contentView.snp.remakeConstraints {
+            $0.edges.equalToSuperview()
+        }
                                 
-        self.view.addSubview(dimmedViewBtn)
+        self.contentView.addSubview(dimmedViewBtn)
         dimmedViewBtn.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
-        self.view.addSubview(totalStackView)
+        self.contentView.addSubview(totalStackView)
         totalStackView.snp.makeConstraints {
             $0.width.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.height.lessThanOrEqualTo(UIScreen.main.bounds.size.height/2)
-            $0.bottom.equalToSuperview().offset(52 + 1 + (55 * items.count) + Int(safeAreaInsetBottomHeight))
+            $0.height.equalTo(totalStackViewHeight)
+            $0.bottom.equalToSuperview().offset(totalStackViewHeight)
         }
         
-        headerTitleLbl.snp.makeConstraints {
-            $0.height.equalTo(52)
+        if !headerTitleStr.isEmpty {
+            headerTitleLbl.snp.makeConstraints {
+                $0.height.equalTo(52)
+            }
+            
+            let line = self.createLineView()
+            line.snp.makeConstraints {
+                $0.height.equalTo(1)
+            }
+            
+            totalStackView.addArrangedSubview(headerTitleLbl)
+            totalStackView.addArrangedSubview(line)
+            headerTitleLbl.text = self.headerTitleStr
         }
-        
-        let line = self.createLineView()
-        line.snp.makeConstraints {
-            $0.height.equalTo(1)
-        }
-        
+         
         tableView.snp.makeConstraints {
-            $0.height.lessThanOrEqualTo(55 * items.count)
+            $0.height.equalTo(tableViewHeight)
         }
-        
-        safeAreaBottomView.snp.makeConstraints {
-            $0.height.equalTo(safeAreaInsetBottomHeight)
-        }
-                        
-        totalStackView.addArrangedSubview(headerTitleLbl)
-        totalStackView.addArrangedSubview(line)
         totalStackView.addArrangedSubview(tableView)
-        totalStackView.addArrangedSubview(safeAreaBottomView)
-        
-        headerTitleLbl.text = self.headerTitleStr
     }
     
     override func viewDidLoad() {
@@ -122,20 +121,20 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.view.removeFromSuperview()
-                self.removeFromParentViewController()
+                self.removeBottomSheet()
             })
             .disposed(by: self.disposebag)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         
         UIView.animate(withDuration: 0.5, delay: 0 , options: .curveEaseOut, animations: { [weak self] in
             guard let self = self else { return }
-            let translationY = self.totalStackView.frame.height
-            self.totalStackView.transform = CGAffineTransform(translationX: 0, y:  translationY * (-1))
+            let translationY = self.totalStackViewHeight            
+            self.totalStackView.transform = CGAffineTransform(translationX: 0, y:  CGFloat(translationY * (-1)))
         }, completion: nil)
+    }
+    
+    internal func removeBottomSheet() {
+        self.view.removeFromSuperview()
+        self.removeFromParentViewController()
     }
 }
 
