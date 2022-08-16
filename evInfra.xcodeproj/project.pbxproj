@@ -146,6 +146,7 @@
 		52C0782727CC982A00DEFEBE /* BoardListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0782627CC982A00DEFEBE /* BoardListViewModel.swift */; };
 		52D0F66A279E33B80070824E /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D0F669279E33B80070824E /* BoardDetailViewModel.swift */; };
 		590CED7428AB518100733B77 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590CED7328AB518100733B77 /* ViewConstants.swift */; };
+		590CED7528AB536F00733B77 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590CED7328AB518100733B77 /* ViewConstants.swift */; };
 		5941383228A0FC010057B7E5 /* PointHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383028A0FC000057B7E5 /* PointHistoryViewController.swift */; };
 		5941383328A0FC010057B7E5 /* PointHistoryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383128A0FC000057B7E5 /* PointHistoryReactor.swift */; };
 		5941383728A0FDD40057B7E5 /* PointHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383028A0FC000057B7E5 /* PointHistoryViewController.swift */; };
@@ -3226,6 +3227,7 @@
 				63F313B6284EC74F001713D2 /* ChargerTableViewCell.swift in Sources */,
 				63F313B7284EC74F001713D2 /* UserDefault.swift in Sources */,
 				63F313B8284EC74F001713D2 /* InfoLastUpdateDto.swift in Sources */,
+				590CED7528AB536F00733B77 /* ViewConstants.swift in Sources */,
 				63F313B9284EC74F001713D2 /* PartnershipJoinView.swift in Sources */,
 				63C7C8E1286D7D2C00A357D6 /* NewBottomSheetViewController.swift in Sources */,
 				63F313BA284EC74F001713D2 /* OfferwallTableViewCell.swift in Sources */,

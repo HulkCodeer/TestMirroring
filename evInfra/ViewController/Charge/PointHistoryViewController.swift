@@ -216,6 +216,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         startDateView.configure(Date())
         endDateView.configure(Date())
         
+        contentView.addSubview(customNavigationBar)
         contentView.addSubview(pointInfoView)
         contentView.addSubview(pointTableView)
         contentView.addSubview(startDateView)
@@ -250,6 +251,11 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         let pointInfoHeight: CGFloat = 172
         let guideButtonSize: CGFloat = 16
         let historyButtonsViewHeight: CGFloat = 30
+        
+        customNavigationBar.snp.makeConstraints {
+            $0.leading.top.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
         
         pointInfoView.snp.makeConstraints {
             $0.top.equalTo(contentView.snp.top)

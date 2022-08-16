@@ -121,7 +121,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         self.contentView.addSubview(naviTotalView)
         naviTotalView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
-            $0.height.equalTo(56)
+            $0.height.equalTo(Constants.view.naviBarHeight)
         }
         
         self.contentView.addSubview(quitBtn)

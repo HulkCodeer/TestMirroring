@@ -9,5 +9,5 @@
 import Foundation
 
 enum ViewConstants {
-    static let navigationBarHeight: CGFloat = 56
+    static let naviBarHeight: CGFloat = 56
 }
