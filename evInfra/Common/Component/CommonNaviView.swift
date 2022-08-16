@@ -62,7 +62,7 @@ internal final class CommonNaviView: UIView {
         totalView.addSubview(naviBackBtn)
         naviBackBtn.snp.makeConstraints {
             $0.leading.top.bottom.equalToSuperview()
-            $0.width.equalTo(48)
+            $0.width.equalTo(Constants.view.naviBarItemWidth)
         }
                
         totalView.addSubview(naviTitleLbl)

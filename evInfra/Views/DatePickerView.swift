@@ -13,21 +13,21 @@ import RxCocoa
 import RxSwift
 
 internal class DatePickerView: UIView {
-    private let disposeBag = DisposeBag()
+    private lazy var disposeBag = DisposeBag()
     
-    private let line = UIView().then {
+    private lazy var line = UIView().then {
         $0.backgroundColor = Colors.nt2.color
     }
-    private let customToolbar = UIView().then {
+    private lazy var customToolbar = UIView().then {
         $0.backgroundColor = Colors.backgroundDisabled.color
     }
-    private let doneButton = UIButton().then {
+    private lazy var doneButton = UIButton().then {
         $0.setTitle("Done", for: .normal)
         $0.setTitleColor(Colors.contentPositive.color, for: .normal)
         $0.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
     }
     
-    private let datePicker = UIDatePicker().then {
+    private lazy var datePicker = UIDatePicker().then {
         if #available(iOS 13.4, *) {
             $0.preferredDatePickerStyle = .wheels
         }
@@ -36,10 +36,10 @@ internal class DatePickerView: UIView {
         $0.datePickerMode = .date
     }
 
-    private let formatter = DateFormatter().then {
+    private lazy var formatter = DateFormatter().then {
         let locale = Locale(identifier: "ko_KO")
         
-        $0.dateFormat = Constant.date.yearMonthDayHangul
+        $0.dateFormat = Constants.date.yearMonthDayHangul
         $0.dateStyle = .long
         $0.timeStyle = .none
         $0.locale = locale

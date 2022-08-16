@@ -18,6 +18,11 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     private lazy var customNavigationBar = CommonNaviView().then {
         $0.naviTitleLbl.text = "MY 베리 내역"
     }
+    private lazy var settingButton = UIButton().then {
+        $0.setTitle("설정", for: .normal)
+        $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
+        $0.titleLabel?.font = .systemFont(ofSize: 16)
+    }
     
     private lazy var pointInfoView = UIView().then {
         $0.backgroundColor = Colors.backgroundPrimary.color
@@ -128,6 +133,11 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         setConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -163,6 +173,13 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     }
     
     private func subscribeUI() {
+        settingButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.showPointSetting()
+            }
+            .disposed(by: disposeBag)
+        
         pointGuideButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _  in
@@ -222,6 +239,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         contentView.addSubview(startDateView)
         contentView.addSubview(endDateView)
 
+        customNavigationBar.addSubview(settingButton)
+        
         pointInfoView.addSubview(myPointStackView)
         pointInfoView.addSubview(impendPointStackView)
         pointInfoView.addSubview(dateStackView)
@@ -248,17 +267,22 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         let dateViewTopPadding: CGFloat = 20
         let historyButtonsViewBottomPadding: CGFloat = 16
         
-        let pointInfoHeight: CGFloat = 172
         let guideButtonSize: CGFloat = 16
+        let pointInfoHeight: CGFloat = 172
         let historyButtonsViewHeight: CGFloat = 30
         
         customNavigationBar.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
             $0.height.equalTo(Constants.view.naviBarHeight)
         }
+        settingButton.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(Constants.view.naviBarItemPadding)
+            $0.width.equalTo(Constants.view.naviBarItemWidth)
+        }
         
         pointInfoView.snp.makeConstraints {
-            $0.top.equalTo(contentView.snp.top)
+            $0.top.equalTo(customNavigationBar.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(pointInfoHeight)
         }
@@ -309,6 +333,11 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     private func showPointGuide() {
         let pointGuideVC = PointUseGuideViewController()
         GlobalDefine.shared.mainNavi?.push(viewController: pointGuideVC)
+    }
+    
+    private func showPointSetting() {
+        let pointSettionVC = UIStoryboard(name: "Charge", bundle: nil).instantiateViewController(ofType: PreUsePointViewController.self)//PreUsePointViewController()
+        GlobalDefine.shared.mainNavi?.push(viewController: pointSettionVC)
     }
     
     private func setImpendPoint(point: String) {

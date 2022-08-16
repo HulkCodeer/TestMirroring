@@ -11,14 +11,14 @@ import UIKit
 import SnapKit
 
 internal final class PointCategoryButtonsView: UIView {
-    private let contentsStackView = UIStackView().then {
+    private lazy var contentsStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .fill
         $0.distribution = .fillEqually
         $0.spacing = -1
     }
     
-    let allTypeButton = UIButton().then {
+    lazy var allTypeButton = UIButton().then {
         let color = UIColor(hex: "#CECECE")
         
         $0.roundCorners(
@@ -32,7 +32,7 @@ internal final class PointCategoryButtonsView: UIView {
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = .systemFont(ofSize: 14)
     }
-    let useTypeButton = UIButton().then {
+    lazy var useTypeButton = UIButton().then {
         let color = UIColor(hex: "#CECECE")
         
         $0.layer.borderColor = color.cgColor
@@ -43,7 +43,7 @@ internal final class PointCategoryButtonsView: UIView {
         $0.setTitleColor(color, for: .normal)
         $0.titleLabel?.font = .systemFont(ofSize: 14)
     }
-    let saveTypeButton = UIButton().then {
+    lazy var saveTypeButton = UIButton().then {
         let color = UIColor(hex: "#CECECE")
 
         $0.roundCorners(
