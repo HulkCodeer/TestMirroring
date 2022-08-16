@@ -170,28 +170,14 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
     }
         
     private func dismissPopup(actionBtnType: ActionBtnType) {
-        guard let _autoDismissPopup = popupModel.autoDismissPopup else {
-            self.dismiss(animated: true)
-            return
-        }
-        
-        if _autoDismissPopup {
-            self.dismiss(animated: true, completion: {
-                switch actionBtnType {
-                case .ok:
-                    self.popupModel.confirmBtnAction?()
-                case .cancel:
-                    self.popupModel.cancelBtnAction?()
-                }
-            })
-        } else {
+        self.dismiss(animated: true, completion: {
             switch actionBtnType {
             case .ok:
                 self.popupModel.confirmBtnAction?()
             case .cancel:
                 self.popupModel.cancelBtnAction?()
             }
-        }
+        })
     }
 }
 

@@ -9,9 +9,9 @@
 import ReactorKit
 import SwiftyJSON
 import UIKit
+import ReusableKit
 
 internal final class NewLeftViewController: CommonBaseViewController, StoryboardView {
-    
     enum ViewHeightConst {
         static var loginViewHeight: CGFloat = 165
         static var nonLoginViewHeigt: CGFloat = 121
@@ -555,9 +555,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                // MARK: - TEST CODE
-//                switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
-                switch (MemberManager.shared.hasPayment, true) {
+                switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
                 case (false, false):
                     guard !self.useAllMyBerrySw.isOn else { return }
                     let popupModel = PopupModel(title: "회원카드를 발급하시겠어요?",
@@ -588,30 +586,14 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                                 switch PaymentStatus(rawValue: payCode) {
                                 case .PAY_NO_CARD_USER, .PAY_NO_USER: // 카드등록 아니된 멤버
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                        let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
-                                        
-                                        viewcon.backBtnClosure = {
-                                            let popup = VerticalConfirmPopupViewController(model: popupModel)
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                                            })
-                                        }
-                                        
+                                        let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)                                                                                                                        
                                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                                     })
                                                         
                                 case .PAY_DEBTOR_USER: // 돈안낸 유저
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                        let paymentVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
-                                        
-                                        viewcon.backBtnClosure = {
-                                            let popup = VerticalConfirmPopupViewController(model: popupModel)
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                                            })
-                                        }
-                                        
-                                        GlobalDefine.shared.mainNavi?.push(viewController: paymentVC)
+                                        let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
+                                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                                     })
                                     
                                 default: self.dismiss(animated: true)
@@ -624,7 +606,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                         
                     }, cancelBtnAction: {
                         self.dismiss(animated: true)
-                    }, textAlignment: .center, autoDismissPopup: false)
+                    }, textAlignment: .center)
                                             
                     let popup = VerticalConfirmPopupViewController(model: popupModel)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
