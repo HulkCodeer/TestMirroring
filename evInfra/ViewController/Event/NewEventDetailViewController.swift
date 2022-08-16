@@ -102,4 +102,13 @@ extension NewEventDetailViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         decisionHandler(.allow)
     }
+    
+    func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        guard let serverTrust = challenge.protectionSpace.serverTrust else {
+            completionHandler(.useCredential, nil)
+            return
+        }
+        let credential = URLCredential(trust: serverTrust)
+        completionHandler(.useCredential, credential)
+    }
 }
