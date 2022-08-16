@@ -139,7 +139,7 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
     }
     
     private func setRemakeSubscriptionLabel() {
-        boardSubscriptionLabel.snp.remakeConstraints {
+        boardSubscriptionLabel.snp.updateConstraints {
             $0.top.equalTo(bannerCollectionView.snp.bottom).offset(16)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
