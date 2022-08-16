@@ -40,7 +40,7 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadStartBanner:
-            return self.provider.getAdsList(page: .start, layer: .popup)
+            return self.provider.getAdsList(page: .start, layer: .bottom)
                 .convertData()
                 .compactMap(convertToDataModel)
                 .compactMap(convertToModel)

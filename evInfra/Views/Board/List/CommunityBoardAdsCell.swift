@@ -41,7 +41,7 @@ class CommunityBoardAdsCell: UITableViewCell {
     }
     
     func configuration(item: BoardListItem) {
-        adsProfileImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(item.mb_profile ?? "")"))
+        adsProfileImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(item.mb_profile ?? "")"), placeholderImage: UIImage(named: "ic_person_base36"))
         adsTitleLabel.text = item.nick_name
         adsDescriptionLabel.text = "advertisement"
         adsImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(item.cover_filename ?? "")")) { (_, _, _, _) in
