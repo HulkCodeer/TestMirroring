@@ -305,11 +305,11 @@ extension LeftViewController {
                         var myWritingControllers = [MyWritingViewController]()
                         let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
                         let freeMineVC = boardStoryboard.instantiateViewController(ofType: MyWritingViewController.self)
-                        freeMineVC.boardCategory = Board.CommunityType.FREE.rawValue
+                        freeMineVC.boardCategory = .FREE
                         freeMineVC.screenType = .LIST
                                             
                         let chargerMineVC = boardStoryboard.instantiateViewController(ofType: MyWritingViewController.self)
-                        chargerMineVC.boardCategory = Board.CommunityType.CHARGER.rawValue
+                        chargerMineVC.boardCategory = .CHARGER
                         chargerMineVC.screenType = .FEED
                         
                         myWritingControllers.append(chargerMineVC)
@@ -392,7 +392,7 @@ extension LeftViewController {
                 
                 let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
                 let freeBoardVC = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
-                freeBoardVC.category = Board.CommunityType.FREE.rawValue
+                freeBoardVC.category = .FREE
                 freeBoardVC.mode = Board.ScreenType.FEED
                 navigationController?.push(viewController: freeBoardVC)
             
@@ -401,7 +401,7 @@ extension LeftViewController {
                 
                 let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
                 let stationBoardVC = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
-                stationBoardVC.category = Board.CommunityType.CHARGER.rawValue
+                stationBoardVC.category = .CHARGER
                 stationBoardVC.mode = Board.ScreenType.FEED
                 GlobalDefine.shared.mainNavi?.push(viewController: stationBoardVC)
             default:
@@ -414,7 +414,7 @@ extension LeftViewController {
                     UserDefault().saveInt(key: boardInfo.shardKey!, value: boardInfo.brdId!)
                     let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
                     let companyBoardVC = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
-                    companyBoardVC.category = Board.CommunityType.getCompanyType(shardKey: boardInfo.shardKey ?? "")
+                    companyBoardVC.category = Board.CommunityType.getCompanyType(key: boardInfo.shardKey ?? "")
                     companyBoardVC.bmId = boardInfo.bmId!
                     companyBoardVC.brdTitle = title
                     companyBoardVC.mode = Board.ScreenType.FEED

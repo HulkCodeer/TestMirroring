@@ -8,31 +8,37 @@
 
 import UIKit
 import SnapKit
+import Then
 import TTGTags
+import SDWebImage
 
 protocol CommunityBoardTableViewHeaderDelegate: AnyObject {
     func didSelectTag(_ selectedType: Board.SortType)
 }
 
-class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
+internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
     
     @IBOutlet var bannerCollectionView: UICollectionView!
     
     private let pageControl = UIPageControl()
     private lazy var tagCollectionView = TTGTextTagCollectionView()
-    private lazy var boardSubscriptionLabel: UILabel = {
-       let label = UILabel()
-        label.text = "자유롭게 이야기를 나누어요."
-        label.font = .systemFont(ofSize: 12, weight: .regular)
-        label.textColor = UIColor(named: "nt-5")
-        return label
-    }()
+    private lazy var boardSubscriptionLabel = UILabel().then {
+        $0.text = "자유롭게 이야기를 나누어요."
+        $0.textColor = Colors.nt5.color
+        $0.font = .systemFont(ofSize: 12, weight: .regular)
+    }
     
     weak var delegate: CommunityBoardTableViewHeaderDelegate?
     
     private var tags: [String] = []
-    private let images = ["adCommunity01.png", "adCommunity02.png"]
-
+    private var adManager = EIAdManager.sharedInstance
+    private var topBanners: [AdsInfo] = [AdsInfo]()
+    internal var boardType: String = Board.CommunityType.FREE.rawValue
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setUI()
@@ -42,7 +48,7 @@ class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
         super.prepareForReuse()
     }
     
-    func setUI() {
+    private func setUI() {
         self.bannerCollectionView.register(UINib(nibName: "BannerCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BannerCollectionViewCell")
         self.bannerCollectionView.dataSource = self
         self.bannerCollectionView.delegate = self
@@ -54,35 +60,40 @@ class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
         setupTagCollectionView()
         setPageControll()
     }
+    
+    internal func fetchAds(categoryType: Board.CommunityType) {
+        let promotionPageType: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: categoryType)
+        
+        adManager.getAdsList(page: promotionPageType, layer: .top) { topBanners in
+            self.topBanners = topBanners
+            
+            DispatchQueue.main.async {
+                self.bannerCollectionView.reloadData()
+            }
+        }
+    }
 
-    func setupBannerView(categoryType: String) {
-
+    internal func setupBannerView(categoryType: Board.CommunityType) {
         var description = ""
         switch categoryType {
-        case Board.CommunityType.FREE.rawValue:
+        case .FREE:
             description = "자유롭게 이야기를 나누어요."
             setupTagCollectionViewLayout()
-            break
-        case Board.CommunityType.CHARGER.rawValue:
+        case .CHARGER:
             description = "충전소 관련 이야기를 모아봐요."
             setRemakeSubscriptionLabel()
-            break
-        case Board.CommunityType.CORP_GS.rawValue:
+        case .CORP_GS:
             description = "GS칼텍스 전용 게시판입니다."
             setRemakeSubscriptionLabel()
-            break
-        case Board.CommunityType.CORP_JEV.rawValue:
+        case .CORP_JEV:
             description = "제주전기차서비스 전용 게시판입니다."
             setRemakeSubscriptionLabel()
-            break
-        case Board.CommunityType.CORP_STC.rawValue:
+        case .CORP_STC:
             description = "에스트래픽 전용 게시판입니다."
             setRemakeSubscriptionLabel()
-            break
-        case Board.CommunityType.CORP_SBC.rawValue:
+        case .CORP_SBC:
             description = "EV Infra에 의견을 전달해 보세요."
             setRemakeSubscriptionLabel()
-            break
         default:
             break
         }
@@ -90,7 +101,7 @@ class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
         boardSubscriptionLabel.text = description
     }
     
-    func setSubscriptionLabel() {
+    private func setSubscriptionLabel() {
         self.addSubview(boardSubscriptionLabel)
         
         boardSubscriptionLabel.snp.makeConstraints {
@@ -102,10 +113,10 @@ class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
         }
     }
     
-    func setPageControll() {
+    private func setPageControll() {
         self.addSubview(pageControl)
         
-        pageControl.numberOfPages = images.count
+        pageControl.numberOfPages = topBanners.count
         pageControl.currentPageIndicatorTintColor = .lightGray
         pageControl.pageIndicatorTintColor = .white
         
@@ -116,7 +127,7 @@ class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
         }
     }
     
-    func setupTagCollectionViewLayout() {
+    private func setupTagCollectionViewLayout() {
         self.addSubview(tagCollectionView)
         
         tagCollectionView.snp.makeConstraints {
@@ -127,8 +138,8 @@ class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
         }
     }
     
-    func setRemakeSubscriptionLabel() {
-        boardSubscriptionLabel.snp.remakeConstraints {
+    private func setRemakeSubscriptionLabel() {
+        boardSubscriptionLabel.snp.updateConstraints {
             $0.top.equalTo(bannerCollectionView.snp.bottom).offset(16)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
@@ -137,7 +148,7 @@ class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
         }
     }
     
-    func setSelectedPage(currentPage: Int) {
+    private func setSelectedPage(currentPage: Int) {
         pageControl.currentPage = currentPage
     }
 }
@@ -158,20 +169,35 @@ extension CommunityBoardTableViewHeader: UICollectionViewDelegateFlowLayout {
 extension CommunityBoardTableViewHeader: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images.count
+        return topBanners.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BannerCollectionViewCell", for: indexPath) as? BannerCollectionViewCell else { return UICollectionViewCell.init() }
-        
-        cell.bannerImageView.image = UIImage(named: images[indexPath.row])
-        
+        let banner = topBanners[indexPath.row]
+        cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(String(describing: topBanners[indexPath.row].img))")) { (image, error, _, _) in
+            if let _ = error {
+                cell.bannerImageView.image = UIImage(named: "")
+            } else {
+                cell.bannerImageView.image = image
+                self.adManager.logEvent(adIds: [banner.evtId], action: .view, page: .free, layer: .top)
+            }
+        }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let banner = topBanners[indexPath.row]
+        // 배너 클릭 로깅
+        adManager.logEvent(adIds: [banner.evtId], action: .click, page: .free, layer: .top)
+        // open url
+        let adUrl = banner.extUrl
+        guard let url = URL(string: adUrl), UIApplication.shared.canOpenURL(url) else { return }
+        UIApplication.shared.open(url)
     }
 }
 
@@ -271,7 +297,7 @@ extension CommunityBoardTableViewHeader {
 class BannerCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var bannerImageView: UIImageView!
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
         bannerImageView.layer.cornerRadius = 16

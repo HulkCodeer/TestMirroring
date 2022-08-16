@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BoardListViewModel {
+internal final class BoardListViewModel {
     
     var listener: ((BoardResponseData?) -> Void)?
     
@@ -19,67 +19,31 @@ class BoardListViewModel {
     }
     
     private var indexOfAd: Int = 0
-    private var adManager = EIAdManager.sharedInstance
+    private var adList: [BoardListItem] = [BoardListItem]()
+    private var categoryType: Board.CommunityType = .FREE
+    private let fetchAdListGroup = DispatchGroup()
     
-    init() {}
-    
-    func fetchFirstBoard(mid: String, sort: Board.SortType, currentPage: Int, mode: String) {
-        let adList = adManager.boardAdList
+    internal init(_ type: Board.CommunityType) {
+        fetchAdListGroup.enter()
+        let adType: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: type)
         
-        Server.fetchBoardList(mid: mid,
-                              page: "\(currentPage)",
-                              mode: mode,
-                              sort: sort.rawValue,
-                              searchType: "",
-                              searchKeyword: "") { (isSuccess, value) in
-            if isSuccess {
-                guard let data = value else { return }
-                let decoder = JSONDecoder()
-                
-                do {
-                    var result = try decoder.decode(BoardResponseData.self, from: data)
-                    let countOfList = result.list!.count
-                    var boardIndex = countOfList/2
-                    
-                    // TODO: 데이터 갯수 20개이하 일 경우, 광고데이터 세팅
-                    guard countOfList == 20 else {
-                        self.boardResponseData = result
-                        return
-                    }
-                    
-                    if !adList.isEmpty {
-                        for _ in [currentPage, currentPage+1] {
-                            result.list?.insert(adList[self.indexOfAd], at: boardIndex)
-                            boardIndex = boardIndex + 10
-                            self.indexOfAd += 1
-                            
-                            if self.indexOfAd == adList.count {
-                                self.indexOfAd = 0
-                            }
-                        }
-                    }
-                    
-                    self.boardResponseData = result
-                } catch {
-                    debugPrint("error")
-                }
-            } else {
-                
-            }
+        EIAdManager.sharedInstance.getAdsList(page: adType, layer: Promotion.Layer.mid) { adsList in
+            self.adList = adsList.map { BoardListItem($0) }
+            self.fetchAdListGroup.leave()
         }
     }
     
-    func fetchNextBoard(mid: String, sort: Board.SortType, currentPage: Int, mode: String) {
-        let adList = adManager.boardAdList
-        
-        Server.fetchBoardList(mid: mid,
-                              page: "\(currentPage)",
-                              mode: mode,
-                              sort: sort.rawValue,
-                              searchType: "",
-                              searchKeyword: "") { (isSuccess, value) in
-            if isSuccess {
+    func fetchFirstBoard(mid: String, sort: Board.SortType, currentPage: Int, mode: String) {
+        fetchAdListGroup.notify(queue: .global(), execute: {
+            Server.fetchBoardList(mid: mid,
+                                  page: "\(currentPage)",
+                                  mode: mode,
+                                  sort: sort.rawValue,
+                                  searchType: "",
+                                  searchKeyword: "") { (isSuccess, value) in
+                guard isSuccess else { return }
                 guard let data = value else { return }
+                
                 let decoder = JSONDecoder()
                 
                 do {
@@ -87,19 +51,64 @@ class BoardListViewModel {
                     let countOfList = result.list!.count
                     var boardIndex = countOfList/2
                     
-                    // TODO: 데이터 갯수 20개이하 일 경우, 광고데이터 세팅
+                    
                     guard countOfList == 20 else {
                         self.boardResponseData = result
                         return
                     }
                     
-                    if !adList.isEmpty {
+                    // 광고 게시글 insert
+                    if !self.adList.isEmpty {
                         for _ in [currentPage, currentPage+1] {
-                            result.list?.insert(adList[self.indexOfAd], at: boardIndex)
+                            result.list?.insert(self.adList[self.indexOfAd], at: boardIndex)
+                            boardIndex = boardIndex + 10
+                            self.indexOfAd += 1
+                            
+                            if self.indexOfAd == self.adList.count {
+                                self.indexOfAd = 0
+                            }
+                        }
+                    }
+                    
+                    self.boardResponseData = result
+                } catch {
+                    printLog(out: "error")
+                }
+            }
+        })
+    }
+    
+    func fetchNextBoard(mid: String, sort: Board.SortType, currentPage: Int, mode: String) {
+        fetchAdListGroup.notify(queue: .global(), execute: {
+            Server.fetchBoardList(mid: mid,
+                                  page: "\(currentPage)",
+                                  mode: mode,
+                                  sort: sort.rawValue,
+                                  searchType: "",
+                                  searchKeyword: "") { (isSuccess, value) in
+                guard isSuccess else { return }
+                guard let data = value else { return }
+                
+                let decoder = JSONDecoder()
+                
+                do {
+                    var result = try decoder.decode(BoardResponseData.self, from: data)
+                    let countOfList = result.list!.count
+                    var boardIndex = countOfList/2
+                    
+                    guard countOfList == 20 else {
+                        self.boardResponseData = result
+                        return
+                    }
+                    
+                    // 광고 게시글 insert
+                    if !self.adList.isEmpty {
+                        for _ in [currentPage, currentPage+1] {
+                            result.list?.insert(self.adList[self.indexOfAd], at: boardIndex)
                             boardIndex = boardIndex + 10
 
                             self.indexOfAd += 1
-                            if self.indexOfAd == adList.count {
+                            if self.indexOfAd == self.adList.count {
                                 self.indexOfAd = 0
                             }
                         }
@@ -107,11 +116,9 @@ class BoardListViewModel {
 
                     self.boardResponseData = result
                 } catch {
-                    debugPrint("error")
+                    printLog(out: "error")
                 }
-            } else {
-                
             }
-        }
+        })
     }
 }

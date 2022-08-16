@@ -78,17 +78,29 @@ class Board {
                 case .CORP_SBC: return "company_ev_infra"
             }
         }
+        
+        static func convertToEventKey(communityType: CommunityType) -> Promotion.Page {
+            switch communityType {
+            case .CHARGER: return .charging
+            case .FREE: return .free
+            case .NOTICE: return .notice
+            case .CORP_GS: return .gsc
+            case .CORP_JEV: return .jeju
+            case .CORP_STC: return .est
+            case .CORP_SBC: return .evinra
+            }
+        }
 
-        static func getCompanyType(shardKey: String) -> String {
-            var text: String = CommunityType.CORP_GS.rawValue
+        static func getCompanyType(key: String) -> CommunityType {
+            var type: CommunityType = .CORP_GS
 
             CommunityType.allCases.forEach {
-                if $0.shardKey == shardKey {
-                    text = $0.rawValue
+                if $0.shardKey == key {
+                    type = $0
                 }
             }
 
-            return text
+            return type
         }
     }
 

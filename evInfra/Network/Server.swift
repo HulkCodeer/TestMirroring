@@ -1029,20 +1029,19 @@ class Server {
             .responseData { response in responseJson(response: response, completion: completion) }
     }
     
-    // 이벤트 click event 전송
-    static func countEventAction(eventId: Array<Int>, action: Int) {
-        if (eventId.isEmpty){
-            return
-        }
+    // MARK: - AWS 프로모션(광고/이벤트) click/view event 전송
+    static func countEventAction(eventId: [String], action: Promotion.Action, page: Promotion.Page, layer: Promotion.Layer) {
+        guard !eventId.isEmpty else { return }
         
         let reqParam: Parameters = [
             "member_id": MemberManager.shared.memberId,
             "mb_id": MemberManager.shared.mbId,
             "event_ids": eventId,
-            "action": action
+            "action": action,
+            "page": page.rawValue,
+            "layer": layer.rawValue
         ]
-        AF.request(Const.EV_PAY_SERVER + "/event/Event/add_count",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+        _ = AF.request("\(Const.AWS_SERVER)/promotion/log", method: .post, parameters: reqParam, encoding: JSONEncoding.default)
     }
     
     // 쿠폰 - 리스트 가져오기
@@ -1091,15 +1090,15 @@ class Server {
             .validate().responseData { response in responseJson(response: response, completion: completion) }
     }
     
-    // 광고 click event 전송
-    static func countAdAction(adId: String, action: Int) {
+    // MARK: - 기존 서버 프로모션(광고/이벤트) click/view event 전송
+    static func countAdAction(eventId: [String], action: Int) {
         let reqParam: Parameters = [
             "member_id": MemberManager.shared.memberId,
             "mb_id": MemberManager.shared.mbId,
-            "ad_id": adId,
+            "event_ids": eventId,
             "action": action
         ]
-        AF.request(Const.EV_PAY_SERVER + "/ad/ad_analysis/add_count",
+        AF.request(Const.EV_PAY_SERVER + "/event/Event/add_count",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
     }
 

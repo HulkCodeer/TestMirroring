@@ -11,6 +11,8 @@ import Material
 import SwiftyJSON
 import Motion
 import FLAnimatedImage
+import RxSwift
+import RxCocoa
 
 class IntroViewController: UIViewController {
 
@@ -26,6 +28,8 @@ class IntroViewController: UIViewController {
     var isNewBoardList = Array<Bool>()
     var maxCount = 0
     
+    private let disposeBag = DisposeBag()
+    
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
@@ -35,6 +39,7 @@ class IntroViewController: UIViewController {
         
         showProgressLayer(isShow: false)
         showIntro()
+        fetchAdsList()
         ChargerManager.sharedInstance.getChargerCompanyInfo(listener: {
             
             class chargerManagerListener: ChargerManagerListener {
@@ -65,6 +70,12 @@ class IntroViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func fetchAdsList() {
+        Observable.just(GlobalAdsReactor.Action.loadStartBanner)
+            .bind(to: GlobalAdsReactor.sharedInstance.action)
+            .disposed(by: disposeBag)
     }
 }
 

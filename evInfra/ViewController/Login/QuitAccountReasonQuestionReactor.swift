@@ -56,7 +56,7 @@ internal final class QuitAccountReasonQuestionReactor: ViewModel, Reactor {
         return newState
     }
     
-    private func convertToData(with result: ApiResult<Data, ApiErrorMessage> ) -> [QuitAccountReasonModel]? {
+    private func convertToData(with result: ApiResult<Data, ApiError> ) -> [QuitAccountReasonModel]? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
