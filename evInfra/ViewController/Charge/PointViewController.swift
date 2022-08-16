@@ -245,6 +245,7 @@ extension PointViewController {
             if isSuccess {
                 if let data = responseData {
                     self.pointHistory = try! JSONDecoder().decode(PointHistory.self, from: data)
+                    printLog(out: "PARK TEST pointHistory : \(self.pointHistory)")
                     if self.pointHistory.code != 1000 {
                         self.labelResultMsg.visible()
                         self.labelResultMsg.text = self.pointHistory.msg

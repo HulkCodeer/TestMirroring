@@ -12,6 +12,11 @@ import UIKit
 import ReusableKit
 
 internal final class NewLeftViewController: CommonBaseViewController, StoryboardView {
+    private enum Reusable {
+        static let leftViewMenuItem = ReusableCell<LeftViewMenuItem>(nibName: LeftViewMenuItem.reuseID)
+        static let leftViewTableHeader = ReusableView<LeftViewTableHeader>(nibName: LeftViewTableHeader.reuseID)
+    }
+        
     enum ViewHeightConst {
         static var loginViewHeight: CGFloat = 165
         static var nonLoginViewHeigt: CGFloat = 121
@@ -190,8 +195,8 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     private lazy var tableView = UITableView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.register(UINib(nibName: "LeftViewMenuItem", bundle: nil), forCellReuseIdentifier: "LeftViewMenuItem")
-        $0.register(UINib(nibName: "LeftViewTableHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "LeftViewTableHeader")                
+        $0.register(Reusable.leftViewMenuItem)
+        $0.register(Reusable.leftViewTableHeader)
         $0.backgroundColor = .white
         $0.separatorStyle = .none
         $0.rowHeight = UITableViewAutomaticDimension
@@ -794,7 +799,8 @@ extension NewLeftViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let _reactor = self.reactor else { return UIView() }
-        let headerView = Bundle.main.loadNibNamed("LeftViewTableHeader", owner: self, options: nil)?.first as! LeftViewTableHeader
+//        let headerView = Bundle.main.loadNibNamed("LeftViewTableHeader", owner: self, options: nil)?.first as! LeftViewTableHeader
+        let headerView = tableView.dequeueReusableHeaderFooterView(ofType: LeftViewTableHeader.self)
         let headerValue = _reactor.currentState.menuCategoryType.menuList[section].mediumCategory.rawValue
         headerView.cellTitle.text = headerValue
         return headerView
@@ -807,7 +813,7 @@ extension NewLeftViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let _reactor = self.reactor else { return UITableViewCell() }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LeftViewMenuItem", for: indexPath) as! LeftViewMenuItem
+        let cell = tableView.dequeueReusableCell(ofType: LeftViewMenuItem.self, for: indexPath)
         cell.menuLabel.text = _reactor.currentState.menuCategoryType.menuList[indexPath.section].smallMenuList[indexPath.row]
         
         // 게시판, 이벤트 등에 새글 표시

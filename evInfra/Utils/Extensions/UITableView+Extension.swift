@@ -16,6 +16,13 @@ extension UITableView {
         return cell
     }
     
+    func dequeueReusableHeaderFooterView<T>(ofType cellType: T.Type = T.self) -> T where T: UITableViewHeaderFooterView {
+        guard let cell = dequeueReusableHeaderFooterView(withIdentifier: cellType.reuseID) as? T else {
+            fatalError("error: dequeueReusableCell")
+        }
+        return cell
+    }
+    
     func reloadDataWithCompletion(completion: @escaping () -> Void) {
         UIView.animate(withDuration: 0, animations: { self.reloadData() })
             { _ in completion() }
@@ -27,3 +34,5 @@ extension UITableView {
 }
 
 extension UITableViewCell: Reusable {}
+
+extension UITableViewHeaderFooterView: Reusable {}
