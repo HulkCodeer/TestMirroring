@@ -17,7 +17,6 @@ import SDWebImage
 internal final class StartBannerViewController: CommonBaseViewController, StoryboardView {
     
     private lazy var dimmedViewBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
     }
     
@@ -56,7 +55,6 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
     }
     
     private lazy var safeAreaBottomView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = Colors.backgroundPrimary.color
     }
     

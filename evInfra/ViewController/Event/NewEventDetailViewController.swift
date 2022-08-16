@@ -14,15 +14,12 @@ import WebKit
 internal final class NewEventDetailViewController: CommonBaseViewController {
     
     private lazy var naviTotalView = CommonNaviView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.naviTitleLbl.text = "이벤트 상세 화면"
     }
     
     private lazy var webView = WKWebView().then() {
         $0.uiDelegate = self
         $0.navigationDelegate = self
-        $0.translatesAutoresizingMaskIntoConstraints = true
-        $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
     
     internal var eventUrl: String = ""
