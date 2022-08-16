@@ -190,12 +190,12 @@ internal final class FCMManager {
         let viewcon = UIStoryboard(name: "BoardDetailViewController", bundle: nil).instantiateViewController(ofType: BoardDetailViewController.self)
         if _visibleViewcon.isKind(of: BoardDetailViewController.self) {
             viewcon.document_srl = boardId
-            viewcon.category = category
+            viewcon.category = Board.CommunityType.getCompanyType(key: category)
             viewcon.viewDidLoad()
             return
         } else {
             viewcon.document_srl = boardId
-            viewcon.category = category
+            viewcon.category = Board.CommunityType.getCompanyType(key: category)
             _mainNavi.push(viewController: viewcon)
         }
     }

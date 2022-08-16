@@ -1357,7 +1357,7 @@ extension MainViewController {
         
         let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
         let freeBoardViewController = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
-        freeBoardViewController.category = Board.BOARD_CATEGORY_FREE
+        freeBoardViewController.category = .FREE
         GlobalDefine.shared.mainNavi?.push(viewController: freeBoardViewController)
     }
     

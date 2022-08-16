@@ -22,24 +22,8 @@ internal final class BoardListViewModel {
     private var adList: [BoardListItem] = [BoardListItem]()
     private var categoryType: Board.CommunityType = .FREE
     
-    internal init(_ type: String) {
-        var adType: Promotion.Page = .free
-        switch type {
-        case Board.CommunityType.CHARGER.rawValue:
-            adType = .charging
-        case Board.CommunityType.CORP_GS.rawValue:
-            adType = .gsc
-        case Board.CommunityType.CORP_STC.rawValue:
-            adType = .est
-        case Board.CommunityType.CORP_SBC.rawValue:
-            adType = .evinra
-        case Board.CommunityType.CORP_JEV.rawValue:
-            adType = .jeju
-        case Board.CommunityType.NOTICE.rawValue:
-            adType = .notice
-        default:
-            adType = .free
-        }
+    internal init(_ type: Board.CommunityType) {
+        let adType: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: type)
         
         EIAdManager.sharedInstance.getAdsList(page: adType, layer: Promotion.Layer.mid) { adsList in
             self.adList = adsList.map { BoardListItem($0) }

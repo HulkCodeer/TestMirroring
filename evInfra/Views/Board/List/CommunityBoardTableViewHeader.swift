@@ -61,24 +61,10 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         setPageControll()
     }
     
-    internal func fetchAds(categoryType: String) {
-        var promotionPageType: Promotion.Page = .free
-        switch categoryType {
-        case Board.CommunityType.CHARGER.rawValue:
-            promotionPageType = .charging
-        case Board.CommunityType.CORP_GS.rawValue:
-            promotionPageType = .gsc
-        case Board.CommunityType.CORP_STC.rawValue:
-            promotionPageType = .est
-        case Board.CommunityType.CORP_SBC.rawValue:
-            promotionPageType = .evinra
-        case Board.CommunityType.CORP_JEV.rawValue:
-            promotionPageType = .jeju
-        default:
-            promotionPageType = .free
-        }
+    internal func fetchAds(categoryType: Board.CommunityType) {
+        let promotionPageType: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: categoryType)
         
-        adManager.getAdsList(page: promotionPageType, layer: Promotion.Layer.top) { topBanners in
+        adManager.getAdsList(page: promotionPageType, layer: .top) { topBanners in
             self.topBanners = topBanners
             
             DispatchQueue.main.async {
@@ -87,25 +73,25 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         }
     }
 
-    internal func setupBannerView(categoryType: String) {
+    internal func setupBannerView(categoryType: Board.CommunityType) {
         var description = ""
         switch categoryType {
-        case Board.CommunityType.FREE.rawValue:
+        case .FREE:
             description = "자유롭게 이야기를 나누어요."
             setupTagCollectionViewLayout()
-        case Board.CommunityType.CHARGER.rawValue:
+        case .CHARGER:
             description = "충전소 관련 이야기를 모아봐요."
             setRemakeSubscriptionLabel()
-        case Board.CommunityType.CORP_GS.rawValue:
+        case .CORP_GS:
             description = "GS칼텍스 전용 게시판입니다."
             setRemakeSubscriptionLabel()
-        case Board.CommunityType.CORP_JEV.rawValue:
+        case .CORP_JEV:
             description = "제주전기차서비스 전용 게시판입니다."
             setRemakeSubscriptionLabel()
-        case Board.CommunityType.CORP_STC.rawValue:
+        case .CORP_STC:
             description = "에스트래픽 전용 게시판입니다."
             setRemakeSubscriptionLabel()
-        case Board.CommunityType.CORP_SBC.rawValue:
+        case .CORP_SBC:
             description = "EV Infra에 의견을 전달해 보세요."
             setRemakeSubscriptionLabel()
         default:
@@ -189,10 +175,13 @@ extension CommunityBoardTableViewHeader: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BannerCollectionViewCell", for: indexPath) as? BannerCollectionViewCell else { return UICollectionViewCell.init() }
         let banner = topBanners[indexPath.row]
-        
-        cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(String(describing: topBanners[indexPath.row].img))"))
-        cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(String(describing: topBanners[indexPath.row].img))")) { (_, _, _, _) in
-            self.adManager.logEvent(adIds: [banner.evtId], action: .view, page: .free, layer: .top)
+        cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(String(describing: topBanners[indexPath.row].img))")) { (image, error, _, _) in
+            if let _ = error {
+                cell.bannerImageView.image = UIImage(named: "")
+            } else {
+                cell.bannerImageView.image = image
+                self.adManager.logEvent(adIds: [banner.evtId], action: .view, page: .free, layer: .top)
+            }
         }
         return cell
     }

@@ -19,7 +19,7 @@ class CardBoardViewController: BaseViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    var category = Board.CommunityType.FREE.rawValue // default 자유게시판
+    var category: Board.CommunityType = .FREE // default 자유게시판
     var bmId: Int = -1
     var brdTitle: String = ""
     var currentPage = 0
@@ -46,7 +46,7 @@ class CardBoardViewController: BaseViewController {
         self.title = "게시판 리스트 화면"
         boardListViewModel = BoardListViewModel(category)
         prepareActionBar()
-        fetchFirstBoard(mid: category, sort: sortType, mode: mode.rawValue)
+        fetchFirstBoard(mid: category.rawValue, sort: sortType, mode: mode.rawValue)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
     }
     
@@ -58,12 +58,12 @@ class CardBoardViewController: BaseViewController {
 extension CardBoardViewController {
     
     @objc func updateCompletion(_ notification: Notification) {
-        fetchFirstBoard(mid: category, sort: sortType, mode: mode.rawValue)
+        fetchFirstBoard(mid: category.rawValue, sort: sortType, mode: mode.rawValue)
     }
     
     @objc func pullToRefresh(refresh: UIRefreshControl) {
         refresh.endRefreshing()
-        fetchFirstBoard(mid: category, sort: sortType, mode: mode.rawValue)
+        fetchFirstBoard(mid: category.rawValue, sort: sortType, mode: mode.rawValue)
     }
     
     func prepareActionBar() {
@@ -84,14 +84,11 @@ extension CardBoardViewController {
         navigationItem.titleLabel.text = "게시판"
         
         switch self.category {
-        case Board.CommunityType.CHARGER.rawValue:
+        case .CHARGER:
             navigationItem.titleLabel.text = "충전소 게시판"
-        case Board.CommunityType.CORP_GS.rawValue,
-            Board.CommunityType.CORP_JEV.rawValue,
-            Board.CommunityType.CORP_STC.rawValue,
-            Board.CommunityType.CORP_SBC.rawValue:
+        case .CORP_GS, .CORP_JEV, .CORP_STC, .CORP_SBC:
             navigationItem.titleLabel.text = self.brdTitle + " 게시판"
-        case Board.CommunityType.FREE.rawValue:
+        case .FREE:
             navigationItem.titleLabel.text = "자유게시판"
         default:
             break
@@ -146,7 +143,7 @@ extension CardBoardViewController {
         boardWriteViewController.category = self.category
         boardWriteViewController.popCompletion = { [weak self] in
             guard let self = self else { return }
-            self.fetchFirstBoard(mid: self.category, sort: self.sortType, mode: self.mode.rawValue)
+            self.fetchFirstBoard(mid: self.category.rawValue, sort: self.sortType, mode: self.mode.rawValue)
         }
         
         self.navigationController?.push(viewController: boardWriteViewController)
@@ -182,7 +179,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
         self.lastPage = false
         self.sortType = sort
         activityIndicator.startAnimating()
-        boardListViewModel?.fetchFirstBoard(mid: category, sort: sortType, currentPage: currentPage, mode: mode)
+        boardListViewModel?.fetchFirstBoard(mid: category.rawValue, sort: sortType, currentPage: currentPage, mode: mode)
         boardListViewModel?.listener = { [weak self] boardResponseData in
             guard let self = self,
                   let boardResponseData = boardResponseData,
@@ -214,7 +211,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
         boardDetailTableViewController.popCompletion = { [weak self] isModifed in
             if isModifed {
                 guard let self = self else { return }
-                self.fetchFirstBoard(mid: self.category, sort: self.sortType, mode: self.mode.rawValue)
+                self.fetchFirstBoard(mid: self.category.rawValue, sort: self.sortType, mode: self.mode.rawValue)
             }
         }
         
