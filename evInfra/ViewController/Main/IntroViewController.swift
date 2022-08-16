@@ -39,6 +39,7 @@ class IntroViewController: UIViewController {
         
         showProgressLayer(isShow: false)
         showIntro()
+        fetchAdsList()
         ChargerManager.sharedInstance.getChargerCompanyInfo(listener: {
             
             class chargerManagerListener: ChargerManagerListener {
@@ -69,6 +70,12 @@ class IntroViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func fetchAdsList() {
+        Observable.just(GlobalAdsReactor.Action.loadStartBanner)
+            .bind(to: GlobalAdsReactor.sharedInstance.action)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -162,10 +169,6 @@ extension IntroViewController: BoardDelegate {
     }
     
     internal func finishedServerInit() {
-        Observable.just(GlobalAdsReactor.Action.loadStartBanner)
-            .bind(to: GlobalAdsReactor.sharedInstance.action)
-            .disposed(by: disposeBag)
-        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let mainViewController = storyboard.instantiateViewController(ofType: MainViewController.self)
         let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
