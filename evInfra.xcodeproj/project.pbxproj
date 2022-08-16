@@ -145,6 +145,7 @@
 		52B87A042799388500562436 /* BoardDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52B87A032799388500562436 /* BoardDetailTableViewCell.xib */; };
 		52C0782727CC982A00DEFEBE /* BoardListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0782627CC982A00DEFEBE /* BoardListViewModel.swift */; };
 		52D0F66A279E33B80070824E /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D0F669279E33B80070824E /* BoardDetailViewModel.swift */; };
+		590CED7428AB518100733B77 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590CED7328AB518100733B77 /* ViewConstants.swift */; };
 		5941383228A0FC010057B7E5 /* PointHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383028A0FC000057B7E5 /* PointHistoryViewController.swift */; };
 		5941383328A0FC010057B7E5 /* PointHistoryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383128A0FC000057B7E5 /* PointHistoryReactor.swift */; };
 		5941383728A0FDD40057B7E5 /* PointHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383028A0FC000057B7E5 /* PointHistoryViewController.swift */; };
@@ -157,10 +158,10 @@
 		5941384128A1F2650057B7E5 /* PointCategoryButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383F28A1F2640057B7E5 /* PointCategoryButtonsView.swift */; };
 		5941384328A3C1A90057B7E5 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941384228A3C1A90057B7E5 /* DatePickerView.swift */; };
 		5941384428A3C1AA0057B7E5 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941384228A3C1A90057B7E5 /* DatePickerView.swift */; };
-		59DA503E28A515A300BE9E59 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA503D28A515A300BE9E59 /* Constant.swift */; };
-		59DA504028A515B300BE9E59 /* DateConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA503F28A515B300BE9E59 /* DateConstant.swift */; };
-		59DA504128A5172F00BE9E59 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA503D28A515A300BE9E59 /* Constant.swift */; };
-		59DA504228A5174600BE9E59 /* DateConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA503F28A515B300BE9E59 /* DateConstant.swift */; };
+		59DA503E28A515A300BE9E59 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA503D28A515A300BE9E59 /* Constants.swift */; };
+		59DA504028A515B300BE9E59 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA503F28A515B300BE9E59 /* DateConstants.swift */; };
+		59DA504128A5172F00BE9E59 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA503D28A515A300BE9E59 /* Constants.swift */; };
+		59DA504228A5174600BE9E59 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA503F28A515B300BE9E59 /* DateConstants.swift */; };
 		636DB9402876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
 		636DB9412876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
 		637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */; };
@@ -1047,14 +1048,15 @@
 		52B87A032799388500562436 /* BoardDetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BoardDetailTableViewCell.xib; sourceTree = "<group>"; };
 		52C0782627CC982A00DEFEBE /* BoardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListViewModel.swift; sourceTree = "<group>"; };
 		52D0F669279E33B80070824E /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
+		590CED7328AB518100733B77 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
 		5941383028A0FC000057B7E5 /* PointHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointHistoryViewController.swift; sourceTree = "<group>"; };
 		5941383128A0FC000057B7E5 /* PointHistoryReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointHistoryReactor.swift; sourceTree = "<group>"; };
 		5941383928A101B10057B7E5 /* PointHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		5941383A28A101B10057B7E5 /* PointHistoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PointHistoryTableViewCell.xib; sourceTree = "<group>"; };
 		5941383F28A1F2640057B7E5 /* PointCategoryButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCategoryButtonsView.swift; sourceTree = "<group>"; };
 		5941384228A3C1A90057B7E5 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
-		59DA503D28A515A300BE9E59 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
-		59DA503F28A515B300BE9E59 /* DateConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstant.swift; sourceTree = "<group>"; };
+		59DA503D28A515A300BE9E59 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		59DA503F28A515B300BE9E59 /* DateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstants.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
 		636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTextRectButton.swift; sourceTree = "<group>"; };
 		637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
@@ -1819,13 +1821,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		59DA503C28A5159800BE9E59 /* Constant */ = {
+		59DA503C28A5159800BE9E59 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				59DA503D28A515A300BE9E59 /* Constant.swift */,
-				59DA503F28A515B300BE9E59 /* DateConstant.swift */,
+				59DA503D28A515A300BE9E59 /* Constants.swift */,
+				59DA503F28A515B300BE9E59 /* DateConstants.swift */,
+				590CED7328AB518100733B77 /* ViewConstants.swift */,
 			);
-			path = Constant;
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		637247CF282A5E9F00595FCE /* Extensions */ = {
@@ -1902,7 +1905,7 @@
 		7312786220B7D81A00861B3E /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				59DA503C28A5159800BE9E59 /* Constant */,
+				59DA503C28A5159800BE9E59 /* Constants */,
 				82F3D9A92855EE2B0030C44B /* Component */,
 				63F3154E284F0809001713D2 /* Colors+Generated.swift */,
 				63F3154D284F0809001713D2 /* Icons+Generated.swift */,
@@ -3322,7 +3325,7 @@
 				63F3140D284EC74F001713D2 /* PhotoRegisterCollectionViewCell.swift in Sources */,
 				63F3140E284EC74F001713D2 /* CircularProgressBar.swift in Sources */,
 				63F3140F284EC74F001713D2 /* BaseViewController.swift in Sources */,
-				59DA504128A5172F00BE9E59 /* Constant.swift in Sources */,
+				59DA504128A5172F00BE9E59 /* Constants.swift in Sources */,
 				63F31410284EC74F001713D2 /* FindAllPOIListenerCallback.swift in Sources */,
 				63F31411284EC74F001713D2 /* AppNavigationController.swift in Sources */,
 				63F31412284EC74F001713D2 /* CompanyInfoChecker.swift in Sources */,
@@ -3341,7 +3344,7 @@
 				63F3141F284EC74F001713D2 /* MainViewController.swift in Sources */,
 				63F31420284EC74F001713D2 /* ChargingHistoryList.swift in Sources */,
 				63F31421284EC74F001713D2 /* UtilNavigation.swift in Sources */,
-				59DA504228A5174600BE9E59 /* DateConstant.swift in Sources */,
+				59DA504228A5174600BE9E59 /* DateConstants.swift in Sources */,
 				63F31422284EC74F001713D2 /* ChargingStatus.swift in Sources */,
 				63F31423284EC74F001713D2 /* FilterPlaceView.swift in Sources */,
 				63762F1628699FB200C951BF /* Info.swift in Sources */,
@@ -3516,6 +3519,7 @@
 				CE24840420A59E6400611E24 /* UserDefault.swift in Sources */,
 				902A11D3248F52B80049EF8E /* InfoLastUpdateDto.swift in Sources */,
 				00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */,
+				590CED7428AB518100733B77 /* ViewConstants.swift in Sources */,
 				4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */,
 				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
 				82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */,
@@ -3615,7 +3619,7 @@
 				7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */,
 				63DA015C2832559400705842 /* BaseViewController.swift in Sources */,
 				9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */,
-				59DA503E28A515A300BE9E59 /* Constant.swift in Sources */,
+				59DA503E28A515A300BE9E59 /* Constants.swift in Sources */,
 				73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */,
 				732B929A20EDD0C60090E9FC /* CompanyInfoChecker.swift in Sources */,
 				902A11D1248F4DAC0049EF8E /* CompanyInfoDto.swift in Sources */,
@@ -3634,7 +3638,7 @@
 				DB1ECB9922CDD8DB00E3A65E /* ChargingHistoryList.swift in Sources */,
 				42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */,
 				735E87C822D88ED70028F7BD /* ChargingStatus.swift in Sources */,
-				59DA504028A515B300BE9E59 /* DateConstant.swift in Sources */,
+				59DA504028A515B300BE9E59 /* DateConstants.swift in Sources */,
 				00A6A16226C3A4D30023DAE3 /* FilterPlaceView.swift in Sources */,
 				63762F1528699FB200C951BF /* Info.swift in Sources */,
 				73344AC5207F429300A6A9EC /* EditViewDelegate.swift in Sources */,

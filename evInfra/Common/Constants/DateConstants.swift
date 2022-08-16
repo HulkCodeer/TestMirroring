@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DateConstant {
+enum DateConstants {
     
     static let year = "yyyy"
     static let month = "M"

@@ -204,12 +204,12 @@ internal final class PointTableViewCell: UITableViewCell {
     
     // yyyy.MM.dd HH:mm
     private func sliceDate(date dateStr: String?) -> (year: String?, date: String?, time: String?) {
-        guard let date = dateStr?.toDate(dateFormat: Constant.date.longDateShortTime)
+        guard let date = dateStr?.toDate(dateFormat: Constants.date.longDateShortTime)
         else { return (nil, nil, nil) }
                 
-        let year = date.toString(dateFormat: Constant.date.year)
-        let monDay = date.toString(dateFormat: Constant.date.monthDayDot)
-        let time = date.toString(dateFormat: Constant.date.time)
+        let year = date.toString(dateFormat: Constants.date.year)
+        let monDay = date.toString(dateFormat: Constants.date.monthDayDot)
+        let time = date.toString(dateFormat: Constants.date.time)
         
         return (year, monDay, time)
     }

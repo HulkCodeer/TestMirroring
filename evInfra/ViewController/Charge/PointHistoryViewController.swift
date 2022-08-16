@@ -15,87 +15,90 @@ import RxSwift
 import RxDataSources
 
 internal final class PointHistoryViewController: CommonBaseViewController, StoryboardView {
+    private lazy var customNavigationBar = CommonNaviView().then {
+        $0.naviTitleLbl.text = "MY 베리 내역"
+    }
     
-    private let pointInfoView = UIView().then {
+    private lazy var pointInfoView = UIView().then {
         $0.backgroundColor = Colors.backgroundPrimary.color
     }
-    private let pointTableView = UITableView().then {
+    private lazy var pointTableView = UITableView().then {
         $0.rowHeight = 72
         $0.separatorStyle = .none
         $0.register(PointHistoryTableViewCell.self, forCellReuseIdentifier: PointHistoryTableViewCell.identfier)
     }
     
-    private let myPointStackView = UIStackView().then {
+    private lazy var myPointStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
         $0.spacing = 6
     }
-    private let myPointMarkLabel = UILabel().then {
+    private lazy var myPointMarkLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 14)
         $0.textColor = UIColor.init(hex: "#7B7B7B")
         $0.text = "나의 보유 베리"
     }
-    private let myPointLabel = UILabel().then {
+    private lazy var myPointLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 20, weight: .bold)
         $0.textColor = UIColor.init(hex: "#292929")
     }
-    private let pointGuideButton = UIButton().then {
+    private lazy var pointGuideButton = UIButton().then {
         let image = Icons.iconQuestionXs.image
         $0.setImage(image, for: .normal)
         $0.tintColor = Colors.contentPrimary.color
         $0.contentMode = .scaleAspectFill
     }
     
-    private let impendPointStackView = UIStackView().then {
+    private lazy var impendPointStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
         $0.spacing = 4
     }
-    private let impendPointMarkLbael = UILabel().then {
+    private lazy var impendPointMarkLbael = UILabel().then {
         $0.font = .systemFont(ofSize: 14)
         $0.textColor = UIColor.init(hex: "#7B7B7B")
-        var month = Date().toString(dateFormat: Constant.date.month)
+        var month = Date().toString(dateFormat: Constants.date.month)
         $0.text = month + "월 소멸예정 베리"
     }
-    private let impendPointLabel = UILabel().then {
+    private lazy var impendPointLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 14)
         $0.textColor = UIColor.init(hex: "#292929")
     }
 
-    private let dateStackView = UIStackView().then {
+    private lazy var dateStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .fillProportionally
         $0.spacing = 4
     }
-    private let startDateButton = UIButton().then {
+    private lazy var startDateButton = UIButton().then {
         $0.titleLabel?.font = .systemFont(ofSize: 17)
         $0.contentHorizontalAlignment = .right
         $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
         $0.backgroundColor = .clear
     }
-    private let endDateButton = UIButton().then {
+    private lazy var endDateButton = UIButton().then {
         $0.titleLabel?.font = .systemFont(ofSize: 17)
         $0.contentHorizontalAlignment = .left
         $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
         $0.backgroundColor = .clear
     }
-    private let dateDividerLabel = UILabel().then {
+    private lazy var dateDividerLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 17)
         $0.textColor = Colors.contentPrimary.color
         $0.text = "~"
         $0.textAlignment = .center
     }
     
-    private let historyButtonsView = PointCategoryButtonsView()
+    private lazy var historyButtonsView = PointCategoryButtonsView()
     
-    private let startDateView = DatePickerView().then {
+    private lazy var startDateView = DatePickerView().then {
         $0.isHidden = true
     }
-    private let endDateView = DatePickerView().then {
+    private lazy var endDateView = DatePickerView().then {
         $0.isHidden = true
     }
     
-    private let pointEmptyLabel = UILabel().then {
+    private lazy var pointEmptyLabel = UILabel().then {
         $0.isHidden = true
         $0.font = .systemFont(ofSize: 14)
         $0.textColor = UIColor.init(hex: "#7B7B7B")
@@ -161,19 +164,22 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     
     private func subscribeUI() {
         pointGuideButton.rx.tap
-            .bind(with: self) { owner, _  in
+            .asDriver()
+            .drive(with: self) { owner, _  in
                 owner.showPointGuide()
             }
             .disposed(by: disposeBag)
         
         startDateButton.rx.tap
-            .bind(with: self) { owner, _ in
+            .asDriver()
+            .drive(with: self) { owner, _ in
                 owner.startDateView.isHidden = false
             }
             .disposed(by: disposeBag)
         
         endDateButton.rx.tap
-            .bind(with: self) { owner, _ in
+            .asDriver()
+            .drive(with: self) { owner, _ in
                 owner.endDateView.isHidden = false
             }
             .disposed(by: disposeBag)
@@ -187,7 +193,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .disposed(by: disposeBag)
         
         startDateRelay
-            .bind(with: self) { owner, date in
+            .asDriver()
+            .drive(with: self) { owner, date in
                 let dateTitle = date.toYearMonthDay()
                 owner.startDateButton.setTitle(dateTitle, for: .normal)
                 owner.endDateView.minimumDate(date: date)
@@ -195,7 +202,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .disposed(by: disposeBag)
         
         endDateRelay
-            .bind(with: self) { owner, date in
+            .asDriver()
+            .drive(with: self) { owner, date in
                 let dateTitle = date.toYearMonthDay()
                 owner.endDateButton.setTitle(dateTitle, for: .normal)
             }

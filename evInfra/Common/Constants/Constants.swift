@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Constant {
-    static let date = DateConstant.self
-
+enum Constants {
+    static let date = DateConstants.self
+    static let view = ViewConstants.self
 }
