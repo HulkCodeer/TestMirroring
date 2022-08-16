@@ -1229,7 +1229,7 @@ extension MainViewController {
                         GlobalDefine.shared.mainNavi?.present(startBannerViewController, animated: false, completion: nil)
                     } else {
                         if let keepDate = Date().toDate(data: keepDateStr) {
-                            let difference = NSCalendar.current.dateComponents([.day], from: keepDate, to: Date())
+                            let difference = Calendar.current.dateComponents([.day], from: keepDate, to: Date())
                             if let day = difference.day, day > 7 {
                                 GlobalDefine.shared.mainNavi?.present(startBannerViewController, animated: false, completion: nil)
                             }
