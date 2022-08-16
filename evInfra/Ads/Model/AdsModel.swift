@@ -9,20 +9,6 @@
 import Foundation
 import SwiftyJSON
 
-internal struct AdsListDataModel {
-    var code: String
-    var msg: String
-    var data: [AdsInfo]
-    
-    init(_ json: JSON) {
-        self.code = json["code"].stringValue
-        self.msg = json["msg"].stringValue
-        self.data = json["data"].arrayValue.map {
-            AdsInfo($0)
-        }
-    }
-}
-
 internal struct AdsInfo {
     var evtId: String = ""
     var img: String = ""
@@ -36,8 +22,6 @@ internal struct AdsInfo {
     var dpStart: String = ""
     var dpEnd: String = ""
     var dpState: Int = 0
-    
-//    init() {}
     
     init(_ json: JSON) {
         self.evtId = json["evtId"].stringValue
