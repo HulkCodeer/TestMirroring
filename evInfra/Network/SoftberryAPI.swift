@@ -23,6 +23,8 @@ protocol SoftberryAPI: class {
     func postRefreshToken(appleAuthorizationCode: String) -> Observable<(HTTPURLResponse, Data)>
     func postValidateRefreshToken() -> Observable<(HTTPURLResponse, Data)>
     func postGetBerry(eventId: String) -> Observable<(HTTPURLResponse, Data)>
+    func postPointHistory(startDate: String, endDate: String) -> Observable<(HTTPURLResponse, Data)>
+    func postPointHistory() -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -128,4 +130,29 @@ internal final class RestApi: SoftberryAPI {
                 
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/event/event/attendEvent", httpMethod: .post, parameters: reqParam, headers: nil)
     }
+    
+    // MARK: - 마이포인트 내역
+    func postPointHistory(startDate: String, endDate: String) -> Observable<(HTTPURLResponse, Data)> {
+        let url = Const.EV_PAY_SERVER + "/member/member/point_history"
+        let reqParm: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.shared.mbId,
+            "s_date": startDate,
+            "e_date": endDate
+        ]
+
+        return NetworkWorker.shared.rxRequest(url: url, httpMethod: .post, parameters: reqParm, headers: nil)
+    }
+    
+    /// 마이포인트 전체.
+    func postPointHistory() -> Observable<(HTTPURLResponse, Data)> {
+        let url = Const.EV_PAY_SERVER + "/member/member/point_history"
+        let reqParm: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.shared.mbId
+        ]
+        
+        return NetworkWorker.shared.rxRequest(url: url, httpMethod: .post, parameters: reqParm, headers: nil)
+    }
+
 }
