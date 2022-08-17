@@ -73,8 +73,7 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
         switch result {
         case .success(let data):
             let json = JSON(data)
-//            let adsList = json["data"].arrayValue.map { AdsInfo($0) }
-            let adsList: [AdsInfo] = []
+            let adsList = json["data"].arrayValue.map { AdsInfo($0) }            
             guard adsList.count != 0 else { return nil }
             
             return adsList
