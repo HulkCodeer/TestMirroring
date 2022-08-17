@@ -113,8 +113,6 @@ internal final class Board {
     public static let KEY_CHARGER_BOARD = 2 // 충전소게시판
     public static let KEY_EVENT         = 3 // 이벤트
     
-    var delegate: BoardDelegate?
-    
     var latestBoardIds: Dictionary = [Int:Int]()
     var freeBoardId:Int = 0
     var chargeBoardId:Int = 0

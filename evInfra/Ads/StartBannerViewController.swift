@@ -73,6 +73,10 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
     
     override func loadView() {
         super.loadView()
+        
+        let screenWidth = UIScreen.main.bounds.width
+        let imgViewHeight = (291 / 375) * screenWidth
+        
         self.contentView.backgroundColor = .clear
         
         self.view.addSubview(dimmedViewBtn)
@@ -84,7 +88,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         containerView.snp.makeConstraints {
             $0.width.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(334)
+            $0.height.equalTo(imgViewHeight + 54)
             $0.bottom.equalTo(self.contentView.snp.bottom)
         }
         
@@ -104,6 +108,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         self.containerView.addSubview(eventImageView)
         eventImageView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
+            $0.height.equalTo(imgViewHeight)
             $0.bottom.equalTo(buttonContainerView.snp.top)
         }
         
