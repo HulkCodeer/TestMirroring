@@ -13,6 +13,8 @@ import Motion
 import FLAnimatedImage
 import RxSwift
 import RxCocoa
+import FirebaseRemoteConfig
+import FirebaseInstallations
 
 class IntroViewController: UIViewController {
 
@@ -60,11 +62,26 @@ class IntroViewController: UIViewController {
             
             return chargerManagerListener(self)
         } ())
+        
+        #if DEBUG
+          NotificationCenter.default.addObserver(self,
+                                                 selector: #selector(printInstallationsID),
+                                                 name: .InstallationIDDidChange,
+                                                 object: nil)
+        #endif
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "인트로 화면"
+        
+        RemoteConfig.remoteConfig().fetch(withExpirationDuration: 0) { status, error in
+            if let error = error {
+                printLog(out: "Error fetching config: \(error)")
+            }
+            printLog(out: "Config fetch completed with status: \(status)")
+            self.setAppearance()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -76,6 +93,34 @@ class IntroViewController: UIViewController {
         Observable.just(GlobalAdsReactor.Action.loadStartBanner)
             .bind(to: GlobalAdsReactor.sharedInstance.action)
             .disposed(by: disposeBag)
+    }
+    
+    private func setAppearance() {
+        RemoteConfig.remoteConfig().activate { activated, error in
+            let configValue = RemoteConfig.remoteConfig()["hello"]
+            printLog(out: "Config value: \(configValue.stringValue))")
+            printLog(out: "Config activated: \(activated)")
+        }
+    }
+    
+    @objc private func printInstallationsID() {
+      #if DEBUG
+        Installations.installations().authTokenForcingRefresh(true) { token, error in
+          if let error = error {
+              printLog(out: "Error fetching token: \(error)")
+            return
+          }
+          guard let token = token else { return }
+            printLog(out: "Installation auth token: \(token.authToken)")
+        }
+        Installations.installations().installationID { identifier, error in
+          if let error = error {
+              printLog(out: "Error fetching installations ID: \(error)")
+          } else if let identifier = identifier {
+              printLog(out: "Remote installations ID: \(identifier)")
+          }
+        }
+      #endif
     }
 }
 
