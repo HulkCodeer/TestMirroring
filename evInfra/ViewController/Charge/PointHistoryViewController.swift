@@ -152,38 +152,72 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     }
     
     private func bindAction(reactor: PointHistoryReactor) {
-        historyButtonsView.allTypeButton.rx.tap
-            .map{ _ in Reactor.Action.loadPointHistory(.all) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+        MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                Observable.just(PointHistoryReactor.Action.loadTotalPoints)
+                    .bind(to: reactor.action)
+                    .disposed(by: self.disposeBag)
+            } else {
+                MemberManager.shared.showLoginAlert()
+            }
+        }
         
-        historyButtonsView.useTypeButton.rx.tap
-            .map { _ in Reactor.Action.loadPointHistory(.use) }
+        Observable.combineLatest(pointTypeRelay, startDateRelay, endDateRelay)
+            .map { type, startDate, endDate in
+                return Reactor.Action.loadPointHistory(type: type, startDate: startDate, endDate: endDate)
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
-        historyButtonsView.saveTypeButton.rx.tap
-            .map{ _ in Reactor.Action.loadPointHistory(.save) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+
     }
     
     private func bindState(reactor: PointHistoryReactor) {
+        let evPointsObservable = reactor.state.compactMap { $0.evPointsViewItems }
+        let totalPointObservable = reactor.state.compactMap { $0.totalPoint }
+        let expirePointObservable = reactor.state.compactMap { $0.expirePoint }
         
+        totalPointObservable
+            .asDriver(onErrorJustReturn: "0")
+            .drive(with: self) { owner, totalPoint in
+                owner.myPointLabel.text = totalPoint
+            }
+            .disposed(by: disposeBag)
+        
+        expirePointObservable
+            .asDriver(onErrorJustReturn: "0")
+            .drive(with: self) { owner, expirePoint in
+                owner.setImpendPoint(point: expirePoint)
+            }
+            .disposed(by: disposeBag)
+        
+        evPointsObservable
+            .asDriver(onErrorJustReturn: [])
+            .drive(pointTableView.rx.items(cellIdentifier: PointHistoryTableViewCell.identfier, cellType: PointHistoryTableViewCell.self)
+            ) { [weak self] indexPath, evPoinViewItem, cell in
+                let isFirst = indexPath == 0
+                let beforeIndex = indexPath - 1
+                let beforeDate = !isFirst ? evPoinViewItem.previousItemDate : nil
+                
+                cell.configure(point: evPoinViewItem.evPoint, beforeDate: beforeDate, isFirst: isFirst)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func subscribeUI() {
         settingButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
-                owner.showPointSetting()
+                let pointSettionVC = UIStoryboard(name: "Charge", bundle: nil).instantiateViewController(ofType: PreUsePointViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: pointSettionVC)
             }
             .disposed(by: disposeBag)
         
         pointGuideButton.rx.tap
             .asDriver()
-            .drive(with: self) { owner, _  in
-                owner.showPointGuide()
+            .drive{ _ in
+                let pointGuideVC = PointUseGuideViewController()
+                GlobalDefine.shared.mainNavi?.push(viewController: pointGuideVC)
             }
             .disposed(by: disposeBag)
         
@@ -345,18 +379,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     
     // MARK: Action
     
-    private func showPointGuide() {
-        let pointGuideVC = PointUseGuideViewController()
-        GlobalDefine.shared.mainNavi?.push(viewController: pointGuideVC)
-    }
-    
-    private func showPointSetting() {
-        let pointSettionVC = UIStoryboard(name: "Charge", bundle: nil).instantiateViewController(ofType: PreUsePointViewController.self)//PreUsePointViewController()
-        GlobalDefine.shared.mainNavi?.push(viewController: pointSettionVC)
-    }
-    
     private func setImpendPoint(point: String) {
-        let berryFlagText = "베리"
+        let berryFlagText = " 베리"
         let impendText = point + berryFlagText
         
         impendPointLabel.text = impendText
