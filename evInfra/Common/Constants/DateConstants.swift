@@ -10,11 +10,15 @@ import Foundation
 
 enum DateConstants {
     
+    static let longDateShortTime = "yyyy.MM.dd HH:mm"
+    static let yearMonthDayHangul = "yyyy년 MM월 dd일"
+    static let yearMonthDayHyphen = "yyyy-MM-dd"
+    
+    static let monthDayDot = "MM.dd"
+    static let time = "HH:mm"
+    
     static let year = "yyyy"
     static let month = "M"
     static let day = "dd"
-    static let longDateShortTime = "yyyy.MM.dd HH:mm"
-    static let yearMonthDayHangul = "yyyy년 MM월 dd일"
-    static let monthDayDot = "MM.dd"
-    static let time = "HH:mm"
+
 }
