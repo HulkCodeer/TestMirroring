@@ -164,7 +164,6 @@ extension IntroViewController: IntroImageCheckerDelegate {
 }
 
 extension IntroViewController: CompanyInfoCheckerDelegate {
-    
     func checkCompanyInfo() {
         let icChecker = CompanyInfoChecker.init(delegate: self)
         icChecker.checkCompanyInfo()

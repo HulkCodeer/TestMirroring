@@ -10,8 +10,7 @@ import RxSwift
 internal final class GlobalDefine: NSObject {
     internal static var shared = GlobalDefine()
     
-    internal weak var mainNavi: AppNavigationController?
-    internal var hasBanner: BehaviorSubject<Bool> = BehaviorSubject<Bool>(value: false)
+    internal weak var mainNavi: AppNavigationController?    
 }
 
 

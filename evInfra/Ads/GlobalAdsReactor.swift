@@ -43,18 +43,16 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
             return self.provider.getAdsList(page: .start, layer: .bottom)
                 .convertData()
                 .compactMap(convertToDataModel)
-                .compactMap(convertToModel)
                 .compactMap { .setAds($0) }
+            
         case .addEventClickCount(let eventId):
-            _ = self.provider.logAds(adId: [eventId], action: Promotion.Action.click.rawValue)
-                .convertData()
-                .compactMap(convertToDataModel)
+            _ = self.provider.logAds(adId: [eventId], action: Promotion.Action.click.toValue)
             return .empty()
+            
         case .addEventViewCount(let eventId):
-            _ = self.provider.logAds(adId: [eventId], action: Promotion.Action.view.rawValue)
-                .convertData()
-                .compactMap(convertToDataModel)
+            _ = self.provider.logAds(adId: [eventId], action: Promotion.Action.view.toValue)
             return .empty()
+            
         }
     }
     
@@ -71,20 +69,20 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
         return newState
     }
     
-    private func convertToDataModel(with result: ApiResult<Data, ApiError>) -> JSON? {
+    private func convertToDataModel(with result: ApiResult<Data, ApiError>) -> [AdsInfo]? {
         switch result {
         case .success(let data):
-            return JSON(data)
+            let json = JSON(data)
+//            let adsList = json["data"].arrayValue.map { AdsInfo($0) }
+            let adsList: [AdsInfo] = []
+            guard adsList.count != 0 else { return nil }
+            
+            return adsList
+            
         case .failure(let errorMessage):
             printLog(out: "error: \(errorMessage)")
+            Snackbar().show(message: "오류가 발생하였습니다.")
             return nil
         }
-    }
-    
-    private func convertToModel(with json: JSON) -> [AdsInfo]? {
-        let adsList = json["data"].arrayValue.map { AdsInfo($0) }
-        let hasBanner = adsList.count > 0 ? true : false
-        GlobalDefine.shared.hasBanner.onNext(hasBanner)
-        return adsList
     }
 }
