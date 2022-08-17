@@ -142,8 +142,8 @@ internal final class PointTableViewCell: UITableViewCell {
         dateLabel.text = date
         
         setDate(currentDate: date, beforeDate: beforeDate, isFirst: isFirst)
-        setTimeCategory(type: point.loadPointType(), time: time)
-        setAmountView(actionType: point.loadActionType(), point: point.point)
+        setTimeCategory(type: point.loadPointCategoryType(), time: time)
+        setAmountView(actionType: point.loadPointType(), point: point.point)
     }
     
     // MARK: private Action
@@ -162,7 +162,7 @@ internal final class PointTableViewCell: UITableViewCell {
         }
     }
     
-    private func setTimeCategory(type pointType: EvPoint.PointType, time: String?) {
+    private func setTimeCategory(type pointType: EvPoint.PointCategoryType, time: String?) {
         let time = time ?? String()
         var category = String()
         
@@ -180,12 +180,12 @@ internal final class PointTableViewCell: UITableViewCell {
         timeCategoryLabel.text = time + " | " + category
     }
     
-    private func setAmountView(actionType: EvPoint.ActionType, point: String?) {
+    private func setAmountView(actionType: EvPoint.PointType, point: String?) {
         switch actionType {
-        case .unknown:
-            actionLabel.text = "기타"
         case .savePoint, .usePoint:
             setAmountLabel(isSave: actionType == .savePoint, point: point)
+        default:
+            actionLabel.text = "기타"
         }
     }
     

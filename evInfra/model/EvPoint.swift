@@ -8,25 +8,36 @@
 
 import Foundation
 
-class EvPoint: Decodable {
-    /// 0: none, 1: charging, 2: event, 3: reward
-    var point: String?
+struct EvPoint: Decodable {
+    let point: String?
     /// "save": 적립, "used": 사용, 그외 -> 기타.
-    var action: String?
-    var date: String?
-    var desc: String?
-    var type: Int?
+    let pointType: String?
+    let date: String?
+    let desc: String?
+    /// 0: none, 1: charging, 2: event, 3: reward
+    let pointCategory: Int?
+    
+    private enum CodingKeys: String, CodingKey {
+        case point, date, desc
+        case pointType = "action"
+        case pointCategory = "type"
+    }
+    
+}
+
 }
 
 // MARK: Action
 
 extension EvPoint {
     
-    func loadActionType() -> ActionType {
-        return ActionType(self.action)
+    func loadPointType() -> PointType {
+        return PointType(self.pointType)
     }
     
-    enum ActionType {
+    /// "save": 적립, "used": 사용
+    enum PointType {
+        case all
         case savePoint
         case usePoint
         
@@ -49,11 +60,11 @@ extension EvPoint {
 
 extension EvPoint {
     
-    func loadPointType() -> PointType {
-        return PointType(self.type)
+    func loadPointCategoryType() -> PointCategoryType {
+        return PointCategoryType(self.pointCategory)
     }
     
-    enum PointType {
+    enum PointCategoryType {
         case none        // default value
         case charging   // 충전
         case event      // event

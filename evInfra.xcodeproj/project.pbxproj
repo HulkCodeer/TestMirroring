@@ -147,6 +147,8 @@
 		52D0F66A279E33B80070824E /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D0F669279E33B80070824E /* BoardDetailViewModel.swift */; };
 		590CED7428AB518100733B77 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590CED7328AB518100733B77 /* ViewConstants.swift */; };
 		590CED7528AB536F00733B77 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590CED7328AB518100733B77 /* ViewConstants.swift */; };
+		590CED7728ABAA2000733B77 /* PointHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590CED7628ABAA2000733B77 /* PointHistory.swift */; };
+		590CED7828ABAB5400733B77 /* PointHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590CED7628ABAA2000733B77 /* PointHistory.swift */; };
 		5941383228A0FC010057B7E5 /* PointHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383028A0FC000057B7E5 /* PointHistoryViewController.swift */; };
 		5941383328A0FC010057B7E5 /* PointHistoryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383128A0FC000057B7E5 /* PointHistoryReactor.swift */; };
 		5941383728A0FDD40057B7E5 /* PointHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941383028A0FC000057B7E5 /* PointHistoryViewController.swift */; };
@@ -1050,6 +1052,7 @@
 		52C0782627CC982A00DEFEBE /* BoardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListViewModel.swift; sourceTree = "<group>"; };
 		52D0F669279E33B80070824E /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
 		590CED7328AB518100733B77 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
+		590CED7628ABAA2000733B77 /* PointHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointHistory.swift; sourceTree = "<group>"; };
 		5941383028A0FC000057B7E5 /* PointHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointHistoryViewController.swift; sourceTree = "<group>"; };
 		5941383128A0FC000057B7E5 /* PointHistoryReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointHistoryReactor.swift; sourceTree = "<group>"; };
 		5941383928A101B10057B7E5 /* PointHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointHistoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -2118,6 +2121,7 @@
 				00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */,
 				00CADC1A278D79C2000AF24A /* MemberOtherInfo.swift */,
 				52B25949278E5E5C0042B22C /* BoardListItem.swift */,
+				590CED7628ABAA2000733B77 /* PointHistory.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -3277,6 +3281,7 @@
 				63F313E3284EC74F001713D2 /* CidInfoTableViewCell.swift in Sources */,
 				63F313E4284EC74F001713D2 /* ReportChargerChildCell.swift in Sources */,
 				63F313E5284EC74F001713D2 /* Validators.swift in Sources */,
+				590CED7828ABAB5400733B77 /* PointHistory.swift in Sources */,
 				63F313E6284EC74F001713D2 /* RepayResultViewController.swift in Sources */,
 				63F313E7284EC74F001713D2 /* ReissuanceModel.swift in Sources */,
 				63F313E8284EC74F001713D2 /* GuideAlertDialog.swift in Sources */,
@@ -3571,6 +3576,7 @@
 				CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */,
 				73D65D702358498C00F564A2 /* Validators.swift in Sources */,
 				000DAE112747369A00CEC165 /* RepayResultViewController.swift in Sources */,
+				590CED7728ABAA2000733B77 /* PointHistory.swift in Sources */,
 				63BEAC5E28338ADA00E797DD /* ReissuanceModel.swift in Sources */,
 				00AB7BD926E870820040CFDE /* GuideAlertDialog.swift in Sources */,
 				63762F562869A95D00C951BF /* CommonBaseViewController.swift in Sources */,

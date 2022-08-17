@@ -14,7 +14,7 @@ import Material
 import SwiftyJSON
 import RxSwift
 
-struct PointHistory: Decodable {
+struct xPointHistory: Decodable {
     var code: Int?
     var msg: String?
     var total_point = "0"
@@ -58,7 +58,7 @@ internal final class PointViewController: UIViewController {
     
     private var evPointList: Array<EvPoint> = Array<EvPoint>()
     
-    private var pointHistory = PointHistory()
+    private var pointHistory = xPointHistory()
     private let disposeBag = DisposeBag()
     
     
@@ -241,10 +241,11 @@ extension PointViewController {
         let sDate = formatter.string(from: startDate) + " 00:00:00"
         let eDate = formatter.string(from: endDate) + " 23:59:59"
         
+        // MARK: PointHistory
         Server.getPointHistory(isAllDate: isAllDate, sDate: sDate, eDate: eDate) { (isSuccess, responseData) in
             if isSuccess {
                 if let data = responseData {
-                    self.pointHistory = try! JSONDecoder().decode(PointHistory.self, from: data)
+                    self.pointHistory = try! JSONDecoder().decode(xPointHistory.self, from: data)
                     if self.pointHistory.code != 1000 {
                         self.labelResultMsg.visible()
                         self.labelResultMsg.text = self.pointHistory.msg
@@ -282,7 +283,7 @@ extension PointViewController {
 
         if let list = self.pointHistory.list {
             for item in list {
-                if item.action == "used" {
+                if item.pointType == "used" {
                     evFilteredList.append(item)
                 }
             }
@@ -295,7 +296,7 @@ extension PointViewController {
         var evFilteredList:[EvPoint] = []
         if let list = self.pointHistory.list {
             for item in list {
-                if item.action == "save" {
+                if item.pointType == "save" {
                     evFilteredList.append(item)
                 }
             }

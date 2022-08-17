@@ -58,7 +58,7 @@ internal final class PointHistoryTableViewCell: UITableViewCell {
         $0.textColor = Colors.contentPrimary.color
         $0.font = .systemFont(ofSize: 14, weight: .bold)
     }
-    private let actionLabel = UILabel().then { // 적립, 사용 등
+    private let pointTypeLabel = UILabel().then { // 적립, 사용 등
         $0.font = .systemFont(ofSize: 12, weight: .medium)
         $0.textColor = Colors.contentTertiary.color
     }
@@ -104,7 +104,7 @@ internal final class PointHistoryTableViewCell: UITableViewCell {
         chargeInfoStackView.addArrangedSubview(timeCategoryLabel)
         
         amountStackView.addArrangedSubview(amountLabel)
-        amountStackView.addArrangedSubview(actionLabel)
+        amountStackView.addArrangedSubview(pointTypeLabel)
     }
     
     private func setConstraints() {
@@ -151,13 +151,13 @@ internal final class PointHistoryTableViewCell: UITableViewCell {
         dateStackView.isHidden = isBeforeSameDate
 //        dividerView.isHidden = isFirst ? true : isBeforeSameDate
         
-        setTimeCategory(type: point.loadPointType(), time: time)
-        setAmountView(actionType: point.loadActionType(), point: point.point)
+        setTimeCategory(type: point.loadPointCategoryType(), time: time)
+        setAmountView(actionType: point.loadPointType(), point: point.point)
     }
     
     // MARK: private Action
     
-    private func setTimeCategory(type pointType: EvPoint.PointType, time: String?) {
+    private func setTimeCategory(type pointType: EvPoint.PointCategoryType, time: String?) {
         let time = time ?? String()
         var category = String()
         
@@ -175,12 +175,12 @@ internal final class PointHistoryTableViewCell: UITableViewCell {
         timeCategoryLabel.text = time + " | " + category
     }
     
-    private func setAmountView(actionType: EvPoint.ActionType, point: String?) {
+    private func setAmountView(actionType: EvPoint.PointType, point: String?) {
         switch actionType {
-        case .unknown:
-            actionLabel.text = "기타"
         case .savePoint, .usePoint:
             setAmountLabel(isSave: actionType == .savePoint, point: point)
+        default:
+            pointTypeLabel.text = "기타"
         }
     }
     
@@ -190,7 +190,7 @@ internal final class PointHistoryTableViewCell: UITableViewCell {
         let color: UIColor = isSave ? Colors.contentPositive.color : Colors.contentPrimary.color
         let currencyPoint = point?.currency() ?? String()
         
-        actionLabel.text = isSave ? "적립" : "사용"
+        pointTypeLabel.text = isSave ? "적립" : "사용"
         
         amountLabel.text = flag + currencyPoint + "B"
         amountLabel.textColor = color

@@ -194,7 +194,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
                 if let data = responseData {
                     let pointHistory = try! JSONDecoder().decode(PointHistory.self, from: data)
                     // 나의 잔여 포인트
-                    let displayTotalPoint = pointHistory.total_point.currency() == "0" ? "" : pointHistory.total_point.currency()
+                    let displayTotalPoint = pointHistory.totalPoint.currency() == "0" ? "" : pointHistory.totalPoint.currency()
  
                     for reasonType in ReasonType.allCases {
                         let subTitle = reasonType == .deleteVery ? reasonType.subTitle.replacingOccurrences(of: "{point}", with: "\(displayTotalPoint)") : reasonType.subTitle

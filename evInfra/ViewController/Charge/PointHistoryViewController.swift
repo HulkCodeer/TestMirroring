@@ -111,7 +111,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         $0.text = "포인트 내역이 없습니다."
     }
     
-    private let pointTypeRelay = ReplayRelay<PointType>.create(bufferSize: 1)
+    private let pointTypeRelay = BehaviorRelay(value: EvPoint.PointType.all)
     private let startDateRelay = BehaviorRelay(value: Date())
     private let endDateRelay = BehaviorRelay(value: Date())
     
@@ -185,6 +185,21 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .drive(with: self) { owner, _  in
                 owner.showPointGuide()
             }
+            .disposed(by: disposeBag)
+        
+        historyButtonsView.allTypeButton.rx.tap
+            .map { _ -> EvPoint.PointType in .all }
+            .bind(to: pointTypeRelay)
+            .disposed(by: disposeBag)
+        
+        historyButtonsView.useTypeButton.rx.tap
+            .map { _ -> EvPoint.PointType in .usePoint }
+            .bind(to: pointTypeRelay)
+            .disposed(by: disposeBag)
+
+        historyButtonsView.saveTypeButton.rx.tap
+            .map { _ -> EvPoint.PointType in .savePoint }
+            .bind(to: pointTypeRelay)
             .disposed(by: disposeBag)
         
         startDateButton.rx.tap
@@ -363,11 +378,4 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         return attributeString
     }
     
-    // MARK: Object
-    
-    enum PointType {
-        case all
-        case use
-        case save
-    }
 }
