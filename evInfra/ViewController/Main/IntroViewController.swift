@@ -14,14 +14,19 @@ import FLAnimatedImage
 import RxSwift
 import RxCocoa
 
-class IntroViewController: UIViewController {
+internal final class IntroViewController: UIViewController {
 
+    // MARK: UI
+    
     @IBOutlet weak var progressLayer: UIView!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var progressLabel: UILabel!
     
     @IBOutlet var imgIntroBackground: UIImageView!
     @IBOutlet var imgIntroFLAnimated: FLAnimatedImageView!
+        
+    // MARK: VARIABLE
+    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let fcmManager = FCMManager.sharedInstance
     
@@ -30,6 +35,8 @@ class IntroViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     
+    // MARK: SYSTEM FUNC
+    
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
@@ -37,9 +44,13 @@ class IntroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        Observable.just(GlobalAdsReactor.Action.loadStartBanner)
+            .bind(to: GlobalAdsReactor.sharedInstance.action)
+            .disposed(by: disposeBag)
+        
         showProgressLayer(isShow: false)
         showIntro()
-        fetchAdsList()
+        
         ChargerManager.sharedInstance.getChargerCompanyInfo(listener: {
             
             class chargerManagerListener: ChargerManagerListener {
@@ -66,17 +77,6 @@ class IntroViewController: UIViewController {
         super.viewWillAppear(animated)
         self.title = "인트로 화면"
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    private func fetchAdsList() {
-        Observable.just(GlobalAdsReactor.Action.loadStartBanner)
-            .bind(to: GlobalAdsReactor.sharedInstance.action)
-            .disposed(by: disposeBag)
-    }
 }
 
 extension FLAnimatedImage {
@@ -96,7 +96,7 @@ extension IntroViewController: IntroImageCheckerDelegate {
     }
     
     func finishCheckIntro(imgName : String, path : String){
-        print(imgName)
+        printLog(out: "\(imgName)")
         if imgName.hasSuffix(".gif"){
             let gifData = NSData(contentsOfFile: path)
             DispatchQueue.main.async {
@@ -110,6 +110,56 @@ extension IntroViewController: IntroImageCheckerDelegate {
     
     func showDefaultImage(){
         imgIntroBackground.image = UIImage(named: "intro_bg.jpg")
+    }
+    
+    private func checkLastBoardId() {
+        Server.getBoardData { (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                if json["code"].intValue == 1000 {
+                    printLog(out: "\(json)")
+                    let latestId = JSON(json["latest_id"])
+                    
+                    Board.sharedInstance.latestBoardIds.removeAll()
+                    
+                    Board.sharedInstance.freeBoardId = latestId["free"].intValue
+                    Board.sharedInstance.chargeBoardId = latestId["charger"].intValue
+                    
+                    Board.sharedInstance.latestBoardIds[Board.KEY_NOTICE] = latestId["notice"].intValue
+                    Board.sharedInstance.latestBoardIds[Board.KEY_FREE_BOARD] = Board.sharedInstance.freeBoardId
+                    Board.sharedInstance.latestBoardIds[Board.KEY_CHARGER_BOARD] = Board.sharedInstance.chargeBoardId
+                    Board.sharedInstance.latestBoardIds[Board.KEY_EVENT] = latestId["event"].intValue
+                    
+                    let companyArr = JSON(json["company_list"]).arrayValue
+                    for company in companyArr {
+                        let boardNewInfo = BoardInfo()
+                        
+                        let bmId = company["bm_id"].intValue
+                        let boardTitle = company["title"].stringValue
+                        let shardKey = company["key"].stringValue
+                        let brdId = company["brd_id"].intValue
+                        
+                        boardNewInfo.bmId = bmId
+                        boardNewInfo.boardTitle = boardTitle
+                        boardNewInfo.shardKey = shardKey
+                        boardNewInfo.brdId = brdId
+                        
+                        Board.sharedInstance.brdNewInfo.append(boardNewInfo)
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let mainViewController = storyboard.instantiateViewController(ofType: MainViewController.self)
+                        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
+                        self.appDelegate.appToolbarController = AppToolbarController(rootViewController: mainViewController)
+                        self.appDelegate.appToolbarController.delegate = mainViewController
+                        let ndController = AppNavigationDrawerController(rootViewController: self.appDelegate.appToolbarController, leftViewController: leftViewController)
+                        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+                    }
+                }
+                
+            }
+        }
     }
 }
 
@@ -152,29 +202,5 @@ extension IntroViewController: CompanyInfoCheckerDelegate {
         self.progressLayer.isHidden = !isShow
         self.progressBar.isHidden = !isShow
         self.progressLabel.isHidden = !isShow
-    }
-}
-
-extension IntroViewController: BoardDelegate {
-    func complete() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.finishedServerInit()
-        }
-    }
-    
-    internal func checkLastBoardId() {
-        let articleChecker = Board.sharedInstance
-        articleChecker.delegate = self
-        articleChecker.checkLastBoardId()
-    }
-    
-    internal func finishedServerInit() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let mainViewController = storyboard.instantiateViewController(ofType: MainViewController.self)
-        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
-        appDelegate.appToolbarController = AppToolbarController(rootViewController: mainViewController)
-        appDelegate.appToolbarController.delegate = mainViewController
-        let ndController = AppNavigationDrawerController(rootViewController: appDelegate.appToolbarController, leftViewController: leftViewController)
-        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)        
     }
 }
