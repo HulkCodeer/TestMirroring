@@ -73,6 +73,10 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
     
     override func loadView() {
         super.loadView()
+        
+        let screenWidth = UIScreen.main.bounds.width
+        let imgViewHeight = (291 / 375) * screenWidth
+        
         self.contentView.backgroundColor = .clear
         
         self.view.addSubview(dimmedViewBtn)
@@ -84,7 +88,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         containerView.snp.makeConstraints {
             $0.width.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(334)
+            $0.height.equalTo(imgViewHeight + 54)
             $0.bottom.equalTo(self.contentView.snp.bottom)
         }
         
@@ -104,6 +108,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         self.containerView.addSubview(eventImageView)
         eventImageView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
+            $0.height.equalTo(imgViewHeight)
             $0.bottom.equalTo(buttonContainerView.snp.top)
         }
         
@@ -148,28 +153,25 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
                 self.closeStartBannerViewController()
             })
             .disposed(by: disposeBag)
+    }
+    
+    internal func bind(reactor: GlobalAdsReactor) {        
+        reactor.state.compactMap { $0.startBanner?.img }
+            .asDriver(onErrorJustReturn: "")
+            .drive(self.eventImageView.rx.bindImage)
+            .disposed(by: self.disposeBag)
         
         eventImageButton.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                let eventUrl = self.reactor?.currentState.startBanner?.extUrl ?? ""
+                let eventUrl = reactor.currentState.startBanner?.extUrl ?? ""
                 let newEventDetailViewController = NewEventDetailViewController()
                 newEventDetailViewController.eventUrl = eventUrl
                 self.closeStartBannerViewController()
                 self.logClickEvent()
                 GlobalDefine.shared.mainNavi?.push(viewController: newEventDetailViewController)
             }).disposed(by: disposeBag)
-    }
-    
-    internal func bind(reactor: GlobalAdsReactor) {        
-        reactor.state.compactMap { $0.startBanner }
-            .subscribe(on: MainScheduler.instance)
-            .compactMap { URL(string: "\(Const.AWS_SERVER)/image/\(String(describing: $0.img))") }
-            .subscribe(onNext: {
-                self.eventImageView.sd_setImage(with: $0 )
-            })
-            .disposed(by: disposeBag)
     }
     
     // 앰플리튜드 view_enter 로깅을 위해 필요함

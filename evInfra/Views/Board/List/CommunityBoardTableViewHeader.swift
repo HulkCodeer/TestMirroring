@@ -162,7 +162,8 @@ extension CommunityBoardTableViewHeader: UICollectionViewDelegate {
 
 extension CommunityBoardTableViewHeader: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 68)
+        let screenWidth = UIScreen.main.bounds.width - 32
+        return CGSize(width: collectionView.frame.width, height: (68 / 328) * screenWidth)
     }
 }
 
@@ -294,13 +295,13 @@ extension CommunityBoardTableViewHeader {
     }
 }
 
-class BannerCollectionViewCell: UICollectionViewCell {
+internal final class BannerCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var bannerImageView: UIImageView!
         
     override func awakeFromNib() {
         super.awakeFromNib()
-        bannerImageView.layer.cornerRadius = 16
+        bannerImageView.layer.cornerRadius = 8
     }
 }
 

@@ -36,6 +36,10 @@ internal struct Promotion {
     enum Action: Int {
         case view = 0
         case click = 1
+        
+        internal var toValue: Int {
+            return self.rawValue
+        }
     }
 }
 

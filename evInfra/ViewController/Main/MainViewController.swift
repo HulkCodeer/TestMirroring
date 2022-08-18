@@ -83,7 +83,7 @@ internal final class MainViewController: UIViewController {
     private var canIgnoreJejuPush = true
     
     private var summaryView: SummaryView!
-    private var disposable: Disposable?
+    private var disposeBag = DisposeBag()
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -132,9 +132,7 @@ internal final class MainViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        guard let disposable = disposable else { return }
-        disposable.dispose()
+        super.viewWillDisappear(true)    
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함        
     }
     
@@ -1217,12 +1215,11 @@ extension MainViewController {
     // MARK: - 시작광고배너 보여주기
     private func showStartAd() {    
         let startBannerViewController = StartBannerViewController(reactor: GlobalAdsReactor.sharedInstance)
-        startBannerViewController.bind(reactor: GlobalAdsReactor.sharedInstance)
 
-        disposable = GlobalDefine.shared.hasBanner
-            .asObservable()
-            .subscribe(onNext: { hasBanner in
-                guard hasBanner else { return }
+        GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
+            .asDriver(onErrorJustReturn: AdsInfo(JSON.null))
+            .drive(onNext: { [weak self] adInfo in
+                guard let self = self else { return }
                 let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     if keepDateStr.isEmpty {
@@ -1236,9 +1233,8 @@ extension MainViewController {
                         }
                     }
                 }
-            },onError: { error in
-                Snackbar().show(message: "오류가 발생하였습니다.")
             })
+            .disposed(by: self.disposeBag)
     }
     
     private func showMarketingPopup() {

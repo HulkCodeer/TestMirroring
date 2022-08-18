@@ -9,11 +9,9 @@
 import Foundation
 import SwiftyJSON
 
-public protocol BoardDelegate {
-    func complete()
-}
-
-class Board {
+internal final class Board {
+    static let sharedInstance = Board()
+    
     // Top Menu 타입
     enum SortType: String, CaseIterable {
         case LATEST = "0"
@@ -115,10 +113,6 @@ class Board {
     public static let KEY_CHARGER_BOARD = 2 // 충전소게시판
     public static let KEY_EVENT         = 3 // 이벤트
     
-    static let sharedInstance = Board()
-    
-    var delegate: BoardDelegate?
-    
     var latestBoardIds: Dictionary = [Int:Int]()
     var freeBoardId:Int = 0
     var chargeBoardId:Int = 0
@@ -126,48 +120,6 @@ class Board {
     var brdNewInfo:Array<BoardInfo> = Array<BoardInfo>()
     
     private init() {
-    }
-
-    func checkLastBoardId() {
-        Server.getBoardData { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                if json["code"].intValue == 1000 {
-                    print(json)
-                    let latestId = JSON(json["latest_id"])
-                    
-                    self.latestBoardIds.removeAll()
-                    
-                    self.freeBoardId = latestId["free"].intValue
-                    self.chargeBoardId = latestId["charger"].intValue
-                    
-                    self.latestBoardIds[Board.KEY_NOTICE] = latestId["notice"].intValue
-                    self.latestBoardIds[Board.KEY_FREE_BOARD] = self.freeBoardId
-                    self.latestBoardIds[Board.KEY_CHARGER_BOARD] = self.chargeBoardId
-                    self.latestBoardIds[Board.KEY_EVENT] = latestId["event"].intValue
-                    
-                    let companyArr = JSON(json["company_list"]).arrayValue
-                    for company in companyArr {
-                        let boardNewInfo = BoardInfo()
-                        
-                        let bmId = company["bm_id"].intValue
-                        let boardTitle = company["title"].stringValue
-                        let shardKey = company["key"].stringValue
-                        let brdId = company["brd_id"].intValue
-                        
-                        boardNewInfo.bmId = bmId
-                        boardNewInfo.boardTitle = boardTitle
-                        boardNewInfo.shardKey = shardKey
-                        boardNewInfo.brdId = brdId
-                        
-                        self.brdNewInfo.append(boardNewInfo)
-                    }
-                }
-                if let delegate = self.delegate {
-                    delegate.complete()
-                }
-            }
-        }
     }
     
     public func getBoardTitleList() -> Array<String> {
