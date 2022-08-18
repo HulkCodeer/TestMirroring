@@ -1226,7 +1226,7 @@ extension MainViewController {
                     } else {
                         if let keepDate = Date().toDate(data: keepDateStr) {
                             let difference = Calendar.current.dateComponents([.day], from: keepDate, to: Date())
-                            if let day = difference.day, day > 7 {
+                            if let day = difference.day, day > 6 {
                                 GlobalDefine.shared.mainNavi?.present(startBannerViewController, animated: false, completion: nil)
                             }
                         }
