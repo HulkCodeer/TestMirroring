@@ -315,7 +315,6 @@
 		63F31407284EC74F001713D2 /* Snackbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE579B421A3E3CA005DD998 /* Snackbar.swift */; };
 		63F31408284EC74F001713D2 /* ChargerStationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11E1248F7A3A0049EF8E /* ChargerStationInfo.swift */; };
 		63F31409284EC74F001713D2 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB367BF024FE429D00898BED /* Login.swift */; };
-		63F3140A284EC74F001713D2 /* PointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5041AB235066CA007336BC /* PointViewController.swift */; };
 		63F3140B284EC74F001713D2 /* MembershipReissuanceInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */; };
 		63F3140C284EC74F001713D2 /* AppTabsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734FBDEE219001EA00BEDB60 /* AppTabsController.swift */; };
 		63F3140D284EC74F001713D2 /* PhotoRegisterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5208784D279561BA009DD329 /* PhotoRegisterCollectionViewCell.swift */; };
@@ -451,7 +450,6 @@
 		63F31490284EC74F001713D2 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */; };
 		63F31491284EC74F001713D2 /* ReportChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE00E811214A330B00020D6E /* ReportChargeViewController.swift */; };
 		63F31492284EC74F001713D2 /* MembershipGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D9282A6F3B00595FCE /* MembershipGuideViewController.swift */; };
-		63F31493284EC74F001713D2 /* PointTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5041AD23506A14007336BC /* PointTableViewCell.swift */; };
 		63F31494284EC74F001713D2 /* MembershipTermView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D7F2362D52E00F564A2 /* MembershipTermView.swift */; };
 		63F31495284EC74F001713D2 /* BoardWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ADE4FE27964A1F00FBBA25 /* BoardWriteViewModel.swift */; };
 		63F31496284EC74F001713D2 /* KoreanTextMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B858220A42C81005454F5 /* KoreanTextMatcher.swift */; };
@@ -872,8 +870,6 @@
 		DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB48E1F522E08B07003FFA08 /* ServiceGuideViewController.swift */; };
 		DB49A77F206CC32D002448E6 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB49A77E206CC32D002448E6 /* SearchViewController.swift */; };
 		DB49A7812071F908002448E6 /* AppSearchBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB49A7802071F908002448E6 /* AppSearchBarController.swift */; };
-		DB5041AC235066CA007336BC /* PointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5041AB235066CA007336BC /* PointViewController.swift */; };
-		DB5041AE23506A14007336BC /* PointTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5041AD23506A14007336BC /* PointTableViewCell.swift */; };
 		DB5041B023506DCF007336BC /* EvPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5041AF23506DCF007336BC /* EvPoint.swift */; };
 		DB5C4EDD23619F5F0090139E /* EIAdDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5C4EDC23619F5F0090139E /* EIAdDialog.xib */; };
 		DB5C4EDF2361A04B0090139E /* EIAdDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5C4EDE2361A04B0090139E /* EIAdDialog.swift */; };
@@ -1363,8 +1359,6 @@
 		DB48E1F522E08B07003FFA08 /* ServiceGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceGuideViewController.swift; sourceTree = "<group>"; };
 		DB49A77E206CC32D002448E6 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		DB49A7802071F908002448E6 /* AppSearchBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSearchBarController.swift; sourceTree = "<group>"; };
-		DB5041AB235066CA007336BC /* PointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewController.swift; sourceTree = "<group>"; };
-		DB5041AD23506A14007336BC /* PointTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointTableViewCell.swift; sourceTree = "<group>"; };
 		DB5041AF23506DCF007336BC /* EvPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvPoint.swift; sourceTree = "<group>"; };
 		DB5C4EDC23619F5F0090139E /* EIAdDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EIAdDialog.xib; sourceTree = "<group>"; };
 		DB5C4EDE2361A04B0090139E /* EIAdDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIAdDialog.swift; sourceTree = "<group>"; };
@@ -1592,7 +1586,6 @@
 				5941383128A0FC000057B7E5 /* PointHistoryReactor.swift */,
 				5941383028A0FC000057B7E5 /* PointHistoryViewController.swift */,
 				63B2373F282CA4B400E8A3F8 /* PointUseGuideViewController.swift */,
-				DB5041AB235066CA007336BC /* PointViewController.swift */,
 				DB5FA59522C20A8400F1508A /* ChargesViewController.swift */,
 				00FDEAE726B3B6A2006617EE /* Charge.storyboard */,
 				00F1AC7627031FAA009847E7 /* PreUsePointViewController.swift */,
@@ -2158,7 +2151,6 @@
 				73D65D812362D54000F564A2 /* MembershipTermView.xib */,
 				CE33B4C42191BFD100B6C632 /* MyCouponTableViewCell.swift */,
 				736D37C9208993BE009535EE /* NoticeTableViewCell.swift */,
-				DB5041AD23506A14007336BC /* PointTableViewCell.swift */,
 				DB3B857F20874788005454F5 /* PoiTableView.swift */,
 				DB4395F122DD88390092E0A5 /* ReceiptView.swift */,
 				DB4395F322DD88770092E0A5 /* ReceiptView.xib */,
@@ -3326,7 +3318,6 @@
 				63A4F3722872F88100601018 /* RectButton.swift in Sources */,
 				63F31408284EC74F001713D2 /* ChargerStationInfo.swift in Sources */,
 				63F31409284EC74F001713D2 /* Login.swift in Sources */,
-				63F3140A284EC74F001713D2 /* PointViewController.swift in Sources */,
 				63F3140B284EC74F001713D2 /* MembershipReissuanceInfoReactor.swift in Sources */,
 				63F3140C284EC74F001713D2 /* AppTabsController.swift in Sources */,
 				63F3140D284EC74F001713D2 /* PhotoRegisterCollectionViewCell.swift in Sources */,
@@ -3478,7 +3469,6 @@
 				63F31490284EC74F001713D2 /* CLLocationCoordinate2D.swift in Sources */,
 				63F31491284EC74F001713D2 /* ReportChargeViewController.swift in Sources */,
 				63F31492284EC74F001713D2 /* MembershipGuideViewController.swift in Sources */,
-				63F31493284EC74F001713D2 /* PointTableViewCell.swift in Sources */,
 				63F31494284EC74F001713D2 /* MembershipTermView.swift in Sources */,
 				63F31495284EC74F001713D2 /* BoardWriteViewModel.swift in Sources */,
 				63F31496284EC74F001713D2 /* KoreanTextMatcher.swift in Sources */,
@@ -3620,7 +3610,6 @@
 				902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */,
 				63A4F3712872F88100601018 /* RectButton.swift in Sources */,
 				DB367BF124FE429D00898BED /* Login.swift in Sources */,
-				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
 				82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
 				5208784F279561BA009DD329 /* PhotoRegisterCollectionViewCell.swift in Sources */,
@@ -3773,7 +3762,6 @@
 				192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */,
 				CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */,
 				637247DA282A6F3B00595FCE /* MembershipGuideViewController.swift in Sources */,
-				DB5041AE23506A14007336BC /* PointTableViewCell.swift in Sources */,
 				73D65D802362D52E00F564A2 /* MembershipTermView.swift in Sources */,
 				52ADE4FF27964A1F00FBBA25 /* BoardWriteViewModel.swift in Sources */,
 				DB3B858320A42C81005454F5 /* KoreanTextMatcher.swift in Sources */,
