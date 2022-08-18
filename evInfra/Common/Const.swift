@@ -22,6 +22,9 @@ internal enum Const {
     public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra/dev"
     public static let SK_BATTERY_SERVER = "http://mbaas.koreacentral.cloudapp.azure.com/ev-infra/web"
     public static let AWS_SERVER = "https://app.ev-infra.com/v1/stg"
+    public static let AWS_IMAGE_SERVER = "https://app.ev-infra.com/v1/stg/image/"
+    
+    
     // public static let SK_BATTERY_SERVER = "https://mbaas.sk-on.com/ev-infra/web"
 //    public static let EV_PAY_SERVER = "http://khpark.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://spark.soft-berry.co.kr"
@@ -38,6 +41,7 @@ internal enum Const {
     public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra"
     public static let SK_BATTERY_SERVER = "https://mbaas.sk-on.com/ev-infra/web"
     public static let AWS_SERVER = "https://app.ev-infra.com/v1"
+    public static let AWS_IMAGE_SERVER = "https://app.ev-infra.com/v1/image/"
     #endif
 
     // File Server

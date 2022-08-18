@@ -35,7 +35,7 @@ internal struct AdsInfo {
         self.evtType = json["evtType"].stringValue
         self.dpStart = json["dpStart"].stringValue
         self.dpEnd = json["dpEnd"].stringValue
-        self.dpState = json["dpState"].intValue
+        self.dpState = json["dpState"].intValue        
     }
 }
 
