@@ -96,8 +96,7 @@ internal final class MainViewController: UIViewController {
         configureLayer()
         configureNaverMapView()
         configureLocationManager()
-//        showGuide()
-        showStartAd()
+        showMarketingPopup()
         
         prepareRouteField()
         preparePOIResultView()
@@ -1238,7 +1237,10 @@ extension MainViewController {
     }
     
     private func showMarketingPopup() {
-        if (UserDefault().readBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP) == false) { // 마케팅 동의받지 않은 회원의 첫 부팅 시
+        let isMarketingNotiAllow = UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION)
+        let didShowMarketingPopup = UserDefault().readBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP)
+        
+        if !didShowMarketingPopup || !isMarketingNotiAllow {
             let popupModel = PopupModel(title: "더 나은 충전 생활 안내를 위해 동의가 필요해요.",
                                         message:"EV Infra는 사용자님을 위해 도움되는 혜택 정보를 보내기 위해 노력합니다. 무분별한 광고 알림을 보내지 않으니 안심하세요!\n마케팅 수신 동의 변경은 설정 > 마케팅 정보 수신 동의에서 철회 가능합니다.",
                                         confirmBtnTitle: "동의하기",
@@ -1251,8 +1253,11 @@ extension MainViewController {
             }
             
             let popup = ConfirmPopupViewController(model: popupModel)
-            
-            self.present(popup, animated: false, completion: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+            }
+        } else {
+            showStartAd()
         }
     }
     
@@ -1273,24 +1278,17 @@ extension MainViewController {
                     } else {
                         message = "[EV Infra] " + currDate + "마케팅 수신 거부 처리가 완료되었어요."
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    DispatchQueue.main.async {
                         Snackbar().show(message: message)
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self.showStartAd()
                     }
                 }
             } else {
                 Snackbar().show(message: "서버통신이 원활하지 않습니다")
             }
         })
-    }
-    
-    private func showGuide() {
-        let window = UIApplication.shared.keyWindow!
-        let guideView = GuideAlertDialog(frame: window.bounds)
-        guideView.closeDelegate = {[weak self] isLiked in
-            guard let self = self else { return }
-            self.showMarketingPopup()
-        }
-        window.addSubview(guideView)
     }
     
     private func checkFCM() {
