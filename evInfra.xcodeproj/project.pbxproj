@@ -3854,7 +3854,7 @@
 					"-framework",
 					"\"Motion\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.soft-berry.ev-infra";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.soft-berry.ev-infraDev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = EvInfra_20220627_debug;
 				SWIFT_OBJC_BRIDGING_HEADER = "evInfra/evInfra-Bridging-Header.h";
@@ -3896,7 +3896,7 @@
 					"-framework",
 					"\"Motion\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.soft-berry.ev-infra";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.soft-berry.ev-infraDev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = EvInfra_20220627_adhoc;
 				SWIFT_OBJC_BRIDGING_HEADER = "evInfra/evInfra-Bridging-Header.h";
