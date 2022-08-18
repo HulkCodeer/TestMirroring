@@ -155,7 +155,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
             guard let self = self else { return }
             if isLogin {
-                Observable.just(PointHistoryReactor.Action.loadTotalPoints)
+                Observable.just(PointHistoryReactor.Action.loadPointInfo)
                     .bind(to: reactor.action)
                     .disposed(by: self.disposeBag)
             } else {
@@ -174,6 +174,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     
     private func bindState(reactor: PointHistoryReactor) {
         let evPointsObservable = reactor.state.compactMap { $0.evPointsViewItems }
+        let evPointsCountObservable = reactor.state.compactMap { $0.evPointsCount }
         let totalPointObservable = reactor.state.compactMap { $0.totalPoint }
         let expirePointObservable = reactor.state.compactMap { $0.expirePoint }
         
@@ -193,13 +194,23 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         
         evPointsObservable
             .asDriver(onErrorJustReturn: [])
-            .drive(pointTableView.rx.items(cellIdentifier: PointHistoryTableViewCell.identfier, cellType: PointHistoryTableViewCell.self)
-            ) { [weak self] indexPath, evPoinViewItem, cell in
+            .drive(pointTableView.rx.items(
+                cellIdentifier: PointHistoryTableViewCell.identfier,
+                cellType: PointHistoryTableViewCell.self)
+            ) { indexPath, evPoinViewItem, cell in
                 let isFirst = indexPath == 0
-                let beforeIndex = indexPath - 1
                 let beforeDate = !isFirst ? evPoinViewItem.previousItemDate : nil
                 
                 cell.configure(point: evPoinViewItem.evPoint, beforeDate: beforeDate, isFirst: isFirst)
+            }
+            .disposed(by: disposeBag)
+        
+        evPointsCountObservable
+            .asDriver(onErrorJustReturn: 0)
+            .drive(with: self) { owner, count in
+                let isEmpty = count <= 0
+                owner.pointEmptyLabel.isHidden = !isEmpty
+                owner.pointTableView.isScrollEnabled = !isEmpty
             }
             .disposed(by: disposeBag)
     }
@@ -208,7 +219,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         settingButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
-                let pointSettionVC = UIStoryboard(name: "Charge", bundle: nil).instantiateViewController(ofType: PreUsePointViewController.self)
+                let pointSettionVC = UIStoryboard(name: "Charge", bundle: nil)
+                    .instantiateViewController(ofType: PreUsePointViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: pointSettionVC)
             }
             .disposed(by: disposeBag)

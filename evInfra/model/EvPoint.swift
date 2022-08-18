@@ -25,15 +25,19 @@ struct EvPoint: Decodable {
     
 }
 
-}
-
-// MARK: Action
-
 extension EvPoint {
+    
+    // MARK: Action
     
     func loadPointType() -> PointType {
         return PointType(self.pointType)
     }
+    
+    func loadPointCategoryType() -> PointCategoryType {
+        return PointCategoryType(self.pointCategory)
+    }
+    
+    // MARK: Object
     
     /// "save": 적립, "used": 사용
     enum PointType {
@@ -53,15 +57,6 @@ extension EvPoint {
                 self = .unknown
             }
         }
-    }
-}
-
-// MARK: Point
-
-extension EvPoint {
-    
-    func loadPointCategoryType() -> PointCategoryType {
-        return PointCategoryType(self.pointCategory)
     }
     
     enum PointCategoryType {

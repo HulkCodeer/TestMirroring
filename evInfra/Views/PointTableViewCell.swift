@@ -15,7 +15,7 @@ import Material
 
 //CommonBaseTableViewCell 적용!!!
 internal final class PointTableViewCell: UITableViewCell {
-    static let cellIdentifier = "PointTableViewCell"
+    static let identifier = "PointTableViewCell"
 //    @IBOutlet weak var labelDate: UILabel! //date
 //    @IBOutlet weak var labelAction: UILabel! //action
 //    @IBOutlet weak var labelAmount: UILabel! //berry

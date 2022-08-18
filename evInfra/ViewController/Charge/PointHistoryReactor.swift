@@ -14,20 +14,21 @@ import SwiftyJSON
 internal class PointHistoryReactor: ViewModel, Reactor {
     
     enum Action {
-        case loadTotalPoints
+        case loadPointInfo      
         case loadPointHistory(type: EvPoint.PointType, startDate: Date, endDate: Date)
     }
     
     enum Mutation {
-        case setEvPoint(EvPoint.PointType, [EvPoint])
-        case setTotalPoints(totalPoint: String, expirePoint: String)
+        case setPointInfo(totalPoint: String, expirePoint: String, point: [EvPoint])
+        case setPoints(EvPoint.PointType, [EvPoint])
     }
     
     struct State {
         var totalPoint: String?
         var expirePoint: String?
         
-        var evPointsViewItems: [EvPointViewItem]?
+        var evPointsViewItems: [PointViewItem] = []
+        var evPointsCount: Int = 0
     }
     
     internal var initialState: State
@@ -39,11 +40,13 @@ internal class PointHistoryReactor: ViewModel, Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .loadTotalPoints:
-            return provider.postPointHistory()
-                .convertData()
-                .compactMap(convertToPointHistory)
-                .map { return .setTotalPoints(totalPoint: $0.totalPoint, expirePoint: $0.expirePoint) }
+        case .loadPointInfo:
+            let todayDate = Date().toString(dateFormat: Constants.date.yearMonthDayHyphen)
+
+            return provider.postPointHistory(startDate: todayDate, endDate: todayDate)
+            .convertData()
+            .compactMap(convertToPointHistory)
+            .map { return .setPointInfo(totalPoint: $0.totalPoint, expirePoint: $0.expirePoint, point: $0.list ?? []) }
             
         case let .loadPointHistory(type, startDate, endDate):
             let startDateStr = startDate.toString(dateFormat: Constants.date.yearMonthDayHyphen)
@@ -55,7 +58,7 @@ internal class PointHistoryReactor: ViewModel, Reactor {
                     let pointHistory = self?.convertToPointHistory(with: apiResult)
                     return pointHistory?.list
                 }
-                .map { pointList in return .setEvPoint(type, pointList) }
+                .map { pointList in return .setPoints(type, pointList) }
         }
     }
     
@@ -63,10 +66,15 @@ internal class PointHistoryReactor: ViewModel, Reactor {
         var newState = state
         
         switch mutation {
-        case let .setEvPoint(type, evPoints):
-            newState.evPointsViewItems = convertToEvPointViewItems(type: type, evPoints: evPoints)
+        case let .setPoints(type, points):
+            let evPointViewItems = convertToPointViewItems(type: type, points: points)
+            newState.evPointsViewItems = evPointViewItems
+            newState.evPointsCount = evPointViewItems.count
             
-        case let .setTotalPoints(totalPoint, expirePoint):
+        case let.setPointInfo(totalPoint, expirePoint, points):
+            let evPointViewItems = convertToPointViewItems(type: .all, points: points)
+            newState.evPointsViewItems = evPointViewItems
+            newState.evPointsCount = evPointViewItems.count
             newState.totalPoint = totalPoint
             newState.expirePoint = expirePoint
         }
@@ -74,22 +82,22 @@ internal class PointHistoryReactor: ViewModel, Reactor {
         return newState
     }
     
-    private func convertToEvPointViewItems(type: EvPoint.PointType, evPoints: [EvPoint]) -> [EvPointViewItem] {
-        var viewItems = [EvPointViewItem]()
-        var evPoints = evPoints
-        
+    private func convertToPointViewItems(type: EvPoint.PointType, points: [EvPoint]) -> [PointViewItem] {
+        var pointList = points
+        var viewItems = [PointViewItem]()
+
         switch type {
         case .savePoint:
-            evPoints = evPoints.filter { $0.loadPointType() == .savePoint }
+            pointList = pointList.filter { $0.loadPointType() == .savePoint }
         case .usePoint:
-            evPoints = evPoints.filter { $0.loadPointType() == .usePoint}
+            pointList = pointList.filter { $0.loadPointType() == .usePoint}
         default:
             break
         }
         
-        for (index, point) in evPoints.enumerated() {
-            let previousDate = (index > 0) ? evPoints[index - 1].date : nil
-            let viewItem = EvPointViewItem(evPoint: point, previousItemDate: previousDate)
+        for (index, point) in pointList.enumerated() {
+            let previousDate = (index > 0) ? pointList[index - 1].date : nil
+            let viewItem = PointViewItem(evPoint: point, previousItemDate: previousDate)
             viewItems.append(viewItem)
         }
         
@@ -102,7 +110,7 @@ internal class PointHistoryReactor: ViewModel, Reactor {
             let pointHistory = try? JSONDecoder().decode(PointHistory.self, from: data)
             guard 1000 == pointHistory?.code else { return nil }
             
-            printLog(out: "data: \(pointHistory)")
+            printLog(out: "data: \(String(describing: pointHistory))")
             return pointHistory
         case .failure(let errrorMSG):
             printLog(out: "Error Message : \(errrorMSG)")
@@ -112,7 +120,7 @@ internal class PointHistoryReactor: ViewModel, Reactor {
     
     // MARK: Object
     
-    struct EvPointViewItem {
+    struct PointViewItem {
         let evPoint: EvPoint
         let previousItemDate: String?
 
