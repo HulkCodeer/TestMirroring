@@ -248,12 +248,13 @@ internal final class FCMManager {
     
     func getPointData() {
         guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
-        if _visibleViewcon.isKind(of: PointViewController.self) {
+        if _visibleViewcon.isKind(of: PointHistoryViewController.self) {
             _visibleViewcon.viewDidLoad()
             return
         } else {
-            let pointVC = UIStoryboard(name: "Charge", bundle: nil).instantiateViewController(ofType: PointViewController.self)
-            _mainNavi.push(viewController: pointVC)
+            let pointHistoryReactor = PointHistoryReactor(provider: RestApi())
+            let pointHistoryVC = PointHistoryViewController(reactor: pointHistoryReactor)
+            _mainNavi.push(viewController: pointHistoryVC)
         }
     }
     

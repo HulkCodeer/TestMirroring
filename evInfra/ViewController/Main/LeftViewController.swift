@@ -361,11 +361,10 @@ extension LeftViewController {
                         self.navigationController?.push(viewController: chargesVC)
 
                     case self.SUB_MENU_MY_POINT: // 포인트 조회
-                        let chargeStoryboard = UIStoryboard(name : "Charge", bundle: nil)
-                        let pointVC = chargeStoryboard.instantiateViewController(ofType: PointViewController.self)
-                        self.navigationController?.push(viewController: pointVC)
-                        break
-
+                        let pointHistoryReactor = PointHistoryReactor(provider: RestApi())
+                        let pointHistoryVC = PointHistoryViewController(reactor: pointHistoryReactor)
+                        GlobalDefine.shared.mainNavi?.push(viewController: pointHistoryVC)
+                        
                     default:
                         print("out of index")
                     }

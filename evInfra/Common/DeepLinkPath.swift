@@ -83,9 +83,9 @@ internal final class DeepLinkPath {
             _mainNavi.push(viewController: viewcon)
             
         case DynamicLinkUrlPathType.point.value:
-            storyboard = UIStoryboard(name : "Charge", bundle: nil)
-            let viewcon = storyboard.instantiateViewController(ofType: PointViewController.self)
-            _mainNavi.push(viewController: viewcon)
+            let reactor = PointHistoryReactor(provider: RestApi())
+            let viewController = PointHistoryViewController(reactor: reactor)
+            _mainNavi.push(viewController: viewController)
             
         case DynamicLinkUrlPathType.filter.value:
             storyboard = UIStoryboard(name : "Filter", bundle: nil)
