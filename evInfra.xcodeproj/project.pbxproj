@@ -83,9 +83,10 @@
 		192A338327FE747E00EF1684 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338227FE747E00EF1684 /* Marker.swift */; };
 		192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */; };
 		193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */; };
+		1969693628AB9AB300FE47A7 /* AmpChargerStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1969693528AB9AB300FE47A7 /* AmpChargerStationModel.swift */; };
+		1969693728AB9AB300FE47A7 /* AmpChargerStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1969693528AB9AB300FE47A7 /* AmpChargerStationModel.swift */; };
 		196C3A272887F4720056E2FD /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A3D3252887F13400AE8280 /* AmplitudeManager.swift */; };
 		19A3D3262887F13400AE8280 /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A3D3252887F13400AE8280 /* AmplitudeManager.swift */; };
-		19B4C7D6289A106D00C6BE84 /* AmplitudeManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B4C7D5289A106D00C6BE84 /* AmplitudeManager+Extension.swift */; };
 		2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CC5B658D05400DBBB0E6E63 /* Pods_evInfra.framework */; };
 		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
 		4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
@@ -968,8 +969,8 @@
 		192A338227FE747E00EF1684 /* Marker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
 		193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
+		1969693528AB9AB300FE47A7 /* AmpChargerStationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmpChargerStationModel.swift; sourceTree = "<group>"; };
 		19A3D3252887F13400AE8280 /* AmplitudeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeManager.swift; sourceTree = "<group>"; };
-		19B4C7D5289A106D00C6BE84 /* AmplitudeManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AmplitudeManager+Extension.swift"; sourceTree = "<group>"; };
 		3FF4500A7EA0A1061E041BED /* Pods-evInfra_dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.release.xcconfig"; sourceTree = "<group>"; };
 		4212A25325555775001BB124 /* OfferwallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallTableViewCell.swift; sourceTree = "<group>"; };
 		4212A25425555775001BB124 /* OfferwallTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferwallTableViewCell.xib; sourceTree = "<group>"; };
@@ -1630,6 +1631,23 @@
 			path = BerryComponent;
 			sourceTree = "<group>";
 		};
+		1969693328AB9A6B00FE47A7 /* Amplitude */ = {
+			isa = PBXGroup;
+			children = (
+				1969693428AB9A7700FE47A7 /* Model */,
+				19A3D3252887F13400AE8280 /* AmplitudeManager.swift */,
+			);
+			path = Amplitude;
+			sourceTree = "<group>";
+		};
+		1969693428AB9A7700FE47A7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1969693528AB9AB300FE47A7 /* AmpChargerStationModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		527165C127B2514A0078DF3A /* Alert */ = {
 			isa = PBXGroup;
 			children = (
@@ -1866,6 +1884,7 @@
 		7312786220B7D81A00861B3E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				1969693328AB9A6B00FE47A7 /* Amplitude */,
 				82F3D9A92855EE2B0030C44B /* Component */,
 				63F3154E284F0809001713D2 /* Colors+Generated.swift */,
 				63F3154D284F0809001713D2 /* Icons+Generated.swift */,
@@ -1885,8 +1904,6 @@
 				63EB0390283CB26500078D28 /* ServerResult.swift */,
 				523A3AF12797A9CA004C3C23 /* GroupViewController.swift */,
 				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
-				19A3D3252887F13400AE8280 /* AmplitudeManager.swift */,
-				19B4C7D5289A106D00C6BE84 /* AmplitudeManager+Extension.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -3223,6 +3240,7 @@
 				63F313EA284EC74F001713D2 /* BoardDetailTableViewHeader.swift in Sources */,
 				63F313EB284EC74F001713D2 /* NaverMapView.swift in Sources */,
 				63F31550284F0809001713D2 /* Icons+Generated.swift in Sources */,
+				1969693728AB9AB300FE47A7 /* AmpChargerStationModel.swift in Sources */,
 				63F313EC284EC74F001713D2 /* StationStatusDto.swift in Sources */,
 				821A05E428627F3100EB1A91 /* Arrow.swift in Sources */,
 				63F313ED284EC74F001713D2 /* BoardTableViewCell.swift in Sources */,
@@ -3508,6 +3526,7 @@
 				63F3154F284F0809001713D2 /* Icons+Generated.swift in Sources */,
 				902A11D7248F56610049EF8E /* StationStatusDto.swift in Sources */,
 				821A05E328627F3100EB1A91 /* Arrow.swift in Sources */,
+				1969693628AB9AB300FE47A7 /* AmpChargerStationModel.swift in Sources */,
 				73BFA04C20847A310028B35D /* BoardTableViewCell.swift in Sources */,
 				90517A0C253857FD00FCB1A7 /* DateUtils.swift in Sources */,
 				63F31551284F0809001713D2 /* Colors+Generated.swift in Sources */,
@@ -3653,7 +3672,6 @@
 				00A6A16826C3C4450023DAE3 /* FilterBarView.swift in Sources */,
 				527165C727B251E20078DF3A /* AlertView.swift in Sources */,
 				0012443F25A2E92300376CDC /* IntroImageCheckerDelegate.swift in Sources */,
-				19B4C7D6289A106D00C6BE84 /* AmplitudeManager+Extension.swift in Sources */,
 				7379A45022CB43C600F4271C /* Connector.swift in Sources */,
 				CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */,
 				DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */,

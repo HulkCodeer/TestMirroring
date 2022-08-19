@@ -106,7 +106,6 @@ extension EventViewController {
     }
     
     func goToEventInfo(index: Int) {
-        Server.countEventAction(eventId: Array<Int>(arrayLiteral: list[index].eventId), action: ACTION_CLICK)
         let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
         viewcon.eventId = list[index].eventId
         viewcon.eventTitle = list[index].title
@@ -123,12 +122,20 @@ extension EventViewController {
         Server.countEventAction(eventId: Array(displayedList), action: ACTION_VIEW)
         self.navigationController?.pop()
     }
+    
+    private func logEventWithPromotion(index: Int) {
+        Server.countEventAction(eventId: Array<Int>(arrayLiteral: list[index].eventId), action: ACTION_CLICK)
+        let property: [String: Any] = ["eventId": "\(list[index].eventId)",
+                                       "eventName": "\(list[index].title)"]
+        AmplitudeManager.shared.logEvent(type: .promotion(.clickEvent), property: property)
+    }
 }
 
 extension EventViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         goToEventInfo(index:indexPath.row)
+        logEventWithPromotion(index: indexPath.row)
     }
 }
 

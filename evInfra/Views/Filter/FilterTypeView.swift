@@ -22,7 +22,7 @@ internal final class FilterTypeView: UIView {
     
     // MARK: VARIABLE
     
-    private var tagList = Array<TagValue>()
+    internal var tagList = Array<TagValue>()
     
     internal weak var slowTypeChangeDelegate: DelegateSlowTypeChange?
     internal var saveOnChange: Bool = false
@@ -82,7 +82,7 @@ internal final class FilterTypeView: UIView {
                 update()
             }
         }
-        
+        UserDefault().registerBool(key: UserDefault.Key.FILTER_MYCAR, val: switchCarSetting.isOn)
         sendTypeChange()
     }
     

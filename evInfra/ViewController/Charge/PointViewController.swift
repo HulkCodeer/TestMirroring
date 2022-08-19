@@ -73,6 +73,7 @@ internal final class PointViewController: UIViewController {
         prepareActionBar()
         prepareDatePicker()
         prepareTableView()
+        logEvent()
 
         // 오늘 포인트 이력 가져오기
         btnAllBerry.isSelected = true
@@ -101,6 +102,11 @@ internal final class PointViewController: UIViewController {
                 MemberManager.shared.showLoginAlert()
             }
         }
+    }
+    
+    private func logEvent() {
+        let property: [String: Any] = ["berryAmount": "\(MemberManager.shared.berryPoint)"]
+        AmplitudeManager.shared.logEvent(type: .payment(.viewMyBerry), property: property)
     }
     
     override func viewDidLayoutSubviews() {

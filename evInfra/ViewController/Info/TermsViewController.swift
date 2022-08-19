@@ -178,7 +178,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
             
         case .PriceInfo:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/charge_price_info"
-        
+            AmplitudeManager.shared.logEvent(type: .map(.viewChargingPriceInfo), property: nil) // 앰플리튜드 로깅
         case .EvBonusStatus:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/subsidy_status"
         

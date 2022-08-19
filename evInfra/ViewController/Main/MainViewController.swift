@@ -71,7 +71,7 @@ internal final class MainViewController: UIViewController {
     var mapView: NMFMapView { naverMapView.mapView }
     private var locationManager = CLLocationManager()
     private var chargerManager = ChargerManager.sharedInstance
-    private var selectCharger: ChargerStationInfo? = nil
+    internal var selectCharger: ChargerStationInfo? = nil
     private var viaCharger: ChargerStationInfo? = nil
     
     var sharedChargerId: String? = nil
@@ -93,7 +93,7 @@ internal final class MainViewController: UIViewController {
         configureLayer()
         configureNaverMapView()
         configureLocationManager()
-        showGuide()
+//        showGuide()
         
         prepareRouteField()
         preparePOIResultView()
@@ -114,6 +114,7 @@ internal final class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage), property: nil) // 앰플리튜드 로깅
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -297,6 +298,8 @@ internal final class MainViewController: UIViewController {
         }
         
         updateMyLocationButton()
+        
+        AmplitudeManager.shared.logEvent(type: .map(.clickMyLocation), property: nil) // 앰플리튜드 로깅
     }
     
     @IBAction func onClickRenewBtn(_ sender: UIButton) {
@@ -320,6 +323,8 @@ internal final class MainViewController: UIViewController {
             
             self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
         }
+        
+        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: ["result": "길 안내"]) // 앰플리튜드 로깅
     }
     
     private func configureLocationManager() {
@@ -482,7 +487,7 @@ extension MainViewController: AppToolbarDelegate {
             if let isRouteMode = arg {
                 showRouteView(isShow: isRouteMode as! Bool)
             }
-            
+            AmplitudeManager.shared.logEvent(type: .route(.clickNavigation), property: nil) // 앰플리튜드 로깅
         default:
             break
         }
@@ -549,6 +554,12 @@ extension MainViewController: TextFieldDelegate {
     
     @objc func onClickRouteCancel(_ sender: UIButton) {
         clearSearchResult()
+        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: ["result": "지우기"]) // 앰플리튜드 로깅
+    }
+    
+    // TODO: 한 view controller에서 사용되는 앰플리튜드 로깅 이벤트 한 곳에서 처리
+    func testLogingEvent(type: EventType) {
+        
     }
     
     @objc func onClickRoute(_ sender: UIButton) {
@@ -928,7 +939,7 @@ extension MainViewController: ChargerSelectDelegate {
         summaryView.charger = charger
         summaryView.setLayoutType(charger: charger, type: SummaryView.SummaryType.MainSummary)
         setView(view: callOutLayer, hidden: false)
-        
+
         summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clusterManager!.isRouteMode)
     }
     

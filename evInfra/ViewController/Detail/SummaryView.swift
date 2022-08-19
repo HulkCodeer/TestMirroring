@@ -67,9 +67,18 @@ class SummaryView: UIView {
     
     var shareUrl = ""
     
+    private var viewType: SummaryType?
+    
     public enum SummaryType {
         case MainSummary
         case DetailSummary
+        
+        var toSource: String {
+            switch self {
+            case .MainSummary: return "충전소 세부 화면"
+            case .DetailSummary: return "충전소 상세 화면"
+            }
+        }
     }
     
     override init(frame: CGRect) {
@@ -105,9 +114,21 @@ class SummaryView: UIView {
         switch type {
         case .MainSummary:
             layoutMainSummary()
+            viewType = .MainSummary
         case .DetailSummary:
             layoutDetailSummary()
+            viewType = .DetailSummary
         }
+    }
+    
+    private func logEvent(_ charger: ChargerStationInfo?) {
+        guard let charger = charger else { return }
+
+        let ampChargerStationModel = AmpChargerStationModel(charger)
+        var property: [String: Any?] = ampChargerStationModel.toProperty
+        property["source"] = "마커"
+        
+        AmplitudeManager.shared.logEvent(type: .map(.viewStationSummarized), property: property)
     }
     
     func layoutMainSummary() {
@@ -220,6 +241,7 @@ class SummaryView: UIView {
                     self.setStationStatus(charger: self.charger!)
                     if self.charger!.cidInfoList.count > 0 {
                         self.initLayout(type: type)
+                        self.logEvent(self.charger)
                         if let delegate = self.delegate {
                             delegate.setCidInfoList()
                             self.layoutIfNeeded()
@@ -409,21 +431,32 @@ class SummaryView: UIView {
     @IBAction func onClickStartPoint(_ sender: Any) {
         let start = Notification.Name(rawValue: startKey)
         NotificationCenter.default.post(name: start, object: charger)
+        logEventWithRouteType(position: .clickStationSelectStarting, charger)
     }
     // end
     @IBAction func onClickEndPoint(_ sender: Any) {
         let end = Notification.Name(rawValue: endKey)
         NotificationCenter.default.post(name: end, object: charger)
+        logEventWithRouteType(position: .clickStationSelectDestination, charger)
     }
     // add
     @IBAction func onClickAddPoint(_ sender: Any) {
         let add = Notification.Name(rawValue: addKey)
         NotificationCenter.default.post(name: add, object: charger)
+        logEventWithRouteType(position: .clickStationSelectTransit, charger)
     }
     // navigation
     @IBAction func onClickNavi(_ sender: UIButton) {
         let navigation = Notification.Name(rawValue: navigationKey)
         NotificationCenter.default.post(name: navigation, object: charger)
+    }
+    
+    private func logEventWithRouteType(position: EventType.RouteEvent, _ charger: ChargerStationInfo?) {
+        guard let charger = charger else { return }
+        
+        var property: [String: Any?] = AmpChargerStationModel(charger).toProperty
+        property["source"] = viewType?.toSource
+        AmplitudeManager.shared.logEvent(type: .route(position), property: property)
     }
 
     func favorite() {
@@ -435,10 +468,30 @@ class SummaryView: UIView {
                     Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
                 }
                 self.setCallOutFavoriteIcon(favorite: charger.mFavorite)
+                self.logFavoriteEvent(charger.mFavorite)
                 
                 let favorite = Notification.Name(rawValue: self.favoriteKey)
                 NotificationCenter.default.post(name: favorite, object: charger.mFavorite)
             }
+        }
+    }
+    
+    private func logFavoriteEvent(_ isFavorite: Bool) {
+        guard let charger = charger else { return }
+        var property: [String: Any?] = AmpChargerStationModel(charger).toProperty
+        
+        switch viewType {
+        case .DetailSummary:
+            property["source"] = "충전소 상세 화면"
+        case .MainSummary:
+            property["source"] = "충전소 요약 화면"
+        default: break
+        }
+        
+        if isFavorite {
+            AmplitudeManager.shared.logEvent(type: .map(.clickStationAddFavorite), property: property)
+        } else {
+            AmplitudeManager.shared.logEvent(type: .map(.clickStationCancelFavorite), property: property)
         }
     }
     
@@ -449,7 +502,9 @@ class SummaryView: UIView {
             return
         }
         
-        fetchDistance(destination: (charger.mStationInfoDto?.mLatitude ?? 0.0, charger.mStationInfoDto?.mLongitude ?? 0.0))
+        let currentPosition = CLLocationManager().getCurrentCoordinate()
+        getDistance(curPos: TMapPoint(coordinate: currentPosition), desPos: TMapPoint(lon: charger.mStationInfoDto?.mLongitude ?? .zero, lat: charger.mStationInfoDto?.mLatitude ?? .zero))
+//        fetchDistance(destination: (charger.mStationInfoDto?.mLatitude ?? 0.0, charger.mStationInfoDto?.mLongitude ?? 0.0))
     }
     
     internal func fetchDistance(destination: (Double, Double)) {
