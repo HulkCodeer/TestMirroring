@@ -13,77 +13,78 @@ import Then
 import SnapKit
 import Material
 
-internal final class PointHistoryTableViewCell: UITableViewCell {
-    static let identfier = "PointHistoryTableViewCell"
+internal final class PointHistoryTableViewCell: CommonBaseTableViewCell {
+    static let identifier = "PointHistoryTableViewCell"
     
-    private let contentStackView = UIStackView().then {
+    private lazy var contentStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
         $0.spacing = 18
     }
     
-    private let dateStackView = UIStackView().then {
+    private lazy var dateStackView = UIStackView().then {
         $0.axis = .vertical
         $0.distribution = .equalSpacing
     }
-    private let yearLabel = UILabel().then {
+    private lazy var yearLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .medium)
         $0.textColor = Colors.contentTertiary.color
     }
-    private let dateLabel = UILabel().then {
+    private lazy var dateLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 14, weight: .medium)
         $0.textColor = Colors.contentPrimary.color
     }
     
-    private let chargeInfoStackView = UIStackView().then {
+    private lazy var chargeInfoStackView = UIStackView().then {
         $0.axis = .vertical
         $0.alignment = .fill
         $0.distribution = .equalSpacing
     }
-    private let titleLabel = UILabel().then {
+    private lazy var titleLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 14, weight: .medium)
         $0.textColor = Colors.contentTertiary.color
     }
-    private let timeCategoryLabel = UILabel().then {
+    private lazy var timeCategoryLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .medium)
         $0.textColor = Colors.contentTertiary.color
     }
     
-    private let amountStackView = UIStackView().then {
+    private lazy var amountStackView = UIStackView().then {
         $0.axis = .vertical
         $0.alignment = .trailing
         $0.distribution = .equalSpacing
     }
-    private let amountLabel = UILabel().then {
+    private lazy var amountLabel = UILabel().then {
         $0.textColor = Colors.contentPrimary.color
         $0.font = .systemFont(ofSize: 14, weight: .bold)
     }
-    private let pointTypeLabel = UILabel().then { // 적립, 사용 등
+    private lazy var pointTypeLabel = UILabel().then { // 적립, 사용 등
         $0.font = .systemFont(ofSize: 12, weight: .medium)
         $0.textColor = Colors.contentTertiary.color
     }
     
-    private let dividerView = UIView().then {
+    private lazy var dividerView = UIView().then {
         $0.backgroundColor = UIColor(hex: "#E6E6E6")
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        setUI()
-        setConstraints()
     }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        setUI()
-        setConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func makeUI() {
+        super.makeUI()
+        setUI()
+        setConstraints()
+    }
     
     private func setUI() {
         self.selectionStyle = .none
@@ -108,13 +109,11 @@ internal final class PointHistoryTableViewCell: UITableViewCell {
     }
     
     private func setConstraints() {
-        let topMargin: CGFloat = 8
-        let leadingMargin: CGFloat = 4
-        let horizontalPadding: CGFloat = 18
-        
         let stackViewVerticalSpacing: CGFloat = 4
         
-        let dividerHeight: CGFloat = 1
+        let leadingMargin: CGFloat = 4
+        let horizontalPadding: CGFloat = 18
+//        let dividerHeight: CGFloat = 1
         
         dateStackView.spacing = stackViewVerticalSpacing
         chargeInfoStackView.spacing = stackViewVerticalSpacing
@@ -157,7 +156,7 @@ internal final class PointHistoryTableViewCell: UITableViewCell {
     
     // MARK: private Action
     
-    private func setTimeCategory(type pointType: EvPoint.PointCategoryType, time: String?) {
+    private func setTimeCategory(type pointType:  EvPoint.PointCategoryType, time: String?) {
         let time = time ?? String()
         var category = String()
         

@@ -30,7 +30,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     private lazy var pointTableView = UITableView().then {
         $0.rowHeight = 72
         $0.separatorStyle = .none
-        $0.register(PointHistoryTableViewCell.self, forCellReuseIdentifier: PointHistoryTableViewCell.identfier)
+        $0.register(PointHistoryTableViewCell.self, forCellReuseIdentifier: PointHistoryTableViewCell.identifier)
     }
     
     private lazy var myPointStackView = UIStackView().then {
@@ -195,7 +195,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         evPointsObservable
             .asDriver(onErrorJustReturn: [])
             .drive(pointTableView.rx.items(
-                cellIdentifier: PointHistoryTableViewCell.identfier,
+                cellIdentifier: PointHistoryTableViewCell.identifier,
                 cellType: PointHistoryTableViewCell.self)
             ) { indexPath, evPoinViewItem, cell in
                 let isFirst = indexPath == 0
