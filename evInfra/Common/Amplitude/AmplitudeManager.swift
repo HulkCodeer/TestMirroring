@@ -87,6 +87,7 @@ internal enum EventType {
     case payment(PaymentEvent)
     case promotion(PromotionEvent)
     case filter(FilterEvent)
+    case search(SearchEvent)
     
     var eventName: String {
         switch self {
@@ -113,7 +114,6 @@ internal enum EventType {
             case .clickStationAddFavorite: return "click_station_add_favorite"
             case .clickStationCancelFavorite: return "click_station_cancel_favorite"
             case .clickFavoriteStationAlarm: return "click_favorite_station_alarm"
-            case .clickSearchChooseStation: return "click_search_choose_station"
             case .clickGoingToCharge: return "click_going_to_charge"
             case .clickGoingToChargeCancel: return "click_going_to_charge_cancel"
             }
@@ -149,6 +149,10 @@ internal enum EventType {
             case .clickFilterReset: return "click_filter_reset"
             case .clickFilterSaved: return "click_filter_saved"
             }
+        case .search(let event):
+            switch event {
+            case .clickSearchChooseStation: return "click_search_choose_station"
+            }
         }
     }
     
@@ -174,7 +178,6 @@ internal enum EventType {
         case clickStationAddFavorite
         case clickStationCancelFavorite
         case clickFavoriteStationAlarm
-        case clickSearchChooseStation
         case clickGoingToCharge
         case clickGoingToChargeCancel
     }
@@ -209,6 +212,10 @@ internal enum EventType {
         case clickFilterCancel
         case clickFilterReset
         case clickFilterSaved
+    }
+    
+    internal enum SearchEvent {
+        case clickSearchChooseStation
     }
 }
 

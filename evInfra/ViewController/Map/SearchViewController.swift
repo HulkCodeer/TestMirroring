@@ -256,7 +256,7 @@ extension SearchViewController: ChargerTableViewDelegate {
         guard let charger = self.tableView.chargerList?[row] else {
             return
         }
-
+        logEventWithSelectedCharger(row)
         delegate?.moveToSelected(chargerId: charger.mChargerId!)
         dismiss(animated: true, completion: nil)
     }
@@ -267,9 +267,25 @@ extension SearchViewController: SearchTableViewViewDelegate {
         guard let poi = self.addrTableView.poiList?[row] else {
             return
         }
-        
+        logEventWithSelectedCharger(row)
         delegate?.moveToSelected(chargerId: poi.getPOID()!)
         delegate?.moveToSelectLocation(lat: poi.getPOIPoint().getLatitude() , lon: poi.getPOIPoint().getLongitude() )
         dismiss(animated: true, completion: nil)
+    }
+}
+
+extension SearchViewController {
+    func logEventWithSelectedCharger(_ index: Int) {
+        guard let charger = self.tableView.chargerList?[index] else { return }
+        
+        if let searchBar = searchBarController?.searchBar,
+            let text = searchBar.textField.text {
+            let property: [String: Any] = ["searchKeyword": text,
+                                           "selectedStation": "\(String(describing: charger.mStationInfoDto?.mSnm))",
+                                           "result": "성공",
+                                           "stationOrAddress": "\(searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")"]
+                
+                AmplitudeManager.shared.logEvent(type: .search(.clickSearchChooseStation), property: property)
+        }
     }
 }

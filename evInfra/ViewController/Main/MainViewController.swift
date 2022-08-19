@@ -485,7 +485,15 @@ extension MainViewController: AppToolbarDelegate {
             let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
             let searchVC:SearchViewController = mapStoryboard.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
             searchVC.delegate = self
-            self.present(AppSearchBarController(rootViewController: searchVC), animated: true, completion: nil)
+            let appSearchBarController: AppSearchBarController = AppSearchBarController(rootViewController: searchVC)
+            appSearchBarController.backbuttonTappedDelegate = {
+                let property: [String: Any] = ["result": "실패",
+                                               "staionOrAddress": "\(searchVC.searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")",
+                                               "searchKeyword": "",
+                                               "selectedStation": ""]
+                AmplitudeManager.shared.logEvent(type: .search(.clickSearchChooseStation), property: property)
+            }
+            self.present(appSearchBarController, animated: true, completion: nil)
         case 2: // 경로 찾기 버튼
             if let isRouteMode = arg {
                 showRouteView(isShow: isRouteMode as! Bool)
