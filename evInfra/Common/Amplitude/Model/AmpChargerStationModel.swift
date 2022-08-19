@@ -74,6 +74,8 @@ internal struct AmpChargerStationModel {
             return $0.cstToString(cst: $0.status)
         })
         self.workingHours = chargerStation.mStationInfoDto?.mUtime ?? ""
+        self.chargePriceSlow = chargerStation.slowPrice
+        self.chargePriceFast = chargerStation.fastPrice
         getChargingTime(chargerStation.cidInfoList)
         getPower(chargerStation.cidInfoList)
         self.heightLimit = nil
@@ -141,21 +143,9 @@ internal struct AmpChargerStationModel {
     }
     
     private func getDistance(lat: Double, lng: Double) -> String {
-        var distance: Double?
-        let currentPosition = CLLocationManager().getCurrentCoordinate()
-        let tmapPathData = TMapPathData()
-        if let path = tmapPathData.find(from: TMapPoint(coordinate: currentPosition), to: TMapPoint(lon: lng, lat: lat)) {
-            distance = path.getDistance()
-        }
-//        DispatchQueue.global(qos: .background).async {
-//            let currentPosition = CLLocationManager().getCurrentCoordinate()
-//            let tmapPathData = TMapPathData()
-//            if let path = tmapPathData.find(from: TMapPoint(coordinate: currentPosition), to: TMapPoint(lon: lng, lat: lat)) {
-//                distance = path.getDistance()
-//            }
-//        }
-        let distanceToStr = round((distance ?? .zero) / 1000 * 10) / 10
-        return "\(distanceToStr)"
+        let distanceToDestination = CLLocationCoordinate2D().distance(to: CLLocationCoordinate2D(latitude: lat, longitude: lng))
+        let distance: Double = round(distanceToDestination / 1000*10) / 10
+        return "\(distance)km"
     }
     
     private mutating func getPower(_ cidInfoList: [CidInfo]) {
@@ -206,7 +196,6 @@ internal struct AmpChargerStationModel {
             "chargingState": self.chargingState,
             "chargingTime": self.chargingTime,
             "lastUsed": self.lastUsed,
-//            "chargeSpeed" : self.spe
             "workingHours": self.workingHours,
             "heightLimit": self.heightLimit,
             "twoArms": self.isTwoArms,
@@ -215,7 +204,9 @@ internal struct AmpChargerStationModel {
             "power100": self.power100,
             "power120": self.power120,
             "power200": self.power200,
-            "power250": self.power250
+            "power250": self.power250,
+            "chargePriceSlow": self.chargePriceSlow,
+            "chargePriceFast": self.chargePriceFast
         ]
     }
 }

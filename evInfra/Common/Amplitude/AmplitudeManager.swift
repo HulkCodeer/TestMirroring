@@ -41,7 +41,7 @@ internal final class AmplitudeManager {
     internal func setUserProperty() {
         identify.set("membership card", value: MemberManager.shared.hasMembership as NSObject)
         identify.set("signup", value: (MemberManager.shared.mbId > 0 ? true : false) as NSObject)
-        identify.set("signup", value: MemberManager.shared.regDate as NSObject)
+        identify.set("signup date", value: MemberManager.shared.regDate as NSObject)
         identify.set("berry owned", value: MemberManager.shared.berryPoint as NSObject)
         identify.set("favorite station count", value: NSString(string: ""))
         identify.set("gender", value: MemberManager.shared.gender as NSObject)
@@ -82,7 +82,11 @@ internal enum EventType {
     case login(LoginEvent)
     case signup(SignUpEvent)
     case map(MapEvent)
+    case route(RouteEvent)
     case detail(ChargerStationEvent)
+    case payment(PaymentEvent)
+    case promotion(PromotionEvent)
+    case filter(FilterEvent)
     
     var eventName: String {
         switch self {
@@ -105,27 +109,45 @@ internal enum EventType {
             case .viewMainPage: return "view_main_page"
             case .clickMyLocation: return "click_my_location"
             case .viewStationSummarized: return "view_station_summarized"
-            case .clickChargingPriceInfo: return "click_charging_price_info"
+            case .viewChargingPriceInfo: return "view_charging_price_info"
             case .clickStationAddFavorite: return "click_station_add_favorite"
             case .clickStationCancelFavorite: return "click_station_cancel_favorite"
             case .clickFavoriteStationAlarm: return "click_favorite_station_alarm"
             case .clickSearchChooseStation: return "click_search_choose_station"
-            case .clickStationStartNavigaion: return "click_station_start_navigation"
             case .clickGoingToCharge: return "click_going_to_charge"
             case .clickGoingToChargeCancel: return "click_going_to_charge_cancel"
+            }
+        case .route(let event):
+            switch event {
             case .clickStationSelectStarting: return "click_station_select_starting"
+            case .clickStationSelectTransit: return "click_station_select_transit"
             case .clickStationSelectDestination: return "click_station_select_destination"
             case .clickNavigation: return "click_navigation"
             case .clickNavigationFindway: return "click_navigation_find_away"
-            case .viewFilter: return "view_filter"
-            case .clickFilterCancel: return "click_filter_cancel"
-            case .clickFilterReset: return "click_filter_reset"
-            case .clickFilterSaved: return "click_filter_saved"
+            case .clickStationStartNavigaion: return "click_station_start_navigation"
             }
         case .detail(let event):
             switch event {
             case .viewStationDetail: return "view_station_detail"
             case .clickStationChargingPrice: return "click_station_charging_price"
+            }
+        case .payment(let event):
+            switch event {
+            case .viewMyBerry: return "view_my_berry"
+            case .clickSetUpBerry: return "click_set_up_berry"
+            }
+        case .promotion(let event):
+            switch event {
+            case .clickEvent: return "click_event"
+            case .clickBanner: return "click_banner"
+            case .clickCloseBanner: return "click_close_banner"
+            }
+        case .filter(let event):
+            switch event {
+            case .viewFilter: return "view_filter"
+            case .clickFilterCancel: return "click_filter_cancel"
+            case .clickFilterReset: return "click_filter_reset"
+            case .clickFilterSaved: return "click_filter_saved"
             }
         }
     }
@@ -148,27 +170,45 @@ internal enum EventType {
         case viewMainPage
         case clickMyLocation
         case viewStationSummarized
-        case clickChargingPriceInfo
+        case viewChargingPriceInfo
         case clickStationAddFavorite
         case clickStationCancelFavorite
         case clickFavoriteStationAlarm
         case clickSearchChooseStation
-        case clickStationStartNavigaion
         case clickGoingToCharge
         case clickGoingToChargeCancel
+    }
+    
+    internal enum RouteEvent {
         case clickStationSelectStarting
+        case clickStationSelectTransit
         case clickStationSelectDestination
         case clickNavigation
         case clickNavigationFindway
-        case viewFilter
-        case clickFilterCancel
-        case clickFilterReset
-        case clickFilterSaved
+        case clickStationStartNavigaion
     }
     
     internal enum ChargerStationEvent {
         case viewStationDetail
         case clickStationChargingPrice
+    }
+    
+    internal enum PaymentEvent {
+        case viewMyBerry
+        case clickSetUpBerry
+    }
+    
+    internal enum PromotionEvent {
+        case clickEvent
+        case clickBanner
+        case clickCloseBanner
+    }
+    
+    internal enum FilterEvent {
+        case viewFilter
+        case clickFilterCancel
+        case clickFilterReset
+        case clickFilterSaved
     }
 }
 
