@@ -192,6 +192,8 @@
 		63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */; };
 		63D054E828ACCF9700074676 /* VerticalConfirmPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D054E728ACCF9700074676 /* VerticalConfirmPopupViewController.swift */; };
 		63D054E928ACCF9700074676 /* VerticalConfirmPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D054E728ACCF9700074676 /* VerticalConfirmPopupViewController.swift */; };
+		63D723B928AF723300D54A0D /* NewPaymentQRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D723B828AF723300D54A0D /* NewPaymentQRScanViewController.swift */; };
+		63D723BA28AF723300D54A0D /* NewPaymentQRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D723B828AF723300D54A0D /* NewPaymentQRScanViewController.swift */; };
 		63DA015C2832559400705842 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015B2832559400705842 /* BaseViewController.swift */; };
 		63DA015E28325C9300705842 /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015D28325C9200705842 /* FindPasswordViewController.swift */; };
 		63DA09FF282E2F440021292C /* JSON+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA09FE282E2F440021292C /* JSON+Extension.swift */; };
@@ -1070,6 +1072,7 @@
 		63CCE8232834CFD5006B8B9A /* evInfraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = evInfraTests.swift; sourceTree = "<group>"; };
 		63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		63D054E728ACCF9700074676 /* VerticalConfirmPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalConfirmPopupViewController.swift; sourceTree = "<group>"; };
+		63D723B828AF723300D54A0D /* NewPaymentQRScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaymentQRScanViewController.swift; sourceTree = "<group>"; };
 		63DA015B2832559400705842 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		63DA015D28325C9200705842 /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		63DA09FE282E2F440021292C /* JSON+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSON+Extension.swift"; sourceTree = "<group>"; };
@@ -2059,6 +2062,7 @@
 				733662FF230263540049AEFE /* PaymentStatusViewController.swift */,
 				0013A7C92746576D009CFC22 /* RepayListViewController.swift */,
 				000DAE102747369A00CEC165 /* RepayResultViewController.swift */,
+				63D723B828AF723300D54A0D /* NewPaymentQRScanViewController.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -3384,6 +3388,7 @@
 				63762F4A2869A8F000C951BF /* QuitAccountReactor.swift in Sources */,
 				821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */,
 				82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */,
+				63D723BA28AF723300D54A0D /* NewPaymentQRScanViewController.swift in Sources */,
 				63F3145B284EC74F001713D2 /* SearchAddressViewDelegate.swift in Sources */,
 				63F3145C284EC74F001713D2 /* MyArticleViewController.swift in Sources */,
 				63F3145D284EC74F001713D2 /* LotteRentCertificateViewController.swift in Sources */,
@@ -3675,6 +3680,7 @@
 				63762F492869A8F000C951BF /* QuitAccountReactor.swift in Sources */,
 				821A05E728627F3100EB1A91 /* ChevronArrow.swift in Sources */,
 				82829BCE28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */,
+				63D723B928AF723300D54A0D /* NewPaymentQRScanViewController.swift in Sources */,
 				73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */,
 				7376B5C520C6473500A2B7C1 /* MyArticleViewController.swift in Sources */,
 				00C75C46252ED4A000387559 /* LotteRentCertificateViewController.swift in Sources */,

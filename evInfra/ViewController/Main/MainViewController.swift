@@ -1388,8 +1388,9 @@ extension MainViewController {
                 repayListViewController.delegate = self
                 GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
             } else {
-                let paymentQRScanViewController = paymentStoryboard.instantiateViewController(ofType: PaymentQRScanViewController.self)
-                GlobalDefine.shared.mainNavi?.push(viewController: paymentQRScanViewController)
+//                let viewcon = paymentStoryboard.instantiateViewController(ofType: PaymentQRScanViewController.self)
+                let viewcon = NewPaymentQRScanViewController()
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             }
             
         default:
@@ -1410,7 +1411,7 @@ extension MainViewController {
             } else {
                 // 진행중인 충전이 없음
                 self.btn_main_charge.alignTextUnderImage()
-                self.btn_main_charge.tintColor = UIColor(named: "gr-8")
+                self.btn_main_charge.tintColor = Colors.gr8.color
                 self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
                 self.btn_main_charge.setTitle("간편 충전", for: .normal)
             }
