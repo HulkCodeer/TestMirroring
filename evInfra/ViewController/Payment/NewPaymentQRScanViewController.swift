@@ -13,8 +13,6 @@ import SwiftyJSON
 internal final class NewPaymentQRScanViewController: CommonBaseViewController {
     
     // MARK: QR Scanner UI
-//    @IBOutlet weak var scannerViewLayer: UIView!
-//    @IBOutlet weak var lbExplainScanner: UILabel!
     
     private lazy var naviTotalView = CommonNaviView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -22,7 +20,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController {
     }
     
     private lazy var scannerViewLayerView = UIView().then {
-        $0.backgroundColor = .clear
+        $0.backgroundColor = .white
     }
     
     private lazy var guideLbl = UILabel().then {
@@ -32,6 +30,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController {
     }
     
     private lazy var qrBoxImgView = UIImageView().then {
+        $0.backgroundColor = .clear
         $0.image = UIImage(named: "qr_box")
     }
         
@@ -81,6 +80,8 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "QR Scan 화면"
+        
         checkPermission()
         
         prepareQRScanner()
@@ -90,7 +91,8 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        super.viewWillAppear(animated)        
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {
