@@ -11,7 +11,7 @@ import UIKit
 class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     weak var tableViewDelegate: BoardTableViewDelegate?
-    var category :String = Board.CommunityType.FREE.rawValue
+    var category: Board.CommunityType = .FREE
     var isLastPage: Bool = false
     var isRefresh: Bool = false
     var currentPage = 0
@@ -65,16 +65,11 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return communityBoardList.count
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let isAd = communityBoardList[indexPath.row].board_id?.contains("ad") ?? false
-        if isAd {
-            EIAdManager.sharedInstance.increase(adId: communityBoardList[indexPath.row].document_srl!, action: EIAdManager.ACTION_VIEW)
-        }
-    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let isAd = communityBoardList[indexPath.row].board_id?.contains("ad") ?? false
         if !isAd {
@@ -87,12 +82,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         let isAd = communityBoardList[indexPath.row].board_id?.contains("ad") ?? false
         
         switch category {
-        case Board.CommunityType.FREE.rawValue,
-            Board.CommunityType.CORP_GS.rawValue,
-            Board.CommunityType.CORP_JEV.rawValue,
-            Board.CommunityType.CORP_STC.rawValue,
-            Board.CommunityType.CORP_SBC.rawValue:
-            
+        case .FREE, .CORP_GS, .CORP_JEV, .CORP_STC, .CORP_SBC:
             if isAd {
                 guard let adCell = Bundle.main.loadNibNamed("CommunityBoardAdsCell", owner: self, options: nil)?.first as? CommunityBoardAdsCell else { return UITableViewCell() }
                 
@@ -112,7 +102,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 
                 return cell
             }
-        case Board.CommunityType.CHARGER.rawValue:
+        case .CHARGER:
             
             if isAd {
                 guard let adCell = Bundle.main.loadNibNamed("CommunityBoardAdsCell", owner: self, options: nil)?.first as? CommunityBoardAdsCell else { return UITableViewCell() }
@@ -169,7 +159,9 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             if #available(iOS 14.0, *) {
                 headerView.backgroundConfiguration?.backgroundColor = UIColor(named: "nt-white")
             }
+            
             headerView.setupBannerView(categoryType: category)
+            headerView.fetchAds(categoryType: category)
             headerView.delegate = self
             
             return headerView
@@ -182,7 +174,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
 
         if maximumOffset - currentOffset <= -20.0 {
-            self.tableViewDelegate?.fetchNextBoard(mid: self.category, sort: self.sortType, mode: self.screenType.rawValue)
+            self.tableViewDelegate?.fetchNextBoard(mid: self.category.rawValue, sort: self.sortType, mode: self.screenType.rawValue)
         }
     }
 }
@@ -191,6 +183,6 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
 extension BoardTableView: CommunityBoardTableViewHeaderDelegate {
     func didSelectTag(_ selectedType: Board.SortType) {
         sortType = selectedType
-        self.tableViewDelegate?.fetchFirstBoard(mid: self.category, sort: self.sortType, mode: self.screenType.rawValue)
+        self.tableViewDelegate?.fetchFirstBoard(mid: self.category.rawValue, sort: self.sortType, mode: self.screenType.rawValue)
     }
 }

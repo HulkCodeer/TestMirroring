@@ -421,7 +421,7 @@ extension DetailViewController: BoardTableViewDelegate {
                             self.boardList.removeAll()
                             self.boardList += updateList
                               
-                            self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
+                            self.boardTableView.category = .CHARGER
                             self.boardTableView.communityBoardList = self.boardList
                             self.boardTableView.isFromDetailView = true
                             
@@ -433,7 +433,7 @@ extension DetailViewController: BoardTableViewDelegate {
                         debugPrint("error")
                     }
                 } else {
-                    self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
+                    self.boardTableView.category = .CHARGER
                     self.boardTableView.communityBoardList = self.boardList
                     self.boardTableView.isFromDetailView = true
                 }
@@ -458,7 +458,7 @@ extension DetailViewController: BoardTableViewDelegate {
                         if let updateList = result.list {
                             self.boardList += updateList
                               
-                            self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
+                            self.boardTableView.category = .CHARGER
                             self.boardTableView.communityBoardList = self.boardList
                             self.boardTableView.isFromDetailView = true
                             
@@ -483,7 +483,7 @@ extension DetailViewController: BoardTableViewDelegate {
         let storyboard = UIStoryboard(name: "BoardDetailViewController", bundle: nil)
         guard let boardDetailTableViewController = storyboard.instantiateViewController(withIdentifier: "BoardDetailViewController") as? BoardDetailViewController else { return }
 
-        boardDetailTableViewController.category = Board.CommunityType.CHARGER.rawValue
+        boardDetailTableViewController.category = .CHARGER
         boardDetailTableViewController.document_srl = documentSRL
         boardDetailTableViewController.isFromStationDetailView = true
 
@@ -557,7 +557,7 @@ extension DetailViewController {
             }
         }
         
-        boardWriteViewController.category = Board.CommunityType.CHARGER.rawValue
+        boardWriteViewController.category = .CHARGER
         boardWriteViewController.popCompletion = { [weak self] in
             guard let self = self else { return }
             self.fetchFirstBoard(mid: Board.CommunityType.CHARGER.rawValue, sort: .LATEST, mode: Board.ScreenType.FEED.rawValue)

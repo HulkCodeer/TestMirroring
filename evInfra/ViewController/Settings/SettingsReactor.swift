@@ -118,7 +118,7 @@ internal final class SettingsReactor: ViewModel, Reactor {
         return newState
     }
     
-    private func convertToData(with result: ApiResult<Data, ApiErrorMessage> ) -> Bool? {
+    private func convertToData(with result: ApiResult<Data, ApiError> ) -> Bool? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)

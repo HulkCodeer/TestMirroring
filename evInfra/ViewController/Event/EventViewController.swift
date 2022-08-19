@@ -9,6 +9,7 @@
 import UIKit
 import Material
 import SwiftyJSON
+import RxSwift
 
 internal final class EventViewController: UIViewController {
 
@@ -31,6 +32,8 @@ internal final class EventViewController: UIViewController {
     
     private let ACTION_VIEW = 0
     private let ACTION_CLICK = 1
+    
+    private let disposebag = DisposeBag()
     
     // MARK: SYSTEM FUNC
     
@@ -119,12 +122,12 @@ extension EventViewController {
                 displayedList.insert(list[IndexPath.row].eventId)
             }
         })
-        Server.countEventAction(eventId: Array(displayedList), action: ACTION_VIEW)
+        Server.countEventAction(eventId: Array(displayedList).map { String($0) }, action: .view, page: .event, layer: .list)
         self.navigationController?.pop()
     }
     
     private func logEventWithPromotion(index: Int) {
-        Server.countEventAction(eventId: Array<Int>(arrayLiteral: list[index].eventId), action: ACTION_CLICK)
+        Server.countEventAction(eventId: [String(list[index].eventId)], action: .click, page: .event, layer: .list)
         let property: [String: Any] = ["eventId": "\(list[index].eventId)",
                                        "eventName": "\(list[index].title)"]
         AmplitudeManager.shared.logEvent(type: .promotion(.clickEvent), property: property)
@@ -232,7 +235,7 @@ extension EventViewController {
                             guard let _externalEventParam = self.externalEventParam else {
                                 return
                             }
-                            Server.countEventAction(eventId: Array<Int>(arrayLiteral: item.eventId), action: self.ACTION_CLICK)
+                            EIAdManager.sharedInstance.logEvent(eventId: [String(item.eventId)], action: Promotion.Action.click)
                             let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
                             viewcon.eventId = item.eventId
                             viewcon.eventTitle = item.title
@@ -255,6 +258,7 @@ extension EventViewController {
                     self.list = self.list.sorted(by: {$0.state < $1.state})
                 }
                 
+                
                 self.updateTableView()
                 self.indicatorControll(isStart: false)
             } else {
@@ -263,5 +267,6 @@ extension EventViewController {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 이벤트 페이지 종료 후 재시도 바랍니다.")
             }
         }
-    }
+    }    
 }
+

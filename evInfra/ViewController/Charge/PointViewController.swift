@@ -55,7 +55,7 @@ internal final class PointViewController: UIViewController {
     private let FILTER_POINT_USED: Int = 2
     
     private var selectiedFilter: Int = 0
-    
+            
     private var evPointList: Array<EvPoint> = Array<EvPoint>()
     
     private var pointHistory = PointHistory()
@@ -86,6 +86,16 @@ internal final class PointViewController: UIViewController {
                 self.navigationController?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)
+        
+        btnAllBerry.roundCorners([.topLeft, .bottomLeft], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)        
+        btnUseBerry.roundCorners(.allCorners, radius: 0, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
+
+        btnSaveBerry.roundCorners([.topRight, .bottomRight], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
+
+        // Bg color change
+        btnAllBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
+        btnSaveBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
+        btnUseBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,22 +120,9 @@ internal final class PointViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        btnState()
+        
     }
     
-    func btnState() {
-        // radius border
-        btnAllBerry.roundCorners([.topLeft, .bottomLeft], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
-        
-        btnUseBerry.roundCorners(.allCorners, radius: 0, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
-
-        btnSaveBerry.roundCorners([.topRight, .bottomRight], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
-
-        // Bg color change
-        btnAllBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
-        btnSaveBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
-        btnUseBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
-    }
     
     func prepareActionBar() {
         let backButton = IconButton(image: Icon.cm.arrowBack)

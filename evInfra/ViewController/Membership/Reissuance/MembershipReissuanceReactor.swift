@@ -84,7 +84,7 @@ internal final class MembershipReissuanceReactor: ViewModel, Reactor {
         return newState
     }
     
-    private func convertToDataModel(with result: ApiResult<Data, ApiErrorMessage> ) -> AddressInfo? {
+    private func convertToDataModel(with result: ApiResult<Data, ApiError> ) -> AddressInfo? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
