@@ -59,6 +59,8 @@ class CorporationLoginViewController: UIViewController {
                             MemberManager.shared.setData(data: json)
                             let property: [String: Any] = ["type": Login.LoginType.evinfra.description]
                             AmplitudeManager.shared.logEvent(type: .login(.complteLogin), property: property)
+                            AmplitudeManager.shared.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
+                            
                             self.navigationController?.pop()
                             if let delegate = self.delegate {
                                 delegate.successSignUp()
