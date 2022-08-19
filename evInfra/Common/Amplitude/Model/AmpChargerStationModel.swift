@@ -71,7 +71,11 @@ internal struct AmpChargerStationModel {
         self.locationRoad = getLocationLoad(chargerStation.mStationInfoDto?.mSkind)
         self.distance = getDistance(lat: chargerStation.mStationInfoDto?.mLatitude ?? .zero, lng: chargerStation.mStationInfoDto?.mLongitude ?? .zero)
         self.chargingState = chargerStation.cidInfoList.map({
-            return $0.cstToString(cst: $0.status)
+            if $0.status == Const.CHARGER_STATE_WAITING {
+                return "충전가능"
+            } else {
+                return $0.cstToString(cst: $0.status)
+            }
         })
         self.workingHours = chargerStation.mStationInfoDto?.mUtime ?? ""
         self.chargePriceSlow = chargerStation.slowPrice
