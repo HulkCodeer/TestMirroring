@@ -132,7 +132,7 @@ internal final class RestApi: SoftberryAPI {
     
     // MARK: - 마이포인트 내역
     func postPointHistory(startDate: String, endDate: String) -> Observable<(HTTPURLResponse, Data)> {
-        let url = Const.EV_PAY_SERVER + "/member/member/point_history"
+        let url = "\(Const.EV_PAY_SERVER)/member/member/point_history"
         let reqParm: Parameters = [
             "req_ver": 1,
             "mb_id": MemberManager.shared.mbId,
