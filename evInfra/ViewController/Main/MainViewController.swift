@@ -1407,24 +1407,32 @@ extension MainViewController {
                 GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
             } else {
                 let status = AVCaptureDevice.authorizationStatus(for: .video)
-                if status == .notDetermined || status == .denied {
-                    // 권한 요청
+                switch status {
+                case .notDetermined, .denied:
                     AVCaptureDevice.requestAccess(for: .video) { grated in
                         if grated {
-        //                let viewcon = paymentStoryboard.instantiateViewController(ofType: PaymentQRScanViewController.self)
-                            let reactor = PaymentQRScanReactor(provider: RestApi())
-                            let viewcon = NewPaymentQRScanViewController(reactor: reactor)
-                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                            self.movePaymentQRScan()
                         } else {
                             self.showAuthAlert()
                         }
                     }
+                case .authorized:
+                    self.movePaymentQRScan()
+                    
+                case .restricted: break
                 }
             }
             
         default:
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
         }
+    }
+    
+    private func movePaymentQRScan() {
+//                let viewcon = paymentStoryboard.instantiateViewController(ofType: PaymentQRScanViewController.self)
+        let reactor = PaymentQRScanReactor(provider: RestApi())
+        let viewcon = NewPaymentQRScanViewController(reactor: reactor)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     private func showAuthAlert() {
