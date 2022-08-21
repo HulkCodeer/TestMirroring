@@ -184,7 +184,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
 //        viewcon.cpId = self.cpId!
 //        viewcon.connectorId = self.connectorId!
         
-        GlobalDefine.shared.mainNavi?.push(viewController: viewcon, transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)                
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon, transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
     }
         
     private func showAuthAlert() {

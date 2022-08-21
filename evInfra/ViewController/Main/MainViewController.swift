@@ -1430,8 +1430,9 @@ extension MainViewController {
     
     private func movePaymentQRScan() {
 //        let viewcon = UIStoryboard(name : "Payment", bundle: nil).instantiateViewController(ofType: PaymentQRScanViewController.self)
-        let reactor = PaymentQRScanReactor(provider: RestApi())
-        let viewcon = NewPaymentQRScanViewController(reactor: reactor)
+//        let reactor = PaymentQRScanReactor(provider: RestApi())
+//        let viewcon = NewPaymentQRScanViewController(reactor: reactor)
+        let viewcon = NewPaymentStatusViewController()
         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
