@@ -20,7 +20,7 @@ extension UIViewController {
         method_exchangeImplementations(originMethod, swizzleMethod)
     }
     
-    @objc public func viewEnterEventInViewWillAppear() {
+    @objc public final func viewEnterEventInViewWillAppear() {
         guard let title = self.title else { return }
         let property: [String: Any] = ["type" : title]
         AmplitudeManager.shared.logEvent(type: .enter(.viewEnter), property: property)

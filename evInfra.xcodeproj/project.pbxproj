@@ -795,6 +795,10 @@
 		828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407D928393D8F002B1214 /* NetworkWorker.swift */; };
 		828407DC28393DFE002B1214 /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407DB28393DFE002B1214 /* SoftberryAPI.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
+		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
+		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
+		82C9A01A28B10A010003296B /* PaymentQRScanReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */; };
+		82C9A01B28B10A010003296B /* PaymentQRScanReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */; };
 		82D9867F2839BD790030F0FC /* MembershipReissuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */; };
 		82D986812839BE080030F0FC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
 		82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */; };
@@ -1282,6 +1286,8 @@
 		828407D928393D8F002B1214 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		828407DB28393DFE002B1214 /* SoftberryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
+		82C9A01628B0F0EE0003296B /* QRReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderView.swift; sourceTree = "<group>"; };
+		82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQRScanReactor.swift; sourceTree = "<group>"; };
 		82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceReactor.swift; sourceTree = "<group>"; };
 		82D986802839BE080030F0FC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoReactor.swift; sourceTree = "<group>"; };
@@ -2063,6 +2069,8 @@
 				0013A7C92746576D009CFC22 /* RepayListViewController.swift */,
 				000DAE102747369A00CEC165 /* RepayResultViewController.swift */,
 				63D723B828AF723300D54A0D /* NewPaymentQRScanViewController.swift */,
+				82C9A01628B0F0EE0003296B /* QRReaderView.swift */,
+				82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -3231,6 +3239,7 @@
 				63F313CE284EC74F001713D2 /* MyPayRegisterViewDelegate.swift in Sources */,
 				63F313CF284EC74F001713D2 /* RentalCarCardListViewController.swift in Sources */,
 				63F313D0284EC74F001713D2 /* SoftberryAPI.swift in Sources */,
+				82C9A01B28B10A010003296B /* PaymentQRScanReactor.swift in Sources */,
 				63F313D1284EC74F001713D2 /* PaymentCard.swift in Sources */,
 				63F313D2284EC74F001713D2 /* CompanyInfo.swift in Sources */,
 				63F313D3284EC74F001713D2 /* AddressSearchCell.swift in Sources */,
@@ -3450,6 +3459,7 @@
 				63F31493284EC74F001713D2 /* PointTableViewCell.swift in Sources */,
 				63F31494284EC74F001713D2 /* MembershipTermView.swift in Sources */,
 				63F31495284EC74F001713D2 /* BoardWriteViewModel.swift in Sources */,
+				82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */,
 				63F31496284EC74F001713D2 /* KoreanTextMatcher.swift in Sources */,
 				63F31497284EC74F001713D2 /* Server.swift in Sources */,
 				63F31498284EC74F001713D2 /* AcceptTermsViewController.swift in Sources */,
@@ -3523,6 +3533,7 @@
 				73D65D7C2360299700F564A2 /* PaymentCard.swift in Sources */,
 				732B92C220EF4D5C0090E9FC /* CompanyInfo.swift in Sources */,
 				CE5242382183076000FF6AB1 /* AddressSearchCell.swift in Sources */,
+				82C9A01A28B10A010003296B /* PaymentQRScanReactor.swift in Sources */,
 				73EF8B43203BC71100D04494 /* UIColor+Extension.swift in Sources */,
 				637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */,
 				63EB0391283CB26500078D28 /* ServerResult.swift in Sources */,
@@ -3742,6 +3753,7 @@
 				DB5041AE23506A14007336BC /* PointTableViewCell.swift in Sources */,
 				73D65D802362D52E00F564A2 /* MembershipTermView.swift in Sources */,
 				52ADE4FF27964A1F00FBBA25 /* BoardWriteViewModel.swift in Sources */,
+				82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */,
 				DB3B858320A42C81005454F5 /* KoreanTextMatcher.swift in Sources */,
 				DB306368221BD5CD00D1276E /* Server.swift in Sources */,
 				00CF1777278EA644007D8E4E /* AcceptTermsViewController.swift in Sources */,

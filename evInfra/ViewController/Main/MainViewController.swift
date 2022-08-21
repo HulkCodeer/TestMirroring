@@ -15,6 +15,7 @@ import NMapsMap
 import SnapKit
 import RxSwift
 import RxCocoa
+import EasyTipView
 
 internal final class MainViewController: UIViewController {
     
@@ -129,16 +130,31 @@ internal final class MainViewController: UIViewController {
             self.selectChargerFromShared()
         }
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
+        
+        var preferences = EasyTipView.Preferences()
+        
+        preferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
+        preferences.drawing.foregroundColor = Colors.backgroundSecondary.color
+        preferences.drawing.textAlignment = NSTextAlignment.center
+        
+        preferences.drawing.arrowPosition = .top
+        
+        preferences.animating.dismissTransform = CGAffineTransform(translationX: -30, y: -100)
+        preferences.animating.showInitialTransform = CGAffineTransform(translationX: 30, y: 100)
+        preferences.animating.showInitialAlpha = 1
+        preferences.animating.showDuration = 1
+        preferences.animating.dismissDuration = 1
+        
+        let text = "한국전력과 GS칼텍스에서\nQR충전을 할 수 있어요!"
+        EasyTipView.show(forView: self.btn_main_charge,
+                         withinSuperview: self.view,
+                         text: text,
+                         preferences: preferences)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)    
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     private func showDeepLink() {
@@ -1218,8 +1234,7 @@ extension MainViewController {
 
         GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
             .asDriver(onErrorJustReturn: AdsInfo(JSON.null))
-            .drive(onNext: { [weak self] adInfo in
-                guard let self = self else { return }
+            .drive(onNext: { adInfo in
                 let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     if keepDateStr.isEmpty {
@@ -1389,7 +1404,8 @@ extension MainViewController {
                 GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
             } else {
 //                let viewcon = paymentStoryboard.instantiateViewController(ofType: PaymentQRScanViewController.self)
-                let viewcon = NewPaymentQRScanViewController()
+                let reactor = PaymentQRScanReactor(provider: RestApi())
+                let viewcon = NewPaymentQRScanViewController(reactor: reactor)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             }
             

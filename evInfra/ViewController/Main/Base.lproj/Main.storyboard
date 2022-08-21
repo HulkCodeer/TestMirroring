@@ -95,7 +95,7 @@
                                         <rect key="frame" x="8" y="0.0" width="82" height="64"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <color key="tintColor" name="gr-8"/>
-                                        <state key="normal" title="간편충전" image="ic_line_payment">
+                                        <state key="normal" title="QR충전" image="ic_line_payment">
                                             <color key="titleColor" name="gr-8"/>
                                         </state>
                                         <connections>

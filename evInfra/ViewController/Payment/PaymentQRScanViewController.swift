@@ -88,7 +88,8 @@ internal final class PaymentQRScanViewController: UIViewController {
         Server.getPayRegisterStatus{ (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                let payCode = json["pay_code"].intValue
+//                let payCode = json["pay_code"].intValue
+                let payCode = 8800
                 
                 switch PaymentStatus(rawValue: payCode) {
                 case .PAY_FINE_USER :

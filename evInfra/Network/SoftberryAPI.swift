@@ -25,6 +25,8 @@ protocol SoftberryAPI: class {
     func postGetBerry(eventId: String) -> Observable<(HTTPURLResponse, Data)>
     func logAds(adId: [String], action: Int) -> Disposable
     func getAdsList(page: Promotion.Page, layer: Promotion.Layer) -> Observable<(HTTPURLResponse, Data)>
+    func countEventAction(eventId: [String], action: Promotion.Action) -> Disposable
+    func postPaymentStatus() -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -148,7 +150,7 @@ internal final class RestApi: SoftberryAPI {
         return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/promotion?memberId=\(memberId)&page=\(page.rawValue)&layer=\(layer.rawValue)", httpMethod: .get, parameters: nil, headers: nil)
     }
     
-    // 이벤트 click event 전송
+    // MARK: - 이벤트 click event 전송
     func countEventAction(eventId: [String], action: Promotion.Action) -> Disposable {
         let reqParam: Parameters = [
             "member_id": MemberManager.shared.memberId,
@@ -158,5 +160,13 @@ internal final class RestApi: SoftberryAPI {
         ]
         
         return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/promotion/log", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - 현재 회원의 Payment 상태 조회
+    func postPaymentStatus() -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.shared.mbId
+        ]
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/pay/v2/evPay/checkRegistration", httpMethod: .post, parameters: reqParam, headers: nil)
     }
 }
