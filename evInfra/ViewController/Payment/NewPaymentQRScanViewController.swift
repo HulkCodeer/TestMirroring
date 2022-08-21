@@ -77,8 +77,6 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "QR Scan 화면"
-        
-        startCharging()
                                 
         //테스트 하거나 UI 확인시 아래 주석을 풀어주시기 바랍니다.
 //        self.onResultScan(scanInfo: "{ \"cp_id\": \"GS00002101\", \"connector_id\": \"1\" }")
@@ -86,7 +84,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        checkPermission()
+        startCharging()
     }
                     
     override func viewWillAppear(_ animated: Bool) {
@@ -182,29 +180,13 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     }
     
     private func startCharging() {
-        let paymentStatusVc = self.storyboard?.instantiateViewController(withIdentifier: "PaymentStatusViewController") as! PaymentStatusViewController
-        paymentStatusVc.cpId = self.cpId!
-        paymentStatusVc.connectorId = self.connectorId!
+        let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
+//        viewcon.cpId = self.cpId!
+//        viewcon.connectorId = self.connectorId!
         
-        var vcArray = GlobalDefine.shared.mainNavi?.viewControllers
-        vcArray!.removeLast()
-        vcArray!.append(paymentStatusVc)
-        GlobalDefine.shared.mainNavi?.setViewControllers(vcArray!, animated: true)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon, transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)                
     }
         
-    private func checkPermission() {
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        if status == .notDetermined || status == .denied {
-            // 권한 요청
-            AVCaptureDevice.requestAccess(for: .video) { grated in
-                if grated {
-                } else {
-                    self.showAuthAlert()
-                }
-            }
-        }
-    }
-    
     private func showAuthAlert() {
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) in
             Snackbar().show(message: "카메라 기능이 활성화되지 않아 QR충전을 실행 할 수 없습니다.")
