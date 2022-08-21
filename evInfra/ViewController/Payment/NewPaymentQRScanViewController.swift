@@ -17,14 +17,14 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     
     private lazy var naviTotalView = CommonNaviView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.naviTitleLbl.text = "충전하기"
+        $0.naviTitleLbl.text = "QR 코드 스캔"
     }
     
     private lazy var qrReaderView = QRReaderView()
     
     private lazy var guideLbl = UILabel().then {
         $0.font = .systemFont(ofSize: 15, weight: .regular)
-        $0.text = "QR 코드를 비춰주세요."
+        $0.text = "QR 코드를 비추면 자동으로 스캔되어요"
         $0.textColor = .white
     }
     
@@ -77,6 +77,8 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "QR Scan 화면"
+        
+        startCharging()
                                 
         //테스트 하거나 UI 확인시 아래 주석을 풀어주시기 바랍니다.
 //        self.onResultScan(scanInfo: "{ \"cp_id\": \"GS00002101\", \"connector_id\": \"1\" }")

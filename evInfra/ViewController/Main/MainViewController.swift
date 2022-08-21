@@ -16,6 +16,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 import EasyTipView
+import AVFoundation
 
 internal final class MainViewController: UIViewController {
     
@@ -130,7 +131,8 @@ internal final class MainViewController: UIViewController {
             self.selectChargerFromShared()
         }
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
-        
+                
+        guard self.view.subviews.compactMap({ $0 as? EasyTipView }).count == 0 else { return }
         var preferences = EasyTipView.Preferences()
         
         preferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
@@ -154,7 +156,8 @@ internal final class MainViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)    
-        // removeObserver 하면 안됨. addObserver를 viewdidload에서 함        
+        // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
+        _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
     }
     
     private func showDeepLink() {
@@ -1403,15 +1406,43 @@ extension MainViewController {
                 repayListViewController.delegate = self
                 GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
             } else {
-//                let viewcon = paymentStoryboard.instantiateViewController(ofType: PaymentQRScanViewController.self)
-                let reactor = PaymentQRScanReactor(provider: RestApi())
-                let viewcon = NewPaymentQRScanViewController(reactor: reactor)
-                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                let status = AVCaptureDevice.authorizationStatus(for: .video)
+                if status == .notDetermined || status == .denied {
+                    // 권한 요청
+                    AVCaptureDevice.requestAccess(for: .video) { grated in
+                        if grated {
+        //                let viewcon = paymentStoryboard.instantiateViewController(ofType: PaymentQRScanViewController.self)
+                            let reactor = PaymentQRScanReactor(provider: RestApi())
+                            let viewcon = NewPaymentQRScanViewController(reactor: reactor)
+                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        } else {
+                            self.showAuthAlert()
+                        }
+                    }
+                }
             }
             
         default:
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
         }
+    }
+    
+    private func showAuthAlert() {
+        let popupModel = PopupModel(title: "카메라 권한이 필요해요",
+                                    message: "QR 스캔을 위해 권한 허용이 필요해요.\n[설정] > [권한]에서 권한을 허용할 수 있어요.",
+                                    confirmBtnTitle: "설정하기", cancelBtnTitle: "닫기",
+                                    confirmBtnAction: { 
+            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }            
+        }, textAlignment: .center)
+        
+        let popup = ConfirmPopupViewController(model: popupModel)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+        })
     }
     
     private func chargingStatus() {
