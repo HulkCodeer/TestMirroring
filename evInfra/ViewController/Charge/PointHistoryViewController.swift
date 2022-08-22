@@ -62,8 +62,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     private lazy var impendPointMarkLbael = UILabel().then {
         $0.font = .systemFont(ofSize: 14)
         $0.textColor = UIColor.init(hex: "#7B7B7B")
-        var month = Date().toString(dateFormat: Constants.date.month)
-        $0.text = month + "월 소멸예정 베리"
+        var month = Date().toString(dateFormat: Constants.date.shortMonth)
+        $0.text = "\(month)월 소멸예정 베리"
     }
     private lazy var impendPointLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 14)
@@ -207,8 +207,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         
         evPointsCountObservable
             .asDriver(onErrorJustReturn: 0)
-            .drive(with: self) { owner, count in
-                let isEmpty = count <= 0
+            .map { $0 <= 0 }
+            .drive(with: self) { owner, isEmpty in
                 owner.pointEmptyLabel.isHidden = !isEmpty
                 owner.pointTableView.isScrollEnabled = !isEmpty
             }
@@ -218,7 +218,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     private func subscribeUI() {
         settingButton.rx.tap
             .asDriver()
-            .drive(with: self) { owner, _ in
+            .drive { _ in
                 let pointSettionVC = UIStoryboard(name: "Charge", bundle: nil)
                     .instantiateViewController(ofType: PreUsePointViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: pointSettionVC)

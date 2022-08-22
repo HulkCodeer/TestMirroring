@@ -171,7 +171,7 @@ internal final class PointHistoryTableViewCell: CommonBaseTableViewCell {
             break
         }
         
-        timeCategoryLabel.text = time + " | " + category
+        timeCategoryLabel.text = "\(time) | \(category)"
     }
     
     private func setAmountView(actionType: EvPoint.PointType, point: String?) {

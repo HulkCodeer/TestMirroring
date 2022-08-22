@@ -12,13 +12,14 @@ enum DateConstants {
     
     static let longDateShortTime = "yyyy.MM.dd HH:mm"
     static let yearMonthDayHangul = "yyyy년 MM월 dd일"
-    static let yearMonthDayHyphen = "yyyy-MM-dd"
+    static let yearMonthDayKo = "yyyy-MM-dd"
     
     static let monthDayDot = "MM.dd"
     static let time = "HH:mm"
     
     static let year = "yyyy"
-    static let month = "M"
+    static let shortMonth = "M"
+    static let month = "MM"
     static let day = "dd"
 
 }

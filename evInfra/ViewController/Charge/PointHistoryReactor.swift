@@ -42,7 +42,7 @@ internal class PointHistoryReactor: ViewModel, Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadPointInfo:
-            let todayDate = Date().toString(dateFormat: Constants.date.yearMonthDayHyphen)
+            let todayDate = Date().toString(dateFormat: Constants.date.yearMonthDayKo)
 
             return provider.postPointHistory(startDate: todayDate, endDate: todayDate)
             .convertData()
@@ -50,8 +50,8 @@ internal class PointHistoryReactor: ViewModel, Reactor {
             .map { return .setPointInfo($0) }
             
         case let .loadPointHistory(type, startDate, endDate):
-            let startDateStr = startDate.toString(dateFormat: Constants.date.yearMonthDayHyphen)
-            let endDateStr = endDate.toString(dateFormat: Constants.date.yearMonthDayHyphen)
+            let startDateStr = startDate.toString(dateFormat: Constants.date.yearMonthDayKo)
+            let endDateStr = endDate.toString(dateFormat: Constants.date.yearMonthDayKo)
             
             return provider.postPointHistory(startDate: startDateStr, endDate: endDateStr)
                 .convertData()

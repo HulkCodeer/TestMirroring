@@ -539,7 +539,7 @@ extension UIView {
         cornerType type: CornerRadiusType,
         radius: CGFloat,
         borderColor: CGColor,
-        orderWidth: CGFloat
+        borderWidth: CGFloat
     ) {
         self.layer.borderColor = borderColor
         self.layer.borderWidth = 1
