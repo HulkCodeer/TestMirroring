@@ -17,7 +17,7 @@ final class SwitchColorButton: UIButton {
         static let cornerRadius: CGFloat = 8
 
         enum Level {
-            typealias TintColor = (selectColor: UIColor, unselectBackgroundColor: UIColor, unselectTextColor: UIColor)
+            typealias TintColor = (tintColor: UIColor, unselectBackgroundColor: UIColor, selectTextColor: UIColor)
             
             case contentPositive
             case myBerry
@@ -40,15 +40,12 @@ final class SwitchColorButton: UIButton {
     }
     
     override var isSelected: Bool {
-
-        didSet {
-            printLog("didSet")
-            let backgroundColor = oldValue ? UIColor(hex: "#CECECE") : .white
-            let textColor = oldValue ? UIColor(hex: "#CECECE") : Colors.backgroundPrimary.color
+        willSet {
+            let backgroundColor = newValue ? self.level.value.tintColor : self.level.value.unselectBackgroundColor
+            let textColor = newValue ? self.level.value.selectTextColor : self.level.value.tintColor
 
             self.setTitleColor(textColor, for: .normal)
             self.backgroundColor = backgroundColor
-//            setNeedsDisplay()
         }
     }
 
@@ -70,7 +67,7 @@ final class SwitchColorButton: UIButton {
     
     private func setUI() {
         
-        self.setTitleColor(level.value.selectColor, for: .normal)
+        self.setTitleColor(level.value.tintColor, for: .normal)
         self.backgroundColor = level.value.unselectBackgroundColor
         self.titleLabel?.font = Const.font
         self.clipsToBounds = true
@@ -80,17 +77,17 @@ final class SwitchColorButton: UIButton {
     private func setBorder(roundType type: Const.RoundType) {
         switch type {
         case .round:
-            self.layer.borderColor = level.value.selectColor.cgColor
+            self.layer.borderColor = level.value.tintColor.cgColor
             self.layer.borderWidth = Const.borderWidth
             self.layer.cornerRadius = Const.cornerRadius
         case .sectionRound(let type):
             self.roundCorners(
                 cornerType: type,
                 radius:Const.cornerRadius,
-                borderColor: level.value.selectColor.cgColor,
+                borderColor: level.value.tintColor.cgColor,
                 borderWidth: Const.borderWidth)
         case .none:
-            self.layer.borderColor = level.value.selectColor.cgColor
+            self.layer.borderColor = level.value.tintColor.cgColor
             self.layer.borderWidth = Const.borderWidth
         }
     }

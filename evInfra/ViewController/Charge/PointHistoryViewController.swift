@@ -94,7 +94,6 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         $0.textAlignment = .center
     }
     
-//    private lazy var historyButtonsView = PointCategoryButtonsView()
     private lazy var categoryButtonsStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .fill
@@ -137,8 +136,6 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         
         setUI()
         setConstraints()
-        
-        makeCategoryButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -157,6 +154,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     internal func bind(reactor: PointHistoryReactor) {
         bindAction(reactor: reactor)
         bindState(reactor: reactor)
+        makeCategoryButton()
     }
     
     private func bindAction(reactor: PointHistoryReactor) {
@@ -241,21 +239,6 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             }
             .disposed(by: disposeBag)
         
-//        historyButtonsView.allTypeButton.rx.tap
-//            .map { _ -> EvPoint.PointType in .all }
-//            .bind(to: pointTypeRelay)
-//            .disposed(by: disposeBag)
-//
-//        historyButtonsView.useTypeButton.rx.tap
-//            .map { _ -> EvPoint.PointType in .usePoint }
-//            .bind(to: pointTypeRelay)
-//            .disposed(by: disposeBag)
-//
-//        historyButtonsView.saveTypeButton.rx.tap
-//            .map { _ -> EvPoint.PointType in .savePoint }
-//            .bind(to: pointTypeRelay)
-//            .disposed(by: disposeBag)
-        
         startDateButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
@@ -313,7 +296,6 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         pointInfoView.addSubview(myPointStackView)
         pointInfoView.addSubview(impendPointStackView)
         pointInfoView.addSubview(dateStackView)
-//        pointInfoView.addSubview(historyButtonsView)
         pointInfoView.addSubview(categoryButtonsStackView)
 
         myPointStackView.addArrangedSubview(myPointMarkLabel)
@@ -393,11 +375,6 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
             $0.height.equalTo(historyButtonsViewHeight)
         }
-//        historyButtonsView.snp.makeConstraints {
-//            $0.bottom.equalToSuperview().inset(historyButtonsViewBottomPadding)
-//            $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
-//            $0.height.equalTo(historyButtonsViewHeight)
-//        }
         
         pointEmptyLabel.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
@@ -408,7 +385,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     
     private func makeCategoryButton() {
         let buttonCategorys = ButtonCategory.allCases
-                
+        var buttons = [ButtonCategory: SwitchColorButton]()
+        
         for (index, category) in buttonCategorys.enumerated() {
             let round: SwitchColorButton.Const.RoundType = {
                 switch index {
