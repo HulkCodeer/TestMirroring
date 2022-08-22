@@ -97,9 +97,6 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "QR Scan 화면"
-                                
-        //테스트 하거나 UI 확인시 아래 주석을 풀어주시기 바랍니다.
-//        self.onResultScan(scanInfo: "{ \"cp_id\": \"GS00002101\", \"connector_id\": \"1\" }")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -128,6 +125,23 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     
     internal func bind(reactor: PaymentQRScanReactor) {
         qrReaderView.bind(reactor)
+        
+        switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
+        case (false, false) :
+            let popupModel = PopupModel(title: "회원카드 발급이 필요해요",
+                                        message: "회원카드를 발급 해야 한국전력, GS칼텍스의 QR 충전을 이용할 수 있어요.",
+                                        confirmBtnTitle: "회원카드 발급하기", cancelBtnTitle: "닫기",
+                                        confirmBtnAction: {
+                let viewcon = UIStoryboard(name : "Membership", bundle: nil).instantiateViewController(ofType: MembershipCardViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                }
+            }, textAlignment: .center)
+            
+            let popup = VerticalConfirmPopupViewController(model: popupModel)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+            })
+        }
         
         Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
             .bind(to: reactor.action)

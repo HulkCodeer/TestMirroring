@@ -169,4 +169,8 @@ internal final class RestApi: SoftberryAPI {
         ]
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/pay/v2/evPay/checkRegistration", httpMethod: .post, parameters: reqParam, headers: nil)
     }
+    
+    func post
+    
+    
 }
