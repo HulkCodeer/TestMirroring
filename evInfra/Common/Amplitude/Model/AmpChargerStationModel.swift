@@ -78,8 +78,8 @@ internal struct AmpChargerStationModel {
             }
         })
         self.workingHours = chargerStation.mStationInfoDto?.mUtime ?? ""
-        self.chargePriceSlow = chargerStation.slowPrice
-        self.chargePriceFast = chargerStation.fastPrice
+        self.chargePriceSlow = chargerStation.slowPrice.replace(of: "원", with: "")
+        self.chargePriceFast = chargerStation.fastPrice.replace(of: "원", with: "")
         getChargingTime(chargerStation.cidInfoList)
         getPower(chargerStation.cidInfoList)
         self.heightLimit = nil
@@ -149,7 +149,7 @@ internal struct AmpChargerStationModel {
     private func getDistance(lat: Double, lng: Double) -> String {
         let distanceToDestination = CLLocationCoordinate2D().distance(to: CLLocationCoordinate2D(latitude: lat, longitude: lng))
         let distance: Double = round(distanceToDestination / 1000*10) / 10
-        return "\(distance)km"
+        return "\(distance)"
     }
     
     private mutating func getPower(_ cidInfoList: [CidInfo]) {
