@@ -180,7 +180,7 @@ extension CommunityBoardTableViewHeader: UICollectionViewDataSource {
             return cell
         }
         let banner = topBanners[indexPath.row]
-        cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(String(describing: topBanners[indexPath.row].img))"), placeholderImage: UIImage(named: "adCommunity01.png")) { (image, error, _, _) in
+        cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.AWS_IMAGE_SERVER)/\(topBanners[indexPath.row].img)"), placeholderImage: UIImage(named: "adCommunity01.png")) { (image, error, _, _) in
             if let _ = error {
                 cell.bannerImageView.image = UIImage(named: "adCommunity01.png")
             } else {

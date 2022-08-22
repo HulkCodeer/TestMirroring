@@ -25,8 +25,8 @@ internal struct AdsInfo {
     
     init(_ json: JSON) {
         self.evtId = json["evtId"].stringValue
-        self.img = json["img"].stringValue
-        self.logo = json["logo"].stringValue
+        self.img = json["img"].stringValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        self.logo = json["logo"].stringValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         self.extUrl = json["extUrl"].stringValue
         self.evtDesc = json["evtDesc"].stringValue
         self.evtTitle = json["evtTitle"].stringValue
