@@ -53,8 +53,8 @@ internal final class AmplitudeManager {
     }
     
     // MARK: - UserProperty: 즐겨찾기 충전소 개수 세팅
-    internal func setUserProperty(with favoriteList: [ChargerStationInfo]) {
-        let countOfFavoriteList = favoriteList.filter { return $0.mFavorite }.count
+    internal func setUserProperty(with countOfFavoriteList: Int) {
+//        let countOfFavoriteList = favoriteList.filter { return $0.mFavorite }.count
         identify.set("favorite station count", value: NSString(string: String(countOfFavoriteList)))
 
         DispatchQueue.global(qos: .background).async {
@@ -116,6 +116,7 @@ internal enum EventType {
             case .clickFavoriteStationAlarm: return "click_favorite_station_alarm"
             case .clickGoingToCharge: return "click_going_to_charge"
             case .clickGoingToChargeCancel: return "click_going_to_charge_cancel"
+            case .viewFavorites: return "view_favorites"
             }
         case .route(let event):
             switch event {
@@ -180,6 +181,7 @@ internal enum EventType {
         case clickFavoriteStationAlarm
         case clickGoingToCharge
         case clickGoingToChargeCancel
+        case viewFavorites
     }
     
     internal enum RouteEvent {
