@@ -488,8 +488,8 @@ extension MainViewController: AppToolbarDelegate {
             let appSearchBarController: AppSearchBarController = AppSearchBarController(rootViewController: searchVC)
             appSearchBarController.backbuttonTappedDelegate = {
                 let property: [String: Any] = ["result": "실패",
-                                               "staionOrAddress": "\(searchVC.searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")",
-                                               "searchKeyword": "\(appSearchBarController.searchBar.textField.text ?? "")",
+                                               "stationOrAddress": "\(searchVC.searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")",
+                                               "searchKeyword": "\(searchVC.searchBarController?.searchBar.textField.text ?? "")",
                                                "selectedStation": ""]
                 AmplitudeManager.shared.logEvent(type: .search(.clickSearchChooseStation), property: property)
             }

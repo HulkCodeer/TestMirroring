@@ -46,6 +46,9 @@ internal final class AmplitudeManager {
         identify.set("favorite station count", value: NSString(string: ""))
         identify.set("gender", value: MemberManager.shared.gender as NSObject)
         identify.set("age range", value: MemberManager.shared.ageRange as NSObject)
+        identify.set("push allowed", value: MemberManager.shared.isAllowNoti as NSObject)
+        identify.set("push allowed jeju", value: MemberManager.shared.isAllowJejuNoti as NSObject)
+        identify.set("push allowed marketing", value: MemberManager.shared.isAllowMarketingNoti as NSObject)
         
         DispatchQueue.global(qos: .background).async {
             Amplitude.instance().identify(self.identify)
@@ -148,7 +151,7 @@ internal enum EventType {
             case .viewFilter: return "view_filter"
             case .clickFilterCancel: return "click_filter_cancel"
             case .clickFilterReset: return "click_filter_reset"
-            case .clickFilterSaved: return "click_filter_saved"
+            case .clickFilterSave: return "click_filter_save"
             }
         case .search(let event):
             switch event {
@@ -213,7 +216,7 @@ internal enum EventType {
         case viewFilter
         case clickFilterCancel
         case clickFilterReset
-        case clickFilterSaved
+        case clickFilterSave
     }
     
     internal enum SearchEvent {
@@ -228,7 +231,6 @@ internal enum ViewName: String, CaseIterable {
     case NoticeContentViewController
     case NoticeViewController
     case EventViewController
-    case EventContentsViewController
     case MyWritingViewController
     case RegisterResultViewController
     case LotteRentInfoViewController
@@ -246,15 +248,10 @@ internal enum ViewName: String, CaseIterable {
     case MembershipInfoViewController
     case MyCouponViewController
     case MyCouponContentsViewController
-    case FavoriteViewController
     case MembershipCardViewController
-    case ChargerFilterViewController
-    case PreUsePointViewController
-    case PointViewController
     case ChargesViewController
     case EvDetailViewController
     case ChargerInfoViewController
-    case MainViewController
     case MembershipReissuanceInfoViewController
     case NewSettingsViewController
     case FindPasswordViewController
@@ -291,7 +288,6 @@ internal enum ViewName: String, CaseIterable {
         case .NoticeContentViewController: return "공지사항 상세 화면"
         case .NoticeViewController: return "공지사항 화면"
         case .EventViewController: return "이벤트 리스트 화면"
-        case .EventContentsViewController: return "이벤트 상세 화면"
         case .MyWritingViewController: return "내가 쓴 글 화면"
         case .RegisterResultViewController: return "롯데렌터카/SK렌터카 인증 완료/실패 화면"
         case .LotteRentInfoViewController: return "롯데렌터카 내카드 정보"
@@ -309,15 +305,10 @@ internal enum ViewName: String, CaseIterable {
         case .MembershipInfoViewController: return "회원카드 상세 화면"
         case .MyCouponViewController: return "보유 쿠폰 리스트 화면"
         case .MyCouponContentsViewController: return "보유 쿠폰 상세 화면"
-        case .FavoriteViewController: return "즐겨찾기 화면"
         case .MembershipCardViewController: return "회원카드 관리 화면"
-        case .ChargerFilterViewController: return "필터 설정 화면"
-        case .PreUsePointViewController: return "베리 설정 화면"
-        case .PointViewController: return "MY 베리 내역 화면"
         case .ChargesViewController: return "충전이력 조회 화면"
         case .EvDetailViewController: return "전기차 정보 상세 화면"
         case .ChargerInfoViewController: return "충전기 정보 리스트 화면"
-        case .MainViewController: return "메인(지도)화면"
         case .MembershipReissuanceInfoViewController: return "재발급 신청 상세 화면"
         case .NewSettingsViewController: return "설정 화면"
         case .FindPasswordViewController: return "비밀번호 찾기 화면"

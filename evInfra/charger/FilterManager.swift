@@ -406,16 +406,15 @@ class FilterManager {
     }
     
     internal func getChargingStations() -> [String] {
-        return filter.companyDictionary.values.map { $0.name ?? "" }
+        return filter.companyDictionary.values.filter({ return $0.is_visible }).map { $0.name ?? "" }
     }
 }
 
 extension FilterManager {
     internal func logEventWithFilter(_ source: String) {
-        let isFilterMyCar = UserDefault().readBool(key: UserDefault.Key.FILTER_MYCAR) == false ? "적용 안 함" : "적용함"
         let property: [String: Any] = ["selectedAccessibility": getAccessibility(),
                                        "selectedSocketType": getSocketType(),
-                                       "filterMyCar": isFilterMyCar,
+                                       "filterMyCar": UserDefault().readBool(key: UserDefault.Key.FILTER_MYCAR),
                                        "minChargingSpeed": getChargingSpeed().0,
                                        "maxChargingSpeed": getChargingSpeed().1,
                                        "setLocation": getLocationType(),
@@ -424,6 +423,6 @@ extension FilterManager {
                                        "chargingStation": getChargingStations(),
                                        "source": source]
         
-        AmplitudeManager.shared.logEvent(type: .filter(.clickFilterSaved), property: property)
+        AmplitudeManager.shared.logEvent(type: .filter(.clickFilterSave), property: property)
     }
 }

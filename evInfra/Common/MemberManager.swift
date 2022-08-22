@@ -124,6 +124,33 @@ internal final class MemberManager {
             return UserDefault().readString(key: UserDefault.Key.MB_POINT)
         }
     }
+    
+    internal var isAllowNoti: Bool {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION)
+        }
+    }
+    
+    internal var isAllowJejuNoti: Bool {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION)
+        }
+    }
+    
+    internal var isAllowMarketingNoti: Bool {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION)
+        }
+    }
                     
     func isPartnershipClient(clientId : Int) -> Bool {
         let list = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
