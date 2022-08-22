@@ -40,12 +40,10 @@ extension EvPoint {
     // MARK: Object
     
     /// "save": 적립, "used": 사용
-    enum PointType {
+    enum PointType: CaseIterable {
         case all
         case savePoint
         case usePoint
-        
-        case unknown
         
         init(_ type: String?) {
             switch type {
@@ -54,7 +52,18 @@ extension EvPoint {
             case "used":
                 self = .usePoint
             default:
-                self = .unknown
+                self = .all
+            }
+        }
+        
+        var value: String {
+            switch self {
+            case .all:
+                return "전체"
+            case .usePoint:
+                return "사용"
+            case .savePoint:
+                return "저장"
             }
         }
     }

@@ -94,7 +94,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         $0.textAlignment = .center
     }
     
-    private lazy var categoryButtonsStackView = UIStackView().then {
+    private lazy var pointTypeButtonsStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .fill
         $0.distribution = .fillEqually
@@ -116,7 +116,6 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         $0.text = "포인트 내역이 없습니다."
     }
     
-    private let pointTypeRelay = BehaviorRelay(value: EvPoint.PointType.all)
     private let startDateRelay = BehaviorRelay(value: Date())
     private let endDateRelay = BehaviorRelay(value: Date())
     
@@ -154,7 +153,9 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     internal func bind(reactor: PointHistoryReactor) {
         bindAction(reactor: reactor)
         bindState(reactor: reactor)
-        makeCategoryButton()
+        
+        // pointType make + button bind
+        makePointTypeButton(reactor: reactor)
     }
     
     private func bindAction(reactor: PointHistoryReactor) {
@@ -169,13 +170,12 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             }
         }
         
-        Observable.combineLatest(pointTypeRelay, startDateRelay, endDateRelay)
-            .map { type, startDate, endDate in
-                return Reactor.Action.loadPointHistory(type: type, startDate: startDate, endDate: endDate)
-            }
+        let pointTypeObservable = reactor.state.compactMap { $0.pointType }
+        
+        Observable.combineLatest(pointTypeObservable, startDateRelay, endDateRelay)
+            .map { Reactor.Action.loadPointHistory(type: $0, startDate: $1, endDate: $2) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-
     }
     
     private func bindState(reactor: PointHistoryReactor) {
@@ -183,18 +183,18 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         let evPointsCountObservable = reactor.state.compactMap { $0.evPointsCount }
         let totalPointObservable = reactor.state.compactMap { $0.totalPoint }
         let expirePointObservable = reactor.state.compactMap { $0.expirePoint }
-        
+
         totalPointObservable
             .asDriver(onErrorJustReturn: "0")
-            .drive(with: self) { owner, totalPoint in
-                owner.myPointLabel.text = totalPoint
-            }
+            .drive(myPointLabel.rx.text)
             .disposed(by: disposeBag)
         
         expirePointObservable
             .asDriver(onErrorJustReturn: "0")
-            .drive(with: self) { owner, expirePoint in
-                owner.setImpendPoint(point: expirePoint)
+            .map { "\($0) 베리" }
+            .drive(with: self) { owner, impendText in
+                owner.impendPointLabel.text = impendText
+                owner.impendPointLabel.attributedText = owner.pointFontColor(text: impendText, pointText: "베리")
             }
             .disposed(by: disposeBag)
         
@@ -296,7 +296,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         pointInfoView.addSubview(myPointStackView)
         pointInfoView.addSubview(impendPointStackView)
         pointInfoView.addSubview(dateStackView)
-        pointInfoView.addSubview(categoryButtonsStackView)
+        pointInfoView.addSubview(pointTypeButtonsStackView)
 
         myPointStackView.addArrangedSubview(myPointMarkLabel)
         myPointStackView.addArrangedSubview(myPointLabel)
@@ -370,7 +370,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             $0.trailing.equalToSuperview().inset(horizontalMargin)
         }
         
-        categoryButtonsStackView.snp.makeConstraints {
+        pointTypeButtonsStackView.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(historyButtonsViewBottomPadding)
             $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
             $0.height.equalTo(historyButtonsViewHeight)
@@ -383,44 +383,60 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     
     // MARK: Action
     
-    private func makeCategoryButton() {
-        let buttonCategorys = ButtonCategory.allCases
-        var buttons = [ButtonCategory: SwitchColorButton]()
-        
-        for (index, category) in buttonCategorys.enumerated() {
+    private func makePointTypeButton(reactor: PointHistoryReactor) {
+        let buttonTypes = EvPoint.PointType.allCases
+        var buttons = [EvPoint.PointType: SwitchColorButton]()
+        for (index, pointType) in buttonTypes.enumerated() {
             let round: SwitchColorButton.Const.RoundType = {
                 switch index {
                 case 0:
                     return .sectionRound(.left)
-                case buttonCategorys.count - 1:
+                case buttonTypes.count - 1:
                     return .sectionRound(.right)
                 default:
                     return .none
                 }
             }()
             
-            let button = SwitchColorButton(level: .myBerry, roundType: round)
-            button.setTitle(category.title, for: .normal)
+            let button = SwitchColorButton(level: .myBerry, roundType: round).then {
+                $0.setTitle(pointType.value, for: .normal)
+            }
             
-            self.categoryButtonsStackView.addArrangedSubview(button)
+            // MARK: Button BindAction
             button.rx.tap
-                .asDriver()
-                .drive { _ in
-//                    button.frame.size.height =
-                    
-                    printLog("click isSelected \(button.isSelected), event \(button.allControlEvents) \(button.allControlEvents)")
-                }
+                .map { PointHistoryReactor.Action.setPointType(pointType) }
+                .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
+            
+            buttons[pointType] = button
+            self.pointTypeButtonsStackView.addArrangedSubview(button)
         }
-
-    }
     
-    private func setImpendPoint(point: String) {
-        let berryFlagText = " 베리"
-        let impendText = point + berryFlagText
+        let pointTypeObservable = reactor.state.compactMap { $0.pointType }
+        let allButton = buttons[.all]
+        let useButton = buttons[.usePoint]
+        let saveButton = buttons[.savePoint]
         
-        impendPointLabel.text = impendText
-        impendPointLabel.attributedText = pointFontColor(text: impendText, pointText: berryFlagText)
+        // MARK: Button BindState
+        pointTypeObservable
+            .asDriver(onErrorJustReturn: .all)
+            .drive { pointType in
+                switch pointType {
+                case .all:
+                    allButton?.rx.isSelected.onNext(true)
+                    useButton?.rx.isSelected.onNext(false)
+                    saveButton?.rx.isSelected.onNext(false)
+                case .usePoint:
+                    useButton?.rx.isSelected.onNext(true)
+                    allButton?.rx.isSelected.onNext(false)
+                    saveButton?.rx.isSelected.onNext(false)
+                case .savePoint:
+                    saveButton?.rx.isSelected.onNext(true)
+                    allButton?.rx.isSelected.onNext(false)
+                    useButton?.rx.isSelected.onNext(false)
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     private func pointFontColor(text: String, pointText: String) -> NSMutableAttributedString {
@@ -437,24 +453,5 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             range: entireNSString.range(of: pointText))
         return attributeString
     }
-    
-    // MARK: Object
-    
-    enum ButtonCategory: CaseIterable {
-        case all
-        case use
-        case save
-        
-        var title: String {
-            switch self {
-            case .all:
-                return "전체"
-            case .use:
-                return "사용"
-            case .save:
-                return "저장"
-            }
-        }
-    }
-    
+
 }

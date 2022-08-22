@@ -17,16 +17,21 @@ internal class PointHistoryReactor: ViewModel, Reactor {
     enum Action {
         case loadPointInfo      
         case loadPointHistory(type: EvPoint.PointType, startDate: Date, endDate: Date)
+        case setPointType(EvPoint.PointType)
     }
     
     enum Mutation {
         case setPointInfo(PointType)
         case setPoints(EvPoint.PointType, [EvPoint])
+        case setPointType(EvPoint.PointType)
+        case setChangePointType(Bool)
     }
     
     struct State {
         var totalPoint: String?
         var expirePoint: String?
+        var pointType: EvPoint.PointType? = .all
+        var isChangePointType: Bool?
         
         var evPointsViewItems: [PointViewItem] = []
         var evPointsCount: Int = 0
@@ -57,11 +62,20 @@ internal class PointHistoryReactor: ViewModel, Reactor {
                 .convertData()
                 .compactMap(convertToPointHistory)
                 .map { return .setPoints(type, $0.points) }
+            
+        case let .setPointType(pointType):
+            return .concat(.just(.setPointType(pointType)),
+                .just(.setChangePointType(true)))
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
+        
+        newState.totalPoint = nil
+        newState.expirePoint = nil
+        newState.pointType = nil
+        newState.isChangePointType = nil
         
         switch mutation {
         case let .setPoints(type, points):
@@ -75,6 +89,12 @@ internal class PointHistoryReactor: ViewModel, Reactor {
             newState.evPointsCount = evPointViewItems.count
             newState.totalPoint = pointHistory.totalPoint
             newState.expirePoint = pointHistory.expirePoint
+            newState.pointType = state.pointType
+        case let.setPointType(pointType):
+            newState.pointType = pointType
+            
+        case let.setChangePointType(isChangePointType):
+            newState.isChangePointType = isChangePointType
         }
         
         return newState
