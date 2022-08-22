@@ -280,12 +280,13 @@ extension SearchViewController {
         
         if let searchBar = searchBarController?.searchBar,
             let text = searchBar.textField.text {
+
             let property: [String: Any] = ["searchKeyword": text,
-                                           "selectedStation": "\(String(describing: charger.mStationInfoDto?.mSnm))",
+                                           "selectedStation": charger.mStationInfoDto?.mSnm ?? "",
                                            "result": "성공",
                                            "stationOrAddress": "\(searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")"]
                 
-                AmplitudeManager.shared.logEvent(type: .search(.clickSearchChooseStation), property: property)
+            AmplitudeManager.shared.logEvent(type: .search(.clickSearchChooseStation), property: property)
         }
     }
 }
