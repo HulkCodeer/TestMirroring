@@ -27,6 +27,7 @@ protocol SoftberryAPI: class {
     func getAdsList(page: Promotion.Page, layer: Promotion.Layer) -> Observable<(HTTPURLResponse, Data)>
     func countEventAction(eventId: [String], action: Promotion.Action) -> Disposable
     func postPaymentStatus() -> Observable<(HTTPURLResponse, Data)>
+    func postChargingQR(qrCode: String) -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -170,7 +171,25 @@ internal final class RestApi: SoftberryAPI {
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/pay/v2/evPay/checkRegistration", httpMethod: .post, parameters: reqParam, headers: nil)
     }
     
-    func post
+    // MARK: - QR충전 조회
+    func postChargingQR(qrCode: String) -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.shared.mbId,
+            "qr_code": qrCode
+        ]
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/charger/v2/app_charging/qr", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - QR충전 조회
+    func postChargingQR(qrCode: String, tc: String) -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.shared.mbId,
+            "qr_code": qrCode,
+            "tc": tc
+            
+        ]
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/charger/v2/app_charging/qr", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
     
     
 }

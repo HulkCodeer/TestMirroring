@@ -11,23 +11,23 @@ import SwiftyJSON
 
 internal final class PaymentQRScanReactor: ViewModel, Reactor {
     enum Action {
+        case setQRReaderView
         case loadPaymentStatus
+        case loadChargingQR(String)
+        case loadTestChargingQR(String)
     }
     
     enum Mutation {
         case setPaymentStatus(Bool)
+        case setChargingStatus(Bool)
     }
     
     struct State {
         var isPaymentFineUser: Bool?
+        var isChargingStatus: Bool?
     }
     
-    internal var initialState: State    
-    
-    enum AdsType: String, CaseIterable {
-        case ad = "1"
-        case event = "2"
-    }
+    internal var initialState: State
 
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -36,12 +36,31 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .setQRReaderView:
+            return .just(.setPaymentStatus(false))
+            
         case .loadPaymentStatus:
             return self.provider.postPaymentStatus()
                 .convertData()
                 .compactMap(convertToDataModel)
                 .compactMap { isPaymentFineUser in
                     return .setPaymentStatus(isPaymentFineUser)
+                }
+            
+        case .loadChargingQR(let qrCode):
+            return self.provider.postChargingQR(qrCode: qrCode)
+                .convertData()
+                .compactMap(convertToChargingSuccess)
+                .compactMap { isChargingStatus in
+                    return .setChargingStatus(isChargingStatus)
+                }
+            
+        case .loadTestChargingQR(let tc):
+            return self.provider.postChargingQR(qrCode: "", tc: tc)
+                .convertData()
+                .compactMap(convertToChargingSuccess)
+                .compactMap { isChargingStatus in
+                    return .setChargingStatus(isChargingStatus)
                 }
                                 
         }
@@ -50,10 +69,15 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         newState.isPaymentFineUser = nil
+        newState.isChargingStatus = nil
         
         switch mutation {
         case .setPaymentStatus(let isPaymentFineuser):
             newState.isPaymentFineUser = isPaymentFineuser
+            
+        case .setChargingStatus(let isChargingStatus):
+            newState.isChargingStatus = isChargingStatus
+            
         }
         
         return newState
@@ -100,6 +124,22 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         }
     }
     
+    private func convertToChargingSuccess(with result: ApiResult<Data, ApiError>) -> Bool? {
+        switch result {
+        case .success(let data):
+            let json = JSON(data)
+            let code = json["code"].intValue
+            
+            guard code == 1000 else { return nil }
+            return true
+            
+        case .failure(let errorMessage):
+            printLog(out: "error: \(errorMessage)")
+            Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
+            return false
+        }
+    }
+    
     private func showUnsupportedChargerDialog() {
         let dialogMessage = UIAlertController(title: "미지원 충전기", message: "결제 가능 충전소가 아니거나, 등록 되지않은 QR 코드입니다.", preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
@@ -123,14 +163,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
     private func showRegisterCardDialog() {
         let dialogMessage = UIAlertController(title: "카드 등록 필요", message: "결제카드 등록 후 사용 가능합니다. \n카드를 등록하시려면 확인 버튼을 누르세요.", preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
-            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-            let myPayInfoVC = memberStoryboard.instantiateViewController(withIdentifier: "MyPayinfoViewController") as! MyPayinfoViewController
-            var vcArray = GlobalDefine.shared.mainNavi?.viewControllers
-            vcArray!.removeLast()
-            vcArray!.append(myPayInfoVC)
-            GlobalDefine.shared.mainNavi?.setViewControllers(vcArray!, animated: true)
-//            GlobalDefine.shared.mainNavi?.popViewController(animated: false)
-//            GlobalDefine.shared.mainNavi?.pushViewController(myPayInfoVC, animated: false)
+            let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
+            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
         })
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler:{ (ACTION) -> Void in
             GlobalDefine.shared.mainNavi?.pop()

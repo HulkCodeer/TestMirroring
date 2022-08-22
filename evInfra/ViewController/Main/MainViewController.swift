@@ -86,6 +86,7 @@ internal final class MainViewController: UIViewController {
     
     private var summaryView: SummaryView!
     private var disposeBag = DisposeBag()
+    private var isShowEasyTips: Bool = false
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -131,8 +132,10 @@ internal final class MainViewController: UIViewController {
             self.selectChargerFromShared()
         }
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
-                
-        guard self.view.subviews.compactMap({ $0 as? EasyTipView }).count == 0 else { return }
+                        
+        
+        guard isShowEasyTips else { return }
+        
         var preferences = EasyTipView.Preferences()
         
         preferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
@@ -152,6 +155,8 @@ internal final class MainViewController: UIViewController {
                          withinSuperview: self.view,
                          text: text,
                          preferences: preferences)
+        
+        isShowEasyTips = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -1429,6 +1434,8 @@ extension MainViewController {
     }
     
     private func movePaymentQRScan() {
+        _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
+        
 //        let viewcon = UIStoryboard(name : "Payment", bundle: nil).instantiateViewController(ofType: PaymentQRScanViewController.self)
         let reactor = PaymentQRScanReactor(provider: RestApi())
         let viewcon = NewPaymentQRScanViewController(reactor: reactor)

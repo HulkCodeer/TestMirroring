@@ -20,6 +20,23 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         $0.naviTitleLbl.text = "QR 코드 스캔"
     }
     
+    private lazy var stationGuideLbl = UILabel().then {
+        $0.font = .systemFont(ofSize: 22, weight: .semibold)
+        $0.text = "현재 GS칼텍스에서\nQR 충전을 할 수 있어요"
+        $0.textColor = Colors.backgroundPrimary.color
+        $0.numberOfLines = 2
+    }
+    
+    private lazy var stationSubGuideLbl = UILabel().then {
+        $0.font = .systemFont(ofSize: 14, weight: .semibold)
+        $0.text = "한국전력 충전소에서도 QR충전하고 싶다면?"
+        $0.textColor = Colors.nt2.color
+        $0.setUnderline()
+        $0.numberOfLines = 1
+    }
+    
+    private lazy var stationSubGuideBtn = UIButton()
+    
     private lazy var qrReaderView = QRReaderView()
     
     private lazy var guideLbl = UILabel().then {
@@ -35,10 +52,13 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     
     private lazy var tcTotalView = UIView()
     private lazy var tcTf = UITextField().then {
+        $0.backgroundColor = .white
         $0.clearButtonMode = .always
     }
     private lazy var tcBtn = UIButton().then {
+        $0.backgroundColor = .white
         $0.setTitle("적용", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
     }
                 
     // MARK: VARIABLE
@@ -63,6 +83,25 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             $0.leading.bottom.trailing.equalToSuperview()
         }
         
+        self.contentView.addSubview(stationGuideLbl)
+        stationGuideLbl.snp.makeConstraints {
+            $0.top.equalTo(naviTotalView.snp.bottom).offset(47)
+            $0.centerX.equalToSuperview()
+        }
+        
+        self.contentView.addSubview(stationSubGuideLbl)
+        stationSubGuideLbl.snp.makeConstraints {
+            $0.top.equalTo(stationGuideLbl.snp.bottom).offset(16)
+            $0.centerX.equalToSuperview()
+        }
+        
+        self.contentView.addSubview(stationSubGuideBtn)
+        stationSubGuideBtn.snp.makeConstraints {
+            $0.center.equalTo(stationSubGuideLbl.snp.center)
+            $0.width.equalTo(stationSubGuideLbl.snp.width)
+            $0.height.equalTo(44)
+        }
+        
         self.contentView.addSubview(qrBoxImgView)
         qrBoxImgView.snp.makeConstraints {
             $0.center.equalToSuperview()
@@ -77,35 +116,45 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         
         self.contentView.addSubview(tcTotalView)
         tcTotalView.snp.makeConstraints {
-            $0.leading.top.trailing.equalToSuperview()
+            $0.top.equalTo(naviTotalView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(44)
         }
         
         tcTotalView.addSubview(tcTf)
         tcTf.snp.makeConstraints {
-            $0.leading.top.bottom.height.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.leading.bottom.height.equalToSuperview()
             $0.width.equalTo(200)
         }
         
         tcTotalView.addSubview(tcBtn)
         tcBtn.snp.makeConstraints {
-            $0.leading.equalTo(tcTf).offset(20)
-            $0.top.bottom.height.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.centerY.equalTo(tcTf.snp.centerY)
+            $0.leading.equalTo(tcTf.snp.trailing).offset(20)
+            $0.bottom.height.equalToSuperview()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "QR Scan 화면"
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        startCharging()
+        
+        stationSubGuideBtn.rx.tap
+            .asDriver()
+            .drive(onNext: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    let viewcon = MembershipGuideViewController()
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                })
+            })
+            .disposed(by: self.disposeBag)
     }
                     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        qrReaderView.start()
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
     
@@ -126,27 +175,91 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     internal func bind(reactor: PaymentQRScanReactor) {
         qrReaderView.bind(reactor)
         
+        tcBtn.rx.tap
+            .map { PaymentQRScanReactor.Action.loadTestChargingQR(self.tcTf.text ?? "" ) }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+            
+        
         switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
-        case (false, false) :
+        case (false, false): // 신규유저
+            let tempText = "한국 전력과 GS칼텍스에서\nQR 충전을 할 수 있어요"
+            let attributeText = NSMutableAttributedString(string: tempText)
+            let allRange = NSMakeRange(0, attributeText.length)
+            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPrimary.color], range: allRange)
+            attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: allRange)
+            var chageRange = (attributeText.string as NSString).range(of: "GS칼텍스")
+            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.nt4.color], range: chageRange)
+            attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
+            
+            chageRange = (attributeText.string as NSString).range(of: "한국 전력")
+            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPositive.color], range: chageRange)
+            attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
+            
+            stationGuideLbl.attributedText = attributeText
+            guideLbl.text = "사각 박스 안에 QR 코드를 비추면 자동으로 스캔되어요"
+            
             let popupModel = PopupModel(title: "회원카드 발급이 필요해요",
                                         message: "회원카드를 발급 해야 한국전력, GS칼텍스의 QR 충전을 이용할 수 있어요.",
                                         confirmBtnTitle: "회원카드 발급하기", cancelBtnTitle: "닫기",
                                         confirmBtnAction: {
-                let viewcon = UIStoryboard(name : "Membership", bundle: nil).instantiateViewController(ofType: MembershipCardViewController.self)
+                let viewcon = MembershipGuideViewController()
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                }
-            }, textAlignment: .center)
+                }, textAlignment: .center)
             
             let popup = VerticalConfirmPopupViewController(model: popupModel)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                 GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
             })
+            
+            Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
+                .bind(to: reactor.action)
+                .disposed(by: self.disposeBag)
+            
+        case (false, true): // 오류 유저(미수금)
+            Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
+                .bind(to: reactor.action)
+                .disposed(by: self.disposeBag)
+            
+        case (true, false): // GS 사용자
+            let tempText = "현재 GS칼텍스에서\nQR 충전을 할 수 있어요"
+            let attributeText = NSMutableAttributedString(string: tempText)
+            let allRange = NSMakeRange(0, attributeText.length)
+            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPrimary.color], range: allRange)
+            attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: allRange)
+            
+            let chageRange = (attributeText.string as NSString).range(of: "GS칼텍스")
+            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPositive.color], range: chageRange)
+            attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
+            stationGuideLbl.attributedText = attributeText
+            
+            guideLbl.text = "QR 코드를 비추면 자동으로 스캔되어요"
+                                    
+            Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
+                .bind(to: reactor.action)
+                .disposed(by: self.disposeBag)
+                                
+        case (true, true): // 아무 이상 없는 유저
+            let tempText = "한국 전력과 GS칼텍스에서\nQR 충전을 할 수 있어요"
+            let attributeText = NSMutableAttributedString(string: tempText)
+            let allRange = NSMakeRange(0, attributeText.length)
+            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPrimary.color], range: allRange)
+            attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: allRange)
+            var chageRange = (attributeText.string as NSString).range(of: "GS칼텍스")
+            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.nt4.color], range: chageRange)
+            attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
+            chageRange = (attributeText.string as NSString).range(of: "한국 전력")
+            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPositive.color], range: chageRange)
+            attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
+            stationGuideLbl.attributedText = attributeText
+            
+            guideLbl.text = "QR 코드를 비추면 자동으로 스캔되어요"
+            
+            Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
+                .bind(to: reactor.action)
+                .disposed(by: self.disposeBag)
         }
-        
-        Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
-        
+                        
         reactor.state.compactMap { $0.isPaymentFineUser }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj,_ in
