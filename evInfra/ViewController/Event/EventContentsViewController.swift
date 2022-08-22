@@ -53,7 +53,6 @@ internal final class EventContentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "이벤트 상세 화면"
         prepareActionBar()
         prepareWebView()
     }

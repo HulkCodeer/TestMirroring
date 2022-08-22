@@ -69,7 +69,7 @@ internal final class PointViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "MY 베리 내역 화면"
+        
         prepareActionBar()
         prepareDatePicker()
         prepareTableView()

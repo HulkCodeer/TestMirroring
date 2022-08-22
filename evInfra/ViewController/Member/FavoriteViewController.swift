@@ -22,7 +22,7 @@ class FavoriteViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "즐겨찾기 화면"
+        
         prepareActionBar(with: "즐겨찾기")
         prepareTableView()
     }

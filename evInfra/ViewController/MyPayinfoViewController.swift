@@ -40,7 +40,6 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "결제정보관리 화면"
         prepareActionBar()
         initInfoView()
         

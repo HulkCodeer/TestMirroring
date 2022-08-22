@@ -92,7 +92,7 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "회원카드 안내 화면"
+        
         membershipRegisterBtn.rx.tap
             .asDriver()
             .drive(onNext: {[weak self] _ in

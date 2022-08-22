@@ -44,7 +44,7 @@ internal final class MembershipInfoViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "회원카드 상세 화면"
+        
         prepareActionBar()
         initView()
         

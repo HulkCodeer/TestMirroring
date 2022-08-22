@@ -34,7 +34,7 @@ class ChargerFilterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "필터 설정 화면"
+        
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         prepareActionBar()
         initView()

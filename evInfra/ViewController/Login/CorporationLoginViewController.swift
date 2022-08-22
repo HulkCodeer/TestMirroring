@@ -24,7 +24,7 @@ class CorporationLoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "법인 로그인 화면"
+        
         tfCorpId.delegate = self
         tfCorpPwd.delegate = self
         

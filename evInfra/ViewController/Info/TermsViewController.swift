@@ -46,7 +46,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "웹뷰"
+        
         prepareActionBar()
         loadFromUrl()
     }

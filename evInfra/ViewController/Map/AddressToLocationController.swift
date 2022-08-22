@@ -28,7 +28,7 @@ class AddressToLocationController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "충전소 위치 검색 화면"
+        
         prepareSearchBar()
         prepareTableView()
     }

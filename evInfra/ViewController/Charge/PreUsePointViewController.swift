@@ -30,7 +30,7 @@ class PreUsePointViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "베리 설정 화면"
+        
         prepareActionBar()
         prepareView()
         prepareTextField()

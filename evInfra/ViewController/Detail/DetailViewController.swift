@@ -65,7 +65,7 @@ internal final class DetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "충전소 상세 화면"
+        
         initKakaoMap()
         prepareActionBar()
         prepareBoardTableView()
