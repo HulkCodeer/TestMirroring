@@ -86,13 +86,8 @@ internal final class PointViewController: UIViewController {
                 self.navigationController?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)
-        
-        btnAllBerry.roundCorners([.topLeft, .bottomLeft], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)        
-        btnUseBerry.roundCorners(.allCorners, radius: 0, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
 
-        btnSaveBerry.roundCorners([.topRight, .bottomRight], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
-
-        // Bg color change
+//        // Bg color change
         btnAllBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
         btnSaveBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
         btnUseBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
