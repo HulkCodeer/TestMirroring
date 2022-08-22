@@ -74,6 +74,6 @@ extension FavoriteViewController: ChargerTableViewDelegate {
         }
         
         delegate?.moveToSelected(chargerId: charger.mChargerId!)
-        dismiss(animated: true, completion: nil)
+        GlobalDefine.shared.mainNavi?.pop(subtype: kCATransitionFromBottom)
     }
 }
