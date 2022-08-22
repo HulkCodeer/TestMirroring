@@ -94,7 +94,13 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         $0.textAlignment = .center
     }
     
-    private lazy var historyButtonsView = PointCategoryButtonsView()
+//    private lazy var historyButtonsView = PointCategoryButtonsView()
+    private lazy var categoryButtonsStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.alignment = .fill
+        $0.distribution = .fillEqually
+        $0.spacing = -1
+    }
     
     private lazy var startDateView = DatePickerView().then {
         $0.isHidden = true
@@ -131,6 +137,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         
         setUI()
         setConstraints()
+        
+        makeCategoryButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -233,20 +241,20 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             }
             .disposed(by: disposeBag)
         
-        historyButtonsView.allTypeButton.rx.tap
-            .map { _ -> EvPoint.PointType in .all }
-            .bind(to: pointTypeRelay)
-            .disposed(by: disposeBag)
-        
-        historyButtonsView.useTypeButton.rx.tap
-            .map { _ -> EvPoint.PointType in .usePoint }
-            .bind(to: pointTypeRelay)
-            .disposed(by: disposeBag)
-
-        historyButtonsView.saveTypeButton.rx.tap
-            .map { _ -> EvPoint.PointType in .savePoint }
-            .bind(to: pointTypeRelay)
-            .disposed(by: disposeBag)
+//        historyButtonsView.allTypeButton.rx.tap
+//            .map { _ -> EvPoint.PointType in .all }
+//            .bind(to: pointTypeRelay)
+//            .disposed(by: disposeBag)
+//
+//        historyButtonsView.useTypeButton.rx.tap
+//            .map { _ -> EvPoint.PointType in .usePoint }
+//            .bind(to: pointTypeRelay)
+//            .disposed(by: disposeBag)
+//
+//        historyButtonsView.saveTypeButton.rx.tap
+//            .map { _ -> EvPoint.PointType in .savePoint }
+//            .bind(to: pointTypeRelay)
+//            .disposed(by: disposeBag)
         
         startDateButton.rx.tap
             .asDriver()
@@ -305,7 +313,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         pointInfoView.addSubview(myPointStackView)
         pointInfoView.addSubview(impendPointStackView)
         pointInfoView.addSubview(dateStackView)
-        pointInfoView.addSubview(historyButtonsView)
+//        pointInfoView.addSubview(historyButtonsView)
+        pointInfoView.addSubview(categoryButtonsStackView)
 
         myPointStackView.addArrangedSubview(myPointMarkLabel)
         myPointStackView.addArrangedSubview(myPointLabel)
@@ -378,11 +387,17 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             $0.leading.equalToSuperview().inset(horizontalMargin)
             $0.trailing.equalToSuperview().inset(horizontalMargin)
         }
-        historyButtonsView.snp.makeConstraints {
+        
+        categoryButtonsStackView.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(historyButtonsViewBottomPadding)
             $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
             $0.height.equalTo(historyButtonsViewHeight)
         }
+//        historyButtonsView.snp.makeConstraints {
+//            $0.bottom.equalToSuperview().inset(historyButtonsViewBottomPadding)
+//            $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
+//            $0.height.equalTo(historyButtonsViewHeight)
+//        }
         
         pointEmptyLabel.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
@@ -390,6 +405,37 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     }
     
     // MARK: Action
+    
+    private func makeCategoryButton() {
+        let buttonCategorys = ButtonCategory.allCases
+                
+        for (index, category) in buttonCategorys.enumerated() {
+            let round: SwitchColorButton.Const.RoundType = {
+                switch index {
+                case 0:
+                    return .sectionRound(.left)
+                case buttonCategorys.count - 1:
+                    return .sectionRound(.right)
+                default:
+                    return .none
+                }
+            }()
+            
+            let button = SwitchColorButton(level: .myBerry, roundType: round)
+            button.setTitle(category.title, for: .normal)
+            
+            self.categoryButtonsStackView.addArrangedSubview(button)
+            button.rx.tap
+                .asDriver()
+                .drive { _ in
+//                    button.frame.size.height =
+                    
+                    printLog("click isSelected \(button.isSelected), event \(button.allControlEvents) \(button.allControlEvents)")
+                }
+                .disposed(by: self.disposeBag)
+        }
+
+    }
     
     private func setImpendPoint(point: String) {
         let berryFlagText = " 베리"
@@ -412,6 +458,25 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             value: UIColor.init(hex: "#7B7B7B"),
             range: entireNSString.range(of: pointText))
         return attributeString
+    }
+    
+    // MARK: Object
+    
+    enum ButtonCategory: CaseIterable {
+        case all
+        case use
+        case save
+        
+        var title: String {
+            switch self {
+            case .all:
+                return "전체"
+            case .use:
+                return "사용"
+            case .save:
+                return "저장"
+            }
+        }
     }
     
 }
