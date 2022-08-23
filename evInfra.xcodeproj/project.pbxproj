@@ -2169,6 +2169,7 @@
 				00AB7BD826E870820040CFDE /* GuideAlertDialog.swift */,
 				000DAE12274760E300CEC165 /* PaymentTableViewCell.swift */,
 				00A13AD627910E4D0058C291 /* BottomSheetTableViewCell.swift */,
+				5991F6CA28AF91C900B811E7 /* SwitchColorButton.swift */,
 				5941383928A101B10057B7E5 /* PointHistoryTableViewCell.swift */,
 				5941383A28A101B10057B7E5 /* PointHistoryTableViewCell.xib */,
 				5941384228A3C1A90057B7E5 /* DatePickerView.swift */,
@@ -2306,7 +2307,6 @@
 				63762F1428699FB200C951BF /* Info.swift */,
 				63A4F3702872F88100601018 /* RectButton.swift */,
 				636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */,
-				5991F6CA28AF91C900B811E7 /* SwitchColorButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";

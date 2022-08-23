@@ -99,6 +99,13 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         $0.alignment = .fill
         $0.distribution = .fillEqually
         $0.spacing = -1
+        
+        $0.clipsToBounds = true
+        $0.roundCorners(
+            cornerType: .all,
+            radius: 8,
+            borderColor: UIColor(hex: "#CECECE").cgColor,
+            borderWidth: 1)
     }
     
     private lazy var startDateView = DatePickerView().then {
@@ -408,7 +415,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
                 }
             }()
             
-            let button = SwitchColorButton(level: .myBerry, roundType: round).then {
+            let button = SwitchColorButton().then {
                 $0.setTitle(pointType.value, for: .normal)
             }
             
