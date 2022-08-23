@@ -13,8 +13,27 @@ import ReactorKit
 import RxCocoa
 import RxSwift
 import RxDataSources
+import ReusableKit
 
 internal final class PointHistoryViewController: CommonBaseViewController, StoryboardView {
+
+    typealias pointHistoryDataSource = RxTableViewSectionedReloadDataSource<PointHistorySectionModel>
+    
+    private enum Reusable {
+        static let pointCell = ReusableCell<PointHistoryTableViewCell>()
+    }
+    
+    private let dataSource = pointHistoryDataSource (
+        configureCell: { dataSource, tableView, indexPath, item in
+            let cell = tableView.dequeue(Reusable.pointCell, for: indexPath)
+            
+            let isFirst = indexPath.row == 0
+            let beforeDate = !isFirst ? item.previousItemDate : nil
+            
+            cell.configure(point: item.evPoint, beforeDate: beforeDate, isFirst: isFirst)
+            return cell
+    })
+    
     private lazy var customNavigationBar = CommonNaviView().then {
         $0.naviTitleLbl.text = "MY 베리 내역"
     }
@@ -30,7 +49,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     private lazy var pointTableView = UITableView().then {
         $0.rowHeight = 72
         $0.separatorStyle = .none
-        $0.register(PointHistoryTableViewCell.self, forCellReuseIdentifier: PointHistoryTableViewCell.identifier)
+        
+        $0.register(Reusable.pointCell)
     }
     
     private lazy var myPointStackView = UIStackView().then {
@@ -220,16 +240,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .disposed(by: disposeBag)
         
         evPointsObservable
-            .asDriver(onErrorJustReturn: [])
-            .drive(pointTableView.rx.items(
-                cellIdentifier: PointHistoryTableViewCell.identifier,
-                cellType: PointHistoryTableViewCell.self)
-            ) { indexPath, evPoinViewItem, cell in
-                let isFirst = indexPath == 0
-                let beforeDate = !isFirst ? evPoinViewItem.previousItemDate : nil
-                
-                cell.configure(point: evPoinViewItem.evPoint, beforeDate: beforeDate, isFirst: isFirst)
-            }
+            .map { [PointHistorySectionModel(items: $0)] }
+            .bind(to: pointTableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
         evPointsCountObservable
@@ -436,4 +448,19 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         return attributeString
     }
 
+}
+
+// MARK: Object
+
+struct PointHistorySectionModel {
+    var items: [PointHistoryReactor.PointViewItem]
+}
+
+extension PointHistorySectionModel: SectionModelType {
+    typealias item = PointHistoryReactor.PointViewItem
+
+    init(original: PointHistorySectionModel, items: [item]) {
+        self = original
+        self.items = items
+    }
 }
