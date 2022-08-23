@@ -59,6 +59,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     private lazy var tcTf = UITextField().then {
         $0.backgroundColor = .white
         $0.clearButtonMode = .always
+        $0.addLeftPadding(padding: 20)
     }
     private lazy var tcBtn = UIButton().then {
         $0.backgroundColor = .white
