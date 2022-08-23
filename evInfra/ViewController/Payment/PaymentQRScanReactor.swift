@@ -11,7 +11,7 @@ import SwiftyJSON
 
 internal final class PaymentQRScanReactor: ViewModel, Reactor {
     enum Action {
-        case setQRReaderView
+        case runningQRReaderView
         case loadPaymentStatus
         case loadChargingQR(String)
         case loadTestChargingQR(String)
@@ -35,8 +35,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
-        switch action {
-        case .setQRReaderView:
+        switch action {                        
+        case .runningQRReaderView:
             return .just(.setPaymentStatus(false))
             
         case .loadPaymentStatus:
@@ -129,9 +129,108 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         case .success(let data):
             let json = JSON(data)
             let code = json["code"].intValue
+            let msg = json["msg"].stringValue
             
-            guard code == 1000 else { return nil }
-            return true
+            switch code {
+            case 8800: // 정상 유저
+                return true
+                
+                                
+            case 8801: // 결제 정보 등록 안된 회원
+                let popupModel = PopupModel(title: "결제정보를 등록해야 해요",
+                                            message: "회원카드를 발급 해야 한국전력, GS칼텍스의 QR 충전을 이용할 수 있어요.",
+                                            confirmBtnTitle: "회원카드 발급하기", cancelBtnTitle: "닫기",
+                                            confirmBtnAction: {
+                    let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                }, textAlignment: .center)
+                
+                let popup = VerticalConfirmPopupViewController(model: popupModel)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
+                
+                
+            case 8802: // 카드 등록 안된 멤버
+                let popupModel = PopupModel(title: "안내",
+                                            message: "비정상적인 경로로 가입신청을 한 멤버입니다.",
+                                            confirmBtnTitle: "나가기", textAlignment: .center)
+                
+                let popup = VerticalConfirmPopupViewController(model: popupModel)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
+                
+            case 8803: // 카드삭제했으나 DB 쿼리 실패로 안지워짐
+                let popupModel = PopupModel(title: "안내",
+                                            message: "결제정보를 삭제요청 주셨으나, EV Infra DB\n문제로 삭제되지 않았어요.\n정보 삭제로 QR충전을 진행할 수 없어요.",
+                                            confirmBtnTitle: "나가기", textAlignment: .center)
+                let popup = VerticalConfirmPopupViewController(model: popupModel)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
+                
+            case 1101: // 회원카드 없는 멤버
+                let popupModel = PopupModel(title: "회원카드 발급이 필요해요",
+                                            message: "회원카드 발급 전에는\n한국전력 QR 충전을 이용할 수 없어요.",
+                                            confirmBtnTitle: "회원카드 발급하기", cancelBtnTitle: "나중에 하기",
+                                            confirmBtnAction: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        let viewcon = MembershipGuideViewController()
+                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                    })
+                }, textAlignment: .center)
+                
+                let popup = VerticalConfirmPopupViewController(model: popupModel)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
+                
+            case 2004: // QR정보에 cpid, connector id 없음
+                Snackbar().show(message: "GS 칼텍스, 한국 전력 충전기에서만 QR충전을 할 수 있어요. 다른 QR코드를 스캔 시, 충전 할 수 없어요.")
+                
+            case 2005: // cp id에 해당하는 충전기가 db에 없음
+                let popupModel = PopupModel(title: "미지원 충전기",
+                                            message: "GS 칼텍스, 한국 전력 충전기에서만 QR충전을 할 수 있어요. 다른 QR코드를 스캔 시, 충전 할 수 없어요.",
+                                            confirmBtnTitle: "나가기", textAlignment: .center)
+                
+                let popup = VerticalConfirmPopupViewController(model: popupModel)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
+                
+            case 2007: // 시범 운영중
+                let popupModel = PopupModel(title: "알림",
+                                            message: "시범 운영중인 충전기입니다.\n시범 운영중이므로 충전중 화면이\n노출되지 않습니다.",
+                                            confirmBtnTitle: "나가기", textAlignment: .center)
+                
+                let popup = VerticalConfirmPopupViewController(model: popupModel)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
+                
+            case 2008: // 충전기 상태가 충전 가능이 아님
+                let popupModel = PopupModel(title: "알림",
+                                            message: "현재 충전기가 사용 가능한 상태가 아닙니다.\n다른 충전소를 이용해주세요.",
+                                            confirmBtnTitle: "나가기", textAlignment: .center)
+                
+                let popup = VerticalConfirmPopupViewController(model: popupModel)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
+                
+            case 2009: // 충전중인 회원
+                Snackbar().show(message: "다른 충전기에서 현재 충전중이므로 QR스캔 및 충전을 할 수 없습니다.")
+                
+            case 2010, 9000: // 서버 에러
+                Snackbar().show(message: "서버 오류로 충전 요청을 실패했어요. 다시 스캔해주세요.")
+                
+            default: break                
+            }
+            
+            return nil
             
         case .failure(let errorMessage):
             printLog(out: "error: \(errorMessage)")
@@ -174,46 +273,4 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         dialogMessage.addAction(cancel)
         GlobalDefine.shared.mainNavi?.present(dialogMessage, animated: true, completion: nil)
     }    
-}
-
-extension PaymentQRScanReactor {
-    func readerComplete(status: ReaderStatus) {
-        switch status {
-        case .success(let qrStr):
-            guard let _qrStr = qrStr else {
-                return
-            }
-            self.onResultScan(scanInfo: _qrStr)
-            
-        case .fail:
-            printLog(out: "QR코드 or 바코드를 인식하지 못했습니다.\n다시 시도해주세요.")
-            
-        case .stop: break
-        }
-    }
-    
-    func onResultScan(scanInfo: String?) {
-//        var cpId = ""
-//        self.connectorId = nil
-//
-//        if let resultQR = scanInfo {
-//            if resultQR.count > 0 {
-//                let qrJson = JSON.init(parseJSON: resultQR)
-//                cpId = qrJson["cp_id"].stringValue
-//                self.connectorId = qrJson["connector_id"].stringValue
-//            }
-//        }
-//
-//        if !cpId.isEmpty {
-//            Server.getChargerInfo(cpId: cpId, completion: {(isSuccess, value) in
-//                if isSuccess {
-//                    self.responseGetChargerInfo(response: value)
-//                } else {
-//                    self.showUnsupportedChargerDialog()
-//                }
-//            })
-//        } else {
-//            self.showUnsupportedChargerDialog()
-//        }
-    }
 }

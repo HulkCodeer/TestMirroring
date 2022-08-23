@@ -120,7 +120,7 @@ extension NSLayoutConstraint {
             layer.borderColor = newValue?.cgColor
         }
     }
-    
+            
     public private(set) var isGone: Bool {
         get {
             return (objc_getAssociatedObject(self, &UIView.isGoneKey) as? Bool) ?? false

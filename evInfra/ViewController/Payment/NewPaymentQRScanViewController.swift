@@ -39,6 +39,11 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     
     private lazy var qrReaderView = QRReaderView()
     
+    private lazy var dimmedView = UIView()
+        .then {
+        $0.backgroundColor = .black.withAlphaComponent(0.4)
+    }
+    
     private lazy var guideLbl = UILabel().then {
         $0.font = .systemFont(ofSize: 15, weight: .regular)
         $0.text = "QR 코드를 비추면 자동으로 스캔되어요"
@@ -49,7 +54,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         $0.backgroundColor = .clear
         $0.image = UIImage(named: "qr_box")
     }
-    
+            
     private lazy var tcTotalView = UIView()
     private lazy var tcTf = UITextField().then {
         $0.backgroundColor = .white
@@ -79,6 +84,12 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         
         self.contentView.addSubview(qrReaderView)
         qrReaderView.snp.makeConstraints {
+            $0.top.equalTo(naviTotalView.snp.bottom)
+            $0.leading.bottom.trailing.equalToSuperview()
+        }
+        
+        self.contentView.addSubview(dimmedView)
+        dimmedView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom)
             $0.leading.bottom.trailing.equalToSuperview()
         }
@@ -150,6 +161,19 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                 })
             })
             .disposed(by: self.disposeBag)
+                        
+        let radius: CGFloat = dimmedView.bounds.size.width
+        let path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height), cornerRadius: 0)
+        let circlePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 2 * radius, height: 2 * radius), cornerRadius: radius)
+        path.append(circlePath)
+        path.usesEvenOddFillRule = true
+
+        let fillLayer = CAShapeLayer()
+        fillLayer.path = path.cgPath
+        fillLayer.fillRule = kCAFillRuleEvenOdd
+        fillLayer.fillColor = view.backgroundColor?.cgColor
+        fillLayer.opacity = 0.5
+        dimmedView.layer.addSublayer(fillLayer)
     }
                     
     override func viewWillAppear(_ animated: Bool) {

@@ -8,18 +8,13 @@
 
 import UIKit
 import AVFoundation
-
-enum ReaderStatus {
-    case success(_ qrStr: String?)
-    case fail
-    case stop
-}
+import RxSwift
 
 internal final class QRReaderView: UIView {    
     private var previewLayer: AVCaptureVideoPreviewLayer?
     private var captureSession: AVCaptureSession?
     private let metadataObjectTypes: [AVMetadataObject.ObjectType] = [.qr]
-    
+    private var disposeBag = DisposeBag()
     private weak var reactor: PaymentQRScanReactor?
     
     private var isRunning: Bool {
@@ -116,12 +111,18 @@ extension QRReaderView {
     }
     
     func fail() {
-        reactor?.readerComplete(status: .fail)
+        guard let _reactor = self.reactor else { return }
         captureSession = nil
+        Observable.just(PaymentQRScanReactor.Action.loadChargingQR(""))
+            .bind(to: _reactor.action)
+            .disposed(by: self.disposeBag)
     }
     
-    func found(code: String) {
-        reactor?.readerComplete(status: .success(code))
+    func found(qrData: String) {
+        guard let _reactor = self.reactor else { return }
+        Observable.just(PaymentQRScanReactor.Action.loadChargingQR(qrData))
+            .bind(to: _reactor.action)
+            .disposed(by: self.disposeBag)
     }
 }
 
@@ -135,7 +136,7 @@ extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
             }
 
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            found(code: stringValue)
+            found(qrData: stringValue)
         }
     }
 }

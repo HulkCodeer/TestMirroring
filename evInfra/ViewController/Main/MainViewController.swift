@@ -1477,7 +1477,7 @@ extension MainViewController {
                 self.btn_main_charge.alignTextUnderImage()
                 self.btn_main_charge.tintColor = Colors.gr8.color
                 self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
-                self.btn_main_charge.setTitle("간편 충전", for: .normal)
+                self.btn_main_charge.setTitle("QR충전", for: .normal)
             }
         }
     }
@@ -1519,7 +1519,7 @@ extension MainViewController {
             self.btn_main_charge.alignTextUnderImage()
             self.btn_main_charge.tintColor = UIColor(named: "gr-8")
             self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            self.btn_main_charge.setTitle("간편 충전", for: .normal)
+            self.btn_main_charge.setTitle("QR충전", for: .normal)
             
         default: break
         }

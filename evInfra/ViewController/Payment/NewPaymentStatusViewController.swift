@@ -901,8 +901,8 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         var title = "충전 종료 및 결제하기"
         var msg = "확인 버튼을 누르면 충전이 종료됩니다."
         if chargingStatus.status == STATUS_READY {
-            title = "충전 취소";
-            msg = "확인 버튼을 누르면 충전이 취소됩니다.";
+            title = "충전 취소"
+            msg = "확인 버튼을 누르면 충전이 취소됩니다."
         }
     
         let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
@@ -1165,6 +1165,21 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
             } else {
                 updateChargingStatus()
             }
+            
+        case 2002:
+            let popupModel = PopupModel(title: "오류 안내",
+                                        message: "충전 상태가 없어 화면을 불러올 수 없습니다.\n결제 오류 발생 시 고객센터로 문의주세요.",
+                                        confirmBtnTitle: "나가기", cancelBtnTitle: "고객센터 문의하기", confirmBtnAction: {
+                GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+            }, cancelBtnAction: {
+                guard let number = URL(string: "tel://070-8633-9009") else { return }
+                UIApplication.shared.open(number)
+            } , textAlignment: .center)
+            
+            let popup = VerticalConfirmPopupViewController(model: popupModel)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+            })
         
         default: // error
             Snackbar().show(message: chargingStatus.msg ?? "")

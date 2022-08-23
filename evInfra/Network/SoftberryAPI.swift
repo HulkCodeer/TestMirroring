@@ -28,6 +28,7 @@ protocol SoftberryAPI: class {
     func countEventAction(eventId: [String], action: Promotion.Action) -> Disposable
     func postPaymentStatus() -> Observable<(HTTPURLResponse, Data)>
     func postChargingQR(qrCode: String) -> Observable<(HTTPURLResponse, Data)>
+    func postChargingQR(qrCode: String, tc: String) -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
