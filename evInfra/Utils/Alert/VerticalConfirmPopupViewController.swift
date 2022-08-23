@@ -106,8 +106,7 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
         }
         
         buttonStackView.snp.makeConstraints {
-            $0.width.equalToSuperview()
-            $0.height.equalTo(104)
+            $0.width.equalToSuperview()            
         }
         
         self.titleLabel.text = self.popupModel.title

@@ -793,7 +793,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         
         paymentInfoMarginTotalView.addSubview(estimatedWonLbl)
         estimatedWonLbl.snp.makeConstraints {
-            $0.centerY.equalTo(estimatedLbl.snp.centerY)
+            $0.centerY.equalTo(estimatedTitleLbl.snp.centerY)
             $0.trailing.equalToSuperview()
             $0.height.equalTo(20)
         }
