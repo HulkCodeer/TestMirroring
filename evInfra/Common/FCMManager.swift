@@ -80,7 +80,7 @@ internal final class FCMManager {
         if let viewController = _mainNavi.visibleViewController {
             // 여기다가 뷰컨트롤러가 이거일 경우... 저거일 경우... 고고씡
             if let targetId = targetId {
-                if targetId == FCMManager.TARGET_CHARGING && String(describing: viewController).contains("PaymentStatusViewController") {
+                if targetId == FCMManager.TARGET_CHARGING && String(describing: viewController).contains("NewPaymentStatusViewController") {
                     let center = NotificationCenter.default
                     center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: notification.request.content.userInfo)
                 } else {
@@ -373,17 +373,19 @@ internal final class FCMManager {
                 _mainNavi.push(viewController: paymentResultVC)
             } else {
                 if let viewController = _mainNavi.visibleViewController {
-                    if !String(describing: viewController).contains("PaymentStatusViewController") {
-                        let paymentStatusVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
-                        paymentStatusVC.cpId = cpId
-                        paymentStatusVC.connectorId = connectorId
+                    if !String(describing: viewController).contains("NewPaymentStatusViewController") {
+                        let reactor = PaymentStatusReactor(provider: RestApi())
+                        let viewcon = NewPaymentStatusViewController(reactor: reactor)
+                        viewcon.cpId = cpId
+                        viewcon.connectorId = connectorId
                         
-                        _mainNavi.push(viewController: paymentStatusVC)
+                        _mainNavi.push(viewController: viewcon)
                     } else {
                         center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: data)
                     }
                 } else {
-                    let paymentStatusVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
+                    let reactor = PaymentStatusReactor(provider: RestApi())
+                    let paymentStatusVC = NewPaymentStatusViewController(reactor: reactor)
                     _mainNavi.push(viewController: paymentStatusVC)
                 }
             }

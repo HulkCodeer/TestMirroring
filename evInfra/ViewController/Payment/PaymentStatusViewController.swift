@@ -11,7 +11,7 @@ import SwiftyJSON
 import Material
 import M13Checkbox
 
-class PaymentStatusViewController: UIViewController {
+internal class PaymentStatusViewController: UIViewController {
 
     let STATUS_READY = 0
     let STATUS_START = 1

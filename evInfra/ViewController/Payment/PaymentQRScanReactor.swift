@@ -173,6 +173,13 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                     GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                 })
                 
+            case 8804: // 미수금
+                let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                
+            case 8145: // PG사 기타 오류
+                break
+                
             case 1101: // 회원카드 없는 멤버
                 let popupModel = PopupModel(title: "회원카드 발급이 필요해요",
                                             message: "회원카드 발급 전에는\n한국전력 QR 충전을 이용할 수 없어요.",
@@ -201,6 +208,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                     GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                 })
+                
+            case 2006: break
                 
             case 2007: // 시범 운영중
                 let popupModel = PopupModel(title: "알림",

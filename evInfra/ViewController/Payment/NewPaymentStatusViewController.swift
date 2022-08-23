@@ -33,7 +33,6 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     }
     
     private lazy var nextBtn = RectButton(level: .primary).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("충전 대기중", for: .normal)
         $0.setTitle("충전 대기중", for: .disabled)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
@@ -378,11 +377,8 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     
     private var chargingStartTime = ""
     private var isStopCharging = false
-
-    private var cpId: String = ""
-    private var connectorId: String = ""
     private var chargingStatus = ChargingStatus.init()
-    
+        
     // 충전속도 계산
     private var preChargingKw: String = ""
     private var preUpdateTime: String = ""
@@ -393,6 +389,9 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     private var prevAlwaysUsePoint = 0 // 설정이 변경되었을 경우 되돌릴 설정베리값
     
     private var timer = Timer()
+    
+    internal var cpId: String = ""
+    internal var connectorId: String = ""
     
     // MARK: - SYSTEM FUNC
     

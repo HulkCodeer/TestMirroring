@@ -114,7 +114,7 @@ internal final class MainViewController: UIViewController {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-        requestStationInfo()
+//        requestStationInfo()
         
         prepareCalloutLayer()                
     }
@@ -1398,12 +1398,14 @@ extension MainViewController {
         switch (response["code"].intValue) {
         case 1000:
             defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
-            let paymentStatusViewController = paymentStoryboard.instantiateViewController(ofType: PaymentStatusViewController.self)
-
-            paymentStatusViewController.cpId = response["cp_id"].stringValue
-            paymentStatusViewController.connectorId = response["connector_id"].stringValue
+//            let reactor = PaymentStatusReactor(provider: RestApi())
+//            let viewcon = NewPaymentStatusViewController(reactor: reactor)
+            let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
+            viewcon.cpId = response["cp_id"].stringValue
+            viewcon.connectorId = response["connector_id"].stringValue
             
-            GlobalDefine.shared.mainNavi?.push(viewController: paymentStatusViewController)
+            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            
         case 2002:
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
             if response["pay_code"].stringValue.equals("8804") {
@@ -1434,13 +1436,9 @@ extension MainViewController {
     }
     
     private func movePaymentQRScan() {
-        _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
-        
-//        let viewcon = UIStoryboard(name : "Payment", bundle: nil).instantiateViewController(ofType: PaymentQRScanViewController.self)
+        _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()        
         let reactor = PaymentQRScanReactor(provider: RestApi())
         let viewcon = NewPaymentQRScanViewController(reactor: reactor)
-//        let reactor = PaymentStatusReactor(provider: RestApi())
-//        let viewcon = NewPaymentStatusViewController(reactor: reactor)
         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     

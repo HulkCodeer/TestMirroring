@@ -39,9 +39,12 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     
     private lazy var qrReaderView = QRReaderView()
     
-    private lazy var dimmedView = UIView()
-        .then {
+    private lazy var dimmedView = UIView().then {
         $0.backgroundColor = .black.withAlphaComponent(0.4)
+    }
+    
+    private lazy var holeView = UIView().then {
+        $0.backgroundColor = .clear
     }
     
     private lazy var guideLbl = UILabel().then {
@@ -95,6 +98,13 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             $0.leading.bottom.trailing.equalToSuperview()
         }
         
+        self.contentView.addSubview(holeView)
+        holeView.snp.makeConstraints {
+            $0.center.equalTo(dimmedView.snp.center)
+            $0.width.equalTo(265)
+            $0.height.equalTo(264)
+        }
+        
         self.contentView.addSubview(stationGuideLbl)
         stationGuideLbl.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom).offset(47)
@@ -117,7 +127,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         self.contentView.addSubview(qrBoxImgView)
         qrBoxImgView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.height.equalTo(216)
+            $0.width.height.equalTo(189)
         }
         
         self.contentView.addSubview(guideLbl)
@@ -162,19 +172,6 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                 })
             })
             .disposed(by: self.disposeBag)
-                        
-        let radius: CGFloat = dimmedView.bounds.size.width
-        let path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height), cornerRadius: 0)
-        let circlePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 2 * radius, height: 2 * radius), cornerRadius: radius)
-        path.append(circlePath)
-        path.usesEvenOddFillRule = true
-
-        let fillLayer = CAShapeLayer()
-        fillLayer.path = path.cgPath
-        fillLayer.fillRule = kCAFillRuleEvenOdd
-        fillLayer.fillColor = view.backgroundColor?.cgColor
-        fillLayer.opacity = 0.5
-        dimmedView.layer.addSublayer(fillLayer)
     }
                     
     override func viewWillAppear(_ animated: Bool) {
@@ -204,8 +201,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             .map { PaymentQRScanReactor.Action.loadTestChargingQR(self.tcTf.text ?? "" ) }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
-            
-        
+                    
         switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
         case (false, false): // 신규유저
             let tempText = "한국 전력과 GS칼텍스에서\nQR 충전을 할 수 있어요"
@@ -288,18 +284,20 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         reactor.state.compactMap { $0.isPaymentFineUser }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj,_ in
+                let shapeLayer = CAShapeLayer()
+                shapeLayer.frame = obj.dimmedView.bounds
+                shapeLayer.fillRule = kCAFillRuleEvenOdd
+
+                let path = UIBezierPath(rect: obj.dimmedView.bounds)
+                path.append(UIBezierPath(rect: CGRect(x: obj.holeView.frame.origin.x, y: obj.holeView.frame.origin.y - 56, width: obj.holeView.bounds.width, height: obj.holeView.bounds.height)))
+                shapeLayer.path = path.cgPath
+
+                obj.dimmedView.layer.mask = shapeLayer
+                
                 obj.qrReaderView.makeUIWithStart()
             }
             .disposed(by: self.disposeBag)
-    }
-          
-    private func startCharging() {
-        let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
-//        viewcon.cpId = self.cpId!
-//        viewcon.connectorId = self.connectorId!
-        
-        GlobalDefine.shared.mainNavi?.push(viewController: viewcon, transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
-    }
+    }          
 }
 
 extension NewPaymentQRScanViewController: RepaymentListDelegate {
