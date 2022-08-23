@@ -191,7 +191,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         let endDateObseervable = reactor.state.compactMap { $0.endDate }
         
         Observable.combineLatest(pointTypeObservable, startDateObservable, endDateObseervable)
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .map { Reactor.Action.loadPointHistory(type: $0, startDate: $1, endDate: $2) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -206,13 +206,11 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         let endDateObservable = reactor.state.compactMap { $0.endDate }
 
         totalPointObservable
-            .debug()
             .asDriver(onErrorJustReturn: "0")
             .drive(myPointLabel.rx.text)
             .disposed(by: disposeBag)
         
         expirePointObservable
-            .debug()
             .asDriver(onErrorJustReturn: "0")
             .map { "\($0) 베리" }
             .drive(with: self) { owner, impendText in
@@ -222,7 +220,6 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .disposed(by: disposeBag)
         
         evPointsObservable
-            .debug()
             .asDriver(onErrorJustReturn: [])
             .drive(pointTableView.rx.items(
                 cellIdentifier: PointHistoryTableViewCell.identifier,
@@ -236,7 +233,6 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .disposed(by: disposeBag)
         
         evPointsCountObservable
-            .debug()
             .asDriver(onErrorJustReturn: 0)
             .map { $0 <= 0 }
             .drive(with: self) { owner, isEmpty in
@@ -246,7 +242,6 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .disposed(by: disposeBag)
         
         startDateObservable
-            .debug()
             .asDriver(onErrorJustReturn: Date())
             .drive(with: self) { owner, date in
                 let dateTitle = date.toYearMonthDay()
@@ -256,7 +251,6 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .disposed(by: disposeBag)
         
         endDateObservable
-            .debug()
             .asDriver(onErrorJustReturn: Date())
             .map { $0.toYearMonthDay() }
             .drive(with: self) { owner, dateStr in
@@ -402,19 +396,9 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     private func makePointTypeButton(reactor: PointHistoryReactor) {
         let buttonTypes = EvPoint.PointType.allCases
         var buttons = [EvPoint.PointType: SwitchColorButton]()
+        
+        for pointType in buttonTypes {
 
-        for (index, pointType) in buttonTypes.enumerated() {
-            let round: SwitchColorButton.Const.RoundType = {
-                switch index {
-                case 0:
-                    return .sectionRound(.left)
-                case buttonTypes.count - 1:
-                    return .sectionRound(.right)
-                default:
-                    return .none
-                }
-            }()
-            
             let button = SwitchColorButton().then {
                 $0.setTitle(pointType.value, for: .normal)
             }
@@ -427,7 +411,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             
             reactor.state.compactMap { $0.pointType}
                 .asDriver(onErrorJustReturn: .all)
-                .drive { button.isSelected = pointType == $0 }
+                .map { $0 == pointType}
+                .drive (button.rx.isSelected)
                 .disposed(by: disposeBag)
             
             buttons[pointType] = button
