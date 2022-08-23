@@ -553,6 +553,7 @@ extension UIView {
         case bottom
         case left
         case right
+        case all
         
         var mask: CACornerMask {
             switch self {
@@ -564,6 +565,8 @@ extension UIView {
                 return [.layerMinXMinYCorner, .layerMinXMaxYCorner]
             case .right:
                 return [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+            case .all:
+                return [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
             }
         }
     }

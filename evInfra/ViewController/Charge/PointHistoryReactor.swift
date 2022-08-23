@@ -18,20 +18,24 @@ internal class PointHistoryReactor: ViewModel, Reactor {
         case loadPointInfo      
         case loadPointHistory(type: EvPoint.PointType, startDate: Date, endDate: Date)
         case setPointType(EvPoint.PointType)
+        case setStartDate(Date)
+        case setEndDate(Date)
     }
     
     enum Mutation {
         case setPointInfo(PointType)
         case setPoints(EvPoint.PointType, [EvPoint])
         case setPointType(EvPoint.PointType)
-        case setChangePointType(Bool)
+        case setStartDate(Date)
+        case setEndDate(Date)
     }
     
     struct State {
         var totalPoint: String?
         var expirePoint: String?
         var pointType: EvPoint.PointType? = .all
-        var isChangePointType: Bool?
+        var startDate: Date? = Date()
+        var endDate: Date? = Date()
         
         var evPointsViewItems: [PointViewItem] = []
         var evPointsCount: Int = 0
@@ -64,8 +68,13 @@ internal class PointHistoryReactor: ViewModel, Reactor {
                 .map { return .setPoints(type, $0.points) }
             
         case let .setPointType(pointType):
-            return .concat(.just(.setPointType(pointType)),
-                .just(.setChangePointType(true)))
+            return .just(.setPointType(pointType))
+            
+        case let .setStartDate(date):
+            return .just(.setStartDate(date))
+            
+        case let .setEndDate(date):
+            return .just(.setEndDate(date))
         }
     }
     
@@ -75,7 +84,8 @@ internal class PointHistoryReactor: ViewModel, Reactor {
         newState.totalPoint = nil
         newState.expirePoint = nil
         newState.pointType = nil
-        newState.isChangePointType = nil
+        newState.startDate = nil
+        newState.endDate = nil
         
         switch mutation {
         case let .setPoints(type, points):
@@ -89,12 +99,15 @@ internal class PointHistoryReactor: ViewModel, Reactor {
             newState.evPointsCount = evPointViewItems.count
             newState.totalPoint = pointHistory.totalPoint
             newState.expirePoint = pointHistory.expirePoint
-            newState.pointType = state.pointType
+            newState.pointType = self.initialState.pointType
         case let.setPointType(pointType):
             newState.pointType = pointType
             
-        case let.setChangePointType(isChangePointType):
-            newState.isChangePointType = isChangePointType
+        case let.setStartDate(date):
+            newState.startDate = date
+            
+        case let .setEndDate(date):
+            newState.endDate = date
         }
         
         return newState

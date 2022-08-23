@@ -63,8 +63,9 @@ internal class DatePickerView: UIView {
     }
     
     private func setUI() {
-        
+        self.backgroundColor = Colors.backgroundPrimary.color
         self.frame.size = .init(width: UIScreen.main.bounds.width, height: 140)
+        
         self.addSubview(line)
         self.addSubview(customToolbar)
         self.addSubview(datePicker)
