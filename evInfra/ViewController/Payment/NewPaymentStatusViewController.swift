@@ -980,14 +980,13 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     }
     
     private func savePoint(point: Int) {
-        if point != willUsePoint && point >= 0 {
-            Server.usePoint(point: point) { (isSuccess, value) in
-                if isSuccess {
-                    let json = JSON(value)
-                    self.responseUsePoint(response: json)
-                } else {
-                    Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료 후 재시도 바랍니다.")
-                }
+        guard point != willUsePoint && point >= 0 else { return }
+        Server.usePoint(point: point) { (isSuccess, value) in
+            if isSuccess {
+                let json = JSON(value)
+                self.responseUsePoint(response: json)
+            } else {
+                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료 후 재시도 바랍니다.")
             }
         }
     }

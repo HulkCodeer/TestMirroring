@@ -95,7 +95,18 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 return true
                 
             case .PAY_NO_USER, .PAY_NO_CARD_USER:
-                self.showRegisterCardDialog()
+                let popupModel = PopupModel(title: "결제정보를 등록해야 해요",
+                                            message: "회원카드를 발급 해야 한국전력, GS칼텍스의 QR 충전을 이용할 수 있어요.",
+                                            confirmBtnTitle: "회원카드 발급하기", cancelBtnTitle: "닫기",
+                                            confirmBtnAction: {
+                    let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                }, textAlignment: .center)
+                
+                let popup = VerticalConfirmPopupViewController(model: popupModel)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
                 return false
                 
             case .PAY_DEBTOR_USER:
