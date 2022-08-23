@@ -129,13 +129,14 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         case .success(let data):
             let json = JSON(data)
             let code = json["code"].intValue
-            let msg = json["msg"].stringValue
             
             switch code {
-            case 8800: // 정상 유저
-                return true
-                
-                                
+            case 1000: // 정상 유저
+                let reactor = PaymentStatusReactor(provider: RestApi())
+                let viewcon = NewPaymentStatusViewController(reactor: reactor)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                return nil
+                                                
             case 8801: // 결제 정보 등록 안된 회원
                 let popupModel = PopupModel(title: "결제정보를 등록해야 해요",
                                             message: "회원카드를 발급 해야 한국전력, GS칼텍스의 QR 충전을 이용할 수 있어요.",
