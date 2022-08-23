@@ -321,7 +321,7 @@ extension BoardDetailViewController: UITableViewDataSource {
 // MARK: - 게시글/댓글 수정+삭제+신고 기능
 extension BoardDetailViewController {
     private func prepareSharingForKakao(with document: Document) {
-        linkShareManager.sendToKakaoWithBoard(with: document)
+        linkShareManager.sendToKakao(with: document)
     }
     
     private func deleteBoard() {

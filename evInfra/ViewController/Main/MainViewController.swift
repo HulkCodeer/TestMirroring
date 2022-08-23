@@ -1138,7 +1138,7 @@ extension MainViewController {
         summaryView.setCallOutFavoriteIcon(favorite: changed)
     }
     
-    private func selectChargerFromShared() {
+    internal func selectChargerFromShared() {
         if let id = self.sharedChargerId {
             self.selectCharger(chargerId: id)
             self.sharedChargerId = nil

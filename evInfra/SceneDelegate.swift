@@ -29,6 +29,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.handleUserActivity(userActivity: userActivity)
         }
         
+        if let url = connectionOptions.urlContexts.first?.url, let deepLinkType = url.valueOf("kakaoLinkType") {
+            switch deepLinkType {
+            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.charger.value:
+                guard let chargerId = url.valueOf("charger_id") else { return }
+                DeepLinkPath.sharedInstance.linkPath = DeepLinkPath.DynamicLinkUrlPathType.kakaolink(.charger).value
+                DeepLinkPath.sharedInstance.linkParameter = [URLQueryItem(name: "charger_id", value: chargerId)]
+                DeepLinkPath.sharedInstance.runDeepLink()
+            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.board.value:
+                guard let mid = url.valueOf("mid"), let documentSrl = url.valueOf("document_srl") else { return }
+                DeepLinkPath.sharedInstance.linkPath = DeepLinkPath.DynamicLinkUrlPathType.kakaolink(.board).value
+                DeepLinkPath.sharedInstance.linkParameter = [URLQueryItem(name: "mid", value: mid),
+                                                             URLQueryItem(name: "documentSrl", value: documentSrl)]
+                DeepLinkPath.sharedInstance.runDeepLink()
+            default: break
+            }
+        }
+        
         setupEntryController(scene)
     }
 
@@ -46,10 +63,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if KOSession.isKakaoAccountLoginCallback(url.absoluteURL) {
             KOSession.handleOpen(url)
         }
-        
-        if url.absoluteString.hasPrefix("evinfra") {
-            
+
+        if let deepLinkType = url.valueOf("kakaoLinkType") {
+            switch deepLinkType {
+            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.charger.value:
+                guard let chargerId = url.valueOf("charger_id") else { return }
+                NotificationCenter.default.post(name: Notification.Name("kakaoScheme"), object: nil, userInfo: ["sharedid": chargerId])
+            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.board.value:
+                guard let mid = url.valueOf("mid"), let documentSrl = url.valueOf("document_srl") else { return }
+                DeepLinkPath.sharedInstance.linkPath = DeepLinkPath.DynamicLinkUrlPathType.kakaolink(.board).value
+                DeepLinkPath.sharedInstance.linkParameter = [URLQueryItem(name: "mid", value: mid),
+                                                             URLQueryItem(name: "documentSrl", value: documentSrl)]
+                DeepLinkPath.sharedInstance.runDeepLink()
+            default: break
+            }
         }
+        
+        if url.absoluteString.hasPrefix("evinfra") {}
     }
     
     private func setupEntryController(_ scene: UIScene) {
