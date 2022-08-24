@@ -134,7 +134,7 @@ internal final class MainViewController: UIViewController {
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
                         
         
-        guard isShowEasyTips else { return }
+        guard !isShowEasyTips else { return }
         
         var preferences = EasyTipView.Preferences()
         
@@ -155,14 +155,12 @@ internal final class MainViewController: UIViewController {
                          withinSuperview: self.view,
                          text: text,
                          preferences: preferences)
-        
-        isShowEasyTips = true
+                
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)    
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
-        _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
     }
     
     private func showDeepLink() {
@@ -307,7 +305,13 @@ internal final class MainViewController: UIViewController {
         GlobalDefine.shared.mainNavi?.push(viewController: priceInfoViewController)
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard !isShowEasyTips else { return }
+        _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
+    }
+    
     // MARK: - Action for button
+    
     @IBAction func onClickMyLocation(_ sender: UIButton) {
         guard isLocationEnabled() else {
             askPermission()
@@ -1457,7 +1461,6 @@ extension MainViewController {
     }
     
     private func movePaymentQRScan() {
-        _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()        
         let reactor = PaymentQRScanReactor(provider: RestApi())
         let viewcon = NewPaymentQRScanViewController(reactor: reactor)
         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)

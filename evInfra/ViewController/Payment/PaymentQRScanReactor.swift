@@ -201,7 +201,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
             case 8145: // PG사 기타 오류
-                break
+                Snackbar().show(message: "\(msg)")
                 
             case 1101: // 회원카드 없는 멤버
                 let popupModel = PopupModel(title: "\(title)",
@@ -232,7 +232,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                     GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                 })
                 
-            case 2006: break
+            case 2006:
+                Snackbar().show(message: "\(msg)")
                 
             case 2007: // 시범 운영중
                 let popupModel = PopupModel(title: "\(title)",
