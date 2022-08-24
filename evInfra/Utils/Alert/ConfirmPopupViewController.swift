@@ -19,8 +19,9 @@ struct PopupModel {
     let confirmBtnAction: (() -> Void)?
     let cancelBtnAction: (() -> Void)?
     var messageTextAlignment: NSTextAlignment = .center
+    let dimmedBtnAction: (() -> Void)?
     
-    init(title: String? = nil, message: String = "",  confirmBtnTitle: String? = nil, cancelBtnTitle: String? = nil, confirmBtnAction: (() -> Void)? = nil, cancelBtnAction: (() -> Void)? = nil, textAlignment: NSTextAlignment = .center) {
+    init(title: String? = nil, message: String = "",  confirmBtnTitle: String? = nil, cancelBtnTitle: String? = nil, confirmBtnAction: (() -> Void)? = nil, cancelBtnAction: (() -> Void)? = nil, textAlignment: NSTextAlignment = .center, dimmedBtnAction: (() -> Void)? = nil) {
         self.title = title
         self.message = message
         self.confirmBtnTitle = confirmBtnTitle
@@ -28,6 +29,7 @@ struct PopupModel {
         self.confirmBtnAction = confirmBtnAction
         self.cancelBtnAction = cancelBtnAction
         self.messageTextAlignment = textAlignment
+        self.dimmedBtnAction = dimmedBtnAction
     }
 }
 

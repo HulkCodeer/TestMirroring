@@ -225,7 +225,11 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                                         confirmBtnAction: {
                 let viewcon = MembershipGuideViewController()
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                }, textAlignment: .center)
+            }, cancelBtnAction: {
+                GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+            }, textAlignment: .center, dimmedBtnAction: {
+                GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+            })
             
             let popup = VerticalConfirmPopupViewController(model: popupModel)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {

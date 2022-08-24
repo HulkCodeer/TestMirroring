@@ -245,20 +245,21 @@ internal final class MemberManager {
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {
         
-        let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
-            guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
-            let loginVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(ofType: LoginViewController.self)
-            _mainNavi.push(viewController: loginVC)
-                        
-            completion?(true)
-        })
-        
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler:{ (ACTION) -> Void in
-            completion?(false)
-        })
-        
-        UIAlertController.showAlert(title: "로그인 필요", message: "로그인 후 사용가능합니다.\n로그인 하시려면 확인버튼을 누르세요.", actions: [ok, cancel])
-        
+        let popupModel = PopupModel(title: "로그인이 필요해요",
+                                    message:"해당 서비스는 로그인 후 이용할 수 있어요.\n아래 버튼을 눌러 로그인을 해주세요.",
+                                    confirmBtnTitle: "로그인 하기",
+                                    cancelBtnTitle: "닫기",
+                                    confirmBtnAction: {
+                                        let loginVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(ofType: LoginViewController.self)
+                                        GlobalDefine.shared.mainNavi?.push(viewController: loginVC)
+                                                    
+                                        completion?(true)
+                                    },
+                                    cancelBtnAction: {
+                                        completion?(false)
+                                    })
+        let popup = ConfirmPopupViewController(model: popupModel)
+        GlobalDefine.shared.mainNavi?.present(popup, animated: true, completion: nil)
     }
     
     internal func tryToLoginCheck(success: ((Bool) -> Void)? = nil) {

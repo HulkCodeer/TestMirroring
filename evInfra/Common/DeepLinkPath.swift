@@ -119,8 +119,7 @@ internal final class DeepLinkPath {
                 if _mainNav.containsViewController(ofKind: EventViewController.self) ||
                     _mainNav.containsViewController(ofKind: EventContentsViewController.self) {
                     let _viewControllers = _mainNav.viewControllers
-                    for vc in _viewControllers.reversed() {
-                        printLog(out: "PARK TEST : \(vc)")
+                    for vc in _viewControllers.reversed() {                        
                         if let _vc = vc as? AppNavigationDrawerController {
                             _mainNav.popToViewControllerWithHandler(vc: _vc, completion: { [weak self] in
                                 guard let self = self else { return }

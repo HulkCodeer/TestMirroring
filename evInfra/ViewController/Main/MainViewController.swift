@@ -161,6 +161,9 @@ internal final class MainViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)    
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
+        guard !isShowEasyTips else { return }
+        _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
+        isShowEasyTips = true
     }
     
     private func showDeepLink() {
@@ -308,6 +311,7 @@ internal final class MainViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard !isShowEasyTips else { return }
         _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
+        isShowEasyTips = true
     }
     
     // MARK: - Action for button

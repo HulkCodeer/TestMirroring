@@ -118,10 +118,9 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
                                           titleColor: Colors.contentOnColor.color)
             confirmBtn.rx.tap
                 .asDriver()
-                .drive(onNext: { [weak self] _ in
-                    guard let self = self else { return }
-                    self.dismissPopup(actionBtnType: .ok)
-                })
+                .drive(with: self){ obj,_ in
+                    obj.dismissPopup(actionBtnType: .ok)
+                }
                 .disposed(by: self.disposebag)
             buttonStackView.addArrangedSubview(confirmBtn)
             confirmBtn.snp.makeConstraints {
@@ -137,11 +136,11 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
             cancelBtn.IBborderColor = Colors.borderOpaque.color
             cancelBtn.rx.tap
                 .asDriver()
-                .drive(onNext: { [weak self] _ in
-                    guard let self = self else { return }
-                    self.dismissPopup(actionBtnType: .cancel)
-                })
+                .drive(with: self){ obj,_ in
+                    obj.dismissPopup(actionBtnType: .cancel)
+                }
                 .disposed(by: self.disposebag)
+            
             buttonStackView.addArrangedSubview(cancelBtn)
             cancelBtn.snp.makeConstraints {
                 $0.height.equalTo(48)
@@ -150,11 +149,14 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
         
         dimmedBtn.rx.tap
             .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.dismiss(animated: true)
-                
-            })
+            .drive(with: self){ obj,_ in
+                if let _dimmedAction = self.popupModel.dimmedBtnAction {
+                    obj.dismissPopup(actionBtnType: .cancel)
+                    _dimmedAction()
+                } else {
+                    obj.dismiss(animated: true)
+                }
+            }
             .disposed(by: self.disposebag)
         
         descriptionLabel.textAlignment = self.popupModel.messageTextAlignment
