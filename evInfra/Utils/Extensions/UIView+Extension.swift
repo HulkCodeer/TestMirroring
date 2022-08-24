@@ -536,38 +536,25 @@ extension UIView {
     }
     
     func roundCorners(
-        cornerType type: CornerRadiusType,
+        cornerType type: [CornerRadiusType],
         radius: CGFloat,
         borderColor: CGColor,
         borderWidth: CGFloat
     ) {
-        self.layer.borderColor = borderColor
-        self.layer.borderWidth = 1
+        self.IBborderColor = borderColor
+        self.IBborderWidth = 1
         
-        self.layer.cornerRadius = radius
-        self.layer.maskedCorners = type.mask
+        self.IBcornerRadius = radius
+        self.layer.maskedCorners = [type.contains(.topLeft) ? .layerMinXMinYCorner : .init(),
+                                    type.contains(.topRight) ? .layerMaxXMinYCorner : .init(),
+                                    type.contains(.bottomLeft) ? .layerMinXMaxYCorner : .init(),
+                                    type.contains(.bottomRight) ? .layerMaxXMaxYCorner : .init()]
     }
     
     enum CornerRadiusType {
-        case top
-        case bottom
-        case left
-        case right
-        case all
-        
-        var mask: CACornerMask {
-            switch self {
-            case .top:
-                return [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            case .bottom:
-                return [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-            case .left:
-                return [.layerMinXMinYCorner, .layerMinXMaxYCorner]
-            case .right:
-                return [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-            case .all:
-                return [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-            }
-        }
+        case topLeft
+        case topRight
+        case bottomLeft
+        case bottomRight                
     }
 }
