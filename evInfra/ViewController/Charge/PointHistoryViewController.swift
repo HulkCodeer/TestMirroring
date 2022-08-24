@@ -124,9 +124,9 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         
         $0.clipsToBounds = true
         $0.roundCorners(
-            cornerType: [.topLeft, .topRight, .bottomLeft, .bottomRight],
+            cornerType: .all,
             radius: 8,
-            borderColor: UIColor(hex: "#CECECE"),
+            borderColor: UIColor(hex: "#CECECE").cgColor,
             borderWidth: 1)
     }
     
