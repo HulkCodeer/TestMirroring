@@ -20,7 +20,7 @@ class MyWritingViewController: BaseViewController {
     var currentPage = 0
     var lastPage: Bool = false
     var communityBoardList: [BoardListItem] = [BoardListItem]()
-    var boardCategory = ""
+    var boardCategory: Board.CommunityType = .FREE
     var screenType = Board.ScreenType.LIST
     
     override func loadView() {
@@ -34,7 +34,6 @@ class MyWritingViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "내가 쓴 글 화면"
         prepareTabItem()
         boardTableView.tableViewDelegate = self
         boardTableView.separatorColor = UIColor(rgb: 0xE4E4E4)
@@ -54,15 +53,15 @@ class MyWritingViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Recalculates height
-        fetchFirstBoard(mid: boardCategory, sort: Board.SortType.LATEST, mode: screenType.rawValue)
+        fetchFirstBoard(mid: boardCategory.rawValue, sort: Board.SortType.LATEST, mode: screenType.rawValue)
     }
 }
 
 extension MyWritingViewController {
     func prepareTabItem() {
-        if (boardCategory.elementsEqual(Board.CommunityType.FREE.rawValue)) {
+        if boardCategory == .FREE {
             tabItem.title = "자유게시판"
-        } else if (boardCategory.elementsEqual(Board.CommunityType.CHARGER.rawValue)) {
+        } else if boardCategory == .CHARGER {
             tabItem.title = "충전소게시판"
         }
         

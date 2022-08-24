@@ -42,7 +42,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     var selectedImages: [UIImage] = [] 
     var uploadedImages: [FilesItem]? = []
     var chargerInfo: [String: String] = [:]
-    var category = Board.CommunityType.FREE.rawValue
+    var category: Board.CommunityType = .FREE
     var document: Document?
     var popCompletion: (() -> Void)?
     let cropper = UIImageCropper(cropRatio: 100/115)
@@ -50,7 +50,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "게시판 글 작성 화면"
+        
         setUI()
         bind()
         boardWriteViewModel.subscribe { [weak self] isEnable in
@@ -101,7 +101,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                         self.activityIndicator.startAnimating()
                         self.completeButton.isEnabled = false
 
-                        self.boardWriteViewModel.updateBoard(self.category,
+                        self.boardWriteViewModel.updateBoard(self.category.rawValue,
                                                              document.document_srl!,
                                                              title,
                                                              contents,
@@ -138,7 +138,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
                         self.activityIndicator.startAnimating()
                         self.completeButton.isEnabled = false
 
-                        self.boardWriteViewModel.postBoard(self.category,
+                        self.boardWriteViewModel.postBoard(self.category.rawValue,
                                                            title,
                                                            contents,
                                                            self.chargerInfo["chargerId"] ?? "",
@@ -171,7 +171,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
         self.cropper.delegate = self
         
         // 충전소 검색 버튼
-        if category.equals(Board.CommunityType.CHARGER.rawValue) {
+        if category == .CHARGER {
             chargeStationStackView.isHidden = false
         } else {
             chargeStationStackView.isHidden = true
@@ -345,7 +345,7 @@ extension BoardWriteViewController: UICollectionViewDelegate {
                     self.photoCollectionView.reloadData()
                 }
                 
-                if self.category.equals(Board.CommunityType.CHARGER.rawValue) {
+                if self.category == .CHARGER {
                     let stationName = self.stationSearchButton.titleLabel?.text
                     self.boardWriteViewModel.bindInputText(self.titleTextView.text, self.contentsTextView.text, stationName)
                 } else {
@@ -439,7 +439,7 @@ extension BoardWriteViewController: UITextViewDelegate {
             break
         }
         
-        if category.equals(Board.CommunityType.CHARGER.rawValue) {
+        if category == .CHARGER {
             let stationName = stationSearchButton.titleLabel?.text
             boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, stationName)
         } else {
@@ -458,7 +458,7 @@ extension BoardWriteViewController: UIImageCropperProtocol {
             self.photoCollectionView.reloadData()
         }
         
-        if category.equals(Board.CommunityType.CHARGER.rawValue) {
+        if category == .CHARGER {
             let stationName = stationSearchButton.titleLabel?.text
             boardWriteViewModel.bindInputText(titleTextView.text, contentsTextView.text, stationName)
         } else {

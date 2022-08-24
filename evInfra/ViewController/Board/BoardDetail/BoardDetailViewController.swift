@@ -14,7 +14,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     
     @IBOutlet var detailTableView: UITableView!
     
-    var category = Board.CommunityType.FREE.rawValue
+    var category: Board.CommunityType = .FREE
     var document_srl: String = ""
     var detail: BoardDetailResponseData? = nil
     var recomment: Recomment?
@@ -30,7 +30,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "게시판 상세 화면"
+        
         fetchData()
         setConfiguration()
         prepareActionBar(with: "")
@@ -48,7 +48,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     }
     
     private func fetchData() {
-        boardDetailViewModel.fetchBoardDetail(mid: category, document_srl: document_srl)
+        boardDetailViewModel.fetchBoardDetail(mid: category.rawValue, document_srl: document_srl)
         boardDetailViewModel.listener = { [weak self] detail in
             guard let self = self else { return }
             
@@ -131,7 +131,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
                 
                 let selectedImage = self.keyboardInputView?.selectedImageView.image
                 
-                var commentParamters = CommentParameter(mid: self.category,
+                var commentParamters = CommentParameter(mid: self.category.rawValue,
                                                         documentSRL: detail.document!.document_srl!,
                                                         comment: nil,
                                                         text: text,

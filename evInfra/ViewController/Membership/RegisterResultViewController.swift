@@ -43,7 +43,6 @@ class RegisterResultViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "롯데렌터카/SK렌터카 인증 완료/실패 화면"
         prepareActionBar()
         initView()
     }

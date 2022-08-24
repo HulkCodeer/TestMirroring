@@ -27,7 +27,7 @@ internal final class SearchAddressViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "주소 검색 화면"
+        
         prepareActionBar()
         if let url = URL(string: Const.EV_PAY_SERVER  + "/search/address") {
             mWebView.load(URLRequest(url: url))

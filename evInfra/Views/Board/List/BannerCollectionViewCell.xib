@@ -20,7 +20,7 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PL2-d3-OV6">
                         <rect key="frame" x="0.0" y="0.0" width="328" height="68"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="68" id="hJ9-lr-wEO"/>
+                            <constraint firstAttribute="width" secondItem="PL2-d3-OV6" secondAttribute="height" multiplier="328:68" id="dh1-A2-vV8"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="motionIdentifier" value="BannerCollectionViewCell"/>

@@ -21,12 +21,12 @@ class BoardSearchViewController: BaseViewController {
     
     var searchResultListView = BoardTableView()
     var isSearchButtonTapped: Bool = false
-    var category = Board.CommunityType.FREE.rawValue
+    var category: Board.CommunityType = .FREE
     var page: String = "1"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "게시판 검색 화면"
+        
         setUI()
         prepareActionBar(with: "게시글 검색")
         
@@ -103,7 +103,7 @@ private extension BoardSearchViewController {
         let type = searchTypeSelectView.selectedType
         let keyword = self.boardSearchViewModel.keyword
         
-        boardSearchViewModel.fetchSearchResultList(mid: mid,
+        boardSearchViewModel.fetchSearchResultList(mid: mid.rawValue,
                                                    page: addedPage,
                                                    searchType: type,
                                                    keyword: keyword) { [weak self] boardList in
@@ -240,18 +240,18 @@ extension BoardSearchViewController: UITableViewDataSource {
                     }
                 } else {
                     switch self.category {
-                    case Board.CommunityType.FREE.rawValue,
-                        Board.CommunityType.CORP_GS.rawValue,
-                        Board.CommunityType.CORP_JEV.rawValue,
-                        Board.CommunityType.CORP_STC.rawValue,
-                        Board.CommunityType.CORP_SBC.rawValue:
+                    case Board.CommunityType.FREE,
+                        Board.CommunityType.CORP_GS,
+                        Board.CommunityType.CORP_JEV,
+                        Board.CommunityType.CORP_STC,
+                        Board.CommunityType.CORP_SBC:
                         guard let cell = Bundle.main.loadNibNamed("CommunityBoardTableViewCell", owner: self, options: nil)?.first as? CommunityBoardTableViewCell else { return UITableViewCell() }
 
                         cell.configure(item: boardList[indexPath.row])
                         cell.selectionStyle = .none
                         
                         return cell
-                    case Board.CommunityType.CHARGER.rawValue:
+                    case Board.CommunityType.CHARGER:
                         guard let cell = Bundle.main.loadNibNamed("CommunityChargeStationTableViewCell", owner: self, options: nil)?.first as? CommunityChargeStationTableViewCell else { return UITableViewCell() }
                         
                         cell.configure(item: boardList[indexPath.row])

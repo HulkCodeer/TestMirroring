@@ -95,5 +95,5 @@ extension UIImage {
         let resultImage: UIImage = UIImage(cgImage: imageRef, scale: image.scale, orientation: image.imageOrientation)
 
         return resultImage
-    }
+    }    
 }

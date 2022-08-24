@@ -190,12 +190,12 @@ internal final class FCMManager {
         let viewcon = UIStoryboard(name: "BoardDetailViewController", bundle: nil).instantiateViewController(ofType: BoardDetailViewController.self)
         if _visibleViewcon.isKind(of: BoardDetailViewController.self) {
             viewcon.document_srl = boardId
-            viewcon.category = category
+            viewcon.category = Board.CommunityType.getCompanyType(key: category)
             viewcon.viewDidLoad()
             return
         } else {
             viewcon.document_srl = boardId
-            viewcon.category = category
+            viewcon.category = Board.CommunityType.getCompanyType(key: category)
             _mainNavi.push(viewController: viewcon)
         }
     }
@@ -409,9 +409,6 @@ internal final class FCMManager {
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION, value: json["receive_jeju_push"].boolValue)
                 let marketing = json["receive_marketing_push"].boolValue
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: marketing)
-                if (marketing) {
-                    UserDefault().saveBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP, value: true)
-                }
                 self.updateFCMInfo()
             }
         }

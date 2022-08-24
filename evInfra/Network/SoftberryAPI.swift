@@ -23,6 +23,8 @@ protocol SoftberryAPI: class {
     func postRefreshToken(appleAuthorizationCode: String) -> Observable<(HTTPURLResponse, Data)>
     func postValidateRefreshToken() -> Observable<(HTTPURLResponse, Data)>
     func postGetBerry(eventId: String) -> Observable<(HTTPURLResponse, Data)>
+    func logAds(adId: [String], action: Int) -> Disposable
+    func getAdsList(page: Promotion.Page, layer: Promotion.Layer) -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -127,5 +129,34 @@ internal final class RestApi: SoftberryAPI {
         ]
                 
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/event/event/attendEvent", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - 광고/이벤트 로깅
+    func logAds(adId: [String], action: Int) -> Disposable {
+        let reqParam: Parameters = [
+            "mb_Id": "\(MemberManager.shared.mbId)",
+            "action": "\(action)",
+            "ad_id": adId,
+            "member_id": MemberManager.shared.memberId
+        ]
+        return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/promotion/log", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - AWS 광고 리스트 조회
+    func getAdsList(page: Promotion.Page, layer: Promotion.Layer) -> Observable<(HTTPURLResponse, Data)> {
+        let memberId = Int(MemberManager.shared.memberId) ?? 0
+        return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/promotion?memberId=\(memberId)&page=\(page.rawValue)&layer=\(layer.rawValue)", httpMethod: .get, parameters: nil, headers: nil)
+    }
+    
+    // 이벤트 click event 전송
+    func countEventAction(eventId: [String], action: Promotion.Action) -> Disposable {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.shared.memberId,
+            "mb_id": MemberManager.shared.mbId,
+            "event_ids": eventId,
+            "action": action
+        ]
+        
+        return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/promotion/log", httpMethod: .post, parameters: reqParam, headers: nil)
     }
 }

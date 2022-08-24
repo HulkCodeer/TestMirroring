@@ -6,7 +6,7 @@
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 
-import Foundation
+//import Foundation
 import UIKit
 
 extension UIViewController {
@@ -20,10 +20,13 @@ extension UIViewController {
         method_exchangeImplementations(originMethod, swizzleMethod)
     }
     
-    @objc public func viewEnterEventInViewWillAppear() {
-        guard let title = self.title else { return }
-        let property: [String: Any] = ["type" : title]
-        AmplitudeManager.shared.logEvent(type: .enter(.viewEnter), property: property)
+    @objc public final func viewEnterEventInViewWillAppear() {
+        guard !type(of: self).isEqual(UIAlertController.self) else { return }
+        let viewControllerName = String(describing: type(of: self))
+        let propertyName = ViewName.allCases.filter { $0.rawValue.equals(viewControllerName) }.compactMap { $0.propertyName }.first ?? ""
+        
+        guard !propertyName.isEmpty else { return }
+        AmplitudeManager.shared.logEvent(type: .enter(.viewEnter), property: ["type" : propertyName])
     }
 }
 

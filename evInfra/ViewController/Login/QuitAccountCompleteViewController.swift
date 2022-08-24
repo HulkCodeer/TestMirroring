@@ -80,7 +80,6 @@ internal final class QuitAccountCompleteViewController: CommonBaseViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "회원탈퇴 완료 화면"
         
         completeBtn.rx.tap
             .asDriver()
