@@ -294,8 +294,13 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             }
             .disposed(by: self.disposeBag)
         
-        reactor.state.compactMap { $0.isRunning }
-            .asDriver(o)
+        reactor.state.compactMap { $0.isQRScanRunning }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { obj, _ in
+                obj.qrReaderView.start()
+            }
+            .disposed(by: self.disposeBag)
+        
     }          
 }
 
