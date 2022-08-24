@@ -238,7 +238,10 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .map { "\($0) 베리" }
             .drive(with: self) { owner, impendText in
                 owner.impendPointLabel.text = impendText
-                owner.impendPointLabel.attributedText = owner.pointFontColor(text: impendText, pointText: "베리")
+                owner.impendPointLabel.attributedText = impendText.pointText(
+                    pointText: "베리",
+                    font: .systemFont(ofSize: 14),
+                    pointColor: UIColor.init(hex: "#7B7B7B"))
             }
             .disposed(by: disposeBag)
         
@@ -449,21 +452,6 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
 
     }
     
-    private func pointFontColor(text: String, pointText: String) -> NSMutableAttributedString {
-        let font: UIFont = .systemFont(ofSize: 14)
-        let entireNSString = text as NSString
-        let attributeString = NSMutableAttributedString(
-            string: text,
-            attributes: [.font: font]
-        )
-        
-        attributeString.addAttribute(
-            .foregroundColor,
-            value: UIColor.init(hex: "#7B7B7B"),
-            range: entireNSString.range(of: pointText))
-        return attributeString
-    }
-
 }
 
 // MARK: Object

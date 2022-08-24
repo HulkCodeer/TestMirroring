@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension String {
     func toDate() -> Date? {
@@ -98,6 +99,31 @@ extension String {
     func deletingPrefix(_ prefix: String) -> String {
         guard self.hasPrefix(prefix) else { return self }
         return String(self.dropFirst(prefix.count))
+    }
+    
+    /// ~.attributedText = text.pointText
+    func pointText(pointText: String, font: UIFont, pointFont: UIFont? = nil, pointColor: UIColor? = nil) -> NSMutableAttributedString {
+        let entireNSString = self as NSString
+   
+        let attributeString = NSMutableAttributedString(
+            string: self,
+            attributes: [.font: font])
+        
+        if let _pointFont = pointFont {
+            attributeString.addAttribute(
+                .font,
+                value: _pointFont,
+                range: entireNSString.range(of: pointText))
+        }
+        
+        if let _pointColor = pointColor {
+            attributeString.addAttribute(
+                .foregroundColor,
+                value: _pointColor,
+                range: entireNSString.range(of: pointText))
+        }
+        
+        return attributeString
     }
 }
 
