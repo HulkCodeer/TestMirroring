@@ -199,7 +199,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .natural
         $0.numberOfLines = 2
-        $0.text = "보유베리"
+        $0.text = "보유 베리"
     }
     
     private lazy var myBerryHoldLbl = UILabel().then {
@@ -207,7 +207,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .natural
         $0.numberOfLines = 2
-        $0.text = "0원"
+        $0.text = "0베리"
     }
     
     private lazy var myBerryUseTitleLbl = UILabel().then {
@@ -215,7 +215,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .natural
         $0.numberOfLines = 2
-        $0.text = "사용베리"
+        $0.text = "사용 베리"
     }
     
     private lazy var myBerryUseLbl = UILabel().then {
@@ -243,8 +243,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("전액 사용", for: .normal)
         $0.setTitle("전액 사용", for: .disabled)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        $0.isEnabled = false
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)        
         $0.IBcornerRadius = 6
     }
     
@@ -372,7 +371,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     private let STATUS_READY = 0
     private let STATUS_START = 1
     private let STATUS_FINISH = 2
-    private let TIMER_COUNT_NORMAL_TICK = 5 // 30 30초 주기로 충전 상태 가져옴. 시연을 위해 임시 5초
+    private let TIMER_COUNT_NORMAL_TICK = 30 // 30 30초 주기로 충전 상태 가져옴. 시연을 위해 임시 5초
     private let TIMER_COUNT_COMPLETE_TICK = 5 // TODO test 위해 10초로 변경. 시그넷 충전기 테스트 후 시간 정할 것.
     
     private var chargingStartTime = ""
@@ -420,7 +419,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
             $0.top.equalTo(naviTotalView.snp.bottom)
             $0.leading.trailing.centerX.equalToSuperview()
             $0.width.equalTo(screenWidth)
-            $0.bottom.equalTo(nextBtn.snp.top)
+            $0.bottom.equalTo(nextBtn.snp.top).offset(0)
         }
         
         totalScrollView.addSubview(totalStackView)
@@ -660,9 +659,10 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         
         berryInfoMarginTotalView.addSubview(alwaysUseBerryTotalBtn)
         alwaysUseBerryTotalBtn.snp.makeConstraints {
+            $0.top.equalTo(alwaysUseBerryGuideLbl.snp.top)
+            $0.bottom.equalTo(alwaysUseBerryGuideLbl.snp.bottom)
             $0.leading.equalTo(alwaysUseBerryGuideLbl.snp.leading)
             $0.trailing.equalTo(alwaysUseBerryBtn.snp.trailing)
-            $0.height.equalTo(44)
         }
         
         totalStackView.addArrangedSubview(paymentInfoTotalView)
@@ -825,7 +825,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
                 
         NotificationCenter.default.addObserver(self, selector: #selector(requestStatusFromFCM), name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: nil)
         
-        alwaysUseBerryBtn.rx.tap
+        alwaysUseBerryTotalBtn.rx.tap
             .asDriver()
             .drive(with: self) { obj,_ in
                 var preUsePoint = obj.willUsePoint
@@ -867,13 +867,15 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
         removeTimer()
         chargeElapsedTimeGuideLbl.stop()
-
         removeNotificationCenter()
     }
     
@@ -895,6 +897,32 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     }
     
     // MARK: FUNC
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        var keyboardHeight: CGFloat = 0
+        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            keyboardHeight = keyboardRectangle.height  + CGFloat(16.0)
+        }
+        
+        totalScrollView.snp.updateConstraints {
+            $0.bottom.equalTo(nextBtn.snp.top).offset(-(keyboardHeight - self.nextBtn.frame.height))
+        }
+        
+        self.berryUseTf.layer.masksToBounds = true
+        self.berryUseTf.IBborderColor = Colors.contentPrimary.color
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        totalScrollView.snp.updateConstraints {
+            $0.bottom.equalTo(nextBtn.snp.top).offset(0)
+        }
+        self.berryUseTf.layer.masksToBounds = false
+        self.berryUseTf.IBborderColor = Colors.contentDisabled.color
+        if let point = Int(berryUseTf.text! as String) {
+            savePoint(point: point)
+        }
+    }
     
     private func showStopChargingDialog() {
         var title = "충전 종료 및 결제하기"
@@ -1067,7 +1095,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
                         totalPoint = 0
                     }
                     self.myPoint = totalPoint
-                    self.myBerryHoldTitleLbl.text = "\(String(totalPoint).currency()) 베리"
+                    self.myBerryHoldLbl.text = "\(String(totalPoint).currency()) 베리"
                     
                     if usePoint < 0 {
                         usePoint = self.myPoint
@@ -1270,7 +1298,14 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
                     discountEventResultNameLbl.text = discountMsg
                 } else {
                     discountInfoTotalView.isHidden = true
+                    discountInfoTotalView.snp.updateConstraints {
+                        $0.height.equalTo(0)
+                    }
+                    
                     discountEventResultTotalView.isHidden = true
+                    discountEventResultTotalView.snp.updateConstraints {
+                        $0.height.equalTo(0)
+                    }
                 }
                 
                 if let feeStr = chargingStatus.fee {
@@ -1361,6 +1396,10 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
 }
 
 extension NewPaymentStatusViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        printLog(out: "PARK TEST")
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentString: NSString = textField.text! as NSString
         let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString

@@ -73,10 +73,6 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     // MARK: VARIABLE
     // MARK: SYSTEM FUNC
     
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
-    
     override func loadView() {
         super.loadView()
         
@@ -297,6 +293,9 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                 obj.qrReaderView.makeUIWithStart()
             }
             .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.isRunning }
+            .asDriver(o)
     }          
 }
 

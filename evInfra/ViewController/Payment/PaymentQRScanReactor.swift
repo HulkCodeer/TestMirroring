@@ -15,16 +15,19 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         case loadPaymentStatus
         case loadChargingQR(String)
         case loadTestChargingQR(String)
+        case startQRReaderView(Bool)
     }
     
     enum Mutation {
         case setPaymentStatus(Bool)
         case setChargingStatus(Bool)
+        case setRunnigQRReaderView(Bool)
     }
     
     struct State {
         var isPaymentFineUser: Bool?
         var isChargingStatus: Bool?
+        var isQRScanRunning: Bool?
     }
     
     internal var initialState: State
@@ -62,6 +65,9 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 .compactMap { isChargingStatus in
                     return .setChargingStatus(isChargingStatus)
                 }
+            
+        case .startQRReaderView(let isRunning):
+            return .just(.setRunnigQRReaderView(isRunning))
                                 
         }
     }
@@ -70,6 +76,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         var newState = state
         newState.isPaymentFineUser = nil
         newState.isChargingStatus = nil
+        newState.isQRScanRunning = nil
         
         switch mutation {
         case .setPaymentStatus(let isPaymentFineuser):
@@ -77,6 +84,9 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             
         case .setChargingStatus(let isChargingStatus):
             newState.isChargingStatus = isChargingStatus
+            
+        case .setRunnigQRReaderView(let isRunning):
+            newState.isQRScanRunning = isRunning
             
         }
         
@@ -111,7 +121,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 
             case .PAY_DEBTOR_USER:
                 let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
-//                viewcon.delegate = self
+                viewcon.delegate = self
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 return false
                 
@@ -140,6 +150,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         case .success(let data):
             let json = JSON(data)
             let code = json["code"].intValue
+            let title = json["title"].stringValue
+            let msg = json["msg"].stringValue
             
             switch code {
             case 1000: // 정상 유저
@@ -149,8 +161,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 return nil
                                                 
             case 8801: // 결제 정보 등록 안된 회원
-                let popupModel = PopupModel(title: "결제정보를 등록해야 해요",
-                                            message: "회원카드를 발급 해야 한국전력, GS칼텍스의 QR 충전을 이용할 수 있어요.",
+                let popupModel = PopupModel(title: "\(title)",
+                                            message: "\(msg)",
                                             confirmBtnTitle: "회원카드 발급하기", cancelBtnTitle: "닫기",
                                             confirmBtnAction: {
                     let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
@@ -164,8 +176,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 
                 
             case 8802: // 카드 등록 안된 멤버
-                let popupModel = PopupModel(title: "안내",
-                                            message: "비정상적인 경로로 가입신청을 한 멤버입니다.",
+                let popupModel = PopupModel(title: "\(title)",
+                                           message: "\(msg)",
                                             confirmBtnTitle: "나가기", textAlignment: .center)
                 
                 let popup = VerticalConfirmPopupViewController(model: popupModel)
@@ -175,8 +187,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 })
                 
             case 8803: // 카드삭제했으나 DB 쿼리 실패로 안지워짐
-                let popupModel = PopupModel(title: "안내",
-                                            message: "결제정보를 삭제요청 주셨으나, EV Infra DB\n문제로 삭제되지 않았어요.\n정보 삭제로 QR충전을 진행할 수 없어요.",
+                let popupModel = PopupModel(title: "\(title)",
+                                            message: "\(msg)",
                                             confirmBtnTitle: "나가기", textAlignment: .center)
                 let popup = VerticalConfirmPopupViewController(model: popupModel)
                 
@@ -192,8 +204,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 break
                 
             case 1101: // 회원카드 없는 멤버
-                let popupModel = PopupModel(title: "회원카드 발급이 필요해요",
-                                            message: "회원카드 발급 전에는\n한국전력 QR 충전을 이용할 수 없어요.",
+                let popupModel = PopupModel(title: "\(title)",
+                                            message: "\(msg)",
                                             confirmBtnTitle: "회원카드 발급하기", cancelBtnTitle: "나중에 하기",
                                             confirmBtnAction: {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
@@ -208,11 +220,11 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 })
                 
             case 2004: // QR정보에 cpid, connector id 없음
-                Snackbar().show(message: "GS 칼텍스, 한국 전력 충전기에서만 QR충전을 할 수 있어요. 다른 QR코드를 스캔 시, 충전 할 수 없어요.")
+                Snackbar().show(message: "\(msg)")
                 
             case 2005: // cp id에 해당하는 충전기가 db에 없음
-                let popupModel = PopupModel(title: "미지원 충전기",
-                                            message: "GS 칼텍스, 한국 전력 충전기에서만 QR충전을 할 수 있어요. 다른 QR코드를 스캔 시, 충전 할 수 없어요.",
+                let popupModel = PopupModel(title: "\(title)",
+                                            message: "\(msg)",
                                             confirmBtnTitle: "나가기", textAlignment: .center)
                 
                 let popup = VerticalConfirmPopupViewController(model: popupModel)
@@ -223,8 +235,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             case 2006: break
                 
             case 2007: // 시범 운영중
-                let popupModel = PopupModel(title: "알림",
-                                            message: "시범 운영중인 충전기입니다.\n시범 운영중이므로 충전중 화면이\n노출되지 않습니다.",
+                let popupModel = PopupModel(title: "\(title)",
+                                            message: "\(msg)",
                                             confirmBtnTitle: "나가기", textAlignment: .center)
                 
                 let popup = VerticalConfirmPopupViewController(model: popupModel)
@@ -233,8 +245,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 })
                 
             case 2008: // 충전기 상태가 충전 가능이 아님
-                let popupModel = PopupModel(title: "알림",
-                                            message: "현재 충전기가 사용 가능한 상태가 아닙니다.\n다른 충전소를 이용해주세요.",
+                let popupModel = PopupModel(title: "\(title)",
+                                            message: "\(msg)",
                                             confirmBtnTitle: "나가기", textAlignment: .center)
                 
                 let popup = VerticalConfirmPopupViewController(model: popupModel)
@@ -243,10 +255,10 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 })
                 
             case 2009: // 충전중인 회원
-                Snackbar().show(message: "다른 충전기에서 현재 충전중이므로 QR스캔 및 충전을 할 수 없습니다.")
+                Snackbar().show(message: "\(msg)")
                 
             case 2010, 9000: // 서버 에러
-                Snackbar().show(message: "서버 오류로 충전 요청을 실패했어요. 다시 스캔해주세요.")
+                Snackbar().show(message: "\(msg)")
                 
             default: break                
             }
@@ -294,4 +306,16 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         dialogMessage.addAction(cancel)
         GlobalDefine.shared.mainNavi?.present(dialogMessage, animated: true, completion: nil)
     }    
+}
+
+extension PaymentQRScanReactor: RepaymentListDelegate {
+    func onRepaySuccess() {
+        Observable.just(PaymentQRScanReactor.Action.startQRReaderView(true))
+            .bind(to: self.action)
+            .disposed(by: self.disposeBag)
+    }
+    
+    func onRepayFail(){
+        GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+    }
 }
