@@ -1400,15 +1400,16 @@ extension MainViewController {
         case 1000:
             defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
 //            let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
+//            viewcon.cpId = "GS00002204"
+//            viewcon.connectorId = "1"
+            
             let reactor = PaymentStatusReactor(provider: RestApi())
             let viewcon = NewPaymentStatusViewController(reactor: reactor)
             viewcon.cpId = response["cp_id"].stringValue
             viewcon.connectorId = response["connector_id"].stringValue
-            viewcon.cpId = "GS00002204"
-            viewcon.connectorId = "1"
             
             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-            
+                                    
         case 2002:
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
             if response["pay_code"].stringValue.equals("8804") {

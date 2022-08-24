@@ -87,18 +87,30 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             $0.top.equalTo(naviTotalView.snp.bottom)
             $0.leading.bottom.trailing.equalToSuperview()
         }
-        
+                
         self.contentView.addSubview(dimmedView)
         dimmedView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom)
             $0.leading.bottom.trailing.equalToSuperview()
         }
         
+        self.contentView.addSubview(qrBoxImgView)
+        qrBoxImgView.snp.makeConstraints {
+            $0.center.equalTo(dimmedView.snp.center)
+            $0.width.height.equalTo(189)
+        }
+                
         self.contentView.addSubview(holeView)
         holeView.snp.makeConstraints {
-            $0.center.equalTo(dimmedView.snp.center)
+            $0.center.equalTo(qrBoxImgView.snp.center)
             $0.width.equalTo(265)
             $0.height.equalTo(264)
+        }
+        
+        self.contentView.addSubview(guideLbl)
+        guideLbl.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(holeView.snp.bottom).offset(9)
         }
         
         self.contentView.addSubview(stationGuideLbl)
@@ -119,19 +131,8 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             $0.width.equalTo(stationSubGuideLbl.snp.width)
             $0.height.equalTo(44)
         }
-        
-        self.contentView.addSubview(qrBoxImgView)
-        qrBoxImgView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.width.height.equalTo(189)
-        }
-        
-        self.contentView.addSubview(guideLbl)
-        guideLbl.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(qrBoxImgView.snp.bottom).offset(46)
-        }
-        
+                        
+        #if DEBUG
         self.contentView.addSubview(tcTotalView)
         tcTotalView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom)
@@ -153,6 +154,8 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             $0.leading.equalTo(tcTf.snp.trailing).offset(20)
             $0.bottom.height.equalToSuperview()
         }
+        #else
+        #endif                
     }
     
     override func viewDidLoad() {
@@ -283,7 +286,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                 let shapeLayer = CAShapeLayer()
                 shapeLayer.frame = obj.dimmedView.bounds
                 shapeLayer.fillRule = kCAFillRuleEvenOdd
-
+                
                 let path = UIBezierPath(rect: obj.dimmedView.bounds)
                 path.append(UIBezierPath(rect: CGRect(x: obj.holeView.frame.origin.x, y: obj.holeView.frame.origin.y - 56, width: obj.holeView.bounds.width, height: obj.holeView.bounds.height)))
                 shapeLayer.path = path.cgPath

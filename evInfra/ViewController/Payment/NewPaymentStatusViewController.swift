@@ -243,7 +243,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("전액 사용", for: .normal)
         $0.setTitle("전액 사용", for: .disabled)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)        
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         $0.IBcornerRadius = 6
     }
     
@@ -899,14 +899,11 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     // MARK: FUNC
     
     @objc func keyboardWillShow(_ notification: Notification) {
-        var keyboardHeight: CGFloat = 0
-        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            keyboardHeight = keyboardRectangle.height  + CGFloat(16.0)
-        }
-        
-        totalScrollView.snp.updateConstraints {
-            $0.bottom.equalTo(nextBtn.snp.top).offset(-(keyboardHeight - self.nextBtn.frame.height))
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let keyboardHeight = keyboardSize.height
+            nextBtn.snp.updateConstraints {
+                $0.bottom.equalToSuperview().offset(-(keyboardHeight + 16))
+            }
         }
         
         self.berryUseTf.layer.masksToBounds = true
@@ -914,8 +911,8 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
-        totalScrollView.snp.updateConstraints {
-            $0.bottom.equalTo(nextBtn.snp.top).offset(0)
+        nextBtn.snp.updateConstraints {
+            $0.bottom.equalToSuperview().offset(-16)
         }
         self.berryUseTf.layer.masksToBounds = false
         self.berryUseTf.IBborderColor = Colors.contentDisabled.color
@@ -937,7 +934,6 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
 
             self.nextBtn.isEnabled = false
             self.nextBtn.setTitle("충전 중지 요청중입니다.", for: .disabled)
-            self.nextBtn.setTitleColor(UIColor(rgb: 0x15435C), for: .disabled)
             self.isStopCharging = true
             
             self.requestStopCharging()
@@ -1049,13 +1045,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     }
     
     private func updateBerryUse(point: Int) {
-        if point == myPoint {
-            berryUseAllBtn.backgroundColor = Colors.backgroundDisabled.color
-            berryUseAllBtn.setTitleColor(Colors.contentDisabled.color, for: .normal)
-        } else {
-            berryUseAllBtn.backgroundColor = Colors.backgroundSecondary.color
-            berryUseAllBtn.setTitleColor(Colors.contentPrimary.color, for: .normal)
-        }
+        berryUseAllBtn.isEnabled = point == myPoint
         
         myBerryUseLbl.text = "\(String(point).currency()) 베리"
         if point != alwaysUsePoint { // 설정베리와 사용베리가 다른경우
@@ -1228,14 +1218,9 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
             if companyId.elementsEqual(CompanyInfo.COMPANY_ID_GSC) {
                 if isStopCharging == false {
                     nextBtn.isEnabled = true
-                    
-                    nextBtn.backgroundColor = Colors.backgroundPositive.color
-                    nextBtn.setTitleColor(Colors.contentPrimary.color, for: .normal)
                 }
             } else if companyId.elementsEqual(CompanyInfo.COMPANY_ID_KEPCO) {
-                nextBtn.isUserInteractionEnabled = false
-                nextBtn.backgroundColor = Colors.backgroundDisabled.color
-                nextBtn.setTitleColor(Colors.contentDisabled.color, for: .normal)
+                nextBtn.isEnabled = false
                 if MemberManager.shared.isPartnershipClient(clientId: 23) { // 한전&SK -> 포인트사용 block
                     berryInfoTotalView.isHidden = true
                 }
@@ -1247,11 +1232,10 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
             chargeStatusSubLbl.text = "충전 커넥터를 차량과 연결 후\n잠시만 기다려 주세요"
             nextBtn.setTitle("충전 취소", for: .normal)
         } else {
-            chargeStatusLbl.textColor = UIColor(named: "content-positive")
+            chargeStatusLbl.textColor = Colors.contentPositive.color
             chargeStatusSubLbl.text = "충전중"
             nextBtn.setTitle("충전 종료 및 결제하기", for: .normal)
-                      
-            
+                                  
             // 충전진행시간
             if chargingStartTime.isEmpty || !chargingStartTime.elementsEqual(chargingStatus.startDate ?? "") {
                 chargingStartTime = chargingStatus.startDate ?? ""
