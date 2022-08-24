@@ -43,6 +43,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         $0.titleLabel?.font = .systemFont(ofSize: 16)
     }
     
+    private lazy var pointHistoryWrappingView = UIView()
+    
     private lazy var pointInfoView = UIView().then {
         $0.backgroundColor = Colors.backgroundPrimary.color
     }
@@ -199,6 +201,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .map { PointHistoryReactor.Action.setStartDate($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
         endDateView.dateObservable
             .observe(on: MainScheduler.instance)
             .map { PointHistoryReactor.Action.setEndDate($0) }
@@ -291,13 +294,19 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .disposed(by: disposeBag)
         
         startDateButton.rx.tap
-            .map { return false }
-            .bind(to: startDateView.rx.isHidden)
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.startDateView.isHidden = false
+                owner.endDateView.isHidden = true
+            }
             .disposed(by: disposeBag)
         
         endDateButton.rx.tap
-            .map { return false }
-            .bind(to: endDateView.rx.isHidden)
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.endDateView.isHidden = false
+                owner.startDateView.isHidden = true
+            }
             .disposed(by: disposeBag)
     }
     
@@ -308,13 +317,15 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         endDateView.configure(Date())
         
         contentView.addSubview(customNavigationBar)
-        contentView.addSubview(pointInfoView)
-        contentView.addSubview(pointTableView)
-        contentView.addSubview(startDateView)
-        contentView.addSubview(endDateView)
-
+        contentView.addSubview(pointHistoryWrappingView)
+        
         customNavigationBar.addSubview(settingButton)
         
+        pointHistoryWrappingView.addSubview(pointInfoView)
+        pointHistoryWrappingView.addSubview(pointTableView)
+        pointHistoryWrappingView.addSubview(startDateView)
+        pointHistoryWrappingView.addSubview(endDateView)
+
         pointInfoView.addSubview(myPointStackView)
         pointInfoView.addSubview(impendPointStackView)
         pointInfoView.addSubview(dateStackView)
@@ -355,15 +366,21 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             $0.width.equalTo(Constants.view.naviBarItemWidth)
         }
         
-        pointInfoView.snp.makeConstraints {
+        pointHistoryWrappingView.snp.makeConstraints {
             $0.top.equalTo(customNavigationBar.snp.bottom)
+            $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
+            $0.bottom.equalTo(view)
+        }
+        
+        pointInfoView.snp.makeConstraints {
+            $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(pointInfoHeight)
         }
+
         pointTableView.snp.makeConstraints {
             $0.top.equalTo(pointInfoView.snp.bottom)
-            $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
-            $0.bottom.equalTo(view)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
         startDateView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
@@ -388,13 +405,12 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
 
         dateStackView.snp.makeConstraints {
             $0.top.equalTo(impendPointStackView.snp.bottom).offset(dateViewTopPadding)
-            $0.leading.equalToSuperview().inset(horizontalMargin)
-            $0.trailing.equalToSuperview().inset(horizontalMargin)
+            $0.leading.trailing.equalToSuperview()
         }
         
         pointTypeButtonsStackView.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(historyButtonsViewBottomPadding)
-            $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(historyButtonsViewHeight)
         }
         
