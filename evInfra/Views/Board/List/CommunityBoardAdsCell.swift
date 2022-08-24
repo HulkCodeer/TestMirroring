@@ -41,10 +41,10 @@ class CommunityBoardAdsCell: UITableViewCell {
     }
     
     func configuration(item: BoardListItem) {
-        adsProfileImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(item.mb_profile ?? "")"), placeholderImage: UIImage(named: "ic_person_base36"))
+        adsProfileImageView.sd_setImage(with: URL(string: "\(Const.AWS_IMAGE_SERVER)/\(item.mb_profile ?? "")"), placeholderImage: UIImage(named: "ic_person_base36"))
         adsTitleLabel.text = item.nick_name
         adsDescriptionLabel.text = "advertisement"
-        adsImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(item.cover_filename ?? "")")) { (_, _, _, _) in
+        adsImageView.sd_setImage(with: URL(string: "\(Const.AWS_IMAGE_SERVER)/\(item.cover_filename ?? "")")) { (_, _, _, _) in
             EIAdManager.sharedInstance.logEvent(adIds: [item.document_srl ?? ""], action: .view, page: .free, layer: .mid)
         }
         adUrl = item.title

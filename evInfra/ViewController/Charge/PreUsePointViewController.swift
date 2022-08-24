@@ -30,7 +30,7 @@ class PreUsePointViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "베리 설정 화면"
+        
         prepareActionBar()
         prepareView()
         prepareTextField()
@@ -152,11 +152,18 @@ class PreUsePointViewController: UIViewController {
                     self.oldUsePoint = self.preUsePoint
                     Snackbar().show(message: "설정이 저장되었습니다.")
                     self.updateView()
+                    self.logEvent()
                 }
             } else {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료 후 재시도 바랍니다.")
             }
         }
+    }
+    
+    private func logEvent() {
+        let setBerryAmount: String = preUsePoint == -1 ? "전액" : "\(preUsePoint)"
+        let property: [String: Any] = ["setberryAmount": setBerryAmount]
+        AmplitudeManager.shared.logEvent(type: .payment(.clickSetUpBerry), property: property)
     }
     
     func addUsePoint(point: Int) {

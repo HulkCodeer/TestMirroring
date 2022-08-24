@@ -181,7 +181,6 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "회원탈퇴 화면"
         
         let currentDate = Date()
         let formatter = DateFormatter()

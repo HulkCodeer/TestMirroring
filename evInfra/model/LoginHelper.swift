@@ -279,7 +279,6 @@ internal final class LoginHelper: NSObject {
                                 MemberManager.shared.setData(data: json)
                                 
                                 let property: [String: Any] = ["type": String(Login.LoginType.apple.description)]
-                                self.amplitudeManager.logEvent(type: .login(.clickLoginButton), property: property)
                                 self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
                                 self.amplitudeManager.setUserProperty()
                                 self.amplitudeManager.logEvent(type: .login(.complteLogin), property: property)
@@ -336,7 +335,6 @@ internal final class LoginHelper: NSObject {
                                     MemberManager.shared.setData(data: json)
                                     
                                     let property: [String: Any] = ["type" : String(Login.LoginType.apple.description)]
-                                    self.amplitudeManager.logEvent(type: .login(.clickLoginButton), property: property)
                                     self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
                                     self.amplitudeManager.setUserProperty()
                                     self.amplitudeManager.logEvent(type: .login(.complteLogin), property: property)
@@ -389,7 +387,6 @@ internal final class LoginHelper: NSObject {
                         property["type"] = UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)
                     }
                     
-                    self.amplitudeManager.logEvent(type: .login(.clickLoginButton), property: property)
                     self.amplitudeManager.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
                     self.amplitudeManager.setUserProperty()
                     self.amplitudeManager.logEvent(type: .login(.complteLogin), property: property)

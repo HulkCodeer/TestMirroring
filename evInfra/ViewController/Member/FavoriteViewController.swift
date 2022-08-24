@@ -15,6 +15,7 @@ class FavoriteViewController: BaseViewController {
     @IBOutlet var emptyView: UIView!
     
     internal weak var delegate: ChargerSelectDelegate?
+    private var favoriteChargers: [ChargerStationInfo] = []
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -22,15 +23,16 @@ class FavoriteViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "즐겨찾기 화면"
+        
         prepareActionBar(with: "즐겨찾기")
-        prepareTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let favoriteChargers = ChargerManager.sharedInstance.getChargerStationInfoList()
-        AmplitudeManager.shared.setUserProperty(with: favoriteChargers)
+        
+        favoriteChargers = ChargerManager.sharedInstance.getChargerStationInfoList()
+        prepareTableView()
+        logEventWithFavoriteChargers()
     }
     
     func prepareActionBar() {
@@ -56,8 +58,8 @@ extension FavoriteViewController: ChargerTableViewDelegate {
     func prepareTableView() {
         tableView.isHiddenAlertFavoriteIcon = false
         tableView.chargerTableDelegate = self
-        tableView.chargerList = ChargerManager.sharedInstance.getChargerStationInfoList().filter({(charger: ChargerStationInfo) -> Bool in
-            return charger.mFavorite
+        tableView.chargerList = favoriteChargers.filter({
+            return $0.mFavorite
         })
         tableView.reloadData()
         
@@ -68,12 +70,22 @@ extension FavoriteViewController: ChargerTableViewDelegate {
         }
     }
     
+    func logEventWithFavoriteChargers() {
+        let numberOfFavorits = favoriteChargers.filter { $0.mFavorite }.count
+        let numberOfAlarms = favoriteChargers.filter { $0.mFavoriteNoti }.count
+        let property: [String: Any] = ["number": "\(numberOfFavorits)",
+                                       "alarmOn": "\(numberOfAlarms)"]
+        
+        AmplitudeManager.shared.logEvent(type: .map(.viewFavorites), property: property)
+        AmplitudeManager.shared.setUserProperty(with: numberOfFavorits)
+    }
+    
     func didSelectRow(row: Int) {
         guard let charger = tableView.chargerList?[row] else {
             return
         }
         
         delegate?.moveToSelected(chargerId: charger.mChargerId!)
-        dismiss(animated: true, completion: nil)
+        GlobalDefine.shared.mainNavi?.pop(subtype: kCATransitionFromBottom)
     }
 }

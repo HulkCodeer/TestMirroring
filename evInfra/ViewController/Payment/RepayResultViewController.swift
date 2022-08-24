@@ -30,7 +30,6 @@ class RepayResultViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "미수금 결제 완료 화면"
         if let payResult = payResult {
             isSuccess = (payResult.resultCode == 1000)
         } else {

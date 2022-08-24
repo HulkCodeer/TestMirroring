@@ -361,4 +361,68 @@ class FilterManager {
         defaults.saveString(key: UserDefault.Key.FILTER_SUPER_CHARGER, value: filter.superCharger ? "Checked" : "Unchecked")
         defaults.saveString(key: UserDefault.Key.FILTER_DESTINATION, value: filter.destination ? "Checked" : "Unchecked")
     }
+    
+    internal func getSocketType() -> [String] {
+        let types = getTypeTitle().split(separator: ",").map { String($0) }
+        return types
+    }
+    
+    internal func getAccessibility() -> [String] {
+        var accesType: [String] = [String]()
+        if filter.isPublic {
+            accesType.append("개방")
+        }
+        if filter.isNonPublic {
+            accesType.append("비개방")
+        }
+        return accesType
+    }
+    
+    internal func getSelectedMyCar() {
+        
+    }
+    
+    internal func getChargingSpeed() -> (Int, Int) {
+        return (filter.minSpeed, filter.maxSpeed)
+    }
+    
+    internal func getLocationType() -> [String] {
+        return getPlaceTitle().split(separator: ",").map { String($0) }
+    }
+    
+    internal func getRoadType() -> [String] {
+        return getRoadTitle().split(separator: ",").map { String($0) }
+    }
+    
+    internal func getIsPaid() -> [String] {
+        var types: [String] = [String]()
+        if filter.isPaid {
+            types.append("유료")
+        }
+        if filter.isFree {
+            types.append("무료")
+        }
+        return types
+    }
+    
+    internal func getChargingStations() -> [String] {
+        return filter.companyDictionary.values.filter({ return $0.is_visible }).map { $0.name ?? "" }
+    }
+}
+
+extension FilterManager {
+    internal func logEventWithFilter(_ source: String) {
+        let property: [String: Any] = ["selectedAccessibility": getAccessibility(),
+                                       "selectedSocketType": getSocketType(),
+                                       "filterMyCar": UserDefault().readBool(key: UserDefault.Key.FILTER_MYCAR),
+                                       "minChargingSpeed": getChargingSpeed().0,
+                                       "maxChargingSpeed": getChargingSpeed().1,
+                                       "setLocation": getLocationType(),
+                                       "road": getRoadType(),
+                                       "price": getIsPaid(),
+                                       "chargingStation": getChargingStations(),
+                                       "source": source]
+        
+        AmplitudeManager.shared.logEvent(type: .filter(.clickFilterSave), property: property)
+    }
 }

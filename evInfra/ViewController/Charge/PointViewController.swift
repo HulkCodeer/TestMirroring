@@ -69,10 +69,11 @@ internal final class PointViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "MY 베리 내역 화면"
+        
         prepareActionBar()
         prepareDatePicker()
         prepareTableView()
+        logEvent()
 
         // 오늘 포인트 이력 가져오기
         btnAllBerry.isSelected = true
@@ -85,13 +86,8 @@ internal final class PointViewController: UIViewController {
                 self.navigationController?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)
-        
-        btnAllBerry.roundCorners([.topLeft, .bottomLeft], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)        
-        btnUseBerry.roundCorners(.allCorners, radius: 0, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
 
-        btnSaveBerry.roundCorners([.topRight, .bottomRight], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
-
-        // Bg color change
+//        // Bg color change
         btnAllBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
         btnSaveBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
         btnUseBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
@@ -111,6 +107,11 @@ internal final class PointViewController: UIViewController {
                 MemberManager.shared.showLoginAlert()
             }
         }
+    }
+    
+    private func logEvent() {
+        let property: [String: Any] = ["berryAmount": "\(MemberManager.shared.berryPoint)"]
+        AmplitudeManager.shared.logEvent(type: .payment(.viewMyBerry), property: property)
     }
     
     override func viewDidLayoutSubviews() {

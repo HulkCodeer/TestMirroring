@@ -77,7 +77,6 @@ internal final class MyPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "개인정보관리 화면"
         nickNameField.delegate = self
         carNoField.delegate = self
         addrInfoDetailField.delegate = self

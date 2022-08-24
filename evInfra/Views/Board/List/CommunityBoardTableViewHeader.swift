@@ -52,7 +52,7 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         self.bannerCollectionView.register(UINib(nibName: "BannerCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BannerCollectionViewCell")
         self.bannerCollectionView.dataSource = self
         self.bannerCollectionView.delegate = self
-        self.bannerCollectionView.layer.cornerRadius = 16
+        self.bannerCollectionView.layer.cornerRadius = 8
         self.bannerCollectionView.backgroundColor = .clear
         self.tags = ["최신", "인기"]
         
@@ -123,7 +123,7 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         pageControl.snp.makeConstraints {
             $0.top.equalTo(bannerCollectionView.snp.top).offset(55)
             $0.centerX.equalTo(self)
-            $0.bottom.equalTo(bannerCollectionView.snp.bottom).offset(-15)
+            $0.bottom.equalTo(bannerCollectionView.snp.bottom).offset(-10)
         }
     }
     
@@ -170,15 +170,19 @@ extension CommunityBoardTableViewHeader: UICollectionViewDelegateFlowLayout {
 extension CommunityBoardTableViewHeader: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return topBanners.count
+        return topBanners.count == 0 ? 1 : topBanners.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BannerCollectionViewCell", for: indexPath) as? BannerCollectionViewCell else { return UICollectionViewCell.init() }
+        guard !topBanners.isEmpty else {
+            cell.bannerImageView.image = UIImage(named: "adCommunity01.png")
+            return cell
+        }
         let banner = topBanners[indexPath.row]
-        cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.AWS_SERVER)/image/\(String(describing: topBanners[indexPath.row].img))")) { (image, error, _, _) in
+        cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.AWS_IMAGE_SERVER)/\(topBanners[indexPath.row].img)"), placeholderImage: UIImage(named: "adCommunity01.png")) { (image, error, _, _) in
             if let _ = error {
-                cell.bannerImageView.image = UIImage(named: "")
+                cell.bannerImageView.image = UIImage(named: "adCommunity01.png")
             } else {
                 cell.bannerImageView.image = image
                 self.adManager.logEvent(adIds: [banner.evtId], action: .view, page: .free, layer: .top)
@@ -192,6 +196,7 @@ extension CommunityBoardTableViewHeader: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard !topBanners.isEmpty else { return }
         let banner = topBanners[indexPath.row]
         // 배너 클릭 로깅
         adManager.logEvent(adIds: [banner.evtId], action: .click, page: .free, layer: .top)

@@ -43,7 +43,7 @@ class CardBoardViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "게시판 리스트 화면"
+        
         boardListViewModel = BoardListViewModel(category)
         prepareActionBar()
         fetchFirstBoard(mid: category.rawValue, sort: sortType, mode: mode.rawValue)

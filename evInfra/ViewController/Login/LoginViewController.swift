@@ -41,7 +41,7 @@ internal final class LoginViewController: UIViewController {
             
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "로그인 화면"
+        
         prepareActionBar()
         prepareLoginButton()
         LoginHelper.shared.delegate = self

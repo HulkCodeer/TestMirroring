@@ -65,7 +65,7 @@ internal final class DetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "충전소 상세 화면"
+        
         initKakaoMap()
         prepareActionBar()
         prepareBoardTableView()
@@ -93,6 +93,12 @@ internal final class DetailViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if let charger = charger {
+            let property: [String: Any?] = AmpChargerStationModel(charger).toProperty
+            AmplitudeManager.shared.logEvent(type: .detail(.viewStationDetail), property: property)
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
     }
     
@@ -370,6 +376,7 @@ internal final class DetailViewController: BaseViewController {
         let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         termsViewControll.tabIndex = .StationPrice
         termsViewControll.subParams = "company_id=" + (charger?.mStationInfoDto?.mCompanyId)!
+        AmplitudeManager.shared.logEvent(type: .detail(.clickStationChargingPrice), property: nil)
         self.navigationController?.push(viewController: termsViewControll)
     }
 }

@@ -164,10 +164,10 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         eventImageButton.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                let eventUrl = reactor.currentState.startBanner?.extUrl ?? ""
+                guard let self = self, let banner = reactor.currentState.startBanner else { return }
+                guard !banner.extUrl.isEmpty else { return }
                 let newEventDetailViewController = NewEventDetailViewController()
-                newEventDetailViewController.eventUrl = eventUrl
+                newEventDetailViewController.eventUrl = banner.extUrl
                 self.closeStartBannerViewController()
                 self.logClickEvent()
                 GlobalDefine.shared.mainNavi?.push(viewController: newEventDetailViewController)

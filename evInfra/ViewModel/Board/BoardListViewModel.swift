@@ -27,7 +27,7 @@ internal final class BoardListViewModel {
         fetchAdListGroup.enter()
         let adType: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: type)
         
-        EIAdManager.sharedInstance.getAdsList(page: adType, layer: Promotion.Layer.mid) { adsList in
+        EIAdManager.sharedInstance.getAdsList(page: adType, layer: .mid) { adsList in
             self.adList = adsList.map { BoardListItem($0) }
             self.fetchAdListGroup.leave()
         }
