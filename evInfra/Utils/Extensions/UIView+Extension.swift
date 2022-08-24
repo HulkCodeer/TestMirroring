@@ -538,7 +538,7 @@ extension UIView {
     func roundCorners(
         cornerType type: [CornerRadiusType],
         radius: CGFloat,
-        borderColor: CGColor,
+        borderColor: UIColor, 
         borderWidth: CGFloat
     ) {
         self.IBborderColor = borderColor
