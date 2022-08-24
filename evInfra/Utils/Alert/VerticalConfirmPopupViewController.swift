@@ -106,8 +106,7 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
         }
         
         buttonStackView.snp.makeConstraints {
-            $0.width.equalToSuperview()
-            $0.height.equalTo(104)
+            $0.width.equalToSuperview()            
         }
         
         self.titleLabel.text = self.popupModel.title
@@ -125,6 +124,9 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
                 })
                 .disposed(by: self.disposebag)
             buttonStackView.addArrangedSubview(confirmBtn)
+            confirmBtn.snp.makeConstraints {
+                $0.height.equalTo(48)
+            }
         }
                         
         if let _cancelTitle = self.popupModel.cancelBtnTitle {
@@ -141,6 +143,9 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
                 })
                 .disposed(by: self.disposebag)
             buttonStackView.addArrangedSubview(cancelBtn)
+            cancelBtn.snp.makeConstraints {
+                $0.height.equalTo(48)
+            }
         }
         
         dimmedBtn.rx.tap

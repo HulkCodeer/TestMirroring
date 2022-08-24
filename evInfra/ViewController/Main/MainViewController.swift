@@ -15,6 +15,8 @@ import NMapsMap
 import SnapKit
 import RxSwift
 import RxCocoa
+import EasyTipView
+import AVFoundation
 
 internal final class MainViewController: UIViewController {
     
@@ -84,6 +86,7 @@ internal final class MainViewController: UIViewController {
     
     private var summaryView: SummaryView!
     private var disposeBag = DisposeBag()
+    private var isShowEasyTips: Bool = false
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -110,7 +113,7 @@ internal final class MainViewController: UIViewController {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-        requestStationInfo()
+//        requestStationInfo()
         
         prepareCalloutLayer()                
     }
@@ -129,16 +132,37 @@ internal final class MainViewController: UIViewController {
             self.selectChargerFromShared()
         }
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
+                        
+        
+        guard isShowEasyTips else { return }
+        
+        var preferences = EasyTipView.Preferences()
+        
+        preferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
+        preferences.drawing.foregroundColor = Colors.backgroundSecondary.color
+        preferences.drawing.textAlignment = NSTextAlignment.center
+        
+        preferences.drawing.arrowPosition = .top
+        
+        preferences.animating.dismissTransform = CGAffineTransform(translationX: -30, y: -100)
+        preferences.animating.showInitialTransform = CGAffineTransform(translationX: 30, y: 100)
+        preferences.animating.showInitialAlpha = 1
+        preferences.animating.showDuration = 1
+        preferences.animating.dismissDuration = 1
+        
+        let text = "한국전력과 GS칼텍스에서\nQR충전을 할 수 있어요!"
+        EasyTipView.show(forView: self.btn_main_charge,
+                         withinSuperview: self.view,
+                         text: text,
+                         preferences: preferences)
+        
+        isShowEasyTips = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)    
-        // removeObserver 하면 안됨. addObserver를 viewdidload에서 함        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
+        _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
     }
     
     private func showDeepLink() {
@@ -1236,8 +1260,7 @@ extension MainViewController {
 
         GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
             .asDriver(onErrorJustReturn: AdsInfo(JSON.null))
-            .drive(onNext: { [weak self] adInfo in
-                guard let self = self else { return }
+            .drive(onNext: { adInfo in
                 let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     if keepDateStr.isEmpty {
@@ -1389,15 +1412,21 @@ extension MainViewController {
         }
         
         let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
-        switch (response["code"].intValue) {
+        let code = response["code"].intValue
+        switch code {
         case 1000:
             defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
-            let paymentStatusViewController = paymentStoryboard.instantiateViewController(ofType: PaymentStatusViewController.self)
-
-            paymentStatusViewController.cpId = response["cp_id"].stringValue
-            paymentStatusViewController.connectorId = response["connector_id"].stringValue
+//            let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
+//            viewcon.cpId = "GS00002204"
+//            viewcon.connectorId = "1"
             
-            GlobalDefine.shared.mainNavi?.push(viewController: paymentStatusViewController)
+            let reactor = PaymentStatusReactor(provider: RestApi())
+            let viewcon = NewPaymentStatusViewController(reactor: reactor)
+            viewcon.cpId = response["cp_id"].stringValue
+            viewcon.connectorId = response["connector_id"].stringValue
+            
+            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                                    
         case 2002:
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
             if response["pay_code"].stringValue.equals("8804") {
@@ -1405,13 +1434,51 @@ extension MainViewController {
                 repayListViewController.delegate = self
                 GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
             } else {
-                let paymentQRScanViewController = paymentStoryboard.instantiateViewController(ofType: PaymentQRScanViewController.self)
-                GlobalDefine.shared.mainNavi?.push(viewController: paymentQRScanViewController)
+                let status = AVCaptureDevice.authorizationStatus(for: .video)
+                switch status {
+                case .notDetermined, .denied:
+                    AVCaptureDevice.requestAccess(for: .video) { grated in
+                        if grated {
+                            self.movePaymentQRScan()
+                        } else {
+                            self.showAuthAlert()
+                        }
+                    }
+                case .authorized:
+                    self.movePaymentQRScan()
+                    
+                case .restricted: break
+                }
             }
             
         default:
             defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
         }
+    }
+    
+    private func movePaymentQRScan() {
+        _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()        
+        let reactor = PaymentQRScanReactor(provider: RestApi())
+        let viewcon = NewPaymentQRScanViewController(reactor: reactor)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+    }
+    
+    private func showAuthAlert() {
+        let popupModel = PopupModel(title: "카메라 권한이 필요해요",
+                                    message: "QR 스캔을 위해 권한 허용이 필요해요.\n[설정] > [권한]에서 권한을 허용할 수 있어요.",
+                                    confirmBtnTitle: "설정하기", cancelBtnTitle: "닫기",
+                                    confirmBtnAction: { 
+            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }            
+        }, textAlignment: .center)
+        
+        let popup = ConfirmPopupViewController(model: popupModel)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+        })
     }
     
     private func chargingStatus() {
@@ -1427,9 +1494,9 @@ extension MainViewController {
             } else {
                 // 진행중인 충전이 없음
                 self.btn_main_charge.alignTextUnderImage()
-                self.btn_main_charge.tintColor = UIColor(named: "gr-8")
+                self.btn_main_charge.tintColor = Colors.gr8.color
                 self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
-                self.btn_main_charge.setTitle("간편 충전", for: .normal)
+                self.btn_main_charge.setTitle("QR충전", for: .normal)
             }
         }
     }
@@ -1471,7 +1538,7 @@ extension MainViewController {
             self.btn_main_charge.alignTextUnderImage()
             self.btn_main_charge.tintColor = UIColor(named: "gr-8")
             self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            self.btn_main_charge.setTitle("간편 충전", for: .normal)
+            self.btn_main_charge.setTitle("QR충전", for: .normal)
             
         default: break
         }

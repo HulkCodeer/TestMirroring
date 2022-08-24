@@ -10,7 +10,6 @@ import Foundation
 import SwiftyJSON
 import AuthenticationServices // apple login
 import RxSwift
-import Material
 
 protocol LoginHelperDelegate: class {
     var loginViewController: UIViewController { get }

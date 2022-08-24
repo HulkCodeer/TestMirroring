@@ -11,22 +11,23 @@ import AVFoundation
 import SwiftyJSON
 import Material
 
-class PaymentQRScanViewController: UIViewController {
-    
-    var captureSession:AVCaptureSession!
-    var videoPreviewLayer:AVCaptureVideoPreviewLayer!
-    var qrCodeFrameView: UIView?
-
-    var cpId: String? = ""
-    var connectorId: String? = ""
+internal final class PaymentQRScanViewController: UIViewController {
     
     //QR Scanner
     @IBOutlet weak var scannerViewLayer: UIView!
     @IBOutlet weak var lbExplainScanner: UILabel!
+        
+    // MARK: VARIABLE
     
-    var mConnectorList = [Connector]()
+    private var mConnectorList = [Connector]()
+    private var mMyPoint = 0
+    private var captureSession:AVCaptureSession!
+    private var videoPreviewLayer:AVCaptureVideoPreviewLayer!
+    private var qrCodeFrameView: UIView?
+    private var cpId: String? = ""
+    private var connectorId: String? = ""
     
-    var mMyPoint = 0
+    //MARK: SYSTEM FUNC
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -49,7 +50,7 @@ class PaymentQRScanViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -60,7 +61,7 @@ class PaymentQRScanViewController: UIViewController {
 
     @objc
     fileprivate func handleBackButton() {
-        self.navigationController?.pop()
+        GlobalDefine.shared.mainNavi?.pop()
     }
     
     @IBAction func onClickStartCharging(_ sender: UIButton) {
@@ -87,7 +88,8 @@ class PaymentQRScanViewController: UIViewController {
         Server.getPayRegisterStatus{ (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                let payCode = json["pay_code"].intValue
+//                let payCode = json["pay_code"].intValue
+                let payCode = 8800
                 
                 switch PaymentStatus(rawValue: payCode) {
                 case .PAY_FINE_USER :
