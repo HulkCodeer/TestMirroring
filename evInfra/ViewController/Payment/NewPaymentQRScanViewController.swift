@@ -24,6 +24,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         $0.font = .systemFont(ofSize: 22, weight: .semibold)
         $0.text = "현재 GS칼텍스에서\nQR 충전을 할 수 있어요"
         $0.textColor = Colors.backgroundPrimary.color
+        $0.textAlignment = .center
         $0.numberOfLines = 2
     }
     
@@ -33,6 +34,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         $0.textColor = Colors.nt2.color
         $0.setUnderline()
         $0.numberOfLines = 1
+        $0.textAlignment = .center
     }
     
     private lazy var stationSubGuideBtn = UIButton()
@@ -51,6 +53,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         $0.font = .systemFont(ofSize: 15, weight: .regular)
         $0.text = "QR 코드를 비추면 자동으로 스캔되어요"
         $0.textColor = .white
+        $0.textAlignment = .center
     }
     
     private lazy var qrBoxImgView = UIImageView().then {
@@ -217,7 +220,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
             
             stationGuideLbl.attributedText = attributeText
-            guideLbl.text = "사각 박스 안에 QR 코드를 비추면 자동으로 스캔되어요"
+            guideLbl.text = "QR 코드를 비추면 자동으로 스캔되어요"
             
             let popupModel = PopupModel(title: "회원카드 발급이 필요해요",
                                         message: "회원카드를 발급 해야 한국전력, GS칼텍스의 QR 충전을 이용할 수 있어요.",
@@ -256,9 +259,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPositive.color], range: chageRange)
             attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
             stationGuideLbl.attributedText = attributeText
-            
-            guideLbl.text = "QR 코드를 비추면 자동으로 스캔되어요"
-                                    
+                                                            
             Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
                 .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
@@ -276,8 +277,6 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPositive.color], range: chageRange)
             attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
             stationGuideLbl.attributedText = attributeText
-            
-            guideLbl.text = "QR 코드를 비추면 자동으로 스캔되어요"
             
             Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
                 .bind(to: reactor.action)

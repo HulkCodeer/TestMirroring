@@ -42,11 +42,9 @@ internal final class ConfirmPopupViewController: UIViewController {
         case cancel
     }
     
-    private lazy var backgroundView: UIView = {
-       let view = UIView()
-        view.backgroundColor = UIColor(named: "nt-black")?.withAlphaComponent(0.3)
-        return view
-    }()
+    private lazy var dimmedBtn = UIButton().then {
+        $0.backgroundColor = UIColor(named: "nt-black")?.withAlphaComponent(0.3)
+    }
     
     private lazy var containerView: UIView = {
        let view = UIView()
@@ -113,15 +111,15 @@ internal final class ConfirmPopupViewController: UIViewController {
     override func loadView() {
         super.loadView()
                         
-        view.addSubview(backgroundView)
-        backgroundView.addSubview(containerView)
+        view.addSubview(dimmedBtn)
+        dimmedBtn.addSubview(containerView)
         containerView.addSubview(dialogView)
         
         dialogView.addArrangedSubview(titleLabel)
         dialogView.addArrangedSubview(descriptionLabel)
         dialogView.addArrangedSubview(buttonStackView)
         
-        backgroundView.snp.makeConstraints {
+        dimmedBtn.snp.makeConstraints {
             $0.top.bottom.left.right.equalToSuperview()
         }
         
@@ -176,6 +174,15 @@ internal final class ConfirmPopupViewController: UIViewController {
         }
         
         descriptionLabel.textAlignment = self.popupModel.messageTextAlignment
+        
+        dimmedBtn.rx.tap
+            .asDriver()
+            .drive(with: self){ obj,_ in
+                guard let _dimmedAction = self.popupModel.dimmedBtnAction else { return }
+                obj.dismissPopup(actionBtnType: .cancel)
+                _dimmedAction()
+            }
+            .disposed(by: self.disposebag)
     }
     
     override func viewDidLoad() {

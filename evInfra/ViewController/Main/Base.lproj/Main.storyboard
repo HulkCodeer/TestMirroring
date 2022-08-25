@@ -95,7 +95,7 @@
                                         <rect key="frame" x="8" y="0.0" width="82" height="64"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <color key="tintColor" name="gr-8"/>
-                                        <state key="normal" title="QR충전" image="ic_line_payment">
+                                        <state key="normal" title="QR충전" image="icon_qr">
                                             <color key="titleColor" name="gr-8"/>
                                         </state>
                                         <connections>
@@ -778,7 +778,6 @@
         <image name="go_navi_icon_white" width="16" height="16"/>
         <image name="ic_comment" width="32" height="24"/>
         <image name="ic_line_favorite" width="32" height="24"/>
-        <image name="ic_line_payment" width="32" height="24"/>
         <image name="ic_newbadge" width="20" height="20"/>
         <image name="icon_battery" width="32" height="32"/>
         <image name="icon_comment_lg" width="32" height="32"/>
@@ -786,6 +785,7 @@
         <image name="icon_ev" width="32" height="32"/>
         <image name="icon_gift_lg" width="32" height="32"/>
         <image name="icon_main_faq" width="32" height="24"/>
+        <image name="icon_qr" width="32" height="24"/>
         <image name="icon_refresh_md" width="24" height="24"/>
         <image name="icon_setting_lg" width="32" height="32"/>
         <image name="icon_user" width="48" height="48"/>

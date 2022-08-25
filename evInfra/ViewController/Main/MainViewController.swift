@@ -86,7 +86,6 @@ internal final class MainViewController: UIViewController {
     
     private var summaryView: SummaryView!
     private var disposeBag = DisposeBag()
-    private var isShowEasyTips: Bool = false
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -134,7 +133,7 @@ internal final class MainViewController: UIViewController {
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
                         
         
-        guard !isShowEasyTips else { return }
+        guard !MemberManager.shared.isShowQrTooltip else { return }
         
         var preferences = EasyTipView.Preferences()
         
@@ -161,9 +160,9 @@ internal final class MainViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)    
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
-        guard !isShowEasyTips else { return }
+        guard !MemberManager.shared.isShowQrTooltip else { return }
         _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
-        isShowEasyTips = true
+        MemberManager.shared.isShowQrTooltip = true
     }
     
     private func showDeepLink() {
@@ -309,9 +308,9 @@ internal final class MainViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard !isShowEasyTips else { return }
+        guard !MemberManager.shared.isShowQrTooltip else { return }
         _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
-        isShowEasyTips = true
+        MemberManager.shared.isShowQrTooltip = true
     }
     
     // MARK: - Action for button
@@ -1465,9 +1464,11 @@ extension MainViewController {
     }
     
     private func movePaymentQRScan() {
-        let reactor = PaymentQRScanReactor(provider: RestApi())
-        let viewcon = NewPaymentQRScanViewController(reactor: reactor)
-        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            let reactor = PaymentQRScanReactor(provider: RestApi())
+            let viewcon = NewPaymentQRScanViewController(reactor: reactor)
+            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+        }
     }
     
     private func showAuthAlert() {
@@ -1480,7 +1481,7 @@ extension MainViewController {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
             }            
-        }, textAlignment: .center)
+        }, textAlignment: .center, dimmedBtnAction: {})
         
         let popup = ConfirmPopupViewController(model: popupModel)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
@@ -1502,7 +1503,7 @@ extension MainViewController {
                 // 진행중인 충전이 없음
                 self.btn_main_charge.alignTextUnderImage()
                 self.btn_main_charge.tintColor = Colors.gr8.color
-                self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                self.btn_main_charge.setImage(Icons.iconQr.image, for: .normal)
                 self.btn_main_charge.setTitle("QR충전", for: .normal)
             }
         }
@@ -1544,7 +1545,7 @@ extension MainViewController {
             // 진행중인 충전이 없음
             self.btn_main_charge.alignTextUnderImage()
             self.btn_main_charge.tintColor = UIColor(named: "gr-8")
-            self.btn_main_charge.setImage(UIImage(named: "ic_line_payment")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            self.btn_main_charge.setImage(Icons.iconQr, for: .normal)
             self.btn_main_charge.setTitle("QR충전", for: .normal)
             
         default: break

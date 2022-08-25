@@ -192,6 +192,16 @@ internal final class MemberManager {
         return UserDefault().readInt(key: UserDefault.Key.MB_LEVEL) == MemberLevel.keeper.rawValue
     }
     
+    // QR 체크
+    internal var isShowQrTooltip: Bool {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_QR_TOOLTIP, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_QR_TOOLTIP)
+        }
+    }
+    
     func setData(data: JSON) {
         if data["mb_id"].stringValue.elementsEqual("") {
             print("mb id is null");
@@ -240,7 +250,7 @@ internal final class MemberManager {
         userDefault.saveString(key: UserDefault.Key.MB_GENDER, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: "")
-        userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: "")
+        userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: "")        
     }
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {
@@ -257,7 +267,7 @@ internal final class MemberManager {
                                     },
                                     cancelBtnAction: {
                                         completion?(false)
-                                    })
+        }, dimmedBtnAction: {})
         let popup = ConfirmPopupViewController(model: popupModel)
         GlobalDefine.shared.mainNavi?.present(popup, animated: true, completion: nil)
     }

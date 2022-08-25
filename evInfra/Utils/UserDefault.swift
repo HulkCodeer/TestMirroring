@@ -49,6 +49,7 @@ class UserDefault {
         static let MB_REG_DATE = "reg_date"
         static let MB_POINT = "point"
         static let MB_HAS_REPRESENTED = "mb_has_represented"
+        static let IS_SHOW_QR_TOOLTIP = "is_show_qr_tooltip"
         
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"

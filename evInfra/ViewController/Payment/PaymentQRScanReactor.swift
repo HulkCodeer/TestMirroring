@@ -178,7 +178,11 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             case 8802: // 카드 등록 안된 멤버
                 let popupModel = PopupModel(title: "\(title)",
                                            message: "\(msg)",
-                                            confirmBtnTitle: "나가기", textAlignment: .center)
+                                            confirmBtnTitle: "나가기", confirmBtnAction: {
+                    GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                }, textAlignment: .center, dimmedBtnAction: {
+                    GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                })
                 
                 let popup = VerticalConfirmPopupViewController(model: popupModel)
                 
@@ -189,7 +193,19 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             case 8803: // 카드삭제했으나 DB 쿼리 실패로 안지워짐
                 let popupModel = PopupModel(title: "\(title)",
                                             message: "\(msg)",
-                                            confirmBtnTitle: "나가기", textAlignment: .center)
+                                            confirmBtnTitle: "결제정보 등록하기",
+                                            cancelBtnTitle: "나가기",
+                                            confirmBtnAction: {                    
+                    let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
+                    viewcon.myPayRegisterViewDelegate = self
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                },
+                                            cancelBtnAction: {
+                    GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                },
+                                            textAlignment: .center, dimmedBtnAction: {
+                    GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                })
                 let popup = VerticalConfirmPopupViewController(model: popupModel)
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
@@ -201,7 +217,20 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
             case 8145: // PG사 기타 오류
-                Snackbar().show(message: "\(msg)")
+                let popupModel = PopupModel(title: "\(title)",
+                                            message: "\(msg)",
+                                            confirmBtnTitle: "결제정보 등록하기", cancelBtnTitle: "나가기",
+                                            confirmBtnAction: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        let viewcon = MembershipGuideViewController()
+                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                    })
+                }, textAlignment: .center)
+                
+                let popup = VerticalConfirmPopupViewController(model: popupModel)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                })
                 
             case 1101: // 회원카드 없는 멤버
                 let popupModel = PopupModel(title: "\(title)",
@@ -225,7 +254,10 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             case 2005: // cp id에 해당하는 충전기가 db에 없음
                 let popupModel = PopupModel(title: "\(title)",
                                             message: "\(msg)",
-                                            confirmBtnTitle: "나가기", textAlignment: .center)
+                                            confirmBtnTitle: "나가기",
+                                            confirmBtnAction: {
+                    GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                }, textAlignment: .center)
                 
                 let popup = VerticalConfirmPopupViewController(model: popupModel)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
@@ -238,7 +270,11 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             case 2007: // 시범 운영중
                 let popupModel = PopupModel(title: "\(title)",
                                             message: "\(msg)",
-                                            confirmBtnTitle: "나가기", textAlignment: .center)
+                                            confirmBtnTitle: "나가기",
+                                            confirmBtnAction: {
+                    GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                },
+                                            textAlignment: .center)
                 
                 let popup = VerticalConfirmPopupViewController(model: popupModel)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
@@ -248,7 +284,10 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             case 2008: // 충전기 상태가 충전 가능이 아님
                 let popupModel = PopupModel(title: "\(title)",
                                             message: "\(msg)",
-                                            confirmBtnTitle: "나가기", textAlignment: .center)
+                                            confirmBtnTitle: "나가기",
+                                            confirmBtnAction: {
+                    GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                },textAlignment: .center)
                 
                 let popup = VerticalConfirmPopupViewController(model: popupModel)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
@@ -318,5 +357,24 @@ extension PaymentQRScanReactor: RepaymentListDelegate {
     
     func onRepayFail(){
         GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+    }
+}
+
+extension PaymentQRScanReactor: MyPayRegisterViewDelegate {
+    func onCancelRegister() {
+    }
+    
+    func finishRegisterResult(json: JSON) {
+        if (json["pay_code"].intValue == PaymentCard.PAY_REGISTER_SUCCESS) {
+            Observable.just(PaymentQRScanReactor.Action.startQRReaderView(true))
+                .bind(to: self.action)
+                .disposed(by: self.disposeBag)
+        } else {
+            if json["resultMsg"].stringValue.isEmpty {
+                Snackbar().show(message: "카드 등록을 실패하였습니다. 다시 시도해 주세요.")
+            } else {
+                Snackbar().show(message: json["resultMsg"].stringValue)
+            }            
+        }
     }
 }

@@ -25,6 +25,7 @@ internal enum Icons {
   internal static let iconInfoMd = ImageAsset(name: "icon_info_md")
   internal static let iconInfoSm = ImageAsset(name: "icon_info_sm")
   internal static let iconInfoXs = ImageAsset(name: "icon_info_xs")
+  internal static let iconQr = ImageAsset(name: "icon_qr")
   internal static let iconRadioSelected = ImageAsset(name: "iconRadioSelected")
   internal static let iconRadioUnselected = ImageAsset(name: "iconRadioUnselected")
   internal static let iconArrowDownLg = ImageAsset(name: "icon_arrow_down_lg")
