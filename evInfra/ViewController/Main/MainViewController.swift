@@ -1545,7 +1545,7 @@ extension MainViewController {
             // 진행중인 충전이 없음
             self.btn_main_charge.alignTextUnderImage()
             self.btn_main_charge.tintColor = UIColor(named: "gr-8")
-            self.btn_main_charge.setImage(Icons.iconQr, for: .normal)
+            self.btn_main_charge.setImage(Icons.iconQr.image, for: .normal)
             self.btn_main_charge.setTitle("QR충전", for: .normal)
             
         default: break
