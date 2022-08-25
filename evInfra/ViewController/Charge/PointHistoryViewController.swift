@@ -290,7 +290,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         
         Observable.combineLatest(pointTypeObservable, startDateObservable, endDateObseervable)
             .observe(on: MainScheduler.asyncInstance)
-            .map { Reactor.Action.loadPointHistory(type: $0, startDate: $1, endDate: $2) }
+            .map { Reactor.Action.loadPointHistory(($0, $1, $2)) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 

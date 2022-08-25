@@ -13,10 +13,11 @@ import SwiftyJSON
 
 internal class PointHistoryReactor: ViewModel, Reactor {
     typealias PointType = (totalPoint: String, expirePoint: String, points: [EvPoint])
+    typealias PointLoadData = (type: EvPoint.PointType, startDate: Date, endDate: Date)
     
     enum Action {
-        case loadPointInfo      
-        case loadPointHistory(type: EvPoint.PointType, startDate: Date, endDate: Date)
+        case loadPointInfo
+        case loadPointHistory(PointLoadData)
         case setPointType(EvPoint.PointType)
         case setStartDate(Date)
         case setEndDate(Date)
@@ -58,14 +59,14 @@ internal class PointHistoryReactor: ViewModel, Reactor {
             .compactMap(convertToPointHistory)
             .map { return .setPointInfo($0) }
             
-        case let .loadPointHistory(type, startDate, endDate):
-            let startDateStr = startDate.toString(dateFormat: .yyyyMMddS)
-            let endDateStr = endDate.toString(dateFormat: .yyyyMMddS)
+        case let .loadPointHistory(pointLoadData):
+            let startDateStr = pointLoadData.startDate.toString(dateFormat: .yyyyMMddS)
+            let endDateStr = pointLoadData.endDate.toString(dateFormat: .yyyyMMddS)
             
             return provider.postPointHistory(startDate: startDateStr, endDate: endDateStr)
                 .convertData()
                 .compactMap(convertToPointHistory)
-                .map { return .setPoints(type, $0.points) }
+                .map { return .setPoints(pointLoadData.type, $0.points) }
             
         case let .setPointType(pointType):
             return .just(.setPointType(pointType))
