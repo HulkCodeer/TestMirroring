@@ -1190,7 +1190,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
             }, cancelBtnAction: {
                 guard let number = URL(string: "tel://070-8633-9009") else { return }
                 UIApplication.shared.open(number)
-            } , textAlignment: .center)
+            } , textAlignment: .center, dimmedBtnAction: {})
             
             let popup = VerticalConfirmPopupViewController(model: popupModel)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {

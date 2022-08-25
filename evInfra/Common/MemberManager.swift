@@ -175,11 +175,21 @@ internal final class MemberManager {
     }
     
     internal var hasMembership: Bool {
-        return UserDefault().readBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP)
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP)
+        }
     }
     
     internal var hasPayment: Bool {
-        return UserDefault().readBool(key: UserDefault.Key.MB_PAYMENT)
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.MB_PAYMENT, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.MB_PAYMENT)
+        }
     }
     
     // 로그인 상태 체크

@@ -1422,7 +1422,7 @@ extension MainViewController {
         let code = response["code"].intValue
         switch code {
         case 1000:
-            defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
+//            defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
 //            let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
 //            viewcon.cpId = "GS00002204"
 //            viewcon.connectorId = "1"
