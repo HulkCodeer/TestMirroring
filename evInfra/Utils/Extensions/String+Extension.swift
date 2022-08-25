@@ -22,9 +22,9 @@ extension String {
         }
     }
     
-    func toDate(dateFormat: String) -> Date? {
+    func toDate(dateFormat: DateConstants) -> Date? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = dateFormat
+        dateFormatter.dateFormat = dateFormat.rawValue
         let date: Date? = dateFormatter.date(from: self)
         return date
     }

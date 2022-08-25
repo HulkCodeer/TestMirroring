@@ -8,18 +8,32 @@
 
 import Foundation
 
-enum DateConstants {
-    
-    static let longDateShortTime = "yyyy.MM.dd HH:mm"
-    static let yearMonthDayHangul = "yyyy년 MM월 dd일"
-    static let yearMonthDayKo = "yyyy-MM-dd"
-    
-    static let monthDayDot = "MM.dd"
-    static let time = "HH:mm"
-    
-    static let year = "yyyy"
-    static let shortMonth = "M"
-    static let month = "MM"
-    static let day = "dd"
+enum DateConstants: String {
+    // . :  d
+    // 한글 : ko
+    // - : s
 
+    case yyyyMMddhhmmssSSSSSS = "yyyy-MM-dd hh:mm:ss.SSSSSS"
+    
+    /// yyyy.MM.dd HH:mmD
+    case yyyyMMddHHmmD = "yyyy.MM.dd HH:mm"
+    /// yyyy년 MM월 dd일
+    case yyyyMMddKo = "yyyy년 MM월 dd일"
+    /// yyyy-MM-dd
+    case yyyyMMddS = "yyyy-MM-dd"
+    
+    /// MM.dd
+    case mmddD = "MM.dd"
+    /// HH:mm
+    case hhmm = "HH:mm"
+    
+    /// yyyy
+    case year = "yyyy"
+    /// MM
+    case month = "MM"
+    /// M
+    case monthShort = "M"
+    /// dd
+    case day = "dd"
+            
 }

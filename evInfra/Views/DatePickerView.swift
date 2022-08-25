@@ -39,7 +39,7 @@ internal class DatePickerView: UIView {
     private lazy var formatter = DateFormatter().then {
         let locale = Locale(identifier: "ko_KO")
         
-        $0.dateFormat = Constants.date.yearMonthDayHangul
+        $0.dateFormat = Constants.date.yyyyMMddKo.rawValue
         $0.dateStyle = .long
         $0.timeStyle = .none
         $0.locale = locale

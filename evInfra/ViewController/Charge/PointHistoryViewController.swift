@@ -84,7 +84,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
     private lazy var impendPointMarkLbael = UILabel().then {
         $0.font = .systemFont(ofSize: 14)
         $0.textColor = UIColor.init(hex: "#7B7B7B")
-        var month = Date().toString(dateFormat: Constants.date.shortMonth)
+        var month = Date().toString(dateFormat: .monthShort)
         $0.text = "\(month)월 소멸예정 베리"
     }
     private lazy var impendPointLabel = UILabel().then {

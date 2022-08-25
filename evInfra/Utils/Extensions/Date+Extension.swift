@@ -16,10 +16,9 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
-    /// Constant.date.~~
-    func toString(dateFormat: String) -> String {
+    func toString(dateFormat: DateConstants) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = dateFormat
+        dateFormatter.dateFormat = dateFormat.rawValue
         return dateFormatter.string(from: self)
     }
     
