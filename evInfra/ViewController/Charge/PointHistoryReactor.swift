@@ -34,8 +34,8 @@ internal class PointHistoryReactor: ViewModel, Reactor {
         var totalPoint: String?
         var expirePoint: String?
         var pointType: EvPoint.PointType? = .all
-        var startDate: Date? = Date()
-        var endDate: Date? = Date()
+        var startDate: Date?
+        var endDate: Date?
         
         var evPointsViewItems: [PointViewItem] = []
         var evPointsCount: Int = 0
@@ -100,6 +100,9 @@ internal class PointHistoryReactor: ViewModel, Reactor {
             newState.totalPoint = pointHistory.totalPoint
             newState.expirePoint = pointHistory.expirePoint
             newState.pointType = self.initialState.pointType
+            newState.startDate = Date()
+            newState.endDate = Date()
+            
         case let.setPointType(pointType):
             newState.pointType = pointType
             

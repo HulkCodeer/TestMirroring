@@ -50,5 +50,6 @@ internal final class PointUseGuideViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = false
     }
 }

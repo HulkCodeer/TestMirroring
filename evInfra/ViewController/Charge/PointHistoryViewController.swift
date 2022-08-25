@@ -168,12 +168,6 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        subscribeUI()
-    }
-    
     // MARK: bind
     
     internal func bind(reactor: PointHistoryReactor) {
@@ -207,78 +201,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .map { PointHistoryReactor.Action.setEndDate($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
-        
-        let pointTypeObservable = reactor.state.compactMap { $0.pointType }
-        let startDateObservable = reactor.state.compactMap { $0.startDate }
-        let endDateObseervable = reactor.state.compactMap { $0.endDate }
-        
-        Observable.combineLatest(pointTypeObservable, startDateObservable, endDateObseervable)
-            .observe(on: MainScheduler.asyncInstance)
-            .map { Reactor.Action.loadPointHistory(type: $0, startDate: $1, endDate: $2) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-    }
-    
-    private func bindState(reactor: PointHistoryReactor) {
-        let evPointsObservable = reactor.state.compactMap { $0.evPointsViewItems }
-        let evPointsCountObservable = reactor.state.compactMap { $0.evPointsCount }
-        let totalPointObservable = reactor.state.compactMap { $0.totalPoint }
-        let expirePointObservable = reactor.state.compactMap { $0.expirePoint }
-        let startDateObservable = reactor.state.compactMap { $0.startDate }
-        let endDateObservable = reactor.state.compactMap { $0.endDate }
 
-        totalPointObservable
-            .asDriver(onErrorJustReturn: "0")
-            .drive(myPointLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        expirePointObservable
-            .asDriver(onErrorJustReturn: "0")
-            .map { "\($0) 베리" }
-            .drive(with: self) { owner, impendText in
-                owner.impendPointLabel.text = impendText
-                owner.impendPointLabel.attributedText = impendText.pointText(
-                    pointText: "베리",
-                    font: .systemFont(ofSize: 14),
-                    pointColor: UIColor.init(hex: "#7B7B7B"))
-            }
-            .disposed(by: disposeBag)
-        
-        evPointsObservable
-            .map { [PointHistorySectionModel(items: $0)] }
-            .bind(to: pointTableView.rx.items(dataSource: dataSource))
-            .disposed(by: disposeBag)
-        
-        evPointsCountObservable
-            .asDriver(onErrorJustReturn: 0)
-            .map { $0 <= 0 }
-            .drive(with: self) { owner, isEmpty in
-                owner.pointEmptyLabel.isHidden = !isEmpty
-                owner.pointTableView.isScrollEnabled = !isEmpty
-            }
-            .disposed(by: disposeBag)
-        
-        startDateObservable
-            .asDriver(onErrorJustReturn: Date())
-            .drive(with: self) { owner, date in
-                let dateTitle = date.toYearMonthDay()
-                owner.startDateButton.setTitle(dateTitle, for: .normal)
-                owner.endDateView.minimumDate(date: date)
-            }
-            .disposed(by: disposeBag)
-        
-        endDateObservable
-            .asDriver(onErrorJustReturn: Date())
-            .map { $0.toYearMonthDay() }
-            .drive(with: self) { owner, dateStr in
-                owner.endDateButton.setTitle(dateStr, for: .normal)
-            }
-            .disposed(by: disposeBag)
-
-    }
-    
-    private func subscribeUI() {
         settingButton.rx.tap
             .asDriver()
             .drive { _ in
@@ -313,6 +236,67 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .disposed(by: disposeBag)
     }
     
+    private func bindState(reactor: PointHistoryReactor) {
+        reactor.state.compactMap { $0.totalPoint }
+            .asDriver(onErrorJustReturn: "0")
+            .drive(myPointLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.expirePoint }
+            .asDriver(onErrorJustReturn: "0")
+            .map { "\($0) 베리" }
+            .drive(with: self) { owner, impendText in
+                owner.impendPointLabel.text = impendText
+                owner.impendPointLabel.attributedText = impendText.pointText(
+                    pointText: "베리",
+                    font: .systemFont(ofSize: 14),
+                    pointColor: UIColor.init(hex: "#7B7B7B"))
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.evPointsViewItems }
+            .map { [PointHistorySectionModel(items: $0)] }
+            .bind(to: pointTableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.evPointsCount }
+            .asDriver(onErrorJustReturn: 0)
+            .map { $0 <= 0 }
+            .drive(with: self) { owner, isEmpty in
+                owner.pointEmptyLabel.isHidden = !isEmpty
+                owner.pointTableView.isScrollEnabled = !isEmpty
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.startDate }
+            .asDriver(onErrorJustReturn: Date())
+            .drive(with: self) { owner, date in
+                let dateTitle = date.toYearMonthDay()
+                owner.startDateButton.setTitle(dateTitle, for: .normal)
+                owner.endDateView.minimumDate(date: date)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.endDate }
+            .asDriver(onErrorJustReturn: Date())
+            .map { $0.toYearMonthDay() }
+            .drive(with: self) { owner, dateStr in
+                owner.endDateButton.setTitle(dateStr, for: .normal)
+            }
+            .disposed(by: disposeBag)
+        
+        let pointTypeObservable = reactor.state.compactMap { $0.pointType }
+        let startDateObservable = reactor.state.compactMap { $0.startDate }
+        let endDateObseervable = reactor.state.compactMap { $0.endDate }
+        
+        Observable.combineLatest(pointTypeObservable, startDateObservable, endDateObseervable)
+            .observe(on: MainScheduler.asyncInstance)
+            .map { Reactor.Action.loadPointHistory(type: $0, startDate: $1, endDate: $2) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+    }
+        
     // MARK: set ui
     
     private func setUI() {
@@ -386,7 +370,7 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             $0.leading.trailing.bottom.equalToSuperview()
         }
         startDateView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalTo(view)
             $0.bottom.equalTo(view)
         }
         endDateView.snp.makeConstraints {
