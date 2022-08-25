@@ -247,9 +247,8 @@ internal final class PointHistoryViewController: CommonBaseViewController, Story
             .map { "\($0) 베리" }
             .drive(with: self) { owner, impendText in
                 owner.impendPointLabel.text = impendText
-                owner.impendPointLabel.attributedText = impendText.pointText(
+                owner.impendPointLabel.pointFirstText(
                     pointText: "베리",
-                    font: .systemFont(ofSize: 14),
                     pointColor: UIColor.init(hex: "#7B7B7B"))
             }
             .disposed(by: disposeBag)

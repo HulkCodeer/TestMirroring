@@ -101,8 +101,7 @@ extension String {
         return String(self.dropFirst(prefix.count))
     }
     
-    /// ~.attributedText = text.pointText
-    func pointText(pointText: String, font: UIFont, pointFont: UIFont? = nil, pointColor: UIColor? = nil) -> NSMutableAttributedString {
+    func firstPointText(pointText: String, font: UIFont, pointFont: UIFont? = nil, pointColor: UIColor? = nil) -> NSMutableAttributedString {
         let entireNSString = self as NSString
    
         let attributeString = NSMutableAttributedString(
@@ -121,6 +120,38 @@ extension String {
                 .foregroundColor,
                 value: _pointColor,
                 range: entireNSString.range(of: pointText))
+        }
+        
+        return attributeString
+    }
+    
+    func pointText(pointText: String, font: UIFont, pointFont: UIFont? = nil, pointColor: UIColor? = nil) -> NSMutableAttributedString {
+        let entireNSString = self as NSString
+        var range = NSRange(location: 0, length: entireNSString.length)
+        var rangeArr = [NSRange]()
+
+        let attributeString = NSMutableAttributedString(
+            string: self,
+            attributes: [.font: font])
+        
+        while (range.location != NSNotFound) {
+            range = entireNSString.range(of: pointText, options: .literal, range: range)
+            rangeArr.append(range)
+            
+            if (range.location != NSNotFound) {
+                let location = range.location + range.length
+                range = NSRange(location: location, length: entireNSString.length - location)
+            }
+        }
+        
+        rangeArr.forEach {
+            if let _pointFont = pointFont {
+                attributeString.addAttribute(.font, value: _pointFont, range: $0)
+            }
+            
+            if let _pointColor = pointColor {
+                attributeString.addAttribute(.foregroundColor, value: _pointColor, range: $0)
+            }
         }
         
         return attributeString

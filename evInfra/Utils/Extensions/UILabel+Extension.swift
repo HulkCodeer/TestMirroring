@@ -64,4 +64,28 @@ extension UILabel {
         attributedString.addAttributes(tagAttributes, range: range)
         self.attributedText = attributedString
     }
+    
+    func pointText(pointText: String, pointFont: UIFont? = nil, pointColor: UIColor? = nil) {
+        guard let _font = self.font else { return }
+        
+        self.attributedText = self.text?
+            .pointText(
+                pointText: pointText,
+                font: _font,
+                pointFont: pointFont,
+                pointColor: pointColor
+            )
+    }
+    
+    func pointFirstText(pointText: String, pointFont: UIFont? = nil, pointColor: UIColor? = nil) {
+        guard let _font = self.font else { return }
+        
+        self.attributedText = self.text?
+            .firstPointText(
+                pointText: pointText,
+                font: _font,
+                pointFont: pointFont,
+                pointColor: pointColor
+            )
+    }
 }
