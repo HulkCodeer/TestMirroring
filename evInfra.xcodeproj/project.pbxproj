@@ -155,6 +155,10 @@
 		52B87A042799388500562436 /* BoardDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52B87A032799388500562436 /* BoardDetailTableViewCell.xib */; };
 		52C0782727CC982A00DEFEBE /* BoardListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0782627CC982A00DEFEBE /* BoardListViewModel.swift */; };
 		52D0F66A279E33B80070824E /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D0F669279E33B80070824E /* BoardDetailViewModel.swift */; };
+		59317D1228B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
+		59317D1328B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
+		59317D1528B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */; };
+		59317D1628B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */; };
 		633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FE28B342630041BDBB /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
@@ -1060,6 +1064,8 @@
 		52B87A032799388500562436 /* BoardDetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BoardDetailTableViewCell.xib; sourceTree = "<group>"; };
 		52C0782627CC982A00DEFEBE /* BoardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListViewModel.swift; sourceTree = "<group>"; };
 		52D0F669279E33B80070824E /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
+		59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoticeDetailViewController.swift; sourceTree = "<group>"; };
+		59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoticeViewController.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
 		633FF2FA28B342630041BDBB /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		633FF2FB28B342630041BDBB /* Radio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Radio.swift; sourceTree = "<group>"; };
@@ -2416,6 +2422,8 @@
 				73344AC4207F429300A6A9EC /* EditViewDelegate.swift */,
 				7376B5C420C6473500A2B7C1 /* MyArticleViewController.swift */,
 				90CBCC6526EAD64D002B2591 /* EIImageViewerViewController.swift */,
+				59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */,
+				59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -3281,6 +3289,7 @@
 				63F313D2284EC74F001713D2 /* CompanyInfo.swift in Sources */,
 				63F313D3284EC74F001713D2 /* AddressSearchCell.swift in Sources */,
 				63F313D4284EC74F001713D2 /* UIColor+Extension.swift in Sources */,
+				59317D1628B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */,
 				63F313D5284EC74F001713D2 /* UIStoryboard+Extension.swift in Sources */,
 				63F313D6284EC74F001713D2 /* ServerResult.swift in Sources */,
 				63F313D7284EC74F001713D2 /* ChargerFilter.swift in Sources */,
@@ -3470,6 +3479,7 @@
 				63F31478284EC74F001713D2 /* BoardTableViewFooter.swift in Sources */,
 				63F31479284EC74F001713D2 /* NoticeTableViewCell.swift in Sources */,
 				63F3147A284EC74F001713D2 /* UIAlertController+Extension.swift in Sources */,
+				59317D1328B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */,
 				63F3147B284EC74F001713D2 /* RentalCarCardListView.swift in Sources */,
 				633FF2FF28B342630041BDBB /* Radio.swift in Sources */,
 				63F3147C284EC74F001713D2 /* FilterContainerView.swift in Sources */,
@@ -3580,6 +3590,7 @@
 				637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */,
 				63EB0391283CB26500078D28 /* ServerResult.swift in Sources */,
 				DB0E4695205FC4D8002DD05D /* ChargerFilter.swift in Sources */,
+				59317D1528B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */,
 				DB4395EE22DC4C380092E0A5 /* Date+Extension.swift in Sources */,
 				522AF73427A25D3D00DBEAD6 /* KeyboardInputView.swift in Sources */,
 				CE33B4BB2191B8B000B6C632 /* EventViewController.swift in Sources */,
@@ -3769,6 +3780,7 @@
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
 				736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController+Extension.swift in Sources */,
+				59317D1228B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */,
 				63DA0A05282E337F0021292C /* RentalCarCardListView.swift in Sources */,
 				633FF2FE28B342630041BDBB /* Radio.swift in Sources */,
 				00A6A16626C3B3DC0023DAE3 /* FilterContainerView.swift in Sources */,
