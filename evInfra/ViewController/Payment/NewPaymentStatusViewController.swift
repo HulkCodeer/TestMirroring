@@ -867,9 +867,12 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
+        GlobalDefine.shared.mainNavi?.interactivePopGestureRecognizer?.isEnabled = false
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)        
     }
     
     override func viewDidDisappear(_ animated: Bool) {

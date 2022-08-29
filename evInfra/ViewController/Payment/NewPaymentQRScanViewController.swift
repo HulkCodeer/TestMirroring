@@ -180,6 +180,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         super.viewWillAppear(animated)
         qrReaderView.start()
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
+        GlobalDefine.shared.mainNavi?.interactivePopGestureRecognizer?.isEnabled = false
         
         guard let _reactor = self.reactor else { return }
         self.changeStationGuideWithPaymentStatusCheck(reactor: _reactor)
