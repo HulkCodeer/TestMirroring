@@ -57,7 +57,6 @@ internal final class AmplitudeManager {
     
     // MARK: - UserProperty: 즐겨찾기 충전소 개수 세팅
     internal func setUserProperty(with countOfFavoriteList: Int) {
-//        let countOfFavoriteList = favoriteList.filter { return $0.mFavorite }.count
         identify.set("favorite station count", value: NSString(string: String(countOfFavoriteList)))
 
         DispatchQueue.global(qos: .background).async {
@@ -91,6 +90,9 @@ internal enum EventType {
     case promotion(PromotionEvent)
     case filter(FilterEvent)
     case search(SearchEvent)
+    case myReports(MyReportsEvent)
+    case reports(ReportsEvent)
+    case board(BoardEvent)
     
     var eventName: String {
         switch self {
@@ -112,6 +114,7 @@ internal enum EventType {
             switch event {
             case .viewMainPage: return "view_main_page"
             case .clickMyLocation: return "click_my_location"
+            case .clickRenew: return "click_renew"
             case .viewStationSummarized: return "view_station_summarized"
             case .viewChargingPriceInfo: return "view_charging_price_info"
             case .clickStationAddFavorite: return "click_station_add_favorite"
@@ -127,18 +130,29 @@ internal enum EventType {
             case .clickStationSelectTransit: return "click_station_select_transit"
             case .clickStationSelectDestination: return "click_station_select_destination"
             case .clickNavigation: return "click_navigation"
-            case .clickNavigationFindway: return "click_navigation_find_away"
+            case .clickNavigationFindway: return "click_navigation_find_way"
             case .clickStationStartNavigaion: return "click_station_start_navigation"
+            case .inputNavigationStartingPoint: return "input_navigation_starting_point"
+            case .inputNavigationDestination: return "input_navigation_destination"
             }
         case .detail(let event):
             switch event {
             case .viewStationDetail: return "view_station_detail"
             case .clickStationChargingPrice: return "click_station_charging_price"
+            case .clickStationSatelliteView: return "click_station_satellite_view"
+            case .viewStationReview: return "view_station_review"
             }
         case .payment(let event):
             switch event {
             case .viewMyBerry: return "view_my_berry"
             case .clickSetUpBerry: return "click_set_up_berry"
+            case .clickResetBerry: return "click_reset_berry"
+            case .clickAddPaymentCard: return "click_add_payment_card"
+            case .completePaymentCard: return "complete_payment_card"
+            case .clickApplyEVICard: return "click_apply_EVI_card"
+            case .completeApplyEVICard: return "complete_apply_EVI_card"
+            case .clickApplyAllianceCard: return "click_apply_alliance_card"
+            case .completeApplyAllianceCard: return "complete_apply_alliance_card"
             }
         case .promotion(let event):
             switch event {
@@ -157,26 +171,58 @@ internal enum EventType {
             switch event {
             case .clickSearchChooseStation: return "click_search_choose_station"
             }
+        case .myReports(let event):
+            switch event {
+            case .viewMyPost: return "view_my_post"
+            case .viewMyReports: return "view_my_reports"
+            }
+        case .reports(let event):
+            switch event {
+            case .clickStationReport: return "click_station_report"
+            case .clickStationCompleteReport: return "click_station_complete_report"
+            }
+        case .board(let event):
+            switch event {
+            case .viewBoardPost: return "view_board_post"
+            case .clickWriteBoardPost: return "click_write_board_post"
+            case .completeWriteBoardPost: return "complete_write_board_post"
+            }
         }
     }
     
+    // 화면진입 이벤트
     internal enum EnterEvent {
         case viewEnter
     }
 
+    // 회원가입 이벤트
     internal enum SignUpEvent {
         case clickSignUpButton
         case completeSignUp
     }
     
+    // 내가 쓴 글/나의 제보 내역 이벤트
+    internal enum MyReportsEvent {
+        case viewMyPost
+        case viewMyReports
+    }
+    
+    internal enum ReportsEvent {
+        case clickStationReport
+        case clickStationCompleteReport
+    }
+    
+    // 로그인 이벤트
     internal enum LoginEvent {
         case clickLoginButton
         case complteLogin
     }
     
+    // 지도화면 이벤트
     internal enum MapEvent {
         case viewMainPage
         case clickMyLocation
+        case clickRenew
         case viewStationSummarized
         case viewChargingPriceInfo
         case clickStationAddFavorite
@@ -187,6 +233,7 @@ internal enum EventType {
         case viewFavorites
     }
     
+    // 경로찾기 이벤트
     internal enum RouteEvent {
         case clickStationSelectStarting
         case clickStationSelectTransit
@@ -194,24 +241,39 @@ internal enum EventType {
         case clickNavigation
         case clickNavigationFindway
         case clickStationStartNavigaion
+        case inputNavigationStartingPoint
+        case inputNavigationDestination
     }
     
+    // 충전소 이벤트
     internal enum ChargerStationEvent {
         case viewStationDetail
         case clickStationChargingPrice
+        case clickStationSatelliteView
+        case viewStationReview
     }
     
+    // 결제 이벤트
     internal enum PaymentEvent {
         case viewMyBerry
         case clickSetUpBerry
+        case clickResetBerry
+        case clickAddPaymentCard
+        case completePaymentCard
+        case clickApplyEVICard
+        case completeApplyEVICard
+        case clickApplyAllianceCard
+        case completeApplyAllianceCard
     }
     
+    // 이벤트/광고/배너 이벤트
     internal enum PromotionEvent {
         case clickEvent
         case clickBanner
         case clickCloseBanner
     }
     
+    // 필터 이벤트
     internal enum FilterEvent {
         case viewFilter
         case clickFilterCancel
@@ -219,8 +281,16 @@ internal enum EventType {
         case clickFilterSave
     }
     
+    // 검색 이벤트
     internal enum SearchEvent {
         case clickSearchChooseStation
+    }
+    
+    // 게시판 이벤트
+    internal enum BoardEvent {
+        case viewBoardPost
+        case clickWriteBoardPost
+        case completeWriteBoardPost
     }
 }
 

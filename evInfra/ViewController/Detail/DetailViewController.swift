@@ -93,12 +93,8 @@ internal final class DetailViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if let charger = charger {
-            let property: [String: Any?] = AmpChargerStationModel(charger).toProperty
-            AmplitudeManager.shared.logEvent(type: .detail(.viewStationDetail), property: property)
-        }
-        
+
+        logEvent(with: .viewStationDetail)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
     }
     
@@ -376,7 +372,7 @@ internal final class DetailViewController: BaseViewController {
         let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         termsViewControll.tabIndex = .StationPrice
         termsViewControll.subParams = "company_id=" + (charger?.mStationInfoDto?.mCompanyId)!
-        AmplitudeManager.shared.logEvent(type: .detail(.clickStationChargingPrice), property: nil)
+        logEvent(with: .clickStationChargingPrice)
         self.navigationController?.push(viewController: termsViewControll)
     }
 }
@@ -399,6 +395,7 @@ extension DetailViewController {
     
     @objc
     fileprivate func handleBackButton() {
+        logEvent(with: .viewStationReview)
         self.navigationController?.pop(transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
     }
 }
@@ -557,12 +554,13 @@ extension DetailViewController {
             }
         }
         
+        boardWriteViewController.isFromDetailView = true
         boardWriteViewController.category = .CHARGER
         boardWriteViewController.popCompletion = { [weak self] in
             guard let self = self else { return }
             self.fetchFirstBoard(mid: Board.CommunityType.CHARGER.rawValue, sort: .LATEST, mode: Board.ScreenType.FEED.rawValue)
         }
-        
+        logEvent(with: .clickWriteBoardPost)
         self.navigationController?.push(viewController: boardWriteViewController)
     }
     
@@ -611,5 +609,35 @@ extension DetailViewController {
 extension DetailViewController: SummaryDelegate {
     func setCidInfoList() {
         self.setStationInfo()
+    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension DetailViewController {
+    private func logEvent(with event: EventType.ChargerStationEvent) {
+        switch event {
+        case .clickStationSatelliteView:
+            let type: String = mapSwitch.isOn ? "On" : "Off"
+            let property: [String: Any] = ["type": type]
+            AmplitudeManager.shared.logEvent(type: .detail(event), property: property)
+        case .viewStationReview:
+            let viewedReviewCnt: Int = boardTableView.viewedCnt
+            let property: [String: Any] = ["reviewIndex": viewedReviewCnt]
+            AmplitudeManager.shared.logEvent(type: .detail(event), property: property)
+        case .clickStationChargingPrice:
+            AmplitudeManager.shared.logEvent(type: .detail(event), property: nil)
+        case .viewStationDetail:
+            guard let charger = charger else { return }
+            let property: [String: Any?] = AmpChargerStationModel(charger).toProperty
+            AmplitudeManager.shared.logEvent(type: .detail(event), property: property)
+        }
+    }
+    
+    private func logEvent(with event: EventType.BoardEvent) {
+        switch event {
+        case .clickWriteBoardPost:
+            AmplitudeManager.shared.logEvent(type: .board(event), property: nil)
+        default: break
+        }
     }
 }
