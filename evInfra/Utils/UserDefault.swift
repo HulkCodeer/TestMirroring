@@ -103,10 +103,7 @@ class UserDefault {
         
         // 마케팅 팝업을 이미 보여줬는지 체크
         static let DID_SHOW_MARKETING_POPUP = "app_first_boot" // false : first booting
-        
-        // 충전 결제
-        static let CHARGING_ID = "charging_id"
-        
+                        
         // 광고 - 일주일동안 보지 않기 선택한 날짜
         static let AD_KEEP_DATE_FOR_A_WEEK = "ad_keep_date_for_a_week"
         

@@ -232,6 +232,13 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             }
             .disposed(by: self.disposeBag)
         
+        reactor.state.compactMap { $0.isChargingStatus }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { obj, _ in
+                obj.qrReaderView.start()
+            }
+            .disposed(by: self.disposeBag)
+        
     }
     
     private func changeStationGuideWithPaymentStatusCheck(reactor: PaymentQRScanReactor) {

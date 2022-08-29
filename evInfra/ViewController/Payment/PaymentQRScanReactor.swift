@@ -97,8 +97,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         switch result {
         case .success(let data):
             let json = JSON(data)
-//                let payCode = json["pay_code"].intValue
-            let payCode = 8800
+            let payCode = json["pay_code"].intValue
+//            let payCode = 8800
             
             switch PaymentStatus(rawValue: payCode) {
             case .PAY_FINE_USER :
@@ -152,13 +152,15 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             let code = json["code"].intValue
             let title = json["title"].stringValue
             let msg = json["msg"].stringValue
-            
+                        
             switch code {
             case 1000: // 정상 유저
+                let chargingId = json["charging_id"].stringValue
                 let reactor = PaymentStatusReactor(provider: RestApi())
                 let viewcon = NewPaymentStatusViewController(reactor: reactor)
+                viewcon.chargingId = chargingId
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                return nil
+                return false
                                                 
             case 8801: // 결제 정보 등록 안된 회원
                 let popupModel = PopupModel(title: "\(title)",
@@ -302,10 +304,11 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             case 2010, 9000: // 서버 에러
                 Snackbar().show(message: "\(msg)")
                 
-            default: break                
+            default:
+                GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
             }
             
-            return nil
+            return false
             
         case .failure(let errorMessage):
             printLog(out: "error: \(errorMessage)")

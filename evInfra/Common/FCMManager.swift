@@ -342,28 +342,16 @@ internal final class FCMManager {
     func startTagetCharging(data: [AnyHashable: Any]){
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard isLogin, let self = self else { return }
-            var chargingId = self.defaults.readString(key: UserDefault.Key.CHARGING_ID)
             var cmd = ""
-            var cpId = ""
-            var connectorId = ""
-
-            if chargingId.isEmpty {
-                if let notiChargingId =  data[AnyHashable("charging_id")] as! String? {
-                    chargingId = notiChargingId
-                    self.defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: chargingId)
-                }
-            }
+            var chargingId = ""
             
+            if let notiChargingId =  data[AnyHashable("charging_id")] as! String? {
+                chargingId = notiChargingId
+            }
+                        
             if let notiCmd =  data[AnyHashable("cmd")] as! String? {
                 cmd = notiCmd
-            }
-            if let notiCpId = data[AnyHashable("cp_id")] as! String? {
-                cpId = notiCpId
-            }
-            
-            if let notiConId = data[AnyHashable("connector_id")] as! String? {
-                connectorId = notiConId
-            }
+            }            
 
             guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
             let center = NotificationCenter.default
@@ -376,8 +364,7 @@ internal final class FCMManager {
                     if !String(describing: viewController).contains("NewPaymentStatusViewController") {
                         let reactor = PaymentStatusReactor(provider: RestApi())
                         let viewcon = NewPaymentStatusViewController(reactor: reactor)
-                        viewcon.cpId = cpId
-                        viewcon.connectorId = connectorId
+                        viewcon.chargingId = chargingId
                         
                         _mainNavi.push(viewController: viewcon)
                     } else {

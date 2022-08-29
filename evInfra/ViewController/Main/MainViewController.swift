@@ -1429,13 +1429,13 @@ extension MainViewController {
             
             let reactor = PaymentStatusReactor(provider: RestApi())
             let viewcon = NewPaymentStatusViewController(reactor: reactor)
-            viewcon.cpId = response["cp_id"].stringValue
-            viewcon.connectorId = response["connector_id"].stringValue
+//            viewcon.cpId = response["cp_id"].stringValue
+//            viewcon.connectorId = response["connector_id"].stringValue
+            viewcon.chargingId = response["charging_id"].stringValue
             
             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                                     
         case 2002:
-            defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
             if response["pay_code"].stringValue.equals("8804") {
                 let repayListViewController = paymentStoryboard.instantiateViewController(ofType: RepayListViewController.self)
                 repayListViewController.delegate = self
@@ -1458,8 +1458,7 @@ extension MainViewController {
                 }
             }
             
-        default:
-            defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
+        default: break
         }
     }
     
@@ -1555,9 +1554,9 @@ extension MainViewController {
 
 extension MainViewController: RepaymentListDelegate {
     func onRepaySuccess() {
-        let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
-        let paymentQRScanViewController = paymentStoryboard.instantiateViewController(ofType: PaymentQRScanViewController.self)
-        GlobalDefine.shared.mainNavi?.push(viewController: paymentQRScanViewController)
+        let reactor = PaymentQRScanReactor(provider: RestApi())
+        let viewcon = NewPaymentQRScanViewController(reactor: reactor)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)        
     }
     
     func onRepayFail() {

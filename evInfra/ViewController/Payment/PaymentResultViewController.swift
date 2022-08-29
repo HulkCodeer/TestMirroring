@@ -77,18 +77,10 @@ internal final class PaymentResultViewController: UIViewController {
         super.viewDidLoad()
         self.title = "충전 완료 화면"
         
-        naviTotalView.naviTitleLbl.text = "충전완료"        
-        naviTotalView.backClosure = {
-            GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
-        }
-                
         prepareView()
         showProgress()
-        
-        if chargingId.isEmpty {
-            chargingId = getChargingId()
-        }
-        Server.getChargingResult(chargingId: chargingId) { (isSuccess, value) in
+                
+        Server.getChargingResult(chargingId: self.chargingId) { (isSuccess, value) in
             self.hideProgress()
             if isSuccess {
                 self.responseChargingStatus(response: JSON(value))
@@ -99,6 +91,11 @@ internal final class PaymentResultViewController: UIViewController {
     }
     
     // MARK: FUNC
+    
+    @IBAction func actionBackBtn(_ sender: Any) {
+        GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+    }
+    
             
     func prepareView() {
         lbAuthMsg.isHidden = true
@@ -110,10 +107,7 @@ internal final class PaymentResultViewController: UIViewController {
     @IBAction func onClickPaymentResultOk(_ sender: UIButton) {
         self.navigationController?.pop()
     }
-    
-    func getChargingId() -> String {
-        return defaults.readString(key: UserDefault.Key.CHARGING_ID)
-    }
+        
     
     func responseChargingStatus(response: JSON) {
         if response.isEmpty {
@@ -278,7 +272,7 @@ internal final class PaymentResultViewController: UIViewController {
     }
     @IBAction func onClickSuccessRight(_ sender: Any) {
         // go main
-        self.navigationController?.pop()
+        GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
     }
     @IBAction func onClickFailLeft(_ sender: Any) {
         // go main
