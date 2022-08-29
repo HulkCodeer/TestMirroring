@@ -157,6 +157,7 @@ internal final class FilterTypeView: UIView {
         for item in tagList {
             FilterManager.sharedInstance.saveTypeFilter(index: item.index, val: item.selected)
         }
+        logEvent(with: .clickUpperFilter)
     }
     
     func showExpandView() {
@@ -224,6 +225,19 @@ extension FilterTypeView : DelegateTagListViewCell{
             sendTypeChange()
         } else {
             self.delegate?.onChangedFilter(type: .type)
+        }
+    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension FilterTypeView {
+    private func logEvent(with event: EventType.FilterEvent) {
+        switch event {
+        case .clickUpperFilter:
+            let property: [String: Any] = ["filterName": "충전기 타입",
+                                           "filterValue": "\(tagList.map { $0.title })"]
+            AmplitudeManager.shared.logEvent(type: .filter(event), property: property)
+        default: break
         }
     }
 }

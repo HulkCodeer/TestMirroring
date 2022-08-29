@@ -79,6 +79,7 @@ class FilterPriceView: UIView {
     
     func applyFilter() {
         FilterManager.sharedInstance.savePriceFilter(free: isFree, paid: isPaid)
+        logEvent(with: .clickUpperFilter)
     }
     
     func update(){
@@ -95,5 +96,26 @@ class FilterPriceView: UIView {
             changed = true
         }
         return changed
+    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension FilterPriceView {
+    private func logEvent(with event: EventType.FilterEvent) {
+        switch event {
+        case .clickUpperFilter:
+            var values = [String]()
+            if isPaid {
+                values.append("유료")
+            }
+            if isFree {
+                values.append("무료")
+            }
+            
+            let property: [String: Any] = ["filterName": "충전 금액",
+                                           "filterValue": "\(values)"]
+            AmplitudeManager.shared.logEvent(type: .filter(event), property: property)
+        default: break
+        }
     }
 }

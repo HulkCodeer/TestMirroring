@@ -70,6 +70,7 @@ class FilterSpeedView: UIView {
     
     func applyFilter() {
         FilterManager.sharedInstance.saveSpeedFilter(min: minSpeed, max: maxSpeed)
+        logEvent(with: .clickUpperFilter)
     }
     
     func setSlowOn(slowOn: Bool){
@@ -156,5 +157,19 @@ extension FilterSpeedView: RangeSeekSliderDelegate {
     }
 
     func didEndTouches(in slider: RangeSeekSlider) {
+    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension FilterSpeedView {
+    private func logEvent(with event: EventType.FilterEvent) {
+        switch event {
+        case .clickUpperFilter:
+            let property: [String: Any] = ["filterName": "충전 속도",
+                                           "minChargingSpeed": "\(FilterManager.sharedInstance.filter.minSpeed)",
+                                           "maxChargingSpeed": "\(FilterManager.sharedInstance.filter.maxSpeed)"]
+            AmplitudeManager.shared.logEvent(type: .filter(event), property: property)
+        default: break
+        }
     }
 }
