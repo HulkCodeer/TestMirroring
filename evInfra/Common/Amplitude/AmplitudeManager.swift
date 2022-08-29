@@ -186,6 +186,7 @@ internal enum EventType {
             case .viewBoardPost: return "view_board_post"
             case .clickWriteBoardPost: return "click_write_board_post"
             case .completeWriteBoardPost: return "complete_write_board_post"
+            case .viewNotice: return "view_notice"
             }
         }
     }
@@ -291,6 +292,7 @@ internal enum EventType {
         case viewBoardPost
         case clickWriteBoardPost
         case completeWriteBoardPost
+        case viewNotice
     }
 }
 
