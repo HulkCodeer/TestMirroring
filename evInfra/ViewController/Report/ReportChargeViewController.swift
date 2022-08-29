@@ -72,6 +72,7 @@ internal final class ReportChargeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        logEvent(with: .clickStationReport)
         addObserver()
     }
     
@@ -303,6 +304,7 @@ internal final class ReportChargeViewController: UIViewController {
 
                     // 제보 정보 다시 받아오기
                     self.requestReportData()
+                    self.logEvent(with: .clickStationCompleteReport)
                 } else {
                     Snackbar().show(message: "수정 요청이 실패하였습니다. 다시 시도해 주세요.")
                 }
@@ -416,5 +418,19 @@ extension ReportChargeViewController : UITextFieldDelegate, UITextViewDelegate {
 extension ReportChargeViewController: TMapViewDelegate{
     func onDidEndScroll(withZoomLevel zoomLevel: Int, center mapPoint: TMapPoint!) {
         getCenterPointLocation()
+    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension ReportChargeViewController {
+    private func logEvent(with event: EventType.ReportsEvent) {
+        switch event {
+        case .clickStationReport:
+            // TODO: 충전소 제보 화면 UI 개편시, 프로퍼티 추가
+            AmplitudeManager.shared.logEvent(type: .reports(event), property: nil)
+        case .clickStationCompleteReport:
+            // TODO: 충전소 제보 화면 UI 개편시, 프로퍼티 추가
+            AmplitudeManager.shared.logEvent(type: .reports(event), property: nil)
+        }
     }
 }
