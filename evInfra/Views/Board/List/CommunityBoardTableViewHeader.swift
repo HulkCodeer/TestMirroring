@@ -200,6 +200,7 @@ extension CommunityBoardTableViewHeader: UICollectionViewDataSource {
         let banner = topBanners[indexPath.row]
         // 배너 클릭 로깅
         adManager.logEvent(adIds: [banner.evtId], action: .click, page: .free, layer: .top)
+        logEvent(with: .clickBanner, banner: banner)
         // open url
         let adUrl = banner.extUrl
         guard let url = URL(string: adUrl), UIApplication.shared.canOpenURL(url) else { return }
@@ -297,6 +298,20 @@ extension CommunityBoardTableViewHeader {
         }
         
         tagCollectionView.updateTag(at: 0, selected: true)
+    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension CommunityBoardTableViewHeader {
+    private func logEvent(with event: EventType.PromotionEvent, banner: AdsInfo) {
+        switch event {
+        case .clickBanner:
+            let property: [String: Any] = ["bannerType": "상단배너",
+                                           "adID": banner.evtId,
+                                           "adName": banner.evtTitle]
+            AmplitudeManager.shared.logEvent(type: .promotion(event), property: property)
+        default: break
+        }
     }
 }
 
