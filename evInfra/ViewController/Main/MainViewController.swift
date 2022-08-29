@@ -340,6 +340,7 @@ internal final class MainViewController: UIViewController {
         if !self.markerIndicator.isAnimating {
             self.refreshChargerInfo()
         }
+        AmplitudeManager.shared.logEvent(type: .map(.clickRenew), property: nil)
     }
     
     // 파란색 길안내 버튼 누를때
@@ -876,6 +877,7 @@ extension MainViewController: MarkerTouchDelegate {
 
 extension MainViewController: ChargerSelectDelegate {
     func moveToSelectLocation(lat: Double, lon: Double) {
+        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage), property: nil) // 앰플리튜드 로깅
         guard lat == 0, lon == 0 else {
             myLocationModeOff()
             
@@ -888,12 +890,13 @@ extension MainViewController: ChargerSelectDelegate {
             // 검색한 위치의 마커 찍기
             naverMapView.searchMarker = Marker(NMGLatLng(lat: lat, lng: lon), .search)
             naverMapView.searchMarker?.mapView = self.mapView
-
+            
             return
         }
     }
     
     func moveToSelected(chargerId: String) {
+        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage), property: nil) // 앰플리튜드 로깅
         guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
         let position = NMGLatLng(lat: charger.mStationInfoDto?.mLatitude ?? 0.0,
                                  lng: charger.mStationInfoDto?.mLongitude ?? 0.0)
@@ -1580,4 +1583,5 @@ extension MainViewController: LoginHelperDelegate {
     func needSignUp(user: Login) {
     }
 }
+
 
