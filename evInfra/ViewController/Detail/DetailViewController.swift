@@ -636,7 +636,11 @@ extension DetailViewController {
     private func logEvent(with event: EventType.BoardEvent) {
         switch event {
         case .clickWriteBoardPost:
-            AmplitudeManager.shared.logEvent(type: .board(event), property: nil)
+            guard let charger = charger else { return }
+            guard let stationName = charger.mStationInfoDto?.mSnm else { return }
+            let property: [String: Any] = ["sourceStation": true,
+                                           "stationName": stationName]
+            AmplitudeManager.shared.logEvent(type: .board(event), property: property)
         default: break
         }
     }

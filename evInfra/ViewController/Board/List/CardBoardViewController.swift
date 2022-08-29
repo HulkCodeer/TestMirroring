@@ -235,6 +235,7 @@ extension CardBoardViewController {
     private func logEvent(with event: EventType.BoardEvent) {
         switch event {
         case .clickWriteBoardPost:
+            let model = AmpBoardModel(mid: category.rawValue, chargerId: "", documentSrl: "", isFromDetailView: false, source: "")
             AmplitudeManager.shared.logEvent(type: .board(.clickWriteBoardPost), property: nil)
         default: break
         }

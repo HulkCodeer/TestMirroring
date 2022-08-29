@@ -56,7 +56,7 @@ internal struct AmpBoardModel {
         case .CHARGER:
             guard !self.chargerId.isEmpty else { return nil }
             return isFromDetailView
-        default: return nil
+        default: return false
         }
     }
     
