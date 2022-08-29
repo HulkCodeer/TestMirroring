@@ -305,20 +305,21 @@ class ChargerStationInfo {
         return markerIcon
     }
     
-    func getChargerPower(power:Int, type:Int) -> String{
-        var strPower = ""
+    func getChargerPower(power:Int, type:Int?) -> String{
+        var strPower = "-"
+        guard let _type = type else { return strPower }
         if power == 0 {
-            if ((type & Const.CTYPE_DCDEMO) > 0 ||
-                (type & Const.CTYPE_DCCOMBO) > 0 ||
-                (type & Const.CTYPE_AC) > 0) {
+            if ((_type & Const.CTYPE_DCDEMO) > 0 ||
+                (_type & Const.CTYPE_DCCOMBO) > 0 ||
+                (_type & Const.CTYPE_AC) > 0) {
                 strPower = "50kW"
-            } else if ((type & Const.CTYPE_SLOW) > 0 ||
-                (type & Const.CTYPE_DESTINATION) > 0) {
+            } else if ((_type & Const.CTYPE_SLOW) > 0 ||
+                (_type & Const.CTYPE_DESTINATION) > 0) {
                 strPower = "완속"
 
-            } else if ((type & Const.CTYPE_HYDROGEN) > 0) {
+            } else if ((_type & Const.CTYPE_HYDROGEN) > 0) {
                 strPower = "수소"
-            } else if ((type & Const.CTYPE_SUPER_CHARGER) > 0) {
+            } else if ((_type & Const.CTYPE_SUPER_CHARGER) > 0) {
                 strPower = "110kW 이상"
             } else {
                 strPower = "-"
