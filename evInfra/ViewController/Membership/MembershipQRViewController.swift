@@ -215,6 +215,7 @@ extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
                                 case 1000:
                                     MemberManager.shared.setSKRentConfig()
                                     self.showResultView(code : 0, imgType : "SUCCESS", retry : false, callBtn : false, msg : "정보가 확인되었습니다.")
+                                    self.logEvent(with: .completeApplyAllianceCard)
                                     break
                                 case 1104 :
                                     self.showResultView(code : 0, imgType : "QUESTION", retry : true, callBtn : true, msg : "기존에 등록된 회원 정보입니다.\nsk renter 멤버쉽 카드는\n기기당 한 계정만 등록 가능합니다.\n분실 및 재발급에 대한 문의는\n아래로 전화 주시기 바랍니다.")
@@ -280,5 +281,17 @@ extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
             return data
         }
         return ""
+    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension MembershipQRViewController {
+    private func logEvent(with event: EventType.PaymentEvent) {
+        switch event {
+        case .clickApplyAllianceCard: break
+            let property: [String: Any] = ["company": "SK 렌터카"]
+            AmplitudeManager.shared.logEvent(type: .payment(event), property: property)
+        default: break
+        }
     }
 }
