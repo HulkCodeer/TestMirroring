@@ -359,7 +359,7 @@ internal final class MainViewController: UIViewController {
             self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
         }
         
-        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: ["result": "길 안내"]) // 앰플리튜드 로깅
+        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: nil) // 앰플리튜드 로깅
     }
     
     private func configureLocationManager() {
@@ -527,10 +527,10 @@ extension MainViewController: AppToolbarDelegate {
             }
             self.present(appSearchBarController, animated: true, completion: nil)
         case 2: // 경로 찾기 버튼
-            if let isRouteMode = arg {
-                showRouteView(isShow: isRouteMode as! Bool)
+            if let isRouteMode = arg as? Bool {
+                showRouteView(isShow: isRouteMode)
+                AmplitudeManager.shared.logEvent(type: .route(.clickNavigation), property: ["onOrOff": "\(isRouteMode ? "On" : "Off")"]) // 앰플리튜드 로깅
             }
-            AmplitudeManager.shared.logEvent(type: .route(.clickNavigation), property: nil) // 앰플리튜드 로깅
         default:
             break
         }
@@ -597,7 +597,7 @@ extension MainViewController: TextFieldDelegate {
     
     @objc func onClickRouteCancel(_ sender: UIButton) {
         clearSearchResult()
-        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: ["result": "지우기"]) // 앰플리튜드 로깅
+        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: nil) // 앰플리튜드 로깅
     }
     
     // TODO: 한 view controller에서 사용되는 앰플리튜드 로깅 이벤트 한 곳에서 처리
