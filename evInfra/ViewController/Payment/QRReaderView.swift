@@ -113,14 +113,14 @@ extension QRReaderView {
     func fail() {
         guard let _reactor = self.reactor else { return }
         captureSession = nil
-        Observable.just(PaymentQRScanReactor.Action.loadChargingQR(""))
+        Observable.just(PaymentQRScanReactor.Action.loadFirstChargingQR(""))
             .bind(to: _reactor.action)
             .disposed(by: self.disposeBag)
     }
     
     func found(qrData: String) {
         guard let _reactor = self.reactor else { return }
-        Observable.just(PaymentQRScanReactor.Action.loadChargingQR(qrData))
+        Observable.just(PaymentQRScanReactor.Action.loadFirstChargingQR(qrData))
             .bind(to: _reactor.action)
             .disposed(by: self.disposeBag)
     }
