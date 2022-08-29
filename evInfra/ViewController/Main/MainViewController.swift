@@ -981,6 +981,12 @@ extension MainViewController {
             DispatchQueue.main.async {
                 self?.markerIndicator.stopAnimating()
                 self?.appDelegate.appToolbarController.toolbar.isUserInteractionEnabled = true
+                
+                if let chargerId = GlobalDefine.shared.sharedChargerId {
+                    self?.sharedChargerId = chargerId
+                    self?.selectChargerFromShared()
+                    GlobalDefine.shared.sharedChargerId = nil
+                }
             }
             
             self?.checkFCM()

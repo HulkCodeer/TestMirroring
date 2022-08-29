@@ -33,9 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             switch deepLinkType {
             case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.charger.value:
                 guard let chargerId = url.valueOf("charger_id") else { return }
-                DeepLinkPath.sharedInstance.linkPath = DeepLinkPath.DynamicLinkUrlPathType.kakaolink(.charger).value
-                DeepLinkPath.sharedInstance.linkParameter = [URLQueryItem(name: "charger_id", value: chargerId)]
-                DeepLinkPath.sharedInstance.runDeepLink()
+                GlobalDefine.shared.sharedChargerId = chargerId
             case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.board.value:
                 guard let mid = url.valueOf("mid"), let documentSrl = url.valueOf("document_srl") else { return }
                 DeepLinkPath.sharedInstance.linkPath = DeepLinkPath.DynamicLinkUrlPathType.kakaolink(.board).value

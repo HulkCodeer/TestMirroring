@@ -154,23 +154,6 @@ internal final class DeepLinkPath {
                 }
             }
             
-        case DynamicLinkUrlPathType.kakaolink(.charger).value:
-            guard let paramItems = linkParameter else { return }
-            guard let chargerId = paramItems.first(where: { $0.name == "charger_id" })?.value else { return }
-            
-            if let _viewControllers = GlobalDefine.shared.mainNavi?.viewControllers {
-                for vc in _viewControllers.reversed() {
-                    if let _vc = vc as? AppNavigationDrawerController {
-                        if let toolbar = _vc.rootViewController as? AppToolbarController {
-                            if let main = toolbar.rootViewController as? MainViewController {
-                                main.sharedChargerId = chargerId
-                                main.selectChargerFromShared()
-                            }
-                        }
-                    }
-                }
-            }
-            
         case DynamicLinkUrlPathType.kakaolink(.board).value:
             guard let paramItems = linkParameter else { return }
             guard let mid = paramItems.first(where: { $0.name == "mid" })?.value,
@@ -178,7 +161,9 @@ internal final class DeepLinkPath {
             
             storyboard = UIStoryboard(name : "BoardDetailViewController", bundle: nil)
             let viewcon = storyboard.instantiateViewController(ofType: BoardDetailViewController.self)
-            viewcon.category = mid
+            let category = Board.CommunityType.allCases.filter { $0.rawValue == mid }.first ?? .FREE
+
+            viewcon.category = category
             viewcon.document_srl = documentSrl
             viewcon.isFromStationDetailView = false
             _mainNavi.push(viewController: viewcon)
