@@ -53,6 +53,15 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
         $0.scrollView.alwaysBounceVertical = false
     }
     
+    init(reactor: NoticeDetailReactor) {
+        super.init()
+        self.reactor = reactor
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         super.loadView()
 
@@ -111,4 +120,27 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
     
+    internal func bind(reactor: NoticeDetailReactor) {
+        Observable.just(NoticeDetailReactor.Action.loadHTML)
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.title }
+            .observe(on: MainScheduler.instance)
+            .bind(to: titleLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.date }
+            .observe(on: MainScheduler.instance)
+            .bind(to: dateLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.html }
+            .asDriver(onErrorJustReturn: String())
+            .drive(with: self) { owner, html in
+                owner.webView.loadHTMLString(html, baseURL: nil)
+            }
+            .disposed(by: disposeBag)
+        
+    }
 }

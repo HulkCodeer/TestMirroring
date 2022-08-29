@@ -159,6 +159,8 @@
 		59317D1328B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
 		59317D1528B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */; };
 		59317D1628B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */; };
+		596522D428BC7B9A00FD4025 /* NoticeDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */; };
+		596522D528BC7EFD00FD4025 /* NoticeDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */; };
 		633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FE28B342630041BDBB /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
@@ -1066,6 +1068,7 @@
 		52D0F669279E33B80070824E /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
 		59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoticeDetailViewController.swift; sourceTree = "<group>"; };
 		59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoticeViewController.swift; sourceTree = "<group>"; };
+		596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailReactor.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
 		633FF2FA28B342630041BDBB /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		633FF2FB28B342630041BDBB /* Radio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Radio.swift; sourceTree = "<group>"; };
@@ -2424,6 +2427,7 @@
 				90CBCC6526EAD64D002B2591 /* EIImageViewerViewController.swift */,
 				59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */,
 				59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */,
+				596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -3325,6 +3329,7 @@
 				63F313EF284EC74F001713D2 /* UIDevice+Extension.swift in Sources */,
 				63F313F0284EC74F001713D2 /* TermsViewController.swift in Sources */,
 				636DB9412876ED6A008BB27A /* IconTextRectButton.swift in Sources */,
+				596522D528BC7EFD00FD4025 /* NoticeDetailReactor.swift in Sources */,
 				63F313F1284EC74F001713D2 /* BoardDetailViewModel.swift in Sources */,
 				63F313F2284EC74F001713D2 /* EIAdManager.swift in Sources */,
 				63F313F3284EC74F001713D2 /* AlertViewController.swift in Sources */,
@@ -3626,6 +3631,7 @@
 				636DB9402876ED6A008BB27A /* IconTextRectButton.swift in Sources */,
 				DBABCC4927477BC600E2C7ED /* EIAdManager.swift in Sources */,
 				527165C527B251820078DF3A /* AlertViewController.swift in Sources */,
+				596522D428BC7B9A00FD4025 /* NoticeDetailReactor.swift in Sources */,
 				63BEAC602833965A00E797DD /* Observable+Operators.swift in Sources */,
 				527165C327B2516D0078DF3A /* TransientAlertViewController.swift in Sources */,
 				90CA0DE42488B82900904015 /* DataBaseHelper.swift in Sources */,
