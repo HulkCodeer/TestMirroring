@@ -166,6 +166,7 @@ internal enum EventType {
             case .clickFilterCancel: return "click_filter_cancel"
             case .clickFilterReset: return "click_filter_reset"
             case .clickFilterSave: return "click_filter_save"
+            case .clickUpperFilter: return "click_upper_filter"
             }
         case .search(let event):
             switch event {
@@ -280,6 +281,7 @@ internal enum EventType {
         case clickFilterCancel
         case clickFilterReset
         case clickFilterSave
+        case clickUpperFilter
     }
     
     // 검색 이벤트
