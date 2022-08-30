@@ -302,7 +302,6 @@ internal enum ViewName: String, CaseIterable {
     case PaymentQRScanViewController
     case PaymentStatusViewController
     case PaymentResultViewController
-    case NoticeContentViewController
     case NoticeViewController
     case EventViewController
     case MyWritingViewController
@@ -332,34 +331,24 @@ internal enum ViewName: String, CaseIterable {
     case EvInfoViewController
     case CouponCodeViewController
     case TermsViewController
-    case SearchViewController
     case MembershipReissuanceViewController
     case EIImageViewerViewController
-    case SearchAddressViewController
     case ServiceGuideViewController
     case ReportBoardViewController
-    case ReportChargeViewController
     case BoardSearchViewController
-    case BoardDetailViewController
     case BoardWriteViewController
     case CardBoardViewController
-    case LoginViewController
-    case SignUpViewController
-    case CorporationLoginViewController
-    case DetailViewController
     case QuitAccountViewController
     case PointUseGuideViewController
     case AcceptTermsViewController
     case MembershipUseGuideViewController
     case MembershipGuideViewController
-    case AddressToLocationController
     
     internal var propertyName: String {
         switch self {
         case .PaymentQRScanViewController: return "QR Scan 화면"
         case .PaymentStatusViewController: return "충전 진행 상태 화면"
         case .PaymentResultViewController: return "충전 완료 화면"
-        case .NoticeContentViewController: return "공지사항 상세 화면"
         case .NoticeViewController: return "공지사항 화면"
         case .EventViewController: return "이벤트 리스트 화면"
         case .MyWritingViewController: return "내가 쓴 글 화면"
@@ -389,27 +378,18 @@ internal enum ViewName: String, CaseIterable {
         case .EvInfoViewController: return "전기차 정보 리스트 화면"
         case .CouponCodeViewController: return "쿠폰번호 등록 화면"
         case .TermsViewController: return "웹뷰"
-        case .SearchViewController: return "충전소 검색 화면"
         case .MembershipReissuanceViewController: return "재발급 신청 화면"
         case .EIImageViewerViewController: return "이미지 상세보기 화면"
-        case .SearchAddressViewController: return "주소 검색 화면"
         case .ServiceGuideViewController: return "이용안내 화면"
         case .ReportBoardViewController: return "나의 제보 내역 화면"
-        case .ReportChargeViewController: return "충전소 제보 화면"
         case .BoardSearchViewController: return "게시판 검색 화면"
-        case .BoardDetailViewController: return "게시판 상세 화면"
         case .BoardWriteViewController: return "게시판 글 작성 화면"
         case .CardBoardViewController: return "게시판 리스트 화면"
-        case .LoginViewController: return "로그인 화면"
-        case .SignUpViewController: return "회원가입 화면"
-        case .CorporationLoginViewController: return "법인 로그인 화면"
-        case .DetailViewController: return "충전소 상세 화면"
         case .QuitAccountViewController: return "회원탈퇴 화면"
         case .PointUseGuideViewController: return "베리 사용 안내 화면"
         case .AcceptTermsViewController: return "회원 가입 이용약관 동의 화면"
         case .MembershipUseGuideViewController: return "회원카드 사용 안내 화면"
         case .MembershipGuideViewController: return "회원카드 안내 화면"
-        case .AddressToLocationController: return "충전소 위치 검색 화면"
         }
     }
 }
