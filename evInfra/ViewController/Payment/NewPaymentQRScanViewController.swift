@@ -13,6 +13,29 @@ import ReactorKit
 
 internal final class NewPaymentQRScanViewController: CommonBaseViewController, StoryboardView {
     
+    enum QROutletType {
+        case dcdemo
+        case dccombo
+        case ac
+        
+        internal var toDescription: String {
+            switch self {
+            case .dcdemo: return "DC차데모"
+            case .dccombo: return "DC콤보"
+            case .ac: return "AC상"
+            }
+        }
+        
+        internal var toValue: Int {
+            switch self {
+            case .dcdemo: return Const.CHARGER_TYPE_DCDEMO
+            case .dccombo: return Const.CHARGER_TYPE_DCCOMBO
+            case .ac: return Const.CHARGER_TYPE_AC
+            }
+        }
+        
+    }
+    
     // MARK: QR Scanner UI
     
     private lazy var naviTotalView = CommonNaviView().then {
@@ -182,7 +205,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
         GlobalDefine.shared.mainNavi?.interactivePopGestureRecognizer?.isEnabled = false
         
-        guard let _reactor = self.reactor else { return }
+        guard let _reactor = self.reactor else { return }        
         self.changeStationGuideWithPaymentStatusCheck(reactor: _reactor)
     }
     
@@ -204,6 +227,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         qrReaderView.bind(reactor)
         
         tcBtn.rx.tap
+            .do(onNext: { self.view.endEditing(true) }) // TEST CODE
             .map { PaymentQRScanReactor.Action.loadTestChargingQR(self.tcTf.text ?? "" ) }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
@@ -234,8 +258,40 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         
         reactor.state.compactMap { $0.isChargingStatus }
             .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, _ in
+            .drive(with: self) { obj, isChargingStatus in
                 obj.qrReaderView.start()
+                
+                guard isChargingStatus else { return }
+            }
+            .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.qrOutletType }
+            .asDriver(onErrorJustReturn: 0)
+            .drive(with: self) { obj, outletType in
+                var typeArr: [QROutletType]
+                switch outletType {
+                case Const.CHARGER_TYPE_DCDEMO_AC: typeArr = [QROutletType.ac, QROutletType.dcdemo]
+                case Const.CHARGER_TYPE_DCDEMO_DCCOMBO: typeArr = [QROutletType.dccombo, QROutletType.dcdemo]
+                case Const.CHARGER_TYPE_DCDEMO_DCCOMBO_AC: typeArr = [QROutletType.dccombo, QROutletType.ac, QROutletType.dcdemo]
+                case Const.CHARGER_TYPE_DCCOMBO_AC: typeArr = [QROutletType.dccombo, QROutletType.ac]
+                default: typeArr = []
+                }
+                
+                let rowVC = NewBottomSheetViewController()
+                rowVC.items = typeArr.map { $0.toDescription }
+                rowVC.headerTitleStr = "충전 타입 선택"
+                rowVC.nextBtnCompletion = { [weak self] index in
+                    guard let self = self else { return }
+                    Observable.just(PaymentQRScanReactor.Action.loadChargingQR(reactor.qrCode, typeArr[index].toValue))
+                        .bind(to: reactor.action)
+                        .disposed(by: self.disposeBag)
+                    rowVC.view.removeFromSuperview()
+                    rowVC.removeFromParentViewController()
+                }
+                
+                rowVC.view.frame = GlobalDefine.shared.mainNavi?.view.bounds ?? UIScreen.main.bounds
+                self.addChildViewController(rowVC)
+                self.view.addSubview(rowVC.view)
             }
             .disposed(by: self.disposeBag)
         

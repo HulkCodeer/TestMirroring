@@ -17,18 +17,21 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         case loadChargingQR(String, Int)
         case loadTestChargingQR(String)
         case startQRReaderView(Bool)
+        case qrOutletType(Int)
     }
     
     enum Mutation {
         case setPaymentStatus(Bool)
         case setChargingStatus(Bool)
         case setRunnigQRReaderView(Bool)
+        case setQROutletType(Int)
     }
     
     struct State {
         var isPaymentFineUser: Bool?
         var isChargingStatus: Bool?
         var isQRScanRunning: Bool?
+        var qrOutletType: Int?
     }
     
     internal var initialState: State
@@ -79,6 +82,9 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             
         case .startQRReaderView(let isRunning):
             return .just(.setRunnigQRReaderView(isRunning))
+            
+        case .qrOutletType(let outletType):
+            return .just(.setQROutletType(outletType))
                                 
         }
     }
@@ -88,6 +94,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         newState.isPaymentFineUser = nil
         newState.isChargingStatus = nil
         newState.isQRScanRunning = nil
+        newState.qrOutletType = nil
         
         switch mutation {
         case .setPaymentStatus(let isPaymentFineuser):
@@ -99,6 +106,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         case .setRunnigQRReaderView(let isRunning):
             newState.isQRScanRunning = isRunning
             
+        case .setQROutletType(let outletType):
+            newState.qrOutletType = outletType
         }
         
         return newState
@@ -108,8 +117,9 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         switch result {
         case .success(let data):
             let json = JSON(data)
-//            let payCode = json["pay_code"].intValue
-            let payCode = 8800
+            
+            let payCode = json["pay_code"].intValue
+//            let payCode = 8800
             
             switch PaymentStatus(rawValue: payCode) {
             case .PAY_FINE_USER :
@@ -172,7 +182,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 let viewcon = NewPaymentStatusViewController(reactor: reactor)
                 viewcon.chargingId = chargingId
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                return false
+                return true
                                                 
             case 8801: // 결제 정보 등록 안된 회원
                 let popupModel = PopupModel(title: "\(title)",
@@ -305,35 +315,22 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                     GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                 })
-                                                        
+                              
             case 2004, 2006, 2009, 2010, 9000: // 서버 에러
                 Snackbar().show(message: "\(msg)")
                 
-            case 2012: // 한전 충전 타입 선택 해야 하는 충전기
+            case 2010:
                 let typeId = json["type_id"].intValue
-                var typeArr: [String] = []
-                switch typeId {
-                case Const.CHARGER_TYPE_DCDEMO_AC: typeArr = ["DC차데모","AC상"]
-                case Const.CHARGER_TYPE_DCDEMO_DCCOMBO: typeArr = ["DC차데모","DC콤보"]
-                case Const.CHARGER_TYPE_DCDEMO_DCCOMBO_AC: typeArr = ["DC차데모","AC상","DC콤보"]
-                case Const.CHARGER_TYPE_DCCOMBO_AC: typeArr = ["DC콤보","AC3상"]
-                default: break
-                }
+                Observable.just(PaymentQRScanReactor.Action.qrOutletType(typeId))
+                    .bind(to: self.action)
+                    .disposed(by: self.disposeBag)
                 
-                
-                let rowVC = NewBottomSheetViewController()
-                rowVC.items = ["test0","test1"]
-                rowVC.headerTitleStr = "탈퇴 사유 선택"
-                rowVC.view.frame = GlobalDefine.shared.mainNavi?.view.bounds ?? UIScreen.main.bounds
-                GlobalDefine.shared.mainNavi?.addChildViewController(rowVC)
-                GlobalDefine.shared.mainNavi?.view.addSubview(rowVC.view)
-                                                                              
-                rowVC.nextBtnCompletion = { [weak self] index in
-                    guard let self = self else { return }
-                    Observable.just(PaymentQRScanReactor.Action.loadChargingQR(self.qrCode, index)
-                        .bind(to: self.action)
-                        .disposed(by: self.disposeBag)
-                }
+            case 2012: // 한전 충전 타입 선택 해야 하는 충전기
+                let typeId = json["type_id"].intValue                                
+                Observable.just(PaymentQRScanReactor.Action.qrOutletType(typeId))
+                    .bind(to: self.action)
+                    .disposed(by: self.disposeBag)
+                                                                
                 
             default:
                 GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
