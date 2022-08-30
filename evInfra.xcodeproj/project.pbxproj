@@ -1249,6 +1249,9 @@
 		824D5DBD28BE050A00EDC712 /* QROutletTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */; };
 		824D5DBE28BE050A00EDC712 /* QROutletTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */; };
 		824D5DBF28BE050A00EDC712 /* QROutletTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */; };
+		824D5DC128BE1C2500EDC712 /* GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */; };
+		824D5DC228BE1C2500EDC712 /* GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */; };
+		824D5DC328BE1C2500EDC712 /* GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */; };
 		82829BCE28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
@@ -1753,6 +1756,7 @@
 		821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaymentStatusViewController.swift; sourceTree = "<group>"; };
 		824D5DB828BDD89C00EDC712 /* evInfra_release.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = evInfra_release.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QROutletTypeModel.swift; sourceTree = "<group>"; };
+		824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunction.swift; sourceTree = "<group>"; };
 		82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Rx.swift"; sourceTree = "<group>"; };
 		82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		828407D928393D8F002B1214 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
@@ -2442,6 +2446,7 @@
 				523A3AF12797A9CA004C3C23 /* GroupViewController.swift */,
 				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
 				63CAC17F289BAE3E00ADA809 /* CommonBaseTableViewCell.swift */,
+				824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -4316,6 +4321,7 @@
 				63F31482284EC74F001713D2 /* PaymentStatusViewController.swift in Sources */,
 				63F31483284EC74F001713D2 /* NetworkWorker.swift in Sources */,
 				63F31484284EC74F001713D2 /* SearchAddressViewController.swift in Sources */,
+				824D5DC228BE1C2500EDC712 /* GlobalFunction.swift in Sources */,
 				63F31485284EC74F001713D2 /* BoardWriteViewController.swift in Sources */,
 				63F31486284EC74F001713D2 /* IntroImageChecker.swift in Sources */,
 				63F31487284EC74F001713D2 /* StationInfoDto.swift in Sources */,
@@ -4617,6 +4623,7 @@
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
 				828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */,
 				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,
+				824D5DC128BE1C2500EDC712 /* GlobalFunction.swift in Sources */,
 				525E3A31278D732700F5C54D /* BoardWriteViewController.swift in Sources */,
 				0012443C25A2E2EF00376CDC /* IntroImageChecker.swift in Sources */,
 				902A11D5248F53D80049EF8E /* StationInfoDto.swift in Sources */,
@@ -4918,6 +4925,7 @@
 				824D5CEF28BDD89C00EDC712 /* PaymentStatusViewController.swift in Sources */,
 				824D5CF028BDD89C00EDC712 /* NetworkWorker.swift in Sources */,
 				824D5CF128BDD89C00EDC712 /* SearchAddressViewController.swift in Sources */,
+				824D5DC328BE1C2500EDC712 /* GlobalFunction.swift in Sources */,
 				824D5CF228BDD89C00EDC712 /* BoardWriteViewController.swift in Sources */,
 				824D5CF328BDD89C00EDC712 /* IntroImageChecker.swift in Sources */,
 				824D5CF428BDD89C00EDC712 /* StationInfoDto.swift in Sources */,

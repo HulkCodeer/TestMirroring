@@ -119,7 +119,6 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             let json = JSON(data)
                         
             let payCode = json["pay_code"].intValue
-//            let payCode = 8800
             
             switch PaymentStatus(rawValue: payCode) {
             case .PAY_FINE_USER :
