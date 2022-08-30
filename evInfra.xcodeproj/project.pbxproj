@@ -1246,6 +1246,9 @@
 		824D5DAF28BDD89C00EDC712 /* BoardTableViewFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB87606E20690B360095394B /* BoardTableViewFooter.xib */; };
 		824D5DB028BDD89C00EDC712 /* FilterPlaceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A15E26C3A4930023DAE3 /* FilterPlaceView.xib */; };
 		824D5DB128BDD89C00EDC712 /* charge_normal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73C31C0520A2BB03005B6C53 /* charge_normal.jpg */; };
+		824D5DBD28BE050A00EDC712 /* QROutletTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */; };
+		824D5DBE28BE050A00EDC712 /* QROutletTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */; };
+		824D5DBF28BE050A00EDC712 /* QROutletTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */; };
 		82829BCE28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
@@ -1350,6 +1353,7 @@
 		DBEE9AFC211842ED00770D04 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEE9AFB211842ED00770D04 /* SignUpViewController.swift */; };
 		DBF3827B2304475900FAF772 /* CBT.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF3827A2304475900FAF772 /* CBT.swift */; };
 		DBF62AC42575FC8800D7B49C /* intro_skr_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DBF62AC32575FC8800D7B49C /* intro_skr_bg.jpg */; };
+		E736AA6EC1C2489E3F10D0ED /* Pods_evInfra_dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D0B1262389A87B13C426B0 /* Pods_evInfra_dev.framework */; };
 		E752C1DD509F2051AF1B3F89 /* Pods_evInfra_release.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8506B9089530BEC1C8F516D /* Pods_evInfra_release.framework */; };
 /* End PBXBuildFile section */
 
@@ -1748,6 +1752,7 @@
 		821A05E028627F3000EB1A91 /* ChevronArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChevronArrow.swift; sourceTree = "<group>"; };
 		821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaymentStatusViewController.swift; sourceTree = "<group>"; };
 		824D5DB828BDD89C00EDC712 /* evInfra_release.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = evInfra_release.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QROutletTypeModel.swift; sourceTree = "<group>"; };
 		82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Rx.swift"; sourceTree = "<group>"; };
 		82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		828407D928393D8F002B1214 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
@@ -1848,6 +1853,7 @@
 		DBEE9AFB211842ED00770D04 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		DBF3827A2304475900FAF772 /* CBT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBT.swift; sourceTree = "<group>"; };
 		DBF62AC32575FC8800D7B49C /* intro_skr_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = intro_skr_bg.jpg; sourceTree = "<group>"; };
+		F3D0B1262389A87B13C426B0 /* Pods_evInfra_dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_evInfra_dev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1882,6 +1888,7 @@
 				63F314B7284EC74F001713D2 /* KakaoLink.framework in Frameworks */,
 				63F314B8284EC74F001713D2 /* OpenGLES.framework in Frameworks */,
 				CD4A1C63650A84AE146C07B7 /* (null) in Frameworks */,
+				E736AA6EC1C2489E3F10D0ED /* Pods_evInfra_dev.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2333,6 +2340,7 @@
 				73AD13C4203AC28800ADD19A /* Motion.framework */,
 				0CC5B658D05400DBBB0E6E63 /* Pods_evInfra.framework */,
 				B8506B9089530BEC1C8F516D /* Pods_evInfra_release.framework */,
+				F3D0B1262389A87B13C426B0 /* Pods_evInfra_dev.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2576,6 +2584,7 @@
 		739171E222C4A218007369F9 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
+				824D5DBB28BE04EC00EDC712 /* Models */,
 				00FDEAEB26B3BF47006617EE /* Payment.storyboard */,
 				739171E022C4A209007369F9 /* PaymentQRScanViewController.swift */,
 				7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */,
@@ -2807,6 +2816,14 @@
 				73EF8B6D203C85CC00D04494 /* TrackingDotHalo@2x.png */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		824D5DBB28BE04EC00EDC712 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		82829BCC28ADC11A0044AD6C /* RxSwift */ = {
@@ -4314,6 +4331,7 @@
 				63F3148F284EC74F001713D2 /* CopyableLabel.swift in Sources */,
 				63F31490284EC74F001713D2 /* CLLocationCoordinate2D.swift in Sources */,
 				63F31491284EC74F001713D2 /* ReportChargeViewController.swift in Sources */,
+				824D5DBE28BE050A00EDC712 /* QROutletTypeModel.swift in Sources */,
 				63F31492284EC74F001713D2 /* MembershipGuideViewController.swift in Sources */,
 				63F31493284EC74F001713D2 /* PointTableViewCell.swift in Sources */,
 				63F31494284EC74F001713D2 /* MembershipTermView.swift in Sources */,
@@ -4614,6 +4632,7 @@
 				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,
 				192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */,
 				CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */,
+				824D5DBD28BE050A00EDC712 /* QROutletTypeModel.swift in Sources */,
 				637247DA282A6F3B00595FCE /* MembershipGuideViewController.swift in Sources */,
 				DB5041AE23506A14007336BC /* PointTableViewCell.swift in Sources */,
 				73D65D802362D52E00F564A2 /* MembershipTermView.swift in Sources */,
@@ -4914,6 +4933,7 @@
 				824D5CFE28BDD89C00EDC712 /* CopyableLabel.swift in Sources */,
 				824D5CFF28BDD89C00EDC712 /* CLLocationCoordinate2D.swift in Sources */,
 				824D5D0028BDD89C00EDC712 /* ReportChargeViewController.swift in Sources */,
+				824D5DBF28BE050A00EDC712 /* QROutletTypeModel.swift in Sources */,
 				824D5D0128BDD89C00EDC712 /* MembershipGuideViewController.swift in Sources */,
 				824D5D0228BDD89C00EDC712 /* PointTableViewCell.swift in Sources */,
 				824D5D0328BDD89C00EDC712 /* MembershipTermView.swift in Sources */,
@@ -5337,7 +5357,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 08301330;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -5363,7 +5383,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.soft-berry.ev-infra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = EvInfra_20220627_debug;
+				PROVISIONING_PROFILE_SPECIFIER = EvInfra_20220627_adhoc;
 				SWIFT_OBJC_BRIDGING_HEADER = "evInfra/evInfra-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

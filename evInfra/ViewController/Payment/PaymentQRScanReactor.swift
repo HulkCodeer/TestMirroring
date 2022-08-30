@@ -17,21 +17,21 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         case loadChargingQR(String, Int)
         case loadTestChargingQR(String)
         case startQRReaderView(Bool)
-        case qrOutletType(Int)
+        case qrOutletType([QROutletTypeModel])
     }
     
     enum Mutation {
         case setPaymentStatus(Bool)
         case setChargingStatus(Bool)
         case setRunnigQRReaderView(Bool)
-        case setQROutletType(Int)
+        case setQROutletType([QROutletTypeModel])
     }
     
     struct State {
         var isPaymentFineUser: Bool?
         var isChargingStatus: Bool?
         var isQRScanRunning: Bool?
-        var qrOutletType: Int?
+        var qrOutletTypeModel: [QROutletTypeModel]?
     }
     
     internal var initialState: State
@@ -94,7 +94,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         newState.isPaymentFineUser = nil
         newState.isChargingStatus = nil
         newState.isQRScanRunning = nil
-        newState.qrOutletType = nil
+        newState.qrOutletTypeModel = nil
         
         switch mutation {
         case .setPaymentStatus(let isPaymentFineuser):
@@ -107,7 +107,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             newState.isQRScanRunning = isRunning
             
         case .setQROutletType(let outletType):
-            newState.qrOutletType = outletType
+            newState.qrOutletTypeModel = outletType
         }
         
         return newState
@@ -117,7 +117,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
         switch result {
         case .success(let data):
             let json = JSON(data)
-            
+                        
             let payCode = json["pay_code"].intValue
 //            let payCode = 8800
             
@@ -319,15 +319,9 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             case 2004, 2006, 2009, 2010, 9000: // 서버 에러
                 Snackbar().show(message: "\(msg)")
                 
-            case 2010:
-                let typeId = json["type_id"].intValue
-                Observable.just(PaymentQRScanReactor.Action.qrOutletType(typeId))
-                    .bind(to: self.action)
-                    .disposed(by: self.disposeBag)
-                
             case 2012: // 한전 충전 타입 선택 해야 하는 충전기
-                let typeId = json["type_id"].intValue                                
-                Observable.just(PaymentQRScanReactor.Action.qrOutletType(typeId))
+                let model = json["type_id"].arrayValue.map { QROutletTypeModel($0) }
+                Observable.just(PaymentQRScanReactor.Action.qrOutletType(model))
                     .bind(to: self.action)
                     .disposed(by: self.disposeBag)
                                                                 
