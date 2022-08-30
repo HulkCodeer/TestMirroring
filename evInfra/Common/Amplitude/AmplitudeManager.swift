@@ -79,6 +79,7 @@ internal final class AmplitudeManager {
     }
 }
 
+// MARK: - 화면별 이벤트 이름
 internal enum EventType {
     case enter(EnterEvent)
     case login(LoginEvent)
@@ -209,6 +210,7 @@ internal enum EventType {
         case viewMyReports
     }
     
+    // 충전소 제보 이벤트
     internal enum ReportsEvent {
         case clickStationReport
         case clickStationCompleteReport
@@ -298,13 +300,13 @@ internal enum EventType {
     }
 }
 
+// MARK: - 화면 진입 이벤트(view_enter) 프로퍼티 이름
 internal enum ViewName: String, CaseIterable {
     case PaymentQRScanViewController
     case PaymentStatusViewController
     case PaymentResultViewController
     case NoticeViewController
     case EventViewController
-    case MyWritingViewController
     case RegisterResultViewController
     case LotteRentInfoViewController
     case RentalCarCardListViewController
@@ -351,7 +353,6 @@ internal enum ViewName: String, CaseIterable {
         case .PaymentResultViewController: return "충전 완료 화면"
         case .NoticeViewController: return "공지사항 화면"
         case .EventViewController: return "이벤트 리스트 화면"
-        case .MyWritingViewController: return "내가 쓴 글 화면"
         case .RegisterResultViewController: return "롯데렌터카/SK렌터카 인증 완료/실패 화면"
         case .LotteRentInfoViewController: return "롯데렌터카 내카드 정보"
         case .RentalCarCardListViewController: return "롯데렌터카/SK렌터카 회원카드 목록 화면"
