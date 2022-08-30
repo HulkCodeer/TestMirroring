@@ -340,6 +340,7 @@ internal final class MainViewController: UIViewController {
         if !self.markerIndicator.isAnimating {
             self.refreshChargerInfo()
         }
+        AmplitudeManager.shared.logEvent(type: .map(.clickRenew), property: nil)
     }
     
     // 파란색 길안내 버튼 누를때
@@ -358,7 +359,7 @@ internal final class MainViewController: UIViewController {
             self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
         }
         
-        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: ["result": "길 안내"]) // 앰플리튜드 로깅
+        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: nil) // 앰플리튜드 로깅
     }
     
     private func configureLocationManager() {
@@ -526,10 +527,10 @@ extension MainViewController: AppToolbarDelegate {
             }
             self.present(appSearchBarController, animated: true, completion: nil)
         case 2: // 경로 찾기 버튼
-            if let isRouteMode = arg {
-                showRouteView(isShow: isRouteMode as! Bool)
+            if let isRouteMode = arg as? Bool {
+                showRouteView(isShow: isRouteMode)
+                AmplitudeManager.shared.logEvent(type: .route(.clickNavigation), property: ["onOrOff": "\(isRouteMode ? "On" : "Off")"]) // 앰플리튜드 로깅
             }
-            AmplitudeManager.shared.logEvent(type: .route(.clickNavigation), property: nil) // 앰플리튜드 로깅
         default:
             break
         }
@@ -596,7 +597,7 @@ extension MainViewController: TextFieldDelegate {
     
     @objc func onClickRouteCancel(_ sender: UIButton) {
         clearSearchResult()
-        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: ["result": "지우기"]) // 앰플리튜드 로깅
+        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: nil) // 앰플리튜드 로깅
     }
     
     // TODO: 한 view controller에서 사용되는 앰플리튜드 로깅 이벤트 한 곳에서 처리
@@ -871,11 +872,18 @@ extension MainViewController: MarkerTouchDelegate {
     func touchHandler(with charger: ChargerStationInfo) {
         hideKeyboard()
         selectCharger(chargerId: charger.mStationInfoDto?.mChargerId ?? "")
+        
+        let ampChargerStationModel = AmpChargerStationModel(charger)
+        var property: [String: Any?] = ampChargerStationModel.toProperty
+        property["source"] = "마커"
+        
+        AmplitudeManager.shared.logEvent(type: .map(.viewStationSummarized), property: property)
     }
 }
 
 extension MainViewController: ChargerSelectDelegate {
     func moveToSelectLocation(lat: Double, lon: Double) {
+        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage), property: nil) // 앰플리튜드 로깅
         guard lat == 0, lon == 0 else {
             myLocationModeOff()
             
@@ -888,15 +896,21 @@ extension MainViewController: ChargerSelectDelegate {
             // 검색한 위치의 마커 찍기
             naverMapView.searchMarker = Marker(NMGLatLng(lat: lat, lng: lon), .search)
             naverMapView.searchMarker?.mapView = self.mapView
-
+            
             return
         }
     }
     
     func moveToSelected(chargerId: String) {
+        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage), property: nil) // 앰플리튜드 로깅
         guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
         let position = NMGLatLng(lat: charger.mStationInfoDto?.mLatitude ?? 0.0,
                                  lng: charger.mStationInfoDto?.mLongitude ?? 0.0)
+        let ampChargerStaionModel = AmpChargerStationModel(charger)
+        var property: [String: Any?] = ampChargerStaionModel.toProperty
+        property["source"] = "검색"
+        AmplitudeManager.shared.logEvent(type: .map(.viewStationSummarized), property: property)
+        
         // 기존에 선택된 마커 지우기
         naverMapView.searchMarker?.mapView = nil
         
@@ -1580,4 +1594,5 @@ extension MainViewController: LoginHelperDelegate {
     func needSignUp(user: Login) {
     }
 }
+
 

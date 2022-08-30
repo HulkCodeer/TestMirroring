@@ -140,12 +140,14 @@ extension CardBoardViewController {
         let storyboard = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil)
         guard let boardWriteViewController = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
         
+        boardWriteViewController.isFromDetailView = false
         boardWriteViewController.category = self.category
         boardWriteViewController.popCompletion = { [weak self] in
             guard let self = self else { return }
             self.fetchFirstBoard(mid: self.category.rawValue, sort: self.sortType, mode: self.mode.rawValue)
         }
         
+        logEvent(with: .clickWriteBoardPost)
         self.navigationController?.push(viewController: boardWriteViewController)
     }
 }
@@ -225,5 +227,17 @@ extension CardBoardViewController: BoardTableViewDelegate {
         imageVC.isProfileImageMode = isProfileImageMode
     
         self.navigationController?.push(viewController: imageVC)
+    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension CardBoardViewController {
+    private func logEvent(with event: EventType.BoardEvent) {
+        switch event {
+        case .clickWriteBoardPost:
+            let model = AmpBoardModel(mid: category.rawValue, chargerId: "", documentSrl: "", isFromDetailView: false, source: "")
+            AmplitudeManager.shared.logEvent(type: .board(.clickWriteBoardPost), property: nil)
+        default: break
+        }
     }
 }

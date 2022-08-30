@@ -133,6 +133,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                 
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
+                logEvent(with: .completePaymentCard)
             
             case PaymentCard.PAY_REGISTER_FAIL, PaymentCard.PAY_REGISTER_FAIL_PG:
                 self.registerInfo.isHidden = false
@@ -319,3 +320,13 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     }
 }
 
+// MARK: - Amplitude Logging 이벤트
+extension MyPayinfoViewController {
+    private func logEvent(with event: EventType.PaymentEvent) {
+        switch event {
+        case .completePaymentCard:
+            AmplitudeManager.shared.logEvent(type: .payment(event), property: nil)
+        default: break
+        }
+    }
+}

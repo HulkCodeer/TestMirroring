@@ -94,6 +94,7 @@ class PreUsePointViewController: UIViewController {
     @objc
     fileprivate func handleResetButton() {
         // 설정된 값이 0이 아니면 초기화
+        logEvent(with: .clickResetBerry)
         if oldUsePoint != 0 {
             preUsePoint = 0
             saveUsePoint()
@@ -152,18 +153,12 @@ class PreUsePointViewController: UIViewController {
                     self.oldUsePoint = self.preUsePoint
                     Snackbar().show(message: "설정이 저장되었습니다.")
                     self.updateView()
-                    self.logEvent()
+                    self.logEvent(with: .clickSetUpBerry)
                 }
             } else {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료 후 재시도 바랍니다.")
             }
         }
-    }
-    
-    private func logEvent() {
-        let setBerryAmount: String = preUsePoint == -1 ? "전액" : "\(preUsePoint)"
-        let property: [String: Any] = ["setberryAmount": setBerryAmount]
-        AmplitudeManager.shared.logEvent(type: .payment(.clickSetUpBerry), property: property)
     }
     
     func addUsePoint(point: Int) {
@@ -244,5 +239,20 @@ extension PreUsePointViewController: UITextFieldDelegate {
             }
         }
         return true
+    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension PreUsePointViewController {
+    private func logEvent(with event: EventType.PaymentEvent) {
+        switch event {
+        case .clickSetUpBerry:
+            let setBerryAmount: String = preUsePoint == -1 ? "전액" : "\(preUsePoint)"
+            let property: [String: Any] = ["setberryAmount": setBerryAmount]
+            AmplitudeManager.shared.logEvent(type: .payment(event), property: property)
+        case .clickResetBerry:
+            AmplitudeManager.shared.logEvent(type: .payment(event), property: nil)
+        default: break
+        }
     }
 }

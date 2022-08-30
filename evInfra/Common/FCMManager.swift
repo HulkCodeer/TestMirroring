@@ -236,10 +236,12 @@ internal final class FCMManager {
         if let visableControll = _mainNavi.visibleViewController {
             if visableControll.isKind(of: NoticeContentViewController.self) {
                 let vc = visableControll as! NoticeContentViewController
+                vc.source = "푸쉬 알림"
                 vc.boardId = noticeId
                 vc.viewDidLoad()
             } else {
                 let ndVC = UIStoryboard(name: "Board", bundle: nil).instantiateViewController(ofType: NoticeContentViewController.self)
+                ndVC.source = "푸쉬 알림"
                 ndVC.boardId = noticeId
                 _mainNavi.push(viewController: ndVC)
             }
