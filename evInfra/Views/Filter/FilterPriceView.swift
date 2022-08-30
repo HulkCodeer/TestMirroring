@@ -58,6 +58,7 @@ class FilterPriceView: UIView {
         setView()
         if (saveOnChange) {
             applyFilter()
+            logEvent(with: .clickUpperFilter)
         }
         delegate?.onChangedFilter(type: .price)
     }
@@ -67,6 +68,7 @@ class FilterPriceView: UIView {
         setView()
         if (saveOnChange) {
             applyFilter()
+            logEvent(with: .clickUpperFilter)
         }
         delegate?.onChangedFilter(type: .price)
     }
@@ -79,7 +81,6 @@ class FilterPriceView: UIView {
     
     func applyFilter() {
         FilterManager.sharedInstance.savePriceFilter(free: isFree, paid: isPaid)
-        logEvent(with: .clickUpperFilter)
     }
     
     func update(){

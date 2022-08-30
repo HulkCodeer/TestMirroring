@@ -70,7 +70,6 @@ class FilterSpeedView: UIView {
     
     func applyFilter() {
         FilterManager.sharedInstance.saveSpeedFilter(min: minSpeed, max: maxSpeed)
-        logEvent(with: .clickUpperFilter)
     }
     
     func setSlowOn(slowOn: Bool){
@@ -103,6 +102,7 @@ class FilterSpeedView: UIView {
     @IBAction func onTouchUpSlider(_ sender: Any) {
         if (saveOnChange) {
            applyFilter()
+           logEvent(with: .clickUpperFilter)
         }
         delegate?.onChangedFilter(type: .speed)
     }
