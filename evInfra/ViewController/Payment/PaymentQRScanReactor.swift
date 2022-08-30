@@ -253,7 +253,9 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                     })
                 }, cancelBtnAction: {
                     GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
-                } , textAlignment: .center)
+                } , textAlignment: .center, dimmedBtnAction: {
+                    GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+                })
                 
                 let popup = VerticalConfirmPopupViewController(model: popupModel)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
