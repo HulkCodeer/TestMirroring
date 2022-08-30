@@ -80,7 +80,7 @@ internal final class FCMManager {
         if let viewController = _mainNavi.visibleViewController {
             // 여기다가 뷰컨트롤러가 이거일 경우... 저거일 경우... 고고씡
             if let targetId = targetId {
-                if targetId == FCMManager.TARGET_CHARGING && String(describing: viewController).contains("PaymentStatusViewController") {
+                if targetId == FCMManager.TARGET_CHARGING && String(describing: viewController).contains("NewPaymentStatusViewController") {
                     let center = NotificationCenter.default
                     center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: notification.request.content.userInfo)
                 } else {
@@ -344,28 +344,16 @@ internal final class FCMManager {
     func startTagetCharging(data: [AnyHashable: Any]){
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard isLogin, let self = self else { return }
-            var chargingId = self.defaults.readString(key: UserDefault.Key.CHARGING_ID)
             var cmd = ""
-            var cpId = ""
-            var connectorId = ""
-
-            if chargingId.isEmpty {
-                if let notiChargingId =  data[AnyHashable("charging_id")] as! String? {
-                    chargingId = notiChargingId
-                    self.defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: chargingId)
-                }
-            }
+            var chargingId = ""
             
+            if let notiChargingId =  data[AnyHashable("charging_id")] as! String? {
+                chargingId = notiChargingId
+            }
+                        
             if let notiCmd =  data[AnyHashable("cmd")] as! String? {
                 cmd = notiCmd
-            }
-            if let notiCpId = data[AnyHashable("cp_id")] as! String? {
-                cpId = notiCpId
-            }
-            
-            if let notiConId = data[AnyHashable("connector_id")] as! String? {
-                connectorId = notiConId
-            }
+            }            
 
             guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
             let center = NotificationCenter.default
@@ -375,17 +363,18 @@ internal final class FCMManager {
                 _mainNavi.push(viewController: paymentResultVC)
             } else {
                 if let viewController = _mainNavi.visibleViewController {
-                    if !String(describing: viewController).contains("PaymentStatusViewController") {
-                        let paymentStatusVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
-                        paymentStatusVC.cpId = cpId
-                        paymentStatusVC.connectorId = connectorId
+                    if !String(describing: viewController).contains("NewPaymentStatusViewController") {
+                        let reactor = PaymentStatusReactor(provider: RestApi())
+                        let viewcon = NewPaymentStatusViewController(reactor: reactor)
+                        viewcon.chargingId = chargingId
                         
-                        _mainNavi.push(viewController: paymentStatusVC)
+                        _mainNavi.push(viewController: viewcon)
                     } else {
                         center.post(name: Notification.Name(FCMManager.FCM_REQUEST_PAYMENT_STATUS), object: self, userInfo: data)
                     }
                 } else {
-                    let paymentStatusVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
+                    let reactor = PaymentStatusReactor(provider: RestApi())
+                    let paymentStatusVC = NewPaymentStatusViewController(reactor: reactor)
                     _mainNavi.push(viewController: paymentStatusVC)
                 }
             }
@@ -411,6 +400,9 @@ internal final class FCMManager {
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION, value: json["receive_jeju_push"].boolValue)
                 let marketing = json["receive_marketing_push"].boolValue
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: marketing)
+                if marketing {
+                    UserDefault().saveBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP, value: true)
+                }
                 self.updateFCMInfo()
             }
         }

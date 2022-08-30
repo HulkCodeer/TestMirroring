@@ -223,11 +223,21 @@ class MembershipIssuanceViewController: UIViewController,
     func applyMembershipCard(params: [String : Any]) {
         Server.registerMembershipCard(values: params, completion: {(isSuccess, value) in
             if isSuccess {
-                let json = JSON(value)
+                let json = JSON(value)                
                 let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in                    
                     UserDefault().saveBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP, value: false)
-                    UserDefault().saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  true)
+                    MemberManager.shared.hasMembership = true
+                    MemberManager.shared.hasPayment = true
+                    
                     let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
+                    guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
+                    for vc in _mainNavi.viewControllers {
+                        if let _vc = vc as? NewPaymentQRScanViewController {
+                            _ = _mainNavi.popToViewController(_vc, animated: true)
+                            return
+                        }
+                    }
+                                        
                     let viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 })

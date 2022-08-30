@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Chronometer: UILabel {
+internal final class Chronometer: UILabel {
 
     private var timer = Timer()
     
@@ -36,7 +36,7 @@ class Chronometer: UILabel {
         }
     }
     
-    public func stop() {
+    internal func stop() {
         repeats = false
         timer.invalidate()
     }

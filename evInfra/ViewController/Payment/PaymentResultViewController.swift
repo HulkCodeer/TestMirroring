@@ -11,6 +11,8 @@ import SwiftyJSON
 import Material
 
 internal final class PaymentResultViewController: UIViewController {
+    
+    @IBOutlet weak var naviTotalView: CommonNaviView!
     @IBOutlet weak var ivResultBg: UIView!
     @IBOutlet weak var ivResultIcon: UIImageView!
     @IBOutlet weak var lbResultStatus: UILabel!
@@ -74,14 +76,11 @@ internal final class PaymentResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "충전 완료 화면"
-        prepareActionBar()
+        
         prepareView()
         showProgress()
-        
-        if chargingId.isEmpty {
-            chargingId = getChargingId()
-        }
-        Server.getChargingResult(chargingId: chargingId) { (isSuccess, value) in
+                
+        Server.getChargingResult(chargingId: self.chargingId) { (isSuccess, value) in
             self.hideProgress()
             if isSuccess {
                 self.responseChargingStatus(response: JSON(value))
@@ -92,24 +91,12 @@ internal final class PaymentResultViewController: UIViewController {
     }
     
     // MARK: FUNC
-
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "충전하기"
-        self.navigationController?.isNavigationBarHidden = false
+    
+    @IBAction func actionBackBtn(_ sender: Any) {
+        GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
     }
     
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
-    }
-
+            
     func prepareView() {
         lbAuthMsg.isHidden = true
         viewBtnSuccess.isHidden = true
@@ -120,10 +107,7 @@ internal final class PaymentResultViewController: UIViewController {
     @IBAction func onClickPaymentResultOk(_ sender: UIButton) {
         self.navigationController?.pop()
     }
-    
-    func getChargingId() -> String {
-        return defaults.readString(key: UserDefault.Key.CHARGING_ID)
-    }
+        
     
     func responseChargingStatus(response: JSON) {
         if response.isEmpty {
@@ -288,7 +272,7 @@ internal final class PaymentResultViewController: UIViewController {
     }
     @IBAction func onClickSuccessRight(_ sender: Any) {
         // go main
-        self.navigationController?.pop()
+        GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
     }
     @IBAction func onClickFailLeft(_ sender: Any) {
         // go main

@@ -104,9 +104,10 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
             })
             .disposed(by: disposebag)
     }
-    
+            
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = false
     }
     
     // 추후 딥링크 추가시 필요

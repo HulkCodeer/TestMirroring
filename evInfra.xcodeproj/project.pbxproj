@@ -157,6 +157,12 @@
 		52B87A042799388500562436 /* BoardDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52B87A032799388500562436 /* BoardDetailTableViewCell.xib */; };
 		52C0782727CC982A00DEFEBE /* BoardListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0782627CC982A00DEFEBE /* BoardListViewModel.swift */; };
 		52D0F66A279E33B80070824E /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D0F669279E33B80070824E /* BoardDetailViewModel.swift */; };
+		633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
+		633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
+		633FF2FE28B342630041BDBB /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
+		633FF2FF28B342630041BDBB /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
+		633FF30228B3697A0041BDBB /* PaymentStatusReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF30128B3697A0041BDBB /* PaymentStatusReactor.swift */; };
+		633FF30328B3697A0041BDBB /* PaymentStatusReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF30128B3697A0041BDBB /* PaymentStatusReactor.swift */; };
 		636DB9402876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
 		636DB9412876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
 		637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */; };
@@ -196,6 +202,8 @@
 		63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */; };
 		63D054E828ACCF9700074676 /* VerticalConfirmPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D054E728ACCF9700074676 /* VerticalConfirmPopupViewController.swift */; };
 		63D054E928ACCF9700074676 /* VerticalConfirmPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D054E728ACCF9700074676 /* VerticalConfirmPopupViewController.swift */; };
+		63D723B928AF723300D54A0D /* NewPaymentQRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D723B828AF723300D54A0D /* NewPaymentQRScanViewController.swift */; };
+		63D723BA28AF723300D54A0D /* NewPaymentQRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D723B828AF723300D54A0D /* NewPaymentQRScanViewController.swift */; };
 		63DA015C2832559400705842 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015B2832559400705842 /* BaseViewController.swift */; };
 		63DA015E28325C9300705842 /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015D28325C9200705842 /* FindPasswordViewController.swift */; };
 		63DA09FF282E2F440021292C /* JSON+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA09FE282E2F440021292C /* JSON+Extension.swift */; };
@@ -790,6 +798,8 @@
 		821A05E628627F3100EB1A91 /* CommonNaviView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DF28627F3000EB1A91 /* CommonNaviView.swift */; };
 		821A05E728627F3100EB1A91 /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05E028627F3000EB1A91 /* ChevronArrow.swift */; };
 		821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05E028627F3000EB1A91 /* ChevronArrow.swift */; };
+		821A717528B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */; };
+		821A717628B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */; };
 		82829BCE28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
@@ -797,6 +807,10 @@
 		828407DA28393D8F002B1214 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407D928393D8F002B1214 /* NetworkWorker.swift */; };
 		828407DC28393DFE002B1214 /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828407DB28393DFE002B1214 /* SoftberryAPI.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
+		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
+		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
+		82C9A01A28B10A010003296B /* PaymentQRScanReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */; };
+		82C9A01B28B10A010003296B /* PaymentQRScanReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */; };
 		82D9867F2839BD790030F0FC /* MembershipReissuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */; };
 		82D986812839BE080030F0FC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
 		82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */; };
@@ -1050,6 +1064,9 @@
 		52C0782627CC982A00DEFEBE /* BoardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListViewModel.swift; sourceTree = "<group>"; };
 		52D0F669279E33B80070824E /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
+		633FF2FA28B342630041BDBB /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		633FF2FB28B342630041BDBB /* Radio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Radio.swift; sourceTree = "<group>"; };
+		633FF30128B3697A0041BDBB /* PaymentStatusReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatusReactor.swift; sourceTree = "<group>"; };
 		636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTextRectButton.swift; sourceTree = "<group>"; };
 		637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		637247D2282A5F7900595FCE /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -1076,6 +1093,7 @@
 		63CCE8232834CFD5006B8B9A /* evInfraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = evInfraTests.swift; sourceTree = "<group>"; };
 		63CCE82A2834E7A4006B8B9A /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		63D054E728ACCF9700074676 /* VerticalConfirmPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalConfirmPopupViewController.swift; sourceTree = "<group>"; };
+		63D723B828AF723300D54A0D /* NewPaymentQRScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaymentQRScanViewController.swift; sourceTree = "<group>"; };
 		63DA015B2832559400705842 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		63DA015D28325C9200705842 /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		63DA09FE282E2F440021292C /* JSON+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSON+Extension.swift"; sourceTree = "<group>"; };
@@ -1280,11 +1298,14 @@
 		821A05DE28627F3000EB1A91 /* Arrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arrow.swift; sourceTree = "<group>"; };
 		821A05DF28627F3000EB1A91 /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
 		821A05E028627F3000EB1A91 /* ChevronArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChevronArrow.swift; sourceTree = "<group>"; };
+		821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaymentStatusViewController.swift; sourceTree = "<group>"; };
 		82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Rx.swift"; sourceTree = "<group>"; };
 		82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		828407D928393D8F002B1214 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		828407DB28393DFE002B1214 /* SoftberryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
+		82C9A01628B0F0EE0003296B /* QRReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderView.swift; sourceTree = "<group>"; };
+		82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQRScanReactor.swift; sourceTree = "<group>"; };
 		82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceReactor.swift; sourceTree = "<group>"; };
 		82D986802839BE080030F0FC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoReactor.swift; sourceTree = "<group>"; };
@@ -2083,6 +2104,11 @@
 				733662FF230263540049AEFE /* PaymentStatusViewController.swift */,
 				0013A7C92746576D009CFC22 /* RepayListViewController.swift */,
 				000DAE102747369A00CEC165 /* RepayResultViewController.swift */,
+				63D723B828AF723300D54A0D /* NewPaymentQRScanViewController.swift */,
+				82C9A01628B0F0EE0003296B /* QRReaderView.swift */,
+				82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */,
+				821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */,
+				633FF30128B3697A0041BDBB /* PaymentStatusReactor.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -2316,6 +2342,8 @@
 		82F3D9A92855EE2B0030C44B /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				633FF2FA28B342630041BDBB /* CheckBox.swift */,
+				633FF2FB28B342630041BDBB /* Radio.swift */,
 				821A05DE28627F3000EB1A91 /* Arrow.swift */,
 				821A05E028627F3000EB1A91 /* ChevronArrow.swift */,
 				821A05DF28627F3000EB1A91 /* CommonNaviView.swift */,
@@ -3215,6 +3243,7 @@
 				63F313AB284EC74F001713D2 /* EvPoint.swift in Sources */,
 				63F313AC284EC74F001713D2 /* RecentKeywordTableViewCell.swift in Sources */,
 				63F313AD284EC74F001713D2 /* RangeSeekSliderDelegate.swift in Sources */,
+				633FF30328B3697A0041BDBB /* PaymentStatusReactor.swift in Sources */,
 				63F313AE284EC74F001713D2 /* CardBoardViewController.swift in Sources */,
 				63F313AF284EC74F001713D2 /* ReceiptView.swift in Sources */,
 				63F313B0284EC74F001713D2 /* MyPageViewController.swift in Sources */,
@@ -3252,6 +3281,7 @@
 				63F313CE284EC74F001713D2 /* MyPayRegisterViewDelegate.swift in Sources */,
 				63F313CF284EC74F001713D2 /* RentalCarCardListViewController.swift in Sources */,
 				63F313D0284EC74F001713D2 /* SoftberryAPI.swift in Sources */,
+				82C9A01B28B10A010003296B /* PaymentQRScanReactor.swift in Sources */,
 				63F313D1284EC74F001713D2 /* PaymentCard.swift in Sources */,
 				63F313D2284EC74F001713D2 /* CompanyInfo.swift in Sources */,
 				63F313D3284EC74F001713D2 /* AddressSearchCell.swift in Sources */,
@@ -3381,6 +3411,7 @@
 				63F31440284EC74F001713D2 /* FilterTypeView.swift in Sources */,
 				63F31441284EC74F001713D2 /* DeepLinkPath.swift in Sources */,
 				63F31442284EC74F001713D2 /* IntroViewController.swift in Sources */,
+				633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */,
 				63F31443284EC74F001713D2 /* EventTableViewCell.swift in Sources */,
 				63F31444284EC74F001713D2 /* CidTableView.swift in Sources */,
 				63F31445284EC74F001713D2 /* PoiTableView.swift in Sources */,
@@ -3410,6 +3441,7 @@
 				63762F4A2869A8F000C951BF /* QuitAccountReactor.swift in Sources */,
 				821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */,
 				82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */,
+				63D723BA28AF723300D54A0D /* NewPaymentQRScanViewController.swift in Sources */,
 				63F3145B284EC74F001713D2 /* SearchAddressViewDelegate.swift in Sources */,
 				63F3145C284EC74F001713D2 /* MyArticleViewController.swift in Sources */,
 				63F3145D284EC74F001713D2 /* LotteRentCertificateViewController.swift in Sources */,
@@ -3434,6 +3466,7 @@
 				63F31471284EC74F001713D2 /* Connector.swift in Sources */,
 				63F31472284EC74F001713D2 /* KeyChainManager.swift in Sources */,
 				63F31473284EC74F001713D2 /* ServiceGuideViewController.swift in Sources */,
+				821A717628B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */,
 				63762F4C2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
 				63F31474284EC74F001713D2 /* EvDetailViewController.swift in Sources */,
 				63F31475284EC74F001713D2 /* CodableCluster.swift in Sources */,
@@ -3443,6 +3476,7 @@
 				63F31479284EC74F001713D2 /* NoticeTableViewCell.swift in Sources */,
 				63F3147A284EC74F001713D2 /* UIAlertController+Extension.swift in Sources */,
 				63F3147B284EC74F001713D2 /* RentalCarCardListView.swift in Sources */,
+				633FF2FF28B342630041BDBB /* Radio.swift in Sources */,
 				63F3147C284EC74F001713D2 /* FilterContainerView.swift in Sources */,
 				63F3147D284EC74F001713D2 /* MemberPartnershipInfo.swift in Sources */,
 				63F3147E284EC74F001713D2 /* Const.swift in Sources */,
@@ -3471,6 +3505,7 @@
 				63F31493284EC74F001713D2 /* PointTableViewCell.swift in Sources */,
 				63F31494284EC74F001713D2 /* MembershipTermView.swift in Sources */,
 				63F31495284EC74F001713D2 /* BoardWriteViewModel.swift in Sources */,
+				82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */,
 				63F31496284EC74F001713D2 /* KoreanTextMatcher.swift in Sources */,
 				63F31497284EC74F001713D2 /* Server.swift in Sources */,
 				63F31498284EC74F001713D2 /* AcceptTermsViewController.swift in Sources */,
@@ -3507,6 +3542,7 @@
 				73A37CA22085DB5400FD3D0A /* CardBoardViewController.swift in Sources */,
 				DB4395F222DD88390092E0A5 /* ReceiptView.swift in Sources */,
 				CE24840020A59E2500611E24 /* MyPageViewController.swift in Sources */,
+				633FF30228B3697A0041BDBB /* PaymentStatusReactor.swift in Sources */,
 				52ADE50127969ED900FBBA25 /* ConfirmPopupViewController.swift in Sources */,
 				526A913727C5EFEC00A6F763 /* EmptyTableViewCell.swift in Sources */,
 				42F9BCE326C651340028B3D1 /* SummaryView.swift in Sources */,
@@ -3544,6 +3580,7 @@
 				73D65D7C2360299700F564A2 /* PaymentCard.swift in Sources */,
 				732B92C220EF4D5C0090E9FC /* CompanyInfo.swift in Sources */,
 				CE5242382183076000FF6AB1 /* AddressSearchCell.swift in Sources */,
+				82C9A01A28B10A010003296B /* PaymentQRScanReactor.swift in Sources */,
 				73EF8B43203BC71100D04494 /* UIColor+Extension.swift in Sources */,
 				637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */,
 				63EB0391283CB26500078D28 /* ServerResult.swift in Sources */,
@@ -3673,6 +3710,7 @@
 				00EAB7C627228F42004E78D2 /* DeepLinkPath.swift in Sources */,
 				73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */,
 				CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */,
+				633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */,
 				DB0E4693205B6F1F002DD05D /* CidTableView.swift in Sources */,
 				DB3B858020874788005454F5 /* PoiTableView.swift in Sources */,
 				733662F822FD11740049AEFE /* LeftViewTableHeader.swift in Sources */,
@@ -3702,6 +3740,7 @@
 				63762F492869A8F000C951BF /* QuitAccountReactor.swift in Sources */,
 				821A05E728627F3100EB1A91 /* ChevronArrow.swift in Sources */,
 				82829BCE28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */,
+				63D723B928AF723300D54A0D /* NewPaymentQRScanViewController.swift in Sources */,
 				73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */,
 				7376B5C520C6473500A2B7C1 /* MyArticleViewController.swift in Sources */,
 				00C75C46252ED4A000387559 /* LotteRentCertificateViewController.swift in Sources */,
@@ -3727,6 +3766,7 @@
 				7379A45022CB43C600F4271C /* Connector.swift in Sources */,
 				CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */,
 				DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */,
+				821A717528B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */,
 				63762F4B2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
 				7357595720917C03008181E9 /* EvDetailViewController.swift in Sources */,
 				73AF8FC321C77E1B003CB2CF /* CodableCluster.swift in Sources */,
@@ -3736,6 +3776,7 @@
 				736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController+Extension.swift in Sources */,
 				63DA0A05282E337F0021292C /* RentalCarCardListView.swift in Sources */,
+				633FF2FE28B342630041BDBB /* Radio.swift in Sources */,
 				00A6A16626C3B3DC0023DAE3 /* FilterContainerView.swift in Sources */,
 				00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */,
 				73A7B428204E81A6002E975F /* Const.swift in Sources */,
@@ -3764,6 +3805,7 @@
 				DB5041AE23506A14007336BC /* PointTableViewCell.swift in Sources */,
 				73D65D802362D52E00F564A2 /* MembershipTermView.swift in Sources */,
 				52ADE4FF27964A1F00FBBA25 /* BoardWriteViewModel.swift in Sources */,
+				82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */,
 				DB3B858320A42C81005454F5 /* KoreanTextMatcher.swift in Sources */,
 				DB306368221BD5CD00D1276E /* Server.swift in Sources */,
 				00CF1777278EA644007D8E4E /* AcceptTermsViewController.swift in Sources */,
@@ -3861,7 +3903,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 08221705;
+				CURRENT_PROJECT_VERSION = 08292053;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3874,7 +3916,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.7.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -3902,7 +3944,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 08221705;
+				CURRENT_PROJECT_VERSION = 08292053;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3915,7 +3957,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.7.2;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
