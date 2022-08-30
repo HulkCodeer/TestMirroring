@@ -982,10 +982,10 @@ extension MainViewController {
                 self?.markerIndicator.stopAnimating()
                 self?.appDelegate.appToolbarController.toolbar.isUserInteractionEnabled = true
                 
-                if let chargerId = GlobalDefine.shared.sharedChargerId {
+                if let chargerId = GlobalDefine.shared.sharedChargerIdFromDynamicLink {
                     self?.sharedChargerId = chargerId
                     self?.selectChargerFromShared()
-                    GlobalDefine.shared.sharedChargerId = nil
+                    GlobalDefine.shared.sharedChargerIdFromDynamicLink = nil
                 }
             }
             

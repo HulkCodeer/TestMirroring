@@ -11,7 +11,7 @@ internal final class GlobalDefine: NSObject {
     internal static var shared = GlobalDefine()
     
     internal weak var mainNavi: AppNavigationController?
-    internal var sharedChargerId: String?
+    internal var sharedChargerIdFromDynamicLink: String?
 }
 
 

@@ -31,10 +31,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if let url = connectionOptions.urlContexts.first?.url, let deepLinkType = url.valueOf("kakaoLinkType") {
             switch deepLinkType {
-            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.charger.value:
+            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.charger.toValue:
                 guard let chargerId = url.valueOf("charger_id") else { return }
-                GlobalDefine.shared.sharedChargerId = chargerId
-            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.board.value:
+                GlobalDefine.shared.sharedChargerIdFromDynamicLink = chargerId
+            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.board.toValue:
                 guard let mid = url.valueOf("mid"), let documentSrl = url.valueOf("document_srl") else { return }
                 DeepLinkPath.sharedInstance.linkPath = DeepLinkPath.DynamicLinkUrlPathType.kakaolink(.board).value
                 DeepLinkPath.sharedInstance.linkParameter = [URLQueryItem(name: "mid", value: mid),
@@ -64,10 +64,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         if let deepLinkType = url.valueOf("kakaoLinkType") {
             switch deepLinkType {
-            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.charger.value:
+            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.charger.toValue:
                 guard let chargerId = url.valueOf("charger_id") else { return }
                 NotificationCenter.default.post(name: Notification.Name("kakaoScheme"), object: nil, userInfo: ["sharedid": chargerId])
-            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.board.value:
+            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.board.toValue:
                 guard let mid = url.valueOf("mid"), let documentSrl = url.valueOf("document_srl") else { return }
                 DeepLinkPath.sharedInstance.linkPath = DeepLinkPath.DynamicLinkUrlPathType.kakaolink(.board).value
                 DeepLinkPath.sharedInstance.linkParameter = [URLQueryItem(name: "mid", value: mid),

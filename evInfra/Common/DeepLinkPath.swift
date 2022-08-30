@@ -30,16 +30,11 @@ internal final class DeepLinkPath {
         case event_detail
         case kakaolink(KakaoLinkType)
         
-        enum KakaoLinkType {
-            case charger
-            case board
+        enum KakaoLinkType: String {
+            case charger = "charger"
+            case board = "communityBoard"
             
-            internal var value: String {
-                switch self {
-                case .board: return "communityBoard"
-                case .charger: return "charger"
-                }
-            }
+            internal var toValue: String { self.rawValue }
         }
         
         internal var value: String {
