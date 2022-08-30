@@ -872,6 +872,12 @@ extension MainViewController: MarkerTouchDelegate {
     func touchHandler(with charger: ChargerStationInfo) {
         hideKeyboard()
         selectCharger(chargerId: charger.mStationInfoDto?.mChargerId ?? "")
+        
+        let ampChargerStationModel = AmpChargerStationModel(charger)
+        var property: [String: Any?] = ampChargerStationModel.toProperty
+        property["source"] = "마커"
+        
+        AmplitudeManager.shared.logEvent(type: .map(.viewStationSummarized), property: property)
     }
 }
 
@@ -900,6 +906,11 @@ extension MainViewController: ChargerSelectDelegate {
         guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
         let position = NMGLatLng(lat: charger.mStationInfoDto?.mLatitude ?? 0.0,
                                  lng: charger.mStationInfoDto?.mLongitude ?? 0.0)
+        let ampChargerStaionModel = AmpChargerStationModel(charger)
+        var property: [String: Any?] = ampChargerStaionModel.toProperty
+        property["source"] = "검색"
+        AmplitudeManager.shared.logEvent(type: .map(.viewStationSummarized), property: property)
+        
         // 기존에 선택된 마커 지우기
         naverMapView.searchMarker?.mapView = nil
         

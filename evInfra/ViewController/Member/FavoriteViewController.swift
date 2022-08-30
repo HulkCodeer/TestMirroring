@@ -84,6 +84,10 @@ extension FavoriteViewController: ChargerTableViewDelegate {
         guard let charger = tableView.chargerList?[row] else {
             return
         }
+        let ampChargerStationModel = AmpChargerStationModel(charger)
+        var property: [String: Any?] = ampChargerStationModel.toProperty
+        property["source"] = "즐겨찾기"
+        AmplitudeManager.shared.logEvent(type: .map(.viewStationSummarized), property: property)
         
         delegate?.moveToSelected(chargerId: charger.mChargerId!)
         GlobalDefine.shared.mainNavi?.pop(subtype: kCATransitionFromBottom)

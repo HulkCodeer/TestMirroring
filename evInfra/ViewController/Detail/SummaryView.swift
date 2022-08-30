@@ -121,16 +121,6 @@ class SummaryView: UIView {
         }
     }
     
-    private func logEvent(_ charger: ChargerStationInfo?) {
-        guard let charger = charger else { return }
-
-        let ampChargerStationModel = AmpChargerStationModel(charger)
-        var property: [String: Any?] = ampChargerStationModel.toProperty
-        property["source"] = "마커"
-        
-        AmplitudeManager.shared.logEvent(type: .map(.viewStationSummarized), property: property)
-    }
-    
     func layoutMainSummary() {
         if self.charger != nil {
             if let stationDto = self.charger!.mStationInfoDto {
@@ -241,7 +231,6 @@ class SummaryView: UIView {
                     self.setStationStatus(charger: self.charger!)
                     if self.charger!.cidInfoList.count > 0 {
                         self.initLayout(type: type)
-                        self.logEvent(self.charger)
                         if let delegate = self.delegate {
                             delegate.setCidInfoList()
                             self.layoutIfNeeded()
