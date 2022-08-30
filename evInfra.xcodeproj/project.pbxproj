@@ -161,6 +161,8 @@
 		59317D1628B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */; };
 		596522D428BC7B9A00FD4025 /* NoticeDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */; };
 		596522D528BC7EFD00FD4025 /* NoticeDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */; };
+		596522D728BC8B1C00FD4025 /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D628BC8B1C00FD4025 /* Notice.swift */; };
+		596522D828BC8E5900FD4025 /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D628BC8B1C00FD4025 /* Notice.swift */; };
 		633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FE28B342630041BDBB /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
@@ -1069,6 +1071,7 @@
 		59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoticeDetailViewController.swift; sourceTree = "<group>"; };
 		59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoticeViewController.swift; sourceTree = "<group>"; };
 		596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailReactor.swift; sourceTree = "<group>"; };
+		596522D628BC8B1C00FD4025 /* Notice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
 		633FF2FA28B342630041BDBB /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		633FF2FB28B342630041BDBB /* Radio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Radio.swift; sourceTree = "<group>"; };
@@ -2157,6 +2160,7 @@
 				00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */,
 				00CADC1A278D79C2000AF24A /* MemberOtherInfo.swift */,
 				52B25949278E5E5C0042B22C /* BoardListItem.swift */,
+				596522D628BC8B1C00FD4025 /* Notice.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -3429,6 +3433,7 @@
 				63F31448284EC74F001713D2 /* BoardTableViewHeader.swift in Sources */,
 				63F31449284EC74F001713D2 /* ChargerManager.swift in Sources */,
 				63F3144A284EC74F001713D2 /* MembershipCardViewController.swift in Sources */,
+				596522D828BC8E5900FD4025 /* Notice.swift in Sources */,
 				63F3144B284EC74F001713D2 /* GroupViewController.swift in Sources */,
 				821A05E228627F3100EB1A91 /* NavigationClose.swift in Sources */,
 				63F3144B284EC74F001713D2 /* GroupViewController.swift in Sources */,
@@ -3731,6 +3736,7 @@
 				9058A3C1248639D000091823 /* ChargerManager.swift in Sources */,
 				73C6A10B2345F1F800349A86 /* MembershipCardViewController.swift in Sources */,
 				523A3AF22797A9CA004C3C23 /* GroupViewController.swift in Sources */,
+				596522D728BC8B1C00FD4025 /* Notice.swift in Sources */,
 				821A05E128627F3100EB1A91 /* NavigationClose.swift in Sources */,
 				19A3D3262887F13400AE8280 /* AmplitudeManager.swift in Sources */,
 				523A3AF22797A9CA004C3C23 /* GroupViewController.swift in Sources */,
