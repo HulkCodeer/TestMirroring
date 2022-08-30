@@ -62,6 +62,7 @@ class FilterRoadView: UIView {
         selectItem(index: 0)
         if (saveOnChange) {
             applyFilter()
+            logEvent(with: .clickUpperFilter)
         }
         delegate?.onChangedFilter(type: .road)
     }
@@ -71,6 +72,7 @@ class FilterRoadView: UIView {
         selectItem(index: 1)
         if (saveOnChange) {
             applyFilter()
+            logEvent(with: .clickUpperFilter)
         }
         delegate?.onChangedFilter(type: .road)
     }
@@ -80,6 +82,7 @@ class FilterRoadView: UIView {
         selectItem(index: 2)
         if (saveOnChange) {
             applyFilter()
+            logEvent(with: .clickUpperFilter)
         }
         delegate?.onChangedFilter(type: .road)
     }
@@ -124,7 +127,6 @@ class FilterRoadView: UIView {
     
     func applyFilter() {
         FilterManager.sharedInstance.saveRoadFilter(general: generalSel, highUp: highUpSel, highDown: highDownSel)
-        logEvent(with: .clickUpperFilter)
     }
     
     func isChanged() -> Bool {

@@ -66,6 +66,7 @@ class FilterPlaceView: UIView {
         selectItem(index: 0)
         if (saveOnChange) {
             applyFilter()
+            logEvent(with: .clickUpperFilter)
         }
         delegate?.onChangedFilter(type: .place)
     }
@@ -75,6 +76,7 @@ class FilterPlaceView: UIView {
         selectItem(index: 1)
         if (saveOnChange) {
             applyFilter()
+            logEvent(with: .clickUpperFilter)
         }
         delegate?.onChangedFilter(type: .place)
     }
@@ -84,6 +86,7 @@ class FilterPlaceView: UIView {
         selectItem(index: 2)
         if (saveOnChange) {
             applyFilter()
+            logEvent(with: .clickUpperFilter)
         }
         delegate?.onChangedFilter(type: .place)
     }
@@ -128,7 +131,6 @@ class FilterPlaceView: UIView {
     
     func applyFilter() {
         FilterManager.sharedInstance.savePlaceFilter(indoor: indoorSel, outdoor: outdoorSel, canopy: canopySel)
-        logEvent(with: .clickUpperFilter)
     }
     
     func update() {
