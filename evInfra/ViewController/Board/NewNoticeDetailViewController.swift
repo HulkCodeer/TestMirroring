@@ -23,19 +23,15 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
     
     private lazy var scrollView = UIScrollView().then {
         $0.alwaysBounceVertical = true
+        $0.showsVerticalScrollIndicator = false
     }
-    private lazy var contentStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.alignment = .fill
-        $0.spacing = 24
-    }
+    private lazy var scrollContentView = UIView()
     
     private lazy var titleStackView = UIStackView().then {
         $0.axis = .vertical
         $0.alignment = .fill
         $0.spacing = 8
     }
-    private lazy var titleTopSpacingView = UIView()
     private lazy var titleLabel = UILabel().then {
         $0.numberOfLines = 2
         $0.font = .systemFont(ofSize: 18, weight: .bold)
@@ -51,6 +47,8 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
     
     private lazy var webView = WKWebView().then {
         $0.scrollView.alwaysBounceVertical = false
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.autoresizingMask = [.flexibleHeight, .flexibleWidth]
     }
     
     init(reactor: NoticeDetailReactor) {
@@ -62,24 +60,28 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: lifeCycle
+
     override func loadView() {
         super.loadView()
 
         contentView.addSubview(customNaviBar)
         contentView.addSubview(scrollView)
-        scrollView.addSubview(contentStackView)
+        scrollView.addSubview(scrollContentView)
 
-        contentStackView.addArrangedSubview(titleStackView)
-        contentStackView.addArrangedSubview(webView)
-
-        titleStackView.addArrangedSubview(titleTopSpacingView)
+        scrollContentView.addSubview(titleStackView)
+        scrollContentView.addSubview(webView)
+        
         titleStackView.addArrangedSubview(titleLabel)
         titleStackView.addArrangedSubview(dateLabel)
         titleStackView.addArrangedSubview(titleBottomSpacingView)
         titleStackView.addSubview(divider)
         
         let horizontalMargin: CGFloat = 16
-        let titleVerticalSpacing: CGFloat = 16
+        let verticalPadding: CGFloat = 24
+        let titleBottomSpacing: CGFloat = 16
+        
+        let scrollViewWidth: CGFloat = view.frame.width - (horizontalMargin * 2)
         
         customNaviBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
@@ -89,19 +91,28 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
 
         scrollView.snp.makeConstraints {
             $0.top.equalTo(customNaviBar.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
+            $0.width.equalTo(scrollViewWidth)
+            $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
             $0.bottom.equalTo(view)
         }
-        contentStackView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalTo(view).inset(horizontalMargin)
+        
+        scrollContentView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.width.equalToSuperview()
         }
 
-        titleTopSpacingView.snp.makeConstraints {
-            $0.height.equalTo(titleVerticalSpacing)
+        titleStackView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(verticalPadding)
+            $0.leading.trailing.equalToSuperview()
         }
         titleBottomSpacingView.snp.makeConstraints {
-            $0.height.equalTo(titleVerticalSpacing)
+            $0.height.equalTo(titleBottomSpacing)
+        }
+        webView.snp.makeConstraints {
+            $0.top.equalTo(titleStackView.snp.bottom).offset(verticalPadding)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
 
         divider.snp.makeConstraints {
@@ -120,20 +131,25 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
     
+    // MARK: bind
+    
     internal func bind(reactor: NoticeDetailReactor) {
+        // action
         Observable.just(NoticeDetailReactor.Action.loadHTML)
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // satate
         reactor.state.map { $0.title }
             .observe(on: MainScheduler.instance)
             .bind(to: titleLabel.rx.text)
             .disposed(by: disposeBag)
         
-        reactor.state.map { $0.date }
+        reactor.state.compactMap { $0.date }
             .observe(on: MainScheduler.instance)
             .bind(to: dateLabel.rx.text)
             .disposed(by: disposeBag)
+        
         
         reactor.state.map { $0.html }
             .asDriver(onErrorJustReturn: String())
