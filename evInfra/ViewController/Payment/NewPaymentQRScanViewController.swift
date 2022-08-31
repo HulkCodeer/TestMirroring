@@ -266,8 +266,8 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     }
     
     private func changeStationGuideWithPaymentStatusCheck(reactor: PaymentQRScanReactor) {
-        stationSubGuideLbl.isHidden = false
-        stationSubGuideBtn.isHidden = false
+        stationSubGuideLbl.isHidden = true
+        stationSubGuideBtn.isHidden = true
         
         switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
         case (false, false): // 신규유저
@@ -325,8 +325,8 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
             stationGuideLbl.attributedText = attributeText
             
-            stationSubGuideLbl.isHidden = true
-            stationSubGuideBtn.isHidden = true
+            stationSubGuideLbl.isHidden = false
+            stationSubGuideBtn.isHidden = false
                                                             
             Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
                 .bind(to: reactor.action)
