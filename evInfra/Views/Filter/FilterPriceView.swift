@@ -114,7 +114,7 @@ extension FilterPriceView {
             }
             
             let property: [String: Any] = ["filterName": "충전 금액",
-                                           "filterValue": "\(values)"]
+                                           "filterValue": values]
             AmplitudeManager.shared.logEvent(type: .filter(event), property: property)
         default: break
         }

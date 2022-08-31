@@ -173,7 +173,7 @@ extension FilterPlaceView {
             }
 
             let property: [String: Any] = ["filterName": "설치 형태",
-                                           "filterValue": "\(values)"]
+                                           "filterValue": values]
             AmplitudeManager.shared.logEvent(type: .filter(event), property: property)
         default: break
         }

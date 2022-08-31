@@ -235,7 +235,7 @@ extension FilterTypeView {
         switch event {
         case .clickUpperFilter:
             let property: [String: Any] = ["filterName": "충전기 타입",
-                                           "filterValue": "\(tagList.filter({ $0.selected }).map { $0.title })"]
+                                           "filterValue": tagList.filter({ $0.selected }).map { $0.title }]
             AmplitudeManager.shared.logEvent(type: .filter(event), property: property)
         default: break
         }
