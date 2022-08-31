@@ -165,6 +165,10 @@
 		596522D828BC8E5900FD4025 /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D628BC8B1C00FD4025 /* Notice.swift */; };
 		596522DA28BE0D0600FD4025 /* NoticeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D928BE0D0600FD4025 /* NoticeReactor.swift */; };
 		596522DB28BE0D2D00FD4025 /* NoticeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D928BE0D0600FD4025 /* NoticeReactor.swift */; };
+		596522DE28BE290400FD4025 /* NewNoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */; };
+		596522DF28BE290400FD4025 /* NewNoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */; };
+		596522E028BE290400FD4025 /* NewNoticeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 596522DD28BE290400FD4025 /* NewNoticeTableViewCell.xib */; };
+		596522E128BE290400FD4025 /* NewNoticeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 596522DD28BE290400FD4025 /* NewNoticeTableViewCell.xib */; };
 		633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FE28B342630041BDBB /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
@@ -1075,6 +1079,8 @@
 		596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailReactor.swift; sourceTree = "<group>"; };
 		596522D628BC8B1C00FD4025 /* Notice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
 		596522D928BE0D0600FD4025 /* NoticeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeReactor.swift; sourceTree = "<group>"; };
+		596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoticeTableViewCell.swift; sourceTree = "<group>"; };
+		596522DD28BE290400FD4025 /* NewNoticeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewNoticeTableViewCell.xib; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
 		633FF2FA28B342630041BDBB /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		633FF2FB28B342630041BDBB /* Radio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Radio.swift; sourceTree = "<group>"; };
@@ -2219,6 +2225,8 @@
 				00AB7BD826E870820040CFDE /* GuideAlertDialog.swift */,
 				000DAE12274760E300CEC165 /* PaymentTableViewCell.swift */,
 				00A13AD627910E4D0058C291 /* BottomSheetTableViewCell.swift */,
+				596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */,
+				596522DD28BE290400FD4025 /* NewNoticeTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2742,6 +2750,7 @@
 				63F3153A284EC74F001713D2 /* charger_ac3.jpg in Resources */,
 				63F3153B284EC74F001713D2 /* GuideAlertDialog.xib in Resources */,
 				63F3153C284EC74F001713D2 /* reply_btn_selected.png in Resources */,
+				596522E128BE290400FD4025 /* NewNoticeTableViewCell.xib in Resources */,
 				63F3153D284EC74F001713D2 /* Member.storyboard in Resources */,
 				63F3153E284EC74F001713D2 /* CidInfoTableViewCell.xib in Resources */,
 				63F3153F284EC74F001713D2 /* BoardTableViewFooter.xib in Resources */,
@@ -2867,6 +2876,7 @@
 				73A7B3EF204E3595002E975F /* ic_add_circle_outline.png in Resources */,
 				90CBCC6C26EB18F1002B2591 /* img_default.png in Resources */,
 				7357594420916A37008181E9 /* kia_ray.jpg in Resources */,
+				596522E028BE290400FD4025 /* NewNoticeTableViewCell.xib in Resources */,
 				73EF8B73203C85CC00D04494 /* mapbg_tlogo.png in Resources */,
 				73C31C0920A2BB04005B6C53 /* charger_acsingle.jpg in Resources */,
 				73A7B414204E3595002E975F /* expand_pressed.png in Resources */,
@@ -3372,6 +3382,7 @@
 				63F3140C284EC74F001713D2 /* AppTabsController.swift in Sources */,
 				63F3140D284EC74F001713D2 /* PhotoRegisterCollectionViewCell.swift in Sources */,
 				63F3140E284EC74F001713D2 /* CircularProgressBar.swift in Sources */,
+				596522DF28BE290400FD4025 /* NewNoticeTableViewCell.swift in Sources */,
 				63F3140F284EC74F001713D2 /* BaseViewController.swift in Sources */,
 				63F31410284EC74F001713D2 /* FindAllPOIListenerCallback.swift in Sources */,
 				63F31411284EC74F001713D2 /* AppNavigationController.swift in Sources */,
@@ -3676,6 +3687,7 @@
 				63DA015C2832559400705842 /* BaseViewController.swift in Sources */,
 				9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */,
 				73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */,
+				596522DE28BE290400FD4025 /* NewNoticeTableViewCell.swift in Sources */,
 				732B929A20EDD0C60090E9FC /* CompanyInfoChecker.swift in Sources */,
 				902A11D1248F4DAC0049EF8E /* CompanyInfoDto.swift in Sources */,
 				192A338327FE747E00EF1684 /* Marker.swift in Sources */,
