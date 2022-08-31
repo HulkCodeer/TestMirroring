@@ -169,6 +169,8 @@
 		596522DF28BE290400FD4025 /* NewNoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */; };
 		596522E028BE290400FD4025 /* NewNoticeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 596522DD28BE290400FD4025 /* NewNoticeTableViewCell.xib */; };
 		596522E128BE290400FD4025 /* NewNoticeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 596522DD28BE290400FD4025 /* NewNoticeTableViewCell.xib */; };
+		596522E328BEF3E800FD4025 /* NoticeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E228BEF3E800FD4025 /* NoticeList.swift */; };
+		596522E428BEF49B00FD4025 /* NoticeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E228BEF3E800FD4025 /* NoticeList.swift */; };
 		633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FE28B342630041BDBB /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
@@ -1081,6 +1083,7 @@
 		596522D928BE0D0600FD4025 /* NoticeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeReactor.swift; sourceTree = "<group>"; };
 		596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoticeTableViewCell.swift; sourceTree = "<group>"; };
 		596522DD28BE290400FD4025 /* NewNoticeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewNoticeTableViewCell.xib; sourceTree = "<group>"; };
+		596522E228BEF3E800FD4025 /* NoticeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeList.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
 		633FF2FA28B342630041BDBB /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		633FF2FB28B342630041BDBB /* Radio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Radio.swift; sourceTree = "<group>"; };
@@ -2170,6 +2173,7 @@
 				00CADC1A278D79C2000AF24A /* MemberOtherInfo.swift */,
 				52B25949278E5E5C0042B22C /* BoardListItem.swift */,
 				596522D628BC8B1C00FD4025 /* Notice.swift */,
+				596522E228BEF3E800FD4025 /* NoticeList.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -3280,6 +3284,7 @@
 				63F313B6284EC74F001713D2 /* ChargerTableViewCell.swift in Sources */,
 				63F313B7284EC74F001713D2 /* UserDefault.swift in Sources */,
 				63F313B8284EC74F001713D2 /* InfoLastUpdateDto.swift in Sources */,
+				596522E428BEF49B00FD4025 /* NoticeList.swift in Sources */,
 				63F313B9284EC74F001713D2 /* PartnershipJoinView.swift in Sources */,
 				63C7C8E1286D7D2C00A357D6 /* NewBottomSheetViewController.swift in Sources */,
 				63F313BA284EC74F001713D2 /* OfferwallTableViewCell.swift in Sources */,
@@ -3585,6 +3590,7 @@
 				19B4C7D8289A420900C6BE84 /* AdsModel.swift in Sources */,
 				00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */,
 				4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */,
+				596522E328BEF3E800FD4025 /* NoticeList.swift in Sources */,
 				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
 				82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */,
 				63DA0A09282E44020021292C /* SC_TRACE.swift in Sources */,
