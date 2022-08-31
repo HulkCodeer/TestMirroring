@@ -16,11 +16,24 @@ import RxSwift
 import SnapKit
 import WebKit
 
-final class NewNoticeViewController: CommonBaseViewController {
+final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
     private lazy var customNaviBar = CommonNaviView()
     
-    private lazy var noticeTableView = UITableView()
-
+    private lazy var noticeTableView = UITableView().then {
+        $0.rowHeight = UITableViewAutomaticDimension //UITableView.automaticDimension
+        $0.estimatedRowHeight = 91
+    }
+    
+    
+    init(reactor: NoticeReactor) {
+        super.init()
+        self.reactor = reactor
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         super.loadView()
         
@@ -39,4 +52,16 @@ final class NewNoticeViewController: CommonBaseViewController {
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
 
+    internal func bind(reactor: NoticeReactor) {
+        bindAction(reactor: reactor)
+        bindState(reactor: reactor)
+    }
+    
+    private func bindAction(reactor: NoticeReactor) {
+        
+    }
+    
+    private func bindState(reactor: NoticeReactor) {
+        
+    }
 }
