@@ -359,6 +359,7 @@ internal final class DetailViewController: BaseViewController {
             }else{
                 map.baseMapType = .standard
             }
+            logEvent(with: .clickStationSatelliteView)
         }
     }
     
