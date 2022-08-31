@@ -168,7 +168,7 @@ extension FilterRoadView {
                 values.append(lbHighDown.text ?? "고속도로(하)")
             }
             let property: [String: Any] = ["filterName": "도로",
-                                           "filterValue": "\(values)"]
+                                           "filterValue": values]
             AmplitudeManager.shared.logEvent(type: .filter(event), property: property)
         default: break
         }
