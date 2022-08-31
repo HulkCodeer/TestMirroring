@@ -115,14 +115,14 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     }
     
     private lazy var chargeElapsedTimeTotalView = UIView()
-    private lazy var chargeElapsedTimeLbl = UILabel().then {
+    private lazy var chargeElapsedTimeLbl = Chronometer().then {
         $0.text = "\(ChargeInfoType.elapsedTime.unitGuideValue)"
         $0.font = .systemFont(ofSize: 18, weight: .bold)
         $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .center
     }
         
-    private lazy var chargeElapsedTimeGuideLbl = Chronometer().then {
+    private lazy var chargeElapsedTimeGuideLbl = UILabel().then {
         $0.text = "\(ChargeInfoType.elapsedTime.toValue)"
         $0.font = .systemFont(ofSize: 16, weight: .regular)
         $0.textColor = Colors.contentPrimary.color
@@ -876,7 +876,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     override func viewDidDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
         removeTimer()
-        chargeElapsedTimeGuideLbl.stop()
+        chargeElapsedTimeLbl.stop()
         removeNotificationCenter()
     }
     
@@ -975,8 +975,10 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
             
         case "2003": // CHARGING_CANCEL 충전 하기전에 취소
             Snackbar().show(message: "충전을 취소하였습니다.")
-            GlobalDefine.shared.mainNavi?.pop()
-
+            if chargingStatus.status == STATUS_READY { // 충전대기중
+                GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+            }
+            
         default:
             Snackbar().show(message:response["msg"].stringValue)
         }
@@ -1033,7 +1035,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     
     private func stopCharging() {
         removeTimer()
-        chargeElapsedTimeGuideLbl.stop()
+        chargeElapsedTimeLbl.stop()
                         
         let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentResultViewController.self)
         viewcon.chargingId = self.chargingId
@@ -1176,25 +1178,31 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
             stationNameLbl.text = stationName
         }
         
-        if let companyId = chargingStatus.companyId {
-            // GSC 외에는 충전 중지 할 수 없으므로 충전 중지 버튼 disable
-            if companyId.elementsEqual(CompanyInfo.COMPANY_ID_GSC) {
-                if isStopCharging == false {
-                    nextBtn.isEnabled = true
-                }
-            } else if companyId.elementsEqual(CompanyInfo.COMPANY_ID_KEPCO) {
-                nextBtn.isEnabled = false
-                if MemberManager.shared.isPartnershipClient(clientId: 23) { // 한전&SK -> 포인트사용 block
-                    berryInfoTotalView.isHidden = true
-                }
+        
+        // GSC 외에는 충전 중지 할 수 없으므로 충전 중지 버튼 disable
+        if chargingStatus.companyId.elementsEqual(CompanyInfo.COMPANY_ID_KEPCO) {
+            if MemberManager.shared.isPartnershipClient(clientId: 23) { // 한전&SK -> 포인트사용 block
+                berryInfoTotalView.isHidden = true
             }
         }
         
-        if chargingStatus.status == STATUS_READY {
+        if chargingStatus.status == STATUS_READY { // 충전대기중
+            nextBtn.isEnabled = true
+            nextBtn.setTitle("충전 취소", for: .normal)
+                    
             chargeStatusLbl.text = "충전 대기"
             chargeStatusSubLbl.text = "충전 커넥터를 차량과 연결 후\n잠시만 기다려 주세요"
-            nextBtn.setTitle("충전 취소", for: .normal)
-        } else {
+            
+        } else { // 충전중
+            if chargingStatus.companyId.elementsEqual(CompanyInfo.COMPANY_ID_GSC) {
+                if isStopCharging == false {
+                    nextBtn.isEnabled = true
+                }
+                nextBtn.setTitle("충전 취소", for: .normal)
+            } else {
+                nextBtn.isEnabled = false
+            }
+            
             chargeStatusLbl.textColor = Colors.contentPositive.color
             chargeStatusSubLbl.text = "충전중"
             nextBtn.setTitle("충전 종료 및 결제하기", for: .normal)
@@ -1205,12 +1213,12 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
             }
 
             if !chargingStartTime.isEmpty {
-                chargeElapsedTimeGuideLbl.setBase(base: getChargingStartTime())
-                chargeElapsedTimeGuideLbl.start()
+                chargeElapsedTimeLbl.setBase(base: getChargingStartTime())
+                chargeElapsedTimeLbl.start()
             }
             
             // 충전률
-            if let chargingRate = Double(chargingStatus.chargingRate ?? "0") {
+            if let chargingRate = Double(chargingStatus.chargingRate) {
                 if chargingRate > 0.0 {
                     circleView.setRateProgress(progress: Double(chargingRate))
                 }
@@ -1226,9 +1234,9 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
                 updateBerryUse(point: willUsePoint)
             }
             
-            if let chargingKw = chargingStatus.chargingKw {
+            if !chargingStatus.chargingKw.isEmpty {
                 // 충전량
-                let chargePower = "\(chargingKw)kWh"
+                let chargePower = "\(chargingStatus.chargingKw)kWh"
                 chargePowerLbl.text = chargePower
                 
                 var discountAmt = 0.0
@@ -1286,7 +1294,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
                         let sec = Double(updateDate?.timeIntervalSince(preDate!) ?? 0)
 
                         // 충전량 계산
-                        let chargingKw = chargingKw.parseDouble()! - self.preChargingKw.parseDouble()!
+                        let chargingKw = chargingStatus.chargingKw.parseDouble()! - self.preChargingKw.parseDouble()!
 
                         // 속도 계산: 충전량 / 시간 * 3600
                         if (sec > 0 && chargingKw > 0) {
@@ -1294,7 +1302,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
                             self.chargeSpeedLbl.text = "\((speed * 100).rounded() / 100) Kw"
                         }
                     }
-                    preChargingKw = chargingStatus.chargingKw ?? preChargingKw
+                    preChargingKw = chargingStatus.chargingKw.isEmpty ? preChargingKw : chargingStatus.chargingKw
                     preUpdateTime = chargingStatus.updateTime ?? preUpdateTime
                 }
             }
@@ -1312,7 +1320,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         chargingStatus.cpId = response["cp_id"].string ?? ""
         chargingStatus.startDate = response["s_date"].string ?? ""
         chargingStatus.updateTime = response["u_date"].string ?? ""
-        chargingStatus.chargingRate = response["rate"].string ?? "0"
+        chargingStatus.chargingRate = response["rate"].stringValue
         chargingStatus.chargingKw = response["c_kw"].string ?? "0"
         chargingStatus.usedPoint = response["u_point"].string ?? ""
         chargingStatus.fee = response["fee"].string ?? ""

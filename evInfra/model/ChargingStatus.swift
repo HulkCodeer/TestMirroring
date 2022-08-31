@@ -18,7 +18,7 @@ class ChargingStatus: Decodable, Equatable {
 
     var status: Int?
     var stationName: String?
-    var companyId: String?
+    var companyId: String = ""
     var chargingId: String?
     var cpId: String?
 
@@ -28,8 +28,8 @@ class ChargingStatus: Decodable, Equatable {
     var updateTime: String? // 충전정보 업데이트 일시
 
     var chargingTime: String? // 충전 시간
-    var chargingKw: String? // 충전량
-    var chargingRate: String? // 충전률
+    var chargingKw: String = "" // 충전량
+    var chargingRate: String = "0" // 충전률
 
     var usedPoint: String?
     var fee: String?
@@ -99,7 +99,7 @@ class ChargingStatus: Decodable, Equatable {
 
         status = try values.decodeIfPresent(Int.self, forKey: .status)
         stationName = try values.decodeIfPresent(String.self, forKey: .snm)
-        companyId = try values.decodeIfPresent(String.self, forKey: .company_id)
+        companyId = try values.decodeIfPresent(String.self, forKey: .company_id) ?? ""
         chargingId = try values.decodeIfPresent(String.self, forKey: .charging_id)
         cpId = try values.decodeIfPresent(String.self, forKey: .cp_id)
 
@@ -109,8 +109,8 @@ class ChargingStatus: Decodable, Equatable {
         updateTime = try values.decodeIfPresent(String.self, forKey: .u_date)
 
         chargingTime = try values.decodeIfPresent(String.self, forKey: .c_time)
-        chargingKw = try values.decodeIfPresent(String.self, forKey: .c_kw)
-        chargingRate = try values.decodeIfPresent(String.self, forKey: .rate)
+        chargingKw = try values.decodeIfPresent(String.self, forKey: .c_kw) ?? ""
+        chargingRate = try values.decodeIfPresent(String.self, forKey: .rate) ?? "0"
 
         usedPoint = try values.decodeIfPresent(String.self, forKey: .u_point)
         fee = try values.decodeIfPresent(String.self, forKey: .fee)

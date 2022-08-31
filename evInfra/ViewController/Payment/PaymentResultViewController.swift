@@ -152,8 +152,8 @@ internal final class PaymentResultViewController: UIViewController {
     func updateView(chargingStatus: ChargingStatus) {
         self.lbAuthNo.text = "거래번호 " + (chargingStatus.payAuthCode ?? "0")
         self.lbStation.text = chargingStatus.stationName
-        if let chargingKw = chargingStatus.chargingKw {
-            let chargePower = "\(chargingKw) kWh"
+        if !chargingStatus.chargingKw.isEmpty  {
+            let chargePower = "\(chargingStatus.chargingKw) kWh"
             lbQuantity.text = chargePower
         } else {
             self.lbQuantity.text = " - "
