@@ -338,7 +338,6 @@ internal enum ViewName: String, CaseIterable {
     case ServiceGuideViewController
     case ReportBoardViewController
     case BoardSearchViewController
-    case BoardWriteViewController
     case CardBoardViewController
     case QuitAccountViewController
     case PointUseGuideViewController
@@ -384,7 +383,6 @@ internal enum ViewName: String, CaseIterable {
         case .ServiceGuideViewController: return "이용안내 화면"
         case .ReportBoardViewController: return "나의 제보 내역 화면"
         case .BoardSearchViewController: return "게시판 검색 화면"
-        case .BoardWriteViewController: return "게시판 글 작성 화면"
         case .CardBoardViewController: return "게시판 리스트 화면"
         case .QuitAccountViewController: return "회원탈퇴 화면"
         case .PointUseGuideViewController: return "베리 사용 안내 화면"
