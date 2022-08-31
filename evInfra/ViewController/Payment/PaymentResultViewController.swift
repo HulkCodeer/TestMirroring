@@ -65,6 +65,10 @@ internal final class PaymentResultViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
+        GlobalDefine.shared.mainNavi?.interactivePopGestureRecognizer?.isEnabled = false
+        
         ivResultBg.layer.cornerRadius = ivResultBg.frame.height/2
         btnAuthStatus.layer.cornerRadius = 4
         btnAuthStatus.layer.borderWidth = 1
