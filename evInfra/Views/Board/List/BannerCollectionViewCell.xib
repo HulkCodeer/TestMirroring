@@ -36,7 +36,7 @@
             </collectionViewCellContentView>
             <size key="customSize" width="410" height="135"/>
             <connections>
-                <outlet property="bannerImageView" destination="PL2-d3-OV6" id="3lQ-UM-3qz"/>
+                <outlet property="bannerImageView" destination="PL2-d3-OV6" id="k82-3k-hXl"/>
             </connections>
             <point key="canvasLocation" x="350.72463768115944" y="151.67410714285714"/>
         </collectionViewCell>

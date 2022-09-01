@@ -3,7 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20037"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,28 +14,23 @@
             <rect key="frame" x="0.0" y="0.0" width="360" height="148"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="abQ-7z-dhc">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hTw-cK-6C9" customClass="FSPagerView" customModule="FSPagerView">
                     <rect key="frame" x="16" y="16" width="328" height="68"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="abQ-7z-dhc" secondAttribute="height" multiplier="328:68" id="mcd-HN-tPf"/>
+                        <constraint firstAttribute="width" secondItem="hTw-cK-6C9" secondAttribute="height" multiplier="328:68" id="lzZ-0c-ZdR"/>
                     </constraints>
-                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Jnu-Aq-WJU">
-                        <size key="itemSize" width="128" height="68"/>
-                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    </collectionViewFlowLayout>
-                </collectionView>
+                </view>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="abQ-7z-dhc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="9HH-qZ-dvO"/>
-                <constraint firstItem="abQ-7z-dhc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="Exs-AH-ht8"/>
-                <constraint firstAttribute="trailing" secondItem="abQ-7z-dhc" secondAttribute="trailing" constant="16" id="T30-7W-8Jt"/>
+                <constraint firstItem="hTw-cK-6C9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="7R5-fJ-0d3"/>
+                <constraint firstItem="hTw-cK-6C9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="Mux-eX-jSS"/>
+                <constraint firstAttribute="trailing" secondItem="hTw-cK-6C9" secondAttribute="trailing" constant="16" id="aXZ-VP-n8j"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="bannerCollectionView" destination="abQ-7z-dhc" id="PM1-02-IyN"/>
+                <outlet property="bannerPagerView" destination="hTw-cK-6C9" id="6zt-r7-rJu"/>
             </connections>
             <point key="canvasLocation" x="253.62318840579712" y="149.33035714285714"/>
         </view>

@@ -127,7 +127,6 @@
 		525E3A27278D728B00F5C54D /* CommunityBoardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */; };
 		525E3A2A278D729600F5C54D /* CommunityBoardTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */; };
 		525E3A2B278D729600F5C54D /* CommunityBoardTableViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A29278D729600F5C54D /* CommunityBoardTableViewHeader.xib */; };
-		525E3A2D278D72C200F5C54D /* BannerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */; };
 		525E3A30278D732700F5C54D /* BoardWriteViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A2E278D732700F5C54D /* BoardWriteViewController.storyboard */; };
 		525E3A31278D732700F5C54D /* BoardWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */; };
 		525E3A33278D739E00F5C54D /* BoardWriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A32278D739E00F5C54D /* BoardWriteButton.swift */; };
@@ -565,7 +564,6 @@
 		63F31505284EC74F001713D2 /* leaf.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7357593F20916A34008181E9 /* leaf.jpg */; };
 		63F31506284EC74F001713D2 /* PartnershipJoinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */; };
 		63F31507284EC74F001713D2 /* BoardDetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52B709D2279928CD006C5706 /* BoardDetailViewController.storyboard */; };
-		63F31508284EC74F001713D2 /* BannerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */; };
 		63F31509284EC74F001713D2 /* type_dc_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3DA204E3593002E975F /* type_dc_demo.png */; };
 		63F3150A284EC74F001713D2 /* navi_notice_board.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3A1204E3590002E975F /* navi_notice_board.png */; };
 		63F3150B284EC74F001713D2 /* reply_btn_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3BA204E3591002E975F /* reply_btn_normal.png */; };
@@ -1187,7 +1185,6 @@
 		824D5D7428BDD89C00EDC712 /* leaf.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7357593F20916A34008181E9 /* leaf.jpg */; };
 		824D5D7528BDD89C00EDC712 /* PartnershipJoinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */; };
 		824D5D7628BDD89C00EDC712 /* BoardDetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52B709D2279928CD006C5706 /* BoardDetailViewController.storyboard */; };
-		824D5D7728BDD89C00EDC712 /* BannerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */; };
 		824D5D7828BDD89C00EDC712 /* type_dc_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3DA204E3593002E975F /* type_dc_demo.png */; };
 		824D5D7928BDD89C00EDC712 /* navi_notice_board.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3A1204E3590002E975F /* navi_notice_board.png */; };
 		824D5D7A28BDD89C00EDC712 /* reply_btn_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3BA204E3591002E975F /* reply_btn_normal.png */; };
@@ -1486,7 +1483,6 @@
 		525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityBoardTableViewCell.xib; sourceTree = "<group>"; };
 		525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityBoardTableViewHeader.swift; sourceTree = "<group>"; };
 		525E3A29278D729600F5C54D /* CommunityBoardTableViewHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityBoardTableViewHeader.xib; sourceTree = "<group>"; };
-		525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BannerCollectionViewCell.xib; sourceTree = "<group>"; };
 		525E3A2E278D732700F5C54D /* BoardWriteViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BoardWriteViewController.storyboard; sourceTree = "<group>"; };
 		525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardWriteViewController.swift; sourceTree = "<group>"; };
 		525E3A32278D739E00F5C54D /* BoardWriteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardWriteButton.swift; sourceTree = "<group>"; };
@@ -2273,7 +2269,6 @@
 				525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */,
 				525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */,
 				525E3A29278D729600F5C54D /* CommunityBoardTableViewHeader.xib */,
-				525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */,
 				52B2594C278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift */,
 				52B2594D278EBBC90042B22C /* CommunityChargeStationTableViewCell.xib */,
 				52B5DECC27CEFB74006F8325 /* CommunityBoardAdsCell.xib */,
@@ -3199,7 +3194,6 @@
 				63F31505284EC74F001713D2 /* leaf.jpg in Resources */,
 				63F31506284EC74F001713D2 /* PartnershipJoinView.xib in Resources */,
 				63F31507284EC74F001713D2 /* BoardDetailViewController.storyboard in Resources */,
-				63F31508284EC74F001713D2 /* BannerCollectionViewCell.xib in Resources */,
 				63F31509284EC74F001713D2 /* type_dc_demo.png in Resources */,
 				63F3150A284EC74F001713D2 /* navi_notice_board.png in Resources */,
 				63F3150B284EC74F001713D2 /* reply_btn_normal.png in Resources */,
@@ -3344,7 +3338,6 @@
 				7357594320916A37008181E9 /* leaf.jpg in Resources */,
 				00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */,
 				52B709D3279928CD006C5706 /* BoardDetailViewController.storyboard in Resources */,
-				525E3A2D278D72C200F5C54D /* BannerCollectionViewCell.xib in Resources */,
 				73A7B41D204E3595002E975F /* type_dc_demo.png in Resources */,
 				73A7B3E4204E3595002E975F /* navi_notice_board.png in Resources */,
 				73A7B3FD204E3595002E975F /* reply_btn_normal.png in Resources */,
@@ -3484,7 +3477,6 @@
 				824D5D7428BDD89C00EDC712 /* leaf.jpg in Resources */,
 				824D5D7528BDD89C00EDC712 /* PartnershipJoinView.xib in Resources */,
 				824D5D7628BDD89C00EDC712 /* BoardDetailViewController.storyboard in Resources */,
-				824D5D7728BDD89C00EDC712 /* BannerCollectionViewCell.xib in Resources */,
 				824D5D7828BDD89C00EDC712 /* type_dc_demo.png in Resources */,
 				824D5D7928BDD89C00EDC712 /* navi_notice_board.png in Resources */,
 				824D5D7A28BDD89C00EDC712 /* reply_btn_normal.png in Resources */,
@@ -3657,6 +3649,7 @@
 				"${BUILT_PRODUCTS_DIR}/EasyTipView/EasyTipView.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpyTableView/ExpyTableView.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
+				"${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
@@ -3707,6 +3700,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyTipView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpyTableView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSPagerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
@@ -3823,6 +3817,7 @@
 				"${BUILT_PRODUCTS_DIR}/EasyTipView/EasyTipView.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpyTableView/ExpyTableView.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
+				"${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
@@ -3873,6 +3868,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyTipView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpyTableView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSPagerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
@@ -3933,6 +3929,7 @@
 				"${BUILT_PRODUCTS_DIR}/EasyTipView/EasyTipView.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpyTableView/ExpyTableView.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
+				"${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
@@ -3983,6 +3980,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyTipView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpyTableView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSPagerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",

@@ -11,6 +11,7 @@ import SnapKit
 import Then
 import TTGTags
 import SDWebImage
+import FSPagerView
 
 protocol CommunityBoardTableViewHeaderDelegate: AnyObject {
     func didSelectTag(_ selectedType: Board.SortType)
@@ -18,243 +19,94 @@ protocol CommunityBoardTableViewHeaderDelegate: AnyObject {
 
 internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
     
-    @IBOutlet var bannerCollectionView: UICollectionView!
+    // MARK: - UI
+    @IBOutlet var bannerPagerView: FSPagerView! {
+        didSet {
+            bannerPagerView.register(NewBannerCollecionViewCell.self, forCellWithReuseIdentifier: "NewBannerCollecionViewCell")
+            bannerPagerView.dataSource = self
+            bannerPagerView.delegate = self
+            bannerPagerView.isInfinite = true
+            bannerPagerView.isScrollEnabled = true
+            bannerPagerView.automaticSlidingInterval = 4.0
+            bannerPagerView.layer.cornerRadius = 8
+            bannerPagerView.layer.masksToBounds = true
+            bannerPagerView.backgroundColor = .clear
+        }
+    }
     
-    private let pageControl = UIPageControl()
-    private lazy var tagCollectionView = TTGTextTagCollectionView()
+    private var tagCollectionView: TTGTextTagCollectionView = TTGTextTagCollectionView() {
+        didSet {
+            tagCollectionView.delegate = self
+            tagCollectionView.numberOfLines = 1
+            tagCollectionView.selectionLimit = 1
+            tagCollectionView.alignment = .left
+            tagCollectionView.scrollDirection = .horizontal
+            tagCollectionView.showsHorizontalScrollIndicator = false
+            tagCollectionView.showsVerticalScrollIndicator = false
+            tagCollectionView.contentInset = UIEdgeInsets(top: 1, left: 0, bottom: 1, right: 8.0)
+        }
+    }
+    
+    private lazy var indicatorView = UIView().then {
+        $0.backgroundColor = Colors.backgroundAlwaysDark.color.withAlphaComponent(0.4)
+        $0.layer.borderWidth = 0
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 12
+    }
+    
+    private lazy var indicatorLabel = UILabel().then {
+        $0.textColor = Colors.backgroundPrimary.color
+        $0.textAlignment = .center
+        $0.fontSize = 12
+    }
+    
     private lazy var boardSubscriptionLabel = UILabel().then {
         $0.text = "자유롭게 이야기를 나누어요."
         $0.textColor = Colors.nt5.color
         $0.font = .systemFont(ofSize: 12, weight: .regular)
     }
     
+    // MARK: - VARIABLE
     weak var delegate: CommunityBoardTableViewHeaderDelegate?
-    
     private var tags: [String] = []
     private var adManager = EIAdManager.sharedInstance
     private var topBanners: [AdsInfo] = [AdsInfo]()
     internal var boardType: String = Board.CommunityType.FREE.rawValue
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        setUI()
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-    }
-    
-    private func setUI() {
-        self.bannerCollectionView.register(UINib(nibName: "BannerCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BannerCollectionViewCell")
-        self.bannerCollectionView.dataSource = self
-        self.bannerCollectionView.delegate = self
-        self.bannerCollectionView.layer.cornerRadius = 8
-        self.bannerCollectionView.backgroundColor = .clear
         self.tags = ["최신", "인기"]
         
-        setSubscriptionLabel()
-        setupTagCollectionView()
-        setPageControll()
-    }
-    
-    internal func fetchAds(categoryType: Board.CommunityType) {
-        let promotionPageType: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: categoryType)
-        
-        adManager.getAdsList(page: promotionPageType, layer: .top) { topBanners in
-            self.topBanners = topBanners
-            
-            DispatchQueue.main.async {
-                self.bannerCollectionView.reloadData()
-            }
-        }
-    }
-
-    internal func setupBannerView(categoryType: Board.CommunityType) {
-        var description = ""
-        switch categoryType {
-        case .FREE:
-            description = "자유롭게 이야기를 나누어요."
-            setupTagCollectionViewLayout()
-        case .CHARGER:
-            description = "충전소 관련 이야기를 모아봐요."
-            setRemakeSubscriptionLabel()
-        case .CORP_GS:
-            description = "GS칼텍스 전용 게시판입니다."
-            setRemakeSubscriptionLabel()
-        case .CORP_JEV:
-            description = "제주전기차서비스 전용 게시판입니다."
-            setRemakeSubscriptionLabel()
-        case .CORP_STC:
-            description = "에스트래픽 전용 게시판입니다."
-            setRemakeSubscriptionLabel()
-        case .CORP_SBC:
-            description = "EV Infra에 의견을 전달해 보세요."
-            setRemakeSubscriptionLabel()
-        default:
-            break
+        self.bannerPagerView.addSubview(indicatorView)
+        indicatorView.snp.makeConstraints {
+            $0.width.equalTo(42)
+            $0.height.equalTo(22)
+            $0.trailing.equalTo(bannerPagerView.snp.trailing).offset(-10)
+            $0.bottom.equalTo(bannerPagerView.snp.bottom).offset(-8)
         }
         
-        boardSubscriptionLabel.text = description
-    }
-    
-    private func setSubscriptionLabel() {
+        self.indicatorView.addSubview(indicatorLabel)
+        indicatorLabel.snp.makeConstraints {
+            $0.height.equalTo(18)
+            $0.top.equalTo(indicatorView.snp.top).offset(2)
+            $0.leading.equalTo(indicatorView.snp.leading).offset(8)
+            $0.trailing.equalTo(indicatorView.snp.trailing).offset(-8)
+            $0.bottom.equalTo(indicatorView.snp.bottom).offset(-2)
+        }
+        
         self.addSubview(boardSubscriptionLabel)
-        
         boardSubscriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(bannerCollectionView.snp.bottom).offset(16)
+            $0.top.equalTo(bannerPagerView.snp.bottom).offset(16)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview().offset(-50)
             $0.height.equalTo(16)
         }
-    }
-    
-    private func setPageControll() {
-        self.addSubview(pageControl)
         
-        pageControl.numberOfPages = topBanners.count
-        pageControl.currentPageIndicatorTintColor = .lightGray
-        pageControl.pageIndicatorTintColor = .white
-        
-        pageControl.snp.makeConstraints {
-            $0.top.equalTo(bannerCollectionView.snp.top).offset(55)
-            $0.centerX.equalTo(self)
-            $0.bottom.equalTo(bannerCollectionView.snp.bottom).offset(-10)
-        }
-    }
-    
-    private func setupTagCollectionViewLayout() {
-        self.addSubview(tagCollectionView)
-        
-        tagCollectionView.snp.makeConstraints {
-            $0.top.equalTo(boardSubscriptionLabel.snp.bottom).offset(8)
-            $0.left.equalToSuperview().offset(16)
-            $0.right.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview()
-        }
-    }
-    
-    private func setRemakeSubscriptionLabel() {
-        boardSubscriptionLabel.snp.updateConstraints {
-            $0.top.equalTo(bannerCollectionView.snp.bottom).offset(16)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview().offset(-16)
-            $0.height.equalTo(16)
-        }
-    }
-    
-    private func setSelectedPage(currentPage: Int) {
-        pageControl.currentPage = currentPage
-    }
-}
-
-extension CommunityBoardTableViewHeader: UICollectionViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let value = scrollView.contentOffset.x / scrollView.frame.size.width
-        setSelectedPage(currentPage: Int(round(value)))
-    }
-}
-
-extension CommunityBoardTableViewHeader: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let screenWidth = UIScreen.main.bounds.width - 32
-        return CGSize(width: collectionView.frame.width, height: (68 / 328) * screenWidth)
-    }
-}
-
-extension CommunityBoardTableViewHeader: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return topBanners.count == 0 ? 1 : topBanners.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BannerCollectionViewCell", for: indexPath) as? BannerCollectionViewCell else { return UICollectionViewCell.init() }
-        guard !topBanners.isEmpty else {
-            cell.bannerImageView.image = UIImage(named: "adCommunity01.png")
-            return cell
-        }
-        let banner = topBanners[indexPath.row]
-        cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.AWS_IMAGE_SERVER)/\(topBanners[indexPath.row].img)"), placeholderImage: UIImage(named: "adCommunity01.png")) { (image, error, _, _) in
-            if let _ = error {
-                cell.bannerImageView.image = UIImage(named: "adCommunity01.png")
-            } else {
-                cell.bannerImageView.image = image
-                self.adManager.logEvent(adIds: [banner.evtId], action: .view, page: .free, layer: .top)
-            }
-        }
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard !topBanners.isEmpty else { return }
-        let banner = topBanners[indexPath.row]
-        // 배너 클릭 로깅
-        adManager.logEvent(adIds: [banner.evtId], action: .click, page: .free, layer: .top)
-        logEvent(with: .clickBanner, banner: banner)
-        // open url
-        let adUrl = banner.extUrl
-        guard let url = URL(string: adUrl), UIApplication.shared.canOpenURL(url) else { return }
-        UIApplication.shared.open(url)
-    }
-}
-
-extension CommunityBoardTableViewHeader: TTGTextTagCollectionViewDelegate {
-    func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTap tag: TTGTextTag!, at index: UInt) {
-        
-        tag.selected = !tag.selected
-        textTagCollectionView.updateTag(at: index, selected: true)
-            
-        let selectedIndex = Int(index)
-        
-        var type: Board.SortType = .LATEST
-        Board.SortType.allCases.forEach {
-            let index = Int($0.rawValue)
-            if index == selectedIndex {
-                type = $0
-            }
-        }
-        
-        delegate?.didSelectTag(type)
-    }
-    
-    func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, canTap tag: TTGTextTag!, at index: UInt) -> Bool {
-        guard let allTags = textTagCollectionView.allTags() else { return false }
-        
-        for (index, _) in allTags.enumerated() {
-            tagCollectionView.updateTag(at: UInt(index), selected: false)
-        }
-        
-        return true
-    }
-}
-
-extension CommunityBoardTableViewHeader {
-    func setupTagCollectionView() {
-        tagCollectionView.delegate = self
-        tagCollectionView.numberOfLines = 1
-        tagCollectionView.selectionLimit = 1
-        tagCollectionView.alignment = .left
-        tagCollectionView.scrollDirection = .horizontal
-        tagCollectionView.showsHorizontalScrollIndicator = false
-        tagCollectionView.showsVerticalScrollIndicator = false
-
-        tagCollectionView.contentInset = UIEdgeInsets(
-            top: 1,
-            left: 0,
-            bottom: 1,
-            right: 8.0
-        )
-
         let cornerRadiusValue: CGFloat = 12.0
         let shadowOpacity: CGFloat = 0.0
         let extraSpace = CGSize.init(width: 24, height: 14)
@@ -299,6 +151,160 @@ extension CommunityBoardTableViewHeader {
         
         tagCollectionView.updateTag(at: 0, selected: true)
     }
+    
+    internal func fetchAds(categoryType: Board.CommunityType) {
+        let promotionPageType: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: categoryType)
+        
+        adManager.getAdsList(page: promotionPageType, layer: .top) { topBanners in
+            self.topBanners = topBanners
+            
+            let isHidden = self.topBanners.count == 1 ? true : false
+            self.indicatorView.isHidden = isHidden
+            self.bannerPagerView.automaticSlidingInterval = isHidden ? 0.0 : 4.0
+            self.bannerPagerView.isScrollEnabled = !isHidden
+            
+            DispatchQueue.main.async {
+                self.bannerPagerView.reloadData()
+            }
+        }
+    }
+
+    internal func setupBannerView(categoryType: Board.CommunityType) {
+        var description = ""
+        switch categoryType {
+        case .FREE:
+            description = "자유롭게 이야기를 나누어요."
+            setupTagCollectionViewLayout()
+        case .CHARGER:
+            description = "충전소 관련 이야기를 모아봐요."
+            setRemakeSubscriptionLabel()
+        case .CORP_GS:
+            description = "GS칼텍스 전용 게시판입니다."
+            setRemakeSubscriptionLabel()
+        case .CORP_JEV:
+            description = "제주전기차서비스 전용 게시판입니다."
+            setRemakeSubscriptionLabel()
+        case .CORP_STC:
+            description = "에스트래픽 전용 게시판입니다."
+            setRemakeSubscriptionLabel()
+        case .CORP_SBC:
+            description = "EV Infra에 의견을 전달해 보세요."
+            setRemakeSubscriptionLabel()
+        default:
+            break
+        }
+        
+        boardSubscriptionLabel.text = description
+    }
+    
+    private func setupTagCollectionViewLayout() {
+        self.addSubview(tagCollectionView)
+        
+        tagCollectionView.snp.makeConstraints {
+            $0.top.equalTo(boardSubscriptionLabel.snp.bottom).offset(8)
+            $0.left.equalToSuperview().offset(16)
+            $0.right.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview()
+        }
+    }
+    
+    private func setRemakeSubscriptionLabel() {
+        boardSubscriptionLabel.snp.updateConstraints {
+            $0.top.equalTo(bannerPagerView.snp.bottom).offset(16)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview().offset(-16)
+            $0.height.equalTo(16)
+        }
+    }
+}
+
+// MARK: - FSPagerView Delegate
+extension CommunityBoardTableViewHeader: FSPagerViewDelegate {
+    internal func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
+        guard !topBanners.isEmpty else { return }
+        let banner = topBanners[index]
+        // 배너 클릭 로깅
+        adManager.logEvent(adIds: [banner.evtId], action: .click, page: .free, layer: .top)
+        logEvent(with: .clickBanner, banner: banner)
+        // open url
+        let adUrl = banner.extUrl
+        guard let url = URL(string: adUrl), UIApplication.shared.canOpenURL(url) else { return }
+        UIApplication.shared.open(url)
+    }
+    
+    internal func pagerViewWillEndDragging(_ pagerView: FSPagerView, targetIndex: Int) {
+        self.indicatorLabel.text = "\(targetIndex + 1) / \(4)"
+    }
+    
+    internal func pagerViewDidEndScrollAnimation(_ pagerView: FSPagerView) {
+        self.indicatorLabel.text = "\(pagerView.currentIndex + 1) / \(4)"
+    }
+}
+
+// MARK: - FSPagerView DataSource
+extension CommunityBoardTableViewHeader: FSPagerViewDataSource {
+    internal func numberOfItems(in pagerView: FSPagerView) -> Int {
+        return topBanners.count == 0 ? 1 : topBanners.count
+    }
+    
+    internal func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
+        guard let cell = bannerPagerView.dequeueReusableCell(withReuseIdentifier: "NewBannerCollecionViewCell", at: index) as? NewBannerCollecionViewCell else { return FSPagerViewCell() }
+        
+        guard !topBanners.isEmpty else {
+            cell.bannerImageView.image = UIImage(named: "adCommunity01.png")
+            return cell
+        }
+
+        let banner = topBanners[index]
+        cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.AWS_IMAGE_SERVER)/\(banner.img)"), placeholderImage: UIImage(named: "adCommunity01.png")) { (image, error, _, _) in
+            if let _ = error {
+                cell.bannerImageView.image = UIImage(named: "adCommunity01.png")
+            } else {
+                cell.bannerImageView.image = image
+                self.adManager.logEvent(adIds: [banner.evtId], action: .view, page: .free, layer: .top)
+            }
+        }
+        return cell
+    }
+}
+
+extension CommunityBoardTableViewHeader: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let screenWidth = UIScreen.main.bounds.width - 32
+        return CGSize(width: collectionView.frame.width, height: (68 / 328) * screenWidth)
+    }
+}
+
+// MARK: - TTGTextTagCollecionView Delegate
+extension CommunityBoardTableViewHeader: TTGTextTagCollectionViewDelegate {
+    func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTap tag: TTGTextTag!, at index: UInt) {
+        
+        tag.selected = !tag.selected
+        textTagCollectionView.updateTag(at: index, selected: true)
+            
+        let selectedIndex = Int(index)
+        
+        var type: Board.SortType = .LATEST
+        Board.SortType.allCases.forEach {
+            let index = Int($0.rawValue)
+            if index == selectedIndex {
+                type = $0
+            }
+        }
+        
+        delegate?.didSelectTag(type)
+    }
+    
+    func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, canTap tag: TTGTextTag!, at index: UInt) -> Bool {
+        guard let allTags = textTagCollectionView.allTags() else { return false }
+        
+        for (index, _) in allTags.enumerated() {
+            tagCollectionView.updateTag(at: UInt(index), selected: false)
+        }
+        
+        return true
+    }
 }
 
 // MARK: - Amplitude Logging 이벤트
@@ -315,14 +321,20 @@ extension CommunityBoardTableViewHeader {
     }
 }
 
-internal final class BannerCollectionViewCell: UICollectionViewCell {
+// MARK: - Banner Cell
+internal final class NewBannerCollecionViewCell: FSPagerViewCell {
+    internal lazy var bannerImageView = UIImageView()
     
-    @IBOutlet var bannerImageView: UIImageView!
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        bannerImageView.layer.cornerRadius = 8
+        self.contentView.addSubview(bannerImageView)
+        bannerImageView.snp.makeConstraints {
+            $0.leading.trailing.top.bottom.equalToSuperview()
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
-
-
