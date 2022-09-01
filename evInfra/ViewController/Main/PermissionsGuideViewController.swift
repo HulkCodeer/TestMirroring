@@ -27,7 +27,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         $0.textAlignment = .natural
     }
     
-    private lazy var subTitle = UILabel().then {
+    private lazy var subTitleLbl = UILabel().then {
         $0.font = .systemFont(ofSize: 16, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
         $0.text = "아래의 권한 동의가 필요합니다."
@@ -48,9 +48,72 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         self.contentView.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom).offset(16)
-            
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview()
         }
-                
+        
+        self.totalView.addSubview(mainTitleLbl)
+        mainTitleLbl.snp.makeConstraints {
+            $0.leading.top.trailing.equalToSuperview()
+            $0.height.equalTo(32)
+        }
+        
+        self.totalView.addSubview(subTitleLbl)
+        subTitleLbl.snp.makeConstraints {
+            $0.top.equalTo(mainTitleLbl.snp.bottom).offset(8)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(24)
+        }
+    }
+    
+    // MARK: FUNC
+    
+    private func createReasonView(mainTitle: String, subTitle: String) -> UIView {
+        let view = UIView().then {
+            $0.backgroundColor = Colors.backgroundSecondary.color
+            $0.IBcornerRadius = 8
+        }
+        
+        let imgTotalView = UIView().then {
+            $0.IBcornerRadius = 48/2
+        }
+        
+        let imgView = UIImageView().then {
+            $0.image = Icons.iconCurrentLocationMd.image
+        }
+        
+        let mainTitleLbl = UILabel().then {
+            $0.text = mainTitle
+            $0.textAlignment = .natural
+            $0.numberOfLines = 1
+            $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+            $0.textColor = Colors.backgroundAlwaysDark.color
+        }
+        
+        view.addSubview(mainTitleLbl)
+        mainTitleLbl.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+        }
+        
+        let subTitleLbl = UILabel().then {
+            $0.text = subTitle
+            $0.textAlignment = .natural
+            $0.numberOfLines = 2
+            $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+            $0.textColor = Colors.contentTertiary.color
+        }
+        
+        view.addSubview(subTitleLbl)
+        subTitleLbl.snp.makeConstraints {
+            $0.top.equalTo(mainTitleLbl.snp.bottom).offset(8)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.bottom.equalToSuperview().offset(-16)
+        }
+        
+        return view
     }
     
     // MARK: REACTOR

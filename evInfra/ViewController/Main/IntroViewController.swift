@@ -115,19 +115,10 @@ internal final class IntroViewController: UIViewController {
         } else if imgName.hasSuffix(".jpg") {
             imgIntroBackground.image = UIImage(contentsOfFile: path)
         }
-        
-        nextViewCon()
     }
     
     private func finishCheckIntro(){
         imgIntroBackground.image = UIImage(named: "intro_bg.jpg")
-        nextViewCon()
-    }
-    
-    private func nextViewCon() {
-        let reactor = PermissionsGuideReactor(provider: RestApi())
-        let viewcon = PermissionsGuideViewController(reactor: reactor)
-        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     private func checkLastBoardId() {
@@ -165,14 +156,19 @@ internal final class IntroViewController: UIViewController {
                         Board.sharedInstance.brdNewInfo.append(boardNewInfo)
                     }
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                        let mainViewController = storyboard.instantiateViewController(ofType: MainViewController.self)
-                        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
-                        self.appDelegate.appToolbarController = AppToolbarController(rootViewController: mainViewController)
-                        self.appDelegate.appToolbarController.delegate = mainViewController
-                        let ndController = AppNavigationDrawerController(rootViewController: self.appDelegate.appToolbarController, leftViewController: leftViewController)
-                        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {                        
+                        let reactor = PermissionsGuideReactor(provider: RestApi())
+                        let viewcon = PermissionsGuideViewController(reactor: reactor)
+                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        
+                                                
+//                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                        let mainViewController = storyboard.instantiateViewController(ofType: MainViewController.self)
+//                        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
+//                        self.appDelegate.appToolbarController = AppToolbarController(rootViewController: mainViewController)
+//                        self.appDelegate.appToolbarController.delegate = mainViewController
+//                        let ndController = AppNavigationDrawerController(rootViewController: self.appDelegate.appToolbarController, leftViewController: leftViewController)
+//                        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
                     }
                 }
                 
