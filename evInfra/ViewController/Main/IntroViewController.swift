@@ -13,6 +13,7 @@ import Motion
 import FLAnimatedImage
 import RxSwift
 import RxCocoa
+import Alamofire
 
 internal final class IntroViewController: UIViewController {
 
@@ -77,25 +78,33 @@ internal final class IntroViewController: UIViewController {
         super.viewWillAppear(animated)
         self.title = "인트로 화면"
     }
-}
-
-extension FLAnimatedImage {
-    convenience init(gifResource: String) {
-        self.init(animatedGIFData: NSData(contentsOfFile: Bundle.main.path(forResource: gifResource, ofType: "")!) as Data?)
-    }
-}
-
-extension IntroViewController: IntroImageCheckerDelegate {
+    
+    // MARK: FUNC
+    
     func showIntro(){
         if MemberManager.shared.isPartnershipClient(clientId: RentClientType.skr.rawValue){
             imgIntroBackground.image = UIImage(named: "intro_skr_bg.jpg")
         } else {
-            let checker = IntroImageChecker.init(delegate: self)
-            checker.getIntroImage()
+            self.getIntroImage()
         }
     }
     
-    func finishCheckIntro(imgName : String, path : String){
+    func getIntroImage() {
+        let imgName = UserDefault().readString(key: UserDefault.Key.APP_INTRO_IMAGE)
+        let endDate = UserDefault().readString(key: UserDefault.Key.APP_INTRO_END_DATE)
+        if !imgName.isEmpty , !Date().isPassedDate(date: endDate){
+            if EVFileManager.sharedInstance.isFileExist(named : imgName){
+                let path = EVFileManager.sharedInstance.getFilePath(named: imgName)
+                self.finishCheckIntro(imgName: imgName, path : path)
+            } else {
+                self.finishCheckIntro()
+            }
+        } else {
+            self.finishCheckIntro()
+        }
+    }
+                
+    private func finishCheckIntro(imgName : String, path : String){
         printLog(out: "\(imgName)")
         if imgName.hasSuffix(".gif"){
             let gifData = NSData(contentsOfFile: path)
@@ -106,10 +115,19 @@ extension IntroViewController: IntroImageCheckerDelegate {
         } else if imgName.hasSuffix(".jpg") {
             imgIntroBackground.image = UIImage(contentsOfFile: path)
         }
+        
+        nextViewCon()
     }
     
-    func showDefaultImage(){
+    private func finishCheckIntro(){
         imgIntroBackground.image = UIImage(named: "intro_bg.jpg")
+        nextViewCon()
+    }
+    
+    private func nextViewCon() {
+        let reactor = PermissionsGuideReactor(provider: RestApi())
+        let viewcon = PermissionsGuideViewController(reactor: reactor)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     private func checkLastBoardId() {
@@ -160,6 +178,12 @@ extension IntroViewController: IntroImageCheckerDelegate {
                 
             }
         }
+    }
+}
+
+extension FLAnimatedImage {
+    convenience init(gifResource: String) {
+        self.init(animatedGIFData: NSData(contentsOfFile: Bundle.main.path(forResource: gifResource, ofType: "")!) as Data?)
     }
 }
 
