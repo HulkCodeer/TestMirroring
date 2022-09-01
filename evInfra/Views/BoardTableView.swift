@@ -162,9 +162,8 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             if #available(iOS 14.0, *) {
                 headerView.backgroundConfiguration?.backgroundColor = UIColor(named: "nt-white")
             }
-            
-            headerView.setupBannerView(categoryType: category)
-            headerView.fetchAds(categoryType: category)
+
+            headerView.configuration(with: category)
             headerView.delegate = self
             
             return headerView

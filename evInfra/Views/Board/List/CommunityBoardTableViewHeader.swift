@@ -71,7 +71,7 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
     private var tags: [String] = []
     private var adManager = EIAdManager.sharedInstance
     private var topBanners: [AdsInfo] = [AdsInfo]()
-    internal var boardType: String = Board.CommunityType.FREE.rawValue
+    private var boardType: Board.CommunityType = .FREE
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -154,8 +154,15 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         tagCollectionView.updateTag(at: 0, selected: true)
     }
     
-    internal func fetchAds(categoryType: Board.CommunityType) {
-        let promotionPageType: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: categoryType)
+    internal func configuration(with category: Board.CommunityType) {
+        self.boardType = category
+        
+        fetchAds()
+        setupBannerView()
+    }
+    
+    private func fetchAds() {
+        let promotionPageType: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: self.boardType)
         
         adManager.getAdsList(page: promotionPageType, layer: .top) { topBanners in
             self.topBanners = topBanners
@@ -171,9 +178,9 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         }
     }
 
-    internal func setupBannerView(categoryType: Board.CommunityType) {
+    private func setupBannerView() {
         var description = ""
-        switch categoryType {
+        switch self.boardType {
         case .FREE:
             description = "자유롭게 이야기를 나누어요."
             setupTagCollectionViewLayout()
@@ -225,9 +232,11 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
 extension CommunityBoardTableViewHeader: FSPagerViewDelegate {
     internal func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         guard !topBanners.isEmpty else { return }
+        
+        let promotionPageType: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: self.boardType)
         let banner = topBanners[index]
         // 배너 클릭 로깅
-        adManager.logEvent(adIds: [banner.evtId], action: .click, page: .free, layer: .top)
+        adManager.logEvent(adIds: [banner.evtId], action: .click, page: promotionPageType, layer: .top)
         logEvent(with: .clickBanner, banner: banner)
         // open url
         let adUrl = banner.extUrl
