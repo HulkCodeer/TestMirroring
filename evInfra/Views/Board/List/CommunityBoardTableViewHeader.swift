@@ -36,7 +36,6 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
     
     private var tagCollectionView: TTGTextTagCollectionView = TTGTextTagCollectionView() {
         didSet {
-            tagCollectionView.delegate = self
             tagCollectionView.numberOfLines = 1
             tagCollectionView.selectionLimit = 1
             tagCollectionView.alignment = .left
@@ -52,6 +51,7 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         $0.layer.borderWidth = 0
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 12
+        $0.isHidden = true
     }
     
     private lazy var indicatorLabel = UILabel().then {
@@ -112,19 +112,21 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         let extraSpace = CGSize.init(width: 24, height: 14)
 
         let style = TTGTextTagStyle()
-        style.backgroundColor = UIColor(named: "nt-0")!
+        style.backgroundColor = Colors.nt0.color
         style.cornerRadius = cornerRadiusValue
         style.borderWidth = 1
         style.shadowOpacity = shadowOpacity
         style.extraSpace = extraSpace
-        style.borderColor = UIColor(named: "nt-2")!
+        style.borderColor = Colors.nt2.color
 
         let selectedStyle = TTGTextTagStyle()
-        selectedStyle.backgroundColor = UIColor(named: "nt-9")!
+        selectedStyle.backgroundColor = Colors.nt9.color
         selectedStyle.cornerRadius = cornerRadiusValue
         selectedStyle.borderWidth = 0
         selectedStyle.shadowOpacity = shadowOpacity
         selectedStyle.extraSpace = extraSpace
+        
+        tagCollectionView.delegate = self
 
         tags.forEach { tag in
             let font = UIFont.systemFont(ofSize: 14.0, weight: .regular)
@@ -234,11 +236,11 @@ extension CommunityBoardTableViewHeader: FSPagerViewDelegate {
     }
     
     internal func pagerViewWillEndDragging(_ pagerView: FSPagerView, targetIndex: Int) {
-        self.indicatorLabel.text = "\(targetIndex + 1) / \(4)"
+        self.indicatorLabel.text = "\(targetIndex + 1) / \(topBanners.count)"
     }
     
     internal func pagerViewDidEndScrollAnimation(_ pagerView: FSPagerView) {
-        self.indicatorLabel.text = "\(pagerView.currentIndex + 1) / \(4)"
+        self.indicatorLabel.text = "\(pagerView.currentIndex + 1) / \(topBanners.count)"
     }
 }
 
@@ -266,13 +268,6 @@ extension CommunityBoardTableViewHeader: FSPagerViewDataSource {
             }
         }
         return cell
-    }
-}
-
-extension CommunityBoardTableViewHeader: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let screenWidth = UIScreen.main.bounds.width - 32
-        return CGSize(width: collectionView.frame.width, height: (68 / 328) * screenWidth)
     }
 }
 
