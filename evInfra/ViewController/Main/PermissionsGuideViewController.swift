@@ -11,6 +11,28 @@ import ReactorKit
 
 internal final class PermissionsGuideViewController: CommonBaseViewController, StoryboardView {
     
+    enum PermissionTypes: CaseIterable {
+        case location
+        
+        internal var title: String {
+            switch self {
+            case .location: return "위치 동의(선택)"
+            }
+        }
+        
+        internal var description: String {
+            switch self {
+            case .location: return "내 현재 위치를 기준으로 주변 충전소 찾기,\n충전소 경로 안내, 근처의 혜택 정보 및\n광고 제공을 위한 필수 정보로 활용됩니다."
+            }
+        }
+        
+        internal var typeImage: UIImage {
+            switch self {
+            case .location: return Icons.iconCurrentLocationMd.image
+            }
+        }
+    }
+    
     // MARK: UI
     
     private lazy var naviTotalView = CommonNaviView().then {        
@@ -32,6 +54,12 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         $0.textColor = Colors.contentTertiary.color
         $0.text = "아래의 권한 동의가 필요합니다."
         $0.textAlignment = .natural
+    }
+    
+    private lazy var permissionStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.alignment = .fill
+        $0.spacing = 24
     }
     
     // MARK: SYSTEM FUNC
@@ -65,11 +93,21 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(24)
         }
+        
+        self.totalView.addSubview(permissionStackView)
+        permissionStackView.snp.makeConstraints {
+            $0.top.equalTo(subTitleLbl.snp.bottom).offset(32)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        for type in PermissionTypes.allCases {
+            permissionStackView.addArrangedSubview(self.createPermissionView(type: type))
+        }
     }
     
     // MARK: FUNC
     
-    private func createReasonView(mainTitle: String, subTitle: String) -> UIView {
+    private func createPermissionView(type: PermissionTypes) -> UIView {
         let view = UIView().then {
             $0.backgroundColor = Colors.backgroundSecondary.color
             $0.IBcornerRadius = 8
