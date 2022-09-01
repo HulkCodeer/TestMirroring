@@ -47,16 +47,18 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     var popCompletion: (() -> Void)?
     let cropper = UIImageCropper(cropRatio: 100/115)
     let trasientAlertView = TransientAlertViewController()
+    internal var isFromDetailView: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "게시판 글 작성 화면"
+        
         setUI()
         bind()
         boardWriteViewModel.subscribe { [weak self] isEnable in
             guard let self = self else { return }
             self.completeButton.isEnabled = isEnable
         }
+        boardWriteViewModel.isFromDetailView = isFromDetailView
     }
     
     override func viewWillAppear(_ animated: Bool) {

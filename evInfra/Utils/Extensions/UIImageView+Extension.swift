@@ -10,7 +10,8 @@ import Foundation
 
 extension UIImageView {
     internal func sd_setImage(with urlString: String) {
-        let url = urlString.hasPrefix("http") ? URL(string: urlString) : URL(string: "\(Const.AWS_IMAGE_SERVER)\(urlString)")
+        guard let encodedStr =  urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
+        let url = encodedStr.hasPrefix("http") ? URL(string: encodedStr) : URL(string: "\(Const.AWS_IMAGE_SERVER)\(encodedStr)")
         self.sd_setImage(with: url)
     }
 }

@@ -34,7 +34,7 @@ class ChargerFilterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "필터 설정 화면"
+        
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         prepareActionBar()
         initView()
@@ -43,6 +43,7 @@ class ChargerFilterViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        AmplitudeManager.shared.logEvent(type: .filter(.viewFilter), property: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -63,6 +64,8 @@ class ChargerFilterViewController: UIViewController {
         accessFilter.applyFilter()
         companyFilter.applyFilter()
         delegate?.onApplyFilter()
+            
+        FilterManager.sharedInstance.logEventWithFilter("필터")
         self.navigationController?.pop()
     }
     
@@ -141,6 +144,8 @@ class ChargerFilterViewController: UIViewController {
             self.priceFilter.resetFilter()
             self.accessFilter.resetFilter()
             self.companyFilter.resetFilter()
+            
+            AmplitudeManager.shared.logEvent(type: .filter(.clickFilterReset), property: nil)
         })
         let cancel = UIAlertAction(title: "취소", style: .default, handler: {(ACTION) -> Void in})
         var actions = Array<UIAlertAction>()

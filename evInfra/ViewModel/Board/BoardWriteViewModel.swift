@@ -17,6 +17,7 @@ struct BoardWriteViewModel {
             self.listener?(isValid)
         }
     }
+    internal var isFromDetailView: Bool = false
     
     mutating func subscribe(listener: @escaping (Bool) -> Void) {
         listener(isValid)
@@ -88,6 +89,9 @@ struct BoardWriteViewModel {
             if isSuccess {
                 if let results = value as? Dictionary<String, String>,
                    let documentSRL = results["document_srl"] {
+                    
+                    let ampBoardModel = AmpBoardModel(mid: mid, chargerId: chargerId, documentSrl: documentSRL, isFromDetailView: isFromDetailView)
+                    self.logEvent(with: .completeWriteBoardPost, model: ampBoardModel)
                     
                     guard images.count != 0 else {
                         completion(true)
@@ -178,6 +182,17 @@ struct BoardWriteViewModel {
             } else {
                 completion(false)
             }
+        }
+    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension BoardWriteViewModel {
+    private func logEvent(with event: EventType.BoardEvent, model: AmpBoardModel) {
+        switch event {
+        case .completeWriteBoardPost:
+            AmplitudeManager.shared.logEvent(type: .board(event), property: model.toProperty)
+        default: break
         }
     }
 }

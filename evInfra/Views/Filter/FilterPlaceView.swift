@@ -66,6 +66,7 @@ class FilterPlaceView: UIView {
         selectItem(index: 0)
         if (saveOnChange) {
             applyFilter()
+            logEvent(with: .clickUpperFilter)
         }
         delegate?.onChangedFilter(type: .place)
     }
@@ -75,6 +76,7 @@ class FilterPlaceView: UIView {
         selectItem(index: 1)
         if (saveOnChange) {
             applyFilter()
+            logEvent(with: .clickUpperFilter)
         }
         delegate?.onChangedFilter(type: .place)
     }
@@ -84,6 +86,7 @@ class FilterPlaceView: UIView {
         selectItem(index: 2)
         if (saveOnChange) {
             applyFilter()
+            logEvent(with: .clickUpperFilter)
         }
         delegate?.onChangedFilter(type: .place)
     }
@@ -150,5 +153,29 @@ class FilterPlaceView: UIView {
             changed = true
         }
         return changed
+    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension FilterPlaceView {
+    private func logEvent(with event: EventType.FilterEvent) {
+        switch event {
+        case .clickUpperFilter:
+            var values = [String]()
+            if indoorSel {
+                values.append(lbIndoor.text ?? "실내")
+            }
+            if outdoorSel {
+                values.append(lbOutdoor.text ?? "실외")
+            }
+            if canopySel {
+                values.append(lbCanopy.text ?? "캐노피")
+            }
+
+            let property: [String: Any] = ["filterName": "설치 형태",
+                                           "filterValue": values]
+            AmplitudeManager.shared.logEvent(type: .filter(event), property: property)
+        default: break
+        }
     }
 }

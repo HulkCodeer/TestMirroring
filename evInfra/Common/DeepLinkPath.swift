@@ -28,6 +28,14 @@ internal final class DeepLinkPath {
         case event
         case terms
         case event_detail
+        case kakaolink(KakaoLinkType)
+        
+        enum KakaoLinkType: String {
+            case charger = "charger"
+            case board = "communityBoard"
+            
+            internal var toValue: String { self.rawValue }
+        }
         
         internal var value: String {
             switch self {
@@ -51,6 +59,14 @@ internal final class DeepLinkPath {
                 
             case .event_detail:
                 return "/event_detail"
+                
+            case .kakaolink(let type):
+                switch type {
+                case .charger:
+                    return "/charger"
+                case .board:
+                    return "/communityBoard"
+                }
             }
         }
     }
@@ -112,15 +128,13 @@ internal final class DeepLinkPath {
                 }
                 _mainNavi.push(viewController: termsViewControll)
             }
-            
-                    
+              
         case DynamicLinkUrlPathType.event_detail.value:
             if let _mainNav = GlobalDefine.shared.mainNavi {
                 if _mainNav.containsViewController(ofKind: EventViewController.self) ||
                     _mainNav.containsViewController(ofKind: EventContentsViewController.self) {
                     let _viewControllers = _mainNav.viewControllers
-                    for vc in _viewControllers.reversed() {
-                        printLog(out: "PARK TEST : \(vc)")
+                    for vc in _viewControllers.reversed() {                        
                         if let _vc = vc as? AppNavigationDrawerController {
                             _mainNav.popToViewControllerWithHandler(vc: _vc, completion: { [weak self] in
                                 guard let self = self else { return }
@@ -133,7 +147,20 @@ internal final class DeepLinkPath {
                     self.moveEventDetailViewController()
                 }
             }
-                                                
+            
+        case DynamicLinkUrlPathType.kakaolink(.board).value:
+            guard let paramItems = linkParameter else { return }
+            guard let mid = paramItems.first(where: { $0.name == "mid" })?.value,
+                  let documentSrl = paramItems.first(where: { $0.name == "documentSrl" })?.value else { return }
+            
+            storyboard = UIStoryboard(name : "BoardDetailViewController", bundle: nil)
+            let viewcon = storyboard.instantiateViewController(ofType: BoardDetailViewController.self)
+            let category = Board.CommunityType.allCases.filter { $0.rawValue == mid }.first ?? .FREE
+
+            viewcon.category = category
+            viewcon.document_srl = documentSrl
+            viewcon.isFromStationDetailView = false
+            _mainNavi.push(viewController: viewcon)
         default: break
         }
     }

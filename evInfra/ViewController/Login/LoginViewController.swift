@@ -41,7 +41,7 @@ internal final class LoginViewController: UIViewController {
             
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "로그인 화면"
+        
         prepareActionBar()
         prepareLoginButton()
         LoginHelper.shared.delegate = self
@@ -118,13 +118,8 @@ internal final class LoginViewController: UIViewController {
     
     @objc
     fileprivate func handleCorpButtonPress() {
-        logEvent()
+        logEvent(with: .clickLoginButton)
         corpLogin()
-    }
-    
-    private func logEvent() {
-        let property: [String: Any] = ["type": Login.LoginType.evinfra.value]
-        AmplitudeManager.shared.logEvent(type: .login(.clickLoginButton), property: property)
     }
 }
 
@@ -172,5 +167,15 @@ extension LoginViewController: CorporationLoginViewControllerDelegate {
     }
 }
 
-
+// MARK: - Amplitude Logging 이벤트
+extension LoginViewController {
+    private func logEvent(with event: EventType.LoginEvent) {
+        switch event {
+        case .clickLoginButton:
+            let property: [String: Any] = ["type": Login.LoginType.evinfra.value]
+            AmplitudeManager.shared.logEvent(type: .login(event), property: property)
+        default: break
+        }
+    }
+}
 

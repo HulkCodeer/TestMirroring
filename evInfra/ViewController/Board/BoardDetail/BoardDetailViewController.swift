@@ -30,7 +30,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "게시판 상세 화면"
+        
         fetchData()
         setConfiguration()
         prepareActionBar(with: "")
@@ -53,6 +53,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
             guard let self = self else { return }
             
             self.detail = detail
+            self.logEvent(with: .viewBoardPost)
             
             DispatchQueue.main.async {
                 self.detailTableView.reloadData()
@@ -321,7 +322,7 @@ extension BoardDetailViewController: UITableViewDataSource {
 // MARK: - 게시글/댓글 수정+삭제+신고 기능
 extension BoardDetailViewController {
     private func prepareSharingForKakao(with document: Document) {
-        linkShareManager.sendToKakaoWithBoard(with: document)
+        linkShareManager.sendToKakao(with: document)
     }
     
     private func deleteBoard() {
@@ -632,3 +633,27 @@ extension BoardDetailViewController {
     }
 }
 
+// MARK: - Amplitude Logging 이벤트
+extension BoardDetailViewController {
+    private func logEvent(with event: EventType.BoardEvent) {
+        switch event {
+        case .viewBoardPost:
+            guard let detail = self.detail, let document = detail.document else { return }
+            
+            let postId = document.document_srl ?? ""
+            let likeCnt = document.like_count ?? "0"
+            let replyCnt = document.comment_count ?? "0"
+            let boardType = self.category == .FREE ? "자유게시판" : "충전소게시판"
+            let source = isFromStationDetailView ? "\(document.parseChargerIdToName())" : "충전소게시판"
+            
+            let property: [String: Any] = ["boardType": boardType,
+                                           "source": source,
+                                           "postID": postId,
+                                           "likeCount": likeCnt,
+                                           "replyCount": replyCnt]
+            
+            AmplitudeManager.shared.logEvent(type: .board(event), property: property)
+        default: break
+        }
+    }
+}

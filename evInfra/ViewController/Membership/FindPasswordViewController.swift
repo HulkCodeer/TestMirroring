@@ -133,7 +133,7 @@ internal final class FindPasswordViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "비밀번호 찾기 화면"
+        
         callCenterBtn.rx.tap
             .asDriver()
             .drive(onNext: { _ in

@@ -27,7 +27,7 @@ internal final class EIImageViewerViewController : BaseViewController, UIScrollV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "이미지 상세보기 화면"
+        
         guard let mImageURL = mImageURL else {
             mImageViewer.image = UIImage(named: "ic_person_base36")
             return

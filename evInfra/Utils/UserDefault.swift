@@ -49,6 +49,7 @@ class UserDefault {
         static let MB_REG_DATE = "reg_date"
         static let MB_POINT = "point"
         static let MB_HAS_REPRESENTED = "mb_has_represented"
+        static let IS_SHOW_QR_TOOLTIP = "is_show_qr_tooltip"
         
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"
@@ -70,6 +71,7 @@ class UserDefault {
         static let FILTER_GENERAL_WAY   = "filter_general_way"
         static let FILTER_HIGHWAY_UP    = "filter_highway_up"
         static let FILTER_HIGHWAT_DOWN  = "filter_highway_down"
+        static let FILTER_MYCAR         = "filter_mycar"
         
         static let FILTER_ROAD          = "filter_road"
         static let FILTER_ST_KIND       = "filter_station_kind"
@@ -101,10 +103,7 @@ class UserDefault {
         
         // 마케팅 팝업을 이미 보여줬는지 체크
         static let DID_SHOW_MARKETING_POPUP = "app_first_boot" // false : first booting
-        
-        // 충전 결제
-        static let CHARGING_ID = "charging_id"
-        
+                        
         // 광고 - 일주일동안 보지 않기 선택한 날짜
         static let AD_KEEP_DATE_FOR_A_WEEK = "ad_keep_date_for_a_week"
         

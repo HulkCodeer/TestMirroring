@@ -21,7 +21,6 @@ class NoticeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "공지사항 화면"
         prepareActionBar()
 
         self.tableView.delegate = self
@@ -105,6 +104,7 @@ extension NoticeViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let noticeContentVC = self.storyboard?.instantiateViewController(withIdentifier: "NoticeContentViewController") as! NoticeContentViewController
+        noticeContentVC.source = "공지사항"
         noticeContentVC.boardId = self.boardList.arrayValue[indexPath.row]["id"].intValue
         self.navigationController?.push(viewController: noticeContentVC)
     }

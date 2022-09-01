@@ -35,6 +35,8 @@ class AppSearchBarController: SearchBarController {
     private var menuButton: IconButton!
     private var moreButton: IconButton!
     
+    internal var backbuttonTappedDelegate: (() -> Void)?
+    
     open override func prepare() {
         super.prepare()
         prepareBackButton()
@@ -70,6 +72,7 @@ class AppSearchBarController: SearchBarController {
 extension AppSearchBarController {
     @objc
     fileprivate func handleBackButton() {
+        backbuttonTappedDelegate?()
         self.dismiss(animated: true, completion: nil)
     }
 }

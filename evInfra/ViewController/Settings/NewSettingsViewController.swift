@@ -120,7 +120,6 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "설정 화면"
     }
             
     override func viewWillAppear(_ animated: Bool) {

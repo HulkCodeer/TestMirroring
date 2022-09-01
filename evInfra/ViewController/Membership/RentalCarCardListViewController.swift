@@ -50,7 +50,6 @@ internal final class RentalCarCardListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "롯데렌터카/SK렌터카 회원카드 목록 화면"
         prepareActionBar()
     }
     
@@ -167,13 +166,26 @@ extension RentalCarCardListViewController: PartnershipJoinViewDelegate {
     func showSKMemberQRView() {
         let storyboard = UIStoryboard(name : "Membership", bundle: nil)
         let mbsQRVC = storyboard.instantiateViewController(ofType: MembershipQRViewController.self)
+        logEvent(with: .clickApplyAllianceCard, source: "SK 렌터카")
         navigationController?.push(viewController: mbsQRVC)
     }
     
     func showLotteRentCertificateView() {
         let storyboard = UIStoryboard(name : "Membership", bundle: nil)
         let lotteVC = storyboard.instantiateViewController(ofType: LotteRentCertificateViewController.self)
+        logEvent(with: .clickApplyAllianceCard, source: "롯데 렌터카")
         navigationController?.push(viewController: lotteVC)
     }
 }
 
+// MARK: - Amplitude Loggin 이벤트
+extension RentalCarCardListViewController {
+    private func logEvent(with event: EventType.PaymentEvent, source: String) {
+        switch event {
+        case .clickApplyAllianceCard:
+            let property: [String: Any] = ["company": source]
+            AmplitudeManager.shared.logEvent(type: .payment(event), property: property)
+        default: break
+        }
+    }
+}

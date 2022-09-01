@@ -43,7 +43,6 @@ internal final class EventViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "이벤트 리스트 화면"
         prepareActionBar()
         prepareTableView()
         
@@ -109,7 +108,6 @@ extension EventViewController {
     }
     
     func goToEventInfo(index: Int) {
-        EIAdManager.sharedInstance.logEvent(eventId: [String(list[index].eventId)], action: Promotion.Action.click)
         let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
         viewcon.eventId = list[index].eventId
         viewcon.eventTitle = list[index].title
@@ -123,10 +121,15 @@ extension EventViewController {
                 displayedList.insert(list[IndexPath.row].eventId)
             }
         })
-
-        let displatedList = displayedList.map { String($0) }
-        EIAdManager.sharedInstance.logEvent(eventId: displatedList, action: Promotion.Action.view)
+        Server.countEventAction(eventId: Array(displayedList).map { String($0) }, action: .view, page: .event, layer: .list)
         self.navigationController?.pop()
+    }
+    
+    private func logEventWithPromotion(index: Int) {
+        Server.countEventAction(eventId: [String(list[index].eventId)], action: .click, page: .event, layer: .list)
+        let property: [String: Any] = ["eventId": "\(list[index].eventId)",
+                                       "eventName": "\(list[index].title)"]
+        AmplitudeManager.shared.logEvent(type: .promotion(.clickEvent), property: property)
     }
 }
 
@@ -134,6 +137,7 @@ extension EventViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         goToEventInfo(index:indexPath.row)
+        logEventWithPromotion(index: indexPath.row)
     }
 }
 

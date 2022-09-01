@@ -22,7 +22,7 @@ internal final class FilterTypeView: UIView {
     
     // MARK: VARIABLE
     
-    private var tagList = Array<TagValue>()
+    internal var tagList = Array<TagValue>()
     
     internal weak var slowTypeChangeDelegate: DelegateSlowTypeChange?
     internal var saveOnChange: Bool = false
@@ -82,7 +82,7 @@ internal final class FilterTypeView: UIView {
                 update()
             }
         }
-        
+        UserDefault().registerBool(key: UserDefault.Key.FILTER_MYCAR, val: switchCarSetting.isOn)
         sendTypeChange()
     }
     
@@ -219,11 +219,25 @@ extension FilterTypeView : DelegateTagListViewCell{
         tagList[index].selected = value
         if (saveOnChange) {
             FilterManager.sharedInstance.saveTypeFilter(index: tagList[index].index, val: value)
+            logEvent(with: .clickUpperFilter)
         }
         if index == 3 || index == 5 {
             sendTypeChange()
         } else {
             self.delegate?.onChangedFilter(type: .type)
+        }
+    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension FilterTypeView {
+    private func logEvent(with event: EventType.FilterEvent) {
+        switch event {
+        case .clickUpperFilter:
+            let property: [String: Any] = ["filterName": "충전기 타입",
+                                           "filterValue": tagList.filter({ $0.selected }).map { $0.title }]
+            AmplitudeManager.shared.logEvent(type: .filter(event), property: property)
+        default: break
         }
     }
 }

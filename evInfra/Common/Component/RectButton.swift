@@ -34,6 +34,7 @@ internal final class RectButton: UIButton {
             self.setTitleColor(Colors.contentOnColor.color, for: .normal)
             self.setTitleColor(Colors.contentOnColor.color, for: .disabled)
             self.setBackgroundColor(Colors.backgroundPositive.color, for: .normal)
+            self.setBackgroundColor(Colors.nt1.color, for: .disabled)
             
         case .secondary: // enable, disable 가능
             self.setTitleColor(Colors.contentPrimary.color, for: .normal)

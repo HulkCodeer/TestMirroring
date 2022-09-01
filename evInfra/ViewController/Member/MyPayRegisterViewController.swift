@@ -26,7 +26,7 @@ class MyPayRegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "결제 정보 등록 화면"
+        logEvent(with: .clickAddPaymentCard)
         prepareActionBar()
         makePostRequest(url: Const.EV_PAY_SERVER + "/pay/evPay/registEvPay", payload: ["mb_id":"\(MemberManager.shared.mbId)"])
         // Do any additional setup after loading the view.
@@ -176,5 +176,16 @@ extension MyPayRegisterViewController: WKScriptMessageHandler {
     func showRegisteredResult(json: JSON) {
         self.navigationController?.pop()
         myPayRegisterViewDelegate?.finishRegisterResult(json: json)
+    }
+}
+
+// MARK: - Amplitude Loggin 이벤트
+extension MyPayRegisterViewController {
+    private func logEvent(with event: EventType.PaymentEvent) {
+        switch event {
+        case .clickAddPaymentCard:
+            AmplitudeManager.shared.logEvent(type: .payment(event), property: nil)
+        default: break
+        }
     }
 }

@@ -92,7 +92,7 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "회원카드 안내 화면"
+        
         membershipRegisterBtn.rx.tap
             .asDriver()
             .drive(onNext: {[weak self] _ in
@@ -100,12 +100,14 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
                 let storyboard = UIStoryboard(name : "Membership", bundle: nil)
                 let mbsIssueVC = storyboard.instantiateViewController(ofType: MembershipIssuanceViewController.self)
                 self.navigationController?.push(viewController: mbsIssueVC)
+                self.logEvent(with: .clickApplyEVICard)
             })
             .disposed(by: disposebag)
     }
-    
+            
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = false
     }
     
     // 추후 딥링크 추가시 필요
@@ -143,6 +145,17 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
 //            decisionHandler(.allow)
 //        }
 //    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension MembershipGuideViewController {
+    private func logEvent(with event: EventType.PaymentEvent) {
+        switch event {
+        case .clickApplyEVICard:
+            AmplitudeManager.shared.logEvent(type: .payment(.clickApplyEVICard), property: nil)
+        default: break
+        }
+    }
 }
 
 extension MembershipGuideViewController: UIWebViewDelegate {

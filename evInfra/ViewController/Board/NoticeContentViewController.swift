@@ -15,6 +15,7 @@ class NoticeContentViewController: UIViewController {
     @IBOutlet weak var content: UITextView!
     
     var boardId = -1
+    internal var source: String = ""
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -22,7 +23,6 @@ class NoticeContentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "공지사항 상세 화면"
         prepareActionBar()
         
         content.textContainerInset = UIEdgeInsetsMake(16, 16, 16, 16)
@@ -64,9 +64,29 @@ class NoticeContentViewController: UIViewController {
                     if code == 1000 {
                         self.navigationItem.titleLabel.text = json["title"].stringValue
                         self.content.text = json["content"].stringValue
+                        self.logEvent(with: .viewNotice)
                     }
                 }
             }
+        }
+    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension NoticeContentViewController {
+    private func logEvent(with event: EventType.BoardEvent) {
+        switch event {
+        case .viewNotice:
+            let noticeName = self.navigationItem.titleLabel.text ?? ""
+            var property: [String: Any] = ["source": source,
+                                           "noticeName": noticeName]
+            
+            if noticeName.contains("[") || noticeName.contains("]") {
+                guard let noticeType = noticeName.replace(of: "[", with: "").replace(of: "]", with: " ").split(separator: " ").first  else { return }
+                property["noticeType"] = noticeType
+            }
+            AmplitudeManager.shared.logEvent(type: .board(event), property: property)
+        default: break
         }
     }
 }

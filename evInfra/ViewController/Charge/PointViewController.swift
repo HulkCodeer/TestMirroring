@@ -69,10 +69,11 @@ internal final class PointViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "MY 베리 내역 화면"
+        
         prepareActionBar()
         prepareDatePicker()
         prepareTableView()
+        logEvent(with: .viewMyBerry)
 
         // 오늘 포인트 이력 가져오기
         btnAllBerry.isSelected = true
@@ -85,13 +86,8 @@ internal final class PointViewController: UIViewController {
                 self.navigationController?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)
-        
-        btnAllBerry.roundCorners([.topLeft, .bottomLeft], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)        
-        btnUseBerry.roundCorners(.allCorners, radius: 0, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
 
-        btnSaveBerry.roundCorners([.topRight, .bottomRight], radius: 8, borderColor: UIColor(hex: "#CECECE"), borderWidth:2)
-
-        // Bg color change
+//        // Bg color change
         btnAllBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
         btnSaveBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
         btnUseBerry.setBackgroundColor(UIColor(hex: "#CECECE"), for: .selected)
@@ -358,6 +354,18 @@ extension PointViewController: UITableViewDelegate, UITableViewDataSource {
         cell.reloadData(pointList: evPointList, position: indexPath.row)
         cell.selectionStyle = .none
         return cell
+    }
+}
+
+// MARK: - Amplitude Logging 이벤트
+extension PointViewController {
+    private func logEvent(with event: EventType.PaymentEvent) {
+        switch event {
+        case .viewMyBerry:
+            let property: [String: Any] = ["berryAmount": "\(MemberManager.shared.berryPoint)"]
+            AmplitudeManager.shared.logEvent(type: .payment(event), property: property)
+        default: break
+        }
     }
 }
 

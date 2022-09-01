@@ -37,7 +37,7 @@ internal final class EvDetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "전기차 정보 상세 화면"
+        
         guard let model = model else { return }
         prepareActionBar(with: "전기차 정보")
         
