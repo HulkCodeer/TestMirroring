@@ -65,6 +65,10 @@ internal final class PaymentResultViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
+        GlobalDefine.shared.mainNavi?.interactivePopGestureRecognizer?.isEnabled = false
+        
         ivResultBg.layer.cornerRadius = ivResultBg.frame.height/2
         btnAuthStatus.layer.cornerRadius = 4
         btnAuthStatus.layer.borderWidth = 1
@@ -152,8 +156,8 @@ internal final class PaymentResultViewController: UIViewController {
     func updateView(chargingStatus: ChargingStatus) {
         self.lbAuthNo.text = "거래번호 " + (chargingStatus.payAuthCode ?? "0")
         self.lbStation.text = chargingStatus.stationName
-        if let chargingKw = chargingStatus.chargingKw {
-            let chargePower = "\(chargingKw) kWh"
+        if !chargingStatus.chargingKw.isEmpty  {
+            let chargePower = "\(chargingStatus.chargingKw) kWh"
             lbQuantity.text = chargePower
         } else {
             self.lbQuantity.text = " - "

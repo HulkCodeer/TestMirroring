@@ -66,6 +66,7 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
         $0.setTitle("다음", for: .disabled)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         $0.IBcornerRadius = 9
+        $0.isEnabled = false
     }
     
     private lazy var safeAreaBottomView = UIView().then {
@@ -78,7 +79,11 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
     internal var nextBtnCompletion: ((Int) -> Void)?
     internal var items: [String] = []
     
-    private var selectedIndex: Int = -1
+    private var selectedIndex: Int = -1 {
+        didSet {
+            nextBtn.isEnabled = selectedIndex != -1
+        }
+    }
     private let disposebag = DisposeBag()
     private let safeAreaInsetBottomHeight = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
     private var selectedCellCompletion: ((Int) -> Void)?
