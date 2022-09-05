@@ -20,21 +20,8 @@ protocol CommunityBoardTableViewHeaderDelegate: AnyObject {
 internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
     
     // MARK: - UI
-    @IBOutlet weak var bannerPagerView: FSPagerView! {
-        didSet {
-            bannerPagerView.register(NewBannerCollecionViewCell.self, forCellWithReuseIdentifier: "NewBannerCollecionViewCell")
-            bannerPagerView.dataSource = self
-            bannerPagerView.delegate = self
-            bannerPagerView.isInfinite = true
-            bannerPagerView.isScrollEnabled = true
-            bannerPagerView.automaticSlidingInterval = 4.0
-            bannerPagerView.layer.cornerRadius = 8
-            bannerPagerView.layer.masksToBounds = true
-            bannerPagerView.backgroundColor = .clear
-        }
-    }
-    
-    private var tagCollectionView: TTGTextTagCollectionView = TTGTextTagCollectionView()
+    private lazy var bannerPagerView: BannerPagerView = BannerPagerView(.top)
+    private lazy var tagCollectionView: TTGTextTagCollectionView = TTGTextTagCollectionView()
     
     private lazy var indicatorView = UIView().then {
         $0.backgroundColor = Colors.backgroundAlwaysDark.color.withAlphaComponent(0.4)
@@ -58,6 +45,7 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
     
     // MARK: - VARIABLE
     weak var delegate: CommunityBoardTableViewHeaderDelegate?
+    
     private var tags: [String] = []
     private var adManager = EIAdManager.sharedInstance
     private var topBanners: [AdsInfo] = [AdsInfo]()
@@ -68,14 +56,43 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
             setupBannerView()
         }
     }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
         self.tags = ["최신", "인기"]
+
+        bannerPagerView.register(NewBannerCollecionViewCell.self, forCellWithReuseIdentifier: "NewBannerCollecionViewCell")
+        bannerPagerView.dataSource = self
+        bannerPagerView.delegate = self
+        
+        let screenWidth = UIScreen.main.bounds.width - 32
+        let imgViewHeight = (68 / 328) * screenWidth
+        
+        self.addSubview(bannerPagerView)
+        bannerPagerView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.width.equalTo(screenWidth)
+            $0.height.equalTo(imgViewHeight)
+        }
+        
+        self.addSubview(boardSubscriptionLabel)
+        boardSubscriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(bannerPagerView.snp.bottom).offset(16)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview().offset(-50)
+            $0.height.equalTo(16)
+        }
+        
+        self.addSubview(tagCollectionView)
+        tagCollectionView.snp.makeConstraints {
+            $0.top.equalTo(boardSubscriptionLabel.snp.bottom).offset(8)
+            $0.left.equalToSuperview().offset(16)
+            $0.right.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview()
+        }
         
         self.bannerPagerView.addSubview(indicatorView)
         indicatorView.snp.makeConstraints {
@@ -92,15 +109,6 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
             $0.leading.equalTo(indicatorView.snp.leading).offset(8)
             $0.trailing.equalTo(indicatorView.snp.trailing).offset(-8)
             $0.bottom.equalTo(indicatorView.snp.bottom).offset(-2)
-        }
-        
-        self.addSubview(boardSubscriptionLabel)
-        boardSubscriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(bannerPagerView.snp.bottom).offset(16)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview().offset(-50)
-            $0.height.equalTo(16)
         }
         
         let cornerRadiusValue: CGFloat = 12.0
@@ -157,6 +165,10 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         tagCollectionView.updateTag(at: 0, selected: true)
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     internal func configuration(with category: Board.CommunityType) {
         self.boardType = category
     }
@@ -182,25 +194,15 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
     private func setupBannerView() {
         switch self.boardType {
         case .FREE:
-            setupTagCollectionViewLayout()
+            tagCollectionView.isHidden = false
         case .CHARGER, .CORP_GS, .CORP_JEV, .CORP_STC, .CORP_SBC:
+            tagCollectionView.isHidden = true
             setRemakeSubscriptionLabel()
         default:
             break
         }
         
         boardSubscriptionLabel.text = self.boardType.description
-    }
-    
-    private func setupTagCollectionViewLayout() {
-        self.addSubview(tagCollectionView)
-        
-        tagCollectionView.snp.makeConstraints {
-            $0.top.equalTo(boardSubscriptionLabel.snp.bottom).offset(8)
-            $0.left.equalToSuperview().offset(16)
-            $0.right.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview()
-        }
     }
     
     private func setRemakeSubscriptionLabel() {

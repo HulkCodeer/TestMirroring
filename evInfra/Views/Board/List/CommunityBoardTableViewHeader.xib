@@ -14,7 +14,7 @@
             <rect key="frame" x="0.0" y="0.0" width="360" height="148"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hTw-cK-6C9" customClass="FSPagerView" customModule="FSPagerView">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hTw-cK-6C9" customClass="FSPagerView" customModule="FSPagerView">
                     <rect key="frame" x="16" y="16" width="328" height="68"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
@@ -29,9 +29,6 @@
                 <constraint firstAttribute="trailing" secondItem="hTw-cK-6C9" secondAttribute="trailing" constant="16" id="aXZ-VP-n8j"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="bannerPagerView" destination="hTw-cK-6C9" id="6zt-r7-rJu"/>
-            </connections>
             <point key="canvasLocation" x="253.62318840579712" y="149.33035714285714"/>
         </view>
     </objects>
