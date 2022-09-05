@@ -20,22 +20,8 @@ protocol CommunityBoardTableViewHeaderDelegate: AnyObject {
 internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
     
     // MARK: - UI
-    private lazy var bannerPagerView: BannerPagerView = BannerPagerView(.top)
+    private var bannerPagerView: BannerPagerView = BannerPagerView(.top)
     private lazy var tagCollectionView: TTGTextTagCollectionView = TTGTextTagCollectionView()
-    
-    private lazy var indicatorView = UIView().then {
-        $0.backgroundColor = Colors.backgroundAlwaysDark.color.withAlphaComponent(0.4)
-        $0.layer.borderWidth = 0
-        $0.clipsToBounds = true
-        $0.layer.cornerRadius = 12
-        $0.isHidden = true
-    }
-    
-    private lazy var indicatorLabel = UILabel().then {
-        $0.textColor = Colors.backgroundPrimary.color
-        $0.textAlignment = .center
-        $0.fontSize = 12
-    }
     
     private lazy var boardSubscriptionLabel = UILabel().then {
         $0.text = "자유롭게 이야기를 나누어요."
@@ -52,6 +38,7 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
     private var bannerIndex: Int = 1
     private var boardType: Board.CommunityType = .FREE {
         didSet {
+            bannerPagerView.promotionPage = Board.CommunityType.convertToEventKey(communityType: self.boardType)
             fetchAds()
             setupBannerView()
         }
@@ -60,10 +47,6 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         self.tags = ["최신", "인기"]
-
-        bannerPagerView.register(NewBannerCollecionViewCell.self, forCellWithReuseIdentifier: "NewBannerCollecionViewCell")
-        bannerPagerView.dataSource = self
-        bannerPagerView.delegate = self
         
         let screenWidth = UIScreen.main.bounds.width - 32
         let imgViewHeight = (68 / 328) * screenWidth
@@ -92,23 +75,6 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
             $0.left.equalToSuperview().offset(16)
             $0.right.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview()
-        }
-        
-        self.bannerPagerView.addSubview(indicatorView)
-        indicatorView.snp.makeConstraints {
-            $0.width.equalTo(42)
-            $0.height.equalTo(22)
-            $0.trailing.equalTo(bannerPagerView.snp.trailing).offset(-10)
-            $0.bottom.equalTo(bannerPagerView.snp.bottom).offset(-8)
-        }
-        
-        self.indicatorView.addSubview(indicatorLabel)
-        indicatorLabel.snp.makeConstraints {
-            $0.height.equalTo(18)
-            $0.top.equalTo(indicatorView.snp.top).offset(2)
-            $0.leading.equalTo(indicatorView.snp.leading).offset(8)
-            $0.trailing.equalTo(indicatorView.snp.trailing).offset(-8)
-            $0.bottom.equalTo(indicatorView.snp.bottom).offset(-2)
         }
         
         let cornerRadiusValue: CGFloat = 12.0
@@ -177,13 +143,7 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         let promotionPageType: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: self.boardType)
         
         adManager.getAdsList(page: promotionPageType, layer: .top) { topBanners in
-            self.topBanners = topBanners
-            
-            let isHidden = self.topBanners.count == 0 ? true : false
-            self.indicatorView.isHidden = isHidden
-            self.indicatorLabel.text = "\(self.bannerIndex) / \(topBanners.count)"
-            self.bannerPagerView.automaticSlidingInterval = isHidden ? 0.0 : 4.0
-            self.bannerPagerView.isScrollEnabled = !isHidden
+            self.bannerPagerView.banners = topBanners
             
             DispatchQueue.main.async {
                 self.bannerPagerView.reloadData()
@@ -216,60 +176,6 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
     }
 }
 
-// MARK: - FSPagerView Delegate
-extension CommunityBoardTableViewHeader: FSPagerViewDelegate {
-    internal func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
-        guard !topBanners.isEmpty else { return }
-        
-        let promotionPageType: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: self.boardType)
-        let banner = topBanners[index]
-        // 배너 클릭 로깅
-        adManager.logEvent(adIds: [banner.evtId], action: .click, page: promotionPageType, layer: .top)
-        logEvent(with: .clickBanner, banner: banner)
-        // open url
-        let adUrl = banner.extUrl
-        guard let url = URL(string: adUrl), UIApplication.shared.canOpenURL(url) else { return }
-        UIApplication.shared.open(url)
-    }
-    
-    internal func pagerViewWillEndDragging(_ pagerView: FSPagerView, targetIndex: Int) {
-        self.bannerIndex = targetIndex + 1
-        self.indicatorLabel.text = "\(self.bannerIndex) / \(topBanners.count)"
-    }
-    
-    internal func pagerViewDidEndScrollAnimation(_ pagerView: FSPagerView) {
-        self.bannerIndex = pagerView.currentIndex + 1
-        self.indicatorLabel.text = "\(self.bannerIndex) / \(topBanners.count)"
-    }
-}
-
-// MARK: - FSPagerView DataSource
-extension CommunityBoardTableViewHeader: FSPagerViewDataSource {
-    internal func numberOfItems(in pagerView: FSPagerView) -> Int {
-        return topBanners.count == 0 ? 1 : topBanners.count
-    }
-    
-    internal func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
-        guard let cell = bannerPagerView.dequeueReusableCell(withReuseIdentifier: "NewBannerCollecionViewCell", at: index) as? NewBannerCollecionViewCell else { return FSPagerViewCell() }
-        
-        guard !topBanners.isEmpty else {
-            cell.bannerImageView.image = UIImage(named: "adCommunity01.png")
-            return cell
-        }
-
-        let banner = topBanners[index]
-        cell.bannerImageView.sd_setImage(with: URL(string: "\(Const.AWS_IMAGE_SERVER)/\(banner.img)"), placeholderImage: UIImage(named: "adCommunity01.png")) { (image, error, _, _) in
-            if let _ = error {
-                cell.bannerImageView.image = UIImage(named: "adCommunity01.png")
-            } else {
-                cell.bannerImageView.image = image
-                self.adManager.logEvent(adIds: [banner.evtId], action: .view, page: .free, layer: .top)
-            }
-        }
-        return cell
-    }
-}
-
 // MARK: - TTGTextTagCollecionView Delegate
 extension CommunityBoardTableViewHeader: TTGTextTagCollectionViewDelegate {
     func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTap tag: TTGTextTag!, at index: UInt) {
@@ -298,20 +204,6 @@ extension CommunityBoardTableViewHeader: TTGTextTagCollectionViewDelegate {
         }
         
         return true
-    }
-}
-
-// MARK: - Amplitude Logging 이벤트
-extension CommunityBoardTableViewHeader {
-    private func logEvent(with event: EventType.PromotionEvent, banner: AdsInfo) {
-        switch event {
-        case .clickBanner:
-            let property: [String: Any] = ["bannerType": "상단배너",
-                                           "adID": banner.evtId,
-                                           "adName": banner.evtTitle]
-            AmplitudeManager.shared.logEvent(type: .promotion(event), property: property)
-        default: break
-        }
     }
 }
 
