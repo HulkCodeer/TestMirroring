@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 로플랫 관련 코드
         if Plengi.initialize(clientID: "zeroone",
                        clientSecret: "zeroone)Q@Eh(4",
-                       echoCode: nil) == .SUCCESS {
+                             echoCode: "\(MemberManager.shared.mbId)") == .SUCCESS {
             _ = Plengi.setDelegate(self)
         }
                 
@@ -309,6 +309,5 @@ extension AppDelegate: PlaceDelegate {
         let plengiResponseData = NSKeyedArchiver.archivedData(withRootObject: plengiResponse)
         UserDefaults.standard.set(plengiResponseData, forKey: "plengiResponse")
         NotificationCenter.default.post(name: .pr, object: nil)
-    }
-    
+    }    
 }
