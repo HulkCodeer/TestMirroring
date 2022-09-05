@@ -222,26 +222,19 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
 
                 obj.dimmedView.layer.mask = shapeLayer
                 
-                obj.qrReaderView.makeUIWithStart()
+                obj.qrReaderView.makeUI()
+                obj.qrReaderView.start()
             }
             .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.isQRScanRunning }
             .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, _ in
+            .drive(with: self) { obj, isQRScanRunning in
+                guard !isQRScanRunning else { return }
                 obj.qrReaderView.start()
             }
             .disposed(by: self.disposeBag)
-        
-        reactor.state.compactMap { $0.isChargingStatus }
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, isChargingStatus in
-                obj.qrReaderView.start()
-                
-                guard isChargingStatus else { return }
-            }
-            .disposed(by: self.disposeBag)
-        
+                        
         reactor.state.compactMap { $0.qrOutletTypeModel }
             .asDriver(onErrorJustReturn: [])
             .drive(with: self) { obj, qrOutletTypeModel in
