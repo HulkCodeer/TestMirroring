@@ -77,6 +77,18 @@ internal final class Board {
             }
         }
         
+        var description: String {
+            switch self {
+            case .CHARGER: return "충전소 관련 이야기를 모아봐요."
+            case .FREE: return "자유롭게 이야기를 나누어요."
+            case .CORP_GS: return "GS칼텍스 전용 게시판입니다."
+            case .CORP_JEV: return "제주전기차서비스 전용 게시판입니다."
+            case .CORP_STC: return "에스트래픽 전용 게시판입니다."
+            case .CORP_SBC: return "EV Infra에 의견을 전달해 보세요."
+            default: return ""
+            }
+        }
+        
         static func convertToEventKey(communityType: CommunityType) -> Promotion.Page {
             switch communityType {
             case .CHARGER: return .charging

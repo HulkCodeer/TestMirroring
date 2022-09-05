@@ -34,17 +34,7 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         }
     }
     
-    private var tagCollectionView: TTGTextTagCollectionView = TTGTextTagCollectionView() {
-        didSet {
-            tagCollectionView.numberOfLines = 1
-            tagCollectionView.selectionLimit = 1
-            tagCollectionView.alignment = .left
-            tagCollectionView.scrollDirection = .horizontal
-            tagCollectionView.showsHorizontalScrollIndicator = false
-            tagCollectionView.showsVerticalScrollIndicator = false
-            tagCollectionView.contentInset = UIEdgeInsets(top: 1, left: 0, bottom: 1, right: 8.0)
-        }
-    }
+    private var tagCollectionView: TTGTextTagCollectionView = TTGTextTagCollectionView()
     
     private lazy var indicatorView = UIView().then {
         $0.backgroundColor = Colors.backgroundAlwaysDark.color.withAlphaComponent(0.4)
@@ -71,7 +61,13 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
     private var tags: [String] = []
     private var adManager = EIAdManager.sharedInstance
     private var topBanners: [AdsInfo] = [AdsInfo]()
-    private var boardType: Board.CommunityType = .FREE
+    private var bannerIndex: Int = 1
+    private var boardType: Board.CommunityType = .FREE {
+        didSet {
+            fetchAds()
+            setupBannerView()
+        }
+    }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -127,6 +123,13 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         selectedStyle.extraSpace = extraSpace
         
         tagCollectionView.delegate = self
+        tagCollectionView.numberOfLines = 1
+        tagCollectionView.selectionLimit = 1
+        tagCollectionView.alignment = .left
+        tagCollectionView.scrollDirection = .horizontal
+        tagCollectionView.showsHorizontalScrollIndicator = false
+        tagCollectionView.showsVerticalScrollIndicator = false
+        tagCollectionView.contentInset = UIEdgeInsets(top: 1, left: 0, bottom: 1, right: 8.0)
 
         tags.forEach { tag in
             let font = UIFont.systemFont(ofSize: 14.0, weight: .regular)
@@ -156,9 +159,6 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
     
     internal func configuration(with category: Board.CommunityType) {
         self.boardType = category
-        
-        fetchAds()
-        setupBannerView()
     }
     
     private func fetchAds() {
@@ -167,8 +167,9 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         adManager.getAdsList(page: promotionPageType, layer: .top) { topBanners in
             self.topBanners = topBanners
             
-            let isHidden = self.topBanners.count == 1 ? true : false
+            let isHidden = self.topBanners.count == 0 ? true : false
             self.indicatorView.isHidden = isHidden
+            self.indicatorLabel.text = "\(self.bannerIndex) / \(topBanners.count)"
             self.bannerPagerView.automaticSlidingInterval = isHidden ? 0.0 : 4.0
             self.bannerPagerView.isScrollEnabled = !isHidden
             
@@ -179,31 +180,16 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
     }
 
     private func setupBannerView() {
-        var description = ""
         switch self.boardType {
         case .FREE:
-            description = "자유롭게 이야기를 나누어요."
             setupTagCollectionViewLayout()
-        case .CHARGER:
-            description = "충전소 관련 이야기를 모아봐요."
-            setRemakeSubscriptionLabel()
-        case .CORP_GS:
-            description = "GS칼텍스 전용 게시판입니다."
-            setRemakeSubscriptionLabel()
-        case .CORP_JEV:
-            description = "제주전기차서비스 전용 게시판입니다."
-            setRemakeSubscriptionLabel()
-        case .CORP_STC:
-            description = "에스트래픽 전용 게시판입니다."
-            setRemakeSubscriptionLabel()
-        case .CORP_SBC:
-            description = "EV Infra에 의견을 전달해 보세요."
+        case .CHARGER, .CORP_GS, .CORP_JEV, .CORP_STC, .CORP_SBC:
             setRemakeSubscriptionLabel()
         default:
             break
         }
         
-        boardSubscriptionLabel.text = description
+        boardSubscriptionLabel.text = self.boardType.description
     }
     
     private func setupTagCollectionViewLayout() {
@@ -245,11 +231,13 @@ extension CommunityBoardTableViewHeader: FSPagerViewDelegate {
     }
     
     internal func pagerViewWillEndDragging(_ pagerView: FSPagerView, targetIndex: Int) {
-        self.indicatorLabel.text = "\(targetIndex + 1) / \(topBanners.count)"
+        self.bannerIndex = targetIndex + 1
+        self.indicatorLabel.text = "\(self.bannerIndex) / \(topBanners.count)"
     }
     
     internal func pagerViewDidEndScrollAnimation(_ pagerView: FSPagerView) {
-        self.indicatorLabel.text = "\(pagerView.currentIndex + 1) / \(topBanners.count)"
+        self.bannerIndex = pagerView.currentIndex + 1
+        self.indicatorLabel.text = "\(self.bannerIndex) / \(topBanners.count)"
     }
 }
 
