@@ -108,21 +108,27 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     // MARK: FUNC
     
     private func createPermissionView(type: PermissionTypes) -> UIView {
-        let view = UIView().then {
-            $0.backgroundColor = Colors.backgroundSecondary.color
-            $0.IBcornerRadius = 8
-        }
+        let view = UIView()
         
         let imgTotalView = UIView().then {
             $0.IBcornerRadius = 48/2
+        }
+        view.addSubview(imgTotalView)
+        imgTotalView.snp.makeConstraints {
+            $0.width.height.equalTo(48)
         }
         
         let imgView = UIImageView().then {
             $0.image = Icons.iconCurrentLocationMd.image
         }
-        
+        imgTotalView.addSubview(imgView)
+        imgView.snp.makeConstraints {
+            $0.width.height.equalTo(24)
+            $0.center.equalToSuperview()
+        }
+                
         let mainTitleLbl = UILabel().then {
-            $0.text = mainTitle
+            $0.text = type.title
             $0.textAlignment = .natural
             $0.numberOfLines = 1
             $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
@@ -131,13 +137,13 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         
         view.addSubview(mainTitleLbl)
         mainTitleLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(16)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.top.equalToSuperview()
+            $0.leading.equalTo(imgTotalView.snp.trailing).offset(16)
+            $0.trailing.equalToSuperview()
         }
         
         let subTitleLbl = UILabel().then {
-            $0.text = subTitle
+            $0.text = type.description
             $0.textAlignment = .natural
             $0.numberOfLines = 2
             $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
@@ -146,11 +152,10 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         
         view.addSubview(subTitleLbl)
         subTitleLbl.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLbl.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.bottom.equalToSuperview().offset(-16)
-        }
-        
+            $0.top.equalToSuperview()
+            $0.leading.equalTo(imgTotalView.snp.trailing).offset(16)
+            $0.trailing.equalToSuperview()
+        }        
         return view
     }
     

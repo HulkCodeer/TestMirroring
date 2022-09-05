@@ -99,6 +99,8 @@
 	<string></string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>현재 위치를 알 수 있기 위해 백그라운드에서 위치정보 사용이 필요합니다.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>위치정보를 사용하여 지도에 현재 위치를 표시하고 충전소와의 거리를 계산합니다. 위치정보 사용에 동의가 필요합니다.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
@@ -126,6 +128,7 @@
 	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
