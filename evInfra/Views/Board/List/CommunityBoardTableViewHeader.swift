@@ -20,7 +20,7 @@ protocol CommunityBoardTableViewHeaderDelegate: AnyObject {
 internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
     
     // MARK: - UI
-    @IBOutlet var bannerPagerView: FSPagerView! {
+    @IBOutlet weak var bannerPagerView: FSPagerView! {
         didSet {
             bannerPagerView.register(NewBannerCollecionViewCell.self, forCellWithReuseIdentifier: "NewBannerCollecionViewCell")
             bannerPagerView.dataSource = self
