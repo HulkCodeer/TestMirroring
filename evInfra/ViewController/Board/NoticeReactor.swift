@@ -10,16 +10,19 @@ import Foundation
 
 import ReactorKit
 import RxSwift
+import SwiftyJSON
 
 final class NoticeReactor: ViewModel, Reactor {
     enum Action {
+        case loadNotices
     }
     
     enum Mutation {
+        case setNotices([NoticeItem])
     }
     
     struct State {
-        
+        var noticeList: [NoticeItem] = []
     }
     
     internal var initialState: State
@@ -30,12 +33,39 @@ final class NoticeReactor: ViewModel, Reactor {
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
-
+        switch action {
+        case .loadNotices:
+            return provider.getNoticeList()
+                .convertData()
+                .compactMap(convertToNoticeItem)
+                .map { return .setNotices($0) }
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         
+        switch mutation {
+        case .setNotices(let item):
+            newState.noticeList = item
+        }
+        
         return newState
+    }
+    
+    private func convertToNoticeItem(with result: ApiResult<Data, ApiError>) -> [NoticeItem]? {
+        switch result {
+        case .success(let data):
+            let noticeList = try? JSONDecoder().decode(NoticeList.self, from: data)
+            guard 1000 == noticeList?.code else { return nil }
+            
+            printLog(out: "data: \(String(describing: noticeList))")
+            return noticeList?.list
+            
+        case .failure(let error):
+            printLog(out: "Error Message : \(error.errorMessage)")
+            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+            return nil
+        }
     }
 }

@@ -29,6 +29,7 @@ protocol SoftberryAPI: class {
     func postPaymentStatus() -> Observable<(HTTPURLResponse, Data)>
     func postChargingQR(qrCode: String) -> Observable<(HTTPURLResponse, Data)>
     func postChargingQR(qrCode: String, tc: String) -> Observable<(HTTPURLResponse, Data)>
+    func getNoticeList() -> Observable<(HTTPURLResponse, Data)>
     func postNotice(id noticeID: Int) -> Observable<(HTTPURLResponse, Data)>
 }
 
@@ -191,6 +192,15 @@ internal final class RestApi: SoftberryAPI {
             
         ]
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/charger/v2/app_charging/qr", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
+    
+    // MARK: - 공지사항 리스트 조회
+    func getNoticeList() -> Observable<(HTTPURLResponse, Data)> {
+        return NetworkWorker.shared.rxRequest(
+            url: "\(Const.EV_PAY_SERVER)/board/board_notice/list",
+            httpMethod: .get,
+            parameters: nil,
+            headers: nil)
     }
     
     // MARK: - 공지사항 상세 조회

@@ -15,7 +15,7 @@ struct NoticeList: Decodable {
 }
 
 struct NoticeItem: Decodable {
-    let id: Int
+    let id: String
     let title: String
     let dateTime: String
     
