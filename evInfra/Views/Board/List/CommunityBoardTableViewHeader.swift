@@ -38,7 +38,6 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
     private var bannerIndex: Int = 1
     private var boardType: Board.CommunityType = .FREE {
         didSet {
-            bannerPagerView.promotionPage = Board.CommunityType.convertToEventKey(communityType: self.boardType)
             fetchAds()
             setupBannerView()
         }
@@ -143,7 +142,7 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         let promotionPageType: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: self.boardType)
         
         adManager.getAdsList(page: promotionPageType, layer: .top) { topBanners in
-            self.bannerPagerView.banners = topBanners
+            self.bannerPagerView.configure(page: promotionPageType, banners: topBanners)
             
             DispatchQueue.main.async {
                 self.bannerPagerView.reloadData()

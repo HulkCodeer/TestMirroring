@@ -42,7 +42,7 @@ internal final class BannerPagerView: FSPagerView {
     }
     
     internal var promotionPage: Promotion.Page = .free
-    internal var promotionLayer: Promotion.Layer = .top
+    private var promotionLayer: Promotion.Layer = .top
     private var bannerIndex: Int = 1
     
     // MARK: - SYSTEM FUNC
@@ -86,9 +86,15 @@ internal final class BannerPagerView: FSPagerView {
         
         switch layer {
         case .top:
+            self.promotionLayer = layer
             self.layer.cornerRadius = 8
         default: break
         }
+    }
+    
+    internal func configure(page: Promotion.Page, banners: [AdsInfo]) {
+        self.promotionPage = page
+        self.banners = banners
     }
 }
 
@@ -150,7 +156,18 @@ extension BannerPagerView {
     private func logEvent(with event: EventType.PromotionEvent, banner: AdsInfo) {
         switch event {
         case .clickBanner:
-            let property: [String: Any] = ["bannerType": "상단배너",
+            var bannerType: String = ""
+            switch self.promotionLayer {
+            case .top:
+                bannerType = "상단배너"
+            case .bottom where self.promotionPage == .start:
+                bannerType = "시작배너"
+            case .mid:
+                bannerType = "중간배너"
+            default: break
+            }
+            
+            let property: [String: Any] = ["bannerType": bannerType,
                                            "adID": banner.evtId,
                                            "adName": banner.evtTitle]
             AmplitudeManager.shared.logEvent(type: .promotion(event), property: property)
