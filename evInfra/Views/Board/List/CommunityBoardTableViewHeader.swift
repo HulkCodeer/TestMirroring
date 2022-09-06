@@ -20,7 +20,7 @@ protocol CommunityBoardTableViewHeaderDelegate: AnyObject {
 internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView {
     
     // MARK: - UI
-    private var bannerPagerView: BannerPagerView = BannerPagerView(.top)
+    private var bannerPagerView: BannerPagerView = BannerPagerView()
     private lazy var tagCollectionView: TTGTextTagCollectionView = TTGTextTagCollectionView()
     
     private lazy var boardSubscriptionLabel = UILabel().then {
@@ -142,7 +142,7 @@ internal final class CommunityBoardTableViewHeader: UITableViewHeaderFooterView 
         let promotionPageType: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: self.boardType)
         
         adManager.getAdsList(page: promotionPageType, layer: .top) { topBanners in
-            self.bannerPagerView.configure(page: promotionPageType, banners: topBanners)
+            self.bannerPagerView.configure(banners: topBanners)
             
             DispatchQueue.main.async {
                 self.bannerPagerView.reloadData()

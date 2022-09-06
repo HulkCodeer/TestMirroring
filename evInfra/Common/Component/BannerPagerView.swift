@@ -40,9 +40,7 @@ internal final class BannerPagerView: FSPagerView {
             self.isScrollEnabled = !isHidden
         }
     }
-    
-    internal var promotionPage: Promotion.Page = .free
-    private var promotionLayer: Promotion.Layer = .top
+   
     private var bannerIndex: Int = 1
     
     // MARK: - SYSTEM FUNC
@@ -53,10 +51,6 @@ internal final class BannerPagerView: FSPagerView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-    }
-    
-    init(_ layer: Promotion.Layer) {
-        super.init(frame: .zero)
         
         self.addSubview(indicatorView)
         indicatorView.snp.makeConstraints {
@@ -81,19 +75,12 @@ internal final class BannerPagerView: FSPagerView {
         self.isInfinite = true
         self.isScrollEnabled = true
         self.automaticSlidingInterval = 4.0
+        self.layer.cornerRadius = 8
         self.layer.masksToBounds = true
         self.backgroundColor = .clear
-        
-        switch layer {
-        case .top:
-            self.promotionLayer = layer
-            self.layer.cornerRadius = 8
-        default: break
-        }
     }
     
-    internal func configure(page: Promotion.Page, banners: [AdsInfo]) {
-        self.promotionPage = page
+    internal func configure(banners: [AdsInfo]) {
         self.banners = banners
     }
 }
@@ -105,7 +92,7 @@ extension BannerPagerView: FSPagerViewDelegate {
 
         let banner = banners[index]
         // 배너 클릭 로깅
-        EIAdManager.sharedInstance.logEvent(adIds: [banner.evtId], action: .click, page: promotionPage, layer: promotionLayer)
+        EIAdManager.sharedInstance.logEvent(adIds: [banner.evtId], action: .click, page: banner.promotionPage, layer: banner.promotionLayer)
         self.logEvent(with: .clickBanner, banner: banner)
         // open url
         let adUrl = banner.extUrl
@@ -144,7 +131,7 @@ extension BannerPagerView: FSPagerViewDataSource {
                 cell.bannerImageView.image = UIImage(named: "adCommunity01.png")
             } else {
                 cell.bannerImageView.image = image
-                EIAdManager.sharedInstance.logEvent(adIds: [banner.evtId], action: .view, page: self.promotionPage, layer: self.promotionLayer)
+                EIAdManager.sharedInstance.logEvent(adIds: [banner.evtId], action: .view, page: banner.promotionPage, layer: banner.promotionLayer)
             }
         }
         return cell
@@ -156,15 +143,15 @@ extension BannerPagerView {
     private func logEvent(with event: EventType.PromotionEvent, banner: AdsInfo) {
         switch event {
         case .clickBanner:
-            var bannerType: String = ""
-            switch self.promotionLayer {
+            var bannerType: String?
+            switch banner.promotionLayer {
             case .top:
                 bannerType = "상단배너"
-            case .bottom where self.promotionPage == .start:
+            case .bottom where banner.promotionPage == .start:
                 bannerType = "시작배너"
             case .mid:
                 bannerType = "중간배너"
-            default: break
+            default: bannerType = ""
             }
             
             let property: [String: Any] = ["bannerType": bannerType,
