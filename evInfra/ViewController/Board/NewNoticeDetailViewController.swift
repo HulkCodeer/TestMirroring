@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 import WebKit
 
 import Then
@@ -49,6 +50,8 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
         $0.scrollView.alwaysBounceVertical = false
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        
+        $0.navigationDelegate = self
     }
     
     init(reactor: NoticeDetailReactor) {
@@ -159,4 +162,31 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
             .disposed(by: disposeBag)
         
     }
+    
+    // MARK: Action
+    
+    private func openSafari(url urlSTR: String) {
+        let isFullURL = urlSTR.contains("http://" ) || urlSTR.contains("https://" )
+        let urlString: String = isFullURL ? urlSTR : "http://\(urlSTR)"
+        let url = URL(string: urlString)
+        guard let _url = url  else { return }
+        
+        let safariVC = SFSafariViewController(url: _url)
+        safariVC.modalPresentationStyle = .pageSheet
+        GlobalDefine.shared.mainNavi?.present(safariVC, animated: true)
+    }
+
+extension NewNoticeDetailViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        guard case .linkActivated = navigationAction.navigationType,
+              let url = navigationAction.request.url
+        else {
+            decisionHandler(.allow)
+            return
+        }
+        decisionHandler(.cancel)
+        
+        openSafari(url: "\(url)")
+    }
+    
 }
