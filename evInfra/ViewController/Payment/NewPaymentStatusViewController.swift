@@ -9,6 +9,7 @@
 import SwiftyJSON
 import RxSwift
 import ReactorKit
+import UIKit
 
 internal final class NewPaymentStatusViewController: CommonBaseViewController, StoryboardView {
     enum ChargeInfoType: String, CaseIterable {
@@ -1189,11 +1190,18 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         if chargingStatus.status == STATUS_READY { // 충전대기중
             nextBtn.isEnabled = true
             nextBtn.setTitle("충전 취소", for: .normal)
-                    
             chargeStatusLbl.text = "충전 대기"
-            chargeStatusSubLbl.text = "충전 커넥터를 차량과 연결 후\n잠시만 기다려 주세요"
             
+            UIView.animate(withDuration: 2.0, delay: 0.5, options: [.repeat, .curveEaseOut], animations: { [weak self] in
+                guard let self = self else { return }
+                self.chargeStatusSubLbl.text = "충전 커넥터를 차량과 연결 후\n잠시만 기다려 주세요"
+            }, completion: { [weak self] _ in
+                guard let self = self else { return }
+                self.chargeStatusSubLbl.text = "상태 연결까지 최대 5분\n소요될 수 있습니다."
+            })
         } else { // 충전중
+            self.chargeStatusSubLbl.layer.removeAllAnimations()
+            
             if chargingStatus.companyId.elementsEqual(CompanyInfo.COMPANY_ID_GSC) {
                 if isStopCharging == false {
                     nextBtn.isEnabled = true
