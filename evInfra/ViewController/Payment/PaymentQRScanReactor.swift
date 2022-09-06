@@ -324,7 +324,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 Observable.just(PaymentQRScanReactor.Action.qrOutletType(model))
                     .bind(to: self.action)
                     .disposed(by: self.disposeBag)
-                                                                
+                                                            
+                return true
                 
             default:
                 GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
