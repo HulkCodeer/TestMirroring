@@ -1318,7 +1318,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
             
     private func animate() {
         animationTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { (timer) in
-            UIView.transition(with: self.chargeStatusSubLbl, duration: 2.0, options: .transitionCrossDissolve, animations: {
+            UIView.transition(with: self.chargeStatusSubLbl, duration: 0.5, options: [.transitionCrossDissolve, .curveEaseOut], animations: {
                 let text = self.chargeStatusSubLbl.text ?? ""
                 self.chargeStatusSubLbl.text = text.equals("충전 커넥터를 차량과 연결 후\n잠시만 기다려 주세요") ? "상태 연결까지 최대 5분\n소요될 수 있습니다." : "충전 커넥터를 차량과 연결 후\n잠시만 기다려 주세요"
             })
