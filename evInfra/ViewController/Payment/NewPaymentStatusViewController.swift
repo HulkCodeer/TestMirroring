@@ -389,6 +389,8 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     private var prevAlwaysUsePoint = 0 // 설정이 변경되었을 경우 되돌릴 설정베리값
     
     private var timer = Timer()
+    private var animationTimer: Timer = Timer()
+    private var isAnimation: Bool = false
         
     internal var chargingId: String = ""
     
@@ -1191,16 +1193,13 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
             nextBtn.isEnabled = true
             nextBtn.setTitle("충전 취소", for: .normal)
             chargeStatusLbl.text = "충전 대기"
+                                                  
+            guard !self.isAnimation else { return }
+            self.isAnimation = true
+            self.animate()
             
-            UIView.animate(withDuration: 2.0, delay: 0.5, options: [.repeat, .curveEaseOut], animations: { [weak self] in
-                guard let self = self else { return }
-                self.chargeStatusSubLbl.text = "충전 커넥터를 차량과 연결 후\n잠시만 기다려 주세요"
-            }, completion: { [weak self] _ in
-                guard let self = self else { return }
-                self.chargeStatusSubLbl.text = "상태 연결까지 최대 5분\n소요될 수 있습니다."
-            })
         } else { // 충전중
-            self.chargeStatusSubLbl.layer.removeAllAnimations()
+            animationTimer.invalidate()
             
             if chargingStatus.companyId.elementsEqual(CompanyInfo.COMPANY_ID_GSC) {
                 if isStopCharging == false {
@@ -1314,6 +1313,15 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
                     preUpdateTime = chargingStatus.updateTime ?? preUpdateTime
                 }
             }
+        }
+    }
+            
+    private func animate() {
+        animationTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { (timer) in
+            UIView.transition(with: self.chargeStatusSubLbl, duration: 2.0, options: .transitionCrossDissolve, animations: {
+                let text = self.chargeStatusSubLbl.text ?? ""
+                self.chargeStatusSubLbl.text = text.equals("충전 커넥터를 차량과 연결 후\n잠시만 기다려 주세요") ? "상태 연결까지 최대 5분\n소요될 수 있습니다." : "충전 커넥터를 차량과 연결 후\n잠시만 기다려 주세요"
+            })
         }
     }
     
