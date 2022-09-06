@@ -10,7 +10,6 @@ import Foundation
 
 import ReactorKit
 import RxSwift
-import SwiftyJSON
 
 final class NoticeReactor: ViewModel, Reactor {
     enum Action {

@@ -41,7 +41,10 @@ internal final class NoticeDetailReactor: ViewModel, Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadHTML:
-            return Observable.empty()
+            return provider.getNotice(id: noticeID)
+                .convertData()
+                .compactMap(convertToDataModel)
+                .map { .setHTML($0) }
         }
     }
     
@@ -66,7 +69,7 @@ internal final class NoticeDetailReactor: ViewModel, Reactor {
             guard 1000 == notice.code else { return nil }
             
             printLog(out: "JsonData : \(notice)")
-            return (notice.title, notice.date, notice.content) as? Contents
+            return (notice.title, notice.dateTime, notice.content) as? Contents
             
         case .failure(let errorMessage):
             printLog(out: "Error Message : \(errorMessage)")

@@ -30,7 +30,7 @@ protocol SoftberryAPI: class {
     func postChargingQR(qrCode: String) -> Observable<(HTTPURLResponse, Data)>
     func postChargingQR(qrCode: String, tc: String) -> Observable<(HTTPURLResponse, Data)>
     func getNoticeList() -> Observable<(HTTPURLResponse, Data)>
-    func postNotice(id noticeID: Int) -> Observable<(HTTPURLResponse, Data)>
+    func getNotice(id noticeID: Int) -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -204,15 +204,12 @@ internal final class RestApi: SoftberryAPI {
     }
     
     // MARK: - 공지사항 상세 조회
-    func postNotice(id noticeID: Int) -> Observable<(HTTPURLResponse, Data)> {
-        let reqParam: Parameters = [
-            "id": noticeID
-        ]
-        
+    func getNotice(id noticeID: Int) -> Observable<(HTTPURLResponse, Data)> {
+
         return NetworkWorker.shared.rxRequest(
-            url: "\(Const.EV_PAY_SERVER)/board/board_notice/content_v2",
-            httpMethod: .post,
-            parameters: reqParam,
+            url: "\(Const.EV_PAY_SERVER)/board/board_notice/content_v2?id=\(noticeID)",
+            httpMethod: .get,
+            parameters: nil,
             headers: nil)
     }
 }

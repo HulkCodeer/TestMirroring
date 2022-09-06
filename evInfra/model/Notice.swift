@@ -8,10 +8,14 @@
 
 import Foundation
 
-struct Notice: Codable {
+struct Notice: Decodable {
     let code: Int
     let title: String
-    let date: String?
     let content: String
-    
+    let dateTime: String
+
+    private enum CodingKeys: String, CodingKey {
+        case code, title, content
+        case dateTime = "datetime"
+    }
 }
