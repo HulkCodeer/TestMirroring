@@ -77,6 +77,7 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
   - FLAnimatedImage (1.0.16)
+  - FSPagerView (0.8.3)
   - GoogleAppMeasurement (9.3.0):
     - GoogleAppMeasurement/AdIdSupport (= 9.3.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
@@ -261,6 +262,7 @@ DEPENDENCIES:
   - Firebase/DynamicLinks
   - Firebase/Messaging
   - FirebaseCrashlytics
+  - FSPagerView
   - GRDB.swift
   - HandyJSON
   - JJFloatingActionButton
@@ -305,6 +307,7 @@ SPEC REPOS:
     - FirebaseInstallations
     - FirebaseMessaging
     - FLAnimatedImage
+    - FSPagerView
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
@@ -366,6 +369,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 54b40022cb06e462740c9f2b9fbe38b5e78a825a
   FirebaseMessaging: 2f6e38b6133059eb796ec224104f09379298a8c3
   FLAnimatedImage: 8f3e854ebf9680b71f0b6e700939687fc4d82b4b
+  FSPagerView: 670405b2f18e2a87fa37f20b00de783e562c25a8
   GoogleAppMeasurement: b907bdad775b6975a8108762345b2cfbf1a93c37
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
@@ -398,6 +402,6 @@ SPEC CHECKSUMS:
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 2d70242bd1918c3853bed4b874a91941c37c6e8c
+PODFILE CHECKSUM: 882beffd5ae610807a2d7383e9d0c4133e35944d
 
 COCOAPODS: 1.11.2
