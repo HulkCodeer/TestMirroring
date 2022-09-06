@@ -49,7 +49,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         $0.axis = .vertical
         $0.alignment = .fill
         $0.distribution = .equalSpacing
-        $0.spacing = 4
+        $0.spacing = 0
         $0.backgroundColor = Colors.backgroundTertiary.color
     }
     
@@ -523,7 +523,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         totalStackView.addArrangedSubview(discountInfoTotalView)
         discountInfoTotalView.snp.makeConstraints {
             $0.top.equalTo(chargeInfoTotalView.snp.bottom)
-            $0.height.equalTo(132)
+            $0.height.equalTo(136)
         }
         
         let lineView = self.createLineView(color: Colors.backgroundTertiary.color)
@@ -571,7 +571,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         
         totalStackView.addArrangedSubview(berryInfoTotalView)
         berryInfoTotalView.snp.makeConstraints {
-            $0.top.equalTo(discountInfoTotalView.snp.bottom).offset(4)
+            $0.top.equalTo(discountInfoTotalView.snp.bottom)
             $0.height.equalTo(240)
         }
         
