@@ -327,6 +327,9 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                                                             
                 return true
                 
+            case 8844: // 회원카드 결제 카드 둘다 없을때
+                return false
+                
             default:
                 GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
             }
