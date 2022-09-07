@@ -1428,6 +1428,9 @@ extension MainViewController {
         let termsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
         termsViewController.tabIndex = .FAQTop
         GlobalDefine.shared.mainNavi?.push(viewController: termsViewController)
+        
+        let property: [String: Any] = ["source": "메인 페이지"]
+        AmplitudeManager.shared.logEvent(type: .board(.viewFAQ), property: property)
     }
 }
 
