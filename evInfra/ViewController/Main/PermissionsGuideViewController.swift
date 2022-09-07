@@ -13,26 +13,22 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     
     enum PermissionTypes: CaseIterable {
         case location
-        case test
         
         internal var title: String {
             switch self {
             case .location: return "위치 동의(선택)"
-            case .test: return "위치 동의(선택)"
             }
         }
         
         internal var description: String {
             switch self {
             case .location: return "내 현재 위치를 기준으로 주변 충전소 찾기,\n충전소 경로 안내, 근처의 혜택 정보 및\n광고 제공을 위한 필수 정보로 활용됩니다."
-            case .test: return "내 현재 위치를 기준으로 주변 충전소 찾기,\n충전소 경로 안내, 근처의 혜택 정보 및\n광고 제공을 위한 필수 정보로 활용됩니다."
             }
         }
         
         internal var typeImage: UIImage {
             switch self {
             case .location: return Icons.iconCurrentLocationMd.image
-            case .test: return Icons.iconCurrentLocationMd.image
             }
         }
     }
@@ -67,6 +63,8 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         $0.spacing = 24
     }
     
+    private lazy var nextBtn = StickButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80), level: .primary)
+    
     // MARK: SYSTEM FUNC
     
     override func loadView() {
@@ -76,6 +74,12 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         naviTotalView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
             $0.height.equalTo(56)
+        }
+        
+        self.contentView.addSubview(nextBtn)
+        nextBtn.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(80)
         }
         
         self.contentView.addSubview(totalView)
