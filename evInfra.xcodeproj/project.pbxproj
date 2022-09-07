@@ -90,6 +90,9 @@
 		194C02692897CF8C00DADA8D /* StartBannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194C02672897CF8C00DADA8D /* StartBannerViewController.swift */; };
 		194EEB5728BC723200280299 /* AmpBoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194EEB5628BC723200280299 /* AmpBoardModel.swift */; };
 		194EEB5828BC768700280299 /* AmpBoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194EEB5628BC723200280299 /* AmpBoardModel.swift */; };
+		195C4E8228C5CE3F000B47F7 /* BannerPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195C4E8128C5CE3F000B47F7 /* BannerPagerView.swift */; };
+		195C4E8328C5CE3F000B47F7 /* BannerPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195C4E8128C5CE3F000B47F7 /* BannerPagerView.swift */; };
+		195C4E8428C5CE3F000B47F7 /* BannerPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195C4E8128C5CE3F000B47F7 /* BannerPagerView.swift */; };
 		1969693628AB9AB300FE47A7 /* AmpChargerStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1969693528AB9AB300FE47A7 /* AmpChargerStationModel.swift */; };
 		1969693728AB9AB300FE47A7 /* AmpChargerStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1969693528AB9AB300FE47A7 /* AmpChargerStationModel.swift */; };
 		196C3A272887F4720056E2FD /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A3D3252887F13400AE8280 /* AmplitudeManager.swift */; };
@@ -124,8 +127,6 @@
 		525E3A25278D728100F5C54D /* CommunityBoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A24278D728000F5C54D /* CommunityBoardTableViewCell.swift */; };
 		525E3A27278D728B00F5C54D /* CommunityBoardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */; };
 		525E3A2A278D729600F5C54D /* CommunityBoardTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */; };
-		525E3A2B278D729600F5C54D /* CommunityBoardTableViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A29278D729600F5C54D /* CommunityBoardTableViewHeader.xib */; };
-		525E3A2D278D72C200F5C54D /* BannerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */; };
 		525E3A30278D732700F5C54D /* BoardWriteViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A2E278D732700F5C54D /* BoardWriteViewController.storyboard */; };
 		525E3A31278D732700F5C54D /* BoardWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */; };
 		525E3A33278D739E00F5C54D /* BoardWriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A32278D739E00F5C54D /* BoardWriteButton.swift */; };
@@ -516,7 +517,6 @@
 		63F314D7284EC74F001713D2 /* Charge.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAE726B3B6A2006617EE /* Charge.storyboard */; };
 		63F314D8284EC74F001713D2 /* FilterSpeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A3658C26C4E33100424E40 /* FilterSpeedView.xib */; };
 		63F314D9284EC74F001713D2 /* reply_count_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3D5204E3593002E975F /* reply_count_bg.png */; };
-		63F314DA284EC74F001713D2 /* CommunityBoardTableViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A29278D729600F5C54D /* CommunityBoardTableViewHeader.xib */; };
 		63F314DB284EC74F001713D2 /* MembershipTermView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73D65D812362D54000F564A2 /* MembershipTermView.xib */; };
 		63F314DC284EC74F001713D2 /* FilterPriceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A15A26C39F660023DAE3 /* FilterPriceView.xib */; };
 		63F314DD284EC74F001713D2 /* type_dc_demo_dim.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3D0204E3592002E975F /* type_dc_demo_dim.png */; };
@@ -561,7 +561,6 @@
 		63F31505284EC74F001713D2 /* leaf.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7357593F20916A34008181E9 /* leaf.jpg */; };
 		63F31506284EC74F001713D2 /* PartnershipJoinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */; };
 		63F31507284EC74F001713D2 /* BoardDetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52B709D2279928CD006C5706 /* BoardDetailViewController.storyboard */; };
-		63F31508284EC74F001713D2 /* BannerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */; };
 		63F31509284EC74F001713D2 /* type_dc_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3DA204E3593002E975F /* type_dc_demo.png */; };
 		63F3150A284EC74F001713D2 /* navi_notice_board.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3A1204E3590002E975F /* navi_notice_board.png */; };
 		63F3150B284EC74F001713D2 /* reply_btn_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3BA204E3591002E975F /* reply_btn_normal.png */; };
@@ -1142,7 +1141,6 @@
 		824D5D4728BDD89C00EDC712 /* Charge.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAE726B3B6A2006617EE /* Charge.storyboard */; };
 		824D5D4828BDD89C00EDC712 /* FilterSpeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A3658C26C4E33100424E40 /* FilterSpeedView.xib */; };
 		824D5D4928BDD89C00EDC712 /* reply_count_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3D5204E3593002E975F /* reply_count_bg.png */; };
-		824D5D4A28BDD89C00EDC712 /* CommunityBoardTableViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A29278D729600F5C54D /* CommunityBoardTableViewHeader.xib */; };
 		824D5D4B28BDD89C00EDC712 /* MembershipTermView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73D65D812362D54000F564A2 /* MembershipTermView.xib */; };
 		824D5D4C28BDD89C00EDC712 /* FilterPriceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A15A26C39F660023DAE3 /* FilterPriceView.xib */; };
 		824D5D4D28BDD89C00EDC712 /* type_dc_demo_dim.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3D0204E3592002E975F /* type_dc_demo_dim.png */; };
@@ -1187,7 +1185,6 @@
 		824D5D7428BDD89C00EDC712 /* leaf.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7357593F20916A34008181E9 /* leaf.jpg */; };
 		824D5D7528BDD89C00EDC712 /* PartnershipJoinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A82E41252AB81F00EEBCBF /* PartnershipJoinView.xib */; };
 		824D5D7628BDD89C00EDC712 /* BoardDetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52B709D2279928CD006C5706 /* BoardDetailViewController.storyboard */; };
-		824D5D7728BDD89C00EDC712 /* BannerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */; };
 		824D5D7828BDD89C00EDC712 /* type_dc_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3DA204E3593002E975F /* type_dc_demo.png */; };
 		824D5D7928BDD89C00EDC712 /* navi_notice_board.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3A1204E3590002E975F /* navi_notice_board.png */; };
 		824D5D7A28BDD89C00EDC712 /* reply_btn_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3BA204E3591002E975F /* reply_btn_normal.png */; };
@@ -1266,6 +1263,9 @@
 		82D9867F2839BD790030F0FC /* MembershipReissuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */; };
 		82D986812839BE080030F0FC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
 		82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */; };
+		82DD57DB28C5D41900C6C55E /* StickButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD57DA28C5D41900C6C55E /* StickButton.swift */; };
+		82DD57DC28C5D41900C6C55E /* StickButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD57DA28C5D41900C6C55E /* StickButton.swift */; };
+		82DD57DD28C5D41900C6C55E /* StickButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD57DA28C5D41900C6C55E /* StickButton.swift */; };
 		82E03191286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		82E03192286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		8ABD2A1E6BAAA48912760042 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
@@ -1451,6 +1451,7 @@
 		193C95C3289906DB00CD61D6 /* GlobalAdsReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalAdsReactor.swift; sourceTree = "<group>"; };
 		194C02672897CF8C00DADA8D /* StartBannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartBannerViewController.swift; sourceTree = "<group>"; };
 		194EEB5628BC723200280299 /* AmpBoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmpBoardModel.swift; sourceTree = "<group>"; };
+		195C4E8128C5CE3F000B47F7 /* BannerPagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerPagerView.swift; sourceTree = "<group>"; };
 		1969693528AB9AB300FE47A7 /* AmpChargerStationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmpChargerStationModel.swift; sourceTree = "<group>"; };
 		19A3D3252887F13400AE8280 /* AmplitudeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeManager.swift; sourceTree = "<group>"; };
 		19B4C7D7289A420900C6BE84 /* AdsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsModel.swift; sourceTree = "<group>"; };
@@ -1483,8 +1484,6 @@
 		525E3A24278D728000F5C54D /* CommunityBoardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityBoardTableViewCell.swift; sourceTree = "<group>"; };
 		525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityBoardTableViewCell.xib; sourceTree = "<group>"; };
 		525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityBoardTableViewHeader.swift; sourceTree = "<group>"; };
-		525E3A29278D729600F5C54D /* CommunityBoardTableViewHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityBoardTableViewHeader.xib; sourceTree = "<group>"; };
-		525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BannerCollectionViewCell.xib; sourceTree = "<group>"; };
 		525E3A2E278D732700F5C54D /* BoardWriteViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BoardWriteViewController.storyboard; sourceTree = "<group>"; };
 		525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardWriteViewController.swift; sourceTree = "<group>"; };
 		525E3A32278D739E00F5C54D /* BoardWriteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardWriteButton.swift; sourceTree = "<group>"; };
@@ -1767,6 +1766,7 @@
 		82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceReactor.swift; sourceTree = "<group>"; };
 		82D986802839BE080030F0FC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoReactor.swift; sourceTree = "<group>"; };
+		82DD57DA28C5D41900C6C55E /* StickButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickButton.swift; sourceTree = "<group>"; };
 		82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitAccountCompleteViewController.swift; sourceTree = "<group>"; };
 		9014C12624E55C4800CB6549 /* EIPOIItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIPOIItem.swift; sourceTree = "<group>"; };
 		9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAllPOIListenerCallback.swift; sourceTree = "<group>"; };
@@ -2274,8 +2274,6 @@
 				525E3A24278D728000F5C54D /* CommunityBoardTableViewCell.swift */,
 				525E3A26278D728B00F5C54D /* CommunityBoardTableViewCell.xib */,
 				525E3A28278D729500F5C54D /* CommunityBoardTableViewHeader.swift */,
-				525E3A29278D729600F5C54D /* CommunityBoardTableViewHeader.xib */,
-				525E3A2C278D72C200F5C54D /* BannerCollectionViewCell.xib */,
 				52B2594C278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift */,
 				52B2594D278EBBC90042B22C /* CommunityChargeStationTableViewCell.xib */,
 				52B5DECC27CEFB74006F8325 /* CommunityBoardAdsCell.xib */,
@@ -2851,6 +2849,8 @@
 				63762F1428699FB200C951BF /* Info.swift */,
 				63A4F3702872F88100601018 /* RectButton.swift */,
 				636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */,
+				82DD57DA28C5D41900C6C55E /* StickButton.swift */,
+				195C4E8128C5CE3F000B47F7 /* BannerPagerView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -3154,7 +3154,6 @@
 				63F314D7284EC74F001713D2 /* Charge.storyboard in Resources */,
 				63F314D8284EC74F001713D2 /* FilterSpeedView.xib in Resources */,
 				63F314D9284EC74F001713D2 /* reply_count_bg.png in Resources */,
-				63F314DA284EC74F001713D2 /* CommunityBoardTableViewHeader.xib in Resources */,
 				63F314DB284EC74F001713D2 /* MembershipTermView.xib in Resources */,
 				63F314DC284EC74F001713D2 /* FilterPriceView.xib in Resources */,
 				63F314DD284EC74F001713D2 /* type_dc_demo_dim.png in Resources */,
@@ -3199,7 +3198,6 @@
 				63F31505284EC74F001713D2 /* leaf.jpg in Resources */,
 				63F31506284EC74F001713D2 /* PartnershipJoinView.xib in Resources */,
 				63F31507284EC74F001713D2 /* BoardDetailViewController.storyboard in Resources */,
-				63F31508284EC74F001713D2 /* BannerCollectionViewCell.xib in Resources */,
 				63F31509284EC74F001713D2 /* type_dc_demo.png in Resources */,
 				63F3150A284EC74F001713D2 /* navi_notice_board.png in Resources */,
 				63F3150B284EC74F001713D2 /* reply_btn_normal.png in Resources */,
@@ -3296,7 +3294,6 @@
 				00FDEAE826B3B6A2006617EE /* Charge.storyboard in Resources */,
 				00A3658D26C4E33100424E40 /* FilterSpeedView.xib in Resources */,
 				73A7B418204E3595002E975F /* reply_count_bg.png in Resources */,
-				525E3A2B278D729600F5C54D /* CommunityBoardTableViewHeader.xib in Resources */,
 				73D65D822362D54000F564A2 /* MembershipTermView.xib in Resources */,
 				00A6A15B26C39F660023DAE3 /* FilterPriceView.xib in Resources */,
 				73A7B413204E3595002E975F /* type_dc_demo_dim.png in Resources */,
@@ -3344,7 +3341,6 @@
 				7357594320916A37008181E9 /* leaf.jpg in Resources */,
 				00A82E42252AB81F00EEBCBF /* PartnershipJoinView.xib in Resources */,
 				52B709D3279928CD006C5706 /* BoardDetailViewController.storyboard in Resources */,
-				525E3A2D278D72C200F5C54D /* BannerCollectionViewCell.xib in Resources */,
 				73A7B41D204E3595002E975F /* type_dc_demo.png in Resources */,
 				73A7B3E4204E3595002E975F /* navi_notice_board.png in Resources */,
 				73A7B3FD204E3595002E975F /* reply_btn_normal.png in Resources */,
@@ -3439,7 +3435,6 @@
 				824D5D4728BDD89C00EDC712 /* Charge.storyboard in Resources */,
 				824D5D4828BDD89C00EDC712 /* FilterSpeedView.xib in Resources */,
 				824D5D4928BDD89C00EDC712 /* reply_count_bg.png in Resources */,
-				824D5D4A28BDD89C00EDC712 /* CommunityBoardTableViewHeader.xib in Resources */,
 				824D5D4B28BDD89C00EDC712 /* MembershipTermView.xib in Resources */,
 				824D5D4C28BDD89C00EDC712 /* FilterPriceView.xib in Resources */,
 				824D5D4D28BDD89C00EDC712 /* type_dc_demo_dim.png in Resources */,
@@ -3484,7 +3479,6 @@
 				824D5D7428BDD89C00EDC712 /* leaf.jpg in Resources */,
 				824D5D7528BDD89C00EDC712 /* PartnershipJoinView.xib in Resources */,
 				824D5D7628BDD89C00EDC712 /* BoardDetailViewController.storyboard in Resources */,
-				824D5D7728BDD89C00EDC712 /* BannerCollectionViewCell.xib in Resources */,
 				824D5D7828BDD89C00EDC712 /* type_dc_demo.png in Resources */,
 				824D5D7928BDD89C00EDC712 /* navi_notice_board.png in Resources */,
 				824D5D7A28BDD89C00EDC712 /* reply_btn_normal.png in Resources */,
@@ -3657,6 +3651,7 @@
 				"${BUILT_PRODUCTS_DIR}/EasyTipView/EasyTipView.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpyTableView/ExpyTableView.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
+				"${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
@@ -3708,6 +3703,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyTipView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpyTableView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSPagerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
@@ -3825,6 +3821,7 @@
 				"${BUILT_PRODUCTS_DIR}/EasyTipView/EasyTipView.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpyTableView/ExpyTableView.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
+				"${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
@@ -3876,6 +3873,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyTipView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpyTableView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSPagerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
@@ -3937,6 +3935,7 @@
 				"${BUILT_PRODUCTS_DIR}/EasyTipView/EasyTipView.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpyTableView/ExpyTableView.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
+				"${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
@@ -3988,6 +3987,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyTipView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpyTableView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSPagerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
@@ -4316,8 +4316,10 @@
 				63F31477284EC74F001713D2 /* Event.swift in Sources */,
 				63F31478284EC74F001713D2 /* BoardTableViewFooter.swift in Sources */,
 				63F31479284EC74F001713D2 /* NoticeTableViewCell.swift in Sources */,
+				82DD57DC28C5D41900C6C55E /* StickButton.swift in Sources */,
 				63F3147A284EC74F001713D2 /* UIAlertController+Extension.swift in Sources */,
 				63F3147B284EC74F001713D2 /* RentalCarCardListView.swift in Sources */,
+				195C4E8328C5CE3F000B47F7 /* BannerPagerView.swift in Sources */,
 				633FF2FF28B342630041BDBB /* Radio.swift in Sources */,
 				63F3147C284EC74F001713D2 /* FilterContainerView.swift in Sources */,
 				63F3147D284EC74F001713D2 /* MemberPartnershipInfo.swift in Sources */,
@@ -4618,8 +4620,10 @@
 				733662CC22EFECB80049AEFE /* Event.swift in Sources */,
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
 				736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */,
+				82DD57DB28C5D41900C6C55E /* StickButton.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController+Extension.swift in Sources */,
 				63DA0A05282E337F0021292C /* RentalCarCardListView.swift in Sources */,
+				195C4E8228C5CE3F000B47F7 /* BannerPagerView.swift in Sources */,
 				633FF2FE28B342630041BDBB /* Radio.swift in Sources */,
 				00A6A16626C3B3DC0023DAE3 /* FilterContainerView.swift in Sources */,
 				00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */,
@@ -4920,8 +4924,10 @@
 				824D5CE328BDD89C00EDC712 /* Event.swift in Sources */,
 				824D5CE428BDD89C00EDC712 /* BoardTableViewFooter.swift in Sources */,
 				824D5CE528BDD89C00EDC712 /* NoticeTableViewCell.swift in Sources */,
+				82DD57DD28C5D41900C6C55E /* StickButton.swift in Sources */,
 				824D5CE628BDD89C00EDC712 /* UIAlertController+Extension.swift in Sources */,
 				824D5CE728BDD89C00EDC712 /* RentalCarCardListView.swift in Sources */,
+				195C4E8428C5CE3F000B47F7 /* BannerPagerView.swift in Sources */,
 				824D5CE828BDD89C00EDC712 /* Radio.swift in Sources */,
 				824D5CE928BDD89C00EDC712 /* FilterContainerView.swift in Sources */,
 				824D5CEA28BDD89C00EDC712 /* MemberPartnershipInfo.swift in Sources */,
@@ -5050,7 +5056,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 08301830;
+				CURRENT_PROJECT_VERSION = 09061919;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5063,7 +5069,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.2;
+				MARKETING_VERSION = 3.7.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -5091,7 +5097,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 08301830;
+				CURRENT_PROJECT_VERSION = 09061919;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5104,7 +5110,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.2;
+				MARKETING_VERSION = 3.7.3;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

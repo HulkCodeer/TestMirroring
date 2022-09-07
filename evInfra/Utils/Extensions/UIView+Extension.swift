@@ -87,6 +87,11 @@ extension NSLayoutConstraint {
 }
 
 @IBDesignable extension UIView {
+    enum GradientColorDirection {
+        case vertical
+        case horizontal
+    }
+    
     // MARK: - Added Stored Property
     @nonobjc static private var isGoneKey  = "isGone"
     @nonobjc static private var aspectRatioConstraintsKey = "aspectRatioConstraints"
@@ -381,14 +386,16 @@ extension NSLayoutConstraint {
         isUserInteractionEnabled = true
     }
     
-    func setGradientColor(startColor: UIColor, endColor: UIColor, startPoint: CGPoint, endPoint: CGPoint) {
+    func setGradientColor(_ colors: [UIColor], locations: [NSNumber] = [0, 1], direction: GradientColorDirection = .vertical, frame: CGRect? = nil) {
         let gradient = CAGradientLayer()
-        gradient.frame = self.bounds
-        gradient.colors = [startColor.cgColor, endColor.cgColor]
-        gradient.startPoint = startPoint
-        gradient.endPoint = endPoint
-        gradient.locations = [0.0, 1.0]
-        self.layer.insertSublayer(gradient, at: 0)
+        gradient.frame = frame ?? self.bounds
+        gradient.colors = colors.map { $0.cgColor }
+        if case .horizontal = direction {
+            gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
+            gradient.endPoint = CGPoint(x: 1.0, y: 0.0)
+        }
+        gradient.locations = locations
+        layer.insertSublayer(gradient, at: 0)
     }
     
     /* The color of the shadow. Defaults to opaque black. Colors created

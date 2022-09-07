@@ -42,7 +42,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         self.allowsSelection = true
         self.autoresizingMask = UIViewAutoresizing.flexibleHeight
         self.separatorStyle = .none
-        self.register(UINib(nibName: "CommunityBoardTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "CommunityBoardTableViewHeader")
+        self.register(CommunityBoardTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "CommunityBoardTableViewHeader")
         if #available(iOS 15.0, *) {
             self.sectionHeaderTopPadding = 0
         }
@@ -162,9 +162,8 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             if #available(iOS 14.0, *) {
                 headerView.backgroundConfiguration?.backgroundColor = UIColor(named: "nt-white")
             }
-            
-            headerView.setupBannerView(categoryType: category)
-            headerView.fetchAds(categoryType: category)
+
+            headerView.configuration(with: category)
             headerView.delegate = self
             
             return headerView
