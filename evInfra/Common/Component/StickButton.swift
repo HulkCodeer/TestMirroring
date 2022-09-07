@@ -12,14 +12,8 @@ import RxSwift
 internal final class StickButton: UIView {
     // MARK: UI
     
-    private lazy var totalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .clear
-    }
-    
-    private lazy var rectBtn = RectButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var totalView = UIView()
+    private lazy var rectBtn = RectButton()
             
     // MARK: VARIABLE
     
@@ -42,9 +36,18 @@ internal final class StickButton: UIView {
     
     init(frame: CGRect, level: RectButton.Const.Level) {
         super.init(frame: frame)
+        
+        self.rectBtn = RectButton(level: level)
+                
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        totalView.addSubview(rectBtn)
+        rectBtn.snp.makeConstraints {
+            $0.leading.top.equalToSuperview().offset(16)
+            $0.trailing.bottom.equalToSuperview().offset(-16)
         }
                         
         rectBtn.rx.tap
@@ -58,6 +61,8 @@ internal final class StickButton: UIView {
                 _backClosure()
             })
             .disposed(by: self.disposebag)
+        
+        totalView.setGradientColor([Colors.backgroundPrimary.color], locations: [0.0, 1.0], direction: .vertical, frame: totalView.bounds)
     }
     
 }
