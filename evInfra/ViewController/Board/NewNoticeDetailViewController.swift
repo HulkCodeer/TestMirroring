@@ -162,19 +162,10 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
             .disposed(by: disposeBag)
         
     }
-    
-    // MARK: Action
-    
-    private func openSafari(url urlSTR: String) {
-        let isFullURL = urlSTR.contains("http://" ) || urlSTR.contains("https://" )
-        let urlString: String = isFullURL ? urlSTR : "http://\(urlSTR)"
-        let url = URL(string: urlString)
-        guard let _url = url  else { return }
-        
-        let safariVC = SFSafariViewController(url: _url)
-        safariVC.modalPresentationStyle = .pageSheet
-        GlobalDefine.shared.mainNavi?.present(safariVC, animated: true)
-    }
+
+}
+
+// MARK: WKNavigationDelegate
 
 extension NewNoticeDetailViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -184,9 +175,38 @@ extension NewNoticeDetailViewController: WKNavigationDelegate {
             decisionHandler(.allow)
             return
         }
-        decisionHandler(.cancel)
         
-        openSafari(url: "\(url)")
+        if let host = url.host, UIApplication.shared.canOpenURL(url),
+           host.hasPrefix("com.soft-berry.ev-infra") {  // deeplink
+            openDeepLink(url: url)
+        } else {
+            openSafari(url: url)
+        }
+        
+        
+        decisionHandler(.cancel)
+    }
+    
+    private func openSafari(url: URL) {
+        let hasHost = url.host != nil
+        let url = hasHost ? url : URL(string: "http://\(url)")
+        guard let _url = url  else { return }
+        
+        let safariVC = SFSafariViewController(url: _url)
+        safariVC.modalPresentationStyle = .pageSheet
+        GlobalDefine.shared.mainNavi?.present(safariVC, animated: true)
+    }
+    
+    private func openDeepLink(url: URL) {
+        if #available(iOS 13.0, *) {
+            DeepLinkPath.sharedInstance.linkPath = url.path
+            if let component = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+                DeepLinkPath.sharedInstance.linkParameter = component.queryItems
+            }
+            DeepLinkPath.sharedInstance.runDeepLink()
+        } else {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
     
 }
