@@ -23,7 +23,7 @@ internal final class NoticeDetailReactor: ViewModel, Reactor {
     
     struct State {
         var title: String = "[공지]"
-        var date: String? = Date().toStringToMinute(data: "yyyy.MM.dd")
+        var date: String? = Date().toYearMonthDay()     // .toString(yyyy.MM.dd)
         var html: String = String()
         
         var isNewNoticeType: Bool?
@@ -69,7 +69,11 @@ internal final class NoticeDetailReactor: ViewModel, Reactor {
             guard 1000 == notice.code else { return nil }
             
             printLog(out: "JsonData : \(notice)")
-            return (notice.title, notice.dateTime, notice.content) as? Contents
+            
+            let date = notice.dateTime.toDate()
+            let dateStr = date?.toYearMonthDay()    // .toString(yyyy.MM.dd)
+                        
+            return (notice.title, dateStr, notice.content) as Contents
             
         case .failure(let errorMessage):
             printLog(out: "Error Message : \(errorMessage)")
