@@ -250,6 +250,11 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                     rowVC.removeFromParentViewController()
                 }
                 
+                rowVC.dimmedViewBtnCompletion = { [weak self] in
+                    guard let self = self else { return }
+                    self.qrReaderView.start()
+                }
+                
                 rowVC.view.frame = GlobalDefine.shared.mainNavi?.view.bounds ?? UIScreen.main.bounds
                 self.addChildViewController(rowVC)
                 self.view.addSubview(rowVC.view)

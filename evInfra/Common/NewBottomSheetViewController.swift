@@ -77,6 +77,7 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
     internal var headerTitleStr: String = ""
     internal var selectedCompletion: ((Int) -> Void)?
     internal var nextBtnCompletion: ((Int) -> Void)?
+    internal var dimmedViewBtnCompletion: (() -> Void)?
     internal var items: [String] = []
     
     private var selectedIndex: Int = -1 {
@@ -168,6 +169,7 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
+                self.dimmedViewBtnCompletion?()
                 self.view.removeFromSuperview()
                 self.removeFromParentViewController()
             })
