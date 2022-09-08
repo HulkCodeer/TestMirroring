@@ -17,11 +17,11 @@ final class NoticeReactor: ViewModel, Reactor {
     }
     
     enum Mutation {
-        case setNotices([NoticeItem])
+        case setNotices([NoticeCellItem])
     }
     
     struct State {
-        var noticeList: [NoticeItem] = []
+        var noticeList: [NoticeSectionModel] = []
     }
     
     internal var initialState: State
@@ -37,6 +37,13 @@ final class NoticeReactor: ViewModel, Reactor {
             return provider.getNoticeList()
                 .convertData()
                 .compactMap(convertToNoticeItem)
+                .map {
+                    return $0.compactMap { item in
+                        guard let id = Int(item.id), let date = item.dateTime.toDate() else { return nil }
+                        let reactor = NoticeCellReactor(noticeID: id)
+                        return NoticeCellItem(reactor: reactor, title: item.title, date: date.toYearMonthDay() )    // .toString(yyyy.MM.dd)
+                    }
+                }
                 .map { return .setNotices($0) }
         }
     }
@@ -46,7 +53,7 @@ final class NoticeReactor: ViewModel, Reactor {
         
         switch mutation {
         case .setNotices(let item):
-            newState.noticeList = item
+            newState.noticeList = [NoticeSectionModel(items: item)]
         }
         
         return newState
@@ -58,7 +65,6 @@ final class NoticeReactor: ViewModel, Reactor {
             let noticeList = try? JSONDecoder().decode(NoticeList.self, from: data)
             guard 1000 == noticeList?.code else { return nil }
             
-            printLog(out: "data: \(String(describing: noticeList))")
             return noticeList?.list
             
         case .failure(let error):

@@ -11,19 +11,38 @@ import WebKit
 
 import Then
 import ReactorKit
+import ReusableKit
 import RxCocoa
+import RxDataSources
 import RxSwift
 import SnapKit
 import WebKit
 
 final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
+    typealias NoticeDataSource = RxTableViewSectionedReloadDataSource<NoticeSectionModel>
+    private enum Reusable {
+        static let noticeListCell = ReusableCell<NewNoticeTableViewCell>()
+    }
+    
     private lazy var customNaviBar = CommonNaviView()
     
     private lazy var noticeTableView = UITableView().then {
-        $0.rowHeight = UITableViewAutomaticDimension //UITableView.automaticDimension
+        $0.register(Reusable.noticeListCell)
+        $0.rowHeight = UITableViewAutomaticDimension 
         $0.estimatedRowHeight = 91
+        $0.isMultipleTouchEnabled = false
+        $0.allowsMultipleSelection = false
+        $0.allowsMultipleSelectionDuringEditing = false
     }
     
+    private let dataSource = NoticeDataSource(configureCell: { dataSource, tableView, indexPath, item in
+        let cell = tableView.dequeue(Reusable.noticeListCell, for: indexPath)
+        cell.configure(title: item.title, date: item.date)
+        cell.reactor = item.reactor
+        
+        return cell
+        
+    })
     
     init(reactor: NoticeReactor) {
         super.init()
@@ -45,23 +64,57 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
             $0.height.equalTo(56)
 //            $0.height.equalTo(Constants.view.naviHeight)
         }
+        
+        noticeTableView.snp.makeConstraints {
+            $0.top.equalTo(customNaviBar.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         super.viewWillAppear(animated)
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
 
     internal func bind(reactor: NoticeReactor) {
-        bindAction(reactor: reactor)
-        bindState(reactor: reactor)
+        Observable.just(NoticeReactor.Action.loadNotices)
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.noticeList }
+            .bind(to: self.noticeTableView.rx.items(dataSource: self.dataSource) )
+            .disposed(by: disposeBag)
     }
     
-    private func bindAction(reactor: NoticeReactor) {
-        
+}
+
+// MARK: - ViewItem, Model
+
+struct NoticeCellItem {
+    let reactor: NoticeCellReactor
+    let title: String
+    let date: String
+}
+
+struct NoticeSectionModel {
+    var noticeList: [NoticeCellItem]
+    
+    init(items: [NoticeCellItem]) {
+        self.noticeList = items
+    }
+}
+
+extension NoticeSectionModel:SectionModelType {
+    typealias Item = NoticeCellItem
+    
+    var items: [NoticeCellItem] {
+        self.noticeList
     }
     
-    private func bindState(reactor: NoticeReactor) {
-        
+    init(original: NoticeSectionModel, items: [Item]) {
+        self = original
+        self.noticeList = items
     }
 }
