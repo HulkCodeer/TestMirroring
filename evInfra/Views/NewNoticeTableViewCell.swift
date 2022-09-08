@@ -9,9 +9,19 @@
 import UIKit
 
 import Then
+import ReactorKit
+import RxCocoa
 import SnapKit
 
-final class NewNoticeTableViewCell: CommonBaseTableViewCell {
+final class NewNoticeTableViewCell: CommonBaseTableViewCell, ReactorKit.View  {
+    var disposeBag = DisposeBag()
+    
+    private let wrappingButton = UIButton()
+    private lazy var contentStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.alignment = .fill
+        $0.spacing = 4
+    }
     
     private lazy var titleLabel = UILabel().then {
         $0.numberOfLines = 2
@@ -23,36 +33,40 @@ final class NewNoticeTableViewCell: CommonBaseTableViewCell {
         $0.textColor = Colors.nt4.color
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.setUI()
-    }
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.setUI()
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        titleLabel.text = String()
+        dateLabel.text = String()
+        disposeBag = DisposeBag()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    internal func bind(reactor: NoticeCellReactor) {
+        wrappingButton.rx.tap
+            .map { _ in NoticeCellReactor.Action.moveDetailView }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
-    private func setUI() {
+    override func makeUI() {
+        contentView.addSubview(contentStackView)
+        
+        contentStackView.addArrangedSubview(titleLabel)
+        contentStackView.addArrangedSubview(dateLabel)
+        
+        contentView.addSubview(wrappingButton)
         
         let verticalMargin: CGFloat = 20
         let horizontalMargin: CGFloat = 16
-        titleLabel.snp.makeConstraints {
+        contentStackView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(verticalMargin)
-            $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
-//            $0.bottom.equalTo(contentView.snp.centerY)
-        }
-        dateLabel.snp.makeConstraints {
-//            $0.top.equalTo(contentView.snp.centerY)
             $0.bottom.equalToSuperview().inset(verticalMargin)
-            $0.leading.trailing.equalTo(titleLabel)
+            $0.leading.trailing.equalTo(horizontalMargin).inset(horizontalMargin)
+        }
+
+        wrappingButton.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
-    
     
     func configure(title: String, date: String) {
         titleLabel.text = title
