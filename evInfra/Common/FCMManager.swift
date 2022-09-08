@@ -234,15 +234,13 @@ internal final class FCMManager {
     func getNoticeData(noticeId: Int) {
         guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
         if let visableControll = _mainNavi.visibleViewController {
-            if visableControll.isKind(of: NoticeContentViewController.self) {
-                let vc = visableControll as! NoticeContentViewController
-                vc.boardId = noticeId
-                vc.viewDidLoad()
-            } else {
-                let ndVC = UIStoryboard(name: "Board", bundle: nil).instantiateViewController(ofType: NoticeContentViewController.self)
-                ndVC.boardId = noticeId
-                _mainNavi.push(viewController: ndVC)
+            if visableControll.isKind(of: NewNoticeDetailViewController.self) {
+                GlobalDefine.shared.mainNavi?.pop()
             }
+            
+            let reactor = NoticeDetailReactor(provider: RestApi(), noticeID: noticeId)
+            let detailVC = NewNoticeDetailViewController(reactor: reactor)
+            GlobalDefine.shared.mainNavi?.push(viewController: detailVC)
         }
     }
     
