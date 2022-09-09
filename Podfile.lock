@@ -9,7 +9,6 @@ PODS:
   - DLRadioButton (1.4.12)
   - DropDown (2.3.13)
   - EasyTipView (2.1.0)
-  - ExpyTableView (1.2.1)
   - Firebase/Analytics (9.3.0):
     - Firebase/Core
   - Firebase/Core (9.3.0):
@@ -235,6 +234,11 @@ PODS:
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
+  - RxCoreLocation (1.5.1):
+    - RxCoreLocation/Core (= 1.5.1)
+  - RxCoreLocation/Core (1.5.1):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
@@ -257,7 +261,6 @@ DEPENDENCIES:
   - DLRadioButton (~> 1.4)
   - DropDown
   - EasyTipView (~> 2.1.0)
-  - ExpyTableView (~> 1.2.1)
   - Firebase/Analytics
   - Firebase/Core
   - Firebase/DynamicLinks
@@ -279,6 +282,7 @@ DEPENDENCIES:
   - ReusableKit (from `https://github.com/devxoul/ReusableKit`, branch `master`)
   - RxAlamofire
   - RxCocoa (= 6.5.0)
+  - RxCoreLocation (from `https://github.com/RxSwiftCommunity/RxCoreLocation.git`, branch `master`)
   - RxSwift (= 6.5.0)
   - SDWebImage/GIF
   - SnapKit (~> 5.0.0)
@@ -298,7 +302,6 @@ SPEC REPOS:
     - DLRadioButton
     - DropDown
     - EasyTipView
-    - ExpyTableView
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -346,11 +349,17 @@ EXTERNAL SOURCES:
   ReusableKit:
     :branch: master
     :git: https://github.com/devxoul/ReusableKit
+  RxCoreLocation:
+    :branch: master
+    :git: https://github.com/RxSwiftCommunity/RxCoreLocation.git
 
 CHECKOUT OPTIONS:
   ReusableKit:
     :commit: 9a5756ba41f7a864ff0738c21876d52b9e67eec7
     :git: https://github.com/devxoul/ReusableKit
+  RxCoreLocation:
+    :commit: 8c4b301640e84c258018a82a105678ae287576a7
+    :git: https://github.com/RxSwiftCommunity/RxCoreLocation.git
 
 SPEC CHECKSUMS:
   Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
@@ -361,7 +370,6 @@ SPEC CHECKSUMS:
   DLRadioButton: d7c4e225ed0e8013cef7be61455230c7557ad7c1
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   EasyTipView: a92b6edc377b81c5ac18e9fd35d5ee78e9409488
-  ExpyTableView: 19cf224c2ff04b1ec215ec52bc4ba6f81fa809ed
   Firebase: ef75abb1cdbc746d5a38f4e26c422c807b189b8c
   FirebaseAnalytics: bf46f5163f44097ce2c789de0b3e6f87f1da834a
   FirebaseCore: c088995ece701a021a48a1348ea0174877de2a6a
@@ -395,6 +403,7 @@ SPEC CHECKSUMS:
   ReusableKit: 6995fa5f7fedb456889f72ca3f8913d21759a45d
   RxAlamofire: beb75a1c452d0de225651db4903f5d29d034a620
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxCoreLocation: 5db05ff830a313466a29e82798d983826b93a2f8
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SDWebImage: 783af2c3fa36291a250030c4752ee370a9a51d13
@@ -406,6 +415,6 @@ SPEC CHECKSUMS:
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 0047d4688053f77604da1cd5ac653680ab7b1dea
+PODFILE CHECKSUM: 5fdefaf0af09fc6b1e07d159be4df7825f2ccf27
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.11.2

@@ -23,7 +23,7 @@ import MiniPlengi
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var appToolbarController: AppToolbarController!
+//    var appToolbarController: AppToolbarController!
     
     let gcmMessageIDKey = "gcm.message_id"
     let fcmManager = FCMManager.sharedInstance
@@ -47,7 +47,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             _ = Plengi.setDelegate(self)
         }
                 
-        if Plengi.getEngineStatus() == .STARTED {
+        printLog(out: "PARK TEST \(Plengi.getEngineStatus())")
+        
+        if Plengi.getEngineStatus() == .STOPPED {
             _ = Plengi.start()
         }
         
@@ -71,11 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setupPushNotification(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
-            
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: {_, _ in })
+                    
         if let notification = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
             fcmManager.fcmNotification = notification
         }
@@ -154,14 +152,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
-    }
-
-    func showStatusBar() {
-        appToolbarController.showStatusBar()
-    }
-    
-    func hideStatusBar() {
-        appToolbarController.hideStatusBar()
     }
 }
 
@@ -307,6 +297,7 @@ extension Notification.Name {
 extension AppDelegate: PlaceDelegate {
     func responsePlaceEvent(_ plengiResponse: PlengiResponse) {
         let plengiResponseData = NSKeyedArchiver.archivedData(withRootObject: plengiResponse)
+        printLog(out: "PARK TEST : \(String(decoding: plengiResponseData, as: UTF8.self))")
         UserDefaults.standard.set(plengiResponseData, forKey: "plengiResponse")
         NotificationCenter.default.post(name: .pr, object: nil)
     }    

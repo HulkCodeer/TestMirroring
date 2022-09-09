@@ -94,10 +94,9 @@ internal final class MainViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                        
         configureLayer()
-        configureNaverMapView()
-        configureLocationManager()
+        configureNaverMapView()        
         showMarketingPopup()
         
         prepareRouteField()
@@ -360,12 +359,7 @@ internal final class MainViewController: UIViewController {
         }
         
         AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: nil) // 앰플리튜드 로깅
-    }
-    
-    private func configureLocationManager() {
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-    }
+    }        
 }
 
 extension MainViewController: CLLocationManagerDelegate {
@@ -1013,7 +1007,8 @@ extension MainViewController {
         
         DispatchQueue.main.async {
             self.markerIndicator.startAnimating()
-            self.appDelegate.appToolbarController.toolbar.isUserInteractionEnabled = false
+            guard let _toolbar = self.toolbarController, _toolbar is AppToolbarController else { return }
+            _toolbar.toolbar.isUserInteractionEnabled = false
         }
         
         ChargerManager.sharedInstance.getStations { [weak self] in
@@ -1025,7 +1020,8 @@ extension MainViewController {
             
             DispatchQueue.main.async {
                 self?.markerIndicator.stopAnimating()
-                self?.appDelegate.appToolbarController.toolbar.isUserInteractionEnabled = true
+                guard let _toolbar = self?.toolbarController, _toolbar is AppToolbarController else { return }
+                _toolbar.toolbar.isUserInteractionEnabled = true
                 
                 if let chargerId = GlobalDefine.shared.sharedChargerIdFromDynamicLink {
                     self?.sharedChargerId = chargerId
@@ -1367,7 +1363,8 @@ extension MainViewController {
     
     private func menuBadgeAdd() {
         let hasBadge = Board.sharedInstance.hasNew() || UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT)
-        appDelegate.appToolbarController.setMenuIcon(hasBadge: hasBadge)
+        guard let _toolbar = self.toolbarController, let _appToolbar = _toolbar as? AppToolbarController else { return }
+        _appToolbar.setMenuIcon(hasBadge: hasBadge)
     }
     
     private func prepareClustering() {

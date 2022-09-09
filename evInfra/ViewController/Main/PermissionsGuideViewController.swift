@@ -6,7 +6,6 @@
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 
-import Foundation
 import ReactorKit
 
 internal final class PermissionsGuideViewController: CommonBaseViewController, StoryboardView {
@@ -16,19 +15,19 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         
         internal var title: String {
             switch self {
-            case .location: return "위치 동의(선택)"
+            case .location: return "위치 동의"
             }
         }
         
         internal var description: String {
             switch self {
-            case .location: return "내 현재 위치를 기준으로 주변 충전소 찾기,\n충전소 경로 안내, 근처의 혜택 정보 및\n광고 제공을 위한 필수 정보로 활용됩니다."
+            case .location: return "내 현재 위치를 기준으로 주변 충전소 찾기, 충전소 경로 안내, 근처의 혜택 정보 및 광고 제공을 위한 필수 정보로 활용됩니다."
             }
         }
         
         internal var typeImage: UIImage {
             switch self {
-            case .location: return Icons.iconCurrentLocationMd.image
+            case .location: return Icons.iconMapMd.image
             }
         }
     }
@@ -63,7 +62,9 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         $0.spacing = 24
     }
     
-    private lazy var nextBtn = StickButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80), level: .primary)
+    private lazy var nextBtn = StickButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80), level: .primary).then {
+        $0.rectBtn.setTitle("권한 동의하기", for: .normal)
+    }
     
     // MARK: SYSTEM FUNC
     
@@ -87,7 +88,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
             $0.top.equalTo(naviTotalView.snp.bottom).offset(16)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(nextBtn.snp.top)
         }
         
         self.totalView.addSubview(mainTitleLbl)
@@ -188,6 +189,36 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     }
     
     internal func bind(reactor: PermissionsGuideReactor) {
-        
+        nextBtn.rectBtn.rx.tap
+            .asDriver()
+            .drive(onNext: {
+                let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+                UNUserNotificationCenter.current().requestAuthorization(
+                    options: authOptions,
+                    completionHandler: {_, _ in })
+                
+                
+                LocationWorker.shared.locationStatusObservable
+                    .take(1)
+                    .subscribe(onNext: { status in
+                        switch status {
+                        case .authorizedAlways, .authorizedWhenInUse:
+                            LocationWorker.shared.fetchLocation()
+                            
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            let mainViewController = storyboard.instantiateViewController(ofType: MainViewController.self)
+                            let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
+                            
+                            let appToolbarController = AppToolbarController(rootViewController: mainViewController)
+                            appToolbarController.delegate = mainViewController
+                            let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewController)
+                            GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+                            
+                        default: break
+                        }
+                    })
+                    .disposed(by: self.disposeBag)
+            })
+            .disposed(by: self.disposeBag)
     }
 }

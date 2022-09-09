@@ -11,7 +11,7 @@ import ReactorKit
 
 internal final class PermissionsGuideReactor: ViewModel, Reactor {
     enum Action {
-        case runningQRReaderView
+        case requestLocation
     }
     
     enum Mutation {
@@ -31,7 +31,7 @@ internal final class PermissionsGuideReactor: ViewModel, Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .runningQRReaderView:
+        case .requestLocation:            
             return .just(.setRunnigQRReaderView(false))
         }
     }
