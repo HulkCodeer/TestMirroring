@@ -59,6 +59,7 @@ def shared_pods
   
   # 로플랫
   pod 'MiniPlengi', '1.4.2.2'
+#  pod 'TEST-MiniPlengi', '1.4.2.2'
   
   # Keychain
   pod 'KeychainSwift', '~> 13.0'      # For keychain

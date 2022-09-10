@@ -42,6 +42,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 DeepLinkPath.sharedInstance.runDeepLink()
             default: break
             }
+        } else {
+            self.processToDeeplink(connectionOptions.urlContexts.first?.url.absoluteString ?? "", isSave: true)
         }
         
         setupEntryController(scene)
@@ -53,7 +55,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Dynamic Link
         self.handleUserActivity(userActivity: userActivity)
     }
-    
+            
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         // kakao auto login
         guard let _urlContentx = URLContexts.first else { return }
@@ -80,6 +82,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let deepLinkStr: String = url.absoluteString
         if !deepLinkStr.isEmpty {
             printLog(out: "DeepLink URL : \(deepLinkStr)")
+            self.processToDeeplink(deepLinkStr)
+        }
+    }
+    
+    private func processToDeeplink(_ deepLinkStr: String, isSave: Bool = false) {
+        if isSave {
+            GlobalDefine.shared.tempDeepLink = deepLinkStr
+        } else {
             DeepLinkModel.shared.openSchemeURL(urlstring: deepLinkStr)
         }
     }

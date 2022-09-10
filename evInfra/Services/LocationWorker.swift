@@ -40,7 +40,7 @@ internal final class LocationWorker: NSObject {
     override private init() {
         self.locationManager = {
             $0.desiredAccuracy = kCLLocationAccuracyBest
-            $0.requestWhenInUseAuthorization()            
+            $0.requestAlwaysAuthorization()
             return $0
         }(CLLocationManager())
         super.init()

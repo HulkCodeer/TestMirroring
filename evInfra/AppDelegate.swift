@@ -23,21 +23,16 @@ import MiniPlengi
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-//    var appToolbarController: AppToolbarController!
     
     let gcmMessageIDKey = "gcm.message_id"
     let fcmManager = FCMManager.sharedInstance
     var chargingStatusPayload: [AnyHashable: Any]? = nil
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        print("application:didFinishLaunchingWithOptions:options")
+        printLog(out: "application:didFinishLaunchingWithOptions:options")
         FirebaseApp.configure()
         NMFAuthManager.shared().clientId = Const.NAVER_MAP_KEY
-        
-        if #available(iOS 13.0, *) { // SceneDelegate
-        } else {
-            setupEntryController()
-        }
+                
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
         
         // 로플랫 관련 코드
@@ -45,29 +40,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                        clientSecret: "zeroone)Q@Eh(4",
                              echoCode: "\(MemberManager.shared.mbId)") == .SUCCESS {
             _ = Plengi.setDelegate(self)
-        }
-                
-        printLog(out: "PARK TEST \(Plengi.getEngineStatus())")
-        
-        if Plengi.getEngineStatus() == .STOPPED {
             _ = Plengi.start()
         }
-        
+                                
+        if Plengi.getEngineStatus() == .STARTED {
+            _ = Plengi.start()
+        }
+                        
         // 앰플리튜드 설정
         UIViewController.swizzleMethod()
         
+        #if DEBUG
+        // terminating with uncaught exception of type NSException 에러시 CallStack을 찍어준다.
+        NSSetUncaughtExceptionHandler { exception in
+            let exceptionStr = exception.callStackSymbols.reduce("\n\(exception)\n") { exceptionStr, callStackSymbol -> String in
+                "\(exceptionStr)\(callStackSymbol)\n"
+            }
+            printLog(out: exceptionStr)
+        }
+        #endif
+        
         return true
-    }
-    
-    private func setupEntryController() {
-        let introViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(ofType: IntroViewController.self)
-            
-        window = UIWindow(frame: Screen.bounds)
-        let navigationController = AppNavigationController(rootViewController: introViewController)
-        GlobalDefine.shared.mainNavi = navigationController
-        navigationController.navigationBar.isHidden = true
-        window!.rootViewController = navigationController
-        window!.makeKeyAndVisible()
     }
     
     func setupPushNotification(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
@@ -216,6 +209,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         completionHandler()
     }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        // 로플랫 관련 코드
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "processAdvertisement"), object: nil) // SDK 내부 이벤트 호출 (정확한 처리를 위해 권장)
+    }
 }
 
 extension AppDelegate : MessagingDelegate {
@@ -293,14 +291,8 @@ extension AppDelegate {
     }
 }
 
-extension Notification.Name {
-    public static let pr = NSNotification.Name("plengiResponse")
-}
-
 extension AppDelegate: PlaceDelegate {
     func responsePlaceEvent(_ plengiResponse: PlengiResponse) {
-        let plengiResponseData = NSKeyedArchiver.archivedData(withRootObject: plengiResponse)        
-        UserDefaults.standard.set(plengiResponseData, forKey: "plengiResponse")
-        NotificationCenter.default.post(name: .pr, object: nil)
-    }    
+        printLog(out: "PARK TEST PlaceDelegate")
+    }
 }

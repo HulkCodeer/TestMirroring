@@ -10,7 +10,7 @@ import ReactorKit
 import SwiftyJSON
 
 internal final class MainReactor: ViewModel, Reactor {
-    enum Action {
+    enum Action {        
         case showMarketingPopup
         case setAgreeMarketing(Bool)
     }
@@ -26,6 +26,7 @@ internal final class MainReactor: ViewModel, Reactor {
     }
     
     internal var initialState: State
+    internal var isMainProcess: Bool = false
 
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -36,6 +37,7 @@ internal final class MainReactor: ViewModel, Reactor {
         switch action {
         case .showMarketingPopup:
             let isShowMarketingPopup = UserDefault().readBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP)
+            self.isMainProcess = true
             if !isShowMarketingPopup {
                 return .just(.setShowMarketingPopup(true))
             } else {
@@ -49,7 +51,6 @@ internal final class MainReactor: ViewModel, Reactor {
                 .map { isShowStartBanner in
                     return .setShowStartBanner(isShowStartBanner)
                 }
-                        
         }
     }
     

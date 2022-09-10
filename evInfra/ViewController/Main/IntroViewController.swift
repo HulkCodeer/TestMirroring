@@ -157,7 +157,6 @@ internal final class IntroViewController: UIViewController {
                     }
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        
                         CLLocationManager().rx
                             .status
                             .debug()
@@ -165,8 +164,7 @@ internal final class IntroViewController: UIViewController {
                                 switch status {
                                 case .denied, .notDetermined:
                                     if !MemberManager.shared.isFirstInstall {
-                                        obj.movePerminssonsGuideView()
-                                        MemberManager.shared.isFirstInstall = true
+                                        obj.movePerminssonsGuideView()                                        
                                     } else {
                                         obj.moveMainView()
                                     }
@@ -187,7 +185,9 @@ internal final class IntroViewController: UIViewController {
     
     private func moveMainView() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let reactor = MainReactor(provider: RestApi())
         let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
+        mainViewcon.reactor = reactor
         let letfViewcon = storyboard.instantiateViewController(ofType: LeftViewController.self)
         
         let appToolbarController = AppToolbarController(rootViewController: mainViewcon)

@@ -130,6 +130,15 @@ internal final class MainViewController: UIViewController, StoryboardView {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         AmplitudeManager.shared.logEvent(type: .map(.viewMainPage), property: nil) // 앰플리튜드 로깅
+        
+        if !GlobalDefine.shared.tempDeepLink.isEmpty {
+            DeepLinkModel.shared.openSchemeURL(urlstring: GlobalDefine.shared.tempDeepLink)            
+        } else {
+            guard let _reactor = self.reactor else { return }
+            Observable.just(MainReactor.Action.showMarketingPopup)
+                .bind(to: _reactor.action)
+                .disposed(by: self.disposeBag)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -178,10 +187,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // MARK: REACTORKIT
     
     internal func bind(reactor: MainReactor) {
-        Observable.just(MainReactor.Action.showMarketingPopup)
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
-        
+        if GlobalDefine.shared.tempDeepLink.isEmpty {
+            Observable.just(MainReactor.Action.showMarketingPopup)
+                .bind(to: reactor.action)
+                .disposed(by: self.disposeBag)
+        }
+                
         reactor.state.compactMap { $0.isShowMarketingPopup }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, _ in
@@ -202,19 +213,19 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         reactor.state.compactMap { $0.isShowStartBanner }
             .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, _ in
-                let viewcon = StartBannerViewController(reactor: GlobalAdsReactor.sharedInstance)
+            .drive(with: self) { obj, _ in                
                 GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
                     .asDriver(onErrorJustReturn: AdsInfo(JSON.null))
                     .drive(onNext: { adInfo in
                         let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
                         var components = DateComponents()
-                        components.day = -6
+                        components.day = -7
                         let keepDate = keepDateStr.isEmpty ? Calendar.current.date(byAdding: components, to: Date()) : Date().toDate(data: keepDateStr)
                                    
                         guard let _keepDate = keepDate else { return }
                         let difference = Calendar.current.dateComponents([.day], from: _keepDate, to: Date())
                         if let day = difference.day, day > 6 {
+                            let viewcon = StartBannerViewController(reactor: GlobalAdsReactor.sharedInstance)
                             GlobalDefine.shared.mainNavi?.present(viewcon, animated: false, completion: nil)
                         }
                     })

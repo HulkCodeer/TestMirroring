@@ -193,18 +193,19 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
             .asDriver()
             .drive(onNext: {
                 LocationWorker.shared.locationStatusObservable
-                    .subscribe(onNext: { status in
-                        printLog(out: "PARK TEST status : \(status)")
+                    .subscribe(onNext: { status in                        
                         switch status {
                         case .authorizedAlways, .authorizedWhenInUse:
                             LocationWorker.shared.fetchLocation()
                                                         
-                            GlobalFunctionSwift.showPopup(title: "위치 권한을 항상 허용으로\n변경해주세요.", message: "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요.", confirmBtnTitle: "항상 허용하기", confirmBtnAction: {
+                            GlobalFunctionSwift.showPopup(title: "위치 권한을 항상 허용으로\n변경해주세요.", message: "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요.", confirmBtnTitle: "항상 허용하기", confirmBtnAction: { [weak self] in
+                                guard let self = self else { return }
                                 if let url = URL(string: UIApplicationOpenSettingsURLString) {
                                     if UIApplication.shared.canOpenURL(url) {
                                         UIApplication.shared.open(url, options: [:], completionHandler: nil)
                                     }
                                 }
+                                self.moveMainViewcon()
                             }, cancelBtnTitle: "유지하기", cancelBtnAction: { [weak self] in
                                 guard let self = self else { return }
                                 self.moveMainViewcon()
@@ -220,12 +221,15 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     }
     
     private func moveMainViewcon() {
+        MemberManager.shared.isFirstInstall = true
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let mainViewController = storyboard.instantiateViewController(ofType: MainViewController.self)
+        let reactor = MainReactor(provider: RestApi())
+        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
+        mainViewcon.reactor = reactor
         let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
         
-        let appToolbarController = AppToolbarController(rootViewController: mainViewController)
-        appToolbarController.delegate = mainViewController
+        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
+        appToolbarController.delegate = mainViewcon
         let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewController)
         GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
     }
