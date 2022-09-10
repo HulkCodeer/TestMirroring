@@ -29,6 +29,7 @@ protocol SoftberryAPI: class {
     func postPaymentStatus() -> Observable<(HTTPURLResponse, Data)>
     func postChargingQR(qrCode: String, typeId: Int) -> Observable<(HTTPURLResponse, Data)>
     func postChargingQR(qrCode: String, typeId: Int, tc: String) -> Observable<(HTTPURLResponse, Data)>
+    func postUpdateMarketingNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -193,5 +194,13 @@ internal final class RestApi: SoftberryAPI {
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/charger/v2/app_charging/qr", httpMethod: .post, parameters: reqParam, headers: nil)
     }
     
-    
+    // MARK: - 마켓팅 동의/비동의
+    func postUpdateMarketingNotificationState(state: Bool) -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "member_id": MemberManager.shared.memberId,
+            "receive_push": state
+        ]
+                        
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/user/setMarketingNotification", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
 }

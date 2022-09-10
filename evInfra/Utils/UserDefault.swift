@@ -10,23 +10,13 @@ import Foundation
 import SwiftyJSON
 class UserDefault {
     struct Key {
-        // 안드로이드에 있으나 iOS에 없는 key
-//        public static final String KEY_APP_VERSION  = "appVersion";
-//        public static final String KEY_DB_VERSION   = "db_version";
-//
-//        public static final String KEY_SETTINGS_ENABLE_CLUSTERING = "enable_clustering";
-//        public static final String KEY_SETTINGS_CLUSTERING_ZOOM = "clustering_zoom";
-
-        // 앱 버젼
-        static let KEY_APP_VERSION  = "appVersion"
         
-        // 사용자 정보
-        static let MEMBER_ID        = "member_id"
-        
+        static let KEY_APP_VERSION  = "appVersion" // 앱 버젼
         static let COMPANY_ICON_UPDATE_DATE = "company_icon_update_date"
         static let COMPANY_ICON_IMAGE_PATH_VERSION = "company_icon_image_path_version"
         
         // 회원 정보
+        static let MEMBER_ID        = "member_id" // 사용자 정보
         static let MB_ID            = "mb_id"       // 회원 id
         static let MB_LEVEL         = "mb_level"
         static let MB_USER_ID       = "mb_user_id"  // user id
@@ -103,15 +93,11 @@ class UserDefault {
         
         // 마케팅 팝업을 이미 보여줬는지 체크
         static let DID_SHOW_MARKETING_POPUP = "app_first_boot" // false : first booting
-                        
-        // 광고 - 일주일동안 보지 않기 선택한 날짜
-        static let AD_KEEP_DATE_FOR_A_WEEK = "ad_keep_date_for_a_week"
+        static let AD_KEEP_DATE_FOR_A_WEEK = "ad_keep_date_for_a_week" // 광고 - 일주일동안 보지 않기 선택한 날짜
+        static let RECENT_KEYWORD = "keywords" // 게시글 검색 최근검색어
+        static let IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP = "isDeleveryComplete" // 배송완료 툴팁 저장
         
-        // 게시글 검색 최근검색어
-        static let RECENT_KEYWORD = "keywords"
-        
-        // 배송완료 툴팁 저장
-        static let IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP = "isDeleveryComplete"
+        static let IS_FIRST_INSTALL = "is_first_install" // 앱 최초 설치인지 확인용        
     }
 
     func saveString(key:String, value: String) -> Void {

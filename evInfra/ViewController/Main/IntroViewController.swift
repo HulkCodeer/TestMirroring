@@ -156,24 +156,50 @@ internal final class IntroViewController: UIViewController {
                         Board.sharedInstance.brdNewInfo.append(boardNewInfo)
                     }
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {                        
-                        let reactor = PermissionsGuideReactor(provider: RestApi())
-                        let viewcon = PermissionsGuideViewController(reactor: reactor)
-                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         
-                                                
-//                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//                        let mainViewController = storyboard.instantiateViewController(ofType: MainViewController.self)
-//                        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
-//                        self.appDelegate.appToolbarController = AppToolbarController(rootViewController: mainViewController)
-//                        self.appDelegate.appToolbarController.delegate = mainViewController
-//                        let ndController = AppNavigationDrawerController(rootViewController: self.appDelegate.appToolbarController, leftViewController: leftViewController)
-//                        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+                        CLLocationManager().rx
+                            .status
+                            .debug()
+                            .subscribe(with: self) { obj ,status in
+                                switch status {
+                                case .denied, .notDetermined:
+                                    if !MemberManager.shared.isFirstInstall {
+                                        obj.movePerminssonsGuideView()
+                                        MemberManager.shared.isFirstInstall = true
+                                    } else {
+                                        obj.moveMainView()
+                                    }
+                                                                                                        
+                                case .authorizedAlways, .authorizedWhenInUse:
+                                    obj.moveMainView()
+                                    
+                                case .restricted: break
+                                }
+                            }
+                            .disposed(by: self.disposeBag)
                     }
                 }
                 
             }
         }
+    }
+    
+    private func moveMainView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
+        let letfViewcon = storyboard.instantiateViewController(ofType: LeftViewController.self)
+        
+        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
+        appToolbarController.delegate = mainViewcon
+        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: letfViewcon)
+        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+    }
+    
+    private func movePerminssonsGuideView() {
+        let reactor = PermissionsGuideReactor(provider: RestApi())
+        let viewcon = PermissionsGuideViewController(reactor: reactor)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
 }
 

@@ -191,6 +191,15 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.MB_PAYMENT)
         }
     }
+        
+    internal var isFirstInstall: Bool {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_INSTALL, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_INSTALL)
+        }
+    }
     
     // 로그인 상태 체크
     internal var isLogin: Bool {

@@ -73,7 +73,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setupPushNotification(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
-                    
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: {_, _ in })
         if let notification = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
             fcmManager.fcmNotification = notification
         }
@@ -296,8 +299,7 @@ extension Notification.Name {
 
 extension AppDelegate: PlaceDelegate {
     func responsePlaceEvent(_ plengiResponse: PlengiResponse) {
-        let plengiResponseData = NSKeyedArchiver.archivedData(withRootObject: plengiResponse)
-        printLog(out: "PARK TEST : \(String(decoding: plengiResponseData, as: UTF8.self))")
+        let plengiResponseData = NSKeyedArchiver.archivedData(withRootObject: plengiResponse)        
         UserDefaults.standard.set(plengiResponseData, forKey: "plengiResponse")
         NotificationCenter.default.post(name: .pr, object: nil)
     }    

@@ -76,8 +76,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             default: break
             }
         }
-        
-        if url.absoluteString.hasPrefix("evinfra") {}
+                
+        let deepLinkStr: String = url.absoluteString
+        if !deepLinkStr.isEmpty {
+            printLog(out: "DeepLink URL : \(deepLinkStr)")
+            DeepLinkModel.shared.openSchemeURL(urlstring: deepLinkStr)
+        }
     }
     
     private func setupEntryController(_ scene: UIScene) {

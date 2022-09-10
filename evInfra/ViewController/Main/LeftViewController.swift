@@ -543,7 +543,7 @@ extension LeftViewController {
             case SUB_MENU_FAQ: // 자주묻는 질문
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let termsVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-                termsVC.tabIndex = .FAQTop
+                termsVC.tabIndex = .faqTop
                 GlobalDefine.shared.mainNavi?.push(viewController: termsVC)
             
             case SUB_MENU_SERVICE_GUIDE:

@@ -18,14 +18,18 @@ internal final class DeepLinkModel: NSObject {
     enum DeepLinkType: CaseIterable {
         case faqPayment
         case faqDetail
+        case eventDetail // 이벤트 상세 바로가기
                 
-        var rawValue: (deepLinkUrl: String, isLogin: Bool) {
+        var toValue: (deepLinkUrl: String, isLogin: Bool) {
             switch self {
             case .faqPayment:
                 return ("faq_payment", true)
                 
             case .faqDetail:
                 return ("faq_detail", true)
+                
+            case .eventDetail:
+                return ("event_detail", false)
             }
         }
     }
@@ -36,20 +40,33 @@ internal final class DeepLinkModel: NSObject {
               let _queryItems = urlComponents.queryItems else { return }
         
         if _queryItems.contains(where: { item in
-            return DeepLinkType.allCases.contains(where: { $0.rawValue.deepLinkUrl == item.name })
+            return DeepLinkType.allCases.contains(where: { $0.toValue.deepLinkUrl == item.name })
         }) {
             let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
             let termsViewControll = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
                 
             switch _queryItems[0].name {
-            case "faq_payment":
-                termsViewControll.tabIndex = .FAQTop
+            case DeepLinkType.faqPayment.toValue.deepLinkUrl:
+                termsViewControll.tabIndex = .faqTop
                 
-            case "faq_detail":
-                termsViewControll.tabIndex = .FAQDetail
+            case DeepLinkType.faqDetail.toValue.deepLinkUrl:
+                termsViewControll.tabIndex = .faqDetail
                 guard let _queryParam = _queryItems["faq_detail"] else { return }
                 termsViewControll.subURL = "type=\(_queryParam)"
                 
+            case DeepLinkType.eventDetail.toValue.deepLinkUrl:
+                let viewcon = NewEventDetailViewController()
+                
+                if let _eventDetailUrl = _queryItems["event_detail"] {
+                    viewcon.eventUrl = _eventDetailUrl
+                }
+                
+                if let _title = _queryItems["title"] {
+                    viewcon.naviTitle = _title
+                }
+                
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                                                
             default: break
             }
             GlobalDefine.shared.mainNavi?.push(viewController: termsViewControll)

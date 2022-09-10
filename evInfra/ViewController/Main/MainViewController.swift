@@ -17,8 +17,9 @@ import RxSwift
 import RxCocoa
 import EasyTipView
 import AVFoundation
+import ReactorKit
 
-internal final class MainViewController: UIViewController {
+internal final class MainViewController: UIViewController, StoryboardView {
     
     // constant
     let ROUTE_START = 0
@@ -85,7 +86,7 @@ internal final class MainViewController: UIViewController {
     private var canIgnoreJejuPush = true
     
     private var summaryView: SummaryView!
-    private var disposeBag = DisposeBag()
+    internal var disposeBag = DisposeBag()
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -96,8 +97,7 @@ internal final class MainViewController: UIViewController {
         super.viewDidLoad()
                         
         configureLayer()
-        configureNaverMapView()        
-        showMarketingPopup()
+        configureNaverMapView()                
         
         prepareRouteField()
         preparePOIResultView()
@@ -113,7 +113,18 @@ internal final class MainViewController: UIViewController {
         prepareChargePrice()
         requestStationInfo()
         
-        prepareCalloutLayer()                
+        prepareCalloutLayer()
+        
+        LocationWorker.shared.locationStatusObservable
+            .subscribe(onNext: { status in
+                switch status {
+                case .authorizedAlways, .authorizedWhenInUse:
+                    self.naverMapView.moveToCurrentPostiion()
+                                    
+                default: break
+                }
+            })
+            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -164,10 +175,56 @@ internal final class MainViewController: UIViewController {
         MemberManager.shared.isShowQrTooltip = true
     }
     
-    private func showDeepLink() {
-        DeepLinkPath.sharedInstance.runDeepLink()
+    // MARK: REACTORKIT
+    
+    internal func bind(reactor: MainReactor) {
+        Observable.just(MainReactor.Action.showMarketingPopup)
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.isShowMarketingPopup }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { obj, _ in
+                GlobalFunctionSwift.showPopup(title: "더 나은 충전 생활 안내를 위해 동의가 필요해요.", message: "EV Infra는 사용자님을 위해 도움되는 혜택 정보를 보내기 위해 노력합니다. 무분별한 광고 알림을 보내지 않으니 안심하세요!\n마케팅 수신 동의 변경은 설정 > 마케팅 정보 수신 동의에서 철회 가능합니다.", confirmBtnTitle: "동의하기", confirmBtnAction: { [weak self] in
+                    guard let self = self else { return }
+                    Observable.just(MainReactor.Action.setAgreeMarketing(true))
+                        .bind(to: reactor.action)
+                        .disposed(by: self.disposeBag)
+                    
+                }, cancelBtnTitle: "다음에", cancelBtnAction: { [weak self] in
+                    guard let self = self else { return }
+                    Observable.just(MainReactor.Action.setAgreeMarketing(false))
+                        .bind(to: reactor.action)
+                        .disposed(by: self.disposeBag)
+                })                                    
+            }
+            .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.isShowStartBanner }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { obj, _ in
+                let viewcon = StartBannerViewController(reactor: GlobalAdsReactor.sharedInstance)
+                GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
+                    .asDriver(onErrorJustReturn: AdsInfo(JSON.null))
+                    .drive(onNext: { adInfo in
+                        let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
+                        var components = DateComponents()
+                        components.day = -6
+                        let keepDate = keepDateStr.isEmpty ? Calendar.current.date(byAdding: components, to: Date()) : Date().toDate(data: keepDateStr)
+                                   
+                        guard let _keepDate = keepDate else { return }
+                        let difference = Calendar.current.dateComponents([.day], from: _keepDate, to: Date())
+                        if let day = difference.day, day > 6 {
+                            GlobalDefine.shared.mainNavi?.present(viewcon, animated: false, completion: nil)
+                        }
+                    })
+                    .disposed(by: self.disposeBag)
+            }
+            .disposed(by: self.disposeBag)
     }
     
+    // MARK: FUNC
+            
     // Filter
     private func prepareFilterView() {
         filterBarView.delegate = self
@@ -315,24 +372,35 @@ internal final class MainViewController: UIViewController {
     // MARK: - Action for button
     
     @IBAction func onClickMyLocation(_ sender: UIButton) {
-        guard isLocationEnabled() else {
-            askPermission()
-            return
+        let locationServiceEnabled = CLLocationManager.locationServicesEnabled()
+        if !locationServiceEnabled {
+            switch CLLocationManager.authorizationStatus() {
+            case .notDetermined, .restricted, .denied:
+                GlobalFunctionSwift.showPopup(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 기능을 이용하시려면 모든 권한을 허용해 주십시오.\n[설정] > [EV Infra] 에서 권한을 허용할 수 있습니다.", confirmBtnTitle: "설정하기", confirmBtnAction: {
+                    if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                        }
+                    }
+                }, cancelBtnTitle: "확인")
+                
+            default: break
+            }
+        } else {
+            switch mapView.positionMode {
+            case .normal:
+                mapView.positionMode = .direction
+            case .direction:
+                mapView.positionMode = .compass
+            case .compass:
+                mapView.positionMode = .direction
+            default: break
+            }
+            
+            updateMyLocationButton()
+            
+            AmplitudeManager.shared.logEvent(type: .map(.clickMyLocation), property: nil) // 앰플리튜드 로깅
         }
-        
-        switch mapView.positionMode {
-        case .normal:
-            mapView.positionMode = .direction
-        case .direction:
-            mapView.positionMode = .compass
-        case .compass:
-            mapView.positionMode = .direction
-        default: break
-        }
-        
-        updateMyLocationButton()
-        
-        AmplitudeManager.shared.logEvent(type: .map(.clickMyLocation), property: nil) // 앰플리튜드 로깅
     }
     
     @IBAction func onClickRenewBtn(_ sender: UIButton) {
@@ -360,27 +428,6 @@ internal final class MainViewController: UIViewController {
         
         AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: nil) // 앰플리튜드 로깅
     }        
-}
-
-extension MainViewController: CLLocationManagerDelegate {
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        var status: CLAuthorizationStatus = .authorizedWhenInUse
-        if #available(iOS 14.0, *) {
-            status = manager.authorizationStatus
-        } else {
-            // Fallback on earlier versions
-        }
-        
-        switch status {
-        case .notDetermined, .restricted:
-            break
-        case .denied:
-            break
-        case .authorizedAlways, .authorizedWhenInUse, .authorized:
-            self.naverMapView.moveToCurrentPostiion()
-            break
-        }
-    }
 }
 
 extension MainViewController: DelegateChargerFilterView {
@@ -1036,7 +1083,7 @@ extension MainViewController {
                 CBT.checkCBT(vc: self!)
             }
             
-            self?.showDeepLink()
+            DeepLinkPath.sharedInstance.runDeepLink()
         }
     }
     
@@ -1217,39 +1264,7 @@ extension MainViewController {
             }
         }
     }
-    
-    private func isLocationEnabled() -> Bool {
-        var enabled: Bool = false
-        if CLLocationManager.locationServicesEnabled() {
-            switch CLLocationManager.authorizationStatus() {
-            case .authorizedAlways, .authorizedWhenInUse:
-                enabled = true
-                break
-            case .notDetermined, .restricted, .denied:
-                break
-            }
-        }
-        return enabled
-    }
-    
-    private func askPermission(){
-        let alertController = UIAlertController(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 기능을 이용하시려면 모든 권한을 허용해 주십시오.\n[설정] > [EV Infra] 에서 권한을 허용할 수 있습니다.", preferredStyle: UIAlertControllerStyle.alert)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        
-        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertActionStyle.default) { (action) in
-            if let url = URL(string: UIApplicationOpenSettingsURLString) {
-                if UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
-            }
-        }
-        alertController.addAction(openAction)
-        
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
+                
     private func myLocationModeOff() {
         mapView.positionMode = .normal
         myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
@@ -1276,85 +1291,7 @@ extension MainViewController {
             }
         }
     }
-    
-    // MARK: - 시작광고배너 보여주기
-    private func showStartAd() {    
-        let startBannerViewController = StartBannerViewController(reactor: GlobalAdsReactor.sharedInstance)
-
-        GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
-            .asDriver(onErrorJustReturn: AdsInfo(JSON.null))
-            .drive(onNext: { adInfo in
-                let keepDateStr = UserDefault().readString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    if keepDateStr.isEmpty {
-                        GlobalDefine.shared.mainNavi?.present(startBannerViewController, animated: false, completion: nil)
-                    } else {
-                        if let keepDate = Date().toDate(data: keepDateStr) {
-                            let difference = Calendar.current.dateComponents([.day], from: keepDate, to: Date())
-                            if let day = difference.day, day > 6 {
-                                GlobalDefine.shared.mainNavi?.present(startBannerViewController, animated: false, completion: nil)
-                            }
-                        }
-                    }
-                }
-            })
-            .disposed(by: self.disposeBag)
-    }
-    
-    private func showMarketingPopup() {
-        let didShowMarketingPopup = UserDefault().readBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP)
-        
-        if !didShowMarketingPopup {
-            let popupModel = PopupModel(title: "더 나은 충전 생활 안내를 위해 동의가 필요해요.",
-                                        message:"EV Infra는 사용자님을 위해 도움되는 혜택 정보를 보내기 위해 노력합니다. 무분별한 광고 알림을 보내지 않으니 안심하세요!\n마케팅 수신 동의 변경은 설정 > 마케팅 정보 수신 동의에서 철회 가능합니다.",
-                                        confirmBtnTitle: "동의하기",
-                                        cancelBtnTitle: "다음에") { [weak self] in
-                guard let self = self else { return }
-                self.updateMarketingNotification(noti: true)
-            } cancelBtnAction: { [weak self] in
-                guard let self = self else { return }
-                self.updateMarketingNotification(noti: false)
-            }
-            
-            let popup = ConfirmPopupViewController(model: popupModel)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-            }
-        } else {
-            showStartAd()
-        }
-    }
-    
-    private func updateMarketingNotification(noti: Bool) {
-        Server.updateMarketingNotificationState(state: noti, completion: {(isSuccess, value) in
-            if (isSuccess) {
-                let json = JSON(value)
-                let code = json["code"].stringValue
-                if code.elementsEqual("1000") {
-                    let receive = json["receive"].boolValue
-                    UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: receive)
-                    UserDefault().saveBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP, value: true)
-                    let currDate = DateUtils.getFormattedCurrentDate(format: "yyyy년 MM월 dd일")
-                    
-                    var message = ""
-                    if (receive) {
-                        message = "[EV Infra] " + currDate + "마케팅 수신 동의 처리가 완료되었어요! ☺️ 더 좋은 소식 준비할게요!"
-                    } else {
-                        message = "[EV Infra] " + currDate + "마케팅 수신 거부 처리가 완료되었어요."
-                    }
-                    DispatchQueue.main.async {
-                        Snackbar().show(message: message)
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        self.showStartAd()
-                    }
-                }
-            } else {
-                Snackbar().show(message: "서버통신이 원활하지 않습니다")
-            }
-        })
-    }
-    
+                
     private func checkFCM() {
         if let notification = FCMManager.sharedInstance.fcmNotification {
             FCMManager.sharedInstance.alertMessage(data: notification)
@@ -1423,7 +1360,7 @@ extension MainViewController {
     @IBAction func onClickMainHelp(_ sender: UIButton) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
         let termsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-        termsViewController.tabIndex = .FAQTop
+        termsViewController.tabIndex = .faqTop
         GlobalDefine.shared.mainNavi?.push(viewController: termsViewController)
         
         let property: [String: Any] = ["source": "메인 페이지"]

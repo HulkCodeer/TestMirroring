@@ -1243,6 +1243,9 @@
 		824D5DC128BE1C2500EDC712 /* GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */; };
 		824D5DC228BE1C2500EDC712 /* GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */; };
 		824D5DC328BE1C2500EDC712 /* GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */; };
+		825B4FCF28CB9C8000A3AF7F /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825B4FCE28CB9C8000A3AF7F /* MainReactor.swift */; };
+		825B4FD028CB9C8000A3AF7F /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825B4FCE28CB9C8000A3AF7F /* MainReactor.swift */; };
+		825B4FD128CB9C8000A3AF7F /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825B4FCE28CB9C8000A3AF7F /* MainReactor.swift */; };
 		827B4D7028C96B04004B83C7 /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827B4D6F28C96B03004B83C7 /* LocationWorker.swift */; };
 		827B4D7128C96B04004B83C7 /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827B4D6F28C96B03004B83C7 /* LocationWorker.swift */; };
 		827B4D7228C96B04004B83C7 /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827B4D6F28C96B03004B83C7 /* LocationWorker.swift */; };
@@ -1751,6 +1754,7 @@
 		824D5DB828BDD89C00EDC712 /* evInfra_release.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = evInfra_release.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QROutletTypeModel.swift; sourceTree = "<group>"; };
 		824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunction.swift; sourceTree = "<group>"; };
+		825B4FCE28CB9C8000A3AF7F /* MainReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainReactor.swift; sourceTree = "<group>"; };
 		827B4D6F28C96B03004B83C7 /* LocationWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationWorker.swift; sourceTree = "<group>"; };
 		82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Rx.swift"; sourceTree = "<group>"; };
 		82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
@@ -2013,6 +2017,7 @@
 				73AD13C5203AC34400ADD19A /* LeftViewController.swift */,
 				73F6B53920F873110030D0B3 /* IntroViewController.swift */,
 				732ED1F921EEFA960012C67B /* MainViewController.swift */,
+				825B4FCE28CB9C8000A3AF7F /* MainReactor.swift */,
 				63FFBDDA28C08F240078C372 /* PermissionsGuideViewController.swift */,
 				63FFBDDE28C08FD00078C372 /* PermissionsGuideReactor.swift */,
 				736813B3204513D50035FC66 /* Main.storyboard */,
@@ -4194,6 +4199,7 @@
 				63F31407284EC74F001713D2 /* Snackbar.swift in Sources */,
 				63A4F3722872F88100601018 /* RectButton.swift in Sources */,
 				63F31408284EC74F001713D2 /* ChargerStationInfo.swift in Sources */,
+				825B4FD028CB9C8000A3AF7F /* MainReactor.swift in Sources */,
 				63F31409284EC74F001713D2 /* Login.swift in Sources */,
 				63F3140A284EC74F001713D2 /* PointViewController.swift in Sources */,
 				82829BD228ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */,
@@ -4498,6 +4504,7 @@
 				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
 				82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
+				825B4FCF28CB9C8000A3AF7F /* MainReactor.swift in Sources */,
 				5208784F279561BA009DD329 /* PhotoRegisterCollectionViewCell.swift in Sources */,
 				82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */,
 				7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */,
@@ -4802,6 +4809,7 @@
 				824D5C6628BDD89C00EDC712 /* Snackbar.swift in Sources */,
 				824D5C6728BDD89C00EDC712 /* RectButton.swift in Sources */,
 				824D5C6828BDD89C00EDC712 /* ChargerStationInfo.swift in Sources */,
+				825B4FD128CB9C8000A3AF7F /* MainReactor.swift in Sources */,
 				824D5C6928BDD89C00EDC712 /* Login.swift in Sources */,
 				824D5C6A28BDD89C00EDC712 /* PointViewController.swift in Sources */,
 				824D5C6B28BDD89C00EDC712 /* UIImageView+Extension.swift in Sources */,
