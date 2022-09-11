@@ -252,7 +252,7 @@ internal final class MemberManager {
                            clientSecret: "zeroone)Q@Eh(4",
                                  echoCode: "\(data["mb_id"].intValue)") == .SUCCESS {
                 _ = Plengi.start()
-            }
+            }                        
         }
     }
     

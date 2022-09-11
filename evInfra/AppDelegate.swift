@@ -34,9 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NMFAuthManager.shared().clientId = Const.NAVER_MAP_KEY
                 
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
-        
-        _ = Plengi.enableAdNetwork(true, enableNoti: true)
-        
+                        
         // 로플랫 관련 코드
         if Plengi.initialize(clientID: "zeroone",
                        clientSecret: "zeroone)Q@Eh(4",
@@ -50,10 +48,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                         
         // 앰플리튜드 설정
         UIViewController.swizzleMethod()
-        
+                        
+        #if DEBUG
+        // PodFile에 TEST-MiniPlengi를 설치해서 테스트
         Plengi.isDebug = true
         
-        #if DEBUG
         // terminating with uncaught exception of type NSException 에러시 CallStack을 찍어준다.
         NSSetUncaughtExceptionHandler { exception in
             let exceptionStr = exception.callStackSymbols.reduce("\n\(exception)\n") { exceptionStr, callStackSymbol -> String in

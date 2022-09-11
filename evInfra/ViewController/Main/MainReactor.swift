@@ -8,6 +8,7 @@
 
 import ReactorKit
 import SwiftyJSON
+import MiniPlengi
 
 internal final class MainReactor: ViewModel, Reactor {
     enum Action {        
@@ -25,8 +26,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var isShowStartBanner: Bool?
     }
     
-    internal var initialState: State
-    internal var isMainProcess: Bool = false
+    internal var initialState: State    
 
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -37,7 +37,6 @@ internal final class MainReactor: ViewModel, Reactor {
         switch action {
         case .showMarketingPopup:
             let isShowMarketingPopup = UserDefault().readBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP)
-            self.isMainProcess = true
             if !isShowMarketingPopup {
                 return .just(.setShowMarketingPopup(true))
             } else {
@@ -45,7 +44,7 @@ internal final class MainReactor: ViewModel, Reactor {
             }
             
         case .setAgreeMarketing(let isAgree):
-            return self.provider.postUpdateMarketingNotificationState(state: isAgree)
+            return self.provider.updateMarketingNotificationState(state: isAgree)
                 .convertData()
                 .compactMap(convertToData)
                 .map { isShowStartBanner in
@@ -83,16 +82,15 @@ internal final class MainReactor: ViewModel, Reactor {
             }
                                                 
             let receive = jsonData["receive"].boolValue
-            UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: receive)
+            
+            MemberManager.shared.isAllowMarketingNoti = receive                        
             UserDefault().saveBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP, value: true)
             let currDate = DateUtils.getFormattedCurrentDate(format: "yyyy년 MM월 dd일")
             
-            var message = ""
-            if (receive) {
-                message = "[EV Infra] " + currDate + "마케팅 수신 동의 처리가 완료되었어요! ☺️ 더 좋은 소식 준비할게요!"
-            } else {
-                message = "[EV Infra] " + currDate + "마케팅 수신 거부 처리가 완료되었어요."
-            }
+            var message = "[EV Infra] \(currDate) "
+            message += receive ? "마케팅 수신 동의 처리가 완료되었어요! ☺️ 더 좋은 소식 준비할게요!" : "마케팅 수신 거부 처리가 완료되었어요."
+            
+            _ = Plengi.enableAdNetwork(true, enableNoti: receive)
                     
             Snackbar().show(message: message)
         

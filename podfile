@@ -59,7 +59,7 @@ def shared_pods
   
   # 로플랫
 #  pod 'MiniPlengi', '1.4.2.2'
-  pod 'TEST-MiniPlengi', '1.4.2.2'
+  pod 'TEST-MiniPlengi', '1.4.2.2' # Debug 모드에서 테스트를 위해 필요
   
   # Keychain
   pod 'KeychainSwift', '~> 13.0'      # For keychain
