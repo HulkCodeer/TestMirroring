@@ -7,6 +7,7 @@
 //
 
 import ReactorKit
+import MiniPlengi
 
 internal final class PermissionsGuideViewController: CommonBaseViewController, StoryboardView {
     
@@ -197,6 +198,12 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                         switch status {
                         case .authorizedAlways, .authorizedWhenInUse:
                             LocationWorker.shared.fetchLocation()
+                            
+                            if Plengi.initialize(clientID: "zeroone",
+                                           clientSecret: "zeroone)Q@Eh(4",
+                                                 echoCode: "\(MemberManager.shared.mbId)") == .SUCCESS {                                
+                                _ = Plengi.start()
+                            }
                                                         
                             GlobalFunctionSwift.showPopup(title: "위치 권한을 항상 허용으로\n변경해주세요.", message: "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요.", confirmBtnTitle: "항상 허용하기", confirmBtnAction: { [weak self] in
                                 guard let self = self else { return }

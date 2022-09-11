@@ -18,6 +18,7 @@ import RxCocoa
 import EasyTipView
 import AVFoundation
 import ReactorKit
+import MiniPlengi
 
 internal final class MainViewController: UIViewController, StoryboardView {
     
@@ -119,6 +120,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .subscribe(onNext: { status in
                 switch status {
                 case .authorizedAlways, .authorizedWhenInUse:
+                    if Plengi.initialize(clientID: "zeroone",
+                                   clientSecret: "zeroone)Q@Eh(4",
+                                         echoCode: "\(MemberManager.shared.mbId)") == .SUCCESS {
+                        _ = Plengi.start()
+                    }
+                    
                     self.naverMapView.moveToCurrentPostiion()
                                     
                 default: break

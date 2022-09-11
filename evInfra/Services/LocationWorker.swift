@@ -55,7 +55,7 @@ internal final class LocationWorker: NSObject {
                     printLog(out: "Authorization: not determined")
                 case .restricted:
                     printLog(out: "Authorization: restricted")
-                case .authorizedAlways, .authorizedWhenInUse:
+                case .authorizedAlways, .authorizedWhenInUse:                                        
                     printLog(out: "All good fire request")
                 @unknown default:
                     fatalError()

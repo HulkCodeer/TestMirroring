@@ -157,25 +157,11 @@ internal final class IntroViewController: UIViewController {
                     }
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        CLLocationManager().rx
-                            .status
-                            .debug()
-                            .subscribe(with: self) { obj ,status in
-                                switch status {
-                                case .denied, .notDetermined:
-                                    if !MemberManager.shared.isFirstInstall {
-                                        obj.movePerminssonsGuideView()                                        
-                                    } else {
-                                        obj.moveMainView()
-                                    }
-                                                                                                        
-                                case .authorizedAlways, .authorizedWhenInUse:
-                                    obj.moveMainView()
-                                    
-                                case .restricted: break
-                                }
-                            }
-                            .disposed(by: self.disposeBag)
+                        if !MemberManager.shared.isFirstInstall {
+                            self.movePerminssonsGuideView()
+                        } else {
+                            self.moveMainView()
+                        }
                     }
                 }
                 

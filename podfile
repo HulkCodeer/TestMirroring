@@ -58,8 +58,8 @@ def shared_pods
   pod 'GRDB.swift'
   
   # 로플랫
-  pod 'MiniPlengi', '1.4.2.2'
-#  pod 'TEST-MiniPlengi', '1.4.2.2'
+#  pod 'MiniPlengi', '1.4.2.2'
+  pod 'TEST-MiniPlengi', '1.4.2.2'
   
   # Keychain
   pod 'KeychainSwift', '~> 13.0'      # For keychain

@@ -343,6 +343,7 @@ internal final class LoginHelper: NSObject {
                                     ChargerManager.sharedInstance.getFavoriteCharger()
                                     return
                                 }
+                                
                                 LoginHelper.shared.logout(completion: { _ in
                                     Snackbar().show(message: "장기간 미접속으로 인해 로그아웃 되었습니다.")
                                 })

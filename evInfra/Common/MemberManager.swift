@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftyJSON
-
+import MiniPlengi
 
 struct Admin: Decodable {
     let mb_id: String
@@ -247,6 +247,12 @@ internal final class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: data["phone"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_REG_DATE, value: data["reg_date"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_POINT, value: data["point"].stringValue)
+            
+            if Plengi.initialize(clientID: "zeroone",
+                           clientSecret: "zeroone)Q@Eh(4",
+                                 echoCode: "\(data["mb_id"].intValue)") == .SUCCESS {
+                _ = Plengi.start()
+            }
         }
     }
     

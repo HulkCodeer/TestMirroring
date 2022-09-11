@@ -41,18 +41,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if Plengi.initialize(clientID: "zeroone",
                        clientSecret: "zeroone)Q@Eh(4",
                              echoCode: "\(MemberManager.shared.mbId)") == .SUCCESS {
-            _ = Plengi.setDelegate(self)
-            _ = Plengi.start()
+            _ = Plengi.setDelegate(self)            
         }
                                 
         if Plengi.getEngineStatus() == .STARTED {
             _ = Plengi.start()
         }
-                        
+                                        
         // 앰플리튜드 설정
         UIViewController.swizzleMethod()
         
-//        Plengi.isDebug = true
+        Plengi.isDebug = true
         
         #if DEBUG
         // terminating with uncaught exception of type NSException 에러시 CallStack을 찍어준다.
