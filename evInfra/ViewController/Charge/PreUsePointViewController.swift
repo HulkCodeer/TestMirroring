@@ -251,7 +251,7 @@ extension PreUsePointViewController {
             let property: [String: Any] = ["setberryAmount": setBerryAmount]
             AmplitudeManager.shared.logEvent(type: .payment(event), property: property)
         case .clickResetBerry:
-            AmplitudeManager.shared.logEvent(type: .payment(event), property: nil)
+            AmplitudeManager.shared.logEvent(type: .payment(event))
         default: break
         }
     }

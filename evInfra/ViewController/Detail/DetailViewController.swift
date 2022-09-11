@@ -626,7 +626,7 @@ extension DetailViewController {
             let property: [String: Any] = ["reviewIndex": viewedReviewCnt]
             AmplitudeManager.shared.logEvent(type: .detail(event), property: property)
         case .clickStationChargingPrice:
-            AmplitudeManager.shared.logEvent(type: .detail(event), property: nil)
+            AmplitudeManager.shared.logEvent(type: .detail(event))
         case .viewStationDetail:
             guard let charger = charger else { return }
             let property: [String: Any?] = AmpChargerStationModel(charger).toProperty

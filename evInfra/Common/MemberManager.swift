@@ -275,7 +275,9 @@ internal final class MemberManager {
         userDefault.saveString(key: UserDefault.Key.MB_GENDER, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: "")
-        userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: "")        
+        userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: "")
+        
+        AmplitudeManager.shared.setUser(with: nil)
     }
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {

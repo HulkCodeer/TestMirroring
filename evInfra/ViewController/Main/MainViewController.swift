@@ -112,7 +112,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-        requestStationInfo()
+//        requestStationInfo()
         
         prepareCalloutLayer()
         
@@ -136,7 +136,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage), property: nil) // 앰플리튜드 로깅
+        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage)) // 앰플리튜드 로깅
         
         if !GlobalDefine.shared.tempDeepLink.isEmpty {
             DeepLinkModel.shared.openSchemeURL(urlstring: GlobalDefine.shared.tempDeepLink)            
@@ -418,7 +418,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             
             updateMyLocationButton()
             
-            AmplitudeManager.shared.logEvent(type: .map(.clickMyLocation), property: nil) // 앰플리튜드 로깅
+            AmplitudeManager.shared.logEvent(type: .map(.clickMyLocation)) // 앰플리튜드 로깅
         }
     }
     
@@ -426,7 +426,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         if !self.markerIndicator.isAnimating {
             self.refreshChargerInfo()
         }
-        AmplitudeManager.shared.logEvent(type: .map(.clickRenew), property: nil)
+        AmplitudeManager.shared.logEvent(type: .map(.clickRenew))
     }
     
     // 파란색 길안내 버튼 누를때
@@ -445,7 +445,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
         }
         
-        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: nil) // 앰플리튜드 로깅
+        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway)) // 앰플리튜드 로깅
     }        
 }
 
@@ -657,7 +657,7 @@ extension MainViewController: TextFieldDelegate {
     
     @objc func onClickRouteCancel(_ sender: UIButton) {
         clearSearchResult()
-        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: nil) // 앰플리튜드 로깅
+        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway)) // 앰플리튜드 로깅
     }
     
     // TODO: 한 view controller에서 사용되는 앰플리튜드 로깅 이벤트 한 곳에서 처리
@@ -943,7 +943,7 @@ extension MainViewController: MarkerTouchDelegate {
 
 extension MainViewController: ChargerSelectDelegate {
     func moveToSelectLocation(lat: Double, lon: Double) {
-        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage), property: nil) // 앰플리튜드 로깅
+        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage)) // 앰플리튜드 로깅
         guard lat == 0, lon == 0 else {
             myLocationModeOff()
             
@@ -962,7 +962,7 @@ extension MainViewController: ChargerSelectDelegate {
     }
     
     func moveToSelected(chargerId: String) {
-        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage), property: nil) // 앰플리튜드 로깅
+        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage)) // 앰플리튜드 로깅
         guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
         let position = NMGLatLng(lat: charger.mStationInfoDto?.mLatitude ?? 0.0,
                                  lng: charger.mStationInfoDto?.mLongitude ?? 0.0)

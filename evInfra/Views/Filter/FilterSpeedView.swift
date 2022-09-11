@@ -101,8 +101,14 @@ class FilterSpeedView: UIView {
     
     @IBAction func onTouchUpSlider(_ sender: Any) {
         if (saveOnChange) {
-           applyFilter()
-           logEvent(with: .clickUpperFilter)
+            applyFilter()
+            let minSpeed: Int = FilterManager.sharedInstance.filter.minSpeed
+            let maxSpeed: Int = FilterManager.sharedInstance.filter.maxSpeed
+            let property: [String: Any] = ["filterName": "충전 속도",
+                                           "minChargingSpeed": "\(minSpeed == 0 ? "완속" : "\(minSpeed)")",
+                                           "maxChargingSpeed": "\(maxSpeed == 0 ? "완속" : "\(maxSpeed)")"]
+            AmplitudeManager.shared.createEventType(type: FilterEvent.clickUpperFilter)
+                .logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .speed)
     }
@@ -157,21 +163,5 @@ extension FilterSpeedView: RangeSeekSliderDelegate {
     }
 
     func didEndTouches(in slider: RangeSeekSlider) {
-    }
-}
-
-// MARK: - Amplitude Logging 이벤트
-extension FilterSpeedView {
-    private func logEvent(with event: EventType.FilterEvent) {
-        switch event {
-        case .clickUpperFilter:
-            let minSpeed: Int = FilterManager.sharedInstance.filter.minSpeed
-            let maxSpeed: Int = FilterManager.sharedInstance.filter.maxSpeed
-            let property: [String: Any] = ["filterName": "충전 속도",
-                                           "minChargingSpeed": "\(minSpeed == 0 ? "완속" : "\(minSpeed)")",
-                                           "maxChargingSpeed": "\(maxSpeed == 0 ? "완속" : "\(maxSpeed)")"]
-            AmplitudeManager.shared.logEvent(type: .filter(event), property: property)
-        default: break
-        }
     }
 }

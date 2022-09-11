@@ -152,7 +152,7 @@ extension MembershipGuideViewController {
     private func logEvent(with event: EventType.PaymentEvent) {
         switch event {
         case .clickApplyEVICard:
-            AmplitudeManager.shared.logEvent(type: .payment(.clickApplyEVICard), property: nil)
+            AmplitudeManager.shared.logEvent(type: .payment(.clickApplyEVICard))
         default: break
         }
     }

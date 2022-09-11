@@ -236,7 +236,7 @@ extension LotteRentCertificateViewController {
             let property: [String: Any] = ["company": "롯데 렌터카"]
             AmplitudeManager.shared.logEvent(type: .payment(event), property: property)
         case .completePaymentCard:
-            AmplitudeManager.shared.logEvent(type: .payment(event), property: nil)
+            AmplitudeManager.shared.logEvent(type: .payment(event))
         default: break
         }
     }

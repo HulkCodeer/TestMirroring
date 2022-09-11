@@ -73,7 +73,10 @@ internal final class PointViewController: UIViewController {
         prepareActionBar()
         prepareDatePicker()
         prepareTableView()
-        logEvent(with: .viewMyBerry)
+                
+        let property: [String: Any] = ["berryAmount": "\(MemberManager.shared.berryPoint)"]
+        AmplitudeManager.shared.createEventType(type: PaymentEvent.viewMyBerry)
+            .logEvent(property: property)
 
         // 오늘 포인트 이력 가져오기
         btnAllBerry.isSelected = true
@@ -354,18 +357,6 @@ extension PointViewController: UITableViewDelegate, UITableViewDataSource {
         cell.reloadData(pointList: evPointList, position: indexPath.row)
         cell.selectionStyle = .none
         return cell
-    }
-}
-
-// MARK: - Amplitude Logging 이벤트
-extension PointViewController {
-    private func logEvent(with event: EventType.PaymentEvent) {
-        switch event {
-        case .viewMyBerry:
-            let property: [String: Any] = ["berryAmount": "\(MemberManager.shared.berryPoint)"]
-            AmplitudeManager.shared.logEvent(type: .payment(event), property: property)
-        default: break
-        }
     }
 }
 

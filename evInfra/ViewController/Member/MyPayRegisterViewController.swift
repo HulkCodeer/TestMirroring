@@ -184,7 +184,7 @@ extension MyPayRegisterViewController {
     private func logEvent(with event: EventType.PaymentEvent) {
         switch event {
         case .clickAddPaymentCard:
-            AmplitudeManager.shared.logEvent(type: .payment(event), property: nil)
+            AmplitudeManager.shared.logEvent(type: .payment(event))
         default: break
         }
     }

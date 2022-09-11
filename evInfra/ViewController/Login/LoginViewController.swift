@@ -118,7 +118,9 @@ internal final class LoginViewController: UIViewController {
     
     @objc
     fileprivate func handleCorpButtonPress() {
-        logEvent(with: .clickLoginButton)
+        let property: [String: Any] = ["type": Login.LoginType.evinfra.value]
+        AmplitudeManager.shared.createEventType(type: LoginEvent.clickLoginButton)
+            .logEvent(property: property)
         corpLogin()
     }
 }
@@ -166,16 +168,3 @@ extension LoginViewController: CorporationLoginViewControllerDelegate {
         GlobalDefine.shared.mainNavi?.pop()
     }
 }
-
-// MARK: - Amplitude Logging 이벤트
-extension LoginViewController {
-    private func logEvent(with event: EventType.LoginEvent) {
-        switch event {
-        case .clickLoginButton:
-            let property: [String: Any] = ["type": Login.LoginType.evinfra.value]
-            AmplitudeManager.shared.logEvent(type: .login(event), property: property)
-        default: break
-        }
-    }
-}
-
