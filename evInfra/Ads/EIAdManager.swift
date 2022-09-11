@@ -81,7 +81,15 @@ internal final class EIAdManager {
                         printLog(out: ":: PKH TEST ::")
                         printLog(out: "광고갯수: \(adList.count)")
                         printLog(out: "광고: \(adList)")
-                        return adList
+                        
+                        var _adList = [AdsInfo]()
+                        adList.forEach {
+                            var _ad = $0
+                            _ad.promotionPage = page
+                            _ad.promotionLayer = layer
+                            _adList.append(_ad)
+                        }
+                        return _adList
                         
                     case .failure(let errorMessage):
                         printLog(out: "Error Message : \(errorMessage)")

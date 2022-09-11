@@ -22,6 +22,8 @@ internal struct AdsInfo {
     var dpStart: String = ""
     var dpEnd: String = ""
     var dpState: Int = 0
+    var promotionPage: Promotion.Page = .start
+    var promotionLayer: Promotion.Layer = .none
     
     init(_ json: JSON) {
         self.evtId = json["evtId"].stringValue

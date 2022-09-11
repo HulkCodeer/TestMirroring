@@ -28,9 +28,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
     }
     
     struct State {
-        var isPaymentFineUser: Bool?
-        var isChargingStatus: Bool?
-        var isQRScanRunning: Bool?
+        var isPaymentFineUser: Bool?        
+        var isQRScanRunning: Bool = false
         var qrOutletTypeModel: [QROutletTypeModel]?
     }
     
@@ -92,16 +91,15 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         newState.isPaymentFineUser = nil
-        newState.isChargingStatus = nil
-        newState.isQRScanRunning = nil
         newState.qrOutletTypeModel = nil
         
         switch mutation {
         case .setPaymentStatus(let isPaymentFineuser):
             newState.isPaymentFineUser = isPaymentFineuser
+            newState.isQRScanRunning = isPaymentFineuser
             
         case .setChargingStatus(let isChargingStatus):
-            newState.isChargingStatus = isChargingStatus
+            newState.isQRScanRunning = isChargingStatus
             
         case .setRunnigQRReaderView(let isRunning):
             newState.isQRScanRunning = isRunning
@@ -119,6 +117,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             let json = JSON(data)
                         
             let payCode = json["pay_code"].intValue
+//            let payCode = 8800
             
             switch PaymentStatus(rawValue: payCode) {
             case .PAY_FINE_USER :
@@ -325,7 +324,11 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 Observable.just(PaymentQRScanReactor.Action.qrOutletType(model))
                     .bind(to: self.action)
                     .disposed(by: self.disposeBag)
-                                                                
+                                                            
+                return true
+                
+            case 8844: // 회원카드 결제 카드 둘다 없을때
+                return false
                 
             default:
                 GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)

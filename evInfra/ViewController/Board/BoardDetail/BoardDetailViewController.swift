@@ -643,8 +643,8 @@ extension BoardDetailViewController {
             let postId = document.document_srl ?? ""
             let likeCnt = document.like_count ?? "0"
             let replyCnt = document.comment_count ?? "0"
-            let boardType = self.category == .FREE ? "자유게시판" : "충전소게시판"
-            let source = isFromStationDetailView ? "\(document.parseChargerIdToName())" : "충전소게시판"
+            let boardType = self.category == .FREE ? "자유 게시판" : "충전소 게시판"
+            let source = isFromStationDetailView ? "\(document.parseChargerIdToName())" : "충전소 게시판"
             
             let property: [String: Any] = ["boardType": boardType,
                                            "source": source,

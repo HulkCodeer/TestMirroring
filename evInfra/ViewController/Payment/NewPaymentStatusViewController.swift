@@ -9,6 +9,7 @@
 import SwiftyJSON
 import RxSwift
 import ReactorKit
+import UIKit
 
 internal final class NewPaymentStatusViewController: CommonBaseViewController, StoryboardView {
     enum ChargeInfoType: String, CaseIterable {
@@ -49,7 +50,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         $0.axis = .vertical
         $0.alignment = .fill
         $0.distribution = .equalSpacing
-        $0.spacing = 4
+        $0.spacing = 0
         $0.backgroundColor = Colors.backgroundTertiary.color
     }
     
@@ -388,6 +389,8 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     private var prevAlwaysUsePoint = 0 // 설정이 변경되었을 경우 되돌릴 설정베리값
     
     private var timer = Timer()
+    private var animationTimer: Timer = Timer()
+    private var isAnimation: Bool = false
         
     internal var chargingId: String = ""
     
@@ -523,7 +526,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         totalStackView.addArrangedSubview(discountInfoTotalView)
         discountInfoTotalView.snp.makeConstraints {
             $0.top.equalTo(chargeInfoTotalView.snp.bottom)
-            $0.height.equalTo(132)
+            $0.height.equalTo(136)
         }
         
         let lineView = self.createLineView(color: Colors.backgroundTertiary.color)
@@ -571,7 +574,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         
         totalStackView.addArrangedSubview(berryInfoTotalView)
         berryInfoTotalView.snp.makeConstraints {
-            $0.top.equalTo(discountInfoTotalView.snp.bottom).offset(4)
+            $0.top.equalTo(discountInfoTotalView.snp.bottom)
             $0.height.equalTo(240)
         }
         
@@ -1189,11 +1192,15 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         if chargingStatus.status == STATUS_READY { // 충전대기중
             nextBtn.isEnabled = true
             nextBtn.setTitle("충전 취소", for: .normal)
-                    
             chargeStatusLbl.text = "충전 대기"
-            chargeStatusSubLbl.text = "충전 커넥터를 차량과 연결 후\n잠시만 기다려 주세요"
+                                                  
+            guard !self.isAnimation else { return }
+            self.isAnimation = true
+            self.animate()
             
         } else { // 충전중
+            animationTimer.invalidate()
+            
             if chargingStatus.companyId.elementsEqual(CompanyInfo.COMPANY_ID_GSC) {
                 if isStopCharging == false {
                     nextBtn.isEnabled = true
@@ -1306,6 +1313,15 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
                     preUpdateTime = chargingStatus.updateTime ?? preUpdateTime
                 }
             }
+        }
+    }
+            
+    private func animate() {
+        animationTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { (timer) in
+            UIView.transition(with: self.chargeStatusSubLbl, duration: 0.5, options: [.transitionCrossDissolve, .curveEaseOut], animations: {
+                let text = self.chargeStatusSubLbl.text ?? ""
+                self.chargeStatusSubLbl.text = text.equals("충전 커넥터를 차량과 연결 후\n잠시만 기다려 주세요") ? "상태 연결까지 최대 5분\n소요될 수 있습니다." : "충전 커넥터를 차량과 연결 후\n잠시만 기다려 주세요"
+            })
         }
     }
     
