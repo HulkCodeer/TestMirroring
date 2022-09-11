@@ -57,11 +57,9 @@ class CorporationLoginViewController: UIViewController {
                         } else {
                             Snackbar().show(message: "로그인 성공")
                             MemberManager.shared.setData(data: json)
-                            let property: [String: Any] = ["type": Login.LoginType.evinfra.description]
-                            AmplitudeManager.shared.logEvent(type: .login(.complteLogin), property: property)
-                            AmplitudeManager.shared.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
+                            AmplitudeManager.shared.corpLoginEvent()
                             
-                            self.navigationController?.pop()
+                            GlobalDefine.shared.mainNavi?.pop()
                             if let delegate = self.delegate {
                                 delegate.successSignUp()
                             }

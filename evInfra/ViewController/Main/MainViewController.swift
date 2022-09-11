@@ -112,14 +112,25 @@ internal final class MainViewController: UIViewController {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-        requestStationInfo()
+//        requestStationInfo()
         
         prepareCalloutLayer()                
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage), property: nil) // 앰플리튜드 로깅
+
+        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage)) // 앰플리튜드 로깅
+        
+        if !GlobalDefine.shared.tempDeepLink.isEmpty {
+            DeepLinkModel.shared.openSchemeURL(urlstring: GlobalDefine.shared.tempDeepLink)            
+        } else {
+            guard let _reactor = self.reactor else { return }
+            Observable.just(MainReactor.Action.showMarketingPopup)
+                .take(1)
+                .bind(to: _reactor.action)
+                .disposed(by: self.disposeBag)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -316,9 +327,35 @@ internal final class MainViewController: UIViewController {
     // MARK: - Action for button
     
     @IBAction func onClickMyLocation(_ sender: UIButton) {
-        guard isLocationEnabled() else {
-            askPermission()
-            return
+        let locationServiceEnabled = CLLocationManager.locationServicesEnabled()
+        if !locationServiceEnabled {
+            switch CLLocationManager.authorizationStatus() {
+            case .notDetermined, .restricted, .denied:
+                GlobalFunctionSwift.showPopup(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 기능을 이용하시려면 모든 권한을 허용해 주십시오.\n[설정] > [EV Infra] 에서 권한을 허용할 수 있습니다.", confirmBtnTitle: "설정하기", confirmBtnAction: {
+                    if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                        }
+                    }
+                }, cancelBtnTitle: "확인")
+                
+            default: break
+            }
+        } else {
+            switch mapView.positionMode {
+            case .normal:
+                mapView.positionMode = .direction
+            case .direction:
+                mapView.positionMode = .compass
+            case .compass:
+                mapView.positionMode = .direction
+            default: break
+            }
+            
+            updateMyLocationButton()
+            
+            AmplitudeManager.shared.logEvent(type: .map(.clickMyLocation)) // 앰플리튜드 로깅
+
         }
         
         switch mapView.positionMode {
@@ -340,7 +377,7 @@ internal final class MainViewController: UIViewController {
         if !self.markerIndicator.isAnimating {
             self.refreshChargerInfo()
         }
-        AmplitudeManager.shared.logEvent(type: .map(.clickRenew), property: nil)
+        AmplitudeManager.shared.logEvent(type: .map(.clickRenew))
     }
     
     // 파란색 길안내 버튼 누를때
@@ -359,34 +396,8 @@ internal final class MainViewController: UIViewController {
             self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
         }
         
-        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: nil) // 앰플리튜드 로깅
-    }
-    
-    private func configureLocationManager() {
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-    }
-}
-
-extension MainViewController: CLLocationManagerDelegate {
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        var status: CLAuthorizationStatus = .authorizedWhenInUse
-        if #available(iOS 14.0, *) {
-            status = manager.authorizationStatus
-        } else {
-            // Fallback on earlier versions
-        }
-        
-        switch status {
-        case .notDetermined, .restricted:
-            break
-        case .denied:
-            break
-        case .authorizedAlways, .authorizedWhenInUse, .authorized:
-            self.naverMapView.moveToCurrentPostiion()
-            break
-        }
-    }
+        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway)) // 앰플리튜드 로깅
+    }        
 }
 
 extension MainViewController: DelegateChargerFilterView {
@@ -597,7 +608,7 @@ extension MainViewController: TextFieldDelegate {
     
     @objc func onClickRouteCancel(_ sender: UIButton) {
         clearSearchResult()
-        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: nil) // 앰플리튜드 로깅
+        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway)) // 앰플리튜드 로깅
     }
     
     // TODO: 한 view controller에서 사용되는 앰플리튜드 로깅 이벤트 한 곳에서 처리
@@ -883,7 +894,7 @@ extension MainViewController: MarkerTouchDelegate {
 
 extension MainViewController: ChargerSelectDelegate {
     func moveToSelectLocation(lat: Double, lon: Double) {
-        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage), property: nil) // 앰플리튜드 로깅
+        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage)) // 앰플리튜드 로깅
         guard lat == 0, lon == 0 else {
             myLocationModeOff()
             
@@ -902,7 +913,7 @@ extension MainViewController: ChargerSelectDelegate {
     }
     
     func moveToSelected(chargerId: String) {
-        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage), property: nil) // 앰플리튜드 로깅
+        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage)) // 앰플리튜드 로깅
         guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
         let position = NMGLatLng(lat: charger.mStationInfoDto?.mLatitude ?? 0.0,
                                  lng: charger.mStationInfoDto?.mLongitude ?? 0.0)

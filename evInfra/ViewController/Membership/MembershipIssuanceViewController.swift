@@ -355,9 +355,9 @@ extension MembershipIssuanceViewController {
     private func logEvent(with event: EventType.PaymentEvent) {
         switch event {
         case .completeApplyEVICard:
-            AmplitudeManager.shared.logEvent(type: .payment(event), property: nil)
+            AmplitudeManager.shared.logEvent(type: .payment(event))
         case .completePaymentCard:
-            AmplitudeManager.shared.logEvent(type: .payment(event), property: nil)
+            AmplitudeManager.shared.logEvent(type: .payment(event))
         default: break
         }
     }
