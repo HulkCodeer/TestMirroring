@@ -35,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
         
+        _ = Plengi.enableAdNetwork(true, enableNoti: true)
+        
         // 로플랫 관련 코드
         if Plengi.initialize(clientID: "zeroone",
                        clientSecret: "zeroone)Q@Eh(4",
@@ -50,6 +52,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 앰플리튜드 설정
         UIViewController.swizzleMethod()
         
+//        Plengi.isDebug = true
+        
         #if DEBUG
         // terminating with uncaught exception of type NSException 에러시 CallStack을 찍어준다.
         NSSetUncaughtExceptionHandler { exception in
@@ -62,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
-    
+            
     func setupPushNotification(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
@@ -73,7 +77,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let notification = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
             fcmManager.fcmNotification = notification
         }
-        
         application.registerForRemoteNotifications()
     }
     
@@ -291,8 +294,15 @@ extension AppDelegate {
     }
 }
 
+extension Notification.Name {
+    public static let pr = NSNotification.Name("plengiResponse")
+}
+
 extension AppDelegate: PlaceDelegate {
     func responsePlaceEvent(_ plengiResponse: PlengiResponse) {
         printLog(out: "PARK TEST PlaceDelegate")
+        let plengiResponseData = NSKeyedArchiver.archivedData(withRootObject: plengiResponse)
+        UserDefaults.standard.set(plengiResponseData, forKey: "plengiResponse")
+        NotificationCenter.default.post(name: .pr, object: nil)
     }
 }

@@ -54,7 +54,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         printLog(out: "scene:userActivity")
         // Dynamic Link
         self.handleUserActivity(userActivity: userActivity)
-    }
+    }        
             
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         // kakao auto login

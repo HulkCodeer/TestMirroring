@@ -124,7 +124,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 default: break
                 }
             })
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.disposeBag)                
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -136,6 +136,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         } else {
             guard let _reactor = self.reactor else { return }
             Observable.just(MainReactor.Action.showMarketingPopup)
+                .take(1)
                 .bind(to: _reactor.action)
                 .disposed(by: self.disposeBag)
         }
