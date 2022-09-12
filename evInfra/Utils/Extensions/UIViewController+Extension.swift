@@ -22,9 +22,9 @@ extension UIViewController {
     
     @objc public final func viewEnterEventInViewWillAppear() {
         guard self is UIAlertController else { return }
-        let viewName = String(describing: type(of: self))
-        let enterViewType = EnterViewType(viewName: viewName)
-        AmplitudeManager.shared.enterEvent(property: ["type" : enterViewType.viewNameDesc])
+        let viewName = String(describing: type(of: self))        
+        AmplitudeManager.shared.createEventType(type: EnterViewType(viewName: viewName))
+            .logEvent()
     }
 }
 

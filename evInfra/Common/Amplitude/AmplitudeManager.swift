@@ -69,26 +69,7 @@ internal final class AmplitudeManager {
             Amplitude.instance().identify(self.identify)
         }
     }
-    
-    // MARK: - 로깅 이벤트
-//    internal func logEvent() {
-//        DispatchQueue.global(qos: .background).async {
-//            self.eventProperty?.logEvent()
-//        }
-//    }
-//    
-//    internal func logEvent(property: [String: Any]) {
-//        DispatchQueue.global(qos: .background).async {
-//            self.eventProperty?.logEvent(property: property)
-//        }
-//    }
-        
-    internal func enterEvent(property: [String: Any]) {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent("view_enter", withEventProperties: property)
-        }
-    }
-    
+            
     // MARK: 카카오, 애플 로그인
     internal func loginEvent() {
         let property: [String: Any] = ["type": String(MemberManager.shared.loginType.description)]
@@ -392,7 +373,7 @@ internal enum BoardEvent: String, EventProperty {
 
 
 // MARK: - 화면 진입 이벤트(view_enter) 프로퍼티 이름
-internal enum EnterViewType: String {
+internal enum EnterViewType: String, EventProperty {
     case paymentQRScanViewController = "QR Scan 화면"
     case paymentStatusViewController = "충전 진행 상태 화면"
     case paymentResultViewController = "충전 완료 화면"
@@ -488,4 +469,16 @@ internal enum EnterViewType: String {
     internal var viewNameDesc: String {
         return self.rawValue
     }
+    
+    internal var toProperty: String {
+        return self.rawValue
+    }
+    
+    func logEvent() {
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty, withEventProperties:  ["type" : self.viewNameDesc])
+        }
+    }
+    
+    func logEvent(property: [String : Any]) {}
 }
