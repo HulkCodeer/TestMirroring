@@ -179,7 +179,7 @@ internal struct AmpChargerStationModel {
         }
     }
     
-    internal var toProperty: [String: Any?] {
+    internal var toProperty: [String: Any] {
         [
             "stationName": self.stationNm,
             "operatorName": self.operatorNm,

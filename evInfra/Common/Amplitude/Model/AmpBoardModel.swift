@@ -14,7 +14,7 @@ internal struct AmpBoardModel {
     var documentSrl: String = ""
     var isFromDetailView: Bool = false
     var source: String = ""
-    
+        
     private func getBoardType() -> String {
         let filteredType = Board.CommunityType.allCases.filter {
             $0.rawValue == self.mid

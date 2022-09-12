@@ -379,8 +379,10 @@ internal final class LoginHelper: NSObject {
          
                 } else {
                     if let delegate = self.delegate, let user = user {
-                        let property: [String: Any] = ["type": String(user.loginType.description)]
-                        AmplitudeManager.shared.logEvent(type: .signup(.clickSignUpButton), property: property)
+                        let property: [String: Any] = ["type": String(user.loginType.description)]                        
+                        AmplitudeManager.shared.createEventType(type: SignUpEvent.clickSignUpButton)
+                            .logEvent(property: property)
+                        
                         delegate.needSignUp(user: user) // ev infra 회원가입
                     }
                     MemberManager.shared.clearData()

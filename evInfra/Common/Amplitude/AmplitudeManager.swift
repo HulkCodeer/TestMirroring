@@ -44,7 +44,7 @@ internal final class AmplitudeManager {
     }
     
     // MARK: - UserProperty
-    internal func setUserProperty() {
+    private func setUserProperty() {
         identify.set("membership card", value: MemberManager.shared.hasMembership as NSObject)
         identify.set("signup", value: (MemberManager.shared.mbId > 0 ? true : false) as NSObject)
         identify.set("signup date", value: MemberManager.shared.regDate as NSObject)
@@ -71,17 +71,17 @@ internal final class AmplitudeManager {
     }
     
     // MARK: - 로깅 이벤트
-    internal func logEvent() {
-        DispatchQueue.global(qos: .background).async {
-            self.eventProperty?.logEvent()
-        }
-    }
-    
-    internal func logEvent(property: [String: Any]) {
-        DispatchQueue.global(qos: .background).async {
-            self.eventProperty?.logEvent(property: property)
-        }
-    }
+//    internal func logEvent() {
+//        DispatchQueue.global(qos: .background).async {
+//            self.eventProperty?.logEvent()
+//        }
+//    }
+//    
+//    internal func logEvent(property: [String: Any]) {
+//        DispatchQueue.global(qos: .background).async {
+//            self.eventProperty?.logEvent(property: property)
+//        }
+//    }
         
     internal func enterEvent(property: [String: Any]) {
         DispatchQueue.global(qos: .background).async {

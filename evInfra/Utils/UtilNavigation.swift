@@ -10,7 +10,7 @@ import Foundation
 
 public class UtilNavigation {
     func showNavigation(vc: UIViewController, startPoint: POIObject, endPoint: POIObject, viaList: [POIObject]) {
-        var property: [String: Any?] = [:]
+        var property: [String: Any] = [:]
         if let vc = vc as? MainViewController, let charger = vc.selectCharger {
             property = AmpChargerStationModel(charger).toProperty
         }
@@ -19,12 +19,15 @@ public class UtilNavigation {
         let kakaoMap = UIAlertAction(title: "카카오맵(KAKAO MAP)", style: .default) { _ in
             self.openKakaoNavigation(startPoint: startPoint, endPoint: endPoint, viaList: viaList)
             property["navigationType"] = "카카오맵"
-            AmplitudeManager.shared.logEvent(type: .route(.clickStationStartNavigaion), property: property)
+            
+            AmplitudeManager.shared.createEventType(type: RouteEvent.clickStationStartNavigaion)
+                .logEvent(property: property)
         }
         let tMap = UIAlertAction(title: "티맵(T MAP)", style: .default) { _ in
             self.tmapNavigation(startPoint: startPoint, endPoint: endPoint, viaList: viaList)
             property["navigationType"] = "티맵"
-            AmplitudeManager.shared.logEvent(type: .route(.clickStationStartNavigaion), property: property)
+            AmplitudeManager.shared.createEventType(type: RouteEvent.clickStationStartNavigaion)
+                .logEvent(property: property)
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
        

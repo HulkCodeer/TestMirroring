@@ -132,8 +132,9 @@ class MembershipIssuanceViewController: UIViewController,
     func updateAfterPayRegist(json: JSON) {
         if (json["pay_code"].intValue == PaymentCard.PAY_REGISTER_SUCCESS) {
             if let params = self.memberData {
-                applyMembershipCard(params: params)
-                logEvent(with: .completePaymentCard)
+                applyMembershipCard(params: params)                
+                AmplitudeManager.shared.createEventType(type: PaymentEvent.completePaymentCard)
+                    .logEvent()
             } else {
                 Snackbar().show(message: "회원정보를 다시 입력해 주세요.")
                 self.btnNext.isEnabled = true
@@ -247,7 +248,8 @@ class MembershipIssuanceViewController: UIViewController,
                     case "1000":
                         let message = "회원카드는 일반우편으로 발송되며 즉시 충전을 원하실 경우 마이페이지 > 회원카드 관리에 있는 카드번호를 충전기에 입력하시면 됩니다.\n감사합니다.(한전 이외의 충전사업자는 익일 반영됩니다)"
                         UIAlertController.showAlert(title: "알림", message: message, actions: actions)
-                        self.logEvent(with: .completeApplyEVICard)
+                        AmplitudeManager.shared.createEventType(type: PaymentEvent.completeApplyEVICard)
+                            .logEvent()
                     default:
                         UIAlertController.showAlert(title: "알림", message: json["msg"].stringValue, actions: actions)
                 }
@@ -348,17 +350,4 @@ extension MembershipIssuanceViewController: UITextFieldDelegate {
         return newString.length <= 4 //max length is 4
     }
     
-}
-
-// MARK: - Amplitude Logging 이벤트
-extension MembershipIssuanceViewController {
-    private func logEvent(with event: EventType.PaymentEvent) {
-        switch event {
-        case .completeApplyEVICard:
-            AmplitudeManager.shared.logEvent(type: .payment(event))
-        case .completePaymentCard:
-            AmplitudeManager.shared.logEvent(type: .payment(event))
-        default: break
-        }
-    }
 }

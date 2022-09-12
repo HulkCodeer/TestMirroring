@@ -90,8 +90,10 @@ struct BoardWriteViewModel {
                 if let results = value as? Dictionary<String, String>,
                    let documentSRL = results["document_srl"] {
                     
-                    let ampBoardModel = AmpBoardModel(mid: mid, chargerId: chargerId, documentSrl: documentSRL, isFromDetailView: isFromDetailView)
-                    self.logEvent(with: .completeWriteBoardPost, model: ampBoardModel)
+                    let ampBoardModel = AmpBoardModel(mid: mid, chargerId: chargerId, documentSrl: documentSRL, isFromDetailView: isFromDetailView)                                                                            
+                    AmplitudeManager.shared.createEventType(type: BoardEvent.completeWriteBoardPost)
+                        .logEvent(property: ampBoardModel.toProperty)
+                    
                     
                     guard images.count != 0 else {
                         completion(true)
@@ -186,13 +188,3 @@ struct BoardWriteViewModel {
     }
 }
 
-// MARK: - Amplitude Logging 이벤트
-extension BoardWriteViewModel {
-    private func logEvent(with event: EventType.BoardEvent, model: AmpBoardModel) {
-        switch event {
-        case .completeWriteBoardPost:
-            AmplitudeManager.shared.logEvent(type: .board(event), property: model.toProperty)
-        default: break
-        }
-    }
-}
