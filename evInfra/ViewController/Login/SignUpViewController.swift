@@ -325,8 +325,7 @@ internal final class SignUpViewController: UIViewController {
                             
                             let property = ["type" : UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)]
                             AmplitudeManager.shared.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))                            
-                            AmplitudeManager.shared.createEventType(type: SignUpEvent.completeSignUp)
-                                .logEvent(property: property)
+                            SignUpEvent.completeSignUp.logEvent(property: property)
                             
 
                             self.navigationController?.pop()
@@ -364,8 +363,7 @@ internal final class SignUpViewController: UIViewController {
                         
                         let property = ["type" : UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)]                        
                         AmplitudeManager.shared.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
-                        AmplitudeManager.shared.createEventType(type: SignUpEvent.completeSignUp)
-                            .logEvent(property: property)
+                        SignUpEvent.completeSignUp.logEvent(property: property)
                         
                         self.navigationController?.pop()
                         if let delegate = self.delegate {

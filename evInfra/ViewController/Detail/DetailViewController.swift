@@ -97,8 +97,7 @@ internal final class DetailViewController: BaseViewController {
         
         guard let charger = charger else { return }
         let property: [String: Any?] = AmpChargerStationModel(charger).toProperty
-        AmplitudeManager.shared.createEventType(type: ChargerStationEvent.viewStationDetail)
-            .logEvent(property: property)
+        ChargerStationEvent.viewStationDetail.logEvent(property: property)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -365,8 +364,7 @@ internal final class DetailViewController: BaseViewController {
             
             let type: String = mapSwitch.isOn ? "On" : "Off"
             let property: [String: Any] = ["type": type]
-            AmplitudeManager.shared.createEventType(type: ChargerStationEvent.clickStationSatelliteView)
-                .logEvent(property: property)
+            ChargerStationEvent.clickStationSatelliteView.logEvent(property: property)
         }
     }
     
@@ -381,8 +379,7 @@ internal final class DetailViewController: BaseViewController {
         termsViewControll.tabIndex = .StationPrice
         termsViewControll.subParams = "company_id=" + (charger?.mStationInfoDto?.mCompanyId)!
         
-        AmplitudeManager.shared.createEventType(type: ChargerStationEvent.clickStationChargingPrice)
-            .logEvent()
+        ChargerStationEvent.clickStationChargingPrice.logEvent()
         self.navigationController?.push(viewController: termsViewControll)
     }
 }
@@ -405,8 +402,7 @@ extension DetailViewController {
     
     @objc
     fileprivate func handleBackButton() {
-        AmplitudeManager.shared.createEventType(type: ChargerStationEvent.viewStationReview)
-            .logEvent()
+        ChargerStationEvent.viewStationReview.logEvent()
         self.navigationController?.pop(transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
     }
 }
@@ -578,8 +574,7 @@ extension DetailViewController {
         guard let stationName = charger.mStationInfoDto?.mSnm else { return }
         let property: [String: Any] = ["sourceStation": true,
                                        "stationName": stationName]
-        AmplitudeManager.shared.createEventType(type: BoardEvent.clickWriteBoardPost)
-            .logEvent(property: property)
+        BoardEvent.clickWriteBoardPost.logEvent(property: property)
     }
     
     @objc

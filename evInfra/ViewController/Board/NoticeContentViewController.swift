@@ -75,8 +75,7 @@ class NoticeContentViewController: UIViewController {
                             property["noticeType"] = noticeType
                         }
                         
-                        AmplitudeManager.shared.createEventType(type: BoardEvent.viewNotice)
-                            .logEvent(property: property)
+                        BoardEvent.viewNotice.logEvent(property: property)
                     }
                 }
             }

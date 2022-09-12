@@ -80,8 +80,7 @@ class FilterPlaceView: UIView {
 
             let property: [String: Any] = ["filterName": "설치 형태",
                                            "filterValue": values]
-            AmplitudeManager.shared.createEventType(type: FilterEvent.clickUpperFilter)
-                .logEvent(property: property)
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .place)
     }
@@ -104,8 +103,7 @@ class FilterPlaceView: UIView {
 
             let property: [String: Any] = ["filterName": "설치 형태",
                                            "filterValue": values]
-            AmplitudeManager.shared.createEventType(type: FilterEvent.clickUpperFilter)
-                .logEvent(property: property)
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .place)
     }
@@ -128,8 +126,7 @@ class FilterPlaceView: UIView {
 
             let property: [String: Any] = ["filterName": "설치 형태",
                                            "filterValue": values]
-            AmplitudeManager.shared.createEventType(type: FilterEvent.clickUpperFilter)
-                .logEvent(property: property)
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .place)
     }

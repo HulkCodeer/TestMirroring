@@ -217,8 +217,7 @@ extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
                                     self.showResultView(code : 0, imgType : "SUCCESS", retry : false, callBtn : false, msg : "정보가 확인되었습니다.")
                                     
                                     let property: [String: Any] = ["company": "SK 렌터카"]
-                                    AmplitudeManager.shared.createEventType(type: PaymentEvent.completeApplyAllianceCard)
-                                        .logEvent(property: property)
+                                    PaymentEvent.completeApplyAllianceCard.logEvent(property: property)
                                     
                                     break
                                 case 1104 :

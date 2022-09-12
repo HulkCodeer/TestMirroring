@@ -100,8 +100,7 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
                 let storyboard = UIStoryboard(name : "Membership", bundle: nil)
                 let mbsIssueVC = storyboard.instantiateViewController(ofType: MembershipIssuanceViewController.self)
                 self.navigationController?.push(viewController: mbsIssueVC)                                
-                AmplitudeManager.shared.createEventType(type: PaymentEvent.clickApplyEVICard)
-                    .logEvent()
+                PaymentEvent.clickApplyEVICard.logEvent()
             })
             .disposed(by: disposebag)
     }

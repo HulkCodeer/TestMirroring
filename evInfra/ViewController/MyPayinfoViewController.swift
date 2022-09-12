@@ -134,8 +134,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
                 
-                AmplitudeManager.shared.createEventType(type: PaymentEvent.completePaymentCard)
-                    .logEvent()
+                PaymentEvent.completePaymentCard.logEvent()
             
             case PaymentCard.PAY_REGISTER_FAIL, PaymentCard.PAY_REGISTER_FAIL_PG:
                 self.registerInfo.isHidden = false

@@ -552,8 +552,7 @@ extension LeftViewController {
                 GlobalDefine.shared.mainNavi?.push(viewController: guideVC)
 
                 let property: [String: Any] = ["source": "설정"]            
-                AmplitudeManager.shared.createEventType(type: BoardEvent.viewFAQ)
-                    .logEvent(property: property)
+                BoardEvent.viewFAQ.logEvent(property: property)
             default:
                 print("out of index")
             }

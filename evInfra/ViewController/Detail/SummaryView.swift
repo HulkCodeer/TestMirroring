@@ -424,8 +424,7 @@ class SummaryView: UIView {
         guard let _charger = self.charger else { return }
         var property: [String: Any] = AmpChargerStationModel(_charger).toProperty
         property["source"] = viewType?.toSource
-        AmplitudeManager.shared.createEventType(type: RouteEvent.clickStationSelectStarting)
-            .logEvent(property: property)
+        RouteEvent.clickStationSelectStarting.logEvent(property: property)
     }
     // end
     @IBAction func onClickEndPoint(_ sender: Any) {
@@ -435,8 +434,7 @@ class SummaryView: UIView {
         guard let _charger = self.charger else { return }
         var property: [String: Any] = AmpChargerStationModel(_charger).toProperty
         property["source"] = viewType?.toSource
-        AmplitudeManager.shared.createEventType(type: RouteEvent.clickStationSelectDestination)
-            .logEvent(property: property)
+        RouteEvent.clickStationSelectDestination.logEvent(property: property)
     }
     // add
     @IBAction func onClickAddPoint(_ sender: Any) {
@@ -446,8 +444,7 @@ class SummaryView: UIView {
         guard let _charger = self.charger else { return }
         var property: [String: Any] = AmpChargerStationModel(_charger).toProperty
         property["source"] = viewType?.toSource
-        AmplitudeManager.shared.createEventType(type: RouteEvent.clickStationSelectTransit)
-            .logEvent(property: property)
+        RouteEvent.clickStationSelectTransit.logEvent(property: property)
     }
     // navigation
     @IBAction func onClickNavi(_ sender: UIButton) {
@@ -485,11 +482,9 @@ class SummaryView: UIView {
         }
         
         if isFavorite {
-            AmplitudeManager.shared.createEventType(type: MapEvent.clickStationAddFavorite)
-                .logEvent(property: property)            
+            MapEvent.clickStationAddFavorite.logEvent(property: property)
         } else {
-            AmplitudeManager.shared.createEventType(type: MapEvent.clickStationCancelFavorite)
-                .logEvent(property: property)
+            MapEvent.clickStationCancelFavorite.logEvent(property: property)
         }
     }
     

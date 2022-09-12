@@ -101,11 +101,9 @@ class ChargerTableViewCell: UITableViewCell {
         var property: [String: Any?] = AmpChargerStationModel(charger).toProperty
         property["source"] = "즐겨찾기 화면"
         if isFavorite {
-            AmplitudeManager.shared.createEventType(type: MapEvent.clickStationAddFavorite)
-                .logEvent(property: property)
+            MapEvent.clickStationAddFavorite.logEvent(property: property)
         } else {            
-            AmplitudeManager.shared.createEventType(type: MapEvent.clickStationAddFavorite)
-                .logEvent(property: property)
+            MapEvent.clickStationCancelFavorite.logEvent(property: property)
         }
     }
     
@@ -114,8 +112,7 @@ class ChargerTableViewCell: UITableViewCell {
         if !isOn {
             property["type"] = type
         }
-        AmplitudeManager.shared.createEventType(type: MapEvent.clickFavoriteStationAlarm)
-            .logEvent(property: property)
+        MapEvent.clickFavoriteStationAlarm.logEvent(property: property)
     }
     
     @objc func onClickAlarm(_ sender: UIButton) {

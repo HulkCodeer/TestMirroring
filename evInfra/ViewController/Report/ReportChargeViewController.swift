@@ -72,9 +72,7 @@ internal final class ReportChargeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        AmplitudeManager.shared
-            .createEventType(type: ReportsEvent.clickStationReport)
-            .logEvent()
+        ReportsEvent.clickStationReport.logEvent()
         
         addObserver()
     }
@@ -307,8 +305,7 @@ internal final class ReportChargeViewController: UIViewController {
 
                     // 제보 정보 다시 받아오기
                     self.requestReportData()
-                    AmplitudeManager.shared.createEventType(type: ReportsEvent.clickStationCompleteReport)
-                        .logEvent()
+                    ReportsEvent.clickStationCompleteReport.logEvent()
                     
                 } else {
                     Snackbar().show(message: "수정 요청이 실패하였습니다. 다시 시도해 주세요.")

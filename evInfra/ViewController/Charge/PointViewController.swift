@@ -75,8 +75,7 @@ internal final class PointViewController: UIViewController {
         prepareTableView()
                 
         let property: [String: Any] = ["berryAmount": "\(MemberManager.shared.berryPoint)"]
-        AmplitudeManager.shared.createEventType(type: PaymentEvent.viewMyBerry)
-            .logEvent(property: property)
+        PaymentEvent.viewMyBerry.logEvent(property: property)
 
         // 오늘 포인트 이력 가져오기
         btnAllBerry.isSelected = true

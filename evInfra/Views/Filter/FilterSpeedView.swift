@@ -107,8 +107,7 @@ class FilterSpeedView: UIView {
             let property: [String: Any] = ["filterName": "충전 속도",
                                            "minChargingSpeed": "\(minSpeed == 0 ? "완속" : "\(minSpeed)")",
                                            "maxChargingSpeed": "\(maxSpeed == 0 ? "완속" : "\(maxSpeed)")"]
-            AmplitudeManager.shared.createEventType(type: FilterEvent.clickUpperFilter)
-                .logEvent(property: property)
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .speed)
     }

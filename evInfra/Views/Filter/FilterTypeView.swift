@@ -221,8 +221,7 @@ extension FilterTypeView : DelegateTagListViewCell{
             FilterManager.sharedInstance.saveTypeFilter(index: tagList[index].index, val: value)
             let property: [String: Any] = ["filterName": "충전기 타입",
                                            "filterValue": tagList.filter({ $0.selected }).map { $0.title }]
-            AmplitudeManager.shared.createEventType(type: FilterEvent.clickUpperFilter)
-                .logEvent(property: property)
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         if index == 3 || index == 5 {
             sendTypeChange()

@@ -94,8 +94,7 @@ class PreUsePointViewController: UIViewController {
     @objc
     fileprivate func handleResetButton() {
         // 설정된 값이 0이 아니면 초기화
-        AmplitudeManager.shared.createEventType(type: PaymentEvent.clickResetBerry)
-            .logEvent()
+        PaymentEvent.clickResetBerry.logEvent()
         
         if oldUsePoint != 0 {
             preUsePoint = 0
@@ -159,8 +158,7 @@ class PreUsePointViewController: UIViewController {
                     
                     let setBerryAmount: String = self.preUsePoint == -1 ? "전액" : "\(self.preUsePoint)"
                     let property: [String: Any] = ["setberryAmount": setBerryAmount]
-                    AmplitudeManager.shared.createEventType(type: PaymentEvent.clickSetUpBerry)
-                        .logEvent(property: property)
+                    PaymentEvent.clickSetUpBerry.logEvent(property: property)
                 }
             } else {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료 후 재시도 바랍니다.")

@@ -57,8 +57,7 @@ class MyWritingViewController: BaseViewController {
         
         let boardType = boardCategory == .FREE ? "자유 게시판" : "충전소 게시판"
         let property: [String: Any] = ["type" : boardType]
-        AmplitudeManager.shared.createEventType(type: MyReportsEvent.viewMyPost)
-            .logEvent(property: property)
+        MyReportsEvent.viewMyPost.logEvent(property: property)
     }
 }
 

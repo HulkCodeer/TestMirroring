@@ -149,8 +149,7 @@ extension CardBoardViewController {
                 
         self.navigationController?.push(viewController: boardWriteViewController)
                 
-        AmplitudeManager.shared.createEventType(type: BoardEvent.clickWriteBoardPost)
-            .logEvent()
+        BoardEvent.clickWriteBoardPost.logEvent()
     }
 }
 

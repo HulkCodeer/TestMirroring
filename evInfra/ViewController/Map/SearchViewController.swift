@@ -284,9 +284,8 @@ extension SearchViewController {
             let property: [String: Any] = ["searchKeyword": text,
                                            "selectedStation": charger.mStationInfoDto?.mSnm ?? "",
                                            "result": "성공",
-                                           "stationOrAddress": "\(searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")"]                                        
-            AmplitudeManager.shared.createEventType(type: SearchEvent.clickSearchChooseStation)
-                .logEvent(property: property)
+                                           "stationOrAddress": "\(searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")"]                                                   
+            SearchEvent.clickSearchChooseStation.logEvent(property: property)
         }
     }
 }

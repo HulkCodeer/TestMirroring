@@ -91,8 +91,7 @@ struct BoardWriteViewModel {
                    let documentSRL = results["document_srl"] {
                     
                     let ampBoardModel = AmpBoardModel(mid: mid, chargerId: chargerId, documentSrl: documentSRL, isFromDetailView: isFromDetailView)                                                                            
-                    AmplitudeManager.shared.createEventType(type: BoardEvent.completeWriteBoardPost)
-                        .logEvent(property: ampBoardModel.toProperty)
+                    BoardEvent.completeWriteBoardPost.logEvent(property: ampBoardModel.toProperty)
                     
                     
                     guard images.count != 0 else {

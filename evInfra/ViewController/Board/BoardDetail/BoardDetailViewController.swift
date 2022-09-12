@@ -69,8 +69,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
                                            "postID": postId,
                                            "likeCount": likeCnt,
                                            "replyCount": replyCnt]
-            AmplitudeManager.shared.createEventType(type: BoardEvent.viewBoardPost)
-                .logEvent(property: property)
+            BoardEvent.viewBoardPost.logEvent(property: property)
         }
         getAdminList { adminList in
             self.adminList = adminList

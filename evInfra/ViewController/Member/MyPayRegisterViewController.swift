@@ -26,8 +26,7 @@ class MyPayRegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        AmplitudeManager.shared.createEventType(type: PaymentEvent.clickAddPaymentCard)
-            .logEvent()
+        PaymentEvent.clickAddPaymentCard.logEvent()
         
         prepareActionBar()
         makePostRequest(url: Const.EV_PAY_SERVER + "/pay/evPay/registEvPay", payload: ["mb_id":"\(MemberManager.shared.mbId)"])

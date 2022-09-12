@@ -75,8 +75,7 @@ class FilterRoadView: UIView {
             }
             let property: [String: Any] = ["filterName": "도로",
                                            "filterValue": values]            
-            AmplitudeManager.shared.createEventType(type: FilterEvent.clickUpperFilter)
-                .logEvent(property: property)
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .road)
     }
@@ -99,8 +98,7 @@ class FilterRoadView: UIView {
             }
             let property: [String: Any] = ["filterName": "도로",
                                            "filterValue": values]            
-            AmplitudeManager.shared.createEventType(type: FilterEvent.clickUpperFilter)
-                .logEvent(property: property)
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .road)
     }
@@ -123,8 +121,7 @@ class FilterRoadView: UIView {
             }
             let property: [String: Any] = ["filterName": "도로",
                                            "filterValue": values]
-            AmplitudeManager.shared.createEventType(type: FilterEvent.clickUpperFilter)
-                .logEvent(property: property)
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .road)
     }

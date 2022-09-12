@@ -57,7 +57,8 @@ class CorporationLoginViewController: UIViewController {
                         } else {
                             Snackbar().show(message: "로그인 성공")
                             MemberManager.shared.setData(data: json)
-                            AmplitudeManager.shared.corpLoginEvent()
+                            
+                            CorpLoginEvent.complteLogin.logEvent()
                             
                             GlobalDefine.shared.mainNavi?.pop()
                             if let delegate = self.delegate {

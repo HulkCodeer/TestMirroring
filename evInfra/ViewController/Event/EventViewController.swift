@@ -129,8 +129,7 @@ extension EventViewController {
         Server.countEventAction(eventId: [String(list[index].eventId)], action: .click, page: .event, layer: .list)
         let property: [String: Any] = ["eventId": "\(list[index].eventId)",
                                        "eventName": "\(list[index].title)"]        
-        AmplitudeManager.shared.createEventType(type: PromotionEvent.clickEvent)
-            .logEvent(property: property)
+        PromotionEvent.clickEvent.logEvent(property: property)
     }
 }
 

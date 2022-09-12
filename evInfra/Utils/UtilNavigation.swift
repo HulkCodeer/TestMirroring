@@ -20,14 +20,12 @@ public class UtilNavigation {
             self.openKakaoNavigation(startPoint: startPoint, endPoint: endPoint, viaList: viaList)
             property["navigationType"] = "카카오맵"
             
-            AmplitudeManager.shared.createEventType(type: RouteEvent.clickStationStartNavigaion)
-                .logEvent(property: property)
+            RouteEvent.clickStationStartNavigaion.logEvent(property: property)
         }
         let tMap = UIAlertAction(title: "티맵(T MAP)", style: .default) { _ in
             self.tmapNavigation(startPoint: startPoint, endPoint: endPoint, viaList: viaList)
             property["navigationType"] = "티맵"
-            AmplitudeManager.shared.createEventType(type: RouteEvent.clickStationStartNavigaion)
-                .logEvent(property: property)
+            RouteEvent.clickStationStartNavigaion.logEvent(property: property)
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
        

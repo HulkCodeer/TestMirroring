@@ -65,8 +65,7 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                         self.lbCardInfo.text = "\(resultJson["card_co"].stringValue) \(resultJson["card_nm"].stringValue)"
                         self.lbCardStatus.textColor = UIColor(named: "content-positive")
                         self.lbCardInfo.text = "카드 정상 등록 완료"                        
-                        AmplitudeManager.shared.createEventType(type: PaymentEvent.completePaymentCard)
-                            .logEvent()
+                        PaymentEvent.completePaymentCard.logEvent()
                         
                         if self.totalPoint > self.totalAmount {
                             // dialog

@@ -67,8 +67,7 @@ class CommunityBoardAdsCell: UITableViewCell {
                 let property: [String: Any] = ["bannerType": "게시판 배너",
                                                "adID": item.document_srl ?? "",
                                                "adName": item.title ?? ""]
-                AmplitudeManager.shared.createEventType(type: PromotionEvent.clickBanner)
-                    .logEvent(property: property)
+                PromotionEvent.clickBanner.logEvent(property: property)
                 
             }
         }

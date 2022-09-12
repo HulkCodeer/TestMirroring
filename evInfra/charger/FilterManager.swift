@@ -423,7 +423,6 @@ extension FilterManager {
                                        "chargingStation": getChargingStations(),
                                        "source": source]
         
-        AmplitudeManager.shared.createEventType(type: FilterEvent.clickFilterSave)
-            .logEvent(property: property)
+       FilterEvent.clickFilterSave.logEvent(property: property)
     }
 }

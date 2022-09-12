@@ -167,8 +167,7 @@ extension RentalCarCardListViewController: PartnershipJoinViewDelegate {
         let storyboard = UIStoryboard(name : "Membership", bundle: nil)
         let mbsQRVC = storyboard.instantiateViewController(ofType: MembershipQRViewController.self)        
         let property: [String: Any] = ["company": "롯데 렌터카"]
-        AmplitudeManager.shared.createEventType(type: PaymentEvent.clickApplyAllianceCard)
-            .logEvent(property: property)
+        PaymentEvent.clickApplyAllianceCard.logEvent(property: property)
         navigationController?.push(viewController: mbsQRVC)
     }
     
@@ -176,8 +175,7 @@ extension RentalCarCardListViewController: PartnershipJoinViewDelegate {
         let storyboard = UIStoryboard(name : "Membership", bundle: nil)
         let lotteVC = storyboard.instantiateViewController(ofType: LotteRentCertificateViewController.self)
         let property: [String: Any] = ["company": "롯데 렌터카"]
-        AmplitudeManager.shared.createEventType(type: PaymentEvent.clickApplyAllianceCard)
-            .logEvent(property: property)
+        PaymentEvent.clickApplyAllianceCard.logEvent(property: property)
         navigationController?.push(viewController: lotteVC)
     }
 }

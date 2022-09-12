@@ -108,8 +108,7 @@ extension BannerPagerView: FSPagerViewDelegate {
         let property: [String: Any] = ["bannerType": bannerType,
                                        "adID": banner.evtId,
                                        "adName": banner.evtTitle]
-        AmplitudeManager.shared.createEventType(type: PromotionEvent.clickBanner)
-            .logEvent(property: property)
+        PromotionEvent.clickBanner.logEvent(property: property)
         // open url
         let adUrl = banner.extUrl
         guard let url = URL(string: adUrl), UIApplication.shared.canOpenURL(url) else { return }

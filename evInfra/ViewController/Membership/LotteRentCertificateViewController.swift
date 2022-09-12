@@ -69,8 +69,7 @@ class LotteRentCertificateViewController : UIViewController,
     func updateAfterPayRegist(json: JSON) {
         if (json["pay_code"].intValue == PaymentCard.PAY_REGISTER_SUCCESS) {
             self.activateMember()
-            AmplitudeManager.shared.createEventType(type: PaymentEvent.completePaymentCard)
-                .logEvent()
+            PaymentEvent.completePaymentCard.logEvent()
             
         } else {
             if json["resultMsg"].stringValue.isEmpty {
@@ -175,8 +174,7 @@ class LotteRentCertificateViewController : UIViewController,
                 }
                 
                 let property: [String: Any] = ["company": "롯데 렌터카"]
-                AmplitudeManager.shared.createEventType(type: PaymentEvent.completeApplyAllianceCard)
-                    .logEvent(property: property)
+                PaymentEvent.completeApplyAllianceCard.logEvent(property: property)
             }
             else {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")

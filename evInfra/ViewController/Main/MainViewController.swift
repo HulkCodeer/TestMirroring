@@ -119,8 +119,7 @@ internal final class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        AmplitudeManager.shared.createEventType(type: MapEvent.viewMainPage)
-            .logEvent()
+        MapEvent.viewMainPage.logEvent()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -334,8 +333,7 @@ internal final class MainViewController: UIViewController {
         
         updateMyLocationButton()
                 
-        AmplitudeManager.shared.createEventType(type: MapEvent.clickMyLocation)
-            .logEvent()
+        MapEvent.clickMyLocation.logEvent()
     }
     
     @IBAction func onClickRenewBtn(_ sender: UIButton) {
@@ -343,8 +341,7 @@ internal final class MainViewController: UIViewController {
             self.refreshChargerInfo()
         }
         
-        AmplitudeManager.shared.createEventType(type: MapEvent.clickRenew)
-            .logEvent()
+        MapEvent.clickRenew.logEvent()
     }
     
     // 파란색 길안내 버튼 누를때
@@ -363,8 +360,7 @@ internal final class MainViewController: UIViewController {
             self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
         }
                 
-        AmplitudeManager.shared.createEventType(type: RouteEvent.clickNavigationFindway)
-            .logEvent()
+        RouteEvent.clickNavigationFindway.logEvent()
     }
     
     private func configureLocationManager() {
@@ -528,16 +524,14 @@ extension MainViewController: AppToolbarDelegate {
                                                "stationOrAddress": "\(searchVC.searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")",
                                                "searchKeyword": "\(searchVC.searchBarController?.searchBar.textField.text ?? "")",
                                                "selectedStation": ""]
-                AmplitudeManager.shared.createEventType(type: SearchEvent.clickSearchChooseStation)
-                    .logEvent(property: property)
+                SearchEvent.clickSearchChooseStation.logEvent(property: property)
                 
             }
             self.present(appSearchBarController, animated: true, completion: nil)
         case 2: // 경로 찾기 버튼
             if let isRouteMode = arg as? Bool {
                 showRouteView(isShow: isRouteMode)
-                AmplitudeManager.shared.createEventType(type: RouteEvent.clickNavigation)
-                    .logEvent(property: ["onOrOff": "\(isRouteMode ? "On" : "Off")"])
+                RouteEvent.clickNavigation.logEvent(property: ["onOrOff": "\(isRouteMode ? "On" : "Off")"])
             }
         default:
             break
@@ -605,8 +599,7 @@ extension MainViewController: TextFieldDelegate {
     
     @objc func onClickRouteCancel(_ sender: UIButton) {
         clearSearchResult()
-        AmplitudeManager.shared.createEventType(type: RouteEvent.clickNavigationFindway)
-            .logEvent()
+        RouteEvent.clickNavigationFindway.logEvent()
     }
     
     // TODO: 한 view controller에서 사용되는 앰플리튜드 로깅 이벤트 한 곳에서 처리
@@ -885,15 +878,13 @@ extension MainViewController: MarkerTouchDelegate {
         let ampChargerStationModel = AmpChargerStationModel(charger)
         var property: [String: Any] = ampChargerStationModel.toProperty
         property["source"] = "마커"
-        AmplitudeManager.shared.createEventType(type: MapEvent.viewStationSummarized)
-            .logEvent(property: property)
+        MapEvent.viewStationSummarized.logEvent(property: property)
     }
 }
 
 extension MainViewController: ChargerSelectDelegate {
     func moveToSelectLocation(lat: Double, lon: Double) {
-        AmplitudeManager.shared.createEventType(type: MapEvent.viewMainPage)
-            .logEvent()
+        MapEvent.viewMainPage.logEvent()
         guard lat == 0, lon == 0 else {
             myLocationModeOff()
             
@@ -912,16 +903,14 @@ extension MainViewController: ChargerSelectDelegate {
     }
     
     func moveToSelected(chargerId: String) {
-        AmplitudeManager.shared.createEventType(type: MapEvent.viewMainPage)
-            .logEvent()
+        MapEvent.viewMainPage.logEvent()
         guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
         let position = NMGLatLng(lat: charger.mStationInfoDto?.mLatitude ?? 0.0,
                                  lng: charger.mStationInfoDto?.mLongitude ?? 0.0)
         let ampChargerStaionModel = AmpChargerStationModel(charger)
         var property: [String: Any] = ampChargerStaionModel.toProperty
         property["source"] = "검색"
-        AmplitudeManager.shared.createEventType(type: MapEvent.viewStationSummarized)
-            .logEvent(property: property)
+        MapEvent.viewStationSummarized.logEvent(property: property)
         
         // 기존에 선택된 마커 지우기
         naverMapView.searchMarker?.mapView = nil
@@ -1442,8 +1431,7 @@ extension MainViewController {
         GlobalDefine.shared.mainNavi?.push(viewController: termsViewController)
         
         let property: [String: Any] = ["source": "메인 페이지"]
-        AmplitudeManager.shared.createEventType(type: BoardEvent.viewFAQ)
-            .logEvent(property: property)
+        BoardEvent.viewFAQ.logEvent(property: property)
     }
 }
 

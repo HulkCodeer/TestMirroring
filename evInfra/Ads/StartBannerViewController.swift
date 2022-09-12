@@ -143,8 +143,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
             .drive(with: self) { owner, _ in
                 owner.closeStartBannerViewController()
                 let property: [String: Any] = ["type": owner.closeButton.titleLabel?.text ?? "닫기"]
-                AmplitudeManager.shared.createEventType(type: PromotionEvent.clickCloseBanner)
-                    .logEvent(property: property)
+               PromotionEvent.clickCloseBanner.logEvent(property: property)
             }.disposed(by: disposeBag)
         
         closeWithDurationButton.rx.tap
@@ -153,8 +152,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
                 UserDefault().saveString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK, value: Date().toString())
                 owner.closeStartBannerViewController()
                 let property: [String: Any] = ["type": owner.closeWithDurationButton.titleLabel?.text ?? "7일간 보지 않기"]
-                AmplitudeManager.shared.createEventType(type: PromotionEvent.clickCloseBanner)
-                    .logEvent(property: property)
+               PromotionEvent.clickCloseBanner.logEvent(property: property)
                 
             }.disposed(by: disposeBag)
     }
