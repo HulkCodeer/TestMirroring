@@ -51,13 +51,25 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
         boardDetailViewModel.fetchBoardDetail(mid: category.rawValue, document_srl: document_srl)
         boardDetailViewModel.listener = { [weak self] detail in
             guard let self = self else { return }
-            
             self.detail = detail
-            self.logEvent(with: .viewBoardPost)
-            
             DispatchQueue.main.async {
                 self.detailTableView.reloadData()
             }
+            
+            guard let detail = self.detail, let document = detail.document else { return }
+            
+            let postId = document.document_srl ?? ""
+            let likeCnt = document.like_count ?? "0"
+            let replyCnt = document.comment_count ?? "0"
+            let boardType = self.category == .FREE ? "자유 게시판" : "충전소 게시판"
+            let source = self.isFromStationDetailView ? "\(document.parseChargerIdToName())" : "충전소 게시판"
+            
+            let property: [String: Any] = ["boardType": boardType,
+                                           "source": source,
+                                           "postID": postId,
+                                           "likeCount": likeCnt,
+                                           "replyCount": replyCnt]
+            BoardEvent.viewBoardPost.logEvent(property: property)
         }
         getAdminList { adminList in
             self.adminList = adminList
@@ -630,30 +642,5 @@ extension BoardDetailViewController: ButtonClickDelegate {
 extension BoardDetailViewController {
     @objc private func handleTap(recognizer: UITapGestureRecognizer) {
         self.view.endEditing(true)
-    }
-}
-
-// MARK: - Amplitude Logging 이벤트
-extension BoardDetailViewController {
-    private func logEvent(with event: EventType.BoardEvent) {
-        switch event {
-        case .viewBoardPost:
-            guard let detail = self.detail, let document = detail.document else { return }
-            
-            let postId = document.document_srl ?? ""
-            let likeCnt = document.like_count ?? "0"
-            let replyCnt = document.comment_count ?? "0"
-            let boardType = self.category == .FREE ? "자유 게시판" : "충전소 게시판"
-            let source = isFromStationDetailView ? "\(document.parseChargerIdToName())" : "충전소 게시판"
-            
-            let property: [String: Any] = ["boardType": boardType,
-                                           "source": source,
-                                           "postID": postId,
-                                           "likeCount": likeCnt,
-                                           "replyCount": replyCnt]
-            
-            AmplitudeManager.shared.logEvent(type: .board(event), property: property)
-        default: break
-        }
     }
 }

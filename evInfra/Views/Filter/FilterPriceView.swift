@@ -68,8 +68,7 @@ class FilterPriceView: UIView {
             
             let property: [String: Any] = ["filterName": "충전 금액",
                                            "filterValue": values]
-            AmplitudeManager.shared.createEventType(type: FilterEvent.clickUpperFilter)
-                .logEvent(property: property)
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .price)
     }
@@ -89,8 +88,7 @@ class FilterPriceView: UIView {
             
             let property: [String: Any] = ["filterName": "충전 금액",
                                            "filterValue": values]
-            AmplitudeManager.shared.createEventType(type: FilterEvent.clickUpperFilter)
-                .logEvent(property: property)
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .price)
     }

@@ -26,8 +26,8 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case EvBonusStatus     // 보조금 현황
         case BusinessInfo      // 사업자정보
         case StationPrice      // 충전소 요금정보
-        case faqTop            // FAQ (top10)
-        case faqDetail         // FAQ detail page
+        case FAQTop            // FAQ (top10)
+        case FAQDetail         // FAQ detail page
         case BatteryInfo       // SK Battery
     }
 
@@ -116,7 +116,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case .StationPrice:
             navigationItem.titleLabel.text = "충전소 가격정보"
 //            self.title = "충전소 가격정보 화면"
-        case .faqDetail, .faqTop:
+        case .FAQDetail, .FAQTop:
             navigationItem.titleLabel.text = "자주묻는 질문"
 //            self.title = "자주묻는 질문 화면"
         case .BatteryInfo:
@@ -178,8 +178,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
             
         case .PriceInfo:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/charge_price_info"            
-            AmplitudeManager.shared.createEventType(type: MapEvent.viewChargingPriceInfo)
-                .logEvent()
+            MapEvent.viewChargingPriceInfo.logEvent()
             
         case .EvBonusStatus:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/subsidy_status"
@@ -190,10 +189,10 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case .StationPrice:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/charge_price_info"
             
-        case .faqTop:
+        case .FAQTop:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/faq_main"
             
-        case .faqDetail:
+        case .FAQDetail:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/faq_detail"
         
         case .BatteryInfo:

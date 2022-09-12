@@ -112,7 +112,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-//        requestStationInfo()
+        requestStationInfo()
         
         prepareCalloutLayer()
         
@@ -135,9 +135,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage)) // 앰플리튜드 로깅
-        
+        super.viewWillAppear(animated)        
         if !GlobalDefine.shared.tempDeepLink.isEmpty {
             DeepLinkModel.shared.openSchemeURL(urlstring: GlobalDefine.shared.tempDeepLink)            
         } else {
@@ -147,6 +145,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 .bind(to: _reactor.action)
                 .disposed(by: self.disposeBag)
         }
+        MapEvent.viewMainPage.logEvent()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -185,7 +184,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)    
+        super.viewWillDisappear(true)
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
         guard !MemberManager.shared.isShowQrTooltip else { return }
         _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
@@ -417,16 +416,16 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             
             updateMyLocationButton()
-            
-            AmplitudeManager.shared.logEvent(type: .map(.clickMyLocation)) // 앰플리튜드 로깅
+                    
+            MapEvent.clickMyLocation.logEvent()
         }
     }
     
     @IBAction func onClickRenewBtn(_ sender: UIButton) {
         if !self.markerIndicator.isAnimating {
             self.refreshChargerInfo()
-        }
-        AmplitudeManager.shared.logEvent(type: .map(.clickRenew))
+        }        
+        MapEvent.clickRenew.logEvent()
     }
     
     // 파란색 길안내 버튼 누를때
@@ -443,10 +442,36 @@ internal final class MainViewController: UIViewController, StoryboardView {
             let start = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
             
             self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
+        }                
+        RouteEvent.clickNavigationFindway.logEvent()
+    }
+    
+    private func configureLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+    }
+}
+
+extension MainViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        var status: CLAuthorizationStatus = .authorizedWhenInUse
+        if #available(iOS 14.0, *) {
+            status = manager.authorizationStatus
+        } else {
+            // Fallback on earlier versions
         }
         
-        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway)) // 앰플리튜드 로깅
-    }        
+        switch status {
+        case .notDetermined, .restricted:
+            break
+        case .denied:
+            break
+        case .authorizedAlways, .authorizedWhenInUse, .authorized:
+            self.naverMapView.moveToCurrentPostiion()
+            break
+        }
+    }
+>>>>>>> develop/20220911
 }
 
 extension MainViewController: DelegateChargerFilterView {
@@ -583,13 +608,14 @@ extension MainViewController: AppToolbarDelegate {
                                                "stationOrAddress": "\(searchVC.searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")",
                                                "searchKeyword": "\(searchVC.searchBarController?.searchBar.textField.text ?? "")",
                                                "selectedStation": ""]
-                AmplitudeManager.shared.logEvent(type: .search(.clickSearchChooseStation), property: property)
+                SearchEvent.clickSearchChooseStation.logEvent(property: property)
+                
             }
             self.present(appSearchBarController, animated: true, completion: nil)
         case 2: // 경로 찾기 버튼
             if let isRouteMode = arg as? Bool {
                 showRouteView(isShow: isRouteMode)
-                AmplitudeManager.shared.logEvent(type: .route(.clickNavigation), property: ["onOrOff": "\(isRouteMode ? "On" : "Off")"]) // 앰플리튜드 로깅
+                RouteEvent.clickNavigation.logEvent(property: ["onOrOff": "\(isRouteMode ? "On" : "Off")"])
             }
         default:
             break
@@ -657,14 +683,9 @@ extension MainViewController: TextFieldDelegate {
     
     @objc func onClickRouteCancel(_ sender: UIButton) {
         clearSearchResult()
-        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway)) // 앰플리튜드 로깅
+        RouteEvent.clickNavigationFindway.logEvent()
     }
-    
-    // TODO: 한 view controller에서 사용되는 앰플리튜드 로깅 이벤트 한 곳에서 처리
-    func testLogingEvent(type: EventType) {
-        
-    }
-    
+            
     @objc func onClickRoute(_ sender: UIButton) {
         findPath(passList: [])
     }
@@ -934,16 +955,15 @@ extension MainViewController: MarkerTouchDelegate {
         selectCharger(chargerId: charger.mStationInfoDto?.mChargerId ?? "")
         
         let ampChargerStationModel = AmpChargerStationModel(charger)
-        var property: [String: Any?] = ampChargerStationModel.toProperty
+        var property: [String: Any] = ampChargerStationModel.toProperty
         property["source"] = "마커"
-        
-        AmplitudeManager.shared.logEvent(type: .map(.viewStationSummarized), property: property)
+        MapEvent.viewStationSummarized.logEvent(property: property)
     }
 }
 
 extension MainViewController: ChargerSelectDelegate {
     func moveToSelectLocation(lat: Double, lon: Double) {
-        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage)) // 앰플리튜드 로깅
+        MapEvent.viewMainPage.logEvent()
         guard lat == 0, lon == 0 else {
             myLocationModeOff()
             
@@ -962,14 +982,14 @@ extension MainViewController: ChargerSelectDelegate {
     }
     
     func moveToSelected(chargerId: String) {
-        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage)) // 앰플리튜드 로깅
+        MapEvent.viewMainPage.logEvent()
         guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
         let position = NMGLatLng(lat: charger.mStationInfoDto?.mLatitude ?? 0.0,
                                  lng: charger.mStationInfoDto?.mLongitude ?? 0.0)
         let ampChargerStaionModel = AmpChargerStationModel(charger)
-        var property: [String: Any?] = ampChargerStaionModel.toProperty
+        var property: [String: Any] = ampChargerStaionModel.toProperty
         property["source"] = "검색"
-        AmplitudeManager.shared.logEvent(type: .map(.viewStationSummarized), property: property)
+        MapEvent.viewStationSummarized.logEvent(property: property)
         
         // 기존에 선택된 마커 지우기
         naverMapView.searchMarker?.mapView = nil
@@ -1310,7 +1330,7 @@ extension MainViewController {
             }
         }
     }
-                
+
     private func checkFCM() {
         if let notification = FCMManager.sharedInstance.fcmNotification {
             FCMManager.sharedInstance.alertMessage(data: notification)
@@ -1383,7 +1403,7 @@ extension MainViewController {
         GlobalDefine.shared.mainNavi?.push(viewController: termsViewController)
         
         let property: [String: Any] = ["source": "메인 페이지"]
-        AmplitudeManager.shared.logEvent(type: .board(.viewFAQ), property: property)
+        BoardEvent.viewFAQ.logEvent(property: property)
     }
 }
 
@@ -1449,12 +1469,12 @@ extension MainViewController {
         let popupModel = PopupModel(title: "카메라 권한이 필요해요",
                                     message: "QR 스캔을 위해 권한 허용이 필요해요.\n[설정] > [권한]에서 권한을 허용할 수 있어요.",
                                     confirmBtnTitle: "설정하기", cancelBtnTitle: "닫기",
-                                    confirmBtnAction: { 
+                                    confirmBtnAction: {
             if let url = URL(string: UIApplicationOpenSettingsURLString) {
                 if UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
-            }            
+            }
         }, textAlignment: .center, dimmedBtnAction: {})
         
         let popup = ConfirmPopupViewController(model: popupModel)
@@ -1507,7 +1527,7 @@ extension MainViewController {
                     LoginHelper.shared.logout(completion: { success in
                         if success {
                             self.navigationDrawerController?.toggleLeftView()
-                            Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")                            
+                            Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
                         } else {
                             Snackbar().show(message: "다시 시도해 주세요.")
                         }
@@ -1531,7 +1551,7 @@ extension MainViewController: RepaymentListDelegate {
     func onRepaySuccess() {
         let reactor = PaymentQRScanReactor(provider: RestApi())
         let viewcon = NewPaymentQRScanViewController(reactor: reactor)
-        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)        
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     func onRepayFail() {

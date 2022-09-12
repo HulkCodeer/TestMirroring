@@ -420,32 +420,36 @@ class SummaryView: UIView {
     @IBAction func onClickStartPoint(_ sender: Any) {
         let start = Notification.Name(rawValue: startKey)
         NotificationCenter.default.post(name: start, object: charger)
-        logEventWithRouteType(position: .clickStationSelectStarting, charger)
+        
+        guard let _charger = self.charger else { return }
+        var property: [String: Any] = AmpChargerStationModel(_charger).toProperty
+        property["source"] = viewType?.toSource
+        RouteEvent.clickStationSelectStarting.logEvent(property: property)
     }
     // end
     @IBAction func onClickEndPoint(_ sender: Any) {
         let end = Notification.Name(rawValue: endKey)
         NotificationCenter.default.post(name: end, object: charger)
-        logEventWithRouteType(position: .clickStationSelectDestination, charger)
+        
+        guard let _charger = self.charger else { return }
+        var property: [String: Any] = AmpChargerStationModel(_charger).toProperty
+        property["source"] = viewType?.toSource
+        RouteEvent.clickStationSelectDestination.logEvent(property: property)
     }
     // add
     @IBAction func onClickAddPoint(_ sender: Any) {
         let add = Notification.Name(rawValue: addKey)
         NotificationCenter.default.post(name: add, object: charger)
-        logEventWithRouteType(position: .clickStationSelectTransit, charger)
+        
+        guard let _charger = self.charger else { return }
+        var property: [String: Any] = AmpChargerStationModel(_charger).toProperty
+        property["source"] = viewType?.toSource
+        RouteEvent.clickStationSelectTransit.logEvent(property: property)
     }
     // navigation
     @IBAction func onClickNavi(_ sender: UIButton) {
         let navigation = Notification.Name(rawValue: navigationKey)
         NotificationCenter.default.post(name: navigation, object: charger)
-    }
-    
-    private func logEventWithRouteType(position: EventType.RouteEvent, _ charger: ChargerStationInfo?) {
-        guard let charger = charger else { return }
-        
-        var property: [String: Any?] = AmpChargerStationModel(charger).toProperty
-        property["source"] = viewType?.toSource
-        AmplitudeManager.shared.logEvent(type: .route(position), property: property)
     }
 
     func favorite() {
@@ -478,9 +482,9 @@ class SummaryView: UIView {
         }
         
         if isFavorite {
-            AmplitudeManager.shared.logEvent(type: .map(.clickStationAddFavorite), property: property)
+            MapEvent.clickStationAddFavorite.logEvent(property: property)
         } else {
-            AmplitudeManager.shared.logEvent(type: .map(.clickStationCancelFavorite), property: property)
+            MapEvent.clickStationCancelFavorite.logEvent(property: property)
         }
     }
     

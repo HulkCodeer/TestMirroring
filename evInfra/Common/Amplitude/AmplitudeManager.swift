@@ -18,8 +18,7 @@ internal final class AmplitudeManager {
     #else
     private let apiKey: String = "f22b183357026eaed8bbe215e0bbf0a1" // Release Key
     #endif
-    
-    private var eventProperty: EventProperty?
+        
     private let identify = AMPIdentify()
     
     // MARK: - Initializers
@@ -29,12 +28,7 @@ internal final class AmplitudeManager {
         Amplitude.instance().trackingSessionEvents = true
         Amplitude.instance().setUserId(nil)
     }
-    
-    internal func createEventType(type: EventProperty) -> EventProperty {
-        self.eventProperty = type
-        return type
-    }
-    
+            
     // MARK: - Event Function
     
     internal func setUser(with id: String?) {
@@ -44,7 +38,7 @@ internal final class AmplitudeManager {
     }
     
     // MARK: - UserProperty
-    internal func setUserProperty() {
+    fileprivate func setUserProperty() {
         identify.set("membership card", value: MemberManager.shared.hasMembership as NSObject)
         identify.set("signup", value: (MemberManager.shared.mbId > 0 ? true : false) as NSObject)
         identify.set("signup date", value: MemberManager.shared.regDate as NSObject)
@@ -69,155 +63,109 @@ internal final class AmplitudeManager {
             Amplitude.instance().identify(self.identify)
         }
     }
-    
-    // MARK: - 로깅 이벤트
-    internal func logEvent() {
-        DispatchQueue.global(qos: .background).async {
-            self.eventProperty?.logEvent()
-        }
-    }
-    
-    internal func logEvent(property: [String: Any]) {
-        DispatchQueue.global(qos: .background).async {
-            self.eventProperty?.logEvent(property: property)
-        }
-    }
-        
-    internal func enterEvent(property: [String: Any]) {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent("view_enter", withEventProperties: property)
-        }
-    }
-    
-    // MARK: 카카오, 애플 로그인
-    internal func loginEvent() {
-        let property: [String: Any] = ["type": String(MemberManager.shared.loginType.description)]
-        self.setUser(with: "\(MemberManager.shared.mbId)")
-        self.setUserProperty()
-        self.eventProperty?.logEvent(property: property)
-    }
-    
-    // MARK: 법인 로그인
-    internal func corpLoginEvent() {
-        let property: [String: Any] = ["type": String(MemberManager.shared.loginType.description)]
-        self.setUser(with: "\(MemberManager.shared.mbId)")
-        self.eventProperty?.logEvent(property: property)
-    }
 }
 
-// MARK: - 화면별 이벤트 이름
-internal enum EventType {
-    case login(EventProperty)
-    case signup(EventProperty)
-    case map(EventProperty)
-    case route(EventProperty)
-    case detail(EventProperty)
-    case payment(EventProperty)
-    case promotion(EventProperty)
-    case filter(EventProperty)
-    case search(EventProperty)
-    case myReports(EventProperty)
-    case reports(EventProperty)
-    case board(EventProperty)
-    
-    var eventName: String {
-        switch self {
-        case .login(let event): return event.toProperty
-        case .signup(let event): return event.toProperty
-        case .map(let event): return event.toProperty
-        case .route(let event): return event.toProperty
-        case .detail(let event): return event.toProperty
-        case .payment(let event): return event.toProperty
-        case .promotion(let event): return event.toProperty
-        case .filter(let event): return event.toProperty
-        case .search(let event): return event.toProperty
-        case .myReports(let event): return event.toProperty
-        case .reports(let event): return event.toProperty
-        case .board(let event): return event.toProperty
-        }
-    }
-}
-
-protocol EventProperty {
-    var toProperty: String { get }
+protocol EventTypeProtocol {
+    var toTypeDesc: String { get }
     func logEvent()
     func logEvent(property: [String: Any])
 }
 
-// 회원가입 이벤트
-internal enum SignUpEvent: String, EventProperty {
-    case clickSignUpButton = "click_signup_button"
-    case completeSignUp = "complete_signup"
-    
-    internal var toProperty: String {
-        return self.rawValue
-    }
-    
+extension EventTypeProtocol {
     func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toTypeDesc)
+        }
     }
     
     func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
+        }
+    }
+}
+
+// 회원가입 이벤트
+internal enum SignUpEvent: String, EventTypeProtocol {
+    case clickSignUpButton = "click_signup_button"
+    case completeSignUp = "complete_signup"
+    
+    internal var toTypeDesc: String {
+        return self.rawValue
     }
 }
 
 // 내가 쓴 글/나의 제보 내역 이벤트
-internal enum MyReportsEvent: String, EventProperty {
+internal enum MyReportsEvent: String, EventTypeProtocol {
     case viewMyPost = "view_my_post"
     case viewMyReports = "view_my_reports"
     
-    internal var toProperty: String {
+    internal var toTypeDesc: String {
         return self.rawValue
-    }
-    
-    func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
-    }
-    
-    func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
     }
 }
 
 // 충전소 제보 이벤트
-internal enum ReportsEvent: String, EventProperty  {
+internal enum ReportsEvent: String, EventTypeProtocol  {
     case clickStationReport = "click_station_report"
     case clickStationCompleteReport = "click_station_complete_report"
     
-    internal var toProperty: String {
+    internal var toTypeDesc: String {
         return self.rawValue
-    }
-    
-    func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
-    }
-    
-    func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
     }
 }
 
-// 로그인 이벤트
-internal enum LoginEvent: String, EventProperty {
+// 로그인 이벤트 (카카오, 애플)
+internal enum LoginEvent: String, EventTypeProtocol {
     case clickLoginButton = "click_login_button"
     case complteLogin = "complete_login"
             
-    internal var toProperty: String {
+    internal var toTypeDesc: String {
         return self.rawValue
     }
     
     func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
+        DispatchQueue.global(qos: .background).async {
+            let property: [String: Any] = ["type": String(MemberManager.shared.loginType.description)]
+            AmplitudeManager.shared.setUser(with: "\(MemberManager.shared.mbId)")
+            AmplitudeManager.shared.setUserProperty()
+            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
+        }
     }
     
     func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
+        }
+    }
+}
+
+// 법인 로그인
+internal enum CorpLoginEvent: String, EventTypeProtocol {
+    case clickLoginButton = "click_login_button"
+    case complteLogin = "complete_login"
+            
+    internal var toTypeDesc: String {
+        return self.rawValue
+    }
+    
+    func logEvent() {
+        DispatchQueue.global(qos: .background).async {
+            let property: [String: Any] = ["type": Login.LoginType.evinfra.description]
+            AmplitudeManager.shared.setUser(with: "\(MemberManager.shared.mbId)")
+            self.logEvent(property: property)
+        }
+    }
+    
+    func logEvent(property: [String : Any]) {
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
+        }
     }
 }
 
 // 지도화면 이벤트
-internal enum MapEvent: String, EventProperty {
+internal enum MapEvent: String, EventTypeProtocol {
     case viewMainPage = "view_main_page"
     case clickMyLocation = "click_my_location"
     case clickRenew = "click_renew"
@@ -230,21 +178,13 @@ internal enum MapEvent: String, EventProperty {
     case clickGoingToChargeCancel = "click_going_to_charge_cancel"
     case viewFavorites = "view_favorites"
     
-    internal var toProperty: String {
+    internal var toTypeDesc: String {
         return self.rawValue
-    }
-    
-    func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
-    }
-    
-    func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
     }
 }
 
 // 경로찾기 이벤트
-internal enum RouteEvent: String, EventProperty {
+internal enum RouteEvent: String, EventTypeProtocol {
     case clickStationSelectStarting = "click_station_select_starting"
     case clickStationSelectTransit = "click_station_select_transit"
     case clickStationSelectDestination = "click_station_select_destination"
@@ -254,41 +194,25 @@ internal enum RouteEvent: String, EventProperty {
     case inputNavigationStartingPoint = "input_navigation_starting_point"
     case inputNavigationDestination = "input_navigation_destination"
     
-    internal var toProperty: String {
+    internal var toTypeDesc: String {
         return self.rawValue
-    }
-    
-    func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
-    }
-    
-    func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
     }
 }
 
 // 충전소 이벤트
-internal enum ChargerStationEvent: String, EventProperty {
+internal enum ChargerStationEvent: String, EventTypeProtocol {
     case viewStationDetail = "view_station_detail"
     case clickStationChargingPrice = "click_station_charging_price"
     case clickStationSatelliteView = "click_station_satellite_view"
     case viewStationReview = "view_station_review"
     
-    internal var toProperty: String {
+    internal var toTypeDesc: String {
         return self.rawValue
-    }
-    
-    func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
-    }
-    
-    func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
     }
 }
 
 // 결제 이벤트
-internal enum PaymentEvent: String, EventProperty {
+internal enum PaymentEvent: String, EventTypeProtocol {
     case viewMyBerry = "view_my_berry"
     case clickSetUpBerry = "click_set_up_berry"
     case clickResetBerry = "click_reset_berry"
@@ -299,100 +223,60 @@ internal enum PaymentEvent: String, EventProperty {
     case clickApplyAllianceCard = "click_apply_alliance_card"
     case completeApplyAllianceCard = "complete_apply_alliance_card"
     
-    internal var toProperty: String {
+    internal var toTypeDesc: String {
         return self.rawValue
-    }
-    
-    func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
-    }
-    
-    func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
     }
 }
 
 // 이벤트/광고/배너 이벤트
-internal enum PromotionEvent: String, EventProperty {
+internal enum PromotionEvent: String, EventTypeProtocol {
     case clickEvent = "click_event"
     case clickBanner = "click_banner"
     case clickCloseBanner = "click_close_banner"
     
-    internal var toProperty: String {
+    internal var toTypeDesc: String {
         return self.rawValue
-    }
-    
-    func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
-    }
-    
-    func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
     }
 }
 
 // 필터 이벤트
-internal enum FilterEvent: String, EventProperty {
+internal enum FilterEvent: String, EventTypeProtocol {
     case viewFilter = "view_filter"
     case clickFilterCancel = "click_filter_cancel"
     case clickFilterReset = "click_filter_reset"
     case clickFilterSave = "click_filter_save"
     case clickUpperFilter = "click_upper_filter"
     
-    internal var toProperty: String {
+    internal var toTypeDesc: String {
         return self.rawValue
-    }
-    
-    func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
-    }
-    
-    func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
     }
 }
 
 // 검색 이벤트
-internal enum SearchEvent: String, EventProperty {
+internal enum SearchEvent: String, EventTypeProtocol {
     case clickSearchChooseStation = "click_search_choose_station"
     
-    internal var toProperty: String {
+    internal var toTypeDesc: String {
         return self.rawValue
-    }
-    
-    func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
-    }
-    
-    func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
     }
 }
 
 // 게시판 이벤트
-internal enum BoardEvent: String, EventProperty {
+internal enum BoardEvent: String, EventTypeProtocol {
     case viewBoardPost = "view_board_post"
     case clickWriteBoardPost = "click_write_board_post"
     case completeWriteBoardPost = "complete_write_board_post"
     case viewNotice = "view_notice"
     case viewFAQ = "view_FAQ"
          
-    internal var toProperty: String {
+    internal var toTypeDesc: String {
         return self.rawValue
-    }
-    
-    func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
-    }
-    
-    func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
     }
 }
 
 
 // MARK: - 화면 진입 이벤트(view_enter) 프로퍼티 이름
-internal enum EnterViewType: String {
+internal enum EnterViewType: String, EventTypeProtocol {
     case paymentQRScanViewController = "QR Scan 화면"
     case paymentStatusViewController = "충전 진행 상태 화면"
     case paymentResultViewController = "충전 완료 화면"
@@ -486,6 +370,10 @@ internal enum EnterViewType: String {
     }
     
     internal var viewNameDesc: String {
+        return self.rawValue
+    }
+    
+    internal var toTypeDesc: String {
         return self.rawValue
     }
 }

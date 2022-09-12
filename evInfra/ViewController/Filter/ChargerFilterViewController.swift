@@ -43,7 +43,7 @@ class ChargerFilterViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        AmplitudeManager.shared.logEvent(type: .filter(.viewFilter))
+        FilterEvent.viewFilter.logEvent()
     }
     
     override func viewDidLayoutSubviews() {
@@ -144,8 +144,8 @@ class ChargerFilterViewController: UIViewController {
             self.priceFilter.resetFilter()
             self.accessFilter.resetFilter()
             self.companyFilter.resetFilter()
-            
-            AmplitudeManager.shared.logEvent(type: .filter(.clickFilterReset))
+                        
+           FilterEvent.clickFilterReset.logEvent()
         })
         let cancel = UIAlertAction(title: "취소", style: .default, handler: {(ACTION) -> Void in})
         var actions = Array<UIAlertAction>()

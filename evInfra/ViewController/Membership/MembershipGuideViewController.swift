@@ -99,8 +99,8 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
                 guard let self = self else { return }
                 let storyboard = UIStoryboard(name : "Membership", bundle: nil)
                 let mbsIssueVC = storyboard.instantiateViewController(ofType: MembershipIssuanceViewController.self)
-                self.navigationController?.push(viewController: mbsIssueVC)
-                self.logEvent(with: .clickApplyEVICard)
+                self.navigationController?.push(viewController: mbsIssueVC)                                
+                PaymentEvent.clickApplyEVICard.logEvent()
             })
             .disposed(by: disposebag)
     }
@@ -145,17 +145,6 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
 //            decisionHandler(.allow)
 //        }
 //    }
-}
-
-// MARK: - Amplitude Logging 이벤트
-extension MembershipGuideViewController {
-    private func logEvent(with event: EventType.PaymentEvent) {
-        switch event {
-        case .clickApplyEVICard:
-            AmplitudeManager.shared.logEvent(type: .payment(.clickApplyEVICard))
-        default: break
-        }
-    }
 }
 
 extension MembershipGuideViewController: UIWebViewDelegate {

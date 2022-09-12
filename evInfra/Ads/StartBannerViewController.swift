@@ -142,7 +142,8 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
             .asDriver(onErrorJustReturn: ())
             .drive(with: self) { owner, _ in
                 owner.closeStartBannerViewController()
-                owner.logEvent(with: .clickCloseBanner, type: owner.closeButton.titleLabel?.text ?? "닫기")
+                let property: [String: Any] = ["type": owner.closeButton.titleLabel?.text ?? "닫기"]
+               PromotionEvent.clickCloseBanner.logEvent(property: property)
             }.disposed(by: disposeBag)
         
         closeWithDurationButton.rx.tap
@@ -150,7 +151,9 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
             .drive(with: self) { owner, _ in
                 UserDefault().saveString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK, value: Date().toString())
                 owner.closeStartBannerViewController()
-                owner.logEvent(with: .clickCloseBanner, type: owner.closeWithDurationButton.titleLabel?.text ?? "7일간 보지 않기")
+                let property: [String: Any] = ["type": owner.closeWithDurationButton.titleLabel?.text ?? "7일간 보지 않기"]
+               PromotionEvent.clickCloseBanner.logEvent(property: property)
+                
             }.disposed(by: disposeBag)
     }
     
@@ -198,22 +201,5 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         Observable.just(GlobalAdsReactor.Action.addEventViewCount(self.reactor?.currentState.startBanner?.evtId ?? "") )
             .bind(to: GlobalAdsReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
-    }
-    
-    // MARK: - Amplitude Logging 이벤트
-    private func logEvent(with event: EventType.PromotionEvent, type: String) {
-        switch event {
-        case .clickBanner:
-            guard let banner = self.reactor?.currentState.startBanner else { return }
-            let property: [String: Any] = ["bannerType": type,
-                                           "adID": banner.evtId,
-                                           "adName": banner.evtTitle]
-            
-            AmplitudeManager.shared.logEvent(type: .promotion(event), property: property)
-        case .clickCloseBanner:
-            let property: [String: Any] = ["type": type]
-            AmplitudeManager.shared.logEvent(type: .promotion(event), property: property)
-        default: break
-        }
-    }
+    }    
 }

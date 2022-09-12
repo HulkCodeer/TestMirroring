@@ -275,7 +275,8 @@ internal final class LoginHelper: NSObject {
                                 
                                 MemberManager.shared.setData(data: json)
                                 
-                                AmplitudeManager.shared.loginEvent()
+                                LoginEvent.complteLogin
+                                    .logEvent()
                                 
                                 // 즐겨찾기 목록 가져오기
                                 ChargerManager.sharedInstance.getFavoriteCharger()
@@ -328,13 +329,12 @@ internal final class LoginHelper: NSObject {
                                     }
                                     MemberManager.shared.setData(data: json)
                                     
-                                    AmplitudeManager.shared.loginEvent()
+                                    LoginEvent.complteLogin.logEvent()
 
                                     // 즐겨찾기 목록 가져오기
                                     ChargerManager.sharedInstance.getFavoriteCharger()
                                     return
                                 }
-                                
                                 LoginHelper.shared.logout(completion: { _ in
                                     Snackbar().show(message: "장기간 미접속으로 인해 로그아웃 되었습니다.")
                                 })
@@ -345,8 +345,7 @@ internal final class LoginHelper: NSObject {
                 } else {
                     if let delegate = self.delegate, let user = user {
                         let property: [String: Any] = ["type": String(user.loginType.description)]
-                        AmplitudeManager.shared.createEventType(type: SignUpEvent.clickSignUpButton)
-                            .logEvent(property: property)
+                        SignUpEvent.clickSignUpButton.logEvent(property: property)
                                                 
                         delegate.needSignUp(user: user) // ev infra 회원가입
                     }
@@ -372,16 +371,17 @@ internal final class LoginHelper: NSObject {
                     }
                     
                     MemberManager.shared.setData(data: json)
-                    
-                    AmplitudeManager.shared.loginEvent()
+                                                            
+                    LoginEvent.complteLogin.logEvent()
 
                     // 즐겨찾기 목록 가져오기
                     ChargerManager.sharedInstance.getFavoriteCharger()
          
                 } else {
                     if let delegate = self.delegate, let user = user {
-                        let property: [String: Any] = ["type": String(user.loginType.description)]
-                        AmplitudeManager.shared.logEvent(type: .signup(.clickSignUpButton), property: property)
+                        let property: [String: Any] = ["type": String(user.loginType.description)]                        
+                        SignUpEvent.clickSignUpButton.logEvent(property: property)
+                        
                         delegate.needSignUp(user: user) // ev infra 회원가입
                     }
                     MemberManager.shared.clearData()

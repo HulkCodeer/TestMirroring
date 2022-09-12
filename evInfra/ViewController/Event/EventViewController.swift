@@ -128,8 +128,8 @@ extension EventViewController {
     private func logEventWithPromotion(index: Int) {
         Server.countEventAction(eventId: [String(list[index].eventId)], action: .click, page: .event, layer: .list)
         let property: [String: Any] = ["eventId": "\(list[index].eventId)",
-                                       "eventName": "\(list[index].title)"]
-        AmplitudeManager.shared.logEvent(type: .promotion(.clickEvent), property: property)
+                                       "eventName": "\(list[index].title)"]        
+        PromotionEvent.clickEvent.logEvent(property: property)
     }
 }
 

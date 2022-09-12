@@ -54,7 +54,10 @@ class MyWritingViewController: BaseViewController {
         super.viewWillAppear(animated)
         // Recalculates height
         fetchFirstBoard(mid: boardCategory.rawValue, sort: Board.SortType.LATEST, mode: screenType.rawValue)
-        logEvent(with: .viewMyPost)
+        
+        let boardType = boardCategory == .FREE ? "자유 게시판" : "충전소 게시판"
+        let property: [String: Any] = ["type" : boardType]
+        MyReportsEvent.viewMyPost.logEvent(property: property)
     }
 }
 
@@ -170,17 +173,4 @@ extension MyWritingViewController: BoardTableViewDelegate {
 
 extension MyWritingViewController: AppTabsControllerDelegate {
     func changeTab() {}
-}
-
-// MARK: - Amplitude Logging 이벤트
-extension MyWritingViewController {
-    private func logEvent(with event: EventType.MyReportsEvent) {
-        switch event {
-        case .viewMyPost:
-            let boardType = boardCategory == .FREE ? "자유 게시판" : "충전소 게시판"
-            let property: [String: Any] = ["type" : boardType]
-            AmplitudeManager.shared.logEvent(type: .myReports(event), property: property)
-        case .viewMyReports: break
-        }
-    }
 }

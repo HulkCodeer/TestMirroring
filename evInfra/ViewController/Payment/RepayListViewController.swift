@@ -64,8 +64,9 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                     if payCode == PaymentCard.PAY_REGISTER_SUCCESS {
                         self.lbCardInfo.text = "\(resultJson["card_co"].stringValue) \(resultJson["card_nm"].stringValue)"
                         self.lbCardStatus.textColor = UIColor(named: "content-positive")
-                        self.lbCardInfo.text = "카드 정상 등록 완료"
-                        self.logEvent(with: .completePaymentCard)
+                        self.lbCardInfo.text = "카드 정상 등록 완료"                        
+                        PaymentEvent.completePaymentCard.logEvent()
+                        
                         if self.totalPoint > self.totalAmount {
                             // dialog
                             let dialogMessage = UIAlertController(title: "변경된 카드로 결제가 진행됩니다", message: "베리로 미수금 결제를 원하시는 경우, 취소를 누른 뒤 결제 재시도를 눌러주세요.", preferredStyle: .alert)
@@ -282,16 +283,5 @@ extension RepayListViewController: UITableViewDelegate, UITableViewDataSource {
         self.tableFailedList.delegate = self
         self.tableFailedList.dataSource = self
         self.tableFailedList.estimatedRowHeight = 71.5
-    }
-}
-
-// MARK: - Amplitude Logging 이벤트
-extension RepayListViewController {
-    private func logEvent(with event: EventType.PaymentEvent) {
-        switch event {
-        case .completePaymentCard:
-            AmplitudeManager.shared.logEvent(type: .payment(event))
-        default: break
-        }
     }
 }

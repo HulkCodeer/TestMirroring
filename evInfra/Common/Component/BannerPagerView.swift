@@ -93,7 +93,22 @@ extension BannerPagerView: FSPagerViewDelegate {
         let banner = banners[index]
         // 배너 클릭 로깅
         EIAdManager.sharedInstance.logEvent(adIds: [banner.evtId], action: .click, page: banner.promotionPage, layer: banner.promotionLayer)
-        self.logEvent(with: .clickBanner, banner: banner)
+        
+        var bannerType: String
+        switch banner.promotionLayer {
+        case .top:
+            bannerType = "상단배너"
+        case .bottom where banner.promotionPage == .start:
+            bannerType = "시작배너"
+        case .mid:
+            bannerType = "중간배너"
+        default: bannerType = ""
+        }
+        
+        let property: [String: Any] = ["bannerType": bannerType,
+                                       "adID": banner.evtId,
+                                       "adName": banner.evtTitle]
+        PromotionEvent.clickBanner.logEvent(property: property)
         // open url
         let adUrl = banner.extUrl
         guard let url = URL(string: adUrl), UIApplication.shared.canOpenURL(url) else { return }
@@ -135,30 +150,5 @@ extension BannerPagerView: FSPagerViewDataSource {
             }
         }
         return cell
-    }
-}
-
-// MARK: - Amplitude Logging 이벤트
-extension BannerPagerView {
-    private func logEvent(with event: EventType.PromotionEvent, banner: AdsInfo) {
-        switch event {
-        case .clickBanner:
-            var bannerType: String?
-            switch banner.promotionLayer {
-            case .top:
-                bannerType = "상단배너"
-            case .bottom where banner.promotionPage == .start:
-                bannerType = "시작배너"
-            case .mid:
-                bannerType = "중간배너"
-            default: bannerType = ""
-            }
-            
-            let property: [String: Any] = ["bannerType": bannerType,
-                                           "adID": banner.evtId,
-                                           "adName": banner.evtTitle]
-            AmplitudeManager.shared.logEvent(type: .promotion(event), property: property)
-        default: break
-        }
     }
 }

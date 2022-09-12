@@ -93,9 +93,11 @@ internal final class DetailViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        logEvent(with: .viewStationDetail)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
+        
+        guard let charger = charger else { return }
+        let property: [String: Any?] = AmpChargerStationModel(charger).toProperty
+        ChargerStationEvent.viewStationDetail.logEvent(property: property)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -359,7 +361,10 @@ internal final class DetailViewController: BaseViewController {
             }else{
                 map.baseMapType = .standard
             }
-            logEvent(with: .clickStationSatelliteView)
+            
+            let type: String = mapSwitch.isOn ? "On" : "Off"
+            let property: [String: Any] = ["type": type]
+            ChargerStationEvent.clickStationSatelliteView.logEvent(property: property)
         }
     }
     
@@ -373,7 +378,8 @@ internal final class DetailViewController: BaseViewController {
         let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         termsViewControll.tabIndex = .StationPrice
         termsViewControll.subParams = "company_id=" + (charger?.mStationInfoDto?.mCompanyId)!
-        logEvent(with: .clickStationChargingPrice)
+        
+        ChargerStationEvent.clickStationChargingPrice.logEvent()
         self.navigationController?.push(viewController: termsViewControll)
     }
 }
@@ -396,7 +402,7 @@ extension DetailViewController {
     
     @objc
     fileprivate func handleBackButton() {
-        logEvent(with: .viewStationReview)
+        ChargerStationEvent.viewStationReview.logEvent()
         self.navigationController?.pop(transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
     }
 }
@@ -561,8 +567,14 @@ extension DetailViewController {
             guard let self = self else { return }
             self.fetchFirstBoard(mid: Board.CommunityType.CHARGER.rawValue, sort: .LATEST, mode: Board.ScreenType.FEED.rawValue)
         }
-        logEvent(with: .clickWriteBoardPost)
+        
         self.navigationController?.push(viewController: boardWriteViewController)
+        
+        guard let charger = charger else { return }
+        guard let stationName = charger.mStationInfoDto?.mSnm else { return }
+        let property: [String: Any] = ["sourceStation": true,
+                                       "stationName": stationName]
+        BoardEvent.clickWriteBoardPost.logEvent(property: property)
     }
     
     @objc
@@ -610,39 +622,5 @@ extension DetailViewController {
 extension DetailViewController: SummaryDelegate {
     func setCidInfoList() {
         self.setStationInfo()
-    }
-}
-
-// MARK: - Amplitude Logging 이벤트
-extension DetailViewController {
-    private func logEvent(with event: EventType.ChargerStationEvent) {
-        switch event {
-        case .clickStationSatelliteView:
-            let type: String = mapSwitch.isOn ? "On" : "Off"
-            let property: [String: Any] = ["type": type]
-            AmplitudeManager.shared.logEvent(type: .detail(event), property: property)
-        case .viewStationReview:
-            let viewedReviewCnt: Int = boardTableView.viewedCnt
-            let property: [String: Any] = ["reviewIndex": viewedReviewCnt]
-            AmplitudeManager.shared.logEvent(type: .detail(event), property: property)
-        case .clickStationChargingPrice:
-            AmplitudeManager.shared.logEvent(type: .detail(event))
-        case .viewStationDetail:
-            guard let charger = charger else { return }
-            let property: [String: Any?] = AmpChargerStationModel(charger).toProperty
-            AmplitudeManager.shared.logEvent(type: .detail(event), property: property)
-        }
-    }
-    
-    private func logEvent(with event: EventType.BoardEvent) {
-        switch event {
-        case .clickWriteBoardPost:
-            guard let charger = charger else { return }
-            guard let stationName = charger.mStationInfoDto?.mSnm else { return }
-            let property: [String: Any] = ["sourceStation": true,
-                                           "stationName": stationName]
-            AmplitudeManager.shared.logEvent(type: .board(event), property: property)
-        default: break
-        }
     }
 }
