@@ -471,7 +471,6 @@ extension MainViewController: CLLocationManagerDelegate {
             break
         }
     }
->>>>>>> develop/20220911
 }
 
 extension MainViewController: DelegateChargerFilterView {
