@@ -135,11 +135,15 @@ internal enum SignUpEvent: String, EventProperty {
     }
     
     func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty)
+        }
     }
     
     func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        }
     }
 }
 
@@ -153,11 +157,15 @@ internal enum MyReportsEvent: String, EventProperty {
     }
     
     func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty)
+        }
     }
     
     func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        }
     }
 }
 
@@ -171,11 +179,15 @@ internal enum ReportsEvent: String, EventProperty  {
     }
     
     func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty)
+        }
     }
     
     func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        }
     }
 }
 
@@ -189,11 +201,15 @@ internal enum LoginEvent: String, EventProperty {
     }
     
     func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty)
+        }
     }
     
     func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        }
     }
 }
 
@@ -216,11 +232,15 @@ internal enum MapEvent: String, EventProperty {
     }
     
     func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty)
+        }
     }
     
     func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        }
     }
 }
 
@@ -240,11 +260,15 @@ internal enum RouteEvent: String, EventProperty {
     }
     
     func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty)
+        }
     }
     
     func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        }
     }
 }
 
@@ -260,11 +284,15 @@ internal enum ChargerStationEvent: String, EventProperty {
     }
     
     func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty)
+        }
     }
     
     func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        }
     }
 }
 
@@ -285,11 +313,15 @@ internal enum PaymentEvent: String, EventProperty {
     }
     
     func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty)
+        }
     }
     
     func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        }
     }
 }
 
@@ -304,11 +336,15 @@ internal enum PromotionEvent: String, EventProperty {
     }
     
     func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty)
+        }
     }
     
     func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        }
     }
 }
 
@@ -325,11 +361,15 @@ internal enum FilterEvent: String, EventProperty {
     }
     
     func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty)
+        }
     }
     
     func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        }
     }
 }
 
@@ -342,11 +382,15 @@ internal enum SearchEvent: String, EventProperty {
     }
     
     func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty)
+        }
     }
     
     func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        }
     }
 }
 
@@ -363,11 +407,15 @@ internal enum BoardEvent: String, EventProperty {
     }
     
     func logEvent() {
-        Amplitude.instance().logEvent(self.toProperty)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty)
+        }
     }
     
     func logEvent(property: [String : Any]) {
-        Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toProperty, withEventProperties: property)
+        }
     }
 }
 
