@@ -18,8 +18,7 @@ internal final class AmplitudeManager {
     #else
     private let apiKey: String = "f22b183357026eaed8bbe215e0bbf0a1" // Release Key
     #endif
-    
-    private var eventType: EventType?
+        
     private let identify = AMPIdentify()
     
     // MARK: - Initializers
@@ -66,80 +65,58 @@ internal final class AmplitudeManager {
     }
 }
 
-protocol EventType {
+protocol EventTypeProtocol {
     var toTypeDesc: String { get }
     func logEvent()
     func logEvent(property: [String: Any])
 }
 
+extension EventTypeProtocol {
+    func logEvent() {
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toTypeDesc)
+        }
+    }
+    
+    func logEvent(property: [String : Any]) {
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
+        }
+    }
+}
+
 // 회원가입 이벤트
-internal enum SignUpEvent: String, EventType {
+internal enum SignUpEvent: String, EventTypeProtocol {
     case clickSignUpButton = "click_signup_button"
     case completeSignUp = "complete_signup"
     
     internal var toTypeDesc: String {
         return self.rawValue
     }
-    
-    func logEvent() {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc)
-        }
-    }
-    
-    func logEvent(property: [String : Any]) {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
-        }
-    }
 }
 
 // 내가 쓴 글/나의 제보 내역 이벤트
-internal enum MyReportsEvent: String, EventType {
+internal enum MyReportsEvent: String, EventTypeProtocol {
     case viewMyPost = "view_my_post"
     case viewMyReports = "view_my_reports"
     
     internal var toTypeDesc: String {
         return self.rawValue
     }
-    
-    func logEvent() {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc)
-        }
-    }
-    
-    func logEvent(property: [String : Any]) {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
-        }
-    }
 }
 
 // 충전소 제보 이벤트
-internal enum ReportsEvent: String, EventType  {
+internal enum ReportsEvent: String, EventTypeProtocol  {
     case clickStationReport = "click_station_report"
     case clickStationCompleteReport = "click_station_complete_report"
     
     internal var toTypeDesc: String {
         return self.rawValue
     }
-    
-    func logEvent() {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc)
-        }
-    }
-    
-    func logEvent(property: [String : Any]) {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
-        }
-    }
 }
 
 // 로그인 이벤트 (카카오, 애플)
-internal enum LoginEvent: String, EventType {
+internal enum LoginEvent: String, EventTypeProtocol {
     case clickLoginButton = "click_login_button"
     case complteLogin = "complete_login"
             
@@ -164,7 +141,7 @@ internal enum LoginEvent: String, EventType {
 }
 
 // 법인 로그인
-internal enum CorpLoginEvent: String, EventType {
+internal enum CorpLoginEvent: String, EventTypeProtocol {
     case clickLoginButton = "click_login_button"
     case complteLogin = "complete_login"
             
@@ -176,7 +153,7 @@ internal enum CorpLoginEvent: String, EventType {
         DispatchQueue.global(qos: .background).async {
             let property: [String: Any] = ["type": Login.LoginType.evinfra.description]
             AmplitudeManager.shared.setUser(with: "\(MemberManager.shared.mbId)")
-            Amplitude.instance().logEvent(self.toTypeDesc)
+            self.logEvent(property: property)
         }
     }
     
@@ -188,7 +165,7 @@ internal enum CorpLoginEvent: String, EventType {
 }
 
 // 지도화면 이벤트
-internal enum MapEvent: String, EventType {
+internal enum MapEvent: String, EventTypeProtocol {
     case viewMainPage = "view_main_page"
     case clickMyLocation = "click_my_location"
     case clickRenew = "click_renew"
@@ -204,22 +181,10 @@ internal enum MapEvent: String, EventType {
     internal var toTypeDesc: String {
         return self.rawValue
     }
-    
-    func logEvent() {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc)
-        }
-    }
-    
-    func logEvent(property: [String : Any]) {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
-        }
-    }
 }
 
 // 경로찾기 이벤트
-internal enum RouteEvent: String, EventType {
+internal enum RouteEvent: String, EventTypeProtocol {
     case clickStationSelectStarting = "click_station_select_starting"
     case clickStationSelectTransit = "click_station_select_transit"
     case clickStationSelectDestination = "click_station_select_destination"
@@ -232,22 +197,10 @@ internal enum RouteEvent: String, EventType {
     internal var toTypeDesc: String {
         return self.rawValue
     }
-    
-    func logEvent() {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc)
-        }
-    }
-    
-    func logEvent(property: [String : Any]) {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
-        }
-    }
 }
 
 // 충전소 이벤트
-internal enum ChargerStationEvent: String, EventType {
+internal enum ChargerStationEvent: String, EventTypeProtocol {
     case viewStationDetail = "view_station_detail"
     case clickStationChargingPrice = "click_station_charging_price"
     case clickStationSatelliteView = "click_station_satellite_view"
@@ -256,22 +209,10 @@ internal enum ChargerStationEvent: String, EventType {
     internal var toTypeDesc: String {
         return self.rawValue
     }
-    
-    func logEvent() {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc)
-        }
-    }
-    
-    func logEvent(property: [String : Any]) {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
-        }
-    }
 }
 
 // 결제 이벤트
-internal enum PaymentEvent: String, EventType {
+internal enum PaymentEvent: String, EventTypeProtocol {
     case viewMyBerry = "view_my_berry"
     case clickSetUpBerry = "click_set_up_berry"
     case clickResetBerry = "click_reset_berry"
@@ -285,22 +226,10 @@ internal enum PaymentEvent: String, EventType {
     internal var toTypeDesc: String {
         return self.rawValue
     }
-    
-    func logEvent() {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc)
-        }
-    }
-    
-    func logEvent(property: [String : Any]) {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
-        }
-    }
 }
 
 // 이벤트/광고/배너 이벤트
-internal enum PromotionEvent: String, EventType {
+internal enum PromotionEvent: String, EventTypeProtocol {
     case clickEvent = "click_event"
     case clickBanner = "click_banner"
     case clickCloseBanner = "click_close_banner"
@@ -308,22 +237,10 @@ internal enum PromotionEvent: String, EventType {
     internal var toTypeDesc: String {
         return self.rawValue
     }
-    
-    func logEvent() {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc)
-        }
-    }
-    
-    func logEvent(property: [String : Any]) {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
-        }
-    }
 }
 
 // 필터 이벤트
-internal enum FilterEvent: String, EventType {
+internal enum FilterEvent: String, EventTypeProtocol {
     case viewFilter = "view_filter"
     case clickFilterCancel = "click_filter_cancel"
     case clickFilterReset = "click_filter_reset"
@@ -333,43 +250,19 @@ internal enum FilterEvent: String, EventType {
     internal var toTypeDesc: String {
         return self.rawValue
     }
-    
-    func logEvent() {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc)
-        }
-    }
-    
-    func logEvent(property: [String : Any]) {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
-        }
-    }
 }
 
 // 검색 이벤트
-internal enum SearchEvent: String, EventType {
+internal enum SearchEvent: String, EventTypeProtocol {
     case clickSearchChooseStation = "click_search_choose_station"
     
     internal var toTypeDesc: String {
         return self.rawValue
     }
-    
-    func logEvent() {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc)
-        }
-    }
-    
-    func logEvent(property: [String : Any]) {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
-        }
-    }
 }
 
 // 게시판 이벤트
-internal enum BoardEvent: String, EventType {
+internal enum BoardEvent: String, EventTypeProtocol {
     case viewBoardPost = "view_board_post"
     case clickWriteBoardPost = "click_write_board_post"
     case completeWriteBoardPost = "complete_write_board_post"
@@ -379,23 +272,11 @@ internal enum BoardEvent: String, EventType {
     internal var toTypeDesc: String {
         return self.rawValue
     }
-    
-    func logEvent() {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc)
-        }
-    }
-    
-    func logEvent(property: [String : Any]) {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties: property)
-        }
-    }
 }
 
 
 // MARK: - 화면 진입 이벤트(view_enter) 프로퍼티 이름
-internal enum EnterViewType: String, EventType {
+internal enum EnterViewType: String, EventTypeProtocol {
     case paymentQRScanViewController = "QR Scan 화면"
     case paymentStatusViewController = "충전 진행 상태 화면"
     case paymentResultViewController = "충전 완료 화면"
@@ -495,12 +376,4 @@ internal enum EnterViewType: String, EventType {
     internal var toTypeDesc: String {
         return self.rawValue
     }
-    
-    func logEvent() {
-        DispatchQueue.global(qos: .background).async {
-            Amplitude.instance().logEvent(self.toTypeDesc, withEventProperties:  ["type" : self.viewNameDesc])
-        }
-    }
-    
-    func logEvent(property: [String : Any]) {}
 }

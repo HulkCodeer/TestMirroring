@@ -601,12 +601,7 @@ extension MainViewController: TextFieldDelegate {
         clearSearchResult()
         RouteEvent.clickNavigationFindway.logEvent()
     }
-    
-    // TODO: 한 view controller에서 사용되는 앰플리튜드 로깅 이벤트 한 곳에서 처리
-    func testLogingEvent(type: EventType) {
-        
-    }
-    
+            
     @objc func onClickRoute(_ sender: UIButton) {
         findPath(passList: [])
     }
