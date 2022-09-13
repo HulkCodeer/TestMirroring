@@ -94,8 +94,8 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
 
         scrollView.snp.makeConstraints {
             $0.top.equalTo(customNaviBar.snp.bottom)
-            $0.width.equalTo(scrollViewWidth)
-            $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
+            $0.leading.trailing.equalToSuperview()
+            $0.width.equalTo(view)
             $0.bottom.equalTo(view)
         }
         
@@ -107,20 +107,21 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
 
         titleStackView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(verticalPadding)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
         }
         titleBottomSpacingView.snp.makeConstraints {
             $0.height.equalTo(titleBottomSpacing)
         }
         webView.snp.makeConstraints {
             $0.top.equalTo(titleStackView.snp.bottom).offset(verticalPadding)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
             $0.bottom.equalToSuperview()
         }
 
         divider.snp.makeConstraints {
             $0.height.equalTo(1)
-            $0.leading.trailing.equalTo(contentView)
+            $0.width.equalTo(view)
+            $0.centerX.equalToSuperview()
             $0.bottom.equalTo(titleStackView)
         }
         
