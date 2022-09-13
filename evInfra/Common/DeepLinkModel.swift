@@ -19,17 +19,21 @@ internal final class DeepLinkModel: NSObject {
         case faqPayment
         case faqDetail
         case eventDetail // 이벤트 상세 바로가기
+        case chargePrice
+        case feeInfoAll
                 
         var toValue: (deepLinkUrl: String, isLogin: Bool) {
             switch self {
             case .faqPayment:
                 return ("faq_payment", true)
-                
             case .faqDetail:
                 return ("faq_detail", true)
-                
             case .eventDetail:
                 return ("event_detail", false)
+            case .chargePrice:
+                return ("charge_price", true)
+            case .feeInfoAll:
+                return ("fee_info_all", true)
             }
         }
     }
@@ -73,6 +77,9 @@ internal final class DeepLinkModel: NSObject {
                 }
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                                                 
+            case "fee_info_all", "charge_price":
+                termsViewControll.tabIndex = .PriceInfo
+                
             default: break
             }
             
