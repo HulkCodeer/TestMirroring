@@ -24,7 +24,9 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
         static let noticeListCell = ReusableCell<NewNoticeTableViewCell>()
     }
     
-    private lazy var customNaviBar = CommonNaviView()
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.naviTitleLbl.text = "EV Infra 공지사항"
+    }
     
     private lazy var noticeTableView = UITableView().then {
         $0.register(Reusable.noticeListCell)
