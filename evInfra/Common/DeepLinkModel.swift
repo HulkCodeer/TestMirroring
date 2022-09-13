@@ -79,7 +79,7 @@ internal final class DeepLinkModel: NSObject {
                                                 
             case "fee_info_all", "charge_price":
                 let viewcon = UIStoryboard(name : "Info", bundle: nil).instantiateViewController(ofType: TermsViewController.self)
-                viewcon.tabIndex = .PriceInfo
+                viewcon.tabIndex = .priceInfo
                 
             default: break
             }

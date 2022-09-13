@@ -134,7 +134,7 @@ internal final class DeepLinkPath {
                         termsViewControll.subURL = "type=" + page
                     }
                 case .chargePrice:
-                    termsViewControll.tabIndex = .PriceInfo
+                    termsViewControll.tabIndex = .priceInfo
                 }
                 _mainNavi.push(viewController: termsViewControll)
             }

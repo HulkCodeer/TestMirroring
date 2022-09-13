@@ -22,7 +22,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case MembershipTerms   // 회원카드 이용약관
         case Licence           // 라이센스
         case EvBonusGuide      // 보조금 안내
-        case PriceInfo         // 충전요금 안내
+        case priceInfo         // 충전요금 안내
         case EvBonusStatus     // 보조금 현황
         case BusinessInfo      // 사업자정보
         case StationPrice      // 충전소 요금정보
@@ -104,7 +104,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case .EvBonusGuide:
             navigationItem.titleLabel.text = "보조금 안내"
 //            self.title = "보조금 안내 화면"
-        case .PriceInfo:
+        case .priceInfo:
             navigationItem.titleLabel.text = "충전요금 안내"
 //            self.title = "충전요금 안내 화면"
         case .EvBonusStatus:
