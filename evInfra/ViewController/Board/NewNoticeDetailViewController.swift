@@ -176,14 +176,14 @@ extension NewNoticeDetailViewController: WKNavigationDelegate {
             return
         }
         
-        if let host = url.host, UIApplication.shared.canOpenURL(url),
-           host.hasPrefix("com.soft-berry.ev-infra") {  // deeplink
-            openDeepLink(url: url)
+        if let url = navigationAction.request.url,
+            url.scheme == "evinfra"
+        {  // deeplink
+            DeepLinkModel.shared.openSchemeURL(urlstring: url.absoluteString)
         } else {
             openSafari(url: url)
         }
-        
-        
+
         decisionHandler(.cancel)
     }
     
@@ -195,18 +195,6 @@ extension NewNoticeDetailViewController: WKNavigationDelegate {
         let safariVC = SFSafariViewController(url: _url)
         safariVC.modalPresentationStyle = .pageSheet
         GlobalDefine.shared.mainNavi?.present(safariVC, animated: true)
-    }
-    
-    private func openDeepLink(url: URL) {
-        if #available(iOS 13.0, *) {
-            DeepLinkPath.sharedInstance.linkPath = url.path
-            if let component = URLComponents(url: url, resolvingAgainstBaseURL: false) {
-                DeepLinkPath.sharedInstance.linkParameter = component.queryItems
-            }
-            DeepLinkPath.sharedInstance.runDeepLink()
-        } else {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
     }
     
 }
