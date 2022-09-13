@@ -71,8 +71,13 @@ internal final class DeepLinkPath {
         }
     }
     
-    private let URL_PARAM_WEBVIEW_FAQ_TOP = "10"
-    private let URL_PARAM_WEBVIEW_FAQ_DETAIL = "11"
+    private enum URLParam: String, CaseIterable {
+        case chargePrice = "7"
+        case faqTop = "10"
+        case faqDetail = "11"
+        
+        internal var toValue: String { return self.rawValue }
+    }
     
     public init() {
         linkPath = ""
@@ -118,13 +123,18 @@ internal final class DeepLinkPath {
             if let type = paramItems.first(where: { $0.name == "type"})?.value {
                 storyboard = UIStoryboard(name : "Info", bundle: nil)
                 let termsViewControll = storyboard.instantiateViewController(ofType: TermsViewController.self)
-                if (type == URL_PARAM_WEBVIEW_FAQ_TOP) {
+                guard let value = URLParam.allCases.filter({ $0.toValue == type }).first else { return }
+
+                switch value {
+                case .faqTop:
                     termsViewControll.tabIndex = .FAQTop
-                } else if (type == URL_PARAM_WEBVIEW_FAQ_DETAIL){
+                case .faqDetail:
                     termsViewControll.tabIndex = .FAQDetail
                     if let page = paramItems.first(where: { $0.name == "page"})?.value {
                         termsViewControll.subURL = "type=" + page
                     }
+                case .chargePrice:
+                    termsViewControll.tabIndex = .PriceInfo
                 }
                 _mainNavi.push(viewController: termsViewControll)
             }
