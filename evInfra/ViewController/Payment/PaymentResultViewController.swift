@@ -65,6 +65,10 @@ internal final class PaymentResultViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
+        GlobalDefine.shared.mainNavi?.interactivePopGestureRecognizer?.isEnabled = false
+        
         ivResultBg.layer.cornerRadius = ivResultBg.frame.height/2
         btnAuthStatus.layer.cornerRadius = 4
         btnAuthStatus.layer.borderWidth = 1
@@ -77,18 +81,10 @@ internal final class PaymentResultViewController: UIViewController {
         super.viewDidLoad()
         self.title = "충전 완료 화면"
         
-        naviTotalView.naviTitleLbl.text = "충전완료"        
-        naviTotalView.backClosure = {
-            GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
-        }
-                
         prepareView()
         showProgress()
-        
-        if chargingId.isEmpty {
-            chargingId = getChargingId()
-        }
-        Server.getChargingResult(chargingId: chargingId) { (isSuccess, value) in
+                
+        Server.getChargingResult(chargingId: self.chargingId) { (isSuccess, value) in
             self.hideProgress()
             if isSuccess {
                 self.responseChargingStatus(response: JSON(value))
@@ -99,6 +95,11 @@ internal final class PaymentResultViewController: UIViewController {
     }
     
     // MARK: FUNC
+    
+    @IBAction func actionBackBtn(_ sender: Any) {
+        GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+    }
+    
             
     func prepareView() {
         lbAuthMsg.isHidden = true
@@ -110,10 +111,7 @@ internal final class PaymentResultViewController: UIViewController {
     @IBAction func onClickPaymentResultOk(_ sender: UIButton) {
         self.navigationController?.pop()
     }
-    
-    func getChargingId() -> String {
-        return defaults.readString(key: UserDefault.Key.CHARGING_ID)
-    }
+        
     
     func responseChargingStatus(response: JSON) {
         if response.isEmpty {
@@ -158,8 +156,8 @@ internal final class PaymentResultViewController: UIViewController {
     func updateView(chargingStatus: ChargingStatus) {
         self.lbAuthNo.text = "거래번호 " + (chargingStatus.payAuthCode ?? "0")
         self.lbStation.text = chargingStatus.stationName
-        if let chargingKw = chargingStatus.chargingKw {
-            let chargePower = "\(chargingKw) kWh"
+        if !chargingStatus.chargingKw.isEmpty  {
+            let chargePower = "\(chargingStatus.chargingKw) kWh"
             lbQuantity.text = chargePower
         } else {
             self.lbQuantity.text = " - "
@@ -278,7 +276,7 @@ internal final class PaymentResultViewController: UIViewController {
     }
     @IBAction func onClickSuccessRight(_ sender: Any) {
         // go main
-        self.navigationController?.pop()
+        GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
     }
     @IBAction func onClickFailLeft(_ sender: Any) {
         // go main

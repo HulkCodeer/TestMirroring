@@ -93,13 +93,11 @@ internal final class DetailViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if let charger = charger {
-            let property: [String: Any?] = AmpChargerStationModel(charger).toProperty
-            AmplitudeManager.shared.logEvent(type: .detail(.viewStationDetail), property: property)
-        }
-        
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
+        
+        guard let charger = charger else { return }
+        let property: [String: Any?] = AmpChargerStationModel(charger).toProperty
+        ChargerStationEvent.viewStationDetail.logEvent(property: property)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -363,6 +361,10 @@ internal final class DetailViewController: BaseViewController {
             }else{
                 map.baseMapType = .standard
             }
+            
+            let type: String = mapSwitch.isOn ? "On" : "Off"
+            let property: [String: Any] = ["type": type]
+            ChargerStationEvent.clickStationSatelliteView.logEvent(property: property)
         }
     }
     
@@ -376,7 +378,8 @@ internal final class DetailViewController: BaseViewController {
         let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         termsViewControll.tabIndex = .StationPrice
         termsViewControll.subParams = "company_id=" + (charger?.mStationInfoDto?.mCompanyId)!
-        AmplitudeManager.shared.logEvent(type: .detail(.clickStationChargingPrice), property: nil)
+        
+        ChargerStationEvent.clickStationChargingPrice.logEvent()
         self.navigationController?.push(viewController: termsViewControll)
     }
 }
@@ -399,6 +402,7 @@ extension DetailViewController {
     
     @objc
     fileprivate func handleBackButton() {
+        ChargerStationEvent.viewStationReview.logEvent()
         self.navigationController?.pop(transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
     }
 }
@@ -557,6 +561,7 @@ extension DetailViewController {
             }
         }
         
+        boardWriteViewController.isFromDetailView = true
         boardWriteViewController.category = .CHARGER
         boardWriteViewController.popCompletion = { [weak self] in
             guard let self = self else { return }
@@ -564,6 +569,12 @@ extension DetailViewController {
         }
         
         self.navigationController?.push(viewController: boardWriteViewController)
+        
+        guard let charger = charger else { return }
+        guard let stationName = charger.mStationInfoDto?.mSnm else { return }
+        let property: [String: Any] = ["sourceStation": true,
+                                       "stationName": stationName]
+        BoardEvent.clickWriteBoardPost.logEvent(property: property)
     }
     
     @objc

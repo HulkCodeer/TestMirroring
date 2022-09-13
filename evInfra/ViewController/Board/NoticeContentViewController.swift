@@ -15,6 +15,7 @@ class NoticeContentViewController: UIViewController {
     @IBOutlet weak var content: UITextView!
     
     var boardId = -1
+    internal var source: String = ""
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -56,13 +57,25 @@ class NoticeContentViewController: UIViewController {
     
     private func getNoticeContent() {
         if self.boardId > -1 {
-            Server.getNoticeContent(noticeId: self.boardId) { (isSuccess, value) in
+            Server.getNoticeContent(noticeId: self.boardId) { [weak self] (isSuccess, value) in
+                guard let self = self else { return }
                 if isSuccess {
                     let json = JSON(value)
                     let code = json["code"].intValue
                     if code == 1000 {
                         self.navigationItem.titleLabel.text = json["title"].stringValue
                         self.content.text = json["content"].stringValue
+                                                
+                        let noticeName = self.navigationItem.titleLabel.text ?? ""
+                        var property: [String: Any] = ["source": self.source,
+                                                       "noticeName": noticeName]
+                        
+                        if noticeName.contains("[") || noticeName.contains("]") {
+                            guard let noticeType = noticeName.replace(of: "[", with: "").replace(of: "]", with: " ").split(separator: " ").first  else { return }
+                            property["noticeType"] = noticeType
+                        }
+                        
+                        BoardEvent.viewNotice.logEvent(property: property)
                     }
                 }
             }

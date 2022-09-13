@@ -551,6 +551,8 @@ extension LeftViewController {
                 let guideVC = loginStoryboard.instantiateViewController(ofType: ServiceGuideViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: guideVC)
 
+                let property: [String: Any] = ["source": "설정"]            
+                BoardEvent.viewFAQ.logEvent(property: property)
             default:
                 print("out of index")
             }

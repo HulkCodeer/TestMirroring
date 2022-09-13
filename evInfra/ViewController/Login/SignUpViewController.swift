@@ -324,8 +324,9 @@ internal final class SignUpViewController: UIViewController {
                             MemberManager.shared.setData(data: json)
                             
                             let property = ["type" : UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)]
-                            AmplitudeManager.shared.logEvent(type: .signup(.completeSignUp), property: property)
-                            AmplitudeManager.shared.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
+                            AmplitudeManager.shared.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))                            
+                            SignUpEvent.completeSignUp.logEvent(property: property)
+                            
 
                             self.navigationController?.pop()
                             if let delegate = self.delegate {
@@ -360,9 +361,9 @@ internal final class SignUpViewController: UIViewController {
                         Snackbar().show(message: "로그인 성공")
                         MemberManager.shared.setData(data: json)
                         
-                        let property = ["type" : UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)]
-                        AmplitudeManager.shared.logEvent(type: .signup(.completeSignUp), property: property)
+                        let property = ["type" : UserDefault().readString(key: UserDefault.Key.MB_LOGIN_TYPE)]                        
                         AmplitudeManager.shared.setUser(with: UserDefault().readString(key: UserDefault.Key.MB_ID))
+                        SignUpEvent.completeSignUp.logEvent(property: property)
                         
                         self.navigationController?.pop()
                         if let delegate = self.delegate {

@@ -18,6 +18,7 @@ class CommunityBoardAdsCell: UITableViewCell {
     
     private var adUrl: String? = ""
     private var adId: String? = ""
+    private var item: BoardListItem? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,13 +42,14 @@ class CommunityBoardAdsCell: UITableViewCell {
     }
     
     func configuration(item: BoardListItem) {
+        self.item = item
         adsProfileImageView.sd_setImage(with: URL(string: "\(Const.AWS_IMAGE_SERVER)/\(item.mb_profile ?? "")"), placeholderImage: UIImage(named: "ic_person_base36"))
         adsTitleLabel.text = item.nick_name
         adsDescriptionLabel.text = "advertisement"
         adsImageView.sd_setImage(with: URL(string: "\(Const.AWS_IMAGE_SERVER)/\(item.cover_filename ?? "")")) { (_, _, _, _) in
             EIAdManager.sharedInstance.logEvent(adIds: [item.document_srl ?? ""], action: .view, page: .free, layer: .mid)
         }
-        adUrl = item.title
+        adUrl = item.module_srl
         adId = item.document_srl
     }
     
@@ -60,7 +62,15 @@ class CommunityBoardAdsCell: UITableViewCell {
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 EIAdManager.sharedInstance.logEvent(adIds: [adId ?? ""], action: Promotion.Action.click, page: Promotion.Page.event, layer: Promotion.Layer.mid)
+                
+                guard let item = self.item else { return }
+                let property: [String: Any] = ["bannerType": "게시판 배너",
+                                               "adID": item.document_srl ?? "",
+                                               "adName": item.title ?? ""]
+                PromotionEvent.clickBanner.logEvent(property: property)
+                
             }
         }
     }
 }
+

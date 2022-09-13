@@ -140,13 +140,16 @@ extension CardBoardViewController {
         let storyboard = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil)
         guard let boardWriteViewController = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
         
+        boardWriteViewController.isFromDetailView = false
         boardWriteViewController.category = self.category
         boardWriteViewController.popCompletion = { [weak self] in
             guard let self = self else { return }
             self.fetchFirstBoard(mid: self.category.rawValue, sort: self.sortType, mode: self.mode.rawValue)
         }
-        
+                
         self.navigationController?.push(viewController: boardWriteViewController)
+                
+        BoardEvent.clickWriteBoardPost.logEvent()
     }
 }
 
@@ -227,3 +230,4 @@ extension CardBoardViewController: BoardTableViewDelegate {
         self.navigationController?.push(viewController: imageVC)
     }
 }
+

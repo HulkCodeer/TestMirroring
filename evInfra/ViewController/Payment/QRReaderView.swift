@@ -97,9 +97,8 @@ internal final class QRReaderView: UIView {
 }
 
 extension QRReaderView {
-    func makeUIWithStart() {
-        self.initialSetupView()
-        self.start()
+    func makeUI() {
+        self.initialSetupView()        
     }
     
     func start() {
@@ -113,28 +112,28 @@ extension QRReaderView {
     func fail() {
         guard let _reactor = self.reactor else { return }
         captureSession = nil
-        Observable.just(PaymentQRScanReactor.Action.loadChargingQR(""))
+        Observable.just(PaymentQRScanReactor.Action.loadFirstChargingQR(""))
             .bind(to: _reactor.action)
             .disposed(by: self.disposeBag)
     }
     
     func found(qrData: String) {
-        guard let _reactor = self.reactor else { return }
-        Observable.just(PaymentQRScanReactor.Action.loadChargingQR(qrData))
+        guard let _reactor = self.reactor else { return }        
+        Observable.just(PaymentQRScanReactor.Action.loadFirstChargingQR(qrData))
             .bind(to: _reactor.action)
             .disposed(by: self.disposeBag)
     }
 }
 
 extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
-    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {        
-        stop()
+    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+        self.stop()
         if let _metadataObject = metadataObjects.first, _metadataObject.type == .qr {
             guard let readableObject = _metadataObject as? AVMetadataMachineReadableCodeObject,
                 let stringValue = readableObject.stringValue else {
                 return
             }
-
+                                
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             found(qrData: stringValue)
         }

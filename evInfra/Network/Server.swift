@@ -156,8 +156,7 @@ class Server {
             "member_id": MemberManager.shared.memberId,
             "signing_id": id,
             "mb_pw" : pwd
-        ]
-        
+        ]        
         AF.request(Const.EV_PAY_SERVER + "/member/member/login_id",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseData { response in responseJson(response: response, completion: completion) }

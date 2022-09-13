@@ -72,6 +72,8 @@ internal final class ReportChargeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        ReportsEvent.clickStationReport.logEvent()
+        
         addObserver()
     }
     
@@ -303,6 +305,8 @@ internal final class ReportChargeViewController: UIViewController {
 
                     // 제보 정보 다시 받아오기
                     self.requestReportData()
+                    ReportsEvent.clickStationCompleteReport.logEvent()
+                    
                 } else {
                     Snackbar().show(message: "수정 요청이 실패하였습니다. 다시 시도해 주세요.")
                 }

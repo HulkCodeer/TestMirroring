@@ -99,7 +99,8 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
                 guard let self = self else { return }
                 let storyboard = UIStoryboard(name : "Membership", bundle: nil)
                 let mbsIssueVC = storyboard.instantiateViewController(ofType: MembershipIssuanceViewController.self)
-                self.navigationController?.push(viewController: mbsIssueVC)
+                self.navigationController?.push(viewController: mbsIssueVC)                                
+                PaymentEvent.clickApplyEVICard.logEvent()
             })
             .disposed(by: disposebag)
     }

@@ -133,6 +133,8 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                 
                 self.resultCodeLabel.text = "\(payCode)"
                 self.resultMsgLabel.text = json["ResultMsg"].stringValue
+                
+                PaymentEvent.completePaymentCard.logEvent()
             
             case PaymentCard.PAY_REGISTER_FAIL, PaymentCard.PAY_REGISTER_FAIL_PG:
                 self.registerInfo.isHidden = false
@@ -318,4 +320,3 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
         self.navigationController?.pop()
     }
 }
-

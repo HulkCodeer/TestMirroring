@@ -17,6 +17,7 @@ struct BoardWriteViewModel {
             self.listener?(isValid)
         }
     }
+    internal var isFromDetailView: Bool = false
     
     mutating func subscribe(listener: @escaping (Bool) -> Void) {
         listener(isValid)
@@ -88,6 +89,10 @@ struct BoardWriteViewModel {
             if isSuccess {
                 if let results = value as? Dictionary<String, String>,
                    let documentSRL = results["document_srl"] {
+                    
+                    let ampBoardModel = AmpBoardModel(mid: mid, chargerId: chargerId, documentSrl: documentSRL, isFromDetailView: isFromDetailView)                                                                            
+                    BoardEvent.completeWriteBoardPost.logEvent(property: ampBoardModel.toProperty)
+                    
                     
                     guard images.count != 0 else {
                         completion(true)
@@ -181,3 +186,4 @@ struct BoardWriteViewModel {
         }
     }
 }
+

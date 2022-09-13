@@ -66,6 +66,21 @@ class FilterPlaceView: UIView {
         selectItem(index: 0)
         if (saveOnChange) {
             applyFilter()
+            
+            var values = [String]()
+            if indoorSel {
+                values.append(lbIndoor.text ?? "실내")
+            }
+            if outdoorSel {
+                values.append(lbOutdoor.text ?? "실외")
+            }
+            if canopySel {
+                values.append(lbCanopy.text ?? "캐노피")
+            }
+
+            let property: [String: Any] = ["filterName": "설치 형태",
+                                           "filterValue": values]
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .place)
     }
@@ -75,6 +90,20 @@ class FilterPlaceView: UIView {
         selectItem(index: 1)
         if (saveOnChange) {
             applyFilter()
+            var values = [String]()
+            if indoorSel {
+                values.append(lbIndoor.text ?? "실내")
+            }
+            if outdoorSel {
+                values.append(lbOutdoor.text ?? "실외")
+            }
+            if canopySel {
+                values.append(lbCanopy.text ?? "캐노피")
+            }
+
+            let property: [String: Any] = ["filterName": "설치 형태",
+                                           "filterValue": values]
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .place)
     }
@@ -84,6 +113,20 @@ class FilterPlaceView: UIView {
         selectItem(index: 2)
         if (saveOnChange) {
             applyFilter()
+            var values = [String]()
+            if indoorSel {
+                values.append(lbIndoor.text ?? "실내")
+            }
+            if outdoorSel {
+                values.append(lbOutdoor.text ?? "실외")
+            }
+            if canopySel {
+                values.append(lbCanopy.text ?? "캐노피")
+            }
+
+            let property: [String: Any] = ["filterName": "설치 형태",
+                                           "filterValue": values]
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .place)
     }

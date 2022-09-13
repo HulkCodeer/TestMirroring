@@ -69,6 +69,8 @@ class LotteRentCertificateViewController : UIViewController,
     func updateAfterPayRegist(json: JSON) {
         if (json["pay_code"].intValue == PaymentCard.PAY_REGISTER_SUCCESS) {
             self.activateMember()
+            PaymentEvent.completePaymentCard.logEvent()
+            
         } else {
             if json["resultMsg"].stringValue.isEmpty {
                 Snackbar().show(message: "카드 등록을 실패하였습니다. 다시 시도해 주세요.")
@@ -170,6 +172,9 @@ class LotteRentCertificateViewController : UIViewController,
                 } else {
                     self.showResultView(code : RESULT_DONE, imgType : "SUCCESS", retry : false, callBtn : false, msg : "등록 완료되었습니다.\n감사합니다")
                 }
+                
+                let property: [String: Any] = ["company": "롯데 렌터카"]
+                PaymentEvent.completeApplyAllianceCard.logEvent(property: property)
             }
             else {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
@@ -225,4 +230,3 @@ class LotteRentCertificateViewController : UIViewController,
         }
     }
 }
-

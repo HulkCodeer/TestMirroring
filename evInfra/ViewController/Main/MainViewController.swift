@@ -114,12 +114,12 @@ internal final class MainViewController: UIViewController {
         prepareChargePrice()
         requestStationInfo()
         
-        prepareCalloutLayer()                
+        prepareCalloutLayer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        AmplitudeManager.shared.logEvent(type: .map(.viewMainPage), property: nil) // 앰플리튜드 로깅
+        MapEvent.viewMainPage.logEvent()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -158,7 +158,7 @@ internal final class MainViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)    
+        super.viewWillDisappear(true)
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
         guard !MemberManager.shared.isShowQrTooltip else { return }
         _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
@@ -332,14 +332,16 @@ internal final class MainViewController: UIViewController {
         }
         
         updateMyLocationButton()
-        
-        AmplitudeManager.shared.logEvent(type: .map(.clickMyLocation), property: nil) // 앰플리튜드 로깅
+                
+        MapEvent.clickMyLocation.logEvent()
     }
     
     @IBAction func onClickRenewBtn(_ sender: UIButton) {
         if !self.markerIndicator.isAnimating {
             self.refreshChargerInfo()
         }
+        
+        MapEvent.clickRenew.logEvent()
     }
     
     // 파란색 길안내 버튼 누를때
@@ -357,8 +359,8 @@ internal final class MainViewController: UIViewController {
             
             self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
         }
-        
-        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: ["result": "길 안내"]) // 앰플리튜드 로깅
+                
+        RouteEvent.clickNavigationFindway.logEvent()
     }
     
     private func configureLocationManager() {
@@ -522,14 +524,15 @@ extension MainViewController: AppToolbarDelegate {
                                                "stationOrAddress": "\(searchVC.searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")",
                                                "searchKeyword": "\(searchVC.searchBarController?.searchBar.textField.text ?? "")",
                                                "selectedStation": ""]
-                AmplitudeManager.shared.logEvent(type: .search(.clickSearchChooseStation), property: property)
+                SearchEvent.clickSearchChooseStation.logEvent(property: property)
+                
             }
             self.present(appSearchBarController, animated: true, completion: nil)
         case 2: // 경로 찾기 버튼
-            if let isRouteMode = arg {
-                showRouteView(isShow: isRouteMode as! Bool)
+            if let isRouteMode = arg as? Bool {
+                showRouteView(isShow: isRouteMode)
+                RouteEvent.clickNavigation.logEvent(property: ["onOrOff": "\(isRouteMode ? "On" : "Off")"])
             }
-            AmplitudeManager.shared.logEvent(type: .route(.clickNavigation), property: nil) // 앰플리튜드 로깅
         default:
             break
         }
@@ -596,14 +599,9 @@ extension MainViewController: TextFieldDelegate {
     
     @objc func onClickRouteCancel(_ sender: UIButton) {
         clearSearchResult()
-        AmplitudeManager.shared.logEvent(type: .route(.clickNavigationFindway), property: ["result": "지우기"]) // 앰플리튜드 로깅
+        RouteEvent.clickNavigationFindway.logEvent()
     }
-    
-    // TODO: 한 view controller에서 사용되는 앰플리튜드 로깅 이벤트 한 곳에서 처리
-    func testLogingEvent(type: EventType) {
-        
-    }
-    
+            
     @objc func onClickRoute(_ sender: UIButton) {
         findPath(passList: [])
     }
@@ -871,11 +869,17 @@ extension MainViewController: MarkerTouchDelegate {
     func touchHandler(with charger: ChargerStationInfo) {
         hideKeyboard()
         selectCharger(chargerId: charger.mStationInfoDto?.mChargerId ?? "")
+        
+        let ampChargerStationModel = AmpChargerStationModel(charger)
+        var property: [String: Any] = ampChargerStationModel.toProperty
+        property["source"] = "마커"
+        MapEvent.viewStationSummarized.logEvent(property: property)
     }
 }
 
 extension MainViewController: ChargerSelectDelegate {
     func moveToSelectLocation(lat: Double, lon: Double) {
+        MapEvent.viewMainPage.logEvent()
         guard lat == 0, lon == 0 else {
             myLocationModeOff()
             
@@ -888,15 +892,21 @@ extension MainViewController: ChargerSelectDelegate {
             // 검색한 위치의 마커 찍기
             naverMapView.searchMarker = Marker(NMGLatLng(lat: lat, lng: lon), .search)
             naverMapView.searchMarker?.mapView = self.mapView
-
+            
             return
         }
     }
     
     func moveToSelected(chargerId: String) {
+        MapEvent.viewMainPage.logEvent()
         guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
         let position = NMGLatLng(lat: charger.mStationInfoDto?.mLatitude ?? 0.0,
                                  lng: charger.mStationInfoDto?.mLongitude ?? 0.0)
+        let ampChargerStaionModel = AmpChargerStationModel(charger)
+        var property: [String: Any] = ampChargerStaionModel.toProperty
+        property["source"] = "검색"
+        MapEvent.viewStationSummarized.logEvent(property: property)
+        
         // 기존에 선택된 마커 지우기
         naverMapView.searchMarker?.mapView = nil
         
@@ -1012,6 +1022,12 @@ extension MainViewController {
             DispatchQueue.main.async {
                 self?.markerIndicator.stopAnimating()
                 self?.appDelegate.appToolbarController.toolbar.isUserInteractionEnabled = true
+                
+                if let chargerId = GlobalDefine.shared.sharedChargerIdFromDynamicLink {
+                    self?.sharedChargerId = chargerId
+                    self?.selectChargerFromShared()
+                    GlobalDefine.shared.sharedChargerIdFromDynamicLink = nil
+                }
             }
             
             self?.checkFCM()
@@ -1191,7 +1207,7 @@ extension MainViewController {
         summaryView.setCallOutFavoriteIcon(favorite: changed)
     }
     
-    private func selectChargerFromShared() {
+    internal func selectChargerFromShared() {
         if let id = self.sharedChargerId {
             self.selectCharger(chargerId: id)
             self.sharedChargerId = nil
@@ -1262,7 +1278,7 @@ extension MainViewController {
     }
     
     // MARK: - 시작광고배너 보여주기
-    private func showStartAd() {    
+    private func showStartAd() {
         let startBannerViewController = StartBannerViewController(reactor: GlobalAdsReactor.sharedInstance)
 
         GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
@@ -1286,10 +1302,9 @@ extension MainViewController {
     }
     
     private func showMarketingPopup() {
-        let isMarketingNotiAllow = UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION)
         let didShowMarketingPopup = UserDefault().readBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP)
         
-        if !didShowMarketingPopup || !isMarketingNotiAllow {
+        if !didShowMarketingPopup {
             let popupModel = PopupModel(title: "더 나은 충전 생활 안내를 위해 동의가 필요해요.",
                                         message:"EV Infra는 사용자님을 위해 도움되는 혜택 정보를 보내기 위해 노력합니다. 무분별한 광고 알림을 보내지 않으니 안심하세요!\n마케팅 수신 동의 변경은 설정 > 마케팅 정보 수신 동의에서 철회 가능합니다.",
                                         confirmBtnTitle: "동의하기",
@@ -1409,6 +1424,9 @@ extension MainViewController {
         let termsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
         termsViewController.tabIndex = .FAQTop
         GlobalDefine.shared.mainNavi?.push(viewController: termsViewController)
+        
+        let property: [String: Any] = ["source": "메인 페이지"]
+        BoardEvent.viewFAQ.logEvent(property: property)
     }
 }
 
@@ -1422,20 +1440,20 @@ extension MainViewController {
         let code = response["code"].intValue
         switch code {
         case 1000:
-            defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
+//            defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
 //            let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
 //            viewcon.cpId = "GS00002204"
 //            viewcon.connectorId = "1"
             
             let reactor = PaymentStatusReactor(provider: RestApi())
             let viewcon = NewPaymentStatusViewController(reactor: reactor)
-            viewcon.cpId = response["cp_id"].stringValue
-            viewcon.connectorId = response["connector_id"].stringValue
+//            viewcon.cpId = response["cp_id"].stringValue
+//            viewcon.connectorId = response["connector_id"].stringValue
+            viewcon.chargingId = response["charging_id"].stringValue
             
             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                                     
         case 2002:
-            defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
             if response["pay_code"].stringValue.equals("8804") {
                 let repayListViewController = paymentStoryboard.instantiateViewController(ofType: RepayListViewController.self)
                 repayListViewController.delegate = self
@@ -1458,8 +1476,7 @@ extension MainViewController {
                 }
             }
             
-        default:
-            defaults.removeObjectForKey(key: UserDefault.Key.CHARGING_ID)
+        default: break
         }
     }
     
@@ -1475,12 +1492,12 @@ extension MainViewController {
         let popupModel = PopupModel(title: "카메라 권한이 필요해요",
                                     message: "QR 스캔을 위해 권한 허용이 필요해요.\n[설정] > [권한]에서 권한을 허용할 수 있어요.",
                                     confirmBtnTitle: "설정하기", cancelBtnTitle: "닫기",
-                                    confirmBtnAction: { 
+                                    confirmBtnAction: {
             if let url = URL(string: UIApplicationOpenSettingsURLString) {
                 if UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
-            }            
+            }
         }, textAlignment: .center, dimmedBtnAction: {})
         
         let popup = ConfirmPopupViewController(model: popupModel)
@@ -1533,7 +1550,7 @@ extension MainViewController {
                     LoginHelper.shared.logout(completion: { success in
                         if success {
                             self.navigationDrawerController?.toggleLeftView()
-                            Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")                            
+                            Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
                         } else {
                             Snackbar().show(message: "다시 시도해 주세요.")
                         }
@@ -1555,9 +1572,9 @@ extension MainViewController {
 
 extension MainViewController: RepaymentListDelegate {
     func onRepaySuccess() {
-        let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
-        let paymentQRScanViewController = paymentStoryboard.instantiateViewController(ofType: PaymentQRScanViewController.self)
-        GlobalDefine.shared.mainNavi?.push(viewController: paymentQRScanViewController)
+        let reactor = PaymentQRScanReactor(provider: RestApi())
+        let viewcon = NewPaymentQRScanViewController(reactor: reactor)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     func onRepayFail() {
@@ -1576,4 +1593,5 @@ extension MainViewController: LoginHelperDelegate {
     func needSignUp(user: Login) {
     }
 }
+
 

@@ -22,6 +22,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     var isFromDetailView: Bool = false
     var adIndex: Int = -1
     private var adminList: [Admin] = [Admin]()
+    internal var viewedCnt: Int = 0
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -41,7 +42,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         self.allowsSelection = true
         self.autoresizingMask = UIViewAutoresizing.flexibleHeight
         self.separatorStyle = .none
-        self.register(UINib(nibName: "CommunityBoardTableViewHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "CommunityBoardTableViewHeader")
+        self.register(CommunityBoardTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "CommunityBoardTableViewHeader")
         if #available(iOS 15.0, *) {
             self.sectionHeaderTopPadding = 0
         }
@@ -88,11 +89,12 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 
                 adCell.selectionStyle = .none
                 adCell.configuration(item: communityBoardList[indexPath.row])
-
+                
                 return adCell
             } else {
                 guard let cell = Bundle.main.loadNibNamed("CommunityBoardTableViewCell", owner: self, options: nil)?.first as? CommunityBoardTableViewCell else { return UITableViewCell() }
                 
+                viewedCnt += 1
                 cell.selectionStyle = .none
                 cell.adminList = adminList
                 cell.configure(item: communityBoardList[indexPath.row])
@@ -114,6 +116,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             } else {
                 guard let cell = Bundle.main.loadNibNamed("CommunityChargeStationTableViewCell", owner: self, options: nil)?.first as? CommunityChargeStationTableViewCell else { return UITableViewCell() }
                 
+                viewedCnt += 1
                 cell.selectionStyle = .none
                 cell.adminList = adminList
                 cell.isFromDetailView = isFromDetailView
@@ -159,9 +162,8 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
             if #available(iOS 14.0, *) {
                 headerView.backgroundConfiguration?.backgroundColor = UIColor(named: "nt-white")
             }
-            
-            headerView.setupBannerView(categoryType: category)
-            headerView.fetchAds(categoryType: category)
+
+            headerView.configuration(with: category)
             headerView.delegate = self
             
             return headerView

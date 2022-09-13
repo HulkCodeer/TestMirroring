@@ -415,14 +415,14 @@ extension FilterManager {
         let property: [String: Any] = ["selectedAccessibility": getAccessibility(),
                                        "selectedSocketType": getSocketType(),
                                        "filterMyCar": UserDefault().readBool(key: UserDefault.Key.FILTER_MYCAR),
-                                       "minChargingSpeed": getChargingSpeed().0,
-                                       "maxChargingSpeed": getChargingSpeed().1,
+                                       "minChargingSpeed": getChargingSpeed().0 == 0 ? "완속" : getChargingSpeed().0,
+                                       "maxChargingSpeed": getChargingSpeed().1 == 0 ? "완속" : getChargingSpeed().1,
                                        "setLocation": getLocationType(),
                                        "road": getRoadType(),
                                        "price": getIsPaid(),
                                        "chargingStation": getChargingStations(),
                                        "source": source]
         
-        AmplitudeManager.shared.logEvent(type: .filter(.clickFilterSave), property: property)
+       FilterEvent.clickFilterSave.logEvent(property: property)
     }
 }

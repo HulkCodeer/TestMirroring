@@ -62,6 +62,20 @@ class FilterRoadView: UIView {
         selectItem(index: 0)
         if (saveOnChange) {
             applyFilter()
+            
+            var values = [String]()
+            if generalSel {
+                values.append(lbGeneral.text ?? "일반도로")
+            }
+            if highUpSel {
+                values.append(lbHighUp.text ?? "고속도로(상)")
+            }
+            if highDownSel {
+                values.append(lbHighDown.text ?? "고속도로(하)")
+            }
+            let property: [String: Any] = ["filterName": "도로",
+                                           "filterValue": values]            
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .road)
     }
@@ -71,6 +85,20 @@ class FilterRoadView: UIView {
         selectItem(index: 1)
         if (saveOnChange) {
             applyFilter()
+            
+            var values = [String]()
+            if generalSel {
+                values.append(lbGeneral.text ?? "일반도로")
+            }
+            if highUpSel {
+                values.append(lbHighUp.text ?? "고속도로(상)")
+            }
+            if highDownSel {
+                values.append(lbHighDown.text ?? "고속도로(하)")
+            }
+            let property: [String: Any] = ["filterName": "도로",
+                                           "filterValue": values]            
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .road)
     }
@@ -80,6 +108,20 @@ class FilterRoadView: UIView {
         selectItem(index: 2)
         if (saveOnChange) {
             applyFilter()
+            
+            var values = [String]()
+            if generalSel {
+                values.append(lbGeneral.text ?? "일반도로")
+            }
+            if highUpSel {
+                values.append(lbHighUp.text ?? "고속도로(상)")
+            }
+            if highDownSel {
+                values.append(lbHighDown.text ?? "고속도로(하)")
+            }
+            let property: [String: Any] = ["filterName": "도로",
+                                           "filterValue": values]
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .road)
     }

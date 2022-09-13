@@ -18,14 +18,19 @@ internal final class DeepLinkModel: NSObject {
     enum DeepLinkType: CaseIterable {
         case faqPayment
         case faqDetail
+        case chargePrice
+        case feeInfoAll
                 
         var rawValue: (deepLinkUrl: String, isLogin: Bool) {
             switch self {
             case .faqPayment:
                 return ("faq_payment", true)
-                
             case .faqDetail:
                 return ("faq_detail", true)
+            case .chargePrice:
+                return ("charge_price", true)
+            case .feeInfoAll:
+                return ("fee_info_all", true)
             }
         }
     }
@@ -49,6 +54,9 @@ internal final class DeepLinkModel: NSObject {
                 termsViewControll.tabIndex = .FAQDetail
                 guard let _queryParam = _queryItems["faq_detail"] else { return }
                 termsViewControll.subURL = "type=\(_queryParam)"
+                
+            case "fee_info_all", "charge_price":
+                termsViewControll.tabIndex = .PriceInfo
                 
             default: break
             }

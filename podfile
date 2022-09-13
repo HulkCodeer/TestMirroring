@@ -43,6 +43,7 @@ def shared_pods
   pod 'TTGTagCollectionView'
   pod 'PanModal'
   pod 'NMapsMap'
+  pod 'FSPagerView'
 end
 
 target 'evInfra' do
@@ -50,6 +51,10 @@ target 'evInfra' do
 end
 
 target 'evInfra_dev' do
+    shared_pods
+end
+
+target 'evInfra_release' do
     shared_pods
 end
 

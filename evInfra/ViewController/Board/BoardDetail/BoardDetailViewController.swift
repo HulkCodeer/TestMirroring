@@ -51,12 +51,25 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
         boardDetailViewModel.fetchBoardDetail(mid: category.rawValue, document_srl: document_srl)
         boardDetailViewModel.listener = { [weak self] detail in
             guard let self = self else { return }
-            
             self.detail = detail
-            
             DispatchQueue.main.async {
                 self.detailTableView.reloadData()
             }
+            
+            guard let detail = self.detail, let document = detail.document else { return }
+            
+            let postId = document.document_srl ?? ""
+            let likeCnt = document.like_count ?? "0"
+            let replyCnt = document.comment_count ?? "0"
+            let boardType = self.category == .FREE ? "자유 게시판" : "충전소 게시판"
+            let source = self.isFromStationDetailView ? "\(document.parseChargerIdToName())" : "충전소 게시판"
+            
+            let property: [String: Any] = ["boardType": boardType,
+                                           "source": source,
+                                           "postID": postId,
+                                           "likeCount": likeCnt,
+                                           "replyCount": replyCnt]
+            BoardEvent.viewBoardPost.logEvent(property: property)
         }
         getAdminList { adminList in
             self.adminList = adminList
@@ -321,7 +334,7 @@ extension BoardDetailViewController: UITableViewDataSource {
 // MARK: - 게시글/댓글 수정+삭제+신고 기능
 extension BoardDetailViewController {
     private func prepareSharingForKakao(with document: Document) {
-        linkShareManager.sendToKakaoWithBoard(with: document)
+        linkShareManager.sendToKakao(with: document)
     }
     
     private func deleteBoard() {
@@ -631,4 +644,3 @@ extension BoardDetailViewController {
         self.view.endEditing(true)
     }
 }
-

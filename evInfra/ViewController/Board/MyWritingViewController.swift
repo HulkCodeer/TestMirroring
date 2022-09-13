@@ -54,6 +54,10 @@ class MyWritingViewController: BaseViewController {
         super.viewWillAppear(animated)
         // Recalculates height
         fetchFirstBoard(mid: boardCategory.rawValue, sort: Board.SortType.LATEST, mode: screenType.rawValue)
+        
+        let boardType = boardCategory == .FREE ? "자유 게시판" : "충전소 게시판"
+        let property: [String: Any] = ["type" : boardType]
+        MyReportsEvent.viewMyPost.logEvent(property: property)
     }
 }
 

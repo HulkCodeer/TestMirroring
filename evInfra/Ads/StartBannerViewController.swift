@@ -140,19 +140,21 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         
         Observable.merge(dimmedViewBtn.rx.tap.asObservable(), closeButton.rx.tap.asObservable())
             .asDriver(onErrorJustReturn: ())
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.closeStartBannerViewController()
-            }).disposed(by: disposeBag)
-            
+            .drive(with: self) { owner, _ in
+                owner.closeStartBannerViewController()
+                let property: [String: Any] = ["type": owner.closeButton.titleLabel?.text ?? "닫기"]
+               PromotionEvent.clickCloseBanner.logEvent(property: property)
+            }.disposed(by: disposeBag)
+        
         closeWithDurationButton.rx.tap
             .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
+            .drive(with: self) { owner, _ in
                 UserDefault().saveString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK, value: Date().toString())
-                self.closeStartBannerViewController()
-            })
-            .disposed(by: disposeBag)
+                owner.closeStartBannerViewController()
+                let property: [String: Any] = ["type": owner.closeWithDurationButton.titleLabel?.text ?? "7일간 보지 않기"]
+               PromotionEvent.clickCloseBanner.logEvent(property: property)
+                
+            }.disposed(by: disposeBag)
     }
     
     internal func bind(reactor: GlobalAdsReactor) {        
@@ -163,15 +165,16 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         
         eventImageButton.rx.tap
             .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self, let banner = reactor.currentState.startBanner else { return }
+            .drive(with: self) { owner, _ in
+                guard let banner = reactor.currentState.startBanner else { return }
                 guard !banner.extUrl.isEmpty else { return }
+                
                 let newEventDetailViewController = NewEventDetailViewController()
                 newEventDetailViewController.eventUrl = banner.extUrl
                 self.closeStartBannerViewController()
                 self.logClickEvent()
                 GlobalDefine.shared.mainNavi?.push(viewController: newEventDetailViewController)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
     
     // 앰플리튜드 view_enter 로깅을 위해 필요함
@@ -191,11 +194,12 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         Observable.just(GlobalAdsReactor.Action.addEventClickCount(self.reactor?.currentState.startBanner?.evtId ?? "") )
             .bind(to: GlobalAdsReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
+        
     }
     
     private func logViewEvent() {
         Observable.just(GlobalAdsReactor.Action.addEventViewCount(self.reactor?.currentState.startBanner?.evtId ?? "") )
             .bind(to: GlobalAdsReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
-    }
+    }    
 }

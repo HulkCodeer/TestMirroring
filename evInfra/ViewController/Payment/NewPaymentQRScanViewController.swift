@@ -180,6 +180,10 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         super.viewWillAppear(animated)
         qrReaderView.start()
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
+        GlobalDefine.shared.mainNavi?.interactivePopGestureRecognizer?.isEnabled = false
+        
+        guard let _reactor = self.reactor else { return }                
+        self.changeStationGuideWithPaymentStatusCheck(reactor: _reactor)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -200,10 +204,69 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         qrReaderView.bind(reactor)
         
         tcBtn.rx.tap
+            .do(onNext: { self.view.endEditing(true) }) // TEST CODE
             .map { PaymentQRScanReactor.Action.loadTestChargingQR(self.tcTf.text ?? "" ) }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
-                    
+                                                              
+        reactor.state.compactMap { $0.isPaymentFineUser }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { obj,_ in
+                let shapeLayer = CAShapeLayer()
+                shapeLayer.frame = obj.dimmedView.bounds
+                shapeLayer.fillRule = kCAFillRuleEvenOdd
+                
+                let path = UIBezierPath(rect: obj.dimmedView.bounds)
+                path.append(UIBezierPath(rect: CGRect(x: obj.holeView.frame.origin.x, y: obj.holeView.frame.origin.y - 56, width: obj.holeView.bounds.width, height: obj.holeView.bounds.height)))
+                shapeLayer.path = path.cgPath
+
+                obj.dimmedView.layer.mask = shapeLayer
+                
+                obj.qrReaderView.makeUI()
+                obj.qrReaderView.start()
+            }
+            .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.isQRScanRunning }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { obj, isQRScanRunning in
+                guard !isQRScanRunning else { return }
+                obj.qrReaderView.start()
+            }
+            .disposed(by: self.disposeBag)
+                        
+        reactor.state.compactMap { $0.qrOutletTypeModel }
+            .asDriver(onErrorJustReturn: [])
+            .drive(with: self) { obj, qrOutletTypeModel in
+                let rowVC = NewBottomSheetViewController()
+                rowVC.items = qrOutletTypeModel.map { $0.title }
+                rowVC.headerTitleStr = "충전 타입 선택"
+                rowVC.nextBtnCompletion = { [weak self] index in
+                    guard let self = self else { return }
+                    Observable.just(PaymentQRScanReactor.Action.loadChargingQR(reactor.qrCode, qrOutletTypeModel[index].id))
+                        .bind(to: reactor.action)
+                        .disposed(by: self.disposeBag)
+                    rowVC.view.removeFromSuperview()
+                    rowVC.removeFromParentViewController()
+                }
+                
+                rowVC.dimmedViewBtnCompletion = { [weak self] in
+                    guard let self = self else { return }
+                    self.qrReaderView.start()
+                }
+                
+                rowVC.view.frame = GlobalDefine.shared.mainNavi?.view.bounds ?? UIScreen.main.bounds
+                self.addChildViewController(rowVC)
+                self.view.addSubview(rowVC.view)
+            }
+            .disposed(by: self.disposeBag)
+        
+    }
+    
+    private func changeStationGuideWithPaymentStatusCheck(reactor: PaymentQRScanReactor) {
+        stationSubGuideLbl.isHidden = true
+        stationSubGuideBtn.isHidden = true
+        
         switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
         case (false, false): // 신규유저
             let tempText = "한국 전력과 GS칼텍스에서\nQR 충전을 할 수 있어요"
@@ -212,7 +275,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPrimary.color], range: allRange)
             attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: allRange)
             var chageRange = (attributeText.string as NSString).range(of: "GS칼텍스")
-            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.nt4.color], range: chageRange)
+            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.gr4.color], range: chageRange)
             attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
             
             chageRange = (attributeText.string as NSString).range(of: "한국 전력")
@@ -256,9 +319,12 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: allRange)
             
             let chageRange = (attributeText.string as NSString).range(of: "GS칼텍스")
-            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPositive.color], range: chageRange)
+            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.gr4.color], range: chageRange)
             attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
             stationGuideLbl.attributedText = attributeText
+            
+            stationSubGuideLbl.isHidden = false
+            stationSubGuideBtn.isHidden = false
                                                             
             Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
                 .bind(to: reactor.action)
@@ -271,7 +337,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPrimary.color], range: allRange)
             attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: allRange)
             var chageRange = (attributeText.string as NSString).range(of: "GS칼텍스")
-            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.nt4.color], range: chageRange)
+            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.gr4.color], range: chageRange)
             attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
             chageRange = (attributeText.string as NSString).range(of: "한국 전력")
             attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPositive.color], range: chageRange)
@@ -282,32 +348,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                 .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
         }
-                        
-        reactor.state.compactMap { $0.isPaymentFineUser }
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj,_ in
-                let shapeLayer = CAShapeLayer()
-                shapeLayer.frame = obj.dimmedView.bounds
-                shapeLayer.fillRule = kCAFillRuleEvenOdd
-                
-                let path = UIBezierPath(rect: obj.dimmedView.bounds)
-                path.append(UIBezierPath(rect: CGRect(x: obj.holeView.frame.origin.x, y: obj.holeView.frame.origin.y - 56, width: obj.holeView.bounds.width, height: obj.holeView.bounds.height)))
-                shapeLayer.path = path.cgPath
-
-                obj.dimmedView.layer.mask = shapeLayer
-                
-                obj.qrReaderView.makeUIWithStart()
-            }
-            .disposed(by: self.disposeBag)
-        
-        reactor.state.compactMap { $0.isQRScanRunning }
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, _ in
-                obj.qrReaderView.start()
-            }
-            .disposed(by: self.disposeBag)
-        
-    }          
+    }
 }
 
 extension NewPaymentQRScanViewController: RepaymentListDelegate {

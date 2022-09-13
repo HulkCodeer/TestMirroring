@@ -219,6 +219,9 @@ extension FilterTypeView : DelegateTagListViewCell{
         tagList[index].selected = value
         if (saveOnChange) {
             FilterManager.sharedInstance.saveTypeFilter(index: tagList[index].index, val: value)
+            let property: [String: Any] = ["filterName": "충전기 타입",
+                                           "filterValue": tagList.filter({ $0.selected }).map { $0.title }]
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         if index == 3 || index == 5 {
             sendTypeChange()
