@@ -192,12 +192,13 @@ internal final class MemberManager {
         }
     }
         
-    internal var isFirstInstall: Bool {
+    // 로플랫 전용
+    internal var isFirstInstall: String {
         set {
-            UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_INSTALL, value: newValue)
+            UserDefault().saveString(key: UserDefault.Key.IS_FIRST_INSTALL, value: newValue)
         }
         get {
-            return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_INSTALL)
+            return UserDefault().readString(key: UserDefault.Key.IS_FIRST_INSTALL)
         }
     }
     

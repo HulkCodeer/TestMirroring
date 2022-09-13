@@ -29,7 +29,7 @@ internal final class DeepLinkModel: NSObject {
             case .faqDetail:
                 return ("faq_detail", true)
             case .eventDetail:
-                return ("event_detail", false)
+                return ("event_url", false)
             case .chargePrice:
                 return ("charge_price", true)
             case .feeInfoAll:
@@ -69,7 +69,7 @@ internal final class DeepLinkModel: NSObject {
             case DeepLinkType.eventDetail.toValue.deepLinkUrl:
                 let viewcon = NewEventDetailViewController()
                 
-                if let _eventDetailUrl = _queryItems["event_detail"] {
+                if let _eventDetailUrl = _queryItems["event_url"] {
                     viewcon.eventUrl = _eventDetailUrl
                 }
                 if let _title = _queryItems["title"] {
@@ -78,7 +78,8 @@ internal final class DeepLinkModel: NSObject {
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                                                 
             case "fee_info_all", "charge_price":
-                termsViewControll.tabIndex = .PriceInfo
+                let viewcon = UIStoryboard(name : "Info", bundle: nil).instantiateViewController(ofType: TermsViewController.self)
+                viewcon.tabIndex = .PriceInfo
                 
             default: break
             }

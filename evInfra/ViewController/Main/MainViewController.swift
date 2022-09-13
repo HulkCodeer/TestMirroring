@@ -144,6 +144,28 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 .take(1)
                 .bind(to: _reactor.action)
                 .disposed(by: self.disposeBag)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                CLLocationManager().rx
+                    .status
+                    .debug()
+                    .subscribe(with: self) { obj ,status in
+                        switch status {
+                        case .authorizedAlways, .authorizedWhenInUse:
+                            GlobalFunctionSwift.showPopup(title: "위치 권한을 항상 허용으로\n변경해주세요.", message: "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요.", confirmBtnTitle: "항상 허용하기", confirmBtnAction: {
+                                if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                    }
+                                }
+                            }, cancelBtnTitle: "유지하기")
+                            
+                        default: break
+                        }
+                    }
+                    .disposed(by: self.disposeBag)
+            }
+            
         }
         MapEvent.viewMainPage.logEvent()
     }

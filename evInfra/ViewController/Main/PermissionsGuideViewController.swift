@@ -228,7 +228,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     }
     
     private func moveMainViewcon() {
-        MemberManager.shared.isFirstInstall = true
+        MemberManager.shared.isFirstInstall = "isFirstInstall"
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let reactor = MainReactor(provider: RestApi())
         let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)

@@ -27,13 +27,8 @@ internal final class IntroViewController: UIViewController {
     @IBOutlet var imgIntroFLAnimated: FLAnimatedImageView!
         
     // MARK: VARIABLE
-    
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let fcmManager = FCMManager.sharedInstance
-    
-    var isNewBoardList = Array<Bool>()
-    var maxCount = 0
-    
+                    
+    private var maxCount = 0
     private let disposeBag = DisposeBag()
     
     // MARK: SYSTEM FUNC
@@ -157,11 +152,25 @@ internal final class IntroViewController: UIViewController {
                     }
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        if !MemberManager.shared.isFirstInstall {
-                            self.movePerminssonsGuideView()
-                        } else {
-                            self.moveMainView()
-                        }
+                        CLLocationManager().rx
+                            .status
+                            .debug()
+                            .subscribe(with: self) { obj ,status in
+                                switch status {
+                                case .denied, .notDetermined:
+                                    if MemberManager.shared.isFirstInstall.isEmpty {
+                                        self.movePerminssonsGuideView()
+                                    } else {
+                                        self.moveMainView()
+                                    }
+                                                                                                        
+                                case .authorizedAlways, .authorizedWhenInUse:
+                                    obj.moveMainView()
+                                    
+                                case .restricted: break
+                                }
+                            }
+                            .disposed(by: self.disposeBag)
                     }
                 }
                 
