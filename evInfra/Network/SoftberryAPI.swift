@@ -23,9 +23,9 @@ protocol SoftberryAPI: class {
     func postRefreshToken(appleAuthorizationCode: String) -> Observable<(HTTPURLResponse, Data)>
     func postValidateRefreshToken() -> Observable<(HTTPURLResponse, Data)>
     func postGetBerry(eventId: String) -> Observable<(HTTPURLResponse, Data)>
-    func logAds(adId: [String], action: Int) -> Disposable
+    func logAds(adId: [String], action: Int, page: Promotion.Page, layer: Promotion.Layer) -> Disposable
     func getAdsList(page: Promotion.Page, layer: Promotion.Layer) -> Observable<(HTTPURLResponse, Data)>
-    func countEventAction(eventId: [String], action: Promotion.Action) -> Disposable
+    func countEventAction(eventId: [String], action: Promotion.Action, page: Promotion.Page, layer: Promotion.Layer) -> Disposable
     func postPaymentStatus() -> Observable<(HTTPURLResponse, Data)>
     func postChargingQR(qrCode: String, typeId: Int) -> Observable<(HTTPURLResponse, Data)>
     func postChargingQR(qrCode: String, typeId: Int, tc: String) -> Observable<(HTTPURLResponse, Data)>
@@ -136,12 +136,14 @@ internal final class RestApi: SoftberryAPI {
     }
     
     // MARK: - 광고/이벤트 로깅
-    func logAds(adId: [String], action: Int) -> Disposable {
+    func logAds(adId: [String], action: Int, page: Promotion.Page, layer: Promotion.Layer) -> Disposable {
         let reqParam: Parameters = [
             "mb_Id": "\(MemberManager.shared.mbId)",
             "action": "\(action)",
             "ad_id": adId,
-            "member_id": MemberManager.shared.memberId
+            "member_id": MemberManager.shared.memberId,
+            "page": page.rawValue,
+            "layer": layer.rawValue
         ]
         return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/promotion/log", httpMethod: .post, parameters: reqParam, headers: nil)
     }
@@ -153,12 +155,14 @@ internal final class RestApi: SoftberryAPI {
     }
     
     // MARK: - 이벤트 click event 전송
-    func countEventAction(eventId: [String], action: Promotion.Action) -> Disposable {
+    func countEventAction(eventId: [String], action: Promotion.Action, page: Promotion.Page, layer: Promotion.Layer) -> Disposable {
         let reqParam: Parameters = [
             "member_id": MemberManager.shared.memberId,
             "mb_id": MemberManager.shared.mbId,
-            "event_ids": eventId,
-            "action": action
+            "ad_id": eventId,
+            "action": action,
+            "page": page.rawValue,
+            "layer": layer.rawValue
         ]
         
         return NetworkWorker.shared.rxRequest(url: "\(Const.AWS_SERVER)/promotion/log", httpMethod: .post, parameters: reqParam, headers: nil)

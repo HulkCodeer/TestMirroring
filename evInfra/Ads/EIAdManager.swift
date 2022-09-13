@@ -63,9 +63,9 @@ internal final class EIAdManager {
     }
 
     // MARK: - AWS 프로모션(광고/이벤트) click/view event 전송
-    internal func logEvent(adIds: [String], action: Promotion.Action, page: Promotion.Page, layer: Promotion.Layer?) {
+    internal func logEvent(adIds: [String], action: Promotion.Action, page: Promotion.Page, layer: Promotion.Layer) {
         guard !adIds.isEmpty else { return }
-        RestApi().countEventAction(eventId: adIds, action: action)
+        RestApi().countEventAction(eventId: adIds, action: action, page: page, layer: layer)
             .disposed(by: disposebag)
     }
     
