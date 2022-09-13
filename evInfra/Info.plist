@@ -97,9 +97,9 @@
 	<string>글 작성 및 프로필 이미지 업로드를 위해 카메라 접근 권힌이 필요합니다.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string></string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>위치 정보를 기반으로 근처의 충전소 정보 및 충전소 경로 찾기, 혜택 정보 및 광고를 제공하기 위해 앱이 사용중이지 않은 상태에서도 위치를 사용할 수 있습니다.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>위치 정보를 기반으로 근처의 충전소 정보 및 충전소 경로 찾기, 혜택 정보 및 광고를 제공하기 위해 앱이 사용중이지 않은 상태에서도 위치를 사용할 수 있습니다.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
 	<string>위치 정보를 기반으로 근처의 충전소 정보 및 충전소 경로 찾기, 혜택 정보 및 광고를 제공하기 위해 앱이 사용중이지 않은 상태에서도 위치를 사용할 수 있습니다.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>위치 정보를 기반으로 근처의 충전소 정보 및 충전소 경로 찾기, 혜택 정보 및 광고를 제공합니다.</string>

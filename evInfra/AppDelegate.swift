@@ -196,12 +196,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         fcmManager.nfcNoti = response.notification
         fcmManager.fcmNotification = response.notification.request.content.userInfo
         
-        // 메인 실행이 완료되지 않으면 실행하지 않고 메인에서 끝날때 호출
-        if #available(iOS 13.0, *) { // SceneDelegate의 navigationController 사용
-            fcmManager.alertMessage(data: response.notification.request.content.userInfo)
-        } else {
-            fcmManager.alertMessage(data: response.notification.request.content.userInfo)
-        }
+        // 메인 실행이 완료되지 않으면 실행하지 않고 메인에서 끝날때 호출        
+        fcmManager.alertMessage(data: response.notification.request.content.userInfo)
         
         // 로플랫 관련 코드
         _ = Plengi.processLoplatAdvertisement(center,

@@ -1101,6 +1101,7 @@ extension MainViewController {
             
             FCMManager.sharedInstance.isReady = true
             DeepLinkPath.sharedInstance.isReady = true
+            
             self?.drawMapMarker()
             
             DispatchQueue.main.async {

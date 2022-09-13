@@ -216,7 +216,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                             }, cancelBtnTitle: "유지하기", cancelBtnAction: { [weak self] in
                                 guard let self = self else { return }
                                 self.moveMainViewcon()
-                            })
+                            }, dimmedBtnAction: {})
                             
                         case .denied: self.moveMainViewcon()
                         default: break
