@@ -15,34 +15,38 @@ final class NoticeCellReactor: Reactor {
     }
     
     enum Mutation {
-        case setDetailID(Int)
+        case moveDetail
     }
     
     struct State {
-        let noticeID: Int
+        let title: String
+        let date: String
+        
+        var isMoveDetail: Bool?
     }
         
     internal var initialState: State
             
-    init(noticeID: Int) {
-        self.initialState = State(noticeID: noticeID)
+    init(title: String, date: String) {
+        self.initialState = State(title: title, date: date)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .moveDetailView:
-            let reactor = NoticeDetailReactor(
-                provider: RestApi(),
-                noticeID: currentState.noticeID)
-            let detailVC = NewNoticeDetailViewController(reactor: reactor)
-            GlobalDefine.shared.mainNavi?.push(viewController: detailVC)
-            
-            return .empty()
+            return Observable.just(.moveDetail)
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
-        return state
+        var newState = state
+        
+        switch mutation {
+        case .moveDetail:
+            newState.isMoveDetail = true
+        }
+        
+        return newState
     }
     
 }

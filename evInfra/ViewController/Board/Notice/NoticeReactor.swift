@@ -37,13 +37,7 @@ final class NoticeReactor: ViewModel, Reactor {
             return provider.getNoticeList()
                 .convertData()
                 .compactMap(convertToNoticeItems)
-                .map {
-                    return $0.compactMap { item in
-                        guard let id = Int(item.id), let date = item.dateTime.toDate() else { return nil }
-                        let reactor = NoticeCellReactor(noticeID: id)
-                        return NoticeCellItem(reactor: reactor, title: item.title, date: date.toYearMonthDay() )    // .toString(yyyy.MM.dd)
-                    }
-                }
+                .map (convertToCellItem)
                 .map { return .setNotices($0) }
         }
     }
@@ -73,5 +67,25 @@ final class NoticeReactor: ViewModel, Reactor {
             return nil
         }
     }
-
+    
+    private func convertToCellItem(items: [NoticeItem]) -> [NoticeCellItem] {
+        return items.compactMap { item in
+            guard let date = item.dateTime.toDate() else { return nil }
+            
+            let reactor = NoticeCellReactor(title: item.title, date: date.toYearMonthDay()) // .toString(yyyy.MM.dd)
+            
+            reactor.state.compactMap { $0.isMoveDetail }
+                .asDriver(onErrorJustReturn: false)
+                .filter { $0 == true }
+                .drive { _ in
+                    let noticeID = Int(item.id) ?? -1
+                    let noticeDetailReactor = NoticeDetailReactor(provider: RestApi(), noticeID: noticeID)
+                    let noticeDetailVC = NewNoticeDetailViewController(reactor: noticeDetailReactor)
+                    GlobalDefine.shared.mainNavi?.push(viewController: noticeDetailVC)
+                }
+                .disposed(by: self.disposeBag)
+            
+            return NoticeCellItem(reactor: reactor)
+        }
+    }
 }

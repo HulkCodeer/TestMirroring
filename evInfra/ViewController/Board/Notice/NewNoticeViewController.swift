@@ -39,7 +39,6 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
     
     private let dataSource = NoticeDataSource(configureCell: { dataSource, tableView, indexPath, item in
         let cell = tableView.dequeue(Reusable.noticeListCell, for: indexPath)
-        cell.configure(title: item.title, date: item.date)
         cell.reactor = item.reactor
         
         return cell
@@ -81,6 +80,17 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
     }
 
     internal func bind(reactor: NoticeReactor) {
+ 
+        noticeTableView.rx.modelSelected(NoticeSectionModel.Item.self)
+            .asDriver()
+            .map { $0.reactor }
+            .drive(with: self) { owner, reactor in
+                Observable.just(NoticeCellReactor.Action.moveDetailView)
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
+        
         Observable.just(NoticeReactor.Action.loadNotices)
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -96,8 +106,6 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
 
 struct NoticeCellItem {
     let reactor: NoticeCellReactor
-    let title: String
-    let date: String
 }
 
 struct NoticeSectionModel {

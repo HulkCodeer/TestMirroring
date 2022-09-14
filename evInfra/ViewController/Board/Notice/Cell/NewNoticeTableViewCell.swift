@@ -14,9 +14,8 @@ import RxCocoa
 import SnapKit
 
 final class NewNoticeTableViewCell: CommonBaseTableViewCell, ReactorKit.View  {
-    var disposeBag = DisposeBag()
+    internal var disposeBag = DisposeBag()
     
-    private let wrappingButton = UIButton()
     private lazy var contentStackView = UIStackView().then {
         $0.axis = .vertical
         $0.alignment = .fill
@@ -41,20 +40,23 @@ final class NewNoticeTableViewCell: CommonBaseTableViewCell, ReactorKit.View  {
     }
     
     internal func bind(reactor: NoticeCellReactor) {
-        wrappingButton.rx.tap
-            .map { _ in NoticeCellReactor.Action.moveDetailView }
-            .bind(to: reactor.action)
+        reactor.state.map { $0.title }
+            .bind(to: titleLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.date }
+            .bind(to: dateLabel.rx.text)
             .disposed(by: disposeBag)
     }
     
     override func makeUI() {
+        self.selectionStyle = .none
+        
         contentView.addSubview(contentStackView)
         
         contentStackView.addArrangedSubview(titleLabel)
         contentStackView.addArrangedSubview(dateLabel)
-        
-        contentView.addSubview(wrappingButton)
-        
+                
         let verticalMargin: CGFloat = 20
         let horizontalMargin: CGFloat = 16
         contentStackView.snp.makeConstraints {
@@ -63,13 +65,6 @@ final class NewNoticeTableViewCell: CommonBaseTableViewCell, ReactorKit.View  {
             $0.leading.trailing.equalTo(horizontalMargin).inset(horizontalMargin)
         }
 
-        wrappingButton.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
     }
-    
-    func configure(title: String, date: String) {
-        titleLabel.text = title
-        dateLabel.text = date
-    }
+
 }
