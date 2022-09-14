@@ -148,7 +148,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 CLLocationManager().rx
                     .status
-                    .debug()
                     .subscribe(with: self) { obj ,status in
                         switch status {
                         case .authorizedAlways, .authorizedWhenInUse:

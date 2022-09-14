@@ -153,8 +153,7 @@ internal final class IntroViewController: UIViewController {
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         CLLocationManager().rx
-                            .status
-                            .debug()
+                            .status                            
                             .subscribe(with: self) { obj ,status in
                                 switch status {
                                 case .denied, .notDetermined:
