@@ -18,10 +18,7 @@ internal final class CommonNaviView: UIView {
         $0.backgroundColor = .clear
     }
     
-    internal lazy var naviBackBtn = NavigationClose().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
+    internal lazy var naviBackBtn = NavigationClose()    
     internal lazy var naviTitleLbl = UILabel().then {
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textColor = Colors.contentPrimary.color
