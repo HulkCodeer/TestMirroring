@@ -41,6 +41,7 @@ def shared_pods
   pod 'RxCoreLocation', :git => 'https://github.com/RxSwiftCommunity/RxCoreLocation.git', :branch => 'master'
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
+  pod 'RxViewController'
     
   # Firebase
   pod 'Firebase/Core'                 # For firebase Core

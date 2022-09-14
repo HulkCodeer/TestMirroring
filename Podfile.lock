@@ -241,6 +241,9 @@ PODS:
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
+  - RxViewController (2.0.0):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - SDWebImage/Core (4.4.8)
   - SDWebImage/GIF (4.4.8):
     - FLAnimatedImage (~> 1.0)
@@ -283,6 +286,7 @@ DEPENDENCIES:
   - RxCocoa (= 6.5.0)
   - RxCoreLocation (from `https://github.com/RxSwiftCommunity/RxCoreLocation.git`, branch `master`)
   - RxSwift (= 6.5.0)
+  - RxViewController
   - SDWebImage/GIF
   - SnapKit (~> 5.0.0)
   - SwiftyGif
@@ -335,6 +339,7 @@ SPEC REPOS:
     - RxCocoa
     - RxRelay
     - RxSwift
+    - RxViewController
     - SDWebImage
     - SnapKit
     - SwiftyGif
@@ -405,6 +410,7 @@ SPEC CHECKSUMS:
   RxCoreLocation: 5db05ff830a313466a29e82798d983826b93a2f8
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+  RxViewController: 56486fa0afd629a1d6b5ba077f3b8cd9dc31b5d2
   SDWebImage: 783af2c3fa36291a250030c4752ee370a9a51d13
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
@@ -415,6 +421,6 @@ SPEC CHECKSUMS:
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: dc3e68222fcc56da7176a08e3c8af3483dfbe7ff
+PODFILE CHECKSUM: 0d8c8cdf99d0c6cbab26942877862f6134202c30
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.11.2

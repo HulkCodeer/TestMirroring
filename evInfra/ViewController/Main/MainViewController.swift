@@ -399,7 +399,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
         let priceInfoViewController: TermsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-        priceInfoViewController.tabIndex = .PriceInfo
+        priceInfoViewController.tabIndex = .priceInfo
         GlobalDefine.shared.mainNavi?.push(viewController: priceInfoViewController)
     }
     

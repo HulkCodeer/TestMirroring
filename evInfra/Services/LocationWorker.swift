@@ -67,13 +67,12 @@ internal final class LocationWorker: NSObject {
 
         self.locationManager.rx.location
             .filterNil()
-            .subscribe(onNext: { [weak self] location in
-                guard let self = self else { return }
-                self.locationManager.stopUpdatingLocation()
+            .subscribe(with: self) { obj, location in
+                obj.locationManager.stopUpdatingLocation()
                 printLog(out: "\nlatitude: \(location.coordinate.latitude)\nlongitude: \(location.coordinate.longitude)\naltitude: \(location.altitude)")
                 let _location = (latitude: "\(location.coordinate.latitude)", longitude: "\(location.coordinate.longitude)")
-                self.locationObservable.onNext(Result.success(_location))
-            })
+                obj.locationObservable.onNext(Result.success(_location))
+            }
             .disposed(by: self.disposeBag)
 
         self.locationManager.rx.didError
