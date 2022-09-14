@@ -177,6 +177,7 @@
 		596522E428BEF49B00FD4025 /* NoticeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E228BEF3E800FD4025 /* NoticeList.swift */; };
 		596522E628C877F000FD4025 /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
 		596522E728C877F000FD4025 /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
+		59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
 		633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FE28B342630041BDBB /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
@@ -1061,7 +1062,6 @@
 		824D5CE228BDD89C00EDC712 /* MyCouponContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662D122FAB6720049AEFE /* MyCouponContentsViewController.swift */; };
 		824D5CE328BDD89C00EDC712 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662CB22EFECB80049AEFE /* Event.swift */; };
 		824D5CE428BDD89C00EDC712 /* BoardTableViewFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB87606F20690B360095394B /* BoardTableViewFooter.swift */; };
-		824D5CE528BDD89C00EDC712 /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C9208993BE009535EE /* NoticeTableViewCell.swift */; };
 		824D5CE628BDD89C00EDC712 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEE9AF92117DBF000770D04 /* UIAlertController+Extension.swift */; };
 		824D5CE728BDD89C00EDC712 /* RentalCarCardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A04282E337F0021292C /* RentalCarCardListView.swift */; };
 		824D5CE828BDD89C00EDC712 /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
@@ -1286,7 +1286,7 @@
 		82DD57DD28C5D41900C6C55E /* StickButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD57DA28C5D41900C6C55E /* StickButton.swift */; };
 		82E03191286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		82E03192286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
-		8ABD2A1E6BAAA48912760042 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
 		9028E07824A1B8280062A029 /* eirel in Resources */ = {isa = PBXBuildFile; fileRef = 9028E07724A1B8270062A029 /* eirel */; };
@@ -1308,7 +1308,7 @@
 		90CBCC6C26EB18F1002B2591 /* img_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 90CBCC6A26EB18F1002B2591 /* img_default.png */; };
 		90CBCC7026EB1E41002B2591 /* NSData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CBCC6F26EB1E41002B2591 /* NSData+Extension.swift */; };
 		90E8B54F24C6E82F00D03162 /* ChargerManagerListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E8B54E24C6E82F00D03162 /* ChargerManagerListener.swift */; };
-		CD4A1C63650A84AE146C07B7 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		CD4A1C63650A84AE146C07B7 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE00E811214A330B00020D6E /* ReportChargeViewController.swift */; };
 		CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE13858C2178698300E3F869 /* ReportChargerChildCell.swift */; };
 		CE13858F217869B200E3F869 /* ReportChargerChildCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE13858E217869B200E3F869 /* ReportChargerChildCell.xib */; };
@@ -1918,7 +1918,7 @@
 				63F314B6284EC74F001713D2 /* QuartzCore.framework in Frameworks */,
 				63F314B7284EC74F001713D2 /* KakaoLink.framework in Frameworks */,
 				63F314B8284EC74F001713D2 /* OpenGLES.framework in Frameworks */,
-				CD4A1C63650A84AE146C07B7 /* BuildFile in Frameworks */,
+				CD4A1C63650A84AE146C07B7 /* (null) in Frameworks */,
 				E736AA6EC1C2489E3F10D0ED /* Pods_evInfra_dev.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1946,7 +1946,7 @@
 				425EE5B22519DA520089E87D /* QuartzCore.framework in Frameworks */,
 				73B787B1210B172400C12801 /* KakaoLink.framework in Frameworks */,
 				425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */,
-				8ABD2A1E6BAAA48912760042 /* BuildFile in Frameworks */,
+				8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */,
 				2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2374,6 +2374,31 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		59EC3B7028D18CC4001A18B5 /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				59EC3B7228D18CEB001A18B5 /* Cell */,
+				596522D928BE0D0600FD4025 /* NoticeReactor.swift */,
+				596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */,
+				59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */,
+				59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */,
+				73B752842049284B0077112A /* NoticeViewController.swift */,
+				736D37CE2089CC52009535EE /* NoticeContentViewController.swift */,
+			);
+			path = Notice;
+			sourceTree = "<group>";
+		};
+		59EC3B7228D18CEB001A18B5 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				596522E528C877F000FD4025 /* NoticeCellReactor.swift */,
+				736D37C9208993BE009535EE /* NoticeTableViewCell.swift */,
+				596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */,
+				596522DD28BE290400FD4025 /* NewNoticeTableViewCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		637247CF282A5E9F00595FCE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -2706,7 +2731,6 @@
 				73D65D7F2362D52E00F564A2 /* MembershipTermView.swift */,
 				73D65D812362D54000F564A2 /* MembershipTermView.xib */,
 				CE33B4C42191BFD100B6C632 /* MyCouponTableViewCell.swift */,
-				736D37C9208993BE009535EE /* NoticeTableViewCell.swift */,
 				DB5041AD23506A14007336BC /* PointTableViewCell.swift */,
 				DB3B857F20874788005454F5 /* PoiTableView.swift */,
 				DB4395F122DD88390092E0A5 /* ReceiptView.swift */,
@@ -2726,8 +2750,6 @@
 				00AB7BD826E870820040CFDE /* GuideAlertDialog.swift */,
 				000DAE12274760E300CEC165 /* PaymentTableViewCell.swift */,
 				00A13AD627910E4D0058C291 /* BottomSheetTableViewCell.swift */,
-				596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */,
-				596522DD28BE290400FD4025 /* NewNoticeTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2939,23 +2961,17 @@
 		DB3799F621673E1E001D8F69 /* Board */ = {
 			isa = PBXGroup;
 			children = (
+				59EC3B7028D18CC4001A18B5 /* Notice */,
 				52C0782827CCA6FD00DEFEBE /* Search */,
 				52C0782927CCA70600DEFEBE /* BoardDetail */,
 				52C0782A27CCA71700DEFEBE /* Write */,
 				52C0782B27CCA73B00DEFEBE /* List */,
 				00FDEAF126B3BF97006617EE /* Board.storyboard */,
-				73B752842049284B0077112A /* NoticeViewController.swift */,
-				736D37CE2089CC52009535EE /* NoticeContentViewController.swift */,
 				73268D5121886C3000C00427 /* MyWritingViewController.swift */,
 				73450EF92071EB01008516E9 /* EditViewController.swift */,
 				73344AC4207F429300A6A9EC /* EditViewDelegate.swift */,
 				7376B5C420C6473500A2B7C1 /* MyArticleViewController.swift */,
 				90CBCC6526EAD64D002B2591 /* EIImageViewerViewController.swift */,
-				59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */,
-				59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */,
-				596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */,
-				596522D928BE0D0600FD4025 /* NoticeReactor.swift */,
-				596522E528C877F000FD4025 /* NoticeCellReactor.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -4739,6 +4755,7 @@
 			files = (
 				196CEE1028BDE26000C39AE6 /* AmpBoardModel.swift in Sources */,
 				824D5BF228BDD89C00EDC712 /* NewEventDetailViewController.swift in Sources */,
+				59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */,
 				824D5BF328BDD89C00EDC712 /* AdsModel.swift in Sources */,
 				824D5BF428BDD89C00EDC712 /* AmplitudeManager.swift in Sources */,
 				824D5BF528BDD89C00EDC712 /* ImageMarker.swift in Sources */,
@@ -4982,7 +4999,6 @@
 				824D5CE228BDD89C00EDC712 /* MyCouponContentsViewController.swift in Sources */,
 				824D5CE328BDD89C00EDC712 /* Event.swift in Sources */,
 				824D5CE428BDD89C00EDC712 /* BoardTableViewFooter.swift in Sources */,
-				824D5CE528BDD89C00EDC712 /* NoticeTableViewCell.swift in Sources */,
 				82DD57DD28C5D41900C6C55E /* StickButton.swift in Sources */,
 				824D5CE628BDD89C00EDC712 /* UIAlertController+Extension.swift in Sources */,
 				824D5CE728BDD89C00EDC712 /* RentalCarCardListView.swift in Sources */,

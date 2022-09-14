@@ -36,7 +36,7 @@ final class NoticeReactor: ViewModel, Reactor {
         case .loadNotices:
             return provider.getNoticeList()
                 .convertData()
-                .compactMap(convertToNoticeItem)
+                .compactMap(convertToNoticeItems)
                 .map {
                     return $0.compactMap { item in
                         guard let id = Int(item.id), let date = item.dateTime.toDate() else { return nil }
@@ -59,7 +59,7 @@ final class NoticeReactor: ViewModel, Reactor {
         return newState
     }
     
-    private func convertToNoticeItem(with result: ApiResult<Data, ApiError>) -> [NoticeItem]? {
+    private func convertToNoticeItems(with result: ApiResult<Data, ApiError>) -> [NoticeItem]? {
         switch result {
         case .success(let data):
             let noticeList = try? JSONDecoder().decode(NoticeList.self, from: data)
@@ -73,4 +73,5 @@ final class NoticeReactor: ViewModel, Reactor {
             return nil
         }
     }
+
 }
