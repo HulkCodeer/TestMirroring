@@ -14,16 +14,16 @@ internal final class FindPasswordViewController: BaseViewController {
     // MARK: UI
     
     private lazy var contentTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
     }
     
     private lazy var callCenterImgView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.image = UIImage(named: "callCenter")
     }
     
     private lazy var guideTextTopLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "기존 비밀번호가 기억나지 않는 경우,\n고객센터 연결이 필요합니다."
         $0.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         $0.textColor = UIColor(named: "content-primary")
@@ -32,7 +32,7 @@ internal final class FindPasswordViewController: BaseViewController {
     }
     
     private lazy var guideTextBottomLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "아래 버튼을 눌러 고객센터로 전화주시기 바랍니다."
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-secondary")
@@ -41,28 +41,26 @@ internal final class FindPasswordViewController: BaseViewController {
     }
     
     private lazy var callCenterTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.backgroundColor = UIColor(named: "background-positive")
         $0.IBcornerRadius = 6
     }
     
     private lazy var callCenterIconImgView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.image = UIImage(named: "icon_call_md")
         $0.tintColor = UIColor(named: "content-primary")
     }
     
     private lazy var callCenterTextLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "고객센터 전화하기"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         $0.textColor = UIColor(named: "content-primary")
         $0.sizeToFit()
     }
     
-    private lazy var callCenterBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var callCenterBtn = UIButton()
     
     // MARK: VARIABLE
     

@@ -14,7 +14,7 @@ internal final class QuitAccountCompleteViewController: CommonBaseViewController
     // MARK: UI
     
     private lazy var titleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textColor = Colors.contentPrimary.color
         $0.text = "회원탈퇴가 완료되었습니다."
@@ -23,7 +23,7 @@ internal final class QuitAccountCompleteViewController: CommonBaseViewController
     }
     
     private lazy var subTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         $0.textColor = Colors.contentSecondary.color
         $0.text = """
@@ -37,7 +37,7 @@ internal final class QuitAccountCompleteViewController: CommonBaseViewController
     }
     
     private lazy var totalStackView = UIStackView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.axis = .vertical
         $0.distribution = .equalSpacing
         $0.alignment = .fill
@@ -45,7 +45,7 @@ internal final class QuitAccountCompleteViewController: CommonBaseViewController
     }
     
     private lazy var completeBtn = RectButton(level: .primary).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.setTitle("확인", for: .normal)        
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.isEnabled = true

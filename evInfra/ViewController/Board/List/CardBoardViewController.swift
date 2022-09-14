@@ -15,9 +15,7 @@ import CoreMIDI
 
 class CardBoardViewController: BaseViewController {
     
-    private lazy var boardTableView = BoardTableView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var boardTableView = BoardTableView()
     
     var category: Board.CommunityType = .FREE // default 자유게시판
     var bmId: Int = -1
@@ -99,7 +97,6 @@ extension CardBoardViewController {
         boardTableView.tableViewDelegate = self
         boardTableView.category = self.category
         boardTableView.screenType = self.mode
-
         boardTableView.refreshControl = UIRefreshControl()
         boardTableView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         boardTableView.refreshControl?.attributedTitle = NSAttributedString(string: "새로고침")

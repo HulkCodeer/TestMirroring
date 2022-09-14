@@ -14,7 +14,7 @@ import SwiftyJSON
 class MyArticleViewController: UIViewController {
 
     private lazy var boardTableView = BoardTableView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
     }
     
     var boardList: Array<BoardItem> = Array<BoardItem>()

@@ -21,7 +21,6 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
     }
     
     private lazy var dimmedBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = UIColor(named: "nt-black")?.withAlphaComponent(0.3)
     }
     
@@ -37,7 +36,6 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
     }
     
     private lazy var titleLabel = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = true
         $0.numberOfLines = 0
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -45,15 +43,13 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
     }
     
     private lazy var descriptionLabel = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = true
         $0.numberOfLines = 0
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 14)
         $0.textColor = Colors.contentSecondary.color
     }
     
-    private lazy var buttonStackView = UIStackView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = true
+    private lazy var buttonStackView = UIStackView().then {        
         $0.axis = .vertical
         $0.distribution = .fillEqually
         $0.spacing = 8
