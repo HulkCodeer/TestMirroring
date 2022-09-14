@@ -150,15 +150,17 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     .status
                     .subscribe(with: self) { obj ,status in
                         switch status {
-                        case .authorizedAlways, .authorizedWhenInUse:
-                            GlobalFunctionSwift.showPopup(title: "위치 권한을 항상 허용으로\n변경해주세요.", message: "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요.", confirmBtnTitle: "항상 허용하기", confirmBtnAction: {
-                                if let url = URL(string: UIApplicationOpenSettingsURLString) {
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                        case .authorizedAlways, .authorizedWhenInUse:                            
+                            if MemberManager.shared.isFirstInstall.isEmpty {
+                                GlobalFunctionSwift.showPopup(title: "위치 권한을 항상 허용으로\n변경해주세요.", message: "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요.", confirmBtnTitle: "항상 허용하기", confirmBtnAction: {
+                                    if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                                        if UIApplication.shared.canOpenURL(url) {
+                                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                        }
                                     }
-                                }
-                            }, cancelBtnTitle: "유지하기")
-                            
+                                }, cancelBtnTitle: "유지하기")
+                            }
+                                                        
                         default: break
                         }
                     }
@@ -215,12 +217,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // MARK: REACTORKIT
     
     internal func bind(reactor: MainReactor) {
-        if GlobalDefine.shared.tempDeepLink.isEmpty {
-            Observable.just(MainReactor.Action.showMarketingPopup)
-                .bind(to: reactor.action)
-                .disposed(by: self.disposeBag)
-        }
-                
         reactor.state.compactMap { $0.isShowMarketingPopup }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, _ in
