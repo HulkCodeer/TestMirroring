@@ -34,6 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NMFAuthManager.shared().clientId = Const.NAVER_MAP_KEY
                 
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        _ = Plengi.enableAdNetwork(true, enableNoti: true)
                         
         // 로플랫 관련 코드
         if Plengi.initialize(clientID: "zeroone",
