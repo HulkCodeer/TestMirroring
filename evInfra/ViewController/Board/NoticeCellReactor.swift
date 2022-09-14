@@ -31,9 +31,9 @@ final class NoticeCellReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .moveDetailView:
-            let noticeID = currentState.noticeID
-            
-            let reactor = NoticeDetailReactor(provider: RestApi(), noticeID: noticeID)
+            let reactor = NoticeDetailReactor(
+                provider: RestApi(),
+                noticeID: currentState.noticeID)
             let detailVC = NewNoticeDetailViewController(reactor: reactor)
             GlobalDefine.shared.mainNavi?.push(viewController: detailVC)
             
@@ -42,8 +42,7 @@ final class NoticeCellReactor: Reactor {
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
-        let newState = state
-        return newState
+        return state
     }
     
 }

@@ -27,8 +27,6 @@ protocol SoftberryAPI: class {
     func getAdsList(page: Promotion.Page, layer: Promotion.Layer) -> Observable<(HTTPURLResponse, Data)>
     func countEventAction(eventId: [String], action: Promotion.Action) -> Disposable
     func postPaymentStatus() -> Observable<(HTTPURLResponse, Data)>
-//    func postChargingQR(qrCode: String) -> Observable<(HTTPURLResponse, Data)>
-//    func postChargingQR(qrCode: String, tc: String) -> Observable<(HTTPURLResponse, Data)>
     func getNoticeList() -> Observable<(HTTPURLResponse, Data)>
     func getNotice(id noticeID: Int) -> Observable<(HTTPURLResponse, Data)>
     func postChargingQR(qrCode: String, typeId: Int) -> Observable<(HTTPURLResponse, Data)>

@@ -30,7 +30,8 @@ internal final class NoticeDetailReactor: ViewModel, Reactor {
     }
     
     internal var initialState: State
-    let noticeID: Int
+    
+    private let noticeID: Int
     
     init(provider: SoftberryAPI, noticeID: Int) {
         self.initialState = State()

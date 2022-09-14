@@ -98,8 +98,8 @@ internal final class FCMManager {
     }
     
     func alertMessage(data: [AnyHashable: Any]?) {
-        guard isReady else { return }
-        guard let notification = data,
+        guard isReady,
+              let notification = data,
               let targetId = notification[AnyHashable("target_id")] as? String?
         else { return }
         

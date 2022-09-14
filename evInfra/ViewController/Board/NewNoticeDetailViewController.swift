@@ -48,8 +48,6 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
     
     private lazy var webView = WKWebView().then {
         $0.scrollView.alwaysBounceVertical = false
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
         $0.navigationDelegate = self
     }
@@ -83,9 +81,7 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
         let horizontalMargin: CGFloat = 16
         let verticalPadding: CGFloat = 24
         let titleBottomSpacing: CGFloat = 16
-        
-        let scrollViewWidth: CGFloat = view.frame.width - (horizontalMargin * 2)
-        
+                
         customNaviBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(56)
@@ -116,7 +112,9 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
             $0.top.equalTo(titleStackView.snp.bottom).offset(verticalPadding)
             $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
             $0.bottom.equalToSuperview()
+            $0.height.equalTo(view)
         }
+        webView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
 
         divider.snp.makeConstraints {
             $0.height.equalTo(1)
@@ -125,9 +123,6 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
             $0.bottom.equalTo(titleStackView)
         }
         
-        webView.snp.makeConstraints {
-            $0.height.equalTo(view)
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -145,13 +140,13 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
         
         // satate
         reactor.state.map { $0.title }
-            .observe(on: MainScheduler.instance)
-            .bind(to: titleLabel.rx.text)
+            .asDriver(onErrorJustReturn: String())
+            .drive(titleLabel.rx.text)
             .disposed(by: disposeBag)
         
         reactor.state.compactMap { $0.date }
-            .observe(on: MainScheduler.instance)
-            .bind(to: dateLabel.rx.text)
+            .asDriver(onErrorJustReturn: String())
+            .drive(dateLabel.rx.text)
             .disposed(by: disposeBag)
         
         
