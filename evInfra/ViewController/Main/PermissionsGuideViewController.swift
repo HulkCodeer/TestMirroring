@@ -194,6 +194,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
             .asDriver()
             .drive(onNext: {
                 LocationWorker.shared.locationStatusObservable
+                    .take(3)
                     .subscribe(onNext: { status in                        
                         switch status {
                         case .authorizedAlways, .authorizedWhenInUse:
