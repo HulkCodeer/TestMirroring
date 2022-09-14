@@ -482,7 +482,7 @@ extension LeftViewController {
             case SUB_MENU_CHARGE_PRICE: // 충전요금 안내
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let priceInfoVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-                priceInfoVC.tabIndex = .PriceInfo
+                priceInfoVC.tabIndex = .priceInfo
                 GlobalDefine.shared.mainNavi?.push(viewController: priceInfoVC)
                 
             default:

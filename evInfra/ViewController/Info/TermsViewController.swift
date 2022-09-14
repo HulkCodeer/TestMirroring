@@ -176,7 +176,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case .EvBonusGuide:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/subsidy_guide"
             
-        case .PriceInfo:
+        case .priceInfo:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/charge_price_info"            
             MapEvent.viewChargingPriceInfo.logEvent()
             
