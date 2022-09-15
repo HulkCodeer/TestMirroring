@@ -23,6 +23,8 @@ internal enum Const {
     public static let SK_BATTERY_SERVER = "http://mbaas.koreacentral.cloudapp.azure.com/ev-infra/web"
     public static let AWS_SERVER = "https://app.ev-infra.com/v1/stg"
     public static let AWS_IMAGE_SERVER = "https://app.ev-infra.com/v1/stg/image/"
+    public static let AMPLITUDE_API_KEY = "57bdb148be2db2b5ef49ae6b576fbd15"     // Dev Key
+//    private let AMPLITUDE_API_KEY: String = "5b0c10b3154cb361b516ea64682d2f8b" // Staging Key
     
     
     // public static let SK_BATTERY_SERVER = "https://mbaas.sk-on.com/ev-infra/web"
@@ -42,6 +44,7 @@ internal enum Const {
     public static let SK_BATTERY_SERVER = "https://mbaas.sk-on.com/ev-infra/web"
     public static let AWS_SERVER = "https://app.ev-infra.com/v1"
     public static let AWS_IMAGE_SERVER = "https://app.ev-infra.com/v1/image/"
+    public static let AMPLITUDE_API_KEY = "f22b183357026eaed8bbe215e0bbf0a1" // Release Key
     #endif
 
     // File Server

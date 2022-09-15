@@ -12,18 +12,13 @@ internal final class AmplitudeManager {
     // MARK: - Variable
     
     internal static var shared = AmplitudeManager()
-    #if DEBUG
-    private let apiKey: String = "57bdb148be2db2b5ef49ae6b576fbd15" // Dev Key
-//    private let apiKey: String = "5b0c10b3154cb361b516ea64682d2f8b" // Staging Key
-    #else
-    private let apiKey: String = "f22b183357026eaed8bbe215e0bbf0a1" // Release Key
-    #endif
-        
     private let identify = AMPIdentify()
     
     // MARK: - Initializers
     
-    init() {
+    private init() {}
+    
+    internal func configure(_ apiKey: String) {
         Amplitude.instance().initializeApiKey(apiKey)
         Amplitude.instance().trackingSessionEvents = true
         Amplitude.instance().setUserId(nil)
