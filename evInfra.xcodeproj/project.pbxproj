@@ -178,6 +178,12 @@
 		596522E628C877F000FD4025 /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
 		596522E728C877F000FD4025 /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
 		59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
+		59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
+		59EC3B7C28D32A33001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
+		59EC3B7E28D32A49001A18B5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7D28D32A49001A18B5 /* Constants.swift */; };
+		59EC3B7F28D33568001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
+		59EC3B8028D3356B001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
+		59EC3B8128D3356D001A18B5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7D28D32A49001A18B5 /* Constants.swift */; };
 		633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FE28B342630041BDBB /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
@@ -1543,6 +1549,9 @@
 		596522DD28BE290400FD4025 /* NewNoticeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewNoticeTableViewCell.xib; sourceTree = "<group>"; };
 		596522E228BEF3E800FD4025 /* NoticeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeList.swift; sourceTree = "<group>"; };
 		596522E528C877F000FD4025 /* NoticeCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCellReactor.swift; sourceTree = "<group>"; };
+		59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
+		59EC3B7B28D32A33001A18B5 /* DateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstants.swift; sourceTree = "<group>"; };
+		59EC3B7D28D32A49001A18B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
 		63341582B387F91B5B9BDC49 /* Pods-evInfra_release.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_release.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_release/Pods-evInfra_release.release.xcconfig"; sourceTree = "<group>"; };
 		633FF2FA28B342630041BDBB /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
@@ -2399,6 +2408,16 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		59EC3B7828D32A04001A18B5 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */,
+				59EC3B7B28D32A33001A18B5 /* DateConstants.swift */,
+				59EC3B7D28D32A49001A18B5 /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		637247CF282A5E9F00595FCE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -2475,6 +2494,7 @@
 		7312786220B7D81A00861B3E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				59EC3B7828D32A04001A18B5 /* Constants */,
 				1969693328AB9A6B00FE47A7 /* Amplitude */,
 				82F3D9A92855EE2B0030C44B /* Component */,
 				63F3154E284F0809001713D2 /* Colors+Generated.swift */,
@@ -4187,6 +4207,7 @@
 				63F313D1284EC74F001713D2 /* PaymentCard.swift in Sources */,
 				63F313D2284EC74F001713D2 /* CompanyInfo.swift in Sources */,
 				63F313D3284EC74F001713D2 /* AddressSearchCell.swift in Sources */,
+				59EC3B8028D3356B001A18B5 /* DateConstants.swift in Sources */,
 				63F313D4284EC74F001713D2 /* UIColor+Extension.swift in Sources */,
 				59317D1628B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */,
 				63F313D5284EC74F001713D2 /* UIStoryboard+Extension.swift in Sources */,
@@ -4195,6 +4216,7 @@
 				63F313D8284EC74F001713D2 /* Date+Extension.swift in Sources */,
 				63F313D9284EC74F001713D2 /* KeyboardInputView.swift in Sources */,
 				63F313DA284EC74F001713D2 /* EventViewController.swift in Sources */,
+				59EC3B8128D3356D001A18B5 /* Constants.swift in Sources */,
 				63F313DB284EC74F001713D2 /* RepayListViewController.swift in Sources */,
 				63F313DC284EC74F001713D2 /* NavigationDrawerController.swift in Sources */,
 				63F313DD284EC74F001713D2 /* LoginHelper.swift in Sources */,
@@ -4429,6 +4451,7 @@
 				63F3149D284EC74F001713D2 /* PaymentQRScanViewController.swift in Sources */,
 				63F3149E284EC74F001713D2 /* NoticeViewController.swift in Sources */,
 				63F3149F284EC74F001713D2 /* BottomSheetViewController.swift in Sources */,
+				59EC3B7F28D33568001A18B5 /* ViewConstants.swift in Sources */,
 				63F314A0284EC74F001713D2 /* BoardListItem.swift in Sources */,
 				63F314A1284EC74F001713D2 /* evInfra.xcdatamodeld in Sources */,
 				63F314A2284EC74F001713D2 /* ChargePriceTableViewCell.swift in Sources */,
@@ -4499,6 +4522,7 @@
 				637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */,
 				63EB0391283CB26500078D28 /* ServerResult.swift in Sources */,
 				DB0E4695205FC4D8002DD05D /* ChargerFilter.swift in Sources */,
+				59EC3B7C28D32A33001A18B5 /* DateConstants.swift in Sources */,
 				59317D1528B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */,
 				DB4395EE22DC4C380092E0A5 /* Date+Extension.swift in Sources */,
 				522AF73427A25D3D00DBEAD6 /* KeyboardInputView.swift in Sources */,
@@ -4507,6 +4531,7 @@
 				733662CE22EFF2A40049AEFE /* NavigationDrawerController.swift in Sources */,
 				DB367BF324FE673E00898BED /* LoginHelper.swift in Sources */,
 				73BFA04F208487050028B35D /* BoardTableView.swift in Sources */,
+				59EC3B7E28D32A49001A18B5 /* Constants.swift in Sources */,
 				00A3658F26C4E35900424E40 /* FilterSpeedView.swift in Sources */,
 				736D37D3208DC9CE009535EE /* BoardItem.swift in Sources */,
 				00AE577D26CE4891003E6643 /* TapticEngine.swift in Sources */,
@@ -4741,6 +4766,7 @@
 				739171E122C4A209007369F9 /* PaymentQRScanViewController.swift in Sources */,
 				73B752852049284B0077112A /* NoticeViewController.swift in Sources */,
 				00CD36C827900E04005413A6 /* BottomSheetViewController.swift in Sources */,
+				59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */,
 				52B2594A278E5E5C0042B22C /* BoardListItem.swift in Sources */,
 				732121C5203AC023000E105C /* evInfra.xcdatamodeld in Sources */,
 				4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */,
