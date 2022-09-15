@@ -819,6 +819,15 @@
 		73EF8B7B203C85CC00D04494 /* TopLib_Op.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73EF8B6E203C85CC00D04494 /* TopLib_Op.a */; };
 		73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */; };
 		73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F6B53920F873110030D0B3 /* IntroViewController.swift */; };
+		8211AACB28D362E40002C095 /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC828D362E40002C095 /* MainReactor.swift */; };
+		8211AACC28D362E40002C095 /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC828D362E40002C095 /* MainReactor.swift */; };
+		8211AACD28D362E40002C095 /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC828D362E40002C095 /* MainReactor.swift */; };
+		8211AACE28D362E40002C095 /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */; };
+		8211AACF28D362E40002C095 /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */; };
+		8211AAD028D362E40002C095 /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */; };
+		8211AAD128D362E40002C095 /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */; };
+		8211AAD228D362E40002C095 /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */; };
+		8211AAD328D362E40002C095 /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */; };
 		821A05E128627F3100EB1A91 /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DD28627F3000EB1A91 /* NavigationClose.swift */; };
 		821A05E228627F3100EB1A91 /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DD28627F3000EB1A91 /* NavigationClose.swift */; };
 		821A05E328627F3100EB1A91 /* Arrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DE28627F3000EB1A91 /* Arrow.swift */; };
@@ -1289,7 +1298,7 @@
 		82DD57DD28C5D41900C6C55E /* StickButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD57DA28C5D41900C6C55E /* StickButton.swift */; };
 		82E03191286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		82E03192286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
-		8ABD2A1E6BAAA48912760042 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
 		9028E07824A1B8280062A029 /* eirel in Resources */ = {isa = PBXBuildFile; fileRef = 9028E07724A1B8270062A029 /* eirel */; };
@@ -1311,7 +1320,7 @@
 		90CBCC6C26EB18F1002B2591 /* img_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 90CBCC6A26EB18F1002B2591 /* img_default.png */; };
 		90CBCC7026EB1E41002B2591 /* NSData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CBCC6F26EB1E41002B2591 /* NSData+Extension.swift */; };
 		90E8B54F24C6E82F00D03162 /* ChargerManagerListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E8B54E24C6E82F00D03162 /* ChargerManagerListener.swift */; };
-		CD4A1C63650A84AE146C07B7 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		CD4A1C63650A84AE146C07B7 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE00E811214A330B00020D6E /* ReportChargeViewController.swift */; };
 		CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE13858C2178698300E3F869 /* ReportChargerChildCell.swift */; };
 		CE13858F217869B200E3F869 /* ReportChargerChildCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE13858E217869B200E3F869 /* ReportChargerChildCell.xib */; };
@@ -1782,6 +1791,9 @@
 		73EF8B7C203C880A00D04494 /* evInfra-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "evInfra-Bridging-Header.h"; sourceTree = "<group>"; };
 		73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterGenerator.swift; sourceTree = "<group>"; };
 		73F6B53920F873110030D0B3 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
+		8211AAC828D362E40002C095 /* MainReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainReactor.swift; sourceTree = "<group>"; };
+		8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsGuideReactor.swift; sourceTree = "<group>"; };
+		8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsGuideViewController.swift; sourceTree = "<group>"; };
 		821A05DD28627F3000EB1A91 /* NavigationClose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationClose.swift; sourceTree = "<group>"; };
 		821A05DE28627F3000EB1A91 /* Arrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arrow.swift; sourceTree = "<group>"; };
 		821A05DF28627F3000EB1A91 /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
@@ -1922,7 +1934,7 @@
 				63F314B6284EC74F001713D2 /* QuartzCore.framework in Frameworks */,
 				63F314B7284EC74F001713D2 /* KakaoLink.framework in Frameworks */,
 				63F314B8284EC74F001713D2 /* OpenGLES.framework in Frameworks */,
-				CD4A1C63650A84AE146C07B7 /* BuildFile in Frameworks */,
+				CD4A1C63650A84AE146C07B7 /* (null) in Frameworks */,
 				E736AA6EC1C2489E3F10D0ED /* Pods_evInfra_dev.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1950,7 +1962,7 @@
 				425EE5B22519DA520089E87D /* QuartzCore.framework in Frameworks */,
 				73B787B1210B172400C12801 /* KakaoLink.framework in Frameworks */,
 				425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */,
-				8ABD2A1E6BAAA48912760042 /* BuildFile in Frameworks */,
+				8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */,
 				2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2045,6 +2057,9 @@
 		00B2E8BB26C0FE76005D017C /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				8211AAC828D362E40002C095 /* MainReactor.swift */,
+				8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */,
+				8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */,
 				73AD13C5203AC34400ADD19A /* LeftViewController.swift */,
 				73F6B53920F873110030D0B3 /* IntroViewController.swift */,
 				732ED1F921EEFA960012C67B /* MainViewController.swift */,
@@ -4401,6 +4416,7 @@
 				63F31469284EC74F001713D2 /* SideMenuTableViewCell.swift in Sources */,
 				63F3146A284EC74F001713D2 /* BoardTableViewDelegate.swift in Sources */,
 				63F3146B284EC74F001713D2 /* StringUtils.swift in Sources */,
+				8211AACF28D362E40002C095 /* PermissionsGuideReactor.swift in Sources */,
 				63F3146C284EC74F001713D2 /* CommunityBoardAdsCell.swift in Sources */,
 				63F3146D284EC74F001713D2 /* SearchTypeSelectView.swift in Sources */,
 				63F3146E284EC74F001713D2 /* FilterBarView.swift in Sources */,
@@ -4437,6 +4453,7 @@
 				63F31487284EC74F001713D2 /* StationInfoDto.swift in Sources */,
 				63F31488284EC74F001713D2 /* String+Extension.swift in Sources */,
 				63F31489284EC74F001713D2 /* NoticeContentViewController.swift in Sources */,
+				8211AACC28D362E40002C095 /* MainReactor.swift in Sources */,
 				63F3148A284EC74F001713D2 /* EVFileManager.swift in Sources */,
 				194C02692897CF8C00DADA8D /* StartBannerViewController.swift in Sources */,
 				63762F522869A91900C951BF /* SettingsReactor.swift in Sources */,
@@ -4454,6 +4471,7 @@
 				63F31495284EC74F001713D2 /* BoardWriteViewModel.swift in Sources */,
 				82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */,
 				596522E728C877F000FD4025 /* NoticeCellReactor.swift in Sources */,
+				8211AAD228D362E40002C095 /* PermissionsGuideViewController.swift in Sources */,
 				63F31496284EC74F001713D2 /* KoreanTextMatcher.swift in Sources */,
 				63F31498284EC74F001713D2 /* AcceptTermsViewController.swift in Sources */,
 				63F31499284EC74F001713D2 /* EventContentsViewController.swift in Sources */,
@@ -4625,6 +4643,7 @@
 				732ED1FA21EEFA960012C67B /* MainViewController.swift in Sources */,
 				DB1ECB9922CDD8DB00E3A65E /* ChargingHistoryList.swift in Sources */,
 				42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */,
+				8211AACB28D362E40002C095 /* MainReactor.swift in Sources */,
 				735E87C822D88ED70028F7BD /* ChargingStatus.swift in Sources */,
 				00A6A16226C3A4D30023DAE3 /* FilterPlaceView.swift in Sources */,
 				63762F1528699FB200C951BF /* Info.swift in Sources */,
@@ -4651,6 +4670,7 @@
 				CE93308F214F9807006B7EF6 /* ReportChargerList.swift in Sources */,
 				63B23740282CA4B400E8A3F8 /* PointUseGuideViewController.swift in Sources */,
 				00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */,
+				8211AACE28D362E40002C095 /* PermissionsGuideReactor.swift in Sources */,
 				63C7C8E0286D6F0B00A357D6 /* NewBottomSheetViewController.swift in Sources */,
 				00F1AC7727031FAA009847E7 /* PreUsePointViewController.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton+Extension.swift in Sources */,
@@ -4780,6 +4800,7 @@
 				59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */,
 				52B2594A278E5E5C0042B22C /* BoardListItem.swift in Sources */,
 				732121C5203AC023000E105C /* evInfra.xcdatamodeld in Sources */,
+				8211AAD128D362E40002C095 /* PermissionsGuideViewController.swift in Sources */,
 				4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */,
 				73450EFA2071EB01008516E9 /* EditViewController.swift in Sources */,
 				73C31BFF20A2B246005B6C53 /* ChargerModel.swift in Sources */,
@@ -4956,6 +4977,7 @@
 				824D5C9128BDD89C00EDC712 /* BoardListViewModel.swift in Sources */,
 				824D5C9228BDD89C00EDC712 /* FilterManager.swift in Sources */,
 				824D5C9328BDD89C00EDC712 /* ChargerSelectDelegate.swift in Sources */,
+				8211AAD028D362E40002C095 /* PermissionsGuideReactor.swift in Sources */,
 				824D5C9428BDD89C00EDC712 /* MyPayRegisterViewController.swift in Sources */,
 				824D5C9528BDD89C00EDC712 /* QuitAccountCompleteViewController.swift in Sources */,
 				824D5C9628BDD89C00EDC712 /* EVIcon.swift in Sources */,
@@ -4983,6 +5005,7 @@
 				824D5CAB28BDD89C00EDC712 /* PoiTableView.swift in Sources */,
 				824D5CAC28BDD89C00EDC712 /* LeftViewTableHeader.swift in Sources */,
 				824D5CAD28BDD89C00EDC712 /* AddressToLocationController.swift in Sources */,
+				8211AACD28D362E40002C095 /* MainReactor.swift in Sources */,
 				824D5CAE28BDD89C00EDC712 /* BoardTableViewHeader.swift in Sources */,
 				824D5CAF28BDD89C00EDC712 /* ChargerManager.swift in Sources */,
 				824D5CB028BDD89C00EDC712 /* MembershipCardViewController.swift in Sources */,
@@ -4997,6 +5020,7 @@
 				824D5CB828BDD89C00EDC712 /* AppNavigationDrawerController.swift in Sources */,
 				824D5CB928BDD89C00EDC712 /* BoardSearchViewModel.swift in Sources */,
 				824D5CBA28BDD89C00EDC712 /* PopUpDialog.swift in Sources */,
+				8211AAD328D362E40002C095 /* PermissionsGuideViewController.swift in Sources */,
 				824D5CBB28BDD89C00EDC712 /* UIView+Extension.swift in Sources */,
 				824D5CBC28BDD89C00EDC712 /* ChargerFilterViewController.swift in Sources */,
 				824D5CBD28BDD89C00EDC712 /* FCMManager.swift in Sources */,

@@ -34,9 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NMFAuthManager.shared().clientId = Const.NAVER_MAP_KEY
 
         AmplitudeManager.shared.configure(Const.AMPLITUDE_API_KEY)
-        
-        setupEntryController()        
-
+                
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
                                         
         // 로플랫 관련 코드

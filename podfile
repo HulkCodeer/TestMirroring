@@ -57,7 +57,7 @@ def shared_pods
   pod 'SwiftyGif'
   
   # SQLite
-  pod 'GRDB.swift'
+  pod 'GRDB.swift', '5.11.0'
   
   # 로플랫
   pod 'MiniPlengi', '1.4.2.2'
