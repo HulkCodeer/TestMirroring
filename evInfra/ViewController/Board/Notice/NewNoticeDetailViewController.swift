@@ -48,7 +48,6 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
     
     private lazy var webView = WKWebView().then {
         $0.scrollView.alwaysBounceVertical = false
-        
         $0.navigationDelegate = self
     }
     
@@ -81,7 +80,10 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
         let horizontalMargin: CGFloat = 16
         let verticalPadding: CGFloat = 24
         let titleBottomSpacing: CGFloat = 16
-                
+        let webViewBottomSpacing: CGFloat = 30
+        
+        let webViewEstimatedHeight: CGFloat = 200
+        
         customNaviBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(56)
@@ -111,8 +113,8 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
         webView.snp.makeConstraints {
             $0.top.equalTo(titleStackView.snp.bottom).offset(verticalPadding)
             $0.leading.trailing.equalToSuperview().inset(horizontalMargin)
-            $0.bottom.equalToSuperview()
-            $0.height.equalTo(view)
+            $0.bottom.equalToSuperview().inset(webViewBottomSpacing)
+            $0.height.equalTo(webViewEstimatedHeight)
         }
         webView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
 
@@ -182,6 +184,17 @@ extension NewNoticeDetailViewController: WKNavigationDelegate {
 
         decisionHandler(.cancel)
     }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            let webviewHeight: CGFloat = webView.scrollView.contentSize.height
+            webView.snp.updateConstraints {
+                $0.height.equalTo(webviewHeight)
+            }
+        }
+    }
+    
+    // MARK: WebViewAction
     
     private func openSafari(url: URL) {
         let hasHost = url.host != nil
