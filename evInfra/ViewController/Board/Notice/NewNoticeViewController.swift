@@ -45,6 +45,8 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
         
     })
     
+    static let notiReloadName = Notification.Name("NoticeListReloadData")
+    
     init(reactor: NoticeReactor) {
         super.init()
         self.reactor = reactor
@@ -78,7 +80,17 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
         super.viewWillAppear(animated)
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(reloadData(notification:)),
+            name: NewNoticeViewController.notiReloadName, object: nil)
+    }
 
+    private let loadNoticeDatasSubject = BehaviorSubject(value: NoticeReactor.Action.loadNotices)
+    
     internal func bind(reactor: NoticeReactor) {
  
         noticeTableView.rx.modelSelected(NoticeSectionModel.Item.self)
@@ -91,7 +103,7 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
         
-        Observable.just(NoticeReactor.Action.loadNotices)
+        loadNoticeDatasSubject
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -100,6 +112,9 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
             .disposed(by: disposeBag)
     }
     
+    @objc private func reloadData(notification: Notification) {
+        loadNoticeDatasSubject.onNext(NoticeReactor.Action.loadNotices)
+    }
 }
 
 // MARK: - ViewItem, Model

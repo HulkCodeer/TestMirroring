@@ -10,6 +10,7 @@ import Foundation
 
 import ReactorKit
 import RxSwift
+import SwiftyJSON
 
 internal final class NoticeDetailReactor: ViewModel, Reactor {
     typealias Contents = (title: String, date: String?, html: String)
@@ -25,8 +26,6 @@ internal final class NoticeDetailReactor: ViewModel, Reactor {
         var title: String = "[공지]"
         var date: String? = Date().toYearMonthDay()     // .toString(yyyy.MM.dd)
         var html: String = String()
-        
-        var isNewNoticeType: Bool?
     }
     
     internal var initialState: State
@@ -65,20 +64,35 @@ internal final class NoticeDetailReactor: ViewModel, Reactor {
     private func convertToDataModel(with result: ApiResult<Data, ApiError> ) -> Contents? {
         switch result {
         case .success(let data):
-            printLog("data \(data)")
-            guard let notice = try? JSONDecoder().decode(Notice.self, from: data) else { return nil }
-            guard 1000 == notice.code else { return nil }
-            
-            printLog(out: "JsonData : \(notice)")
+            let json = JSON(data)            
+            guard 1000 == json["code"].int,
+                  let notice = try? JSONDecoder().decode(Notice.self, from: data)
+            else {
+                let errorMsg = json["msg"].string
+                errorHandler(errorMsg: errorMsg)
+                return nil
+            }
             
             let date = notice.dateTime.toDate()
             let dateStr = date?.toYearMonthDay()    // .toString(yyyy.MM.dd)
                         
             return (notice.title, dateStr, notice.content) as Contents
             
-        case .failure(let errorMessage):
-            printLog(out: "Error Message : \(errorMessage)")
+        case .failure(let error):
+            printLog(out: "Error Message : \(error)")
+            errorHandler(errorMsg: error.errorMessage)
             return nil
         }
+    }
+
+    private func errorHandler(errorMsg: String? = nil) {
+        let message = errorMsg ?? "해당 공지를 찾을 수 없습니다."
+        
+        let errorAction = UIAlertAction(title: "OK", style: .default) { _ in
+            NotificationCenter.default.post(name: NewNoticeViewController.notiReloadName, object: nil)
+            GlobalDefine.shared.mainNavi?.pop()
+        }
+        
+        UIAlertController.showAlert(title: nil, message: message, actions: [errorAction])
     }
 }
