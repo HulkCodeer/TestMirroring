@@ -24,7 +24,7 @@ internal final class NoticeDetailReactor: ViewModel, Reactor {
     
     struct State {
         var title: String = "[공지]"
-        var date: String? = Date().toYearMonthDay()     // .toString(yyyy.MM.dd)
+        var date: String? = Date().toString(dateFormat: .yyyyMMddD)
         var html: String = String()
     }
     
@@ -74,7 +74,7 @@ internal final class NoticeDetailReactor: ViewModel, Reactor {
             }
             
             let date = notice.dateTime.toDate()
-            let dateStr = date?.toYearMonthDay()    // .toString(yyyy.MM.dd)
+            let dateStr = date?.toString(dateFormat: .yyyyMMddD)
                         
             return (notice.title, dateStr, notice.content) as Contents
             

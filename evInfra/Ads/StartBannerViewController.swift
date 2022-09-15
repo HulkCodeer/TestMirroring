@@ -149,7 +149,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         closeWithDurationButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
-                UserDefault().saveString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK, value: Date().toString())
+                UserDefault().saveString(key: UserDefault.Key.AD_KEEP_DATE_FOR_A_WEEK, value: Date().toString(dateFormat: .yyyyMMddHHmmssSD))
                 owner.closeStartBannerViewController()
                 let property: [String: Any] = ["type": owner.closeWithDurationButton.titleLabel?.text ?? "7일간 보지 않기"]
                PromotionEvent.clickCloseBanner.logEvent(property: property)

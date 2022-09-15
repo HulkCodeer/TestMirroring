@@ -72,7 +72,7 @@ final class NoticeReactor: ViewModel, Reactor {
         return items.compactMap { item in
             guard let date = item.dateTime.toDate() else { return nil }
             
-            let reactor = NoticeCellReactor(title: item.title, date: date.toYearMonthDay()) // .toString(yyyy.MM.dd)
+            let reactor = NoticeCellReactor(title: item.title, date: date.toString(dateFormat: .yyyyMMddD))
             
             reactor.state.compactMap { $0.isMoveDetail }
                 .asDriver(onErrorJustReturn: false)

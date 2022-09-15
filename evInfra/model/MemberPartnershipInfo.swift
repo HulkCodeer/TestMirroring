@@ -61,7 +61,7 @@ internal final class MemberPartnershipInfo {
         self.status = json["status"].stringValue
         self.cardStatusType = CardStatusType(json["status"].stringValue)
         self.date = json["date"].stringValue
-        self.displayDate = Date().toDate(data: self.date)?.toYearMonthDay() ?? ""
+        self.displayDate = Date().toDate(data: self.date)?.toString(dateFormat: .yyyyMMddS) ?? ""
         self.displayStatusDescription = self.cardStatusType == .issuanceCompleted ? self.displayDate : self.cardStatusType.showDisplayType()
         self.carNo = json["car_no"].stringValue
         self.displayCardNo = self.cardNo?.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
