@@ -42,6 +42,7 @@ def shared_pods
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
   pod 'RxViewController'
+  pod 'RxDataSources', '~> 5.0'
     
   # Firebase
   pod 'Firebase/Core'                 # For firebase Core
