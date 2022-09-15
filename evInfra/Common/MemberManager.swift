@@ -248,7 +248,7 @@ internal final class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: data["phone"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_REG_DATE, value: data["reg_date"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_POINT, value: data["point"].stringValue)
-            
+                        
             if let locationStatus = LocationWorker.shared.locationStatus {
                 switch locationStatus {
                 case .authorizedAlways, .authorizedWhenInUse:

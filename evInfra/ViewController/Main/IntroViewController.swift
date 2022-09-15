@@ -156,7 +156,10 @@ internal final class IntroViewController: UIViewController {
                             .status                            
                             .subscribe(with: self) { obj ,status in
                                 switch status {
-                                case .denied, .notDetermined:
+                                case .denied:
+                                    self.movePerminssonsGuideView()
+                                    
+                                case .notDetermined:
                                     if MemberManager.shared.isFirstInstall.isEmpty {
                                         self.movePerminssonsGuideView()
                                     } else {
