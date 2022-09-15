@@ -87,7 +87,7 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
         customNaviBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(56)
-//            $0.height.equalTo(Constants.view.naviHeight)
+            $0.height.equalTo(Constants.view.naviBarHeight)
         }
 
         scrollView.snp.makeConstraints {
