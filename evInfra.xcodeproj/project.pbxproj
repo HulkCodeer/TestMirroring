@@ -101,7 +101,6 @@
 		19B4C7D8289A420900C6BE84 /* AdsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B4C7D7289A420900C6BE84 /* AdsModel.swift */; };
 		2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CC5B658D05400DBBB0E6E63 /* Pods_evInfra.framework */; };
 		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
-		4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
 		421569D7259B629100D018DC /* BoardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421569D6259B629100D018DC /* BoardInfo.swift */; };
 		42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42541587257E045600A2A7B9 /* UtilNavigation.swift */; };
 		425B055B26B7847B00B597A2 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 425B055A26B7847B00B597A2 /* Detail.storyboard */; };
@@ -527,7 +526,6 @@
 		63F314C0284EC74F001713D2 /* charger_tesla.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73C31C0220A2BB01005B6C53 /* charger_tesla.jpg */; };
 		63F314C1284EC74F001713D2 /* ReceiptView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB4395F322DD88770092E0A5 /* ReceiptView.xib */; };
 		63F314C2284EC74F001713D2 /* expand_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3A4204E3590002E975F /* expand_normal.png */; };
-		63F314C3284EC74F001713D2 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
 		63F314C4284EC74F001713D2 /* InfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7357595120916C11008181E9 /* InfoCollectionViewCell.xib */; };
 		63F314C5284EC74F001713D2 /* delete_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3B3204E3590002E975F /* delete_pressed.png */; };
 		63F314C6284EC74F001713D2 /* LeftViewTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 733662F922FD11860049AEFE /* LeftViewTableHeader.xib */; };
@@ -866,7 +864,6 @@
 		824D5C0B28BDD89C00EDC712 /* InfoLastUpdateDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D2248F52B80049EF8E /* InfoLastUpdateDto.swift */; };
 		824D5C0C28BDD89C00EDC712 /* PartnershipJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */; };
 		824D5C0D28BDD89C00EDC712 /* NewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */; };
-		824D5C0E28BDD89C00EDC712 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
 		824D5C0F28BDD89C00EDC712 /* ChargePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */; };
 		824D5C1028BDD89C00EDC712 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		824D5C1128BDD89C00EDC712 /* SC_TRACE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A08282E44020021292C /* SC_TRACE.swift */; };
@@ -1150,7 +1147,6 @@
 		824D5D3028BDD89C00EDC712 /* charger_tesla.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73C31C0220A2BB01005B6C53 /* charger_tesla.jpg */; };
 		824D5D3128BDD89C00EDC712 /* ReceiptView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB4395F322DD88770092E0A5 /* ReceiptView.xib */; };
 		824D5D3228BDD89C00EDC712 /* expand_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3A4204E3590002E975F /* expand_normal.png */; };
-		824D5D3328BDD89C00EDC712 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
 		824D5D3428BDD89C00EDC712 /* InfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7357595120916C11008181E9 /* InfoCollectionViewCell.xib */; };
 		824D5D3528BDD89C00EDC712 /* delete_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3B3204E3590002E975F /* delete_pressed.png */; };
 		824D5D3628BDD89C00EDC712 /* LeftViewTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 733662F922FD11860049AEFE /* LeftViewTableHeader.xib */; };
@@ -3220,7 +3216,6 @@
 				63F314C0284EC74F001713D2 /* charger_tesla.jpg in Resources */,
 				63F314C1284EC74F001713D2 /* ReceiptView.xib in Resources */,
 				63F314C2284EC74F001713D2 /* expand_normal.png in Resources */,
-				63F314C3284EC74F001713D2 /* OfferwallTableViewCell.xib in Resources */,
 				63F314C4284EC74F001713D2 /* InfoCollectionViewCell.xib in Resources */,
 				63F314C5284EC74F001713D2 /* delete_pressed.png in Resources */,
 				63F314C6284EC74F001713D2 /* LeftViewTableHeader.xib in Resources */,
@@ -3361,7 +3356,6 @@
 				73C31C0820A2BB04005B6C53 /* charger_tesla.jpg in Resources */,
 				DB4395F422DD88770092E0A5 /* ReceiptView.xib in Resources */,
 				73A7B3E7204E3595002E975F /* expand_normal.png in Resources */,
-				4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */,
 				7357595320916C11008181E9 /* InfoCollectionViewCell.xib in Resources */,
 				73A7B3F6204E3595002E975F /* delete_pressed.png in Resources */,
 				733662FA22FD11860049AEFE /* LeftViewTableHeader.xib in Resources */,
@@ -3503,7 +3497,6 @@
 				824D5D3028BDD89C00EDC712 /* charger_tesla.jpg in Resources */,
 				824D5D3128BDD89C00EDC712 /* ReceiptView.xib in Resources */,
 				824D5D3228BDD89C00EDC712 /* expand_normal.png in Resources */,
-				824D5D3328BDD89C00EDC712 /* OfferwallTableViewCell.xib in Resources */,
 				824D5D3428BDD89C00EDC712 /* InfoCollectionViewCell.xib in Resources */,
 				824D5D3528BDD89C00EDC712 /* delete_pressed.png in Resources */,
 				824D5D3628BDD89C00EDC712 /* LeftViewTableHeader.xib in Resources */,
@@ -4842,7 +4835,6 @@
 				824D5C0B28BDD89C00EDC712 /* InfoLastUpdateDto.swift in Sources */,
 				824D5C0C28BDD89C00EDC712 /* PartnershipJoinView.swift in Sources */,
 				824D5C0D28BDD89C00EDC712 /* NewBottomSheetViewController.swift in Sources */,
-				824D5C0E28BDD89C00EDC712 /* OfferwallTableViewCell.swift in Sources */,
 				6320414C28D3472900CF7125 /* SoftberryAPI.swift in Sources */,
 				824D5C0F28BDD89C00EDC712 /* ChargePriceViewController.swift in Sources */,
 				824D5C1028BDD89C00EDC712 /* GlobalDefine.swift in Sources */,
