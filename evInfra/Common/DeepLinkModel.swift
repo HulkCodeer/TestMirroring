@@ -29,7 +29,7 @@ internal final class DeepLinkModel: NSObject {
             case .faqDetail:
                 return ("faq_detail", true)
             case .eventDetail:
-                return ("event_url", false)
+                return ("event_url", true)
             case .chargePrice:
                 return ("charge_price", true)
             case .feeInfoAll:

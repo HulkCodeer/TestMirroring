@@ -76,7 +76,12 @@ internal final class SettingsReactor: ViewModel, Reactor {
                     
                     Snackbar().show(message: message)
                     
-                    _ = Plengi.enableAdNetwork(true, enableNoti: isReceivePush)
+                    DispatchQueue.main.async {
+                        _ = Plengi.enableAdNetwork(true, enableNoti: isReceivePush)
+                        if isReceivePush {
+                            _ = Plengi.start()
+                        }
+                    }
                     
                     return .setMarketingNotification(isReceivePush)
                 }

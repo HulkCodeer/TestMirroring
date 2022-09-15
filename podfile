@@ -62,6 +62,7 @@ def shared_pods
   
 #  pod 'MiniPlengi', '1.4.1.1.xcode12.350'
 #  pod 'MiniPlengi', '~> 1.4.1.1'
+#  pod 'MiniPlengi', '1.4.1.2'
   pod 'MiniPlengi', '1.4.2.2'
 #  pod 'TEST-MiniPlengi', '1.4.2.2' # Debug 모드에서 테스트를 위해 필요
   

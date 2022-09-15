@@ -120,11 +120,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
         LocationWorker.shared.locationStatusObservable
             .subscribe(onNext: { status in
                 switch status {
-                case .authorizedAlways, .authorizedWhenInUse:
-                    if Plengi.initialize(clientID: "zeroone",
-                                   clientSecret: "zeroone)Q@Eh(4",
-                                         echoCode: "\(MemberManager.shared.mbId)") == .SUCCESS {
-                        _ = Plengi.start()
+                case .authorizedAlways, .authorizedWhenInUse:                    
+                    DispatchQueue.main.async {
+                        let receive = MemberManager.shared.isAllowMarketingNoti
+                        _ = Plengi.enableAdNetwork(true, enableNoti: receive)
+                        if receive {
+                            _ = Plengi.start()
+                        }
                     }
                     
                     self.naverMapView.moveToCurrentPostiion()
@@ -132,7 +134,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 default: break
                 }
             })
-            .disposed(by: self.disposeBag)                
+            .disposed(by: self.disposeBag)        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -186,7 +188,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // MARK: REACTORKIT
     
     internal func bind(reactor: MainReactor) {
-        
         self.rx.viewWillAppear
             .filter { _ in
                 let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
@@ -197,7 +198,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 return isProcessing
             }
             .subscribe(with: self) { obj,_ in
-                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     CLLocationManager().rx
                         .status
@@ -425,7 +425,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     // MARK: - Action for button
     
-    @IBAction func onClickMyLocation(_ sender: UIButton) {
+    @IBAction func onClickMyLocation(_ sender: UIButton) {                
         let locationServiceEnabled = CLLocationManager.locationServicesEnabled()
         if !locationServiceEnabled {
             switch CLLocationManager.authorizationStatus() {

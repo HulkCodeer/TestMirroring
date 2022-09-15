@@ -32,11 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         printLog(out: "application:didFinishLaunchingWithOptions:options")
         FirebaseApp.configure()
         NMFAuthManager.shared().clientId = Const.NAVER_MAP_KEY
-                
+                                
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
-        
-        _ = Plengi.enableAdNetwork(true, enableNoti: true)
-                        
+                                        
         // 로플랫 관련 코드
         if Plengi.initialize(clientID: "zeroone",
                        clientSecret: "zeroone)Q@Eh(4",
