@@ -13,9 +13,7 @@ import SwiftyJSON
 
 class MyWritingViewController: BaseViewController {
     
-    private lazy var boardTableView = BoardTableView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var boardTableView = BoardTableView()
     
     var currentPage = 0
     var lastPage: Bool = false

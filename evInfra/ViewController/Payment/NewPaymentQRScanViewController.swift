@@ -16,7 +16,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     // MARK: QR Scanner UI
     
     private lazy var naviTotalView = CommonNaviView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.naviTitleLbl.text = "QR 코드 스캔"
     }
     

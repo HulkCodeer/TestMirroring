@@ -122,19 +122,19 @@ internal final class DeepLinkPath {
             guard let paramItems = linkParameter else { return }
             if let type = paramItems.first(where: { $0.name == "type"})?.value {
                 storyboard = UIStoryboard(name : "Info", bundle: nil)
-                let termsViewControll = storyboard.instantiateViewController(ofType: TermsViewController.self)
+                let termsViewControll = storyboard.instantiateViewController(ofType: TermsViewController.self)                
                 guard let value = URLParam.allCases.filter({ $0.toValue == type }).first else { return }
 
                 switch value {
                 case .faqTop:
-                    termsViewControll.tabIndex = .FAQTop
+                    termsViewControll.tabIndex = .faqTop
                 case .faqDetail:
-                    termsViewControll.tabIndex = .FAQDetail
+                    termsViewControll.tabIndex = .faqDetail
                     if let page = paramItems.first(where: { $0.name == "page"})?.value {
                         termsViewControll.subURL = "type=" + page
                     }
                 case .chargePrice:
-                    termsViewControll.tabIndex = .PriceInfo
+                    termsViewControll.tabIndex = .priceInfo
                 }
                 _mainNavi.push(viewController: termsViewControll)
             }

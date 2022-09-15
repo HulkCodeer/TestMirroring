@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftyJSON
-
+import MiniPlengi
 
 struct Admin: Decodable {
     let mb_id: String
@@ -191,6 +191,16 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.MB_PAYMENT)
         }
     }
+        
+    // 로플랫 전용
+    internal var isFirstInstall: String {
+        set {
+            UserDefault().saveString(key: UserDefault.Key.IS_FIRST_INSTALL, value: newValue)
+        }
+        get {
+            return UserDefault().readString(key: UserDefault.Key.IS_FIRST_INSTALL)
+        }
+    }
     
     // 로그인 상태 체크
     internal var isLogin: Bool {
@@ -237,7 +247,7 @@ internal final class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: data["email"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: data["phone"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_REG_DATE, value: data["reg_date"].stringValue)
-            userDefault.saveString(key: UserDefault.Key.MB_POINT, value: data["point"].stringValue)
+            userDefault.saveString(key: UserDefault.Key.MB_POINT, value: data["point"].stringValue)                                    
         }
     }
     

@@ -172,7 +172,7 @@ class MembershipIssuanceViewController: UIViewController,
                         actions.append(ok)
                         UIAlertController.showAlert(title: "알림", message: json["ResultMsg"].stringValue, actions: actions)
 
-                    case PaymentCard.PAY_FINE_USER:
+                    case PaymentCard.PAY_FINE_USER, Const.CHARGER_STATE_CHARGING:
                         Server.getPayRegisterInfo { (isSuccess, value) in
                             if isSuccess {
                                 if let data = self.memberData {

@@ -77,8 +77,7 @@ internal final class EIAdManager {
                     switch result {
                     case .success(let data):
                         let json = JSON(data)
-                        let adList = json["data"].arrayValue.map { AdsInfo($0) }
-                        printLog(out: ":: PKH TEST ::")
+                        let adList = json["data"].arrayValue.map { AdsInfo($0) }                        
                         printLog(out: "광고갯수: \(adList.count)")
                         printLog(out: "광고: \(adList)")
                         

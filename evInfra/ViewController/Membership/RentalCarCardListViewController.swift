@@ -14,13 +14,13 @@ internal final class RentalCarCardListViewController: UIViewController {
     // MARK: UI
     
     private lazy var partnershipJoinView = PartnershipJoinView(frame: .zero).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.delegate = self
         $0.isHidden = true
     }
     
     private lazy var rentalCarCardList = RentalCarCardListView(frame: .zero).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false        
+                
         $0.isHidden = true
     }
     

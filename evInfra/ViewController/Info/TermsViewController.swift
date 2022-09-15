@@ -22,12 +22,12 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case MembershipTerms   // 회원카드 이용약관
         case Licence           // 라이센스
         case EvBonusGuide      // 보조금 안내
-        case PriceInfo         // 충전요금 안내
+        case priceInfo         // 충전요금 안내
         case EvBonusStatus     // 보조금 현황
         case BusinessInfo      // 사업자정보
         case StationPrice      // 충전소 요금정보
-        case FAQTop            // FAQ (top10)
-        case FAQDetail         // FAQ detail page
+        case faqTop            // FAQ (top10)
+        case faqDetail         // FAQ detail page
         case BatteryInfo       // SK Battery
     }
 
@@ -105,7 +105,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case .EvBonusGuide:
             navigationItem.titleLabel.text = "보조금 안내"
 //            self.title = "보조금 안내 화면"
-        case .PriceInfo:
+        case .priceInfo:
             navigationItem.titleLabel.text = "충전요금 안내"
 //            self.title = "충전요금 안내 화면"
         case .EvBonusStatus:
@@ -117,7 +117,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case .StationPrice:
             navigationItem.titleLabel.text = "충전소 가격정보"
 //            self.title = "충전소 가격정보 화면"
-        case .FAQDetail, .FAQTop:
+        case .faqDetail, .faqTop:
             navigationItem.titleLabel.text = "자주묻는 질문"
 //            self.title = "자주묻는 질문 화면"
         case .BatteryInfo:
@@ -177,7 +177,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case .EvBonusGuide:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/subsidy_guide"
             
-        case .PriceInfo:
+        case .priceInfo:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/charge_price_info"            
             MapEvent.viewChargingPriceInfo.logEvent()
             
@@ -190,10 +190,10 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case .StationPrice:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/charge_price_info"
             
-        case .FAQTop:
+        case .faqTop:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/faq_main"
             
-        case .FAQDetail:
+        case .faqDetail:
             strUrl = Const.EV_PAY_SERVER + "/docs/info/faq_detail"
         
         case .BatteryInfo:

@@ -15,7 +15,7 @@ internal final class MembershipCardViewController: BaseViewController {
     // MARK: UI
     
     private lazy var partnershipListView = PartnershipListView(frame: .zero).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.delegate = self
         $0.navi = self.navigationController ?? UINavigationController()
     }

@@ -25,18 +25,18 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     }
     
     private lazy var webView = WKWebView(frame: CGRect.zero, configuration: self.config).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.navigationDelegate = self
         $0.uiDelegate = self
     }
     
     private lazy var membershipRegisterBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.backgroundColor = UIColor(named: "gr-5")
     }
     
     private lazy var membershipBtnTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "회원카드 만들기"
         $0.textColor = UIColor(named: "nt-9")
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -44,7 +44,7 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     }
     
     private lazy var arrowImgView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.image = UIImage(named: "icon_arrow_right_lg")
         $0.tintColor = UIColor(named: "content-primary")
     }

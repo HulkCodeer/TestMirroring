@@ -99,4 +99,11 @@ internal final class GlobalFunctionSwift {
         let popup = VerticalConfirmPopupViewController(model: popupModel)
         GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
     }
+    
+    class func getLastPushVC() -> UIViewController? {
+        if let _vc = GlobalDefine.shared.mainNavi?.viewControllers.last {
+            return _vc
+        }
+        return nil
+    }
 }

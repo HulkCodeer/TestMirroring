@@ -20,9 +20,7 @@ internal final class PointUseGuideViewController: BaseViewController {
         $0.userContentController = contentController
     }
     
-    private lazy var webView = WKWebView(frame: CGRect.zero, configuration: self.config).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var webView = WKWebView(frame: CGRect.zero, configuration: self.config)
         
     // MARK: SYSTEM FUNC
     

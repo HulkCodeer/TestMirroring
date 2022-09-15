@@ -10,9 +10,7 @@ import UIKit
 import RxSwift
 
 internal class CommonBaseTableViewCell: UITableViewCell {
-    internal lazy var totalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    internal lazy var totalView = UIView()
 
     internal var cellDisposeBag = DisposeBag()
 

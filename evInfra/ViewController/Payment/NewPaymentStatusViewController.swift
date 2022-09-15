@@ -241,7 +241,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     }
     
     private lazy var berryUseAllBtn = RectButton(level: .secondary).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.setTitle("전액 사용", for: .normal)
         $0.setTitle("전액 사용", for: .disabled)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
@@ -259,7 +259,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     }
     
     private lazy var alwaysUseBerryBtn = CheckBox().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.isSelected = false
     }
     
