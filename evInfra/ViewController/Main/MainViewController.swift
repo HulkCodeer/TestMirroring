@@ -121,14 +121,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .subscribe(onNext: { status in
                 switch status {
                 case .authorizedAlways, .authorizedWhenInUse:
-                    DispatchQueue.main.async {
-                        let receive = MemberManager.shared.isAllowMarketingNoti
-                        _ = Plengi.enableAdNetwork(true, enableNoti: receive)
-                        if receive, MemberManager.shared.isLogin {
-                            _ = Plengi.start()
-                        }
-                    }
-                    
                     self.naverMapView.moveToCurrentPostiion()
                                     
                 default: break
