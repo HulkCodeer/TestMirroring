@@ -53,6 +53,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = false
     }
 
     override func didReceiveMemoryWarning() {

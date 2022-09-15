@@ -41,7 +41,7 @@ class DateUtils {
         } else if hours < 24 {
             return "\(hours)시간 전"
         } else {
-            return date.toYearMonthDay()
+            return date.toString(dateFormat: .yyyyMMddS)
         }
     }
     
