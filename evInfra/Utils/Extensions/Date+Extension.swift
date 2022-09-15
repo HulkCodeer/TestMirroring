@@ -10,15 +10,9 @@ import Foundation
 
 extension Date {
     
-    func toString() -> String {
+    func toString(dateFormat: DateConstants) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return dateFormatter.string(from: self)
-    }
-    
-    func toYearMonthDayMillis() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMddHHmmss"
+        dateFormatter.dateFormat = dateFormat.rawValue
         return dateFormatter.string(from: self)
     }
     
@@ -34,12 +28,6 @@ extension Date {
         } else {
             return ""
         }
-    }
-    
-    func toYearMonthDay() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        return dateFormatter.string(from: self)
     }
     
     func toDate(data: String) -> Date? {

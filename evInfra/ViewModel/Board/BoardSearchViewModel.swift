@@ -76,7 +76,8 @@ final class BoardSearchViewModel {
     
     func setKeyword(_ keyword: String) {
         self.keyword = keyword
-        let keyword = Keyword(title: keyword, date: "\(Date().toYearMonthDayMillis())")
+        let keyword = Keyword(title: keyword, date: "\(Date().toString(dateFormat: .yyyyMMddHHmmss))")
+        //Keyword(title: keyword, date: "\(Date().toYearMonthDayMillis())")
 
         guard !isContains(with: keyword) else { return }
         

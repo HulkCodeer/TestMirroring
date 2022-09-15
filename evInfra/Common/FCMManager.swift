@@ -98,79 +98,78 @@ internal final class FCMManager {
     }
     
     func alertMessage(data: [AnyHashable: Any]?) {
-        if !isReady {
-            return
-        }
-        if let notification = data {
-            if let targetId = notification[AnyHashable("target_id")] as! String? {
-                switch targetId {
-                case FCMManager.TARGET_NONE: // NONE
-                    print("alertMessage() FCMManager.TARGET_NONE")
-                    
-                case FCMManager.TARGET_CHARGING: // 충전
-                    startTagetCharging(data: notification)
-                    
-                case FCMManager.TARGET_BOARD: // 게시판
-                    if let category = notification[AnyHashable("category")] as! String? {
-                        if let board_id = Int((notification[AnyHashable("board_id")] as! String)) {
-                            if category == "boardNotice" {
-                                getNoticeData(noticeId: board_id)
-                            } else {
-                                getBoardData(boardId: board_id, category: category)
-                            }
-                        }
-                    }
-
-                case FCMManager.TARGET_FAVORITE: // 즐겨찾기
-                    print("alertMessage() FCMManager.TARGET_FAVORITE")
-                    if let charger_id = notification[AnyHashable("charger_id")] as! String? {
-                        NotificationCenter.default.post(name: Notification.Name("kakaoScheme"), object: nil, userInfo: ["sharedid": charger_id])
-                    }
-                    
-                case FCMManager.TARGET_REPORT: // 제보하기
-                    getBoardReportData()
-                    
-                case FCMManager.TARGET_CHARGING_STATUS: // 충전상태
-                    print("alertMessage() FCMManager.TARGET_CHARGING_STATUS")
-                    
-                case FCMManager.TARGET_CHARGING_STATUS_FIX: // ????
-                    print("alertMessage() FCMManager.TARGET_CHARGING_STATUS_FIX")
-                    
-                case FCMManager.TARGET_COUPON:  // 쿠폰 알림
-                    getCouponIssueData()
-                    
-                case FCMManager.TARGET_POINT:  // 포인트 적립
-                    if let cmd = notification[AnyHashable("cmd")] as? String {
-                        getPointCmdData(cmd: cmd)
-                    } else {
-                        getPointData()
-                    }
-                    
-                case FCMManager.TARGET_MEMBERSHIP:  // 제휴 서비스
-                    if let cmd = notification[AnyHashable("cmd")] as? String {
-                        getMembershipData(cmd: cmd)
-                    }
-                    
-                case FCMManager.TARGET_REPAYMENT:  // 미수금 정산
-                    getRepaymentData()
-                    
-                case FCMManager.TARGET_COMMUNITY: // 커뮤니티 게시판
-                    if let category = notification[AnyHashable("mid")] as? String,
-                    let documentSrl = notification[AnyHashable("document_srl")] as? String {
-                        getCommunityBoardDetailData(boardId: documentSrl, category: category)
-                    }
-                    
-                case FCMManager.TARGET_EVENT: // 이벤트
-                    if let eventId = notification[AnyHashable("event_id")] as? String {
-                        getEventDetailData(eventId: Int(eventId)!)
-                    } else {
-                        getEventData()
-                    }
-                    
-                default:
-                    print("alertMessage() default")
-                }
+        guard isReady,
+              let notification = data,
+              let targetId = notification[AnyHashable("target_id")] as? String?
+        else { return }
+        
+        switch targetId {
+        case FCMManager.TARGET_NONE: // NONE
+            print("alertMessage() FCMManager.TARGET_NONE")
+            
+        case FCMManager.TARGET_CHARGING: // 충전
+            startTagetCharging(data: notification)
+            
+        case FCMManager.TARGET_BOARD: // 게시판
+            guard let category = notification[AnyHashable("category")] as? String?,
+                  let boardID = notification[AnyHashable("board_id")] as? String,
+                  let _category = category, let _boardID = Int(boardID)
+            else { return }
+            
+            if category == "boardNotice" {          // 공지사항.
+                pushNoticeDetail(noticeId: _boardID)
+            } else {
+                getBoardData(boardId: _boardID, category: _category)
             }
+                
+        case FCMManager.TARGET_FAVORITE: // 즐겨찾기
+            print("alertMessage() FCMManager.TARGET_FAVORITE")
+            if let charger_id = notification[AnyHashable("charger_id")] as! String? {
+                NotificationCenter.default.post(name: Notification.Name("kakaoScheme"), object: nil, userInfo: ["sharedid": charger_id])
+            }
+            
+        case FCMManager.TARGET_REPORT: // 제보하기
+            getBoardReportData()
+            
+        case FCMManager.TARGET_CHARGING_STATUS: // 충전상태
+            print("alertMessage() FCMManager.TARGET_CHARGING_STATUS")
+            
+        case FCMManager.TARGET_CHARGING_STATUS_FIX: // ????
+            print("alertMessage() FCMManager.TARGET_CHARGING_STATUS_FIX")
+            
+        case FCMManager.TARGET_COUPON:  // 쿠폰 알림
+            getCouponIssueData()
+            
+        case FCMManager.TARGET_POINT:  // 포인트 적립
+            if let cmd = notification[AnyHashable("cmd")] as? String {
+                getPointCmdData(cmd: cmd)
+            } else {
+                getPointData()
+            }
+            
+        case FCMManager.TARGET_MEMBERSHIP:  // 제휴 서비스
+            if let cmd = notification[AnyHashable("cmd")] as? String {
+                getMembershipData(cmd: cmd)
+            }
+            
+        case FCMManager.TARGET_REPAYMENT:  // 미수금 정산
+            getRepaymentData()
+            
+        case FCMManager.TARGET_COMMUNITY: // 커뮤니티 게시판
+            if let category = notification[AnyHashable("mid")] as? String,
+               let documentSrl = notification[AnyHashable("document_srl")] as? String {
+                getCommunityBoardDetailData(boardId: documentSrl, category: category)
+            }
+            
+        case FCMManager.TARGET_EVENT: // 이벤트
+            if let eventId = notification[AnyHashable("event_id")] as? String {
+                getEventDetailData(eventId: Int(eventId)!)
+            } else {
+                getEventData()
+            }
+            
+        default:
+            print("alertMessage() default")
         }
     }
     
@@ -231,21 +230,16 @@ internal final class FCMManager {
         }
     }
     
-    func getNoticeData(noticeId: Int) {
-        guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
-        if let visableControll = _mainNavi.visibleViewController {
-            if visableControll.isKind(of: NoticeContentViewController.self) {
-                let vc = visableControll as! NoticeContentViewController
-                vc.source = "푸쉬 알림"
-                vc.boardId = noticeId
-                vc.viewDidLoad()
-            } else {
-                let ndVC = UIStoryboard(name: "Board", bundle: nil).instantiateViewController(ofType: NoticeContentViewController.self)
-                ndVC.source = "푸쉬 알림"
-                ndVC.boardId = noticeId
-                _mainNavi.push(viewController: ndVC)
-            }
+    func pushNoticeDetail(noticeId: Int) {
+        guard let visableControll = GlobalDefine.shared.mainNavi?.visibleViewController else { return }
+
+        if visableControll.isKind(of: NewNoticeDetailViewController.self) {
+            GlobalDefine.shared.mainNavi?.pop()
         }
+        
+        let reactor = NoticeDetailReactor(provider: RestApi(), noticeID: noticeId)
+        let detailVC = NewNoticeDetailViewController(reactor: reactor)
+        GlobalDefine.shared.mainNavi?.push(viewController: detailVC)
     }
     
     func getPointData() {
