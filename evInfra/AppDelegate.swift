@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("application:didFinishLaunchingWithOptions:options")
         FirebaseApp.configure()
         NMFAuthManager.shared().clientId = Const.NAVER_MAP_KEY
+        AmplitudeManager.shared.configure(Const.AMPLITUDE_API_KEY)
         
         if #available(iOS 13.0, *) { // SceneDelegate
         } else {
