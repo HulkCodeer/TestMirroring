@@ -41,6 +41,15 @@ internal struct Promotion {
             return self.rawValue
         }
     }
+    
+    enum Types: String {
+        case ad = "1"
+        case event = "3"
+        
+        internal var toValue: String {
+            return self.rawValue
+        }
+    }
 }
 
 internal final class EIAdManager {
