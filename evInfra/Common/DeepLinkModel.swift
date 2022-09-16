@@ -70,7 +70,10 @@ internal final class DeepLinkModel: NSObject {
                 let viewcon = NewEventDetailViewController()
                 
                 if let _eventDetailUrl = _queryItems["event_url"] {
-                    viewcon.eventUrl = _eventDetailUrl
+                    var urlCompnents = URLComponents(string: _eventDetailUrl)
+                    let mbId = URLQueryItem(name: "mbId", value: "\(MemberManager.shared.mbId)")
+                    urlCompnents?.queryItems = [mbId]
+                    viewcon.eventUrl = urlCompnents?.url?.absoluteString ?? ""
                 }
                 if let _title = _queryItems["title"] {
                     viewcon.naviTitle = _title

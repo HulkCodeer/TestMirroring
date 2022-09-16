@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import SwiftyJSON
 import ReactorKit
+import EasyTipView
 
 internal final class NewPaymentQRScanViewController: CommonBaseViewController, StoryboardView {
     
@@ -267,7 +268,8 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         stationSubGuideLbl.isHidden = true
         stationSubGuideBtn.isHidden = true
         
-        switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
+//        switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
+        switch (true, true) {
         case (false, false): // 신규유저
             let tempText = "한국 전력과 GS칼텍스에서\nQR 충전을 할 수 있어요"
             let attributeText = NSMutableAttributedString(string: tempText)
@@ -325,13 +327,14 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             
             stationSubGuideLbl.isHidden = false
             stationSubGuideBtn.isHidden = false
+            stationSubGuideLbl.text = "한국전력 충전소에서도 QR충전하고 싶다면?"
                                                             
             Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
                 .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
                                 
         case (true, true): // 아무 이상 없는 유저
-            let tempText = "한국 전력과 GS칼텍스에서\nQR 충전을 할 수 있어요"
+            let tempText = "한국 전력 QR충전 주의사항"
             let attributeText = NSMutableAttributedString(string: tempText)
             let allRange = NSMakeRange(0, attributeText.length)
             attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPrimary.color], range: allRange)
@@ -343,6 +346,30 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPositive.color], range: chageRange)
             attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
             stationGuideLbl.attributedText = attributeText
+            
+//            stationSubGuideLbl.isHidden = false
+//            stationSubGuideBtn.isHidden = true
+//            stationSubGuideLbl.text = "한국 전력 QR충전 시 주의사항"
+//            
+//            var preferences = EasyTipView.Preferences()
+//            
+//            preferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
+//            preferences.drawing.foregroundColor = Colors.backgroundSecondary.color
+//            preferences.drawing.textAlignment = NSTextAlignment.center
+//            
+//            preferences.drawing.arrowPosition = .top
+//            
+//            preferences.animating.dismissTransform = CGAffineTransform(translationX: -30, y: -100)
+//            preferences.animating.showInitialTransform = CGAffineTransform(translationX: 30, y: 100)
+//            preferences.animating.showInitialAlpha = 1
+//            preferences.animating.showDuration = 4
+//            preferences.animating.dismissDuration = 1
+//            
+//            let text = "충전기에 따라 QR코드 이미지 화질 저하로\nQR스캔까지 시간이 걸릴 수 있어요.\n번호 입력 및 카드 태깅으로도 충전 가능해요."
+//            EasyTipView.show(forView: self.stationSubGuideLbl,
+//                             withinSuperview: self.view,
+//                             text: text,
+//                             preferences: preferences)
             
             Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
                 .bind(to: reactor.action)

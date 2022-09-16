@@ -185,14 +185,14 @@ internal final class MainViewController: UIViewController, StoryboardView {
         let attributeText = NSMutableAttributedString(string: tempText)
         let allRange = NSMakeRange(0, attributeText.length)
         attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: allRange)
-        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)], range: allRange)
+        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .regular)], range: allRange)
         var chageRange = (attributeText.string as NSString).range(of: "‘설정>EV Infra>위치'")
         attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: chageRange)
-        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)], range: chageRange)
+        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .bold)], range: chageRange)
         
         chageRange = (attributeText.string as NSString).range(of: "항상 허용")
         attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: chageRange)
-        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)], range: chageRange)
+        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .bold)], range: chageRange)
         
         self.rx.viewWillAppear
             .filter { _ in
@@ -257,18 +257,26 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.compactMap { $0.isShowMarketingPopup }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, _ in
-                GlobalFunctionSwift.showPopup(title: "더 나은 충전 생활 안내를 위해 동의가 필요해요.", message: "EV Infra는 사용자님을 위해 도움되는 혜택 정보를 보내기 위해 노력합니다. 무분별한 광고 알림을 보내지 않으니 안심하세요!\n마케팅 수신 동의 변경은 설정 > 마케팅 정보 수신 동의에서 철회 가능합니다.", confirmBtnTitle: "동의하기", confirmBtnAction: { [weak self] in
+                let popupModel = PopupModel(title: "더 나은 충전 생활 안내를 위해 동의가 필요해요.",
+                                            message:"EV Infra는 사용자님을 위해 도움되는 혜택 정보를 보내기 위해 노력합니다. 무분별한 광고 알림을 보내지 않으니 안심하세요!\n마케팅 수신 동의 변경은 설정 > 마케팅 정보 수신 동의에서 철회 가능합니다.",
+                                            confirmBtnTitle: "동의하기",
+                                            cancelBtnTitle: "다음에") { [weak self] in
                     guard let self = self else { return }
                     Observable.just(MainReactor.Action.setAgreeMarketing(true))
                         .bind(to: reactor.action)
                         .disposed(by: self.disposeBag)
-                    
-                }, cancelBtnTitle: "다음에", cancelBtnAction: { [weak self] in
+                } cancelBtnAction: { [weak self] in
                     guard let self = self else { return }
                     Observable.just(MainReactor.Action.setAgreeMarketing(false))
                         .bind(to: reactor.action)
                         .disposed(by: self.disposeBag)
-                })                                    
+                }
+                
+                let popup = ConfirmPopupViewController(model: popupModel)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                }
+                                                                                
             }
             .disposed(by: self.disposeBag)
         

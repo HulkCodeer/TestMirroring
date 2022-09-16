@@ -198,14 +198,14 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         let attributeText = NSMutableAttributedString(string: tempText)
         let allRange = NSMakeRange(0, attributeText.length)
         attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: allRange)
-        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)], range: allRange)
+        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .regular)], range: allRange)
         var chageRange = (attributeText.string as NSString).range(of: "‘설정>EV Infra>위치'")
         attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: chageRange)
-        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)], range: chageRange)
+        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .bold)], range: chageRange)
         
         chageRange = (attributeText.string as NSString).range(of: "항상 허용")
         attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: chageRange)
-        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)], range: chageRange)
+        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .bold)], range: chageRange)
         
         nextBtn.rectBtn.rx.tap
             .asDriver(onErrorJustReturn: Void())
