@@ -160,7 +160,7 @@ internal final class IntroViewController: UIViewController {
                                     self.movePerminssonsGuideView()
                                     
                                 case .notDetermined:
-                                    if MemberManager.shared.isFirstInstall.isEmpty {
+                                    if !MemberManager.shared.isFirstInstall {
                                         self.movePerminssonsGuideView()
                                     } else {
                                         self.moveMainView()

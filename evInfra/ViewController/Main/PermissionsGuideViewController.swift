@@ -259,7 +259,30 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                 guard let self = self else { return }
                 switch status {
                 case .authorizedAlways, .authorizedWhenInUse:
-                    self.moveMainViewcon()
+                    if !MemberManager.shared.isFirstInstall {
+                        MemberManager.shared.isFirstInstall = true
+                        let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
+                                                    message: "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요.",
+                                                    confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
+                                                    confirmBtnAction: {
+                            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                                if UIApplication.shared.canOpenURL(url) {
+                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                }
+                            }
+                        }, cancelBtnAction: { [weak self] in
+                            guard let self = self else { return }
+                            self.moveMainViewcon()
+
+                        }, textAlignment: .center)
+
+                        let popup = ConfirmPopupViewController(model: popupModel)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                        })
+                    } else {
+                        self.moveMainViewcon()
+                    }                                        
                     
                 case .denied:
                     let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
@@ -309,7 +332,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     }
     
     private func moveMainViewcon() {
-        MemberManager.shared.isFirstInstall = "isFirstInstall"
+        MemberManager.shared.isFirstInstall = true
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let reactor = MainReactor(provider: RestApi())
         let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
