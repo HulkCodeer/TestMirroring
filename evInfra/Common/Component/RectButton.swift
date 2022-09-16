@@ -29,6 +29,8 @@ internal final class RectButton: UIButton {
     init(level: Const.Level) {
         super.init(frame:CGRect.zero)
         
+        self.IBcornerRadius = 8
+        
         switch level {
         case .primary: // enable, disable 가능
             self.setTitleColor(Colors.contentOnColor.color, for: .normal)

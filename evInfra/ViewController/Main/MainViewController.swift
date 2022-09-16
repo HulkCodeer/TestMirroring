@@ -180,6 +180,20 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // MARK: REACTORKIT
     
     internal func bind(reactor: MainReactor) {
+        let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
+        let tempText = message
+        let attributeText = NSMutableAttributedString(string: tempText)
+        let allRange = NSMakeRange(0, attributeText.length)
+        attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: allRange)
+        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)], range: allRange)
+        var chageRange = (attributeText.string as NSString).range(of: "‘설정>EV Infra>위치'")
+        attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: chageRange)
+        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)], range: chageRange)
+        
+        chageRange = (attributeText.string as NSString).range(of: "항상 허용")
+        attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: chageRange)
+        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)], range: chageRange)
+        
         self.rx.viewWillAppear
             .filter { _ in
                 let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
@@ -198,7 +212,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
                             case .authorizedAlways, .authorizedWhenInUse:
                                 if !MemberManager.shared.isFirstInstall {
                                     MemberManager.shared.isFirstInstall = true
-                                    GlobalFunctionSwift.showPopup(title: "위치 권한을 항상 허용으로\n변경해주세요.", message: "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요.", confirmBtnTitle: "항상 허용하기", confirmBtnAction: {
+                                    
+                                    let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
+                                                                messageAttributedText: attributeText,
+                                                                confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기", confirmBtnAction: { [weak self] in
+                                        guard let self = self else { return }
                                         if let url = URL(string: UIApplicationOpenSettingsURLString) {
                                             if UIApplication.shared.canOpenURL(url) {
                                                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -208,11 +226,18 @@ internal final class MainViewController: UIViewController, StoryboardView {
                                         Observable.just(MainReactor.Action.showMarketingPopup)
                                             .bind(to: reactor.action)
                                             .disposed(by: self.disposeBag)
-                                    }, cancelBtnTitle: "유지하기", cancelBtnAction: {
+                                    }, cancelBtnAction: { [weak self] in
+                                        guard let self = self else { return }
                                         Observable.just(MainReactor.Action.showMarketingPopup)
                                             .bind(to: reactor.action)
                                             .disposed(by: self.disposeBag)
+                                    }, textAlignment: .center)
+                                    
+                                    let popup = ConfirmPopupViewController(model: popupModel)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                                     })
+                                                                        
                                 } else {
                                     guard reactor.currentState.isShowStartBanner == nil else { return }
                                     Observable.just(MainReactor.Action.showMarketingPopup)

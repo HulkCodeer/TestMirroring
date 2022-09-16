@@ -66,7 +66,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     }
     
     private lazy var nextBtn = StickButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80), level: .primary).then {
-        $0.rectBtn.setTitle("권한 동의하기", for: .normal)
+        $0.rectBtn.setTitle("다음", for: .normal)
     }
     
     // MARK: SYSTEM FUNC
@@ -134,7 +134,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         }
         
         let imgView = UIImageView().then {
-            $0.image = Icons.iconCurrentLocationMd.image
+            $0.image = type.typeImage
             $0.tintColor = Colors.backgroundPositive.color
         }
         imgTotalView.addSubview(imgView)
@@ -193,6 +193,19 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     
     internal func bind(reactor: PermissionsGuideReactor) {
         let manager = CLLocationManager()
+        let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
+        let tempText = message
+        let attributeText = NSMutableAttributedString(string: tempText)
+        let allRange = NSMakeRange(0, attributeText.length)
+        attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: allRange)
+        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)], range: allRange)
+        var chageRange = (attributeText.string as NSString).range(of: "‘설정>EV Infra>위치'")
+        attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: chageRange)
+        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)], range: chageRange)
+        
+        chageRange = (attributeText.string as NSString).range(of: "항상 허용")
+        attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: chageRange)
+        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)], range: chageRange)
         
         nextBtn.rectBtn.rx.tap
             .asDriver(onErrorJustReturn: Void())
@@ -201,8 +214,11 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                     .subscribe(onNext: { [weak self] status in
                         switch status {
                         case .authorizedAlways, .authorizedWhenInUse:
+                                                                                    
+                            
+                            
                             let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-                                                        message: "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요.",
+                                                        messageAttributedText: attributeText,
                                                         confirmBtnTitle: "항상 허용하기",
                                                         cancelBtnTitle: "유지하기",
                                                         confirmBtnAction: { [weak self] in
@@ -232,7 +248,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                             
                         case .denied, .restricted:
                             let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-                                                        message: "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요.",
+                                                        messageAttributedText: attributeText,
                                                         confirmBtnTitle: "항상 허용하기",
                                                         confirmBtnAction: {
                                 if let url = URL(string: UIApplicationOpenSettingsURLString) {
@@ -263,7 +279,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                     if !MemberManager.shared.isFirstInstall {
                         MemberManager.shared.isFirstInstall = true
                         let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-                                                    message: "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요.",
+                                                    messageAttributedText: attributeText,
                                                     confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
                                                     confirmBtnAction: {
                             if let url = URL(string: UIApplicationOpenSettingsURLString) {
@@ -287,7 +303,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                     
                 case .denied:
                     let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-                                                message: "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요.",
+                                                messageAttributedText: attributeText,
                                                 confirmBtnTitle: "항상 허용하기",
                                                 confirmBtnAction: {
                         if let url = URL(string: UIApplicationOpenSettingsURLString) {
@@ -305,7 +321,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                     
                 case .notDetermined, .restricted:
                     let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-                                                message: "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요.",
+                                                messageAttributedText: attributeText,
                                                 confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
                                                 confirmBtnAction: {
                         if let url = URL(string: UIApplicationOpenSettingsURLString) {
@@ -347,7 +363,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                             }
                         })
                         .disposed(by: obj.disposeBag)
-                }                
+                }
             }
             .disposed(by: self.disposeBag)
     }
