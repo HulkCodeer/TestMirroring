@@ -9,6 +9,7 @@
 import ReactorKit
 import MiniPlengi
 import CoreLocation
+import RxViewController
 
 internal final class PermissionsGuideViewController: CommonBaseViewController, StoryboardView {
     
@@ -116,7 +117,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
             permissionStackView.addArrangedSubview(self.createPermissionView(type: type))
         }
     }
-    
+            
     // MARK: FUNC
     
     private func createPermissionView(type: PermissionTypes) -> UIView {
@@ -328,7 +329,27 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                 }
             })
             .disposed(by: self.disposeBag)
-                                        
+                       
+        
+        self.rx.viewWillAppear
+            .skip(1)
+            .subscribe(with: self) { obj, _ in
+                
+                if MemberManager.shared.isFirstInstall {
+                    manager.rx.status
+                        .subscribe(onNext: { [weak self] status in
+                            guard let self = self else { return }
+                            switch status {
+                            case .authorizedAlways, .authorizedWhenInUse:
+                                self.moveMainViewcon()
+                                
+                            default: break
+                            }
+                        })
+                        .disposed(by: obj.disposeBag)
+                }                
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func moveMainViewcon() {
