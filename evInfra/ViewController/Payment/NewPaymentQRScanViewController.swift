@@ -13,7 +13,7 @@ import ReactorKit
 import EasyTipView
 
 internal final class NewPaymentQRScanViewController: CommonBaseViewController, StoryboardView {
-    
+        
     // MARK: QR Scanner UI
     
     private lazy var naviTotalView = CommonNaviView().then {
@@ -75,6 +75,9 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     }
                 
     // MARK: VARIABLE
+    private var timer = Timer()
+    private var tipView = EasyTipView(text: "")
+    
     // MARK: SYSTEM FUNC
     
     override func loadView() {
@@ -348,38 +351,48 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             stationGuideLbl.attributedText = attributeText
             
             stationSubGuideLbl.isHidden = false
-            stationSubGuideBtn.isHidden = true
+            stationSubGuideBtn.isHidden = false
             stationSubGuideLbl.text = "한국 전력 QR충전 시 주의사항"
             
             stationSubGuideBtn.rx.tap
-                .asDriver()
-                .drive(onNext: {
+                .filter { [weak self] _ in
+                    guard let self = self else { return false }
+                    return !self.timer.isValid
+                }
+                .asDriver(onErrorJustReturn: ())
+                .drive(with: self) { obj, _ in
                     var preferences = EasyTipView.Preferences()
-        
+                            
                     preferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
                     preferences.drawing.foregroundColor = Colors.backgroundSecondary.color
                     preferences.drawing.textAlignment = NSTextAlignment.center
         
                     preferences.drawing.arrowPosition = .top
-        
-                    preferences.animating.dismissTransform = CGAffineTransform(translationX: -30, y: -100)
-                    preferences.animating.showInitialTransform = CGAffineTransform(translationX: 30, y: 100)
                     preferences.animating.showInitialAlpha = 1
-                    preferences.animating.showDuration = 4
+                    preferences.animating.showDuration = 1
                     preferences.animating.dismissDuration = 1
+                    preferences.positioning.maxWidth = 294
         
                     let text = "충전기에 따라 QR코드 이미지 화질 저하로\nQR스캔까지 시간이 걸릴 수 있어요.\n번호 입력 및 카드 태깅으로도 충전 가능해요."
-                    EasyTipView.show(forView: self.stationSubGuideLbl,
-                                     withinSuperview: self.view,
-                                     text: text,
-                                     preferences: preferences)
-                })
+                    obj.tipView = EasyTipView(text: text, preferences: preferences)
+                    obj.tipView.show(forView: self.stationSubGuideLbl)
+                    
+                    obj.timer = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { (timer) in
+                        obj.tipView.dismiss()
+                        timer.invalidate()
+                    }
+                }
                 .disposed(by: self.disposeBag)
                         
             Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
                 .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
         }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.timer.invalidate()
+        self.tipView.dismiss()
     }
 }
 
