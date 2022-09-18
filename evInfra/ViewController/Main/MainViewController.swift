@@ -180,19 +180,28 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // MARK: REACTORKIT
     
     internal func bind(reactor: MainReactor) {
-        let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
-        let tempText = message
-        let attributeText = NSMutableAttributedString(string: tempText)
-        let allRange = NSMakeRange(0, attributeText.length)
-        attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: allRange)
-        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .regular)], range: allRange)
-        var chageRange = (attributeText.string as NSString).range(of: "‘설정>EV Infra>위치'")
-        attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: chageRange)
-        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .bold)], range: chageRange)
+        let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.\n정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
+        let attributeText = NSMutableAttributedString(string: message)
+        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.contentSecondary.color]
+        attributeText.setAttributes(attributes, range: NSRange(location: 0, length: message.count))
         
-        chageRange = (attributeText.string as NSString).range(of: "항상 허용")
-        attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.contentSecondary.color], range: chageRange)
-        attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .bold)], range: chageRange)
+        _ = message.getArrayAfterRegex(regex: "항상 허용")
+            .map { NSRange($0, in: message) }
+            .map {
+                attributeText.setAttributes(
+                    [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
+                        .foregroundColor: Colors.contentSecondary.color],
+                    range: $0)
+            }
+        
+        _ = message.getArrayAfterRegex(regex: "‘설정>EV Infra>위치'")
+            .map { NSRange($0, in: message) }
+            .map {
+                attributeText.setAttributes(
+                    [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
+                        .foregroundColor: Colors.contentSecondary.color],
+                    range: $0)
+            }
         
         self.rx.viewWillAppear
             .filter { _ in
