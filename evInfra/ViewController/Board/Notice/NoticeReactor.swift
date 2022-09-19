@@ -53,16 +53,17 @@ final class NoticeReactor: ViewModel, Reactor {
         return newState
     }
     
-    private func convertToNoticeItems(with result: ApiResult<Data, ApiError>) -> [NoticeItem]? {
+    private func convertToNoticeItems(with result: ApiResult<Data, ApiError>) -> [NoticeList.NoticeItem]? {
         switch result {
         case .success(let data):
-            let noticeList = try? JSONDecoder().decode(NoticeList.self, from: data)
-            guard 1000 == noticeList?.code else {
+            guard let noticeList = try? JSONDecoder().decode(NoticeList.self, from: data),
+                  1000 == noticeList.code
+            else {
                 errorHandler(message: "데이터를 불러올 수 없습니다. 잠시 후 다시 시도해주세요.")
                 return nil
             }
             
-            return noticeList?.list
+            return noticeList.list
             
         case .failure(let error):
             printLog(out: "Error Message : \(error.errorMessage)")
@@ -71,17 +72,15 @@ final class NoticeReactor: ViewModel, Reactor {
         }
     }
     
-    private func convertToCellItem(items: [NoticeItem]) -> [NoticeCellItem] {
+    private func convertToCellItem(items: [NoticeList.NoticeItem]) -> [NoticeCellItem] {
         return items.compactMap { item in
-            guard let date = item.dateTime.toDate() else { return nil }
-            
-            let reactor = NoticeCellReactor(title: item.title, date: date.toString(dateFormat: .yyyyMMddD))
+            let reactor = NoticeCellReactor(title: item.title, date: item.dateTime)
             
             reactor.state.compactMap { $0.isMoveDetail }
                 .asDriver(onErrorJustReturn: false)
                 .filter { $0 == true }
                 .drive { _ in
-                    let noticeID = Int(item.id) ?? -1
+                    let noticeID = item.id
                     let noticeDetailReactor = NoticeDetailReactor(provider: RestApi(), noticeID: noticeID)
                     let noticeDetailVC = NewNoticeDetailViewController(reactor: noticeDetailReactor)
                     GlobalDefine.shared.mainNavi?.push(viewController: noticeDetailVC)
