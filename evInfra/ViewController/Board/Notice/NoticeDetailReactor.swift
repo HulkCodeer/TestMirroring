@@ -13,7 +13,7 @@ import RxSwift
 import SwiftyJSON
 
 internal final class NoticeDetailReactor: ViewModel, Reactor {
-    typealias Contents = (title: String, date: String?, html: String)
+    typealias Contents = (title: String, date: String, html: String)
     enum Action {
         case loadHTML
     }
@@ -24,7 +24,7 @@ internal final class NoticeDetailReactor: ViewModel, Reactor {
     
     struct State {
         var title: String = "[공지]"
-        var date: String? = Date().toString(dateFormat: .yyyyMMddD)
+        var date: String = String()
         var html: String = String()
     }
     
@@ -73,10 +73,7 @@ internal final class NoticeDetailReactor: ViewModel, Reactor {
                 return nil
             }
             
-            let date = notice.dateTime.toDate()
-            let dateStr = date?.toString(dateFormat: .yyyyMMddD)
-                        
-            return (notice.title, dateStr, notice.content) as Contents
+            return (notice.title, notice.dateTime, notice.content) as Contents
             
         case .failure(let error):
             printLog(out: "Error Message : \(error)")

@@ -18,4 +18,14 @@ struct Notice: Decodable {
         case code, title, content
         case dateTime = "datetime"
     }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let date = (try? container.decode(String.self, forKey: .dateTime)) ?? String()
+        
+        self.code = try container.decode(Int.self, forKey: .code)
+        self.title = (try? container.decode(String.self, forKey: .title)) ?? "[공지]"
+        self.content = (try? container.decode(String.self, forKey: .content)) ?? String()
+        self.dateTime = date.toDate()?.toString(dateFormat: .yyyyMMddD) ?? String()
+    }
 }
