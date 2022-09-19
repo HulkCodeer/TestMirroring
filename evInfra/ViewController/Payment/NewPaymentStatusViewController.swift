@@ -1341,7 +1341,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         chargingStatus.usedPoint = response["u_point"].string ?? ""
         
         if let usedPoint = chargingStatus.usedPoint, usedPoint.equals("-1") {
-            chargingStatus.usedPoint = "\(self.willUsePoint)"
+            chargingStatus.usedPoint = "\(self.myPoint)"
         }
         
         chargingStatus.fee = response["fee"].string ?? ""
