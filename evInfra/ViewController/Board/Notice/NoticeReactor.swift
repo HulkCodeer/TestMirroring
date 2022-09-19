@@ -57,13 +57,16 @@ final class NoticeReactor: ViewModel, Reactor {
         switch result {
         case .success(let data):
             let noticeList = try? JSONDecoder().decode(NoticeList.self, from: data)
-            guard 1000 == noticeList?.code else { return nil }
+            guard 1000 == noticeList?.code else {
+                errorHandler(message: "데이터를 불러올 수 없습니다. 잠시 후 다시 시도해주세요.")
+                return nil
+            }
             
             return noticeList?.list
             
         case .failure(let error):
             printLog(out: "Error Message : \(error.errorMessage)")
-            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+            errorHandler(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
             return nil
         }
     }
@@ -86,6 +89,14 @@ final class NoticeReactor: ViewModel, Reactor {
                 .disposed(by: self.disposeBag)
             
             return NoticeCellItem(reactor: reactor)
+        }
+    }
+    
+    private func errorHandler(message: String) {
+        Snackbar().show(message: message)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            GlobalDefine.shared.mainNavi?.pop()
         }
     }
 }
