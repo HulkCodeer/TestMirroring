@@ -1016,17 +1016,24 @@ class Server {
     }
     
     // 이벤트 - 리스트 가져오기
-    static func getEventList(completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "req_ver": 1,
-            "mb_id": MemberManager.shared.mbId,
-            "memberId": MemberManager.shared.memberId
-            ]
-        
-        AF.request(Const.EV_PAY_SERVER + "/event/Event/getEventList",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+    static func getEventList(page: Promotion.Page, layer: Promotion.Layer, completion: @escaping (Bool, Any) -> Void) {
+        let memberId = Int(MemberManager.shared.memberId) ?? 0
+        AF.request("\(Const.AWS_SERVER)/promotion?memberId=\(memberId)&page=\(page.rawValue)&layer=\(layer.rawValue)",
+                          method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseData { response in responseJson(response: response, completion: completion) }
     }
+//
+//    static func getEventList(completion: @escaping (Bool, Any) -> Void) {
+//        let reqParam: Parameters = [
+//            "req_ver": 1,
+//            "mb_id": MemberManager.shared.mbId,
+//            "memberId": MemberManager.shared.memberId
+//            ]
+//
+//        AF.request(Const.EV_PAY_SERVER + "/event/Event/getEventList",
+//                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
+//            .responseData { response in responseJson(response: response, completion: completion) }
+//    }
     
     // MARK: - AWS 프로모션(광고/이벤트) click/view event 전송
     static func countEventAction(eventId: [String], action: Promotion.Action, page: Promotion.Page, layer: Promotion.Layer) {

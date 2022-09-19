@@ -21,9 +21,10 @@ internal struct AdsInfo {
     var evtType: String = ""
     var dpStart: String = ""
     var dpEnd: String = ""
-    var dpState: Int = 0
+    var dpState: Promotion.State = .end
     var promotionPage: Promotion.Page = .start
     var promotionLayer: Promotion.Layer = .none
+    var oldId: Int = 0
     
     init(_ json: JSON) {
         self.evtId = json["evtId"].stringValue
@@ -37,7 +38,8 @@ internal struct AdsInfo {
         self.evtType = json["evtType"].stringValue
         self.dpStart = json["dpStart"].stringValue
         self.dpEnd = json["dpEnd"].stringValue
-        self.dpState = json["dpState"].intValue        
+        self.dpState = Promotion.State.convert(with: json["dpState"].intValue)
+        self.oldId = json["oldId"].intValue
     }
 }
 

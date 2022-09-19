@@ -50,6 +50,23 @@ internal struct Promotion {
             return self.rawValue
         }
     }
+    
+    enum State: Int {
+        case end = 0
+        case inProgress = 1
+
+        internal var toValue: Int {
+            return self.rawValue
+        }
+        
+        static func convert(with state: Int) -> State {
+            switch state {
+            case 0: return .end
+            case 1: return .inProgress
+            default: return .end
+            }
+        }
+    }
 }
 
 internal final class EIAdManager {

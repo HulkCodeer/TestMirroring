@@ -111,9 +111,17 @@ extension BannerPagerView: FSPagerViewDelegate {
         PromotionEvent.clickBanner.logEvent(property: property)
         
         if banner.evtType == Promotion.Types.event.toValue {
-            let viewcon = NewEventDetailViewController()
-            viewcon.eventUrl = banner.extUrl + "?mbId=\(MemberManager.shared.mbId)"
-            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            MemberManager.shared.tryToLoginCheck { isLogin in
+                if isLogin {
+                    let viewcon = NewEventDetailViewController()
+                    viewcon.eventUrl = "\(banner.extUrl)"
+                    viewcon.queryItems = [URLQueryItem(name: "mbId", value: "\(MemberManager.shared.mbId)"),
+                                          URLQueryItem(name: "promotionId", value: banner.evtId)]
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                } else {
+                    MemberManager.shared.showLoginAlert()
+                }
+            }
         } else {
             // open url
             let adUrl = banner.extUrl

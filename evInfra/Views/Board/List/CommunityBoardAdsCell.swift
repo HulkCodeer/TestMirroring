@@ -58,9 +58,17 @@ class CommunityBoardAdsCell: UITableViewCell {
         
         // 3: 이벤트 상세 화면으로 이동 + 이벤트 URL에 mbId 추가
         if item.tags == Promotion.Types.event.toValue {
-            let viewcon = NewEventDetailViewController()
-            viewcon.eventUrl = item.module_srl ?? "" + "?mbId=\(MemberManager.shared.mbId)"
-            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            MemberManager.shared.tryToLoginCheck { isLogin in
+                if isLogin {
+                    let viewcon = NewEventDetailViewController()
+                    viewcon.eventUrl = item.module_srl ?? ""
+                    viewcon.queryItems = [URLQueryItem(name: "mbId", value: "\(MemberManager.shared.mbId)"),
+                                          URLQueryItem(name: "promotionId", value: item.document_srl ?? "")]
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                } else {
+                    MemberManager.shared.showLoginAlert()
+                }
+            }
         } else {
             if let url = URL(string: adUrl) {
                 if UIApplication.shared.canOpenURL(url) {
