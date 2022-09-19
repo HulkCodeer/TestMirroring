@@ -2386,6 +2386,7 @@
 		59EC3B7028D18CC4001A18B5 /* Notice */ = {
 			isa = PBXGroup;
 			children = (
+				59F5B91228D8028D00308B27 /* Model */,
 				59EC3B7228D18CEB001A18B5 /* Cell */,
 				596522D928BE0D0600FD4025 /* NoticeReactor.swift */,
 				596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */,
@@ -2416,6 +2417,15 @@
 				59EC3B7D28D32A49001A18B5 /* Constants.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		59F5B91228D8028D00308B27 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				596522D628BC8B1C00FD4025 /* Notice.swift */,
+				596522E228BEF3E800FD4025 /* NoticeList.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		637247CF282A5E9F00595FCE /* Extensions */ = {
@@ -2714,8 +2724,6 @@
 				00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */,
 				00CADC1A278D79C2000AF24A /* MemberOtherInfo.swift */,
 				52B25949278E5E5C0042B22C /* BoardListItem.swift */,
-				596522D628BC8B1C00FD4025 /* Notice.swift */,
-				596522E228BEF3E800FD4025 /* NoticeList.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
