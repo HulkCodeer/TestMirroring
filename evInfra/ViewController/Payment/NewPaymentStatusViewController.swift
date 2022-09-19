@@ -241,7 +241,6 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     }
     
     private lazy var berryUseAllBtn = RectButton(level: .secondary).then {
-        
         $0.setTitle("전액 사용", for: .normal)
         $0.setTitle("전액 사용", for: .disabled)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
@@ -1238,6 +1237,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
                 myBerryUseLbl.text = "\(pointStr.currency()) 베리"
                 point = Double(pointStr) ?? 0.0
                 willUsePoint = Int(point)
+                berryUseTf.text = "\(self.willUsePoint)"
                 updateBerryUse(point: willUsePoint)
             }
             
@@ -1339,6 +1339,11 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         chargingStatus.chargingRate = response["rate"].stringValue
         chargingStatus.chargingKw = response["c_kw"].string ?? "0"
         chargingStatus.usedPoint = response["u_point"].string ?? ""
+        
+        if let usedPoint = chargingStatus.usedPoint, usedPoint.equals("-1") {
+            chargingStatus.usedPoint = "\(self.willUsePoint)"
+        }
+        
         chargingStatus.fee = response["fee"].string ?? ""
         chargingStatus.stationName = response["snm"].string ?? ""
         chargingStatus.companyId = response["company_id"].string ?? ""

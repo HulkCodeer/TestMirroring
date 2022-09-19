@@ -20,10 +20,12 @@ struct PopupModel {
     let cancelBtnAction: (() -> Void)?
     var messageTextAlignment: NSTextAlignment = .center
     let dimmedBtnAction: (() -> Void)?
+    let messageAttributedText: NSAttributedString?
     
-    init(title: String? = nil, message: String = "",  confirmBtnTitle: String? = nil, cancelBtnTitle: String? = nil, confirmBtnAction: (() -> Void)? = nil, cancelBtnAction: (() -> Void)? = nil, textAlignment: NSTextAlignment = .center, dimmedBtnAction: (() -> Void)? = nil) {
+    init(title: String? = nil, message: String = "", messageAttributedText: NSAttributedString? = nil,  confirmBtnTitle: String? = nil, cancelBtnTitle: String? = nil, confirmBtnAction: (() -> Void)? = nil, cancelBtnAction: (() -> Void)? = nil, textAlignment: NSTextAlignment = .center, dimmedBtnAction: (() -> Void)? = nil) {
         self.title = title
         self.message = message
+        self.messageAttributedText = messageAttributedText
         self.confirmBtnTitle = confirmBtnTitle
         self.cancelBtnTitle = cancelBtnTitle
         self.confirmBtnAction = confirmBtnAction
@@ -142,6 +144,11 @@ internal final class ConfirmPopupViewController: UIViewController {
         
         self.titleLabel.text = self.popupModel.title
         self.descriptionLabel.text = self.popupModel.message
+        
+        if let _message = self.popupModel.messageAttributedText {
+            self.descriptionLabel.attributedText = _message
+        }
+        
                         
         if let _cancelTitle = self.popupModel.cancelBtnTitle {
             let cancelBtn = createButton(backgroundColor: Colors.backgroundPrimary.color ,

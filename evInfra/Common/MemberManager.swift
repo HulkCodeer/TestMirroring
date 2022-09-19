@@ -193,12 +193,12 @@ internal final class MemberManager {
     }
         
     // 로플랫 전용
-    internal var isFirstInstall: String {
+    internal var isFirstInstall: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
         set {
-            UserDefault().saveString(key: UserDefault.Key.IS_FIRST_INSTALL, value: newValue)
+            UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_INSTALL, value: newValue)
         }
         get {
-            return UserDefault().readString(key: UserDefault.Key.IS_FIRST_INSTALL)
+            return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_INSTALL)
         }
     }
     
@@ -247,7 +247,21 @@ internal final class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: data["email"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: data["phone"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_REG_DATE, value: data["reg_date"].stringValue)
-            userDefault.saveString(key: UserDefault.Key.MB_POINT, value: data["point"].stringValue)                                    
+            userDefault.saveString(key: UserDefault.Key.MB_POINT, value: data["point"].stringValue)
+                        
+            if let locationStatus = LocationWorker.shared.locationStatus {
+                switch locationStatus {
+                case .authorizedAlways, .authorizedWhenInUse:
+                    DispatchQueue.main.async {
+                        let receive = MemberManager.shared.isAllowMarketingNoti                        
+                        _ = Plengi.enableAdNetwork(true, enableNoti: receive)
+                        _ = Plengi.start()
+//                        _ = Plengi.manual_refreshPlace_foreground()
+                    }
+                                                            
+                default: break
+                }
+            }
         }
     }
     

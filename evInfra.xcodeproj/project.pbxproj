@@ -100,8 +100,6 @@
 		19A3D3262887F13400AE8280 /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A3D3252887F13400AE8280 /* AmplitudeManager.swift */; };
 		19B4C7D8289A420900C6BE84 /* AdsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B4C7D7289A420900C6BE84 /* AdsModel.swift */; };
 		2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CC5B658D05400DBBB0E6E63 /* Pods_evInfra.framework */; };
-		4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
-		4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
 		421569D7259B629100D018DC /* BoardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421569D6259B629100D018DC /* BoardInfo.swift */; };
 		42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42541587257E045600A2A7B9 /* UtilNavigation.swift */; };
 		425B055B26B7847B00B597A2 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 425B055A26B7847B00B597A2 /* Detail.storyboard */; };
@@ -194,15 +192,6 @@
 		6320415028D3472900CF7125 /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414628D3472900CF7125 /* LocationWorker.swift */; };
 		6320415128D3472900CF7125 /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414628D3472900CF7125 /* LocationWorker.swift */; };
 		6320415228D3472900CF7125 /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414628D3472900CF7125 /* LocationWorker.swift */; };
-		6320415628D348D000CF7125 /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320415328D348CF00CF7125 /* PermissionsGuideViewController.swift */; };
-		6320415728D348D000CF7125 /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320415328D348CF00CF7125 /* PermissionsGuideViewController.swift */; };
-		6320415828D348D000CF7125 /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320415328D348CF00CF7125 /* PermissionsGuideViewController.swift */; };
-		6320415928D348D000CF7125 /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320415428D348D000CF7125 /* PermissionsGuideReactor.swift */; };
-		6320415A28D348D000CF7125 /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320415428D348D000CF7125 /* PermissionsGuideReactor.swift */; };
-		6320415B28D348D000CF7125 /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320415428D348D000CF7125 /* PermissionsGuideReactor.swift */; };
-		6320415C28D348D000CF7125 /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320415528D348D000CF7125 /* MainReactor.swift */; };
-		6320415D28D348D000CF7125 /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320415528D348D000CF7125 /* MainReactor.swift */; };
-		6320415E28D348D000CF7125 /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320415528D348D000CF7125 /* MainReactor.swift */; };
 		633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FE28B342630041BDBB /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
@@ -536,7 +525,6 @@
 		63F314C0284EC74F001713D2 /* charger_tesla.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73C31C0220A2BB01005B6C53 /* charger_tesla.jpg */; };
 		63F314C1284EC74F001713D2 /* ReceiptView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB4395F322DD88770092E0A5 /* ReceiptView.xib */; };
 		63F314C2284EC74F001713D2 /* expand_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3A4204E3590002E975F /* expand_normal.png */; };
-		63F314C3284EC74F001713D2 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
 		63F314C4284EC74F001713D2 /* InfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7357595120916C11008181E9 /* InfoCollectionViewCell.xib */; };
 		63F314C5284EC74F001713D2 /* delete_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3B3204E3590002E975F /* delete_pressed.png */; };
 		63F314C6284EC74F001713D2 /* LeftViewTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 733662F922FD11860049AEFE /* LeftViewTableHeader.xib */; };
@@ -828,6 +816,15 @@
 		73EF8B7B203C85CC00D04494 /* TopLib_Op.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73EF8B6E203C85CC00D04494 /* TopLib_Op.a */; };
 		73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */; };
 		73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F6B53920F873110030D0B3 /* IntroViewController.swift */; };
+		8211AACB28D362E40002C095 /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC828D362E40002C095 /* MainReactor.swift */; };
+		8211AACC28D362E40002C095 /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC828D362E40002C095 /* MainReactor.swift */; };
+		8211AACD28D362E40002C095 /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC828D362E40002C095 /* MainReactor.swift */; };
+		8211AACE28D362E40002C095 /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */; };
+		8211AACF28D362E40002C095 /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */; };
+		8211AAD028D362E40002C095 /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */; };
+		8211AAD128D362E40002C095 /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */; };
+		8211AAD228D362E40002C095 /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */; };
+		8211AAD328D362E40002C095 /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */; };
 		821A05E128627F3100EB1A91 /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DD28627F3000EB1A91 /* NavigationClose.swift */; };
 		821A05E228627F3100EB1A91 /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DD28627F3000EB1A91 /* NavigationClose.swift */; };
 		821A05E328627F3100EB1A91 /* Arrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DE28627F3000EB1A91 /* Arrow.swift */; };
@@ -866,7 +863,6 @@
 		824D5C0B28BDD89C00EDC712 /* InfoLastUpdateDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D2248F52B80049EF8E /* InfoLastUpdateDto.swift */; };
 		824D5C0C28BDD89C00EDC712 /* PartnershipJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */; };
 		824D5C0D28BDD89C00EDC712 /* NewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */; };
-		824D5C0E28BDD89C00EDC712 /* OfferwallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4212A25325555775001BB124 /* OfferwallTableViewCell.swift */; };
 		824D5C0F28BDD89C00EDC712 /* ChargePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */; };
 		824D5C1028BDD89C00EDC712 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		824D5C1128BDD89C00EDC712 /* SC_TRACE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A08282E44020021292C /* SC_TRACE.swift */; };
@@ -1150,7 +1146,6 @@
 		824D5D3028BDD89C00EDC712 /* charger_tesla.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73C31C0220A2BB01005B6C53 /* charger_tesla.jpg */; };
 		824D5D3128BDD89C00EDC712 /* ReceiptView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB4395F322DD88770092E0A5 /* ReceiptView.xib */; };
 		824D5D3228BDD89C00EDC712 /* expand_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3A4204E3590002E975F /* expand_normal.png */; };
-		824D5D3328BDD89C00EDC712 /* OfferwallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4212A25425555775001BB124 /* OfferwallTableViewCell.xib */; };
 		824D5D3428BDD89C00EDC712 /* InfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7357595120916C11008181E9 /* InfoCollectionViewCell.xib */; };
 		824D5D3528BDD89C00EDC712 /* delete_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3B3204E3590002E975F /* delete_pressed.png */; };
 		824D5D3628BDD89C00EDC712 /* LeftViewTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 733662F922FD11860049AEFE /* LeftViewTableHeader.xib */; };
@@ -1560,9 +1555,6 @@
 		6320414428D3472900CF7125 /* SoftberryAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
 		6320414528D3472900CF7125 /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		6320414628D3472900CF7125 /* LocationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationWorker.swift; sourceTree = "<group>"; };
-		6320415328D348CF00CF7125 /* PermissionsGuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsGuideViewController.swift; sourceTree = "<group>"; };
-		6320415428D348D000CF7125 /* PermissionsGuideReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsGuideReactor.swift; sourceTree = "<group>"; };
-		6320415528D348D000CF7125 /* MainReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainReactor.swift; sourceTree = "<group>"; };
 		63341582B387F91B5B9BDC49 /* Pods-evInfra_release.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_release.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_release/Pods-evInfra_release.release.xcconfig"; sourceTree = "<group>"; };
 		633FF2FA28B342630041BDBB /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		633FF2FB28B342630041BDBB /* Radio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Radio.swift; sourceTree = "<group>"; };
@@ -1794,6 +1786,9 @@
 		73EF8B7C203C880A00D04494 /* evInfra-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "evInfra-Bridging-Header.h"; sourceTree = "<group>"; };
 		73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterGenerator.swift; sourceTree = "<group>"; };
 		73F6B53920F873110030D0B3 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
+		8211AAC828D362E40002C095 /* MainReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainReactor.swift; sourceTree = "<group>"; };
+		8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsGuideReactor.swift; sourceTree = "<group>"; };
+		8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsGuideViewController.swift; sourceTree = "<group>"; };
 		821A05DD28627F3000EB1A91 /* NavigationClose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationClose.swift; sourceTree = "<group>"; };
 		821A05DE28627F3000EB1A91 /* Arrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arrow.swift; sourceTree = "<group>"; };
 		821A05DF28627F3000EB1A91 /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
@@ -2057,9 +2052,9 @@
 		00B2E8BB26C0FE76005D017C /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				6320415528D348D000CF7125 /* MainReactor.swift */,
-				6320415428D348D000CF7125 /* PermissionsGuideReactor.swift */,
-				6320415328D348CF00CF7125 /* PermissionsGuideViewController.swift */,
+				8211AAC828D362E40002C095 /* MainReactor.swift */,
+				8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */,
+				8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */,
 				73AD13C5203AC34400ADD19A /* LeftViewController.swift */,
 				73F6B53920F873110030D0B3 /* IntroViewController.swift */,
 				732ED1F921EEFA960012C67B /* MainViewController.swift */,
@@ -3220,7 +3215,6 @@
 				63F314C0284EC74F001713D2 /* charger_tesla.jpg in Resources */,
 				63F314C1284EC74F001713D2 /* ReceiptView.xib in Resources */,
 				63F314C2284EC74F001713D2 /* expand_normal.png in Resources */,
-				63F314C3284EC74F001713D2 /* OfferwallTableViewCell.xib in Resources */,
 				63F314C4284EC74F001713D2 /* InfoCollectionViewCell.xib in Resources */,
 				63F314C5284EC74F001713D2 /* delete_pressed.png in Resources */,
 				63F314C6284EC74F001713D2 /* LeftViewTableHeader.xib in Resources */,
@@ -3361,7 +3355,6 @@
 				73C31C0820A2BB04005B6C53 /* charger_tesla.jpg in Resources */,
 				DB4395F422DD88770092E0A5 /* ReceiptView.xib in Resources */,
 				73A7B3E7204E3595002E975F /* expand_normal.png in Resources */,
-				4212A25625555775001BB124 /* OfferwallTableViewCell.xib in Resources */,
 				7357595320916C11008181E9 /* InfoCollectionViewCell.xib in Resources */,
 				73A7B3F6204E3595002E975F /* delete_pressed.png in Resources */,
 				733662FA22FD11860049AEFE /* LeftViewTableHeader.xib in Resources */,
@@ -3503,7 +3496,6 @@
 				824D5D3028BDD89C00EDC712 /* charger_tesla.jpg in Resources */,
 				824D5D3128BDD89C00EDC712 /* ReceiptView.xib in Resources */,
 				824D5D3228BDD89C00EDC712 /* expand_normal.png in Resources */,
-				824D5D3328BDD89C00EDC712 /* OfferwallTableViewCell.xib in Resources */,
 				824D5D3428BDD89C00EDC712 /* InfoCollectionViewCell.xib in Resources */,
 				824D5D3528BDD89C00EDC712 /* delete_pressed.png in Resources */,
 				824D5D3628BDD89C00EDC712 /* LeftViewTableHeader.xib in Resources */,
@@ -4387,7 +4379,6 @@
 				6320414B28D3472900CF7125 /* SoftberryAPI.swift in Sources */,
 				63F31450284EC74F001713D2 /* CommunityChargeStationTableViewCell.swift in Sources */,
 				63F31451284EC74F001713D2 /* AppNavigationDrawerController.swift in Sources */,
-				6320415728D348D000CF7125 /* PermissionsGuideViewController.swift in Sources */,
 				63F31452284EC74F001713D2 /* BoardSearchViewModel.swift in Sources */,
 				63F31453284EC74F001713D2 /* PopUpDialog.swift in Sources */,
 				63F31454284EC74F001713D2 /* UIView+Extension.swift in Sources */,
@@ -4413,12 +4404,11 @@
 				63F31465284EC74F001713D2 /* ChargerManagerListener.swift in Sources */,
 				63F31466284EC74F001713D2 /* HangulUtils.swift in Sources */,
 				63F31467284EC74F001713D2 /* PaymentStatus.swift in Sources */,
-				6320415D28D348D000CF7125 /* MainReactor.swift in Sources */,
 				63F31468284EC74F001713D2 /* CommunityBoardTableViewHeader.swift in Sources */,
 				63F31469284EC74F001713D2 /* SideMenuTableViewCell.swift in Sources */,
 				63F3146A284EC74F001713D2 /* BoardTableViewDelegate.swift in Sources */,
-				6320415A28D348D000CF7125 /* PermissionsGuideReactor.swift in Sources */,
 				63F3146B284EC74F001713D2 /* StringUtils.swift in Sources */,
+				8211AACF28D362E40002C095 /* PermissionsGuideReactor.swift in Sources */,
 				63F3146C284EC74F001713D2 /* CommunityBoardAdsCell.swift in Sources */,
 				63F3146D284EC74F001713D2 /* SearchTypeSelectView.swift in Sources */,
 				63F3146E284EC74F001713D2 /* FilterBarView.swift in Sources */,
@@ -4455,6 +4445,7 @@
 				63F31487284EC74F001713D2 /* StationInfoDto.swift in Sources */,
 				63F31488284EC74F001713D2 /* String+Extension.swift in Sources */,
 				63F31489284EC74F001713D2 /* NoticeContentViewController.swift in Sources */,
+				8211AACC28D362E40002C095 /* MainReactor.swift in Sources */,
 				63F3148A284EC74F001713D2 /* EVFileManager.swift in Sources */,
 				194C02692897CF8C00DADA8D /* StartBannerViewController.swift in Sources */,
 				63762F522869A91900C951BF /* SettingsReactor.swift in Sources */,
@@ -4472,6 +4463,7 @@
 				63F31495284EC74F001713D2 /* BoardWriteViewModel.swift in Sources */,
 				82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */,
 				596522E728C877F000FD4025 /* NoticeCellReactor.swift in Sources */,
+				8211AAD228D362E40002C095 /* PermissionsGuideViewController.swift in Sources */,
 				63F31496284EC74F001713D2 /* KoreanTextMatcher.swift in Sources */,
 				63F31498284EC74F001713D2 /* AcceptTermsViewController.swift in Sources */,
 				63F31499284EC74F001713D2 /* EventContentsViewController.swift in Sources */,
@@ -4519,7 +4511,6 @@
 				902A11D3248F52B80049EF8E /* InfoLastUpdateDto.swift in Sources */,
 				19B4C7D8289A420900C6BE84 /* AdsModel.swift in Sources */,
 				00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */,
-				4212A25525555775001BB124 /* OfferwallTableViewCell.swift in Sources */,
 				596522E328BEF3E800FD4025 /* NoticeList.swift in Sources */,
 				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
 				82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */,
@@ -4638,12 +4629,12 @@
 				00CF1775278E6A4F007D8E4E /* CorporationLoginViewController.swift in Sources */,
 				0044A05025AEEB1500D0BB0A /* LotteRentIntoViewController.swift in Sources */,
 				DB3B858920A45CB8005454F5 /* Character+Extension.swift in Sources */,
-				6320415628D348D000CF7125 /* PermissionsGuideViewController.swift in Sources */,
 				DB3B858720A445B6005454F5 /* KoreanChar.swift in Sources */,
 				00A6A15D26C3A0F10023DAE3 /* FilterPriceView.swift in Sources */,
 				732ED1FA21EEFA960012C67B /* MainViewController.swift in Sources */,
 				DB1ECB9922CDD8DB00E3A65E /* ChargingHistoryList.swift in Sources */,
 				42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */,
+				8211AACB28D362E40002C095 /* MainReactor.swift in Sources */,
 				735E87C822D88ED70028F7BD /* ChargingStatus.swift in Sources */,
 				00A6A16226C3A4D30023DAE3 /* FilterPlaceView.swift in Sources */,
 				63762F1528699FB200C951BF /* Info.swift in Sources */,
@@ -4670,7 +4661,7 @@
 				CE93308F214F9807006B7EF6 /* ReportChargerList.swift in Sources */,
 				63B23740282CA4B400E8A3F8 /* PointUseGuideViewController.swift in Sources */,
 				00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */,
-				6320415928D348D000CF7125 /* PermissionsGuideReactor.swift in Sources */,
+				8211AACE28D362E40002C095 /* PermissionsGuideReactor.swift in Sources */,
 				63C7C8E0286D6F0B00A357D6 /* NewBottomSheetViewController.swift in Sources */,
 				00F1AC7727031FAA009847E7 /* PreUsePointViewController.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton+Extension.swift in Sources */,
@@ -4749,7 +4740,6 @@
 				733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */,
 				733662CC22EFECB80049AEFE /* Event.swift in Sources */,
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
-				6320415C28D348D000CF7125 /* MainReactor.swift in Sources */,
 				736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */,
 				82DD57DB28C5D41900C6C55E /* StickButton.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController+Extension.swift in Sources */,
@@ -4801,6 +4791,7 @@
 				59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */,
 				52B2594A278E5E5C0042B22C /* BoardListItem.swift in Sources */,
 				732121C5203AC023000E105C /* evInfra.xcdatamodeld in Sources */,
+				8211AAD128D362E40002C095 /* PermissionsGuideViewController.swift in Sources */,
 				4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */,
 				73450EFA2071EB01008516E9 /* EditViewController.swift in Sources */,
 				73C31BFF20A2B246005B6C53 /* ChargerModel.swift in Sources */,
@@ -4822,7 +4813,6 @@
 				824D5BF828BDD89C00EDC712 /* UIViewController+Extension.swift in Sources */,
 				824D5BF928BDD89C00EDC712 /* BottomSheetTableViewCell.swift in Sources */,
 				824D5BFA28BDD89C00EDC712 /* EIPOIItem.swift in Sources */,
-				6320415E28D348D000CF7125 /* MainReactor.swift in Sources */,
 				824D5BFB28BDD89C00EDC712 /* ClusterManager.swift in Sources */,
 				824D5BFC28BDD89C00EDC712 /* Board.swift in Sources */,
 				824D5BFD28BDD89C00EDC712 /* EvPoint.swift in Sources */,
@@ -4843,7 +4833,6 @@
 				824D5C0B28BDD89C00EDC712 /* InfoLastUpdateDto.swift in Sources */,
 				824D5C0C28BDD89C00EDC712 /* PartnershipJoinView.swift in Sources */,
 				824D5C0D28BDD89C00EDC712 /* NewBottomSheetViewController.swift in Sources */,
-				824D5C0E28BDD89C00EDC712 /* OfferwallTableViewCell.swift in Sources */,
 				6320414C28D3472900CF7125 /* SoftberryAPI.swift in Sources */,
 				824D5C0F28BDD89C00EDC712 /* ChargePriceViewController.swift in Sources */,
 				824D5C1028BDD89C00EDC712 /* GlobalDefine.swift in Sources */,
@@ -4868,7 +4857,6 @@
 				824D5C2328BDD89C00EDC712 /* MyPayRegisterViewDelegate.swift in Sources */,
 				824D5C2428BDD89C00EDC712 /* RentalCarCardListViewController.swift in Sources */,
 				824D5C2628BDD89C00EDC712 /* PaymentQRScanReactor.swift in Sources */,
-				6320415828D348D000CF7125 /* PermissionsGuideViewController.swift in Sources */,
 				824D5C2728BDD89C00EDC712 /* PaymentCard.swift in Sources */,
 				824D5C2828BDD89C00EDC712 /* CompanyInfo.swift in Sources */,
 				824D5C2928BDD89C00EDC712 /* AddressSearchCell.swift in Sources */,
@@ -4978,8 +4966,8 @@
 				824D5C9028BDD89C00EDC712 /* BoardInfo.swift in Sources */,
 				824D5C9128BDD89C00EDC712 /* BoardListViewModel.swift in Sources */,
 				824D5C9228BDD89C00EDC712 /* FilterManager.swift in Sources */,
-				6320415B28D348D000CF7125 /* PermissionsGuideReactor.swift in Sources */,
 				824D5C9328BDD89C00EDC712 /* ChargerSelectDelegate.swift in Sources */,
+				8211AAD028D362E40002C095 /* PermissionsGuideReactor.swift in Sources */,
 				824D5C9428BDD89C00EDC712 /* MyPayRegisterViewController.swift in Sources */,
 				824D5C9528BDD89C00EDC712 /* QuitAccountCompleteViewController.swift in Sources */,
 				824D5C9628BDD89C00EDC712 /* EVIcon.swift in Sources */,
@@ -5007,6 +4995,7 @@
 				824D5CAB28BDD89C00EDC712 /* PoiTableView.swift in Sources */,
 				824D5CAC28BDD89C00EDC712 /* LeftViewTableHeader.swift in Sources */,
 				824D5CAD28BDD89C00EDC712 /* AddressToLocationController.swift in Sources */,
+				8211AACD28D362E40002C095 /* MainReactor.swift in Sources */,
 				824D5CAE28BDD89C00EDC712 /* BoardTableViewHeader.swift in Sources */,
 				824D5CAF28BDD89C00EDC712 /* ChargerManager.swift in Sources */,
 				824D5CB028BDD89C00EDC712 /* MembershipCardViewController.swift in Sources */,
@@ -5021,6 +5010,7 @@
 				824D5CB828BDD89C00EDC712 /* AppNavigationDrawerController.swift in Sources */,
 				824D5CB928BDD89C00EDC712 /* BoardSearchViewModel.swift in Sources */,
 				824D5CBA28BDD89C00EDC712 /* PopUpDialog.swift in Sources */,
+				8211AAD328D362E40002C095 /* PermissionsGuideViewController.swift in Sources */,
 				824D5CBB28BDD89C00EDC712 /* UIView+Extension.swift in Sources */,
 				824D5CBC28BDD89C00EDC712 /* ChargerFilterViewController.swift in Sources */,
 				824D5CBD28BDD89C00EDC712 /* FCMManager.swift in Sources */,
@@ -5192,7 +5182,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 09061919;
+				CURRENT_PROJECT_VERSION = 09161714;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5205,7 +5195,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.3;
+				MARKETING_VERSION = 3.7.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -5233,7 +5223,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 09061919;
+				CURRENT_PROJECT_VERSION = 09161714;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5246,7 +5236,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.3;
+				MARKETING_VERSION = 3.7.4;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -5405,7 +5395,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.3;
+				MARKETING_VERSION = 3.7.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -5446,7 +5436,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.3;
+				MARKETING_VERSION = 3.7.4;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

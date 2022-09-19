@@ -121,14 +121,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .subscribe(onNext: { status in
                 switch status {
                 case .authorizedAlways, .authorizedWhenInUse:
-                    DispatchQueue.main.async {
-                        let receive = MemberManager.shared.isAllowMarketingNoti
-                        _ = Plengi.enableAdNetwork(true, enableNoti: receive)
-                        if receive, MemberManager.shared.isLogin {
-                            _ = Plengi.start()
-                        }
-                    }
-                    
                     self.naverMapView.moveToCurrentPostiion()
                                     
                 default: break
@@ -188,6 +180,29 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // MARK: REACTORKIT
     
     internal func bind(reactor: MainReactor) {
+        let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.\n정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
+        let attributeText = NSMutableAttributedString(string: message)
+        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.contentSecondary.color]
+        attributeText.setAttributes(attributes, range: NSRange(location: 0, length: message.count))
+        
+        _ = message.getArrayAfterRegex(regex: "항상 허용")
+            .map { NSRange($0, in: message) }
+            .map {
+                attributeText.setAttributes(
+                    [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
+                        .foregroundColor: Colors.contentSecondary.color],
+                    range: $0)
+            }
+        
+        _ = message.getArrayAfterRegex(regex: "‘설정>EV Infra>위치'")
+            .map { NSRange($0, in: message) }
+            .map {
+                attributeText.setAttributes(
+                    [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
+                        .foregroundColor: Colors.contentSecondary.color],
+                    range: $0)
+            }
+        
         self.rx.viewWillAppear
             .filter { _ in
                 let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
@@ -204,8 +219,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
                         .subscribe(with: self) { obj ,status in
                             switch status {
                             case .authorizedAlways, .authorizedWhenInUse:
-                                if MemberManager.shared.isFirstInstall.isEmpty {
-                                    GlobalFunctionSwift.showPopup(title: "위치 권한을 항상 허용으로\n변경해주세요.", message: "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요.", confirmBtnTitle: "항상 허용하기", confirmBtnAction: {
+                                if !MemberManager.shared.isFirstInstall {
+                                    MemberManager.shared.isFirstInstall = true
+                                    
+                                    let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
+                                                                messageAttributedText: attributeText,
+                                                                confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기", confirmBtnAction: { [weak self] in
+                                        guard let self = self else { return }
                                         if let url = URL(string: UIApplicationOpenSettingsURLString) {
                                             if UIApplication.shared.canOpenURL(url) {
                                                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -215,18 +235,25 @@ internal final class MainViewController: UIViewController, StoryboardView {
                                         Observable.just(MainReactor.Action.showMarketingPopup)
                                             .bind(to: reactor.action)
                                             .disposed(by: self.disposeBag)
-                                    }, cancelBtnTitle: "유지하기", cancelBtnAction: {
+                                    }, cancelBtnAction: { [weak self] in
+                                        guard let self = self else { return }
                                         Observable.just(MainReactor.Action.showMarketingPopup)
                                             .bind(to: reactor.action)
                                             .disposed(by: self.disposeBag)
+                                    }, textAlignment: .center)
+                                    
+                                    let popup = ConfirmPopupViewController(model: popupModel)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                                     })
+                                                                        
                                 } else {
                                     guard reactor.currentState.isShowStartBanner == nil else { return }
                                     Observable.just(MainReactor.Action.showMarketingPopup)
                                         .bind(to: reactor.action)
                                         .disposed(by: self.disposeBag)
                                 }
-                                                            
+                                                                                                                        
                             default: break
                             }
                         }
@@ -239,18 +266,26 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.compactMap { $0.isShowMarketingPopup }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, _ in
-                GlobalFunctionSwift.showPopup(title: "더 나은 충전 생활 안내를 위해 동의가 필요해요.", message: "EV Infra는 사용자님을 위해 도움되는 혜택 정보를 보내기 위해 노력합니다. 무분별한 광고 알림을 보내지 않으니 안심하세요!\n마케팅 수신 동의 변경은 설정 > 마케팅 정보 수신 동의에서 철회 가능합니다.", confirmBtnTitle: "동의하기", confirmBtnAction: { [weak self] in
+                let popupModel = PopupModel(title: "더 나은 충전 생활 안내를 위해 동의가 필요해요.",
+                                            message:"EV Infra는 사용자님을 위해 도움되는 혜택 정보를 보내기 위해 노력합니다. 무분별한 광고 알림을 보내지 않으니 안심하세요!\n마케팅 수신 동의 변경은 설정 > 마케팅 정보 수신 동의에서 철회 가능합니다.",
+                                            confirmBtnTitle: "동의하기",
+                                            cancelBtnTitle: "다음에") { [weak self] in
                     guard let self = self else { return }
                     Observable.just(MainReactor.Action.setAgreeMarketing(true))
                         .bind(to: reactor.action)
                         .disposed(by: self.disposeBag)
-                    
-                }, cancelBtnTitle: "다음에", cancelBtnAction: { [weak self] in
+                } cancelBtnAction: { [weak self] in
                     guard let self = self else { return }
                     Observable.just(MainReactor.Action.setAgreeMarketing(false))
                         .bind(to: reactor.action)
                         .disposed(by: self.disposeBag)
-                })                                    
+                }
+                
+                let popup = ConfirmPopupViewController(model: popupModel)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                }
+                                                                                
             }
             .disposed(by: self.disposeBag)
         
