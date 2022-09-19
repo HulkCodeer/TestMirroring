@@ -38,7 +38,7 @@ def shared_pods
   pod 'SnapKit', '~> 5.0.0'
   
   # Rx Extensions
-  pod 'RxCoreLocation', :git => 'https://github.com/RxSwiftCommunity/RxCoreLocation.git', :branch => 'master'
+#  pod 'RxCoreLocation', :git => 'https://github.com/RxSwiftCommunity/RxCoreLocation.git', :branch => 'master'
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
   pod 'RxViewController'
