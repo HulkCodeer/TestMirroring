@@ -10,13 +10,14 @@ import UIKit
 import AVFoundation
 import SwiftyJSON
 import ReactorKit
+import EasyTipView
 
 internal final class NewPaymentQRScanViewController: CommonBaseViewController, StoryboardView {
-    
+        
     // MARK: QR Scanner UI
     
     private lazy var naviTotalView = CommonNaviView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.naviTitleLbl.text = "QR 코드 스캔"
     }
     
@@ -74,6 +75,9 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     }
                 
     // MARK: VARIABLE
+    private var timer = Timer()
+    private var tipView = EasyTipView(text: "")
+    
     // MARK: SYSTEM FUNC
     
     override func loadView() {
@@ -158,22 +162,12 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             $0.bottom.height.equalToSuperview()
         }
         #else
-        #endif                
+        #endif
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "QR Scan 화면"
-        
-        stationSubGuideBtn.rx.tap
-            .asDriver()
-            .drive(onNext: {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                    let viewcon = MembershipGuideViewController()
-                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                })
-            })
-            .disposed(by: self.disposeBag)
     }
                     
     override func viewWillAppear(_ animated: Bool) {
@@ -182,7 +176,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
         GlobalDefine.shared.mainNavi?.interactivePopGestureRecognizer?.isEnabled = false
         
-        guard let _reactor = self.reactor else { return }                
+        guard let _reactor = self.reactor else { return }
         self.changeStationGuideWithPaymentStatusCheck(reactor: _reactor)
     }
     
@@ -267,7 +261,8 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         stationSubGuideLbl.isHidden = true
         stationSubGuideBtn.isHidden = true
         
-        switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
+//        switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
+        switch (true, true) {
         case (false, false): // 신규유저
             let tempText = "한국 전력과 GS칼텍스에서\nQR 충전을 할 수 있어요"
             let attributeText = NSMutableAttributedString(string: tempText)
@@ -325,13 +320,24 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             
             stationSubGuideLbl.isHidden = false
             stationSubGuideBtn.isHidden = false
+            stationSubGuideLbl.text = "한국전력 충전소에서도 QR충전하고 싶다면?"
+            
+            stationSubGuideBtn.rx.tap
+                .asDriver()
+                .drive(onNext: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        let viewcon = MembershipGuideViewController()
+                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                    })
+                })
+                .disposed(by: self.disposeBag)
                                                             
             Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
                 .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
                                 
         case (true, true): // 아무 이상 없는 유저
-            let tempText = "한국 전력과 GS칼텍스에서\nQR 충전을 할 수 있어요"
+            let tempText = "한국 전력 QR충전 주의사항"
             let attributeText = NSMutableAttributedString(string: tempText)
             let allRange = NSMakeRange(0, attributeText.length)
             attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPrimary.color], range: allRange)
@@ -344,10 +350,49 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
             stationGuideLbl.attributedText = attributeText
             
+            stationSubGuideLbl.isHidden = false
+            stationSubGuideBtn.isHidden = false
+            stationSubGuideLbl.text = "한국 전력 QR충전 시 주의사항"
+            
+            stationSubGuideBtn.rx.tap
+                .filter { [weak self] _ in
+                    guard let self = self else { return false }
+                    return !self.timer.isValid
+                }
+                .asDriver(onErrorJustReturn: ())
+                .drive(with: self) { obj, _ in
+                    var preferences = EasyTipView.Preferences()
+                            
+                    preferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
+                    preferences.drawing.foregroundColor = Colors.backgroundSecondary.color
+                    preferences.drawing.textAlignment = NSTextAlignment.center
+        
+                    preferences.drawing.arrowPosition = .top
+                    preferences.animating.showInitialAlpha = 1
+                    preferences.animating.showDuration = 1
+                    preferences.animating.dismissDuration = 1
+                    preferences.positioning.maxWidth = 294
+        
+                    let text = "충전기에 따라 QR코드 이미지 화질 저하로\nQR스캔까지 시간이 걸릴 수 있어요.\n번호 입력 및 카드 태깅으로도 충전 가능해요."
+                    obj.tipView = EasyTipView(text: text, preferences: preferences)
+                    obj.tipView.show(forView: self.stationSubGuideLbl)
+                    
+                    obj.timer = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { (timer) in
+                        obj.tipView.dismiss()
+                        timer.invalidate()
+                    }
+                }
+                .disposed(by: self.disposeBag)
+                        
             Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
                 .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
         }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.timer.invalidate()
+        self.tipView.dismiss()
     }
 }
 
