@@ -261,11 +261,11 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IRQ-4p-k8i">
-                                                        <rect key="frame" x="0.0" y="49" width="343" height="150.5"/>
-                                                        <string key="text">- 미수금 발생 시, 충전 및 회원 카드 사용이 제한됩니다. 
-- 미수금 결제 완료 시, 충전 제한 및 회원카드 제한이 풀립니다. 
+                                                        <rect key="frame" x="0.0" y="49" width="343" height="167.5"/>
+                                                        <string key="text">- 미수금 발생 시, 충전 및 EV Pay카드 사용이 제한됩니다. 
+- 미수금 결제 완료 시, 충전 제한 및 EV Pay카드 제한이 풀립니다. 
 
-- 자세한 충전 내역은 좌측메뉴 &gt; 마이페이지 &gt; PAY &gt; 충전이력 조회 메뉴에서 확인 가능합니다. 
+- 자세한 충전 내역은 좌측메뉴 &gt; 마이페이지 &gt; EV Pay &gt; 충전이력 조회 메뉴에서 확인 가능합니다. 
 
 - 궁금한 점은 고객센터로 문의해주세요.
 문의전화 :  070-8633-9009</string>
@@ -1748,11 +1748,6 @@
             <point key="canvasLocation" x="22" y="2758"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="DfT-ax-pEZ">
-            <size key="intrinsicContentSize" width="8.5" height="21.5"/>
-        </designable>
-    </designables>
     <resources>
         <image name="icon_arrow_left_md" width="24" height="24"/>
         <image name="icon_check_md" width="24" height="24"/>
@@ -1762,7 +1757,7 @@
         <image name="icon_refresh_sm" width="20" height="20"/>
         <image name="qr_box" width="285" height="284"/>
         <namedColor name="background-positive">
-            <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="background-primary">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

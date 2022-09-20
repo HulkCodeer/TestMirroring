@@ -30,7 +30,7 @@ internal final class MembershipUseGuideViewController: BaseViewController, WKUID
     override func loadView() {
         super.loadView()
         
-        prepareActionBar(with: "회원카드 사용 안내")
+        prepareActionBar(with: "EV Pay 카드 사용 안내")
                         
         view.addSubview(self.webView)
         webView.snp.makeConstraints {
