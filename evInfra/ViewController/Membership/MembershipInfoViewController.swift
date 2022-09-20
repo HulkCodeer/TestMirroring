@@ -100,7 +100,7 @@ internal final class MembershipInfoViewController: BaseViewController {
         navigationItem.leftViews = [backButton]
         navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "회원카드 상세"
+        navigationItem.titleLabel.text = "EV Pay 카드 상세"
         self.navigationController?.isNavigationBarHidden = false
     }
     

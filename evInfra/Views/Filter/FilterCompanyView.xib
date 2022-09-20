@@ -28,14 +28,14 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mqe-GW-FqV">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="174"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EV Infra 회원카드 필터 적용하기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uzp-mK-Ah3">
-                                    <rect key="frame" x="16" y="10" width="186" height="17"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EV Pay 필터 적용하기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uzp-mK-Ah3">
+                                    <rect key="frame" x="16" y="10" width="127" height="17"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                     <color key="textColor" name="content-primary"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="회원카드로 결제 가능한 충전소만 보여드립니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xKL-BB-SZw">
-                                    <rect key="frame" x="16" y="31" width="261.5" height="17"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EV Pay로 충전 가능한 충전소만 보여드립니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xKL-BB-SZw">
+                                    <rect key="frame" x="16" y="31" width="257.5" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" name="content-tertiary"/>
                                     <nil key="highlightedColor"/>

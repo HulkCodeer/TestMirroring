@@ -280,9 +280,9 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             stationGuideLbl.attributedText = attributeText
             guideLbl.text = "QR 코드를 비추면 자동으로 스캔되어요"
             
-            let popupModel = PopupModel(title: "회원카드 발급이 필요해요",
-                                        message: "회원카드를 발급 해야 한국전력, GS칼텍스의 QR 충전을 이용할 수 있어요.",
-                                        confirmBtnTitle: "회원카드 발급하기", cancelBtnTitle: "닫기",
+            let popupModel = PopupModel(title: "EV Pay카드 발급이 필요해요",
+                                        message: "EV Pay카드를 발급 해야 한국전력, GS칼텍스의 QR 충전을 이용할 수 있어요.",
+                                        confirmBtnTitle: "EV Pay 발급하기", cancelBtnTitle: "닫기",
                                         confirmBtnAction: {
                 let viewcon = MembershipGuideViewController()
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)

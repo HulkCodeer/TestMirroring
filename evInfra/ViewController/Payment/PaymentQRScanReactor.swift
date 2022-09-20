@@ -125,7 +125,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 
             case .PAY_NO_USER, .PAY_NO_CARD_USER:
                 let popupModel = PopupModel(title: "결제정보를 등록해야 해요",
-                                            message: "회원카드를 발급 해야 한국전력, GS칼텍스의 QR 충전을 이용할 수 있어요.",
+                                            message: "현재 회원님은 EV Pay카드는 있지만\n결제정보가 등록되어있지 않아요.\n등록 후 다시 스캔해주세요.",
                                             confirmBtnTitle: "회원카드 발급하기", cancelBtnTitle: "닫기",
                                             confirmBtnAction: {
                     let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
@@ -185,7 +185,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             case 8801: // 결제 정보 등록 안된 회원
                 let popupModel = PopupModel(title: "\(title)",
                                             message: "\(msg)",
-                                            confirmBtnTitle: "회원카드 발급하기", cancelBtnTitle: "닫기",
+                                            confirmBtnTitle: "EV Pay카드 발급하기", cancelBtnTitle: "닫기",
                                             confirmBtnAction: {
                     let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)

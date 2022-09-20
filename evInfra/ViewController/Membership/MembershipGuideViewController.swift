@@ -37,7 +37,7 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     
     private lazy var membershipBtnTitleLbl = UILabel().then {
         
-        $0.text = "회원카드 만들기"
+        $0.text = "EV Pay카드 만들기"
         $0.textColor = UIColor(named: "nt-9")
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textAlignment = .center

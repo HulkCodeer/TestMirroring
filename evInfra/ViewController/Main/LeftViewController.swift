@@ -91,7 +91,7 @@ internal final class LeftViewController: UIViewController {
     // Company id Arr (get each row's company id)
     var companyNameArr:Array = Array<String>()
     
-    var sideSectionArrays = [["마이페이지", "PAY"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["배터리 진단 정보"], ["설정"]]
+    var sideSectionArrays = [["마이페이지", "EV Pay"], ["커뮤니티", "제휴 커뮤니티"], ["이벤트/쿠폰"], ["전기차 정보"], ["배터리 진단 정보"], ["설정"]]
     
     var menuIndex = 0
     
@@ -170,7 +170,7 @@ internal final class LeftViewController: UIViewController {
  
     private func initSideViewArr() {
         let mypage0Arr = ["개인정보 관리", "내가 쓴 글 보기", "충전소 제보내역"]
-        let mypage1Arr = ["결제카드 관리", "회원카드 관리", "렌터카 정보 관리" , "충전이력 조회", "포인트 조회"]
+        let mypage1Arr = ["결제카드 관리", "EV Pay카드 관리", "렌터카 정보 관리" , "충전이력 조회", "포인트 조회"]
         let mypageArr:[Array<String>] = [mypage0Arr, mypage1Arr]
         
         let commu0Arr = ["EV Infra 공지", "자유 게시판", "충전소 게시판"]
@@ -571,9 +571,9 @@ extension LeftViewController {
             }
         } else if index.row == SUB_MENU_MY_EVCARD_INFO {
             if MemberManager.shared.hasMembership {
-                cell.menuLabel.text = "회원카드 관리"
+                cell.menuLabel.text = "EV Pay카드 관리"
             } else {
-                cell.menuLabel.text = "회원카드 신청"
+                cell.menuLabel.text = "EV Pay카드 신청"
             }
         }
     }
