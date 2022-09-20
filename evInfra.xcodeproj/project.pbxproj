@@ -177,6 +177,17 @@
 		596522E428BEF49B00FD4025 /* NoticeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E228BEF3E800FD4025 /* NoticeList.swift */; };
 		596522E628C877F000FD4025 /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
 		596522E728C877F000FD4025 /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
+		5975BD4F28D97C0C00910F6F /* NoticeDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */; };
+		5975BD5028D97C9300910F6F /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C9208993BE009535EE /* NoticeTableViewCell.swift */; };
+		5975BD5128D97CB200910F6F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7D28D32A49001A18B5 /* Constants.swift */; };
+		5975BD5228D97CBA00910F6F /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
+		5975BD5328D97CD100910F6F /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D628BC8B1C00FD4025 /* Notice.swift */; };
+		5975BD5428D97CF000910F6F /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
+		5975BD5528D97D0500910F6F /* NewNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */; };
+		5975BD5628D97D1800910F6F /* NoticeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D928BE0D0600FD4025 /* NoticeReactor.swift */; };
+		5975BD5728D97DAA00910F6F /* NewNoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */; };
+		5975BD5828D97DBB00910F6F /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
+		5975BD5928D97DC900910F6F /* NoticeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E228BEF3E800FD4025 /* NoticeList.swift */; };
 		59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
 		59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
 		59EC3B7C28D32A33001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
@@ -4868,10 +4879,12 @@
 				824D5C3E28BDD89C00EDC712 /* ReissuanceModel.swift in Sources */,
 				824D5C3F28BDD89C00EDC712 /* GuideAlertDialog.swift in Sources */,
 				824D5C4028BDD89C00EDC712 /* CommonBaseViewController.swift in Sources */,
+				5975BD5028D97C9300910F6F /* NoticeTableViewCell.swift in Sources */,
 				824D5C4128BDD89C00EDC712 /* MemberOtherInfo.swift in Sources */,
 				824D5C4228BDD89C00EDC712 /* BoardDetailTableViewHeader.swift in Sources */,
 				824D5C4328BDD89C00EDC712 /* NaverMapView.swift in Sources */,
 				824D5C4428BDD89C00EDC712 /* Icons+Generated.swift in Sources */,
+				5975BD5228D97CBA00910F6F /* ViewConstants.swift in Sources */,
 				824D5C4528BDD89C00EDC712 /* AmpChargerStationModel.swift in Sources */,
 				824D5C4628BDD89C00EDC712 /* StationStatusDto.swift in Sources */,
 				824D5C4728BDD89C00EDC712 /* Arrow.swift in Sources */,
@@ -4906,6 +4919,7 @@
 				824D5C6428BDD89C00EDC712 /* UIScrollView+Extension.swift in Sources */,
 				824D5C6528BDD89C00EDC712 /* RegisterResultViewController.swift in Sources */,
 				824D5C6628BDD89C00EDC712 /* Snackbar.swift in Sources */,
+				5975BD5428D97CF000910F6F /* DateConstants.swift in Sources */,
 				824D5C6728BDD89C00EDC712 /* RectButton.swift in Sources */,
 				824D5C6828BDD89C00EDC712 /* ChargerStationInfo.swift in Sources */,
 				824D5C6928BDD89C00EDC712 /* Login.swift in Sources */,
@@ -4975,6 +4989,7 @@
 				824D5CA928BDD89C00EDC712 /* EventTableViewCell.swift in Sources */,
 				824D5CAA28BDD89C00EDC712 /* CidTableView.swift in Sources */,
 				824D5CAB28BDD89C00EDC712 /* PoiTableView.swift in Sources */,
+				5975BD5828D97DBB00910F6F /* NoticeCellReactor.swift in Sources */,
 				824D5CAC28BDD89C00EDC712 /* LeftViewTableHeader.swift in Sources */,
 				824D5CAD28BDD89C00EDC712 /* AddressToLocationController.swift in Sources */,
 				824D5CAE28BDD89C00EDC712 /* BoardTableViewHeader.swift in Sources */,
@@ -4982,6 +4997,7 @@
 				824D5CB028BDD89C00EDC712 /* MembershipCardViewController.swift in Sources */,
 				824D5CB128BDD89C00EDC712 /* GroupViewController.swift in Sources */,
 				824D5CB228BDD89C00EDC712 /* NavigationClose.swift in Sources */,
+				5975BD5328D97CD100910F6F /* Notice.swift in Sources */,
 				824D5CB128BDD89C00EDC712 /* GroupViewController.swift in Sources */,
 				824D5CB328BDD89C00EDC712 /* ClusterGenerator.swift in Sources */,
 				824D5CB428BDD89C00EDC712 /* ChargesTableViewCell.swift in Sources */,
@@ -4994,6 +5010,8 @@
 				824D5CBB28BDD89C00EDC712 /* UIView+Extension.swift in Sources */,
 				824D5CBC28BDD89C00EDC712 /* ChargerFilterViewController.swift in Sources */,
 				824D5CBD28BDD89C00EDC712 /* FCMManager.swift in Sources */,
+				5975BD5528D97D0500910F6F /* NewNoticeViewController.swift in Sources */,
+				5975BD5628D97D1800910F6F /* NoticeReactor.swift in Sources */,
 				824D5CBE28BDD89C00EDC712 /* MembershipIssuanceViewController.swift in Sources */,
 				824D5CBF28BDD89C00EDC712 /* ChargerDetailViewController.swift in Sources */,
 				824D5CC028BDD89C00EDC712 /* AppDelegate.swift in Sources */,
@@ -5004,6 +5022,7 @@
 				824D5CC528BDD89C00EDC712 /* NewPaymentQRScanViewController.swift in Sources */,
 				824D5CC628BDD89C00EDC712 /* SearchAddressViewDelegate.swift in Sources */,
 				824D5CC728BDD89C00EDC712 /* MyArticleViewController.swift in Sources */,
+				5975BD4F28D97C0C00910F6F /* NoticeDetailReactor.swift in Sources */,
 				824D5CC828BDD89C00EDC712 /* LotteRentCertificateViewController.swift in Sources */,
 				824D5CC928BDD89C00EDC712 /* BoardSearchViewController.swift in Sources */,
 				824D5CCA28BDD89C00EDC712 /* SignUpViewController.swift in Sources */,
@@ -5040,6 +5059,8 @@
 				824D5CE828BDD89C00EDC712 /* Radio.swift in Sources */,
 				824D5CE928BDD89C00EDC712 /* FilterContainerView.swift in Sources */,
 				824D5CEA28BDD89C00EDC712 /* MemberPartnershipInfo.swift in Sources */,
+				5975BD5928D97DC900910F6F /* NoticeList.swift in Sources */,
+				5975BD5728D97DAA00910F6F /* NewNoticeTableViewCell.swift in Sources */,
 				824D5CEB28BDD89C00EDC712 /* Const.swift in Sources */,
 				824D5CEC28BDD89C00EDC712 /* MembershipQRViewController.swift in Sources */,
 				824D5CED28BDD89C00EDC712 /* CouponCodeViewController.swift in Sources */,
@@ -5060,6 +5081,7 @@
 				824D5CFB28BDD89C00EDC712 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				824D5CFC28BDD89C00EDC712 /* PaymentTableViewCell.swift in Sources */,
 				824D5CFD28BDD89C00EDC712 /* QuitAccountReasonQuestionReactor.swift in Sources */,
+				5975BD5128D97CB200910F6F /* Constants.swift in Sources */,
 				824D5CFE28BDD89C00EDC712 /* CopyableLabel.swift in Sources */,
 				824D5CFF28BDD89C00EDC712 /* CLLocationCoordinate2D.swift in Sources */,
 				824D5D0028BDD89C00EDC712 /* ReportChargeViewController.swift in Sources */,
@@ -5166,7 +5188,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 09061919;
+				CURRENT_PROJECT_VERSION = 09201428;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5179,7 +5201,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.3;
+				MARKETING_VERSION = 3.7.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -5207,7 +5229,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 09061919;
+				CURRENT_PROJECT_VERSION = 09201428;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5220,7 +5242,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.3;
+				MARKETING_VERSION = 3.7.4;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -5379,7 +5401,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.3;
+				MARKETING_VERSION = 3.7.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -5420,7 +5442,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.3;
+				MARKETING_VERSION = 3.7.4;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -5461,7 +5483,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.3;
+				MARKETING_VERSION = 3.7.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -5502,7 +5524,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.3;
+				MARKETING_VERSION = 3.7.4;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
