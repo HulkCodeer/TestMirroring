@@ -10,11 +10,16 @@ import UIKit
 import RxSwift
 
 internal class CommonBaseTableViewCell: UITableViewCell {
-    internal lazy var totalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-
+    
+    // MARK: UI
+    
+    internal lazy var totalView = UIView()
+    
+    // MARK: VARIABLE
+    
     internal var cellDisposeBag = DisposeBag()
+    
+    //MARK: SYSTEM FUNC
 
     override func awakeFromNib() {
         super.awakeFromNib()

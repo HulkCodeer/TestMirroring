@@ -24,12 +24,10 @@ internal final class LoginViewController: UIViewController {
     @IBOutlet var kakaoLastLoginGuideLbl: UILabel!
     @IBOutlet var kakaoGuideTotalView: UIView!
     
-    private lazy var appleGuideTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var appleGuideTotalView = UIView()
     
     private lazy var appleLastLoginGuideLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.textAlignment = .natural
         $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
