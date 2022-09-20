@@ -54,7 +54,7 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     override func loadView() {
         super.loadView()
         
-        prepareActionBar(with: "회원카드 안내")
+        prepareActionBar(with: "EV Pay카드 안내")
         
         view.addSubview(self.membershipRegisterBtn)
         membershipRegisterBtn.snp.makeConstraints {
