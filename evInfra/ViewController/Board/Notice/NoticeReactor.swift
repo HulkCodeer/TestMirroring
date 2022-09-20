@@ -11,6 +11,10 @@ import Foundation
 import ReactorKit
 import RxSwift
 
+protocol NoticeReactorDelegate: class {
+    func unkownDetailData()
+}
+
 final class NoticeReactor: ViewModel, Reactor {
     enum Action {
         case loadNotices
@@ -82,6 +86,8 @@ final class NoticeReactor: ViewModel, Reactor {
                 .drive { _ in
                     let noticeID = item.id
                     let noticeDetailReactor = NoticeDetailReactor(provider: RestApi(), noticeID: noticeID)
+                    noticeDetailReactor.delegate = self
+                    
                     let noticeDetailVC = NewNoticeDetailViewController(reactor: noticeDetailReactor)
                     GlobalDefine.shared.mainNavi?.push(viewController: noticeDetailVC)
                 }
@@ -98,4 +104,15 @@ final class NoticeReactor: ViewModel, Reactor {
             GlobalDefine.shared.mainNavi?.pop()
         }
     }
+}
+
+// MARK: NoticeReactorDelegate
+
+extension NoticeReactor: NoticeReactorDelegate {
+    func unkownDetailData() {
+        Observable.just(NoticeReactor.Action.loadNotices)
+            .bind(to: self.action)
+            .disposed(by: disposeBag)
+    }
+    
 }

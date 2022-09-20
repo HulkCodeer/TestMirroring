@@ -14,6 +14,8 @@ import SwiftyJSON
 
 internal final class NoticeDetailReactor: ViewModel, Reactor {
     typealias Contents = (title: String, date: String, html: String)
+    weak var delegate: NoticeReactorDelegate?
+
     enum Action {
         case loadHTML
     }
@@ -84,6 +86,8 @@ internal final class NoticeDetailReactor: ViewModel, Reactor {
 
     private func errorHandler(errorMsg: String) {
         Snackbar().show(message: errorMsg)
+        
+        delegate?.unkownDetailData()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             GlobalDefine.shared.mainNavi?.pop()
