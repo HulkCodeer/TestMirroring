@@ -17,7 +17,7 @@ internal class CommonBaseViewController: UIViewController {
     // MARK: UI
     
     internal lazy var contentView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.backgroundColor = .white
         self.view.addSubview($0)
         $0.snp.makeConstraints {
@@ -110,7 +110,7 @@ internal class CommonBaseViewController: UIViewController {
     
     internal func createLineView(color: UIColor? = Colors.borderOpaque.color) -> UIView {
         return UIView().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            
             $0.backgroundColor = color
         }
     }

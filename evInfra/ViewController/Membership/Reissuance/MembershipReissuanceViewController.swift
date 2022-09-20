@@ -14,12 +14,10 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     
     // MARK: UI
     
-    private lazy var totalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var totalView = UIView()
     
     private lazy var guideLblTop = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "재발급 신청 전, 본인 확인을 위해"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         $0.textAlignment = .left
@@ -27,7 +25,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     }
     
     private lazy var guideLblBottom = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "결제 비밀번호를 입력해주세요."
         $0.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         $0.textAlignment = .left
@@ -35,12 +33,12 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     }
     
     private lazy var passwordTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "비밀번호"
     }
     
     private lazy var passwordInputTf = UITextField().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.keyboardType = .numberPad
         $0.isSecureTextEntry = true
         $0.delegate = self
@@ -50,18 +48,15 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     }
     
     private lazy var clearTxtImgView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.image = UIImage(named: "icon_close_md")
         $0.tintColor = UIColor(named: "content-primary")
         $0.isHidden = true
     }
     
-    private lazy var clearTxtBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var clearTxtBtn = UIButton()
     
     private lazy var findPasswordGuideLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 12, weight: .bold)
         $0.textColor = UIColor(named: "content-primary")
         $0.textAlignment = .natural
@@ -72,12 +67,9 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
         $0.attributedText = attributedText
     }
     
-    private lazy var moveFindPasswordBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var moveFindPasswordBtn = UIButton()
     
     private lazy var nextBtn = NextButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("다음", for: .normal)
         $0.setTitleColor(UIColor(named: "content-primary"), for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -85,7 +77,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     }
     
     private lazy var negativeMessageLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.textColor = UIColor(named: "content-negative")
         $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
     }

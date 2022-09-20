@@ -21,26 +21,21 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     // MARK: UI
     
     private lazy var naviTotalView = CommonNaviView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.naviTitleLbl.text = "회원탈퇴"
     }
     
     private lazy var totalScrollView = UIScrollView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.showsVerticalScrollIndicator = true
         $0.showsHorizontalScrollIndicator = false
     }
     
-    private lazy var totalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private lazy var dismissKeyboardBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var totalView = UIView()
+    private lazy var dismissKeyboardBtn = UIButton()
         
     private lazy var mainTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textColor = Colors.backgroundAlwaysDark.color
         $0.textAlignment = .natural
@@ -49,7 +44,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     private lazy var subTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
         $0.textAlignment = .natural
@@ -58,14 +53,14 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     private lazy var selectBoxTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.IBborderColor = Colors.borderOpaque.color
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 6
     }
     
     private lazy var selectBoxTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .natural
@@ -74,21 +69,18 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     private lazy var selectBoxArrow = ChevronArrow.init(.size24(.down)).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.IBimageColor = Colors.contentPrimary.color
     }
     
-    private lazy var selectBoxTotalBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var selectBoxTotalBtn = UIButton()
     
     private lazy var reasonTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.isHidden = true
     }
     
     private lazy var reasonMainTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "더 자세하게 말씀해주세요."
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.numberOfLines = 1
@@ -97,25 +89,25 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     private lazy var reasonBorderView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 6
         $0.IBborderColor = Colors.borderOpaque.color
     }
     
     private lazy var reasonNegativeTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.isHidden = true
     }
 
     private lazy var reasonNegativeIconImgView = Info(.size16).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.IBimageWidth = 16
         $0.IBimageColor = Colors.contentNegative.color
     }
     
     private lazy var reasonNegativeLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         $0.textColor = Colors.contentNegative.color
         $0.text = "1200자 이상 작성할 수 없습니다."
@@ -123,7 +115,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
             
     private lazy var reasonTextView = UITextView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.showsVerticalScrollIndicator = false
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = Colors.nt9.color
@@ -133,7 +125,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     private lazy var reasonTextCountLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
         $0.text = "0  / 1200"
@@ -142,7 +134,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     private lazy var nextBtn = RectButton(level: .primary).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.setTitle("다음", for: .normal)
         $0.setTitle("다음", for: .disabled)                
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)

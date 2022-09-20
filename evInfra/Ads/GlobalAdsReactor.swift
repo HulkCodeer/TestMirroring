@@ -46,11 +46,11 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
                 .compactMap { .setAds($0) }
             
         case .addEventClickCount(let eventId):
-            _ = self.provider.logAds(adId: [eventId], action: Promotion.Action.click.toValue)
+            _ = self.provider.logAds(adId: [eventId], action: Promotion.Action.click.toValue, page: .start, layer: .bottom)
             return .empty()
             
         case .addEventViewCount(let eventId):
-            _ = self.provider.logAds(adId: [eventId], action: Promotion.Action.view.toValue)
+            _ = self.provider.logAds(adId: [eventId], action: Promotion.Action.view.toValue, page: .start, layer: .bottom)
             return .empty()
             
         }

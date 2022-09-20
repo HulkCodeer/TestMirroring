@@ -20,7 +20,7 @@ internal final class MembershipUseGuideViewController: BaseViewController, WKUID
     }
     
     private lazy var webView = WKWebView(frame: CGRect.zero, configuration: self.config).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.navigationDelegate = self
         $0.uiDelegate = self
     }

@@ -288,7 +288,7 @@ internal final class BottomSheetCell: UITableViewCell {
     
     private func createLineView(color: UIColor? = Colors.borderOpaque.color) -> UIView {
         UIView().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            
             $0.backgroundColor = color
         }
     }

@@ -16,6 +16,8 @@ class CommunityBoardAdsCell: UITableViewCell {
     @IBOutlet weak var adsDescriptionLabel: UILabel!
     @IBOutlet weak var adsImageView: UIImageView!
     
+    internal var category: Board.CommunityType = .FREE
+    
     private var adUrl: String? = ""
     private var adId: String? = ""
     private var item: BoardListItem? = nil
@@ -47,7 +49,8 @@ class CommunityBoardAdsCell: UITableViewCell {
         adsTitleLabel.text = item.nick_name
         adsDescriptionLabel.text = "advertisement"
         adsImageView.sd_setImage(with: URL(string: "\(Const.AWS_IMAGE_SERVER)/\(item.cover_filename ?? "")")) { (_, _, _, _) in
-            EIAdManager.sharedInstance.logEvent(adIds: [item.document_srl ?? ""], action: .view, page: .free, layer: .mid)
+            let page: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: self.category)
+            EIAdManager.sharedInstance.logEvent(adIds: [item.document_srl ?? ""], action: .view, page: page, layer: .mid)
         }
         adUrl = item.module_srl
         adId = item.document_srl
@@ -61,7 +64,8 @@ class CommunityBoardAdsCell: UITableViewCell {
         if let url = URL(string: adUrl) {
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                EIAdManager.sharedInstance.logEvent(adIds: [adId ?? ""], action: Promotion.Action.click, page: Promotion.Page.event, layer: Promotion.Layer.mid)
+                let page: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: category)
+                EIAdManager.sharedInstance.logEvent(adIds: [adId ?? ""], action: Promotion.Action.click, page: page, layer: .mid)
                 
                 guard let item = self.item else { return }
                 let property: [String: Any] = ["bannerType": "게시판 배너",

@@ -88,6 +88,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 guard let adCell = Bundle.main.loadNibNamed("CommunityBoardAdsCell", owner: self, options: nil)?.first as? CommunityBoardAdsCell else { return UITableViewCell() }
                 
                 adCell.selectionStyle = .none
+                adCell.category = category
                 adCell.configuration(item: communityBoardList[indexPath.row])
                 
                 return adCell
@@ -110,6 +111,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
                 guard let adCell = Bundle.main.loadNibNamed("CommunityBoardAdsCell", owner: self, options: nil)?.first as? CommunityBoardAdsCell else { return UITableViewCell() }
                 
                 adCell.selectionStyle = .none
+                adCell.category = category
                 adCell.configuration(item: communityBoardList[indexPath.row])
 
                 return adCell

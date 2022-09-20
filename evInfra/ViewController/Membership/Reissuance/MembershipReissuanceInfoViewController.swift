@@ -22,38 +22,36 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     // MARK: UI
     
     private lazy var totalScrollView = UIScrollView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
     }
     
-    private lazy var totalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var totalView = UIView()
     
     private lazy var guideStrTopLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "카드 배송 정보를 입력해주세요"
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textColor = UIColor(named: "content-primary")
     }
     
     private lazy var guideStrBottomLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "입력된 정보로 카드 우편 배송되어요! 📮"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-secondary")
     }
     
     private lazy var nameTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "수령인 이름"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-secondary")
     }
     
     private lazy var nameTf = UITextField().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-tertiary")
         $0.IBborderColor = UIColor(named: "border-opaque")
@@ -63,14 +61,14 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     }
     
     private lazy var phoneTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "연락처"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-secondary")
     }
     
     private lazy var phoneTf = UITextField().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-tertiary")
         $0.keyboardType = .numberPad
@@ -82,26 +80,24 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     }
     
     private lazy var addressTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "수령 주소"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-secondary")
     }
     
     private lazy var addressStackView = UIStackView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.axis = .horizontal
         $0.distribution = .fillEqually
         $0.alignment = .fill
         $0.spacing = 8
     }
     
-    private lazy var totalSearchAddressBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var totalSearchAddressBtn = UIButton()
     
     private lazy var moveSearchAddressBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.setTitle("우편번호 검색", for: .normal)
         $0.setTitle("우편번호 검색", for: .disabled)
         $0.setTitleColor(UIColor(named: "content-secondary"), for: .normal)
@@ -113,7 +109,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     }
     
     private lazy var zipCodeTf = UITextField().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-tertiary")
         $0.keyboardType = .numberPad
@@ -125,7 +121,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     }
     
     private lazy var addressTf = UITextField().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-tertiary")
         $0.IBborderColor = UIColor(named: "border-opaque")
@@ -136,7 +132,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     }
     
     private lazy var detailAddressTf = UITextField().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-tertiary")
         $0.IBborderColor = UIColor(named: "border-opaque")
@@ -146,7 +142,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     }
     
     private lazy var completeBtn = NextButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.setTitle("재발급 신청 완료", for: .normal)
         $0.setTitleColor(UIColor(named: "content-primary"), for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)

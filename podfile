@@ -8,42 +8,68 @@ platform :ios, '10.0'
 use_frameworks!
 
 def shared_pods
-  pod 'Amplitude', '~> 8.8.0'
-  pod 'SnapKit', '~> 5.0.0'
+  # Architecture
   pod 'ReactorKit'
-  pod 'Then'
-  pod 'RxSwift', '6.5.0'
-  pod 'RxCocoa', '6.5.0'  
-  pod 'ReusableKit', :git => 'https://github.com/devxoul/ReusableKit', :branch => 'master'
-  pod 'RxDataSources', '~> 5.0'
-  pod 'Material', '~> 2.0'
-  pod 'MaterialComponents/Snackbar';
-  pod 'MaterialComponents/BottomSheet'
+  
+  # Networking
   pod 'RxAlamofire'
-  pod 'AlamofireImage', '~> 4.1'
+  
+  # JSON Mapping
   pod 'SwiftyJSON'
   pod 'HandyJSON'
+  
+  # UI
+  pod 'ReusableKit', :git => 'https://github.com/devxoul/ReusableKit', :branch => 'master'
+  pod 'FSPagerView'
+  pod 'Then'
+  pod 'Material', '~> 2.0'
+  pod 'MaterialComponents/Snackbar'
+  pod 'MaterialComponents/BottomSheet'
+  pod 'UIImageCropper'
+  pod 'M13Checkbox'                   # For material checkbox
+  pod 'DropDown'                      # For spinner
+  pod 'EasyTipView', '~> 2.1.0'
+  pod 'PanModal'
+  pod 'JJFloatingActionButton'
+  pod 'DLRadioButton', '~> 1.4'
+  pod 'TTGTagCollectionView'
+  
+  # Auto Layout
+  pod 'SnapKit', '~> 5.0.0'
+  
+  # Rx Extensions
+#  pod 'RxCoreLocation', :git => 'https://github.com/RxSwiftCommunity/RxCoreLocation.git', :branch => 'master'
+  pod 'RxSwift', '6.5.0'
+  pod 'RxCocoa', '6.5.0'
+  pod 'RxViewController'
+  pod 'RxDataSources', '~> 5.0'
+    
+  # Firebase
   pod 'Firebase/Core'                 # For firebase Core
   pod 'Firebase/Messaging'            # For firebase Messaging
   pod 'FirebaseCrashlytics'           # For firebase Crashlytics
   pod 'Firebase/Analytics'
   pod 'Firebase/DynamicLinks'
-  pod 'UIImageCropper'
+  
+  # Image
+  pod 'AlamofireImage', '~> 4.1'
   pod 'SDWebImage/GIF'
-  pod 'M13Checkbox'                   # For material checkbox
-  pod 'DropDown'                      # For spinner
-  pod 'GRDB.swift'
-  pod 'KeychainSwift', '~> 13.0'      # For keychain
-  pod 'JJFloatingActionButton'
-  pod 'ExpyTableView', '~> 1.2.1'
-  pod 'EasyTipView', '~> 2.1.0'
   pod 'SwiftyGif'
-  pod 'DLRadioButton', '~> 1.4'
+  
+  # SQLite
+  pod 'GRDB.swift', '5.11.0'
+      
+  # Keychain
+  pod 'KeychainSwift', '~> 13.0'      # For keychain
+  
+  # Formmater
   pod 'AnyFormatKit'
-  pod 'TTGTagCollectionView'
-  pod 'PanModal'
+  
+  # Map
   pod 'NMapsMap'
-  pod 'FSPagerView'
+  
+  pod 'Amplitude', '~> 8.8.0'
+  
 end
 
 target 'evInfra' do
