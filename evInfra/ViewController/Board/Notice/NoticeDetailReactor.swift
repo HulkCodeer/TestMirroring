@@ -14,7 +14,7 @@ import SwiftyJSON
 
 internal final class NoticeDetailReactor: ViewModel, Reactor {
     typealias Contents = (title: String, date: String, html: String)
-    weak var delegate: NoticeReactorDelegate?
+    internal weak var delegate: NoticeReactorDelegate?
 
     enum Action {
         case loadHTML

@@ -15,7 +15,7 @@ protocol NoticeReactorDelegate: class {
     func unkownDetailData()
 }
 
-final class NoticeReactor: ViewModel, Reactor {
+internal final class NoticeReactor: ViewModel, Reactor {
     enum Action {
         case loadNotices
     }
