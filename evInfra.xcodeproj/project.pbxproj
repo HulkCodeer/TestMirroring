@@ -161,6 +161,9 @@
 		59317D1328B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
 		59317D1528B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */; };
 		59317D1628B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */; };
+		5963FA7F28DAF34800F8FA93 /* WKWebView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5963FA7E28DAF34800F8FA93 /* WKWebView+Extension.swift */; };
+		5963FA8028DAF36100F8FA93 /* WKWebView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5963FA7E28DAF34800F8FA93 /* WKWebView+Extension.swift */; };
+		5963FA8128DAF36100F8FA93 /* WKWebView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5963FA7E28DAF34800F8FA93 /* WKWebView+Extension.swift */; };
 		596522D428BC7B9A00FD4025 /* NoticeDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */; };
 		596522D528BC7EFD00FD4025 /* NoticeDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */; };
 		596522D728BC8B1C00FD4025 /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D628BC8B1C00FD4025 /* Notice.swift */; };
@@ -1536,6 +1539,7 @@
 		52D0F669279E33B80070824E /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
 		59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoticeDetailViewController.swift; sourceTree = "<group>"; };
 		59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoticeViewController.swift; sourceTree = "<group>"; };
+		5963FA7E28DAF34800F8FA93 /* WKWebView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Extension.swift"; sourceTree = "<group>"; };
 		596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailReactor.swift; sourceTree = "<group>"; };
 		596522D628BC8B1C00FD4025 /* Notice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
 		596522D928BE0D0600FD4025 /* NoticeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeReactor.swift; sourceTree = "<group>"; };
@@ -2829,6 +2833,7 @@
 				73D65D6F2358498B00F564A2 /* Validators.swift */,
 				192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */,
 				63DA0A08282E44020021292C /* SC_TRACE.swift */,
+				5963FA7E28DAF34800F8FA93 /* WKWebView+Extension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -4318,6 +4323,7 @@
 				63F31437284EC74F001713D2 /* PointUseGuideViewController.swift in Sources */,
 				63F31438284EC74F001713D2 /* TagFlowLayout.swift in Sources */,
 				63F31439284EC74F001713D2 /* PreUsePointViewController.swift in Sources */,
+				5963FA8028DAF36100F8FA93 /* WKWebView+Extension.swift in Sources */,
 				63F3143A284EC74F001713D2 /* UIButton+Extension.swift in Sources */,
 				63F3143B284EC74F001713D2 /* JSON+Extension.swift in Sources */,
 				63F3143C284EC74F001713D2 /* ChargerConst.swift in Sources */,
@@ -4629,6 +4635,7 @@
 				00F1AC7727031FAA009847E7 /* PreUsePointViewController.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton+Extension.swift in Sources */,
 				63DA09FF282E2F440021292C /* JSON+Extension.swift in Sources */,
+				5963FA7F28DAF34800F8FA93 /* WKWebView+Extension.swift in Sources */,
 				902A11DC248F5F550049EF8E /* ChargerConst.swift in Sources */,
 				63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */,
 				73D65D7223588ACC00F564A2 /* UITextField+Extension.swift in Sources */,
@@ -4940,6 +4947,7 @@
 				824D5C9E28BDD89C00EDC712 /* UIButton+Extension.swift in Sources */,
 				824D5C9F28BDD89C00EDC712 /* JSON+Extension.swift in Sources */,
 				824D5CA028BDD89C00EDC712 /* ChargerConst.swift in Sources */,
+				5963FA8128DAF36100F8FA93 /* WKWebView+Extension.swift in Sources */,
 				824D5CA128BDD89C00EDC712 /* DeepLinkModel.swift in Sources */,
 				824D5CA228BDD89C00EDC712 /* VerticalConfirmPopupViewController.swift in Sources */,
 				824D5CA328BDD89C00EDC712 /* UITextField+Extension.swift in Sources */,
