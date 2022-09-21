@@ -93,8 +93,6 @@ extension EventViewController {
             self.emptyView.isHidden = true
             self.tableView.isHidden = false
             self.tableView.reloadData()
-
-//            UserDefault().saveInt(key: UserDefault.Key.LAST_EVENT_ID, value: eventList[0].evtId)
         } else {
             self.emptyView.isHidden = false
             self.tableView.isHidden = true

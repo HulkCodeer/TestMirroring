@@ -642,20 +642,6 @@ extension LeftViewController {
                     }
                 }
             }
-        case MENU_EVENT:
-            if index.section == SUB_MENU_CELL_EVENT {
-                switch index.row {
-                case SUB_MENU_EVENT:
-                    if let latestEventId = latestIds[Board.KEY_EVENT] {
-                        let eventId = UserDefault().readInt(key: UserDefault.Key.LAST_EVENT_ID)
-                        if eventId < latestEventId {
-                            cell.newBadge.isHidden = false
-                        }
-                    }
-                default:
-                    cell.newBadge.isHidden = true
-                }
-            }
         default:
             cell.newBadge.isHidden = true
         }
