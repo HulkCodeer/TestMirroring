@@ -21,6 +21,7 @@ internal final class NewEventDetailViewController: CommonBaseViewController {
     
     internal var eventUrl: String = ""
     internal var naviTitle: String = "이벤트 상세 화면"
+    internal var queryItems: [URLQueryItem] = [URLQueryItem]()
     
     override func loadView() {
         super.loadView()
@@ -46,7 +47,20 @@ internal final class NewEventDetailViewController: CommonBaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
-        makePostRequest(url: eventUrl, payload: [:])
+
+        if queryItems.isEmpty {
+            if let url = URL(string: eventUrl) {
+                let request = URLRequest(url: url)
+                webView.load(request)
+            }
+        } else {
+            var urlComponents = URLComponents(string: eventUrl)
+            urlComponents?.queryItems = queryItems
+            if let url = urlComponents?.url {
+                let request = URLRequest(url: url)
+                webView.load(request)
+            }
+        }
     }
     
     private func makePostRequest(url: String, payload: Dictionary<String, Any>) {

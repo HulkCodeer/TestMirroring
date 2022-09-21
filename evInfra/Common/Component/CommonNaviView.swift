@@ -79,6 +79,7 @@ internal final class CommonNaviView: UIView {
                 guard let self = self else { return }
                 guard let _backClosure = self.backClosure else {
                     GlobalDefine.shared.mainNavi?.pop()
+                    GlobalDefine.shared.mainNavi?.navigationBar.isHidden = false
                     return
                 }
                 _backClosure()

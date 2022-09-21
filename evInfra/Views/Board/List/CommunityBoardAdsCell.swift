@@ -54,23 +54,34 @@ class CommunityBoardAdsCell: UITableViewCell {
     }
     
     @objc private func openURL() {
-        guard let adUrl = adUrl else {
-            return
-        }
+        guard let adUrl = adUrl, let item = item else { return }
         
-        if let url = URL(string: adUrl) {
-            if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                EIAdManager.sharedInstance.logEvent(adIds: [adId ?? ""], action: Promotion.Action.click, page: Promotion.Page.event, layer: Promotion.Layer.mid)
-                
-                guard let item = self.item else { return }
-                let property: [String: Any] = ["bannerType": "게시판 배너",
-                                               "adID": item.document_srl ?? "",
-                                               "adName": item.title ?? ""]
-                PromotionEvent.clickBanner.logEvent(property: property)
-                
+        // 3: 이벤트 상세 화면으로 이동 + 이벤트 URL에 mbId 추가
+        if item.tags == Promotion.Types.event.toValue {
+            MemberManager.shared.tryToLoginCheck { isLogin in
+                if isLogin {
+                    let viewcon = NewEventDetailViewController()
+                    viewcon.eventUrl = item.module_srl ?? ""
+                    viewcon.queryItems = [URLQueryItem(name: "mbId", value: "\(MemberManager.shared.mbId)"),
+                                          URLQueryItem(name: "promotionId", value: item.document_srl ?? "")]
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                } else {
+                    MemberManager.shared.showLoginAlert()
+                }
+            }
+        } else {
+            if let url = URL(string: adUrl) {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
             }
         }
+        
+        EIAdManager.sharedInstance.logEvent(adIds: [adId ?? ""], action: .click, page: .event, layer: .mid)
+        let property: [String: Any] = ["bannerType": "게시판 배너",
+                                       "adID": item.document_srl ?? "",
+                                       "adName": item.title ?? ""]
+        PromotionEvent.clickBanner.logEvent(property: property)
     }
 }
 

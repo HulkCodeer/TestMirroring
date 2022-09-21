@@ -32,7 +32,7 @@ internal final class BannerPagerView: FSPagerView {
     
     internal var banners: [AdsInfo] = [AdsInfo]() {
         didSet {
-            let isHidden = banners.count == 1 ? true : false
+            let isHidden = banners.count == 0 || banners.count == 1 ? true : false
             self.indicatorView.isHidden = isHidden
             self.indicatorLabel.isHidden = isHidden
             self.indicatorLabel.text = "\(self.bannerIndex) / \(banners.count)"
@@ -109,10 +109,25 @@ extension BannerPagerView: FSPagerViewDelegate {
                                        "adID": banner.evtId,
                                        "adName": banner.evtTitle]
         PromotionEvent.clickBanner.logEvent(property: property)
-        // open url
-        let adUrl = banner.extUrl
-        guard let url = URL(string: adUrl), UIApplication.shared.canOpenURL(url) else { return }
-        UIApplication.shared.open(url)
+        
+        if banner.evtType == Promotion.Types.event.toValue {
+            MemberManager.shared.tryToLoginCheck { isLogin in
+                if isLogin {
+                    let viewcon = NewEventDetailViewController()
+                    viewcon.eventUrl = "\(banner.extUrl)"
+                    viewcon.queryItems = [URLQueryItem(name: "mbId", value: "\(MemberManager.shared.mbId)"),
+                                          URLQueryItem(name: "promotionId", value: banner.evtId)]
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                } else {
+                    MemberManager.shared.showLoginAlert()
+                }
+            }
+        } else {
+            // open url
+            let adUrl = banner.extUrl
+            guard let url = URL(string: adUrl), UIApplication.shared.canOpenURL(url) else { return }
+            UIApplication.shared.open(url)
+        }
     }
     
     internal func pagerViewWillEndDragging(_ pagerView: FSPagerView, targetIndex: Int) {

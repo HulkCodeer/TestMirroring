@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,7 +35,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="EventTableViewCell" rowHeight="275" id="BXh-d4-nHg" customClass="EventTableViewCell" customModule="evInfra" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="375" height="275"/>
+                                        <rect key="frame" x="0.0" y="50" width="375" height="275"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BXh-d4-nHg" id="hy5-ga-Fv2">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="275"/>
@@ -48,20 +48,25 @@
                                                         <constraint firstAttribute="width" secondItem="jCe-Lg-w03" secondAttribute="height" multiplier="375:125" id="OLx-Q2-W1F"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" verticalCompressionResistancePriority="751" text="CouponUsedDate" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K7y-1D-Dij">
-                                                    <rect key="frame" x="16" y="141" width="343" height="21.5"/>
-                                                    <color key="tintColor" red="0.098039215686274508" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <color key="textColor" red="0.098039215686274508" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="CouponDescription" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h7B-AT-Ebr">
-                                                    <rect key="frame" x="16" y="170.5" width="343" height="85.5"/>
-                                                    <color key="tintColor" red="0.098039215686274508" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" red="0.098039215686274508" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="sxw-4t-h0O">
+                                                    <rect key="frame" x="32" y="141" width="311" height="115"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" verticalCompressionResistancePriority="751" text="CouponUsedDate" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K7y-1D-Dij">
+                                                            <rect key="frame" x="0.0" y="0.0" width="311" height="21.5"/>
+                                                            <color key="tintColor" red="0.098039215686274508" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                            <color key="textColor" red="0.098039215686274508" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="CouponDescription" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h7B-AT-Ebr">
+                                                            <rect key="frame" x="0.0" y="29.5" width="311" height="85.5"/>
+                                                            <color key="tintColor" red="0.098039215686274508" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <color key="textColor" red="0.098039215686274508" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
                                                 <view multipleTouchEnabled="YES" alpha="0.63" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IPZ-lU-TtX" userLabel="DisableView">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="275"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -77,19 +82,16 @@
                                             <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstItem="jCe-Lg-w03" firstAttribute="leading" secondItem="hy5-ga-Fv2" secondAttribute="leading" id="03X-ZE-Hmk"/>
-                                                <constraint firstItem="K7y-1D-Dij" firstAttribute="top" secondItem="jCe-Lg-w03" secondAttribute="bottom" constant="16" id="36Q-2R-OhQ"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="sxw-4t-h0O" secondAttribute="trailing" constant="16" id="2w9-Dt-jrG"/>
                                                 <constraint firstItem="wIU-gV-S1e" firstAttribute="centerX" secondItem="hy5-ga-Fv2" secondAttribute="centerX" id="BFE-RC-jtr"/>
-                                                <constraint firstItem="h7B-AT-Ebr" firstAttribute="leading" secondItem="K7y-1D-Dij" secondAttribute="leading" id="Me0-hy-Kmz"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="sxw-4t-h0O" secondAttribute="bottom" constant="8" id="CkQ-Ld-Wlr"/>
+                                                <constraint firstItem="sxw-4t-h0O" firstAttribute="leading" secondItem="hy5-ga-Fv2" secondAttribute="leadingMargin" constant="16" id="DzE-ef-Yxd"/>
                                                 <constraint firstAttribute="trailing" secondItem="IPZ-lU-TtX" secondAttribute="trailing" id="NYf-Vp-fjR"/>
-                                                <constraint firstItem="h7B-AT-Ebr" firstAttribute="top" secondItem="K7y-1D-Dij" secondAttribute="bottom" constant="8" id="R6X-0E-gdF"/>
                                                 <constraint firstItem="IPZ-lU-TtX" firstAttribute="top" secondItem="hy5-ga-Fv2" secondAttribute="top" id="TMn-yR-zeq"/>
-                                                <constraint firstItem="h7B-AT-Ebr" firstAttribute="trailing" secondItem="K7y-1D-Dij" secondAttribute="trailing" id="VCS-zd-8rN"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="h7B-AT-Ebr" secondAttribute="bottom" constant="8" id="fI6-xK-iDh"/>
+                                                <constraint firstItem="sxw-4t-h0O" firstAttribute="top" secondItem="jCe-Lg-w03" secondAttribute="bottom" constant="16" id="e2Z-Gw-Vrf"/>
                                                 <constraint firstItem="jCe-Lg-w03" firstAttribute="top" secondItem="hy5-ga-Fv2" secondAttribute="top" id="gQM-Nh-HDM"/>
-                                                <constraint firstItem="K7y-1D-Dij" firstAttribute="leading" secondItem="hy5-ga-Fv2" secondAttribute="leading" constant="16" id="jZH-Wh-aPF"/>
                                                 <constraint firstItem="wIU-gV-S1e" firstAttribute="centerY" secondItem="hy5-ga-Fv2" secondAttribute="centerY" id="q6n-Ef-qtL"/>
                                                 <constraint firstItem="IPZ-lU-TtX" firstAttribute="leading" secondItem="hy5-ga-Fv2" secondAttribute="leading" id="tlq-RM-3tk"/>
-                                                <constraint firstAttribute="trailing" secondItem="K7y-1D-Dij" secondAttribute="trailing" constant="16" id="uFR-tb-AD0"/>
                                                 <constraint firstAttribute="trailing" secondItem="jCe-Lg-w03" secondAttribute="trailing" id="uT6-ji-gvh"/>
                                                 <constraint firstAttribute="bottom" secondItem="IPZ-lU-TtX" secondAttribute="bottom" id="wAn-tn-C0s"/>
                                             </constraints>
