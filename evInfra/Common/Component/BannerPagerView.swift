@@ -114,9 +114,7 @@ extension BannerPagerView: FSPagerViewDelegate {
             MemberManager.shared.tryToLoginCheck { isLogin in
                 if isLogin {
                     let viewcon = NewEventDetailViewController()
-                    viewcon.eventUrl = "\(banner.extUrl)"
-                    viewcon.queryItems = [URLQueryItem(name: "mbId", value: "\(MemberManager.shared.mbId)"),
-                                          URLQueryItem(name: "promotionId", value: banner.evtId)]
+                    viewcon.eventData = EventData(eventUrl: "\(banner.extUrl)", promotionId: banner.evtId, mbId: "\(MemberManager.shared.mbId)")                  
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 } else {
                     MemberManager.shared.showLoginAlert()

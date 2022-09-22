@@ -67,17 +67,13 @@ internal final class DeepLinkModel: NSObject {
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
             case DeepLinkType.eventDetail.toValue.deepLinkUrl:
-                let viewcon = NewEventDetailViewController()
+                let viewcon = EventViewController()
                 
-                if let _eventDetailUrl = _queryItems["event_id"] {
-                    var urlCompnents = URLComponents(string: _eventDetailUrl)
-                    let mbId = URLQueryItem(name: "mbId", value: "\(MemberManager.shared.mbId)")
-                    urlCompnents?.queryItems = [mbId]
-                    viewcon.eventUrl = urlCompnents?.url?.absoluteString ?? ""
+                if let _eventId = _queryItems["event_id"] {
+                    var urlCompnents = URLComponents(string: _eventId)
+                    viewcon.externalEventID = "\(_eventId)"
                 }
-                if let _title = _queryItems["title"] {
-                    viewcon.naviTitle = _title
-                }
+                
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                                                 
             case "fee_info_all", "charge_price":

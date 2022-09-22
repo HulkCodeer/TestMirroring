@@ -7,22 +7,22 @@
 //
 
 import UIKit
-import Material
 import SwiftyJSON
 import RxSwift
+import RxCocoa
 
-internal final class EventViewController: CommonBaseViewController {
+internal final class EventViewController: UIViewController {
 
     // MARK: UI
     
+    @IBOutlet weak var naviTitle: UILabel!
+    @IBOutlet weak var naviBackBtn: UIButton!
+    @IBOutlet weak var commonNaviView: UIView!
     @IBOutlet weak var emptyView: UILabel!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     
-    private lazy var commonNaviView = CommonNaviView().then {
-        $0.naviTitleLbl.text = "이벤트"
-    }
-    
+
     // MARK: VARIABLE
     
     private var eventList: [AdsInfo] = [AdsInfo]()
@@ -33,29 +33,29 @@ internal final class EventViewController: CommonBaseViewController {
     private let disposebag = DisposeBag()
     
     // MARK: SYSTEM FUNC
-    
-    override func loadView() {
-        contentView.addSubview(commonNaviView)
-        commonNaviView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(Constants.view.naviBarHeight)
-        }
         
-        commonNaviView.backClosure = { [weak self] in
-            guard let self = self else { return }
-            self.tableView.indexPathsForVisibleRows?.forEach({ IndexPath in
-                if self.eventList[IndexPath.row].dpState == .inProgress {
-                    self.displayedList.insert(self.eventList[IndexPath.row].evtId)
-                }
-            })
-            Server.countEventAction(eventId: Array(self.displayedList).map { String($0) }, action: .view, page: .event, layer: .list)
-            GlobalDefine.shared.mainNavi?.pop()
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepareTableView()
+        
+        naviTitle.text = "이벤트"
+        naviBackBtn.rx.tap
+            .asDriver()
+            .drive(with: self) { obj, _ in
+                obj.tableView.indexPathsForVisibleRows?.forEach({ IndexPath in
+                    if obj.eventList[IndexPath.row].dpState == .inProgress {
+                        obj.displayedList.insert(self.eventList[IndexPath.row].evtId)
+                    }
+                })
+                Server.countEventAction(eventId: Array(self.displayedList).map { String($0) }, action: .view, page: .event, layer: .list)
+                GlobalDefine.shared.mainNavi?.pop()
+            }
+            .disposed(by: self.disposebag)
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 150.0
+        tableView.tableFooterView = UIView()
+        
         getEventList()
     }
     
@@ -66,48 +66,47 @@ internal final class EventViewController: CommonBaseViewController {
     // MARK: FUNC
     
     private func getEventList() {
-        Server.getEventList(page: .event, layer: .list) { isSuccess, value in
-            self.indicatorControll(isStart: true)
-            if isSuccess {
-                let json = JSON(value)
-                let events = json["data"].arrayValue.map { AdsInfo($0) }
-                
-                guard !events.isEmpty else { return }
-                self.eventList.removeAll()
-                
-                for event in events {
-                    // TODO: externalEventID & externalEventParam 처리
-                    if self.externalEventID == event.oldId {
-                        guard let _externalEventParam = self.externalEventParam else { return }
-                        let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
-                        viewcon.eventId = event.oldId
-                        viewcon.eventTitle = event.evtTitle
-                        viewcon.externalEventParam = _externalEventParam
-                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+        self.indicatorControll(isStart: true)
+        RestApi().getAdsList(page: .event, layer: .list)
+                .convertData()
+                .compactMap { result -> [AdsInfo]? in
+                    switch result {
+                    case .success(let data):
+                        let json = JSON(data)
+                        let events = json["data"].arrayValue.map { AdsInfo($0) }
+                        guard !events.isEmpty else { return [] }
+                        return events
+                        
+                    case .failure(let errorMessage):
+                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 이벤트 페이지 종료 후 재시도 바랍니다.")
+                        printLog(out: "Error Message : \(errorMessage)")
+                        return []
+                    }
+                }
+                .subscribe(onNext: { [weak self] adList in
+                    guard let self = self else { return }
+                    self.eventList.removeAll()
+                    
+                    for event in adList {
+                        // TODO: externalEventID & externalEventParam 처리
+                        if self.externalEventID == event.oldId {
+                            guard let _externalEventParam = self.externalEventParam else { return }
+                            let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
+                            viewcon.eventId = event.oldId
+                            viewcon.eventTitle = event.evtTitle
+                            viewcon.externalEventParam = _externalEventParam
+                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        }
+                        
+                        self.eventList.append(event)
                     }
                     
-                    self.eventList.append(event)
-                }
-                
-                self.eventList = self.eventList.sorted { $0.dpState.toValue < $1.dpState.toValue }
-            } else {
-                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 이벤트 페이지 종료 후 재시도 바랍니다.")
-            }
-            self.updateTableView()
-            self.indicatorControll(isStart: false)
-        }
-    }
-    
-    func prepareTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 150.0
-        tableView.tableFooterView = UIView()
-        
-        emptyView.isHidden = true
-        tableView.isHidden = true
-        indicator.isHidden = true
+                    self.eventList = self.eventList.sorted { $0.dpState.toValue < $1.dpState.toValue }
+                    self.updateTableView()
+                    
+                })
+                .disposed(by: self.disposebag)
+        self.indicatorControll(isStart: false)
     }
     
     func indicatorControll(isStart:Bool) {
@@ -137,21 +136,19 @@ internal final class EventViewController: CommonBaseViewController {
         let event = eventList[index]
         let viewcon = NewEventDetailViewController()
         
-        if event.evtType == Promotion.Types.event.toValue {
+        switch event.convertEvtType {
+        case .event:
             MemberManager.shared.tryToLoginCheck { isLogin in
                 if isLogin {
-                    viewcon.eventUrl = event.extUrl
-                    viewcon.queryItems = [URLQueryItem(name: "mbId", value: "\(MemberManager.shared.mbId)"),
-                                          URLQueryItem(name: "promotionId", value: event.evtId)]
-                    viewcon.naviTitle = event.evtTitle
+                    viewcon.eventData = (naviTitle: event.evtTitle, eventUrl: event.extUrl, promotionId: event.evtId)                                        
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 } else {
                     MemberManager.shared.showLoginAlert()
                 }
             }
-        } else {
-            viewcon.eventUrl = event.extUrl
-            viewcon.naviTitle = event.evtTitle
+            
+        default:            
+            viewcon.eventData = (naviTitle: event.evtTitle, eventUrl: event.extUrl, promotionId: "")
             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
         }
     }

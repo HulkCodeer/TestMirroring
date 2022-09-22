@@ -431,16 +431,11 @@ extension LeftViewController {
         case SUB_MENU_CELL_EVENT:
             switch index.row {
             case SUB_MENU_EVENT: // 이벤트
-//                let eventStoryboard = UIStoryboard(name : "Event", bundle: nil)
-//                let eventBoardVC = eventStoryboard.instantiateViewController(ofType: EventViewController.self)
-                
-                let reactor = EventReactor(provider: RestApi())
-                let viewcon = NewEventViewController(reactor: reactor)
+                let viewcon = UIStoryboard(name : "Event", bundle: nil).instantiateViewController(ofType: EventViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
             case SUB_MENU_MY_COUPON: // 내 쿠폰함
-                MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
-                    guard let self = self else { return }
+                MemberManager.shared.tryToLoginCheck { isLogin in                    
                     if isLogin {
                         let viewcon = UIStoryboard(name : "Coupon", bundle: nil).instantiateViewController(ofType: MyCouponViewController.self)
                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)

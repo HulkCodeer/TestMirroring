@@ -322,7 +322,7 @@ internal enum EnterViewType: String, EventTypeProtocol {
         case "PaymentStatusViewController": self = .paymentStatusViewController
         case "PaymentResultViewController": self = .paymentResultViewController
         case "NoticeViewController": self = .noticeViewController
-        case "NewEventViewController": self = .eventViewController
+        case "EventViewController": self = .eventViewController
         case "RegisterResultViewController": self = .registerResultViewController
         case "LotteRentInfoViewController": self = .lotteRentInfoViewController
         case "RentalCarCardListViewController": self = .rentalCarCardListViewController

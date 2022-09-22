@@ -60,10 +60,9 @@ class CommunityBoardAdsCell: UITableViewCell {
         if item.tags == Promotion.Types.event.toValue {
             MemberManager.shared.tryToLoginCheck { isLogin in
                 if isLogin {
-                    let viewcon = NewEventDetailViewController()
-                    viewcon.eventUrl = item.module_srl ?? ""
-                    viewcon.queryItems = [URLQueryItem(name: "mbId", value: "\(MemberManager.shared.mbId)"),
-                                          URLQueryItem(name: "promotionId", value: item.document_srl ?? "")]
+                    let viewcon = NewEventDetailViewController()                    
+                    viewcon.eventData = EventData(eventUrl: item.module_srl ?? "", promotionId: item.document_srl ?? "", mbId: "\(MemberManager.shared.mbId)")
+                    
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 } else {
                     MemberManager.shared.showLoginAlert()

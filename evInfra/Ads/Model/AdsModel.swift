@@ -19,6 +19,7 @@ internal struct AdsInfo {
     var evtWeight: Int = 0
     var clientName: String = ""
     var evtType: String = ""
+    var convertEvtType: Promotion.Types = .ad
     var dpStart: String = ""
     var dpEnd: String = ""
     var dpState: Promotion.State = .end
@@ -36,6 +37,7 @@ internal struct AdsInfo {
         self.evtWeight = json["evtWeight"].intValue
         self.clientName = json["clientName"].stringValue
         self.evtType = json["evtType"].stringValue
+        self.convertEvtType = Promotion.Types(rawValue: self.evtType) ?? .ad
         self.dpStart = json["dpStart"].stringValue
         self.dpEnd = json["dpEnd"].stringValue
         self.dpState = Promotion.State.convert(with: json["dpState"].intValue)

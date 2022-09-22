@@ -102,19 +102,7 @@ class Server {
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseData { response in responseJson(response: response, completion: completion) }
     }
-    
-    // 사용자 - 마케팅 push message 알림 설정
-    static func updateMarketingNotificationState(state: Bool, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "member_id": MemberManager.shared.memberId,
-            "receive_push": state
-        ]
-        
-        AF.request(Const.EV_PAY_SERVER + "/member/user/setMarketingNotification",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseData { response in responseJson(response: response, completion: completion) }
-    }
-    
+            
     // 회원 - 회원 가입
     static func signUp(user: Login, completion: @escaping (Bool, Any) -> Void) {
         let reqParam = user.convertToParams()
@@ -1013,15 +1001,7 @@ class Server {
         AF.request(Const.EV_PAY_SERVER + "/charger/report/my_report",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseData { response in responseData(response: response, completion: completion) }
-    }
-    
-    // 이벤트 - 리스트 가져오기
-    static func getEventList(page: Promotion.Page, layer: Promotion.Layer, completion: @escaping (Bool, Any) -> Void) {
-        let memberId = Int(MemberManager.shared.memberId) ?? 0
-        AF.request("\(Const.AWS_SERVER)/promotion?memberId=\(memberId)&page=\(page.rawValue)&layer=\(layer.rawValue)",
-                          method: .get, parameters: nil, encoding: JSONEncoding.default)
-            .responseData { response in responseJson(response: response, completion: completion) }
-    }
+    }    
             
     // MARK: - AWS 프로모션(광고/이벤트) click/view event 전송
     static func countEventAction(eventId: [String], action: Promotion.Action, page: Promotion.Page, layer: Promotion.Layer) {

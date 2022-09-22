@@ -169,8 +169,8 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
                 guard let banner = reactor.currentState.startBanner else { return }
                 guard !banner.extUrl.isEmpty else { return }
                 
-                let viewcon = NewEventDetailViewController()
-                viewcon.eventUrl = banner.extUrl
+                let viewcon = NewEventDetailViewController()                
+                viewcon.eventData = EventData(eventUrl: banner.extUrl)
                 self.closeStartBannerViewController()
                 self.logClickEvent()
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)

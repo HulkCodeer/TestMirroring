@@ -4,7 +4,9 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,6 +18,46 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LgP-WX-Iv2">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_arrow_left_md" translatesAutoresizingMaskIntoConstraints="NO" id="Ujj-8K-6xs">
+                                        <rect key="frame" x="16" y="16" width="24" height="24"/>
+                                        <color key="tintColor" name="content-primary"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="24" id="Jcz-j5-AOj"/>
+                                            <constraint firstAttribute="width" constant="24" id="mUM-1Y-CgB"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZbR-ZS-G8o">
+                                        <rect key="frame" x="6" y="6" width="44" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="44" id="77y-fq-fpp"/>
+                                            <constraint firstAttribute="height" constant="44" id="IdZ-gU-Wgz"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전완료" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EfR-Sw-otu">
+                                        <rect key="frame" x="156.5" y="15" width="62.5" height="26"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="26" id="uCR-bl-uKX"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                        <color key="textColor" name="content-primary"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="2zj-oE-KNo"/>
+                                    <constraint firstItem="EfR-Sw-otu" firstAttribute="centerY" secondItem="LgP-WX-Iv2" secondAttribute="centerY" id="6uN-4c-Whq"/>
+                                    <constraint firstItem="Ujj-8K-6xs" firstAttribute="leading" secondItem="LgP-WX-Iv2" secondAttribute="leading" constant="16" id="8Cc-PT-luh"/>
+                                    <constraint firstItem="ZbR-ZS-G8o" firstAttribute="centerX" secondItem="Ujj-8K-6xs" secondAttribute="centerX" id="Mx6-k0-fMK"/>
+                                    <constraint firstItem="EfR-Sw-otu" firstAttribute="centerX" secondItem="LgP-WX-Iv2" secondAttribute="centerX" id="WEo-aj-Bsi"/>
+                                    <constraint firstItem="Ujj-8K-6xs" firstAttribute="centerY" secondItem="LgP-WX-Iv2" secondAttribute="centerY" id="s1y-2i-6UO"/>
+                                    <constraint firstItem="ZbR-ZS-G8o" firstAttribute="centerY" secondItem="Ujj-8K-6xs" secondAttribute="centerY" id="vRi-eO-vyq"/>
+                                </constraints>
+                            </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이벤트 준비중입니다.^^" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EMA-SJ-hDk" userLabel="emptyView">
                                 <rect key="frame" x="107.5" y="323.5" width="160" height="20.5"/>
                                 <accessibility key="accessibilityConfiguration" label="보유중인 쿠폰이 없습니다"/>
@@ -31,7 +73,7 @@
                                 </constraints>
                             </activityIndicatorView>
                             <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="T3P-Pt-fxq">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="611"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="EventTableViewCell" rowHeight="275" id="BXh-d4-nHg" customClass="EventTableViewCell" customModule="evInfra" customModuleProvider="target">
@@ -128,16 +170,22 @@
                             <constraint firstItem="T3P-Pt-fxq" firstAttribute="bottom" secondItem="Z8p-hg-Rb4" secondAttribute="bottom" id="3dh-Qv-ylD"/>
                             <constraint firstItem="rEe-M3-puo" firstAttribute="centerX" secondItem="Z8p-hg-Rb4" secondAttribute="centerX" id="5vZ-Cw-sRJ"/>
                             <constraint firstItem="rEe-M3-puo" firstAttribute="centerY" secondItem="U0C-J0-ugZ" secondAttribute="centerY" id="FKW-4C-b45"/>
-                            <constraint firstItem="T3P-Pt-fxq" firstAttribute="top" secondItem="Z8p-hg-Rb4" secondAttribute="top" id="N6S-VA-Vg3"/>
+                            <constraint firstItem="T3P-Pt-fxq" firstAttribute="top" secondItem="LgP-WX-Iv2" secondAttribute="bottom" id="N6S-VA-Vg3"/>
                             <constraint firstItem="EMA-SJ-hDk" firstAttribute="centerY" secondItem="U0C-J0-ugZ" secondAttribute="centerY" id="Teh-VA-Gnv"/>
                             <constraint firstItem="T3P-Pt-fxq" firstAttribute="trailing" secondItem="Z8p-hg-Rb4" secondAttribute="trailing" id="Wxf-tc-VoW"/>
                             <constraint firstItem="T3P-Pt-fxq" firstAttribute="leading" secondItem="Z8p-hg-Rb4" secondAttribute="leading" id="cyc-k3-1oX"/>
                             <constraint firstItem="EMA-SJ-hDk" firstAttribute="centerX" secondItem="Z8p-hg-Rb4" secondAttribute="centerX" id="fSn-ZT-2ad"/>
+                            <constraint firstItem="LgP-WX-Iv2" firstAttribute="trailing" secondItem="Z8p-hg-Rb4" secondAttribute="trailing" id="iiy-Nd-Ufc"/>
+                            <constraint firstItem="LgP-WX-Iv2" firstAttribute="leading" secondItem="Z8p-hg-Rb4" secondAttribute="leading" id="quF-5s-F7U"/>
+                            <constraint firstItem="LgP-WX-Iv2" firstAttribute="top" secondItem="Z8p-hg-Rb4" secondAttribute="top" id="yxe-dm-6DY"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="commonNaviView" destination="LgP-WX-Iv2" id="w7x-gJ-vvC"/>
                         <outlet property="emptyView" destination="EMA-SJ-hDk" id="0N4-bQ-lAz"/>
                         <outlet property="indicator" destination="rEe-M3-puo" id="J7c-Zy-DRg"/>
+                        <outlet property="naviBackBtn" destination="ZbR-ZS-G8o" id="Nh1-qF-BrO"/>
+                        <outlet property="naviTitle" destination="EfR-Sw-otu" id="UrE-iC-vTV"/>
                         <outlet property="tableView" destination="T3P-Pt-fxq" id="82y-H8-dIq"/>
                     </connections>
                 </viewController>
@@ -176,4 +224,13 @@
             <point key="canvasLocation" x="2105" y="2074"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon_arrow_left_md" width="24" height="24"/>
+        <namedColor name="content-primary">
+            <color red="0.094117647058823528" green="0.094117647058823528" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
