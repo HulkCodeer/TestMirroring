@@ -132,7 +132,6 @@ internal final class IntroViewController: UIViewController {
                     Board.sharedInstance.latestBoardIds[Board.KEY_NOTICE] = latestId["notice"].intValue
                     Board.sharedInstance.latestBoardIds[Board.KEY_FREE_BOARD] = Board.sharedInstance.freeBoardId
                     Board.sharedInstance.latestBoardIds[Board.KEY_CHARGER_BOARD] = Board.sharedInstance.chargeBoardId
-                    Board.sharedInstance.latestBoardIds[Board.KEY_EVENT] = latestId["event"].intValue
                     
                     let companyArr = JSON(json["company_list"]).arrayValue
                     for company in companyArr {
