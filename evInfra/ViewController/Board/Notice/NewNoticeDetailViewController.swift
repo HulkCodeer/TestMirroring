@@ -155,7 +155,7 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
         reactor.state.map { $0.html }
             .asDriver(onErrorJustReturn: String())
             .drive(with: self) { owner, html in
-                owner.webView.loadHTMLStringFitSize(html)
+                owner.webView.loadHTMLString(html, baseURL: nil)
             }
             .disposed(by: disposeBag)
         
