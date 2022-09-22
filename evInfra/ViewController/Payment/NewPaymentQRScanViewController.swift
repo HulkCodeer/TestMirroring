@@ -261,8 +261,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         stationSubGuideLbl.isHidden = true
         stationSubGuideBtn.isHidden = true
         
-//        switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
-        switch (true, true) {
+        switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
         case (false, false): // 신규유저
             let tempText = "한국 전력과 GS칼텍스에서\nQR 충전을 할 수 있어요"
             let attributeText = NSMutableAttributedString(string: tempText)
