@@ -61,6 +61,7 @@ internal final class EventViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
     
     // MARK: FUNC
@@ -74,6 +75,7 @@ internal final class EventViewController: UIViewController {
                     case .success(let data):
                         let json = JSON(data)
                         let events = json["data"].arrayValue.map { AdsInfo($0) }
+                        printLog(out: "PARK TEST events : \(events)")
                         guard !events.isEmpty else { return [] }
                         return events
                         
@@ -91,10 +93,9 @@ internal final class EventViewController: UIViewController {
                         // TODO: externalEventID & externalEventParam 처리
                         if self.externalEventID == event.oldId {
                             guard let _externalEventParam = self.externalEventParam else { return }
-                            let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
-                            viewcon.eventId = event.oldId
-                            viewcon.eventTitle = event.evtTitle
-                            viewcon.externalEventParam = _externalEventParam
+                            let viewcon = NewEventDetailViewController()
+                            viewcon.eventData = EventData(eventUrl: event.extUrl)
+                            
                             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                         }
                         
@@ -140,7 +141,7 @@ internal final class EventViewController: UIViewController {
         case .event:
             MemberManager.shared.tryToLoginCheck { isLogin in
                 if isLogin {
-                    viewcon.eventData = (naviTitle: event.evtTitle, eventUrl: event.extUrl, promotionId: event.evtId)                                        
+                    viewcon.eventData = EventData(naviTitle: event.evtTitle, eventUrl: event.extUrl, promotionId: event.evtId, mbId: MemberManager.shared.mbIdToStr)
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 } else {
                     MemberManager.shared.showLoginAlert()
@@ -148,7 +149,7 @@ internal final class EventViewController: UIViewController {
             }
             
         default:            
-            viewcon.eventData = (naviTitle: event.evtTitle, eventUrl: event.extUrl, promotionId: "")
+            viewcon.eventData = EventData(naviTitle: event.evtTitle, eventUrl: event.extUrl)
             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
         }
     }

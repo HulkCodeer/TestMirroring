@@ -75,9 +75,8 @@ internal final class CommonNaviView: UIView {
         
         naviBackBtn.btn.rx.tap
             .asDriver()
-            .drive(with: self) { [weak self] _ in
-                guard let self = self else { return }
-                guard let _backClosure = self.backClosure else {
+            .drive(with: self) { obj, _ in
+                guard let _backClosure = obj.backClosure else {
                     GlobalDefine.shared.mainNavi?.pop()
                     GlobalDefine.shared.mainNavi?.navigationBar.isHidden = false
                     return

@@ -47,7 +47,25 @@ struct EventData {
         self.eventUrl = eventUrl
     }
     
+    init(promotionId: String) {
+        self.promotionId = promotionId
+    }
+    
     init() {}
+    
+    internal func getQueryItems() -> [URLQueryItem] {
+        var result = [URLQueryItem]()
+        
+        if !self.mbId.isEmpty {
+            result.append(URLQueryItem(name: "mbId", value: self.mbId))
+        }
+        
+        if !self.promotionId.isEmpty {
+            result.append(URLQueryItem(name: "promotionId", value: self.promotionId))
+        }
+                        
+        return result
+    }
 }
 
 internal final class NewEventDetailViewController: CommonBaseViewController {
@@ -55,16 +73,22 @@ internal final class NewEventDetailViewController: CommonBaseViewController {
     // MARK: UI
     
     private lazy var naviTotalView = CommonNaviView()
-    private lazy var webView = WKWebView().then() {
-        $0.uiDelegate = self
-        $0.navigationDelegate = self
+    
+    private lazy var totalView = UIView()
+    
+    private lazy var webView: WKWebView = {
+        let config = WKWebViewConfiguration()
         let contentController = WKUserContentController()
         contentController.add(self, name: "openCarmore")
         contentController.add(self, name: "getBerry")
         contentController.add(self, name: "openSafari")
-        let config = WKWebViewConfiguration()
         config.userContentController = contentController
-    }
+        let view = WKWebView(frame: CGRect.zero, configuration: config)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.navigationDelegate = self
+        view.uiDelegate = self
+        return view
+    }()
     
     // MARK: VARIABLE
             
@@ -80,49 +104,47 @@ internal final class NewEventDetailViewController: CommonBaseViewController {
             $0.height.equalTo(56)
         }
         
-        self.contentView.addSubview(webView)
-        webView.snp.makeConstraints {
+        self.contentView.addSubview(totalView)
+        totalView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom)
             $0.width.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        self.totalView.addSubview(webView)
+        webView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()        
         naviTotalView.naviTitleLbl.text = eventData.naviTitle.isEmpty ? "이벤트 상세화면" : eventData.naviTitle
-                
-        let urlComponents = URLComponents(string: eventData.eventUrl)
+        naviTotalView.backClosure = {
+            self.webView.configuration.userContentController.removeScriptMessageHandler(forName: "openCarmore")
+            self.webView.configuration.userContentController.removeScriptMessageHandler(forName: "getBerry")
+            self.webView.configuration.userContentController.removeScriptMessageHandler(forName: "openSafari")
+            
+            GlobalDefine.shared.mainNavi?.pop()
+        }
+                                
+        var urlComponents = URLComponents(string: eventData.eventUrl)
+        
+        if !eventData.getQueryItems().isEmpty {
+            urlComponents?.queryItems = eventData.getQueryItems()
+        }
+        
         guard let _url = urlComponents?.url else {
             return
         }
-        
+                        
         let request = URLRequest(url: _url)
+        printLog(out: "PARK TEST url : \(_url)")
         webView.load(request)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
-    }
-    
-    // MARK: FUNC
-    
-    private func makePostRequest(url: String, payload: Dictionary<String, Any>) {
-        let jsonPayload: String
-        do {
-            let data = try JSONSerialization.data(
-                withJSONObject: payload,
-                options: JSONSerialization.WritingOptions(rawValue: 0))
-            jsonPayload = String(data: data, encoding: String.Encoding.utf8)!
-        } catch {
-            jsonPayload = "{}"
-        }
-        
-        webView.loadHTMLString(postMakingHTML(url: url, payload: jsonPayload), baseURL: nil)
-    }
-    
-    private func postMakingHTML(url: String, payload: String) -> String {
-        return "<html><head><script>function post(path,params,method){method = method || 'post';var form=document.createElement('form');form.setAttribute('method', method);form.setAttribute('action',path);for(var key in params){if(params.hasOwnProperty(key)){var hiddenField=document.createElement('input');hiddenField.setAttribute('type', 'hidden');hiddenField.setAttribute('name', key);hiddenField.setAttribute('value', params[key]);form.appendChild(hiddenField);}}document.body.appendChild(form);form.submit();}</script></head><body></body></html><script>post('\(url)',\(payload),'post');</script>"
     }
 }
 

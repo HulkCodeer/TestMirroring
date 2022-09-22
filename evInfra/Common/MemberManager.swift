@@ -35,6 +35,10 @@ internal final class MemberManager {
         return UserDefault().readInt(key: UserDefault.Key.MB_ID)
     }
     
+    internal var mbIdToStr: String { // 회원가입 아이디
+        return "\(UserDefault().readInt(key: UserDefault.Key.MB_ID))"
+    }
+    
     internal var memberId: String { // 기기 아이디
         return UserDefault().readString(key: UserDefault.Key.MEMBER_ID)
     }

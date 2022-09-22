@@ -71,7 +71,7 @@ internal final class DeepLinkModel: NSObject {
                 
                 if let _eventId = _queryItems["event_id"] {
                     var urlCompnents = URLComponents(string: _eventId)
-                    viewcon.externalEventID = "\(_eventId)"
+                    viewcon.externalEventID = Int(_eventId)
                 }
                 
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
