@@ -75,7 +75,7 @@ internal final class CommonNaviView: UIView {
         
         naviBackBtn.btn.rx.tap
             .asDriver()
-            .drive(onNext: { [weak self] _ in
+            .drive(with: self) { [weak self] _ in
                 guard let self = self else { return }
                 guard let _backClosure = self.backClosure else {
                     GlobalDefine.shared.mainNavi?.pop()
@@ -83,7 +83,7 @@ internal final class CommonNaviView: UIView {
                     return
                 }
                 _backClosure()
-            })
+            }
             .disposed(by: self.disposebag)
     }
 }

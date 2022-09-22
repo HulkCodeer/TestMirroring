@@ -1022,19 +1022,7 @@ class Server {
                           method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseData { response in responseJson(response: response, completion: completion) }
     }
-//
-//    static func getEventList(completion: @escaping (Bool, Any) -> Void) {
-//        let reqParam: Parameters = [
-//            "req_ver": 1,
-//            "mb_id": MemberManager.shared.mbId,
-//            "memberId": MemberManager.shared.memberId
-//            ]
-//
-//        AF.request(Const.EV_PAY_SERVER + "/event/Event/getEventList",
-//                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-//            .responseData { response in responseJson(response: response, completion: completion) }
-//    }
-    
+            
     // MARK: - AWS 프로모션(광고/이벤트) click/view event 전송
     static func countEventAction(eventId: [String], action: Promotion.Action, page: Promotion.Page, layer: Promotion.Layer) {
         guard !eventId.isEmpty else { return }

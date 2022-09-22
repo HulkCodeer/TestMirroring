@@ -69,7 +69,7 @@ internal final class DeepLinkModel: NSObject {
             case DeepLinkType.eventDetail.toValue.deepLinkUrl:
                 let viewcon = NewEventDetailViewController()
                 
-                if let _eventDetailUrl = _queryItems["event_url"] {
+                if let _eventDetailUrl = _queryItems["event_id"] {
                     var urlCompnents = URLComponents(string: _eventDetailUrl)
                     let mbId = URLQueryItem(name: "mbId", value: "\(MemberManager.shared.mbId)")
                     urlCompnents?.queryItems = [mbId]

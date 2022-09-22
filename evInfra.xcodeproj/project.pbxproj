@@ -1280,6 +1280,18 @@
 		82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
 		82829BD228ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
+		82ADC45328DBD600006EFB8C /* NewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ADC45228DBD600006EFB8C /* NewEventViewController.swift */; };
+		82ADC45428DBD600006EFB8C /* NewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ADC45228DBD600006EFB8C /* NewEventViewController.swift */; };
+		82ADC45528DBD600006EFB8C /* NewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ADC45228DBD600006EFB8C /* NewEventViewController.swift */; };
+		82ADC45728DBD60F006EFB8C /* EventReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ADC45628DBD60F006EFB8C /* EventReactor.swift */; };
+		82ADC45828DBD60F006EFB8C /* EventReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ADC45628DBD60F006EFB8C /* EventReactor.swift */; };
+		82ADC45928DBD60F006EFB8C /* EventReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ADC45628DBD60F006EFB8C /* EventReactor.swift */; };
+		82ADC45C28DBD884006EFB8C /* EventListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ADC45B28DBD884006EFB8C /* EventListCell.swift */; };
+		82ADC45D28DBD884006EFB8C /* EventListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ADC45B28DBD884006EFB8C /* EventListCell.swift */; };
+		82ADC45E28DBD884006EFB8C /* EventListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ADC45B28DBD884006EFB8C /* EventListCell.swift */; };
+		82ADC46428DBDC14006EFB8C /* EventDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ADC46328DBDC14006EFB8C /* EventDetailReactor.swift */; };
+		82ADC46528DBDC14006EFB8C /* EventDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ADC46328DBDC14006EFB8C /* EventDetailReactor.swift */; };
+		82ADC46628DBDC14006EFB8C /* EventDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ADC46328DBDC14006EFB8C /* EventDetailReactor.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
@@ -1480,8 +1492,6 @@
 		19A3D3252887F13400AE8280 /* AmplitudeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeManager.swift; sourceTree = "<group>"; };
 		19B4C7D7289A420900C6BE84 /* AdsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsModel.swift; sourceTree = "<group>"; };
 		3FF4500A7EA0A1061E041BED /* Pods-evInfra_dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.release.xcconfig"; sourceTree = "<group>"; };
-		4212A25325555775001BB124 /* OfferwallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferwallTableViewCell.swift; sourceTree = "<group>"; };
-		4212A25425555775001BB124 /* OfferwallTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferwallTableViewCell.xib; sourceTree = "<group>"; };
 		421569D6259B629100D018DC /* BoardInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardInfo.swift; sourceTree = "<group>"; };
 		42541587257E045600A2A7B9 /* UtilNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilNavigation.swift; sourceTree = "<group>"; };
 		425B055A26B7847B00B597A2 /* Detail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
@@ -1799,6 +1809,10 @@
 		824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunction.swift; sourceTree = "<group>"; };
 		82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Rx.swift"; sourceTree = "<group>"; };
 		82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		82ADC45228DBD600006EFB8C /* NewEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventViewController.swift; sourceTree = "<group>"; };
+		82ADC45628DBD60F006EFB8C /* EventReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventReactor.swift; sourceTree = "<group>"; };
+		82ADC45B28DBD884006EFB8C /* EventListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListCell.swift; sourceTree = "<group>"; };
+		82ADC46328DBDC14006EFB8C /* EventDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailReactor.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
 		82C9A01628B0F0EE0003296B /* QRReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderView.swift; sourceTree = "<group>"; };
 		82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQRScanReactor.swift; sourceTree = "<group>"; };
@@ -2117,10 +2131,14 @@
 		00B2E8C126C1035A005D017C /* Event */ = {
 			isa = PBXGroup;
 			children = (
+				82ADC45A28DBD6A9006EFB8C /* Cells */,
 				00FDEAF326B3BFAB006617EE /* Event.storyboard */,
 				CE33B4BC2191BA1200B6C632 /* EventContentsViewController.swift */,
 				CE33B4BA2191B8B000B6C632 /* EventViewController.swift */,
+				82ADC45228DBD600006EFB8C /* NewEventViewController.swift */,
+				82ADC45628DBD60F006EFB8C /* EventReactor.swift */,
 				191FB60328A0CA40005248C8 /* NewEventDetailViewController.swift */,
+				82ADC46328DBDC14006EFB8C /* EventDetailReactor.swift */,
 			);
 			path = Event;
 			sourceTree = "<group>";
@@ -2786,8 +2804,6 @@
 				73B7527F2048E5B30077112A /* SideMenuTableViewCell.swift */,
 				00A84A9525514876008D987D /* PopUpDialog.xib */,
 				006C90982554EFD100F7C6D7 /* PopUpDialog.swift */,
-				4212A25325555775001BB124 /* OfferwallTableViewCell.swift */,
-				4212A25425555775001BB124 /* OfferwallTableViewCell.xib */,
 				42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */,
 				42CEB74F26C1110D00E37AE4 /* CidInfoTableViewCell.xib */,
 				00AB7BD626E870730040CFDE /* GuideAlertDialog.xib */,
@@ -2930,6 +2946,14 @@
 				82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */,
 			);
 			path = RxSwift;
+			sourceTree = "<group>";
+		};
+		82ADC45A28DBD6A9006EFB8C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				82ADC45B28DBD884006EFB8C /* EventListCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		82F3D9A92855EE2B0030C44B /* Component */ = {
@@ -4308,6 +4332,7 @@
 				63F31412284EC74F001713D2 /* CompanyInfoChecker.swift in Sources */,
 				193C95C5289906DB00CD61D6 /* GlobalAdsReactor.swift in Sources */,
 				63F31413284EC74F001713D2 /* CompanyInfoDto.swift in Sources */,
+				82ADC45828DBD60F006EFB8C /* EventReactor.swift in Sources */,
 				63F31414284EC74F001713D2 /* Marker.swift in Sources */,
 				63F31415284EC74F001713D2 /* AppToolbarController.swift in Sources */,
 				63F31416284EC74F001713D2 /* SearchBarView.swift in Sources */,
@@ -4345,6 +4370,7 @@
 				63F31434284EC74F001713D2 /* LeftViewController.swift in Sources */,
 				63F31435284EC74F001713D2 /* ChargerInfoViewController.swift in Sources */,
 				63F31436284EC74F001713D2 /* ReportChargerList.swift in Sources */,
+				82ADC46528DBDC14006EFB8C /* EventDetailReactor.swift in Sources */,
 				63F31437284EC74F001713D2 /* PointUseGuideViewController.swift in Sources */,
 				63F31438284EC74F001713D2 /* TagFlowLayout.swift in Sources */,
 				63F31439284EC74F001713D2 /* PreUsePointViewController.swift in Sources */,
@@ -4389,6 +4415,7 @@
 				63F31459284EC74F001713D2 /* AppDelegate.swift in Sources */,
 				63F3145A284EC74F001713D2 /* LinkShareManager.swift in Sources */,
 				63762F4A2869A8F000C951BF /* QuitAccountReactor.swift in Sources */,
+				82ADC45D28DBD884006EFB8C /* EventListCell.swift in Sources */,
 				821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */,
 				82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */,
 				63D723BA28AF723300D54A0D /* NewPaymentQRScanViewController.swift in Sources */,
@@ -4442,6 +4469,7 @@
 				63F31484284EC74F001713D2 /* SearchAddressViewController.swift in Sources */,
 				824D5DC228BE1C2500EDC712 /* GlobalFunction.swift in Sources */,
 				63F31485284EC74F001713D2 /* BoardWriteViewController.swift in Sources */,
+				82ADC45428DBD600006EFB8C /* NewEventViewController.swift in Sources */,
 				63F31487284EC74F001713D2 /* StationInfoDto.swift in Sources */,
 				63F31488284EC74F001713D2 /* String+Extension.swift in Sources */,
 				63F31489284EC74F001713D2 /* NoticeContentViewController.swift in Sources */,
@@ -4624,6 +4652,7 @@
 				73EF8B3F203ACB8500D04494 /* AppToolbarController.swift in Sources */,
 				52B53D2D27BCC49D00D446A9 /* SearchBarView.swift in Sources */,
 				005643E0252DA18E007BF78D /* MembershipInfoViewController.swift in Sources */,
+				82ADC45728DBD60F006EFB8C /* EventReactor.swift in Sources */,
 				4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */,
 				82D9867F2839BD790030F0FC /* MembershipReissuanceReactor.swift in Sources */,
 				00CF1775278E6A4F007D8E4E /* CorporationLoginViewController.swift in Sources */,
@@ -4661,6 +4690,7 @@
 				CE93308F214F9807006B7EF6 /* ReportChargerList.swift in Sources */,
 				63B23740282CA4B400E8A3F8 /* PointUseGuideViewController.swift in Sources */,
 				00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */,
+				82ADC46428DBDC14006EFB8C /* EventDetailReactor.swift in Sources */,
 				8211AACE28D362E40002C095 /* PermissionsGuideReactor.swift in Sources */,
 				63C7C8E0286D6F0B00A357D6 /* NewBottomSheetViewController.swift in Sources */,
 				00F1AC7727031FAA009847E7 /* PreUsePointViewController.swift in Sources */,
@@ -4705,6 +4735,7 @@
 				73C31BFD20A288E3005B6C53 /* ChargerDetailViewController.swift in Sources */,
 				732121BD203AC023000E105C /* AppDelegate.swift in Sources */,
 				529659D227E9AD7200FC1E8B /* LinkShareManager.swift in Sources */,
+				82ADC45C28DBD884006EFB8C /* EventListCell.swift in Sources */,
 				63762F492869A8F000C951BF /* QuitAccountReactor.swift in Sources */,
 				821A05E728627F3100EB1A91 /* ChevronArrow.swift in Sources */,
 				82829BCE28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */,
@@ -4758,6 +4789,7 @@
 				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
 				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,
 				824D5DC128BE1C2500EDC712 /* GlobalFunction.swift in Sources */,
+				82ADC45328DBD600006EFB8C /* NewEventViewController.swift in Sources */,
 				525E3A31278D732700F5C54D /* BoardWriteViewController.swift in Sources */,
 				902A11D5248F53D80049EF8E /* StationInfoDto.swift in Sources */,
 				63DA0A01282E2FD20021292C /* String+Extension.swift in Sources */,
@@ -4928,6 +4960,7 @@
 				824D5C6A28BDD89C00EDC712 /* PointViewController.swift in Sources */,
 				824D5C6B28BDD89C00EDC712 /* UIImageView+Extension.swift in Sources */,
 				824D5C6C28BDD89C00EDC712 /* MembershipReissuanceInfoReactor.swift in Sources */,
+				82ADC45E28DBD884006EFB8C /* EventListCell.swift in Sources */,
 				824D5C6D28BDD89C00EDC712 /* AppTabsController.swift in Sources */,
 				824D5C6E28BDD89C00EDC712 /* PhotoRegisterCollectionViewCell.swift in Sources */,
 				824D5C6F28BDD89C00EDC712 /* CircularProgressBar.swift in Sources */,
@@ -4942,6 +4975,7 @@
 				824D5C7828BDD89C00EDC712 /* SearchBarView.swift in Sources */,
 				824D5C7928BDD89C00EDC712 /* MembershipInfoViewController.swift in Sources */,
 				824D5C7A28BDD89C00EDC712 /* ChargePrice.swift in Sources */,
+				82ADC45528DBD600006EFB8C /* NewEventViewController.swift in Sources */,
 				824D5C7B28BDD89C00EDC712 /* MembershipReissuanceReactor.swift in Sources */,
 				824D5C7C28BDD89C00EDC712 /* CorporationLoginViewController.swift in Sources */,
 				824D5C7D28BDD89C00EDC712 /* LotteRentIntoViewController.swift in Sources */,
@@ -5068,11 +5102,13 @@
 				824D5DC328BE1C2500EDC712 /* GlobalFunction.swift in Sources */,
 				824D5CF228BDD89C00EDC712 /* BoardWriteViewController.swift in Sources */,
 				824D5CF428BDD89C00EDC712 /* StationInfoDto.swift in Sources */,
+				82ADC45928DBD60F006EFB8C /* EventReactor.swift in Sources */,
 				824D5CF528BDD89C00EDC712 /* String+Extension.swift in Sources */,
 				824D5CF628BDD89C00EDC712 /* NoticeContentViewController.swift in Sources */,
 				824D5CF728BDD89C00EDC712 /* EVFileManager.swift in Sources */,
 				824D5CF828BDD89C00EDC712 /* StartBannerViewController.swift in Sources */,
 				824D5CF928BDD89C00EDC712 /* SettingsReactor.swift in Sources */,
+				82ADC46628DBDC14006EFB8C /* EventDetailReactor.swift in Sources */,
 				824D5CFA28BDD89C00EDC712 /* Regions.swift in Sources */,
 				824D5CFB28BDD89C00EDC712 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				824D5CFC28BDD89C00EDC712 /* PaymentTableViewCell.swift in Sources */,
