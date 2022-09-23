@@ -200,6 +200,17 @@
 		633FF30328B3697A0041BDBB /* PaymentStatusReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF30128B3697A0041BDBB /* PaymentStatusReactor.swift */; };
 		636DB9402876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
 		636DB9412876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
+		637025EA28DD83070082B068 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
+		637025EB28DD832C0082B068 /* NoticeDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */; };
+		637025EC28DD834A0082B068 /* NewNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */; };
+		637025ED28DD83510082B068 /* NoticeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D928BE0D0600FD4025 /* NoticeReactor.swift */; };
+		637025EE28DD83640082B068 /* NoticeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E228BEF3E800FD4025 /* NoticeList.swift */; };
+		637025EF28DD837C0082B068 /* NewNoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */; };
+		637025F028DD83950082B068 /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
+		637025F128DD83E10082B068 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7D28D32A49001A18B5 /* Constants.swift */; };
+		637025F228DD83FF0082B068 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
+		637025F328DD84540082B068 /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C9208993BE009535EE /* NoticeTableViewCell.swift */; };
+		637025F428DD84590082B068 /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D628BC8B1C00FD4025 /* Notice.swift */; };
 		637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */; };
 		637247D3282A5F7900595FCE /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D2282A5F7900595FCE /* UIViewController+Extension.swift */; };
 		637247DA282A6F3B00595FCE /* MembershipGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D9282A6F3B00595FCE /* MembershipGuideViewController.swift */; };
@@ -4810,6 +4821,7 @@
 				824D5C0028BDD89C00EDC712 /* PaymentStatusReactor.swift in Sources */,
 				824D5C0128BDD89C00EDC712 /* CardBoardViewController.swift in Sources */,
 				824D5C0228BDD89C00EDC712 /* ReceiptView.swift in Sources */,
+				637025EA28DD83070082B068 /* DateConstants.swift in Sources */,
 				824D5C0328BDD89C00EDC712 /* MyPageViewController.swift in Sources */,
 				6320414F28D3472900CF7125 /* Server.swift in Sources */,
 				824D5C0428BDD89C00EDC712 /* ConfirmPopupViewController.swift in Sources */,
@@ -4852,6 +4864,8 @@
 				824D5C2A28BDD89C00EDC712 /* UIColor+Extension.swift in Sources */,
 				824D5C2B28BDD89C00EDC712 /* UIStoryboard+Extension.swift in Sources */,
 				824D5C2C28BDD89C00EDC712 /* ServerResult.swift in Sources */,
+				637025EB28DD832C0082B068 /* NoticeDetailReactor.swift in Sources */,
+				637025EC28DD834A0082B068 /* NewNoticeViewController.swift in Sources */,
 				824D5C2D28BDD89C00EDC712 /* ChargerFilter.swift in Sources */,
 				824D5C2E28BDD89C00EDC712 /* Date+Extension.swift in Sources */,
 				824D5C2F28BDD89C00EDC712 /* KeyboardInputView.swift in Sources */,
@@ -4859,6 +4873,7 @@
 				824D5C3128BDD89C00EDC712 /* RepayListViewController.swift in Sources */,
 				824D5C3228BDD89C00EDC712 /* NavigationDrawerController.swift in Sources */,
 				824D5C3328BDD89C00EDC712 /* LoginHelper.swift in Sources */,
+				637025EE28DD83640082B068 /* NoticeList.swift in Sources */,
 				824D5C3428BDD89C00EDC712 /* BoardTableView.swift in Sources */,
 				824D5C3528BDD89C00EDC712 /* FilterSpeedView.swift in Sources */,
 				824D5C3628BDD89C00EDC712 /* CommonBaseTableViewCell.swift in Sources */,
@@ -4876,6 +4891,7 @@
 				824D5C4128BDD89C00EDC712 /* MemberOtherInfo.swift in Sources */,
 				824D5C4228BDD89C00EDC712 /* BoardDetailTableViewHeader.swift in Sources */,
 				824D5C4328BDD89C00EDC712 /* NaverMapView.swift in Sources */,
+				637025EF28DD837C0082B068 /* NewNoticeTableViewCell.swift in Sources */,
 				824D5C4428BDD89C00EDC712 /* Icons+Generated.swift in Sources */,
 				824D5C4528BDD89C00EDC712 /* AmpChargerStationModel.swift in Sources */,
 				824D5C4628BDD89C00EDC712 /* StationStatusDto.swift in Sources */,
@@ -4887,6 +4903,7 @@
 				824D5C4C28BDD89C00EDC712 /* TermsViewController.swift in Sources */,
 				824D5C4D28BDD89C00EDC712 /* IconTextRectButton.swift in Sources */,
 				824D5C4E28BDD89C00EDC712 /* BoardDetailViewModel.swift in Sources */,
+				637025F328DD84540082B068 /* NoticeTableViewCell.swift in Sources */,
 				824D5C4F28BDD89C00EDC712 /* EIAdManager.swift in Sources */,
 				824D5C5028BDD89C00EDC712 /* AlertViewController.swift in Sources */,
 				824D5C5128BDD89C00EDC712 /* Observable+Operators.swift in Sources */,
@@ -4902,6 +4919,7 @@
 				824D5C5B28BDD89C00EDC712 /* HSUnderLineTextField.swift in Sources */,
 				824D5C5C28BDD89C00EDC712 /* CompanyTableViewCell.swift in Sources */,
 				824D5C5D28BDD89C00EDC712 /* BedgeButton.swift in Sources */,
+				637025F028DD83950082B068 /* NoticeCellReactor.swift in Sources */,
 				824D5C5E28BDD89C00EDC712 /* CommonNaviView.swift in Sources */,
 				824D5C5F28BDD89C00EDC712 /* MemberManager.swift in Sources */,
 				824D5C6028BDD89C00EDC712 /* FilterCompanyView.swift in Sources */,
@@ -4958,6 +4976,7 @@
 				824D5C9328BDD89C00EDC712 /* ChargerSelectDelegate.swift in Sources */,
 				8211AAD028D362E40002C095 /* PermissionsGuideReactor.swift in Sources */,
 				824D5C9428BDD89C00EDC712 /* MyPayRegisterViewController.swift in Sources */,
+				637025ED28DD83510082B068 /* NoticeReactor.swift in Sources */,
 				824D5C9528BDD89C00EDC712 /* QuitAccountCompleteViewController.swift in Sources */,
 				824D5C9628BDD89C00EDC712 /* EVIcon.swift in Sources */,
 				824D5C9728BDD89C00EDC712 /* URL+Extension.swift in Sources */,
@@ -5009,6 +5028,7 @@
 				824D5CC128BDD89C00EDC712 /* LinkShareManager.swift in Sources */,
 				824D5CC228BDD89C00EDC712 /* QuitAccountReactor.swift in Sources */,
 				824D5CC328BDD89C00EDC712 /* ChevronArrow.swift in Sources */,
+				637025F128DD83E10082B068 /* Constants.swift in Sources */,
 				824D5CC428BDD89C00EDC712 /* UIImageView+Rx.swift in Sources */,
 				824D5CC528BDD89C00EDC712 /* NewPaymentQRScanViewController.swift in Sources */,
 				824D5CC628BDD89C00EDC712 /* SearchAddressViewDelegate.swift in Sources */,
@@ -5023,6 +5043,7 @@
 				824D5CCF28BDD89C00EDC712 /* ChargerManagerListener.swift in Sources */,
 				824D5CD028BDD89C00EDC712 /* HangulUtils.swift in Sources */,
 				824D5CD128BDD89C00EDC712 /* PaymentStatus.swift in Sources */,
+				637025F428DD84590082B068 /* Notice.swift in Sources */,
 				824D5CD228BDD89C00EDC712 /* CommunityBoardTableViewHeader.swift in Sources */,
 				824D5CD328BDD89C00EDC712 /* SideMenuTableViewCell.swift in Sources */,
 				824D5CD428BDD89C00EDC712 /* BoardTableViewDelegate.swift in Sources */,
@@ -5083,6 +5104,7 @@
 				824D5D0D28BDD89C00EDC712 /* PaymentQRScanViewController.swift in Sources */,
 				824D5D0E28BDD89C00EDC712 /* NoticeViewController.swift in Sources */,
 				824D5D0F28BDD89C00EDC712 /* BottomSheetViewController.swift in Sources */,
+				637025F228DD83FF0082B068 /* ViewConstants.swift in Sources */,
 				824D5D1028BDD89C00EDC712 /* BoardListItem.swift in Sources */,
 				824D5D1128BDD89C00EDC712 /* evInfra.xcdatamodeld in Sources */,
 				824D5D1228BDD89C00EDC712 /* ChargePriceTableViewCell.swift in Sources */,
@@ -5180,7 +5202,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = "evInfra/Info-dev.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
@@ -5221,7 +5243,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = "evInfra/Info-dev.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
@@ -5380,7 +5402,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
@@ -5421,7 +5443,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
@@ -5462,7 +5484,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.3;
@@ -5496,6 +5518,7 @@
 				CURRENT_PROJECT_VERSION = 09081326;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -5503,7 +5526,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.3;
@@ -5518,6 +5541,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.soft-berry.ev-infra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = EvInfra_20220627_debug;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = EvInfra_20220627_debug;
 				SWIFT_OBJC_BRIDGING_HEADER = "evInfra/evInfra-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
