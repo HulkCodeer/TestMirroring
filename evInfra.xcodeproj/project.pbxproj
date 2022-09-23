@@ -486,7 +486,6 @@
 		63F31495284EC74F001713D2 /* BoardWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ADE4FE27964A1F00FBBA25 /* BoardWriteViewModel.swift */; };
 		63F31496284EC74F001713D2 /* KoreanTextMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B858220A42C81005454F5 /* KoreanTextMatcher.swift */; };
 		63F31498284EC74F001713D2 /* AcceptTermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF1776278EA644007D8E4E /* AcceptTermsViewController.swift */; };
-		63F31499284EC74F001713D2 /* EventContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE33B4BC2191BA1200B6C632 /* EventContentsViewController.swift */; };
 		63F3149A284EC74F001713D2 /* ChargesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5FA59522C20A8400F1508A /* ChargesViewController.swift */; };
 		63F3149B284EC74F001713D2 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
 		63F3149C284EC74F001713D2 /* ReportBoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93309821511AD4006B7EF6 /* ReportBoardTableViewCell.swift */; };
@@ -1107,7 +1106,6 @@
 		824D5D0528BDD89C00EDC712 /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		824D5D0628BDD89C00EDC712 /* KoreanTextMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B858220A42C81005454F5 /* KoreanTextMatcher.swift */; };
 		824D5D0828BDD89C00EDC712 /* AcceptTermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF1776278EA644007D8E4E /* AcceptTermsViewController.swift */; };
-		824D5D0928BDD89C00EDC712 /* EventContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE33B4BC2191BA1200B6C632 /* EventContentsViewController.swift */; };
 		824D5D0A28BDD89C00EDC712 /* ChargesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5FA59522C20A8400F1508A /* ChargesViewController.swift */; };
 		824D5D0B28BDD89C00EDC712 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
 		824D5D0C28BDD89C00EDC712 /* ReportBoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93309821511AD4006B7EF6 /* ReportBoardTableViewCell.swift */; };
@@ -1323,7 +1321,6 @@
 		CE24840220A59E3000611E24 /* CarModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE24840120A59E3000611E24 /* CarModels.swift */; };
 		CE24840420A59E6400611E24 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE24840320A59E6400611E24 /* UserDefault.swift */; };
 		CE33B4BB2191B8B000B6C632 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE33B4BA2191B8B000B6C632 /* EventViewController.swift */; };
-		CE33B4BD2191BA1200B6C632 /* EventContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE33B4BC2191BA1200B6C632 /* EventContentsViewController.swift */; };
 		CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE33B4BE2191BD0900B6C632 /* EventTableViewCell.swift */; };
 		CE33B4C12191BD9500B6C632 /* MyCouponViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE33B4C02191BD9500B6C632 /* MyCouponViewController.swift */; };
 		CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE33B4C42191BFD100B6C632 /* MyCouponTableViewCell.swift */; };
@@ -1836,7 +1833,6 @@
 		CE24840120A59E3000611E24 /* CarModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarModels.swift; sourceTree = "<group>"; };
 		CE24840320A59E6400611E24 /* UserDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
 		CE33B4BA2191B8B000B6C632 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
-		CE33B4BC2191BA1200B6C632 /* EventContentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventContentsViewController.swift; sourceTree = "<group>"; };
 		CE33B4BE2191BD0900B6C632 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
 		CE33B4C02191BD9500B6C632 /* MyCouponViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCouponViewController.swift; sourceTree = "<group>"; };
 		CE33B4C42191BFD100B6C632 /* MyCouponTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCouponTableViewCell.swift; sourceTree = "<group>"; };
@@ -2116,7 +2112,6 @@
 			isa = PBXGroup;
 			children = (
 				00FDEAF326B3BFAB006617EE /* Event.storyboard */,
-				CE33B4BC2191BA1200B6C632 /* EventContentsViewController.swift */,
 				CE33B4BA2191B8B000B6C632 /* EventViewController.swift */,
 				191FB60328A0CA40005248C8 /* NewEventDetailViewController.swift */,
 			);
@@ -4462,7 +4457,6 @@
 				8211AAD228D362E40002C095 /* PermissionsGuideViewController.swift in Sources */,
 				63F31496284EC74F001713D2 /* KoreanTextMatcher.swift in Sources */,
 				63F31498284EC74F001713D2 /* AcceptTermsViewController.swift in Sources */,
-				63F31499284EC74F001713D2 /* EventContentsViewController.swift in Sources */,
 				63F3149A284EC74F001713D2 /* ChargesViewController.swift in Sources */,
 				63F3149B284EC74F001713D2 /* ViewModel.swift in Sources */,
 				63F3149C284EC74F001713D2 /* ReportBoardTableViewCell.swift in Sources */,
@@ -4777,7 +4771,6 @@
 				596522E628C877F000FD4025 /* NoticeCellReactor.swift in Sources */,
 				DB3B858320A42C81005454F5 /* KoreanTextMatcher.swift in Sources */,
 				00CF1777278EA644007D8E4E /* AcceptTermsViewController.swift in Sources */,
-				CE33B4BD2191BA1200B6C632 /* EventContentsViewController.swift in Sources */,
 				DB5FA59622C20A8400F1508A /* ChargesViewController.swift in Sources */,
 				82D986812839BE080030F0FC /* ViewModel.swift in Sources */,
 				CE93309921511AD4006B7EF6 /* ReportBoardTableViewCell.swift in Sources */,
@@ -5084,7 +5077,6 @@
 				824D5D0528BDD89C00EDC712 /* QRReaderView.swift in Sources */,
 				824D5D0628BDD89C00EDC712 /* KoreanTextMatcher.swift in Sources */,
 				824D5D0828BDD89C00EDC712 /* AcceptTermsViewController.swift in Sources */,
-				824D5D0928BDD89C00EDC712 /* EventContentsViewController.swift in Sources */,
 				824D5D0A28BDD89C00EDC712 /* ChargesViewController.swift in Sources */,
 				824D5D0B28BDD89C00EDC712 /* ViewModel.swift in Sources */,
 				824D5D0C28BDD89C00EDC712 /* ReportBoardTableViewCell.swift in Sources */,

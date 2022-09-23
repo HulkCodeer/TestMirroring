@@ -142,19 +142,19 @@ internal final class DeepLinkPath {
         case DynamicLinkUrlPathType.event_detail.value:
             if let _mainNav = GlobalDefine.shared.mainNavi {
                 if _mainNav.containsViewController(ofKind: EventViewController.self) ||
-                    _mainNav.containsViewController(ofKind: EventContentsViewController.self) {
+                    _mainNav.containsViewController(ofKind: NewEventDetailViewController.self) {
                     let _viewControllers = _mainNav.viewControllers
                     for vc in _viewControllers.reversed() {                        
                         if let _vc = vc as? AppNavigationDrawerController {
                             _mainNav.popToViewControllerWithHandler(vc: _vc, completion: { [weak self] in
                                 guard let self = self else { return }
-                                self.moveEventDetailViewController()
+                                self.moveEventViewController()
                             })
                             return
                         }
                     }
                 } else {
-                    self.moveEventDetailViewController()
+                    self.moveEventViewController()
                 }
             }
             
@@ -175,7 +175,7 @@ internal final class DeepLinkPath {
         }
     }
     
-    private func moveEventDetailViewController() {
+    private func moveEventViewController() {
         guard let paramItems = linkParameter, let eventID = paramItems.first(where: { $0.name == "event_id"})?.value else { return }
         let viewcon = UIStoryboard(name : "Event", bundle: nil).instantiateViewController(ofType: EventViewController.self)
         viewcon.externalEventParam = paramItems.first(where: { $0.name == "param" })?.value?.description
