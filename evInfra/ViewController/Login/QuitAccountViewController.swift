@@ -21,7 +21,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
             case .deleteVery:
                 return "고객님의 소중한 베리가 모두 사라져요"
             case .delteMembership:
-                return "회원카드가 삭제되어요"
+                return "EV Pay카드가 삭제되어요"
             case .reSign:
                 return "처음부터 다시 가입해야 해요"
             case .unRecoverable:

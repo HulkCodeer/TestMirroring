@@ -207,7 +207,7 @@ PODS:
     - MaterialComponents/private/Application
     - MaterialComponents/private/Math
     - MDFTextAccessibility
-  - MDFInternationalization (2.0.0)
+  - MDFInternationalization (3.0.0)
   - MDFTextAccessibility (2.0.1)
   - Motion (1.4.3):
     - Motion/Core (= 1.4.3)
@@ -390,7 +390,7 @@ SPEC CHECKSUMS:
   M13Checkbox: 6f59404540ac98ba83a3d1afac335895a40c6a5d
   Material: 4ed78690b09ffd148b5ffab6b4367fb1d8da1cd3
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
-  MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
+  MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
   MDFTextAccessibility: f4bb4cc2194286651b59a215fdeaa0e05dc90ba5
   Motion: 153ba49692997888556c7a95207278a8b1f8be95
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
@@ -414,6 +414,6 @@ SPEC CHECKSUMS:
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: d3521588a22c66219f2b5e9a58514fc293cc0125
+PODFILE CHECKSUM: 9c03d9f7dddf0d40a69c5c7e21b9ac4c3c0dd423
 
 COCOAPODS: 1.11.3

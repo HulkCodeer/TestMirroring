@@ -179,10 +179,10 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         guard let _reactor = self.reactor else { return }
         self.changeStationGuideWithPaymentStatusCheck(reactor: _reactor)
     }
-    
+            
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        qrReaderView.stop()
+        qrReaderView.stop()        
     }
     
     init(reactor: PaymentQRScanReactor) {
@@ -261,9 +261,8 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
         stationSubGuideLbl.isHidden = true
         stationSubGuideBtn.isHidden = true
         
-//        switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
-        switch (true, true) {
-        case (false, false): // 신규유저
+        switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
+        case (false, false): // 신규유저, 피그마 CASE 1
             let tempText = "한국 전력과 GS칼텍스에서\nQR 충전을 할 수 있어요"
             let attributeText = NSMutableAttributedString(string: tempText)
             let allRange = NSMakeRange(0, attributeText.length)
@@ -280,9 +279,43 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             stationGuideLbl.attributedText = attributeText
             guideLbl.text = "QR 코드를 비추면 자동으로 스캔되어요"
             
-            let popupModel = PopupModel(title: "회원카드 발급이 필요해요",
-                                        message: "회원카드를 발급 해야 한국전력, GS칼텍스의 QR 충전을 이용할 수 있어요.",
-                                        confirmBtnTitle: "회원카드 발급하기", cancelBtnTitle: "닫기",
+            stationSubGuideLbl.isHidden = false
+            stationSubGuideBtn.isHidden = false
+            stationSubGuideLbl.text = "한국 전력 QR충전 시 주의사항"
+            
+            stationSubGuideBtn.rx.tap
+                .filter { [weak self] _ in
+                    guard let self = self else { return false }
+                    return !self.timer.isValid
+                }
+                .asDriver(onErrorJustReturn: ())
+                .drive(with: self) { obj, _ in
+                    var preferences = EasyTipView.Preferences()
+                            
+                    preferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
+                    preferences.drawing.foregroundColor = Colors.backgroundSecondary.color
+                    preferences.drawing.textAlignment = NSTextAlignment.center
+        
+                    preferences.drawing.arrowPosition = .top
+                    preferences.animating.showInitialAlpha = 1
+                    preferences.animating.showDuration = 1
+                    preferences.animating.dismissDuration = 1
+                    preferences.positioning.maxWidth = 294
+        
+                    let text = "충전기에 따라 QR코드 이미지 화질 저하로\nQR스캔까지 시간이 걸릴 수 있어요.\n번호 입력 및 카드 태깅으로도 충전 가능해요."
+                    obj.tipView = EasyTipView(text: text, preferences: preferences)
+                    obj.tipView.show(forView: self.stationSubGuideLbl)
+                    
+                    obj.timer = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { (timer) in
+                        obj.tipView.dismiss()
+                        timer.invalidate()
+                    }
+                }
+                .disposed(by: self.disposeBag)
+            
+            let popupModel = PopupModel(title: "EV Pay카드 발급이 필요해요",
+                                        message: "EV Pay카드를 발급 해야 한국전력, GS칼텍스의 QR 충전을 이용할 수 있어요.",
+                                        confirmBtnTitle: "EV Pay 발급하기", cancelBtnTitle: "닫기",
                                         confirmBtnAction: {
                 let viewcon = MembershipGuideViewController()
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
@@ -301,12 +334,46 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                 .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
             
-        case (false, true): // 오류 유저(미수금)
+        case (false, true): // 오류 유저(미수금), 피그마 CASE 2
+            stationSubGuideLbl.isHidden = false
+            stationSubGuideBtn.isHidden = false
+            stationSubGuideLbl.text = "한국 전력 QR충전 시 주의사항"
+            
+            stationSubGuideBtn.rx.tap
+                .filter { [weak self] _ in
+                    guard let self = self else { return false }
+                    return !self.timer.isValid
+                }
+                .asDriver(onErrorJustReturn: ())
+                .drive(with: self) { obj, _ in
+                    var preferences = EasyTipView.Preferences()
+                            
+                    preferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
+                    preferences.drawing.foregroundColor = Colors.backgroundSecondary.color
+                    preferences.drawing.textAlignment = NSTextAlignment.center
+        
+                    preferences.drawing.arrowPosition = .top
+                    preferences.animating.showInitialAlpha = 1
+                    preferences.animating.showDuration = 1
+                    preferences.animating.dismissDuration = 1
+                    preferences.positioning.maxWidth = 294
+        
+                    let text = "충전기에 따라 QR코드 이미지 화질 저하로\nQR스캔까지 시간이 걸릴 수 있어요.\n번호 입력 및 카드 태깅으로도 충전 가능해요."
+                    obj.tipView = EasyTipView(text: text, preferences: preferences)
+                    obj.tipView.show(forView: self.stationSubGuideLbl)
+                    
+                    obj.timer = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { (timer) in
+                        obj.tipView.dismiss()
+                        timer.invalidate()
+                    }
+                }
+                .disposed(by: self.disposeBag)
+            
             Observable.just(PaymentQRScanReactor.Action.loadPaymentStatus)
                 .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
             
-        case (true, false): // GS 사용자
+        case (true, false): // GS 사용자, 피그마 CASE 3
             let tempText = "현재 GS칼텍스에서\nQR 충전을 할 수 있어요"
             let attributeText = NSMutableAttributedString(string: tempText)
             let allRange = NSMakeRange(0, attributeText.length)
@@ -336,7 +403,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                 .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
                                 
-        case (true, true): // 아무 이상 없는 유저
+        case (true, true): // 아무 이상 없는 유저, 피그마 CASE 4
             let tempText = "한국 전력 QR충전 주의사항"
             let attributeText = NSMutableAttributedString(string: tempText)
             let allRange = NSMakeRange(0, attributeText.length)

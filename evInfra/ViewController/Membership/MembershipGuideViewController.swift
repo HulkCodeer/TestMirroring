@@ -37,7 +37,7 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     
     private lazy var membershipBtnTitleLbl = UILabel().then {
         
-        $0.text = "회원카드 만들기"
+        $0.text = "EV Pay카드 만들기"
         $0.textColor = UIColor(named: "nt-9")
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textAlignment = .center
@@ -54,7 +54,7 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     override func loadView() {
         super.loadView()
         
-        prepareActionBar(with: "회원카드 안내")
+        prepareActionBar(with: "EV Pay카드 안내")
         
         view.addSubview(self.membershipRegisterBtn)
         membershipRegisterBtn.snp.makeConstraints {

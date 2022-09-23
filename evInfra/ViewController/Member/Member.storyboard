@@ -391,7 +391,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cy3-O5-ash">
                                                                 <rect key="frame" x="93" y="0.0" width="150" height="150"/>
                                                                 <subviews>
-                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_persom_base150" translatesAutoresizingMaskIntoConstraints="NO" id="a9Z-qB-EYN">
+                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_person_base150" translatesAutoresizingMaskIntoConstraints="NO" id="a9Z-qB-EYN">
                                                                         <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                                                     </imageView>
                                                                     <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BOM-gJ-puO">
@@ -764,7 +764,7 @@
     <resources>
         <image name="btn_camera.png" width="75.599998474121094" height="75.599998474121094"/>
         <image name="empty_bookmark_img" width="111.5" height="175.5"/>
-        <image name="ic_persom_base150" width="150" height="150"/>
+        <image name="ic_person_base150" width="150" height="150"/>
         <namedColor name="gr-5">
             <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
