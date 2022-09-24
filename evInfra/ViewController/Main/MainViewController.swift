@@ -118,12 +118,15 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareCalloutLayer()
         
         LocationWorker.shared.locationStatusObservable
-            .subscribe(onNext: { status in
+            .subscribe(onNext: { [weak self] status in
+                guard let self = self else { return }
                 switch status {
                 case .authorizedAlways, .authorizedWhenInUse:
                     self.naverMapView.moveToCurrentPostiion()
                                     
-                default: break
+                default:
+                    self.naverMapView.moveToCenterPosition()
+                                        
                 }
             })
             .disposed(by: self.disposeBag)        
@@ -219,9 +222,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                         .subscribe(with: self) { obj ,status in
                             switch status {
                             case .authorizedAlways, .authorizedWhenInUse:
-                                if !MemberManager.shared.isFirstInstall {
-                                    MemberManager.shared.isFirstInstall = true
-                                    
+                                if !MemberManager.shared.isFirstInstall {                                                                        
                                     let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
                                                                 messageAttributedText: attributeText,
                                                                 confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기", confirmBtnAction: { [weak self] in
@@ -515,11 +516,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
         }                
         RouteEvent.clickNavigationFindway.logEvent()
-    }
-    
-    private func configureLocationManager() {
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
     }
 }
 
