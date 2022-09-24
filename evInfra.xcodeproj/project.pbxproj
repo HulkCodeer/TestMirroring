@@ -190,18 +190,6 @@
 		59EC3B7F28D33568001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
 		59EC3B8028D3356B001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
 		59EC3B8128D3356D001A18B5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7D28D32A49001A18B5 /* Constants.swift */; };
-		6320414728D3472900CF7125 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414228D3472900CF7125 /* NetworkWorker.swift */; };
-		6320414828D3472900CF7125 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414228D3472900CF7125 /* NetworkWorker.swift */; };
-		6320414928D3472900CF7125 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414228D3472900CF7125 /* NetworkWorker.swift */; };
-		6320414A28D3472900CF7125 /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414428D3472900CF7125 /* SoftberryAPI.swift */; };
-		6320414B28D3472900CF7125 /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414428D3472900CF7125 /* SoftberryAPI.swift */; };
-		6320414C28D3472900CF7125 /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414428D3472900CF7125 /* SoftberryAPI.swift */; };
-		6320414D28D3472900CF7125 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414528D3472900CF7125 /* Server.swift */; };
-		6320414E28D3472900CF7125 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414528D3472900CF7125 /* Server.swift */; };
-		6320414F28D3472900CF7125 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414528D3472900CF7125 /* Server.swift */; };
-		6320415028D3472900CF7125 /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414628D3472900CF7125 /* LocationWorker.swift */; };
-		6320415128D3472900CF7125 /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414628D3472900CF7125 /* LocationWorker.swift */; };
-		6320415228D3472900CF7125 /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320414628D3472900CF7125 /* LocationWorker.swift */; };
 		633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FE28B342630041BDBB /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
@@ -210,17 +198,6 @@
 		633FF30328B3697A0041BDBB /* PaymentStatusReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF30128B3697A0041BDBB /* PaymentStatusReactor.swift */; };
 		636DB9402876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
 		636DB9412876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
-		637025EA28DD83070082B068 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
-		637025EB28DD832C0082B068 /* NoticeDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */; };
-		637025EC28DD834A0082B068 /* NewNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */; };
-		637025ED28DD83510082B068 /* NoticeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D928BE0D0600FD4025 /* NoticeReactor.swift */; };
-		637025EE28DD83640082B068 /* NoticeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E228BEF3E800FD4025 /* NoticeList.swift */; };
-		637025EF28DD837C0082B068 /* NewNoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */; };
-		637025F028DD83950082B068 /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
-		637025F128DD83E10082B068 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7D28D32A49001A18B5 /* Constants.swift */; };
-		637025F228DD83FF0082B068 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
-		637025F328DD84540082B068 /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C9208993BE009535EE /* NoticeTableViewCell.swift */; };
-		637025F428DD84590082B068 /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D628BC8B1C00FD4025 /* Notice.swift */; };
 		637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */; };
 		637247D3282A5F7900595FCE /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D2282A5F7900595FCE /* UIViewController+Extension.swift */; };
 		637247DA282A6F3B00595FCE /* MembershipGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D9282A6F3B00595FCE /* MembershipGuideViewController.swift */; };
@@ -830,15 +807,6 @@
 		73EF8B7B203C85CC00D04494 /* TopLib_Op.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73EF8B6E203C85CC00D04494 /* TopLib_Op.a */; };
 		73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */; };
 		73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F6B53920F873110030D0B3 /* IntroViewController.swift */; };
-		8211AACB28D362E40002C095 /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC828D362E40002C095 /* MainReactor.swift */; };
-		8211AACC28D362E40002C095 /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC828D362E40002C095 /* MainReactor.swift */; };
-		8211AACD28D362E40002C095 /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC828D362E40002C095 /* MainReactor.swift */; };
-		8211AACE28D362E40002C095 /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */; };
-		8211AACF28D362E40002C095 /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */; };
-		8211AAD028D362E40002C095 /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */; };
-		8211AAD128D362E40002C095 /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */; };
-		8211AAD228D362E40002C095 /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */; };
-		8211AAD328D362E40002C095 /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */; };
 		821A05E128627F3100EB1A91 /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DD28627F3000EB1A91 /* NavigationClose.swift */; };
 		821A05E228627F3100EB1A91 /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DD28627F3000EB1A91 /* NavigationClose.swift */; };
 		821A05E328627F3100EB1A91 /* Arrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DE28627F3000EB1A91 /* Arrow.swift */; };
@@ -1304,6 +1272,27 @@
 		82DD57DD28C5D41900C6C55E /* StickButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD57DA28C5D41900C6C55E /* StickButton.swift */; };
 		82E03191286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		82E03192286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
+		82E1302328DEACF100E7983D /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301C28DEACF100E7983D /* NetworkWorker.swift */; };
+		82E1302428DEACF100E7983D /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301E28DEACF100E7983D /* SoftberryAPI.swift */; };
+		82E1302528DEACF100E7983D /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302028DEACF100E7983D /* Server.swift */; };
+		82E1302628DEACF100E7983D /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302228DEACF100E7983D /* LocationWorker.swift */; };
+		82E1302728DEAE2600E7983D /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301E28DEACF100E7983D /* SoftberryAPI.swift */; };
+		82E1302828DEAE2700E7983D /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301E28DEACF100E7983D /* SoftberryAPI.swift */; };
+		82E1302928DEAE2A00E7983D /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302028DEACF100E7983D /* Server.swift */; };
+		82E1302A28DEAE2A00E7983D /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302028DEACF100E7983D /* Server.swift */; };
+		82E1302B28DEAE2D00E7983D /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301C28DEACF100E7983D /* NetworkWorker.swift */; };
+		82E1302C28DEAE2D00E7983D /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301C28DEACF100E7983D /* NetworkWorker.swift */; };
+		82E1302D28DEAE3000E7983D /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302228DEACF100E7983D /* LocationWorker.swift */; };
+		82E1302E28DEAE3000E7983D /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302228DEACF100E7983D /* LocationWorker.swift */; };
+		82E1303028DEAEB200E7983D /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302F28DEAEB200E7983D /* MainReactor.swift */; };
+		82E1303128DEAEB200E7983D /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302F28DEAEB200E7983D /* MainReactor.swift */; };
+		82E1303228DEAEB200E7983D /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302F28DEAEB200E7983D /* MainReactor.swift */; };
+		82E1303528DEAEC100E7983D /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1303328DEAEC100E7983D /* PermissionsGuideReactor.swift */; };
+		82E1303628DEAEC100E7983D /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1303328DEAEC100E7983D /* PermissionsGuideReactor.swift */; };
+		82E1303728DEAEC100E7983D /* PermissionsGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1303328DEAEC100E7983D /* PermissionsGuideReactor.swift */; };
+		82E1303828DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */; };
+		82E1303928DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */; };
+		82E1303A28DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */; };
 		8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
@@ -1559,10 +1548,6 @@
 		59EC3B7B28D32A33001A18B5 /* DateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstants.swift; sourceTree = "<group>"; };
 		59EC3B7D28D32A49001A18B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
-		6320414228D3472900CF7125 /* NetworkWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
-		6320414428D3472900CF7125 /* SoftberryAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
-		6320414528D3472900CF7125 /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
-		6320414628D3472900CF7125 /* LocationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationWorker.swift; sourceTree = "<group>"; };
 		63341582B387F91B5B9BDC49 /* Pods-evInfra_release.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_release.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_release/Pods-evInfra_release.release.xcconfig"; sourceTree = "<group>"; };
 		633FF2FA28B342630041BDBB /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		633FF2FB28B342630041BDBB /* Radio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Radio.swift; sourceTree = "<group>"; };
@@ -1791,9 +1776,6 @@
 		73EF8B7C203C880A00D04494 /* evInfra-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "evInfra-Bridging-Header.h"; sourceTree = "<group>"; };
 		73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterGenerator.swift; sourceTree = "<group>"; };
 		73F6B53920F873110030D0B3 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
-		8211AAC828D362E40002C095 /* MainReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainReactor.swift; sourceTree = "<group>"; };
-		8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsGuideReactor.swift; sourceTree = "<group>"; };
-		8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsGuideViewController.swift; sourceTree = "<group>"; };
 		821A05DD28627F3000EB1A91 /* NavigationClose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationClose.swift; sourceTree = "<group>"; };
 		821A05DE28627F3000EB1A91 /* Arrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arrow.swift; sourceTree = "<group>"; };
 		821A05DF28627F3000EB1A91 /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
@@ -1812,6 +1794,13 @@
 		82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoReactor.swift; sourceTree = "<group>"; };
 		82DD57DA28C5D41900C6C55E /* StickButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickButton.swift; sourceTree = "<group>"; };
 		82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitAccountCompleteViewController.swift; sourceTree = "<group>"; };
+		82E1301C28DEACF100E7983D /* NetworkWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
+		82E1301E28DEACF100E7983D /* SoftberryAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
+		82E1302028DEACF100E7983D /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
+		82E1302228DEACF100E7983D /* LocationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationWorker.swift; sourceTree = "<group>"; };
+		82E1302F28DEAEB200E7983D /* MainReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainReactor.swift; sourceTree = "<group>"; };
+		82E1303328DEAEC100E7983D /* PermissionsGuideReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsGuideReactor.swift; sourceTree = "<group>"; };
+		82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsGuideViewController.swift; sourceTree = "<group>"; };
 		9014C12624E55C4800CB6549 /* EIPOIItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIPOIItem.swift; sourceTree = "<group>"; };
 		9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAllPOIListenerCallback.swift; sourceTree = "<group>"; };
 		9028E07724A1B8270062A029 /* eirel */ = {isa = PBXFileReference; lastKnownFileType = file; path = eirel; sourceTree = "<group>"; };
@@ -2056,9 +2045,9 @@
 		00B2E8BB26C0FE76005D017C /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				8211AAC828D362E40002C095 /* MainReactor.swift */,
-				8211AAC928D362E40002C095 /* PermissionsGuideReactor.swift */,
-				8211AACA28D362E40002C095 /* PermissionsGuideViewController.swift */,
+				82E1303328DEAEC100E7983D /* PermissionsGuideReactor.swift */,
+				82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */,
+				82E1302F28DEAEB200E7983D /* MainReactor.swift */,
 				73AD13C5203AC34400ADD19A /* LeftViewController.swift */,
 				73F6B53920F873110030D0B3 /* IntroViewController.swift */,
 				732ED1F921EEFA960012C67B /* MainViewController.swift */,
@@ -2424,23 +2413,6 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
-		6320414128D3472900CF7125 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				6320414328D3472900CF7125 /* Network */,
-				6320414228D3472900CF7125 /* NetworkWorker.swift */,
-				6320414628D3472900CF7125 /* LocationWorker.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
-		6320414328D3472900CF7125 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				6320414428D3472900CF7125 /* SoftberryAPI.swift */,
-				6320414528D3472900CF7125 /* Server.swift */,
-			);
-			path = Network;
 		59F5B91228D8028D00308B27 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -2578,11 +2550,11 @@
 		732121BB203AC023000E105C /* evInfra */ = {
 			isa = PBXGroup;
 			children = (
-				6320414128D3472900CF7125 /* Services */,
 				732B92A120EF1AB40090E9FC /* assets */,
 				732B92C020EF45A70090E9FC /* ExLib */,
 				736813A62043E98F0035FC66 /* Images */,
 				7312786220B7D81A00861B3E /* Common */,
+				82E1301B28DEACF100E7983D /* Services */,
 				DBABCC4727477B1800E2C7ED /* Ads */,
 				9058A3BF248639A700091823 /* charger */,
 				73B752812048EC8D0077112A /* model */,
@@ -2934,6 +2906,25 @@
 				82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */,
 			);
 			path = RxSwift;
+			sourceTree = "<group>";
+		};
+		82E1301B28DEACF100E7983D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				82E1301D28DEACF100E7983D /* Network */,
+				82E1301C28DEACF100E7983D /* NetworkWorker.swift */,
+				82E1302228DEACF100E7983D /* LocationWorker.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		82E1301D28DEACF100E7983D /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				82E1301E28DEACF100E7983D /* SoftberryAPI.swift */,
+				82E1302028DEACF100E7983D /* Server.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		82F3D9A92855EE2B0030C44B /* Component */ = {
@@ -4206,6 +4197,7 @@
 				63C7C8E1286D7D2C00A357D6 /* NewBottomSheetViewController.swift in Sources */,
 				63F313BB284EC74F001713D2 /* ChargePriceViewController.swift in Sources */,
 				63F313BC284EC74F001713D2 /* GlobalDefine.swift in Sources */,
+				82E1302B28DEAE2D00E7983D /* NetworkWorker.swift in Sources */,
 				63F313BD284EC74F001713D2 /* SC_TRACE.swift in Sources */,
 				63F313BE284EC74F001713D2 /* MyCouponTableViewCell.swift in Sources */,
 				63F313BF284EC74F001713D2 /* Coupon.swift in Sources */,
@@ -4275,7 +4267,6 @@
 				63F313F3284EC74F001713D2 /* AlertViewController.swift in Sources */,
 				63F313F4284EC74F001713D2 /* Observable+Operators.swift in Sources */,
 				63F313F5284EC74F001713D2 /* TransientAlertViewController.swift in Sources */,
-				6320414828D3472900CF7125 /* NetworkWorker.swift in Sources */,
 				63F313F6284EC74F001713D2 /* DataBaseHelper.swift in Sources */,
 				63F313F7284EC74F001713D2 /* LoginViewController.swift in Sources */,
 				63762F482869A8F000C951BF /* QuitAccountReasonModel.swift in Sources */,
@@ -4362,7 +4353,6 @@
 				63F31440284EC74F001713D2 /* FilterTypeView.swift in Sources */,
 				63F31441284EC74F001713D2 /* DeepLinkPath.swift in Sources */,
 				63F31442284EC74F001713D2 /* IntroViewController.swift in Sources */,
-				6320414E28D3472900CF7125 /* Server.swift in Sources */,
 				633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */,
 				63F31443284EC74F001713D2 /* EventTableViewCell.swift in Sources */,
 				63F31444284EC74F001713D2 /* CidTableView.swift in Sources */,
@@ -4380,13 +4370,13 @@
 				63F3144D284EC74F001713D2 /* ChargesTableViewCell.swift in Sources */,
 				63F3144E284EC74F001713D2 /* UILabel+Extension.swift in Sources */,
 				63F3144F284EC74F001713D2 /* MembershipReissuanceViewController.swift in Sources */,
-				6320414B28D3472900CF7125 /* SoftberryAPI.swift in Sources */,
 				63F31450284EC74F001713D2 /* CommunityChargeStationTableViewCell.swift in Sources */,
 				63F31451284EC74F001713D2 /* AppNavigationDrawerController.swift in Sources */,
 				63F31452284EC74F001713D2 /* BoardSearchViewModel.swift in Sources */,
 				63F31453284EC74F001713D2 /* PopUpDialog.swift in Sources */,
 				63F31454284EC74F001713D2 /* UIView+Extension.swift in Sources */,
 				63F31455284EC74F001713D2 /* ChargerFilterViewController.swift in Sources */,
+				82E1303128DEAEB200E7983D /* MainReactor.swift in Sources */,
 				63F31456284EC74F001713D2 /* FCMManager.swift in Sources */,
 				63F31457284EC74F001713D2 /* MembershipIssuanceViewController.swift in Sources */,
 				63F31458284EC74F001713D2 /* ChargerDetailViewController.swift in Sources */,
@@ -4401,18 +4391,21 @@
 				63F3145D284EC74F001713D2 /* LotteRentCertificateViewController.swift in Sources */,
 				63F3145E284EC74F001713D2 /* BoardSearchViewController.swift in Sources */,
 				63F31460284EC74F001713D2 /* SignUpViewController.swift in Sources */,
+				82E1303928DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */,
+				82E1303628DEAEC100E7983D /* PermissionsGuideReactor.swift in Sources */,
 				63F31461284EC74F001713D2 /* NavCenterButton.swift in Sources */,
 				63F31462284EC74F001713D2 /* PaymentResultViewController.swift in Sources */,
 				63F31463284EC74F001713D2 /* FilterAccessView.swift in Sources */,
 				63F31464284EC74F001713D2 /* CompanyTableView.swift in Sources */,
+				82E1302728DEAE2600E7983D /* SoftberryAPI.swift in Sources */,
 				63F31465284EC74F001713D2 /* ChargerManagerListener.swift in Sources */,
 				63F31466284EC74F001713D2 /* HangulUtils.swift in Sources */,
+				82E1302D28DEAE3000E7983D /* LocationWorker.swift in Sources */,
 				63F31467284EC74F001713D2 /* PaymentStatus.swift in Sources */,
 				63F31468284EC74F001713D2 /* CommunityBoardTableViewHeader.swift in Sources */,
 				63F31469284EC74F001713D2 /* SideMenuTableViewCell.swift in Sources */,
 				63F3146A284EC74F001713D2 /* BoardTableViewDelegate.swift in Sources */,
 				63F3146B284EC74F001713D2 /* StringUtils.swift in Sources */,
-				8211AACF28D362E40002C095 /* PermissionsGuideReactor.swift in Sources */,
 				63F3146C284EC74F001713D2 /* CommunityBoardAdsCell.swift in Sources */,
 				63F3146D284EC74F001713D2 /* SearchTypeSelectView.swift in Sources */,
 				63F3146E284EC74F001713D2 /* FilterBarView.swift in Sources */,
@@ -4427,12 +4420,12 @@
 				63F31476284EC74F001713D2 /* MyCouponContentsViewController.swift in Sources */,
 				63F31477284EC74F001713D2 /* Event.swift in Sources */,
 				63F31478284EC74F001713D2 /* BoardTableViewFooter.swift in Sources */,
+				82E1302928DEAE2A00E7983D /* Server.swift in Sources */,
 				82DD57DC28C5D41900C6C55E /* StickButton.swift in Sources */,
 				63F3147A284EC74F001713D2 /* UIAlertController+Extension.swift in Sources */,
 				59317D1328B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */,
 				63F3147B284EC74F001713D2 /* RentalCarCardListView.swift in Sources */,
 				195C4E8328C5CE3F000B47F7 /* BannerPagerView.swift in Sources */,
-				6320415128D3472900CF7125 /* LocationWorker.swift in Sources */,
 				633FF2FF28B342630041BDBB /* Radio.swift in Sources */,
 				63F3147C284EC74F001713D2 /* FilterContainerView.swift in Sources */,
 				63F3147D284EC74F001713D2 /* MemberPartnershipInfo.swift in Sources */,
@@ -4447,8 +4440,6 @@
 				63F31485284EC74F001713D2 /* BoardWriteViewController.swift in Sources */,
 				63F31487284EC74F001713D2 /* StationInfoDto.swift in Sources */,
 				63F31488284EC74F001713D2 /* String+Extension.swift in Sources */,
-				63F31489284EC74F001713D2 /* NoticeContentViewController.swift in Sources */,
-				8211AACC28D362E40002C095 /* MainReactor.swift in Sources */,
 				63F3148A284EC74F001713D2 /* EVFileManager.swift in Sources */,
 				194C02692897CF8C00DADA8D /* StartBannerViewController.swift in Sources */,
 				63762F522869A91900C951BF /* SettingsReactor.swift in Sources */,
@@ -4466,7 +4457,6 @@
 				63F31495284EC74F001713D2 /* BoardWriteViewModel.swift in Sources */,
 				82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */,
 				596522E728C877F000FD4025 /* NoticeCellReactor.swift in Sources */,
-				8211AAD228D362E40002C095 /* PermissionsGuideViewController.swift in Sources */,
 				63F31496284EC74F001713D2 /* KoreanTextMatcher.swift in Sources */,
 				63F31498284EC74F001713D2 /* AcceptTermsViewController.swift in Sources */,
 				63F3149A284EC74F001713D2 /* ChargesViewController.swift in Sources */,
@@ -4509,6 +4499,7 @@
 				DB8936542074A4EB006A10BB /* ChargerTableView.swift in Sources */,
 				DB9673C620843EF6008ACCAE /* ChargerTableViewCell.swift in Sources */,
 				CE24840420A59E6400611E24 /* UserDefault.swift in Sources */,
+				82E1302328DEACF100E7983D /* NetworkWorker.swift in Sources */,
 				902A11D3248F52B80049EF8E /* InfoLastUpdateDto.swift in Sources */,
 				19B4C7D8289A420900C6BE84 /* AdsModel.swift in Sources */,
 				00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */,
@@ -4588,7 +4579,6 @@
 				DBEE9AF82117DB5600770D04 /* LoginViewController.swift in Sources */,
 				63762F472869A8F000C951BF /* QuitAccountReasonModel.swift in Sources */,
 				00AE577926CE4864003E6643 /* RangeSeekSlider.swift in Sources */,
-				6320414728D3472900CF7125 /* NetworkWorker.swift in Sources */,
 				52B87A002799381500562436 /* BoardDetailTableViewCell.swift in Sources */,
 				7357595220916C11008181E9 /* InfoCollectionViewCell.swift in Sources */,
 				73344ABF207B3A9B00A6A9EC /* UIImage+Extension.swift in Sources */,
@@ -4613,6 +4603,7 @@
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
 				5208784F279561BA009DD329 /* PhotoRegisterCollectionViewCell.swift in Sources */,
 				82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */,
+				82E1302528DEACF100E7983D /* Server.swift in Sources */,
 				7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */,
 				63DA015C2832559400705842 /* BaseViewController.swift in Sources */,
 				9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */,
@@ -4635,7 +4626,6 @@
 				732ED1FA21EEFA960012C67B /* MainViewController.swift in Sources */,
 				DB1ECB9922CDD8DB00E3A65E /* ChargingHistoryList.swift in Sources */,
 				42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */,
-				8211AACB28D362E40002C095 /* MainReactor.swift in Sources */,
 				735E87C822D88ED70028F7BD /* ChargingStatus.swift in Sources */,
 				00A6A16226C3A4D30023DAE3 /* FilterPlaceView.swift in Sources */,
 				63762F1528699FB200C951BF /* Info.swift in Sources */,
@@ -4662,7 +4652,6 @@
 				CE93308F214F9807006B7EF6 /* ReportChargerList.swift in Sources */,
 				63B23740282CA4B400E8A3F8 /* PointUseGuideViewController.swift in Sources */,
 				00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */,
-				8211AACE28D362E40002C095 /* PermissionsGuideReactor.swift in Sources */,
 				63C7C8E0286D6F0B00A357D6 /* NewBottomSheetViewController.swift in Sources */,
 				00F1AC7727031FAA009847E7 /* PreUsePointViewController.swift in Sources */,
 				739171DD22BB4520007369F9 /* UIButton+Extension.swift in Sources */,
@@ -4677,7 +4666,6 @@
 				73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */,
 				CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */,
 				633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */,
-				6320414D28D3472900CF7125 /* Server.swift in Sources */,
 				DB0E4693205B6F1F002DD05D /* CidTableView.swift in Sources */,
 				DB3B858020874788005454F5 /* PoiTableView.swift in Sources */,
 				733662F822FD11740049AEFE /* LeftViewTableHeader.swift in Sources */,
@@ -4695,12 +4683,12 @@
 				00EB85D226BA8C6100D1606F /* UILabel+Extension.swift in Sources */,
 				63B23744282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift in Sources */,
 				52B2594E278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift in Sources */,
-				6320414A28D3472900CF7125 /* SoftberryAPI.swift in Sources */,
 				73AD13C8203AC57A00ADD19A /* AppNavigationDrawerController.swift in Sources */,
 				529148B327BE14670011021F /* BoardSearchViewModel.swift in Sources */,
 				006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */,
 				7308559D206350890008497E /* UIView+Extension.swift in Sources */,
 				00A7D5D226B7DA2100C5DBCC /* ChargerFilterViewController.swift in Sources */,
+				82E1303028DEAEB200E7983D /* MainReactor.swift in Sources */,
 				7312786820BE38C500861B3E /* FCMManager.swift in Sources */,
 				0067D599252C631700D97146 /* MembershipIssuanceViewController.swift in Sources */,
 				73C31BFD20A288E3005B6C53 /* ChargerDetailViewController.swift in Sources */,
@@ -4715,6 +4703,8 @@
 				00C75C46252ED4A000387559 /* LotteRentCertificateViewController.swift in Sources */,
 				52B53D2727BCB6F300D446A9 /* BoardSearchViewController.swift in Sources */,
 				194EEB5728BC723200280299 /* AmpBoardModel.swift in Sources */,
+				82E1303828DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */,
+				82E1303528DEAEC100E7983D /* PermissionsGuideReactor.swift in Sources */,
 				DBEE9AFC211842ED00770D04 /* SignUpViewController.swift in Sources */,
 				736813B2204503B70035FC66 /* NavCenterButton.swift in Sources */,
 				7339908022D881D100CF72A8 /* PaymentResultViewController.swift in Sources */,
@@ -4723,6 +4713,7 @@
 				90E8B54F24C6E82F00D03162 /* ChargerManagerListener.swift in Sources */,
 				902A11DE248F68450049EF8E /* HangulUtils.swift in Sources */,
 				7379A45422CDEB0200F4271C /* PaymentStatus.swift in Sources */,
+				82E1302428DEACF100E7983D /* SoftberryAPI.swift in Sources */,
 				525E3A2A278D729600F5C54D /* CommunityBoardTableViewHeader.swift in Sources */,
 				73B752802048E5B30077112A /* SideMenuTableViewCell.swift in Sources */,
 				736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */,
@@ -4743,10 +4734,10 @@
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
 				82DD57DB28C5D41900C6C55E /* StickButton.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController+Extension.swift in Sources */,
+				82E1302628DEACF100E7983D /* LocationWorker.swift in Sources */,
 				59317D1228B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */,
 				63DA0A05282E337F0021292C /* RentalCarCardListView.swift in Sources */,
 				195C4E8228C5CE3F000B47F7 /* BannerPagerView.swift in Sources */,
-				6320415028D3472900CF7125 /* LocationWorker.swift in Sources */,
 				633FF2FE28B342630041BDBB /* Radio.swift in Sources */,
 				00A6A16626C3B3DC0023DAE3 /* FilterContainerView.swift in Sources */,
 				00C75CAE252F0D3600387559 /* MemberPartnershipInfo.swift in Sources */,
@@ -4788,7 +4779,6 @@
 				59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */,
 				52B2594A278E5E5C0042B22C /* BoardListItem.swift in Sources */,
 				732121C5203AC023000E105C /* evInfra.xcdatamodeld in Sources */,
-				8211AAD128D362E40002C095 /* PermissionsGuideViewController.swift in Sources */,
 				4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */,
 				73450EFA2071EB01008516E9 /* EditViewController.swift in Sources */,
 				73C31BFF20A2B246005B6C53 /* ChargerModel.swift in Sources */,
@@ -4818,9 +4808,7 @@
 				824D5C0028BDD89C00EDC712 /* PaymentStatusReactor.swift in Sources */,
 				824D5C0128BDD89C00EDC712 /* CardBoardViewController.swift in Sources */,
 				824D5C0228BDD89C00EDC712 /* ReceiptView.swift in Sources */,
-				637025EA28DD83070082B068 /* DateConstants.swift in Sources */,
 				824D5C0328BDD89C00EDC712 /* MyPageViewController.swift in Sources */,
-				6320414F28D3472900CF7125 /* Server.swift in Sources */,
 				824D5C0428BDD89C00EDC712 /* ConfirmPopupViewController.swift in Sources */,
 				824D5C0528BDD89C00EDC712 /* EmptyTableViewCell.swift in Sources */,
 				824D5C0628BDD89C00EDC712 /* SummaryView.swift in Sources */,
@@ -4831,9 +4819,9 @@
 				824D5C0B28BDD89C00EDC712 /* InfoLastUpdateDto.swift in Sources */,
 				824D5C0C28BDD89C00EDC712 /* PartnershipJoinView.swift in Sources */,
 				824D5C0D28BDD89C00EDC712 /* NewBottomSheetViewController.swift in Sources */,
-				6320414C28D3472900CF7125 /* SoftberryAPI.swift in Sources */,
 				824D5C0F28BDD89C00EDC712 /* ChargePriceViewController.swift in Sources */,
 				824D5C1028BDD89C00EDC712 /* GlobalDefine.swift in Sources */,
+				82E1302C28DEAE2D00E7983D /* NetworkWorker.swift in Sources */,
 				824D5C1128BDD89C00EDC712 /* SC_TRACE.swift in Sources */,
 				824D5C1228BDD89C00EDC712 /* MyCouponTableViewCell.swift in Sources */,
 				824D5C1328BDD89C00EDC712 /* Coupon.swift in Sources */,
@@ -4861,8 +4849,6 @@
 				824D5C2A28BDD89C00EDC712 /* UIColor+Extension.swift in Sources */,
 				824D5C2B28BDD89C00EDC712 /* UIStoryboard+Extension.swift in Sources */,
 				824D5C2C28BDD89C00EDC712 /* ServerResult.swift in Sources */,
-				637025EB28DD832C0082B068 /* NoticeDetailReactor.swift in Sources */,
-				637025EC28DD834A0082B068 /* NewNoticeViewController.swift in Sources */,
 				824D5C2D28BDD89C00EDC712 /* ChargerFilter.swift in Sources */,
 				824D5C2E28BDD89C00EDC712 /* Date+Extension.swift in Sources */,
 				824D5C2F28BDD89C00EDC712 /* KeyboardInputView.swift in Sources */,
@@ -4870,14 +4856,12 @@
 				824D5C3128BDD89C00EDC712 /* RepayListViewController.swift in Sources */,
 				824D5C3228BDD89C00EDC712 /* NavigationDrawerController.swift in Sources */,
 				824D5C3328BDD89C00EDC712 /* LoginHelper.swift in Sources */,
-				637025EE28DD83640082B068 /* NoticeList.swift in Sources */,
 				824D5C3428BDD89C00EDC712 /* BoardTableView.swift in Sources */,
 				824D5C3528BDD89C00EDC712 /* FilterSpeedView.swift in Sources */,
 				824D5C3628BDD89C00EDC712 /* CommonBaseTableViewCell.swift in Sources */,
 				824D5C3728BDD89C00EDC712 /* BoardItem.swift in Sources */,
 				824D5C3828BDD89C00EDC712 /* TapticEngine.swift in Sources */,
 				824D5C3928BDD89C00EDC712 /* DropDownCheckBoxCell.swift in Sources */,
-				6320415228D3472900CF7125 /* LocationWorker.swift in Sources */,
 				824D5C3A28BDD89C00EDC712 /* CidInfoTableViewCell.swift in Sources */,
 				824D5C3B28BDD89C00EDC712 /* ReportChargerChildCell.swift in Sources */,
 				824D5C3C28BDD89C00EDC712 /* Validators.swift in Sources */,
@@ -4888,7 +4872,6 @@
 				824D5C4128BDD89C00EDC712 /* MemberOtherInfo.swift in Sources */,
 				824D5C4228BDD89C00EDC712 /* BoardDetailTableViewHeader.swift in Sources */,
 				824D5C4328BDD89C00EDC712 /* NaverMapView.swift in Sources */,
-				637025EF28DD837C0082B068 /* NewNoticeTableViewCell.swift in Sources */,
 				824D5C4428BDD89C00EDC712 /* Icons+Generated.swift in Sources */,
 				5975BD5228D97CBA00910F6F /* ViewConstants.swift in Sources */,
 				824D5C4528BDD89C00EDC712 /* AmpChargerStationModel.swift in Sources */,
@@ -4901,7 +4884,6 @@
 				824D5C4C28BDD89C00EDC712 /* TermsViewController.swift in Sources */,
 				824D5C4D28BDD89C00EDC712 /* IconTextRectButton.swift in Sources */,
 				824D5C4E28BDD89C00EDC712 /* BoardDetailViewModel.swift in Sources */,
-				637025F328DD84540082B068 /* NoticeTableViewCell.swift in Sources */,
 				824D5C4F28BDD89C00EDC712 /* EIAdManager.swift in Sources */,
 				824D5C5028BDD89C00EDC712 /* AlertViewController.swift in Sources */,
 				824D5C5128BDD89C00EDC712 /* Observable+Operators.swift in Sources */,
@@ -4917,7 +4899,6 @@
 				824D5C5B28BDD89C00EDC712 /* HSUnderLineTextField.swift in Sources */,
 				824D5C5C28BDD89C00EDC712 /* CompanyTableViewCell.swift in Sources */,
 				824D5C5D28BDD89C00EDC712 /* BedgeButton.swift in Sources */,
-				637025F028DD83950082B068 /* NoticeCellReactor.swift in Sources */,
 				824D5C5E28BDD89C00EDC712 /* CommonNaviView.swift in Sources */,
 				824D5C5F28BDD89C00EDC712 /* MemberManager.swift in Sources */,
 				824D5C6028BDD89C00EDC712 /* FilterCompanyView.swift in Sources */,
@@ -4973,9 +4954,7 @@
 				824D5C9128BDD89C00EDC712 /* BoardListViewModel.swift in Sources */,
 				824D5C9228BDD89C00EDC712 /* FilterManager.swift in Sources */,
 				824D5C9328BDD89C00EDC712 /* ChargerSelectDelegate.swift in Sources */,
-				8211AAD028D362E40002C095 /* PermissionsGuideReactor.swift in Sources */,
 				824D5C9428BDD89C00EDC712 /* MyPayRegisterViewController.swift in Sources */,
-				637025ED28DD83510082B068 /* NoticeReactor.swift in Sources */,
 				824D5C9528BDD89C00EDC712 /* QuitAccountCompleteViewController.swift in Sources */,
 				824D5C9628BDD89C00EDC712 /* EVIcon.swift in Sources */,
 				824D5C9728BDD89C00EDC712 /* URL+Extension.swift in Sources */,
@@ -4997,13 +4976,11 @@
 				824D5CA728BDD89C00EDC712 /* IntroViewController.swift in Sources */,
 				824D5CA828BDD89C00EDC712 /* CheckBox.swift in Sources */,
 				824D5CA928BDD89C00EDC712 /* EventTableViewCell.swift in Sources */,
-				6320414928D3472900CF7125 /* NetworkWorker.swift in Sources */,
 				824D5CAA28BDD89C00EDC712 /* CidTableView.swift in Sources */,
 				824D5CAB28BDD89C00EDC712 /* PoiTableView.swift in Sources */,
 				5975BD5828D97DBB00910F6F /* NoticeCellReactor.swift in Sources */,
 				824D5CAC28BDD89C00EDC712 /* LeftViewTableHeader.swift in Sources */,
 				824D5CAD28BDD89C00EDC712 /* AddressToLocationController.swift in Sources */,
-				8211AACD28D362E40002C095 /* MainReactor.swift in Sources */,
 				824D5CAE28BDD89C00EDC712 /* BoardTableViewHeader.swift in Sources */,
 				824D5CAF28BDD89C00EDC712 /* ChargerManager.swift in Sources */,
 				824D5CB028BDD89C00EDC712 /* MembershipCardViewController.swift in Sources */,
@@ -5019,11 +4996,11 @@
 				824D5CB828BDD89C00EDC712 /* AppNavigationDrawerController.swift in Sources */,
 				824D5CB928BDD89C00EDC712 /* BoardSearchViewModel.swift in Sources */,
 				824D5CBA28BDD89C00EDC712 /* PopUpDialog.swift in Sources */,
-				8211AAD328D362E40002C095 /* PermissionsGuideViewController.swift in Sources */,
 				824D5CBB28BDD89C00EDC712 /* UIView+Extension.swift in Sources */,
 				824D5CBC28BDD89C00EDC712 /* ChargerFilterViewController.swift in Sources */,
 				824D5CBD28BDD89C00EDC712 /* FCMManager.swift in Sources */,
 				5975BD5528D97D0500910F6F /* NewNoticeViewController.swift in Sources */,
+				82E1303228DEAEB200E7983D /* MainReactor.swift in Sources */,
 				5975BD5628D97D1800910F6F /* NoticeReactor.swift in Sources */,
 				824D5CBE28BDD89C00EDC712 /* MembershipIssuanceViewController.swift in Sources */,
 				824D5CBF28BDD89C00EDC712 /* ChargerDetailViewController.swift in Sources */,
@@ -5031,7 +5008,6 @@
 				824D5CC128BDD89C00EDC712 /* LinkShareManager.swift in Sources */,
 				824D5CC228BDD89C00EDC712 /* QuitAccountReactor.swift in Sources */,
 				824D5CC328BDD89C00EDC712 /* ChevronArrow.swift in Sources */,
-				637025F128DD83E10082B068 /* Constants.swift in Sources */,
 				824D5CC428BDD89C00EDC712 /* UIImageView+Rx.swift in Sources */,
 				824D5CC528BDD89C00EDC712 /* NewPaymentQRScanViewController.swift in Sources */,
 				824D5CC628BDD89C00EDC712 /* SearchAddressViewDelegate.swift in Sources */,
@@ -5039,15 +5015,18 @@
 				5975BD4F28D97C0C00910F6F /* NoticeDetailReactor.swift in Sources */,
 				824D5CC828BDD89C00EDC712 /* LotteRentCertificateViewController.swift in Sources */,
 				824D5CC928BDD89C00EDC712 /* BoardSearchViewController.swift in Sources */,
+				82E1303A28DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */,
+				82E1303728DEAEC100E7983D /* PermissionsGuideReactor.swift in Sources */,
 				824D5CCA28BDD89C00EDC712 /* SignUpViewController.swift in Sources */,
 				824D5CCB28BDD89C00EDC712 /* NavCenterButton.swift in Sources */,
 				824D5CCC28BDD89C00EDC712 /* PaymentResultViewController.swift in Sources */,
 				824D5CCD28BDD89C00EDC712 /* FilterAccessView.swift in Sources */,
+				82E1302828DEAE2700E7983D /* SoftberryAPI.swift in Sources */,
 				824D5CCE28BDD89C00EDC712 /* CompanyTableView.swift in Sources */,
 				824D5CCF28BDD89C00EDC712 /* ChargerManagerListener.swift in Sources */,
+				82E1302E28DEAE3000E7983D /* LocationWorker.swift in Sources */,
 				824D5CD028BDD89C00EDC712 /* HangulUtils.swift in Sources */,
 				824D5CD128BDD89C00EDC712 /* PaymentStatus.swift in Sources */,
-				637025F428DD84590082B068 /* Notice.swift in Sources */,
 				824D5CD228BDD89C00EDC712 /* CommunityBoardTableViewHeader.swift in Sources */,
 				824D5CD328BDD89C00EDC712 /* SideMenuTableViewCell.swift in Sources */,
 				824D5CD428BDD89C00EDC712 /* BoardTableViewDelegate.swift in Sources */,
@@ -5065,6 +5044,7 @@
 				824D5CE128BDD89C00EDC712 /* CodableCluster.swift in Sources */,
 				824D5CE228BDD89C00EDC712 /* MyCouponContentsViewController.swift in Sources */,
 				824D5CE328BDD89C00EDC712 /* Event.swift in Sources */,
+				82E1302A28DEAE2A00E7983D /* Server.swift in Sources */,
 				824D5CE428BDD89C00EDC712 /* BoardTableViewFooter.swift in Sources */,
 				82DD57DD28C5D41900C6C55E /* StickButton.swift in Sources */,
 				824D5CE628BDD89C00EDC712 /* UIAlertController+Extension.swift in Sources */,
@@ -5109,7 +5089,6 @@
 				824D5D0C28BDD89C00EDC712 /* ReportBoardTableViewCell.swift in Sources */,
 				824D5D0D28BDD89C00EDC712 /* PaymentQRScanViewController.swift in Sources */,
 				824D5D0F28BDD89C00EDC712 /* BottomSheetViewController.swift in Sources */,
-				637025F228DD83FF0082B068 /* ViewConstants.swift in Sources */,
 				824D5D1028BDD89C00EDC712 /* BoardListItem.swift in Sources */,
 				824D5D1128BDD89C00EDC712 /* evInfra.xcdatamodeld in Sources */,
 				824D5D1228BDD89C00EDC712 /* ChargePriceTableViewCell.swift in Sources */,
@@ -5523,7 +5502,6 @@
 				CURRENT_PROJECT_VERSION = 09231524;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -5546,7 +5524,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.soft-berry.ev-infra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = EvInfra_20220627_debug;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = EvInfra_20220627_debug;
 				SWIFT_OBJC_BRIDGING_HEADER = "evInfra/evInfra-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
