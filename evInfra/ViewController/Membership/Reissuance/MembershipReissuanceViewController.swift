@@ -57,7 +57,6 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     private lazy var clearTxtBtn = UIButton()
     
     private lazy var findPasswordGuideLbl = UILabel().then {
-        
         $0.font = UIFont.systemFont(ofSize: 12, weight: .bold)
         $0.textColor = UIColor(named: "content-primary")
         $0.textAlignment = .natural
@@ -71,7 +70,6 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     private lazy var moveFindPasswordBtn = UIButton()
     
     private lazy var nextBtn = NextButton().then {
-        
         $0.setTitle("다음", for: .normal)
         $0.setTitleColor(UIColor(named: "content-primary"), for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)

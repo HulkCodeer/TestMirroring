@@ -42,10 +42,7 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
         cell.reactor = item.reactor
         
         return cell
-        
     })
-    
-    static let notiReloadName = Notification.Name("NoticeListReloadData")
     
     init(reactor: NoticeReactor) {
         super.init()
@@ -75,34 +72,23 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         super.viewWillAppear(animated)
+        
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(reloadData(notification:)),
-            name: NewNoticeViewController.notiReloadName, object: nil)
-    }
 
-    private let loadNoticeDatasSubject = BehaviorSubject(value: NoticeReactor.Action.loadNotices)
-    
     internal func bind(reactor: NoticeReactor) {
- 
         noticeTableView.rx.modelSelected(NoticeSectionModel.Item.self)
             .asDriver()
             .map { $0.reactor }
-            .drive(with: self) { owner, reactor in
+            .drive(with: self) { owner, detailReactor in
                 Observable.just(NoticeCellReactor.Action.moveDetailView)
-                    .bind(to: reactor.action)
+                    .bind(to: detailReactor.action)
                     .disposed(by: owner.disposeBag)
             }
             .disposed(by: disposeBag)
         
-        loadNoticeDatasSubject
+        Observable.just(NoticeReactor.Action.loadNotices)
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -111,9 +97,6 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
             .disposed(by: disposeBag)
     }
     
-    @objc private func reloadData(notification: Notification) {
-        loadNoticeDatasSubject.onNext(NoticeReactor.Action.loadNotices)
-    }
 }
 
 // MARK: - ViewItem, Model

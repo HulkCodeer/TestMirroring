@@ -30,7 +30,6 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     private lazy var totalView = UIView()
-    
     private lazy var dismissKeyboardBtn = UIButton()
         
     private lazy var mainTitleLbl = UILabel().then {

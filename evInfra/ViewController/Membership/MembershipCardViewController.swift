@@ -38,7 +38,7 @@ internal final class MembershipCardViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareActionBar(with: "회원카드 관리")
+        prepareActionBar(with: "EV Pay 카드관리")
         checkPayStatus()
     }
     

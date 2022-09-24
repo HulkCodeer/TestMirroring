@@ -9,10 +9,16 @@
 import UIKit
 import RxSwift
 
-internal class CommonBaseTableViewCell: UITableViewCell {
+internal class CommonBaseTableViewCell: UITableViewCell {    
+    // MARK: UI
+    
     internal lazy var totalView = UIView()
-
+    
+    // MARK: VARIABLE
+    
     internal var cellDisposeBag = DisposeBag()
+    
+    //MARK: SYSTEM FUNC
 
     override func awakeFromNib() {
         super.awakeFromNib()

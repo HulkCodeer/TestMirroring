@@ -146,7 +146,7 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
             .drive(titleLabel.rx.text)
             .disposed(by: disposeBag)
         
-        reactor.state.compactMap { $0.date }
+        reactor.state.map { $0.date }
             .asDriver(onErrorJustReturn: String())
             .drive(dateLabel.rx.text)
             .disposed(by: disposeBag)

@@ -13,7 +13,9 @@ import RxSwift
 import SwiftyJSON
 
 internal final class NoticeDetailReactor: ViewModel, Reactor {
-    typealias Contents = (title: String, date: String?, html: String)
+    typealias Contents = (title: String, date: String, html: String)
+    internal weak var delegate: NoticeReactorDelegate?
+
     enum Action {
         case loadHTML
     }
@@ -24,7 +26,7 @@ internal final class NoticeDetailReactor: ViewModel, Reactor {
     
     struct State {
         var title: String = "[공지]"
-        var date: String? = Date().toString(dateFormat: .yyyyMMddD)
+        var date: String = String()
         var html: String = String()
     }
     
@@ -68,31 +70,27 @@ internal final class NoticeDetailReactor: ViewModel, Reactor {
             guard 1000 == json["code"].int,
                   let notice = try? JSONDecoder().decode(Notice.self, from: data)
             else {
-                let errorMsg = json["msg"].string
+                let errorMsg = json["msg"].string ?? "데이터를 불러올 수 없습니다. 잠시 후 다시 시도해주세요."
                 errorHandler(errorMsg: errorMsg)
                 return nil
             }
             
-            let date = notice.dateTime.toDate()
-            let dateStr = date?.toString(dateFormat: .yyyyMMddD)
-                        
-            return (notice.title, dateStr, notice.content) as Contents
+            return (notice.title, notice.dateTime, notice.content) as Contents
             
         case .failure(let error):
             printLog(out: "Error Message : \(error)")
-            errorHandler(errorMsg: error.errorMessage)
+            errorHandler(errorMsg: "오류가 발생했습니다. 잠시 후 다시 시도해주세요. \n\(error.errorMessage)")
             return nil
         }
     }
 
-    private func errorHandler(errorMsg: String? = nil) {
-        let message = errorMsg ?? "해당 공지를 찾을 수 없습니다."
+    private func errorHandler(errorMsg: String) {
+        Snackbar().show(message: errorMsg)
         
-        let errorAction = UIAlertAction(title: "OK", style: .default) { _ in
-            NotificationCenter.default.post(name: NewNoticeViewController.notiReloadName, object: nil)
+        delegate?.unkownDetailData()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             GlobalDefine.shared.mainNavi?.pop()
         }
-        
-        UIAlertController.showAlert(title: nil, message: message, actions: [errorAction])
     }
 }

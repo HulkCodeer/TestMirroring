@@ -16,6 +16,8 @@ class CommunityBoardAdsCell: UITableViewCell {
     @IBOutlet weak var adsDescriptionLabel: UILabel!
     @IBOutlet weak var adsImageView: UIImageView!
     
+    internal var category: Board.CommunityType = .FREE
+    
     private var adUrl: String? = ""
     private var adId: String? = ""
     private var item: BoardListItem? = nil
@@ -47,40 +49,32 @@ class CommunityBoardAdsCell: UITableViewCell {
         adsTitleLabel.text = item.nick_name
         adsDescriptionLabel.text = "advertisement"
         adsImageView.sd_setImage(with: URL(string: "\(Const.AWS_IMAGE_SERVER)/\(item.cover_filename ?? "")")) { (_, _, _, _) in
-            EIAdManager.sharedInstance.logEvent(adIds: [item.document_srl ?? ""], action: .view, page: .free, layer: .mid)
+            let page: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: self.category)
+            EIAdManager.sharedInstance.logEvent(adIds: [item.document_srl ?? ""], action: .view, page: page, layer: .mid)
         }
         adUrl = item.module_srl
         adId = item.document_srl
     }
     
     @objc private func openURL() {
-        guard let adUrl = adUrl, let item = item else { return }
-        
-        // 3: 이벤트 상세 화면으로 이동 + 이벤트 URL에 mbId 추가
-        if item.tags == Promotion.Types.event.toValue {
-            MemberManager.shared.tryToLoginCheck { isLogin in
-                if isLogin {
-                    let viewcon = NewEventDetailViewController()                    
-                    viewcon.eventData = EventData(eventUrl: item.module_srl ?? "", promotionId: item.document_srl ?? "", mbId: "\(MemberManager.shared.mbId)")
-                    
-                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                } else {
-                    MemberManager.shared.showLoginAlert()
-                }
-            }
-        } else {
-            if let url = URL(string: adUrl) {
-                if UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
-            }
+        guard let adUrl = adUrl else {
+            return
         }
         
-        EIAdManager.sharedInstance.logEvent(adIds: [adId ?? ""], action: .click, page: .event, layer: .mid)
-        let property: [String: Any] = ["bannerType": "게시판 배너",
-                                       "adID": item.document_srl ?? "",
-                                       "adName": item.title ?? ""]
-        PromotionEvent.clickBanner.logEvent(property: property)
+        if let url = URL(string: adUrl) {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                let page: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: category)
+                EIAdManager.sharedInstance.logEvent(adIds: [adId ?? ""], action: Promotion.Action.click, page: page, layer: .mid)
+                
+                guard let item = self.item else { return }
+                let property: [String: Any] = ["bannerType": "게시판 배너",
+                                               "adID": item.document_srl ?? "",
+                                               "adName": item.title ?? ""]
+                PromotionEvent.clickBanner.logEvent(property: property)
+                
+            }
+        }
     }
 }
 

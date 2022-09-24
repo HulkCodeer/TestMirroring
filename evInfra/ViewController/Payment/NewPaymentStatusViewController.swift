@@ -29,7 +29,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     
     // MARK: - UI
             
-    private lazy var naviTotalView = CommonNaviView().then {        
+    private lazy var naviTotalView = CommonNaviView().then {
         $0.naviTitleLbl.text = "충전중"
     }
     
@@ -872,7 +872,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         GlobalDefine.shared.mainNavi?.interactivePopGestureRecognizer?.isEnabled = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -1341,7 +1341,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         chargingStatus.usedPoint = response["u_point"].string ?? ""
         
         if let usedPoint = chargingStatus.usedPoint, usedPoint.equals("-1") {
-            chargingStatus.usedPoint = "\(self.willUsePoint)"
+            chargingStatus.usedPoint = "\(self.myPoint)"
         }
         
         chargingStatus.fee = response["fee"].string ?? ""

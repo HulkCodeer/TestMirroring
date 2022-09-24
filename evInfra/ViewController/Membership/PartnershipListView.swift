@@ -63,7 +63,7 @@ internal final class PartnershipListView : UIView {
         addSubview(view)
         initView()
         
-        membershipUseGuideLbl.attributedText = NSAttributedString(string: "회원카드 사용방법이 궁금하신가요?", attributes:
+        membershipUseGuideLbl.attributedText = NSAttributedString(string: "EV Pay카드 사용방법이 궁금하신가요?", attributes:
                                                                     [.underlineStyle: NSUnderlineStyle.styleSingle.rawValue])
         
         membershipUseGuideBtn.rx.tap

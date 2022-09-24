@@ -38,7 +38,7 @@ def shared_pods
   pod 'SnapKit', '~> 5.0.0'
   
   # Rx Extensions
-  pod 'RxCoreLocation', :git => 'https://github.com/RxSwiftCommunity/RxCoreLocation.git', :branch => 'master'
+#  pod 'RxCoreLocation', :git => 'https://github.com/RxSwiftCommunity/RxCoreLocation.git', :branch => 'master'
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
   pod 'RxViewController'
@@ -58,11 +58,7 @@ def shared_pods
   
   # SQLite
   pod 'GRDB.swift', '5.11.0'
-  
-  # 로플랫
-  pod 'MiniPlengi', '1.4.2.2'
-#  pod 'TEST-MiniPlengi', '1.4.2.2' # Debug 모드에서 테스트를 위해 필요
-  
+      
   # Keychain
   pod 'KeychainSwift', '~> 13.0'      # For keychain
   

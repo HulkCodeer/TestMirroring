@@ -21,7 +21,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
             case .deleteVery:
                 return "고객님의 소중한 베리가 모두 사라져요"
             case .delteMembership:
-                return "회원카드가 삭제되어요"
+                return "EV Pay카드가 삭제되어요"
             case .reSign:
                 return "처음부터 다시 가입해야 해요"
             case .unRecoverable:
@@ -53,7 +53,6 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     }
     
     private lazy var subTitleLbl = UILabel().then {
-        
         $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
         $0.textAlignment = .natural
@@ -64,12 +63,10 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     // MARK: UI
     
     private lazy var naviTotalView = CommonNaviView().then {
-        
         $0.naviTitleLbl.text = "회원탈퇴"
     }
     
     private lazy var totalScrollView = UIScrollView().then {
-        
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
     }

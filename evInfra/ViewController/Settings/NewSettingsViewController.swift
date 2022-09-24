@@ -45,14 +45,12 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
     }
     
     private lazy var totalScrollView = UIScrollView().then {
-        
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
     }
     
     private lazy var totalView = UIView()
-    private lazy var stackView = UIStackView().then {
-        
+    private lazy var stackView = UIStackView().then {        
         $0.axis = .vertical
         $0.distribution = .fillEqually
         $0.alignment = .fill
@@ -128,8 +126,8 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
     
     private func createSettingView(mainTitle: String, subTitle: String, settingType: SettingType) -> UIView {
         let view = UIView()
+        
         let stackView = UIStackView().then {
-            
             $0.axis = .vertical
             $0.distribution = .equalSpacing
             $0.alignment = .fill

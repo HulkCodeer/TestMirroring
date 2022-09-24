@@ -32,7 +32,7 @@ internal final class BannerPagerView: FSPagerView {
     
     internal var banners: [AdsInfo] = [AdsInfo]() {
         didSet {
-            let isHidden = banners.count == 0 || banners.count == 1 ? true : false
+            let isHidden = banners.count == 0 ? true : false
             self.indicatorView.isHidden = isHidden
             self.indicatorLabel.isHidden = isHidden
             self.indicatorLabel.text = "\(self.bannerIndex) / \(banners.count)"

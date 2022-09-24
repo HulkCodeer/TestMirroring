@@ -173,6 +173,16 @@
 		596522E428BEF49B00FD4025 /* NoticeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E228BEF3E800FD4025 /* NoticeList.swift */; };
 		596522E628C877F000FD4025 /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
 		596522E728C877F000FD4025 /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
+		5975BD4F28D97C0C00910F6F /* NoticeDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */; };
+		5975BD5128D97CB200910F6F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7D28D32A49001A18B5 /* Constants.swift */; };
+		5975BD5228D97CBA00910F6F /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
+		5975BD5328D97CD100910F6F /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D628BC8B1C00FD4025 /* Notice.swift */; };
+		5975BD5428D97CF000910F6F /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
+		5975BD5528D97D0500910F6F /* NewNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */; };
+		5975BD5628D97D1800910F6F /* NoticeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D928BE0D0600FD4025 /* NoticeReactor.swift */; };
+		5975BD5728D97DAA00910F6F /* NewNoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */; };
+		5975BD5828D97DBB00910F6F /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
+		5975BD5928D97DC900910F6F /* NoticeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E228BEF3E800FD4025 /* NoticeList.swift */; };
 		59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
 		59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
 		59EC3B7C28D32A33001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
@@ -469,7 +479,6 @@
 		63F31476284EC74F001713D2 /* MyCouponContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662D122FAB6720049AEFE /* MyCouponContentsViewController.swift */; };
 		63F31477284EC74F001713D2 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662CB22EFECB80049AEFE /* Event.swift */; };
 		63F31478284EC74F001713D2 /* BoardTableViewFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB87606F20690B360095394B /* BoardTableViewFooter.swift */; };
-		63F31479284EC74F001713D2 /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C9208993BE009535EE /* NoticeTableViewCell.swift */; };
 		63F3147A284EC74F001713D2 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEE9AF92117DBF000770D04 /* UIAlertController+Extension.swift */; };
 		63F3147B284EC74F001713D2 /* RentalCarCardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A04282E337F0021292C /* RentalCarCardListView.swift */; };
 		63F3147C284EC74F001713D2 /* FilterContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A16526C3B3DC0023DAE3 /* FilterContainerView.swift */; };
@@ -483,7 +492,6 @@
 		63F31485284EC74F001713D2 /* BoardWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */; };
 		63F31487284EC74F001713D2 /* StationInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D4248F53D80049EF8E /* StationInfoDto.swift */; };
 		63F31488284EC74F001713D2 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A00282E2FD20021292C /* String+Extension.swift */; };
-		63F31489284EC74F001713D2 /* NoticeContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37CE2089CC52009535EE /* NoticeContentViewController.swift */; };
 		63F3148A284EC74F001713D2 /* EVFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A012120F3225800638812 /* EVFileManager.swift */; };
 		63F3148C284EC74F001713D2 /* Regions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6E59482063C595002E75C8 /* Regions.swift */; };
 		63F3148D284EC74F001713D2 /* CompanyInfoCheckerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A012920F709B300638812 /* CompanyInfoCheckerDelegate.swift */; };
@@ -501,7 +509,6 @@
 		63F3149B284EC74F001713D2 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
 		63F3149C284EC74F001713D2 /* ReportBoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93309821511AD4006B7EF6 /* ReportBoardTableViewCell.swift */; };
 		63F3149D284EC74F001713D2 /* PaymentQRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739171E022C4A209007369F9 /* PaymentQRScanViewController.swift */; };
-		63F3149E284EC74F001713D2 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B752842049284B0077112A /* NoticeViewController.swift */; };
 		63F3149F284EC74F001713D2 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD36C727900E04005413A6 /* BottomSheetViewController.swift */; };
 		63F314A0284EC74F001713D2 /* BoardListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B25949278E5E5C0042B22C /* BoardListItem.swift */; };
 		63F314A1284EC74F001713D2 /* evInfra.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 732121C3203AC023000E105C /* evInfra.xcdatamodeld */; };
@@ -710,8 +717,6 @@
 		736813B5204513D50035FC66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 736813B3204513D50035FC66 /* Main.storyboard */; };
 		736BCE87205A892E0052C9ED /* intro_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 736BCE86205A892E0052C9ED /* intro_bg.jpg */; };
 		736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C520871B15009535EE /* BoardTableViewDelegate.swift */; };
-		736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37C9208993BE009535EE /* NoticeTableViewCell.swift */; };
-		736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37CE2089CC52009535EE /* NoticeContentViewController.swift */; };
 		736D37D1208D9BFF009535EE /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736D37D0208D9BFF009535EE /* SDWebImage.framework */; };
 		736D37D3208DC9CE009535EE /* BoardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37D2208DC9CE009535EE /* BoardItem.swift */; };
 		7376B5C520C6473500A2B7C1 /* MyArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7376B5C420C6473500A2B7C1 /* MyArticleViewController.swift */; };
@@ -774,7 +779,6 @@
 		73AF8FC321C77E1B003CB2CF /* CodableCluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AF8FC021C77E1B003CB2CF /* CodableCluster.swift */; };
 		73AFF26722D467E000287E67 /* Chronometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AFF26622D467E000287E67 /* Chronometer.swift */; };
 		73B752802048E5B30077112A /* SideMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B7527F2048E5B30077112A /* SideMenuTableViewCell.swift */; };
-		73B752852049284B0077112A /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B752842049284B0077112A /* NoticeViewController.swift */; };
 		73B787B0210B172400C12801 /* KakaoCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B787AD210B172400C12801 /* KakaoCommon.framework */; };
 		73B787B1210B172400C12801 /* KakaoLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B787AE210B172400C12801 /* KakaoLink.framework */; };
 		73B787B2210B172400C12801 /* KakaoNavi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B787AF210B172400C12801 /* KakaoNavi.framework */; };
@@ -1099,7 +1103,6 @@
 		824D5CF228BDD89C00EDC712 /* BoardWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */; };
 		824D5CF428BDD89C00EDC712 /* StationInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D4248F53D80049EF8E /* StationInfoDto.swift */; };
 		824D5CF528BDD89C00EDC712 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A00282E2FD20021292C /* String+Extension.swift */; };
-		824D5CF628BDD89C00EDC712 /* NoticeContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736D37CE2089CC52009535EE /* NoticeContentViewController.swift */; };
 		824D5CF728BDD89C00EDC712 /* EVFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A012120F3225800638812 /* EVFileManager.swift */; };
 		824D5CF828BDD89C00EDC712 /* StartBannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194C02672897CF8C00DADA8D /* StartBannerViewController.swift */; };
 		824D5CF928BDD89C00EDC712 /* SettingsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63762F4F2869A91900C951BF /* SettingsReactor.swift */; };
@@ -1121,7 +1124,6 @@
 		824D5D0B28BDD89C00EDC712 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
 		824D5D0C28BDD89C00EDC712 /* ReportBoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93309821511AD4006B7EF6 /* ReportBoardTableViewCell.swift */; };
 		824D5D0D28BDD89C00EDC712 /* PaymentQRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739171E022C4A209007369F9 /* PaymentQRScanViewController.swift */; };
-		824D5D0E28BDD89C00EDC712 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B752842049284B0077112A /* NoticeViewController.swift */; };
 		824D5D0F28BDD89C00EDC712 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD36C727900E04005413A6 /* BottomSheetViewController.swift */; };
 		824D5D1028BDD89C00EDC712 /* BoardListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B25949278E5E5C0042B22C /* BoardListItem.swift */; };
 		824D5D1128BDD89C00EDC712 /* evInfra.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 732121C3203AC023000E105C /* evInfra.xcdatamodeld */; };
@@ -1656,8 +1658,6 @@
 		736813B4204513D50035FC66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		736BCE86205A892E0052C9ED /* intro_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = intro_bg.jpg; sourceTree = "<group>"; };
 		736D37C520871B15009535EE /* BoardTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewDelegate.swift; sourceTree = "<group>"; };
-		736D37C9208993BE009535EE /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
-		736D37CE2089CC52009535EE /* NoticeContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeContentViewController.swift; sourceTree = "<group>"; };
 		736D37D0208D9BFF009535EE /* SDWebImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		736D37D2208DC9CE009535EE /* BoardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardItem.swift; sourceTree = "<group>"; };
 		7376B5C420C6473500A2B7C1 /* MyArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyArticleViewController.swift; sourceTree = "<group>"; };
@@ -1720,7 +1720,6 @@
 		73AF8FC021C77E1B003CB2CF /* CodableCluster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableCluster.swift; sourceTree = "<group>"; };
 		73AFF26622D467E000287E67 /* Chronometer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chronometer.swift; sourceTree = "<group>"; };
 		73B7527F2048E5B30077112A /* SideMenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuTableViewCell.swift; sourceTree = "<group>"; };
-		73B752842049284B0077112A /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		73B787AD210B172400C12801 /* KakaoCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = KakaoCommon.framework; sourceTree = "<group>"; };
 		73B787AE210B172400C12801 /* KakaoLink.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoLink.framework; path = "../../../../../Users/bulacode/Downloads/kakao-ios-sdk-1.9.0/KakaoLink.framework"; sourceTree = "<group>"; };
 		73B787AF210B172400C12801 /* KakaoNavi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = KakaoNavi.framework; sourceTree = "<group>"; };
@@ -2395,13 +2394,12 @@
 		59EC3B7028D18CC4001A18B5 /* Notice */ = {
 			isa = PBXGroup;
 			children = (
+				59F5B91228D8028D00308B27 /* Model */,
 				59EC3B7228D18CEB001A18B5 /* Cell */,
 				596522D928BE0D0600FD4025 /* NoticeReactor.swift */,
 				596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */,
 				59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */,
 				59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */,
-				73B752842049284B0077112A /* NoticeViewController.swift */,
-				736D37CE2089CC52009535EE /* NoticeContentViewController.swift */,
 			);
 			path = Notice;
 			sourceTree = "<group>";
@@ -2410,7 +2408,6 @@
 			isa = PBXGroup;
 			children = (
 				596522E528C877F000FD4025 /* NoticeCellReactor.swift */,
-				736D37C9208993BE009535EE /* NoticeTableViewCell.swift */,
 				596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */,
 				596522DD28BE290400FD4025 /* NewNoticeTableViewCell.xib */,
 			);
@@ -2444,6 +2441,13 @@
 				6320414528D3472900CF7125 /* Server.swift */,
 			);
 			path = Network;
+		59F5B91228D8028D00308B27 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				596522D628BC8B1C00FD4025 /* Notice.swift */,
+				596522E228BEF3E800FD4025 /* NoticeList.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		637247CF282A5E9F00595FCE /* Extensions */ = {
@@ -2742,8 +2746,6 @@
 				00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */,
 				00CADC1A278D79C2000AF24A /* MemberOtherInfo.swift */,
 				52B25949278E5E5C0042B22C /* BoardListItem.swift */,
-				596522D628BC8B1C00FD4025 /* Notice.swift */,
-				596522E228BEF3E800FD4025 /* NoticeList.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -4425,7 +4427,6 @@
 				63F31476284EC74F001713D2 /* MyCouponContentsViewController.swift in Sources */,
 				63F31477284EC74F001713D2 /* Event.swift in Sources */,
 				63F31478284EC74F001713D2 /* BoardTableViewFooter.swift in Sources */,
-				63F31479284EC74F001713D2 /* NoticeTableViewCell.swift in Sources */,
 				82DD57DC28C5D41900C6C55E /* StickButton.swift in Sources */,
 				63F3147A284EC74F001713D2 /* UIAlertController+Extension.swift in Sources */,
 				59317D1328B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */,
@@ -4472,7 +4473,6 @@
 				63F3149B284EC74F001713D2 /* ViewModel.swift in Sources */,
 				63F3149C284EC74F001713D2 /* ReportBoardTableViewCell.swift in Sources */,
 				63F3149D284EC74F001713D2 /* PaymentQRScanViewController.swift in Sources */,
-				63F3149E284EC74F001713D2 /* NoticeViewController.swift in Sources */,
 				63F3149F284EC74F001713D2 /* BottomSheetViewController.swift in Sources */,
 				59EC3B7F28D33568001A18B5 /* ViewConstants.swift in Sources */,
 				63F314A0284EC74F001713D2 /* BoardListItem.swift in Sources */,
@@ -4741,7 +4741,6 @@
 				733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */,
 				733662CC22EFECB80049AEFE /* Event.swift in Sources */,
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
-				736D37CA208993BE009535EE /* NoticeTableViewCell.swift in Sources */,
 				82DD57DB28C5D41900C6C55E /* StickButton.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController+Extension.swift in Sources */,
 				59317D1228B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */,
@@ -4762,7 +4761,6 @@
 				525E3A31278D732700F5C54D /* BoardWriteViewController.swift in Sources */,
 				902A11D5248F53D80049EF8E /* StationInfoDto.swift in Sources */,
 				63DA0A01282E2FD20021292C /* String+Extension.swift in Sources */,
-				736D37CF2089CC52009535EE /* NoticeContentViewController.swift in Sources */,
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,
 				194C02682897CF8C00DADA8D /* StartBannerViewController.swift in Sources */,
 				63762F512869A91900C951BF /* SettingsReactor.swift in Sources */,
@@ -4786,7 +4784,6 @@
 				82D986812839BE080030F0FC /* ViewModel.swift in Sources */,
 				CE93309921511AD4006B7EF6 /* ReportBoardTableViewCell.swift in Sources */,
 				739171E122C4A209007369F9 /* PaymentQRScanViewController.swift in Sources */,
-				73B752852049284B0077112A /* NoticeViewController.swift in Sources */,
 				00CD36C827900E04005413A6 /* BottomSheetViewController.swift in Sources */,
 				59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */,
 				52B2594A278E5E5C0042B22C /* BoardListItem.swift in Sources */,
@@ -4893,6 +4890,7 @@
 				824D5C4328BDD89C00EDC712 /* NaverMapView.swift in Sources */,
 				637025EF28DD837C0082B068 /* NewNoticeTableViewCell.swift in Sources */,
 				824D5C4428BDD89C00EDC712 /* Icons+Generated.swift in Sources */,
+				5975BD5228D97CBA00910F6F /* ViewConstants.swift in Sources */,
 				824D5C4528BDD89C00EDC712 /* AmpChargerStationModel.swift in Sources */,
 				824D5C4628BDD89C00EDC712 /* StationStatusDto.swift in Sources */,
 				824D5C4728BDD89C00EDC712 /* Arrow.swift in Sources */,
@@ -4929,6 +4927,7 @@
 				824D5C6428BDD89C00EDC712 /* UIScrollView+Extension.swift in Sources */,
 				824D5C6528BDD89C00EDC712 /* RegisterResultViewController.swift in Sources */,
 				824D5C6628BDD89C00EDC712 /* Snackbar.swift in Sources */,
+				5975BD5428D97CF000910F6F /* DateConstants.swift in Sources */,
 				824D5C6728BDD89C00EDC712 /* RectButton.swift in Sources */,
 				824D5C6828BDD89C00EDC712 /* ChargerStationInfo.swift in Sources */,
 				824D5C6928BDD89C00EDC712 /* Login.swift in Sources */,
@@ -5001,6 +5000,7 @@
 				6320414928D3472900CF7125 /* NetworkWorker.swift in Sources */,
 				824D5CAA28BDD89C00EDC712 /* CidTableView.swift in Sources */,
 				824D5CAB28BDD89C00EDC712 /* PoiTableView.swift in Sources */,
+				5975BD5828D97DBB00910F6F /* NoticeCellReactor.swift in Sources */,
 				824D5CAC28BDD89C00EDC712 /* LeftViewTableHeader.swift in Sources */,
 				824D5CAD28BDD89C00EDC712 /* AddressToLocationController.swift in Sources */,
 				8211AACD28D362E40002C095 /* MainReactor.swift in Sources */,
@@ -5009,6 +5009,7 @@
 				824D5CB028BDD89C00EDC712 /* MembershipCardViewController.swift in Sources */,
 				824D5CB128BDD89C00EDC712 /* GroupViewController.swift in Sources */,
 				824D5CB228BDD89C00EDC712 /* NavigationClose.swift in Sources */,
+				5975BD5328D97CD100910F6F /* Notice.swift in Sources */,
 				824D5CB128BDD89C00EDC712 /* GroupViewController.swift in Sources */,
 				824D5CB328BDD89C00EDC712 /* ClusterGenerator.swift in Sources */,
 				824D5CB428BDD89C00EDC712 /* ChargesTableViewCell.swift in Sources */,
@@ -5022,6 +5023,8 @@
 				824D5CBB28BDD89C00EDC712 /* UIView+Extension.swift in Sources */,
 				824D5CBC28BDD89C00EDC712 /* ChargerFilterViewController.swift in Sources */,
 				824D5CBD28BDD89C00EDC712 /* FCMManager.swift in Sources */,
+				5975BD5528D97D0500910F6F /* NewNoticeViewController.swift in Sources */,
+				5975BD5628D97D1800910F6F /* NoticeReactor.swift in Sources */,
 				824D5CBE28BDD89C00EDC712 /* MembershipIssuanceViewController.swift in Sources */,
 				824D5CBF28BDD89C00EDC712 /* ChargerDetailViewController.swift in Sources */,
 				824D5CC028BDD89C00EDC712 /* AppDelegate.swift in Sources */,
@@ -5033,6 +5036,7 @@
 				824D5CC528BDD89C00EDC712 /* NewPaymentQRScanViewController.swift in Sources */,
 				824D5CC628BDD89C00EDC712 /* SearchAddressViewDelegate.swift in Sources */,
 				824D5CC728BDD89C00EDC712 /* MyArticleViewController.swift in Sources */,
+				5975BD4F28D97C0C00910F6F /* NoticeDetailReactor.swift in Sources */,
 				824D5CC828BDD89C00EDC712 /* LotteRentCertificateViewController.swift in Sources */,
 				824D5CC928BDD89C00EDC712 /* BoardSearchViewController.swift in Sources */,
 				824D5CCA28BDD89C00EDC712 /* SignUpViewController.swift in Sources */,
@@ -5069,6 +5073,8 @@
 				824D5CE828BDD89C00EDC712 /* Radio.swift in Sources */,
 				824D5CE928BDD89C00EDC712 /* FilterContainerView.swift in Sources */,
 				824D5CEA28BDD89C00EDC712 /* MemberPartnershipInfo.swift in Sources */,
+				5975BD5928D97DC900910F6F /* NoticeList.swift in Sources */,
+				5975BD5728D97DAA00910F6F /* NewNoticeTableViewCell.swift in Sources */,
 				824D5CEB28BDD89C00EDC712 /* Const.swift in Sources */,
 				824D5CEC28BDD89C00EDC712 /* MembershipQRViewController.swift in Sources */,
 				824D5CED28BDD89C00EDC712 /* CouponCodeViewController.swift in Sources */,
@@ -5079,7 +5085,6 @@
 				824D5CF228BDD89C00EDC712 /* BoardWriteViewController.swift in Sources */,
 				824D5CF428BDD89C00EDC712 /* StationInfoDto.swift in Sources */,
 				824D5CF528BDD89C00EDC712 /* String+Extension.swift in Sources */,
-				824D5CF628BDD89C00EDC712 /* NoticeContentViewController.swift in Sources */,
 				824D5CF728BDD89C00EDC712 /* EVFileManager.swift in Sources */,
 				824D5CF828BDD89C00EDC712 /* StartBannerViewController.swift in Sources */,
 				824D5CF928BDD89C00EDC712 /* SettingsReactor.swift in Sources */,
@@ -5087,6 +5092,7 @@
 				824D5CFB28BDD89C00EDC712 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				824D5CFC28BDD89C00EDC712 /* PaymentTableViewCell.swift in Sources */,
 				824D5CFD28BDD89C00EDC712 /* QuitAccountReasonQuestionReactor.swift in Sources */,
+				5975BD5128D97CB200910F6F /* Constants.swift in Sources */,
 				824D5CFE28BDD89C00EDC712 /* CopyableLabel.swift in Sources */,
 				824D5CFF28BDD89C00EDC712 /* CLLocationCoordinate2D.swift in Sources */,
 				824D5D0028BDD89C00EDC712 /* ReportChargeViewController.swift in Sources */,
@@ -5102,7 +5108,6 @@
 				824D5D0B28BDD89C00EDC712 /* ViewModel.swift in Sources */,
 				824D5D0C28BDD89C00EDC712 /* ReportBoardTableViewCell.swift in Sources */,
 				824D5D0D28BDD89C00EDC712 /* PaymentQRScanViewController.swift in Sources */,
-				824D5D0E28BDD89C00EDC712 /* NoticeViewController.swift in Sources */,
 				824D5D0F28BDD89C00EDC712 /* BottomSheetViewController.swift in Sources */,
 				637025F228DD83FF0082B068 /* ViewConstants.swift in Sources */,
 				824D5D1028BDD89C00EDC712 /* BoardListItem.swift in Sources */,
@@ -5192,7 +5197,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 09161714;
+				CURRENT_PROJECT_VERSION = 09221524;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5233,7 +5238,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 09161714;
+				CURRENT_PROJECT_VERSION = 09221524;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5474,7 +5479,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 09081326;
+				CURRENT_PROJECT_VERSION = 09231524;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5487,7 +5492,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.3;
+				MARKETING_VERSION = 3.7.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -5515,7 +5520,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 09081326;
+				CURRENT_PROJECT_VERSION = 09231524;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5FA8TZGUDC;
@@ -5529,7 +5534,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.3;
+				MARKETING_VERSION = 3.7.4;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
