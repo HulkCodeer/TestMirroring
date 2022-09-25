@@ -101,7 +101,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
         detailTableView.register(UINib(nibName: "BoardDetailTableViewCell", bundle: nil), forCellReuseIdentifier: "BoardDetailTableViewCell")
         detailTableView.register(EmptyTableViewCell.classForCoder(), forCellReuseIdentifier: "EmptyTableViewCell")
         detailTableView.estimatedRowHeight = 100
-        detailTableView.rowHeight = UITableViewAutomaticDimension
+        detailTableView.rowHeight = UITableView.automaticDimension
         
         if #available(iOS 15.0, *) {
             self.detailTableView.sectionHeaderTopPadding = 0
@@ -218,8 +218,8 @@ extension BoardDetailViewController: MediaButtonTappedDelegate {
 extension BoardDetailViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage
+        let originalImage = info[UIImagePickerController.InfoKey.originalImage.rawValue] as! UIImage
+        let editedImage = info[UIImagePickerController.InfoKey.editedImage.rawValue] as? UIImage
         let selectedImage = editedImage ?? originalImage
         
         keyboardInputView?.selectedImageView.isHidden = false
@@ -256,7 +256,7 @@ extension BoardDetailViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -265,7 +265,7 @@ extension BoardDetailViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         } else {
             if boardDetailViewModel.getDetailData()?.comments?.count == 0 {
                 return 64
@@ -633,7 +633,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
         
         if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
             detailViewController.charger = charger
-            self.navigationController?.push(viewController: detailViewController, subtype: kCATransitionFromTop)
+            self.navigationController?.push(viewController: detailViewController, subtype: CATransitionSubtype.fromTop)
         }
     }
 }

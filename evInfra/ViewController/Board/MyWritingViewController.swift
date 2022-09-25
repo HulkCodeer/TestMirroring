@@ -40,7 +40,7 @@ class MyWritingViewController: BaseViewController {
         boardTableView.allowsSelection = true
         boardTableView.isNoneHeader = true
         boardTableView.category = boardCategory
-        boardTableView.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0)
+        boardTableView.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0)
     }
 
     override func didReceiveMemoryWarning() {

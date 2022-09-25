@@ -70,13 +70,13 @@ class MembershipQRViewController: UIViewController,
     }
     
     private func showAuthAlert() {
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) in
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) { (action) in
             Snackbar().show(message: "카메라 기능이 활성화되지 않아 QR스캔을 실행 할 수 없습니다.")
             self.navigationController?.pop()
         }
         
-        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertActionStyle.default) { (action) in
-            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertAction.Style.default) { (action) in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
                 if UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
@@ -181,7 +181,7 @@ extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
         videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         videoPreviewLayer.frame = scannerViewLayer.layer.bounds
         scannerViewLayer.layer.addSublayer(videoPreviewLayer!)
-        scannerViewLayer.bringSubview(toFront: lbExplainScanner)
+        scannerViewLayer.bringSubviewToFront(lbExplainScanner)
         // Start video capture.
         captureSession.startRunning()
         qrCodeFrameView = UIView()
@@ -190,7 +190,7 @@ extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
             qrCodeFrameView.layer.borderColor = UIColor.green.cgColor
             qrCodeFrameView.layer.borderWidth = 2
             scannerViewLayer.addSubview(qrCodeFrameView)
-            scannerViewLayer.bringSubview(toFront: qrCodeFrameView)
+            scannerViewLayer.bringSubviewToFront(qrCodeFrameView)
         }
     }
     

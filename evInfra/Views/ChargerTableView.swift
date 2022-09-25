@@ -24,7 +24,7 @@ class ChargerTableView: UITableView {
         self.dataSource = self
         self.delegate = self
         
-        self.rowHeight = UITableViewAutomaticDimension
+        self.rowHeight = UITableView.automaticDimension
         self.estimatedRowHeight = 102
         
         // empty list의 separator 보이지 않도록 함
@@ -68,6 +68,6 @@ extension ChargerTableView: UITableViewDataSource {
 
 extension ChargerTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
 }

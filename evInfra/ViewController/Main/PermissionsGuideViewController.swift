@@ -237,6 +237,8 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                         manager.desiredAccuracy = kCLLocationAccuracyBest
                         manager.requestWhenInUseAuthorization()
                         manager.startUpdatingLocation()
+                    @unknown default:
+                        fatalError()
                     }
 
                 })
@@ -254,7 +256,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                                                         messageAttributedText: attributeText,
                                                         confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
                                                         confirmBtnAction: {
-                                if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                                if let url = URL(string: UIApplication.openSettingsURLString) {
                                     if UIApplication.shared.canOpenURL(url) {
                                         UIApplication.shared.open(url, options: [:], completionHandler: nil)
                                     }

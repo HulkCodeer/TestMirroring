@@ -49,7 +49,7 @@ extension String {
     }
     
     func size(OfFont font: UIFont) -> CGSize {
-        let fontAttribute = [NSAttributedStringKey.font: font]
+        let fontAttribute = [NSAttributedString.Key.font: font]
         return self.size(withAttributes: fontAttribute)  // for Single Line
     }
     

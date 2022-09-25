@@ -14,7 +14,7 @@ public enum GVSpace {
     case leading
     case trailing
     
-    func layoutAttribute() -> NSLayoutAttribute {
+    func layoutAttribute() -> NSLayoutConstraint.Attribute {
         switch self {
         case .top: return .top
         case .bottom: return .bottom
@@ -75,12 +75,12 @@ extension NSLayoutConstraint {
         return self.firstAttribute == .width && self.secondAttribute == .notAnAttribute && type(of: self) === NSLayoutConstraint.self
     }
     
-    fileprivate func isSpacing(itemView: UIView, attribute: NSLayoutAttribute) -> Bool {
+    fileprivate func isSpacing(itemView: UIView, attribute: NSLayoutConstraint.Attribute) -> Bool {
         return (self.firstItem as? UIView == itemView && self.firstAttribute == attribute)
             || (self.secondItem as? UIView == itemView && self.secondAttribute == attribute)
     }
     
-    fileprivate func isEqual(itemView: UIView, attribute: NSLayoutAttribute) -> Bool {
+    fileprivate func isEqual(itemView: UIView, attribute: NSLayoutConstraint.Attribute) -> Bool {
         return (self.firstItem as? UIView == itemView && self.secondItem != nil && self.firstAttribute == attribute)
             || (self.secondItem as? UIView == itemView && self.secondAttribute == attribute)
     }
@@ -247,12 +247,12 @@ extension NSLayoutConstraint {
         completion?()
     }
     
-    private func goneSpacing(_ attribute: NSLayoutAttribute) {
+    private func goneSpacing(_ attribute: NSLayoutConstraint.Attribute) {
         guard let spacingConstraints = self.findSpacingConstraints(itemView: self, attribute: attribute) else { return }
         spacingConstraints.forEach { $0.setGoneConstant() }
     }
     
-    private func visibleSpacing(_ attribute: NSLayoutAttribute) {
+    private func visibleSpacing(_ attribute: NSLayoutConstraint.Attribute) {
         guard let spacingConstraints = self.findSpacingConstraints(itemView: self, attribute: attribute) else { return }
         spacingConstraints.forEach { $0.setVisibleConstant() }
     }
@@ -273,7 +273,7 @@ extension NSLayoutConstraint {
         return self.constraints.filter { $0.isAspectRatio() }
     }
     
-    private func findSpacingConstraints(itemView: UIView, attribute: NSLayoutAttribute) -> [NSLayoutConstraint]? {
+    private func findSpacingConstraints(itemView: UIView, attribute: NSLayoutConstraint.Attribute) -> [NSLayoutConstraint]? {
         guard let superview = self.superview else { return nil }
         let spacingConstraints = superview.constraints.filter { $0.isSpacing(itemView: itemView, attribute: attribute) }
         if spacingConstraints.count > 0 {
@@ -283,7 +283,7 @@ extension NSLayoutConstraint {
         }
     }
     
-    private func findEqualConstraints(itemView: UIView, attribute: NSLayoutAttribute) -> [NSLayoutConstraint]? {
+    private func findEqualConstraints(itemView: UIView, attribute: NSLayoutConstraint.Attribute) -> [NSLayoutConstraint]? {
         guard let superview = self.superview else { return nil }
         let equalConstraints = superview.constraints.filter { $0.isEqual(itemView: itemView, attribute: attribute) }
         if equalConstraints.count > 0 {
@@ -306,14 +306,14 @@ extension NSLayoutConstraint {
     }
     
     @discardableResult
-    private func addConstraint(attribute: NSLayoutAttribute, constant: CGFloat) -> NSLayoutConstraint {
+    private func addConstraint(attribute: NSLayoutConstraint.Attribute, constant: CGFloat) -> NSLayoutConstraint {
         let constraint = NSLayoutConstraint(item: self, attribute: attribute, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: constant)
         constraint.priority = UILayoutPriority(rawValue: 751)
         self.addConstraint(constraint)
         return constraint
     }
     
-    func visiblity(gone: Bool, dimension: CGFloat = 0.0, attribute: NSLayoutAttribute = .height) -> Void {
+    func visiblity(gone: Bool, dimension: CGFloat = 0.0, attribute: NSLayoutConstraint.Attribute = .height) -> Void {
         if let constraint = (self.constraints.filter{$0.firstAttribute == attribute}.first) {
             constraint.constant = gone ? 0.0 : dimension
             self.layoutIfNeeded()

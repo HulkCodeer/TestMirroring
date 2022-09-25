@@ -290,8 +290,8 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -300,7 +300,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     @objc private func keyboardWillShow(_ sender: NSNotification) {
-        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             view.layoutIfNeeded()
 //            totalScrollView.snp.updateConstraints {
@@ -340,7 +340,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
                 rowVC.items = reactor.currentState.quitAccountReasonList?.compactMap { $0.reasonMessage } ?? []
                 rowVC.headerTitleStr = "탈퇴 사유 선택"
                 rowVC.view.frame = GlobalDefine.shared.mainNavi?.view.bounds ?? UIScreen.main.bounds
-                self.addChildViewController(rowVC)
+                self.addChild(rowVC)
                 self.view.addSubview(rowVC.view)
                                                                               
                 rowVC.selectedCompletion = { [weak self] index in
@@ -350,7 +350,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
                     self.nextBtn.isEnabled = true
                     self.reasonTotalView.isHidden = false
                     rowVC.view.removeFromSuperview()
-                    rowVC.removeFromParentViewController()
+                    rowVC.removeFromParent()
                 }
             })
             .disposed(by: self.disposeBag)

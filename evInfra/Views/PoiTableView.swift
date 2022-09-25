@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol PoiTableViewDelegate: class {
+protocol PoiTableViewDelegate: AnyObject {
     func didSelectRow(poiItem: TMapPOIItem)
 }
 
@@ -18,13 +18,13 @@ class PoiTableView: UITableView {
     
     var poiList: [TMapPOIItem]? = nil
 
-    required override init(frame: CGRect, style: UITableViewStyle) {
+    required override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
         
         self.dataSource = self
         self.delegate = self
         
-        self.rowHeight = UITableViewAutomaticDimension
+        self.rowHeight = UITableView.automaticDimension
         self.estimatedRowHeight = 60
     }
     
@@ -34,7 +34,7 @@ class PoiTableView: UITableView {
         self.dataSource = self
         self.delegate = self
         
-        self.rowHeight = UITableViewAutomaticDimension
+        self.rowHeight = UITableView.automaticDimension
         self.estimatedRowHeight = 60
     }
 }
@@ -76,6 +76,6 @@ extension PoiTableView: UITableViewDataSource {
 
 extension PoiTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
 }

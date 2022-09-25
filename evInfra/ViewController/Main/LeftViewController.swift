@@ -136,7 +136,7 @@ internal final class LeftViewController: UIViewController {
                 
         sideTableView.delegate = self
         sideTableView.dataSource = self
-        sideTableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        sideTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
         initSideViewArr()
         

@@ -85,8 +85,8 @@ class MembershipIssuanceViewController: UIViewController,
         if let result = payRegistResult {
             updateAfterPayRegist(json: result)
         } else {
-            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         }
     }
     
@@ -112,7 +112,7 @@ class MembershipIssuanceViewController: UIViewController,
         let text = labelAgreeTerm.text
         let textRange = NSRange(location: 0, length: (text?.count)!)
         let attributedText = NSMutableAttributedString(string: text!)
-        attributedText.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: textRange)
+        attributedText.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: textRange)
         labelAgreeTerm.attributedText = attributedText
         
         let term_touch = UITapGestureRecognizer(target: self, action: #selector(self.handleTermTouch(recognizer:)))
@@ -335,7 +335,7 @@ class MembershipIssuanceViewController: UIViewController,
     // MARK: - KeyBoardHeight
     @objc func keyboardWillShow(_ notification: Notification) {
         var keyboardHeight: CGFloat = 0
-        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             keyboardHeight = keyboardRectangle.height  + CGFloat(16.0)
         }

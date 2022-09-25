@@ -46,7 +46,7 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
         $0.register(BottomSheetCell.self, forCellReuseIdentifier: "cell")
         $0.backgroundColor = UIColor.clear
         $0.separatorStyle = .none
-        $0.rowHeight = UITableViewAutomaticDimension
+        $0.rowHeight = UITableView.automaticDimension
         $0.estimatedRowHeight = Consts.cellHeight
         $0.allowsSelection = true
         $0.allowsSelectionDuringEditing = false
@@ -171,7 +171,7 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
                 guard let self = self else { return }
                 self.dimmedViewBtnCompletion?()
                 self.view.removeFromSuperview()
-                self.removeFromParentViewController()
+                self.removeFromParent()
             })
             .disposed(by: self.disposebag)
     }

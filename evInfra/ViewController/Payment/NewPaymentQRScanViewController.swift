@@ -208,7 +208,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             .drive(with: self) { obj,_ in
                 let shapeLayer = CAShapeLayer()
                 shapeLayer.frame = obj.dimmedView.bounds
-                shapeLayer.fillRule = kCAFillRuleEvenOdd
+                shapeLayer.fillRule = CAShapeLayerFillRule.evenOdd
                 
                 let path = UIBezierPath(rect: obj.dimmedView.bounds)
                 path.append(UIBezierPath(rect: CGRect(x: obj.holeView.frame.origin.x, y: obj.holeView.frame.origin.y - 56, width: obj.holeView.bounds.width, height: obj.holeView.bounds.height)))
@@ -241,7 +241,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                         .bind(to: reactor.action)
                         .disposed(by: self.disposeBag)
                     rowVC.view.removeFromSuperview()
-                    rowVC.removeFromParentViewController()
+                    rowVC.removeFromParent()
                 }
                 
                 rowVC.dimmedViewBtnCompletion = { [weak self] in
@@ -250,7 +250,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                 }
                 
                 rowVC.view.frame = GlobalDefine.shared.mainNavi?.view.bounds ?? UIScreen.main.bounds
-                self.addChildViewController(rowVC)
+                self.addChild(rowVC)
                 self.view.addSubview(rowVC.view)
             }
             .disposed(by: self.disposeBag)

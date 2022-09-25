@@ -14,6 +14,7 @@ import FLAnimatedImage
 import RxSwift
 import RxCocoa
 import Alamofire
+import Inject
 
 internal final class IntroViewController: UIViewController {
 
@@ -177,7 +178,8 @@ internal final class IntroViewController: UIViewController {
     private func movePerminssonsGuideView() {
         let reactor = PermissionsGuideReactor(provider: RestApi())
         let viewcon = PermissionsGuideViewController(reactor: reactor)
-        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+        let injectViewcon = Inject.ViewControllerHost(viewcon)
+        GlobalDefine.shared.mainNavi?.push(viewController: injectViewcon)
     }
 }
 

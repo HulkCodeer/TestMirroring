@@ -26,7 +26,7 @@ class EventTableViewCell: UITableViewCell {
         super.layoutSubviews()
         // set the values for top, left, bottom, right margins
         let margins = UIEdgeInsets(top: 16, left: 16, bottom: 0, right: 16)
-        contentView.frame = UIEdgeInsetsInsetRect(contentView.frame, margins)
+        contentView.frame = contentView.frame.inset(by: margins)
     }
     
     internal func configure(_ event: AdsInfo) {

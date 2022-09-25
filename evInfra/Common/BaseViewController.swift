@@ -28,7 +28,7 @@ internal class BaseViewController: UIViewController {
         activitiIndicator.color = UIColor(named: "nt-5")
         activitiIndicator.hidesWhenStopped = true
         if #available(iOS 13.0, *) {
-            activitiIndicator.activityIndicatorViewStyle = .large
+            activitiIndicator.style = .large
         } else {
             // Fallback on earlier versions
         }
@@ -70,13 +70,13 @@ internal class BaseViewController: UIViewController {
     
     // 공통
     private func showAuthAlert() {
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) in
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) { (action) in
             Snackbar().show(message: "카메라 기능이 활성화되지 않았습니다.")
             self.navigationController?.pop()
         }
         
-        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertActionStyle.default) { (action) in
-            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertAction.Style.default) { (action) in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
                 if UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }

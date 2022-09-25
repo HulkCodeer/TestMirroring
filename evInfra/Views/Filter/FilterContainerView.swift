@@ -133,15 +133,15 @@ class FilterContainerView: UIView {
         
         switch type {
         case .price:
-            filterContainerView.bringSubview(toFront: filterPriceView!)
+            filterContainerView.bringSubviewToFront(filterPriceView!)
         case .speed:
-            filterContainerView.bringSubview(toFront: filterSpeedView!)
+            filterContainerView.bringSubviewToFront(filterSpeedView!)
         case .place:
-            filterContainerView.bringSubview(toFront: filterPlaceView!)
+            filterContainerView.bringSubviewToFront(filterPlaceView!)
         case .road:
-            filterContainerView.bringSubview(toFront: filterRoadView!)
+            filterContainerView.bringSubviewToFront(filterRoadView!)
         case .type:
-            filterContainerView.bringSubview(toFront: filterTypeView!)
+            filterContainerView.bringSubviewToFront(filterTypeView!)
         default:
             break;
         }

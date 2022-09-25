@@ -227,7 +227,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                                                                 messageAttributedText: attributeText,
                                                                 confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기", confirmBtnAction: { [weak self] in
                                         guard let self = self else { return }
-                                        if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                                        if let url = URL(string: UIApplication.openSettingsURLString) {
                                             if UIApplication.shared.canOpenURL(url) {
                                                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
                                             }
@@ -380,8 +380,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private func handleError(error: Error?) -> Void {
         if let error = error as NSError? {
             print(error)
-            let alert = UIAlertController(title: self.title!, message: error.localizedFailureReason, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.cancel, handler: nil))
+            let alert = UIAlertController(title: self.title!, message: error.localizedFailureReason, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "확인", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -467,7 +467,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             switch CLLocationManager.authorizationStatus() {
             case .notDetermined, .restricted, .denied:
                 GlobalFunctionSwift.showPopup(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 기능을 이용하시려면 모든 권한을 허용해 주십시오.\n[설정] > [EV Infra] 에서 권한을 허용할 수 있습니다.", confirmBtnTitle: "설정하기", confirmBtnAction: {
-                    if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
                         if UIApplication.shared.canOpenURL(url) {
                             UIApplication.shared.open(url, options: [:], completionHandler: nil)
                         }
@@ -601,7 +601,7 @@ extension MainViewController: DelegateFilterBarView {
             if isLogin {
                 let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
                 favoriteViewController.delegate = self
-                GlobalDefine.shared.mainNavi?.push(viewController: favoriteViewController, subtype: kCATransitionFromTop)
+                GlobalDefine.shared.mainNavi?.push(viewController: favoriteViewController, subtype: CATransitionSubtype.fromTop)
             } else {
                 MemberManager.shared.showLoginAlert()
             }
@@ -690,13 +690,13 @@ extension MainViewController: AppToolbarDelegate {
     
     func showRouteView(isShow: Bool) {
         if isShow {
-            UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {() -> Void in
+            UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
                 self.filterView.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
                 self.myLocationButton.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
                 self.reNewButton.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
             }, completion: nil)
         } else {
-            UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {() -> Void in
+            UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
                 self.filterView.transform = CGAffineTransform( translationX: 0.0, y: 0.0 )
                 self.myLocationButton.transform = CGAffineTransform( translationX: 0.0, y: 0.0)
                 self.reNewButton.transform = CGAffineTransform( translationX: 0.0, y: 0.0)
@@ -939,13 +939,13 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func hideResultView() {
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {() -> Void in
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {() -> Void in
             self.resultTableView?.isHidden = true
         }, completion: nil)
     }
     
     func showResultView() {
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {() -> Void in
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
             self.resultTableView?.isHidden = false
         }, completion: nil)
     }
@@ -1090,7 +1090,7 @@ extension MainViewController: ChargerSelectDelegate {
         detailViewController.charger = self.selectCharger
         detailViewController.isRouteMode = self.clusterManager?.isRouteMode ?? false
         
-        GlobalDefine.shared.mainNavi?.push(viewController: detailViewController, subtype: kCATransitionFromTop)
+        GlobalDefine.shared.mainNavi?.push(viewController: detailViewController, subtype: CATransitionSubtype.fromTop)
     }
     
     func prepareSummaryView() {
@@ -1229,7 +1229,7 @@ extension MainViewController {
 extension MainViewController {
     func prepareNotificationCenter() {
         let center = NotificationCenter.default
-        center.addObserver(self, selector: #selector(saveLastZoomLevel), name: .UIApplicationDidEnterBackground, object: nil)
+        center.addObserver(self, selector: #selector(saveLastZoomLevel), name: UIApplication.didEnterBackgroundNotification, object: nil)
         center.addObserver(self, selector: #selector(updateMemberInfo), name: Notification.Name("updateMemberInfo"), object: nil)
         center.addObserver(self, selector: #selector(getSharedChargerId(_:)), name: Notification.Name("kakaoScheme"), object: nil)
         center.addObserver(self, selector: #selector(showSelectCharger), name: Notification.Name("showSelectCharger"), object: nil)
@@ -1244,7 +1244,7 @@ extension MainViewController {
     
     func removeObserver() {
         let center = NotificationCenter.default
-        center.removeObserver(self, name: .UIApplicationDidEnterBackground, object: nil)
+        center.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
         center.removeObserver(self, name: Notification.Name("updateMemberInfo"), object: nil)
         center.removeObserver(self, name: Notification.Name("kakaoScheme"), object: nil)
         center.removeObserver(self, name: Notification.Name(summaryView.startKey), object: nil)
@@ -1537,7 +1537,7 @@ extension MainViewController {
                                     message: "QR 스캔을 위해 권한 허용이 필요해요.\n[설정] > [권한]에서 권한을 허용할 수 있어요.",
                                     confirmBtnTitle: "설정하기", cancelBtnTitle: "닫기",
                                     confirmBtnAction: {
-            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+            if let url = URL(string: UIApplication.openSettingsURLString) {
                 if UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }

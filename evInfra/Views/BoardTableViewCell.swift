@@ -27,7 +27,7 @@ class BoardTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.autoresizingMask = UIViewAutoresizing.flexibleHeight
+        self.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
         
         rUserImage.layer.borderWidth = 1
         rUserImage.layer.masksToBounds = false

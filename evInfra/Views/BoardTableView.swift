@@ -40,7 +40,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         self.dataSource = self
         self.delegate = self
         self.allowsSelection = true
-        self.autoresizingMask = UIViewAutoresizing.flexibleHeight
+        self.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
         self.separatorStyle = .none
         self.register(CommunityBoardTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "CommunityBoardTableViewHeader")
         if #available(iOS 15.0, *) {
@@ -139,7 +139,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -151,7 +151,7 @@ class BoardTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

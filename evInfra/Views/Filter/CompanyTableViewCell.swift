@@ -7,7 +7,7 @@
 //
 
 import UIKit
-protocol CompanyTableCellDelegate: class {
+protocol CompanyTableCellDelegate: AnyObject {
     func onClickTag(tagName: String, value: Bool)
 }
 class CompanyTableViewCell: UITableViewCell {
@@ -25,7 +25,7 @@ class CompanyTableViewCell: UITableViewCell {
         // Initialization code
         tagView.collectionViewLayout = TagFlowLayout()
         tagView.register(UINib(nibName: "TagListViewCell", bundle: nil), forCellWithReuseIdentifier: "tagListViewCell")
-        self.autoresizingMask = UIViewAutoresizing.flexibleHeight
+        self.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
         tagView.isScrollEnabled = false
         tagView.delegate = self
         tagView.dataSource = self
