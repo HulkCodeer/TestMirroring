@@ -8,6 +8,7 @@
 
 import Foundation
 import RxCoreLocation
+import CoreLocation
 import RxSwift
 
 typealias Location = (latitude: String, longitude: String)

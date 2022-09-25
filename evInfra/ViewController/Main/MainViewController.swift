@@ -20,6 +20,7 @@ import AVFoundation
 import ReactorKit
 import MiniPlengi
 import RxViewController
+import CoreLocation
 
 internal final class MainViewController: UIViewController, StoryboardView {
     
@@ -536,6 +537,8 @@ extension MainViewController: CLLocationManagerDelegate {
         case .authorizedAlways, .authorizedWhenInUse, .authorized:
             self.naverMapView.moveToCurrentPostiion()
             break
+        @unknown default:
+            fatalError()
         }
     }
 }
