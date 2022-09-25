@@ -1275,15 +1275,12 @@
 		82E1302328DEACF100E7983D /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301C28DEACF100E7983D /* NetworkWorker.swift */; };
 		82E1302428DEACF100E7983D /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301E28DEACF100E7983D /* SoftberryAPI.swift */; };
 		82E1302528DEACF100E7983D /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302028DEACF100E7983D /* Server.swift */; };
-		82E1302628DEACF100E7983D /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302228DEACF100E7983D /* LocationWorker.swift */; };
 		82E1302728DEAE2600E7983D /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301E28DEACF100E7983D /* SoftberryAPI.swift */; };
 		82E1302828DEAE2700E7983D /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301E28DEACF100E7983D /* SoftberryAPI.swift */; };
 		82E1302928DEAE2A00E7983D /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302028DEACF100E7983D /* Server.swift */; };
 		82E1302A28DEAE2A00E7983D /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302028DEACF100E7983D /* Server.swift */; };
 		82E1302B28DEAE2D00E7983D /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301C28DEACF100E7983D /* NetworkWorker.swift */; };
 		82E1302C28DEAE2D00E7983D /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301C28DEACF100E7983D /* NetworkWorker.swift */; };
-		82E1302D28DEAE3000E7983D /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302228DEACF100E7983D /* LocationWorker.swift */; };
-		82E1302E28DEAE3000E7983D /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302228DEACF100E7983D /* LocationWorker.swift */; };
 		82E1303028DEAEB200E7983D /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302F28DEAEB200E7983D /* MainReactor.swift */; };
 		82E1303128DEAEB200E7983D /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302F28DEAEB200E7983D /* MainReactor.swift */; };
 		82E1303228DEAEB200E7983D /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302F28DEAEB200E7983D /* MainReactor.swift */; };
@@ -1797,7 +1794,6 @@
 		82E1301C28DEACF100E7983D /* NetworkWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		82E1301E28DEACF100E7983D /* SoftberryAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
 		82E1302028DEACF100E7983D /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
-		82E1302228DEACF100E7983D /* LocationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationWorker.swift; sourceTree = "<group>"; };
 		82E1302F28DEAEB200E7983D /* MainReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainReactor.swift; sourceTree = "<group>"; };
 		82E1303328DEAEC100E7983D /* PermissionsGuideReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsGuideReactor.swift; sourceTree = "<group>"; };
 		82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsGuideViewController.swift; sourceTree = "<group>"; };
@@ -2913,7 +2909,6 @@
 			children = (
 				82E1301D28DEACF100E7983D /* Network */,
 				82E1301C28DEACF100E7983D /* NetworkWorker.swift */,
-				82E1302228DEACF100E7983D /* LocationWorker.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -4407,7 +4402,6 @@
 				82E1302728DEAE2600E7983D /* SoftberryAPI.swift in Sources */,
 				63F31465284EC74F001713D2 /* ChargerManagerListener.swift in Sources */,
 				63F31466284EC74F001713D2 /* HangulUtils.swift in Sources */,
-				82E1302D28DEAE3000E7983D /* LocationWorker.swift in Sources */,
 				63F31467284EC74F001713D2 /* PaymentStatus.swift in Sources */,
 				63F31468284EC74F001713D2 /* CommunityBoardTableViewHeader.swift in Sources */,
 				63F31469284EC74F001713D2 /* SideMenuTableViewCell.swift in Sources */,
@@ -4741,7 +4735,6 @@
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
 				82DD57DB28C5D41900C6C55E /* StickButton.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController+Extension.swift in Sources */,
-				82E1302628DEACF100E7983D /* LocationWorker.swift in Sources */,
 				59317D1228B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */,
 				63DA0A05282E337F0021292C /* RentalCarCardListView.swift in Sources */,
 				195C4E8228C5CE3F000B47F7 /* BannerPagerView.swift in Sources */,
@@ -5031,7 +5024,6 @@
 				82E1302828DEAE2700E7983D /* SoftberryAPI.swift in Sources */,
 				824D5CCE28BDD89C00EDC712 /* CompanyTableView.swift in Sources */,
 				824D5CCF28BDD89C00EDC712 /* ChargerManagerListener.swift in Sources */,
-				82E1302E28DEAE3000E7983D /* LocationWorker.swift in Sources */,
 				824D5CD028BDD89C00EDC712 /* HangulUtils.swift in Sources */,
 				824D5CD128BDD89C00EDC712 /* PaymentStatus.swift in Sources */,
 				824D5CD228BDD89C00EDC712 /* CommunityBoardTableViewHeader.swift in Sources */,
@@ -5194,7 +5186,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = "evInfra/Info-dev.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
@@ -5236,7 +5228,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = "evInfra/Info-dev.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
@@ -5310,7 +5302,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -5367,7 +5359,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
@@ -5397,7 +5389,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
@@ -5438,7 +5430,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
@@ -5479,7 +5471,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
@@ -5520,7 +5512,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;

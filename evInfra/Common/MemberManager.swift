@@ -9,6 +9,8 @@
 import Foundation
 import SwiftyJSON
 import MiniPlengi
+import RxCoreLocation
+import RxSwift
 
 struct Admin: Decodable {
     let mb_id: String
@@ -30,6 +32,8 @@ internal final class MemberManager {
     internal static let shared = MemberManager()
     
     private init() {}
+    
+    private var disposeBag = DisposeBag()
     
     internal var mbId: Int { // 회원가입 아이디
         return UserDefault().readInt(key: UserDefault.Key.MB_ID)
@@ -253,19 +257,22 @@ internal final class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_REG_DATE, value: data["reg_date"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_POINT, value: data["point"].stringValue)
                         
-            if let locationStatus = LocationWorker.shared.locationStatus {
-                switch locationStatus {
-                case .authorizedAlways, .authorizedWhenInUse:
-                    DispatchQueue.main.async {
-                        let receive = MemberManager.shared.isAllowMarketingNoti                        
-                        _ = Plengi.enableAdNetwork(true, enableNoti: receive)
-                        _ = Plengi.start()
-//                        _ = Plengi.manual_refreshPlace_foreground()
+            CLLocationManager().rx
+                .status
+                .subscribe(onNext: { status in
+                    switch status {
+                    case .authorizedAlways, .authorizedWhenInUse:
+                        DispatchQueue.main.async {
+                            let receive = MemberManager.shared.isAllowMarketingNoti
+                            _ = Plengi.enableAdNetwork(true, enableNoti: receive)
+                            _ = Plengi.start()
+    //                        _ = Plengi.manual_refreshPlace_foreground()
+                        }
+                                                                
+                    default: break
                     }
-                                                            
-                default: break
-                }
-            }
+                })
+                .disposed(by: self.disposeBag)
         }
     }
     

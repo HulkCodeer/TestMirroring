@@ -9,6 +9,7 @@
 import ReactorKit
 import MiniPlengi
 import CoreLocation
+import RxCoreLocation
 import RxViewController
 
 internal final class PermissionsGuideViewController: CommonBaseViewController, StoryboardView {
@@ -223,20 +224,14 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                 manager.rx.status
                 .subscribe(onNext: { status in
                     switch status {
-                    case .authorizedAlways, .authorizedWhenInUse:
+                    case .authorizedAlways:
+                        self.moveMainViewcon()
+                        
+                    case .authorizedWhenInUse, .notDetermined, .denied, .restricted:
                         manager.desiredAccuracy = kCLLocationAccuracyBest
                         manager.requestWhenInUseAuthorization()
                         manager.startUpdatingLocation()
-
-                    case .notDetermined:
-                        manager.desiredAccuracy = kCLLocationAccuracyBest
-                        manager.requestWhenInUseAuthorization()
-                        manager.startUpdatingLocation()
-
-                    case .denied, .restricted:
-                        manager.desiredAccuracy = kCLLocationAccuracyBest
-                        manager.requestWhenInUseAuthorization()
-                        manager.startUpdatingLocation()
+                                    
                     @unknown default:
                         fatalError()
                     }
@@ -251,7 +246,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                     guard let self = self else { return }
                     if MemberManager.shared.isFirstInstall {                        
                         switch status {
-                        case .authorizedAlways, .authorizedWhenInUse:
+                        case .authorizedWhenInUse:
                             let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
                                                         messageAttributedText: attributeText,
                                                         confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
@@ -273,6 +268,9 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                             })
         
                         case .denied, .notDetermined, .restricted:
+                            self.moveMainViewcon()
+                                                        
+                        case .authorizedAlways:
                             self.moveMainViewcon()
         
                         @unknown default:
@@ -459,6 +457,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     }
     
     private func moveMainViewcon() {
+        printLog(out: "PARK TEST move Main")
         MemberManager.shared.isFirstInstall = true
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let reactor = MainReactor(provider: RestApi())

@@ -20,6 +20,7 @@ import AVFoundation
 import ReactorKit
 import MiniPlengi
 import RxViewController
+import RxCoreLocation
 import CoreLocation
 
 internal final class MainViewController: UIViewController, StoryboardView {
@@ -118,11 +119,16 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         prepareCalloutLayer()
         
-        LocationWorker.shared.locationStatusObservable
+        locationManager.rx.status
             .subscribe(onNext: { [weak self] status in
                 guard let self = self else { return }
+                printLog(out: "PARK TEST 몇번뜨는거니 \(status)")
                 switch status {
-                case .authorizedAlways, .authorizedWhenInUse:
+                case .authorizedWhenInUse:
+                    self.locationManager.requestAlwaysAuthorization()
+                    self.naverMapView.moveToCurrentPostiion()
+                    
+                case .authorizedAlways:
                     self.naverMapView.moveToCurrentPostiion()
                                     
                 default:
@@ -143,8 +149,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     })
                     self.naverMapView.moveToCenterPosition()
                 }
+
             })
-            .disposed(by: self.disposeBag)        
+            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -232,7 +239,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .subscribe(with: self) { obj,_ in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    CLLocationManager().rx
+                    obj.locationManager.rx
                         .status
                         .subscribe(with: self) { obj ,status in
                             switch status {
