@@ -126,8 +126,22 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     self.naverMapView.moveToCurrentPostiion()
                                     
                 default:
+                    let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
+                                                message: "위치 권한을 허용해주시면, 근처의 충전소 정보 및 풍부한 혜택 정보를 알려드릴게요.",
+                                                confirmBtnTitle: "권한 변경하기",
+                                                confirmBtnAction: {
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            if UIApplication.shared.canOpenURL(url) {
+                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            }
+                        }
+                    }, textAlignment: .center)
+
+                    let popup = ConfirmPopupViewController(model: popupModel)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                    })
                     self.naverMapView.moveToCenterPosition()
-                                        
                 }
             })
             .disposed(by: self.disposeBag)        

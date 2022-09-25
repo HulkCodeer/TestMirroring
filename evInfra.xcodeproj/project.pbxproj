@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1259,8 +1259,6 @@
 		82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
 		82829BD228ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
-		82A6A5D228DF54D00033910B /* Inject in Frameworks */ = {isa = PBXBuildFile; productRef = 82A6A5D128DF54D00033910B /* Inject */; };
-		82A6A5D528DF566E0033910B /* Inject in Frameworks */ = {isa = PBXBuildFile; productRef = 82A6A5D428DF566E0033910B /* Inject */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
@@ -1926,7 +1924,6 @@
 				63F314B8284EC74F001713D2 /* OpenGLES.framework in Frameworks */,
 				CD4A1C63650A84AE146C07B7 /* (null) in Frameworks */,
 				E736AA6EC1C2489E3F10D0ED /* Pods_evInfra_dev.framework in Frameworks */,
-				82A6A5D528DF566E0033910B /* Inject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1955,7 +1952,6 @@
 				425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */,
 				8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */,
 				2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */,
-				82A6A5D228DF54D00033910B /* Inject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3089,7 +3085,6 @@
 			);
 			name = evInfra_dev;
 			packageProductDependencies = (
-				82A6A5D428DF566E0033910B /* Inject */,
 			);
 			productName = evInfra;
 			productReference = 63F31548284EC74F001713D2 /* evInfra_dev.app */;
@@ -3113,7 +3108,6 @@
 			);
 			name = evInfra;
 			packageProductDependencies = (
-				82A6A5D128DF54D00033910B /* Inject */,
 			);
 			productName = evInfra;
 			productReference = 732121B9203AC023000E105C /* evInfra.app */;
@@ -3190,8 +3184,6 @@
 			);
 			mainGroup = 732121B0203AC023000E105C;
 			packageReferences = (
-				82A6A5D028DF54D00033910B /* XCRemoteSwiftPackageReference "Inject" */,
-				82A6A5D328DF566E0033910B /* XCRemoteSwiftPackageReference "Inject" */,
 			);
 			productRefGroup = 732121BA203AC023000E105C /* Products */;
 			projectDirPath = "";
@@ -5203,10 +5195,7 @@
 				);
 				INFOPLIST_FILE = "evInfra/Info-dev.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
 				OTHER_LDFLAGS = (
@@ -5248,10 +5237,7 @@
 				);
 				INFOPLIST_FILE = "evInfra/Info-dev.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
 				ONLY_ACTIVE_ARCH = NO;
@@ -5385,8 +5371,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -5413,10 +5398,7 @@
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
 				OTHER_LDFLAGS = (
@@ -5457,10 +5439,7 @@
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
 				ONLY_ACTIVE_ARCH = NO;
@@ -5501,10 +5480,7 @@
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
 				OTHER_LDFLAGS = (
@@ -5545,10 +5521,7 @@
 				);
 				INFOPLIST_FILE = evInfra/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 3.7.4;
 				ONLY_ACTIVE_ARCH = NO;
@@ -5617,38 +5590,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		82A6A5D028DF54D00033910B /* XCRemoteSwiftPackageReference "Inject" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/krzysztofzablocki/Inject.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-		82A6A5D328DF566E0033910B /* XCRemoteSwiftPackageReference "Inject" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/krzysztofzablocki/Inject.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		82A6A5D128DF54D00033910B /* Inject */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 82A6A5D028DF54D00033910B /* XCRemoteSwiftPackageReference "Inject" */;
-			productName = Inject;
-		};
-		82A6A5D428DF566E0033910B /* Inject */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 82A6A5D028DF54D00033910B /* XCRemoteSwiftPackageReference "Inject" */;
-			productName = Inject;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		732121C3203AC023000E105C /* evInfra.xcdatamodeld */ = {
