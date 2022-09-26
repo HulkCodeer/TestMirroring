@@ -56,14 +56,14 @@ class NaverMapView: NMFNaverMapView {
     }
     
     func moveToPosition(with zoomLevel: Double) {
-//        let coordinate = locationManager.getCurrentCoordinate()
-//        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude), zoomTo: zoomLevel)
-//        cameraUpdate.animation = .fly
-//        mapView.moveCamera(cameraUpdate)
-//        
-//        let locationOverlay = mapView.locationOverlay
-//        locationOverlay.location = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
-//        locationOverlay.hidden = false
+        let coordinate = locationManager.getCurrentCoordinate()
+        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude), zoomTo: zoomLevel)
+        cameraUpdate.animation = .fly
+        mapView.moveCamera(cameraUpdate)
+        
+        let locationOverlay = mapView.locationOverlay
+        locationOverlay.location = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
+        locationOverlay.hidden = false
     }
     
     func moveToCamera(with poistion: NMGLatLng, zoomLevel: Double) {

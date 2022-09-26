@@ -96,7 +96,9 @@ class UserDefault {
         static let RECENT_KEYWORD = "keywords" // 게시글 검색 최근검색어
         static let IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP = "isDeleveryComplete" // 배송완료 툴팁 저장
         
-        static let IS_FIRST_INSTALL = "is_first_install" // 앱 최초 설치인지 확인용        
+        // 로플랫 전용
+        static let IS_FIRST_INSTALL = "is_first_install" // 앱 최초 설치인지 확인용
+        static let IS_FIRST_LOCATION_POPUP = "is_first_location_popup" // 항상 허용 권한 위치 팝업 띄웠는지 유무
     }
 
     func saveString(key:String, value: String) -> Void {

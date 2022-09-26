@@ -149,9 +149,19 @@ internal final class IntroViewController: UIViewController {
                         
                         Board.sharedInstance.brdNewInfo.append(boardNewInfo)
                     }
-                                                                                                                        
+                    
                     if !MemberManager.shared.isFirstInstall {
-                        self.movePerminssonsGuideView()
+                        CLLocationManager().rx
+                            .status
+                            .subscribe(with: self) { obj, status in
+                                switch status {
+                                case .authorizedAlways, .authorizedWhenInUse:
+                                    self.moveMainView()
+                                    
+                                default: self.movePerminssonsGuideView()
+                                }
+                            }
+                            .disposed(by: self.disposeBag)
                     } else {
                         self.moveMainView()
                     }

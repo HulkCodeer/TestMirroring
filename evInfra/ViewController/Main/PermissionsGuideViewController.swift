@@ -216,7 +216,16 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                     .observe(on: MainScheduler.asyncInstance)
                     .subscribe(onNext: { status in
                         switch status {
-                        case .notDetermined, .denied, .restricted:
+                        case .denied:
+                            if let url = URL(string: UIApplication.openSettingsURLString) {
+                                if UIApplication.shared.canOpenURL(url) {
+                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                }
+                            }
+                            
+                            self.moveMainViewcon()
+                            
+                        case .notDetermined, .restricted:
                             obj.manager.desiredAccuracy = kCLLocationAccuracyBest
                             obj.manager.requestWhenInUseAuthorization()
                             obj.manager.startUpdatingLocation()
