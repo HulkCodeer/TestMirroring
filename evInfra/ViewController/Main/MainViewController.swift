@@ -242,6 +242,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     // MARK: REACTORKIT
     
+    internal func viewWillAppearFuncBind() {
+        guard let _reactor = self.reactor else { return }
+        Observable.just(MainReactor.Action.showMarketingPopup)
+            .bind(to: _reactor.action)
+            .disposed(by: self.disposeBag)
+    }
+    
     internal func bind(reactor: MainReactor) {
         let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.\n정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
         let attributeText = NSMutableAttributedString(string: message)

@@ -48,6 +48,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         setupEntryController(scene)
     }
+    
+    func sceneDidBecomeActive(_ scene: UIScene) {
+        printLog(out: "sceneDidBecomeActive")
+    }
 
     // background
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
