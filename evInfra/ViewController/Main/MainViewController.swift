@@ -121,8 +121,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         locationManager.rx.status
             .subscribe(onNext: { [weak self] status in
-                guard let self = self else { return }
-                printLog(out: "PARK TEST 몇번뜨는거니 \(status)")
+                guard let self = self else { return }    
                 switch status {
                 case .authorizedWhenInUse:
                     self.locationManager.requestAlwaysAuthorization()

@@ -209,6 +209,7 @@ PODS:
     - MDFTextAccessibility
   - MDFInternationalization (3.0.0)
   - MDFTextAccessibility (2.0.1)
+  - MiniPlengi (1.4.2.2)
   - Motion (1.4.3):
     - Motion/Core (= 1.4.3)
   - Motion/Core (1.4.3)
@@ -234,6 +235,11 @@ PODS:
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
+  - RxCoreLocation (1.5.1):
+    - RxCoreLocation/Core (= 1.5.1)
+  - RxCoreLocation/Core (1.5.1):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxDataSources (5.0.0):
     - Differentiator (~> 5.0)
     - RxCocoa (~> 6.0)
@@ -277,12 +283,14 @@ DEPENDENCIES:
   - Material (~> 2.0)
   - MaterialComponents/BottomSheet
   - MaterialComponents/Snackbar
+  - MiniPlengi (= 1.4.2.2)
   - NMapsMap
   - PanModal
   - ReactorKit
   - ReusableKit (from `https://github.com/devxoul/ReusableKit`, branch `master`)
   - RxAlamofire
   - RxCocoa (= 6.5.0)
+  - RxCoreLocation (from `https://github.com/RxSwiftCommunity/RxCoreLocation.git`, branch `master`)
   - RxDataSources (~> 5.0)
   - RxSwift (= 6.5.0)
   - RxViewController
@@ -328,6 +336,7 @@ SPEC REPOS:
     - MaterialComponents
     - MDFInternationalization
     - MDFTextAccessibility
+    - MiniPlengi
     - Motion
     - nanopb
     - NMapsMap
@@ -353,11 +362,17 @@ EXTERNAL SOURCES:
   ReusableKit:
     :branch: master
     :git: https://github.com/devxoul/ReusableKit
+  RxCoreLocation:
+    :branch: master
+    :git: https://github.com/RxSwiftCommunity/RxCoreLocation.git
 
 CHECKOUT OPTIONS:
   ReusableKit:
     :commit: 9a5756ba41f7a864ff0738c21876d52b9e67eec7
     :git: https://github.com/devxoul/ReusableKit
+  RxCoreLocation:
+    :commit: 8c4b301640e84c258018a82a105678ae287576a7
+    :git: https://github.com/RxSwiftCommunity/RxCoreLocation.git
 
 SPEC CHECKSUMS:
   Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
@@ -392,6 +407,7 @@ SPEC CHECKSUMS:
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
   MDFTextAccessibility: f4bb4cc2194286651b59a215fdeaa0e05dc90ba5
+  MiniPlengi: af7a297077420f47fae6b9ab22f14499a45c04c2
   Motion: 153ba49692997888556c7a95207278a8b1f8be95
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   NMapsMap: f151761c088d6516064c59da03ab6503769486e6
@@ -401,6 +417,7 @@ SPEC CHECKSUMS:
   ReusableKit: 6995fa5f7fedb456889f72ca3f8913d21759a45d
   RxAlamofire: beb75a1c452d0de225651db4903f5d29d034a620
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxCoreLocation: 5db05ff830a313466a29e82798d983826b93a2f8
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
@@ -414,6 +431,6 @@ SPEC CHECKSUMS:
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 9c03d9f7dddf0d40a69c5c7e21b9ac4c3c0dd423
+PODFILE CHECKSUM: 7785c02a204b205e327b127e14af8fcb68b8d6cf
 
 COCOAPODS: 1.11.3
