@@ -20,9 +20,17 @@ internal final class MainNavigationBar: UIView {
         $0.spacing = 8
     }
     
-    internal let menuButton = UIButton()
+    internal let menuButton = UIButton().then {
+        let image = UIImage(asset: Icons.iconMenuMd)
+        $0.setImage(image, for: .normal)
+        $0.imageView?.contentMode = .scaleAspectFill
+    }
     internal let searchChargeButton = UIButton()
-    internal let searchWayButton = UIButton()
+    internal let searchWayButton = UIButton().then {
+        let image = UIImage(asset: Icons.iconMapCourseMd)
+        $0.setImage(image, for: .normal)
+        $0.imageView?.contentMode = .scaleAspectFill
+    }
     internal let cancelSearchWayButton = UIButton()
     
     internal var height: CGFloat {
@@ -66,5 +74,14 @@ internal final class MainNavigationBar: UIView {
         }
         
     }
+    
+    func setMenuBadge(hasBadge: Bool) {
+        let image = hasBadge ? UIImage(asset: Icons.iconMenuBadge) : UIImage(asset: Icons.iconMenuMd)
+        menuButton.setImage(image, for: .normal)
+    }
 
+    func setSearchWayImage(isSearch: Bool) {
+        let image = isSearch ? UIImage(asset: Icons.iconMapCourseMd) : UIImage(asset: Icons.iconCloseSm)
+        searchWayButton.setImage(image, for: .normal)
+    }
 }
