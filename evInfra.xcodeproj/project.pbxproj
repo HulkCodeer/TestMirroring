@@ -190,6 +190,9 @@
 		59EC3B7F28D33568001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
 		59EC3B8028D3356B001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
 		59EC3B8128D3356D001A18B5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7D28D32A49001A18B5 /* Constants.swift */; };
+		59F6229928E12095004CE1FC /* MainNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F6229828E12095004CE1FC /* MainNavigationBar.swift */; };
+		59F6229A28E12095004CE1FC /* MainNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F6229828E12095004CE1FC /* MainNavigationBar.swift */; };
+		59F6229B28E12095004CE1FC /* MainNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F6229828E12095004CE1FC /* MainNavigationBar.swift */; };
 		633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FE28B342630041BDBB /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
@@ -1544,6 +1547,7 @@
 		59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
 		59EC3B7B28D32A33001A18B5 /* DateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstants.swift; sourceTree = "<group>"; };
 		59EC3B7D28D32A49001A18B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		59F6229828E12095004CE1FC /* MainNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationBar.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
 		63341582B387F91B5B9BDC49 /* Pods-evInfra_release.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_release.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_release/Pods-evInfra_release.release.xcconfig"; sourceTree = "<group>"; };
 		633FF2FA28B342630041BDBB /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
@@ -2050,6 +2054,7 @@
 				736813B3204513D50035FC66 /* Main.storyboard */,
 				193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */,
 				192A338227FE747E00EF1684 /* Marker.swift */,
+				59F6229828E12095004CE1FC /* MainNavigationBar.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -4367,6 +4372,7 @@
 				596522D828BC8E5900FD4025 /* Notice.swift in Sources */,
 				63F3144B284EC74F001713D2 /* GroupViewController.swift in Sources */,
 				821A05E228627F3100EB1A91 /* NavigationClose.swift in Sources */,
+				59F6229A28E12095004CE1FC /* MainNavigationBar.swift in Sources */,
 				63F3144B284EC74F001713D2 /* GroupViewController.swift in Sources */,
 				63F3144C284EC74F001713D2 /* ClusterGenerator.swift in Sources */,
 				63F3144D284EC74F001713D2 /* ChargesTableViewCell.swift in Sources */,
@@ -4678,6 +4684,7 @@
 				596522D728BC8B1C00FD4025 /* Notice.swift in Sources */,
 				821A05E128627F3100EB1A91 /* NavigationClose.swift in Sources */,
 				19A3D3262887F13400AE8280 /* AmplitudeManager.swift in Sources */,
+				59F6229928E12095004CE1FC /* MainNavigationBar.swift in Sources */,
 				523A3AF22797A9CA004C3C23 /* GroupViewController.swift in Sources */,
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,
 				DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */,
@@ -4989,6 +4996,7 @@
 				5975BD5328D97CD100910F6F /* Notice.swift in Sources */,
 				824D5CB128BDD89C00EDC712 /* GroupViewController.swift in Sources */,
 				824D5CB328BDD89C00EDC712 /* ClusterGenerator.swift in Sources */,
+				59F6229B28E12095004CE1FC /* MainNavigationBar.swift in Sources */,
 				824D5CB428BDD89C00EDC712 /* ChargesTableViewCell.swift in Sources */,
 				824D5CB528BDD89C00EDC712 /* UILabel+Extension.swift in Sources */,
 				824D5CB628BDD89C00EDC712 /* MembershipReissuanceViewController.swift in Sources */,
