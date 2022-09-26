@@ -247,6 +247,7 @@ class MembershipIssuanceViewController: UIViewController,
                             guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
                             for vc in _mainNavi.viewControllers {
                                 if let _vc = vc as? NewPaymentQRScanViewController {
+                                    Snackbar().show(message: "EV Pay카드 발급이 완료되었어요.")
                                     _ = _mainNavi.popToViewController(_vc, animated: true)
                                     return
                                 }

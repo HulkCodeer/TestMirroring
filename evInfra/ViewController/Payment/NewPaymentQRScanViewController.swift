@@ -335,6 +335,21 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                 .disposed(by: self.disposeBag)
             
         case (false, true): // 오류 유저(미수금), 피그마 CASE 2
+            let tempText = "한국 전력과 GS칼텍스에서\nQR 충전을 할 수 있어요"
+            let attributeText = NSMutableAttributedString(string: tempText)
+            let allRange = NSMakeRange(0, attributeText.length)
+            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPrimary.color], range: allRange)
+            attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: allRange)
+            var chageRange = (attributeText.string as NSString).range(of: "GS칼텍스")
+            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.gr4.color], range: chageRange)
+            attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
+            
+            chageRange = (attributeText.string as NSString).range(of: "한국 전력")
+            attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPositive.color], range: chageRange)
+            attributeText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)], range: chageRange)
+            
+            stationGuideLbl.attributedText = attributeText
+                        
             stationSubGuideLbl.isHidden = false
             stationSubGuideBtn.isHidden = false
             stationSubGuideLbl.text = "한국 전력 QR충전 시 주의사항"
@@ -404,7 +419,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                 .disposed(by: self.disposeBag)
                                 
         case (true, true): // 아무 이상 없는 유저, 피그마 CASE 4
-            let tempText = "한국 전력 QR충전 주의사항"
+            let tempText = "한국 전력과 GS칼텍스에서\nQR 충전을 할 수 있어요"
             let attributeText = NSMutableAttributedString(string: tempText)
             let allRange = NSMakeRange(0, attributeText.length)
             attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPrimary.color], range: allRange)
