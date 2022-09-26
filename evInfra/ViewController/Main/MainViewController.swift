@@ -242,7 +242,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     // MARK: REACTORKIT
     
-    internal func viewWillAppearFuncBind() {
+    internal func sceneDidBecomeActiveCall() {
         guard let _reactor = self.reactor else { return }
         Observable.just(MainReactor.Action.showMarketingPopup)
             .bind(to: _reactor.action)

@@ -51,6 +51,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func sceneDidBecomeActive(_ scene: UIScene) {
         printLog(out: "sceneDidBecomeActive")
+        guard let _mainViewcon = GlobalDefine.shared.mainViewcon else { return }
+        _mainViewcon.sceneDidBecomeActiveCall()
     }
 
     // background
