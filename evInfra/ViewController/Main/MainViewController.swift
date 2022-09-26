@@ -148,7 +148,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     })
                     self.naverMapView.moveToCenterPosition()
                 }
-
             })
             .disposed(by: self.disposeBag)
     }
