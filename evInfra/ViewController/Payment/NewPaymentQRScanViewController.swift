@@ -404,7 +404,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                 .disposed(by: self.disposeBag)
                                 
         case (true, true): // 아무 이상 없는 유저, 피그마 CASE 4
-            let tempText = "한국 전력과 GS 칼텍스에서 QR 충전을 할 수 있어요"
+            let tempText = "한국 전력과 GS칼텍스에서\nQR 충전을 할 수 있어요"
             let attributeText = NSMutableAttributedString(string: tempText)
             let allRange = NSMakeRange(0, attributeText.length)
             attributeText.addAttributes([NSAttributedString.Key.foregroundColor: Colors.backgroundPrimary.color], range: allRange)
