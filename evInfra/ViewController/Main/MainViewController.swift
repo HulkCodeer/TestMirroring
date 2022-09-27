@@ -172,15 +172,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         MemberManager.shared.isShowQrTooltip = true
     }
     
-    // MARK: REACTORKIT
-    
-    internal func sceneDidBecomeActiveCall() {
-//        guard let _reactor = self.reactor else { return }
-//        guard _reactor.currentState.isShowStartBanner == nil else { return }
-//        Observable.just(MainReactor.Action.showMarketingPopup)
-//            .bind(to: _reactor.action)
-//            .disposed(by: self.disposeBag)
-    }
+    // MARK: REACTORKIT    
     
     internal func bind(reactor: MainReactor) {
         let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.\n정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
@@ -563,16 +555,14 @@ internal final class MainViewController: UIViewController, StoryboardView {
 extension MainViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         let status = manager.authorizationStatus
-        printLog(out: "PARK TEST \(status)")
         switch status {
-        case .denied, .authorizedAlways, .authorizedWhenInUse, .restricted:
+        case .authorizedAlways:
             guard let _reactor = self.reactor else { return }
             Observable.just(MainReactor.Action.showMarketingPopup)
                 .bind(to: _reactor.action)
                 .disposed(by: self.disposeBag)
             
-        default: break
-            
+        case .notDetermined, .authorizedWhenInUse, .denied, .restricted: break
         @unknown default:
             fatalError()
         }

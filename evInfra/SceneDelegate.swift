@@ -48,12 +48,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         setupEntryController(scene)
     }
-    
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        printLog(out: "sceneDidBecomeActive")
-        guard let _mainViewcon = GlobalDefine.shared.mainViewcon else { return }
-        _mainViewcon.sceneDidBecomeActiveCall()
-    }
 
     // background
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
