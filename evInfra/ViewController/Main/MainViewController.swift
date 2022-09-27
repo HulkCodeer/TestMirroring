@@ -529,36 +529,44 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     // MARK: - Action for button
     
-    @IBAction func onClickMyLocation(_ sender: UIButton) {                
-        let locationServiceEnabled = CLLocationManager.locationServicesEnabled()
-        if !locationServiceEnabled {
-            switch CLLocationManager.authorizationStatus() {
-            case .notDetermined, .restricted, .denied:
-                GlobalFunctionSwift.showPopup(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 기능을 이용하시려면 모든 권한을 허용해 주십시오.\n[설정] > [EV Infra] 에서 권한을 허용할 수 있습니다.", confirmBtnTitle: "설정하기", confirmBtnAction: {
-                    if let url = URL(string: UIApplication.openSettingsURLString) {
-                        if UIApplication.shared.canOpenURL(url) {
-                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    @IBAction func onClickMyLocation(_ sender: UIButton) {
+        self.locationManager.rx.isEnabled
+            .subscribe(with: self) { obj, isEnable in
+                if !isEnable {
+                    self.locationManager.rx
+                        .status
+                        .subscribe(with: self) { obj, status in
+                            switch status {
+                            case .notDetermined, .restricted, .denied:
+                                GlobalFunctionSwift.showPopup(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 기능을 이용하시려면 모든 권한을 허용해 주십시오.\n[설정] > [EV Infra] 에서 권한을 허용할 수 있습니다.", confirmBtnTitle: "설정하기", confirmBtnAction: {
+                                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                                        if UIApplication.shared.canOpenURL(url) {
+                                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                        }
+                                    }
+                                }, cancelBtnTitle: "확인")
+                                
+                            default: break
+                            }
                         }
+                        .disposed(by: self.disposeBag)
+                } else {
+                    switch self.mapView.positionMode {
+                    case .normal:
+                        self.mapView.positionMode = .direction
+                    case .direction:
+                        self.mapView.positionMode = .compass
+                    case .compass:
+                        self.mapView.positionMode = .direction
+                    default: break
                     }
-                }, cancelBtnTitle: "확인")
-                
-            default: break
-            }
-        } else {
-            switch mapView.positionMode {
-            case .normal:
-                mapView.positionMode = .direction
-            case .direction:
-                mapView.positionMode = .compass
-            case .compass:
-                mapView.positionMode = .direction
-            default: break
-            }
-            
-            updateMyLocationButton()
                     
-            MapEvent.clickMyLocation.logEvent()
-        }
+                    self.updateMyLocationButton()
+                            
+                    MapEvent.clickMyLocation.logEvent()
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
     
     @IBAction func onClickRenewBtn(_ sender: UIButton) {
