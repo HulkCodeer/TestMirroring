@@ -222,7 +222,7 @@ internal final class MemberManager {
     
     // 로그인 상태 체크
     internal var isLogin: Bool {
-        return UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0
+        return UserDefault().readInt(key: UserDefault.Key.MB_ID) >= 0
     }
     
     // 지킴이 체크
@@ -288,7 +288,7 @@ internal final class MemberManager {
     
     func clearData() {
         let userDefault = UserDefault()
-        userDefault.saveInt(key: UserDefault.Key.MB_ID, value: 0)
+        userDefault.saveInt(key: UserDefault.Key.MB_ID, value: -1)
         userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: MemberLevel.normal.rawValue)
         userDefault.saveString(key: UserDefault.Key.MB_USER_ID, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: "")
@@ -340,11 +340,11 @@ internal final class MemberManager {
                     Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
                     MemberManager.shared.clearData()
                 } else {
-                    success?(UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0)
+                    success?(MemberManager.shared.isLogin)
                 }
             }
                     
-        default: success?(UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0)
+        default: success?(MemberManager.shared.isLogin)
         }
         
     }
