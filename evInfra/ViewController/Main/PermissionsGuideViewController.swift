@@ -200,41 +200,12 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         super.init(coder: aDecoder)
     }
     
-    internal func bind(reactor: PermissionsGuideReactor) {
-        manager.rx.isEnabled
-            .subscribe(with: self) { obj, isEnable in
-                guard !isEnable else { return }
-                obj.manager.requestWhenInUseAuthorization()
-            }
-            .disposed(by: self.disposeBag)
-        
+    internal func bind(reactor: PermissionsGuideReactor) {                
         nextBtn.rectBtn.rx.tap
             .do(onNext: { _ in MemberManager.shared.isFirstInstall = true })
             .asDriver(onErrorJustReturn: Void())
             .drive(with: self) { obj, _ in
-                obj.manager.rx.status
-                    .observe(on: MainScheduler.asyncInstance)
-                    .subscribe(onNext: { status in
-                        switch status {
-                        case .denied:
-                            if let url = URL(string: UIApplication.openSettingsURLString) {
-                                if UIApplication.shared.canOpenURL(url) {
-                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                                }
-                            }
-                            
-                            self.moveMainViewcon()
-                            
-                        case .notDetermined, .restricted:
-                            obj.manager.desiredAccuracy = kCLLocationAccuracyBest
-                            obj.manager.requestWhenInUseAuthorization()
-                            obj.manager.startUpdatingLocation()
-                            
-                        default: break
-                        }
-
-                    })
-                    .disposed(by: self.disposeBag)
+                obj.manager.requestWhenInUseAuthorization()
             }
             .disposed(by: self.disposeBag)
     }
@@ -284,32 +255,20 @@ extension PermissionsGuideViewController: CLLocationManagerDelegate {
         
         
         switch manager.authorizationStatus {
-        case .notDetermined, .restricted, .denied:
-            let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-                                        messageAttributedText: attributeText,
-                                        confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
-                                        confirmBtnAction: {
-                if let url = URL(string: UIApplication.openSettingsURLString) {
-                    if UIApplication.shared.canOpenURL(url) {
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                    }
+        case .denied:
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
-            }, cancelBtnAction: { [weak self] in
-                guard let self = self else { return }
-                self.moveMainViewcon()
-
-            }, textAlignment: .center)
-
-            let popup = ConfirmPopupViewController(model: popupModel)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-            })
+            }
             
+            self.moveMainViewcon()
+            
+        case .notDetermined, .restricted: break
         case .authorizedAlways, .authorizedWhenInUse:
             self.moveMainViewcon()
                                                     
         @unknown default:
-            printLog(out: "PARK TEST authorized")
             fatalError()
         }
     }

@@ -121,75 +121,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         GlobalDefine.shared.mainViewcon = self
         
-        self.locationManager.rx.status
-            .subscribe(onNext: { [weak self] status in
-                guard let self = self else { return }    
-                switch status {
-                case .authorizedWhenInUse:
-                    self.naverMapView.moveToCurrentPostiion()
-                                  
-                    guard !MemberManager.shared.isFirstLocationPopup else { return }
-                    let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.\n정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
-                    let attributeText = NSMutableAttributedString(string: message)
-                    let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.contentSecondary.color]
-                    attributeText.setAttributes(attributes, range: NSRange(location: 0, length: message.count))
-                    
-                    _ = message.getArrayAfterRegex(regex: "항상 허용")
-                        .map { NSRange($0, in: message) }
-                        .map {
-                            attributeText.setAttributes(
-                                [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
-                                    .foregroundColor: Colors.contentSecondary.color],
-                                range: $0)
-                        }
-                    
-                    _ = message.getArrayAfterRegex(regex: "‘설정>EV Infra>위치'")
-                        .map { NSRange($0, in: message) }
-                        .map {
-                            attributeText.setAttributes(
-                                [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
-                                    .foregroundColor: Colors.contentSecondary.color],
-                                range: $0)
-                        }
-                    
-                                        
-                    let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-                                                messageAttributedText: attributeText,
-                                                confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
-                                                confirmBtnAction: {
-                        self.locationManager.requestAlwaysAuthorization()
-                        
-                    }, textAlignment: .center)
-
-                    let popup = ConfirmPopupViewController(model: popupModel)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                        MemberManager.shared.isFirstLocationPopup = true
-                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                    })
-                    
-                case .authorizedAlways:
-                    self.naverMapView.moveToCurrentPostiion()
-                                    
-                default:
-                    let popupModel = PopupModel(title: "위치권한을 허용해주세요",
-                                                message: "위치 권한을 허용해주시면, 근처의 충전소 정보 및 풍부한 혜택 정보를 알려드릴게요.",
-                                                confirmBtnTitle: "권한 변경하기",
-                                                confirmBtnAction: {
-                        if let url = URL(string: UIApplication.openSettingsURLString) {
-                            if UIApplication.shared.canOpenURL(url) {
-                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                            }
-                        }
-                    }, textAlignment: .center, dimmedBtnAction: nil)
-
-                    let popup = ConfirmPopupViewController(model: popupModel)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                    })
-                    self.naverMapView.moveToCenterPosition()
-                }
-            })
-            .disposed(by: self.disposeBag)
+        self.locationManager.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -243,11 +175,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // MARK: REACTORKIT
     
     internal func sceneDidBecomeActiveCall() {
-        guard let _reactor = self.reactor else { return }
-        guard _reactor.currentState.isShowStartBanner == nil else { return }
-        Observable.just(MainReactor.Action.showMarketingPopup)
-            .bind(to: _reactor.action)
-            .disposed(by: self.disposeBag)
+//        guard let _reactor = self.reactor else { return }
+//        guard _reactor.currentState.isShowStartBanner == nil else { return }
+//        Observable.just(MainReactor.Action.showMarketingPopup)
+//            .bind(to: _reactor.action)
+//            .disposed(by: self.disposeBag)
     }
     
     internal func bind(reactor: MainReactor) {
@@ -277,61 +209,94 @@ internal final class MainViewController: UIViewController, StoryboardView {
         self.rx.viewWillAppear
             .filter { _ in
                 let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
-                
+
                 if !isProcessing {
                     DeepLinkModel.shared.openSchemeURL(urlstring: GlobalDefine.shared.tempDeepLink)
                 }
                 return isProcessing
             }
             .subscribe(with: self) { obj,_ in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    obj.locationManager.rx
-                        .status
-                        .subscribe(with: self) { obj ,status in
-                            switch status {
-                            case .authorizedAlways, .authorizedWhenInUse:
-                                if !MemberManager.shared.isFirstInstall {                                                                        
-                                    let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-                                                                messageAttributedText: attributeText,
-                                                                confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기", confirmBtnAction: { [weak self] in
-                                        guard let self = self else { return }
-                                        if let url = URL(string: UIApplication.openSettingsURLString) {
-                                            if UIApplication.shared.canOpenURL(url) {
-                                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                                            }
-                                        }
-                                        
-                                        Observable.just(MainReactor.Action.showMarketingPopup)
-                                            .bind(to: reactor.action)
-                                            .disposed(by: self.disposeBag)
-                                    }, cancelBtnAction: { [weak self] in
-                                        guard let self = self else { return }
-                                        Observable.just(MainReactor.Action.showMarketingPopup)
-                                            .bind(to: reactor.action)
-                                            .disposed(by: self.disposeBag)
-                                    }, textAlignment: .center)
-                                    
-                                    let popup = ConfirmPopupViewController(model: popupModel)
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                                    })
-                                                                        
-                                } else {
-                                    guard reactor.currentState.isShowStartBanner == nil else { return }
-                                    Observable.just(MainReactor.Action.showMarketingPopup)
-                                        .bind(to: reactor.action)
-                                        .disposed(by: self.disposeBag)
-                                }
-                                                                                                                        
-                            default: break
+                obj.locationManager.rx.status
+                    .observe(on: MainScheduler.asyncInstance)
+                    .subscribe(with: obj) { obj, status in
+                        switch status {
+                        case .authorizedWhenInUse:
+                            guard !MemberManager.shared.isFirstLocationPopup else {
+                                guard let _reactor = obj.reactor else { return }
+                                Observable.just(MainReactor.Action.showMarketingPopup)
+                                    .bind(to: _reactor.action)
+                                    .disposed(by: obj.disposeBag)
+                                return
                             }
+                            let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.\n정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
+                            let attributeText = NSMutableAttributedString(string: message)
+                            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.contentSecondary.color]
+                            attributeText.setAttributes(attributes, range: NSRange(location: 0, length: message.count))
+                            
+                            _ = message.getArrayAfterRegex(regex: "항상 허용")
+                                .map { NSRange($0, in: message) }
+                                .map {
+                                    attributeText.setAttributes(
+                                        [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
+                                            .foregroundColor: Colors.contentSecondary.color],
+                                        range: $0)
+                                }
+                            
+                            _ = message.getArrayAfterRegex(regex: "‘설정>EV Infra>위치'")
+                                .map { NSRange($0, in: message) }
+                                .map {
+                                    attributeText.setAttributes(
+                                        [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
+                                            .foregroundColor: Colors.contentSecondary.color],
+                                        range: $0)
+                                }
+                                                                    
+                            let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
+                                                        messageAttributedText: attributeText,
+                                                        confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
+                                                        confirmBtnAction: {
+                                obj.locationManager.requestAlwaysAuthorization()
+                                
+                            }, cancelBtnAction: { [weak self] in
+                                guard  let self = self, let _reactor = self.reactor else { return }
+                                Observable.just(MainReactor.Action.showMarketingPopup)
+                                    .bind(to: _reactor.action)
+                                    .disposed(by: self.disposeBag)
+                            }, textAlignment: .center)
+
+                            let popup = ConfirmPopupViewController(model: popupModel)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                MemberManager.shared.isFirstLocationPopup = true
+                                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                            })
+                        case .authorizedAlways:
+                            guard let _reactor = obj.reactor else { return }
+                            Observable.just(MainReactor.Action.showMarketingPopup)
+                                .bind(to: _reactor.action)
+                                .disposed(by: obj.disposeBag)
+                        default:
+                            let popupModel = PopupModel(title: "위치권한을 허용해주세요",
+                                                        message: "위치 권한을 허용해주시면, 근처의 충전소 정보 및 풍부한 혜택 정보를 알려드릴게요.",
+                                                        confirmBtnTitle: "권한 변경하기",
+                                                        confirmBtnAction: {
+                                if let url = URL(string: UIApplication.openSettingsURLString) {
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                    }
+                                }
+                            }, textAlignment: .center, dimmedBtnAction: nil)
+
+                            let popup = ConfirmPopupViewController(model: popupModel)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                            })
+                            
                         }
-                        .disposed(by: self.disposeBag)
-                }
+                    }
+                    .disposed(by: obj.disposeBag)
             }
             .disposed(by: self.disposeBag)
-        
-        
+                        
         reactor.state.compactMap { $0.isShowMarketingPopup }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, _ in
@@ -597,21 +562,17 @@ internal final class MainViewController: UIViewController, StoryboardView {
 
 extension MainViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        var status: CLAuthorizationStatus = .authorizedWhenInUse
-        if #available(iOS 14.0, *) {
-            status = manager.authorizationStatus
-        } else {
-            // Fallback on earlier versions
-        }
-        
+        let status = manager.authorizationStatus
+        printLog(out: "PARK TEST \(status)")
         switch status {
-        case .notDetermined, .restricted:
-            break
-        case .denied:
-            break
-        case .authorizedAlways, .authorizedWhenInUse, .authorized:
-            self.naverMapView.moveToCurrentPostiion()
-            break
+        case .denied, .authorizedAlways, .authorizedWhenInUse, .restricted:
+            guard let _reactor = self.reactor else { return }
+            Observable.just(MainReactor.Action.showMarketingPopup)
+                .bind(to: _reactor.action)
+                .disposed(by: self.disposeBag)
+            
+        default: break
+            
         @unknown default:
             fatalError()
         }
