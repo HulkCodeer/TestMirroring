@@ -244,7 +244,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     internal func sceneDidBecomeActiveCall() {
         guard let _reactor = self.reactor else { return }
-        guard reactor.currentState.isShowStartBanner == nil else { return }        
+        guard _reactor.currentState.isShowStartBanner == nil else { return }
         Observable.just(MainReactor.Action.showMarketingPopup)
             .bind(to: _reactor.action)
             .disposed(by: self.disposeBag)
