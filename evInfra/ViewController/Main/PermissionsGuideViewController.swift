@@ -252,21 +252,10 @@ extension PermissionsGuideViewController: CLLocationManagerDelegate {
                         .foregroundColor: Colors.contentSecondary.color],
                     range: $0)
             }
-        
-        
+                
         switch manager.authorizationStatus {
-        case .denied:
-            if let url = URL(string: UIApplication.openSettingsURLString) {
-                if UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
-            }
-            
-            self.moveMainViewcon()
-            
         case .notDetermined, .restricted: break
-        case .authorizedAlways, .authorizedWhenInUse:
-            self.moveMainViewcon()
+        case .authorizedAlways, .authorizedWhenInUse, .denied: self.moveMainViewcon()
                                                     
         @unknown default:
             fatalError()
